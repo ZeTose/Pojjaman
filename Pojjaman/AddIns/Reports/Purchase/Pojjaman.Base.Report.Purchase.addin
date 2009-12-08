@@ -1,0 +1,165 @@
+		<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by any (Ru-Board) -->
+		<AddIn name="Pojjaman AP Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman Purchase Reports" version="1.0.0">
+			<Runtime>
+				<Import assembly="Pojjaman.Base.Report.AP.dll"/>
+			</Runtime>
+			<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+				<Conditional applicationmode="Accounting" action="Exclude">
+					<MenuItem id="PurchaseRepot" label="${res:MainMenu.ReportMenu.PurchaseRepot}" insertbefore="MatStockReport">
+						<MenuItem id="RptPOHistory" icon="Icons.16x16.RptPOHistory" label="${res:MainMenu.PurchaseMenu.RptPOHistory.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOHistory"/>
+						<MenuItem id="rpt274" icon="Icons.16x16.Rpt274" label="${res:MainMenu.PurchaseMenu.Rpt274.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt274"/>
+						<MenuItem id="RptCCPRSummary" icon="Icons.16x16.RptCCPRSummary" label="${res:MainMenu.PurchaseMenu.RptCCPRSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCPRSummary"/>
+						<MenuItem id="RptUnorderPRItem" icon="Icons.16x16.RptUnorderPRItem" label="${res:MainMenu.PurchaseMenu.RptUnorderPRItem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnorderPRItem"/>
+						<MenuItem id="RptUnorderPRAnalysis" icon="Icons.16x16.RptUnorderPRAnalysis" label="${res:MainMenu.PurchaseMenu.RptUnorderPRAnalysis.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis"/>
+						<MenuItem id="RptCheckPRWithdraw" icon="Icons.16x16.RptCheckPRWithdraw" label="${res:MainMenu.PurchaseMenu.RptCheckPRWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckPRWithdraw"/>
+						<MenuItem id="RptCheckPriorityWithdraw" icon="Icons.16x16.RptCheckPriorityWithdraw" label="${res:MainMenu.PurchaseMenu.RptCheckPriorityWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckPriorityWithdraw"/>
+						<MenuItem id="Separator1" label="-"/>
+						<MenuItem id="rpt275" icon="Icons.16x16.Rpt275" label="${res:MainMenu.PurchaseMenu.Rpt275.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt275"/>
+						<MenuItem id="RptPOQtyRecommended" icon="Icons.16x16.RptPOQtyRecommended" label="${res:MainMenu.PurchaseMenu.RptPOQtyRecommended.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOQtyRecommended"/>
+						<MenuItem id="RptPObyLCI" icon="Icons.16x16.RptPObyLCI" label="${res:MainMenu.PurchaseMenu.RptPObyLCI.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPObyLCI"/>
+						<MenuItem id="RptSupplierPOSummary" icon="Icons.16x16.RptSupplierPOSummary" label="${res:MainMenu.PurchaseMenu.RptSupplierPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary"/>
+						<MenuItem id="RptCCPOSummary" icon="Icons.16x16.RptCCPOSummary" label="${res:MainMenu.PurchaseMenu.RptCCPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCPOSummary"/>
+						<MenuItem id="RptRptPORemainingQty" icon="Icons.16x16.RptPORemainingQty" label="${res:MainMenu.PurchaseMenu.RptPORemainingQty.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPORemainingQty"/>
+						<MenuItem id="RptRptPORemainingCost" icon="Icons.16x16.RptPORemainingCost" label="${res:MainMenu.PurchaseMenu.RptPORemainingCost.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPORemainingCost"/>
+						<MenuItem id="rptunreceivedpoitem" icon="Icons.16x16.rptunreceivedpoitem" label="${res:MainMenu.PurchaseMenu.rptunreceivedpoitem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnreceivedPOItem"/>
+						<MenuItem id="RptChangingUnitPrice" icon="Icons.16x16.RptChangingUnitPrice" label="${res:MainMenu.PurchaseMenu.RptChangingUnitPrice.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptChangingUnitPrice"/>
+						<MenuItem id="Separator2" label="-"/>
+						<MenuItem id="rpt276" icon="Icons.16x16.Rpt276" label="${res:MainMenu.PurchaseMenu.Rpt276.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt276"/>
+						<MenuItem id="RptPurchaseAnalysisByLci" icon="Icons.16x16.RptPurchaseAnalysisByLci" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysisByLci.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByLci"/>
+						<MenuItem id="RptPurchaseAnalysis" icon="Icons.16x16.RptPurchaseAnalysis" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysis.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis"/>
+						<MenuItem id="RptPurchaseAnalysisByCCLci" icon="Icons.16x16.RptPurchaseAnalysisByCCLci" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysisByCCLci.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci"/>
+						<MenuItem id="RptPurchaseDocLinking" icon="Icons.16x16.RptPurchaseDocLinking" label="${res:MainMenu.PurchaseMenu.RptPurchaseDocLinking.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseDocLinking"/>
+						<MenuItem id="Separator3" label="-"/>
+						<!--<MenuItem id="RptGoodsReceipt" icon="Icons.16x16.RptGoodsReceipt" label="${res:MainMenu.PurchaseMenu.RptGoodsReceipt.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGoodsReceipt"/>-->
+						<!--<MenuItem id="RptCashPurchase" icon="Icons.16x16.RptCashPurchase" label="${res:MainMenu.PurchaseMenu.RptCashPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCashPurchase"/>-->
+						<!--<MenuItem id="RptCreditPurchase" icon="Icons.16x16.RptCreditPurchase" label="${res:MainMenu.PurchaseMenu.RptCreditPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCreditPurchase"/>-->
+						<!--<MenuItem id="RptPOSummary" icon="Icons.16x16.RptPOSummary" label="${res:MainMenu.PurchaseMenu.RptPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOSummary"/>-->
+						<!--<MenuItem id="RptPOReceivingCalendar" icon="Icons.16x16.RptPOReceivingCalendar" label="${res:MainMenu.PurchaseMenu.RptPOReceivingCalendar.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOReceivingCalendar"/>-->
+					</MenuItem>
+				</Conditional>
+			</Extension>
+			<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+				<EntityFilter id="rptpohistory" entity="rptpohistory" filter="Longkong.Pojjaman.Gui.Panels.RptPOHistoryFilterSubPanel"/>
+				<!--<EntityFilter id="rptcashpurchase" entity="rptcashpurchase" filter="Longkong.Pojjaman.Gui.Panels.RptCashPurchaseFilterSubPanel"/>-->
+				<!--<EntityFilter id="rptcreditpurchase" entity="rptcreditpurchase" filter="Longkong.Pojjaman.Gui.Panels.RptCreditPurchaseFilterSubPanel"/>-->
+				<EntityFilter id="rpt274" entity="Rpt274" filter="Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel"/>
+				<EntityFilter id="rptccprsummary" entity="RptCCPRSummary" filter="Longkong.Pojjaman.Gui.Panels.RptCCPRSummaryFilterSubPanel"/>
+				<EntityFilter id="rptunorderpritem" entity="rptunorderpritem" filter="Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemFilterSubPanel"/>
+				<EntityFilter id="rptunorderpranalysis" entity="rptunorderpranalysis" filter="Longkong.Pojjaman.Gui.Panels.RptUnorderPRAnalysisFilterSubPanel"/>
+				<EntityFilter id="rptcheckprwithdraw" entity="rptcheckprwithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptCheckPRWithdrawFilterSubPanel"/>
+				<EntityFilter id="rptcheckprioritywithdraw" entity="RptCheckPriorityWithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptCheckPriorityWithdrawFilterSubPanel"/>
+				<EntityFilter id="rpt275" entity="Rpt275" filter="Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel"/>
+				<EntityFilter id="rptpoqtyrecommended" entity="rptpoqtyrecommended" filter="Longkong.Pojjaman.Gui.Panels.RptPOQtyRecommendedFilterSubPanel"/>
+				<EntityFilter id="rptpobylci" entity="rptpobylci" filter="Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel"/>
+				<EntityFilter id="rptsupplierposummary" entity="rptsupplierposummary" filter="Longkong.Pojjaman.Gui.Panels.RptSupplierPOSummaryFilterSubPanel"/>
+				<EntityFilter id="rptccposummary" entity="rptccposummary" filter="Longkong.Pojjaman.Gui.Panels.RptCCPOSummaryFilterSubPanel"/>
+				<EntityFilter id="rptporemainingqty" entity="rptporemainingqty" filter="Longkong.Pojjaman.Gui.Panels.RptPORemainingQtyFilterSubPanel"/>
+				<EntityFilter id="rptporemainingcost" entity="rptporemainingcost" filter="Longkong.Pojjaman.Gui.Panels.RptPORemainingCostFilterSubPanel"/>
+				<EntityFilter id="rptchangingunitprice" entity="rptchangingunitprice" filter="Longkong.Pojjaman.Gui.Panels.RptChangingUnitPriceFilterSubPanel"/>
+				<EntityFilter id="rpt276" entity="Rpt276" filter="Longkong.Pojjaman.Gui.Panels.Rpt276FilterSubPanel"/>
+				<EntityFilter id="rptpurchaseanalysisbylci" entity="rptpurchaseanalysisbylci" filter="Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisByLciFilterSubPanel"/>
+				<EntityFilter id="rptpurchaseanalysis" entity="rptpurchaseanalysis" filter="Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisFilterSubPanel"/>
+				<EntityFilter id="rptpurchaseanalysisbycclci" entity="rptpurchaseanalysisbycclci" filter="Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel"/>
+				<EntityFilter id="rptpurchasedoclinking" entity="rptpurchasedoclinking" filter="Longkong.Pojjaman.Gui.Panels.RptPurchaseDocLinkingFilterSubPanel"/>
+				<EntityFilter id="rptbillacceptancestatus" entity="rptbillacceptancestatus" filter="Longkong.Pojjaman.Gui.Panels.RptBillAcceptanceStatusFilterSubPanel"/>
+				<EntityFilter id="rptauditmatwithdraw" entity="rptauditmatwithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptAuditMatWithdrawFilterSubPanel"/>
+				<EntityFilter id="rptmatstockmonitor" entity="rptmatstockmonitor" filter="Longkong.Pojjaman.Gui.Panels.RptMatStockMonitorFilterSubPanel"/>
+				<EntityFilter id="rptccexpensesummary" entity="rptccexpensesummary" filter="Longkong.Pojjaman.Gui.Panels.RptCCExpenseSummaryFilterSubPanel"/>
+				<!--<EntityFilter id="rptposummary" entity="rptposummary" filter="Longkong.Pojjaman.Gui.Panels.RptPOSummaryFilterSubPanel"/>-->
+				<!--<EntityFilter id="rptporeceivingcalendar" entity="rptporeceivingcalendar" filter="Longkong.Pojjaman.Gui.Panels.RptPOReceivingCalendarFilterSubPanel"/>-->
+				<!--<EntityFilter id="rptgoodsreceipt" entity="rptgoodsreceipt" filter="Longkong.Pojjaman.Gui.Panels.RptGoodsReceiptFilterSubPanel"/>-->
+				<EntityFilter id="rptexpensesummary" entity="rptexpensesummary" filter="Longkong.Pojjaman.Gui.Panels.RptExpenseSummaryFilterSubPanel"/>
+			</Extension>
+			<Extension path="/Pojjaman/Workbench/EntityTabs">
+				<EntityTab id="rptpohistory">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<!--<EntityTab id="rptcashpurchase">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>-->
+				<!--<EntityTab id="rptcreditpurchase">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>-->
+				<EntityTab id="rpt274">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptccprsummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptunorderpritem">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptunorderpranalysis">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptcheckprwithdraw">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptcheckprioritywithdraw">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rpt275">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpoqtyrecommended">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpobylci">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptsupplierposummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptccposummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptporemainingqty">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+					<EntityTab id="rptporemainingcost">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptchangingunitprice">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rpt276">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpurchaseanalysisbylci">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpurchaseanalysis">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpurchaseanalysisbycclci">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptpurchasedoclinking">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>	
+						<EntityTab id="rptbillacceptancestatus">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptauditmatwithdraw">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptmatstockmonitor">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<EntityTab id="rptccexpensesummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+				<!--<EntityTab id="rptposummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>-->
+				<!--	<EntityTab id="rptporeceivingcalendar">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>-->
+				<!--<EntityTab id="rptgoodsreceipt">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>-->
+				<EntityTab id="rptexpensesummary">
+					<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+				</EntityTab>
+			</Extension>
+		</AddIn>

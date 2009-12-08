@@ -1,0 +1,9 @@
+<AddIn name="Pojjaman Check AutoRun" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Check.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/PreAddViews">
+		<PreAddView id="outgoingcheck" view="Longkong.Pojjaman.Gui.Panels.CheckRunningView"/>
+	</Extension>	
+</AddIn>

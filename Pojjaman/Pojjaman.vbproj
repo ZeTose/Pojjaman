@@ -1,0 +1,898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB91BCAB-8570-440B-8E3D-12E72DBFA6DD}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>PojjamanIcon.ico</ApplicationIcon>
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants>Version="GigaSite"</DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Name>Longkong.Core.Services</Name>
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
+      <Name>Pojjaman.Base</Name>
+      <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Name>Pojjaman.BusinessLogic</Name>
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Name>Longkong.Core</Name>
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <Reference Include="ADODB">
+      <Name>adodb</Name>
+      <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\adodb.dll</HintPath>
+      <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="Syncfusion.Core">
+      <Name>Syncfusion.Core</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Core.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Base">
+      <Name>Syncfusion.Grid.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Windows">
+      <Name>Syncfusion.Grid.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base">
+      <Name>Syncfusion.Shared.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows">
+      <Name>Syncfusion.Shared.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main\Dialogs\AddInSettingsHandler.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main\Dialogs\ExceptionBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\Dialogs\LicenseErrorBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\PojjamanMain.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
+    <Content Include="AddIns\Reports\CostControl\Qatar.addin">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
+    <Content Include="bin\MiddleManMonitor.exe" />
+    <Content Include="blank.bmp" />
+    <Content Include="data\ConversionStyleSheets\ConvertPrjx10to11.xsl" />
+    <Content Include="data\ConversionStyleSheets\ShowChangeLog.xsl" />
+    <Content Include="data\ConversionStyleSheets\ShowXmlDocumentation.xsl" />
+    <Content Include="data\ConversionStyleSheets\SVNChangelogToXml.xsl" />
+    <Content Include="data\forms\Adobe\Copy of test.xml" />
+    <Content Include="data\forms\Adobe\documents\AdvancePay.xml" />
+    <Content Include="data\forms\Adobe\documents\APOpeningBalance.xml" />
+    <Content Include="data\forms\Adobe\documents\AROpeningBalance.xml" />
+    <Content Include="data\forms\Adobe\documents\AssetInfo.xml" />
+    <Content Include="data\forms\Adobe\documents\AssetMaintenance.xml" />
+    <Content Include="data\forms\Adobe\documents\AssetSummary.xml" />
+    <Content Include="data\forms\Adobe\documents\AssetTransfer.xml" />
+    <Content Include="data\forms\Adobe\documents\BA.xml" />
+    <Content Include="data\forms\Adobe\documents\BI.xml" />
+    <Content Include="data\forms\Adobe\documents\BillAcceptance.xml" />
+    <Content Include="data\forms\Adobe\documents\BillIssue.xml" />
+    <Content Include="data\forms\Adobe\documents\BOQ.xml" />
+    <Content Include="data\forms\Adobe\documents\ClaimPettyCash.xml" />
+    <Content Include="data\forms\Adobe\documents\CostCenter.xml" />
+    <Content Include="data\forms\Adobe\documents\DO1.xml" />
+    <Content Include="data\forms\Adobe\documents\DOO.xml" />
+    <Content Include="data\forms\Adobe\documents\Generallist.xml" />
+    <Content Include="data\forms\Adobe\documents\GL.xml" />
+    <Content Include="data\forms\Adobe\documents\GoodsReceipt.xml" />
+    <Content Include="data\forms\Adobe\documents\GoodsSold.xml" />
+    <Content Include="data\forms\Adobe\documents\IV1.xml" />
+    <Content Include="data\forms\Adobe\documents\IVO.xml" />
+    <Content Include="data\forms\Adobe\documents\MatCountItem.xml" />
+    <Content Include="data\forms\Adobe\documents\MatCountResult.xml" />
+    <Content Include="data\forms\Adobe\documents\MI.xml" />
+    <Content Include="data\forms\Adobe\documents\MR.xml" />
+    <Content Include="data\forms\Adobe\documents\MW.xml" />
+    <Content Include="data\forms\Adobe\documents\Payment Voucher.xml" />
+    <Content Include="data\forms\Adobe\documents\PaymentApplication.xml" />
+    <Content Include="data\forms\Adobe\documents\PaymentVoucher.xml" />
+    <Content Include="data\forms\Adobe\documents\PaySelection.xml" />
+    <Content Include="data\forms\Adobe\documents\PettyCash.xml" />
+    <Content Include="data\forms\Adobe\documents\PO.xml" />
+    <Content Include="data\forms\Adobe\documents\PO1.xml" />
+    <Content Include="data\forms\Adobe\documents\POUngroup.xml" />
+    <Content Include="data\forms\Adobe\documents\PR.xml" />
+    <Content Include="data\forms\Adobe\documents\PVDetailAll.xml" />
+    <Content Include="data\forms\Adobe\documents\RCP0.xml" />
+    <Content Include="data\forms\Adobe\documents\RCP00.xml" />
+    <Content Include="data\forms\Adobe\documents\RCP1.xml" />
+    <Content Include="data\forms\Adobe\documents\RVDetailCheck.xml" />
+    <Content Include="data\forms\Adobe\documents\SaleBillIssue.xml" />
+    <Content Include="data\forms\Adobe\documents\SalesReceive.xml" />
+    <Content Include="data\forms\Adobe\documents\SCN.xml" />
+    <Content Include="data\forms\Adobe\documents\SCN1.xml" />
+    <Content Include="data\forms\Adobe\documents\SDN.xml" />
+    <Content Include="data\forms\Adobe\documents\SDN1.xml" />
+    <Content Include="data\forms\Adobe\documents\Supplier.xml" />
+    <Content Include="data\forms\Adobe\documents\ToolsCountItem.xml" />
+    <Content Include="data\forms\Adobe\documents\ToolsCountResult.xml" />
+    <Content Include="data\forms\Adobe\documents\TR.xml" />
+    <Content Include="data\forms\Adobe\documents\TW.xml" />
+    <Content Include="data\forms\Adobe\documents\VATItem.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAp.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAp2.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPAdvancePay.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPAdvancePay1.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPBillAcceptance.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPBillAcceptanceByDueDate.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPOpeningBalance.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPPayment.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPPaymentMethods.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPRemain.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAPRemaining.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAR.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptARAging.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptAROpeningBalance.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptBankAccount.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptBankStatement.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptBuy.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptBuy1.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptCreditPurchase.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptFinancialStatement.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptGL.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptGL2.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptGLBalanceSheet.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptGLPaper.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptIncomingVat.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptIncomingWht.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptJournalEntry.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptJVAutomatic.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptLinkGL.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptMatCount.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptMaterial.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptMatReturn.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptMatWithdraw.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptOutgoinVat.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptOutgoinWht.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptStockCardMat.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptStockCardTool.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptUnreceivedPOItem.xml" />
+    <Content Include="data\forms\Adobe\Reports\RptWBSBudgetUsage.xml" />
+    <Content Include="data\forms\Images\LongkongLogoColor.png" />
+    <Content Include="data\forms\Scaninter\CashFlow.xml" />
+    <Content Include="data\forms\Scaninter\PurchaseOrder.xml" />
+    <Content Include="data\forms\TPC\ap.xml" />
+    <Content Include="data\forms\TPC\bill.xml" />
+    <Content Include="data\forms\TPC\Budget1.xml" />
+    <Content Include="data\forms\TPC\Budget2.xml" />
+    <Content Include="data\forms\TPC\check.xml" />
+    <Content Include="data\forms\TPC\outcheck.xml" />
+    <Content Include="data\forms\TPC\PO.xml" />
+    <Content Include="data\forms\TPC\POsup.xml" />
+    <Content Include="data\forms\TPC\POSup2.xml" />
+    <Content Include="data\forms\TPC\รายงานการใช้ต้นทุนก่อสร้างแบบแจกแจง.xml" />
+    <Content Include="data\forms\TPC\รายงานสรุปการสั่งซื้อแบบแจกแจง.asp" />
+    <Content Include="data\forms\TPC\รายงานสรุปการสั่งซื้อแบบแจกแจง.xml" />
+    <Content Include="data\forms\TPC\รายงานสรุปสถานะใบสั่งซื้อ.xml" />
+    <Content Include="data\options\MainMenuItems.xml" />
+    <Content Include="data\options\SharpDevelop-templates.xml" />
+    <Content Include="data\options\SharpDevelop-tools.xml" />
+    <Content Include="data\options\SharpDevelopProperties.xml" />
+    <Content Include="data\options\StandardHeader.xml" />
+    <Content Include="data\options\TextAreaContextMenu.xml" />
+    <Content Include="data\options\TextLib\ASCIITable.xxmlx" />
+    <Content Include="data\options\TextLib\CSharpDocumentationTags.xxmlx" />
+    <Content Include="data\options\TextLib\Licenses.xxmlx" />
+    <Content Include="data\options\TextLib\SharpDevelop.xxmlx" />
+    <Content Include="data\options\TextLib\XSLT.xxmlx" />
+    <Content Include="data\options\TipsOfTheDay.xml" />
+    <Content Include="data\resources\AddIn.xsd" />
+    <Content Include="data\resources\css\MsdnHelp.css" />
+    <Content Include="data\resources\css\SharpDevelopStandard.css" />
+    <Content Include="data\resources\filetypes\c.ico" />
+    <Content Include="data\resources\filetypes\cmbx.ico" />
+    <Content Include="data\resources\filetypes\cs.ico" />
+    <Content Include="data\resources\filetypes\Filetypes.xml" />
+    <Content Include="data\resources\filetypes\java.ico" />
+    <Content Include="data\resources\filetypes\prjx.ico" />
+    <Content Include="data\resources\filetypes\resx.ico" />
+    <Content Include="data\resources\filetypes\vb.ico" />
+    <Content Include="data\resources\filetypes\xfrm.ico" />
+    <Content Include="data\resources\filetypes\xml.ico" />
+    <Content Include="data\resources\InstallerBitmaps\default-banner.bmp" />
+    <Content Include="data\resources\InstallerBitmaps\default-dialog.bmp" />
+    <Content Include="data\resources\InstallerBitmaps\exclamic.bmp" />
+    <Content Include="data\resources\InstallerBitmaps\info.bmp" />
+    <Content Include="data\resources\InstallerBitmaps\new.bmp" />
+    <Content Include="data\resources\InstallerBitmaps\up.bmp" />
+    <Content Include="data\resources\languages\.xvpics\russia.png" />
+    <Content Include="data\resources\languages\.xvpics\south_korea.png" />
+    <Content Include="data\resources\languages\.xvpics\sweden.png" />
+    <Content Include="data\resources\languages\Arabic.png" />
+    <Content Include="data\resources\languages\badgoisern.png" />
+    <Content Include="data\resources\languages\brazil.png" />
+    <Content Include="data\resources\languages\bulgaria.png" />
+    <Content Include="data\resources\languages\chinalg.png" />
+    <Content Include="data\resources\languages\czech.png" />
+    <Content Include="data\resources\languages\denmark.png" />
+    <Content Include="data\resources\languages\england.png" />
+    <Content Include="data\resources\languages\finnish.png" />
+    <Content Include="data\resources\languages\france.png" />
+    <Content Include="data\resources\languages\germany.png" />
+    <Content Include="data\resources\languages\hungary.png" />
+    <Content Include="data\resources\languages\italy.png" />
+    <Content Include="data\resources\languages\japan.png" />
+    <Content Include="data\resources\languages\LanguageDefinition.xml" />
+    <Content Include="data\resources\languages\lithuania.png" />
+    <Content Include="data\resources\languages\mexico.png" />
+    <Content Include="data\resources\languages\netherlands.png" />
+    <Content Include="data\resources\languages\poland.png" />
+    <Content Include="data\resources\languages\portugal.png" />
+    <Content Include="data\resources\languages\romania.png" />
+    <Content Include="data\resources\languages\russia.png" />
+    <Content Include="data\resources\languages\Serbia.png" />
+    <Content Include="data\resources\languages\slovenia.png" />
+    <Content Include="data\resources\languages\south_korea.png" />
+    <Content Include="data\resources\languages\spain.png" />
+    <Content Include="data\resources\languages\sweden.png" />
+    <Content Include="data\resources\languages\uk.png" />
+    <Content Include="data\resources\languages\usa.png" />
+    <Content Include="data\resources\MdiLayoutConfig3.xml" />
+    <Content Include="data\resources\MenuStyle0.png" />
+    <Content Include="data\resources\MenuStyle1.png" />
+    <Content Include="data\resources\MenuStyle2.png" />
+    <Content Include="data\resources\SharpDevelop.ico" />
+    <Content Include="data\resources\startpage\Layout\blue\balken_links.gif" />
+    <Content Include="data\resources\startpage\Layout\blue\balken_mitte.gif" />
+    <Content Include="data\resources\startpage\Layout\blue\balken_rechts.gif" />
+    <Content Include="data\resources\startpage\Layout\brown\balken_links.gif" />
+    <Content Include="data\resources\startpage\Layout\brown\balken_mitte.gif" />
+    <Content Include="data\resources\startpage\Layout\brown\balken_rechts.gif" />
+    <Content Include="data\resources\startpage\Layout\common\blind.gif" />
+    <Content Include="data\resources\startpage\Layout\common\dot_listing.gif" />
+    <Content Include="data\resources\startpage\Layout\common\klinker_milestone.gif" />
+    <Content Include="data\resources\startpage\Layout\common\line_hor_black.gif" />
+    <Content Include="data\resources\startpage\Layout\common\milestone_col_head.gif" />
+    <Content Include="data\resources\startpage\Layout\common\pixel_weiss.gif" />
+    <Content Include="data\resources\startpage\Layout\default.css" />
+    <Content Include="data\resources\startpage\Layout\green\balken_links.gif" />
+    <Content Include="data\resources\startpage\Layout\green\balken_mitte.gif" />
+    <Content Include="data\resources\startpage\Layout\green\balken_rechts.gif" />
+    <Content Include="data\resources\startpage\Layout\orange\balken_links.gif" />
+    <Content Include="data\resources\startpage\Layout\orange\balken_mitte.gif" />
+    <Content Include="data\resources\startpage\Layout\orange\balken_rechts.gif" />
+    <Content Include="data\resources\startpage\Layout\red\balken_links.gif" />
+    <Content Include="data\resources\startpage\Layout\red\balken_mitte.gif" />
+    <Content Include="data\resources\startpage\Layout\red\balken_rechts.gif" />
+    <Content Include="data\resources\xslt\allmembers.xslt" />
+    <Content Include="data\resources\xslt\common.xslt" />
+    <Content Include="data\resources\xslt\event.xslt" />
+    <Content Include="data\resources\xslt\field.xslt" />
+    <Content Include="data\resources\xslt\filenames.xslt" />
+    <Content Include="data\resources\xslt\individualmembers.xslt" />
+    <Content Include="data\resources\xslt\member.xslt" />
+    <Content Include="data\resources\xslt\memberoverload.xslt" />
+    <Content Include="data\resources\xslt\memberscommon.xslt" />
+    <Content Include="data\resources\xslt\namespace.xslt" />
+    <Content Include="data\resources\xslt\namespacehierarchy.xslt" />
+    <Content Include="data\resources\xslt\property.xslt" />
+    <Content Include="data\resources\xslt\syntax.xslt" />
+    <Content Include="data\resources\xslt\type.xslt" />
+    <Content Include="doc\Flow\01_resize.png" />
+    <Content Include="doc\Flow\02_resize.png" />
+    <Content Include="doc\Flow\03_resize.png" />
+    <Content Include="doc\Flow\04_resize.png" />
+    <Content Include="doc\Flow\05_resize.png" />
+    <Content Include="doc\Flow\06_resize.png" />
+    <Content Include="doc\Flow\07_resize.png" />
+    <Content Include="doc\Flow\08_resize.png" />
+    <Content Include="doc\Flow\09_resize.png" />
+    <Content Include="doc\Flow\10_resize.png" />
+    <Content Include="doc\Flow\11_resize.png" />
+    <Content Include="doc\Flow\12_resize.png" />
+    <Content Include="doc\Flow\13_resize.png" />
+    <Content Include="doc\Flow\14_resize.png" />
+    <Content Include="doc\Flow\15_resize.png" />
+    <Content Include="doc\Flow\Flow.htm" />
+    <Content Include="doc\help\HelpDescription.xml" />
+    <Content Include="Externals\BalloonWindow.dll" />
+    <Content Include="Externals\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ICSharpCode.TextEditor.dll" />
+    <Content Include="Pojjaman.DefaultTextEditor.dll" />
+    <Content Include="PojjamanIcon.ico" />
+    <Content Include="Resources\Images\tv_minus.bmp" />
+    <Content Include="Resources\Images\tv_plus.bmp" />
+    <EmbeddedResource Include="data\resources\BitmapResources.resources" />
+    <EmbeddedResource Include="data\resources\Branded.png" />
+    <EmbeddedResource Include="data\resources\Logo.png" />
+    <EmbeddedResource Include="data\resources\pojjaman4.jpg" />
+    <EmbeddedResource Include="data\resources\SplashScreen.png" />
+    <EmbeddedResource Include="data\resources\StringResources.en.resources" />
+    <EmbeddedResource Include="data\resources\StringResources.th.resources" />
+    <EmbeddedResource Include="data\resources\StringResources.vi.resources" />
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Main\Dialogs\ExceptionBox.resx">
+      <DependentUpon>ExceptionBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\Dialogs\LicenseErrorBox.resx">
+      <DependentUpon>LicenseErrorBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="AddIns\Forms\Accounting\Pojjaman.Base.Form.Accounting.addin" />
+    <None Include="AddIns\Forms\AP\Pojjaman.Base.Form.AP.addin" />
+    <None Include="AddIns\Forms\AR\Pojjaman.Base.Form.AR.addin" />
+    <None Include="AddIns\Forms\Asset\Pojjaman.Base.Form.Asset.addin" />
+    <None Include="AddIns\Forms\Bidding\Pojjaman.Base.Form.Bidding.addin" />
+    <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.CashBank.addin" />
+    <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.addin" />
+    <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.Autorun.addin" />
+    <None Include="AddIns\Forms\Configuration\Pojjaman.Base.Form.Configuration.addin" />
+    <None Include="AddIns\Forms\FFormat\Pojjaman.Base.Form.FFormat.addin" />
+    <None Include="AddIns\Forms\Stock\Pojjaman.Base.Form.Stock.addin" />
+    <None Include="AddIns\Pojjaman.Accounting.addin" />
+    <None Include="AddIns\Pojjaman.Base.addin" />
+    <None Include="AddIns\Pojjaman.EnityDatabase.addin" />
+    <None Include="AddIns\Pojjaman.General.addin" />
+    <None Include="AddIns\Pojjaman.Test.addin" />
+    <None Include="AddIns\Pojjaman.Wizard.addin" />
+    <None Include="AddIns\Reports\Accounting\Pojjaman.Base.Report.Accounting.addin" />
+    <None Include="AddIns\Reports\AP\Pojjaman.Base.Report.AP.addin" />
+    <None Include="AddIns\Reports\AR\Pojjaman.Base.Report.AR.addin" />
+    <None Include="AddIns\Reports\CashBank\Pojjaman.Base.Report.CashBank.addin" />
+    <None Include="AddIns\Reports\Check\Pojjaman.Base.Report.Check.addin" />
+    <None Include="AddIns\Reports\CostControl\Pojjaman.Base.Report.CostControl.addin" />
+    <None Include="AddIns\Reports\GL\Pojjaman.Base.Report.GL.addin" />
+    <None Include="AddIns\Reports\Stock\Pojjaman.Base.Report.Stock.addin" />
+    <None Include="app.config" />
+    <None Include="data\forms\Adobe\documents\AdvancePay.xdp" />
+    <None Include="data\forms\Adobe\documents\APOpeningBalance.xdp" />
+    <None Include="data\forms\Adobe\documents\AROpeningBalance.xdp" />
+    <None Include="data\forms\Adobe\documents\AssetInfo.xdp" />
+    <None Include="data\forms\Adobe\documents\AssetMaintenance.xdp" />
+    <None Include="data\forms\Adobe\documents\AssetSummary.xdp" />
+    <None Include="data\forms\Adobe\documents\AssetTransfer.xdp" />
+    <None Include="data\forms\Adobe\documents\BA.xdp" />
+    <None Include="data\forms\Adobe\documents\BI.xdp" />
+    <None Include="data\forms\Adobe\documents\BillAcceptance.xdp" />
+    <None Include="data\forms\Adobe\documents\BillIssue.xdp" />
+    <None Include="data\forms\Adobe\documents\BOQ.xdp" />
+    <None Include="data\forms\Adobe\documents\BOQ1.xdp" />
+    <None Include="data\forms\Adobe\documents\ClaimPettyCash.xdp" />
+    <None Include="data\forms\Adobe\documents\CostCenter.xdp" />
+    <None Include="data\forms\Adobe\documents\DO1.xdp" />
+    <None Include="data\forms\Adobe\documents\DOO.xdp" />
+    <None Include="data\forms\Adobe\documents\Generallist.xdp" />
+    <None Include="data\forms\Adobe\documents\GL.xdp" />
+    <None Include="data\forms\Adobe\documents\GoodsReceipt.xdp" />
+    <None Include="data\forms\Adobe\documents\GoodsSold.xdp" />
+    <None Include="data\forms\Adobe\documents\IV1.xdp" />
+    <None Include="data\forms\Adobe\documents\IVO.xdp" />
+    <None Include="data\forms\Adobe\documents\MatCountItem.xdp" />
+    <None Include="data\forms\Adobe\documents\MatCountResult.xdp" />
+    <None Include="data\forms\Adobe\documents\MI.xdp" />
+    <None Include="data\forms\Adobe\documents\MR.xdp" />
+    <None Include="data\forms\Adobe\documents\MW.xdp" />
+    <None Include="data\forms\Adobe\documents\Payment Voucher.xdp" />
+    <None Include="data\forms\Adobe\documents\PaymentApplication.xdp" />
+    <None Include="data\forms\Adobe\documents\PettyCash.xdp" />
+    <None Include="data\forms\Adobe\documents\PO.xdp" />
+    <None Include="data\forms\Adobe\documents\PO1.xdp" />
+    <None Include="data\forms\Adobe\documents\PR.xdp" />
+    <None Include="data\forms\Adobe\documents\RCP0.xdp" />
+    <None Include="data\forms\Adobe\documents\RCP00.xdp" />
+    <None Include="data\forms\Adobe\documents\RCP1.xdp" />
+    <None Include="data\forms\Adobe\documents\SaleBillIssue.xdp" />
+    <None Include="data\forms\Adobe\documents\SalesReceive.xdp" />
+    <None Include="data\forms\Adobe\documents\SCN.xdp" />
+    <None Include="data\forms\Adobe\documents\SCN1.xdp" />
+    <None Include="data\forms\Adobe\documents\SDN.xdp" />
+    <None Include="data\forms\Adobe\documents\SDN1.xdp" />
+    <None Include="data\forms\Adobe\documents\Supplier.xdp" />
+    <None Include="data\forms\Adobe\documents\ToolsCountItem.xdp" />
+    <None Include="data\forms\Adobe\documents\ToolsCountResult.xdp" />
+    <None Include="data\forms\Adobe\documents\TR.xdp" />
+    <None Include="data\forms\Adobe\documents\TW.xdp" />
+    <None Include="data\forms\Adobe\documents\VATItem.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAp.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAp2.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPAdvancePay.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPBillAcceptance.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPOpeningBalance.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPPayment.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPPaymentMethods.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPRemain.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAPRemaining.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptAR.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptARAging.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptBankAccount.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptBankStatement.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptBuy.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptBuy1.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptCreditPurchase.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptFinancialStatement.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptGL.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptGLBalanceSheet.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptGLPaper.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptIncomingVat.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptIncomingWht.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptJournalEntry.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptJVAutomatic.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptLinkGL.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptMatCount.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptMaterial.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptMatReturn.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptMatWithdraw.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptOutgoinVat.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptOutgoinWht.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptStockCardMat.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptStockCardTool.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptUnreceivedPOItem.xdp" />
+    <None Include="data\forms\Adobe\Reports\RptWBSBudgetUsage.xdp" />
+    <None Include="data\forms\Adobe\Reports\งบการดุล.xdp" />
+    <None Include="data\forms\Adobe\RptWHT" />
+    <None Include="data\forms\Adobe\ค้าง.xdp" />
+    <None Include="data\forms\Adobe\รายงานการใช้ต้นทุนก่อสร้างแบบแจกแจง.pdf" />
+    <None Include="data\forms\Adobe\รายงานการใช้ต้นทุนก่อสร้างแบบแจกแจง.xdp" />
+    <None Include="data\forms\Adobe\รายงานสรุปการสั่งซื้อแบบแจกแจง%28Tpc%29.xdp" />
+    <None Include="data\forms\Adobe\รายงานสรุปสถานะใบสั่งซื้อ%28Tpc%29.xdp" />
+    <None Include="data\forms\Adobe\แบบฟอร์ม BOQ#1.xdp" />
+    <None Include="data\forms\Adobe\ใบสั่งซื้อ%28Tpc%29.xdp" />
+    <None Include="data\forms\documents\BA.dfm" />
+    <None Include="data\forms\documents\BI.dfm" />
+    <None Include="data\forms\documents\DO1.dfm" />
+    <None Include="data\forms\documents\DOO.dfm" />
+    <None Include="data\forms\documents\GL.dfm" />
+    <None Include="data\forms\documents\GoodsReceipt.dfm" />
+    <None Include="data\forms\documents\GoodsSold.dfm" />
+    <None Include="data\forms\documents\IV.dfm" />
+    <None Include="data\forms\documents\IV0.dfm" />
+    <None Include="data\forms\documents\IV1.dfm" />
+    <None Include="data\forms\documents\MI.dfm" />
+    <None Include="data\forms\documents\MR.dfm" />
+    <None Include="data\forms\documents\MW.dfm" />
+    <None Include="data\forms\documents\PO.dfm" />
+    <None Include="data\forms\documents\PO1.dfm" />
+    <None Include="data\forms\documents\POS.dfm" />
+    <None Include="data\forms\documents\PR.dfm" />
+    <None Include="data\forms\documents\PV.dfm" />
+    <None Include="data\forms\documents\RCP.dfm" />
+    <None Include="data\forms\documents\RCP0.dfm" />
+    <None Include="data\forms\documents\RCP00.dfm" />
+    <None Include="data\forms\documents\RCP1.dfm" />
+    <None Include="data\forms\documents\RptFinancialStatement.dfm" />
+    <None Include="data\forms\documents\RptIncomingVat.dfm" />
+    <None Include="data\forms\documents\SCN.dfm" />
+    <None Include="data\forms\documents\SDN.dfm" />
+    <None Include="data\forms\documents\WHT.dfm" />
+    <None Include="data\forms\reports\LinkFinancialStatement.dfm" />
+    <None Include="data\forms\reports\report.dfm" />
+    <None Include="data\forms\reports\RptAPAdvancePay.dfm" />
+    <None Include="data\forms\reports\RptAPBillAcceptance.dfm" />
+    <None Include="data\forms\reports\RptAPOpeningBalance.dfm" />
+    <None Include="data\forms\reports\RptAPPayment.dfm" />
+    <None Include="data\forms\reports\RptAPPaymentMethods.dfm" />
+    <None Include="data\forms\reports\RptBankAccount.dfm" />
+    <None Include="data\forms\reports\RptBankStatement.dfm" />
+    <None Include="data\forms\reports\RptFinancialStatement.dfm" />
+    <None Include="data\forms\reports\RptGL.dfm" />
+    <None Include="data\forms\reports\RptGLBalanceSheet.dfm" />
+    <None Include="data\forms\reports\RptGLPaper.dfm" />
+    <None Include="data\forms\reports\RptIncomingVat.dfm" />
+    <None Include="data\forms\reports\RptIncomingWht.dfm" />
+    <None Include="data\forms\reports\RptJournalEntry.dfm" />
+    <None Include="data\forms\reports\RptJVAutomatic.dfm" />
+    <None Include="data\forms\reports\RptMatCount.dfm" />
+    <None Include="data\forms\reports\RptMatReturn.dfm" />
+    <None Include="data\forms\reports\RptMatWithdraw.dfm" />
+    <None Include="data\forms\reports\RptOutgoinVat.dfm" />
+    <None Include="data\forms\reports\RptOutgoinWht.dfm" />
+    <None Include="data\forms\reports\RptStockCardMat.dfm" />
+    <None Include="data\forms\reports\RptStockCardTool.dfm" />
+    <None Include="data\forms\Scaninter\CashFlow.xdp" />
+    <None Include="data\forms\Scaninter\PaymentVoucher.xdp" />
+    <None Include="data\forms\Scaninter\TaxInvoice.xdp" />
+    <None Include="data\forms\Scaninter\กำกับภาษี.xdp" />
+    <None Include="data\forms\Scaninter\ใบขอเบิกจ่าย.xdp" />
+    <None Include="data\forms\Scaninter\ใบรับวางบิล.xdp" />
+    <None Include="data\forms\Scaninter\ใบสั่งซื้อ.xdp" />
+    <None Include="data\forms\Scaninter\ใบแจ้งหนี้.xdp" />
+    <None Include="data\forms\TPC\Ap.dfm" />
+    <None Include="data\forms\TPC\ap.xdp" />
+    <None Include="data\forms\TPC\Bill.dfm" />
+    <None Include="data\forms\TPC\bill.xdp" />
+    <None Include="data\forms\TPC\Budget1.dfm" />
+    <None Include="data\forms\TPC\budget1.xdp" />
+    <None Include="data\forms\TPC\Budget2.dfm" />
+    <None Include="data\forms\TPC\budget2.xdp" />
+    <None Include="data\forms\TPC\Check.dfm" />
+    <None Include="data\forms\TPC\check.xdp" />
+    <None Include="data\forms\TPC\Order Sheet.dfm" />
+    <None Include="data\forms\TPC\Order Sheet.xdp" />
+    <None Include="data\forms\TPC\OutCheck.dfm" />
+    <None Include="data\forms\TPC\outcheck.xdp" />
+    <None Include="data\forms\TPC\PO.dfm" />
+    <None Include="data\forms\TPC\PO.xdp" />
+    <None Include="data\forms\TPC\POSup.dfm" />
+    <None Include="data\forms\TPC\POSup.xdp" />
+    <None Include="data\forms\TPC\POSup2.dfm" />
+    <None Include="data\forms\TPC\POSup2.xdp" />
+    <None Include="data\forms\TPC\PR.dfm" />
+    <None Include="data\forms\TPC\PR.xdp" />
+    <None Include="data\forms\TPC\Statement.dfm" />
+    <None Include="data\forms\TPC\Statement.xdp" />
+    <None Include="data\forms\TPC\รายงานการใช้ต้นทุนก่อสร้างแบบแจกแจง.dfm" />
+    <None Include="data\forms\TPC\รายงานการใช้ต้นทุนก่อสร้างแบบแจกแจง.xdp" />
+    <None Include="data\forms\TPC\รายงานสรุปการสั่งซื้อแบบแจกแจง.dfm" />
+    <None Include="data\forms\TPC\รายงานสรุปการสั่งซื้อแบบแจกแจง.xdp" />
+    <None Include="data\forms\TPC\รายงานสรุปสถานะใบสั่งซื้อ.dfm" />
+    <None Include="data\forms\TPC\รายงานสรุปสถานะใบสั่งซื้อ.xdp" />
+    <None Include="data\import\BOQ\BOQ.xls" />
+    <None Include="data\modes\C64CSharp.xshd" />
+    <None Include="data\modes\CSharp-Mode-VSEnh.xshd" />
+    <None Include="data\modes\Jay-Mode.xshd" />
+    <None Include="data\options\PojjamanControlLibrary.sdcl" />
+    <None Include="data\options\SharpDevelopControlLibrary.sdcl" />
+    <None Include="data\resources\dialogs\AddSidebarComponentsDialog.xfrm" />
+    <None Include="data\resources\dialogs\CommonAboutDialog.xfrm" />
+    <None Include="data\resources\dialogs\ConfigureSidebarDialog.xfrm" />
+    <None Include="data\resources\dialogs\EditTemplateDialog.xfrm" />
+    <None Include="data\resources\dialogs\ErrorDialog\SaveErrorChooseDialog.xfrm" />
+    <None Include="data\resources\dialogs\ErrorDialog\SaveErrorInformDialog.xfrm" />
+    <None Include="data\resources\dialogs\FindDialog.xfrm" />
+    <None Include="data\resources\dialogs\FindInFilesDialog.xfrm" />
+    <None Include="data\resources\dialogs\GotoLineNumberDialog.xfrm" />
+    <None Include="data\resources\dialogs\InputBox.xfrm" />
+    <None Include="data\resources\dialogs\NewFileDialog.xfrm" />
+    <None Include="data\resources\dialogs\NewFileWithNameDialog.xfrm" />
+    <None Include="data\resources\dialogs\NewProjectDialog.xfrm" />
+    <None Include="data\resources\dialogs\RegExpTkGroupForm.xfrm" />
+    <None Include="data\resources\dialogs\RegExpTkMainForm.xfrm" />
+    <None Include="data\resources\dialogs\RenameSidebarCategoryDialog.xfrm" />
+    <None Include="data\resources\dialogs\ReplaceDialog.xfrm" />
+    <None Include="data\resources\dialogs\ReplaceInFilesDialog.xfrm" />
+    <None Include="data\resources\dialogs\ResourceEditor\RenameEntryDialog.xfrm" />
+    <None Include="data\resources\dialogs\SharpQuery\SqlParametersInput.xfrm" />
+    <None Include="data\resources\dialogs\SortOptionsDialog.xfrm" />
+    <None Include="data\resources\dialogs\TabbedOptionsDialog.xfrm" />
+    <None Include="data\resources\dialogs\TreeViewOptionsDialog.xfrm" />
+    <None Include="data\resources\dialogs\ViewGPLDialog.xfrm" />
+    <None Include="data\resources\dialogs\WordCountDialog.xfrm" />
+    <None Include="data\resources\panels\AssemblyScoutOptions.xfrm" />
+    <None Include="data\resources\panels\AttributeColorListOptions.xfrm" />
+    <None Include="data\resources\panels\BehaviorTextEditorPanel.xfrm" />
+    <None Include="data\resources\panels\BiddingOptionPanel.xfrm" />
+    <None Include="data\resources\panels\ChooseRuntimePanel.xfrm" />
+    <None Include="data\resources\panels\CodeGenerationOptionsPanel.xfrm" />
+    <None Include="data\resources\panels\CodeTemplatePanel.xfrm" />
+    <None Include="data\resources\panels\ColorListOptions.xfrm" />
+    <None Include="data\resources\panels\CombineStartupPanel.xfrm" />
+    <None Include="data\resources\panels\CompileFileProjectOptions.xfrm" />
+    <None Include="data\resources\panels\CompletionDatabaseWizard\CreateNewFilePanel.xfrm" />
+    <None Include="data\resources\panels\CompletionDatabaseWizard\CreationFinishedPanel.xfrm" />
+    <None Include="data\resources\panels\CompletionDatabaseWizard\UseExistingFilePanel.xfrm" />
+    <None Include="data\resources\panels\CompletionDatabaseWizard\ViewProgressPanel.xfrm" />
+    <None Include="data\resources\panels\CompletionDatabaseWizard\WelcomePanel.xfrm" />
+    <None Include="data\resources\panels\DeployFileOptions.xfrm" />
+    <None Include="data\resources\panels\EditStandardHeaderPanel.xfrm" />
+    <None Include="data\resources\panels\ExternalToolOptions.xfrm" />
+    <None Include="data\resources\panels\FormDesingerToolboxConfigurationPanel.xfrm" />
+    <None Include="data\resources\panels\GeneralProjectOptions.xfrm" />
+    <None Include="data\resources\panels\GeneralTextEditorPanel.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\ColorDialog.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Digits.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\EditDialog.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Environment.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\KeywordList.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\KeywordLists.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Marker.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Markers.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\OptionPanel.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Properties.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\RuleSet.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\RuleSets.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Scheme.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Span.xfrm" />
+    <None Include="data\resources\panels\HighlightingEditor\Spans.xfrm" />
+    <None Include="data\resources\panels\LoadSaveOptionPanel.xfrm" />
+    <None Include="data\resources\panels\MarkersTextEditorPanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\CreateNewFilePanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\CreationFinishedPanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\GeneralInfoPanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\UseExistingFilePanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\ViewProgressPanel.xfrm" />
+    <None Include="data\resources\panels\NewProjectWizard\WelcomePanel.xfrm" />
+    <None Include="data\resources\panels\PrettyPrinterGUI\PrettyPrintPanel.xfrm" />
+    <None Include="data\resources\panels\ProjectAndCombineOptions.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\CodeGenerationPanel.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\CPPCodeGenerationPanel.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\GeneralProjectOptions.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\OutputPanel.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\VBDOCConfigurationPanel.xfrm" />
+    <None Include="data\resources\panels\ProjectOptions\VBNetCodeGenerationPanel.xfrm" />
+    <None Include="data\resources\panels\SelectStylePanel.xfrm" />
+    <None Include="data\resources\panels\TaskListOptions.xfrm" />
+    <None Include="data\resources\panels\VBCompilerPanel.xfrm" />
+    <None Include="data\resources\panels\VBSpecificTextEditorOptions.xfrm" />
+    <None Include="data\resources\panels\WindowsFormsGridOptions.xfrm" />
+    <None Include="data\templatesx\file\CPPNet\CPP.Empty.xftx" />
+    <None Include="data\templatesx\file\CPPNet\CPP.Header.xftx" />
+    <None Include="data\templatesx\file\CPPNet\CPP.Wizards.NewClass.xftx" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Empty.xftx" />
+    <None Include="data\templatesx\file\CSharp\CSharp.EmptyClass.xftx" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Forms.Form.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Forms.UserControl.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Patterns.Singleton.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.UnitTest.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Wizards.NewClass.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Wizards.TypedCollection.xft" />
+    <None Include="data\templatesx\file\CSharp\CSharp.Wizards.TypedHashtable.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyHTMLFile.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyResourceFile.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyTextFile.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyXMLFile.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyXmlForm.xft" />
+    <None Include="data\templatesx\file\Misc\EmptyXmlUserControl.xft" />
+    <None Include="data\templatesx\file\SharpDevelop\ExampleMenuCommand.xft" />
+    <None Include="data\templatesx\file\SharpDevelop\ExampleOptionPanel.xft" />
+    <None Include="data\templatesx\file\SharpDevelop\ExamplePad.xft" />
+    <None Include="data\templatesx\file\SharpDevelop\ExampleView.xft" />
+    <None Include="data\templatesx\file\SharpDevelop\SimpleCommand.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Empty.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.EmptyClass.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Forms.Form.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Forms.UserControl.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Patterns.Singleton.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.UnitTest.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Wizards.NewClass.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Wizards.TypedCollection.xft" />
+    <None Include="data\templatesx\file\VBNet\VBNet.Wizards.TypedHashtable.xft" />
+    <None Include="data\templatesx\project\ComplexExample.xpt.test" />
+    <None Include="data\templatesx\project\CPPNet\ConsoleProject.xpt" />
+    <None Include="data\templatesx\project\CPPNet\EmptyProject.xpt" />
+    <None Include="data\templatesx\project\CPPNet\FormsProject.xpt" />
+    <None Include="data\templatesx\project\CSharp\ConsoleProject.xpt" />
+    <None Include="data\templatesx\project\CSharp\ControlLibrary.xpt" />
+    <None Include="data\templatesx\project\CSharp\Direct3DProject.xpt" />
+    <None Include="data\templatesx\project\CSharp\EmptyProject.xpt" />
+    <None Include="data\templatesx\project\CSharp\FormsProject.xpt" />
+    <None Include="data\templatesx\project\CSharp\Library.xpt" />
+    <None Include="data\templatesx\project\CSharp\Service.xpt" />
+    <None Include="data\templatesx\project\ILAsm\ConsoleProject.xpt" />
+    <None Include="data\templatesx\project\Misc\BlankCombine.xpt" />
+    <None Include="data\templatesx\project\Setup\WixProject.xpt" />
+    <None Include="data\templatesx\project\VBNet\ConsoleProject.xpt" />
+    <None Include="data\templatesx\project\VBNet\ControlLibrary.xpt" />
+    <None Include="data\templatesx\project\VBNet\Direct3DProject.xpt" />
+    <None Include="data\templatesx\project\VBNet\EmptyProject.xpt" />
+    <None Include="data\templatesx\project\VBNet\FormsProject.xpt" />
+    <None Include="data\templatesx\project\VBNet\Library.xpt" />
+    <None Include="data\templatesx\project\VBNet\Service.xpt" />
+    <None Include="data\templates\file\Documents\BA.xft" />
+    <None Include="data\templates\file\Documents\BI.xft" />
+    <None Include="data\templates\file\Documents\DO.xft" />
+    <None Include="data\templates\file\Documents\DO1.dfm" />
+    <None Include="data\templates\file\Documents\DOO.dfm" />
+    <None Include="data\templates\file\Documents\GL.xft" />
+    <None Include="data\templates\file\Documents\IV.xft" />
+    <None Include="data\templates\file\Documents\IV0.dfm" />
+    <None Include="data\templates\file\Documents\IV1.dfm" />
+    <None Include="data\templates\file\Documents\MI.xft" />
+    <None Include="data\templates\file\Documents\MR.xft" />
+    <None Include="data\templates\file\Documents\MW.xft" />
+    <None Include="data\templates\file\Documents\PO.xft" />
+    <None Include="data\templates\file\Documents\PO1.dfm" />
+    <None Include="data\templates\file\Documents\POS.dfm" />
+    <None Include="data\templates\file\Documents\PR.xft" />
+    <None Include="data\templates\file\Documents\PV.xft" />
+    <None Include="data\templates\file\Documents\RCP.xft" />
+    <None Include="data\templates\file\Documents\RCP0.dfm" />
+    <None Include="data\templates\file\Documents\RCP00.dfm" />
+    <None Include="data\templates\file\Documents\RCP1.dfm" />
+    <None Include="data\templates\file\Documents\SCN.xft" />
+    <None Include="data\templates\file\Documents\SDN.xft" />
+    <None Include="data\templates\file\Documents\WHT.xft" />
+    <None Include="data\templates\file\Reports\Purchasing.xft" />
+    <None Include="data\templates\file\Test\VBNet.Empty.xft" />
+    <None Include="data\templates\file\Test\VBNet.EmptyClass.xft" />
+    <None Include="data\templates\file\Test\VBNet.Forms.Form.xft" />
+    <None Include="data\templates\file\Test\VBNet.Forms.UserControl.xft" />
+    <None Include="data\templates\file\Test\VBNet.Patterns.Singleton.xft" />
+    <None Include="data\templates\file\Test\VBNet.UnitTest.xft" />
+    <None Include="data\templates\file\Test\VBNet.Wizards.NewClass.xft" />
+    <None Include="data\templates\file\Test\VBNet.Wizards.TypedCollection.xft" />
+    <None Include="data\templates\file\Test\VBNet.Wizards.TypedHashtable.xft" />
+    <None Include="data\templates\project\ComplexExample.xpt.test" />
+    <None Include="data\templates\project\CPPNet\ConsoleProject.xpt" />
+    <None Include="data\templates\project\CPPNet\EmptyProject.xpt" />
+    <None Include="data\templates\project\CPPNet\FormsProject.xpt" />
+    <None Include="data\templates\project\CSharp\ConsoleProject.xpt" />
+    <None Include="data\templates\project\CSharp\ControlLibrary.xpt" />
+    <None Include="data\templates\project\CSharp\Direct3DProject.xpt" />
+    <None Include="data\templates\project\CSharp\EmptyProject.xpt" />
+    <None Include="data\templates\project\CSharp\FormsProject.xpt" />
+    <None Include="data\templates\project\CSharp\Library.xpt" />
+    <None Include="data\templates\project\CSharp\Service.xpt" />
+    <None Include="data\templates\project\ILAsm\ConsoleProject.xpt" />
+    <None Include="data\templates\project\Misc\BlankCombine.xpt" />
+    <None Include="data\templates\project\Setup\WixProject.xpt" />
+    <None Include="data\templates\project\VBNet\ConsoleProject.xpt" />
+    <None Include="data\templates\project\VBNet\ControlLibrary.xpt" />
+    <None Include="data\templates\project\VBNet\Direct3DProject.xpt" />
+    <None Include="data\templates\project\VBNet\EmptyProject.xpt" />
+    <None Include="data\templates\project\VBNet\FormsProject.xpt" />
+    <None Include="data\templates\project\VBNet\Library.xpt" />
+    <None Include="data\templates\project\VBNet\Service.xpt" />
+    <None Include="data\vb.rsp" />
+    <None Include="doc\help\Pojjaman.chm" />
+    <None Include="doc\help\Pojjaman.hhc" />
+    <None Include="doc\help\PojjamanHelp.zip" />
+    <None Include="Pojjaman.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\resources\dialogs\UML Designer\" />
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

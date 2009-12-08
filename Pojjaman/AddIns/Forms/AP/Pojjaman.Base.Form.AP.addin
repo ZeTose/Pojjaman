@@ -1,0 +1,110 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by any (Ru-Board) -->
+<AddIn name="Pojjaman AP Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.AP.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
+		<!-- <Import assembly="../SubContract/Pojjaman.Base.Form.SubContract.dll"/> -->
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="supplier" entity="supplier" filter="Longkong.Pojjaman.Gui.Panels.SupplierFilterSubPanel"/>
+		<EntityFilter id="pr" entity="pr" filter="Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel"/>
+		<EntityFilter id="po" entity="po" filter="Longkong.Pojjaman.Gui.Panels.POFilterSubPanel"/>
+		<EntityFilter id="apopeningbalance" entity="apopeningbalance" filter="Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel"/>
+		<EntityFilter id="goodsreceipt" entity="goodsreceipt" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
+		<EntityFilter id="purchaseretention" entity="purchaseretention" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
+		<EntityFilter id="billacceptance" entity="billacceptance" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
+		<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>
+		<EntityFilter id="payselection" entity="payselection" filter="Longkong.Pojjaman.Gui.Panels.PaySelectionFilterSubPanel"/>
+		<EntityFilter id="apvatinput" entity="apvatinput" filter="Longkong.Pojjaman.Gui.Panels.PaySelectionFilterSubPanel"/>
+		<EntityFilter id="purchasecn" entity="purchasecn" filter="Longkong.Pojjaman.Gui.Panels.PurchaseCNFilterSubPanel"/>
+		<EntityFilter id="purchasedn" entity="purchasedn" filter="Longkong.Pojjaman.Gui.Panels.PurchaseDNFilterSubPanel"/>
+		<EntityFilter id="paymentapplication" entity="paymentapplication" filter="Longkong.Pojjaman.Gui.Panels.PMAFilterSubPanel"/>
+		<EntityFilter id="advancepay" entity="advancepay" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="po">
+			<EntityTab id="POPanelView" view="Longkong.Pojjaman.Gui.Panels.POPanelView"/>
+		</EntityTab>
+		<EntityTab id="poforapprove">
+			<EntityTab id="POPanelView" view="Longkong.Pojjaman.Gui.Panels.POPanelView"/>
+		</EntityTab>
+		<EntityTab id="pr">
+			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
+			<!-- <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/> -->
+		</EntityTab>
+		<EntityTab id="prforapprove">
+			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
+		</EntityTab>
+		<EntityTab id="goodsreceipt">
+			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="goodsreceiptforoperation">
+			<EntityTab id="GoodsReceiptForOperationDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForOperationDetail"/>
+		</EntityTab>			
+		<EntityTab id="goodsreceiptforapprove">
+			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
+		</EntityTab>		
+		<EntityTab id="supplier">
+			<EntityTab id="SupplierDetailView" view="Longkong.Pojjaman.Gui.Panels.SupplierDetailView"/>
+			<!--<EntityTab id="SupMatDetail" view="Longkong.Pojjaman.Gui.Panels.SupMatDetail"/>-->
+		</EntityTab>
+		<EntityTab id="suppliergroup">
+			<EntityTab id="SupplierGroupDetailView" view="Longkong.Pojjaman.Gui.Panels.SupplierGroupDetailView"/>
+		</EntityTab>
+		<EntityTab id="suppliercontact">
+			<EntityTab id="SupplierContactDetailView" view="Longkong.Pojjaman.Gui.Panels.SupplierContactDetailView"/>
+		</EntityTab>
+		<EntityTab id="apopeningbalance">
+			<EntityTab id="APOpeningBalancePanelView" view="Longkong.Pojjaman.Gui.Panels.APOpeningBalancePanelView"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="advancepay">
+			<EntityTab id="AdvancePayDetail" view="Longkong.Pojjaman.Gui.Panels.AdvancePayDetail"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="purchasedn">
+			<EntityTab id="PurchaseDNDetail" view="Longkong.Pojjaman.Gui.Panels.PurchaseDNDetailView"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<!--<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>-->
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="purchasecn">
+			<EntityTab id="PurchaseCNDetailView" view="Longkong.Pojjaman.Gui.Panels.PurchaseCNDetailView"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATOutDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="billacceptance">
+			<EntityTab id="BillAcceptanceDetail" view="Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail"/>
+		</EntityTab>
+		<EntityTab id="paymentapplication">
+			<EntityTab id="PaymentApplicationDetail" view="Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail"/>
+			<!--<EntityTab id="WBSMilestoneDetail" view="Longkong.Pojjaman.Gui.Panels.WBSMilestoneDetail"/>-->
+		</EntityTab>
+		<EntityTab id="payselection">
+			<EntityTab id="PaySelectionDetail" view="Longkong.Pojjaman.Gui.Panels.PaySelectionDetail"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="apvatinput">
+			<EntityTab id="APVatInputDetail" view="Longkong.Pojjaman.Gui.Panels.APVatInputDetail"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>		
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="billacceptanceitem" entity="billacceptanceitem" view="Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView"/>
+	</Extension>
+</AddIn>

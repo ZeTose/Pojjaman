@@ -1,0 +1,45 @@
+<AddIn name="Pojjaman Accounting Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman Accounting Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+		<MenuItem id="TaxReport" label="${res:MainMenu.ReportMenu.TaxReport}"  insertafter="CheckReport" insertbefore="AssetReport">
+				<MenuItem id="VATReport" label="${res:MainMenu.ReportMenu.VATReport}">
+					<MenuItem id="rptincomingvat" icon="Icons.16x16.RptIncomingVat" label="${res:MainMenu.PurchaseMenu.RptIncomingVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingVat"/>
+					<MenuItem id="rptoutgoinvat" icon="Icons.16x16.RptOutgoinVat" label="${res:MainMenu.PurchaseMenu.RptOutgoinVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinVat"/>
+				</MenuItem>
+				<MenuItem id="WHTReport" label="${res:MainMenu.ReportMenu.WHTReport}">
+					<MenuItem id="rptincomingwht" icon="Icons.16x16.RptIncomingWht" label="${res:MainMenu.PurchaseMenu.RptIncomingWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWht"/>
+					<MenuItem id="rptoutgoinwht" icon="Icons.16x16.RptOutgoinWht" label="${res:MainMenu.PurchaseMenu.RptOutgoinWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinWht"/>
+					<MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>
+					<MenuItem id="SpecialAccountWHTReport" icon="Icons.16x16.SpecialAccountWHTReport" label="${res:MainMenu.PurchaseMenu.SpecialAccountWHTReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialAccountWHT"/>										
+				</MenuItem>		
+		</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptincomingvat" entity="rptincomingvat" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel"/>
+		<EntityFilter id="rptoutgoinvat" entity="rptoutgoinvat" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingVatFilterSubPanel"/>
+		<EntityFilter id="rptincomingwht" entity="rptincomingwht" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtFilterSubPanel"/>
+		<EntityFilter id="rptoutgoinwht" entity="rptoutgoinwht" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingWhtFilterSubPanel"/>
+		<EntityFilter id="rptincomingwhtpnd" entity="rptincomingwhtpnd" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptincomingvat">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptoutgoinvat">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptincomingwht">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptoutgoinwht">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptincomingwhtpnd">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

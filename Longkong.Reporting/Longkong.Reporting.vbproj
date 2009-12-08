@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BCB30EC9-DCF6-44D3-8BA1-C3DBD1CE154C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Longkong.Reporting</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Longkong.Reporting/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Longkong.Reporting.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Longkong.Reporting.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>system.drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>system.windows.forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BarGraph.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Chart.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChartItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PieChart.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\Alignments.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\BorderPens.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\Bounds.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\FormatColumnEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\FormatSummaryRowEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\IDataColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\IReportMaker.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\LayeredSections.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\LinearRepeatableSections.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\LinearSections.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\PrintControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Printing\PrinterMarginInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\PrintLogic.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Printing\RepeatableTextSection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportBoolColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportBuilderException.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportDataColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportDocument.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportImageColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\ReportSection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionBox.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionBreak.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionContainer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionImage.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionLine.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionTable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\SectionText.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\TextStyle.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Printing\UpdateMathEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Printing\PrintControl.resx">
+      <DependentUpon>PrintControl.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

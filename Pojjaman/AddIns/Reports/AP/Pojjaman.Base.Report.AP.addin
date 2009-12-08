@@ -1,0 +1,106 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by aab (Ru-Board) -->
+<AddIn name="Pojjaman AP Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman AP Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.AP.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+			<MenuItem id="APReport" label="${res:MainMenu.ReportMenu.APReport}" insertafter="MatStockReport" insertbefore="ARRepot">
+				<MenuItem id="rptapopeningbalance" icon="Icons.16x16.RptAPOpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAPOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPOpeningBalance"/>			
+				<MenuItem id="rptap" icon="Icons.16x16.RptAP" label="${res:MainMenu.PurchaseMenu.RptAP.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAP"/>
+				<MenuItem id="rptapgl" icon="Icons.16x16.RptAPGL" label="${res:MainMenu.PurchaseMenu.RptAPGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGL"/>
+				<MenuItem id="rptapenumerate" icon="Icons.16x16.RptAPEnumerate" label="${res:MainMenu.PurchaseMenu.RptAPEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPEnumerate"/>
+				<MenuItem id="rptapremain" icon="Icons.16x16.RptAPRemain" label="${res:MainMenu.PurchaseMenu.RptAPRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemain"/>
+				<MenuItem id="rptapremaindetail" icon="Icons.16x16.RptAPRemainDetail" label="${res:MainMenu.PurchaseMenu.RptAPRemainDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemainDetail"/>
+				<MenuItem id="RptBillAcceptanceStatus" icon="Icons.16x16.RptBillAcceptanceStatus" label="${res:MainMenu.PurchaseMenu.RptBillAcceptanceStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBillAcceptanceStatus"/>
+				<MenuItem id="rptapbillacceptancebyduedate" icon="Icons.16x16.rptapbillacceptancebyduedate" label="${res:MainMenu.PurchaseMenu.RptAPBillAcceptanceByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.rptapbillacceptancebyduedate"/>
+				<MenuItem id="RptPaymentDue" icon="Icons.16x16.RptPaymentDue" label="${res:MainMenu.PurchaseMenu.RptPaymentDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentDue"/>
+				<MenuItem id="rptappayment" icon="Icons.16x16.RptAPPayment" label="${res:MainMenu.PurchaseMenu.RptAPPayment.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPPayment"/>
+				<MenuItem id="RptAPAging" icon="Icons.16x16.RptAPAging" label="${res:MainMenu.PurchaseMenu.RptAPAging.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPAging"/>				
+				<MenuItem id="rptapadvancepay" icon="Icons.16x16.RptAPAdvancePay" label="${res:MainMenu.PurchaseMenu.RptAPAdvancePay.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay"/>
+				<MenuItem id="RptSupplier" icon="Icons.16x16.RptSupplier" label="${res:MainMenu.PurchaseMenu.RptSupplier.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSupplier"/>
+				<MenuItem id="RptPaymentMethodSummary" icon="Icons.16x16.RptPaymentMethodSummary" label="${res:MainMenu.PurchaseMenu.RptPaymentMethodSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentMethodSummary"/>				
+				<MenuItem id="RptRetention" icon="Icons.16x16.RptRetention" label="${res:MainMenu.PurchaseMenu.RptRetention.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptRetention"/>
+				<MenuItem id="RptSubContractManagement" icon="Icons.16x16.RptSubContractManagement" label="${res:MainMenu.PurchaseMenu.RptSubContractManagement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSubContractManagement"/>
+				<MenuItem id="RptCashPurchase" icon="Icons.16x16.RptCashPurchase" label="${res:MainMenu.PurchaseMenu.RptCashPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCashPurchase"/>
+				<MenuItem id="RptCreditPurchase" icon="Icons.16x16.RptCreditPurchase" label="${res:MainMenu.PurchaseMenu.RptCreditPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCreditPurchase"/>
+			</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptapopeningbalance" entity="rptapopeningbalance" filter="Longkong.Pojjaman.Gui.Panels.RptAPOpeningBalanceFilterSubPanel"/>
+		<EntityFilter id="rptap" entity="rptap" filter="Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel"/>
+		<EntityFilter id="rptapgl" entity="rptapgl" filter="Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel"/>
+		<EntityFilter id="rptapenumerate" entity="rptapenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptAPEnumerateFilterSubPanel"/>
+		<EntityFilter id="rptapremain" entity="rptapremain" filter="Longkong.Pojjaman.Gui.Panels.RptAPRemainFilterSubPanel"/>
+		<EntityFilter id="rptapremaindetail" entity="rptapremaindetail" filter="Longkong.Pojjaman.Gui.Panels.RptAPRemainDetailFilterSubPanel"/>
+		<EntityFilter id="rptunreceivedpoitem" entity="rptunreceivedpoitem" filter="Longkong.Pojjaman.Gui.Panels.RptUnreceivedPOItemFilterSubPanel"/>
+		<EntityFilter id="rptapbillacceptancebyduedate" entity="rptapbillacceptancebyduedate" filter="Longkong.Pojjaman.Gui.Panels.RptAPBillAcceptanceByDueDateFilterSubPanel"/>
+		<EntityFilter id="rptappayment" entity="rptappayment" filter="Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel"/>
+		<EntityFilter id="rptapadvancepay" entity="rptapadvancepay" filter="Longkong.Pojjaman.Gui.Panels.RptAPAdvancePayFilterSubPanel"/>
+		<EntityFilter id="rptapaging" entity="rptapaging" filter="Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel"/>
+		<EntityFilter id="rptsupplier" entity="rptsupplier" filter="Longkong.Pojjaman.Gui.Panels.RptSupplierFilterSubPanel"/>
+		<EntityFilter id="rptpaymentdue" entity="rptpaymentdue" filter="Longkong.Pojjaman.Gui.Panels.RptPaymentDueFilterSubPanel"/>
+		<EntityFilter id="rptpaymentmethodsummary" entity="rptpaymentmethodsummary" filter="Longkong.Pojjaman.Gui.Panels.RptPaymentMethodSummaryFilterSubPanel"/>
+		<EntityFilter id="rptretention" entity="rptretention" filter="Longkong.Pojjaman.Gui.Panels.RptRetentionFilterSubPanel"/>
+		<EntityFilter id="rptsubcontractmanagement" entity="rptsubcontractmanagement" filter="Longkong.Pojjaman.Gui.Panels.RptSubContractManagementFilterSubPanel"/>
+		<EntityFilter id="rptcashpurchase" entity="rptcashpurchase" filter="Longkong.Pojjaman.Gui.Panels.RptCashPurchaseFilterSubPanel"/>
+		<EntityFilter id="rptcreditpurchase" entity="rptcreditpurchase" filter="Longkong.Pojjaman.Gui.Panels.RptCreditPurchaseFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptapopeningbalance">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptap">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapgl">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapenumerate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapremain">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptunreceivedpoitem">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapbillacceptancebyduedate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptappayment">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapadvancepay">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapaging">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptapremaindetail">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptsupplier">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptpaymentdue">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptpaymentmethodsummary">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptretention">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptsubcontractmanagement">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptcashpurchase">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptcreditpurchase">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

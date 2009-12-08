@@ -1,0 +1,27 @@
+<AddIn name="Pojjaman Test" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman test module" version="1.0.0">
+	<Runtime>
+		<!--<Import assembly="../bin/AddInTest.dll"/>-->
+
+	</Runtime>
+		<Extension path="/Pojjaman/Workbench/ToolBar/Standard">
+
+		</Extension>	
+		<Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
+				<ToolbarItem id="Refresh" insertafter="TestSeparator" icon="Icons.16x16.ILDasm" tooltip="Refresh Codedescription" class="Longkong.Pojjaman.Commands.RefreshCodeList"/>
+				<ToolbarItem id="ShowCodeDescription" insertafter="Refresh" icon="Icons.16x16.Info" tooltip="ShowCodeDescription" class="Longkong.Pojjaman.Commands.ShowCodeDescription"/>
+				<Conditional activewindow="*" action="Disable">
+					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" shortcut="Insert" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
+				</Conditional>		
+				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>						
+				<ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.Info" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
+		</Extension>			
+		<Extension path="/Pojjaman/Workbench/MainMenu">
+				<MenuItem id="Test" insertafter="Help" label="Test">
+						<MenuItem id="LinkForm" label="Form Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkForm"/>		
+						<MenuItem id="LinkReport" label="Report Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkReport"/>	
+						<MenuItem id="Test" label="Test" class="Longkong.Pojjaman.Commands.Test"/>
+						<MenuItem id="FormTester" label="FormTester" class="Longkong.Pojjaman.Commands.FormTester"/>
+						<MenuItem id="DatabaseSelection" label="DatabaseSelection" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
+				</MenuItem>
+		</Extension>
+</AddIn>

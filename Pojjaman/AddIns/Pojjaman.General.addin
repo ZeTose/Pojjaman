@@ -1,0 +1,109 @@
+<AddIn name="Pojjaman Entity Data" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="../bin/Pojjaman.BusinessLogic.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu">
+		<MenuItem id="File" label="${res:MainMenu.FileMenu}">
+			<MenuItem id="New" label="${res:MainMenu.FileMenu.New}">
+				<!--<MenuItem id="File" label="${res:MainMenu.FileMenu.New.File}" icon="Icons.16x16.NewDocumentIcon" description="${res:MainMenu.FileMenu.New.File.Description}" shortcut="Control|N" class="Longkong.Pojjaman.Commands.CreateNewFile"/>-->
+				<MenuItem id="CostCenter" label="${res:MainMenu.FileMenu.New.Project}" icon="Icons.16x16.NewProjectIcon" description="${res:MainMenu.FileMenu.New.Project.Description}" shortcut="Control|Shift|N" class="Longkong.Pojjaman.Commands.CreateNewProject"/>
+				<MenuItem id="Project" label="${res:MainMenu.FileMenu.New.CostCenter}" icon="Icons.16x16.CostCenter" description="${res:MainMenu.FileMenu.New.CostCenter.Description}" shortcut="Control|Alt|N" class="Longkong.Pojjaman.Commands.CreateNewCostCenter"/>
+			</MenuItem>
+			<!--<MenuItem id="Open" label="${res:MainMenu.FileMenu.Open}">
+				<MenuItem id="File" label="${res:MainMenu.FileMenu.Open.File}" icon="Icons.16x16.OpenFileIcon" description="D:\PerforceWorkSpace\Project\Pojjaman\AddIns\StartPage.addinx${res:MainMenu.FileMenu.Open.File.Description}" shortcut="Control|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
+				<MenuItem id="Project" label="${res:MainMenu.FileMenu.Open.Project}" icon="Icons.16x16.ProjectIcon" description="${res:MainMenu.FileMenu.Open.Project.Description}" shortcut="Control|Shift|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
+			</MenuItem>
+			<MenuItem id="Close" label="${res:MainMenu.FileMenu.Close}">
+				<Conditional activewindow="*" action="Disable">
+					<MenuItem id="CloseFile" label="${res:MainMenu.FileMenu.Close.File}" description="${res:MainMenu.FileMenu.Close.File.Desription}" shortcut="Control|F4" class="Longkong.Pojjaman.Commands.CloseFile"/>
+				</Conditional>
+			</MenuItem>-->
+			<!--<MenuItem id="ReloadSeparator" label="-"/>
+			<Conditional activewindow="*" action="Disable">
+				<MenuItem id="Reloadfile" label="${res:MainMenu.FileMenu.Reload}" shortcut="Shift|Control|U" description="${res:MainMenu.FileMenu.Reload.Description}" class="Longkong.Pojjaman.Commands.ReloadFile"/>
+			</Conditional>-->
+			<MenuItem id="SaveSeparator" label="-"/>
+			<Conditional windowstate="Dirty, Untitled" nowindowstate="ViewOnly" action="Disable">
+				<MenuItem id="Save" label="${res:MainMenu.FileMenu.Save}" icon="Icons.16x16.SaveIcon" description="${res:MainMenu.FileMenu.Save.Description}" shortcut="Control|S" class="Longkong.Pojjaman.Commands.SaveFile"/>
+			</Conditional>
+			<Conditional windowstate="None" nowindowstate="ViewOnly" action="Disable">
+				<MenuItem id="SaveAs" label="${res:MainMenu.FileMenu.SaveAs}" description="${res:MainMenu.FileMenu.SaveAs.Description}" class="Longkong.Pojjaman.Commands.SaveFileAs"/>
+			</Conditional>
+			<!--<Conditional openwindowstate="Dirty" action="Disable">
+				<MenuItem id="SaveAll" label="${res:MainMenu.FileMenu.SaveAll}" icon="Icons.16x16.SaveAllIcon" shortcut="Control|Shift|S" description="${res:MainMenu.FileMenu.SaveAll.Description}" class="Longkong.Pojjaman.Commands.SaveAllFiles"/>
+			</Conditional>-->
+			<MenuItem id="PrintSeparator" label="-"/>
+			<Conditional activewindow="*" action="Disable">
+				<MenuItem id="Print" label="${res:MainMenu.FileMenu.Print}" icon="Icons.16x16.Print" description="${res:MainMenu.FileMenu.Print.Description}" shortcut="Control|P" class="Longkong.Pojjaman.Commands.Print"/>
+				<MenuItem id="PrintPreview" label="${res:MainMenu.FileMenu.PrintPreview}" icon="Icons.16x16.PreView" description="${res:MainMenu.FileMenu.PrintPreview.Description}" class="Longkong.Pojjaman.Commands.PrintPreview"/>
+				<MenuItem id="PrintManager" label="${res:MainMenu.FileMenu.PrintManager}" icon="Icons.16x16.PrintManager" description="${res:MainMenu.FileMenu.PrintManager.Description}" class="Longkong.Pojjaman.Commands.PrintManager"/>
+			</Conditional>
+			<MenuItem id="RecentSeparator" label="-"/>
+			<MenuItem id="RecentFiles" attribute="RecentFiles" label="${res:MainMenu.FileMenu.RecentFiles}">
+				<MenuItem id="RecentFilesBuilder" label="boguslabel" class="Longkong.Pojjaman.Commands.RecentFilesMenuBuilder"/>
+				<MenuItem id="RecentFilesSeparator" label="-"/>
+				<MenuItem id="ClearRecentFiles" label="${res:MainMenu.FileMenu.ClearRecentFiles}" description="${res:MainMenu.FileMenu.ClearRecentFiles.Description}" class="Longkong.Pojjaman.Commands.ClearRecentFiles"/>
+			</MenuItem>
+			<MenuItem id="RecentEntities" attribute="RecentEntities" label="${res:MainMenu.FileMenu.RecentEntities}">
+				<MenuItem id="RecentEntitiesBuilder" label="boguslabel" class="Longkong.Pojjaman.Commands.RecentEntitiesMenuBuilder"/>
+				<MenuItem id="RecentEntitiesSeparator" label="-"/>
+				<MenuItem id="ClearRecentEntities" label="${res:MainMenu.FileMenu.ClearRecentEntities}" description="${res:MainMenu.FileMenu.ClearRecentEntities.Description}" class="Longkong.Pojjaman.Commands.ClearRecentEntities"/>
+			</MenuItem>
+			<MenuItem id="ExitSeparator" label="-"/>
+			<MenuItem id="LogOff" label="${res:MainMenu.FileMenu.LogOff}" shortcut="Control|Alt|F4" icon="Icons.16x16.LogOff" description="${res:MainMenu.FileMenu.LogOff.Description}" class="Longkong.Pojjaman.Commands.LogOff"/>
+			<MenuItem id="Exit" label="${res:MainMenu.FileMenu.Exit}" icon="Icons.16x16.CancelIcon" description="${res:MainMenu.FileMenu.Exit.Description}" class="Longkong.Pojjaman.Commands.ExitWorkbenchCommand"/>
+		</MenuItem>
+		<MenuItem id="Edit" label="${res:XML.MainMenu.EditMenu}" insertafter="File" insertbefore="CostCenter">
+			<!--<Conditional activewindow="*" action="Disable">
+				<MenuItem id="Undo" label="${res:XML.MainMenu.EditMenu.Undo}" icon="Icons.16x16.UndoIcon" description="${res:XML.MainMenu.EditMenu.Undo.Description}" shortcut="Control|Z" class="Longkong.Pojjaman.Commands.Undo"/>
+				<MenuItem id="Redo" label="${res:XML.MainMenu.EditMenu.Redo}" icon="Icons.16x16.RedoIcon" description="${res:XML.MainMenu.EditMenu.Redo.Description}" shortcut="Control|Y" class="Longkong.Pojjaman.Commands.Redo"/>
+			</Conditional>
+			<MenuItem id="Separator1" label="-"/>-->
+			<Conditional activewindow="*" action="Disable">
+				<MenuItem id="Cut" label="${res:XML.MainMenu.EditMenu.Cut}" icon="Icons.16x16.CutIcon" description="${res:XML.MainMenu.EditMenu.Cut.Description}" shortcut="Control|X" class="Longkong.Pojjaman.Commands.Cut"/>
+				<MenuItem id="Copy" label="${res:XML.MainMenu.EditMenu.Copy}" icon="Icons.16x16.CopyIcon" description="${res:XML.MainMenu.EditMenu.Copy.Description}" shortcut="Control|C" class="Longkong.Pojjaman.Commands.Copy"/>
+				<MenuItem id="Paste" label="${res:XML.MainMenu.EditMenu.Paste}" icon="Icons.16x16.PasteIcon" description="${res:XML.MainMenu.EditMenu.Paste.Description}" shortcut="Control|V" class="Longkong.Pojjaman.Commands.Paste"/>
+				<!--<MenuItem id="Delete" label="${res:XML.MainMenu.EditMenu.Delete}" icon="Icons.16x16.DeleteIcon" description="${res:XML.MainMenu.EditMenu.Delete.Description}" class="Longkong.Pojjaman.Commands.Delete"/>
+				<MenuItem id="SelectAll" label="${res:XML.MainMenu.EditMenu.SelectAll}" description="${res:XML.MainMenu.EditMenu.SelectAll.Description}" shortcut="Control|A" class="Longkong.Pojjaman.Commands.SelectAll"/>-->
+			</Conditional>
+		</MenuItem>
+		<Conditional applicationmode="Bidding" action="Exclude">
+			<MenuItem id="Bidding" label="${res:MainMenu.BiddingMenu}">
+				<!--<MenuItem id="NewProject" icon="Icons.16x16.NewProjectIcon" label="${res:MainMenu.FileMenu.New.Project.Description}" class="Longkong.Pojjaman.Commands.CreateNewProject"/>
+				<MenuItem id="OpenProject" icon="Icons.16x16.OpenProjectIcon" label="${res:MainMenu.FileMenu.Open.Project.Description}" class="Longkong.Pojjaman.Commands.OpenProject"/>
+				<MenuItem id="OpenProjectFromFile" icon="Icons.16x16.OpenProjectIcon" label="${res:MainMenu.FileMenu.Open.ProjectFromFile.Description}" class="Longkong.Pojjaman.Commands.OpenProjectFromFile"/>-->
+				<MenuItem id="BOQ" label="${res:MainMenu.BiddingMenu.BOQ.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BOQ"/>
+				<MenuItem id="project" label="${res:MainMenu.BiddingMenu.Project.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Project"/>
+			</MenuItem>
+		</Conditional>
+		<MenuItem id="View" label="${res:MainMenu.ViewMenu}">
+			<MenuItem id="MainViewBuilder" label="" class="Longkong.Pojjaman.Commands.MainSelectionMenuBuilder"/>
+			<MenuItem id="Tools" label="${res:MainMenu.ViewMenu.FormMenu}">
+				<MenuItem id="ViewBuilder" label="" class="Longkong.Pojjaman.Commands.SelectionMenuBuilder"/>
+			</MenuItem>
+		</MenuItem>
+		<MenuItem id="Window" label="${res:MainMenu.WindowMenu}">
+			<Conditional action="Disable">
+				<Condition activewindow="*"/>
+				<MenuItem id="NextWindow" label="${res:MainMenu.WindowMenu.NxtWindow}" icon="Icons.16x16.NextWindowIcon" description="${res:MainMenu.WindowMenu.NxtWindow.Description}" shortcut="Control|T" class="Longkong.Pojjaman.Commands.SelectNextWindow"/>
+				<MenuItem id="PrevWindow" label="${res:MainMenu.WindowMenu.PrvWindow}" icon="Icons.16x16.PrevWindowIcon" description="${res:MainMenu.WindowMenu.PrvWindow.Description}" shortcut="Shift|Control|T" class="Longkong.Pojjaman.Commands.SelectPrevWindow"/>
+				<MenuItem id="NxtPrvSeparator" label="-"/>
+				<MenuItem id="NextTab" label="${res:MainMenu.WindowMenu.NextTab}" icon="Icons.16x16.NextWindowIcon" description="${res:MainMenu.WindowMenu.NxtWindow.Description}" shortcut="Control|Tab" class="Longkong.Pojjaman.Commands.SelectNextTab"/>
+				<MenuItem id="PrevTab" label="${res:MainMenu.WindowMenu.PrevTab}" icon="Icons.16x16.PrevWindowIcon" description="${res:MainMenu.WindowMenu.PrvWindow.Description}" shortcut="Shift|Control|Tab" class="Longkong.Pojjaman.Commands.SelectPrevTab"/>
+				<MenuItem id="NextPreviousTabSeparator" label="-"/>
+				<MenuItem id="CloseAll" label="${res:MainMenu.FileMenu.CloseAll}" icon="Icons.16x16.CloseAllDocuments" description="${res:MainMenu.FileMenu.CloseAll.Description}" class="Longkong.Pojjaman.Commands.CloseAllWindows"/>
+			</Conditional>
+			<MenuItem id="FullScreenSeparator" label="-"/>
+			<MenuItem id="FullScreen" label="${res:MainMenu.ViewMenu.FullScreen}" icon="Icons.16x16.FullScreen" description="${res:MainMenu.ViewMenu.FullScreen.Description}" class="Longkong.Pojjaman.Commands.ToggleFullscreenCommand"/>
+			<MenuItem id="ContentBuilder" label="boguslabel" class="Longkong.Pojjaman.Commands.OpenContentsMenuBuilder"/>
+		</MenuItem>
+		<MenuItem id="Help" label="${res:MainMenu.HelpMenu}">
+			<MenuItem id="Help" label="${res:MainMenu.HelpMenu.Topics}" description="${res:MainMenu.HelpMenu.Topics.Description}" shortcut="Alt|F1"/>
+			<MenuItem id="Flow" label="${res:MainMenu.HelpMenu.Flow}" description="${res:MainMenu.HelpMenu.Flow.Description}" class="Longkong.Pojjaman.Commands.ShowFlow"/>
+			<MenuItem id="TipOfTheDay" label="${res:MainMenu.HelpMenu.Tips}" icon="Icons.16x16.TipOfTheDay" description="${res:MainMenu.HelpMenu.Tips.Description}" class="Longkong.Pojjaman.Commands.ViewTipOfTheDay"/>
+			<MenuItem id="Separator3" label="-"/>
+			<MenuItem id="About" label="${res:MainMenu.HelpMenu.About}" icon="Icons.16x16.AboutIcon" description="${res:MainMenu.HelpMenu.About.Description}" class="Longkong.Pojjaman.Commands.AboutPojjaman"/>
+			<MenuItem id="LKWeb" label="${res:MainMenu.HelpMenu.LKWeb}" icon="Icons.16x16.LKIcon" description="${res:MainMenu.HelpMenu.LKWeb.Description}" link="www.longkongstudio.com"/>
+		</MenuItem>
+	</Extension>
+</AddIn>

@@ -1,0 +1,71 @@
+<AddIn name="Pojjaman Cash-Bank Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.CashBank.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+		<Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
+		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="advancemoney" entity="advancemoney" filter="Longkong.Pojjaman.Gui.Panels.AdvanceMoneyFilterSubPanel"/>
+		<EntityFilter id="pettycashclaim" entity="pettycashclaim" filter="Longkong.Pojjaman.Gui.Panels.PettyCashClaimFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		
+		<EntityTab id="pettycash">
+			<EntityTab id="PettyCashDetail" view="Longkong.Pojjaman.Gui.Panels.PettyCashDetail"/>
+		</EntityTab>
+		<EntityTab id="pettycashclaim">
+			<EntityTab id="PettyCashClaimDetail" view="Longkong.Pojjaman.Gui.Panels.PettyCashClaimDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="pettycashclosed">
+			<EntityTab id="AssetSoldDetail" view="Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail"/>
+			<EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="advancemoney">
+			<EntityTab id="AdvanceMoneyDetail" view="Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="advancemoneyclosed">
+			<EntityTab id="AdvanceMoneyClosedDetail" view="Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail"/>
+			<EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="cashwithdraw">
+			<EntityTab id="CashWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.CashWithdrawDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="cashdeposite">
+			<EntityTab id="CashDepositDetail" view="Longkong.Pojjaman.Gui.Panels.CashDepositDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="bankcharge">
+			<EntityTab id="BankChargeDetail" view="Longkong.Pojjaman.Gui.Panels.BankChargeDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<!--<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>-->
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="bankinterest">
+			<EntityTab id="IncomeFromBank" view="Longkong.Pojjaman.Gui.Panels.IncomeFromBank"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="banktransfer">
+			<EntityTab id="BankTransferDetail" view="Longkong.Pojjaman.Gui.Panels.BankTransferDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="bankbranch">
+			<EntityTab id="BankBranchDetailView" view="Longkong.Pojjaman.Gui.Panels.BankBranchDetailView"/>
+		</EntityTab>	
+		<EntityTab id="bankaccount">
+			<EntityTab id="BankAccountDetailView" view="Longkong.Pojjaman.Gui.Panels.BankAccountDetailView"/>
+		</EntityTab>					
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="bank" entity="bank" view="Longkong.Pojjaman.Gui.Panels.BankListView"/>		
+	</Extension>	
+</AddIn>

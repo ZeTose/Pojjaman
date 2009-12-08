@@ -1,0 +1,5 @@
+<!-- This file is used to generate a xml help file which can be used
+     inside the Pojjaman help browser -->
+<HelpCollection>
+  <HelpFile hhc="Pojjaman.hhc" chm="Pojjaman.chm"/>
+</HelpCollection>

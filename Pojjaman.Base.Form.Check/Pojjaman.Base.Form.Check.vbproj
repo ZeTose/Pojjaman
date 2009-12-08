@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2CB56E6D-A3FD-4567-9F7A-DBD49FFCC335}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.Base.Form.Check</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.Base.Form.Check/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.Check.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.Check.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\CheckChangeDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CheckDiscountDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CheckRunningView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ExportOutgoingCheckDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\IncomingCheckDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\IncomingCheckFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\OutgoingCheckDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\OutgoingCheckFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdateDepositCheckDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdateDepositCheckFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdateDiscountCheckDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdateIncomingCheckDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdateOutgoingCheckDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Powerline\PLE_OutgoingCheckDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="GUI\CheckChangeDetail.resx">
+      <DependentUpon>CheckChangeDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CheckDiscountDetail.resx">
+      <DependentUpon>CheckDiscountDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CheckRunningView.resx">
+      <DependentUpon>CheckRunningView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ExportOutgoingCheckDetail.resx">
+      <DependentUpon>ExportOutgoingCheckDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\IncomingCheckDetailView.resx">
+      <DependentUpon>IncomingCheckDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\IncomingCheckFilterSubPanel.resx">
+      <DependentUpon>IncomingCheckFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\OutgoingCheckDetailView.resx">
+      <DependentUpon>OutgoingCheckDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\OutgoingCheckFilterSubPanel.resx">
+      <DependentUpon>OutgoingCheckFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdateDepositCheckDetail.resx">
+      <DependentUpon>UpdateDepositCheckDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdateDepositCheckFilterSubPanel.resx">
+      <DependentUpon>UpdateDepositCheckFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdateDiscountCheckDetail.resx">
+      <DependentUpon>UpdateDiscountCheckDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdateIncomingCheckDetail.resx">
+      <DependentUpon>UpdateIncomingCheckDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdateOutgoingCheckDetail.resx">
+      <DependentUpon>UpdateOutgoingCheckDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Powerline\PLE_OutgoingCheckDetailView.resx">
+      <DependentUpon>PLE_OutgoingCheckDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Name>Longkong.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
+      <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
+      <Name>Pojjaman.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Name>Pojjaman.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Name>Longkong.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Forms\Check</PostBuildEvent>
+  </PropertyGroup>
+</Project>

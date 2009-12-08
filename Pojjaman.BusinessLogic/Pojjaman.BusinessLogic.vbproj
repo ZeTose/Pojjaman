@@ -1,0 +1,811 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{99405137-4677-441A-94A2-24638C285A67}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.BusinessLogic</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.BusinessLogic/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.BusinessLogic.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants>Version="GigaSite"</DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.BusinessLogic.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Name>Longkong.Core.Services</Name>
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Name>Longkong.Core</Name>
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Name>Pojjaman.CustomControls</Name>
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Name>Pojjaman.Data</Name>
+      <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <Reference Include="Syncfusion.Grid.Windows">
+      <Name>Syncfusion.Grid.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base">
+      <Name>Syncfusion.Shared.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>system.drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>system.windows.forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessEntities\Accounting\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\AccountBook.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\Accounting.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\AccountLink.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\AccountPeriod.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\CloseAccountPeriod.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\DocPrintingItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\GLFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\GLYearEnd.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\IGLAble.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\JournalEntry.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\JournalEntryItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\LinkGL.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Accounting\OpenningBalance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\AdvancePay.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\APOpeningBalance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\APVatInput.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\BillAcceptance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\PaySelection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\PurchaseCN.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\PurchaseDN.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\Supplier.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\SupplierContact.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AP\SupplierLCICost.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\AROpeningBalance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\Customer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\CustomerContact.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\GoodsSold.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\GoodsSoldItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\PaymentApplication\BillIssue.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\PaymentApplication\MileStone.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\PaymentApplication\MileStoneItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\PaymentApplication\PaymentApplication.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\PaymentApplication\ReceiveSelection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\SaleBillIssue.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\SaleCN.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AR\SaleDN.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\Asset.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\AssetSold.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\AssetSoldItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\DepreciationCal.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\EqMaintenance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Asset\WriteOff.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Attachment\Attachment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\Column.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\EditableCollectionBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\EntityBaseClass.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\EntityFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\Parameter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\PersonEntityBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\SimpleBusinessEntityBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\SimpleEntityFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\StockItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\StockItemBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\TreeBaseEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BusinessEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BusinessEntityCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BusinessItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\BusinessObject.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\AdvanceMoney.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\AdvanceMoneyClosed.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\Bank.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\BankAccount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\BankBranch.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\BankCharge.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\Banking.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\BankInterest.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\BankTransfer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\CashDeposite.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\CashWithdraw.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\PettyCash.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\PettyCashClaim.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CashBank\PettyCashClosed.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Check.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\CheckChange.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\CheckDiscount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\CheckReplace.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\IncomingCheck.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\UpdateCheckDeposit.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\UpdateCheckDiscount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Incoming\UpdateCheckReceive.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Outgoing\ExportOutgoingCheck.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Outgoing\OutgoingCheck.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Check\Outgoing\UpdateCheckPayment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Comment\Comment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Configurations\Configuration.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Configurations\Department.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Configurations\Employee.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Configurations\Person.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\BOQ.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\BoqItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\Markup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\Project.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\WBS.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\WBSDistribute.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Construction\WBSProgress.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\BasketItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\ContentInterfaces.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\Discount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\IItemCapable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\IItemColectionsCapable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\ItemPropertyChangeEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\IUnitCapable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CostCenter\CostCenter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CostCenter\CostCenterUserAccess.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Currency\Country.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\CustomNote\CustomNote.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Documents\FormFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Documents\LinkForm.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Documents\LinkReport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Documents\ReportFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EquipmentReturn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EquipmentSotckCount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EquipmentStockReport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EquipmentWithdraw.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\MatEq.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\MatLab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\MatSup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolManagement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolOpenningBalance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolReturn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolStockAdjust.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolStockAdjustItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolStockCount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolStockCountItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\ToolWithdraw.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\AdvanceFind.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\CodeDescription.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\CodeDescriptionService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\CodeDescriptionsEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\Entity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\ICodeDescription.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\PJMModule.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\General\Province.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\EqCost.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\Equipment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\Labor.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\LCI.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\LCIEquipmentCost.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\LCILaborCost.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\LCISupplierCost.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\Tool.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Items\Unit.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatOpenningBalance.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatReturn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatStockAdjust.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatStockAdjustItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatStockCount.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatStockCountItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatWithdraw.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatWithdrawItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\StockSequence.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Payment\IPayble.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Payment\Payment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\ApprovalComment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\ApprovalDocLevel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\GoodsReceipt.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\GoodsReceiptItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\PO.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\PODeliveryTime.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\POItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\POPlaceOfDelivery.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\POTerm.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\PR.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\PRItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\PurchaseRetention.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Procurement\UnlockDoc.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Receive\AdvanceReceive.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Receive\IReceivable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Receive\Receive.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\FinancialCodedescription.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\FinancialFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\FinancialStatementFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\FinancialStatementFormatItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\FinancialStatementItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\LinkFinancialCodedescription.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\LinkFinancialStatement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\Financial Statement\RptFinancialStatement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\New Financial Statement\FFormat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\New Financial Statement\LinkFinancial.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\New Financial Statement\LinkFinancialItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\RptGLPaper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\RptGLStatementBalanceSheet.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Accounting\GL\RptJVAutomatic.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\ComplexReport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\Report.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\ReportColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Reports\RptLogFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Security\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Security\Access.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Security\Right.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Security\RightUser.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Security\User.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\DR.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\DRItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\Interface.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\PA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\PAItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\SC.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\SCItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\VO.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Subcontract\VOItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Vat\ITaxable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Vat\Vat.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessEntities\Vat\WithholdingTax.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CodeGenerator.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Copy of ListCol.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ListCol.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SearchCriteria.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

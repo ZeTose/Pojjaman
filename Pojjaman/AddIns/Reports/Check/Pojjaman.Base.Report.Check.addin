@@ -1,0 +1,67 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by any (Ru-Board) -->
+<AddIn name="Pojjaman Check Reports" author="Neng" copyright="2005" url="http://www.LongKongStudio.com" description="Pojjaman Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.Check.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+			<MenuItem id="CheckReport" label="${res:MainMenu.ReportMenu.CheckReport}" insertafter="BankCheckReport" insertbefore="TaxReport">
+				<MenuItem id="rptincomingcheck" icon="Icons.16x16.RptIncomingCheck" label="${res:MainMenu.PurchaseMenu.RptIncomingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingCheck"/>			
+				<MenuItem id="rptincomingcheckenumerate" icon="Icons.16x16.RptIncomingCheckEnumerate" label="${res:MainMenu.PurchaseMenu.RptIncomingCheckEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate"/>
+				<MenuItem id="rptoutgoingcheck" icon="Icons.16x16.RptOutgoingCheck" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck"/>
+				<MenuItem id="rptoutgoingcheckenumerate" icon="Icons.16x16.RptOutgoingCheckEnumerate" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckEnumerate"/>
+				<MenuItem id="rptoutgoingcheckpettycash" icon="Icons.16x16.RptOutgoingCheckPettyCash" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckPettyCash"/>
+				<MenuItem id="rptbanktransfer" icon="Icons.16x16.RptBankTransfer" label="${res:MainMenu.PurchaseMenu.RptBankTransfer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankTransfer"/>
+        <!-- <MenuItem id="rptreceivebycheck" icon="Icons.16x16.RptReceiveByCheck" label="${res:MainMenu.PurchaseMenu.RptReceiveByCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptReceiveByCheck"/>			
+				<MenuItem id="rptpaymentbycheck" icon="Icons.16x16.RptPaymentByCheck" label="${res:MainMenu.PurchaseMenu.RptPaymentByCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentByCheck"/>-->	
+				<MenuItem id="rptcheckstatement" icon="Icons.16x16.RptCheckStatement" label="${res:MainMenu.PurchaseMenu.RptCheckStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckStatement"/>
+				<MenuItem id="rptbankstatement" icon="Icons.16x16.RptBankStatement" label="${res:MainMenu.PurchaseMenu.RptBankStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankStatement"/>
+				<MenuItem id="rptbankaccount" icon="Icons.16x16.RptBankAccount" label="${res:MainMenu.PurchaseMenu.RptBankAccount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankAccount"/>				
+			</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptoutgoingcheck" entity="rptoutgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel"/>
+		<EntityFilter id="rptoutgoingcheckenumerate" entity="rptoutgoingcheckenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckEnumerateFilterSubPanel"/>
+		<EntityFilter id="rptoutgoingcheckpettycash" entity="rptoutgoingcheckpettycash" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckPettyCashFilterSubPanel"/>
+		<EntityFilter id="rptincomingcheck" entity="rptincomingcheck" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingCheckFilterSubPanel"/>
+		<EntityFilter id="rptincomingcheckenumerate" entity="rptincomingcheckenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingCheckEnumerateFilterSubPanel"/>
+		    <!-- <EntityFilter id="rptpaymentbycheck" entity="rptpaymentbycheck" filter="Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel"/>
+<EntityFilter id="rptreceivebycheck" entity="rptreceivebycheck" filter="Longkong.Pojjaman.Gui.Panels.RptReceiveByCheckFilterSubPanel"/>-->
+		<EntityFilter id="rptcheckstatement" entity="rptcheckstatement" filter="Longkong.Pojjaman.Gui.Panels.RptCheckStatementFilterSubPanel"/>
+		<EntityFilter id="rptpettycash" entity="rptpettycash" filter="Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel"/>
+		<EntityFilter id="rptadvancemoney" entity="rptadvancemoney" filter="Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptoutgoingcheck">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptoutgoingcheckenumerate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptoutgoingcheckpettycash">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptincomingcheck">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptincomingcheckenumerate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	  <!-- 	<EntityTab id="rptpaymentbycheck">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+  <EntityTab id="rptreceivebycheck">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>-->
+		<EntityTab id="rptcheckstatement">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptpettycash">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptadvancemoney">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

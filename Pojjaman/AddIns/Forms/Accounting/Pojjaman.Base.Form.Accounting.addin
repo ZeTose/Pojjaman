@@ -1,0 +1,47 @@
+<AddIn name="Pojjaman Accounting Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="accountperiod" entity="accountperiod" filter="Longkong.Pojjaman.Gui.Panels.AccountPeriodFilterSubPanel"/>
+		<EntityFilter id="account" entity="account" filter="Longkong.Pojjaman.Gui.Panels.AccountFilterSubPanel"/>
+		<EntityFilter id="journalentry" entity="journalentry" filter="Longkong.Pojjaman.Gui.Panels.JournalEntryFilterSubPanel"/>
+		<EntityFilter id="vatgroup" entity="vatgroup" filter="Longkong.Pojjaman.Gui.Panels.VatGroupFilterSubPanel"/>	
+		<EntityFilter id="closeaccountperiod" entity="closeaccountperiod" filter="Longkong.Pojjaman.Gui.Panels.CloseAccountPeriodFilterSubPanel"/>
+		<EntityFilter id="journalentryupdate" entity="journalentryupdate" filter="Longkong.Pojjaman.Gui.Panels.JournalEntryFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="country">
+			<EntityTab id="CountryDetail" view="Longkong.Pojjaman.Gui.Panels.CountryDetail"/>
+		</EntityTab>	
+		<EntityTab id="account">
+			<EntityTab id="AccountDetailView" view="Longkong.Pojjaman.Gui.Panels.AccountDetailView"/>
+		</EntityTab>
+		<EntityTab id="journalentry">
+			<EntityTab id="JournalEntryDetail" view="Longkong.Pojjaman.Gui.Panels.JournalEntryDetail"/>
+		</EntityTab>		
+		<EntityTab id="glyearend">
+			<EntityTab id="GLYearEndView" view="Longkong.Pojjaman.Gui.Panels.GLYearEndView"/>
+		</EntityTab>	
+		<EntityTab id="vatgroup">
+			<EntityTab id="VatGroupDetailView" view="Longkong.Pojjaman.Gui.Panels.VatGroupDetailView"/>
+		</EntityTab>
+		<EntityTab id="closeaccountperiod">
+			<EntityTab id="CloseAccountPeriod" view="Longkong.Pojjaman.Gui.Panels.CloseAccountPeriodView"/>
+		<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="openningbalance">
+			<EntityTab id="openningbalance" view="Longkong.Pojjaman.Gui.Panels.OpenningBalanceDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>			
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="vatitem" entity="vat" view="Longkong.Pojjaman.Gui.Panels.VatItemSelectionView"/>
+		<EntityListView id="vatforselection" entity="vatforselection" view="Longkong.Pojjaman.Gui.Panels.VatItemSelectionView"/>		
+		<EntityListView id="vat" entity="vat" view="Longkong.Pojjaman.Gui.Panels.VatItemPanelView"/>
+		<EntityListView id="linkgl" entity="linkgl" view="Longkong.Pojjaman.Gui.Panels.LinkGLDetail"/>		
+		<EntityListView id="accountlink" entity="accountlink" view="Longkong.Pojjaman.Gui.Panels.AccountLinkDetail"/>	
+		<EntityListView id="accountperiod" entity="accountperiod" view="Longkong.Pojjaman.Gui.Panels.AccountPeriodView"/>
+		<EntityListView id="accountbook" entity="accountbook" view="Longkong.Pojjaman.Gui.Panels.AccountBookListView"/>			
+	</Extension>		
+</AddIn>

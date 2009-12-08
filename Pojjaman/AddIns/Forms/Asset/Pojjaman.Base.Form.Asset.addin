@@ -1,0 +1,54 @@
+<AddIn name="Pojjaman Asset Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Asset.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+		<Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="equipmentwithdraw" entity="equipmentwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqWithdrawFilterSubPanel"/>
+		<EntityFilter id="assetwithdraw" entity="assetwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqWithdrawFilterSubPanel"/>
+		<EntityFilter id="assetreturn" entity="assetreturn" filter="Longkong.Pojjaman.Gui.Panels.EqReturnDetailFilterSubPanel"/>
+		<EntityFilter id="asset" entity="asset" filter="Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel"/>
+		<EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>	
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="assetwithdraw">
+			<EntityTab id="AssetWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail"/>
+			<EntityTab id="InternalCharegDetail" view="Longkong.Pojjaman.Gui.Panels.InternalCharegDetail"/>
+		</EntityTab>		
+		<EntityTab id="assetreturn">
+			<EntityTab id="AssetReturnDetail" view="Longkong.Pojjaman.Gui.Panels.AssetReturnDetail"/>
+		</EntityTab>
+		
+		<EntityTab id="asset">
+			<EntityTab id="AssetDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetDetailView"/>
+			<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
+			<EntityTab id="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.EqRentalSummary"/>
+		</EntityTab>
+		<EntityTab id="assettype">
+			<EntityTab id="AssetTypeDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetTypeDetailView"/>
+		</EntityTab>
+
+		<EntityTab id="eqmaintenance">
+			<EntityTab id="EqMaintenance" view="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail"/>
+			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="eqmanagement">
+			<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
+		</EntityTab>
+		<EntityTab id="depreciationcal">
+			<EntityTab id="DepreciationCalDetail" view="Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>	
+		<EntityTab id="depre">
+			<EntityTab id="DepreDetail" view="Longkong.Pojjaman.Gui.Panels.DepreDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>			
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/PreAddViews">
+		<PreAddView id="asset" view="Longkong.Pojjaman.Gui.Panels.AssetSelectionView"/>
+	</Extension>
+</AddIn>

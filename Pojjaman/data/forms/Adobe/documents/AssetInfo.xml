@@ -1,0 +1,1080 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by aab (Ru-Board) -->
+<template>
+	<subform name="form1" layout="tb" locale="th_TH">
+		<pageSet>
+			<pageArea name="Page1" id="Page1">
+				<contentArea x="0.25in" y="0.25in" w="197.3mm" h="284.3mm"/>
+				<medium stock="a4" short="210mm" long="297mm"/>
+			</pageArea>
+		</pageSet>
+		<subform w="197.3005mm" h="284.3001mm">
+			<draw name="StaticImage1" w="29.6333mm" h="25.4mm" x="2.1166mm" y="2.1166mm">
+				<value>
+					<image href="=Logo" aspect="none"/>
+				</value>
+				<ui>
+					<imageEdit/>
+				</ui>
+			</draw>
+			<draw name="StaticImage1" w="65.616mm" h="67.733mm" x="118.5328mm" y="23.2834mm">
+				<value>
+					<image xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" aspect="none" xsi:nil="true" href="=PicImage"/>
+				</value>
+				<ui>
+					<imageEdit/>
+				</ui>
+			</draw>
+			<draw name="StaticText20" y="23.2834mm" x="31.7498mm" w="2.833319in" h="0.502in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ข้อมูลสินทรัพย์</text>
+				</value>
+				<font size="22pt" typeface="BrowalliaUPC" baselineShift="0pt" weight="bold"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 201165 33310 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 60 0085006F00B000A400BC00A800AD00B7009C009A00A600B400A100A500CD 1 51785 24845 0 0 0 "BrowalliaUPC" 1 0 22000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="48.683mm" x="12.7mm" w="84.6663mm" h="0.258972in">
+				<?renderCache.bounds 201165 33310 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 60 0085006F00B000A400BC00A800AD00B7009C009A00A600B400A100A500CD 1 51785 24845 0 0 0 "BrowalliaUPC" 1 0 22000 UTF-16?>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>เครื่องจักร</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+			</draw>
+			<draw name="StaticText20" y="86.7829mm" x="4.2337mm" w="1.249972in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ข้อมูลด้านบัญชี :</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt" weight="bold"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 87164 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 68 0085006F00B000A400BC00A80097006F00B5009C009D00B40090008D00B80003001D 1 1417 13633 0 0 0 "BrowalliaUPC" 1 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="114.2999mm" x="4.2337mm" w="1.249972in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ข้อมูลที่ตั้ง :</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt" weight="bold"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 87164 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 60 0085006F00B000A400BC00A8009A00B800C9009800B400CA008A0003001D 1 1417 13633 0 0 0 "BrowalliaUPC" 1 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="141.8161mm" x="4.2337mm" w="2.249972in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ข้อมูลการคิดค่าเสื่อมราคา :</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt" weight="bold"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 159164 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 108 0085006F00B000A400BC00A8008400B500A6008700B700970087006E00B500C100AD00BA00C900B000A400A600B5008700B50003001D 1 1417 13633 0 0 0 "BrowalliaUPC" 1 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="154.5161mm" x="55.033mm" w="0.666667in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ปี</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 45166 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 8 009E0065 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="146.049mm" x="182.0326mm" w="0.601069in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>บาท</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 40443 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 12 009D00B5009A 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="173.5664mm" x="55.033mm" w="0.666681in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>% ต่อปี</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 45167 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 28 000800030098006E00B0009E0065 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<field name="txtDeliverToCompanyName" y="35.9832mm" x="4.2332mm" w="93.0794mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC" weight="bold"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para vAlign="middle" marginLeft="0pt"/>
+				<caption reserve="22.0466mm">
+					<font size="14pt" typeface="BrowalliaUPC" weight="bold"/>
+					<para vAlign="middle"/>
+					<value>
+						<text>รหัสสินทรัพย์</text>
+					</value>
+				</caption>
+				<value>
+					<text>=AssetCode</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="42.3328mm" x="4.2332mm" w="93.1312mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="22.0466mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ชื่อสินทรัพย์</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=AssetName</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="55.0324mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="23.6333mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>สถานะสินทรัพย์</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=AssetStatus</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="61.3828mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="23.6333mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>หน่วยนับ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=UnitInfo</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="148.1661mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ประเภทการคำนวณ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=CalcType</text>
+				</value>
+			</field>
+			<draw name="StaticText20" y="182.0329mm" x="4.2337mm" w="2.249972in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>ข้อมูลการซื้อ :</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt" weight="bold"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 159164 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 60 0085006F00B000A400BC00A8008400B500A6008E00BA00CA00B00003001D 1 1417 13633 0 0 0 "BrowalliaUPC" 1 0 14000 UTF-16?>
+			</draw>
+			<field name="txtDeliverToCity" y="188.3829mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>วันที่ซื้อ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=BuyDate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="188.3828mm" x="103.7163mm" w="78.3167mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>เลขที่เอกสารซื้อ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=BuyDocCode</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="194.7328mm" x="103.7162mm" w="78.3163mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>วันที่ซื้อ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=BuyDocDate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="194.7329mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ราคาซื้อ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=BuyPrice</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="201.0829mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ผู้ขาย</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=BuyFrom</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="160.8662mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>วันที่เริ่มคำนวณ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=StartCalcDate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="167.2161mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>วันที่สิ้นสุดคำนวณ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=EndCalcDate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="173.5661mm" x="4.2334mm" w="50.7996mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>อัตราการคำนวณ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=CalcRate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="148.1661mm" x="103.6298mm" w="78.4028mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="32.01mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ค่าเสื่อมราคาเบื้องต้น</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=StartCalcAmt</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="154.5161mm" x="103.6298mm" w="78.4028mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="32.01mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ราคาซาก</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=Salvage</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="160.8661mm" x="103.6298mm" w="78.4028mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="35.19mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ค่าเสื่อมราคาสะสมยกมา</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=DepreOpenningAmt</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="167.2161mm" x="103.6298mm" w="78.4028mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="35.19mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>มูลค่าคงเหลือยกมา</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=RemainingValue</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="154.5161mm" x="4.2334mm" w="50.7996mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="28.84mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>อายุค่าเสื่อม</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=Age</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="67.7328mm" x="4.2332mm" w="93.1358mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="25.7466mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ประเภทสินทรัพย์</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=AssetTypeInfo</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="120.6493mm" x="4.2334mm" w="186.266mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="37.04mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>Cost Center ที่เก็บ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=CostCenterInfo</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="126.999mm" x="4.2334mm" w="186.266mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="37.04mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ที่ตั้ง</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=Location</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="74.083mm" x="4.2334mm" w="93.133mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="23.55mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ค่าเช่าพื้นฐาน</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=RentalRate</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="133.3489mm" x="4.2334mm" w="186.266mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="37.04mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>หมายเหตุ</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=Note</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="93.1332mm" x="4.2332mm" w="186.213mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="39.16mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ผังบัญชีสินทรัพย์ถาวร</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=AccountInfo</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" x="33.8665mm" w="158.751mm" h="6.35mm" y="3.1749mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden"/>
+							<corner>
+                     </corner>
+							<corner>
+                     </corner>
+							<corner presence="hidden"/>
+							<corner/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="12pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="0in">
+					<font size="12pt" typeface="BrowalliaUPC"/>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>CompanyName</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" x="33.8665mm" w="158.751mm" h="6.35mm" y="8.4666mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden"/>
+							<corner>
+                     </corner>
+							<corner>
+                     </corner>
+							<corner presence="hidden"/>
+							<corner/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="12pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="10.5866mm">
+					<font size="12pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ที่อยู่</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>CompanyAddress</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" x="33.8666mm" w="50.7996mm" h="6.35mm" y="14.8166mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden"/>
+							<corner>
+                     </corner>
+							<corner>
+                     </corner>
+							<corner presence="hidden"/>
+							<corner/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="12pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="17.3966mm">
+					<font size="12pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>โทรศัพท์</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>CompanyPhone</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" x="88.9mm" w="48.6826mm" h="6.35mm" y="14.8166mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden"/>
+							<corner>
+                     </corner>
+							<corner>
+                     </corner>
+							<corner presence="hidden"/>
+							<corner/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="12pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="13.192mm">
+					<font size="12pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>แฟกซ์</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>CompanyFax</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="99.4832mm" x="4.2332mm" w="185.9527mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="39.16mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ผังบัญชีค่าเสื่อมราคาสะสม</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=DepreOpeningAccountInfo</text>
+				</value>
+			</field>
+			<field name="txtDeliverToCity" y="105.833mm" x="4.2334mm" w="186.266mm" h="6.35mm">
+				<ui>
+					<textEdit>
+						<border>
+							<edge presence="hidden">
+                     </edge>
+							<edge presence="hidden">
+                     </edge>
+							<edge/>
+							<edge presence="hidden"/>
+						</border>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="14pt" typeface="BrowalliaUPC"/>
+				<margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+				<para marginLeft="0pt" vAlign="middle"/>
+				<caption reserve="39.42mm">
+					<font size="14pt" typeface="BrowalliaUPC"/>
+					<value>
+						<text>ผังบัญชีค่าเสื่อมราคา</text>
+					</value>
+					<para vAlign="middle"/>
+				</caption>
+				<value>
+					<text>=DepreAccountInfo</text>
+				</value>
+			</field>
+			<draw name="StaticText20" y="152.3994mm" x="182.0331mm" w="0.601069in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>บาท</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 40443 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 12 009D00B5009A 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="158.7494mm" x="182.0327mm" w="0.601069in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>บาท</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 40443 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 12 009D00B5009A 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<draw name="StaticText20" y="165.0994mm" x="182.0327mm" w="0.601069in" h="0.258972in">
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<value>
+					<text>บาท</text>
+				</value>
+				<font size="14pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+				<para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+				<?renderCache.bounds 40443 15812 0 0 1417 1417 0 0?>
+				<?renderCache.textRun 12 009D00B5009A 1 1417 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+			</draw>
+			<field name="chkCheck" y="48.683mm" x="4.2337mm" w="8.4663mm" h="6.35mm">
+				<ui>
+					<checkButton>
+						<border>
+							
+						</border>
+						<margin/>
+					</checkButton>
+				</ui>
+				<font typeface="BrowalliaUPC"/>
+				<margin leftInset="1mm" rightInset="1mm"/>
+				<para vAlign="middle"/>
+				<value>
+					<integer>0</integer>
+					<check>Equipment</check>
+				</value>
+				<caption placement="right" reserve="6.4663mm">
+					<para vAlign="middle"/>
+					<font typeface="BrowalliaUPC" size="14pt"/>
+				</caption>
+				<items>
+					<integer>1</integer>
+					<integer>0</integer>
+					<integer>2</integer>
+				</items>
+			</field>
+		</subform>
+		<proto/>
+		<?renderCache.subset "BrowalliaUPC" 0 0 UTF-16 2 312 00030008002000240026002700280029002C002F0031003300440046004700480049004B004C00500051005200530055005600570058005B005C0065006E006F008400850087008A008B008D008E009000930096009700980099009A009C009D009E009F00A100A200A300A400A500A600A800AA00AB00AD00AE00B000B300B400B500B700B800BA00BB00BC00C100C200C300C800C900CA00CD00CE?>
+		<?renderCache.subset "BrowalliaUPC" 1 0 UTF-16 2 160 0003001D00200026004700480052006E006F008400850087008A008B008D008E009000970098009A009C009D00A100A400A500A600A800AD00AE00B000B400B500B700B800BA00BC00C100C900CA00CD?>
+	</subform>
+</template>

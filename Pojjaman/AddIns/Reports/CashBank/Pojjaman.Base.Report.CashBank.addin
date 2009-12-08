@@ -1,0 +1,25 @@
+<AddIn name="Pojjaman Cash-Bank Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman CashBank Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.CashBank.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+			<MenuItem id="BankCheckReport" label="${res:MainMenu.ReportMenu.BankCheckReport}" insertbefore="CheckReport" insertafter="AccountingReport">
+				<MenuItem id="rptpettycash" icon="Icons.16x16.RptPettyCash" label="${res:MainMenu.PurchaseMenu.RptPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPettyCash"/>
+				<MenuItem id="rptadvancemoney" icon="Icons.16x16.RptAdvanceMoney" label="${res:MainMenu.PurchaseMenu.RptAdvanceMoney.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney"/>				
+			</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptbankaccount" entity="rptbankaccount" filter="Longkong.Pojjaman.Gui.Panels.RptBankAccountFilterSubPanel"/>
+		<EntityFilter id="rptbankstatement" entity="rptbankstatement" filter="Longkong.Pojjaman.Gui.Panels.RptBankStatementFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptbankstatement">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptbankaccount">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

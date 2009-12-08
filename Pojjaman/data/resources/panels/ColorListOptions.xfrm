@@ -1,0 +1,71 @@
+<Components version="1.0">
+  <System.Windows.Forms.UserControl>
+    <Name value="MyUserControl" />
+    <DockPadding value="" />
+    <ClientSize value="{Width=280, Height=296}" />
+    <Controls>
+      <System.Windows.Forms.GroupBox>
+        <Name value="groupBox" />
+        <TabIndex value="0" />
+        <Location value="{X=4,Y=8}" />
+        <Anchor value="Top, Left, Right" />
+        <Size value="{Width=272, Height=188}" />
+        <Text value="${res:Dialog.Options.PojjamanOptions.ColorListOptions.ColorListGroupBox}" />
+        <Controls>
+           <System.Windows.Forms.Button>
+            <Name value="addButton" />
+            <Location value="{X=128,Y=40}" />
+            <Text value="${res:Global.AddButtonText}" />
+            <TabIndex value="4" />
+          </System.Windows.Forms.Button>
+          <System.Windows.Forms.Button>
+            <Name value="changeButton" />
+            <Location value="{X=128,Y=68}" />
+            <Text value="${res:Global.ChangeButtonText}" />
+            <TabIndex value="5" />
+          </System.Windows.Forms.Button>
+          <System.Windows.Forms.Button>
+            <Name value="removeButton" />
+            <Location value="{X=128,Y=96}" />
+            <Text value="${res:Global.RemoveButtonText}" />
+            <TabIndex value="6" />
+          </System.Windows.Forms.Button>
+          <System.Windows.Forms.Button>
+            <Name value="moveUpButton" />
+            <Location value="{X=128,Y=124}" />
+            <Text value="${res:Global.MoveUpButtonText}" />
+            <TabIndex value="7" />
+          </System.Windows.Forms.Button>
+          <System.Windows.Forms.Button>
+            <Name value="moveDownButton" />
+            <Location value="{X=128,Y=152}" />
+            <Text value="${res:Global.MoveDownButtonText}" />
+            <TabIndex value="8" />
+          </System.Windows.Forms.Button>   
+          <System.Windows.Forms.Button>
+            <Name value="defaultButton" />
+            <Location value="{X=208,Y=40}" />
+            <Text value="${res:Global.SetToDefaultButtonText}" />
+            <TabIndex value="9" />
+          </System.Windows.Forms.Button>                             
+          <System.Windows.Forms.Label>
+            <Name value="label" />
+            <Text value="${res:Dialog.Options.PojjamanOptions.ColorListOptions.ColorListLabel}" />
+            <TextAlign value="CenterLeft" />
+            <TabIndex value="0" />
+            <Size value="{Width=112, Height=20}" />
+            <Location value="{X=8,Y=20}" />
+          </System.Windows.Forms.Label>
+          <System.Windows.Forms.ListBox>
+            <Name value="colorListBox" />
+            <DrawMode value="OwnerDrawFixed" />
+            <ItemHeight value="24" />
+            <TabIndex value="1" />
+            <Location value="{X=8,Y=40}" />
+            <Size value="{Width=112, Height=145}" />
+          </System.Windows.Forms.ListBox>
+        </Controls>
+      </System.Windows.Forms.GroupBox>
+    </Controls>
+  </System.Windows.Forms.UserControl>
+</Components>

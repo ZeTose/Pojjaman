@@ -1,0 +1,50 @@
+<System.Windows.Forms.UserControl>
+  <Name value="WelcomePanel" />
+  <Size value="{Width=408, Height=368}" />
+  <DockPadding value="" />
+  <Controls>
+    <System.Windows.Forms.TextBox>
+      <Text value="" />
+      <Multiline value="True" />
+      <Name value="textBox" />
+      <Size value="{Width=392, Height=80}" />
+      <Location value="{X=8,Y=8}" />
+      <TabIndex value="4" />
+      <ReadOnly value="True" />
+    </System.Windows.Forms.TextBox>
+    <System.Windows.Forms.Label>
+      <Name value="label3" />
+      <Text value="${res:Dialog.NewProject.NameLabelText}" />
+      <TextAlign value="MiddleRight" />
+      <Anchor value="Bottom, Left" />
+      <TabIndex value="4" />
+      <Size value="{Width=100, Height=23}" />
+      <Location value="{X=8,Y=100}" />
+    </System.Windows.Forms.Label>    
+     <System.Windows.Forms.TextBox>
+       <Name value="nameTextBox" />
+       <Anchor value="Bottom, Left, Right" />
+       <TabIndex value="5" />
+       <Location value="{X=110,Y=100}" />
+       <Size value="{Width=260, Height=21}" />
+       <Text value="" />
+     </System.Windows.Forms.TextBox>
+    <System.Windows.Forms.Label>
+      <Name value="label4" />
+      <Text value="${res:Dialog.NewProject.CustomerNameLabelText}" />
+      <TextAlign value="MiddleRight" />
+      <Anchor value="Bottom, Left" />
+      <TabIndex value="4" />
+      <Size value="{Width=100, Height=23}" />
+      <Location value="{X=8,Y=150}" />
+    </System.Windows.Forms.Label>        
+     <System.Windows.Forms.ComboBox>
+       <Name value="customerNameTextBox" />
+       <Anchor value="Bottom, Left, Right" />
+       <TabIndex value="5" />
+       <Location value="{X=110,Y=150}" />
+       <Size value="{Width=260, Height=21}" />
+       <Text value="" />
+     </System.Windows.Forms.ComboBox>     
+  </Controls>
+</System.Windows.Forms.UserControl>

@@ -1,0 +1,17 @@
+<System.Windows.Forms.UserControl>
+  <Name value="WelcomePanel" />
+  <DataBindings value="System.Windows.Forms.ControlBindingsCollection" />
+  <Size value="{Width=408, Height=368}" />
+  <DockPadding value="" />
+  <Controls>
+    <System.Windows.Forms.TextBox>
+      <Text value="" />
+      <Multiline value="True" />
+      <Name value="textBox" />
+      <Size value="{Width=392, Height=248}" />
+      <Location value="{X=8,Y=8}" />
+      <TabIndex value="4" />
+      <ReadOnly value="True" />
+    </System.Windows.Forms.TextBox>
+  </Controls>
+</System.Windows.Forms.UserControl>

@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AADC202-6B5E-4555-AA07-5861BEF8C962}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.Base.Form.AP</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.Base.Form.AP/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.AP.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.AP.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Syncfusion.Core">
+      <Name>Syncfusion.Core</Name>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Base">
+      <Name>Syncfusion.Grid.Base</Name>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Windows">
+      <Name>Syncfusion.Grid.Windows</Name>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base">
+      <Name>Syncfusion.Shared.Base</Name>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows">
+      <Name>Syncfusion.Shared.Windows</Name>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApprovalComment\AdvanceApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApprovalComment\ApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AP\AdvancePayDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\AdvancePayFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\APOnpeningBalanceFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\APOpeningBalancePanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\APVatInputDetaill.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\BillAcceptanceDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\BillAcceptanceFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\BillAcceptanceSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\PaySelectionDetaill.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\PaySelectionFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupMatDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupplierAuxDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupplierContactDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupplierDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupplierFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AP\SupplierGroupDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Payment\OtherPayment.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Payment\PaymentOutDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PO\POFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PO\POPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PR\PRItemsSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PR\PRPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\GoodsReceiptDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\GoodsReceiptFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\GoodsReceiptForOperationDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\GoodsReceiptSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\PurchaseCNDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\PurchaseCNFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\PurchaseDNDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchase\PurchaseDNFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Unlock\UnlockForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="ApprovalComment\AdvanceApprovalCommentForm.resx">
+      <DependentUpon>AdvanceApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
+      <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\AdvancePayDetail.resx">
+      <DependentUpon>AdvancePayDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\AdvancePayFilterSubPanel.resx">
+      <DependentUpon>AdvancePayFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\APOnpeningBalanceFilterSubPanel.resx">
+      <DependentUpon>APOnpeningBalanceFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\APOpeningBalancePanelView.resx">
+      <DependentUpon>APOpeningBalancePanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\APVatInputDetaill.resx">
+      <DependentUpon>APVatInputDetaill.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\BillAcceptanceDetail.resx">
+      <DependentUpon>BillAcceptanceDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\BillAcceptanceFilterSubPanel.resx">
+      <DependentUpon>BillAcceptanceFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\BillAcceptanceSelectionView.resx">
+      <DependentUpon>BillAcceptanceSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\PaySelectionDetaill.resx">
+      <DependentUpon>PaySelectionDetaill.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\PaySelectionFilterSubPanel.resx">
+      <DependentUpon>PaySelectionFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupMatDetail.resx">
+      <DependentUpon>SupMatDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierAuxDetailView.resx">
+      <DependentUpon>SupplierAuxDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierContactDetailView.resx">
+      <DependentUpon>SupplierContactDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierDetailView.resx">
+      <DependentUpon>SupplierDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierFilterSubPanel.resx">
+      <DependentUpon>SupplierFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierGroupDetailView.resx">
+      <DependentUpon>SupplierGroupDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Payment\OtherPayment.resx">
+      <DependentUpon>OtherPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Payment\PaymentOutDetail.resx">
+      <DependentUpon>PaymentOutDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PO\POFilterSubPanel.resx">
+      <DependentUpon>POFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PO\POPanelView.resx">
+      <DependentUpon>POPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PR\PRItemsSelectionView.resx">
+      <DependentUpon>PRItemsSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PR\PRPanelView.resx">
+      <DependentUpon>PRPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\GoodsReceiptDetail.resx">
+      <DependentUpon>GoodsReceiptDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\GoodsReceiptFilterSubPanel.resx">
+      <DependentUpon>GoodsReceiptFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\GoodsReceiptForOperationDetail.resx">
+      <DependentUpon>GoodsReceiptForOperationDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\GoodsReceiptSelectionView.resx">
+      <DependentUpon>GoodsReceiptSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\PurchaseCNDetailView.resx">
+      <DependentUpon>PurchaseCNDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\PurchaseCNFilterSubPanel.resx">
+      <DependentUpon>PurchaseCNFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\PurchaseDNDetailView.resx">
+      <DependentUpon>PurchaseDNDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\PurchaseDNFilterSubPanel.resx">
+      <DependentUpon>PurchaseDNFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unlock\UnlockForm.resx">
+      <DependentUpon>UnlockForm.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdobeForm\AdobeForm.vbproj">
+      <Project>{40356FC7-5CB0-4D70-BCF4-7F67BE8D3AC7}</Project>
+      <Name>AdobeForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Name>Longkong.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
+      <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
+      <Name>Pojjaman.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Name>Pojjaman.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Name>Longkong.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Forms\AP</PostBuildEvent>
+  </PropertyGroup>
+</Project>

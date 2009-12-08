@@ -1,0 +1,58 @@
+﻿<AddIn name="Pojjaman Configuration Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Configuration.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		
+		<EntityTab id="employee">
+			<EntityTab id="EmployeeDetailView" view="Longkong.Pojjaman.Gui.Panels.EmployeeDetailView"/>
+		</EntityTab>
+
+		<EntityTab id="user">
+			<EntityTab id="UserDetailView" view="Longkong.Pojjaman.Gui.Panels.UserDetailView"/>
+			<EntityTab id="AccessDetailView" view="Longkong.Pojjaman.Gui.Panels.AccessDetailView"/>
+			<!--<EntityTab id="AccessDetail" view="Longkong.Pojjaman.Gui.Panels.AccessDetail"/>-->
+		</EntityTab>
+		<EntityTab id="role">
+			<EntityTab id="RoleDetailView" view="Longkong.Pojjaman.Gui.Panels.RoleDetailView"/>
+			<EntityTab id="AccessDetailView" view="Longkong.Pojjaman.Gui.Panels.AccessDetailView"/>
+			<!--<EntityTab id="AccessDetail" view="Longkong.Pojjaman.Gui.Panels.AccessDetail"/>-->
+		</EntityTab>
+		<EntityTab id="right">
+			<EntityTab id="RightDetailView" view="Longkong.Pojjaman.Gui.Panels.RightDetailView"/>
+		</EntityTab>
+				
+	</Extension>
+	<Extension path="/Pojjaman/Dialogs/OptionsDialog">
+		<DialogPanel id="CompanyOptions" label="${res:Dialog.Options.TreeViewOptions.CompanyOptionsText}">
+			<!--<Conditional accessid="14" acesslevel="8" action="Exclude">-->
+				<DialogPanel id="ConfigurationView" label="${res:Dialog.Options.PojjamanOptions.ConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.ConfigurationView"/>
+			<!--</Conditional>-->
+		</DialogPanel>
+		<DialogPanel id="UIOptions" label="${res:Dialog.Options.TreeViewOptions.PojjamanOptionsText}">
+			<DialogPanel id="NumberConfigurationView" label="${res:Dialog.Options.PojjamanOptions.NumberConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.NumberConfigurationView"/>
+			<DialogPanel id="CheckConfigurationView" label="${res:Dialog.Options.PojjamanOptions.CheckConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.CheckConfigurationView"/>			
+			<DialogPanel id="ApproveConfigurationView" label="${res:Dialog.Options.PojjamanOptions.ApproveConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView"/>
+			<DialogPanel id="OverBudgetConfigurationView" label="${res:Dialog.Options.PojjamanOptions.OverBudgetConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.OverBudgetConfigurationView"/>
+			<DialogPanel id="AttachmentConfigurationView" label="${res:Dialog.Options.PojjamanOptions.AttachmentConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.AttachmentConfigurationView"/>
+			<!--<DialogPanel id="AliasConfigurationView" label="${res:Dialog.Options.PojjamanOptions.AliasConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.AliasConfigurationView"/>-->
+			<DialogPanel id="SelectCulture" label="${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.PojjamanOptionPanel"/>
+			<!--<DialogPanel id="ColorListOptions" label="${res:Dialog.Options.PojjamanOptions.ColorListOptions.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.ColorListOptions"/>-->
+		</DialogPanel>
+		<DialogPanel id="RunNumber" label="${res:Dialog.Options.TreeViewOptions.RunNumberText}">
+			<DialogPanel id="RunNumberView" label="${res:Dialog.Options.PojjamanOptions.RunNumberView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.RunNumberView"/>
+			<DialogPanel id="DuplicateRunConfigurationView" label="${res:Dialog.Options.PojjamanOptions.DuplicateRunConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.DuplicateRunConfigurationView"/>
+		</DialogPanel>
+		<DialogPanel id="StockConfig" label="${res:Dialog.Options.TreeViewOptions.StockConfigText}">
+			<DialogPanel id="StockConfigurationView" label="${res:Dialog.Options.PojjamanOptions.StockConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.StockConfigurationView"/>
+			<DialogPanel id="UnitPriceAdviceView" label="${res:Dialog.Options.PojjamanOptions.UnitPriceAdviceView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.UnitPriceAdviceView"/>
+		</DialogPanel>
+		<!--<DialogPanel id="BiddingAttributeOptions" label="${res:Dialog.Options.TreeViewOptions.BiddingAttributeOptionsText}">
+			<DialogPanel id="TestOption" label="${res:Dialog.Options.PojjamanOptions.ColorListOptions.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.ColorListOptions"/>
+		</DialogPanel>-->
+	</Extension>	
+</AddIn>

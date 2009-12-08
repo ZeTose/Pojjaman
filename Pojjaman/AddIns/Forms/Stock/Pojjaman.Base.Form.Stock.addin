@@ -1,0 +1,107 @@
+<AddIn name="Pojjaman Stock Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Stock.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		
+		<EntityFilter id="unit" entity="unit" filter="Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel"/>
+		<EntityFilter id="costcenter" entity="costcenter" filter="Longkong.Pojjaman.Gui.Panels.CostCenterDetailFilterSubpanel"/>		
+		<EntityFilter id="labor" entity="labor" filter="Longkong.Pojjaman.Gui.Panels.LaborDetailFilterSubpanel"/>
+		<EntityFilter id="eqcost" entity="eqcost" filter="Longkong.Pojjaman.Gui.Panels.EqCostDetailFilterSubpanel"/>
+		<EntityFilter id="tool" entity="tool" filter="Longkong.Pojjaman.Gui.Panels.ToolDetailFilterSubpanel"/>
+		<EntityFilter id="matwithdraw" entity="matwithdraw" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
+		<EntityFilter id="matreturn" entity="matreturn" filter="Longkong.Pojjaman.Gui.Panels.MatReturnFilterSubPanel"/>
+		<EntityFilter id="matopenningbalance" entity="matopenningbalance" filter="Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceFilterSubPanel"/>
+		<EntityFilter id="toolwithdraw" entity="toolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.ToolWithdrawFilterSubPanel"/>
+		<EntityFilter id="toolreturn" entity="toolreturn" filter="Longkong.Pojjaman.Gui.Panels.ToolReturnFilterSubPanel"/>
+    
+    <EntityFilter id="stocksequence" entity="stocksequence" filter="Longkong.Pojjaman.Gui.Panels.StockSequenceFilterSubPanel"/>
+
+  </Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="lciitem">
+			<EntityTab id="MaterialDetailView" view="Longkong.Pojjaman.Gui.Panels.MaterialDetailView"/>
+			<EntityTab id="MatSupDetail" view="Longkong.Pojjaman.Gui.Panels.MatSupDetail"/>
+			<EntityTab id="MatLabDetail" view="Longkong.Pojjaman.Gui.Panels.MatLabDetail"/>
+			<EntityTab id="MatEquipmentDetail" view="Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail"/>
+		</EntityTab>
+		<EntityTab id="costcenter">
+			<EntityTab id="CostCenterDetailView" view="Longkong.Pojjaman.Gui.Panels.CostCenterDetailView"/>		
+		</EntityTab>
+
+		<EntityTab id="labor">
+			<EntityTab id="LaborDetailView" view="Longkong.Pojjaman.Gui.Panels.LaborDetailView"/>
+		</EntityTab>
+		<EntityTab id="tool">
+			<EntityTab id="ToolDetailView" view="Longkong.Pojjaman.Gui.Panels.ToolDetailView"/>
+		</EntityTab>
+
+		
+		<EntityTab id="unit">
+			<!--<EntityTab id="UnitDetailView" view="Longkong.Pojjaman.Gui.Panels.UnitDetailView"/>-->
+		</EntityTab>
+		
+
+		<EntityTab id="matwithdraw">
+			<EntityTab id="MatWithdrawDetailView" view="Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="matreturn">
+			<EntityTab id="MatReturnDetailView" view="Longkong.Pojjaman.Gui.Panels.MatReturnDetailView"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		
+		<EntityTab id="matwithdrawforoperation">
+			<EntityTab id="MatWithdrawForOperationDetailView" view="Longkong.Pojjaman.Gui.Panels.MatWithdrawForOperationDetailView"/>
+		</EntityTab>
+		<EntityTab id="matreturnforoperation">
+			<EntityTab id="MatReturnForOperationDetailView" view="Longkong.Pojjaman.Gui.Panels.MatReturnForOperationDetailView"/>
+		</EntityTab>
+				
+		<EntityTab id="matstockcount">
+			<EntityTab id="MatStockCountDetailView" view="Longkong.Pojjaman.Gui.Panels.MatStockCountDetailView"/>
+			<EntityTab id="MatStockReportDetail" view="Longkong.Pojjaman.Gui.Panels.MatStockReportDetail"/>
+			<!--<EntityTab id="MatStockAdjustDetail" view="Longkong.Pojjaman.Gui.Panels.MatStockAdjustDetail"/>-->
+		</EntityTab>
+		<EntityTab id="matstockreport">
+			<EntityTab id="MatStockReportDetail" view="Longkong.Pojjaman.Gui.Panels.MatStockReportDetail"/>
+		</EntityTab>
+		<EntityTab id="toolwithdraw">
+			<EntityTab id="ToolWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail"/>
+		</EntityTab>
+		<EntityTab id="toolreturn">
+			<EntityTab id="ToolReturnDetail" view="Longkong.Pojjaman.Gui.Panels.ToolReturnDetail"/>
+		</EntityTab>
+		<EntityTab id="toolstockcount">
+			<EntityTab id="ToolStockCountDetailView" view="Longkong.Pojjaman.Gui.Panels.ToolStockCountDetailView"/>
+			<EntityTab id="ToolStockReportDetail" view="Longkong.Pojjaman.Gui.Panels.ToolStockReportDetail"/>
+		</EntityTab>
+		<EntityTab id="toolstockreport">
+			<EntityTab id="MatStockReportDetail" view="Longkong.Pojjaman.Gui.Panels.MatStockReportDetail"/>
+		</EntityTab>
+		<EntityTab id="toolmanagement">
+			<EntityTab id="ToolManagementView" view="Longkong.Pojjaman.Gui.Panels.ToolManagementView"/>
+		</EntityTab>
+		<EntityTab id="matopenningbalance">
+			<EntityTab id="MatOpenningBalanceDetailView" view="Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="toolopenningbalance">
+			<EntityTab id="ToolOpenningBalanceDetail" view="Longkong.Pojjaman.Gui.Panels.ToolOpenningBalanceDetail"/>
+		</EntityTab>
+	
+		<EntityTab id="eqcost">
+			<EntityTab id="EqCostDetail" view="Longkong.Pojjaman.Gui.Panels.EqCostDetail"/>
+		</EntityTab>
+
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	
+		<EntityListView id="lciitem" entity="lciitem" view="Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView"/>
+		<EntityListView id="lciforselection" entity="lciforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterMatListDetail"/>
+		<EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>
+    
+    <EntityListView id="stocksequence" entity="stocksequence" view="Longkong.Pojjaman.Gui.Panels.StockSequenceDetail"/>                                                                                                 
+  </Extension>	
+</AddIn>

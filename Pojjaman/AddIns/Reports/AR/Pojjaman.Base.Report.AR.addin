@@ -1,0 +1,71 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by any (Ru-Board) -->
+<AddIn name="Pojjaman AR Reports" author="Neng" copyright="2005" url="http://www.LongKongStudio.com" description="Pojjaman Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.AR.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+			<MenuItem id="ARRepot" label="${res:MainMenu.ReportMenu.ARReport}" insertafter="APReport" insertbefore="AccountingReport">
+				<MenuItem id="RptAROpeningBalance" icon="Icons.16x16.RptAROpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAROpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAROpeningBalance"/>
+				<MenuItem id="RptAR" icon="Icons.16x16.RptAR" label="${res:MainMenu.PurchaseMenu.RptAR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAR"/>
+				<MenuItem id="RptAREnumerate" icon="Icons.16x16.RptAREnumerate" label="${res:MainMenu.PurchaseMenu.RptAREnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAREnumerate"/>
+				<MenuItem id="RptARRemain" icon="Icons.16x16.RptARRemain" label="${res:MainMenu.PurchaseMenu.RptARRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARRemain"/>
+				<!--<MenuItem id="RptARRemainDetail" icon="Icons.16x16.RptARRemainDetail" label="${res:MainMenu.PurchaseMenu.RptARRemainDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARRemainDetail"/>-->
+				<MenuItem id="RptARBillIssueByDueDate" icon="Icons.16x16.RptARBillIssueByDueDate" label="${res:MainMenu.PurchaseMenu.RptARBillIssueByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate"/>
+				<MenuItem id="RptReceiveDue" icon="Icons.16x16.RptReceiveDue" label="${res:MainMenu.PurchaseMenu.RptReceiveDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptReceiveDue"/>		
+				<MenuItem id="RptARReceive" icon="Icons.16x16.RptARReceive" label="${res:MainMenu.PurchaseMenu.RptARReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARReceive"/>			
+				<MenuItem id="RptARAging" icon="Icons.16x16.RptARAging" label="${res:MainMenu.PurchaseMenu.RptARAging.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAging"/>
+				<MenuItem id="RptARAdvanceReceive" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptARAdvanceReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive"/>
+				<MenuItem id="RptCustomer" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptCustomer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCustomer"/>
+			</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptaropeningbalance" entity="rptaropeningbalance" filter="Longkong.Pojjaman.Gui.Panels.RptAROpeningBalanceFilterSubPanel"/>
+		<EntityFilter id="rptaraging" entity="rptaraging" filter="Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel"/>
+		<EntityFilter id="rptarbillissuebyduedate" entity="rptarbillissuebyduedate" filter="Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel"/>
+		<EntityFilter id="rptarremain" entity="rptarremain" filter="Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel"/>
+		<EntityFilter id="rptaradvancereceive" entity="rptaradvancereceive" filter="Longkong.Pojjaman.Gui.Panels.RptARAdvanceReceiveFilterSubPanel"/>
+		<EntityFilter id="rptarreceive" entity="rptarreceive" filter="Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel"/>
+		<EntityFilter id="rptar" entity="rptar" filter="Longkong.Pojjaman.Gui.Panels.RptARFilterSubPanel"/>
+		<EntityFilter id="rptarenumerate" entity="rptarenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel"/>
+		<!--<EntityFilter id="rptarremaindetail" entity="rptarremaindetail" filter="Longkong.Pojjaman.Gui.Panels.RptARRemainDetailFilterSubPanel"/>-->
+		<EntityFilter id="rptcustomer" entity="rptcustomer" filter="Longkong.Pojjaman.Gui.Panels.RptCustomerFilterSubPanel"/>
+		<EntityFilter id="rptreceivedue" entity="rptreceivedue" filter="Longkong.Pojjaman.Gui.Panels.RptReceiveDueFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptaropeningbalance">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptaraging">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptarbillissuebyduedate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptarremain">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptaradvancereceive">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptarreceive">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptar">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptarenumerate">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<!--<EntityTab id="rptarremaindetail">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>-->
+		<EntityTab id="rptcustomer">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptreceivedue">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

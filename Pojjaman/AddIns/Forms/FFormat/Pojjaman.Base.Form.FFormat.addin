@@ -1,0 +1,18 @@
+<AddIn name="Pojjaman FFormat Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.FFormat.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">				
+		<EntityFilter id="fformat" entity="fformat" filter="Longkong.Pojjaman.Gui.Panels.FFormatFilterSubPanel"/>
+		
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="fformat">
+			<EntityTab id="FFormatDetailView" view="Longkong.Pojjaman.Gui.Panels.FFormatDetailView"/>
+			<EntityTab id="FFormatItemView" view="Longkong.Pojjaman.Gui.Panels.FFormatItemView"/>
+			<EntityTab id="FFormatValueView" view="Longkong.Pojjaman.Gui.Panels.FFormatValueView"/>
+			<EntityTab id="FFormatPreview" view="Longkong.Pojjaman.Gui.Panels.FFormatPreview"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

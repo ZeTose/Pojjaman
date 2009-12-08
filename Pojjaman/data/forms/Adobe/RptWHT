@@ -1,0 +1,2611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by any (Ru-Board) -->
+<template>
+	<subform name="form1" layout="tb" locale="th_TH">
+		<pageSet>
+			<pageArea name="Page1" id="Page1">
+				<contentArea x="0.25in" y="0.25in" w="197.3mm" h="284.3mm"/>
+				<medium stock="a4" short="210mm" long="297mm"/>
+			</pageArea>
+		</pageSet>
+		<subform w="201.2378mm" h="284.6899mm">
+			<draw name="Rectangle2" y="50.2701mm" x="4.2333mm" w="191.5583mm" h="42.1598mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="T1" x="8.8744mm" y="25.6156mm" w="35.814mm" h="7.0358mm">
+				<value>
+					<text>ผู้มีหน้าที่หักภาษี ณ ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T2" x="44.6884mm" y="25.6156mm" w="5.842mm" h="7.0358mm">
+				<value>
+					<text>:-</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T3" x="8.8744mm" y="31.4068mm" w="5.2578mm" h="7.0358mm">
+				<value>
+					<text>ชื่อ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T4" x="12.8876mm" y="32.4736mm" w="94.2594mm" h="5.2324mm">
+				<value>
+					<text>...........................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T5" x="8.8744mm" y="40.1698mm" w="7.4168mm" h="7.0358mm">
+				<value>
+					<text>ที่อยู่</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T6" x="14.9958mm" y="41.2366mm" w="6.888in" h="0.206in">
+				<value>
+					<text>......................................................................................................................................................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="R8" x="167.8157mm" y="31.627mm" w="16.9051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R12" x="148.7657mm" y="31.627mm" w="16.9051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L13" x="165.5932mm" y="34.3257mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R17" x="142.4157mm" y="31.627mm" w="4.2051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L18" x="146.4162mm" y="34.3257mm" w="2.2437mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R19" x="186.8657mm" y="31.574mm" w="4.2404mm" h="4.9636mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L20" x="184.7278mm" y="34.1987mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R21" x="133.2082mm" y="25.9296mm" w="16.9404mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R26" x="126.8582mm" y="25.9296mm" w="4.2051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L27" x="173.6788mm" y="28.4837mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L27" x="131.0068mm" y="28.4414mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L31" x="150.4378mm" y="28.399mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R32" x="152.4522mm" y="25.8061mm" w="21.3325mm" h="5.0341mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L34" x="184.4738mm" y="28.399mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R35" x="175.7355mm" y="25.8943mm" w="8.6325mm" h="4.7696mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R35" x="186.8304mm" y="26.1942mm" w="4.2404mm" h="4.2404mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T36" x="107.2994mm" y="31.9148mm" w="33.7058mm" h="5.8674mm">
+				<value>
+					<text>เลขประจำตัวผู้เสียภาษีอากร</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T37" x="97.7744mm" y="26.1998mm" w="27.4066mm" h="5.8674mm">
+				<value>
+					<text>เลขประจำตัวประชาชน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T38" x="170.4724mm" y="13.9316mm" w="7.62mm" h="5.8674mm">
+				<value>
+					<text>เล่มที่</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T39" x="684" y="14.2872mm" w="0.744in" h="0.206in">
+				<value>
+					<text>...............................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T40" x="170.6724mm" y="19.0116mm" w="7.112mm" h="5.8674mm">
+				<value>
+					<text>เลขที่ </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			
+			<draw name="T42" x="684" y="19.3672mm" w="19.431mm" h="5.2324mm">
+				<value>
+					<text>..............................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T43" x="69.7074mm" y="11.544mm" h="9.0424mm" w="61.1886mm">
+				<value>
+					<text>หนังสือรับรองการหักภาษี ณ ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="18pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T44" x="72.8316mm" y="18.6306mm" w="16.129mm" h="6.8326mm">
+				<value>
+					<text>ตามมาตรา</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="14pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T45" x="88.9606mm" y="18.6306mm" w="4.8514mm" h="6.8326mm">
+				<value>
+					<text>50</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="14pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T46" x="93.7358mm" y="18.6306mm" w="34.0106mm" h="6.8326mm">
+				<value>
+					<text>ทวิ แห่งประมวลรัษฎากร</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="14pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T47" x="1.6608mm" y="1.13mm" w="10.7188mm" h="6.0198mm">
+				<value>
+					<text>ฉบับที่ 1</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T49" x="14.1069mm" y="1.13mm" w="3.979389in" h="0.198694in">
+				<value>
+					<text>(สำหรับผู้ถูกหักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T51" x="1.6609mm" y="6.21mm" h="0.237in" w="0.420833in">
+				<value>
+					<text>ฉบับที่ 2</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T54" x="14.304mm" y="6.21mm" w="2.249319in" h="0.226in">
+				<value>
+					<text>(สำหรับผู้ถูกหักภาษี ณ ที่จ่าย เก็บไว้เป็นหลักฐาน)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T57" x="18.7551mm" y="36.3361mm" w="2.442056in" h="0.187083in">	
+						
+			<value>
+					<text>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>			
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font posture="italic" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+		
+			<draw name="T60" x="18.755mm" y="44.564mm" w="0.704in" h="0.188in">
+				<value>
+					<text>( ให้ระบุ ชื่ออาคาร </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T61" x="35.3666mm" y="44.564mm" w="0.635mm" h="4.7752mm">
+				<value>
+					<text> / </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T62" x="36.027mm" y="44.564mm" w="36.3982mm" h="4.7752mm">
+				<value>
+					<text>หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T63" x="71.1552mm" y="44.564mm" w="0.635mm" h="4.7752mm">
+				<value>
+					<text> / </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T64" x="71.8156mm" y="44.564mm" w="23.0124mm" h="4.7752mm">
+				<value>
+					<text>ซอย หมู่ที่ ถนน ตำบล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T65" x="93.558mm" y="44.564mm" w="0.635mm" h="4.7752mm">
+				<value>
+					<text> / </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T66" x="94.2184mm" y="44.564mm" w="13.5128mm" h="4.7752mm">
+				<value>
+					<text>แขวง อำเภอ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T67" x="106.4866mm" y="44.564mm" w="0.635mm" h="4.7752mm">
+				<value>
+					<text> / </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T68" x="107.1216mm" y="44.564mm" w="12.4714mm" h="4.7752mm">
+				<value>
+					<text>เขต จังหวัด </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T69" x="118.323mm" y="44.564mm" w="0.762mm" h="4.7752mm">
+				<value>
+					<text> ) </text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T72" x="16.5692mm" y="63.5mm" w="2.441in" h="0.166667in">
+				<value>			
+					<text>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T74" x="14.8689mm" y="72.7072mm" w="3.413097in" h="0.188in">
+				<value>
+					<text>( ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด ) </text>
+		
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R85" x="25.3428mm" y="77.414mm" w="17.8647mm" h="5.6586mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.96pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T87" x="38.2114mm" y="96.3546mm" w="42.3418mm" h="7.0358mm">
+				<value>
+					<text>ประเภทเงินได้พึงประเมินที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T88" x="117.7134mm" y="93.1288mm" w="0.534in" h="0.277in">
+				<value>
+					<text>วัน เดือน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T89" x="112.7858mm" y="98.4374mm" w="0.921in" h="0.277in">
+				<value>
+					<text>หรือปีภาษี ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T90" x="141.5894mm" y="96.3038mm" w="22.7838mm" h="7.0358mm">
+				<value>
+					<text>จำนวนเงินที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T91" x="9.3824mm" y="105.0922mm" w="1.651mm" h="6.35mm">
+				<value>
+					<text>1</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T92" x="11.0842mm" y="105.0922mm" w="0.8128mm" h="6.35mm">
+				<value>
+					<text>.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T93" x="13.3449mm" y="105.0922mm" w="2.078681in" h="0.25in">
+				<value>
+					<text>เงินเดือน ค่าจ้าง เบี้ยเลี้ยง โบนัส ฯลฯ ตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T94" x="66.3426mm" y="105.0922mm" w="0.607528in" h="0.257in">
+				<value>
+					<text>มาตรา 40(1)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T98" x="9.3824mm" y="110.3754mm" w="3.8354mm" h="6.35mm">
+				<value>
+					<text>2.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T99" x="13.3448mm" y="110.3754mm" w="46.2788mm" h="6.35mm">
+				<value>
+					<text>ค่าธรรมเนียม ค่านายหน้า ฯลฯ ตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T100" x="58.5044mm" y="110.3754mm" w="0.637333in" h="0.257in">
+				<value>
+					<text>มาตรา 40(2)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T102" x="9.3824mm" y="115.684mm" w="3.8354mm" h="6.35mm">
+				<value>
+					<text>3.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T103" x="13.3448mm" y="115.684mm" w="31.8008mm" h="6.35mm">
+				<value>
+					<text>ค่าแห่งลิขสิทธิ์ ฯลฯ ตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T104" x="171" y="115.684mm" w="0.637333in" h="0.257in">
+				<value>
+					<text>มาตรา 40(3)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T106" x="9.3824mm" y="120.9672mm" w="0.282611in" h="0.25in">
+				<value>
+					<text>4. (ก)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T109" x="18.3994mm" y="120.9672mm" w="24.6126mm" h="6.35mm">
+				<value>
+					<text>ดอกเบี้ย ฯลฯ ตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T110" x="163" y="120.9672mm" w="0.862569in" h="0.257in">
+				<value>
+					<text> มาตรา 40 (4) (ก)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T114" x="12.8249mm" y="126.2504mm" w="0.155056in" h="0.25in">
+				<value>
+					<text>(ข)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T117" x="18.2724mm" y="126.2504mm" w="48.2854mm" h="6.35mm">
+				<value>
+					<text>เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ ตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T118" x="65.2878mm" y="126.2504mm" w="0.821417in" h="0.257in">
+				<value>
+			<text>มาตรา 40 (4) (ข)</text>			
+							
+					
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T122" x="18.3487mm" y="131.559mm" w="0.173542in" h="0.25in">
+				<value>
+					<text>(1)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T125" x="24.3176mm" y="131.559mm" w="27.813mm" h="6.35mm">
+				<value>
+					<text>กรณีผู้ได้รับเงินปันผล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T126" x="50.9114mm" y="131.559mm" w="21.4376mm" h="6.5278mm">
+				<value>
+					<text>ได้รับเครดิตภาษ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T127" x="71.1044mm" y="131.559mm" w="18.8214mm" h="6.35mm">
+				<value>
+					<text>ี โดยจ่ายจาก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T128" x="24.8764mm" y="136.8422mm" w="78.0542mm" h="6.35mm">
+				<value>
+					<text>กำไรสุทธิของกิจการที่ต้องเสียภาษีเงินได้นิติบุคคลในอัตราดังนี้</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T129" x="24.8764mm" y="142.481mm" w="0.224611in" h="0.231in">
+				<value>
+					<text>(1.1)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T134" x="32.6996mm" y="142.481mm" w="0.292in" h="0.231in">
+				<value>
+					<text>อัตรา</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T135" x="39.9118mm" y="142.481mm" w="0.443444in" h="0.237in">
+				<value>
+					<text>ร้อยละ 30</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T137" x="52.6386mm" y="142.481mm" w="16.4592mm" h="5.8674mm">
+				<value>
+					<text>ของกำไรสุทธิ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T138" x="24.8765mm" y="147.7896mm" w="0.228875in" h="0.231in">
+				<value>
+					<text>(1.2)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T141" x="32.6996mm" y="147.7896mm" w="7.4168mm" h="5.8674mm">
+				<value>
+					<text>อัตรา</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T144" x="52.6386mm" y="147.7896mm" w="16.4592mm" h="5.8674mm">
+				<value>
+					<text>ของกำไรสุทธิ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T145" x="24.8765mm" y="153.0728mm" w="0.235972in" h="0.231in">
+				<value>
+					<text>(1.3)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T148" x="32.6996mm" y="153.0728mm" w="7.4168mm" h="5.8674mm">
+				<value>
+					<text>อัตรา</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T149" x="39.9118mm" y="153.0728mm" w="0.443444in" h="0.237in">
+				<value>
+					<text>ร้อยละ 20</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T151" x="52.6386mm" y="153.0728mm" w="16.4592mm" h="5.8674mm">
+				<value>
+					<text>ของกำไรสุทธิ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T152" x="24.8765mm" y="158.356mm" w="0.235972in" h="0.231in">
+				<value>
+					<text>(1.4)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T155" x="32.7505mm" y="158.356mm" w="12.9328mm" h="5.8674mm">
+				<value>
+					<text>อัตราอื่น ๆ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T156" x="46.2379mm" y="158.356mm" w="0.257083in" h="0.226in">
+				
+					
+				<value>
+					<text>(ระบุ)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T159" x="53.6218mm" y="158.7116mm" w="15.5448mm" h="5.2324mm">
+				<value>
+					<text>......................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T160" x="69.5596mm" y="158.356mm" w="16.5862mm" h="5.8674mm">
+				<value>
+					<text>ของกำไรสุทธิ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T161" x="18.3486mm" y="163.309mm" w="4.9276mm" h="6.35mm">
+				<value>
+					<text>(2)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T162" x="24.3684mm" y="163.309mm" w="1.094in" h="0.25in">
+				<value>
+					<text>กรณีผู้ได้รับเงินปันผล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T163" x="51.9514mm" y="163.309mm" w="0.975in" h="0.257in">
+				<value>
+					<text>ไม่ได้รับเครดิตภาษี</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T165" x="24.8764mm" y="168.9478mm" w="4.4704mm" h="5.8674mm">
+				<value>
+					<text>(2.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T166" x="28.0768mm" y="168.9478mm" w="1.524mm" h="5.8674mm">
+				<value>
+					<text>1</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T167" x="29.6008mm" y="168.9478mm" w="0.9144mm" h="5.8674mm">
+				<value>
+					<text>)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T168" x="32.3694mm" y="168.9478mm" w="62.2554mm" h="5.8674mm">
+				<value>
+					<text>กำไรสุทธิของกิจการที่ได้รับยกเว้นภาษีเงินได้นิติบุคคล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T169" x="24.8764mm" y="174.231mm" w="6.9342mm" h="5.8674mm">
+				<value>
+					<text>(2.2)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T170" x="32.3694mm" y="174.231mm" w="75.1332mm" h="11.176mm">
+				<value>
+					<text>เงินปันผลหรือเงินส่วนแบ่งของกำไรที่ได้รับยกเว้นไม่ต้องนำมารวม
+คำนวณเป็นรายได้เพื่อเสียภาษีเงินได้นิติบุคคล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T171" x="24.8764mm" y="184.8228mm" w="6.9342mm" h="5.8674mm">
+				<value>
+					<text>(2.3)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T172" x="32.3695mm" y="184.8228mm" w="2.364583in" h="0.231in">
+				<value>
+					<text>กำไรสุทธิส่วนที่ได้หักผลขาดทุนสุทธิยกมาไม่เกิน 5 ปี</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T175" x="32.3694mm" y="190.106mm" w="39.2938mm" h="5.8674mm">
+				<value>
+					<text>ก่อนรอบระยะเวลาบัญชีปีปัจจุบัน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T176" x="24.8764mm" y="195.4146mm" w="6.9342mm" h="5.8674mm">
+				<value>
+					<text>(2.4)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T177" x="32.3694mm" y="195.4146mm" w="42.9768mm" h="5.8674mm">
+				<value>
+					<text>กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T178" x="75.1176mm" y="195.4146mm" w="21.0058mm" h="5.8674mm">
+				<value>
+					<text>(equity method)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T179" x="24.8764mm" y="200.6978mm" w="6.9342mm" h="5.8674mm">
+				<value>
+					<text>(2.5)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T180" x="32.3695mm" y="200.6978mm" w="6.2604mm" h="5.8674mm">
+				<value>
+					<text>อื่น ๆ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T181" x="38.9555mm" y="200.6978mm" w="0.257083in" h="0.226in">
+				<value>
+					<text>(ระบุ)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T184" x="46.4664mm" y="201.0534mm" w="2.461in" h="0.206in">
+				<value>
+					<text>............................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T185" x="9.3824mm" y="205.6254mm" w="3.8862mm" h="6.35mm">
+				<value>
+					<text>5.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T186" x="13.1924mm" y="205.6254mm" w="96.5454mm" h="6.35mm">
+				<value>
+					<text>การจ่ายเงินได้ที่ต้องหักภาษี ณ ที่จ่าย ตามคำสั่งกรมสรรพากรที่ออกตาม</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T187" x="13.3448mm" y="210.934mm" w="0.684542in" h="0.257in">
+				<value>
+					<text>มาตรา 3 เตรส</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T190" x="32.4336mm" y="210.934mm" w="0.278514in" h="0.245in">
+			
+					<value>
+					<text>(ระบุ)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+			
+				<font posture="italic" size="13pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T193" x="40.2688mm" y="211.6452mm" w="69.3928mm" h="5.2324mm">
+				<value>
+					<text>.......................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T195" x="13.5554mm" y="216.2172mm" w="1.893in" h="0.245in">
+				<value>
+					<text>(เช่น รางวัล ส่วนลดหรือประโยชน์ใด ๆ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T196" x="62.57mm" y="216.2172mm" w="1.794in" h="0.245in">
+				<value>
+					<text>เนื่องจากการส่งเสริมการขาย รางวัล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T197" x="13.3448mm" y="221.5004mm" w="3.789in" h="0.454in">
+				<value>
+					<text>ในการประกวด การแข่งขัน การชิงโชค ค่าแสดงของนักแสดงสาธารณะ ค่าจ้าง
+ทำของ ค่าโฆษณา ค่าเช่า ค่าขนส่ง ค่าบริการ ค่าเบี้ยประกันวินาศภัย ฯลฯ )</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T199" x="9.3824mm" y="232.0922mm" w="0.151in" h="0.25in">
+				<value>
+					<text>6.</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T200" x="13.0655mm" y="232.0922mm" w="0.284167in" h="0.25in">
+				<value>
+					<text>อื่น ๆ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T202" x="20.497mm" y="232.0922mm" w="0.278514in" h="0.245in">
+				<value>
+					<text>(ระบุ)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font posture="italic" size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T204" x="28.3054mm" y="232.8034mm" w="3.203in" h="0.206in">
+				<value>
+					<text>.........................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="L205" x="110.1788mm" y="94.1427mm" w="0in" h="143.891mm">
+				<value>
+					<line>
+						<edge thickness="0.96pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L208" x="533" y="246.585mm" w="221" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T209" x="92.2626mm" y="239.7422mm" w="42.6212mm" h="5.9972mm">
+				<value>
+					<text>รวมเงินที่จ่ายและภาษีที่หักนำส่ง</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T210" x="15.0466mm" y="248.526mm" w="28.9814mm" h="6.5278mm">
+				<value>
+					<text>รวมเงินภาษีที่หักนำส่ง</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T212" x="44.917mm" y="248.526mm" w="0.500236in" h="0.245in">
+				<value>
+					<text>(ตัวอักษร)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T214" x="9.0776mm" y="51.3458mm" w="1.156in" h="0.277in">
+				<value>
+					<text>ผู้ถูกหักภาษี ณ ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T215" x="38.4146mm" y="51.3458mm" w="0.233in" h="0.277in">
+				<value>
+					<text>:-</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T216" x="9.0776mm" y="58.1276mm" w="5.2578mm" h="7.0358mm">
+				<value>
+					<text>ชื่อ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T217" x="14.3908mm" y="59.1944mm" w="92.2274mm" h="5.2324mm">
+				<value>
+					<text>........................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T218" x="9.0776mm" y="67.8304mm" w="7.3914mm" h="7.0358mm">
+				<value>
+					<text>ที่อยู่</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T219" x="15.9536mm" y="68.8972mm" w="174.9044mm" h="5.2324mm">
+				<value>
+					<text>.......................................................................................................................................................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T220" x="9.0776mm" y="77.8126mm" w="0.431in" h="0.277in">
+				<value>
+					<text>ลำดับที่</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="45.7806mm" y="78.1682mm" w="0.402in" h="0.25in">
+				<value>
+					<text>ในแบบ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R223" x="68.6498mm" y="79.0226mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R234" x="96.1488mm" y="79.0226mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R244" x="134.1607mm" y="79.0226mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R252" x="161.3598mm" y="79.0226mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R260" x="68.6498mm" y="85.5314mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R269" x="96.1488mm" y="85.5314mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R278" x="134.1607mm" y="85.5314mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T286" x="110.6389mm" y="105.6002mm" w="3.328292in" h="0.831in">
+				<value>
+					<text>....................................................................................................................................
+....................................................................................................................................
+....................................................................................................................................
+....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T287" x="110.6389mm" y="142.6334mm" w="3.353514in" h="0.831in">
+				<value>
+					<text>.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T288" x="110.6389mm" y="169.1002mm" w="85.671mm" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T289" x="110.6388mm" y="179.6666mm" w="3.353514in" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T290" x="110.6388mm" y="190.2584mm" w="3.353514in" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T291" x="110.6388mm" y="200.8502mm" w="3.353514in" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T292" x="110.6388mm" y="211.4166mm" w="3.353514in" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="T293" x="110.6388mm" y="232.6002mm" w="3.353514in" h="0.206in">
+				<value>
+					<text>.....................................................................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="Angsana New"/>
+			</draw>
+			<draw name="R294" x="59.0754mm" y="247.6716mm" w="116.4167mm" h="6.4911mm">
+				<value>
+					<rectangle>
+						<edge presence="hidden"/>
+						<fill>
+							<color value="202,202,202"/>
+						</fill>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T296" x="9.1926mm" y="83.8832mm" w="1.893in" h="0.188in">
+				<value>
+					<text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="8pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T297" x="9.4093mm" y="88.0174mm" w="1.747528in" h="3.8806mm">
+				<value>
+					<text>หนังสือรับรองฯ กับแบบยื่นรายการภาษีหักที่จ่าย)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="8pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T300" x="107.7058mm" y="58.153mm" w="1.327in" h="0.231in">
+				<value>
+					<text>เลขประจำตัวผู้เสียภาษีอากร</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T301" x="98.1808mm" y="51.4728mm" w="27.432mm" h="5.8674mm">
+				<value>
+					<text>เลขประจำตัวประชาชน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R302" x="168.0097mm" y="57.8912mm" w="16.9051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R306" x="148.9597mm" y="57.8912mm" w="16.9051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L307" x="165.8048mm" y="60.5724mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R311" x="142.6097mm" y="57.8912mm" w="4.2051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L312" x="146.6278mm" y="60.5724mm" w="2.2437mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R313" x="187.0597mm" y="57.8383mm" w="4.2404mm" h="4.9636mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L314" x="184.8972mm" y="60.4877mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R315" x="133.4022mm" y="51.1885mm" w="16.9404mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R320" x="127.0522mm" y="51.1885mm" w="4.2051mm" h="4.9283mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L321" x="173.8905mm" y="53.7144mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L321" x="131.2185mm" y="53.7144mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L325" x="150.6072mm" y="53.6297mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R326" x="152.6462mm" y="51.065mm" w="21.3325mm" h="5.0341mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L328" x="184.6432mm" y="53.6297mm" w="2.1167mm" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.48pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R329" x="175.9296mm" y="51.1532mm" w="8.6325mm" h="4.7696mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="R329" x="187.0244mm" y="51.1532mm" w="4.2404mm" h="4.8048mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T330" x="172.5534mm" y="93.8908mm" w="0.937528in" h="0.477361in">
+				<value>
+		
+							<text><p style="text-decoration:none">ภาษีที่หัก
+							และนำส่งไว้</p>
+							
+					</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T332" x="9.0776mm" y="256.4694mm" w="13.1572mm" h="5.6444mm">
+				<value>
+					<text>ผู้จ่ายเงิน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="R333" x="23.8647mm" y="256.805mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T337" x="30.9258mm" y="255.9174mm" w="0.682in" h="0.25in">
+				<value>
+					<text>(1) หัก ณ ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R338" x="56.6554mm" y="256.805mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T339" x="61.9096mm" y="255.9174mm" w="4.9276mm" h="6.35mm">
+				<value>
+					<text>(2)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T340" x="66.7864mm" y="255.9174mm" w="0.814in" h="0.25in">
+				<value>
+					<text>ออกให้ตลอดไป</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R341" x="94.6496mm" y="256.805mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T342" x="99.9334mm" y="255.9174mm" w="4.9276mm" h="6.35mm">
+				<value>
+					<text>(3)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T343" x="104.7594mm" y="255.9174mm" w="0.827in" h="0.25in">
+				<value>
+					<text>ออกให้ครั้งเดียว</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="R344" x="133.6491mm" y="256.805mm" w="4.0464mm" h="4.0464mm">
+				<value>
+					<rectangle>
+						<edge thickness="0.48pt"/>
+					</rectangle>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T345" x="138.9224mm" y="255.9174mm" w="5.0038mm" h="6.35mm">
+				<value>
+					<text>(4)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T346" x="143.8754mm" y="255.9174mm" w="0.314in" h="0.25in">
+				<value>
+					<text>อื่น ๆ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T347" x="151.7749mm" y="255.9174mm" w="0.278514in" h="0.245in">
+				<value>
+					<text>(ระบุ)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="13pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T350" x="160.5738mm" y="256.6286mm" w="32.9438mm" h="5.2324mm">
+				<value>
+					<text>................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="L378" x="533" y="245.7807mm" w="221" h="0in">
+				<value>
+					<line>
+						<edge thickness="0.96pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="T380" x="135.1992mm" y="37.0417mm" w="2.308972in" h="0.194444in">
+				<value>
+					<text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+			</draw>
+			<draw name="T383" x="133.3567mm" y="62.7944mm" w="2.308972in" h="0.194444in">
+				<value>
+					<text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+			</draw>
+			<draw name="T352" x="7.5128mm" y="265.0502mm" w="0.402in" h="0.208333in">
+				<value>
+					<text>คำเตือน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font weight="bold" typeface="AngsanaUPC" baselineShift="0pt" size="9pt"/>
+			</draw>
+			<draw name="T353" x="21.0256mm" y="264.99mm" w="2.248in" h="0.194486in">
+
+						
+					<value>
+					<text>ในผู้มีหน้าที่ออกหนังสือรับรองการหักภาษี ณ ที่จ่าย</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T360" x="85.6432mm" y="1016" w="97.0026mm" h="0.25in">
+				<value>
+					<text>ขอรับรองว่าข้อความและตัวเลขดังกล่าวข้างต้นถูกต้องตรงกับความจริงทุกประการ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font size="11pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T361" x="101.2388mm" y="268.2206mm" w="8.3058mm" h="6.35mm">
+				<value>
+					<text>ลงชื่อ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T362" x="108.3mm" y="268.9318mm" w="57.0738mm" h="5.2324mm">
+				<value>
+					<text>....................................................................................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T363" x="164.1292mm" y="268.2206mm" w="0.512in" h="0.25in">
+				<value>
+					<text>ผู้จ่ายเงิน</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="11pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T364" x="105.6566mm" y="274.2833mm" w="2.249681in" h="0.177542in">
+				<value>
+					<text>........................./................................/..............................</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<font size="11pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T370" x="112.89mm" y="278.5167mm" w="1.687778in" h="0.208333in">
+				<value>
+		<text>(วัน เดือน ปี ที่ออกหนังสือรับรองฯ)</text>
+					
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="11pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T372" x="177.8452mm" y="271.1924mm" w="10.7696mm" h="4.3942mm">
+				<value>
+					<text>ประทับตรา</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="9pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T373" x="178.658mm" y="274.3674mm" w="9.1694mm" h="4.3942mm">
+				<value>
+					<text>นิติบุคคล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="9pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T374" x="179.9788mm" y="277.5424mm" w="0.6858mm" h="4.2926mm">
+				<value>
+					<text>(</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="9pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T375" x="180.69mm" y="277.5424mm" w="5.1562mm" h="4.2926mm">
+				<value>
+					<text>ถ้ามี</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="9pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T376" x="184.5762mm" y="277.5424mm" w="0.6858mm" h="4.2926mm">
+				<value>
+					<text>)</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font posture="italic" size="9pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="C377" x="176.3491mm" y="270.5638mm" w="12.2484mm" h="12.2661mm">
+				<value>
+					<arc>
+						<edge thickness="0.48pt"/>
+					</arc>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="Rectangle1" y="24.3434mm" x="4.2333mm" w="191.5583mm" h="25.2197mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="Rectangle3" y="94.0167mm" x="4.2333mm" w="191.5583mm" h="161.2198mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="T222" x="75.1434mm" y="84.696mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(5) ภ.ง.ด.2ก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="102.5496mm" y="78.1682mm" w="0.963181in" h="0.25in">
+				<value>
+					<text>(2) ภ.ง.ด.1ก พิเศษ</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="102.5497mm" y="84.6959mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(3) ภ.ง.ด.3ก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="140.5735mm" y="78.1682mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(3) ภ.ง.ด.2</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="140.5734mm" y="84.6959mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(7) ภ.ง.ด.53</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="T222" x="167.23mm" y="78.1682mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(4) ภ.ง.ด.3</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="Line1" y="104.0702mm" x="4.2333mm" w="191.5583mm" h="0mm">
+				<value>
+					<line>
+               </line>
+				</value>
+			</draw>
+			<draw name="T222" x="75.1398mm" y="78.3199mm" w="0.658486in" h="0.25in">
+				<value>
+					<text>(1) ภ.ง.ด.1ก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font size="13pt" typeface="AngsanaUPC" weight="bold" baselineShift="0pt"/>
+			</draw>
+			<draw name="Rectangle4" y="12.1701mm" x="1.59mm" w="196.85mm" h="272.5198mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="Rectangle5" y="255.7632mm" x="4.2333mm" w="191.5583mm" h="7.4069mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="Rectangle6" y="264.0566mm" x="4.2333mm" w="75.3135mm" h="20.1066mm">
+				<value>
+					<rectangle>
+						<edge/>
+					</rectangle>
+				</value>
+			</draw>
+			<draw name="T135" x="39.9118mm" y="147.7895mm" w="0.443444in" h="0.237in">
+				<value>
+					<text>ร้อยละ 25</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+			</draw>
+			<draw name="L205" x="138.2101mm" y="94.7233mm" w="0mm" h="152.2201mm">
+				<value>
+					<line slope="/">
+						<edge thickness="0.96pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L205" x="168.1965mm" y="94.1902mm" w="0in" h="152.7531mm">
+				<value>
+					<line slope="/">
+						<edge thickness="0.96pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="L205" x="163.61mm" y="104.0702mm" w="0mm" h="142.8732mm">
+				<value>
+					<line slope="/">
+						<edge thickness="0.96pt" cap="butt"/>
+					</line>
+				</value>
+				<ui>
+					<defaultUi/>
+				</ui>
+			</draw>
+			<draw name="Line2" y="238.8298mm" x="4.2333mm" w="191.5583mm" h="0mm">
+				<value>
+					<line slope="/">
+               </line>
+				</value>
+			</draw>
+			<draw name="T353" x="21.0633mm" y="274.0233mm" w="2.248in" h="0.201569in">			
+			<value>
+					<text>รัษฎากร  ต้องรับโทษทางอาญาตามมาตรา  35</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font  size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T160" x="77.0832mm" y="163.6899mm" w="0.787444in" h="0.231in">
+				<value>
+					<text>เนื่องจากจ่ายจาก</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle"/>
+				<font size="12pt" typeface="CordiaUPC"/>
+			</draw>
+			<draw name="T353" x="20.9899mm" y="269.7232mm" w="2.248in" h="0.194486in">
+				
+			<value>
+					<text>ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50  แห่งประมวล</text>
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font  size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+			<draw name="T353" x="21.1698mm" y="278.6965mm" w="2.248in" h="0.201569in">
+				<value>
+			<text>แห่งประมวลรัษฎากร</text>
+					
+				</value>
+				<ui>
+					<textEdit>
+						<margin/>
+					</textEdit>
+				</ui>
+				<para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+				<font  size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+			</draw>
+		</subform>
+		<proto/>
+	</subform>
+</template>

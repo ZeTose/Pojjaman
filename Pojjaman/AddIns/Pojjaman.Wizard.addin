@@ -1,0 +1,27 @@
+<AddIn name="Pojjaman Test" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman test module" version="1.0.0">
+	<Runtime>
+		<!--<Import assembly="../bin/AddInTest.dll"/>-->
+	</Runtime>
+	<!--<Extension path="/Pojjaman/NewProjectWizard">
+		<DialogPanel id="StartPanel" label="${res:Dialog.Wizards.NewProjectWizard.StartPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.StartPanel"/>
+		<DialogPanel id="WelcomePanel" label="${res:Dialog.Wizards.NewProjectWizard.StartPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.WelcomePanel"/>		
+		<DialogPanel id="ChooseLocationPanel" label="${res:Dialog.Wizards.NewProjectWizard.StartPanel.GeneralInfomationPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.GeneralInfomationPanel"/>
+		<DialogPanel id="CreationSuccessful" label="${res:Dialog.Wizards.NewProjectWizard.FinishedPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.CreationFinishedPanel"/>
+	</Extension>-->
+	<Extension path="/Pojjaman/NewProjectWizard">
+		<DialogPanel id="StartPanel" label="${res:Dialog.Wizards.NewProjectWizard.StartPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.StartPanel"/>
+		<DialogPanel id="UseExistingCustomerPanel" label="${res:Dialog.Wizards.NewProjectWizard.UseExistingCustomerPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.UseExistingCustomerPanel"/>				
+		<DialogPanel id="ChooseCustomerPanel" label="${res:Dialog.Wizards.NewProjectWizard.ChooseCustomerPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.ChooseCustomerPanel"/>
+		<DialogPanel id="CreateCustomerPanel" label="${res:Dialog.Wizards.NewProjectWizard.CreateCustomerPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.CreateCustomerPanel"/>		
+		<DialogPanel id="CreationSuccessful" label="${res:Dialog.Wizards.NewProjectWizard.FinishedPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewProjectWizard.CreationFinishedPanel"/>
+	</Extension>	
+	<Extension path="/Pojjaman/NewCostCenterWizard">
+		<DialogPanel id="StartPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.StartPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.StartPanel"/>
+		<DialogPanel id="UseExistingProjectPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.UseExistingProjectPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.UseExistingProjectPanel"/>				
+		<DialogPanel id="ChooseProjectPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.ChooseProjectPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.ChooseProjectPanel"/>
+		<DialogPanel id="GoOnWithoutBOQPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.GoOnWithoutBOQPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.GoOnWithoutBOQPanel"/>
+		<DialogPanel id="ChooseBOQPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.ChooseBOQPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.ChooseBOQPanel"/>					
+		<DialogPanel id="CreateCostCenterPanel" label="${res:Dialog.Wizards.NewCostCenterWizard.CreateCostCenterPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.CreateCostCenterPanel"/>		
+		<DialogPanel id="CreationSuccessful" label="${res:Dialog.Wizards.NewCostCenterWizard.FinishedPanel.Title}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.NewCostCenterWizard.CreationFinishedPanel"/>
+	</Extension>		
+</AddIn>

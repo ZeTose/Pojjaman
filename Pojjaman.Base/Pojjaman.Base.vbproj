@@ -1,0 +1,1705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.Base</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.Base/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdobeForm\AdobeForm.vbproj">
+      <Name>AdobeForm</Name>
+      <Project>{40356FC7-5CB0-4D70-BCF4-7F67BE8D3AC7}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.ColorPicker\Longkong.ColorPicker.csproj">
+      <Name>Longkong.ColorPicker</Name>
+      <Project>{56C7B8D0-024A-4938-A8F1-D3D8801F8C99}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CommandBar\Longkong.CommandBar.csproj">
+      <Name>Longkong.CommandBar</Name>
+      <Project>{BF57B58F-6C32-45FE-A4FD-0E60FB249C0A}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Name>Longkong.Core.Services</Name>
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Name>Longkong.CustomControls</Name>
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.FormTable\Longkong.FormTable.vbproj">
+      <Name>Longkong.FormTable</Name>
+      <Project>{FAAACFB3-413C-4E5F-AE52-EEAC23ECB039}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.PieChart\Longkong.PieChart.csproj">
+      <Name>Longkong.PieChart</Name>
+      <Project>{96649C45-14FE-40EB-8A95-4E6ABE973A9A}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.Reporting\Longkong.Reporting.vbproj">
+      <Name>Longkong.Reporting</Name>
+      <Project>{BCB30EC9-DCF6-44D3-8BA1-C3DBD1CE154C}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.WinFormsUI\Longkong.WinFormsUI.csproj">
+      <Name>Longkong.WinFormsUI</Name>
+      <Project>{09B9010B-2561-442D-93E5-8B985E674AFB}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.XmlForms\Longkong.XmlForms\Longkong.XmlForms.csproj">
+      <Name>Longkong.XmlForms</Name>
+      <Project>{9468AB53-2E76-4F76-9CCA-850841803055}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\PJMBrowser\PJMBrowser\Pojjaman.BrowserDisplayBinding.csproj">
+      <Name>Pojjaman.BrowserDisplayBinding</Name>
+      <Project>{8E4FDE48-6E82-45BD-B17C-A5355C06A05B}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Name>Pojjaman.BusinessLogic</Name>
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj">
+      <Name>Pojjaman.ContentInterface</Name>
+      <Project>{E32EDF66-304F-4672-8F8C-503E153E0D84}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Name>Longkong.Core</Name>
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Name>Pojjaman.CustomControls</Name>
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.DatabaseSetting\Pojjaman.DatabaseSetting.vbproj">
+      <Name>Pojjaman.DatabaseSetting</Name>
+      <Project>{BB6A6329-7479-4106-B778-88572516EDA3}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Name>Pojjaman.Data</Name>
+      <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\SecureCredential\Longkong.SecureCredential.csproj">
+      <Name>Longkong.SecureCredential</Name>
+      <Project>{3C8A9B07-4CF3-402B-AC0A-F4E2BB102A00}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <Reference Include="AxSHDocVw">
+      <Name>AxSHDocVw</Name>
+      <HintPath>External\AxSHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>External\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.mshtml">
+      <Name>Microsoft.mshtml</Name>
+      <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
+      <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="SHDocVw">
+      <Name>Interop.SHDocVw</Name>
+      <HintPath>External\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Windows">
+      <Name>Syncfusion.Grid.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base">
+      <Name>Syncfusion.Shared.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>system.design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>system.drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>system.windows.forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\AbstractCheckableMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\AbstractComboBoxCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\AbstractEntityMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\AbstractMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\DefaultDialogPanelDescriptor.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\DialogPanelCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\DisplayBindingCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\EntityTabsCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\FileFilterCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\ICheckableMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IComboBoxCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IDialogPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IDialogPanelDescriptor.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IEntityMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IMenuCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\ISecondaryDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\ISubmenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\IWizardPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\MenuItemCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\PadCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Codons\ToolbarItemCodon.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ActiveContentEntityNameCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ActiveContentExtensionCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ActiveContentPanelNameCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ActiveViewContentUntitled.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ActiveWindowStateCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ApplicationModeCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\CancelableCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\ConfigurationCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\IOwnerState.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\OpenWindowStateCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\OwnerStateCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\PrintableCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\SecurityLevelCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\WindowActiveCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\AddIns\Conditions\WindowOpenCondition.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Longkong.Core\Services\EntityUtilityService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\AboutPojjaman.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\AddBusinessItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\AddMaterial.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ApproveEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\AttachmentShow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Backup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\BarReport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CancelEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ChangePassword.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ClearRecentEntities.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ClearRecentFiles.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ClearRecentProjects.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CloseAllWindows.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CloseFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Copy.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CreateNewCostCenter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CreateNewEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CreateNewFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\CreateNewProject.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Cut.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\DatabaseSelection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\DebugEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Delete.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\DeleteEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\EditEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ExitWorkbenchCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\GotoLink.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\GotoWebSite.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\InitializePojjamanWorkbenchCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\InsertFormKeyHandler.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\LogOff.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\MainSelectionMenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\MainViewMenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\MappingList.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Modes\AbstractModeCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Modes\AccountingModeCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Modes\BiddingModeCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Modes\CostControlModeCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Newboq.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\NotAvailableInDemo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\NoteEntity.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenProject.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenProjectFromFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\OptionsCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Paste.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Print.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\PrintPreview.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\RecentEntitiesMenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\RecentFilesMenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\RecentProjectsMenuBuilder.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Redo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\RefreshCodeList.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ReloadFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SaveAllFiles.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SaveFile.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SaveFileAs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectAll.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectionMenuBuilder.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectNextTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectNextWindow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectPrevTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SelectPrevWindow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ShowFlow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ShowHelp.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ShowRef.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarAddTabHeader.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarDeleteTabHeader.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarDeleteTabItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarMoveActiveItemDown.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarMoveActiveItemUp.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarMoveTabDown.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarMoveTabUp.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarRenameTabHeader.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\SideBarRenameTabItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\StartPojjamanWorkbenchCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\StartWorkbenchCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\CloseAllButThisFileTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\CloseFileTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\CopyPathName.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\SaveFileAsTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\TabStrip\SaveFileTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Test.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ToggleFullscreenCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\Undo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ViewMenuBuilder.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Commands\ViewTipOfTheDay.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\AbstractBaseViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\AbstractPadContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\AbstractSecondaryViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\AbstractViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\clsAssInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\BooleanTypeConverter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\CustomTypeConverter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\GroupBox\FixedGroupBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\IconMenu\IconMenu.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\IProgressMonitor.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\IStatusUpdate.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\ListCol.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\LocalizedProperty.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\LocalizedTypeDescriptor.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\MyBalloonWindow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMessageBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PojjamanSideBar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PojjamanSideTabItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PojjamanSideTabItemFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\Providers\CommentProvider.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\SpecialDataObject.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\StatusBar\AxStatusBar.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\StatusBar\AxStatusBarPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\StatusBar\PJMStatusBar.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\TreeViews\DraggedNode.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\TreeViews\NodeDragTreeview.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\Validator\ControlValidator.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\DefaultSideTabFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\DefaultSideTabItemFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\ISideTabFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\ISideTabItemFactory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\VSSideBar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\VSSideTab.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\VSSideBar\VSSideTabItem .vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\WedgedTextBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ContentInterfaces\IParseableContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ContentInterfaces\IParseInformationListener.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ContentInterfaces\IViewContentMemento.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AttachmentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\Basket\BasketDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ChangePasswordDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CurrentPanelPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CustomNoteForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\FolderDialog.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\GradientHeaderPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\GraphDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\LoginDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\BaseClasses\BaseOptionPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\BaseClasses\BaseWizardPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LineTerminatorStyle.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\Base\WizardPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\ChooseBOQPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\ChooseProjectPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\CreateCostCenterPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\CreationFinishedPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\GoOnWithoutBOQPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\StartPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\UseExistingProjectPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\ChooseCustomerPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\CreateCustomerPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\CreationFinishedPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\StartPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\UseExistingCustomerPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\PanelDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\PanelDockingDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\PanelWithDockDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\PojjamanHeaderPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ProgressPanel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ProjectOptionsDialog.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\RDScreenForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ResetPasswordDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ScrollBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\SelectFormsDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\SplashScreenForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\StatusPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\VersionInformationTabPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\WizardDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ErrorDialogs\LoadingError.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\BrowserNavigateEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\HtmlControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\IHTMLDocument2.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\IHTMLElement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\IWebBrowser.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\HtmlControl\IWebBrowserEvents.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\IBaseViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\IMementoCapable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\IPadContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ISecondaryViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ITreeBrowsableViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\IViewContent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\IViewContentMementoCreator.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\PadContentCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\AbstractBrowserNode.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\CommentBrowser.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\CommentPad.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\FormBrowserView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\FormNode.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\HelpLinkInformation.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\IContentUpdate.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\IDEContainer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\PropertyPad.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\PropertyPadResetCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\PropertyPadShowDescriptionCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\SideBarView.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\ToolBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Pads\ToolPad.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\TreeViewMemento.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\ViewContentCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\WorkbenchSingleton.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\IHelperManager.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\IWorkbench.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\IWorkbenchLayout.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\IWorkbenchWindow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\WorkbenchMemento.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\PojjamanObjectCreator.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\PojjamanPropertyValueCreator.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\PojjamanStringValueFilter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\ExternalTool\ExternalTool.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\ExternalTool\ToolLoader.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Parser\AA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Parser\AAA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Parser\ICompilationUnitBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Project\Collections\ConfigurationCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Project\ConvertXml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Project\IConfiguration.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Project\IProject.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\FileDescriptionTemplate.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\FileTemplate.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\INewFileCreator.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\ScriptRunner.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\StandardHeader.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\TemplateProperty.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\TemplateScript.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\TemplateType.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Templates\TextTemplate.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Undo\IUndoableOperation.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Undo\UndoQueue.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Internal\Undo\UndoStack.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\AbstractBasePanelViewContent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\AbstractPanelViewContent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\AbstractSecondaryPanelViewContent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\DetailPanelView.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\DisplayBindng\AA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\DisplayBindng\AbstractEntityDetailDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\DisplayBindng\ListDetailDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\DisplayBindng\TreeDetailDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\FormPad.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\FormViewPane.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\HelperPad.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\PanelDisplayBinding.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\PanelPad.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\AdvancePaySelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractBaseEntityPanelViewContent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractDetailPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractEntityDetailPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractEntityPanelViewContent.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\Interface.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\ISimpleListPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\BindingPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\AdvanceFindFilterPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CSISelectionPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\GroupDetail\GroupDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\CostCenterPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DefaultFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DefaultTreeFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DropDown\DropDownGroup.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\EditableListPanelView.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\GroupPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ItemSelectionPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ItemSelectionPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewApproveItemPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewItemSelectionPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\UpdateCheckFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\MapDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkFormDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkReportDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\HelperCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IBasketCollectable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IEntityPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IGroupPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IHelper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IHelperCapable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IListDetail.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IListPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IPanel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IReversibleEntityProperty.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ItemGridPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IUnitRefreshable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IValidatable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\IValueUpdatable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\MilestoneSetup.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPreviewPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPrintingPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportTestPreviewPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\RptLogFileFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\SC\SCSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\CodeDescriptionDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\ResourceVerifier.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\PanelView.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\SearchCriteria\AdvancedSearch.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\AA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\Copy of AA.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\DefaultEntityPanelService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\DefaultFileService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\DefaultStatusBarService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\DisplayBindingService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\ErrorService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\FileEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\IEntityPanelService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\IFileService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\IParseInformation.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\IStatusBarService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\Language\Language.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\Language\LanguageService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\MenuService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\PaneEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\RecentOpen.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\SecurityService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\SecurityValidator.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\Task.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\TaskService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Services\ToolbarService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="External\AxSHDocVw.dll" />
+    <Content Include="External\BalloonWindow.dll" />
+    <Content Include="External\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="External\Interop.SHDocVw.dll" />
+    <EmbeddedResource Include="Pojjaman\Gui\Components\Validator\ControlValidator.resx">
+      <DependentUpon>ControlValidator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Components\WedgedTextBox.resx">
+      <DependentUpon>WedgedTextBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.resx">
+      <DependentUpon>AboutPojjamanTabPage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AttachmentForm.resx">
+      <DependentUpon>AttachmentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\Basket\BasketDialog.resx">
+      <DependentUpon>BasketDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ChangePasswordDialog.resx">
+      <DependentUpon>ChangePasswordDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.resx">
+      <DependentUpon>ColorPickerDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\CustomNoteForm.resx">
+      <DependentUpon>CustomNoteForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\GraphDialog.resx">
+      <DependentUpon>GraphDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\LoginDialog.resx">
+      <DependentUpon>LoginDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.resx">
+      <DependentUpon>NotAvailableInDemoForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\ChooseBOQPanel.resx">
+      <DependentUpon>ChooseBOQPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\ChooseProjectPanel.resx">
+      <DependentUpon>ChooseProjectPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\CreateCostCenterPanel.resx">
+      <DependentUpon>CreateCostCenterPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\CreationFinishedPanel.resx">
+      <DependentUpon>CreationFinishedPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\GoOnWithoutBOQPanel.resx">
+      <DependentUpon>GoOnWithoutBOQPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\StartPanel.resx">
+      <DependentUpon>StartPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\UseExistingProjectPanel.resx">
+      <DependentUpon>UseExistingProjectPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\ChooseCustomerPanel.resx">
+      <DependentUpon>ChooseCustomerPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\CreateCustomerPanel.resx">
+      <DependentUpon>CreateCustomerPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\CreationFinishedPanel.resx">
+      <DependentUpon>CreationFinishedPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\StartPanel.resx">
+      <DependentUpon>StartPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewProject\UseExistingCustomerPanel.resx">
+      <DependentUpon>UseExistingCustomerPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\PanelDialog.resx">
+      <DependentUpon>PanelDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\PanelDockingDialog.resx">
+      <DependentUpon>PanelDockingDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\PanelWithDockDialog.resx">
+      <DependentUpon>PanelWithDockDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ProgressPanel.resx">
+      <DependentUpon>ProgressPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\RDScreenForm.resx">
+      <DependentUpon>RDScreenForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ResetPasswordDialog.resx">
+      <DependentUpon>ResetPasswordDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\SelectFormsDialog.resx">
+      <DependentUpon>SelectFormsDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Pads\CommentPad.resx">
+      <DependentUpon>CommentPad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Pads\ToolBox.resx">
+      <DependentUpon>ToolBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\AbstractBasePanelViewContent.resx">
+      <DependentUpon>AbstractBasePanelViewContent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\AbstractPanelViewContent.resx">
+      <DependentUpon>AbstractPanelViewContent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\FormViewPane.resx">
+      <DependentUpon>FormViewPane.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\AdvancePaySelection.resx">
+      <DependentUpon>AdvancePaySelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRFilterSubPanel.resx">
+      <DependentUpon>PRFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRSelectionView.resx">
+      <DependentUpon>PRSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.resx">
+      <DependentUpon>AdvanceReceiveSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractEntityDetailPanelView.resx">
+      <DependentUpon>AbstractEntityDetailPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractEntityPanelViewContent.resx">
+      <DependentUpon>AbstractEntityPanelViewContent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractFilterSubPanel.resx">
+      <DependentUpon>AbstractFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\BindingPanel.resx">
+      <DependentUpon>BindingPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\AdvanceFindFilterPanel.resx">
+      <DependentUpon>AdvanceFindFilterPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListDialog.resx">
+      <DependentUpon>CheckListDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CSISelectionPanel.resx">
+      <DependentUpon>CSISelectionPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\GroupDetail\GroupDetailView.resx">
+      <DependentUpon>GroupDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\CostCenterPanelView.resx">
+      <DependentUpon>CostCenterPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DefaultFilterSubPanel.resx">
+      <DependentUpon>DefaultFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DefaultTreeFilterSubPanel.resx">
+      <DependentUpon>DefaultTreeFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DropDown\DropDownGroup.resx">
+      <DependentUpon>DropDownGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\EditableListPanelView.resx">
+      <DependentUpon>EditableListPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\GroupPanelView.resx">
+      <DependentUpon>GroupPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ItemSelectionPanel.resx">
+      <DependentUpon>ItemSelectionPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ItemSelectionPanelView.resx">
+      <DependentUpon>ItemSelectionPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewApproveItemPanelView.resx">
+      <DependentUpon>ListViewApproveItemPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewItemSelectionPanelView.resx">
+      <DependentUpon>ListViewItemSelectionPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\UpdateCheckFilterSubPanel.resx">
+      <DependentUpon>UpdateCheckFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\MapDialog.resx">
+      <DependentUpon>MapDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkFormDetail.resx">
+      <DependentUpon>LinkFormDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkReportDetail.resx">
+      <DependentUpon>LinkReportDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ItemGridPanel.resx">
+      <DependentUpon>ItemGridPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\MilestoneSetup.resx">
+      <DependentUpon>MilestoneSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.resx">
+      <DependentUpon>WBSSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.resx">
+      <DependentUpon>GridReportPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPanel.resx">
+      <DependentUpon>ReportPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPanelView.resx">
+      <DependentUpon>ReportPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPreviewPanel.resx">
+      <DependentUpon>ReportPreviewPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportPrintingPanel.resx">
+      <DependentUpon>ReportPrintingPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\ReportTestPreviewPanel.resx">
+      <DependentUpon>ReportTestPreviewPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\RptLogFileFilterSubPanel.resx">
+      <DependentUpon>RptLogFileFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\SC\SCSelectionView.resx">
+      <DependentUpon>SCSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\CodeDescriptionDialog.resx">
+      <DependentUpon>CodeDescriptionDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.resx">
+      <DependentUpon>EntityDebugPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.resx">
+      <DependentUpon>MappingListDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\ResourceVerifier.resx">
+      <DependentUpon>ResourceVerifier.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatFilterSubPanel.resx">
+      <DependentUpon>VatFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.resx">
+      <DependentUpon>VatItemSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\SearchCriteria\AdvancedSearch.resx">
+      <DependentUpon>AdvancedSearch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Services\SecurityValidator.resx">
+      <DependentUpon>SecurityValidator.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,350 @@
+<?xml version="1.0"?>
+<Template author="Kriss" version="1.0">
+	
+	<Config
+		  name        = "${res:Templates.File.Categories.DocumentForm.WHT}"
+		  icon        = "Icons.32x32.XMLFileIcon"
+		  category    = "${res:Templates.File.Categories.DocumentForm}"
+		  defaultname = "WHTForm${Number}.dfm"
+		  language    = "DocumentForm"/>
+	 
+	<Description>${res:Templates.File.Categories.DocumentForm.WHT.Description}</Description>
+
+	<Files>
+		<File name="${FullName}" language="DocumentForm"><![CDATA[<Components version="1.0">
+  <Longkong.FormTable.PojjamanDoc>
+    <Name value="PRForm1" />
+    <BackColor value="Color [White]" />
+    <Location value="{X=0,Y=-213}" />
+    <DockPadding value="" />
+    <TransparencyKey value="Color [Empty]" />
+    <ShowInTaskbar value="False" />
+    <Font value="[Font:Name=Tahoma,Size=11,Style=Regular,Unit=Point]" />
+    <ForeColor value="Color [ControlText]" />
+    <RightToLeft value="No" />
+    <BackgroundImage value="System.Drawing.Bitmap" />
+    <FormBorderStyle value="None" />
+    <MinimizeBox value="False" />
+    <ClientSize value="{Width=496, Height=688}" />
+    <FormFormatCode value="WHT" />
+    <StartPosition value="CenterParent" />
+    <MaximizeBox value="False" />
+    <Cursor value="[Cursor: Default]" />
+    <Controls>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl28" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=56, Height=16}" />
+        <Location value="{X=409,Y=568}" />
+        <Alignment value="Right" />
+        <Data value="=Sum" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl27" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=64, Height=16}" />
+        <Location value="{X=344,Y=568}" />
+        <Alignment value="Right" />
+        <Data value="=SumAmount" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl26" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=452,Y=82}" />
+        <Alignment value="Left" />
+        <Data value="(=TaxId,10)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl25" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=418,Y=82}" />
+        <Alignment value="Left" />
+        <Data value="(=TaxId,7)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl24" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=438,Y=82}" />
+        <Alignment value="Left" />
+        <Data value="(=TaxId,9)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl23" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=427,Y=82}" />
+        <Alignment value="Left" />
+        <Data value="(=TaxId,8)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl22" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=408,Y=82}" />
+        <Alignment value="Left" />
+        <Data value="(=TaxId,6)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl21" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=392,Y=82}" />
+        <Alignment value="Center" />
+        <Data value="(=TaxId,5)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl20" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=372,Y=82}" />
+        <Alignment value="Center" />
+        <Data value="(=TaxId,3)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl19" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=361,Y=82}" />
+        <Alignment value="Center" />
+        <Data value="(=TaxId,2)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl18" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=346,Y=82}" />
+        <Alignment value="Center" />
+        <Data value="(=TaxId,1)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl17" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=382,Y=82}" />
+        <Alignment value="Center" />
+        <Data value="(=TaxId,4)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl16" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=424,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,11)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl15" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=452,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,13)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl14" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=435,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,12)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl13" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=401,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,9)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl12" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=391,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,8)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl11" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=411,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,10)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl10" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=381,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,7)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl9" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=370,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,6)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl8" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=356,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,5)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl7" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=346,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,4)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl6" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=336,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,3)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl4" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=325,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,2)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl3" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=12, Height=12}" />
+        <Location value="{X=310,Y=70}" />
+        <Alignment value="Center" />
+        <Data value="=(IdNo,1)" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl5" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [LightGray]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=272, Height=16}" />
+        <Location value="{X=152,Y=592}" />
+        <Alignment value="Left" />
+        <Data value="ยอดเงินตัวหนังสือ " />
+        <BackColor value="Color [LightGray]" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.CheckControl>
+        <Name value="checkControl1" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Size value="{Width=14, Height=14}" />
+        <Glyph value="Checkmark" />
+        <Location value="{X=64,Y=611}" />
+        <Data value="" />
+        <Logic value="" />
+      </Longkong.FormTable.CheckControl>
+      <Longkong.FormTable.CheckControl>
+        <Name value="checkControl" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [Black]" />
+        <Size value="{Width=14, Height=14}" />
+        <Glyph value="Checkmark" />
+        <Location value="{X=328,Y=208}" />
+        <Data value="" />
+        <Logic value="" />
+      </Longkong.FormTable.CheckControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl2" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [White]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=40, Height=14}" />
+        <Location value="{X=432,Y=48}" />
+        <Alignment value="Left" />
+        <Data value="=Code" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl1" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [White]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=75, Height=14}" />
+        <Location value="{X=48,Y=100}" />
+        <Alignment value="Left" />
+        <Data value="=Address" />
+      </Longkong.FormTable.DataBoxControl>
+      <Longkong.FormTable.DataBoxControl>
+        <Name value="dataBoxControl" />
+        <DashStyle value="Solid" />
+        <BorderColor value="Color [White]" />
+        <Font value="[Font:Name=Tahoma,Size=8,Style=Regular,Unit=Point]" />
+        <Size value="{Width=75, Height=14}" />
+        <Location value="{X=48,Y=80}" />
+        <Alignment value="Left" />
+        <Data value="=Name" />
+      </Longkong.FormTable.DataBoxControl>
+    </Controls>
+  </Longkong.FormTable.PojjamanDoc>
+</Components>]]></File>
+	</Files>
+	
+	<AdditionalOptions/>
+</Template>

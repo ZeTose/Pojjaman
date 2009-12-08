@@ -1,0 +1,54 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by any (Ru-Board) -->
+<AddIn name="Pojjaman Check Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Check.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="outgoingcheck" entity="outgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.OutgoingCheckFilterSubPanel"/>
+		<EntityFilter id="incomingcheck" entity="incomingcheck" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>
+		<EntityFilter id="updatecheckpayment" entity="updatecheckpayment" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
+		<EntityFilter id="updatecheckreceive" entity="updatecheckreceive" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
+		<EntityFilter id="updatecheckdeposit" entity="updatecheckdeposit" filter="Longkong.Pojjaman.Gui.Panels.UpdateDepositCheckFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="incomingcheck">
+			<EntityTab id="IncomingCheckDetailView" view="Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView"/>
+		</EntityTab>
+		<EntityTab id="outgoingcheck">
+			<EntityTab id="OutgoingCheckDetailView" view="Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView"/>
+		</EntityTab>
+		<EntityTab id="updatecheckpayment">
+			<EntityTab id="UpdateOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateOutgoingCheckDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="updatecheckreceive">
+			<EntityTab id="UpdateIncomingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateIncomingCheckDetail"/>
+			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="updatecheckdeposit">
+			<EntityTab id="UpdateDepositCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateDepositCheckDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="checkdeposite">
+			<EntityTab id="UpdateDepositCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateDepositCheckDetail"/>
+			<!--<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>-->
+		</EntityTab>
+		<EntityTab id="updatecheckdiscount">
+			<EntityTab id="UpdateDiscountCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateDiscountCheckDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="checkdiscount">
+			<EntityTab id="CheckDiscountDetail" view="Longkong.Pojjaman.Gui.Panels.CheckDiscountDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="checkchange">
+			<EntityTab id="CheckChangeDetail" view="Longkong.Pojjaman.Gui.Panels.CheckChangeDetail"/>
+			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		</EntityTab>
+		<EntityTab id="exportoutgoingcheck">
+			<EntityTab id="ExportOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

@@ -1,0 +1,39 @@
+<AddIn name="Pojjaman Bidding Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Bidding.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="boq" entity="boq" filter="Longkong.Pojjaman.Gui.Panels.BOQFilterSubPanel"/>		
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		
+		<EntityTab id="boq">
+			<EntityTab id="BOQPanelView" view="Longkong.Pojjaman.Gui.Panels.BOQPanelView"/>
+			<EntityTab id="WBSDetail" view="Longkong.Pojjaman.Gui.Panels.WBSDetail"/>
+			<EntityTab id="ItemListing" view="Longkong.Pojjaman.Gui.Panels.ItemListing"/>
+			<EntityTab id="MarkupDetailView" view="Longkong.Pojjaman.Gui.Panels.MarkupDetailView"/>
+			<EntityTab id="MarkupDistribution" view="Longkong.Pojjaman.Gui.Panels.MarkupDistribution"/>
+			<EntityTab id="Summary" view="Longkong.Pojjaman.Gui.Panels.Summary"/>
+			<EntityTab id="BOQPreview" view="Longkong.Pojjaman.Gui.Panels.BOQPreview"/>
+		</EntityTab>
+		<EntityTab id="project">
+			<EntityTab id="ProjectDetailView" view="Longkong.Pojjaman.Gui.Panels.ProjectDetailView"/>
+		</EntityTab>
+		
+		<EntityTab id="boqbuilder">
+			<EntityTab id="ProjectDetailView" view="Longkong.Pojjaman.Gui.Panels.ProjectDetailView"/>
+			<EntityTab id="WBSBOQ" view="Longkong.Pojjaman.Gui.Panels.WBSBOQ"/>
+			<EntityTab id="ItemListing" view="Longkong.Pojjaman.Gui.Panels.ItemListing"/>
+			<EntityTab id="Markup" view="Longkong.Pojjaman.Gui.Panels.Markup"/>
+			<EntityTab id="MarkupDistribution" view="Longkong.Pojjaman.Gui.Panels.MarkupDistribution"/>
+			<EntityTab id="Summary" view="Longkong.Pojjaman.Gui.Panels.Summary"/>
+		</EntityTab>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="wbs" entity="wbs" view="Longkong.Pojjaman.Gui.Panels.WBSSelectionView"/>
+		<EntityListView id="boqforselection" entity="boqforselection" view="Longkong.Pojjaman.Gui.Panels.BOQItemSelectionView"/>
+    <EntityListView id="boqwbsforselection" entity="boqwbsforselection" view="Longkong.Pojjaman.Gui.Panels.BOQItemWBSSelectionView"/>
+    
+	</Extension>
+</AddIn>

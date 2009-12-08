@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2006-04-21T11:26:02Z" uuid="4f6a66dc-0ed7-4766-99ea-04bb58600f95">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
+   <subform name="form1" layout="tb" locale="th_TH">
+      <pageSet>
+         <pageArea name="Page1" id="Page1">
+            <contentArea x="0.25in" y="0.25in" w="197.3mm" h="284.3mm"/>
+            <medium stock="a4" short="210mm" long="297mm"/>
+         </pageArea>
+      </pageSet>
+      <subform w="197.3002mm" h="284.3001mm">
+         <draw name="StaticImage1" w="28.575mm" h="25.4mm" x="7.62mm">
+            <value>
+               <image href="=Logo" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <draw name="StaticText20" y="28.575mm" x="55.7875mm" w="85.725mm" h="9.525mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <exData maxLength="0" contentType="text/html">
+                  <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">ซ่อมบำรุง</p></body>
+               </exData>
+            </value>
+            <font size="12pt" typeface="Bc-0001" baselineShift="0pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
+            <?renderCache.bounds 240166 24166 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 4 000C 1 102462 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 0046 1 109086 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 12 00300024001D 1 109170 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 004B 1 127062 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 0035 1 127170 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 0026 1 131382 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 003B 1 135870 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 0008 1 135786 16620 0 0 0 "Adobe Thai" 1 0 12000 UTF-16?></draw>
+         <field name="txtDeliverToCompanyName" y="44.6532mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="11.6674mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">เลขที่</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="42.545mm" w="149.225mm" h="6.35mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="0in">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyName</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="42.545mm" w="149.225mm" h="6.35mm" y="7.874mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="10.5866mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <value>
+                  <text>ที่อยู่</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyAddress</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="42.545mm" w="49.3889mm" h="6.35mm" y="15.24mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="16.7363mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <value>
+                  <text>โทรศัพท์</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyPhone</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="96.9264mm" w="49.3889mm" h="6.35mm" y="15.24mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="12.3399mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <value>
+                  <text>แฟกซ์</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+         </field>
+         <draw name="StaticImage1" w="79.375mm" h="79.375mm" x="9.525mm" y="168.275mm">
+            <value>
+               <image href="=Logo" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <draw name="StaticImage1" w="79.375mm" h="79.375mm" x="102.87mm" y="168.275mm">
+            <value>
+               <image href="=Logo" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <field name="txtDeliverToCompanyName" y="44.6532mm" x="121.158mm" w="59.5037mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="11.6674mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">วันที่</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="57.404mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="19.5522mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">ใบกำกับภาษี</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="57.404mm" x="121.158mm" w="59.5037mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="11.6674mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">วันที่</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="70.1548mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="24.8014mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">เลขที่ใบส่งของ</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="70.1548mm" x="121.158mm" w="59.5037mm" h="8.5005mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="11.6674mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">วันที่</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="82.9056mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="24.8014mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">เครื่องจักร</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="95.6564mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="24.8014mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">Cost Center</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="108.4072mm" x="6.4008mm" w="55.2535mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="24.8014mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai';text-decoration:none">ผู้ตรวจสอบงาน</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="82.9056mm" x="121.158mm" w="59.5037mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="11.9651mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">ผู้ขาย</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="95.6564mm" x="121.158mm" w="59.5037mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="19.5522mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">ระยะเครดิต</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCompanyName" y="108.4072mm" x="121.158mm" w="59.5037mm" h="7.62mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge presence="hidden">
+                     </edge>
+                     <edge/>
+                     <edge presence="hidden"/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="Bc-0001"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para vAlign="middle" marginLeft="0pt"/>
+            <caption reserve="17.2144mm">
+               <font size="12pt" typeface="Bc-0001"/>
+               <para vAlign="middle"/>
+               <value>
+                  <exData maxLength="0" contentType="text/html">
+                     <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-family:'Adobe Thai'">ผู้ส่งงาน</p></body>
+                  </exData>
+               </value>
+            </caption>
+            <value>
+               <text>=</text>
+            </value>
+         </field>
+      </subform>
+      <proto/>
+      <?renderCache.subset "Adobe Thai" 0 0 UTF-16 2 228 000100020003000500080009000C00170018001A001C001D001F002100220023002500260028002A002B002C002D003000330034003500370038003A003C003E003F0040004100460047004A004B005E009A009C00A700A900D700DA00DB00DE00E300E400E500E600E800E900EA00EF015F?>
+      <?renderCache.subset "Adobe Thai" 1 0 UTF-16 2 40 0008000C001D0024002600300035003B0046004B?></subform>
+   <?templateDesigner DefaultLanguage FormCalc?>
+   <?templateDesigner DefaultRunAt client?>
+   <?templateDesigner Grid show:1, snap:1, units:19, color:ff8080, origin:(0,0), interval:(12048,12048)?>
+   <?templateDesigner Zoom 61?>
+   <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
+   <agent name="designer">
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo/>
+      </pdf>
+   </agent>
+   <present>
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo>
+         </fontInfo>
+      </pdf>
+      <xdp>
+         <packets>*</packets>
+      </xdp>
+   </present>
+   <psMap>
+      <font typeface="Adobe Thai" psName="AdobeThai-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Bold" weight="bold" posture="normal"/>
+   </psMap>
+</config>
+<localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.1/">
+   <locale name="th_TH" desc="Thai">
+      <calendarSymbols name="gregorian">
+         <monthNames>
+            <month>มกราคม</month>
+            <month>กุมภาพันธ์</month>
+            <month>มีนาคม</month>
+            <month>เมษายน</month>
+            <month>พฤษภาคม</month>
+            <month>มิถุนายน</month>
+            <month>กรกฎาคม</month>
+            <month>สิงหาคม</month>
+            <month>กันยายน</month>
+            <month>ตุลาคม</month>
+            <month>พฤศจิกายน</month>
+            <month>ธันวาคม</month>
+         </monthNames>
+         <monthNames abbr="1">
+            <month>ม.ค.</month>
+            <month>ก.พ.</month>
+            <month>มี.ค.</month>
+            <month>เม.ย.</month>
+            <month>พ.ค.</month>
+            <month>มิ.ย.</month>
+            <month>ก.ค.</month>
+            <month>ส.ค.</month>
+            <month>ก.ย.</month>
+            <month>ต.ค.</month>
+            <month>พ.ย.</month>
+            <month>ธ.ค.</month>
+         </monthNames>
+         <dayNames>
+            <day>วันอาทิตย์</day>
+            <day>วันจันทร์</day>
+            <day>วันอังคาร</day>
+            <day>วันพุธ</day>
+            <day>วันพฤหัสบดี</day>
+            <day>วันศุกร์</day>
+            <day>วันเสาร์</day>
+         </dayNames>
+         <dayNames abbr="1">
+            <day>อา.</day>
+            <day>จ.</day>
+            <day>อ.</day>
+            <day>พ.</day>
+            <day>พฤ.</day>
+            <day>ศ.</day>
+            <day>ส.</day>
+         </dayNames>
+         <meridiemNames>
+            <meridiem>ก่อนเที่ยง</meridiem>
+            <meridiem>หลังเที่ยง</meridiem>
+         </meridiemNames>
+         <eraNames>
+            <era>ปีก่อนคริสต์กาลที่</era>
+            <era>ค.ศ.</era>
+         </eraNames>
+      </calendarSymbols>
+      <datePatterns>
+         <datePattern name="full">EEEE'ที่ 'D MMMM G YYYY</datePattern>
+         <datePattern name="long">D MMMM YYYY</datePattern>
+         <datePattern name="med">D MMM YYYY</datePattern>
+         <datePattern name="short">D/M/YYYY</datePattern>
+      </datePatterns>
+      <timePatterns>
+         <timePattern name="full">H' นาฬิกา 'M' นาที 'SS' วินาที'</timePattern>
+         <timePattern name="long">H' นาฬิกา 'M' นาที'</timePattern>
+         <timePattern name="med">H:MM:SS</timePattern>
+         <timePattern name="short">H:MM</timePattern>
+      </timePatterns>
+      <dateTimeSymbols>GanjkHmsSEDFwWxhKzZ</dateTimeSymbols>
+      <numberPatterns>
+         <numberPattern name="numeric">sz,zz9.zzz</numberPattern>
+         <numberPattern name="currency">$sz,zz9.99</numberPattern>
+         <numberPattern name="percent">z,zz9%</numberPattern>
+      </numberPatterns>
+      <numberSymbols>
+         <numberSymbol name="decimal">.</numberSymbol>
+         <numberSymbol name="grouping">,</numberSymbol>
+         <numberSymbol name="percent">%</numberSymbol>
+         <numberSymbol name="minus">-</numberSymbol>
+         <numberSymbol name="zero">0</numberSymbol>
+      </numberSymbols>
+      <currencySymbols>
+         <currencySymbol name="symbol">฿</currencySymbol>
+         <currencySymbol name="isoname">THB</currencySymbol>
+         <currencySymbol name="decimal">.</currencySymbol>
+      </currencySymbols>
+   </locale>
+</localeSet>
+<PDFSecurity print="1" printHighQuality="1" change="1" modifyAnnots="1" formFieldFilling="1" documentAssembly="1" contentCopy="1" accessibleContent="1" metadata="1" xmlns="http://ns.adobe.com/xtd/"/></xdp:xdp>

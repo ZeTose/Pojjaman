@@ -1,0 +1,229 @@
+<AddIn name="Pojjaman Core" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman core module" version="1.0.0">
+	<Runtime>
+		<Import assembly="../bin/Pojjaman.Base.dll"/>
+		<Import assembly="../bin/Pojjaman.exe"/>
+		<Import assembly="../bin/Longkong.Core.Services.dll"/>
+	</Runtime>
+	<Extension path="/Workspace/Autostart">
+		<!-- <Class id="InitializePojjamanWorkbenchCommand" class="Longkong.Pojjaman.Commands.InitializePojjamanWorkbenchCommand"/> -->
+		<Class id="InsertPJMFormKeyHandler" class="Longkong.Pojjaman.Commands.InsertFormKeyHandler"/>
+		<Class id="StartPojjamanWorkbenchCommand" class="Longkong.Pojjaman.Commands.StartPojjamanWorkbenchCommand"/>
+	</Extension>
+	<Extension path="/Workspace/Services">
+		<Class id="FileService" class="Longkong.Pojjaman.Services.DefaultFileService"/>
+		<Class id="EntityUtilityService" class="Longkong.Core.Services.EntityUtilityService"/>
+		<Class id="EntityPanelService" class="Longkong.Pojjaman.Services.DefaultEntityPanelService"/>
+		<Class id="DateTimeService" class="Longkong.Core.Services.DateTimeService"/>
+		<Class id="StatusBarService" class="Longkong.Pojjaman.Services.DefaultStatusBarService"/>
+		<Class id="ToolbarService" class="Longkong.Pojjaman.Services.ToolbarService"/>
+		<Class id="LanguageService" class="Longkong.Pojjaman.Services.LanguageService"/>
+		<Class id="DisplayBindingService" class="Longkong.Pojjaman.Services.DisplayBindingService"/>
+		<Class id="MenuService" class="Longkong.Pojjaman.Services.MenuService"/>
+		<Class id="SecurityService" class="Longkong.Pojjaman.Services.SecurityService"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/Image/FileFilter">
+		<FileFilter id="Image" name="${res:Longkong.Pojjaman.FileFilter.Image}" extensions="*.jpg;*.png;*.bmp;*.gif;*.jpeg"/>	
+		<FileFilter id="AllFiles" name="${res:Pojjaman.FileFilter.AllFiles}" extensions="*.*"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/FileFilter">
+		<FileFilter id="AllFiles" name="${res:Pojjaman.FileFilter.AllFiles}" extensions="*.*"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/FileFilter">
+		<FileFilter id="DocumentForm" insertafter="Html" insertbefore="ReportForm" name="${res:Longkong.Pojjaman.FileFilter.DocumentForm}" extensions="*.dfm"/>
+		<FileFilter id="ReportForm" insertafter="DocumentForm" insertbefore="AllFiles" name="${res:Longkong.Pojjaman.FileFilter.ReportForm}" extensions="*.rfm"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/Project/FileFilter">
+		<FileFilter id="Project" name="${res:Pojjaman.FileFilter.ProjectFiles}" extensions="*.pjm"/>
+		<FileFilter id="AllFiles" name="${res:Pojjaman.FileFilter.AllFiles}" extensions="*.*"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/SecondMenu">
+		<MenuItem id="File" label="${res:XML.MainMenu.FileMenu.New.File}" icon="Icons.16x16.NewDocumentIcon" description="${res:XML.MainMenu.FileMenu.New.File.Description}" class="Longkong.Pojjaman.Commands.CreateNewFile"/>
+		<MenuItem id="File2" label="${res:XML.MainMenu.FileMenu.Open.File}" icon="Icons.16x16.OpenFileIcon" description="${res:XML.MainMenu.FileMenu.Open.File.Description}" shortcut="Control|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/ToolBar">
+		<ToolbarItem id="Standard">
+			<ToolbarItem id="BiddingMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Bidding}" label="${res:XML.MainMenu.ModeMenu.Bidding}" class="Longkong.Pojjaman.Commands.BiddingModeCommand"/>
+			<ToolbarItem id="AccountingMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Accounting}" label="${res:XML.MainMenu.ModeMenu.Accounting}" class="Longkong.Pojjaman.Commands.AccountingModeCommand"/>
+			<ToolbarItem id="CostControlMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.CostControl}" label="${res:XML.MainMenu.ModeMenu.CostControl}" class="Longkong.Pojjaman.Commands.CostControlModeCommand"/>
+		</ToolbarItem>
+		<ToolbarItem id="Dynamic">
+			<Conditional applicationmode="Bidding" action="Exclude">
+				<ToolbarItem id="NewProject" icon="Icons.16x16.NewProjectIcon" tooltip="${res:XML.MainMenu.FileMenu.New.Project.Description}" class="Longkong.Pojjaman.Commands.CreateNewProject"/>
+				<ToolbarItem id="NewCostCenter" icon="Icons.16x16.CostCenter" tooltip="${res:MainMenu.FileMenu.New.CostCenter.Description}" class="Longkong.Pojjaman.Commands.CreateNewCostCenter"/>
+				<!--<ToolbarItem id="ExportToPR" icon="Icons.16x16.PR" tooltip="${res:MainMenu.FileMenu.New.PRFromBOQ.Description}" class="Longkong.Pojjaman.Commands.CreateFromBOQ" entity="Longkong.Pojjaman.BusinessLogic.Pr"/>
+				<ToolbarItem id="ExportToPO" icon="Icons.16x16.PO" tooltip="${res:MainMenu.FileMenu.New.POFromBOQ.Description}" class="Longkong.Pojjaman.Commands.CreateFromBOQ" entity="Longkong.Pojjaman.BusinessLogic.Po"/>-->
+				<ToolbarItem id="BiddingSeparator" tooltip="-"/>
+			</Conditional>
+			<Conditional activewindow="*" action="Disable">
+				<ToolbarItem id="NewEntity" icon="Icons.16x16.Add" shortcut="Insert" tooltip="${res:XML.MainMenu.FileMenu.CreateNewEntity.Description}" class="Longkong.Pojjaman.Commands.CreateNewEntity"/>
+			</Conditional>
+			<Conditional windowstate="Dirty,Untitled" nowindowstate="ViewOnly" action="Disable">
+				<ToolbarItem id="Save" icon="Icons.16x16.SaveIcon" tooltip="${res:XML.MainMenu.FileMenu.Save.Description}" class="Longkong.Pojjaman.Commands.SaveFile"/>
+			</Conditional>
+			<!--<Conditional openwindowstate="Dirty" action="Disable">
+				<ToolbarItem id="SaveAll" icon="Icons.16x16.SaveAllIcon" tooltip="${res:XML.MainMenu.FileMenu.SaveAll.Description}" class="Longkong.Pojjaman.Commands.SaveAllFiles"/>
+			</Conditional>-->
+			<Conditional cancelable="True" action="Disable">
+				<ToolbarItem id="CancelEntity" icon="Icons.16x16.DocumentStop" tooltip="${res:XML.MainMenu.FileMenu.CancelEntity.Description}" class="Longkong.Pojjaman.Commands.CancelEntity"/>
+			</Conditional>
+			<Conditional deletable="True" action="Disable">
+				<ToolbarItem id="DeleteEntity" icon="Icons.16x16.DeleteDocument" tooltip="${res:XML.MainMenu.FileMenu.DeleteEntity.Description}" class="Longkong.Pojjaman.Commands.DeleteEntity"/>					
+			</Conditional>
+			<Conditional isreferenced="True" action="Disable">
+				<ToolbarItem id="ShowRef" icon="Icons.16x16.Link" tooltip="${res:XML.MainMenu.FileMenu.ShowRef.Description}" class="Longkong.Pojjaman.Commands.ShowRef"/>
+			</Conditional>
+			<Conditional canbeattached="True" action="Disable">
+				<ToolbarItem id="AttachmentShow" icon="Icons.16x16.Attach" tooltip="${res:XML.MainMenu.FileMenu.Attachment.Description}" class="Longkong.Pojjaman.Commands.AttachmentShow"/>
+			</Conditional>
+			<Conditional activewindow="*"  action="Disable">
+				<ToolbarItem id="NoteEntity2" icon="Icons.16x16.Info" tooltip="${res:XML.MainMenu.FileMenu.NoteEntity.Description}" class="Longkong.Pojjaman.Commands.NoteEntity"/>	
+			</Conditional>		
+			<ToolbarItem id="AcctSeparator" tooltip="-"/>
+			<ToolbarItem id="Cut" icon="Icons.16x16.CutIcon" label="${res:XML.MainMenu.EditMenu.Cut}" tooltip="${res:XML.MainMenu.EditMenu.Cut.Description}" class="Longkong.Pojjaman.Commands.Cut"/>
+			<ToolbarItem id="Copy" icon="Icons.16x16.CopyIcon" label="${res:XML.MainMenu.EditMenu.Copy}" tooltip="${res:XML.MainMenu.EditMenu.Copy.Description}" class="Longkong.Pojjaman.Commands.Copy"/>
+			<ToolbarItem id="Paste" icon="Icons.16x16.PasteIcon" label="${res:XML.MainMenu.EditMenu.Paste}" tooltip="${res:XML.MainMenu.EditMenu.Paste.Description}" class="Longkong.Pojjaman.Commands.Paste"/>
+			<!--<ToolbarItem id="Delete" icon="Icons.16x16.DeleteIcon" label="${res:XML.MainMenu.EditMenu.Delete}" tooltip="${res:XML.MainMenu.EditMenu.Delete.Description}" class="Longkong.Pojjaman.Commands.Delete"/>
+			<ToolbarItem id="Undo" icon="Icons.16x16.UndoIcon" label="${res:XML.MainMenu.EditMenu.Undo}" tooltip="${res:XML.MainMenu.EditMenu.Undo.Description}" class="Longkong.Pojjaman.Commands.Undo"/>
+			<ToolbarItem id="Redo" icon="Icons.16x16.RedoIcon" label="${res:XML.MainMenu.EditMenu.Redo}" tooltip="${res:XML.MainMenu.EditMenu.Redo.Description}" class="Longkong.Pojjaman.Commands.Redo"/>-->
+			<ToolbarItem id="PrintSeparator" tooltip="-"/>
+			<Conditional activewindow="*" action="Disable">
+				<!--<Conditional printable="True" action="Disable">-->
+				<ToolbarItem id="Print" icon="Icons.16x16.Print" tooltip="${res:MainMenu.FileMenu.Print}" class="Longkong.Pojjaman.Commands.Print"/>
+				<ToolbarItem id="PrintPreview" icon="Icons.16x16.PreView" tooltip="${res:MainMenu.FileMenu.PrintPreview}" class="Longkong.Pojjaman.Commands.PrintPreview"/>
+				<!--</Conditional>-->
+				<!--<Conditional hasprintableview="True" action="Disable">-->
+				<!--<ToolbarItem id="PrintManager" icon="Icons.16x16.PrintManager" tooltip="${res:MainMenu.FileMenu.PrintManager}" class="Longkong.Pojjaman.Commands.PrintManager"/>-->
+				<!--</Conditional>-->
+			</Conditional>
+			<ToolbarItem id="TestSeparator" tooltip="-"/>
+		</ToolbarItem>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/DisplayBindings">
+		<DisplayBinding id="Browser" supportedformats="Web Pages" class="Longkong.Pojjaman.BrowserDisplayBinding.BrowserDisplayBinding"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/DisplayBindings">
+		<DisplayBinding id="Text" insertafter="Browser" supportedformats="Text Files,Source Files" class="Longkong.Pojjaman.DefaultEditor.Gui.Editor.TextEditorDisplayBinding"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/DisplayBindings">
+		<DisplayBinding id="Form" insertafter="Text" supportedformats="Forms" class="Longkong.Pojjaman.PanelDisplayBinding.PanelDisplayBinding"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/PojjamanSideBar/ContextMenu">
+		<Conditional ownerstate="TabCanBeDeleted" action="Disable">
+			<MenuItem id="DeleteTab" label="${res:SideBarComponent.ContextMenu.DeleteTab}" class="Longkong.Pojjaman.Commands.SideBarDeleteTabHeader"/>
+		</Conditional>
+		<MenuItem id="RenameTab" label="${res:SideBarComponent.ContextMenu.RenameTab}" class="Longkong.Pojjaman.Commands.SideBarRenameTabHeader"/>
+		<MenuItem id="Separator1" label="-"/>
+		<MenuItem id="AddTab" label="${res:SideBarComponent.ContextMenu.AddTab}" class="Longkong.Pojjaman.Commands.SideBarAddTabHeader"/>
+		<MenuItem id="Separator2" label="-"/>
+		<Conditional ownerstate="CanMoveUp" action="Disable">
+			<MenuItem id="MoveTabUp" label="${res:SideBarComponent.ContextMenu.MoveTabUp}" class="Longkong.Pojjaman.Commands.SideBarMoveTabUp"/>
+		</Conditional>
+		<Conditional ownerstate="CanMoveDown" action="Disable">
+			<MenuItem id="MoveTabDown" label="${res:SideBarComponent.ContextMenu.MoveTabDown}" class="Longkong.Pojjaman.Commands.SideBarMoveTabDown"/>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/PojjamanSideBar/SideTab/ContextMenu">
+		<MenuItem id="RenameTabItem" label="${res:SideBarComponent.ContextMenu.RenameTabItem}" class="Longkong.Pojjaman.Commands.SideBarRenameTabItem"/>
+		<MenuItem id="DeleteTabItem" label="${res:SideBarComponent.ContextMenu.DeleteTabItem}" class="Longkong.Pojjaman.Commands.SideBarDeleteTabItem"/>
+		<Conditional ownerstate="TabCanBeDeleted">
+			<MenuItem id="Separator1" label="-"/>
+			<Conditional ownerstate="CanMoveItemUp" action="Disable">
+				<MenuItem id="MoveItemUp" label="${res:SideBarComponent.ContextMenu.MoveTabItemUp}" class="Longkong.Pojjaman.Commands.SideBarMoveActiveItemUp"/>
+			</Conditional>
+			<Conditional ownerstate="CanMoveItemDown" action="Disable">
+				<MenuItem id="MoveItemDown" label="${res:SideBarComponent.ContextMenu.MoveTabItemDown}" class="Longkong.Pojjaman.Commands.SideBarMoveActiveItemDown"/>
+			</Conditional>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/ViewContent/PanelView/ContextMenu">
+		<MenuItem id="Cut" label="${res:XML.TextAreaContextMenu.Cut}" icon="Icons.16x16.CutIcon" shortcut="Control|X" class="Longkong.Pojjaman.Commands.Cut"/>
+		<MenuItem id="Copy" label="${res:XML.TextAreaContextMenu.Copy}" icon="Icons.16x16.CopyIcon" shortcut="Control|C" class="Longkong.Pojjaman.Commands.Copy"/>
+	</Extension>
+	<Extension path="/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu">
+		<MenuItem id="Cut" label="${res:XML.TextAreaContextMenu.Cut}" icon="Icons.16x16.CutIcon" shortcut="Control|X" class="Longkong.Pojjaman.Commands.Cut"/>
+		<MenuItem id="Copy" label="${res:XML.TextAreaContextMenu.Copy}" icon="Icons.16x16.CopyIcon" shortcut="Control|C" class="Longkong.Pojjaman.Commands.Copy"/>
+		<MenuItem id="Paste" label="${res:XML.TextAreaContextMenu.Paste}" icon="Icons.16x16.PasteIcon" shortcut="Control|V" class="Longkong.Pojjaman.Commands.Paste"/>
+		<MenuItem id="Delete" label="${res:XML.MainMenu.EditMenu.Delete}" icon="Icons.16x16.DeleteIcon" class="Longkong.Pojjaman.Commands.Delete"/>
+		<MenuItem id="Separator1" label="-"/>
+		<MenuItem id="Save" label="${res:XML.MainMenu.FileMenu.Save}" icon="Icons.16x16.SaveIcon" shortcut="Control|S" class="Longkong.Pojjaman.Commands.SaveFile"/>
+		<MenuItem id="SaveAs" label="${res:XML.MainMenu.FileMenu.SaveAs}" class="Longkong.Pojjaman.Commands.SaveFileAs"/>
+		<MenuItem id="File" label="${res:XML.MainMenu.FileMenu.Close}" class="Longkong.Pojjaman.Commands.CloseFile"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/Views"/>
+
+	<Extension path="/Pojjaman/Dialogs/CustomItemDialog">
+		<DialogPanel id="CustomDatabase" label="${res:Dialog.Options.CustomDatabaseText}">
+			<DialogPanel id="SelectCustomItem" label="${res:Dialog.Options.ItemDatabase.CustomItem.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.CustomItemPanel"/>
+		</DialogPanel>
+	</Extension>
+	<Extension path="/Pojjaman/Views/PropertyPad/ContextMenu">
+		<MenuItem id="ResetProperty" label="${res:Longkong.Pojjaman.Gui.Pads.PropertyPad.ContextMenu.Reset}" class="Longkong.Pojjaman.Gui.Pads.PropertyPadResetCommand"/>
+		<MenuItem id="Separator" label="-"/>
+		<MenuItem id="ShowDescription" label="${res:Longkong.Pojjaman.Gui.Pads.PropertyPad.ContextMenu.ShowDescription}" class="Longkong.Pojjaman.Gui.Pads.PropertyPadShowDescriptionCommand"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/OpenFileTab/ContextMenu">
+		<MenuItem id="Close" label="${res:OpenFileTabEventHandler.ContextMenu.Close}" class="Longkong.Pojjaman.Commands.TabStrip.CloseFileTab"/>
+		<MenuItem id="CloseAll" icon="Icons.16x16.CloseAllDocuments" label="${res:XML.MainMenu.FileMenu.CloseAll}" class="Longkong.Pojjaman.Commands.CloseAllWindows"/>
+		<MenuItem id="CloseAllButThis" label="${res:OpenFileTabEventHandler.ContextMenu.CloseAllButThis}" class="Longkong.Pojjaman.Commands.TabStrip.CloseAllButThisFileTab"/>
+		<MenuItem id="CloseSeparator" label="-"/>
+		<Conditional action="Disable">
+			<And>
+				<Condition ownerstate="FileDirty"/>
+				<Not>
+					<Condition ownerstate="FileUntitled"/>
+				</Not>
+			</And>
+			<MenuItem id="Save" label="${res:OpenFileTabEventHandler.ContextMenu.Save}" icon="Icons.16x16.SaveIcon" class="Longkong.Pojjaman.Commands.TabStrip.SaveFileTab"/>
+		</Conditional>
+		<!--<MenuItem id="SaveAs" label="${res:OpenFileTabEventHandler.ContextMenu.SaveAs}" class="Longkong.Pojjaman.Commands.TabStrip.SaveFileAsTab"/>-->
+		<MenuItem id="SaveSeparator" label="-"/>
+		<Conditional action="Disable">
+			<Not>
+				<Condition ownerstate="FileUntitled"/>
+			</Not>
+			<MenuItem id="CopyPathName" label="${res:OpenFileTabEventHandler.CopyPathName}" class="Longkong.Pojjaman.Commands.TabStrip.CopyPathName"/>
+		</Conditional>
+	</Extension>
+	<Extension path="/Workspace/Icons">
+		<!-- C# -->
+		<Icon id="C#Prj" language="C#" resource="C#.ProjectIcon"/>
+		<Icon id="C#File" extensions=".cs" resource="C#.FileIcon"/>
+		<!-- VB.NET -->
+		<Icon id="VBPrj" language="VBNET" resource="VB.ProjectIcon"/>
+		<Icon id="VBFile" extensions=".vb" resource="VB.FileIcon"/>
+		<!-- Java -->
+		<Icon id="JavaPrj" language="Java" resource="Java.ProjectIcon"/>
+		<Icon id="JavaFile" extensions=".java" resource="Java.FileIcon"/>
+		<!-- Java Script -->
+		<Icon id="JScriptPrj" language="JScript" resource="JScript.ProjectIcon"/>
+		<Icon id="JScriptFile" extensions=".js" resource="JScript.FileIcon"/>
+		<!-- C++ -->
+		<Icon id="C++Project" language="C++.NET" resource="C++.ProjectIcon"/>
+		<Icon id="C++File" extensions=".cpp" resource="C++.FileIcon"/>
+		<!-- Resources -->
+		<Icon id="ResourceFileIcon" extensions=".resources,.resx" resource="Icons.16x16.ResourceFileIcon"/>
+		<!-- XML -->
+		<Icon id="XmlFileIcon" extensions=".xml" resource="FileIcons.XmlIcon"/>
+		<!-- TextFiles -->
+		<Icon id="TextFileIcon" extensions=".txt,.doc" resource="Icons.16x16.TextFileIcon"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<EntityListView id="poforapprove" entity="poforapprove" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>
+		<EntityListView id="goodsreceiptforapprove" entity="goodsreceiptforapprove" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>
+		<EntityListView id="prforapprove" entity="prforapprove" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>
+		<EntityListView id="treebaseentity" entity="treebaseentity" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="icaneditlist" entity="icaneditlist" view="Longkong.Pojjaman.Gui.Panels.EditableListPanelView"/>
+		<EntityListView id="journalentryupdate" entity="journalentryupdate" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>		
+
+		<EntityListView id="account" entity="account" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="suppliergroup" entity="suppliergroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="customergroup" entity="customergroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="assettype" entity="assettype" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="project" entity="project" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+		<EntityListView id="costcenter" entity="costcenter" view="Longkong.Pojjaman.Gui.Panels.CostCenterPanelView"/>
+		<EntityListView id="eqcostgroup" entity="eqcostgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
+		<EntityListView id="laborgroup" entity="laborgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
+		<EntityListView id="toolgroup" entity="toolgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
+		<EntityListView id="vatgroup" entity="vatgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
+	</Extension>	
+</AddIn>

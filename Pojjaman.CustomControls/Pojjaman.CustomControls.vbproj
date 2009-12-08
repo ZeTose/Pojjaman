@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.CustomControls</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.CustomControls/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.CustomControls.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.CustomControls.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Name>Longkong.Core.Services</Name>
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Name>Longkong.CustomControls</Name>
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Name>Longkong.Core</Name>
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Name>Pojjaman.Data</Name>
+      <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
+      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
+    </ProjectReference>
+    <Reference Include="Syncfusion.Core">
+      <Name>Syncfusion.Core</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Core.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Base">
+      <Name>Syncfusion.Grid.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Windows">
+      <Name>Syncfusion.Grid.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base">
+      <Name>Syncfusion.Shared.Base</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Base.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows">
+      <Name>Syncfusion.Shared.Windows</Name>
+      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Windows.dll</HintPath>
+      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calendar\CalendarHelper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calendar\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckedListBox\PropertyComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComboBox\FixedComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComboBox\PropertyComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\ColumnDragDataGrid\ColumnDragDataGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\ColumnDragDataGrid\DraggedDataGridColumn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\ColumnDragDataGrid\ScreenImage.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\ColumnHeaderClickEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DataGridButtonColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DatagridCellLeaveEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DatagridCellTextChangedEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DataGridComboBoxColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DataGridComboButtonColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DatagridExtendedIconColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DatagridIconColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DataGridProgressBarColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\DataGridTextColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\HeaderAndDataAlignColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\ItemDataGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\MultiLineColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\PJMDataGrid\PJMDataGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\PJMDataGrid\PlusMinusColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\ButtonColumnEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\ColorCollection.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\DataGridCheckBoxColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\DataGridComboColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\DataGridRowHeightSetter.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\DataGridTimePickerColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\ExpandCollapseEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\ITreeManager.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\ITreeParent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\PJMColumnStyle.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\PlusMinusTreeTextColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeColumnHeaderClickEventArgs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeGridComboBoxColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeManager.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeRow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeTable.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Datagrids\TreeGrid\TreeTextColumn.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownButton.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownGrid.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownLabel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FloatWindow\AbstractFloatWindow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FloatWindow\FloatWindow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FloatWindow\PJMFloatWindow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui.Components\ExpandableDataRow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Gui.Components\ExpandableRowDataTable.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageHelper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ListViewHelper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ListView\PJMListView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NewTreeGrid\LKGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PJMDateTimePicker.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Printing\PJMPreviewControl.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TabControl\PJMTabControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBox\MultiLineTextbox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TreeviewHelper.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TreeView\DraggedTreeNode.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TreeView\PJMDraggableTreeView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TreeView\PJMTreeView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Validator\PJMTextboxValidator.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="Calendar\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\ColumnDragDataGrid\ColumnDragDataGrid.resx">
+      <DependentUpon>ColumnDragDataGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\DataGridButtonColumn.resx">
+      <DependentUpon>DataGridButtonColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\DataGridComboBoxColumn.resx">
+      <DependentUpon>DataGridComboBoxColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\DataGridComboButtonColumn.resx">
+      <DependentUpon>DataGridComboButtonColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\DataGridProgressBarColumn.resx">
+      <DependentUpon>DataGridProgressBarColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\DataGridTextColumn.resx">
+      <DependentUpon>DataGridTextColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\HeaderAndDataAlignColumn.resx">
+      <DependentUpon>HeaderAndDataAlignColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\ItemDataGrid.resx">
+      <DependentUpon>ItemDataGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\MultiLineColumn.resx">
+      <DependentUpon>MultiLineColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\PJMDataGrid\PJMDataGrid.resx">
+      <DependentUpon>PJMDataGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\PJMDataGrid\PlusMinusColumn.resx">
+      <DependentUpon>PlusMinusColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\DataGridCheckBoxColumn.resx">
+      <DependentUpon>DataGridCheckBoxColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\DataGridComboColumn.resx">
+      <DependentUpon>DataGridComboColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\DataGridTimePickerColumn.resx">
+      <DependentUpon>DataGridTimePickerColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\TreeGrid.resx">
+      <DependentUpon>TreeGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\TreeGridComboBoxColumn.resx">
+      <DependentUpon>TreeGridComboBoxColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\TreeTable.resx">
+      <DependentUpon>TreeTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Datagrids\TreeGrid\TreeTextColumn.resx">
+      <DependentUpon>TreeTextColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropDown\DropDownButton.resx">
+      <DependentUpon>DropDownButton.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropDown\DropDownGrid.resx">
+      <DependentUpon>DropDownGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropDown\DropDownTree.resx">
+      <DependentUpon>DropDownTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FloatWindow\FloatWindow.resx">
+      <DependentUpon>FloatWindow.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PJMDateTimePicker.resx">
+      <DependentUpon>PJMDateTimePicker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validator\PJMTextboxValidator.resx">
+      <DependentUpon>PJMTextboxValidator.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

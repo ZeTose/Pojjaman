@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B10D6E89-D0A2-4A91-ADCE-C6E9FA475885}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.Base.Form.CashBank</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.Base.Form.CashBank/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.CashBank.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.CashBank.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BankAccount\BankAccountDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\AdvanceMoneyClosedDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\AdvanceMoneyDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\AdvanceMoneyFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\BankBranchDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\BankChargeDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\BankDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\BankListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\BankTransferDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\CashDepositDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\CashTypeDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\CashWithdrawDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\IncomeFromBankDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\PettyCashClaimDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\PettyCashClaimFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\PettyCashCloseDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CashBank\PettyCashDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="BankAccount\BankAccountDetailView.resx">
+      <DependentUpon>BankAccountDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\AdvanceMoneyClosedDetail.resx">
+      <DependentUpon>AdvanceMoneyClosedDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\AdvanceMoneyDetail.resx">
+      <DependentUpon>AdvanceMoneyDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\AdvanceMoneyFilterSubPanel.resx">
+      <DependentUpon>AdvanceMoneyFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\BankBranchDetailView.resx">
+      <DependentUpon>BankBranchDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\BankChargeDetail.resx">
+      <DependentUpon>BankChargeDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\BankDetailView.resx">
+      <DependentUpon>BankDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\BankListView.resx">
+      <DependentUpon>BankListView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\BankTransferDetail.resx">
+      <DependentUpon>BankTransferDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\CashDepositDetail.resx">
+      <DependentUpon>CashDepositDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\CashTypeDetail.resx">
+      <DependentUpon>CashTypeDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\CashWithdrawDetail.resx">
+      <DependentUpon>CashWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\IncomeFromBankDetail.resx">
+      <DependentUpon>IncomeFromBankDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\PettyCashClaimDetail.resx">
+      <DependentUpon>PettyCashClaimDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\PettyCashClaimFilterSubPanel.resx">
+      <DependentUpon>PettyCashClaimFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\PettyCashCloseDetail.resx">
+      <DependentUpon>PettyCashCloseDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashBank\PettyCashDetail.resx">
+      <DependentUpon>PettyCashDetail.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Name>Longkong.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
+      <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
+      <Name>Pojjaman.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Name>Pojjaman.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Name>Longkong.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Forms\CashBank</PostBuildEvent>
+  </PropertyGroup>
+</Project>

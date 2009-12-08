@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.21006</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B8CEDAAA-49F6-42AC-B09A-692FC2D7DEFC}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Pojjaman.Base.Form.Bidding</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace />
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>http://localhost/Pojjaman.Base.Form.Bidding/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.Bidding.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Pojjaman.Base.Form.Bidding.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bidding\BiddingInfoView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQItemSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQItemWBSSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQOptionsView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\BOQPreview.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\ItemListing.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\MarkupDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\MarkupDistribution.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\ProjectDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\ProjectExplorerView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\Summary.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\WBSDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bidding\WBSSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="commands\CreateFromBOQ.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Bidding\BiddingInfoView.resx">
+      <DependentUpon>BiddingInfoView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQFilterSubPanel.resx">
+      <DependentUpon>BOQFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQItemSelectionView.resx">
+      <DependentUpon>BOQItemSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQItemWBSSelectionView.resx">
+      <DependentUpon>BOQItemWBSSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQOptionsView.resx">
+      <DependentUpon>BOQOptionsView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQPanelView.resx">
+      <DependentUpon>BOQPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BOQPreview.resx">
+      <DependentUpon>BOQPreview.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\ItemListing.resx">
+      <DependentUpon>ItemListing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\MarkupDetailView.resx">
+      <DependentUpon>MarkupDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\MarkupDistribution.resx">
+      <DependentUpon>MarkupDistribution.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\ProjectDetailView.resx">
+      <DependentUpon>ProjectDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\ProjectExplorerView.resx">
+      <DependentUpon>ProjectExplorerView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\Summary.resx">
+      <DependentUpon>Summary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\WBSDetail.resx">
+      <DependentUpon>WBSDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\WBSSelectionView.resx">
+      <DependentUpon>WBSSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdobeForm\AdobeForm.vbproj">
+      <Project>{40356FC7-5CB0-4D70-BCF4-7F67BE8D3AC7}</Project>
+      <Name>AdobeForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.Core.Services\Longkong.Core.Services.vbproj">
+      <Project>{6B97573D-7213-452D-9749-E7D0230BC4BE}</Project>
+      <Name>Longkong.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
+      <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
+      <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.PieChart\Longkong.PieChart.csproj">
+      <Project>{96649C45-14FE-40EB-8A95-4E6ABE973A9A}</Project>
+      <Name>Longkong.PieChart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
+      <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
+      <Name>Pojjaman.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
+      <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
+      <Name>Pojjaman.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj">
+      <Project>{E32EDF66-304F-4672-8F8C-503E153E0D84}</Project>
+      <Name>Pojjaman.ContentInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
+      <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
+      <Name>Longkong.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
+      <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
+      <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Forms\Bidding</PostBuildEvent>
+  </PropertyGroup>
+</Project>
