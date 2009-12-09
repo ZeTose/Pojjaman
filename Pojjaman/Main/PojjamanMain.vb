@@ -16,7 +16,6 @@ Namespace Pojjaman
 
 #Region "Members"
     Private Shared m_commandLineArgs As String()
-    Private Const WorkbenchMemento As String = "Pojjaman.Workbench.WorkbenchMemento"
 #End Region
 
 #Region "Constructors"
@@ -52,8 +51,13 @@ Namespace Pojjaman
             noPassword = True
           Case "NODBCHECK"
             noDBCheck = True
+          Case "ALLOWTAB"
+            StartPojjamanWorkbenchCommand.ALLOWTAB = True
         End Select
       Next
+      If Not noLogo Then
+        SplashScreenForm.SplashScreen.Show()
+      End If
       StartPojjamanWorkbenchCommand.NODBCHECK = noDBCheck
       AddHandler Application.ThreadException, New ThreadExceptionEventHandler(AddressOf ShowErrorBox)
 
@@ -62,38 +66,22 @@ Namespace Pojjaman
       AddInTreeSingleton.SetAddInDirectories(addInDirs, False)
       Dim commands As ArrayList = Nothing
       Try
-
         ServiceManager.Services.AddService(New MessageService)
         ServiceManager.Services.AddService(New ResourceService)
         ServiceManager.Services.AddService(New IconService)
         ServiceManager.Services.InitializeServicesSubsystem("/Workspace/Services")
-
-        Dim myWorkBench As New PojjamanWorkbench
-        If Not noLogo Then
-          DrawSplashText()
-          SplashScreenForm.SplashScreen.Show()
-          System.Threading.Thread.CurrentThread.Sleep(2000)
-        End If
-
         'GetTreeNode --> BuildChildItems --> commands
         commands = AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Autostart").BuildChildItems(Nothing)
-        myWorkBench.Init()
-        WorkbenchSingleton.Workbench = myWorkBench
-        myWorkBench.InitializeWorkspace()
-        Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        myWorkBench.SetMemento(CType(myPropertyService.GetProperty(WorkbenchMemento, New WorkbenchMemento), IXmlConvertable))
-        myWorkBench.UpdatePadContents(Nothing, Nothing)
-        WorkbenchSingleton.CreateWorkspace()
-        'If (Not SplashScreenForm.SplashScreen Is Nothing) Then
-        '    SplashScreenForm.SplashScreen.TopMost = False
-        'End If
+        If (Not SplashScreenForm.SplashScreen Is Nothing) Then
+          SplashScreenForm.SplashScreen.TopMost = False
+        End If
         Dim pwdSet As Boolean = False
         For i As Integer = 0 To (commands.Count - 1) - 1
           CType(commands(i), ICommand).Run()
           If Not pwdSet Then
             Dim secServe As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
             If Not secServe Is Nothing Then
-              secServe.NoPassword = noPassword
+              SecurityService.NoPassword = noPassword
               pwdSet = True
             End If
           End If
@@ -121,8 +109,6 @@ Namespace Pojjaman
         If (commands.Count > 0) Then
           CType(commands((commands.Count - 1)), ICommand).Run()
         End If
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
       Finally
         ServiceManager.Services.UnloadAllServices()
       End Try
@@ -142,64 +128,6 @@ Namespace Pojjaman
         Case DialogResult.Retry, DialogResult.Ignore, DialogResult.Yes
           Return
       End Select
-    End Sub
-
-    Private Shared Sub DrawSplashText()
-      'Dim license As DeployLX.Licensing.v3.SecureLicense = CType(WorkbenchSingleton.Workbench, PojjamanWorkbench)._license
-
-      'Dim name As String = ""
-      'Dim serial As String = ""
-      'Dim organization As String = ""
-      'Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      'If license.IsTrial Then
-      '  serial = "Trial"
-      'Else
-      '  name = license.Username
-      '  serial = license.SerialNumber
-      '  organization = license.Organization
-      'End If
-
-      'Dim prodInfo As New clsAssInfo(System.Reflection.Assembly.GetExecutingAssembly)
-
-      'Dim im As Image = SplashScreenForm.SplashScreen.BackgroundImage
-      'Dim g As Graphics = Graphics.FromImage(im)
-      'Dim fn As Font = New System.Drawing.Font("Tahoma", 2.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      'Dim sf As New StringFormat
-      'sf.Alignment = StringAlignment.Far
-
-      'g.DrawString(myStringParserService.Parse("${res:Pojjaman.PojjamanNameLabel}") & Environment.NewLine & _
-      'myStringParserService.Parse("${res:Pojjaman.VersionLabel}") & Space(1) & prodInfo.Version & Environment.NewLine & _
-      'myStringParserService.Parse("${res:Pojjaman.CopyRightLabel}"), _
-      'fn, _
-      'New SolidBrush(Color.Gray), _
-      'New RectangleF(90, 150, 400, 300), _
-      'sf)
-
-      'g.DrawString(myStringParserService.Parse("${res:Pojjaman.LicenseImprovLabel}"), fn, _
-      'New SolidBrush(Color.Gray), _
-      'New RectangleF(90, 195, 400, 300), _
-      'sf)
-      'g.DrawString(name, fn, _
-      'New SolidBrush(Color.FromArgb(64, 64, 64)), _
-      'New RectangleF(90, 207, 400, 300), _
-      'sf)
-      'g.DrawString(organization, fn, _
-      'New SolidBrush(Color.FromArgb(64, 64, 64)), _
-      'New RectangleF(90, 219, 400, 300), _
-      'sf)
-
-      'g.DrawString(myStringParserService.Parse("${res:Pojjaman.OwnerNameLabel}") & Environment.NewLine & _
-      'myStringParserService.Parse("${res:Pojjaman.SoftwareHouseNoLabel}") & Environment.NewLine & _
-      'myStringParserService.Parse("${res:Pojjaman.SoftwareHouseDescriptionabel}"), fn, _
-      'New SolidBrush(Color.Gray), _
-      'New RectangleF(90, 236, 400, 300), _
-      'sf)
-      'g.DrawString(serial, fn, _
-      'New SolidBrush(Color.FromArgb(64, 64, 64)), _
-      'New RectangleF(90, 275, 400, 300), _
-      'sf)
-
-      'SplashScreenForm.SplashScreen.Invalidate()
     End Sub
 
 #End Region

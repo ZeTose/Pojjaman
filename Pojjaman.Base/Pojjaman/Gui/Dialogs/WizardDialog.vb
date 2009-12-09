@@ -3,6 +3,7 @@ Imports Longkong.Core.AddIns
 Imports Longkong.Core.AddIns.Codons
 Imports Longkong.Core.Properties
 Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui.Dialogs
     Public Class WizardDialog
         Inherits Form
@@ -271,7 +272,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
         Private Sub WizardDialog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
             Select Case e.KeyCode
                 Case Keys.Enter
+          If StartPojjamanWorkbenchCommand.ALLOWTAB Then
                     SendKeys.Send("{tab}")
+          End If
                     e.Handled = True
             End Select
         End Sub

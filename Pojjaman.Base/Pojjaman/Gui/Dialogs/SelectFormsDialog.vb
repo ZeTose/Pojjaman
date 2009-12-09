@@ -3,6 +3,7 @@ Imports Longkong.Core.Properties
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports System.Text.RegularExpressions
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui.Dialogs
     Public Class SelectFormsDialog
         Inherits System.Windows.Forms.Form
@@ -218,7 +219,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
                     Dim dlg As New System.Windows.Forms.OpenFileDialog
                     With dlg
                         .Title = Me.Text
-                        .Filter = "XML File|*.xml"
+            .Filter = "XML File|*.xml|All File|*.*"
                     End With
                     If dlg.ShowDialog = DialogResult.OK Then
                         Dim path As String = dlg.FileName()
@@ -306,7 +307,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
         Private Sub LoginDiaog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
             Select Case e.KeyCode
                 Case Keys.Enter
+          If StartPojjamanWorkbenchCommand.ALLOWTAB Then
                     SendKeys.Send("{tab}")
+          End If
                     e.Handled = True
             End Select
         End Sub

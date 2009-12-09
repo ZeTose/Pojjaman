@@ -18,6 +18,7 @@ Namespace Longkong.Pojjaman.Commands
     Private idleEventHandler As EventHandler
 
     Public Shared NODBCHECK As Boolean = False
+    Public Shared ALLOWTAB As Boolean = True
 #End Region
 
 #Region "Constructors"
@@ -82,7 +83,6 @@ Namespace Longkong.Pojjaman.Commands
       End If
 
       Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-      Try
         workBenchForm.Show()
         Me.idleEventHandler = New EventHandler(AddressOf Me.ShowTipOfTheDay)
         AddHandler Application.Idle, Me.idleEventHandler
@@ -100,13 +100,10 @@ Namespace Longkong.Pojjaman.Commands
         workBenchForm.Focus()
         Application.AddMessageFilter(New FormKeyHandler)
         Application.Run(workBenchForm)
-        Try
-          myPropertyService.SetProperty("Pojjaman.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
-        Catch ex As Exception
-          Console.WriteLine(("Exception while saving workbench state: " & ex.ToString))
-        End Try
+      Try
+        myPropertyService.SetProperty("Pojjaman.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
       Catch ex As Exception
-
+        Console.WriteLine(("Exception while saving workbench state: " & ex.ToString))
       End Try
     End Sub
     Private Sub ShowTipOfTheDay(ByVal sender As Object, ByVal e As EventArgs)

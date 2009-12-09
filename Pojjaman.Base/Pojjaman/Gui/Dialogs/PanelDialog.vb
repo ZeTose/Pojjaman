@@ -8,6 +8,7 @@ Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Configuration
 Imports System.Data.SqlClient
 Imports Longkong.Pojjaman.Gui.Panels
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui.Dialogs
     Public Class PanelDialog
         Inherits Form
@@ -79,7 +80,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
                 '    End If
                 'End If
                 e.Handled = True
-                SendKeys.Send("{Tab}")
+        If StartPojjamanWorkbenchCommand.ALLOWTAB Then
+          SendKeys.Send("{tab}")
+        End If
             Else
                 e.Handled = False
                 MyBase.OnKeyUp(e)

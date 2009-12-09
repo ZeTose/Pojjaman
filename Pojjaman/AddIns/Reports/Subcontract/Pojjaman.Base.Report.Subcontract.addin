@@ -1,0 +1,63 @@
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by aab (Ru-Board) -->
+<AddIn name="Pojjaman Subcontract Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman Subcontract Reports" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Report.Subcontract.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+		<Conditional applicationmode="Accounting" action="Exclude">
+			<MenuItem id="SubcontractReport" label="${res:MainMenu.ReportMenu.SubcontractReport}" insertafter="APReport" insertbefore="ARRepot">
+				<MenuItem id="rptsc" icon="Icons.16x16.RptSC" label="${res:MainMenu.Subcontract.RptSC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSC"/>			
+				<MenuItem id="rptvo" icon="Icons.16x16.RptVO" label="${res:MainMenu.Subcontract.RptVO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVO"/>
+				<MenuItem id="rptdr" icon="Icons.16x16.RptDR" label="${res:MainMenu.Subcontract.RptDR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDR"/>
+				<MenuItem id="rptpa" icon="Icons.16x16.RptPA" label="${res:MainMenu.Subcontract.RptPA.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPA"/>
+				<MenuItem id="rptscmovement" icon="Icons.16x16.RptSCMovement" label="${res:MainMenu.Subcontract.RptSCMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovement"/>
+				<MenuItem id="rptscmovementenumerate" icon="Icons.16x16.RptSCMovementEnumerate" label="${res:MainMenu.Subcontract.RptSCMovementEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate"/>
+				<!--<MenuItem id="rptscretention" icon="Icons.16x16.RptSCRetention" label="${res:MainMenu.Subcontract.RptSCRetention.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCRetention"/>-->
+				<MenuItem id="rptscremainingadv" icon="Icons.16x16.RptSCRemainingADV" label="${res:MainMenu.Subcontract.RptSCRemainingADV.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCRemainingADV"/>
+				<MenuItem id="rptscmanagement" icon="Icons.16x16.RptSCManagement" label="${res:MainMenu.Subcontract.RptSCManagement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCManagement"/>
+
+			</MenuItem>
+		</Conditional>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="rptsc" entity="rptsc" filter="Longkong.Pojjaman.Gui.Panels.RptSCFilterSubPanel"/>
+		<EntityFilter id="rptvo" entity="rptvo" filter="Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel"/>
+		<EntityFilter id="rptdr" entity="rptdr" filter="Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel"/>
+		<EntityFilter id="rptpa" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptPAFilterSubPanel"/>
+		<EntityFilter id="rptscmovement" entity="rptvo" filter="Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel"/>
+		<EntityFilter id="rptscmovementenumerate" entity="rptdr" filter="Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel"/>
+		<!--<EntityFilter id="rptscretention" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCRetentionFilterSubPanel"/>-->
+		<EntityFilter id="rptscremainingadv" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCRemainingADVFilterSubPanel"/>
+		<EntityFilter id="rptscmanagement" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCManagementFilterSubPanel"/>
+
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="rptsc">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptvo">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptdr">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptpa">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptscmovement">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptscmovementenumerate">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<!--<EntityTab id="rptscretention">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>-->
+		<EntityTab id="rptscremainingadv">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptscmanagement">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

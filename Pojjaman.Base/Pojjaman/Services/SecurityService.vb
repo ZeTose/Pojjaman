@@ -36,9 +36,41 @@ Namespace Longkong.Pojjaman.Services
         Return
       End If
     End Sub
+        Public Function Login(ByVal name As String) As Boolean
+            Dim value As Boolean = False
+            Try
+                Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
+                Dim dialog As New CredentialsDialog(myResourceService.GetString("MainWindow.DialogName"))
+                If Not (name Is Nothing) Then
+                    dialog.AlwaysDisplay = True ' prevent an infinite loop
+                End If
+                dialog.Banner = myResourceService.GetBitmap("Login.Banner")
+                dialog.Persist = False
+                Dim loginUser As New User(dialog.Name, dialog.Password)
+                MessageBox.Show(dialog.Name & ":" & dialog.Password)
+                If dialog.Show(name) = System.Windows.Forms.DialogResult.OK Then
+                    If loginUser.Originated Then
+                        Me.SetCurrentUser(loginUser)
+                        value = True
+                        If dialog.SaveChecked Then
+                            dialog.Confirm(True)
+                        End If
+                    Else
+                        Try
+                            dialog.Confirm(False)
+                        Catch applicationException As ApplicationException
+                        End Try
+                        ' exception handling ...
+                        value = Login(dialog.Name) ' need to find a way to display 'Logon unsuccessful'
+                    End If
+                End If
+            Catch applicationException As ApplicationException
+            End Try
+            ' exception handling ...
+            Return value
+        End Function 'Login
     Public Shared NoPassword As Boolean = False
     Public Function Login() As DialogResult
-      SqlHelper.CurrentConnString = RecentCompanies.CurrentCompany.ConnectionString
       Dim dlg As New LoginDialog
       Dim ret As DialogResult
       ret = dlg.ShowDialog
@@ -55,6 +87,7 @@ Namespace Longkong.Pojjaman.Services
           UpdateAccessTable()
           Configuration.RefreshConfigurationList()
           CodeDescription.RefreshCodeList()
+                    SqlHelper.CurrentConnString = RecentCompanies.CurrentCompany.ConnectionString
         End If
       End If
       Return ret

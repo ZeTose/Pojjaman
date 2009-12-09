@@ -57,11 +57,12 @@ Namespace Longkong.Core.AddIns.Codons
             Get
                 Dim panel As ISimpleListPanel = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel)
                 If Not panel.Entity Is Nothing Then
-                    Dim fcn As String = panel.Entity.Namespace & "." & panel.Entity.CodonName
-                    If TypeOf panel.Entity Is TreeBaseEntity Then
-                        fcn = panel.Entity.FullClassName
-                    End If
-                    Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(fcn)
+                    'Dim fcn As String = panel.Entity.Namespace & "." & panel.Entity.CodonName
+                    'If TypeOf panel.Entity Is TreeBaseEntity Then
+                    '    fcn = panel.Entity.FullClassName
+                    'End If
+                    'Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(fcn)
+                    Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(panel.Entity.FullClassName)
                     If accessID = 0 Then
                         Return False 'MyBase.IsEnabled
                     End If

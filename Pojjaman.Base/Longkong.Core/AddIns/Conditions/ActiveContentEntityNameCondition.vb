@@ -41,7 +41,7 @@ Namespace Longkong.Core.AddIns
                 Try
                     Dim entityName As String
                     If TypeOf WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ActiveViewContent Is AbstractEntityDetailPanelView Then
-                        entityName = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, IEntityPanel).Entity.ClassName
+            'entityName = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, IEntityPanel).Entity.ClassName
                     Else
                         valid = False
                     End If

@@ -11,53 +11,53 @@ Namespace Longkong.Pojjaman.Services
 
 #Region "Methods"
         Private Sub ContextMenuPopupHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim menu1 As CommandBarContextMenu = CType(sender, CommandBarContextMenu)
-            Dim obj1 As Object
-            For Each obj1 In menu1.Items
-                If TypeOf obj1 Is IStatusUpdate Then
-                    CType(obj1, IStatusUpdate).UpdateStatus()
-                End If
-            Next
+      'Dim menu1 As CommandBarContextMenu = CType(sender, CommandBarContextMenu)
+      'Dim obj1 As Object
+      'For Each obj1 In menu1.Items
+      'If TypeOf obj1 Is IStatusUpdate Then
+      'CType(obj1, IStatusUpdate).UpdateStatus()
+      'End If
+      'Next
         End Sub
         Public Function CreateContextMenu(ByVal owner As Object, ByVal addInTreePath As String) As ContextMenu
-            Dim menu2 As ContextMenu
-            Try
-                Dim list1 As ArrayList = AddInTreeSingleton.AddInTree.GetTreeNode(addInTreePath).BuildChildItems(owner)
-                Dim menu1 As New CommandBarContextMenu
-                AddHandler menu1.Popup, New EventHandler(AddressOf Me.ContextMenuPopupHandler)
-                Dim obj1 As Object
-                For Each obj1 In list1
-                    If TypeOf obj1 Is CommandBarItem Then
-                        menu1.Items.Add(CType(obj1, CommandBarItem))
-                    Else
-                        Dim builder1 As ISubmenuBuilder = CType(obj1, ISubmenuBuilder)
-                        menu1.Items.AddRange(builder1.BuildSubmenu(Nothing, owner))
-                    End If
-                Next
-                menu2 = menu1
-            Catch exception1 As TreePathNotFoundException
-                Console.WriteLine(("Warning tree path '" & addInTreePath & "' not found."))
-                menu2 = Nothing
-            End Try
-            Return menu2
+      'Dim menu2 As ContextMenu
+      'Try
+      'Dim list1 As ArrayList = AddInTreeSingleton.AddInTree.GetTreeNode(addInTreePath).BuildChildItems(owner)
+      'Dim menu1 As New CommandBarContextMenu
+      'AddHandler menu1.Popup, New EventHandler(AddressOf Me.ContextMenuPopupHandler)
+      'Dim obj1 As Object
+      'For Each obj1 In list1
+      'If TypeOf obj1 Is CommandBarItem Then
+      'menu1.Items.Add(CType(obj1, CommandBarItem))
+      'Else
+      'Dim builder1 As ISubmenuBuilder = CType(obj1, ISubmenuBuilder)
+      'menu1.Items.AddRange(builder1.BuildSubmenu(Nothing, owner))
+      'End If
+      'Next
+      'menu2 = menu1
+      'Catch exception1 As TreePathNotFoundException
+      'Console.WriteLine(("Warning tree path '" & addInTreePath & "' not found."))
+      'menu2 = Nothing
+      'End Try
+      'Return menu2
         End Function
         Public Sub CreateQuickInsertMenu(ByVal targetControl As TextBoxBase, ByVal popupControl As Control, ByVal quickInsertMenuItems(,) As String)
-            Dim stringParserService As stringParserService = CType(ServiceManager.Services.GetService(GetType(stringParserService)), stringParserService)
+      'Dim stringParserService As stringParserService = CType(ServiceManager.Services.GetService(GetType(stringParserService)), stringParserService)
 
-            Dim contextMenu As New CommandBarContextMenu
-            Dim i As Integer
+      'Dim contextMenu As New CommandBarContextMenu
+      'Dim i As Integer
 
-            While i < quickInsertMenuItems.GetLength(0)
-                If quickInsertMenuItems(i, 0) = "-" Then
-                    contextMenu.Items.Add(New PJMMenuSeparator)
-                Else
-                    Dim cmd As New PJMMenuCommand(Me, stringParserService.Parse(quickInsertMenuItems(i, 0)), New QuickInsertMenuHandler(targetControl, quickInsertMenuItems(i, 1)).EventHandler)
-                    contextMenu.Items.Add(cmd)
-                End If
-            End While
+      'While i < quickInsertMenuItems.GetLength(0)
+      'If quickInsertMenuItems(i, 0) = "-" Then
+      'contextMenu.Items.Add(New PJMMenuSeparator)
+      'Else
+      'Dim cmd As New PJMMenuCommand(Me, stringParserService.Parse(quickInsertMenuItems(i, 0)), New QuickInsertMenuHandler(targetControl, quickInsertMenuItems(i, 1)).EventHandler)
+      'contextMenu.Items.Add(cmd)
+      'End If
+      'End While
         End Sub
         Public Sub ShowContextMenu(ByVal owner As Object, ByVal addInTreePath As String, ByVal parent As Control, ByVal x As Integer, ByVal y As Integer)
-            Me.CreateContextMenu(owner, addInTreePath).Show(parent, New Point(x, y))
+      'Me.CreateContextMenu(owner, addInTreePath).Show(parent, New Point(x, y))
         End Sub
 #End Region
 

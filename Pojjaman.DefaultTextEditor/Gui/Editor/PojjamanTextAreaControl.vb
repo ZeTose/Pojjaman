@@ -91,7 +91,7 @@ Namespace Longkong.Pojjaman.DefaultEditor.Gui.Editor
             myTextAreaControl.HandleMouseWheel(e)
         End Sub
         Private Sub ClipboardHandlerCopyText(ByVal sender As Object, ByVal e As CopyTextEventArgs)
-            SideBarView.PutInClipboardRing(e.Text)
+      'SideBarView.PutInClipboardRing(e.Text)
         End Sub
         Private Sub DocumentChanged(ByVal sender As Object, ByVal e As DocumentEventArgs)
             CType(WorkbenchSingleton.Workbench, PojjamanWorkbench).UpdateToolbars()

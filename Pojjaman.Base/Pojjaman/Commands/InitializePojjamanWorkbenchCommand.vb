@@ -23,7 +23,6 @@ Namespace Longkong.Pojjaman.Commands
             myWorkBench.InitializeWorkspace()
             Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
             myWorkBench.SetMemento(CType(myPropertyService.GetProperty(WorkbenchMemento, New WorkbenchMemento), IXmlConvertable))
-            myWorkBench.UpdatePadContents(Nothing, Nothing)
             WorkbenchSingleton.CreateWorkspace()
         End Sub
 #End Region

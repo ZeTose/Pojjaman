@@ -172,6 +172,10 @@
       <Project>{3C8A9B07-4CF3-402B-AC0A-F4E2BB102A00}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\WinFormsUI\WinFormsUI.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
     <Reference Include="AxSHDocVw">
       <Name>AxSHDocVw</Name>
       <HintPath>External\AxSHDocVw.dll</HintPath>
@@ -449,12 +453,6 @@
     <Compile Include="Pojjaman\Commands\LogOff.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\MainSelectionMenuBuilder.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Commands\MainViewMenuBuilder.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Pojjaman\Commands\MappingList.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -485,6 +483,7 @@
     <Compile Include="Pojjaman\Commands\OpenFile.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Commands\OpenPanel.vb" />
     <Compile Include="Pojjaman\Commands\OpenProject.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -535,9 +534,6 @@
     </Compile>
     <Compile Include="Pojjaman\Commands\SelectAll.vb">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Commands\SelectionMenuBuilder.vb">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Pojjaman\Commands\SelectNextTab.vb">
       <SubType>Code</SubType>
@@ -620,9 +616,6 @@
     <Compile Include="Pojjaman\Commands\Undo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\ViewMenuBuilder.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Pojjaman\Commands\ViewTipOfTheDay.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -630,9 +623,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\AbstractBaseViewContent.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\AbstractPadContent.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\AbstractSecondaryViewContent.vb">
@@ -694,6 +684,12 @@
     </Compile>
     <Compile Include="Pojjaman\Gui\Components\PJMMessageBox.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMToolStripMenuItem.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMToolStripSeparator.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Components\PojjamanSideBar.vb">
       <SubType>UserControl</SubType>
@@ -965,9 +961,6 @@
     <Compile Include="Pojjaman\Gui\ISecondaryViewContent.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\ITreeBrowsableViewContent.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Pojjaman\Gui\IViewContent.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -975,51 +968,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\PadContentCollection.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\AAA.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\AbstractBrowserNode.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\CommentBrowser.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\CommentPad.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\FormBrowserView.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\FormNode.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\HelpLinkInformation.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\IContentUpdate.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\IDEContainer.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\PropertyPad.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\PropertyPadResetCommand.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\PropertyPadShowDescriptionCommand.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\SideBarView.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\ToolBox.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Pads\ToolPad.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\TreeViewMemento.vb">
@@ -1046,9 +994,7 @@
     <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb" />
     <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1157,19 +1103,10 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\DisplayBindng\TreeDetailDisplayBinding.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\FormPad.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\FormViewPane.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\HelperPad.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\PanelDisplayBinding.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\PanelPad.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\AdvancePaySelection.vb">
@@ -1521,11 +1458,8 @@
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\SelectFormsDialog.resx">
       <DependentUpon>SelectFormsDialog.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pojjaman\Gui\Pads\CommentPad.resx">
-      <DependentUpon>CommentPad.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Pojjaman\Gui\Pads\ToolBox.resx">
-      <DependentUpon>ToolBox.vb</DependentUpon>
+    <EmbeddedResource Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.resx">
+      <DependentUpon>PojjamanWorkbench.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\AbstractBasePanelViewContent.resx">
       <DependentUpon>AbstractBasePanelViewContent.vb</DependentUpon>

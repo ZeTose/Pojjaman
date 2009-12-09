@@ -1,6 +1,7 @@
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui.Dialogs
 
     Public Class ChangePasswordDialog
@@ -182,7 +183,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
         Private Sub ChangePasswordDialog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
             Select Case e.KeyCode
                 Case Keys.Enter
+          If StartPojjamanWorkbenchCommand.ALLOWTAB Then
                     SendKeys.Send("{tab}")
+          End If
                     e.Handled = True
             End Select
         End Sub

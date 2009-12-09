@@ -15,46 +15,16 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports System.Runtime.InteropServices
 Imports System.Globalization
+'Imports Microsoft.WindowsAPICodePack.Taskbar
+
 Namespace Longkong.Pojjaman.Gui
   Public Class PojjamanWorkbench
     Inherits Form
     Implements IWorkbench
 
-#Region "Win32"
-    'Private Const WM_SETTINGCHANGE As Integer = &H1A
-
-    '<DllImport("kernel32.dll", ExactSpelling:=True)> _
-    'Private Overloads Shared Function GetUserDefaultLCID() As Integer
-    'End Function
-
-    'Private m_ciOld As New CultureInfo(GetUserDefaultLCID())
-    'Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
-    '    Select Case m.Msg
-    '        Case WM_SETTINGCHANGE
-    '            If Not IntPtr.op_Equality(m.LParam, IntPtr.Zero) Then
-    '                Dim localeCur As Integer = GetUserDefaultLCID()
-    '                Dim val As String = Marshal.PtrToStringAuto(m.LParam)
-    '                If val = "intl" Then
-    '                    If Thread.CurrentThread.CurrentCulture.LCID <> localeCur AndAlso _
-    '                    Thread.CurrentThread.CurrentCulture.LCID = m_ciOld.LCID Then
-    '                        Thread.CurrentThread.CurrentCulture = New CultureInfo(localeCur)
-    '                    Else
-    '                        Thread.CurrentThread.CurrentCulture.ClearCachedData()
-    '                    End If
-    '                    m_ciOld = New CultureInfo(localeCur)
-    '                End If
-    '            End If
-    '    End Select
-    '    MyBase.WndProc(m)
-    'End Sub
-#End Region
-
 #Region "Members"
-    Public ToolBars As CommandBar()
-    Public TopMenu As CommandBar
-    Public SecondMenu As CommandBar
-    Private m_commandBarManager As CommandBarManager
-
+    Public ToolBars As ToolStrip()
+    Public TopMenu As System.Windows.Forms.MenuStrip
     Private m_defaultWindowState As FormWindowState
     Private m_normalBounds As Rectangle
     Private m_applicationMode As ApplicationMode
@@ -65,37 +35,33 @@ Namespace Longkong.Pojjaman.Gui
     Private m_layout As IWorkbenchLayout
 
     Private Shared ReadOnly m_mainMenuPath As String = "/Pojjaman/Workbench/MainMenu"
-    Private Shared ReadOnly m_secondMenuPath As String = "/Pojjaman/Workbench/SecondMenu"
-    Private Shared ReadOnly m_viewContentPath As String = "/Pojjaman/Workbench/Views"
     Protected Shared m_propertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
     Private m_SecurityService As SecurityService
 
-    Private m_padContentCollection As PadContentCollection
     Private m_viewContentCollection As ViewContentCollection
 #End Region
 
 #Region "Events"
     Private windowChangeEventHandler As EventHandler
+    Friend WithEvents TestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents CheckBoxToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AsasToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AsasasToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripButton2 As System.Windows.Forms.ToolStripButton
     Private ActiveWorkbenchWindowChangedHandler As EventHandler
 #End Region
 
 #Region "Constructors"
     Public Sub New()
-
-      ' Request a license from the LicenseManager. An exception is raised if no license is available
-      '_license = DeployLX.Licensing.v3.SecureLicenseManager.Validate(Me, GetType(PojjamanWorkbench), Nothing)
-    End Sub
-    Public Sub Init()
-      Me.m_padContentCollection = New PadContentCollection
       Me.m_viewContentCollection = New ViewContentCollection
       Me.m_closeAll = False
       Me.m_defaultWindowState = FormWindowState.Normal
-      Me.m_normalBounds = New Rectangle(0, 0, 640, 480)
+      Me.m_normalBounds = New Rectangle(0, 0, 1024, 768)
       Me.m_layout = Nothing
-      Me.m_commandBarManager = New CommandBarManager
-      Me.TopMenu = Nothing
-      Me.ToolBars = Nothing
-      Me.SecondMenu = Nothing
       Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
       Me.Text = GetDialogName()
       MyBase.Icon = myResourceService.GetIcon("Icons.PojjamanIcon")
@@ -104,7 +70,7 @@ Namespace Longkong.Pojjaman.Gui
       Me.windowChangeEventHandler = New EventHandler(AddressOf Me.OnActiveWindowChanged)
     End Sub
     Private Function GetDialogName() As String
-      Dim pjmVersion As version = [Assembly].GetEntryAssembly.GetName.Version
+      Dim pjmVersion As Version = [Assembly].GetEntryAssembly.GetName.Version
       Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000")}
       Dim version As String = String.Concat(pjmVersionArray)
       Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
@@ -158,29 +124,23 @@ Namespace Longkong.Pojjaman.Gui
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshMenus() Implements IWorkbench.RefreshMenus
+      Me.Controls.AddRange(Me.ToolBars)
+      Me.Controls.Add(Me.TopMenu)
+      Me.MainMenuStrip = Me.TopMenu
+    End Sub
     Private Sub CreateMainMenu()
-      Me.TopMenu = New CommandBar(Me.m_commandBarManager, CommandBarStyle.Menu)
-      Dim items As CommandBarItem() = CType(AddInTreeSingleton.AddInTree.GetTreeNode(PojjamanWorkbench.m_mainMenuPath).BuildChildItems(Me).ToArray(GetType(CommandBarItem)), CommandBarItem())
+      Me.TopMenu = New MenuStrip
+      Dim items As ToolStripItem() = CType(AddInTreeSingleton.AddInTree.GetTreeNode(PojjamanWorkbench.m_mainMenuPath).BuildChildItems(Me).ToArray(GetType(ToolStripItem)), ToolStripItem())
       Me.TopMenu.Items.Clear()
       Me.TopMenu.Items.AddRange(items)
-      Me.m_commandBarManager.CommandBars.Add(Me.TopMenu)
-    End Sub
-    Private Sub CreateSecondMenu()
-      Me.SecondMenu = New CommandBar(Me.m_commandBarManager, CommandBarStyle.Menu)
-      Dim items As CommandBarItem() = CType(AddInTreeSingleton.AddInTree.GetTreeNode(PojjamanWorkbench.m_secondMenuPath).BuildChildItems(Me).ToArray(GetType(CommandBarItem)), CommandBarItem())
-      Me.SecondMenu.Items.Clear()
-      Me.SecondMenu.Items.AddRange(items)
-      Me.m_commandBarManager.CommandBars.Add(Me.SecondMenu)
     End Sub
     Private Sub CreateToolBars()
       If (Me.ToolBars Is Nothing) Then
         Dim myToolbarService As ToolbarService = CType(ServiceManager.Services.GetService(GetType(ToolbarService)), ToolbarService)
-        Dim bars As CommandBar() = myToolbarService.CreateToolbars
+        Dim bars As ToolStrip() = myToolbarService.CreateToolbars
         Me.ToolBars = bars
       End If
-      For Each tb As CommandBar In Me.ToolBars
-        Me.m_commandBarManager.CommandBars.Add(tb)
-      Next
     End Sub
     Public Function GetStoredMemento(ByVal content As IViewContent) As IXmlConvertable
       If ((Not content Is Nothing) AndAlso (Not content.FileName Is Nothing)) Then
@@ -211,12 +171,9 @@ Namespace Longkong.Pojjaman.Gui
       AddHandler MyBase.MenuComplete, New EventHandler(AddressOf Me.SetStandardStatusBar)
       Me.SetStandardStatusBar(Nothing, Nothing)
       Me.CreateMainMenu()
-      'Me.CreateSecondMenu()
       Me.CreateToolBars()
-      Me.Controls.Add(Me.m_commandBarManager)
     End Sub
     Private Sub OnActiveWindowChanged(ByVal sender As Object, ByVal e As EventArgs)
-
       If (Not Me.m_closeAll AndAlso (Not Me.ActiveWorkbenchWindowChangedHandler Is Nothing)) Then
         Me.ActiveWorkbenchWindowChangedHandler(Me, e)
       End If
@@ -228,9 +185,6 @@ Namespace Longkong.Pojjaman.Gui
       End If
       Me.m_closeAll = True
       Me.m_layout.Detach()
-      For Each content As IPadContent In Me.PadContentCollection
-        content.Dispose()
-      Next
     End Sub
     Private Sub ForceCloseTimerTick(ByVal sender As Object, ByVal e As EventArgs)
       If WorkbenchSingleton.Workbench.ViewContentCollection.Count = 0 Then
@@ -302,21 +256,98 @@ Namespace Longkong.Pojjaman.Gui
       End If
     End Sub
     Protected Overridable Sub OnViewClosed(ByVal e As ViewContentEventArgs)
+      '=========================Windows 7================================
+      Try
+        ' Add a new preview
+        'Dim preview As New TabbedThumbnail(Me.Parent.Handle, Me.Handle)
+
+        '' Event handlers for this preview
+        'AddHandler preview.TabbedThumbnailActivated, AddressOf preview_TabbedThumbnailActivated
+        'AddHandler preview.TabbedThumbnailClosed, AddressOf preview_TabbedThumbnailClosed
+        'AddHandler preview.TabbedThumbnailMaximized, AddressOf preview_TabbedThumbnailMaximized
+        'AddHandler preview.TabbedThumbnailMinimized, AddressOf preview_TabbedThumbnailMinimized
+
+        'TaskbarManager.Instance.TabbedThumbnail.RemoveThumbnailPreview(CType(e.Content, UserControl))
+      Catch ex As PlatformNotSupportedException
+        'Not Windows 7
+      Catch
+
+      End Try
+      '=========================Windows 7================================
+
       RaiseEvent ViewClosed(Me, e)
     End Sub
     Protected Overridable Sub OnViewOpened(ByVal e As ViewContentEventArgs)
+      '=========================Windows 7================================
+      'Try
+      '' Add a new preview
+      'Dim preview As New TabbedThumbnail(Me.Handle, CType(e.Content, UserControl).Handle)
+
+      'preview.Title = e.Content.TitleName
+
+      ' '' Event handlers for this preview
+      'AddHandler preview.TabbedThumbnailActivated, AddressOf preview_TabbedThumbnailActivated
+      'AddHandler preview.TabbedThumbnailClosed, AddressOf preview_TabbedThumbnailClosed
+      ''AddHandler preview.TabbedThumbnailMaximized, AddressOf preview_TabbedThumbnailMaximized
+      ''AddHandler preview.TabbedThumbnailMinimized, AddressOf preview_TabbedThumbnailMinimized
+
+      'TaskbarManager.Instance.TabbedThumbnail.AddThumbnailPreview(preview)
+      'Catch ex As PlatformNotSupportedException
+      ''Not Windows 7
+      'Catch
+      'End Try
+      '=========================Windows 7================================
       RaiseEvent ViewOpened(Me, e)
     End Sub
+    'Private Sub preview_TabbedThumbnailActivated(ByVal sender As Object, ByVal e As TabbedThumbnailEventArgs)
+    '' User selected a tab via the thumbnail preview
+    '' Select the corresponding content
+    'Dim theContent As IViewContent
+    'For Each content As IViewContent In Me.ViewContentCollection
+    'If CType(content, UserControl).Handle = e.WindowHandle Then
+    '' Select the tab in the application UI as well as taskbar tabbed thumbnail list
+    'theContent = content
+    'Exit For
+    'End If
+    'Next
+
+    'If Not theContent Is Nothing Then
+    'theContent.WorkbenchWindow.SelectWindow()
+    'End If
+    '' Also activate our parent form (incase we are minimized, this will restore it)
+    'If Me.WindowState = FormWindowState.Minimized Then
+    'Me.WindowState = FormWindowState.Normal
+    'End If
+    'End Sub
+    'Private Sub preview_TabbedThumbnailClosed(ByVal sender As Object, ByVal e As TabbedThumbnailEventArgs)
+    '' User selected a tab via the thumbnail preview
+    '' Close the corresponding content
+    'Try
+    'Dim theContent As IViewContent
+    'For Each content As IViewContent In Me.ViewContentCollection
+    'If CType(content, UserControl).Handle = e.WindowHandle Then
+    '' Select the tab in the application UI as well as taskbar tabbed thumbnail list
+    'theContent = content
+    'Exit For
+    'End If
+    'Next
+    'If Not theContent Is Nothing Then
+    'theContent.WorkbenchWindow.CloseWindow(False)
+    'End If
+    'Catch ex As Exception
+
+    'End Try
+    'End Sub
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, ByVal keyData As Keys) As Boolean
-      If Me.m_commandBarManager.PreProcessMessage(msg) Then
-        Return True
-      End If
+      'If Me.m_commandBarManager.PreProcessMessage(msg) Then
+      'Return True
+      'End If
       Return MyBase.ProcessCmdKey(msg, keyData)
     End Function
     Private Sub SetStandardStatusBar(ByVal sender As Object, ByVal e As EventArgs)
       Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
       myStatusBarService.RefreshLanguage()
-      'myStatusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
+      myStatusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
     End Sub
     Private Sub PojjamanWorkbench_InputLanguageChanged(ByVal sender As Object, ByVal e As System.Windows.Forms.InputLanguageChangedEventArgs) Handles MyBase.InputLanguageChanged
       Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
@@ -354,7 +385,6 @@ Namespace Longkong.Pojjaman.Gui
     Private Sub UpdateMenu(ByVal sender As Object, ByVal e As EventArgs)
       Me.UpdateMenus()
       Me.UpdateToolbars()
-      Me.UpdateContents()
     End Sub
     Public Sub UpdateMenus()
       For Each item As Object In Me.TopMenu.Items
@@ -383,13 +413,8 @@ Namespace Longkong.Pojjaman.Gui
         Next
       End If
     End Sub
-    Public Sub UpdatePadContents(ByVal sender As Object, ByVal e As EventArgs)
-      For Each content As IPadContent In CType(AddInTreeSingleton.AddInTree.GetTreeNode(PojjamanWorkbench.m_viewContentPath).BuildChildItems(Me).ToArray(GetType(IPadContent)), IPadContent())
-        Me.ShowPad(content)
-      Next
-    End Sub
     Public Sub UpdateToolbars()
-      For Each bar As CommandBar In Me.ToolBars
+      For Each bar As ToolStrip In Me.ToolBars
         For Each item As Object In bar.Items
           If TypeOf item Is IStatusUpdate Then
             UpdateModeMenusOrToolBars(item)
@@ -397,17 +422,6 @@ Namespace Longkong.Pojjaman.Gui
           End If
         Next
       Next
-    End Sub
-    Public Sub UpdateContents()
-      Try
-        For Each pad As IPadContent In Me.PadContentCollection
-          If TypeOf pad Is IContentUpdate Then
-            CType(pad, IContentUpdate).UpdateContent()
-          End If
-        Next
-      Catch ex As Exception
-
-      End Try
     End Sub
 #End Region
 
@@ -471,27 +485,6 @@ Namespace Longkong.Pojjaman.Gui
       content.Dispose()
       content = Nothing
     End Sub
-    Public Overloads Function GetPad(ByVal type As System.Type) As IPadContent Implements IWorkbench.GetPad
-      For Each pad As IPadContent In Me.PadContentCollection
-        If (CType(pad, Object).GetType Is type) Then
-          Return pad
-        End If
-      Next
-      Return Nothing
-    End Function
-    Public Overloads Function GetPad(ByVal entityName As String) As IPadContent Implements IWorkbench.GetPad
-      For Each pad As IPadContent In Me.PadContentCollection
-        If TypeOf pad Is PanelPad Then
-          Dim myPanelPad As PanelPad = CType(pad, PanelPad)
-          If TypeOf myPanelPad.Control Is IEntityPanel Then
-            If CType(myPanelPad.Control, IEntityPanel).Entity.ClassName = entityName Then
-              Return pad
-            End If
-          End If
-        End If
-      Next
-      Return Nothing
-    End Function
     Public Function GetView(ByVal entity As BusinessLogic.ISimpleEntity) As IViewContent Implements IWorkbench.GetView
       For Each view As IViewContent In Me.ViewContentCollection
         If TypeOf view Is AbstractEntityPanelViewContent Then
@@ -506,32 +499,27 @@ Namespace Longkong.Pojjaman.Gui
       Next
     End Function
     Public Function GetView(ByVal entiyName As String) As IViewContent Implements IWorkbench.GetView
-      For Each view As IViewContent In Me.ViewContentCollection
-        If TypeOf view Is PanelView Then
-          Dim myPanelView As PanelView = CType(view, PanelView)
-          If TypeOf myPanelView.Control Is IEntityPanel Then
-            If CType(myPanelView.Control, IEntityPanel).Entity.ClassName = entiyName Then
-              Return view
-            End If
-          End If
-        End If
-      Next
+      'For Each view As IViewContent In Me.ViewContentCollection
+      'If TypeOf view Is PanelView Then
+      'Dim myPanelView As PanelView = CType(view, PanelView)
+      'If TypeOf myPanelView.Control Is IEntityPanel Then
+      'If CType(myPanelView.Control, IEntityPanel).Entity.ClassName = entiyName Then
+      'Return view
+      'End If
+      'End If
+      'End If
+      'Next
     End Function
     Public Function GetView(ByVal type As System.Type) As IViewContent Implements IWorkbench.GetView
-      For Each view As IViewContent In Me.ViewContentCollection
-        If TypeOf view Is PanelView Then
-          Dim myPanelView As PanelView = CType(view, PanelView)
-          If myPanelView.Control.GetType Is type Then
-            Return view
-          End If
-        End If
-      Next
+      'For Each view As IViewContent In Me.ViewContentCollection
+      'If TypeOf view Is PanelView Then
+      'Dim myPanelView As PanelView = CType(view, PanelView)
+      'If myPanelView.Control.GetType.Equals(type) Then
+      'Return view
+      'End If
+      'End If
+      'Next
     End Function
-    Public ReadOnly Property PadContentCollection() As PadContentCollection Implements IWorkbench.PadContentCollection
-      Get
-        Return Me.m_padContentCollection
-      End Get
-    End Property
     Public Sub RedrawEditComponents() Implements IWorkbench.RedrawEditComponents
       For Each item As Object In Me.TopMenu.Items
         If TypeOf item Is IStatusUpdate Then
@@ -539,7 +527,7 @@ Namespace Longkong.Pojjaman.Gui
           CType(item, IStatusUpdate).UpdateStatus()
         End If
       Next
-      For Each bar As CommandBar In Me.ToolBars
+      For Each bar As ToolStrip In Me.ToolBars
         For Each item As Object In bar.Items
           If TypeOf item Is IStatusUpdate Then
             UpdateModeMenusOrToolBars(item)
@@ -556,23 +544,7 @@ Namespace Longkong.Pojjaman.Gui
           content.WorkbenchWindow.RedrawContent()
         End If
       Next
-      For Each content As IPadContent In Me.m_padContentCollection
-        content.RedrawContent()
-      Next
-      Me.m_layout.RedrawAllComponents()
       Me.Text = Me.GetDialogName
-    End Sub
-    Public Sub ShowPad(ByVal content As IPadContent) Implements IWorkbench.ShowPad
-      Me.PadContentCollection.Add(content)
-      If (Not Me.m_layout Is Nothing) Then
-        Me.m_layout.ShowPad(content)
-      End If
-    End Sub
-    Public Sub ShowPad(ByVal content As IPadContent, ByVal rect As System.Drawing.Rectangle) Implements IWorkbench.ShowPad
-      Me.PadContentCollection.Add(content)
-      If (Not Me.m_layout Is Nothing) Then
-        Me.m_layout.ShowPad(content, rect)
-      End If
     End Sub
     Public Sub ShowView(ByVal content As IViewContent) Implements IWorkbench.ShowView
       Me.ViewContentCollection.Add(content)
@@ -617,11 +589,6 @@ Namespace Longkong.Pojjaman.Gui
         AddHandler Me.m_layout.ActiveWorkbenchWindowChanged, Me.windowChangeEventHandler
       End Set
     End Property
-    Public ReadOnly Property CommandBarManager() As System.Windows.Forms.CommandBarManager Implements IWorkbench.CommandBarManager
-      Get
-        Return Me.m_commandBarManager
-      End Get
-    End Property
     Public Property ApplicationMode() As ApplicationMode Implements IWorkbench.ApplicationMode
       Get
         Return m_applicationMode
@@ -645,5 +612,141 @@ Namespace Longkong.Pojjaman.Gui
     End Property
 #End Region
 
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Private Sub InitializeComponent()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PojjamanWorkbench))
+      Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+      Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+      Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+      Me.AsasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+      Me.AsasasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+      Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+      Me.CheckBoxToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+      Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+      Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+      Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+      Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+      Me.MenuStrip1.SuspendLayout()
+      Me.ToolStrip1.SuspendLayout()
+      Me.SuspendLayout()
+      '
+      'MenuStrip1
+      '
+      Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.TestToolStripMenuItem})
+      Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+      Me.MenuStrip1.Name = "MenuStrip1"
+      Me.MenuStrip1.Size = New System.Drawing.Size(705, 24)
+      Me.MenuStrip1.TabIndex = 0
+      Me.MenuStrip1.Text = "MenuStrip1"
+      '
+      'FileToolStripMenuItem
+      '
+      Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.AsasToolStripMenuItem})
+      Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+      Me.FileToolStripMenuItem.Size = New System.Drawing.Size(35, 20)
+      Me.FileToolStripMenuItem.Text = "File"
+      '
+      'ToolStripMenuItem1
+      '
+      Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+      Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
+      '
+      'AsasToolStripMenuItem
+      '
+      Me.AsasToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AsasasToolStripMenuItem})
+      Me.AsasToolStripMenuItem.Name = "AsasToolStripMenuItem"
+      Me.AsasToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+      Me.AsasToolStripMenuItem.Text = "asas"
+      '
+      'AsasasToolStripMenuItem
+      '
+      Me.AsasasToolStripMenuItem.Name = "AsasasToolStripMenuItem"
+      Me.AsasasToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+      Me.AsasasToolStripMenuItem.Text = "asasas"
+      '
+      'TestToolStripMenuItem
+      '
+      Me.TestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckBoxToolStripMenuItem})
+      Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+      Me.TestToolStripMenuItem.Size = New System.Drawing.Size(40, 20)
+      Me.TestToolStripMenuItem.Text = "Test"
+      '
+      'CheckBoxToolStripMenuItem
+      '
+      Me.CheckBoxToolStripMenuItem.Name = "CheckBoxToolStripMenuItem"
+      Me.CheckBoxToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+      Me.CheckBoxToolStripMenuItem.Text = "CheckBox"
+      '
+      'ToolStrip1
+      '
+      Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ToolStripSeparator1, Me.ToolStripButton2})
+      Me.ToolStrip1.Location = New System.Drawing.Point(0, 24)
+      Me.ToolStrip1.Name = "ToolStrip1"
+      Me.ToolStrip1.Size = New System.Drawing.Size(705, 25)
+      Me.ToolStrip1.TabIndex = 1
+      Me.ToolStrip1.Text = "ToolStrip1"
+      '
+      'ToolStripButton1
+      '
+      Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+      Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
+      Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+      Me.ToolStripButton1.Name = "ToolStripButton1"
+      Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
+      Me.ToolStripButton1.Text = "ToolStripButton1"
+      '
+      'ToolStripSeparator1
+      '
+      Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+      Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+      '
+      'ToolStripButton2
+      '
+      Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+      Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
+      Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+      Me.ToolStripButton2.Name = "ToolStripButton2"
+      Me.ToolStripButton2.Size = New System.Drawing.Size(23, 22)
+      Me.ToolStripButton2.Text = "ToolStripButton2"
+      '
+      'PojjamanWorkbench
+      '
+      Me.ClientSize = New System.Drawing.Size(705, 734)
+      Me.Controls.Add(Me.ToolStrip1)
+      Me.Controls.Add(Me.MenuStrip1)
+      Me.MainMenuStrip = Me.MenuStrip1
+      Me.Name = "PojjamanWorkbench"
+      Me.MenuStrip1.ResumeLayout(False)
+      Me.MenuStrip1.PerformLayout()
+      Me.ToolStrip1.ResumeLayout(False)
+      Me.ToolStrip1.PerformLayout()
+      Me.ResumeLayout(False)
+      Me.PerformLayout()
+
+    End Sub
+
+    Private Sub PojjamanWorkbench_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+      '=========================Windows 7================================
+
+      'Try
+      'Dim jl As JumpList = JumpList.CreateJumpList
+      'Dim cat As New JumpListCustomCategory("Newest Documents")
+      'cat.AddJumpListItems(New JumpListLink("http://longkongstudio.com", "PR-0301 (PR)"), _
+      'New JumpListLink("http://longkongstudio.com", "PO-0029 (PO)"), _
+      'New JumpListLink("http://longkongstudio.com", "SCR-0097 (SC)"))
+      'jl.AddCustomCategories(cat)
+      'cat = New JumpListCustomCategory("Change Database")
+      'cat.AddJumpListItems(New JumpListLink("http://longkongstudio.com", "TNC-01"), _
+      'New JumpListLink("http://longkongstudio.com", "TNC-02"))
+      'jl.AddCustomCategories(cat)
+      'jl.Refresh()
+      'Catch ex As PlatformNotSupportedException
+      ''Not Windows 7
+      'Catch ex As Exception
+      'MessageBox.Show(ex.ToString)
+      'End Try
+      '=========================Windows 7================================
+    End Sub
   End Class
 End Namespace

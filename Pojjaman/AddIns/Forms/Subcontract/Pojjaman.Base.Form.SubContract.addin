@@ -1,0 +1,44 @@
+<AddIn name="Pojjaman SubContract Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.Subcontract.dll"/>
+    <Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+    <Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
+    <Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
+  </Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+      <EntityFilter id="sc" entity="sc" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
+      <EntityFilter id="vo" entity="vo" filter="Longkong.Pojjaman.Gui.Panels.VOFilterSubPanel"/>
+      <EntityFilter id="dr" entity="dr" filter="Longkong.Pojjaman.Gui.Panels.DRFilterSubPanel"/>
+      <EntityFilter id="pa" entity="pa" filter="Longkong.Pojjaman.Gui.Panels.PAFilterSubPanel"/>
+	</Extension>
+    <Extension path="/Pojjaman/Workbench/EntityTabs">
+      <EntityTab id="sc">
+        <EntityTab id="SCPanelView" view="Longkong.Pojjaman.Gui.Panels.SCPanelView"/>
+		  <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+      </EntityTab>
+      <EntityTab id="vo">
+        <EntityTab id="VOPanelView" view="Longkong.Pojjaman.Gui.Panels.VOPanelView"/>
+		  <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+      </EntityTab>
+      <EntityTab id="dr">
+        <EntityTab id="DRPanelView" view="Longkong.Pojjaman.Gui.Panels.DRPanelView"/>
+		  <EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
+      </EntityTab>
+      <EntityTab id="pa">
+        <EntityTab id="PAPanelView" view="Longkong.Pojjaman.Gui.Panels.PAPanelView"/>
+        <EntityTab id="PAAccountPanelView" view="Longkong.Pojjaman.Gui.Panels.PAAccountPanelView"/>
+        <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+        <EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
+        <EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+        <EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>  		  
+        <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+		
+	  </EntityTab>
+    </Extension>
+
+  <!-- <Extension path="/Pojjaman/Workbench/EntityListViews">
+	
+		<EntityListView id="unit1" entity="unit1" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	
+		
+   	</Extension>	--> 
+</AddIn>

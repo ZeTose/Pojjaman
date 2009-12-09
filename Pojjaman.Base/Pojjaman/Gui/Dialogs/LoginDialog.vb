@@ -3,6 +3,7 @@ Imports Longkong.Core.Properties
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.DataAccessLayer
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui.Dialogs
   Public Class LoginDialog
     Inherits System.Windows.Forms.Form
@@ -48,7 +49,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.lblLoginName.Location = New System.Drawing.Point(24, 40)
       Me.lblLoginName.Name = "lblLoginName"
       Me.lblLoginName.Size = New System.Drawing.Size(72, 23)
-      Me.lblLoginName.TabIndex = 2
+            Me.lblLoginName.TabIndex = 5
       Me.lblLoginName.Text = "Login:"
       Me.lblLoginName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -57,7 +58,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.txtUserName.Location = New System.Drawing.Point(96, 40)
       Me.txtUserName.Name = "txtUserName"
       Me.txtUserName.Size = New System.Drawing.Size(320, 21)
-      Me.txtUserName.TabIndex = 3
+            Me.txtUserName.TabIndex = 0
       Me.txtUserName.Text = ""
       '
       'txtPassword
@@ -66,7 +67,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.txtPassword.Name = "txtPassword"
       Me.txtPassword.PasswordChar = Microsoft.VisualBasic.ChrW(42)
       Me.txtPassword.Size = New System.Drawing.Size(320, 21)
-      Me.txtPassword.TabIndex = 5
+            Me.txtPassword.TabIndex = 1
       Me.txtPassword.Text = ""
       '
       'lblPassword
@@ -74,7 +75,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.lblPassword.Location = New System.Drawing.Point(24, 64)
       Me.lblPassword.Name = "lblPassword"
       Me.lblPassword.Size = New System.Drawing.Size(72, 20)
-      Me.lblPassword.TabIndex = 4
+            Me.lblPassword.TabIndex = 7
       Me.lblPassword.Text = "Password:"
       Me.lblPassword.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -82,44 +83,43 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       '
       Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
       Me.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnOK.Location = New System.Drawing.Point(240, 96)
+            Me.btnOK.Location = New System.Drawing.Point(240, 88)
       Me.btnOK.Name = "btnOK"
-      Me.btnOK.TabIndex = 10
+            Me.btnOK.TabIndex = 2
       Me.btnOK.Text = "เข้าสู่ระบบ"
       '
       'btnCancel
       '
       Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
       Me.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnCancel.Location = New System.Drawing.Point(320, 96)
+            Me.btnCancel.Location = New System.Drawing.Point(320, 88)
       Me.btnCancel.Name = "btnCancel"
       Me.btnCancel.Size = New System.Drawing.Size(96, 23)
-      Me.btnCancel.TabIndex = 11
+            Me.btnCancel.TabIndex = 3
       Me.btnCancel.Text = "ออกจากโปรแกรม"
       '
       'cmbCompanyList
       '
       Me.cmbCompanyList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbCompanyList.Location = New System.Drawing.Point(96, 16)
-      Me.cmbCompanyList.MaxDropDownItems = 10
       Me.cmbCompanyList.Name = "cmbCompanyList"
       Me.cmbCompanyList.Size = New System.Drawing.Size(320, 21)
-      Me.cmbCompanyList.TabIndex = 1
-      Me.cmbCompanyList.TabStop = False
+            Me.cmbCompanyList.TabIndex = 8
+            Me.cmbCompanyList.MaxDropDownItems = 10
       '
       'lblCompany
       '
       Me.lblCompany.Location = New System.Drawing.Point(24, 16)
       Me.lblCompany.Name = "lblCompany"
       Me.lblCompany.Size = New System.Drawing.Size(72, 23)
-      Me.lblCompany.TabIndex = 0
+            Me.lblCompany.TabIndex = 5
       Me.lblCompany.Text = "Company:"
       Me.lblCompany.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'LoginDialog
       '
       Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-      Me.ClientSize = New System.Drawing.Size(458, 128)
+            Me.ClientSize = New System.Drawing.Size(434, 128)
       Me.ControlBox = False
       Me.Controls.Add(Me.cmbCompanyList)
       Me.Controls.Add(Me.btnCancel)
@@ -200,7 +200,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     Private Sub LoginDiaog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
       Select Case e.KeyCode
         Case Keys.Enter
-          SendKeys.Send("{tab}")
+          If StartPojjamanWorkbenchCommand.ALLOWTAB Then
+            SendKeys.Send("{tab}")
+          End If
           e.Handled = True
       End Select
     End Sub

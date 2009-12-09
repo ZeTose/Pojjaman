@@ -43,7 +43,8 @@ Namespace Longkong.Pojjaman.Commands
             Application.AddMessageFilter(New FormKeyHandler)
             Application.Run(workBenchForm)
             Try
-                myPropertyService.SetProperty("Pojjaman.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
+                 myPropertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
+                'myPropertyService.SetProperty("Pojjaman.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
             Catch ex As Exception
                 Console.WriteLine(("Exception while saving workbench state: " & ex.ToString))
             End Try

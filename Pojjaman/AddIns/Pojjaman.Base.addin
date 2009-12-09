@@ -5,7 +5,7 @@
 		<Import assembly="../bin/Longkong.Core.Services.dll"/>
 	</Runtime>
 	<Extension path="/Workspace/Autostart">
-		<!-- <Class id="InitializePojjamanWorkbenchCommand" class="Longkong.Pojjaman.Commands.InitializePojjamanWorkbenchCommand"/> -->
+		<Class id="InitializePojjamanWorkbenchCommand" class="Longkong.Pojjaman.Commands.InitializePojjamanWorkbenchCommand"/>
 		<Class id="InsertPJMFormKeyHandler" class="Longkong.Pojjaman.Commands.InsertFormKeyHandler"/>
 		<Class id="StartPojjamanWorkbenchCommand" class="Longkong.Pojjaman.Commands.StartPojjamanWorkbenchCommand"/>
 	</Extension>

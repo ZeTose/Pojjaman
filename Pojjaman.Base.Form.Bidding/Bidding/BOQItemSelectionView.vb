@@ -740,12 +740,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    WorkbenchSingleton.Workbench.ShowPad(pad)
       'End If
     End Sub
-    Public Sub HidePad()
-      Dim myListPad As IPadContent = WorkbenchSingleton.Workbench.GetPad(Me.m_entity.ClassName)
-      If Not myListPad Is Nothing Then
-        WorkbenchSingleton.Workbench.WorkbenchLayout.HidePad(myListPad)
-      End If
-    End Sub
+    'Public Sub HidePad()
+    'Dim myListPad As IPadContent = WorkbenchSingleton.Workbench.GetPad(Me.m_entity.ClassName)
+    'If Not myListPad Is Nothing Then
+    'WorkbenchSingleton.Workbench.WorkbenchLayout.HidePad(myListPad)
+    'End If
+    'End Sub
 
     Public Event EntitySelected(ByVal e As ISimpleEntity) Implements ISimpleListPanel.EntitySelected
     Public Sub OnEntitySelected(ByVal e As ISimpleEntity)

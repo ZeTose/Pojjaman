@@ -1,4 +1,4 @@
-Imports Longkong.WinFormsUI
+Imports WeifenLuo.WinFormsUI.Docking
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Properties
 Imports Longkong.Core.Services
@@ -10,6 +10,7 @@ Imports Longkong.Core
 Imports Longkong.Pojjaman.Gui.Panels
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
+Imports Longkong.Pojjaman.Commands
 Namespace Longkong.Pojjaman.Gui
     Public Class PojjamanWorkspaceWindow
         Inherits DockContent
@@ -51,7 +52,7 @@ Namespace Longkong.Pojjaman.Gui
             Me.SetTitleEvent(Nothing, Nothing)
 
             '*****************************************
-            MyBase.DockableAreas = DockAreas.Document ' นี่แหละที่ทำให้ Window นี้อยู่บริเวณเดียว ลากไปไหนไม่ได้
+      MyBase.DockAreas = DockAreas.Document ' นี่แหละที่ทำให้ Window นี้อยู่บริเวณเดียว ลากไปไหนไม่ได้    
             '*****************************************
 
             MyBase.DockPadding.All = 2
@@ -245,9 +246,9 @@ Namespace Longkong.Pojjaman.Gui
             '        End If
             '    End If
             'End If
-            'statusbarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
+      statusbarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
             If e.NewTabIndex = 0 AndAlso TypeOf Me.ViewContent Is ISimpleListPanel AndAlso Me.ViewContent.IsDirty Then
-                Dim resourceService As resourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), resourceService)
+        Dim resourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
                 Dim dr As DialogResult = MessageBox.Show(resourceService.GetString("MainWindow.SaveChangesMessage"), resourceService.GetString("MainWindow.SaveChangesMessageHeader") + " " + Title + " ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 Select Case dr
                     Case DialogResult.Yes
@@ -279,9 +280,9 @@ Namespace Longkong.Pojjaman.Gui
             '        End If
             '    End If
             'End If
-            'statusbarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
+      statusbarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
             If Me.m_viewTabControl.SelectedIndex = 0 AndAlso TypeOf Me.ViewContent Is ISimpleListPanel AndAlso Me.ViewContent.IsDirty Then
-                Dim resourceService As resourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), resourceService)
+        Dim resourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
                 Dim dr As DialogResult = MessageBox.Show(resourceService.GetString("MainWindow.SaveChangesMessage"), resourceService.GetString("MainWindow.SaveChangesMessageHeader") + " " + Title + " ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 Select Case dr
                     Case DialogResult.Yes
@@ -392,7 +393,7 @@ Namespace Longkong.Pojjaman.Gui
 
         Public Function CloseWindow(ByVal force As Boolean) As Boolean Implements IWorkbenchWindow.CloseWindow
             If Not force AndAlso Not (ViewContent Is Nothing) AndAlso ViewContent.IsDirty Then
-                Dim resourceService As resourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), resourceService)
+        Dim resourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
                 Dim dr As DialogResult = MessageBox.Show(resourceService.GetString("MainWindow.SaveChangesMessage"), resourceService.GetString("MainWindow.SaveChangesMessageHeader") + " " + Title + " ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 Select Case dr
                     Case DialogResult.Yes
@@ -419,7 +420,7 @@ Namespace Longkong.Pojjaman.Gui
                                 End If
                             End While
                         Else
-                            Dim fileUtilityService As fileUtilityService = CType(ServiceManager.Services.GetService(GetType(fileUtilityService)), fileUtilityService)
+              Dim fileUtilityService As FileUtilityService = CType(ServiceManager.Services.GetService(GetType(FileUtilityService)), FileUtilityService)
                             fileUtilityService.ObservedSave(New FileOperationDelegate(AddressOf ViewContent.Save), ViewContent.FileName, FileErrorPolicy.ProvideAlternative)
                         End If
                         For Each content As Object In Me.SubViewContents
@@ -566,7 +567,7 @@ Namespace Longkong.Pojjaman.Gui
         '        '    End If
         '        'End If
         '        e.Handled = True
-        '        SendKeys.Send("{Tab}")
+        '        'SendKeys.Send("{Tab}")
         '    Else
         '        e.Handled = False
         '        MyBase.OnKeyUp(e)
@@ -576,7 +577,9 @@ Namespace Longkong.Pojjaman.Gui
             Try
                 Select Case e.KeyCode
                     Case Keys.Enter
+            If StartPojjamanWorkbenchCommand.ALLOWTAB Then
                         SendKeys.Send("{tab}")
+            End If
                         e.Handled = True
                 End Select
             Catch ex As Exception

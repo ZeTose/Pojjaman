@@ -196,7 +196,6 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
-    <Content Include="bin\MiddleManMonitor.exe" />
     <Content Include="blank.bmp" />
     <Content Include="data\ConversionStyleSheets\ConvertPrjx10to11.xsl" />
     <Content Include="data\ConversionStyleSheets\ShowChangeLog.xsl" />
@@ -434,8 +433,6 @@
     <Content Include="doc\help\HelpDescription.xml" />
     <Content Include="Externals\BalloonWindow.dll" />
     <Content Include="Externals\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ICSharpCode.TextEditor.dll" />
-    <Content Include="Pojjaman.DefaultTextEditor.dll" />
     <Content Include="PojjamanIcon.ico" />
     <Content Include="Resources\Images\tv_minus.bmp" />
     <Content Include="Resources\Images\tv_plus.bmp" />
@@ -862,9 +859,9 @@
     <None Include="doc\help\Pojjaman.chm" />
     <None Include="doc\help\Pojjaman.hhc" />
     <None Include="doc\help\PojjamanHelp.zip" />
-    <None Include="Pojjaman.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="data\resources\dialogs\UML Designer\" />
     <Folder Include="My Project\" />
   </ItemGroup>

@@ -58,9 +58,9 @@ Namespace Longkong.Pojjaman.Gui
                         WorkbenchSingleton.m_workbench.RedrawAllComponents()
                     End If
                 Case "Pojjaman.ColorList"
-                    If Not WorkbenchSingleton.m_workbench.ActiveWorkbenchWindow Is Nothing AndAlso TypeOf WorkbenchSingleton.m_workbench.ActiveWorkbenchWindow.ActiveViewContent Is Longkong.Pojjaman.PanelDisplayBinding.PanelView Then
-                        Longkong.Pojjaman.Gui.Components.HeaderAndDataAlignColumn.SetColorList()
-                    End If
+          'If Not WorkbenchSingleton.m_workbench.ActiveWorkbenchWindow Is Nothing AndAlso TypeOf WorkbenchSingleton.m_workbench.ActiveWorkbenchWindow.ActiveViewContent Is Longkong.Pojjaman.PanelDisplayBinding.PanelView Then
+          'Longkong.Pojjaman.Gui.Components.HeaderAndDataAlignColumn.SetColorList()
+          'End If
             End Select
         End Sub
 #End Region
