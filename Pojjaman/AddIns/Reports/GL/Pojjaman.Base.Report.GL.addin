@@ -4,7 +4,7 @@
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/MainMenu">
 		<Conditional applicationmode="Accounting" action="Exclude">
-			<MenuItem id="Reports" insertafter="Accounting" insertbefore="Stock" label="${res:MainMenu.ReportsMenu}">
+			<MenuItem id="Reports" insertafter="CostControlReport" insertbefore="GeneralSetting" label="${res:MainMenu.ReportsMenu}">
 				<MenuItem id="AccountingReport" label="${res:MainMenu.ReportMenu.AccountingReport}" insertafter="ARRepot" insertbefore="BankCheckReport">
 					<MenuItem id="rptgl" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGL"/>
 					<MenuItem id="rptjournalentry" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptJournalEntry.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntry"/>

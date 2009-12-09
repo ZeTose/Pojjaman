@@ -611,7 +611,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1, 2 '"áÂ¡"
             Return Me.CalculatedBeforeTax + Me.CalculatedTaxAmount
         End Select      End Get    End Property
-#End Region        Public ReadOnly Property TaxBase() As Decimal
+#End Region    Public ReadOnly Property TaxBase() As Decimal
       Get
         Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If
@@ -879,10 +879,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       newMi.Penalty = Me.Penalty
       newMi.Retention = Me.Retention
       newMi.TaxRate = Me.TaxRate
-			newMi.Receive = Me.Receive
-			newMi.RealTaxBase = Me.RealTaxBase
-			newMi.RealTaxAmount = Me.RealTaxAmount
-			newMi.RealMileStoneAmount = Me.RealMileStoneAmount
+      newMi.Receive = Me.Receive
+      newMi.RealTaxBase = Me.RealTaxBase
+      newMi.RealTaxAmount = Me.RealTaxAmount
+      newMi.RealMileStoneAmount = Me.RealMileStoneAmount
     End Sub
     Public Function Clone(ByVal type As MilestoneType) As Milestone
       If type Is Nothing Then
@@ -1261,30 +1261,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If    End Sub
     Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
       Try
-        Dim proposedUnit As Object = e.Row("unit")
-        Dim proposedDescription As Object = e.Row("milestonei_desc")
-        Dim proposedQty As Object = e.Row("milestonei_qty")
-        Dim proposedUnitPrice As Object = e.Row("milestonei_unitprice")
+        'Dim proposedUnit As Object = e.Row("unit")
+        'Dim proposedDescription As Object = e.Row("milestonei_desc")
+        'Dim proposedQty As Object = e.Row("milestonei_qty")
+        'Dim proposedUnitPrice As Object = e.Row("milestonei_unitprice")
 
-        Select Case e.Column.ColumnName.ToLower
-          Case "unit"
-            proposedUnit = e.ProposedValue
-          Case "milestonei_desc"
-            proposedDescription = e.ProposedValue
-          Case "milestonei_qty"
-            proposedQty = e.ProposedValue
-          Case "milestonei_unitprice"
-            proposedUnitPrice = e.ProposedValue
-          Case Else
-            Return
-        End Select
+        Dim proposedDescription As String = ""
+        Dim proposedQty As Decimal = 0
+        Dim proposedUnitPrice As Decimal = 0
+
+        If Not e.Row.IsNull("milestonei_desc") Then
+          proposedDescription = CStr(e.Row("milestonei_desc"))
+        End If
+        If Not e.Row.IsNull("milestonei_qty") AndAlso IsNumeric(e.Row("milestonei_qty")) Then
+          proposedQty = CDec(e.Row("milestonei_qty"))
+        End If
+        If Not e.Row.IsNull("milestonei_unitprice") AndAlso IsNumeric(e.Row("milestonei_unitprice")) Then
+          proposedUnitPrice = CDec(e.Row("milestonei_unitprice"))
+        End If
+
+        If Not e.ProposedValue Is Nothing Then
+          Select Case e.Column.ColumnName.ToLower
+            'Case "unit"
+            'proposedUnit = e.ProposedValue
+            Case "milestonei_desc"
+              proposedDescription = CStr(e.ProposedValue)
+            Case "milestonei_qty"
+              proposedQty = CDec(e.ProposedValue)
+            Case "milestonei_unitprice"
+              proposedUnitPrice = CDec(e.ProposedValue)
+            Case Else
+              Return
+          End Select
+        End If
 
         Dim isBlankRow As Boolean = False
-        If (IsDBNull(proposedUnit) OrElse CStr(proposedUnit).Length = 0) _
-            And (IsDBNull(proposedUnitPrice) OrElse Not IsNumeric(proposedUnitPrice) OrElse CDec(proposedUnitPrice) = 0) _
-            And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) _
-            And (IsDBNull(proposedQty) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
-            Then
+        'If (IsDBNull(proposedUnit) OrElse CStr(proposedUnit).Length = 0) _
+        'And (IsDBNull(proposedUnitPrice) OrElse Not IsNumeric(proposedUnitPrice) OrElse CDec(proposedUnitPrice) = 0) _
+        'And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) _
+        'And (IsDBNull(proposedQty) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
+        'Then
+        'isBlankRow = True
+        'End If
+        If (proposedUnitPrice = 0) AndAlso (proposedDescription.Length = 0) AndAlso (proposedQty = 0) Then
           isBlankRow = True
         End If
 
@@ -1295,7 +1314,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '    e.Row.SetColumnError("Unit", "")
           'End If
 
-          If IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0 Then
+          If (proposedDescription Is Nothing) OrElse CStr(proposedDescription).Length = 0 Then
             e.Row.SetColumnError("milestonei_desc", Me.StringParserService.Parse("${res:Global.Error.ItemMissing}"))
           Else
             e.Row.SetColumnError("milestonei_desc", "")
@@ -1317,18 +1336,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Sub
     Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      Dim proposedUnit As Object = row("unit")
-      Dim proposedDescription As Object = row("milestonei_desc")
-      Dim proposedQty As Object = row("milestonei_qty")
-      Dim proposedUnitPrice As Object = row("milestonei_unitprice")
+      'Dim proposedUnit As Object = row("unit")
+      'Dim proposedDescription As Object = row("milestonei_desc")
+      'Dim proposedQty As Object = row("milestonei_qty")
+      'Dim proposedUnitPrice As Object = row("milestonei_unitprice")
+
+      Dim proposedDescription As String = ""
+      Dim proposedQty As Decimal = 0
+      Dim proposedUnitPrice As Decimal = 0
+
+      If Not row.IsNull("milestonei_desc") Then
+        proposedDescription = CStr(row("milestonei_desc"))
+      End If
+      If Not row.IsNull("milestonei_qty") AndAlso IsNumeric(row("milestonei_qty")) Then
+        proposedQty = CDec(row("milestonei_qty"))
+      End If
+      If Not row.IsNull("milestonei_unitprice") AndAlso IsNumeric(row("milestonei_unitprice")) Then
+        proposedUnitPrice = CDec(row("milestonei_unitprice"))
+      End If
 
       Dim flag As Boolean = True
       Dim isBlankRow As Boolean = False
-      If (IsDBNull(proposedUnit) OrElse CStr(proposedUnit).Length = 0) _
-          And (IsDBNull(proposedUnitPrice) OrElse Not IsNumeric(proposedUnitPrice) OrElse CDec(proposedUnitPrice) = 0) _
-          And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) _
-          And (IsDBNull(proposedQty) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
-          Then
+      'If ((proposedUnit Is Nothing) OrElse CStr(proposedUnit).Length = 0) _
+      'And ((proposedUnitPrice Is Nothing) OrElse Not IsNumeric(proposedUnitPrice) OrElse CDec(proposedUnitPrice) = 0) _
+      'And ((proposedDescription Is Nothing) OrElse CStr(proposedDescription).Length = 0) _
+      'And ((proposedQty Is Nothing) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
+      'Then
+      'flag = False
+      'End If
+
+      If (proposedUnitPrice = 0) AndAlso (proposedDescription.Length = 0) AndAlso (proposedQty = 0) Then
         flag = False
       End If
 
@@ -2043,7 +2080,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
   <Serializable(), DefaultMember("Item")> _
-Public Class MilestoneCollection
+  Public Class MilestoneCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -2403,322 +2440,322 @@ Public Class MilestoneCollection
       Next
       Return myCollection
     End Function
-		Public Function GetMilestoneCollection(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal toAdv As Boolean = False) As MilestoneCollection
-			Dim myCollection As New MilestoneCollection
-			If Me.PaymentApplication Is Nothing Then
-				myCollection.PaymentApplication = pma
-			Else
-				myCollection.PaymentApplication = Me.PaymentApplication
-			End If
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					If Not TypeOf item Is VariationOrderDe Then
-						If (Not toAdv) OrElse (toAdv AndAlso Not TypeOf item Is VariationOrderInc) Then
-							If Not TypeOf item Is Retention Then
-								If Not TypeOf item Is AdvanceMileStone Then
-									myCollection.Add(item)
-								End If
-							End If
-						End If
-					End If
-				End If
-			Next
-			Return myCollection
-		End Function
-		Public Function GetMilesoneAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.MileStoneAmount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.Amount
-					Dim itemRetention As Decimal = item.Retention
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-						itemRetention = Configuration.Format(itemRetention, DigitConfig.Price)
-					End If
-					amt += (itemAmount + itemRetention)
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.Amount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetTaxBase(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.TaxBase
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetTaxAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.TaxAmount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetBeforeTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.BeforeTax
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.AfterTax
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetMilestoneAmountAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.MileStoneAmount
-					If item.TaxType.Value = 1 Then
-						itemAmount += Vat.GetVatAmount(itemAmount)
-					End If
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetMilestoneAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.MileStoneAmount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetMilestoneAmountWithTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.CalculatedAfterTax
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.AfterTax
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetBeforeTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.BeforeTax
-					'Dim itemRetention As Decimal = item.Retention
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-						'itemRetention = Configuration.Format(itemRetention, DigitConfig.Price)
-					End If
-					amt += itemAmount		 '+= (itemAmount + itemRetention)
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetRetentionAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.Retention
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetHandedRetentionAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					If item.Status.Value >= 3 Then
-						Dim itemAmount As Decimal = item.Retention
-						If roundBeforeSum Then
-							itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-						End If
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.Advance
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetHandedAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					If item.Status.Value >= 3 Then
-						Dim itemAmount As Decimal = item.Advance
-						If roundBeforeSum Then
-							itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-						End If
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetDiscountAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.DiscountAmount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetCanGetDiscountAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.DiscountAmount
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					If TypeOf item Is VariationOrderDe Then
-						amt -= itemAmount
-					Else
-						amt += itemAmount
-					End If
-				End If
-			Next
-			Return amt
-		End Function
-		Public Function GetPenaltyAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me
-				If IncludeThisItem(item, pma) Then
-					Dim itemAmount As Decimal = item.Penalty
-					If roundBeforeSum Then
-						itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-					End If
-					amt += itemAmount
-				End If
-			Next
-			Return amt
-		End Function
+    Public Function GetMilestoneCollection(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal toAdv As Boolean = False) As MilestoneCollection
+      Dim myCollection As New MilestoneCollection
+      If Me.PaymentApplication Is Nothing Then
+        myCollection.PaymentApplication = pma
+      Else
+        myCollection.PaymentApplication = Me.PaymentApplication
+      End If
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          If Not TypeOf item Is VariationOrderDe Then
+            If (Not toAdv) OrElse (toAdv AndAlso Not TypeOf item Is VariationOrderInc) Then
+              If Not TypeOf item Is Retention Then
+                If Not TypeOf item Is AdvanceMileStone Then
+                  myCollection.Add(item)
+                End If
+              End If
+            End If
+          End If
+        End If
+      Next
+      Return myCollection
+    End Function
+    Public Function GetMilesoneAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.Amount
+          Dim itemRetention As Decimal = item.Retention
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            itemRetention = Configuration.Format(itemRetention, DigitConfig.Price)
+          End If
+          amt += (itemAmount + itemRetention)
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.Amount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetTaxBase(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.TaxBase
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetTaxAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.TaxAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetBeforeTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.BeforeTax
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.AfterTax
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetMilestoneAmountAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If item.TaxType.Value = 1 Then
+            itemAmount += Vat.GetVatAmount(itemAmount)
+          End If
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetMilestoneAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetMilestoneAmountWithTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.CalculatedAfterTax
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.AfterTax
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetBeforeTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.BeforeTax
+          'Dim itemRetention As Decimal = item.Retention
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            'itemRetention = Configuration.Format(itemRetention, DigitConfig.Price)
+          End If
+          amt += itemAmount    '+= (itemAmount + itemRetention)
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetRetentionAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.Retention
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetHandedRetentionAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          If item.Status.Value >= 3 Then
+            Dim itemAmount As Decimal = item.Retention
+            If roundBeforeSum Then
+              itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            End If
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.Advance
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetHandedAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          If item.Status.Value >= 3 Then
+            Dim itemAmount As Decimal = item.Advance
+            If roundBeforeSum Then
+              itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            End If
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetDiscountAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.DiscountAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetDiscountAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.DiscountAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetPenaltyAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.Penalty
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
 #End Region
 
 #Region "Collection Methods"

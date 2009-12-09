@@ -27,52 +27,54 @@ Namespace Longkong.Pojjaman.Services
 #Region "Methods"
     Public Function CreateToolBarFromCodon(ByVal owner As Object, ByVal codon As ToolbarItemCodon) As ToolStrip
       Dim tb As New ToolStrip
-            Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
-            If codon.SubItems.Count > 0 Then
-                If CType(codon.SubItems(0), ToolbarItemCodon).Label <> "" Then
+      tb.Size = New System.Drawing.Size(705, 31)
+      tb.ImageScalingSize = New System.Drawing.Size(24, 24)
+      Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
+      If codon.SubItems.Count > 0 Then
+        If CType(codon.SubItems(0), ToolbarItemCodon).Label <> "" Then
           'tb.Style = CommandBarStyle.TextToolBar
-                End If
-            End If
-            For Each tbCodon As ToolbarItemCodon In codon.SubItems
-                Dim text As String
-                If tbCodon.Label <> "" Then
-                    text = tbCodon.Label
-                Else
-                    text = tbCodon.ToolTip
-                End If
+        End If
+      End If
+      For Each tbCodon As ToolbarItemCodon In codon.SubItems
+        Dim text As String
+        If tbCodon.Label <> "" Then
+          text = tbCodon.Label
+        Else
+          text = tbCodon.ToolTip
+        End If
         Dim item As ToolStripItem = Nothing
-                Dim o As Object = Nothing
-                If (Not tbCodon.Class Is Nothing) Then
-                    o = tbCodon.AddIn.CreateObject(tbCodon.Class)
-                    item = Nothing
-                End If
-                If ((Not o Is Nothing) AndAlso TypeOf o Is IComboBoxCommand) Then
+        Dim o As Object = Nothing
+        If (Not tbCodon.Class Is Nothing) Then
+          o = tbCodon.AddIn.CreateObject(tbCodon.Class)
+          item = Nothing
+        End If
+        If ((Not o Is Nothing) AndAlso TypeOf o Is IComboBoxCommand) Then
           'item = New PJMToolStripMenuItem(tbCodon.ID, tbCodon.Conditions, owner, CType(o, ICommand))
           'CType(o, IComboBoxCommand).Owner = item
-                ElseIf Not o Is Nothing AndAlso TypeOf o Is ICheckableMenuCommand Then
+        ElseIf Not o Is Nothing AndAlso TypeOf o Is ICheckableMenuCommand Then
           'item = New PJMMenuCheckBox(tbCodon.Conditions, owner, text, CType(o, ICheckableMenuCommand))
           'item.Image = myResourceService.GetBitmap(tbCodon.Icon)
           'CType(o, ICheckableMenuCommand).Owner = item
-                Else
-                    If Not (tbCodon.ToolTip Is Nothing) Then
-                        If (tbCodon.ToolTip = "-") Then
+        Else
+          If Not (tbCodon.ToolTip Is Nothing) Then
+            If (tbCodon.ToolTip = "-") Then
               item = New PJMToolStripSeparator
-                        Else
+            Else
               item = New PJMToolStripMenuItem(tbCodon.Conditions, owner, text)
-                            item.Image = myResourceService.GetBitmap(tbCodon.Icon)
-                        End If
-                        If (Not tbCodon.Class Is Nothing) Then
+              item.Image = myResourceService.GetBitmap(tbCodon.Icon)
+            End If
+            If (Not tbCodon.Class Is Nothing) Then
               CType(item, PJMToolStripMenuItem).Command = CType(tbCodon.AddIn.CreateObject(tbCodon.Class), ICommand)
-                        End If
-                    End If
-                End If
+            End If
+          End If
+        End If
         If Not item Is Nothing Then
           item.DisplayStyle = ToolStripItemDisplayStyle.Image
-                tb.Items.Add(item)
+          tb.Items.Add(item)
         End If
-            Next
-            Return tb
-        End Function
+      Next
+      Return tb
+    End Function
     Public Function CreateToolbars() As ToolStrip()
             If (Me.m_node Is Nothing) Then
         Return New ToolStrip(0 - 1) {}

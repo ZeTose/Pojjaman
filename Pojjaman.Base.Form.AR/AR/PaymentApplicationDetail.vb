@@ -12,6 +12,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
+    'Inherits UserControl
+
 #Region " Windows Form Designer generated code "
 
     'UserControl overrides dispose to clean up the component list.
@@ -1929,6 +1931,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         row.Tag = item
       Next
       ValidateItemRows()
+      UpdateAmount()
       Me.m_tableInitialized = True
     End Sub
     Private Sub ValidateItemRows()
@@ -2128,7 +2131,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Else
                 e.Row.SetColumnError("realamount", "")
               End If
-            Case 78, 79 'เพิ่มงาน/ลดงาน
+            Case 78 'เพิ่มงาน
               If IsDBNull(code) OrElse code.ToString.Length = 0 Then
                 e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.VOCodeMissing}"))
               Else
@@ -2145,6 +2148,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 e.Row.SetColumnError("docdate", "")
               End If
               If IsDBNull(realamount) OrElse CDec(realamount) <= 0 Then
+                e.Row.SetColumnError("realamount", Me.StringParserService.Parse("${res:Global.Error.VOAmountMissing}"))
+              Else
+                e.Row.SetColumnError("realamount", "")
+              End If
+            Case 79 'ลดงาน
+              If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.VOCodeMissing}"))
+              Else
+                e.Row.SetColumnError("code", "")
+              End If
+              If IsDBNull(name) OrElse name.ToString.Length = 0 Then
+                e.Row.SetColumnError("name", Me.StringParserService.Parse("${res:Global.Error.VONameMissing}"))
+              Else
+                e.Row.SetColumnError("name", "")
+              End If
+              If IsDBNull(docdate) OrElse CDate(docdate).Equals(Date.MinValue) Then
+                e.Row.SetColumnError("docdate", Me.StringParserService.Parse("${res:Global.Error.VODocDateMissing}"))
+              Else
+                e.Row.SetColumnError("docdate", "")
+              End If
+              If IsDBNull(realamount) OrElse CDec(realamount) = 0 Then
                 e.Row.SetColumnError("realamount", Me.StringParserService.Parse("${res:Global.Error.VOAmountMissing}"))
               Else
                 e.Row.SetColumnError("realamount", "")
@@ -2546,19 +2570,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CInt(e.Row("type"))
         Case 75, 78 'งวดงาน/เพิ่ม
           If value < (oldAdvance + oldPenalty + oldRetention + oldDiscount) Then
-            msgServ.ShowMessage("${res:Global.Error.MilestoneRealAmountLessThanDe}")
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            'e.Row("amount") = Configuration.FormatToString(value - (oldAdvance + oldPenalty + oldRetention + oldDiscount), DigitConfig.Price)
-            Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
-            Me.m_milestone.ResetReal()
-            e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
-            Me.UpdateItem()
-            UpdateAmount()
-            UpdateTotalRow()
+            'msgServ.ShowMessage("${res:Global.Error.MilestoneRealAmountLessThanDe}")
+            'e.ProposedValue = e.Row(e.Column)
+            'm_updating = False
+            'Return
+            e.Row("Advance") = ""
+            e.Row("Retention") = ""
+            e.Row("Discount") = ""
+            e.Row("Penalty") = ""
+            m_milestone.Advance = 0
+            m_milestone.Retention = 0
+            m_milestone.Discount = New Discount("0")
+            m_milestone.Penalty = 0
           End If
+          'Else
+          'e.Row("amount") = Configuration.FormatToString(value - (oldAdvance + oldPenalty + oldRetention + oldDiscount), DigitConfig.Price)
+          Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
+          Me.m_milestone.ResetReal()
+          e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
+          Me.UpdateItem()
+          UpdateAmount()
+          UpdateTotalRow()
+          'End If
         Case 79 '/ลด
           'e.Row("amount") = Configuration.FormatToString(value + (oldAdvance + oldPenalty + oldRetention + oldDiscount), DigitConfig.Price)
           Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)

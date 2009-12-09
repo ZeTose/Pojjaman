@@ -192,9 +192,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
-    <Content Include="AddIns\Reports\CostControl\Qatar.addin">
-      <SubType>Form</SubType>
-    </Content>
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
     <Content Include="blank.bmp" />
     <Content Include="data\ConversionStyleSheets\ConvertPrjx10to11.xsl" />

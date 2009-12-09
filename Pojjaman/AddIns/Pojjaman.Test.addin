@@ -3,9 +3,9 @@
 		<!--<Import assembly="../bin/AddInTest.dll"/>-->
 
 	</Runtime>
-		<Extension path="/Pojjaman/Workbench/ToolBar/Standard">
+		<!--<Extension path="/Pojjaman/Workbench/ToolBar/Standard">
 
-		</Extension>	
+		</Extension>-->	
 		<Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
 				<ToolbarItem id="Refresh" insertafter="TestSeparator" icon="Icons.16x16.ILDasm" tooltip="Refresh Codedescription" class="Longkong.Pojjaman.Commands.RefreshCodeList"/>
 				<ToolbarItem id="ShowCodeDescription" insertafter="Refresh" icon="Icons.16x16.Info" tooltip="ShowCodeDescription" class="Longkong.Pojjaman.Commands.ShowCodeDescription"/>

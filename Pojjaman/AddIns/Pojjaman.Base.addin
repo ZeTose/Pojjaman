@@ -41,11 +41,11 @@
 		<MenuItem id="File2" label="${res:XML.MainMenu.FileMenu.Open.File}" icon="Icons.16x16.OpenFileIcon" description="${res:XML.MainMenu.FileMenu.Open.File.Description}" shortcut="Control|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/ToolBar">
-		<ToolbarItem id="Standard">
-			<ToolbarItem id="BiddingMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Bidding}" label="${res:XML.MainMenu.ModeMenu.Bidding}" class="Longkong.Pojjaman.Commands.BiddingModeCommand"/>
-			<ToolbarItem id="AccountingMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Accounting}" label="${res:XML.MainMenu.ModeMenu.Accounting}" class="Longkong.Pojjaman.Commands.AccountingModeCommand"/>
-			<ToolbarItem id="CostControlMode" icon="Icons.16x16.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.CostControl}" label="${res:XML.MainMenu.ModeMenu.CostControl}" class="Longkong.Pojjaman.Commands.CostControlModeCommand"/>
-		</ToolbarItem>
+		<!--<ToolbarItem id="Standard">
+			<ToolbarItem id="BiddingMode" icon="Icons.24x24.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Bidding}" label="${res:XML.MainMenu.ModeMenu.Bidding}" class="Longkong.Pojjaman.Commands.BiddingModeCommand"/>
+			<ToolbarItem id="AccountingMode" icon="Icons.24x24.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.Accounting}" label="${res:XML.MainMenu.ModeMenu.Accounting}" class="Longkong.Pojjaman.Commands.AccountingModeCommand"/>
+			<ToolbarItem id="CostControlMode" icon="Icons.24x24.NewDocumentIcon" tooltip="${res:XML.MainMenu.ModeMenu.CostControl}" label="${res:XML.MainMenu.ModeMenu.CostControl}" class="Longkong.Pojjaman.Commands.CostControlModeCommand"/>
+		</ToolbarItem>-->
 		<ToolbarItem id="Dynamic">
 			<Conditional applicationmode="Bidding" action="Exclude">
 				<ToolbarItem id="NewProject" icon="Icons.16x16.NewProjectIcon" tooltip="${res:XML.MainMenu.FileMenu.New.Project.Description}" class="Longkong.Pojjaman.Commands.CreateNewProject"/>
