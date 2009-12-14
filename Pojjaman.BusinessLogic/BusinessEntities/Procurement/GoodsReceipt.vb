@@ -2967,7 +2967,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = jiMap & "W"
           ji.Amount = iwbs.Amount     'jiAmount
           ji.Account = jiAccount
-          ji.CostCenter = jiCoscenter
+          ji.CostCenter = iwbs.CostCenter 'jiCoscenter
           ji.Note = itemname & "(" & Configuration.Format(item.Qty * (iwbs.Percent / 100), DigitConfig.Qty) & unitName & ")" & " " & iwbs.CostCenter.Name & ":" & iwbs.WBS.Name
           jiColl.Add(ji)
         Next

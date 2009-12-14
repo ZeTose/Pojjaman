@@ -1995,12 +1995,5 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub chkSingleVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSingleVat.CheckedChanged
-
-    End Sub
-
-    Private Sub lblItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblItem.Click
-
-    End Sub
   End Class
 End Namespace

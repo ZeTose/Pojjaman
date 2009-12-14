@@ -1891,6 +1891,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       totalRow.Tag = Nothing
       Dim i As Integer
       For Each item As Milestone In Me.m_entity.ItemCollection
+        item.ResetReal()
         i += 1
         Dim row As TreeRow = Me.m_treeManager.Treetable.Childs.Add()
         row("Linenumber") = i
@@ -1902,28 +1903,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         row("HandedDate") = item.HandedDate
         row("BillIssueDate") = item.BillIssueDate
         Select Case item.Type.Value
-					Case 75
-						'ผ่าน
-						row("Advance") = Configuration.FormatToString(item.Advance, DigitConfig.Price)
-						row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
-						row("Discount") = item.Discount.Rate
-						row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
-					Case 78				'เพิ่ม
-						row("Advance") = ""
-						row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
-						row("Discount") = item.Discount.Rate
-						row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
-					Case 79					'เพิ่ม /ลด
-						row("Advance") = ""
-						row("Retention") = ""
-						row("Discount") = item.Discount.Rate
-						row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
-					Case Else
-						row("Advance") = ""
-						row("Retention") = ""
-						row("Discount") = ""
-						row("Penalty") = ""
-				End Select
+          Case 75
+            'ผ่าน
+            row("Advance") = Configuration.FormatToString(item.Advance, DigitConfig.Price)
+            row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
+            row("Discount") = item.Discount.Rate
+            row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
+          Case 78       'เพิ่ม
+            row("Advance") = ""
+            row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
+            row("Discount") = item.Discount.Rate
+            row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
+          Case 79         'เพิ่ม /ลด
+            row("Advance") = ""
+            row("Retention") = ""
+            row("Discount") = item.Discount.Rate
+            row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
+          Case Else
+            row("Advance") = ""
+            row("Retention") = ""
+            row("Discount") = ""
+            row("Penalty") = ""
+        End Select
         row("RealAmount") = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
         row("Amount") = Configuration.FormatToString(item.Amount, DigitConfig.Price)
         row("Status") = item.Status.Value
@@ -1964,7 +1965,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Else
               row.SetColumnError("realamount", "")
             End If
-          Case 78, 79 'เพิ่มงาน/ลดงาน
+          Case 78 'เพิ่มงาน
             If mi.Code Is Nothing OrElse mi.Code.Length = 0 Then
               row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.VOCodeMissing}"))
             Else
@@ -1981,6 +1982,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
               row.SetColumnError("docdate", "")
             End If
             If mi.MileStoneAmount <= 0 Then
+              row.SetColumnError("realamount", Me.StringParserService.Parse("${res:Global.Error.VOAmountMissing}"))
+            Else
+              row.SetColumnError("realamount", "")
+            End If
+          Case 79 'ลดงาน
+            If mi.Code Is Nothing OrElse mi.Code.Length = 0 Then
+              row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.VOCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If mi.Name Is Nothing OrElse mi.Name.Length = 0 Then
+              row.SetColumnError("name", Me.StringParserService.Parse("${res:Global.Error.VONameMissing}"))
+            Else
+              row.SetColumnError("name", "")
+            End If
+            If mi.DocDate.Equals(Date.MinValue) Then
+              row.SetColumnError("docdate", Me.StringParserService.Parse("${res:Global.Error.VODocDateMissing}"))
+            Else
+              row.SetColumnError("docdate", "")
+            End If
+            If mi.MileStoneAmount = 0 Then
               row.SetColumnError("realamount", Me.StringParserService.Parse("${res:Global.Error.VOAmountMissing}"))
             Else
               row.SetColumnError("realamount", "")
@@ -2284,13 +2306,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             UpdateAmount()
             UpdateTotalRow()
           End If
-        Case 79
-          Me.m_milestone.Discount.Rate = e.ProposedValue.ToString
-          Me.m_milestone.ResetReal()
-          e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
-          Me.UpdateItem()
-          UpdateAmount()
-          UpdateTotalRow()
+          'Case 79
+          'Me.m_milestone.Discount.Rate = e.ProposedValue.ToString
+          'Me.m_milestone.ResetReal()
+          'e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
+          'Me.UpdateItem()
+          'UpdateAmount()
+          'UpdateTotalRow()
         Case Else
           msgServ.ShowMessage("${res:Global.Error.PenaltyCanOnlyBeWithMilestone}")
           e.ProposedValue = e.Row(e.Column)
@@ -2362,14 +2384,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             UpdateAmount()
             UpdateTotalRow()
           End If
-        Case 79
-          'e.Row("amount") = Configuration.FormatToString(oldRealAmount + (value + oldRetention + oldAdvance + oldDiscount), DigitConfig.Price)
-          Me.m_milestone.Penalty = CDec(e.ProposedValue)
-          Me.m_milestone.ResetReal()
-          e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
-          Me.UpdateItem()
-          UpdateAmount()
-          UpdateTotalRow()
+          'Case 79
+          ''e.Row("amount") = Configuration.FormatToString(oldRealAmount + (value + oldRetention + oldAdvance + oldDiscount), DigitConfig.Price)
+          'Me.m_milestone.Penalty = CDec(e.ProposedValue)
+          'Me.m_milestone.ResetReal()
+          'e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
+          'Me.UpdateItem()
+          'UpdateAmount()
+          'UpdateTotalRow()
         Case Else
           msgServ.ShowMessage("${res:Global.Error.PenaltyCanOnlyBeWithMilestone}")
           e.ProposedValue = e.Row(e.Column)

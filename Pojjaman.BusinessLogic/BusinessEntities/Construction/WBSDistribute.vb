@@ -50,6 +50,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
+        m_wbs = New WBS
+        m_cc = New CostCenter
+
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_isMarkup") Then
           m_isMarkup = CBool(dr(aliasPrefix & "stockiw_isMarkup"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "priw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "priw_isMarkup") Then
@@ -67,7 +70,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "wbs_id") AndAlso Not dr.IsNull(aliasPrefix & "wbs_id") Then
-          m_wbs = New WBS
+          'm_wbs = New WBS
           m_wbs.Id = CInt(dr(aliasPrefix & "wbs_id"))
           If dr.Table.Columns.Contains(aliasPrefix & "wbs_code") AndAlso Not dr.IsNull(aliasPrefix & "wbs_code") Then
             m_wbs.Code = CStr(dr(aliasPrefix & "wbs_code"))
@@ -82,7 +85,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'CC
         If dr.Table.Columns.Contains(aliasPrefix & "cc_id") AndAlso Not dr.IsNull(aliasPrefix & "cc_id") Then
-          m_cc = New CostCenter
+          'm_cc = New CostCenter
           If dr.Table.Columns.Contains(aliasPrefix & "stockiw_cc") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_cc") Then
             m_cc.Id = CInt(dr(aliasPrefix & "stockiw_cc"))
           ElseIf dr.Table.Columns.Contains(aliasPrefix & "priw_cc") AndAlso Not dr.IsNull(aliasPrefix & "priw_cc") Then

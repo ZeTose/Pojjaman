@@ -992,7 +992,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			'    Return
 			'End If
 			Dim i As Integer = 0
-			Dim vi As New VatItem
+      Dim vi As New VatItem
 			'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
 			'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
 			'pattern = CodeGenerator.GetPattern(pattern)
@@ -1011,8 +1011,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							'lastCode = newCode
 							vitem.DocDate = Me.DocDate
 							vitem.PrintName = Me.Customer.Name
-							vitem.PrintAddress = Me.Customer.BillingAddress
-							Dim mtb As Decimal = mi.TaxBase
+              vitem.PrintAddress = Me.Customer.BillingAddress
+              Dim mtb As Decimal = mi.TaxBase
+              'ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
+              If item.BilledAmount <> item.UnreceivedAmount Then
+                mtb = (item.UnreceivedAmount / item.BilledAmount) * mtb
+              End If
 							Dim amt As Decimal = item.Amount
 							Dim uamt As Decimal = item.UnreceivedAmount
 							'---------------------------------------------
