@@ -87,14 +87,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.TaxBase}") '"ฐานภาษี"
       m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.TaxRate}") '"อัตรา"
       m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.TaxAmount}") '"เงินภาษี"
-      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AfterTax}")  '"รวม"
+      m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AfterTax}")  '"รวม"
+      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CreditAmt}")  '"ยอดหักมัดจำ"
       m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RemainingAmt}")  '"ยอดคงเหลือ"
       m_grid(1, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Status}")  '"สถานะ"
 
       m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocCode}")  '"เลขที่เอกสาร"
       m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocDate}")  '"วันที่เอกสาร"
       m_grid(2, 5).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocType}")  '"ประเภทเอกสาร"
-      m_grid(2, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CreditAmt}")  '"ยอดหัก"
+      m_grid(2, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AdvanceAmt}")  '"ยอดหัก" --
+      m_grid(2, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Remain}")  '"คงเหลือ" --
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -116,6 +118,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(2, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(2, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(2, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -129,14 +133,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currDocCodeIndex As Integer = -1
       Dim currRefDocIndex As Integer = -1
 
-      Dim tmpAmount As Decimal = 0
-      Dim tmpCreditAmount As Decimal = 0
+      'Dim tmpAmount As Decimal = 0
+      'Dim tmpCreditAmount As Decimal = 0
+
+      Dim CreditAmt As Decimal = 0
 
       Dim SumTaxBase As Decimal = 0
       Dim SumTaxAmt As Decimal = 0
       Dim SumTotal As Decimal = 0
+      Dim SumCredit As Decimal = 0
+
+      Dim remainningAmount As Decimal = 0
+
       For Each row As DataRow In dt.Rows
         If row("CostCenterCode").ToString <> currentCostCenterCode Then
+          If currDocCodeIndex <> -1 Then
+            m_grid(currDocCodeIndex, 10).CellValue = Configuration.FormatToString(CreditAmt, DigitConfig.Price)
+            m_grid(currDocCodeIndex, 11).CellValue = Configuration.FormatToString(remainningAmount, DigitConfig.Price)
+            CreditAmt = 0
+            remainningAmount = 0
+          End If
           m_grid.RowCount += 1
           currCostCenterIndex = m_grid.RowCount
           m_grid.RowStyles(currCostCenterIndex).BackColor = Color.FromArgb(128, 255, 128)
@@ -146,11 +162,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currCostCenterIndex, 2).CellValue = row("CostCenterName").ToString
           currentCostCenterCode = row("CostCenterCode").ToString
           m_grid(currCostCenterIndex, 1).Tag = "Font.Bold"
+          currDocCodeIndex = -1
         End If
 
         If row("DocCode").ToString <> currentDocCode Then
-          If currentDocCode <> "" Then
-            m_grid(currDocCodeIndex, 11).CellValue = indent & Configuration.FormatToString(tmpAmount - tmpCreditAmount, DigitConfig.Price)
+          If currDocCodeIndex <> -1 Then
+            m_grid(currDocCodeIndex, 10).CellValue = Configuration.FormatToString(CreditAmt, DigitConfig.Price)
+            m_grid(currDocCodeIndex, 11).CellValue = Configuration.FormatToString(remainningAmount, DigitConfig.Price)
+            CreditAmt = 0
+            remainningAmount = 0
           End If
           m_grid.RowCount += 1
           currDocCodeIndex = m_grid.RowCount
@@ -184,8 +204,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             SumTaxAmt += CDec(row("TaxAmt"))
           End If
           If IsNumeric(row("AfterTax")) Then
-            m_grid(currDocCodeIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
-            tmpAmount = CDec(row("AfterTax"))
+            m_grid(currDocCodeIndex, 9).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
+            remainningAmount = CDec(row("AfterTax"))
             SumTotal += CDec(row("AfterTax"))
           End If
           If Not row.IsNull("status") Then
@@ -194,53 +214,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
           m_grid(currDocCodeIndex, 1).Tag = "Font.Bold"
-
           currentDocCode = row("DocCode").ToString
           currentRefDocCode = ""
-          tmpCreditAmount = 0
         End If
 
-        If row("RefDocCode").ToString <> currentRefDocCode Then
-          m_grid.RowCount += 1
-          currRefDocIndex = m_grid.RowCount
-          m_grid.RowStyles(currRefDocIndex).ReadOnly = True
-          If Not row.IsNull("RefDocCode") Then
-            m_grid(currRefDocIndex, 1).CellValue = indent & indent & row("RefDocCode").ToString
-          End If
-          If Not row.IsNull("RefDocDate") Then
-            m_grid(currRefDocIndex, 2).CellValue = indent & indent & CDate(row("RefDocDate")).ToShortDateString
-          End If
-          m_grid(currRefDocIndex, 3).CellValue = DBNull.Value
-          m_grid(currRefDocIndex, 4).CellValue = DBNull.Value
-          If Not row.IsNull("RefDocType") Then
-            m_grid(currRefDocIndex, 5).CellValue = indent & indent & row("RefDocType").ToString
-          End If
-          m_grid(currRefDocIndex, 6).CellValue = DBNull.Value
-          m_grid(currRefDocIndex, 7).CellValue = DBNull.Value
-          m_grid(currRefDocIndex, 8).CellValue = DBNull.Value
+        If row("CreditAmt").ToString <> currentRefDocCode Then
           If Not row.IsNull("CreditAmt") Then
-            m_grid(currRefDocIndex, 9).CellValue = indent & Configuration.FormatToString(CDec(row("CreditAmt")), DigitConfig.Price)
+            remainningAmount -= CDec(row("CreditAmt"))
+            SumCredit += CDec(row("CreditAmt"))
+            CreditAmt += CDec(row("CreditAmt"))
           End If
 
-          tmpCreditAmount += CDec(row("CreditAmt"))
+          If CInt(Me.Filters(10).Value) = 1 Then
+            m_grid.RowCount += 1
+            currRefDocIndex = m_grid.RowCount
+            m_grid.RowStyles(currRefDocIndex).ReadOnly = True
+            If Not row.IsNull("RefDocCode") Then
+              m_grid(currRefDocIndex, 1).CellValue = indent & indent & row("RefDocCode").ToString
+            End If
+            If Not row.IsNull("RefDocDate") Then
+              m_grid(currRefDocIndex, 2).CellValue = indent & indent & CDate(row("RefDocDate")).ToShortDateString
+            End If
+            If Not row.IsNull("RefDocType") Then
+              m_grid(currRefDocIndex, 5).CellValue = indent & indent & row("RefDocType").ToString
+            End If
+            If Not row.IsNull("CreditAmt") Then
+              m_grid(currRefDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("CreditAmt")), DigitConfig.Price)
+            End If
+            m_grid(currRefDocIndex, 11).CellValue = Configuration.FormatToString(remainningAmount, DigitConfig.Price)
+          End If
+          
           currentRefDocCode = row("RefDocCode").ToString
         End If
       Next
 
-      If currDocCodeIndex <> -1 Then
-        m_grid(currDocCodeIndex, 11).CellValue = Configuration.FormatToString(tmpAmount - tmpCreditAmount, DigitConfig.Price)
-      End If
+      m_grid(currDocCodeIndex, 10).CellValue = Configuration.FormatToString(CreditAmt, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 11).CellValue = Configuration.FormatToString(remainningAmount, DigitConfig.Price)
 
       m_grid.RowCount += 1
-      currRefDocIndex = m_grid.RowCount
-      m_grid.RowStyles(currRefDocIndex).Font.Bold = True
-      m_grid.RowStyles(currRefDocIndex).ReadOnly = True
-      m_grid(currRefDocIndex, 5).CellValue = "รวม"
-      m_grid(currRefDocIndex, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(currRefDocIndex, 6).CellValue = Configuration.FormatToString(SumTaxBase, DigitConfig.Price)
-      m_grid(currRefDocIndex, 8).CellValue = Configuration.FormatToString(SumTaxAmt, DigitConfig.Price)
-      m_grid(currRefDocIndex, 10).CellValue = Configuration.FormatToString(SumTotal, DigitConfig.Price)
-      m_grid(currRefDocIndex, 1).Tag = "Font.Bold"
+      currDocCodeIndex = m_grid.RowCount
+      m_grid.RowStyles(currDocCodeIndex).Font.Bold = True
+      m_grid.RowStyles(currDocCodeIndex).ReadOnly = True
+      m_grid(currDocCodeIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Total}") '"รวม"
+      m_grid(currDocCodeIndex, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(currDocCodeIndex, 6).CellValue = Configuration.FormatToString(SumTaxBase, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 8).CellValue = Configuration.FormatToString(SumTaxAmt, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 9).CellValue = Configuration.FormatToString(SumTotal, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 10).CellValue = Configuration.FormatToString(SumCredit, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 11).CellValue = Configuration.FormatToString(SumTotal - SumCredit, DigitConfig.Price)
+      m_grid(currDocCodeIndex, 1).Tag = "Font.Bold"
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
