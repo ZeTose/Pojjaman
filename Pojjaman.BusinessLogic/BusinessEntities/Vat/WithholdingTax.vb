@@ -190,7 +190,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .wht_refDoc.Id = 0
         .wht_refDoc.Date = Date.MinValue
         .wht_refDoc.Code = ""
-        .wht_type = New WitholdingTaxType(1)
+        .wht_type = New WitholdingTaxType(-1)
         .wht_paymentType = New WitholdingTaxPaymentType(1)
         .wht_direction = New WitholdingTaxDirection(0)
         .wht_docDate = Now.Date
@@ -362,9 +362,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			End Set
 		End Property
 		Public Property Type() As WitholdingTaxType
-			Get
-				Return wht_type
-			End Get
+      Get
+        If wht_type.Value = -1 Then
+          If Not Me.Entity Is Nothing Then
+            If Not Me.Entity.PersonType Is Nothing Then
+              Select Case Me.Entity.PersonType.Value
+                Case 0 'บุคคลธรรมดา = 3
+                  wht_type = New WitholdingTaxType(4)
+                Case 1 'นิติบุคคล = 53
+                  wht_type = New WitholdingTaxType(7)
+              End Select
+            End If
+          End If
+        End If
+        Return wht_type
+      End Get
 			Set(ByVal Value As WitholdingTaxType)
 				wht_type = Value
 			End Set

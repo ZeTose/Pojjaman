@@ -111,6 +111,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\ILogger.vb" />
     <Compile Include="Interfaces\IClipboardHandler.vb">
       <SubType>Code</SubType>
     </Compile>

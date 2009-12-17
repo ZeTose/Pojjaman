@@ -150,6 +150,9 @@
     <Compile Include="Bidding\Summary.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Bidding\BudgetPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Bidding\WBSDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -197,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bidding\Summary.resx">
       <DependentUpon>Summary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\BudgetPanelView.resx">
+      <DependentUpon>BudgetPanelView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bidding\WBSDetail.resx">
       <DependentUpon>WBSDetail.vb</DependentUpon>

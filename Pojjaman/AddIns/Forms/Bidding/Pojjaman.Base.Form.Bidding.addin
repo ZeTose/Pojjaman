@@ -4,9 +4,13 @@
 		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<EntityFilter id="boq" entity="boq" filter="Longkong.Pojjaman.Gui.Panels.BOQFilterSubPanel"/>		
+		<EntityFilter id="boq" entity="boq" filter="Longkong.Pojjaman.Gui.Panels.BOQFilterSubPanel"/>
+		<EntityFilter id="budget" entity="budget" filter="Longkong.Pojjaman.Gui.Panels.BOQFilterSubPanel"/>		
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="budget">
+			<EntityTab id="BudgetPanelView" view="Longkong.Pojjaman.Gui.Panels.BudgetPanelView"/>
+		</EntityTab>
 		
 		<EntityTab id="boq">
 			<EntityTab id="BOQPanelView" view="Longkong.Pojjaman.Gui.Panels.BOQPanelView"/>

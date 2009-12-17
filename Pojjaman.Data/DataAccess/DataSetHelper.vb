@@ -597,6 +597,21 @@ Namespace Longkong.Pojjaman.DataAccessLayer
         End Function
 #End Region
 
-    End Class
+  End Class
+
+  Public Class DataRowHelper
+    Public Sub New(ByVal theRow As DataRow)
+      row = theRow
+    End Sub
+    Private row As DataRow
+    Public Function GetValue(Of T)(ByVal columnName As String, Optional ByVal defaultValue As T = Nothing) As T
+      If row.Table.Columns.Contains(columnName) Then
+        If Not row.IsNull(columnName) Then
+          Return CType(row(columnName), T)
+        End If
+      End If
+      Return defaultValue
+    End Function
+  End Class
 End Namespace
 

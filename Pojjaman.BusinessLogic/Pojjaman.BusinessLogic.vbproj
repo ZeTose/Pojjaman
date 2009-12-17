@@ -422,6 +422,8 @@
     <Compile Include="BusinessEntities\Construction\Markup.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Construction\NewVersion\Budget.vb" />
+    <Compile Include="BusinessEntities\Construction\NewVersion\WorkBreakdownStructure.vb" />
     <Compile Include="BusinessEntities\Construction\Project.vb">
       <SubType>Code</SubType>
     </Compile>

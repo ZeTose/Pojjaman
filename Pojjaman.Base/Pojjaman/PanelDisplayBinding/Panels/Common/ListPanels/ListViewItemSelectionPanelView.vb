@@ -493,8 +493,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not lvItem.ListViewItemSorter Is Nothing Then
         lvItem.Sort()
       End If
-      SetStatusColor()
       lvItem.EndUpdate()
+      SetStatusColor()
       'MessageBox.Show(dt.Rows.Count.ToString & " รายการ, ใช้เวลา: " & Now.Subtract(t).Seconds.ToString & " วินาที")
     End Sub
     Private Sub SetStatusColor()
@@ -568,8 +568,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.ListViewItemSorter = New ListViewHelper.CompareByNumber(indx, sortOrder)
       End If
       lvItem.Sort()
-      SetStatusColor()
       lvItem.EndUpdate()
+      SetStatusColor()
     End Sub
     Private Sub ibtnAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAll.Click
       For Each item As ListViewItem In Me.lvItem.Items

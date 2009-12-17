@@ -3,7 +3,6 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports System.Reflection
-Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.Services
 Imports System.Drawing.Printing
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
