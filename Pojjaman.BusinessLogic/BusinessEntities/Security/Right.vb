@@ -149,7 +149,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             UserEventWiring()
         End Sub
         Public Sub UserEventWiring()
-            WrapperArrayList.AddItemAddedHandler(m_userTable, AddressOf UserTableItemAdded)
+      'WrapperArrayList.AddItemAddedHandler(m_userTable, AddressOf UserTableItemAdded)
             AddHandler m_userTable.RowDeleted, AddressOf UserTable_RowDeleted
             AddHandler m_userTable.ColumnChanging, AddressOf UserTable_ColumnChanging
             AddHandler m_userTable.ColumnChanged, AddressOf UserTable_ColumnChanged

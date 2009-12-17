@@ -170,7 +170,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
       ReLoadItems(ds, aliasPrefix)
-      WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
+      'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
       AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
       AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
       AddHandler m_itemTable.RowDeleting, AddressOf ItemDelete
@@ -178,7 +178,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
       ReLoadItems()
-      WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
+      'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
       AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
       AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
       AddHandler m_itemTable.RowDeleting, AddressOf ItemDelete

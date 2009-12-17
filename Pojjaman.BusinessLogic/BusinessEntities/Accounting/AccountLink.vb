@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       RemoveHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Public Sub Wire()
-      WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
+      'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
       AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
       AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
       AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
