@@ -432,8 +432,9 @@ Namespace Longkong.AdobeForm
 			If Not data Is Nothing Then
 				Dim savedData As String = data
 				Const Func1 As String = "(fdate|sumpage|sum|ctext)"
-        Const Func2 As String = "(lock|line|format|formatdate|btext)"
-				Const Func3 As String = "(subtext|formatdate)"
+        Const Func2 As String = "(lock|line|format|formatdate)"
+        Const Func3 As String = "(subtext|formatdate)"
+        Const Func5 As String = "(btext)"
 				'Const Var As String = "(.+)"
 				Const Var As String = "([^\(\),]*)"
 				'ตัวแปร
@@ -447,6 +448,14 @@ Namespace Longkong.AdobeForm
 
 				Dim reFunc3 As New Regex(Func3 & _
 				"\(\s*" & Var & "\s*,\s*" & Var & "\s*,\s*" & Var & "\s*\)", RegexOptions.IgnoreCase)
+
+        Dim reFunc5 As New Regex(Func5 & _
+        "\(\s*" & Var & _
+        "\s*,\s*" & Var & _
+        "\s*,\s*" & Var & _
+        "\s*,\s*" & Var & _
+        "\s*,\s*" & Var & _
+        "\s*\)", RegexOptions.IgnoreCase)
 
 				Dim reVar As New Regex("\s*" & DVar & "\s*", RegexOptions.IgnoreCase)
 				'จัดการมัน(Variables) ซะ 
@@ -464,7 +473,9 @@ Namespace Longkong.AdobeForm
 					ElseIf reFunc2.IsMatch(data) Then
 						data = reFunc2.Replace(data, AddressOf DoStringFunc2)
 					ElseIf reFunc3.IsMatch(data) Then
-						data = reFunc3.Replace(data, AddressOf DoStringFunc3)
+            data = reFunc3.Replace(data, AddressOf DoStringFunc3)
+          ElseIf reFunc5.IsMatch(data) Then
+            data = reFunc5.Replace(data, AddressOf DoStringFunc5)
 					Else
 						Exit Do
 					End If
