@@ -56,7 +56,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
 #Region "BathText"
-    Private Shared Function BahtText(ByVal number As String) As String
+    Public Shared Function BahtText(ByVal number As String) As String
       Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim OnlyText As String = parser.Parse("${res:Global.OnlyMoney}") 'Only
 
@@ -514,9 +514,11 @@ Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As D
       SmallUnit = Configuration.GetConfig("SmallMoney").ToString 'parser.Parse("${res:Global.SmallMoney}")
     End Sub
 
-
-
     Public Shared Function Convert(ByVal inputDec As Decimal) As String
+      Return Convert(inputDec, BigUnit, SmallUnit, OnlyText)
+    End Function
+
+    Public Shared Function Convert(ByVal inputDec As Decimal, ByVal bigU As String, ByVal smallU As String, ByVal onlyT As String) As String
       Dim input As String = ""
       input = String.Format("{0:0.00}", inputDec)
       input = input.Replace("$", "").Replace(",", "")
@@ -555,16 +557,16 @@ Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As D
       output += IIf(mills.Trim = "", "", mills + " Million ").ToString
       output += IIf(thous.Trim = "", "", thous + " Thousand ").ToString
       output += IIf(hunds.Trim = "", "", hunds).ToString
-      output = IIf(output.Length = 0, "Zero " & BigUnit & "s and ", output + " " & BigUnit & "s and ").ToString
-      output = IIf(output = "One " & BigUnit & "s and ", "One " & BigUnit & " and ", output).ToString
+      output = IIf(output.Length = 0, "Zero " & bigU & "s and ", output + " " & bigU & "s and ").ToString
+      output = IIf(output = "One " & bigU & "s and ", "One " & bigU & " and ", output).ToString
 
       If cents = "" Then
         If output.EndsWith("and ") Then
           output = output.Substring(0, output.Length - 4)
         End If
-        output += OnlyText
+        output += onlyT
       Else
-        If SmallUnit Is Nothing OrElse SmallUnit.Length = 0 Then
+        If smallU Is Nothing OrElse smallU.Length = 0 Then
           If output.EndsWith("and ") Then
             output = output.Substring(0, output.Length - 4)
           End If
@@ -572,7 +574,7 @@ Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As D
             output += " " + centText + "/100"
           End If
         Else
-          output += cents + IIf(cents = "One", " " & SmallUnit & "", " " & SmallUnit & "s").ToString
+          output += cents + IIf(cents = "One", " " & smallU & "", " " & smallU & "s").ToString
         End If
       End If
 
