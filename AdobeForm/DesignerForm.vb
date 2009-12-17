@@ -717,14 +717,14 @@ Namespace Longkong.AdobeForm
                   minusText = "ź"
                   numberToFormat = -numberToFormat
                 End If
-                Return "(" & minusText & Configuration.BahtText(number.Value.ToString) & ")"
+                Return "(" & minusText & Configuration.BahtText(numberToFormat.ToString) & ")"
               Else
                 Dim minusText As String = ""
                 If numberToFormat < 0 Then
                   minusText = "Minus "
                   numberToFormat = -numberToFormat
                 End If
-                Return "(" & minusText & MoneyConverter.Convert(number.Value, s3, s4, s5) & ")"
+                Return "(" & minusText & MoneyConverter.Convert(numberToFormat, s3, s4, s5) & ")"
               End If
             End If
           End If
