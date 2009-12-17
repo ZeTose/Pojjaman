@@ -711,7 +711,7 @@ Namespace Longkong.AdobeForm
             End If
             If number.HasValue Then
               Dim numberToFormat As Decimal = number.Value
-              If s1.ToLower <> "th" Then
+              If s1.ToLower = "th" Then
                 Dim minusText As String = ""
                 If numberToFormat < 0 Then
                   minusText = "ź"
