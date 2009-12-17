@@ -649,21 +649,6 @@ Namespace Longkong.AdobeForm
 							End If
 						End If
           End If
-        Case "BTEXT"
-          If Not m_tableColl Is Nothing Then
-            Dim item As DocPrintingItem
-            If workTableRow > 0 Then
-              item = m_tableColl.GetMappingItem(workTable, s1, workTableRow)
-            Else
-              item = m_tableColl.GetMappingItem(s1)
-            End If
-            If Not item Is Nothing AndAlso IsNumeric(item.Value) Then
-              Dim number As Decimal = CDec(item.Value)
-              Return "(" & Configuration.FormatToString(number, DigitConfig.CurrencyText, s2) & ")"
-            ElseIf IsNumeric(s1) Then
-              Return "(" & Configuration.FormatToString(CDec(s1), DigitConfig.CurrencyText, s2) & ")"
-            End If
-          End If
       End Select
 			Return ""
 		End Function
@@ -689,7 +674,52 @@ Namespace Longkong.AdobeForm
 					End Try
 			End Select
 			Return ""
-		End Function
+    End Function
+    Private Function DoStringFunc5(ByVal m As Match) As String
+      'arguments 4 ตัวคือ Groups(2),Groups(3),Groups(4) ,Groups(5) ,Groups(6)
+      Dim s1 As String = m.Groups(2).Value
+      Dim s2 As String = m.Groups(3).Value
+      Dim s3 As String = m.Groups(4).Value
+      Dim s4 As String = m.Groups(5).Value
+      Dim s5 As String = m.Groups(6).Value
+      'Groups(1) คือชื่อ function 
+      Select Case m.Groups(1).Value.ToUpper
+        Case "BTEXT"
+          If Not m_tableColl Is Nothing Then
+            Dim item As DocPrintingItem
+            If workTableRow > 0 Then
+              item = m_tableColl.GetMappingItem(workTable, s1, workTableRow)
+            Else
+              item = m_tableColl.GetMappingItem(s1)
+            End If
+            Dim number As Nullable(Of Decimal) = Nothing
+            If Not item Is Nothing AndAlso IsNumeric(item.Value) Then
+              number = CDec(item.Value)
+            ElseIf IsNumeric(s1) Then
+              number = CDec(s1)
+            End If
+            If number.HasValue Then
+              Dim numberToFormat As Decimal = number.Value
+              If s1.ToLower <> "th" Then
+                Dim minusText As String = ""
+                If numberToFormat < 0 Then
+                  minusText = "ลบ"
+                  numberToFormat = -numberToFormat
+                End If
+                Return "(" & minusText & Configuration.BahtText(number.Value.ToString) & ")"
+              Else
+                Dim minusText As String = ""
+                If numberToFormat < 0 Then
+                  minusText = "Minus "
+                  numberToFormat = -numberToFormat
+                End If
+                Return "(" & minusText & MoneyConverter.Convert(number.Value, s3, s4, s5) & ")"
+              End If
+            End If
+          End If
+      End Select
+      Return ""
+    End Function
 		Private Function DoStringConstants(ByVal m As Match) As String
 			Select Case m.Groups(1).Value.ToUpper
 				Case "PAGES"
