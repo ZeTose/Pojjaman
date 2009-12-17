@@ -229,7 +229,7 @@ Namespace Longkong.AdobeForm
 			Const Func1 As String = _
 			"(exp|log|log10|abs|sqr|sqrt|sin|cos|tan|asin|acos|atan)"
 			' List ของ 2-operands functions 
-			Const Func2 As String = "(atan2)"
+      Const Func2 As String = "(atan2)"
 			' List ของ N-operands functions 
 			Const FuncN As String = "(min|max)"
 
@@ -407,8 +407,8 @@ Namespace Longkong.AdobeForm
 			'Groups(1) คือชื่อ function 
 			Select Case m.Groups(1).Value.ToUpper
 				Case "ATAN2"
-					Return Math.Atan2(n1, n2).ToString
-			End Select
+          Return Math.Atan2(n1, n2).ToString        
+      End Select
 		End Function
 		Private Function DoFuncN(ByVal m As Match) As String
 			'arguments คือ ตั้งแต่ Groups(2) เป็นต้นไป 
@@ -432,7 +432,7 @@ Namespace Longkong.AdobeForm
 			If Not data Is Nothing Then
 				Dim savedData As String = data
 				Const Func1 As String = "(fdate|sumpage|sum|ctext)"
-				Const Func2 As String = "(lock|line|format|formatdate)"
+        Const Func2 As String = "(lock|line|format|formatdate|btext)"
 				Const Func3 As String = "(subtext|formatdate)"
 				'Const Var As String = "(.+)"
 				Const Var As String = "([^\(\),]*)"
@@ -648,8 +648,23 @@ Namespace Longkong.AdobeForm
 								End If
 							End If
 						End If
-					End If
-			End Select
+          End If
+        Case "BTEXT"
+          If Not m_tableColl Is Nothing Then
+            Dim item As DocPrintingItem
+            If workTableRow > 0 Then
+              item = m_tableColl.GetMappingItem(workTable, s1, workTableRow)
+            Else
+              item = m_tableColl.GetMappingItem(s1)
+            End If
+            If Not item Is Nothing AndAlso IsNumeric(item.Value) Then
+              Dim number As Decimal = CDec(item.Value)
+              Return "(" & Configuration.FormatToString(number, DigitConfig.CurrencyText, s2) & ")"
+            ElseIf IsNumeric(s1) Then
+              Return "(" & Configuration.FormatToString(CDec(s1), DigitConfig.CurrencyText, s2) & ")"
+            End If
+          End If
+      End Select
 			Return ""
 		End Function
 		Private Function DoStringFunc3(ByVal m As Match) As String
