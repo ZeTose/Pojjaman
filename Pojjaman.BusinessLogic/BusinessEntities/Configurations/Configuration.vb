@@ -270,13 +270,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ret
     End Function
-    Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As DigitConfig) As String
+Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As DigitConfig, Optional ByVal lang As String = "th") As String
       If config = DigitConfig.CurrencyText Then
-        'Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-        If Configuration.GetConfig("BigMoney").ToString = "บาท" Then 'parser.Parse("${res:Global.BigMoney}") = "บาท" Then
-          Return ToCurrenyText(number)
+        Dim minusEgText As String
+        Dim minusThText As String
+        If number < 0 Then
+          minusEgText = "Minus"
+          minusThText = "ลบ"
         End If
-        Return MoneyConverter.Convert(number)
+        number = Math.Abs(number)
+        'Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        If lang = "th" AndAlso Configuration.GetConfig("BigMoney").ToString = "บาท" Then 'parser.Parse("${res:Global.BigMoney}") = "บาท" Then
+          Return minusThText & ToCurrenyText(number)
+        End If
+        Return minusEgText & " " & MoneyConverter.Convert(number)
       End If
       Dim digit As Integer = GetDigit(config)
       If config = DigitConfig.CheckAmount AndAlso CInt(number) = number Then
