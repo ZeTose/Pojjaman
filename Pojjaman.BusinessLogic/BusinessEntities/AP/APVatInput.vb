@@ -255,12 +255,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dateCol.DefaultValue = Date.MinValue
       myDatatable.Columns.Add(dateCol)
 
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paysi_note", GetType(String)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       myDatatable.Columns("Code").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APVatInputDetail.CodeHeaderText}")
       Return myDatatable
+    End Function
+    Public Shared Function GetRemainingVatAmount(ByVal id As Integer, ByVal entityId As Integer) As Decimal
+      Try
+        Dim dsr As DataSet = SqlHelper.ExecuteDataset( _
+        ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetRemainingVatAmount" _
+        , New SqlParameter("@docId", id) _
+        , New SqlParameter("@docTypeId", entityId) _
+        )
+        If dsr.Tables(0).Rows.Count > 0 Then
+          Return Configuration.Format(CDec(dsr.Tables(0).Rows(0)(0)), DigitConfig.Price)
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
+
+      Return 0
     End Function
 #End Region
 
@@ -279,6 +298,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Supplier.Code})
             End If
           End If
+        End If
+
+        If Me.TaxBase <> Vat.TaxBase Then
+          Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.RefTaxBaseAndVatTaxBase}"), _
+                                        New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
+                                                      Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)})
         End If
 
         'If Me.MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
@@ -776,6 +801,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
+
+  End Class
+
+  Public Class GoodsReceiptForVat
+    Inherits GoodsReceipt
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "GoodsReceiptForVat"
+      End Get
+    End Property
+  End Class
+  Public Class APOpeningBalanceForVat
+    Inherits APOpeningBalance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "APOpeningBalanceForVat"
+      End Get
+    End Property
+  End Class
+  Public Class EqMaintenanceForVat
+    Inherits EqMaintenance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "EqMaintenanceForVat"
+      End Get
+    End Property
+  End Class
+  Public Class AdvancePayForVat
+    Inherits AdvancePay
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AdvancePayForVat"
+      End Get
+    End Property
 
   End Class
 End Namespace

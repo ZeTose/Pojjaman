@@ -209,6 +209,9 @@
     <Compile Include="PR\PRPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Purchase\GoodsReceiptForVatFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Purchase\GoodsReceiptDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -307,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PR\PRPanelView.resx">
       <DependentUpon>PRPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\GoodsReceiptForVatFilterSubPanel.resx">
+      <DependentUpon>GoodsReceiptForVatFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\GoodsReceiptDetail.resx">
       <DependentUpon>GoodsReceiptDetail.vb</DependentUpon>

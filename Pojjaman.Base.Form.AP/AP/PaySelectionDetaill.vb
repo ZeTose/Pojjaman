@@ -1702,8 +1702,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id), _
-      New Filter("nocancel", True) _
-      , New Filter("grNeedsApproval", grNeedsApproval)}
+      New Filter("nocancel", True), _
+      New Filter("grNeedsApproval", grNeedsApproval), _
+      New Filter("ExcludedThanBilled", 1)}
       filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15)), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id)}
@@ -1717,7 +1718,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       New Filter("pays_id", Me.m_entity.Id)}
       filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46)), _
       New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id)}
+      New Filter("pays_id", Me.m_entity.Id), _
+       New Filter("ExcludedThanBilled", 1)}
       filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id), _

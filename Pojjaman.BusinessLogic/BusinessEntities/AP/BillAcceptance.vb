@@ -1056,7 +1056,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Date = advancepay.DocDate
       Me.BilledAmount = Me.RealAmount
       Me.AfterTax = advancepay.AfterTax
-      Me.TaxBase = advancepay.TaxBase
+      Me.TaxBase = advancepay.RealTaxBase
+
+      'Hack 
+      Me.Amount = Me.TaxBase
+      Me.UnpaidAmount = Me.TaxBase
+      Me.BilledAmount = Me.TaxBase
+
       If TypeOf advancepay Is ISimpleEntity Then
         m_typeId = CType(advancepay, ISimpleEntity).EntityId
       End If
@@ -1938,7 +1944,11 @@ Public Class BillAcceptanceItemCollection
     Public Sub PopulateAPVatInputItem(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0
+      'Dim remain As Decimal = 0
       For Each bai As BillAcceptanceItem In Me
+        'bai.UnpaidAmount = APVatInput.GetRemainingVatAmount(bai.Id, bai.EntityId)
+        'bai.Amount = bai.UnpaidAmount
+
         i += 1
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow(Me.m_prefix & "_linenumber") = i
@@ -1950,6 +1960,9 @@ Public Class BillAcceptanceItemCollection
         newRow("Code") = bai.Code
         newRow("DocDate") = bai.Date
         newRow("DueDate") = bai.DueDate
+        If bai.Amount <> 0 Then
+          newRow("Amount") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+        End If
         newRow(Me.m_prefix & "_note") = bai.Note
         newRow.Tag = bai
       Next

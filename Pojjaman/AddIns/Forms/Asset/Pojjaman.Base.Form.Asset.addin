@@ -9,7 +9,8 @@
 		<EntityFilter id="assetwithdraw" entity="assetwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqWithdrawFilterSubPanel"/>
 		<EntityFilter id="assetreturn" entity="assetreturn" filter="Longkong.Pojjaman.Gui.Panels.EqReturnDetailFilterSubPanel"/>
 		<EntityFilter id="asset" entity="asset" filter="Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel"/>
-		<EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>	
+		<EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>
+		<EntityFilter id="eqmaintenanceforvat" entity="eqmaintenanceforvat" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceForVatDetailFilterSubPanel"/>	
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="assetwithdraw">

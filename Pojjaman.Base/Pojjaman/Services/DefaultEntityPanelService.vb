@@ -365,15 +365,19 @@ Namespace Longkong.Pojjaman.Services
             Dim window As IWorkbenchWindow = OpenPanel(entity)
             If Not window Is Nothing AndAlso Not window.SubViewContents Is Nothing AndAlso window.SubViewContents.Count > 1 Then
                 If TypeOf window.SubViewContents(0) Is ListViewItemSelectionPanelView Then
-          CType(window.SubViewContents(0), ListViewItemSelectionPanelView).ForceRefreshEntity = True
           CType(window.SubViewContents(0), ListViewItemSelectionPanelView).SelectedID = entity.Id
+          If window.ActiveViewContent Is window.SubViewContents(1) Then
+            CType(window.SubViewContents(0), ListViewItemSelectionPanelView).SelectedEntity = entity
+            'CType(window.SubViewContents(0), ListViewItemSelectionPanelView).RefreshSelectedEntity()
+            CType(window.SubViewContents(1), IBaseViewContent).Selected()
+            CType(window.SubViewContents(0), ListViewItemSelectionPanelView).ChangeTitle(Nothing, Nothing)
+          Else
+            CType(window.SubViewContents(0), ListViewItemSelectionPanelView).RefreshSelectedEntity()
+          End If
                 ElseIf TypeOf window.SubViewContents(0) Is GroupPanelView Then
                     CType(window.SubViewContents(0), GroupPanelView).SelectedEntity = entity
                 End If
         window.SwitchView(1)
-        If TypeOf window.SubViewContents(0) Is ListViewItemSelectionPanelView Then
-          CType(window.SubViewContents(0), ListViewItemSelectionPanelView).ForceRefreshEntity = False
-        End If
       End If
       Return window
         End Function

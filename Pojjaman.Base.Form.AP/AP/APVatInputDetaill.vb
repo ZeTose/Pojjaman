@@ -11,6 +11,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class APVatInputDetail
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -339,6 +340,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnUpDateVat.Size = New System.Drawing.Size(24, 24)
       Me.ibtnUpDateVat.TabIndex = 11
       Me.ibtnUpDateVat.TabStop = False
+      Me.ibtnUpDateVat.Visible = False
       Me.ibtnUpDateVat.ThemedImage = CType(resources.GetObject("ibtnUpDateVat.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.ibtnUpDateVat, "Update Vat")
       '
@@ -458,6 +460,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDueDate.NullText = ""
       csDueDate.ReadOnly = True
 
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainHeaderText}")
+      csAmount.NullText = ""
+      csAmount.Alignment = HorizontalAlignment.Left
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.Width = 100
+      csAmount.ReadOnly = True
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "paysi_note"
@@ -472,6 +482,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csDocDate)
       dst.GridColumnStyles.Add(csDueDate)
+      dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csNote)
 
       m_tableStyleEnable = New Hashtable
@@ -542,6 +553,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             SetDueDate(e)
           Case "docdate"
             SetDate(e)
+          Case "amount"
+            SetAmount(e)
           Case "paysi_note"
             SetNote(e)
         End Select
@@ -611,6 +624,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return True
     End Function
     Private m_updating As Boolean = False
+    Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
+      If m_updating Then
+        Return
+      End If
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      m_updating = True
+      Dim amt As Decimal = 0
+      Dim unpad As Decimal = 0
+
+      If IsNumeric(e.ProposedValue) Then
+        If CDec(e.ProposedValue) <> 0 Then
+          amt = CDec(e.ProposedValue)
+        End If
+      End If
+      If doc.UnpaidAmount < amt Then
+
+        Return
+      End If
+
+      doc.Amount = amt
+      m_updating = False
+    End Sub
     Public Sub SetNote(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
         Return
@@ -1192,8 +1230,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(3)() As Filter
       'Dim grNeedsApproval As Boolean = False
       'grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
-      filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)), _
-      New Filter("nocancel", True)} _
+      filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45))} _
       ', New Filter("grNeedsApproval", grNeedsApproval)}
 
       filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15))}
@@ -1202,10 +1239,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'New Filter("grNeedsApproval", grNeedsApproval), _
       'New Filter("Id", Me.m_entity.Id)} 'Hack: filter อันสุดท้ายไม่เอาไป Query
 
-      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
-      New Filter("pays_id", Me.m_entity.Id)}
+      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
 
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(59)), New Filter("showOnlyHasTax", 1)}
+      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(59))}
 
       'filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46)), _
       'New Filter("pays_id", Me.m_entity.Id)}
@@ -1215,15 +1251,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ', New Filter("grNeedsApproval", grNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
+
       Dim entities(3) As ISimpleEntity
-      entities(0) = New GoodsReceipt
-      entities(1) = New APOpeningBalance
-      'entities(2) = New BillAcceptanceItem
-      entities(2) = New EqMaintenance
-      entities(3) = New AdvancePay
-      'entities(4) = New PurchaseCN
-      'entities(5) = New PurchaseRetention
-      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
+      'entities(0) = New GoodsReceipt
+      'entities(1) = New APOpeningBalance
+      'entities(2) = New EqMaintenance
+      'entities(3) = New AdvancePay
+      entities(0) = New GoodsReceiptForVat
+      entities(1) = New APOpeningBalanceForVat
+      entities(2) = New EqMaintenanceForVat
+      entities(3) = New AdvancePayForVat
+      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
       Dim ret As String = ""
@@ -1280,7 +1318,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Else
           Dim item As BasketItem = CType(items(i), BasketItem)
           If TypeOf item.Tag Is DataRow Then
-            If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.advancepay" Then
+            If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.advancepayforvat" Then
               'เฉพาะสำหรับเอามัดจำจ่ายมากรอกใบกำกับภาษีซื้อ
               newItem = New BillAcceptanceItem(New AdvancePay(CType(item.Tag, DataRow), ""), Me.m_entity)
             Else
@@ -1328,6 +1366,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.SetType(newItem.EntityId)
               theDoc.CreditPeriod = newItem.CreditPeriod
               theDoc.Date = newItem.Date
+
+              'bai.UnpaidAmount = APVatInput.GetRemainingVatAmount(bai.Id, bai.EntityId)
+              'bai.Amount = bai.UnpaidAmount
+              'theDoc.Amount = APVatInput.GetRemainingVatAmount(newItem.Id, newItem.EntityId)
+          
             End If
           Else
             Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
@@ -1337,6 +1380,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
       UpdateAmount()
+      UpdateVat()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
@@ -1484,4 +1528,5 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
   End Class
-End Namespace
+
+ End Namespace
