@@ -1561,7 +1561,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			dpiColl.Add(dpi)
 
 			If TypeOf (Me.RefDoc) Is AdvanceMoney Then
-				Dim advm As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
+        Dim advm As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
 
 				'Employee Code
 				dpi = New DocPrintingItem
@@ -2424,7 +2424,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					dpi.Mapping = "WHTAmount"
 					dpi.Value = Configuration.FormatToString(advp.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
 					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
+          dpiColl.Add(dpi)
+
+          'RefDoc Tax Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocTaxAmount"
+          dpi.Value = Configuration.FormatToString(advp.TaxAmount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
 					'RefDocAftertax
 					dpi = New DocPrintingItem

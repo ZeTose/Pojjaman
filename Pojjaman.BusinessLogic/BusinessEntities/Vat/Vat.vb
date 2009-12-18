@@ -3007,6 +3007,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not bi.SingleVat Then
           showSpecificLineOnly = True
         End If
+        Dim SummaryAdvanceAmount As Decimal = 0
+        For Each bitem As Milestone In bi.ItemCollection
+          If bitem.TaxType.Value <> 0 Then
+            SummaryAdvanceAmount += (bitem.Advance / (100 + bitem.TaxRate) * 100)
+          Else
+            SummaryAdvanceAmount += bitem.Advance
+          End If
+        Next
+        'SummaryAdvanceAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryAdvanceAmount"
+        dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
       End If
 
       '**************************************Line Items*********************************************
