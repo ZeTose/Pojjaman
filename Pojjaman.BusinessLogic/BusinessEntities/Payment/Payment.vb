@@ -406,7 +406,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				End If
 				Return tpt
 			End Get
-		End Property
+    End Property
+
+
 #End Region
 
 #Region "Shared"
@@ -1117,7 +1119,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			jiColl.AddRange(GetAdvanceMoneyDetailJournalEntries)
 			Return jiColl
 		End Function
-
 		Private Function GetCashCheckJournalEntries() As JournalEntryItemCollection
 			Dim jiColl As New JournalEntryItemCollection
 			Dim sumCheck As Decimal = 0
@@ -1207,17 +1208,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						& " " & CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString _
 						& " " & CType(item.Entity, OutgoingCheck).Bankacct.Code _
 						& "/" & Me.RefDoc.Recipient.Name
-						jiColl.Add(ji)
-					Case 0					'Cash
-						ji = New JournalEntryItem
-						ji.Mapping = "PM1.4D"
-						ji.Amount = item.Amount
-						If Me.CostCenter.Originated Then
-							ji.CostCenter = Me.CostCenter
-						Else
-							ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-						End If
-						jiColl.Add(ji)
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.5W"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, OutgoingCheck).CqCode _
+            & " " & CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString _
+            & " " & CType(item.Entity, OutgoingCheck).Bankacct.Code _
+            & "/" & Me.RefDoc.Recipient.Name
+            jiColl.Add(ji)
+
+          Case 0          'Cash
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.4D"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.4W"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            jiColl.Add(ji)
+
 					Case 59					'AdvancePayment
 						ji = New JournalEntryItem
 						ji.Mapping = "PM1.10D"
@@ -1228,7 +1255,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 						End If
 						ji.Note = CType(item.Entity, AdvancePayItem).AdvancePay.Code & "/" & Me.RefDoc.Recipient.Name
-						jiColl.Add(ji)
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.10W"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, AdvancePayItem).AdvancePay.Code & "/" & Me.RefDoc.Recipient.Name
+            jiColl.Add(ji)
+
 				End Select
 			Next
 			Return jiColl
@@ -1320,7 +1359,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 							End If
 							ji.Note = advm.Name & "(" & advm.Code & ")"
-							jiColl.Add(ji)
+              jiColl.Add(ji)
+
+              ji = New JournalEntryItem
+              ji.Account = advm.Account
+              ji.Mapping = "PM1.11W"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = advm.Name & "(" & advm.Code & ")"
+              jiColl.Add(ji)
+
 						Else
 							'ไม่มี Account --- ปล่อยว่างไปเพราะเป็นแบบ Mix
 							ji = New JournalEntryItem
@@ -1332,7 +1384,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 							End If
 							ji.Note = advm.Name & "(" & advm.Code & ")"
-							jiColl.Add(ji)
+              jiColl.Add(ji)
+
+              ji = New JournalEntryItem
+              ji.Mapping = "PM1.11W"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = advm.Name & "(" & advm.Code & ")"
+              jiColl.Add(ji)
+
 						End If
 					End If
 				End If
@@ -1426,7 +1490,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 							End If
 							ji.Note = ptc.Name & "(" & ptc.Code & ")"
-							jiColl.Add(ji)
+              jiColl.Add(ji)
+
+              ji = New JournalEntryItem
+              ji.Account = ptc.Account
+              ji.Mapping = "PM1.7W"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              jiColl.Add(ji)
+
 						Else
 							'ไม่มี Account --- ปล่อยว่างไปเพราะเป็นแบบ Mix
 							ji = New JournalEntryItem
@@ -1438,7 +1515,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 							End If
 							ji.Note = ptc.Name & "(" & ptc.Code & ")"
-							jiColl.Add(ji)
+              jiColl.Add(ji)
+
+              ji = New JournalEntryItem
+              ji.Mapping = "PM1.7W"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              jiColl.Add(ji)
+
 						End If
 					End If
 				End If
@@ -1506,10 +1595,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
 						End If
 						ji.Note = bto.DocDate.ToShortDateString & " " & bto.BankAccount.BankBranch.Bank.Name & "/" & Me.RefDoc.Recipient.Name
-						jiColl.Add(ji)
-					End If
-				End If
-			Next
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Account = bto.BankAccount.Account
+            ji.Mapping = "PM1.6W"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = bto.DocDate.ToShortDateString & " " & bto.BankAccount.BankBranch.Bank.Name & "/" & Me.RefDoc.Recipient.Name
+            jiColl.Add(ji)
+          End If
+        End If
+      Next
 			Return jiColl
 		End Function
 #End Region
@@ -3183,18 +3284,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
-		Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
-			Get
-				Return Me.CostCenter
-			End Get
-			Set(ByVal Value As CostCenter)
+    Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
+      Get
+        Return CType(Me.RefDoc, IHasFromCostCenter).FromCC
+      End Get
+      Set(ByVal Value As CostCenter)
 
-			End Set
-		End Property
+      End Set
+    End Property
 
 		Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
 			Get
-				Return Me.CostCenter
+        Return CType(Me.RefDoc, IHasToCostCenter).ToCC
 			End Get
 			Set(ByVal Value As CostCenter)
 

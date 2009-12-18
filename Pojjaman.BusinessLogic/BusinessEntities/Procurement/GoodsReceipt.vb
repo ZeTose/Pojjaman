@@ -2087,6 +2087,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           ji.Note = vi.Code & "/" & vi.PrintName
           jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.5W"
+          ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = vi.Code & "/" & vi.PrintName
+          jiColl.Add(ji)
+
         Next
 
         ji = New JournalEntryItem
@@ -2098,6 +2110,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
         jiColl.Add(ji)
+
         For Each vi As VatItem In Me.Vat.ItemCollection
           ji = New JournalEntryItem
           ji.Mapping = "I4.2D"
@@ -2109,7 +2122,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           ji.Note = vi.Code & "/" & vi.PrintName
           jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "I4.2W"
+          ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = vi.Code & "/" & vi.PrintName
+          jiColl.Add(ji)
+
         Next
+
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
@@ -2175,6 +2201,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
             jiColl.Add(ji)
           Next
 
+          For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.15W"
+            ji.Amount = wht.Amount
+            If Me.ToCostCenter.Originated Then
+              ji.CostCenter = Me.ToCostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = wht.PrintName & "(" & wht.Code & ")"
+            jiColl.Add(ji)
+          Next
+
           ji = New JournalEntryItem
           ji.Mapping = "I4.4"
           ji.Amount = Me.WitholdingTaxCollection.Amount
@@ -2187,6 +2226,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wht As WitholdingTax In Me.WitholdingTaxCollection
             ji = New JournalEntryItem
             ji.Mapping = "I4.4D"
+            ji.Amount = wht.Amount
+            If Me.ToCostCenter.Originated Then
+              ji.CostCenter = Me.ToCostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = wht.PrintName & "(" & wht.Code & ")"
+            jiColl.Add(ji)
+          Next
+
+          For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+            ji = New JournalEntryItem
+            ji.Mapping = "I4.4W"
             ji.Amount = wht.Amount
             If Me.ToCostCenter.Originated Then
               ji.CostCenter = Me.ToCostCenter
