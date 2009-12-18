@@ -548,6 +548,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       '-------------------------------Basic--------------------------------
 
+      '-------------------------------Bypass ตรงๆมาจาก Entity--------------------------------
+      Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc.GetMappingItems("Through")
+      For Each matchItem As JournalEntryItem In throughMatchItems
+        If Not matchItem Is Nothing Then
+          Dim myItem As New JournalEntryItem
+          myItem.Account = matchItem.Account
+          myItem.Amount = matchItem.Amount
+          If myItem.Amount <> 0 Then
+            If myItem.Amount > 0 Then
+              myItem.IsDebit = matchItem.IsDebit
+            Else
+              myItem.Amount = -myItem.Amount
+              myItem.IsDebit = Not matchItem.IsDebit
+            End If
+            myItem.CostCenter = matchItem.CostCenter
+            myItem.Note = matchItem.Note
+            Me.ItemCollection.Add(myItem)
+          End If
+        Else
+          'Todo: Error
+        End If
+      Next
+      '-------------------------------Bypass ตรงๆมาจาก Entity--------------------------------
+
       '-------------------------------ปัดเศษ--------------------------------
       Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
       If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < 1 Then
@@ -599,30 +623,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       '-------------------------------Sumdebit/Sumcredit--------------------------------
-
-      '-------------------------------Bypass ตรงๆมาจาก Entity--------------------------------
-      Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc.GetMappingItems("Through")
-      For Each matchItem As JournalEntryItem In throughMatchItems
-        If Not matchItem Is Nothing Then
-          Dim myItem As New JournalEntryItem
-          myItem.Account = matchItem.Account
-          myItem.Amount = matchItem.Amount
-          If myItem.Amount <> 0 Then
-            If myItem.Amount > 0 Then
-              myItem.IsDebit = matchItem.IsDebit
-            Else
-              myItem.Amount = -myItem.Amount
-              myItem.IsDebit = Not matchItem.IsDebit
-            End If
-            myItem.CostCenter = matchItem.CostCenter
-            myItem.Note = matchItem.Note
-            Me.ItemCollection.Add(myItem)
-          End If
-        Else
-          'Todo: Error
-        End If
-      Next
-      '-------------------------------Bypass ตรงๆมาจาก Entity--------------------------------
 
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException

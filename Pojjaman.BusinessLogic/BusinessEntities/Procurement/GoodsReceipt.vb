@@ -520,7 +520,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1 '"แยก"
             Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount
           Case 2 '"รวม"
-            Return Me.AfterTax - Me.RealTaxAmount
+            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount 'Me.AfterTax - Me.RealTaxAmount
         End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove      Get        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return Me.BeforeTax - Me.Retention
@@ -3494,6 +3494,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "BeforeTax"
       dpi.Value = Configuration.FormatToString(Me.BeforeTax, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'TaxBase
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxBase"
+      dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
