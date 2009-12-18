@@ -191,8 +191,12 @@
     <Compile Include="Main\PojjamanMain.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin" />
+    <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.Subcontract.dll" />
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
+    <Content Include="AddIns\Reports\Subcontract\Pojjaman.Base.Report.Subcontract.addin" />
+    <Content Include="AddIns\Reports\Subcontract\Pojjaman.Base.Report.Subcontract.dll" />
     <Content Include="blank.bmp" />
     <Content Include="data\ConversionStyleSheets\ConvertPrjx10to11.xsl" />
     <Content Include="data\ConversionStyleSheets\ShowChangeLog.xsl" />

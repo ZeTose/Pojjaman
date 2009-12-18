@@ -812,6 +812,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "GoodsReceiptForVat"
       End Get
     End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        'If m_columns Is Nothing OrElse m_columns.Count <= 0 Then
+        'm_columns = New ColumnCollection(Me.ClassName, 0)
+        'End If
+        'Return m_columns
+        Return New ColumnCollection(Me.ClassName, 0)
+      End Get
+    End Property
   End Class
   Public Class APOpeningBalanceForVat
     Inherits APOpeningBalance

@@ -1584,6 +1584,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.SubContractor.BillingAddress
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'SubContractorFax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorFax"
+        dpi.Value = Me.SubContractor.Fax.ToString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorPhone
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorPhone"
+        dpi.Value = Me.SubContractor.Phone.ToString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
       End If
 
       If Not Me.CostCenter Is Nothing AndAlso Me.CostCenter.Originated Then

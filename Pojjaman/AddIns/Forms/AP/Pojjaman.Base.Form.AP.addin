@@ -16,6 +16,7 @@
 		<!--<EntityFilter id="apopeningbalanceforvat" entity="apopeningbalanceforvat" filter="Longkong.Pojjaman.Gui.Panels.APOpeningBalanceForVatFilterSubPanel"/>-->
 		<EntityFilter id="apopeningbalanceforvat" entity="apopeningbalanceforvat" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="advancepayforvat" entity="advancepayforvat" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="goodsreceiptforbillacceptance" entity="goodsreceiptforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="purchaseretention" entity="purchaseretention" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
 		<EntityFilter id="billacceptance" entity="billacceptance" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
 		<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>

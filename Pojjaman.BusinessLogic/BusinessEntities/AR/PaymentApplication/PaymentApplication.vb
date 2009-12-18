@@ -237,22 +237,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.m_itemCollection.GetPenaltyAmount
       End Get
     End Property    Public ReadOnly Property VoInc() As Decimal      Get
-        Dim coll As MilestoneCollection
-        coll = Me.m_itemCollection.GetVOIncCollection
-        If Me.TaxType.Value = 1 Then 'แยก Vat
-          Return coll.GetBeforeTax
-        Else
-          Return coll.GetAmount
-        End If
+        'Dim coll As MilestoneCollection
+        'coll = Me.m_itemCollection.GetVOIncCollection
+        'If Me.TaxType.Value = 1 Then 'แยก Vat
+        'Return coll.GetBeforeTax
+        'Else
+        'Return coll.GetAmount
+        'End If
+        Dim miAmt As Decimal = 0
+        For Each mi As Milestone In Me.ItemCollection
+          If TypeOf mi Is VariationOrderInc Then
+            miAmt += mi.MileStoneAmount
+          End If
+        Next
+        Return miAmt
       End Get
     End Property    Public ReadOnly Property VoDe() As Decimal      Get
-        Dim coll As MilestoneCollection
-        coll = Me.m_itemCollection.GetVODeCollection
-        If Me.TaxType.Value = 1 Then 'แยก Vat
-          Return coll.GetBeforeTax
-        Else
-          Return coll.GetAmount
-        End If
+        'Dim coll As MilestoneCollection
+        'coll = Me.m_itemCollection.GetVODeCollection
+        'If Me.TaxType.Value = 1 Then 'แยก Vat
+        'Return coll.GetBeforeTax
+        'Else
+        'Return coll.GetAmount
+        'End If
+        Dim miAmt As Decimal = 0
+        For Each mi As Milestone In Me.ItemCollection
+          If TypeOf mi Is VariationOrderDe Then
+            miAmt += mi.MileStoneAmount
+          End If
+        Next
+        Return miAmt
       End Get
     End Property    Public ReadOnly Property AllMilestoneAmount() As Decimal      Get
         'ทุกอย่าง

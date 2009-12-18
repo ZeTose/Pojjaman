@@ -2053,8 +2053,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim notRefedByBilla As Boolean = False
       notRefedByBilla = CBool(Configuration.GetConfig("GRCannotBeRefedByBillaTwice"))
 
-      filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)), _
-      New Filter("remainMustValid", True), New Filter("nocancel", True) _
+      filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)) _
       , New Filter("grNeedsApproval", grNeedsApproval) _
       , New Filter("notRefedByBilla", notRefedByBilla)}
       filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15)), _
@@ -2076,7 +2075,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'New Filter("remainMustValid", True)}
 
       Dim entities(5) As ISimpleEntity
-      entities(0) = New GoodsReceipt
+      'entities(0) = New GoodsReceipt
+      entities(0) = New GoodsReceiptForBillAcceptance
       entities(1) = New APOpeningBalance
       entities(2) = New EqMaintenance
       entities(3) = New PurchaseCN
