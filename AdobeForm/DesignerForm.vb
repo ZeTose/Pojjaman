@@ -670,21 +670,43 @@ Namespace Longkong.AdobeForm
 			Dim s3 As String = m.Groups(4).Value
 			'Groups(1) คือชื่อ function 
 			Select Case m.Groups(1).Value.ToUpper
-				Case "SUBTEXT"
-					If CInt(s2) > 0 And CInt(s2) <= s1.Length And ((CInt(s2) + CInt(s3)) - 1) <= s1.Length Then
-						Return Strings.Mid(s1, CInt(s2), CInt(s3))
-					End If
-				Case "FORMATDATE"
-					Try
-						Dim MyCulture As CultureInfo
-						MyCulture = Application.CurrentCulture
-						Dim MyDateTime As Date = Date.Parse(s1, MyCulture)
-						Return MyDateTime.ToString(s2, New CultureInfo(s3))
-					Catch ex As Exception
-						Return s1
-					End Try
-			End Select
+        'Case "SUBTEXT"
+        'If CInt(s2) > 0 And CInt(s2) <= s1.Length And ((CInt(s2) + CInt(s3)) - 1) <= s1.Length Then
+        'Return Strings.Mid(s1, CInt(s2), CInt(s3))
+        'End If
+        Case "SUBTEXT"
+          Dim start As Integer = CInt(s2)
+          Dim len As Integer = CInt(s3)
+          Dim item As DocPrintingItem = m_tableColl.GetMappingItem(s1)
+          If Not item Is Nothing AndAlso Not item.Value Is Nothing Then
+            Dim val As String = item.Value.ToString
+            Return GetSubText(val, start, len)
+          Else
+            Dim val As String = s1
+            Return GetSubText(val, start, len)
+          End If
+        Case "FORMATDATE"
+          Try
+            Dim MyCulture As CultureInfo
+            MyCulture = Application.CurrentCulture
+            Dim MyDateTime As Date = Date.Parse(s1, MyCulture)
+            Return MyDateTime.ToString(s2, New CultureInfo(s3))
+          Catch ex As Exception
+            Return s1
+          End Try
+      End Select
 			Return ""
+    End Function
+    Private Function GetSubText(ByVal val As String, ByVal startPos As Integer, ByVal length As Integer) As Object
+      If startPos < 1 Then
+        startPos = 1
+      End If
+      If startPos > val.Length Then
+        startPos = val.Length + 1
+      End If
+      Dim maxLength As Integer = val.Length - startPos + 1
+      length = Math.Min(length, maxLength)
+      Return val.Substring(startPos - 1, length)
     End Function
     Private Function DoStringFunc5(ByVal m As Match) As String
       'arguments 4 ตัวคือ Groups(2),Groups(3),Groups(4) ,Groups(5) ,Groups(6)
