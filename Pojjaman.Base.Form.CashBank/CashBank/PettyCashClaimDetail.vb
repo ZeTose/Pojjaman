@@ -11,10 +11,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PettyCashClaimDetail
-    'Inherits AbstractEntityDetailPanelView
-    'Implements IValidatable
-    Inherits UserControl
-
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
