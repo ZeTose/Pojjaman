@@ -339,12 +339,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Originated Then
         Return
       End If
+      Dim grNeedsApproval As Boolean = False
+      grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetPettyCashPayments" _
       , New SqlParameter("@pc_id", Me.Id) _
+      , New SqlParameter("@grNeedsApproval", grNeedsApproval) _
       )
-
       Dim i As Integer = 0
       'Dim amt As Decimal = Me.Amount
       Dim remainingAmt As Decimal = 0

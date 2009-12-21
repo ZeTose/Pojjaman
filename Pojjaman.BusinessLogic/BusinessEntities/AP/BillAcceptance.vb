@@ -2162,4 +2162,54 @@ Public Class BillAcceptanceItemCollection
     End Property
 
   End Class
+  Public Class APOpeningBalanceForBillAcceptance
+    Inherits APOpeningBalance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "APOpeningBalanceForBillAcceptance"
+      End Get
+    End Property
+  End Class
+  Public Class EqMaintenanceForBillAcceptance
+    Inherits EqMaintenance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "EqMaintenanceForBillAcceptance"
+      End Get
+    End Property
+  End Class
+  Public Class PurchaseCNForBillAcceptance
+    Inherits PurchaseCN
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PurchaseCNForBillAcceptance"
+      End Get
+    End Property
+  End Class
+  Public Class PurchaseRetentionForBillAcceptance
+    Inherits PurchaseRetention
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PurchaseRetentionForBillAcceptance"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        Return New ColumnCollection(Me.ClassName, 0)
+      End Get
+    End Property
+  End Class
+  Public Class PAForBillAcceptance
+    Inherits PA
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PAForBillAcceptance"
+      End Get
+    End Property
+  End Class
 End Namespace

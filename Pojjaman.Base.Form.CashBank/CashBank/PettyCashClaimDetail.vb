@@ -10,52 +10,54 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class PettyCashClaimDetail
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class PettyCashClaimDetail
+    'Inherits AbstractEntityDetailPanelView
+    'Implements IValidatable
+    Inherits UserControl
+
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
     Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents txtAmount As System.Windows.Forms.TextBox
-        Friend WithEvents lblAmount As System.Windows.Forms.Label
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents txtGross As System.Windows.Forms.TextBox
-        Friend WithEvents lblGross As System.Windows.Forms.Label
-        Friend WithEvents lblGrossUnit As System.Windows.Forms.Label
-        Friend WithEvents lblAmountUnit As System.Windows.Forms.Label
-        Friend WithEvents lblPettyCash As System.Windows.Forms.Label
-        Friend WithEvents txtPettyCashCode As System.Windows.Forms.TextBox
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblDocDate As System.Windows.Forms.Label
-        Friend WithEvents ibtnShowPettyCash As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtPettyCashName As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnShowPettyCashDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblItem As System.Windows.Forms.Label
-        Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnGetItems As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents txtNote As System.Windows.Forms.TextBox
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtAmount As System.Windows.Forms.TextBox
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents txtGross As System.Windows.Forms.TextBox
+    Friend WithEvents lblGross As System.Windows.Forms.Label
+    Friend WithEvents lblGrossUnit As System.Windows.Forms.Label
+    Friend WithEvents lblAmountUnit As System.Windows.Forms.Label
+    Friend WithEvents lblPettyCash As System.Windows.Forms.Label
+    Friend WithEvents txtPettyCashCode As System.Windows.Forms.TextBox
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblDocDate As System.Windows.Forms.Label
+    Friend WithEvents ibtnShowPettyCash As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtPettyCashName As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowPettyCashDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnGetItems As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container
@@ -434,8 +436,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-        Private m_entity As PettyCashClaim
-        Private m_isInitialized As Boolean = False
+    Private m_entity As PettyCashClaim
+    Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_combocodeindex As Integer
 #End Region

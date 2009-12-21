@@ -3716,8 +3716,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						End If
 					Case 36			'เงินสดย่อย
 						If Not TypeOf Me.Payment.RefDoc Is PettyCash Then
-							Dim limit As Decimal
-							limit = CDec(IIf(IsNumeric(CType(Me.Entity, PettyCash).LimitedOverBudgetAmount), CType(Me.Entity, PettyCash).LimitedOverBudgetAmount, CType(Me.Entity, PettyCash).Amount))
+              Dim limit As Decimal
+              Dim pt As PettyCash = CType(Me.Entity, PettyCash)
+              limit = pt.LimitedOverBudgetAmount + pt.Amount  'CDec(IIf(IsNumeric(CType(Me.Entity, PettyCash).LimitedOverBudgetAmount), CType(Me.Entity, PettyCash).LimitedOverBudgetAmount, CType(Me.Entity, PettyCash).Amount))
 							If Not (CType(Me.Entity, PettyCash).AllowOverBudget) Then
 								If Configuration.Compare(limit, (parentGross + Value - oldAmount)) < 0 Then
 									msgServ.ShowMessageFormatted("${res:Global.Error.PaysRemainingAmountLessThanAmount}", _

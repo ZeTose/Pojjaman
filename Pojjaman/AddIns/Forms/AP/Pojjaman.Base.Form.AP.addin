@@ -12,11 +12,19 @@
 		<EntityFilter id="po" entity="po" filter="Longkong.Pojjaman.Gui.Panels.POFilterSubPanel"/>
 		<EntityFilter id="apopeningbalance" entity="apopeningbalance" filter="Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel"/>
 		<EntityFilter id="goodsreceipt" entity="goodsreceipt" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
+	
 		<EntityFilter id="goodsreceiptforvat" entity="goodsreceiptforvat" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<!--<EntityFilter id="apopeningbalanceforvat" entity="apopeningbalanceforvat" filter="Longkong.Pojjaman.Gui.Panels.APOpeningBalanceForVatFilterSubPanel"/>-->
 		<EntityFilter id="apopeningbalanceforvat" entity="apopeningbalanceforvat" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="advancepayforvat" entity="advancepayforvat" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		
+		<EntityFilter id="apopeningbalanceforbillacceptance" entity="apopeningbalanceforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="goodsreceiptforbillacceptance" entity="goodsreceiptforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="eqmaintenanceforbillacceptance" entity="eqmaintenanceforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="purchasecnforbillacceptance" entity="purchasecnforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="purchaseretentionforbillacceptance" entity="purchaseretentionforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="paforbillacceptance" entity="paforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+	
 		<EntityFilter id="purchaseretention" entity="purchaseretention" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
 		<EntityFilter id="billacceptance" entity="billacceptance" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
 		<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>

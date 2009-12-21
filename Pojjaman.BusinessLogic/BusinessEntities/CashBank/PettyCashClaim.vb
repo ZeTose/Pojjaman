@@ -552,11 +552,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         myId = DBNull.Value
       End If
+      Dim grNeedsApproval As Boolean = False
+      grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetNewPettyCashClaimItems" _
       , New SqlParameter("@pc_id", Me.PettyCash.Id) _
       , New SqlParameter("@pcc_id", myId) _
+      , New SqlParameter("@grNeedsApproval", grNeedsApproval) _
       )
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New PettyCashClaimItem(row, "")

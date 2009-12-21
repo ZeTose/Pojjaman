@@ -2056,14 +2056,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)) _
       , New Filter("grNeedsApproval", grNeedsApproval) _
       , New Filter("notRefedByBilla", notRefedByBilla)}
-      filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15)), _
-      New Filter("remainMustValid", True)}
-      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
-      New Filter("remainMustValid", True)}
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46)), _
-      New Filter("remainMustValid", True)}
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
-      New Filter("remainMustValid", True), New Filter("nocancel", True) _
+      filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15))}
+      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
+      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(199)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292)), _
@@ -2076,13 +2072,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim entities(5) As ISimpleEntity
       'entities(0) = New GoodsReceipt
+      'entities(1) = New APOpeningBalance
+      'entities(2) = New EqMaintenance
+      'entities(3) = New PurchaseCN
+      'entities(4) = New PurchaseRetention
+      'entities(5) = New PA
+
       entities(0) = New GoodsReceiptForBillAcceptance
-      entities(1) = New APOpeningBalance
-      entities(2) = New EqMaintenance
-      entities(3) = New PurchaseCN
-      entities(4) = New PurchaseRetention
-      entities(5) = New PA
-      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
+      entities(1) = New APOpeningBalanceForBillAcceptance
+      entities(2) = New EqMaintenanceForBillAcceptance
+      entities(3) = New PurchaseCNForBillAcceptance
+      entities(4) = New PurchaseRetentionForBillAcceptance
+      entities(5) = New PAForBillAcceptance
+      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
       Dim ret As String = ""

@@ -778,12 +778,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
     Public ReadOnly Property UnitCost() As Decimal
       Get
-        If Me.StockQty <> 0 Then
-          Dim tmpCost As Decimal = 0
-          Dim tmpRealGrossNoVat As Decimal = 0
+        Dim tmpCost As Decimal = 0
+        Dim tmpRealGrossNoVat As Decimal = 0
+        tmpRealGrossNoVat = Me.GoodsReceipt.RealGross
 
-          tmpRealGrossNoVat = Me.GoodsReceipt.RealGross
-
+        If Me.StockQty = 0 OrElse tmpRealGrossNoVat = 0 Then
+          Return 0
+        Else
           tmpCost = Me.AmountWithDefaultUnit
 
           tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.GoodsReceipt.Discount.Amount)
