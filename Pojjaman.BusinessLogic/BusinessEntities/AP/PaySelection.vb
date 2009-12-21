@@ -159,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Date)
         m_docDate = Value
+        Me.m_je.DocDate = Value
       End Set
     End Property
     Public Property Note() As String Implements IPayable.Note, IGLAble.Note
@@ -167,6 +168,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As String)
         m_note = Value
+        'Dim config As Object = Configuration.GetConfig("PutGRNoteInOtherTabs")
+        'Dim putit As Boolean = False
+        'If Not config Is Nothing Then
+        'putit = CBool(config)
+        'End If        'If putit Then        'If Not Me.Payment Is Nothing Then        Me.Payment.Note = m_note
+        'End If        'If Not Me.JournalEntry Is Nothing Then        Me.JournalEntry.Note = m_note
+        'End If        'End If
       End Set
     End Property
     Public Property CreditPeriod() As Long
@@ -375,6 +383,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.Code = m_je.GetNextCode
             End If
         End Select
+        Me.m_je.DocDate = Me.DocDate
         Me.m_payment.Code = m_je.Code
         Me.m_payment.DocDate = m_je.DocDate
         Me.AutoGen = False

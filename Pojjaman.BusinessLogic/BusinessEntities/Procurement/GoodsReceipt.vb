@@ -391,7 +391,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If        If Value.Id <> Me.m_po.Supplier.Id Then
           Me.m_creditPeriod = Me.m_supplier.CreditPeriod
           Me.Po = New Po
-        End If      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Select Case Me.m_toAcctType.Value            Case 1 'WIP
+        End If      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Select Case Me.m_toAcctType.Value            Case 1 'WIP
               Return Me.ToCostCenter.WipAccount
             Case 2 'Expense
               Return Me.ToCostCenter.ExpenseAccount
@@ -638,10 +638,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Overrides Sub ClearReference()
-      Me.Vat.RefDoc = Nothing
-      Me.WitholdingTaxCollection.RefDoc = Nothing
-      Me.JournalEntry.RefDoc = Nothing
-      Me.Payment.RefDoc = Nothing
+      If Not Me.Vat Is Nothing Then
+        Me.Vat.RefDoc = Nothing
+      End If
+      If Not Me.WitholdingTaxCollection Is Nothing Then
+        Me.WitholdingTaxCollection.RefDoc = Nothing
+      End If
+      If Not Me.JournalEntry Is Nothing Then
+        Me.JournalEntry.RefDoc = Nothing
+      End If
+      If Not Me.Payment Is Nothing Then
+        Me.Payment.RefDoc = Nothing
+      End If
     End Sub
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal type As Integer)
       myWbs = New WBS(myWbs.Id)
@@ -1421,6 +1429,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.Code = m_je.GetNextCode
             End If
         End Select
+        Me.m_je.DocDate = Me.DocDate
         Me.m_payment.Code = m_je.Code
         Me.m_payment.DocDate = m_je.DocDate
         Me.AutoGen = False
@@ -2252,22 +2261,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
 
-      '-------------------------------------HACK------------------------------------
-      'ส่วนลดการค้า
-      If Me.DiscountAmount > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "Through"
-        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
-        ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
-        ji.Amount = Me.DiscountAmount
-        If Me.ToCostCenter.Originated Then
-          ji.CostCenter = Me.ToCostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        jiColl.Add(ji)
-      End If
-      '-------------------------------------HACK------------------------------------
+      ''-------------------------------------HACK------------------------------------
+      ''ส่วนลดการค้า
+      'If Me.DiscountAmount > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "Through"
+      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
+      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+      'ji.Amount = Me.DiscountAmount
+      'If Me.ToCostCenter.Originated Then
+      'ji.CostCenter = Me.ToCostCenter
+      'Else
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'End If
+      'jiColl.Add(ji)
+      'End If
+      ''-------------------------------------HACK------------------------------------
 
       'เงินมัดจำจ่ายล่วงหน้า
       If Me.AdvancePayItemCollection.GetExcludeVATAmount > 0 Then
@@ -2397,13 +2406,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemRemainAmount = (Me.TaxGross - Me.RealTaxAmount) * itemAmountPerGross
         Else
           itemRemainAmount = item.TaxBase
+
         End If
 
-        If Me.TaxType.Value = 2 Then
-          itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+        Dim itemAmount As Decimal ' = item.Amount
+
+        'If Me.TaxType.Value = 2 Then
+        'itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+        'End If
+
+        If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
+          itemAmount = item.TaxBase 'item.Amount
+        Else    'Me.TaxType.Value = 2 รวม
+          itemAmount = itemRemainAmount
         End If
 
-        Dim itemAmount As Decimal = item.Amount
+        'If Me.TaxType.Value = 2 Then
+        'itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+        'End If
+
 
         For Each addedJi As JournalEntryItem In jiColl
           If Not item.ItemType Is Nothing Then
@@ -2881,12 +2902,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemRemainAmount = item.TaxBase
         End If
 
-        If Me.TaxType.Value = 2 Then
-          itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
-        End If
+        'If Me.TaxType.Value = 2 Then
+        'itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+        'End If
 
         If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
-          itemAmount = item.Amount
+          itemAmount = item.TaxBase 'item.Amount
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If

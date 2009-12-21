@@ -3286,7 +3286,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
       Get
-        Return CType(Me.RefDoc, IHasFromCostCenter).FromCC
+        If TypeOf Me.RefDoc Is IHasFromCostCenter Then
+          Return CType(Me.RefDoc, IHasFromCostCenter).FromCC
+        Else
+          Return Me.CostCenter
+        End If
+        Return Me.CostCenter
       End Get
       Set(ByVal Value As CostCenter)
 
@@ -3294,9 +3299,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
 		Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
-			Get
-        Return CType(Me.RefDoc, IHasToCostCenter).ToCC
-			End Get
+      Get
+        If TypeOf Me.RefDoc Is IHasToCostCenter Then
+          Return CType(Me.RefDoc, IHasToCostCenter).ToCC
+        Else
+          Return Me.CostCenter
+        End If
+        Return Me.CostCenter
+      End Get
 			Set(ByVal Value As CostCenter)
 
 			End Set
