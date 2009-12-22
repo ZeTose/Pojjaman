@@ -304,11 +304,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trPay = Me.m_treemanager.Treetable.Childs.Add
       trPay.Tag = "Font.Bold"
       trPay("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Total}") '"รวม"
-      trPay("col5") = Configuration.FormatToString(sumStockAmt, DigitConfig.Price)
-      trPay("col6") = Configuration.FormatToString(sumBilledAmt, DigitConfig.Price)
-      trPay("col7") = Configuration.FormatToString(sumWHTAmt, DigitConfig.Price)
-      trPay("col8") = Configuration.FormatToString(sumDeCreaseAmt, DigitConfig.Price)
-      trPay("col9") = Configuration.FormatToString(sumInCreaseAmt, DigitConfig.Price)
+            'trPay("col5") = Configuration.FormatToString(sumStockAmt, DigitConfig.Price)
+            'trPay("col6") = Configuration.FormatToString(sumBilledAmt, DigitConfig.Price)
+            'trPay("col7") = Configuration.FormatToString(sumWHTAmt, DigitConfig.Price)
+            'trPay("col8") = Configuration.FormatToString(sumDeCreaseAmt, DigitConfig.Price)
+            'trPay("col9") = Configuration.FormatToString(sumInCreaseAmt, DigitConfig.Price)
       trPay("col10") = Configuration.FormatToString(sumPaymentAmt, DigitConfig.Price)
 
     End Sub
