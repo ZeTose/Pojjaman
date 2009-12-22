@@ -529,7 +529,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetGLFormat(ByVal glf As GLFormat)
       If Me.RefDoc Is Nothing Then
         Return
-      End If
+            End If
+
+            If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
+                Return
+            End If
       Me.RefDoctype = CType(Me.RefDoc, IObjectReflectable).EntityId
       Dim entriesFromDoc As JournalEntryItemCollection = Me.RefDoc.GetJournalEntries
       Me.AccountBook = glf.AccountBook
