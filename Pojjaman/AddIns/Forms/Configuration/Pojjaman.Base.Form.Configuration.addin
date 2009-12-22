@@ -53,6 +53,9 @@
 		</DialogPanel>
 		<!--<DialogPanel id="BiddingAttributeOptions" label="${res:Dialog.Options.TreeViewOptions.BiddingAttributeOptionsText}">
 			<DialogPanel id="TestOption" label="${res:Dialog.Options.PojjamanOptions.ColorListOptions.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.ColorListOptions"/>
-		</DialogPanel>-->
-	</Extension>	
+		</DialogPanel>-->]
+    <DialogPanel id="AccountConfig" label="${res:Dialog.Options.TreeViewOptions.AccountConfigText}">
+      <DialogPanel id="WHTConfigurationView" label="${res:Dialog.Options.PojjamanOptions.WHTConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.WHTConfigurationView"/>
+    </DialogPanel>
+  </Extension>	
 </AddIn>
