@@ -103,6 +103,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.gl_reftype = refType
     End Sub
+        Property DontSave As Boolean
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
@@ -626,6 +627,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+            If DontSave Then
+                Return New SaveErrorException("0")
+            End If
       RefreshGLFormat()
       With Me
         Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
@@ -753,6 +757,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+            If DontSave Then
+                Return New SaveErrorException("0")
+            End If
       With Me
         If Me.ItemCollection.Count <= 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
