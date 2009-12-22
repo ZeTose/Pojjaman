@@ -153,7 +153,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '.m_je.AccountBook = New AccountBook
 
         .m_payment = New Payment(Me)
-        .m_payment.DocDate = Me.m_docDate
+                .m_payment.DocDate = .m_je.DocDate
         '----------------------------End Tab Entities-----------------------------------------
         .m_asset = New Asset
         .AutoCodeFormat = New AutoCodeFormat(Me)
@@ -1404,8 +1404,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status = New GoodsReceiptStatus(2)
         End If
-
+                '---- AutoCode Format --------
         Select Case Me.AutoCodeFormat.CodeConfig.Value
+                    Case 0
+                        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                            Me.Code = Me.GetNextCode
+                        End If
+                        Me.m_je.DontSave = True
+                        Me.m_je.Code = ""
+                        Me.m_je.DocDate = Me.DocDate
           Case 1
             'ตาม entity
             If Me.AutoGen Then 'And Me.Code.Length = 0 Then
