@@ -1404,39 +1404,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status = New GoodsReceiptStatus(2)
         End If
-                '---- AutoCode Format --------
-        Select Case Me.AutoCodeFormat.CodeConfig.Value
-                    Case 0
-                        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                            Me.m_je.RefreshGLFormat()
-                            Me.Code = Me.GetNextCode
-                        End If
-                        Me.m_je.DontSave = True
-                        Me.m_je.Code = ""
-                        Me.m_je.DocDate = Me.DocDate
-          Case 1
-            'ตาม entity
-            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
-            End If
-            Me.m_je.Code = Me.Code
-          Case 2
-            'ตาม gl
-            If Me.m_je.AutoGen Then
-              Me.m_je.RefreshGLFormat()
-              Me.m_je.Code = m_je.GetNextCode
-            End If
-            Me.Code = Me.m_je.Code
-          Case Else
-            'แยก
-            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
-            End If
-            If Me.m_je.AutoGen Then
-              Me.m_je.RefreshGLFormat()
-              Me.m_je.Code = m_je.GetNextCode
-            End If
-        End Select
+        '---- AutoCode Format --------
+        If Not AutoCodeFormat Is Nothing Then
+
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.m_je.RefreshGLFormat()
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.RefreshGLFormat()
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
         Me.m_je.DocDate = Me.DocDate
         Me.m_payment.Code = m_je.Code
         Me.m_payment.DocDate = m_je.DocDate

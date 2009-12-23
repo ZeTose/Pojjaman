@@ -458,9 +458,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Me.Status = New SaleCNStatus(2)
 				End If
 
-				If Me.AutoGen And Me.Code.Length = 0 Then
-					Me.Code = Me.GetNextCode
-				End If
+        If Me.AutoGen And Me.Code.Length = 0 Then
+          Me.JournalEntry.RefreshGLFormat()
+          Me.Code = Me.GetNextCode
+        End If
 				Me.AutoGen = False
 				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
 				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
