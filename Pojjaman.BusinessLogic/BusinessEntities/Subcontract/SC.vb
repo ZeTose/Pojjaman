@@ -57,7 +57,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_closed As Boolean
     Private m_closing As Boolean
     Private m_status As SCStatus
-
+    Private m_creditPeriod As Long
+    Private m_contactPerson As String
+    
     'Public Group As Boolean = False
 
     Private m_note As String
@@ -96,6 +98,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_startDate = Now.Date
         .m_endDate = Now.Date
         .m_subcontractor = New Supplier
+        .m_contactPerson = ""
         .m_cc = New CostCenter
         .m_director = New Employee
 
@@ -114,6 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_closed = False
         .m_status = New SCStatus(-1)
         .m_note = ""
+        .m_creditPeriod = 0
 
         .m_retention = 0
         .m_witholdingTax = 0
@@ -140,6 +144,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .m_docDate = CDate(aliasPrefix & "sc_docdate")
             End If
           End If
+        End If
+        If Not dr.IsNull("sc_creditperiod") Then
+          .m_creditPeriod = CLng(dr("sc_creditperiod"))
+        End If
+        If Not dr.IsNull("sc_contactPerson") Then
+          .m_contactPerson = CStr(dr("sc_contactPerson"))
         End If
         If dr.Table.Columns.Contains("sc_startdate") Then
           If Not dr.IsNull("sc_startdate") Then
@@ -328,8 +338,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_subcontractor
       End Get
       Set(ByVal Value As Supplier)
+        If Value.Id <> m_subcontractor.Id Then
+          Me.m_creditPeriod = Value.CreditPeriod
+        End If
         m_subcontractor = Value
-        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+        'OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
     Public Property Director() As Employee
@@ -339,6 +352,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Employee)
         m_director = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property ContactPerson As String
+      Get
+        Return m_contactPerson
+      End Get
+      Set(ByVal value As String)
+        m_contactPerson = value
       End Set
     End Property
     Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
@@ -356,7 +377,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property StartDate() As Date      Get        Return m_startDate      End Get      Set(ByVal Value As Date)        m_startDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property EndDate() As Date      Get        Return m_endDate      End Get      Set(ByVal Value As Date)        m_endDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String      Get
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property DueDate() As Date
+      Get
+        Try
+          Return Me.DocDate.AddDays(Me.CreditPeriod)
+        Catch ex As Exception
+          Return Me.DocDate
+        End Try
+      End Get
+      Set(ByVal Value As Date)
+        Try
+          m_creditPeriod = DateDiff(DateInterval.Day, DocDate, Value)
+        Catch ex As Exception
+
+        End Try
+      End Set
+    End Property    Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property    Public Property StartDate() As Date      Get        Return m_startDate      End Get      Set(ByVal Value As Date)        m_startDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property EndDate() As Date      Get        Return m_endDate      End Get      Set(ByVal Value As Date)        m_endDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String      Get
         Return m_note
       End Get
       Set(ByVal Value As String)
@@ -969,6 +1005,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_enddate", Me.ValidDateOrDBNull(Me.EndDate)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_retention", Me.Retention))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_creditPeriod", Me.CreditPeriod))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_contactPerson", Me.ContactPerson))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxType", Me.TaxType.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxRate", Configuration.GetConfig("CompanyTaxRate"))) 'Me.TaxRate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxbase", Me.RealTaxBase))
