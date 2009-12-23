@@ -609,6 +609,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_whtcol.SetCCId(Me.CostCenter.Id)
             Me.m_vat.SetCCId(Me.CostCenter.Id)
           End If
+          '== Hack by pui ;ถ้าไม่มี vat ก็เคลียร์ Item ตรงนี้เลยละกัน =========
+          If Me.TaxType.Value = 0 Then
+            Me.m_vat.ItemCollection.Clear()
+          End If
+          '======================================================
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
