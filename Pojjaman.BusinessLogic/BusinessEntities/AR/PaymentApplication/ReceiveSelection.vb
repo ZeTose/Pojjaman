@@ -460,9 +460,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@receives_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBI_ReceiveSRef" _
           , New SqlParameter("@receives_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCN_ReceiveSRef" _
+          , New SqlParameter("@receives_id", Me.Id))
 
-
-          '
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If

@@ -234,7 +234,7 @@ Namespace Longkong.Core.Services
                 Next
             End If
             If (s Is Nothing) Then
-                Return "TBD!" 'name 'Todo:
+        Return name '"TBD!" 'name 'Todo:
                 'Throw New ResourceNotFoundException(("string >" & name & "<"))
             End If
             Return s

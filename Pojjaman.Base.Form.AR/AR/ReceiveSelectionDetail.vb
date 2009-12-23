@@ -1738,7 +1738,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       New Filter("Id", Me.m_entity.Id)}
       entities(5) = New Milestone
 
-      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(48))}
+      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(48)), _
+      New Filter("remainMustValid", True)}
       entities(6) = New SaleCN
 
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
