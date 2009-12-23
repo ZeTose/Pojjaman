@@ -272,7 +272,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDirectorCode.Name = "txtDirectorCode"
       Me.txtDirectorCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtDirectorCode, "")
-      Me.Validator.SetRequired(Me.txtDirectorCode, True)
+      Me.Validator.SetRequired(Me.txtDirectorCode, False)
       Me.txtDirectorCode.Size = New System.Drawing.Size(72, 21)
       Me.txtDirectorCode.TabIndex = 373
       Me.txtDirectorCode.Text = ""

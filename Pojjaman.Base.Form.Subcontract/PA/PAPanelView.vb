@@ -10,8 +10,9 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Namespace Longkong.Pojjaman.Gui.Panels
 	Public Class PAPanelView
-		Inherits AbstractEntityDetailPanelView
-		Implements IValidatable
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 		Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -2268,7 +2269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End If
 		End Sub
 		Public Overrides Sub SetLabelText()
-			'            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
 
 			Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.lblCode}")			'"เลขที่ PA:"
 
@@ -2360,6 +2361,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '	ccCodeChanged = True
           'Case "txtsubcontractorcode"
           '	subContractorChanged = True
+        Case "txtdirectorcode"
+          directorCodeChanged = True
         Case "txtretention"
           Dim txt As String = Me.txtRetention.Text
           txt = txt.Replace(",", "")
@@ -2464,17 +2467,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
       m_isInitialized = True
     End Sub
-    '        Private Sub SetColumnOriginQty()
-    '            For Each colStyle As DataGridColumnStyle In Me.tgItem.TableStyles(0).GridColumnStyles
-    '                If colStyle.MappingName.ToLower = "Pai_originqty" Then
-    '                    If Not Me.m_entity.Closed Then
-    '                        colStyle.Width = 0
-    '                    Else
-    '                        colStyle.Width = 80
-    '                    End If
-    '                End If
-    '            Next
-    '        End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
       Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
@@ -2531,7 +2523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtdirectorcode"
           If directorCodeChanged Then
             dirtyFlag = Employee.GetEmployee(txtDirectorCode, txtDirectorName, Me.m_entity.Receiver)
-            directorCodeChanged = False
+            'directorCodeChanged = False
           End If
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
@@ -2578,66 +2570,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           UpdateAmount()
           dirtyFlag = True
         Case "txtcostcentercode"
-          'If toCCCodeChanged Then
-          '    Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          '    If Not CCCodeBlankFlag Then
-          '        If Me.txtCostCenterCode.Text.ToLower <> Me.m_entity.CostCenter.Code.ToLower Then
-          '            If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
-          '                If Me.txtCostCenterCode.TextLength <> 0 Then
-          '                    dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          '                    If dirtyFlag Then
-          '                        UpdateDestAdmin()
-          '                    End If
-          '                Else
-          '                    Me.m_entity.CostCenter = New CostCenter
-          '                    txtCostCenterName.Text = ""
-          '                End If
-          '                Try
-          '                    If oldCCId <> Me.m_entity.CostCenter.Id Then
-          '                        Me.WorkbenchWindow.ViewContent.IsDirty = True
-          '                        oldCCId = Me.m_entity.CostCenter.Id
-          '                        ChangeCC()
-          '                    End If
-          '                Catch ex As Exception
-
-          '                End Try
-          '                toCCCodeChanged = False
-          '            Else
-          '                Me.txtCostCenterCode.Text = Me.m_entity.CostCenter.Code
-          '                toCCCodeChanged = False
-          '            End If
-          '        End If
-          '    Else
-          '        If Me.txtCostCenterCode.TextLength <> 0 Then
-          '            dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          '            'If dirtyFlag Then
-          '            '    If Me.txtRequestorName.TextLength = 0 Then
-          '            '        UpdateDestAdmin()
-          '            '    End If
-          '            'End If
-          '        Else
-          '            Me.m_entity.CostCenter = New CostCenter
-          '            txtCostCenterName.Text = ""
-          '        End If
-          '        Try
-          '            If oldCCId <> Me.m_entity.CostCenter.Id Then
-          '                Me.WorkbenchWindow.ViewContent.IsDirty = True
-          '                oldCCId = Me.m_entity.CostCenter.Id
-          '                ChangeCC()
-          '            End If
-          '        Catch ex As Exception
-
-          '        End Try
-          '        toCCCodeChanged = False
-          '    End If
-          'End If
-          'If ccCodeChanged Then
-          '    dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          '    'If Me.txtRequestorName.TextLength = 0 Then
-          '    '    UpdateDestAdmin()
-          '    'End If
-          '    ccCodeChanged = False
-          'End If
+      
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()

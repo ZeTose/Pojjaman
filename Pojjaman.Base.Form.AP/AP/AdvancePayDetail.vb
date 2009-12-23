@@ -273,6 +273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdoForAP.Name = "rdoForAP"
       Me.rdoForAP.TabIndex = 369
       Me.rdoForAP.Text = "สำหรับ AP"
+      Me.rdoForAP.Checked = True
       '
       'txtTaxBase
       '
@@ -930,7 +931,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Me.dtpDocDate.Value = Now
       cmbTaxType.SelectedIndex = 1
-      rdoForAP.PerformClick()
+      'rdoForAP.PerformClick()
     End Sub
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
@@ -1096,12 +1097,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
 
       If Me.m_entity.Type = 0 Then
-        rdoForAP.PerformClick()
+        rdoForAP.Checked = True 
       Else
-        rdoForSC.PerformClick()
+        rdoForSC.Checked = True
       End If
-
-
+      
       Me.m_entity.ReLoadItems()
 
       'Load Items**********************************************************
