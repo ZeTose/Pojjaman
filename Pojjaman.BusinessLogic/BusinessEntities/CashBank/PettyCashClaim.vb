@@ -836,20 +836,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
 
-      If Not Me.Payment Is Nothing Then
-        Dim pmGross As Decimal = Me.Payment.Gross
-        'เงินสดย่อย
-        ji = New JournalEntryItem
-        ji.Mapping = "G10.1"
-        ji.Amount = pmGross
-        If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
-          ji.Account = Me.PettyCash.Account
-        End If
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        jiColl.Add(ji)
-        'Payment
-        jiColl.AddRange(Me.Payment.GetJournalEntries)
+      'If Not Me.Payment Is Nothing Then
+      'Dim pmGross As Decimal = Me.Payment.Gross
+      'เงินสดย่อย
+      ji = New JournalEntryItem
+      ji.Mapping = "G10.1"
+      ji.Amount = Me.AmountToPay
+      If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
+        ji.Account = Me.PettyCash.Account
       End If
+      ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      jiColl.Add(ji)
+      'Payment
+      jiColl.AddRange(Me.Payment.GetJournalEntries)
+      'End If
       Return jiColl
     End Function
     Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
