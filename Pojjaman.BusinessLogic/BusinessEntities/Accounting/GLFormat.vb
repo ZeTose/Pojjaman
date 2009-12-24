@@ -391,24 +391,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim fieldId As Integer
                 If dr.Table.Columns.Contains(aliasPrefix & "glfi_field") AndAlso Not dr.IsNull(aliasPrefix & "glfi_field") Then
                     fieldId = CInt(dr(aliasPrefix & "glfi_field"))
-                End If
+        End If
+        Dim fieldName As String = ""
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_fieldName") AndAlso Not dr.IsNull(aliasPrefix & "glfi_fieldName") Then
+          fieldName = CStr(dr(aliasPrefix & "glfi_fieldName"))
+        End If
                 Select Case .m_fieldType.Description.ToLower
-                    Case "dynamic"
-                        If dr.Table.Columns.Contains(aliasPrefix & "glfi_fieldName") AndAlso Not dr.IsNull(aliasPrefix & "glfi_fieldName") Then
-                            .m_field = New BlankItem(CStr(dr(aliasPrefix & "glfi_fieldName")))
-                        Else
-                            'Todo: Error
-                        End If
-                        If dr.Table.Columns.Contains(aliasPrefix & "glfi_description") AndAlso Not dr.IsNull(aliasPrefix & "glfi_description") Then
-                            .m_fieldDescription = CStr(dr(aliasPrefix & "glfi_description"))
-                        Else
-                            'Todo: Error
-                        End If
+          Case "dynamic"
+            If Not String.IsNullOrEmpty(fieldName) Then
+              .m_field = New BlankItem(CStr(dr(aliasPrefix & "glfi_fieldName")))
+            Else
+              'Todo: Error
+            End If
+            If dr.Table.Columns.Contains(aliasPrefix & "glfi_description") AndAlso Not dr.IsNull(aliasPrefix & "glfi_description") Then
+              .m_fieldDescription = CStr(dr(aliasPrefix & "glfi_description"))
+            Else
+              'Todo: Error
+            End If
                     Case "mix"
                         .m_field = New GeneralAccount(fieldId)
-                        If fieldId = 0 Then
-                            .m_field.Name = CStr(dr(aliasPrefix & "glfi_fieldName"))
-                        End If
+            If Not String.IsNullOrEmpty(fieldName) Then
+              .m_field.Name = fieldName
+            End If
                         If dr.Table.Columns.Contains(aliasPrefix & "glfi_description") AndAlso Not dr.IsNull(aliasPrefix & "glfi_description") Then
                             .m_fieldDescription = CStr(dr(aliasPrefix & "glfi_description"))
                         Else
@@ -416,9 +420,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         End If
                     Case "generalaccount"
                         .m_field = New GeneralAccount(fieldId)
-                        If fieldId = 0 Then
-                            .m_field.Name = CStr(dr(aliasPrefix & "glfi_fieldName"))
-                        End If
+            If Not String.IsNullOrEmpty(fieldName) Then
+              .m_field.Name = fieldName
+            End If
                         If m_account Is Nothing OrElse Not m_account.Originated Then
                             m_account = CType(.m_field, GeneralAccount).Account
                             m_account = New Account(m_account.Code)

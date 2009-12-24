@@ -76,25 +76,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.DocCode}")  '"เลขที่เอกสาร"
       tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.DocDate}")  '"วันที่เอกสาร"
-      tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.VatInvoice}")  '"เลขที่ใบกำกับ"
-      tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CostcenterCode}")  '"รหัส Cost Center"
-      tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CostcenterName}")  '"ชื่อ Cost Center"
-      tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.BeforeTax}")  '"ยอดก่อนภาษี"
-      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.TaxAmount}") '"เงินภาษี"
-      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AfterTax}")  '"รวม"
-      tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.OpenningBalance}")  '"ยอดคงเหลือยกมา"
-      tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CreditAmt}")  '"ยอดหักมัดจำ"
-      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RemainingAmt}")  '"ยอดคงเหลือ"
-      tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Status}")  '"สถานะ"
+      tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.GLCode}")  '"เลขที่ GL"
+      tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.VatInvoice}")  '"เลขที่ใบกำกับ"
+      tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CostcenterCode}")  '"รหัส Cost Center"
+      tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CostcenterName}")  '"ชื่อ Cost Center"
+      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.BeforeTax}")  '"ยอดก่อนภาษี"
+      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.TaxAmount}") '"เงินภาษี"
+      tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AfterTax}")  '"รวม"
+      tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.OpenningBalance}")  '"ยอดคงเหลือยกมา"
+      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.CreditAmt}")  '"ยอดหักมัดจำ"
+      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RemainingAmt}")  '"ยอดคงเหลือ"
+      tr("col12") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Status}")  '"สถานะ"
+      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.GLNote}")  '"หมายเหตุ GL"
       If m_showDetailInGrid = 1 Then
         'Else
         ' Level 2
         tr = Me.m_treemanager.Treetable.Childs.Add
         tr("col0") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocCode}")  '"เลขที่เอกสาร"
         tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocDate}")  '"วันที่เอกสาร"
+        tr("col3") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.GLCode}")  '"เลขที่GL"
         tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.RefDocType}")  '"ประเภทเอกสาร"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AdvanceAmt}")  '"ยอดหัก" 
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Remain}")  '"คงเหลือ" 
+        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.AdvanceAmt}")  '"ยอดหัก" 
+        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Remain}")  '"คงเหลือ" 
+        tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.GLNote}")  '"หมายเหตุ GL"
+
       End If
     End Sub
     Private Sub PopulateData()
@@ -144,35 +149,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trDoc("col1") = CDate(advanceRow("docdate")).ToShortDateString
               End If
             End If
+            If Not advanceRow.IsNull("AdvPglCode") Then
+              trDoc("col2") = indent & advanceRow("AdvPglCode").ToString
+            End If
             If Not advanceRow.IsNull("VatInvoice") Then
-              trDoc("col2") = indent & advanceRow("VatInvoice").ToString
+              trDoc("col3") = indent & advanceRow("VatInvoice").ToString
             End If
             If Not advanceRow.IsNull("CostCenterCode") Then
-              trDoc("col3") = indent & advanceRow("CostCenterCode").ToString
+              trDoc("col4") = indent & advanceRow("CostCenterCode").ToString
             End If
             If Not advanceRow.IsNull("CostCenterName") Then
-              trDoc("col4") = indent & advanceRow("CostCenterName").ToString
+              trDoc("col5") = indent & advanceRow("CostCenterName").ToString
             End If
             If Not advanceRow.IsNull("beforetax") Then
-              trDoc("col5") = Configuration.FormatToString(CDec(advanceRow("beforetax")), DigitConfig.Price)
+              trDoc("col6") = Configuration.FormatToString(CDec(advanceRow("beforetax")), DigitConfig.Price)
               totalBeforeTax += CDec(advanceRow("beforetax"))
             End If
             If Not advanceRow.IsNull("taxamt") Then
-              trDoc("col6") = Configuration.FormatToString(CDec(advanceRow("taxamt")), DigitConfig.Price)
+              trDoc("col7") = Configuration.FormatToString(CDec(advanceRow("taxamt")), DigitConfig.Price)
               totalTaxAmount += CDec(advanceRow("taxamt"))
             End If
             If Not advanceRow.IsNull("aftertax") Then
-              trDoc("col7") = Configuration.FormatToString(CDec(advanceRow("aftertax")), DigitConfig.Price)
+              trDoc("col8") = Configuration.FormatToString(CDec(advanceRow("aftertax")), DigitConfig.Price)
               totalAfterTax += CDec(advanceRow("aftertax"))
             End If
             If Not advanceRow.IsNull("openningbalanceremain") Then
-              trDoc("col8") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
+              trDoc("col9") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
               advanceRemain = CDec(advanceRow("openningbalanceremain"))
             End If
             If Not advanceRow.IsNull("status") Then
               If CInt(advanceRow("status")) = 0 Then
-                advanceRow("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Canceled}")  '"ถูกยกเลิก"
+                advanceRow("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Canceled}")  '"ถูกยกเลิก"
               End If
+            End If
+            If Not advanceRow.IsNull("AdvPglNote") Then
+              trDoc("col13") = indent & advanceRow("AdvPglNote").ToString
             End If
 
             totalAdvanceAmount = 0
@@ -194,18 +205,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     trDetail("col1") = CDate(detailRow("refdate")).ToShortDateString
                   End If
                 End If
+                If Not detailRow.IsNull("refGlCode") Then
+                  If IsDate(detailRow("refGlCode")) Then
+                    trDetail("col1") = CDate(detailRow("refGlCode")).ToShortDateString
+                  End If
+                End If
                 If Not detailRow.IsNull("entity_description") Then
                   trDetail("col4") = indent & indent & detailRow("entity_description").ToString
                 End If
                 If Not detailRow.IsNull("currentamount") Then
-                  trDetail("col9") = Configuration.FormatToString(CDec(detailRow("currentamount")), DigitConfig.Price)
+                  trDetail("col10") = Configuration.FormatToString(CDec(detailRow("currentamount")), DigitConfig.Price)
                 End If
-                trDetail("col10") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
+                trDetail("col11") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
+                If Not detailRow.IsNull("refGlNote") Then
+                  If IsDate(detailRow("refGlNote")) Then
+                    trDetail("col13") = CDate(detailRow("refGlNote")).ToShortDateString
+                  End If
+                End If
               End If
             Next
 
-            trDoc("col9") = Configuration.FormatToString(totalAdvanceAmount, DigitConfig.Price)
-            trDoc("col10") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
+            trDoc("col10") = Configuration.FormatToString(totalAdvanceAmount, DigitConfig.Price)
+            trDoc("col11") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
 
             totalBalance += advanceRemain
 
@@ -221,14 +242,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       trSupplier = Me.m_treemanager.Treetable.Childs.Add
       trSupplier.Tag = "Font.Bold"
-      trSupplier("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Total}") '"รวม"
+      trSupplier("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Total}") '"รวม"
       'trSupplier("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.Total}") '"รวม"
-      trSupplier("col5") = Configuration.FormatToString(totalBeforeTax, DigitConfig.Price)
-      trSupplier("col6") = Configuration.FormatToString(totalTaxAmount, DigitConfig.Price)
-      trSupplier("col7") = Configuration.FormatToString(totalAfterTax, DigitConfig.Price)
+      trSupplier("col6") = Configuration.FormatToString(totalBeforeTax, DigitConfig.Price)
+      trSupplier("col7") = Configuration.FormatToString(totalTaxAmount, DigitConfig.Price)
+      trSupplier("col8") = Configuration.FormatToString(totalAfterTax, DigitConfig.Price)
 
-      trSupplier("col9") = Configuration.FormatToString(totalAdvance, DigitConfig.Price)
-      trSupplier("col10") = Configuration.FormatToString(totalBalance, DigitConfig.Price)
+      trSupplier("col10") = Configuration.FormatToString(totalAdvance, DigitConfig.Price)
+      trSupplier("col11") = Configuration.FormatToString(totalBalance, DigitConfig.Price)
 
       Return
 
@@ -258,6 +279,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
 
       Return myDatatable
     End Function
@@ -265,21 +288,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 11 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 13 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
+      widths.Add(120)    'Code
+      widths.Add(200)    'date
+      widths.Add(100)    'glcode
+      widths.Add(100)    'vat
+      widths.Add(150)    'cc code
+      widths.Add(120)    'cc name
+      widths.Add(100)    '
+      widths.Add(100)
       widths.Add(120)
-      widths.Add(200)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(150)
-      widths.Add(120)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(120)
       widths.Add(100)
       widths.Add(100)
       widths.Add(100)
-      
+      widths.Add(100)      'Status
+      widths.Add(200)      'หมายเหตุ
+
       For i As Integer = 0 To iCol
         If i = 1 Then
           'If m_showDetailInGrid <> 0 Then
@@ -302,7 +327,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           'If Me.m_showDetailInGrid <> 0 Then
           Select Case i
-            Case 0, 1, 2, 3, 4, 11
+            Case 0, 1, 2, 3, 4, 5, 12, 13
               cs.Alignment = HorizontalAlignment.Left
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"

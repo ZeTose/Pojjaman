@@ -468,7 +468,9 @@
     <None Include="AddIns\Pojjaman.Test.addin" />
     <None Include="AddIns\Pojjaman.Wizard.addin" />
     <None Include="AddIns\Reports\Accounting\Pojjaman.Base.Report.Accounting.addin" />
-    <None Include="AddIns\Reports\AP\Pojjaman.Base.Report.AP.addin" />
+    <None Include="AddIns\Reports\AP\Pojjaman.Base.Report.AP.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Reports\AR\Pojjaman.Base.Report.AR.addin" />
     <None Include="AddIns\Reports\CashBank\Pojjaman.Base.Report.CashBank.addin" />
     <None Include="AddIns\Reports\Check\Pojjaman.Base.Report.Check.addin" />
