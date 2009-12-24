@@ -9,7 +9,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Property Owner() As IListPanel
     End Interface
     Public Interface IAuxTab
-        ReadOnly Property AuxEntity() As BusinessLogic.IDirtyAble
-    End Interface
+    ReadOnly Property AuxEntity() As BusinessLogic.IDirtyAble
+  End Interface
+  Public Interface IAuxTabItem
+    ReadOnly Property AuxEntityItem() As Object
+  End Interface
 End Namespace
 

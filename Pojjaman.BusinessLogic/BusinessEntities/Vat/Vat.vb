@@ -903,9 +903,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			Return "IV"
 		End Function
 		Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			'Me.RefreshTaxBase()
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      'Me.RefreshTaxBase()
 			'Code
 			dpi = New DocPrintingItem
 			dpi.Mapping = "Code"
@@ -1827,30 +1827,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							End If
 						End If
 					Next
-					'Show milestone detail
-					For Each item As SaleBillIssueItem In rsn.ItemCollection
-						If rsn.ItemCollection.ShowDetail Then
-							Dim m_item As New Milestone(item.StockId)
-							For Each miDetailRow As TreeRow In m_item.ItemTable.Childs
-								n += 1
-								Dim childText As String = miDetailRow("milestonei_desc").ToString
-								'Item.NameMileStone
-								dpi = New DocPrintingItem
-								dpi.Mapping = "Item.NameMileStone"
-								dpi.Value = childText
-								dpi.DataType = "System.String"
-								dpi.Row = n
-								dpi.Table = "Item"
-								dpiColl.Add(dpi)
-							Next
-						End If
-						n += 1
-					Next
+          ''Show milestone detail
+          'For Each item As SaleBillIssueItem In rsn.ItemCollection
+          'If rsn.ItemCollection.ShowDetail Then
+          'Dim m_item As New Milestone(item.StockId)
+          'For Each miDetailRow As TreeRow In m_item.ItemTable.Childs
+          'n += 1
+          'Dim childText As String = miDetailRow("milestonei_desc").ToString
+          ''Item.NameMileStone
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "Item.NameMileStone"
+          'dpi.Value = childText
+          'dpi.DataType = "System.String"
+          'dpi.Row = n
+          'dpi.Table = "Item"
+          'dpiColl.Add(dpi)
+          'Next
+          'End If
+          'n += 1
+          'Next
 				End If
 			End If
 
 			Return dpiColl
     End Function
+
 #End Region
 
 	End Class
@@ -3044,7 +3045,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.LineNumber
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.LineNumber"
-              dpi.Value = y + 1
+              If lineTexts(13) = "Detail" Then
+                dpi.Value = ""
+              Else
+                dpi.Value = y + 1
+              End If
               dpi.DataType = "System.Int32"
               dpi.Row = i + 1
               dpi.Table = "Item"
@@ -3313,8 +3318,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
               "|" & item.Discount.Rate & _
               "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
               Me.m_lines.Add(itemText)
+
             Else 'ไม่มี Milestone แปะอยู่
               For Each item As Milestone In bi.ItemCollection
                 Dim itemText As String = ""
@@ -3330,8 +3337,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
                 "|" & item.Discount.Rate & _
                 "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-                "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+                "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
                 Me.m_lines.Add(itemText)
+                If bi.ShowDetail Then
+                  For Each miDetailRow As TreeRow In item.ItemTable.Childs
+                    'miDetailRow("milestonei_desc").ToString
+                    Dim itext As String = ""
+                    itext = miDetailRow("milestonei_desc").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & miDetailRow("milestonei_note").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|Detail"
+                    Me.m_lines.Add(itext)
+                  Next
+                End If
               Next
             End If
           ElseIf TypeOf (Me.Vat.RefDoc) Is ReceiveSelection Then 'รับชำระหนี้
@@ -3368,7 +3397,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
               "|" & item.Discount.Rate & _
               "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
               Me.m_lines.Add(itemText)
             Else 'ไม่มี Milestone แปะอยู่       
               If rs.SingleVat Then
@@ -3389,32 +3419,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
                       "|" & gsItem.Discount.Rate & _
                       "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
-                      "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price)
+                      "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+              "|"
                       Me.m_lines.Add(itemText)
                     Next
-									ElseIf rcItem.EntityId.Equals(75) _
-									OrElse rcItem.EntityId.Equals(77) _
-									OrElse rcItem.EntityId.Equals(78) _
-									OrElse rcItem.EntityId.Equals(79) _
-									OrElse rcItem.EntityId.Equals(86) Then					'MileStone
-										Dim mi As New Milestone(rcItem.Id)
-										Dim itemText As String = ""
-										itemText = mi.Name & _
-										"|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-										"|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-										"|" & mi.Note & _
-										"|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price) & _
-										"|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price) & _
-										"|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-										"|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
-										"|รายการ" & _
-										"|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-										"|" & mi.Discount.Rate & _
-										"|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
-										 "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
-										Me.m_lines.Add(itemText)
-									End If
-								Next
+                  ElseIf rcItem.EntityId.Equals(75) _
+                  OrElse rcItem.EntityId.Equals(77) _
+                  OrElse rcItem.EntityId.Equals(78) _
+                  OrElse rcItem.EntityId.Equals(79) _
+                  OrElse rcItem.EntityId.Equals(86) Then          'MileStone
+                    Dim mi As New Milestone(rcItem.Id)
+                    Dim itemText As String = ""
+                    itemText = mi.Name & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & mi.Note & _
+                    "|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
+                    "|รายการ" & _
+                    "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+                    "|" & mi.Discount.Rate & _
+                    "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
+                     "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
+              "|"
+                    Me.m_lines.Add(itemText)
+                    'Dim mitem As New Milestone(rcItem.StockId)
+                    If rs.ItemCollection.ShowDetail Then
+                      For Each miDetailRow As TreeRow In mi.ItemTable.Childs
+                        'miDetailRow("milestonei_desc").ToString
+                        Dim itext As String = ""
+                        itext = miDetailRow("milestonei_desc").ToString & _
+                        "|" & _
+                        "|" & _
+                        "|" & miDetailRow("milestonei_note").ToString & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|Detail"
+                        Me.m_lines.Add(itext)
+                      Next
+                    End If
+                  End If
+                Next
               Else ' หลายใบ
                 Dim i As Integer = Me.Vat.ItemCollection.IndexOf(Me)
                 Dim rcItem As SaleBillIssueItem = rs.ItemCollection(i)
@@ -3434,7 +3488,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
                     "|" & gsItem.Discount.Rate & _
                     "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
-                    "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price)
+                    "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+              "|"
                     Me.m_lines.Add(itemText)
                   Next
                 ElseIf rcItem.EntityId.Equals(75) _
@@ -3464,8 +3519,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
                   "|" & mi.Discount.Rate & _
                   "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
-                  "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
+                  "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
+              "|"
                   Me.m_lines.Add(itemText)
+                  'Dim mitem As New Milestone(rcItem.StockId)
+                  If rs.ItemCollection.ShowDetail Then
+                    For Each miDetailRow As TreeRow In mi.ItemTable.Childs
+                      'miDetailRow("milestonei_desc").ToString
+                      Dim itext As String = ""
+                      itext = miDetailRow("milestonei_desc").ToString & _
+                      "|" & _
+                      "|" & _
+                      "|" & miDetailRow("milestonei_note").ToString & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|Detail"
+                      Me.m_lines.Add(itext)
+                    Next
+                  End If
                 End If
               End If
             End If

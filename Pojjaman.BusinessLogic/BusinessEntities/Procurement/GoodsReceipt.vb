@@ -2504,14 +2504,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
         If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
-          itemAmount = item.TaxBase 'item.Amount
+          itemAmount = item.Amount
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If
 
-        'If Me.TaxType.Value = 2 Then
-        'itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
-        'End If
 
 
         For Each addedJi As JournalEntryItem In jiColl
@@ -2995,7 +2992,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
         If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
-          itemAmount = item.TaxBase 'item.Amount
+          itemAmount = item.Amount
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If

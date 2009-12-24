@@ -11,7 +11,7 @@ Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Gui.Panels
 	Public Class VATDetail
 		Inherits AbstractEntityDetailPanelView
-		Implements IValidatable, IAuxTab
+    Implements IValidatable, IAuxTab, IAuxTabItem
 
 #Region " Windows Form Designer generated code "
 		'UserControl overrides dispose to clean up the component list.
@@ -1433,13 +1433,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IAuxTab"
-		Public ReadOnly Property AuxEntity() As IDirtyAble Implements IAuxTab.AuxEntity
-			Get
-				Return m_vat
-			End Get
-		End Property
+    Public ReadOnly Property AuxEntity() As IDirtyAble Implements IAuxTab.AuxEntity
+      Get
+        For i As Integer = 0 To Me.m_vat.ItemCollection.Count - 1
+          If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
+            If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
+              Dim item As VatItem = Me.m_vat.ItemCollection(i)
+              Return Nothing
+            End If
+          End If
+        Next
+        Return m_vat
+      End Get
+    End Property
 #End Region
-
+#Region "IAuxTabItem"
+    Public ReadOnly Property AuxEntityItem() As Object Implements IAuxTabItem.AuxEntityItem
+      Get
+        For i As Integer = 0 To Me.m_vat.ItemCollection.Count - 1
+          If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
+            If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
+              Dim item As VatItem = Me.m_vat.ItemCollection(i)
+              Return item
+            End If
+          End If
+        Next
+        Return m_vat
+      End Get
+    End Property
+#End Region
 
 
 	End Class

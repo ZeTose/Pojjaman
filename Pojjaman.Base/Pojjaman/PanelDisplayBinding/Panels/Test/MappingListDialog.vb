@@ -98,7 +98,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
 
             If TypeOf window.ActiveViewContent Is IAuxTab Then
-                Dim aux As IDirtyAble = CType(window.ActiveViewContent, IAuxTab).AuxEntity
+        Dim aux As Object = CType(window.ActiveViewContent, IAuxTab).AuxEntity
+        If aux Is Nothing Then
+          aux = CType(window.ActiveViewContent, IAuxTabItem).AuxEntityItem
+        End If
                 If TypeOf aux Is IPrintableEntity Then
                     Dim auxPrintable As IPrintableEntity = CType(aux, IPrintableEntity)
                     dpiColl = auxPrintable.GetDocPrintingEntries
