@@ -2071,13 +2071,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'New Filter("remainMustValid", True)}
 
       Dim entities(5) As ISimpleEntity
-      'entities(0) = New GoodsReceipt
-      'entities(1) = New APOpeningBalance
-      'entities(2) = New EqMaintenance
-      'entities(3) = New PurchaseCN
-      'entities(4) = New PurchaseRetention
-      'entities(5) = New PA
-
       entities(0) = New GoodsReceiptForBillAcceptance
       entities(1) = New APOpeningBalanceForBillAcceptance
       entities(2) = New EqMaintenanceForBillAcceptance
