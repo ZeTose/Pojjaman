@@ -2504,7 +2504,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
         If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
-          itemAmount = item.Amount
+          itemAmount = item.TaxBase 'item.Amount
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If
@@ -2992,7 +2992,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
         If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
-          itemAmount = item.Amount
+          itemAmount = item.TaxBase
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If

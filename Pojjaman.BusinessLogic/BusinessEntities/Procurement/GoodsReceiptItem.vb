@@ -726,15 +726,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return 0
           Case 1 '"แยก"
             If Not Me.UnVatable Then
-              Return (Me.AmountWithoutFormat - _
-              ( _
-              (Me.AmountWithoutFormat / myGross) * myDiscount) _
-              )
+              Return (Me.AmountWithoutFormat - ((Me.AmountWithoutFormat / myGross) * myDiscount))
             End If
           Case 2 '"รวม"
             If Not Me.UnVatable Then
-              Return Vat.GetExcludedVatAmountWithoutRound(Me.Amount, Me.GoodsReceipt.TaxRate)
-              'Return Vat.GetExcludedVatAmountWithoutRound(Me.AmountWithoutFormat - ((Me.AmountWithoutFormat / myGross) * myDiscount), Me.GoodsReceipt.TaxRate)
+              'Return Vat.GetExcludedVatAmountWithoutRound(Me.Amount, Me.GoodsReceipt.TaxRate)
+              Return Vat.GetExcludedVatAmountWithoutRound(Me.AmountWithoutFormat - ((Me.AmountWithoutFormat / myGross) * myDiscount), Me.GoodsReceipt.TaxRate)
             End If
         End Select
       End Get
