@@ -253,7 +253,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property Customer() As Customer Implements IAdvanceReceiveItemAble.Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IReceivable.Date, IGLAble.Date, _      IAdvanceReceiveItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then          Return Me.FromCostCenter.StoreAccount
+    Public Property Customer() As Customer Implements IAdvanceReceiveItemAble.Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IReceivable.Date, IGLAble.Date, _      IAdvanceReceiveItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then          Return Me.FromCostCenter.StoreAccount
         End If      End Get    End Property    Public Property PoDocCode() As String      Get        Return m_poDocCode      End Get      Set(ByVal Value As String)        m_poDocCode = Value      End Set    End Property    Public Property PoDocDate() As Date      Get        Return m_poDocDate      End Get      Set(ByVal Value As Date)        m_poDocDate = Value      End Set    End Property    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property    Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
       Get
         Return m_whtcol
@@ -443,30 +443,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsSoldStatus(2)
         End If
 
-        Select Case Me.AutoCodeFormat.CodeConfig.Value
-          Case 1
-            'ตาม entity
-            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
-            End If
-            Me.m_je.Code = Me.Code
-          Case 2
-            'ตาม gl
-            If Me.m_je.AutoGen Then
-              Me.m_je.RefreshGLFormat()
-              Me.m_je.Code = m_je.GetNextCode
-            End If
-            Me.Code = Me.m_je.Code
-          Case Else
-            'แยก
-            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
-            End If
-            If Me.m_je.AutoGen Then
-              Me.m_je.RefreshGLFormat()
-              Me.m_je.Code = m_je.GetNextCode
-            End If
-        End Select
+        '---- AutoCode Format --------
+        If Not AutoCodeFormat Is Nothing Then
+
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.m_je.RefreshGLFormat()
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.RefreshGLFormat()
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
+        Me.m_je.DocDate = Me.DocDate
         Me.m_receive.Code = m_je.Code
         Me.m_receive.DocDate = m_je.DocDate
         Me.AutoGen = False
