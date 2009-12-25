@@ -153,6 +153,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpEachDisc, DigitConfig.Price)
             m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
             m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
+
+            m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
             tmpEachAmount = 0
             tmpEachTaxAmt = 0
             tmpEachAfterTax = 0
@@ -165,6 +172,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpDisc, DigitConfig.Price)
             m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpTaxAmt, DigitConfig.Price)
             m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpAfterTax, DigitConfig.Price)
+
+            m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
             tmpAmount = 0
             tmpTaxAmt = 0
             tmpAfterTax = 0
@@ -196,7 +210,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
                 m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
                 m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
-              tmpEachAmount = 0
+
+                m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+                m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+                m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+                m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+                m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
+                tmpEachAmount = 0
               tmpEachTaxAmt = 0
               tmpEachAfterTax = 0
             End If
@@ -213,7 +234,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not rowitem.IsNull("ItemNote") Then
             m_grid(currItemIndex, 3).CellValue = indent & rowitem("ItemNote").ToString
-          End If
+              m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            End If
           If IsNumeric(rowitem("Qty")) Then
             m_grid(currItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Qty")), DigitConfig.Qty)
           End If
@@ -222,16 +244,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If IsNumeric(rowitem("UnitPrice")) Then
             m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(rowitem("UnitPrice")), DigitConfig.Price)
-          End If
+              m_grid(currItemIndex, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            End If
           If IsNumeric(rowitem("Amount")) Then
             m_grid(currItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Amount")), DigitConfig.Price)
-            tmpEachAmount += CDec(rowitem("Amount"))
+              m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+              tmpEachAmount += CDec(rowitem("Amount"))
             tmpAmount += CDec(rowitem("Amount"))
             SumAmount += CDec(rowitem("Amount"))
             End If
 
             If IsNumeric(rowitem("discount")) Then
               m_grid(currItemIndex, 8).CellValue = indent & Configuration.FormatToString(CDec(rowitem("discount")), DigitConfig.Price)
+              m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
               tmpEachDisc += CDec(rowitem("discount"))
               tmpDisc += CDec(rowitem("discount"))
               SumDisc += CDec(rowitem("discount"))
@@ -239,13 +264,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             If IsNumeric(rowitem("TaxAmt")) Then
               m_grid(currItemIndex, 9).CellValue = indent & Configuration.FormatToString(CDec(rowitem("TaxAmt")), DigitConfig.Price)
+              m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
               tmpEachTaxAmt += CDec(rowitem("TaxAmt"))
               tmpTaxAmt += CDec(rowitem("TaxAmt"))
               SumTaxAmt += CDec(rowitem("TaxAmt"))
             End If
           If IsNumeric(rowitem("AfterTax")) Then
               m_grid(currItemIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(rowitem("AfterTax")), DigitConfig.Price)
-            tmpEachAfterTax += CDec(rowitem("AfterTax"))
+              m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+              tmpEachAfterTax += CDec(rowitem("AfterTax"))
             tmpAfterTax += CDec(rowitem("AfterTax"))
             SumAfterTax += CDec(rowitem("AfterTax"))
           End If
@@ -349,6 +376,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpTaxAmt, DigitConfig.Price)
       m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpAfterTax, DigitConfig.Price)
 
+      m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
       m_grid.RowCount += 1
       currItemIndex = m_grid.RowCount
       m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
@@ -359,6 +392,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(SumDisc, DigitConfig.Price)
       m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(SumTaxAmt, DigitConfig.Price)
       m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(SumAfterTax, DigitConfig.Price)
+
+      m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
     End Sub
 #End Region#Region "Shared"
