@@ -532,7 +532,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cmbCode.Items.Clear()
       cmbCode.DropDownStyle = ComboBoxStyle.Simple
       cmbCode.Text = m_entity.Code
-      BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
+
+      'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
       m_oldCode = m_entity.Code
       txtNote.Text = m_entity.Note
 
@@ -674,12 +675,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.Validator.SetRequired(Me.txtCode, False)
         'Me.ErrorProvider1.SetError(Me.txtCode, "")
         'Me.txtCode.ReadOnly = True
-        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
-        cmbCode.SelectedIndex = ComboCodeIndex
-        m_oldCode = Me.cmbCode.Text
+        'Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
+        'cmbCode.SelectedIndex = ComboCodeIndex
+        'm_oldCode = Me.cmbCode.Text
+
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDown
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+
         'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
         'Hack: set Code เป็น "" เอง
         'Me.m_entity.Code = ""
+        m_oldCode = Me.cmbCode.Text
         Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
