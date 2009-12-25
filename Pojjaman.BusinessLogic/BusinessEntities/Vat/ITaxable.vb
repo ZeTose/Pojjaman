@@ -112,8 +112,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Property [Date]() As Date
         Property Person() As IBillablePerson
         Function GetMaximumWitholdingTaxBase() As Decimal
-        Property WitholdingTaxCollection() As WitholdingTaxCollection
-    End Interface
+    Property WitholdingTaxCollection() As WitholdingTaxCollection
+  End Interface
 
     Public Interface ICanDelayWHT
     End Interface

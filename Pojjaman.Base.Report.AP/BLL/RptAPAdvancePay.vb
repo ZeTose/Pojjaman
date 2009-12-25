@@ -189,37 +189,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
             totalAdvanceAmount = 0
 
             For Each detailRow As DataRow In dt1.Select("id=" & advanceRow("advp_id").ToString)
-              If Not detailRow.IsNull("currentamount") Then
-                totalAdvanceAmount += CDec(detailRow("currentamount"))
-                totalAdvance += CDec(detailRow("currentamount"))
-                advanceRemain -= CDec(detailRow("currentamount"))
-              End If
 
-              If m_showDetailInGrid <> 0 Then
-                trDetail = trDoc.Childs.Add
-                If Not detailRow.IsNull("refcode") Then
-                  trDetail("col0") = indent & indent & detailRow("refcode").ToString
-                End If
-                If Not detailRow.IsNull("refdate") Then
-                  If IsDate(detailRow("refdate")) Then
-                    trDetail("col1") = CDate(detailRow("refdate")).ToShortDateString
-                  End If
-                End If
-                If Not detailRow.IsNull("refGlCode") Then
-                  If IsDate(detailRow("refGlCode")) Then
-                    trDetail("col1") = CDate(detailRow("refGlCode")).ToShortDateString
-                  End If
-                End If
-                If Not detailRow.IsNull("entity_description") Then
-                  trDetail("col4") = indent & indent & detailRow("entity_description").ToString
-                End If
+              If CDec(detailRow("OpenningRecord")) = 0 Then
+
+
                 If Not detailRow.IsNull("currentamount") Then
-                  trDetail("col10") = Configuration.FormatToString(CDec(detailRow("currentamount")), DigitConfig.Price)
+                  totalAdvanceAmount += CDec(detailRow("currentamount"))
+                  totalAdvance += CDec(detailRow("currentamount"))
+                  advanceRemain -= CDec(detailRow("currentamount"))
                 End If
-                trDetail("col11") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
-                If Not detailRow.IsNull("refGlNote") Then
-                  If IsDate(detailRow("refGlNote")) Then
-                    trDetail("col13") = CDate(detailRow("refGlNote")).ToShortDateString
+
+                If m_showDetailInGrid <> 0 Then
+                  trDetail = trDoc.Childs.Add
+                  If Not detailRow.IsNull("refcode") Then
+                    trDetail("col0") = indent & indent & detailRow("refcode").ToString
+                  End If
+                  If Not detailRow.IsNull("refdate") Then
+                    If IsDate(detailRow("refdate")) Then
+                      trDetail("col1") = CDate(detailRow("refdate")).ToShortDateString
+                    End If
+                  End If
+                  If Not detailRow.IsNull("refGlCode") Then
+                    If IsDate(detailRow("refGlCode")) Then
+                      trDetail("col1") = CDate(detailRow("refGlCode")).ToShortDateString
+                    End If
+                  End If
+                  If Not detailRow.IsNull("entity_description") Then
+                    trDetail("col4") = indent & indent & detailRow("entity_description").ToString
+                  End If
+                  If Not detailRow.IsNull("currentamount") Then
+                    trDetail("col10") = Configuration.FormatToString(CDec(detailRow("currentamount")), DigitConfig.Price)
+                  End If
+                  trDetail("col11") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
+                  If Not detailRow.IsNull("refGlNote") Then
+                    If IsDate(detailRow("refGlNote")) Then
+                      trDetail("col13") = CDate(detailRow("refGlNote")).ToShortDateString
+                    End If
                   End If
                 End If
               End If

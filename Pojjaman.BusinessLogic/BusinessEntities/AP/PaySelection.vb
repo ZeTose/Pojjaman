@@ -890,8 +890,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.CostCenter = myCC 'CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
                 jiColl.Add(ji)
             End If
+      Dim WHTTypeSum As New Hashtable
 
-            Me.Payment.CCId = myCC.Id
+      For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+        If WHTTypeSum.Contains(wht.Type.Value) Then
+          WHTTypeSum(wht.Type.Value) = CDec(WHTTypeSum(wht.Type.Value)) + wht.Amount
+        Else
+          WHTTypeSum(wht.Type.Value) = wht.Amount
+        End If
+      Next
+      Dim typeNum As String
+      For Each obj As Object In WHTTypeSum.Keys
+        typeNum = CStr(obj)
+        If Not (typeNum.Length > 1) Then
+          typeNum = "0" & typeNum
+        End If
+        If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.18"
+          ji.Amount = CDec(WHTTypeSum(obj))
+          ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+          ji.CostCenter = myCC
+          ji.Note = Me.Recipient.Name
+          jiColl.Add(ji)
+        End If
+      Next
+      For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+        typeNum = CStr(wht.Type.Value)
+        If Not (typeNum.Length > 1) Then
+          typeNum = "0" & typeNum
+        End If
+        If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.18D"
+          ji.Amount = wht.Amount
+          ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+          ji.CostCenter = myCC
+          ji.Note = Me.Recipient.Name
+          jiColl.Add(ji)
+        End If
+      Next
+      For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+        typeNum = CStr(wht.Type.Value)
+        If Not (typeNum.Length > 1) Then
+          typeNum = "0" & typeNum
+        End If
+        If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.18W"
+          ji.Amount = wht.Amount
+          ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+          ji.CostCenter = myCC
+          ji.Note = Me.Recipient.Name
+          jiColl.Add(ji)
+        End If
+      Next
+      Me.Payment.CCId = myCC.Id
 
             If Not Me.Payment Is Nothing Then
                 jiColl.AddRange(Me.Payment.GetJournalEntries)
