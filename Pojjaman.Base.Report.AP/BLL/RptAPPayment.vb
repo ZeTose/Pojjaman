@@ -70,9 +70,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Level 1.
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")      '"วันที่ชำระ"
-      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")        '"เลขที่เอกสารชำระ"
+      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")        '"เลขที่เอกสารใบสำคัญชำระ"
       tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.APName}")      '"ชื่อเจ้าหนี้"
-      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocNO}")  '"เอกสารอ้างอิง"
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")  '"เอกสารทำรายการ"
       tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocDate}")  '"วันที่เอกสาร"
       tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.UnpaidAmount}")       '"ยอดตามเอกสาร"
       tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Gross}")      '"ยอดที่ต้องชำระ"
@@ -89,8 +89,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         ' Level 3.
         tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocNO}")  '"ประเภทการจ่ายชำระ/เอกสารอ้างอิง"
+        tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GlCode}")  '"ประเภทการจ่ายชำระ/เลขที่ใบสำคัญ"
         tr("col2") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocType}")       '"ประเภทเอกสาร"
+        tr("col3") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")  '"เอกสารอ้างอิง"
         tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocDate}")   '"วันที่ครบกำหนด/วันที่เอกสาร"
 
         'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocGross}")       '"ยอดเงิน"
@@ -255,11 +256,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If CInt(row("payment_refDocType")).Equals(73) Then
               For Each drow As DataRow In dt3.Select("paysi_pays = " & row("payment_refDoc").ToString)
                 trRefDocitem = trDoc.Childs.Add
-                If Not drow.IsNull("DocCode") Then
-                  trRefDocitem("col1") = drow("DocCode")
+                If Not drow.IsNull("IglCode") Then
+                  trRefDocitem("col1") = drow("IglCode")
                 End If
                 If Not drow.IsNull("entity_description") Then
                   trRefDocitem("col2") = indent & indent & drow("entity_description").ToString
+                End If
+                If Not drow.IsNull("DocCode") Then
+                  trRefDocitem("col3") = drow("DocCode")
                 End If
                 If IsDate(drow("stock_docdate")) Then
                   trRefDocitem("col4") = indent & indent & CDate(drow("stock_docdate")).ToShortDateString
@@ -274,16 +278,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trRefDocitem("col6") = Configuration.FormatToString(CDec(drow("paysi_amt")), DigitConfig.Price)
                 End If
                 If Not drow.IsNull("Note") Then
-                  trRefDocitem("col2") = drow("Note").ToString
+                  trRefDocitem("col11") = drow("Note").ToString
                 End If
               Next
             Else
               trRefDocitem = trDoc.Childs.Add
-              If Not row.IsNull("payment_refDocCode") Then
-                trRefDocitem("col1") = row("payment_refDocCode")
+              If Not row.IsNull("payment_code") Then
+                trRefDocitem("col1") = row("payment_code")
               End If
               If Not row.IsNull("entity_description") Then
                 trRefDocitem("col2") = indent & indent & row("entity_description").ToString
+              End If
+              If Not row.IsNull("payment_refDocCode") Then
+                trRefDocitem("col3") = row("payment_refDocCode")
               End If
               If Not row.IsNull("payment_refdocdate") Then
                 If IsDate(row("payment_refdocdate")) Then
@@ -350,7 +357,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(205)
       widths.Add(170)
       widths.Add(150)
-      widths.Add(180)
+      widths.Add(120)
       widths.Add(105)
       widths.Add(105)
       widths.Add(105)

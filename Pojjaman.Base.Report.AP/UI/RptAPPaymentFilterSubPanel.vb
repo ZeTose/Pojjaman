@@ -717,8 +717,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CodeDescription.ListCodeDescriptionInComboBox(cmbPaymentType, "paymenti_entityType", True)
       cmbPaymentType.SelectedIndex = 0
       cmbOrderBy.Items.Clear()
-      cmbOrderBy.Items.Add("วันที่เอกสารจ่าย")
-      cmbOrderBy.Items.Add("เลขที่ใบสำคัญ")
+      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")
+      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")
+      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")
       cmbOrderBy.SelectedIndex = 0
 
     End Sub
