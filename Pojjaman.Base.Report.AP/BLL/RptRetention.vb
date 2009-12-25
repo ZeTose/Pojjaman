@@ -143,7 +143,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim tmpRetention As Decimal
       Dim tmpPaysBalance As Decimal
-
+      Dim sumPaysBalance As Decimal = 0
       For Each row As DataRow In dt.Rows
         Try
           'New Supplier
@@ -250,6 +250,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
             sumRetentionPays_Supplier += tmpSumPaysItem
             sumRetentionPays_Costcenter += tmpSumPaysItem
+
           End If
 
           If tmpPaysDate.Length > 1 Then
@@ -267,6 +268,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
             sumPaysBalance_Supplier += tmpPaysBalance
             sumPaysBalance_Costcenter += tmpPaysBalance
+            sumPaysBalance += tmpPaysBalance
           End If
 
           If sumGrossAmt_Supplier <> 0 Then
@@ -300,6 +302,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           MessageBox.Show(ex.ToString & vbCrLf & ex.StackTrace)
         End Try
       Next
+      'sumPaysBalance
+      m_grid.RowCount += 1
+      currItemIndex = m_grid.RowCount
+      m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(143, 197, 185)
+      m_grid.RowStyles(currItemIndex).Font.Bold = True
+      m_grid.RowStyles(currItemIndex).ReadOnly = True
+      m_grid(currItemIndex, 9).CellValue = "รวม"
+      m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(sumPaysBalance, DigitConfig.Price)
+
     End Sub
 
 #End Region#Region "Shared"
