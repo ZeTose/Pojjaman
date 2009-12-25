@@ -1220,8 +1220,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Mapping = "H5.4"
                 ji.Amount = Me.WHT
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
+        jiColl.Add(ji)
+        Dim WHTTypeSum As New Hashtable
+
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          If WHTTypeSum.Contains(wht.Type.Value) Then
+            WHTTypeSum(wht.Type.Value) = CDec(WHTTypeSum(wht.Type.Value)) + wht.Amount
+          Else
+            WHTTypeSum(wht.Type.Value) = wht.Amount
+          End If
+        Next
+        Dim typeNum As String
+        For Each obj As Object In WHTTypeSum.Keys
+          typeNum = CStr(obj)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18"
+            ji.Amount = CDec(WHTTypeSum(obj))
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          typeNum = CStr(wht.Type.Value)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18D"
+            ji.Amount = wht.Amount
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          typeNum = CStr(wht.Type.Value)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18W"
+            ji.Amount = wht.Amount
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+      End If
         End Sub
         ' Dr. สมุกเงินฝากธนาคาร H5.1 
         ' Dr. ค่าธรรมเนียมธนาคาร H5.2
@@ -1289,8 +1341,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             ji.Amount = TotalWht
                             ji.Account = ga.Account
                             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                            jiColl.Add(ji)
-                        End If
+            End If
                     End If
                 Next
             End If
@@ -1384,8 +1435,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Mapping = "H5.7"
                 ji.Amount = Me.WHT
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
+        jiColl.Add(ji)
+
+        Dim WHTTypeSum As New Hashtable
+
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          If WHTTypeSum.Contains(wht.Type.Value) Then
+            WHTTypeSum(wht.Type.Value) = CDec(WHTTypeSum(wht.Type.Value)) + wht.Amount
+          Else
+            WHTTypeSum(wht.Type.Value) = wht.Amount
+          End If
+        Next
+        Dim typeNum As String
+        For Each obj As Object In WHTTypeSum.Keys
+          typeNum = CStr(obj)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18"
+            ji.Amount = CDec(WHTTypeSum(obj))
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          typeNum = CStr(wht.Type.Value)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18D"
+            ji.Amount = wht.Amount
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+        For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+          typeNum = CStr(wht.Type.Value)
+          If Not (typeNum.Length > 1) Then
+            typeNum = "0" & typeNum
+          End If
+          If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.18W"
+            ji.Amount = wht.Amount
+            ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
+          End If
+        Next
+      End If
         End Sub
         ' Cr. เช็ครับรอนำฝาก H5.8  -- ในมือเท่านั้น
         Private Sub SetGLH5_8(ByVal jiColl As JournalEntryItemCollection)
@@ -1456,8 +1560,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         ji.Amount = CDec(row("check_wht"))
                         ji.Account = ga.Account
                         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        jiColl.Add(ji)
-                    End If
+            jiColl.Add(ji)
+          End If
 
                     ' Cr. เช็ครับรอนำฝาก H5.8  -- ในมือเท่านั้น
                     If Not row.IsNull("cqupdatei_beforestatus") AndAlso CInt(row("cqupdatei_beforestatus")) = 1 Then
