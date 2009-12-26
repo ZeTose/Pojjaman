@@ -10,6 +10,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " Windows Form Designer generated code "
 
     'UserControl overrides dispose to clean up the component list.
+
+
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
       If disposing Then
         If Not (components Is Nothing) Then
@@ -43,7 +45,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblSuppliEnd As System.Windows.Forms.Label
     Friend WithEvents btnSuppliEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtSuppliCodeEnd As System.Windows.Forms.TextBox
-    Friend WithEvents txtTemp As System.Windows.Forms.TextBox
     Friend WithEvents chkIncludeChildren As System.Windows.Forms.CheckBox
     Friend WithEvents btnCCCodeStart As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCCCodeStart As System.Windows.Forms.TextBox
@@ -62,21 +63,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtGLCodeprefix As System.Windows.Forms.TextBox
     Friend WithEvents lblOrderBy As System.Windows.Forms.Label
     Friend WithEvents cmbOrderBy As System.Windows.Forms.ComboBox
+    Friend WithEvents grbTypeDisplay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents chkAdvMoney As System.Windows.Forms.CheckBox
+    Friend WithEvents chkChq As System.Windows.Forms.CheckBox
+    Friend WithEvents chkPettyCash As System.Windows.Forms.CheckBox
+    Friend WithEvents chkTransfer As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCash As System.Windows.Forms.CheckBox
+    Friend WithEvents txtTemp As System.Windows.Forms.TextBox
     Friend WithEvents chkDetail As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAPPaymentFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbTypeDisplay = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkAdvMoney = New System.Windows.Forms.CheckBox()
+      Me.chkChq = New System.Windows.Forms.CheckBox()
+      Me.chkPettyCash = New System.Windows.Forms.CheckBox()
+      Me.chkTransfer = New System.Windows.Forms.CheckBox()
+      Me.chkCash = New System.Windows.Forms.CheckBox()
+      Me.Label2 = New System.Windows.Forms.Label()
       Me.chkDetail = New System.Windows.Forms.CheckBox()
+      Me.Label1 = New System.Windows.Forms.Label()
       Me.txtSupplierGroupName = New System.Windows.Forms.TextBox()
+      Me.txtRefDocCodePrefix = New System.Windows.Forms.TextBox()
       Me.lblSupplierGroup = New System.Windows.Forms.Label()
+      Me.txtGLCodeprefix = New System.Windows.Forms.TextBox()
       Me.txtSupplierGroupStart = New System.Windows.Forms.TextBox()
+      Me.lblOrderBy = New System.Windows.Forms.Label()
       Me.btnSupplierGroupStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.cmbOrderBy = New System.Windows.Forms.ComboBox()
       Me.chkIncludeSGChildren = New System.Windows.Forms.CheckBox()
-      Me.cmbPaymentType = New System.Windows.Forms.ComboBox()
-      Me.lblPaymentType = New System.Windows.Forms.Label()
       Me.chkIncludeChildren = New System.Windows.Forms.CheckBox()
       Me.btnCCCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtCCCodeStart = New System.Windows.Forms.TextBox()
@@ -96,16 +113,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
+      Me.cmbPaymentType = New System.Windows.Forms.ComboBox()
+      Me.lblPaymentType = New System.Windows.Forms.Label()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Label2 = New System.Windows.Forms.Label()
-      Me.Label1 = New System.Windows.Forms.Label()
-      Me.txtRefDocCodePrefix = New System.Windows.Forms.TextBox()
-      Me.txtGLCodeprefix = New System.Windows.Forms.TextBox()
-      Me.lblOrderBy = New System.Windows.Forms.Label()
-      Me.cmbOrderBy = New System.Windows.Forms.ComboBox()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      Me.grbTypeDisplay.SuspendLayout()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -117,34 +132,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Controls.Add(Me.grbDetail)
       Me.grbMaster.Controls.Add(Me.btnSearch)
       Me.grbMaster.Controls.Add(Me.btnReset)
+      Me.grbMaster.Controls.Add(Me.cmbPaymentType)
+      Me.grbMaster.Controls.Add(Me.lblPaymentType)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 8)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(664, 224)
+      Me.grbMaster.Size = New System.Drawing.Size(659, 223)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
       '
-      'txtTemp
-      '
-      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtTemp, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.txtTemp.Location = New System.Drawing.Point(672, 32)
-      Me.txtTemp.MaxLength = 255
-      Me.Validator.SetMinValue(Me.txtTemp, "")
-      Me.txtTemp.Name = "txtTemp"
-      Me.txtTemp.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtTemp, "")
-      Me.Validator.SetRequired(Me.txtTemp, False)
-      Me.txtTemp.Size = New System.Drawing.Size(104, 21)
-      Me.txtTemp.TabIndex = 3
-      Me.txtTemp.Visible = False
-      '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.grbTypeDisplay)
       Me.grbDetail.Controls.Add(Me.Label2)
       Me.grbDetail.Controls.Add(Me.chkDetail)
       Me.grbDetail.Controls.Add(Me.Label1)
@@ -157,8 +158,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.btnSupplierGroupStart)
       Me.grbDetail.Controls.Add(Me.cmbOrderBy)
       Me.grbDetail.Controls.Add(Me.chkIncludeSGChildren)
-      Me.grbDetail.Controls.Add(Me.cmbPaymentType)
-      Me.grbDetail.Controls.Add(Me.lblPaymentType)
       Me.grbDetail.Controls.Add(Me.chkIncludeChildren)
       Me.grbDetail.Controls.Add(Me.btnCCCodeStart)
       Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
@@ -184,14 +183,90 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
       '
+      'grbTypeDisplay
+      '
+      Me.grbTypeDisplay.Controls.Add(Me.chkAdvMoney)
+      Me.grbTypeDisplay.Controls.Add(Me.chkChq)
+      Me.grbTypeDisplay.Controls.Add(Me.chkPettyCash)
+      Me.grbTypeDisplay.Controls.Add(Me.chkTransfer)
+      Me.grbTypeDisplay.Controls.Add(Me.chkCash)
+      Me.grbTypeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbTypeDisplay.Location = New System.Drawing.Point(458, 90)
+      Me.grbTypeDisplay.Name = "grbTypeDisplay"
+      Me.grbTypeDisplay.Size = New System.Drawing.Size(155, 72)
+      Me.grbTypeDisplay.TabIndex = 8
+      Me.grbTypeDisplay.TabStop = False
+      Me.grbTypeDisplay.Text = "ประเภทการจ่าย"
+      '
+      'chkAdvMoney
+      '
+      Me.chkAdvMoney.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkAdvMoney.Location = New System.Drawing.Point(8, 51)
+      Me.chkAdvMoney.Name = "chkAdvMoney"
+      Me.chkAdvMoney.Size = New System.Drawing.Size(88, 16)
+      Me.chkAdvMoney.TabIndex = 16
+      Me.chkAdvMoney.Text = "เงินทดรองจ่าย"
+      '
+      'chkChq
+      '
+      Me.chkChq.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkChq.Location = New System.Drawing.Point(102, 19)
+      Me.chkChq.Name = "chkChq"
+      Me.chkChq.Size = New System.Drawing.Size(47, 16)
+      Me.chkChq.TabIndex = 17
+      Me.chkChq.Text = "เช็ค"
+      '
+      'chkPettyCash
+      '
+      Me.chkPettyCash.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkPettyCash.Location = New System.Drawing.Point(8, 35)
+      Me.chkPettyCash.Name = "chkPettyCash"
+      Me.chkPettyCash.Size = New System.Drawing.Size(88, 16)
+      Me.chkPettyCash.TabIndex = 15
+      Me.chkPettyCash.Text = "เงินสดย่อย"
+      '
+      'chkTransfer
+      '
+      Me.chkTransfer.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkTransfer.Location = New System.Drawing.Point(102, 35)
+      Me.chkTransfer.Name = "chkTransfer"
+      Me.chkTransfer.Size = New System.Drawing.Size(47, 16)
+      Me.chkTransfer.TabIndex = 14
+      Me.chkTransfer.Text = "โอน"
+      '
+      'chkCash
+      '
+      Me.chkCash.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkCash.Location = New System.Drawing.Point(8, 19)
+      Me.chkCash.Name = "chkCash"
+      Me.chkCash.Size = New System.Drawing.Size(88, 16)
+      Me.chkCash.TabIndex = 13
+      Me.chkCash.Text = "เงินสด"
+      '
+      'Label2
+      '
+      Me.Label2.Location = New System.Drawing.Point(405, 64)
+      Me.Label2.Name = "Label2"
+      Me.Label2.Size = New System.Drawing.Size(80, 16)
+      Me.Label2.TabIndex = 39
+      Me.Label2.Text = "RefCodePrefix"
+      '
       'chkDetail
       '
       Me.chkDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkDetail.Location = New System.Drawing.Point(496, 40)
+      Me.chkDetail.Location = New System.Drawing.Point(235, 136)
       Me.chkDetail.Name = "chkDetail"
       Me.chkDetail.Size = New System.Drawing.Size(128, 24)
       Me.chkDetail.TabIndex = 55
       Me.chkDetail.Text = "แสดงรายละเอียด"
+      '
+      'Label1
+      '
+      Me.Label1.Location = New System.Drawing.Point(405, 40)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(72, 16)
+      Me.Label1.TabIndex = 38
+      Me.Label1.Text = "GLCodePrefix"
       '
       'txtSupplierGroupName
       '
@@ -211,6 +286,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierGroupName.Size = New System.Drawing.Size(160, 21)
       Me.txtSupplierGroupName.TabIndex = 51
       '
+      'txtRefDocCodePrefix
+      '
+      Me.Validator.SetDataType(Me.txtRefDocCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRefDocCodePrefix, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+      Me.txtRefDocCodePrefix.Location = New System.Drawing.Point(493, 64)
+      Me.Validator.SetMinValue(Me.txtRefDocCodePrefix, "")
+      Me.txtRefDocCodePrefix.Name = "txtRefDocCodePrefix"
+      Me.Validator.SetRegularExpression(Me.txtRefDocCodePrefix, "")
+      Me.Validator.SetRequired(Me.txtRefDocCodePrefix, False)
+      Me.txtRefDocCodePrefix.Size = New System.Drawing.Size(120, 21)
+      Me.txtRefDocCodePrefix.TabIndex = 37
+      '
       'lblSupplierGroup
       '
       Me.lblSupplierGroup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -221,6 +310,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSupplierGroup.TabIndex = 50
       Me.lblSupplierGroup.Text = "กลุ่มผู้ขาย:"
       Me.lblSupplierGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtGLCodeprefix
+      '
+      Me.Validator.SetDataType(Me.txtGLCodeprefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtGLCodeprefix, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
+      Me.txtGLCodeprefix.Location = New System.Drawing.Point(493, 40)
+      Me.Validator.SetMinValue(Me.txtGLCodeprefix, "")
+      Me.txtGLCodeprefix.Name = "txtGLCodeprefix"
+      Me.Validator.SetRegularExpression(Me.txtGLCodeprefix, "")
+      Me.Validator.SetRequired(Me.txtGLCodeprefix, False)
+      Me.txtGLCodeprefix.Size = New System.Drawing.Size(120, 21)
+      Me.txtGLCodeprefix.TabIndex = 36
       '
       'txtSupplierGroupStart
       '
@@ -239,6 +342,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierGroupStart.Size = New System.Drawing.Size(96, 21)
       Me.txtSupplierGroupStart.TabIndex = 52
       '
+      'lblOrderBy
+      '
+      Me.lblOrderBy.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblOrderBy.ForeColor = System.Drawing.Color.Black
+      Me.lblOrderBy.Location = New System.Drawing.Point(397, 16)
+      Me.lblOrderBy.Name = "lblOrderBy"
+      Me.lblOrderBy.Size = New System.Drawing.Size(88, 18)
+      Me.lblOrderBy.TabIndex = 35
+      Me.lblOrderBy.Text = "เรียงตาม"
+      Me.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'btnSupplierGroupStart
       '
       Me.btnSupplierGroupStart.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -251,6 +365,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSupplierGroupStart.TabStop = False
       Me.btnSupplierGroupStart.ThemedImage = CType(resources.GetObject("btnSupplierGroupStart.ThemedImage"), System.Drawing.Bitmap)
       '
+      'cmbOrderBy
+      '
+      Me.cmbOrderBy.Location = New System.Drawing.Point(493, 16)
+      Me.cmbOrderBy.Name = "cmbOrderBy"
+      Me.cmbOrderBy.Size = New System.Drawing.Size(120, 21)
+      Me.cmbOrderBy.TabIndex = 34
+      '
       'chkIncludeSGChildren
       '
       Me.chkIncludeSGChildren.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -259,25 +380,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeSGChildren.Size = New System.Drawing.Size(128, 24)
       Me.chkIncludeSGChildren.TabIndex = 54
       Me.chkIncludeSGChildren.Text = "รวมกลุ่มผู้ขายลูก"
-      '
-      'cmbPaymentType
-      '
-      Me.cmbPaymentType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbPaymentType.Location = New System.Drawing.Point(496, 16)
-      Me.cmbPaymentType.Name = "cmbPaymentType"
-      Me.cmbPaymentType.Size = New System.Drawing.Size(120, 21)
-      Me.cmbPaymentType.TabIndex = 32
-      '
-      'lblPaymentType
-      '
-      Me.lblPaymentType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPaymentType.ForeColor = System.Drawing.Color.Black
-      Me.lblPaymentType.Location = New System.Drawing.Point(408, 16)
-      Me.lblPaymentType.Name = "lblPaymentType"
-      Me.lblPaymentType.Size = New System.Drawing.Size(80, 18)
-      Me.lblPaymentType.TabIndex = 31
-      Me.lblPaymentType.Text = "ประเภทการจ่าย"
-      Me.lblPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'chkIncludeChildren
       '
@@ -500,7 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(576, 192)
+      Me.btnSearch.Location = New System.Drawing.Point(571, 191)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -510,12 +612,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(496, 192)
+      Me.btnReset.Location = New System.Drawing.Point(491, 191)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
+      '
+      'cmbPaymentType
+      '
+      Me.cmbPaymentType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbPaymentType.Location = New System.Drawing.Point(768, 163)
+      Me.cmbPaymentType.Name = "cmbPaymentType"
+      Me.cmbPaymentType.Size = New System.Drawing.Size(120, 21)
+      Me.cmbPaymentType.TabIndex = 32
+      Me.cmbPaymentType.Visible = False
+      '
+      'lblPaymentType
+      '
+      Me.lblPaymentType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblPaymentType.ForeColor = System.Drawing.Color.Black
+      Me.lblPaymentType.Location = New System.Drawing.Point(680, 163)
+      Me.lblPaymentType.Name = "lblPaymentType"
+      Me.lblPaymentType.Size = New System.Drawing.Size(80, 18)
+      Me.lblPaymentType.TabIndex = 31
+      Me.lblPaymentType.Text = "ประเภทการจ่าย"
+      Me.lblPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblPaymentType.Visible = False
       '
       'Validator
       '
@@ -530,78 +653,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'Label2
+      'txtTemp
       '
-      Me.Label2.Location = New System.Drawing.Point(408, 114)
-      Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(80, 16)
-      Me.Label2.TabIndex = 39
-      Me.Label2.Text = "RefCodePrefix"
-      '
-      'Label1
-      '
-      Me.Label1.Location = New System.Drawing.Point(408, 90)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(72, 16)
-      Me.Label1.TabIndex = 38
-      Me.Label1.Text = "GLCodePrefix"
-      '
-      'txtRefDocCodePrefix
-      '
-      Me.Validator.SetDataType(Me.txtRefDocCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRefDocCodePrefix, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
-      Me.txtRefDocCodePrefix.Location = New System.Drawing.Point(496, 114)
-      Me.Validator.SetMinValue(Me.txtRefDocCodePrefix, "")
-      Me.txtRefDocCodePrefix.Name = "txtRefDocCodePrefix"
-      Me.Validator.SetRegularExpression(Me.txtRefDocCodePrefix, "")
-      Me.Validator.SetRequired(Me.txtRefDocCodePrefix, False)
-      Me.txtRefDocCodePrefix.Size = New System.Drawing.Size(120, 21)
-      Me.txtRefDocCodePrefix.TabIndex = 37
-      '
-      'txtGLCodeprefix
-      '
-      Me.Validator.SetDataType(Me.txtGLCodeprefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtGLCodeprefix, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
-      Me.txtGLCodeprefix.Location = New System.Drawing.Point(496, 90)
-      Me.Validator.SetMinValue(Me.txtGLCodeprefix, "")
-      Me.txtGLCodeprefix.Name = "txtGLCodeprefix"
-      Me.Validator.SetRegularExpression(Me.txtGLCodeprefix, "")
-      Me.Validator.SetRequired(Me.txtGLCodeprefix, False)
-      Me.txtGLCodeprefix.Size = New System.Drawing.Size(120, 21)
-      Me.txtGLCodeprefix.TabIndex = 36
-      '
-      'lblOrderBy
-      '
-      Me.lblOrderBy.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblOrderBy.ForeColor = System.Drawing.Color.Black
-      Me.lblOrderBy.Location = New System.Drawing.Point(400, 66)
-      Me.lblOrderBy.Name = "lblOrderBy"
-      Me.lblOrderBy.Size = New System.Drawing.Size(88, 18)
-      Me.lblOrderBy.TabIndex = 35
-      Me.lblOrderBy.Text = "เรียงตาม"
-      Me.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'cmbOrderBy
-      '
-      Me.cmbOrderBy.Location = New System.Drawing.Point(496, 66)
-      Me.cmbOrderBy.Name = "cmbOrderBy"
-      Me.cmbOrderBy.Size = New System.Drawing.Size(120, 21)
-      Me.cmbOrderBy.TabIndex = 34
+      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtTemp, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.txtTemp.Location = New System.Drawing.Point(768, 35)
+      Me.Validator.SetMinValue(Me.txtTemp, "")
+      Me.txtTemp.Name = "txtTemp"
+      Me.Validator.SetRegularExpression(Me.txtTemp, "")
+      Me.Validator.SetRequired(Me.txtTemp, False)
+      Me.txtTemp.Size = New System.Drawing.Size(120, 21)
+      Me.txtTemp.TabIndex = 56
       '
       'RptAPPaymentFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptAPPaymentFilterSubPanel"
-      Me.Size = New System.Drawing.Size(680, 240)
+      Me.Size = New System.Drawing.Size(675, 239)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      Me.grbTypeDisplay.ResumeLayout(False)
       Me.ResumeLayout(False)
 
     End Sub
@@ -696,11 +772,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
 
-    Public Property Costcenter() As Costcenter
+    Public Property Costcenter() As CostCenter
       Get
         Return m_cc
       End Get
-      Set(ByVal Value As Costcenter)
+      Set(ByVal Value As CostCenter)
         m_cc = Value
       End Set
     End Property
@@ -715,11 +791,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RegisterDropdown()
       ' ประเภทการจ่าย
       CodeDescription.ListCodeDescriptionInComboBox(cmbPaymentType, "paymenti_entityType", True)
+      Dim cmbOrderbyOption(2) As String
       cmbPaymentType.SelectedIndex = 0
       cmbOrderBy.Items.Clear()
-      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")
-      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")
-      cmbOrderBy.Items.Add("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")
+      cmbOrderbyOption(0) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")
+      cmbOrderbyOption(1) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")
+      cmbOrderbyOption(2) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")
+      cmbOrderBy.Items.Add(cmbOrderbyOption(0))
+      cmbOrderBy.Items.Add(cmbOrderbyOption(1))
+      cmbOrderBy.Items.Add(cmbOrderbyOption(2))
       cmbOrderBy.SelectedIndex = 0
 
     End Sub
@@ -735,7 +815,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
-      Me.Costcenter = New Costcenter
+      Me.Costcenter = New CostCenter
 
       Me.SupplierGroup = New SupplierGroup
       Me.SupplierStart = New Supplier
@@ -755,7 +835,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(13) As Filter
+      Dim arr(14) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("SuppliCodeStart", IIf(txtSuppliCodeStart.TextLength > 0, txtSuppliCodeStart.Text, DBNull.Value))
@@ -770,8 +850,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(11) = New Filter("OrderBy", Me.cmbOrderBy.SelectedIndex)
       arr(12) = New Filter("GLCodeprefix", IIf(txtGLCodeprefix.TextLength > 0, txtGLCodeprefix.Text, DBNull.Value))
       arr(13) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
-
+      arr(14) = New Filter("Type", GetChekType())
       Return arr
+    End Function
+    Private Function GetChekType() As String
+      Dim type As String = ""
+      If Me.chkCash.Checked = False And Me.chkChq.Checked = False And Me.chkTransfer.Checked = False And Me.chkPettyCash.Checked = False And Me.chkAdvMoney.Checked = False Then
+        type = Nothing
+      Else
+
+        If Me.chkCash.Checked Then
+          type &= "0"
+        End If
+        If Me.chkChq.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "22"
+        End If
+
+        If Me.chkTransfer.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "32"
+        End If
+        If Me.chkPettyCash.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "36"
+        End If
+        If Me.chkAdvMoney.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "174"
+        End If
+      End If
+      Return type
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
       Get
@@ -904,7 +1021,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         ' Costcenter
-        If data.GetDataPresent((New Costcenter).FullClassName) Then
+        If data.GetDataPresent((New CostCenter).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
               Case "txtcccodestart", "txtcccodeend"
@@ -931,9 +1048,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
       ' Costcenter
-      If data.GetDataPresent((New Costcenter).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New Costcenter).FullClassName))
-        Dim entity As New Costcenter(id)
+      If data.GetDataPresent((New CostCenter).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
+        Dim entity As New CostCenter(id)
         If Not Me.ActiveControl Is Nothing Then
           Select Case Me.ActiveControl.Name.ToLower
             Case "txtcostcentercodestart"
