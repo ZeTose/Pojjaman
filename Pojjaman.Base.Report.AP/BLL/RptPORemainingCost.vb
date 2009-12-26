@@ -179,7 +179,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         m_grid(currPOIndex, 2).CellValue = poRow("DocCode")
                         m_grid(currPOIndex, 3).CellValue = poRow("SupplierName")
                         m_grid(currPOIndex, 7).CellValue = Configuration.FormatToString(poRow("POaftertax"), DigitConfig.Price)
-                        m_grid(currPOIndex, 8).CellValue = Configuration.FormatToString(poRow("Stockaftertax"), DigitConfig.Price)
+            m_grid(currPOIndex, 8).CellValue = Configuration.FormatToString(poRow("Stockaftertax"), DigitConfig.Price)
                         m_grid(currPOIndex, 9).CellValue = Configuration.FormatToString(poRow("POaftertax") - poRow("Stockaftertax"), DigitConfig.Price)
                         If Not poRow.IsNull("DueDate") Then
                             If IsDate(poRow("DueDate")) Then
@@ -271,9 +271,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowStyles(currPOIndex).BackColor = Color.FromArgb(167, 214, 231)
       m_grid.RowStyles(currPOIndex).ReadOnly = True
       m_grid(currPOIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPORemainingCost.Total}")
-      m_grid(currPOIndex, 6).CellValue = Configuration.FormatToString(sumPOAmt, DigitConfig.Price)
-      m_grid(currPOIndex, 7).CellValue = Configuration.FormatToString(sumPOReceive, DigitConfig.Price)
-      m_grid(currPOIndex, 8).CellValue = Configuration.FormatToString(sumPOAmt - sumPOReceive, DigitConfig.Price)
+      m_grid(currPOIndex, 7).CellValue = Configuration.FormatToString(sumPOAmt, DigitConfig.Price)
+      m_grid(currPOIndex, 8).CellValue = Configuration.FormatToString(sumPOReceive, DigitConfig.Price)
+      m_grid(currPOIndex, 9).CellValue = Configuration.FormatToString(sumPOAmt - sumPOReceive, DigitConfig.Price)
       m_grid(currPOIndex, 1).Tag = "Font.Bold"
         End Sub
 #End Region#Region "Shared"
