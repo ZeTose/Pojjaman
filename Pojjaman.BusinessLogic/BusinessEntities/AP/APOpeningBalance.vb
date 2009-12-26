@@ -85,6 +85,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_payment = New Payment(Me)
         .m_payment.DocDate = Me.DocDate
         '----------------------------End Tab Entities-----------------------------------------
+
+        .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -159,6 +161,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_je = New JournalEntry(Me)
         m_payment = New Payment(Me)
+        .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
     End Sub
 #End Region

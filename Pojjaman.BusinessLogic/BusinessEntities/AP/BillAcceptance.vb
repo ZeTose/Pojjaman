@@ -1014,6 +1014,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_retention As Decimal
     Private m_retentionType As Integer
+    Private m_remainningBalance As Decimal
 
 #End Region
 
@@ -1158,20 +1159,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_retentionType = CInt(dr("billai_retentiontype"))
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "remain") AndAlso Not dr.IsNull(aliasPrefix & "remain") Then
-        'Ҩҡ˹ list ͧ entity (Ҩҡ list ͧҧ)
         Select Case m_itemprefix
           Case "paysi"
             If Not m_pays Is Nothing Then
-              Me.m_unpaidAmount = Me.GetRemainingAmountPayselection(Me.m_pays.Id)
+              Me.m_billedAmount = CDec(dr(aliasPrefix & "remain"))
+              Me.m_remainningBalance = CDec(dr(aliasPrefix & "remain"))
             End If
           Case "billai"
             If Not m_billAcceptance Is Nothing Then
               Me.m_unpaidAmount = Me.GetRemainingAmountWithBillAcceptance(Me.m_billAcceptance.Id)
+              Me.m_billedAmount = Me.m_unpaidAmount
+              Me.m_amount = CDec(dr(aliasPrefix & "remain"))
+              Me.m_unpaidAmount = CDec(dr(aliasPrefix & "remain"))
             End If
         End Select
-        Me.m_billedAmount = Me.m_unpaidAmount
-        'Me.m_amount = CDec(dr(aliasPrefix & "remain"))
-        'Me.m_unpaidAmount = CDec(dr(aliasPrefix & "remain"))
       End If
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_unpaidamt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_unpaidamt") Then
         Me.m_unpaidAmount = CDec(dr(aliasPrefix & m_itemprefix & "_unpaidamt"))
@@ -1246,6 +1247,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         Me.m_billedAmount = Value
+      End Set
+    End Property
+    Public Property RemainningBalance As Decimal
+      Get
+        Return Me.m_remainningBalance
+      End Get
+      Set(ByVal value As Decimal)
+        m_remainningBalance = value
       End Set
     End Property
     Public Property CreditPeriod() As Long
@@ -1653,8 +1662,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         row("DueDate") = billaDueDate.ToShortDateString   'tableRow("billa_docdate")
         row("Entity") = tableRow("stock_code")
-        If Not tableRow.IsNull("stock_aftertax") Then
-          row("Amount") = Configuration.FormatToString(CDec(tableRow("stock_aftertax")), DigitConfig.Price) 'tableRow("billa_gross")
+        'If Not tableRow.IsNull("stock_aftertax") Then
+        'row("Amount") = Configuration.FormatToString(CDec(tableRow("stock_aftertax")), DigitConfig.Price) 'tableRow("billa_gross")
+        'End If
+        If Not tableRow.IsNull("remain") Then
+          row("Amount") = Configuration.FormatToString(CDec(tableRow("remain")), DigitConfig.Price) 'tableRow("billa_gross")
         End If
         row("stock_id") = tableRow("stock_id")
         row("stock_code") = tableRow("stock_code")
@@ -1998,6 +2010,107 @@ Public Class BillAcceptanceItemCollection
     Public Sub PopulatePaySelectionItem(ByVal dt As TreeTable, Optional ByVal refresh As Boolean = False)
       dt.Clear()
       Dim i As Integer = 0
+      Dim n As Integer = 0
+      Dim hashItem As New Hashtable
+      Dim tmpNewSort As New Hashtable
+      Dim tmpHashNoParent As New Hashtable
+      Dim key As String = ""
+      Dim remainningBalance As Decimal = 0
+      Dim remain As Decimal = 0
+      Dim index As Integer = 0
+
+      ''ที่ต้องเก็บลงตัวแปร HashTable เพราะต้องการเรียง List ให้เป็นไปตามที่หน้าจอแสดงเพื่อแสดง ยอดค้างชำระคงเหลือ ถูกต้อง
+      For Each bai As BillAcceptanceItem In Me
+        If bai.ParentId <> 0 Then
+          tmpNewSort(n) = bai
+          n += 1
+        End If
+      Next
+      For Each bai As BillAcceptanceItem In Me
+        If bai.ParentId = 0 Then
+          tmpNewSort(n) = bai
+          n += 1
+        End If
+      Next
+      'For k As Integer = 0 To tmpNewSort.Count - 1
+      'If TypeOf tmpNewSort(k) Is BillAcceptanceItem Then
+      'Dim bai As BillAcceptanceItem = CType(tmpNewSort(k), BillAcceptanceItem)
+      'index = Me.IndexOf(bai)
+      ''If refresh Then
+      'key = bai.Id.ToString & "|" & bai.EntityId
+      'If Not hashItem.Contains(key) Then
+      'hashItem(key) = bai.GetRemainingAmountPayselection(Me.PaySelection.Id)
+      'remainningBalance = CDec(hashItem(key))
+      'remain = CDec(hashItem(key))
+      'Me(index).UnpaidAmount = remainningBalance
+      'If Me(index).BilledAmount >= remainningBalance Then
+      'Me(index).Amount = remainningBalance
+      'Else
+      'Me(index).Amount = Me(index).BilledAmount
+      'End If
+      'remainningBalance -= Me(index).Amount
+      'Else
+      'If remainningBalance > 0 Then
+      'Me(index).UnpaidAmount = remainningBalance
+      'If Me(index).BilledAmount >= remainningBalance Then
+      'Me(index).Amount = remainningBalance
+      'Else
+      'Me(index).Amount = Me(index).BilledAmount
+      'End If
+      'remainningBalance -= Me(index).Amount
+      'Else
+      'Me(index).UnpaidAmount = 0
+      'Me(index).Amount = 0
+      'End If
+      'End If
+      'End If
+      ''End If
+      'Next
+
+      For k As Integer = 0 To tmpNewSort.Count - 1
+        If TypeOf tmpNewSort(k) Is BillAcceptanceItem Then
+          Dim bai As BillAcceptanceItem = CType(tmpNewSort(k), BillAcceptanceItem)
+          index = Me.IndexOf(bai)
+          'If refresh Then
+          key = bai.Id.ToString & "|" & bai.EntityId
+          If Not hashItem.Contains(key) Then
+            hashItem(key) = bai.GetRemainingAmountPayselection(Me.PaySelection.Id)
+            remainningBalance = CDec(hashItem(key))
+            remain = CDec(hashItem(key))
+
+            Me(index).UnpaidAmount = remainningBalance
+
+            If refresh Then ''ให้ default Amount ให้ ถ้าดึงเอกสารมาวางบิล
+              If Me(index).Amount = 0 Then
+                Me(index).Amount = Math.Min(Me(index).BilledAmount, remainningBalance)
+              Else
+                Me(index).Amount = Math.Min(Me(index).Amount, Math.Min(Me(index).BilledAmount, remainningBalance))
+              End If
+            End If
+
+            remainningBalance -= Me(index).Amount
+          Else
+            If remainningBalance > 0 Then
+              Me(index).UnpaidAmount = remainningBalance
+
+              If refresh Then ''ให้ default Amount ให้ ถ้าดึงเอกสารมาวางบิล
+                If Me(index).Amount = 0 Then
+                  Me(index).Amount = Math.Min(Me(index).BilledAmount, remainningBalance)
+                Else
+                  Me(index).Amount = Math.Min(Me(index).Amount, Math.Min(Me(index).BilledAmount, remainningBalance))
+                End If
+              End If
+                          
+              remainningBalance -= Me(index).Amount
+            Else
+              Me(index).UnpaidAmount = 0
+              Me(index).Amount = 0
+            End If
+          End If
+        End If
+        'End If
+      Next
+
       For Each bai As BillAcceptanceItem In Me
         i += 1
         Dim parRow As TreeRow = FindRow(dt, bai.ParentId, bai.ParentCode, bai.ParentType)
@@ -2013,20 +2126,34 @@ Public Class BillAcceptanceItemCollection
         newRow("DocDate") = bai.Date
         newRow("DueDate") = bai.DueDate
 
-        If refresh Then
-          Dim remain As Decimal = bai.GetRemainingAmountPayselection(Me.PaySelection.Id)
-          remain = Math.Min(bai.BilledAmount, remain)
-          Dim remain2 As Decimal = Me.GetRemainFromOtherDocs(bai)
-          remain = Math.Min(remain, remain2)
-          If bai.UnpaidAmount <> remain Then
-            bai.UnpaidAmount = remain
-          End If
-        End If
-        newRow("RealAmount") = Configuration.FormatToString(bai.BilledAmount, DigitConfig.Price)
-        newRow("UnpaidAmount") = Configuration.FormatToString(Math.Min(bai.UnpaidAmount, bai.BilledAmount), DigitConfig.Price)
+        bai.RemainningBalance = remain
+        'If refresh Then
+        'key = bai.Id.ToString & "|" & bai.EntityId
+        'If Not hashItem.Contains(key) Then
+        'hashItem(key) = bai.GetRemainingAmountPayselection(Me.PaySelection.Id)
+        'remainningBalance = CDec(hashItem(key))
+        'Else
+        'If remainningBalance > 0 Then
+        'If remainningBalance >= bai.UnpaidAmount Then
+        'bai.UnpaidAmount = remainningBalance - bai.UnpaidAmount
+        'remainningBalance -= bai.UnpaidAmount
+        'Else
+        'bai.UnpaidAmount = remainningBalance
+        'remainningBalance -= bai.UnpaidAmount
+        'End If
+        'Else
+        'bai.UnpaidAmount = 0
+        'End If
+        'End If
+        'bai.Amount = bai.UnpaidAmount
+        'End If
+
         newRow("Retention") = Configuration.FormatToString(bai.Retention, DigitConfig.Price)
         newRow("PlusRetention") = Configuration.FormatToString(bai.AfterTax + bai.Retention, DigitConfig.Price)
+        newRow("RealAmount") = Configuration.FormatToString(bai.BilledAmount, DigitConfig.Price)
+        newRow("UnpaidAmount") = Configuration.FormatToString(bai.UnpaidAmount, DigitConfig.Price) 'Configuration.FormatToString(Math.Min(bai.UnpaidAmount, bai.BilledAmount), DigitConfig.Price)
         newRow(Me.m_prefix & "_amt") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+        newRow("RemainningBalance") = Configuration.FormatToString(bai.RemainningBalance, DigitConfig.Price)
         newRow(Me.m_prefix & "_note") = bai.Note
         newRow.Tag = bai
       Next
@@ -2066,7 +2193,7 @@ Public Class BillAcceptanceItemCollection
       newRow("Button") = "invisible"
       Return newRow
     End Function
-#End Region
+  #End Region
 
 #Region "Collection Methods"
     Public Function Add(ByVal value As BillAcceptanceItem) As Integer

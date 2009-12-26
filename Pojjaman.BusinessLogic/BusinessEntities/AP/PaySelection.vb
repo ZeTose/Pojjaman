@@ -88,26 +88,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim dr As DataRow = ds.Tables(0).Rows(0)
             Construct(dr, aliasPrefix)
         End Sub
-        Protected Overloads Overrides Sub Construct()
-            MyBase.Construct()
-            With Me
-                .m_vat = New Vat
-                .m_vat.Direction.Value = 1
-                .m_supplier = New Supplier
-                .m_creditPeriod = 0
-                .m_note = ""
-                .m_docDate = Date.Now.Date
-                .m_status = New PaySelectionStatus(-1)
-                .m_payment = New Payment
-                .m_je = New JournalEntry(Me)
-                .m_je.DocDate = Me.m_docDate
-                .m_whtcol = New WitholdingTaxCollection
-                .m_whtcol.Direction = New WitholdingTaxDirection(1)
-                .m_payment.DocDate = .m_je.DocDate
-                m_itemCollection = New BillAcceptanceItemCollection(Me)
-                .AutoCodeFormat = New AutoCodeFormat(Me)
-            End With
-        End Sub
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+      With Me
+        .m_vat = New Vat(Me)
+        .m_vat.Direction.Value = 1
+        .m_supplier = New Supplier
+        .m_creditPeriod = 0
+        .m_note = ""
+        .m_docDate = Date.Now.Date
+        .m_status = New PaySelectionStatus(-1)
+        .m_payment = New Payment(Me)
+        .m_je = New JournalEntry(Me)
+        .m_je.DocDate = Me.m_docDate
+        .m_whtcol = New WitholdingTaxCollection
+        .m_whtcol.Direction = New WitholdingTaxDirection(1)
+        .m_payment.DocDate = .m_je.DocDate
+        m_itemCollection = New BillAcceptanceItemCollection(Me)
+        .AutoCodeFormat = New AutoCodeFormat(Me)
+      End With
+    End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
             MyBase.Construct(dr, aliasPrefix)
             With Me
@@ -324,40 +324,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("PaySelection")
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("PaySelection")
 
-            myDatatable.Columns.Add(New DataColumn("paysi_parentEntityType", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("paysi_parentEntity", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("paysi_parentEntityType", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("paysi_parentEntity", GetType(Integer)))
 
-            myDatatable.Columns.Add(New DataColumn("paysi_linenumber", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("paysi_entity", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("paysi_entityType", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("paysi_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("paysi_entity", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("paysi_entityType", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
 
-            Dim dateCol As New DataColumn("DocDate", GetType(Date))
-            dateCol.DefaultValue = Date.MinValue
-            myDatatable.Columns.Add(dateCol)
+      Dim dateCol As New DataColumn("DocDate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
 
-            dateCol = New DataColumn("DueDate", GetType(Date))
-            dateCol.DefaultValue = Date.MinValue
-            myDatatable.Columns.Add(dateCol)
+      dateCol = New DataColumn("DueDate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
 
-            myDatatable.Columns.Add(New DataColumn("paysi_amt", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("UnpaidAmount", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("paysi_note", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("Retention", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("PlusRetention", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("paysi_amt", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("UnpaidAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("paysi_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Retention", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("PlusRetention", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RemainningBalance", GetType(String)))
 
-            'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-            myDatatable.Columns("Code").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.CodeHeaderText}")
-            myDatatable.Columns("paysi_amt").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.AmountHeaderText}")
-            Return myDatatable
-        End Function
+      'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      myDatatable.Columns("Code").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.CodeHeaderText}")
+      myDatatable.Columns("paysi_amt").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.AmountHeaderText}")
+      Return myDatatable
+    End Function
 #End Region
 
 #Region "Methods"
@@ -1179,6 +1180,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 #End Region
 
-    End Class
+  End Class
+
+  Public Class GoodsReceiptForPaySelection
+    Inherits GoodsReceipt
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "GoodsReceiptForPaySelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        Return New ColumnCollection(Me.ClassName, 0)
+      End Get
+    End Property
+
+  End Class
+  Public Class APOpeningBalanceForPaySelection
+    Inherits APOpeningBalance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "APOpeningBalanceForPaySelection"
+      End Get
+    End Property
+  End Class
+  Public Class EqMaintenanceForPaySelection
+    Inherits EqMaintenance
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "EqMaintenanceForPaySelection"
+      End Get
+    End Property
+  End Class
+  Public Class PurchaseCNForPaySelection
+    Inherits PurchaseCN
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PurchaseCNForPaySelection"
+      End Get
+    End Property
+  End Class
+  Public Class PurchaseRetentionForPaySelection
+    Inherits PurchaseRetention
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PurchaseRetentionForPaySelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        Return New ColumnCollection(Me.ClassName, 0)
+      End Get
+    End Property
+  End Class
+  Public Class PAForPaySelection
+    Inherits PA
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PAForPaySelection"
+      End Get
+    End Property
+  End Class
 End Namespace
 

@@ -24,7 +24,14 @@
 		<EntityFilter id="purchasecnforbillacceptance" entity="purchasecnforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="purchaseretentionforbillacceptance" entity="purchaseretentionforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
 		<EntityFilter id="paforbillacceptance" entity="paforbillacceptance" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
-	
+
+		<EntityFilter id="goodsreceiptforpayselection" entity="goodsreceiptforpayselection" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForPaySelectionFilterSubPanel"/>
+		<EntityFilter id="apopeningbalanceforpayselection" entity="apopeningbalanceforpayselection" filter="Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel"/>
+		<EntityFilter id="eqmaintenanceforpayselection" entity="eqmaintenanceforpayselection" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForPaySelectionFilterSubPanel"/>
+		<EntityFilter id="purchasecnforpayselection" entity="purchasecnforpayselection" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForVatFilterSubPanel"/>
+		<EntityFilter id="purchaseretentionforpayselection" entity="purchaseretentionforpayselection" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForPaySelectionFilterSubPanel"/>
+		<EntityFilter id="paforpayselection" entity="paforpayselection" filter="Longkong.Pojjaman.Gui.Panels.PAFilterSubPanel"/>
+
 		<EntityFilter id="purchaseretention" entity="purchaseretention" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
 		<EntityFilter id="billacceptance" entity="billacceptance" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
 		<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>

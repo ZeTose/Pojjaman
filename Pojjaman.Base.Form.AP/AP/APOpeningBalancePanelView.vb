@@ -10,6 +10,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class APOpeningBalancePanelView
     Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents ImbSupplier As Longkong.Pojjaman.Gui.Components.ImageButton

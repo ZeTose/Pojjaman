@@ -700,12 +700,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim csDocDate As New DataGridTimePickerColumn
       csDocDate.MappingName = "DocDate"
       csDocDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.DocDateHeaderText}")
+      'csDocDate.Width = 90
       csDocDate.NullText = ""
       csDocDate.ReadOnly = True
 
       Dim csDueDate As New DataGridTimePickerColumn
       csDueDate.MappingName = "DueDate"
       csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.DueDateHeaderText}")
+      'csDueDate.Width = 90
       csDueDate.NullText = ""
       csDueDate.ReadOnly = True
 
@@ -753,6 +755,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Format = "#,###.##"
       csAmount.TextBox.Name = "paysi_amt"
 
+      Dim csRemain As New TreeTextColumn
+      csRemain.MappingName = "RemainningBalance"
+      csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainningBalanceHeaderText}")
+      csRemain.NullText = ""
+      csRemain.DataAlignment = HorizontalAlignment.Right
+      csRemain.Format = "#,###.##"
+      csRemain.ReadOnly = True
+      csRemain.TextBox.Name = "RemainningBalance"
+
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "paysi_note"
       csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.NoteHeaderText}")
@@ -771,6 +782,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csRealAmount)
       dst.GridColumnStyles.Add(csUnpaidAmount)
       dst.GridColumnStyles.Add(csAmount)
+      'dst.GridColumnStyles.Add(csRemain)''ยังผิดกรณีวางบิลหลายเอกสาร !!เอาไว้ก่อนละกัน pui
       dst.GridColumnStyles.Add(csNote)
 
       m_tableStyleEnable = New Hashtable
@@ -948,15 +960,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
       Dim value As Decimal = CDec(e.ProposedValue)
-      Dim remain As Decimal = doc.GetRemainingAmountPayselection(Me.m_entity.Id)
-      remain = Math.Min(doc.BilledAmount, remain)
-      Dim remain2 As Decimal = Me.m_entity.ItemCollection.GetRemainFromOtherDocs(doc)
-      remain = Math.Min(remain, remain2)
+      'Dim remain As Decimal = doc.GetRemainingAmountPayselection(Me.m_entity.Id)
+      'remain = Math.Min(doc.BilledAmount, remain)
+      'Dim remain2 As Decimal = Me.m_entity.ItemCollection.GetRemainFromOtherDocs(doc)
+      'remain = Math.Min(remain, remain2)
+      Dim remain As Decimal = doc.UnpaidAmount
       m_updating = True
-      If doc.UnpaidAmount <> remain Then
-        doc.UnpaidAmount = remain
-        e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
-      End If
+      'If doc.UnpaidAmount <> remain Then
+      'doc.UnpaidAmount = remain
+      'e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
+      'End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If e.Row.IsNull("paysi_entityType") Then
         msgServ.ShowMessage("${res:Global.Error.NoPaySelectionEntityType}")
@@ -1462,9 +1475,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       oldSupId = Me.m_entity.Supplier.Id
 
-      cmbCode.Items.Clear()
-      cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      cmbCode.Text = m_entity.Code
+      'cmbCode.Items.Clear()
+      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      'cmbCode.Text = m_entity.Code
 
       txtNote.Text = m_entity.Note
       Me.m_oldCode = Me.m_entity.Code
@@ -1492,9 +1505,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub UpdateVat()
       Me.m_entity.GenVatItems()
     End Sub
-    Private Sub RefreshDocs()
-      Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.PopulatePaySelectionItem(m_treeManager.Treetable, m_entityChanged)
+    Private Sub RefreshDocs(Optional ByVal refresh As Boolean = False)
+      Me.m_isInitialized = False  
+      Me.m_entity.ItemCollection.PopulatePaySelectionItem(m_treeManager.Treetable, refresh)
       RefreshBlankGrid()
       ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
@@ -1621,9 +1634,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
       Set(ByVal Value As ISimpleEntity)
         If Not Object.ReferenceEquals(Value, m_entity) Then
-          m_entityChanged = True
-        Else
           m_entityChanged = False
+        Else
+          m_entityChanged = True
         End If
         If Not m_entity Is Nothing Then
           RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
@@ -1699,31 +1712,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(6)() As Filter
       Dim grNeedsApproval As Boolean = False
       grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
+
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)), _
-      New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id), _
-      New Filter("nocancel", True), _
-      New Filter("grNeedsApproval", grNeedsApproval), _
-      New Filter("ExcludedThanBilled", 1)}
-      filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15)), _
-      New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id)}
-      filters(2) = New Filter() {New Filter("ExcludeIdList", GetBAExcludeList), _
+      New Filter("grNeedsApproval", grNeedsApproval)}
+
+      filters(1) = New Filter() {New Filter("ExcludeIdList", GetBAExcludeList), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id) _
       , New Filter("grNeedsApproval", grNeedsApproval), _
       New Filter("Id", Me.m_entity.Id)} 'Hack: filter อันสุดท้ายไม่เอาไป Query
+
+      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(15))}
+      
       filters(3) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id)}
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46)), _
-      New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id), _
-       New Filter("ExcludedThanBilled", 1)}
-      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
-      New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id), _
-      New Filter("nocancel", True) _
+
+      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+
+      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
 
       filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)), _
@@ -1732,15 +1739,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
       Dim entities(6) As ISimpleEntity
-      entities(0) = New GoodsReceipt
-      entities(1) = New APOpeningBalance
-      entities(2) = New BillAcceptanceItem
+      entities(0) = New GoodsReceiptForPaySelection
+      entities(1) = New BillAcceptanceItem
+      entities(2) = New APOpeningBalanceForPaySelection
       entities(3) = New EqMaintenance
-      entities(4) = New PurchaseCN
-      entities(5) = New PurchaseRetention
+      entities(4) = New PurchaseCNForPaySelection
+      entities(5) = New PurchaseRetentionForPaySelection
       'entities(5) = New PurchaseDN
       entities(6) = New PA
-      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
+      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
       Dim ret As String = ""
@@ -1834,7 +1841,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         If Not newItem Is Nothing Then
-          newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
+          'newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
+          newItem.Amount = 0
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item
             If Me.m_entity.ItemCollection.Count = 0 Then
@@ -1878,7 +1886,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
       Next
-      RefreshDocs()
+      RefreshDocs(True)
       tgItem.CurrentRowIndex = index
       UpdateAmount()
     End Sub

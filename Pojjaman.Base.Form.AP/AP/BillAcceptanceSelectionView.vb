@@ -238,54 +238,55 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
-        Public Function CreateListTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "BillAcceptanceItems"
+    Public Function CreateListTableStyle() As DataGridTableStyle
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "BillAcceptanceItems"
 
-            Dim csSelected As New DataGridCheckBoxColumn
-            csSelected.MappingName = "Selected"
-            csSelected.HeaderText = ""
-            AddHandler csSelected.Click, AddressOf RowIcon_Click
+      Dim csSelected As New DataGridCheckBoxColumn
+      csSelected.MappingName = "Selected"
+      csSelected.HeaderText = ""
+      AddHandler csSelected.Click, AddressOf RowIcon_Click
 
-            Dim csDescription As New TreeTextColumn  'PlusMinusTreeTextColumn
-            csDescription.MappingName = "Entity"
-            csDescription.HeaderText = "Entity"
-            csDescription.NullText = ""
-            csDescription.Width = 180
-            csDescription.ReadOnly = True
+      Dim csDescription As New TreeTextColumn  'PlusMinusTreeTextColumn
+      csDescription.MappingName = "Entity"
+      csDescription.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView.Entity}") '"Entity"
+      csDescription.NullText = ""
+      csDescription.Width = 180
+      csDescription.ReadOnly = True
 
-            Dim csAmount As New TreeTextColumn
-            csAmount.MappingName = "Amount"
-            csAmount.HeaderText = "Amount"
-            csAmount.NullText = ""
-            csAmount.ReadOnly = True
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView.Amount}") '"Amount"
+      csAmount.NullText = ""
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.ReadOnly = True
 
+      Dim csDate As New TreeTextColumn
+      csDate.MappingName = "DummyDate"
+      csDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView.Date}") '"Date"
+      csDate.NullText = ""
+      csDate.DataAlignment = HorizontalAlignment.Center
+      csDate.Width = 90
+      csDate.Format = "d"
+      csDate.ReadOnly = True
 
-            Dim csDate As New TreeTextColumn
-            csDate.MappingName = "DummyDate"
-            csDate.HeaderText = "Date"
-            csDate.NullText = ""
-            csDate.DataAlignment = HorizontalAlignment.Center
-            csDate.Width = 100
-            csDate.Format = "d"
-            csDate.ReadOnly = True
+      Dim csDueDate As New TreeTextColumn
+      csDueDate.MappingName = "DummyDueDate"
+      csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView.DueDate}") '"DueDate"
+      csDueDate.NullText = ""
+      csDueDate.DataAlignment = HorizontalAlignment.Center
+      csDueDate.Width = 90
+      csDueDate.Format = "d"
+      csDueDate.ReadOnly = True
 
-            Dim csDueDate As New TreeTextColumn
-            csDueDate.MappingName = "DummyDueDate"
-            csDueDate.HeaderText = "DueDate"
-            csDueDate.NullText = ""
-            csDueDate.DataAlignment = HorizontalAlignment.Center
-            csDueDate.Width = 100
-            csDueDate.Format = "d"
-            csDueDate.ReadOnly = True
-
-            dst.GridColumnStyles.Add(csSelected)
-            dst.GridColumnStyles.Add(csDescription)
-            dst.GridColumnStyles.Add(csAmount)
-            dst.GridColumnStyles.Add(csDate)
-            dst.GridColumnStyles.Add(csDueDate)
-            Return dst
-        End Function
+      dst.GridColumnStyles.Add(csSelected)
+      dst.GridColumnStyles.Add(csDescription)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csDate)
+      dst.GridColumnStyles.Add(csDueDate)
+      Return dst
+    End Function
 #End Region
 
 #Region "Event Handlers"
