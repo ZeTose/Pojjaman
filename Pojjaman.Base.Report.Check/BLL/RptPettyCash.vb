@@ -108,6 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub PopulateData()
       Dim PCDt As DataTable = Me.DataSet.Tables(0)
+      'Dim PCOpeningBal As DataTable = Me.DataSet.Tables(1)
       Dim RefDocDt As DataTable = Me.DataSet.Tables(2)
       Dim ItemDt As DataTable = Me.DataSet.Tables(3)
       Dim currentPCCode As String = ""
@@ -115,6 +116,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currentItemCode As String = ""
       Dim tmpPCRemainAmt As Decimal = 0
       Dim tmpInitPCAmt As Decimal = 0
+      Dim tmpInitPCRemain As Decimal = 0
+      Dim tmpInitPCClaimArrear As Decimal = 0
+
       Dim tmpPayAmt As Decimal = 0
       Dim tmpClaimAmt As Decimal = 0
       Dim tmpCriteria As String = ""
@@ -153,10 +157,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           tmpPCRemainAmt = 0
           tmpInitPCAmt = 0
+          tmpInitPCRemain = 0
+          tmpInitPCClaimArrear = 0
+
           tmpPayAmt = 0
           tmpClaimAmt = 0
           sumPayAmtItem = 0
           sumClaimAmtItem = 0
+          
           pcEndingBalance = 0
           m_grid.RowCount += 1
           currPCIndex = m_grid.RowCount
@@ -172,6 +180,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
             'tmpInitPCAmt = CDec(PCrow("PCAmt"))
           End If
+
+          '  ใส่ Balance และคงเหลือ
+          If IsNumeric(PCrow("PcRemain")) Then
+            m_grid(currPCIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currPCIndex, 9).CellValue = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
+            tmpPCRemainAmt = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
+            'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
+            'tmpInitPCAmt = CDec(PCrow("PCAmt"))
+          End If
+          If IsNumeric(PCrow("PayAmt")) Then
+            m_grid(currPCIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(currPCIndex, 10).CellValue = Configuration.FormatToString(CDec(PCrow("PayAmt")), DigitConfig.Price)
+            sumClaimAmtItem = Configuration.FormatToString(CDec(PCrow("PayAmt")), DigitConfig.Price)
+            'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
+            'tmpInitPCAmt = CDec(PCrow("PCAmt"))
+          End If
+
+          '
+
           currentPCCode = PCrow("DocId").ToString
           Dim myRefDocRow As DataRow() = Me.DataSet.Tables(2).Select("PCId=" & CInt(PCrow("DocId")))
           For Each RefDocRow As DataRow In myRefDocRow
