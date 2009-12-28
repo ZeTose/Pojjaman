@@ -117,7 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tmpPCRemainAmt As Decimal = 0
       Dim tmpInitPCAmt As Decimal = 0
       Dim tmpInitPCRemain As Decimal = 0
-      Dim tmpInitPCClaimArrear As Decimal = 0
+      Dim tmpInitPCpayAmt As Decimal = 0
 
       Dim tmpPayAmt As Decimal = 0
       Dim tmpClaimAmt As Decimal = 0
@@ -158,13 +158,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpPCRemainAmt = 0
           tmpInitPCAmt = 0
           tmpInitPCRemain = 0
-          tmpInitPCClaimArrear = 0
+          tmpInitPCpayAmt = 0
 
           tmpPayAmt = 0
           tmpClaimAmt = 0
           sumPayAmtItem = 0
           sumClaimAmtItem = 0
-          
+
           pcEndingBalance = 0
           m_grid.RowCount += 1
           currPCIndex = m_grid.RowCount
@@ -193,6 +193,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currPCIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(currPCIndex, 10).CellValue = Configuration.FormatToString(CDec(PCrow("PayAmt")), DigitConfig.Price)
             sumClaimAmtItem = Configuration.FormatToString(CDec(PCrow("PayAmt")), DigitConfig.Price)
+            tmpInitPCpayAmt = Configuration.FormatToString(CDec(PCrow("PayAmt")), DigitConfig.Price)
+
             'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
             'tmpInitPCAmt = CDec(PCrow("PCAmt"))
           End If
@@ -301,6 +303,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       m_grid.RowCount += 1
       currPCIndex = m_grid.RowCount
+      'MessageBox.Show(tmpInitPCpayAmt.ToString)
+      sumClaimAmtItem = sumClaimAmtItem - tmpInitPCpayAmt
       m_grid.RowStyles(currPCIndex).ReadOnly = True
       m_grid(currPCIndex, 6).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPettyCash.Sum}") '"รวม"
       m_grid(currPCIndex, 7).CellValue = Configuration.FormatToString(sumPayAmtItem, DigitConfig.Price)
