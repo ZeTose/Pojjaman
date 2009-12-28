@@ -304,16 +304,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
       '----------------------Create Check-----------------------
+      'OneCheckPerPV
+
       If Not (Me.Originated) AndAlso Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        Me.Check = New OutgoingCheck(Me.CqCode)
-        If Not (Me.Check.Originated) Then
-          If Not (msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {Me.CqCode})) Then
-            'Me.Check = New OutgoingCheck(oldCqCode)
-            Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
+        If Not Me.Check.Originated And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) Then
+          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          Me.Check = New OutgoingCheck(Me.CqCode)
+          If Not (Me.Check.Originated) Then
+            If Not (msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {Me.CqCode})) Then
+              'Me.Check = New OutgoingCheck(oldCqCode)
+              Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
+            End If
+          Else
+            Return New SaveErrorException("${res:Global.Error.AlreadyHasOutGoingCheck}")
           End If
-        Else
-          Return New SaveErrorException("${res:Global.Error.AlreadyHasOutGoingCheck}")
         End If
       End If
       '---------------------End Create Check-------------------------
@@ -364,7 +368,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.Status.Value = -1 Then
         Me.Status.Value = 2
       End If
-
+      Me.JournalEntry.RefreshGLFormat()
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", IIf(Me.Docdate.Equals(Date.MinValue), DBNull.Value, Me.Docdate)))
 
@@ -477,44 +481,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Select
         End If
         '------------------------Save Check-------------------------------
-        If Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
+        If Not Me.Check.Originated Then 'And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) 
+          If Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
 
-          Me.Check.IssueDate = Me.Docdate
-          Me.Check.DueDate = Me.Docdate
-          If Not (Me.Check.Originated) Then
-            Me.Check.Code = Check.GetNextCode
-            Me.Check.CqCode = Me.CqCode
-          End If
-          If Me.Status.Value = 0 Then
-            Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
-          Else
-            Me.Check.DocStatus = New OutgoingCheckDocStatus(2)
-          End If
-          Me.Check.Amount = Me.Amount + Me.BankCharge
-          Me.Check.Bankacct = Me.Bankacct
-          Me.Check.Note = Me.Note
-          Me.Check.BankCharge = Me.BankCharge
-          Me.Check.WHT = Me.WHT
+            Me.Check.IssueDate = Me.Docdate
+            Me.Check.DueDate = Me.Docdate
+            If Not (Me.Check.Originated) Then
+              Me.Check.Code = Check.GetNextCode
+              Me.Check.CqCode = Me.CqCode
+            End If
+            If Me.Status.Value = 0 Then
+              Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
+            Else
+              Me.Check.DocStatus = New OutgoingCheckDocStatus(2)
+            End If
+            Me.Check.Amount = Me.Amount + Me.BankCharge
+            Me.Check.Bankacct = Me.Bankacct
+            Me.Check.Note = Me.Note
+            Me.Check.BankCharge = Me.BankCharge
+            Me.Check.WHT = Me.WHT
 
-          Dim o As Object = Configuration.GetConfig("CheckDateFromWHT")
-          If Not o Is Nothing AndAlso CBool(o) Then
-            'CheckDateFromWHT
-            If Me.WitholdingTaxCollection.Count >= 1 Then
-              Me.Check.DueDate = Me.WitholdingTaxCollection(0).DocDate
+            Dim o As Object = Configuration.GetConfig("CheckDateFromWHT")
+            If Not o Is Nothing AndAlso CBool(o) Then
+              'CheckDateFromWHT
+              If Me.WitholdingTaxCollection.Count >= 1 Then
+                Me.Check.DueDate = Me.WitholdingTaxCollection(0).DocDate
+              End If
+            End If
+            Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
+            If Not IsNumeric(checkSaveError.Message) Then
+              Return checkSaveError
+            Else
+              Select Case CInt(checkSaveError.Message)
+                Case -1, -5
+                  Return checkSaveError
+                Case -2
+                  Return checkSaveError
+                Case Else
+              End Select
             End If
           End If
-          Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
-          If Not IsNumeric(checkSaveError.Message) Then
-            Return checkSaveError
-          Else
-            Select Case CInt(checkSaveError.Message)
-              Case -1, -5
-                Return checkSaveError
-              Case -2
-                Return checkSaveError
-              Case Else
-            End Select
-          End If
+
         End If
         '------------------------End Save Check---------------------------
         trans.Commit()

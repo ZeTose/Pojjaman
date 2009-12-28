@@ -1220,8 +1220,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheck)
     End Sub
     Private Sub SetCheck(ByVal e As ISimpleEntity)
-      Me.txtCqCode.Text = e.Code
+      Me.txtCqCode.Text = CType(e, OutgoingCheck).CqCode
       Me.ChangeProperty(txtCqCode, Nothing)
+      CType(Me.Entity, BankTransfer).Check = CType(e, OutgoingCheck)
       'Me.txtSupplierCode.Text = e.Code
       'Me.ChangeProperty(txtSupplierCode, Nothing)
     End Sub
