@@ -461,8 +461,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Customer = 2 'ลูกหนี้การค้า
       CheckUnCollected = 3 'เช็ครอเรียกเก็บ
       CheckUnPayin = 4 'เช็ครับรอนำฝาก
+
       WitholdingTaxOut = 5 ' ภาษีเงินได้ถูกหัก ณ ที่จ่าย
+      WitholdingTaxOutWaitng = 57 ' ภาษีเงินได้ถูกหัก ณ ที่จ่าย ยังไม่ถึงกำหนด
       VatIn = 6 'ภาษีซื้อ
+
       MatInStore = 7 'สินค้า/วัสดุคงคลัง
       Wip = 8 'งานระหว่างทำ
       AdvancePayment = 9 'เงินมัดจำจ่ายล่วงหน้า
@@ -471,7 +474,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AdvanceReceive = 12
       Supplier = 13
       CheckAdvence = 14 'เช็คจ่ายล่วงหน้า
+
       VatOut = 15 'ภาษีขาย
+      VatOutWaiting = 16 'ภาษีขาย
+      VatInWaiting = 54 'ภาษีซื้อ-ยังไม่ถึงกำหนด
+
+      WitholdingTaxInOther = 17 'ภาษีหัก ณ ที่จ่าย ภงด.อื่นๆ
+      WitholdingTaxIn3 = 58 'ภาษีหัก ณ ที่จ่าย ภงด.อื่นๆ
+      WitholdingTaxIn53 = 59 'ภาษีหัก ณ ที่จ่าย ภงด.อื่นๆ
+      WitholdingTaxInWaiting = 56 'ภาษีหัก ณ ที่จ่าย ภงด.อื่นๆ
+
       AccProfit = 18 'กำไรขาดทุนสะสม
       Income = 19 'รายได้เงินเชื่อ
       InterestIn = 20 'ดอกเบี้ยรับ
@@ -500,10 +512,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AdvanceMoney = 51 'เงินทดรองจ่าย
       RetentionDeduct = 52 'เจ้าหนี้เงินประกันผลงาน
       DiffFromEvaluation = 53 'ส่วนเกิน(ส่วนต่ำ)จากการตีราคาสินค้าคงเหลือ
-      VatInWaiting = 54 'ภาษีซื้อ-ยังไม่ถึงกำหนด
       DiffFromDecimalPlace = 55 'ส่วนเกิน(ส่วนต่ำ)จากการปัดทศนิยม
-      TradeDiscount = 56 'ส่วนลดการค้า (หมวด 5)
-      TradeDiscount4 = 57 'ส่วนลดการค้า (หมวด 4)
+      ' TradeDiscount = 56 'ส่วนลดการค้า (หมวด 5)
+      'TradeDiscount4 = 57 'ส่วนลดการค้า (หมวด 4)
     End Enum
 #End Region
 

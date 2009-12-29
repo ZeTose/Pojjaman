@@ -1839,20 +1839,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       '-------------------------------------HACK------------------------------------
-      'ส่วนลดการค้า
-      If Me.DiscountAmount > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "Through"
-        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
-        ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
-        ji.Amount = Me.DiscountAmount
-        If Me.ToCostCenter.Originated Then
-          ji.CostCenter = Me.ToCostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        jiColl.Add(ji)
-      End If
+      ''ส่วนลดการค้า
+      'If Me.DiscountAmount > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "Through"
+      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
+      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+      'ji.Amount = Me.DiscountAmount
+      'If Me.ToCostCenter.Originated Then
+      'ji.CostCenter = Me.ToCostCenter
+      'Else
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'End If
+      'jiColl.Add(ji)
+      'End If
       '-------------------------------------HACK------------------------------------
 
       'ลดหนี้ลูกค้า(รับคืน/ลดงาน)

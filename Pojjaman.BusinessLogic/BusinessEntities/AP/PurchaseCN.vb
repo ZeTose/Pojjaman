@@ -461,22 +461,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.Code = Me.m_je.Code
             Case Else
               'แยก
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
               If Me.m_je.AutoGen Then
                 Me.m_je.RefreshGLFormat()
                 Me.m_je.Code = m_je.GetNextCode
               End If
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              
           End Select
         Else
-          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-            Me.Code = Me.GetNextCode
-          End If
           If Me.m_je.AutoGen Then
             Me.m_je.RefreshGLFormat()
             Me.m_je.Code = m_je.GetNextCode
           End If
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          
         End If
         Me.m_je.DocDate = Me.DocDate
         Me.m_receive.Code = m_je.Code
@@ -1918,20 +1920,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       '-------------------------------------HACK------------------------------------
-      'ส่วนลดการค้า
-      If Me.DiscountAmount > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "Through"
-        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount4).Account
-        ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
-        ji.Amount = Me.DiscountAmount
-        If Me.FromCostCenter.Originated Then
-          ji.CostCenter = Me.FromCostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        jiColl.Add(ji)
-      End If
+      ''ส่วนลดการค้า
+      'If Me.DiscountAmount > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "Through"
+      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount4).Account
+      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+      'ji.Amount = Me.DiscountAmount
+      'If Me.FromCostCenter.Originated Then
+      'ji.CostCenter = Me.FromCostCenter
+      'Else
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'End If
+      'jiColl.Add(ji)
+      'End If
       '-------------------------------------HACK------------------------------------
 
       'ส่วนลดรับ

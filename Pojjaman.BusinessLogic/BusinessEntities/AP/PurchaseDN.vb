@@ -834,22 +834,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       '-------------------------------------HACK------------------------------------
-      'ส่วนลดการค้า
-      If Me.DiscountAmount > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "Through"
-        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
-        ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
-        Dim disc As Decimal = 0
-        If Me.TaxType.Value = 2 Then
-          disc = Vat.GetExcludedVatAmount(Me.DiscountAmount, Me.TaxRate)
-        Else
-          disc = Me.DiscountAmount
-        End If
-        ji.Amount = disc
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        jiColl.Add(ji)
-      End If
+      ''ส่วนลดการค้า
+      'If Me.DiscountAmount > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "Through"
+      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
+      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+      'Dim disc As Decimal = 0
+      'If Me.TaxType.Value = 2 Then
+      'disc = Vat.GetExcludedVatAmount(Me.DiscountAmount, Me.TaxRate)
+      'Else
+      'disc = Me.DiscountAmount
+      'End If
+      'ji.Amount = disc
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'jiColl.Add(ji)
+      'End If
       '-------------------------------------HACK------------------------------------
 
       If Not Me.Payment Is Nothing Then
