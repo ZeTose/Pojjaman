@@ -606,6 +606,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 #End Region
 
+    Private Shared m_InfoList As Generic.List(Of Generic.KeyValuePair(Of String, String))
+    Public Shared ReadOnly Property InfoList As Generic.List(Of Generic.KeyValuePair(Of String, String))
+      Get
+        If m_InfoList Is Nothing Then
+          m_InfoList = New Generic.List(Of Generic.KeyValuePair(Of String, String))
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+          , CommandType.StoredProcedure _
+          , "GetCustomerList" _
+          )
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim deh As New DataRowHelper(row)
+            Dim code As String = deh.GetValue(Of String)("cust_code")
+            Dim name As String = deh.GetValue(Of String)("cust_name")
+            Dim kv As New Generic.KeyValuePair(Of String, String)(code, name)
+            m_InfoList.Add(kv)
+          Next
+        End If
+        Return m_InfoList
+      End Get
+    End Property
+
     End Class
     Public Class CustomerGroup
         Inherits TreeBaseEntity

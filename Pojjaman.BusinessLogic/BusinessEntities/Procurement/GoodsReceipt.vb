@@ -387,10 +387,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property Supplier() As Supplier Implements IAdvancePayItemAble.Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.m_po Is Nothing Then          Me.m_creditPeriod = Me.m_supplier.CreditPeriod          Return
+    Public Property Supplier() As Supplier Implements IAdvancePayItemAble.Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        Dim oldPerson As IBillablePerson = m_supplier
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If
+        m_supplier = Value        If Me.m_po Is Nothing Then          Me.m_creditPeriod = Me.m_supplier.CreditPeriod          Return
         End If        If Value.Id <> Me.m_po.Supplier.Id Then
           Me.m_creditPeriod = Me.m_supplier.CreditPeriod
-          Me.Po = New Po
+          Me.Po = New PO
         End If      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Select Case Me.m_toAcctType.Value            Case 1 'WIP
               Return Me.ToCostCenter.WipAccount
             Case 2 'Expense
@@ -403,7 +410,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As GoodsReceiptToAcctType)
         Me.m_toAcctType = Value
       End Set
-    End Property    Public Property DeliveryDocCode() As String      Get        Return m_deliveryDocCode      End Get      Set(ByVal Value As String)        m_deliveryDocCode = Value      End Set    End Property    Public Property DeliveryDocDate() As Date      Get        Return m_deliveryDocDate      End Get      Set(ByVal Value As Date)        m_deliveryDocDate = Value      End Set    End Property    Public Property Po() As Po      Get        Return m_po      End Get      Set(ByVal Value As Po)        m_po = Value        ChangePO()      End Set    End Property    Private Sub ChangePO()      'ลบรายการ
+    End Property    Public Property DeliveryDocCode() As String      Get        Return m_deliveryDocCode      End Get      Set(ByVal Value As String)        m_deliveryDocCode = Value      End Set    End Property    Public Property DeliveryDocDate() As Date      Get        Return m_deliveryDocDate      End Get      Set(ByVal Value As Date)        m_deliveryDocDate = Value      End Set    End Property    Public Property Po() As PO      Get        Return m_po      End Get      Set(ByVal Value As PO)        m_po = Value        ChangePO()      End Set    End Property    Private Sub ChangePO()      'ลบรายการ
       Dim itemsToRemove As New ArrayList
       For Each item As GoodsReceiptItem In Me.ItemCollection
         If Not item.POitem Is Nothing Then
@@ -473,7 +480,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.CreditPeriod = Me.Supplier.CreditPeriod
         End If
       End If
-    End Sub    Private Function GetOldItemTable(ByVal po As Po) As DataTable
+    End Sub    Private Function GetOldItemTable(ByVal po As PO) As DataTable
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetGoodsReceiptItemFromPO" _
@@ -579,16 +586,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return tpt
       End Get
-		End Property
+    End Property
 
-		Public Property Unlock() As Boolean Implements IUnlockAble.Unlock
-			Get
-				Return m_Unlock
-			End Get
-			Set(ByVal Value As Boolean)
-				m_Unlock = Value
-			End Set
-		End Property
+    Public Property Unlock() As Boolean Implements IUnlockAble.Unlock
+      Get
+        Return m_Unlock
+      End Get
+      Set(ByVal Value As Boolean)
+        m_Unlock = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Shared"
@@ -925,14 +932,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim totalCurrentDiff As Decimal = item.Amount
               Select Case item.ItemType.Value
                 Case 88
-                  totalbudget = rootWBS.GetTotalLabFromDB
-                  totalactual = rootWBS.GetActualLab(Me, 45)
+                  totalBudget = rootWBS.GetTotalLabFromDB
+                  totalActual = rootWBS.GetActualLab(Me, 45)
                 Case 89
-                  totalbudget = rootWBS.GetTotalEQFromDB
-                  totalactual = rootWBS.GetActualEq(Me, 45)
+                  totalBudget = rootWBS.GetTotalEQFromDB
+                  totalActual = rootWBS.GetActualEq(Me, 45)
                 Case Else
-                  totalbudget = rootWBS.GetTotalMatFromDB
-                  totalactual = rootWBS.GetActualMat(Me, 45)
+                  totalBudget = rootWBS.GetTotalMatFromDB
+                  totalActual = rootWBS.GetActualMat(Me, 45)
               End Select
               If totalBudget < (totalActual + totalCurrentDiff) Then
                 Return True
@@ -948,39 +955,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim totalCurrentDiff As Decimal = 0
               Select Case item.ItemType.Value
                 Case 88
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
                 Case 89
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
                 Case Else
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
               End Select
-              For Each row As DataRow In rootwbs.GetParentsBudget(Me.EntityId)
+              For Each row As DataRow In rootWBS.GetParentsBudget(Me.EntityId)
                 totalBudget = 0
                 totalActual = 0
                 Select Case item.ItemType.Value
                   Case 88
                     If Not row.IsNull("labbudget") Then
-                      totalbudget = CDec(row("labbudget"))
+                      totalBudget = CDec(row("labbudget"))
                     End If
                     If Not row.IsNull("labactual") Then
-                      totalactual = CDec(row("labactual"))
+                      totalActual = CDec(row("labactual"))
                     End If
                   Case 89
                     If Not row.IsNull("eqbudget") Then
-                      totalbudget = CDec(row("eqbudget"))
+                      totalBudget = CDec(row("eqbudget"))
                     End If
                     If Not row.IsNull("eqactual") Then
-                      totalactual = CDec(row("eqactual"))
+                      totalActual = CDec(row("eqactual"))
                     End If
                   Case Else
                     If Not row.IsNull("matbudget") Then
-                      totalbudget = CDec(row("matbudget"))
+                      totalBudget = CDec(row("matbudget"))
                     End If
                     If Not row.IsNull("matactual") Then
-                      totalactual = CDec(row("matactual"))
+                      totalActual = CDec(row("matactual"))
                     End If
                 End Select
-                If totalbudget < (totalActual + totalCurrentDiff) Then
+                If totalBudget < (totalActual + totalCurrentDiff) Then
                   Return True
                 End If
               Next
@@ -1766,200 +1773,200 @@ Namespace Longkong.Pojjaman.BusinessLogic
         daWbs.Fill(ds, "stockiwbs")
         ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
 
-				Dim dt As DataTable = ds.Tables("stockitem")
-				'Dim dc As DataColumn = dt.Columns!stocki_sequence
-				'dc.AutoIncrement = True
-				'dc.AutoIncrementSeed = -1
-				'dc.AutoIncrementStep = -1
+        Dim dt As DataTable = ds.Tables("stockitem")
+        'Dim dc As DataColumn = dt.Columns!stocki_sequence
+        'dc.AutoIncrement = True
+        'dc.AutoIncrementSeed = -1
+        'dc.AutoIncrementStep = -1
 
         Dim dtWbs As DataTable = ds.Tables("stockiwbs")
 
         For Each row As DataRow In ds.Tables("stockiwbs").Rows
           row.Delete()
-				Next
+        Next
 
-				Dim rowsToDelete As ArrayList
-				'------------Checking if we have to delete some rows--------------------
-				rowsToDelete = New ArrayList
-				For Each dr As DataRow In dt.Rows
-					Dim found As Boolean = False
-					For Each testItem As GoodsReceiptItem In Me.ItemCollection
-						If testItem.Sequence = CInt(dr("stocki_sequence")) Then
-							found = True
-							Exit For
-						End If
-					Next
-					If Not found Then
-						If Not rowsToDelete.Contains(dr) Then
-							rowsToDelete.Add(dr)
-						End If
-					End If
-				Next
-				For Each dr As DataRow In rowsToDelete
-					dr.Delete()
-				Next
-				'------------End Checking--------------------
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As GoodsReceiptItem In Me.ItemCollection
+            If testItem.Sequence = CInt(dr("stocki_sequence")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
 
-				Dim i As Integer = 0				'Line Running
-				Dim seq As Integer = -1
-				For Each item As GoodsReceiptItem In Me.ItemCollection
-					i += 1
-					unitCost = item.UnitCost
-					Cost = item.Cost
+        Dim i As Integer = 0        'Line Running
+        Dim seq As Integer = -1
+        For Each item As GoodsReceiptItem In Me.ItemCollection
+          i += 1
+          unitCost = item.UnitCost
+          Cost = item.Cost
 
-					Select Case item.ItemType.Value
-						Case 42
-							Dim lci As New LCIItem(item.Entity.Id)
-							If Not lci.Originated Then
-								Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-							ElseIf Not lci.ValidUnit(item.Unit) Then
-								Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
-							End If
-						Case 19
-							Dim myTool As New Tool(item.Entity.Id)
-							If Not myTool.Originated Then
-								Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-							ElseIf myTool.Unit.Id <> item.Unit.Id Then
-								Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-							End If
-					End Select
+          Select Case item.ItemType.Value
+            Case 42
+              Dim lci As New LCIItem(item.Entity.Id)
+              If Not lci.Originated Then
+                Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+              ElseIf Not lci.ValidUnit(item.Unit) Then
+                Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+              End If
+            Case 19
+              Dim myTool As New Tool(item.Entity.Id)
+              If Not myTool.Originated Then
+                Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+              ElseIf myTool.Unit.Id <> item.Unit.Id Then
+                Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+              End If
+          End Select
 
-					'------------Checking if we have to add a new row or just update existing--------------------
-					Dim dr As DataRow
-					Dim drs As DataRow() = dt.Select("stocki_sequence=" & item.Sequence)
-					If drs.Length = 0 Then
-						dr = dt.NewRow
-						'dt.Rows.Add(dr)
-						seq = seq + (-1)
-						dr("stocki_sequence") = seq
-					Else
-						dr = drs(0)
-					End If
-					'------------End Checking--------------------
+          '------------Checking if we have to add a new row or just update existing--------------------
+          Dim dr As DataRow
+          Dim drs As DataRow() = dt.Select("stocki_sequence=" & item.Sequence)
+          If drs.Length = 0 Then
+            dr = dt.NewRow
+            'dt.Rows.Add(dr)
+            seq = seq + (-1)
+            dr("stocki_sequence") = seq
+          Else
+            dr = drs(0)
+          End If
+          '------------End Checking--------------------
 
-					If item.POitem Is Nothing Then
-						dr("stocki_refdoc") = DBNull.Value
-						dr("stocki_refdoclinenumber") = DBNull.Value
-					Else
-						dr("stocki_refdoc") = item.POitem.Po.Id
-						dr("stocki_refdoclinenumber") = item.POitem.LineNumber
-					End If
-					dr("stocki_toacct") = Me.ValidIdOrDBNull(Me.ToAccount)
-					dr("stocki_toacctType") = Me.ToAccountType.Value					'เมื่อก่อนเป็น 3
-					dr("stocki_stock") = Me.Id
-					dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
-					dr("stocki_acct") = Me.ValidIdOrDBNull(item.Account)
-					dr("stocki_linenumber") = i
-					dr("stocki_entity") = item.Entity.Id
-					dr("stocki_entityType") = item.ItemType.Value
-					dr("stocki_itemName") = item.EntityName
-					dr("stocki_unit") = item.Unit.Id
-					dr("stocki_qty") = item.Qty
-					dr("stocki_stockqty") = item.StockQty
-					dr("stocki_unitprice") = item.UnitPrice
-					dr("stocki_unitcost") = unitCost
-					dr("stocki_amt") = item.Amount
-					dr("stocki_discrate") = item.Discount.Rate
-					dr("stocki_discamt") = item.Discount.Amount
-					dr("stocki_unvatable") = item.UnVatable
-					dr("stocki_note") = item.Note
-					dr("stocki_type") = Me.EntityId
-					dr("stocki_iscancelled") = IIf(Me.Canceled, Me.Canceled, DBNull.Value)
-					dr("stocki_status") = Me.Status.Value
-					dr("stocki_transferunitprice") = unitCost
-					dr("stocki_transferamt") = Cost
-					dr("stocki_refsequence") = 0
-					dr("stocki_asset") = item.AssetString
-					dr("stocki_quality") = item.Quality
+          If item.POitem Is Nothing Then
+            dr("stocki_refdoc") = DBNull.Value
+            dr("stocki_refdoclinenumber") = DBNull.Value
+          Else
+            dr("stocki_refdoc") = item.POitem.Po.Id
+            dr("stocki_refdoclinenumber") = item.POitem.LineNumber
+          End If
+          dr("stocki_toacct") = Me.ValidIdOrDBNull(Me.ToAccount)
+          dr("stocki_toacctType") = Me.ToAccountType.Value          'เมื่อก่อนเป็น 3
+          dr("stocki_stock") = Me.Id
+          dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
+          dr("stocki_acct") = Me.ValidIdOrDBNull(item.Account)
+          dr("stocki_linenumber") = i
+          dr("stocki_entity") = item.Entity.Id
+          dr("stocki_entityType") = item.ItemType.Value
+          dr("stocki_itemName") = item.EntityName
+          dr("stocki_unit") = item.Unit.Id
+          dr("stocki_qty") = item.Qty
+          dr("stocki_stockqty") = item.StockQty
+          dr("stocki_unitprice") = item.UnitPrice
+          dr("stocki_unitcost") = unitCost
+          dr("stocki_amt") = item.Amount
+          dr("stocki_discrate") = item.Discount.Rate
+          dr("stocki_discamt") = item.Discount.Amount
+          dr("stocki_unvatable") = item.UnVatable
+          dr("stocki_note") = item.Note
+          dr("stocki_type") = Me.EntityId
+          dr("stocki_iscancelled") = IIf(Me.Canceled, Me.Canceled, DBNull.Value)
+          dr("stocki_status") = Me.Status.Value
+          dr("stocki_transferunitprice") = unitCost
+          dr("stocki_transferamt") = Cost
+          dr("stocki_refsequence") = 0
+          dr("stocki_asset") = item.AssetString
+          dr("stocki_quality") = item.Quality
 
-					'------------Checking if we have to add a new row or just update existing--------------------
-					If drs.Length = 0 Then
-						dt.Rows.Add(dr)
-					End If
-					'------------End Checking--------------------
+          '------------Checking if we have to add a new row or just update existing--------------------
+          If drs.Length = 0 Then
+            dt.Rows.Add(dr)
+          End If
+          '------------End Checking--------------------
 
-					Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
-					If item.ItemType.Value <> 160 _
-					AndAlso item.ItemType.Value <> 162 Then
-						Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-						Dim currentSum As Decimal = wbsdColl.GetSumPercent
-						For Each wbsd As WBSDistribute In wbsdColl
-							If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-								'ยังไม่เต็ม 100 แต่มีหัวอยู่
-								wbsd.Percent += (100 - currentSum)
-							End If
-							wbsd.BaseCost = Cost
-							wbsd.TransferBaseCost = Cost
-							Dim childDr As DataRow = dtWbs.NewRow
-							childDr("stockiw_wbs") = wbsd.WBS.Id
-							If wbsd.CostCenter Is Nothing Then
-								wbsd.CostCenter = Me.ToCostCenter
-							End If
-							childDr("stockiw_cc") = wbsd.CostCenter.Id
-							childDr("stockiw_percent") = wbsd.Percent
-							childDr("stockiw_sequence") = dr("stocki_sequence")
-							childDr("stockiw_ismarkup") = wbsd.IsMarkup
-							childDr("stockiw_direction") = 0							'in
-							childDr("stockiw_baseCost") = wbsd.BaseCost
-							childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
-							childDr("stockiw_transferamt") = wbsd.TransferAmount
-							childDr("stockiw_amt") = wbsd.Amount
-							childDr("stockiw_toaccttype") = Me.ToAccountType.Value
-							'Add เข้า stockiwbs
-							dtWbs.Rows.Add(childDr)
-						Next
+          Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
+          If item.ItemType.Value <> 160 _
+          AndAlso item.ItemType.Value <> 162 Then
+            Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+            Dim currentSum As Decimal = wbsdColl.GetSumPercent
+            For Each wbsd As WBSDistribute In wbsdColl
+              If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                wbsd.Percent += (100 - currentSum)
+              End If
+              wbsd.BaseCost = Cost
+              wbsd.TransferBaseCost = Cost
+              Dim childDr As DataRow = dtWbs.NewRow
+              childDr("stockiw_wbs") = wbsd.WBS.Id
+              If wbsd.CostCenter Is Nothing Then
+                wbsd.CostCenter = Me.ToCostCenter
+              End If
+              childDr("stockiw_cc") = wbsd.CostCenter.Id
+              childDr("stockiw_percent") = wbsd.Percent
+              childDr("stockiw_sequence") = dr("stocki_sequence")
+              childDr("stockiw_ismarkup") = wbsd.IsMarkup
+              childDr("stockiw_direction") = 0              'in
+              childDr("stockiw_baseCost") = wbsd.BaseCost
+              childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
+              childDr("stockiw_transferamt") = wbsd.TransferAmount
+              childDr("stockiw_amt") = wbsd.Amount
+              childDr("stockiw_toaccttype") = Me.ToAccountType.Value
+              'Add เข้า stockiwbs
+              dtWbs.Rows.Add(childDr)
+            Next
 
-						currentSum = wbsdColl.GetSumPercent
-						'ยังไม่เต็ม 100 และยังไม่มี root
-						If currentSum < 100 Then
-							Try
-								Dim newWbsd As New WBSDistribute
-								newWbsd.WBS = rootWBS
-								newWbsd.CostCenter = item.GoodsReceipt.ToCostCenter
-								newWbsd.Percent = 100 - currentSum
-								newWbsd.BaseCost = Cost
-								newWbsd.TransferBaseCost = Cost
-								Dim childDr As DataRow = dtWbs.NewRow
-								childDr("stockiw_wbs") = newWbsd.WBS.Id
-								childDr("stockiw_cc") = newWbsd.CostCenter.Id
-								childDr("stockiw_percent") = newWbsd.Percent
-								childDr("stockiw_sequence") = dr("stocki_sequence")
-								childDr("stockiw_ismarkup") = False
-								childDr("stockiw_direction") = 0								'in
-								childDr("stockiw_baseCost") = newWbsd.BaseCost
-								childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
-								childDr("stockiw_transferamt") = newWbsd.TransferAmount
-								childDr("stockiw_amt") = newWbsd.Amount
-								childDr("stockiw_toaccttype") = Me.ToAccountType.Value
-								'Add เข้า stockiwbs
-								dtWbs.Rows.Add(childDr)
-							Catch ex As Exception
-								MessageBox.Show(ex.ToString)
-							End Try
-						End If
-					End If
-				Next
+            currentSum = wbsdColl.GetSumPercent
+            'ยังไม่เต็ม 100 และยังไม่มี root
+            If currentSum < 100 Then
+              Try
+                Dim newWbsd As New WBSDistribute
+                newWbsd.WBS = rootWBS
+                newWbsd.CostCenter = item.GoodsReceipt.ToCostCenter
+                newWbsd.Percent = 100 - currentSum
+                newWbsd.BaseCost = Cost
+                newWbsd.TransferBaseCost = Cost
+                Dim childDr As DataRow = dtWbs.NewRow
+                childDr("stockiw_wbs") = newWbsd.WBS.Id
+                childDr("stockiw_cc") = newWbsd.CostCenter.Id
+                childDr("stockiw_percent") = newWbsd.Percent
+                childDr("stockiw_sequence") = dr("stocki_sequence")
+                childDr("stockiw_ismarkup") = False
+                childDr("stockiw_direction") = 0                'in
+                childDr("stockiw_baseCost") = newWbsd.BaseCost
+                childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
+                childDr("stockiw_transferamt") = newWbsd.TransferAmount
+                childDr("stockiw_amt") = newWbsd.Amount
+                childDr("stockiw_toaccttype") = Me.ToAccountType.Value
+                'Add เข้า stockiwbs
+                dtWbs.Rows.Add(childDr)
+              Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+              End Try
+            End If
+          End If
+        Next
 
-				Dim tmpDa As New SqlDataAdapter
-				tmpDa.DeleteCommand = da.DeleteCommand
-				tmpDa.InsertCommand = da.InsertCommand
-				tmpDa.UpdateCommand = da.UpdateCommand
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
 
-				AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
-				AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
 
-				daWbs.Update(GetDeletedRows(dtWbs))
-				tmpDa.Update(GetDeletedRows(dt))
+        daWbs.Update(GetDeletedRows(dtWbs))
+        tmpDa.Update(GetDeletedRows(dt))
 
-				tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
-				daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
+        tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
 
-				tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
-				ds.EnforceConstraints = False
-				daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
-				ds.EnforceConstraints = True
-				Return New SaveErrorException("1")
-			Catch ex As Exception
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = False
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = True
+        Return New SaveErrorException("1")
+      Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
@@ -3178,7 +3185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.Add(ji)
       End If
     End Sub
-    Public Property JournalEntry() As JournalEntry Implements IGLAble.journalEntry
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get
         Return Me.m_je
       End Get

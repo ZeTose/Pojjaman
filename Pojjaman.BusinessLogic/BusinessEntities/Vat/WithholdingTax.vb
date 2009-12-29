@@ -1080,20 +1080,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			' Finally process inserts.
 			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
 		End Function
-		Public Sub UpdateRefDoc()
-			If Me.EntityIdNo Is Nothing OrElse Me.EntityIdNo.Length = 0 Then
-				Me.EntityIdNo = Me.RefDoc.Person.IdNo
-			End If
-			If Me.EntityTaxId Is Nothing OrElse Me.EntityTaxId.Length = 0 Then
-				Me.EntityTaxId = Me.RefDoc.Person.TaxId
-			End If
-			If Me.EntityAddress Is Nothing OrElse Me.EntityAddress.Length = 0 Then
-				Me.EntityAddress = Me.RefDoc.Person.BillingAddress
-			End If
-			If Me.PrintName Is Nothing OrElse Me.PrintName.Length = 0 Then
-				Me.PrintName = Me.RefDoc.Person.Name
-			End If
-		End Sub
+    Public Sub UpdateRefDoc()
+      UpdateRefDoc(Me.RefDoc.Person, False)
+    End Sub
+    Public Sub UpdateRefdoc(ByVal person As IBillablePerson, Optional ByVal force As Boolean = False)
+      If force OrElse Me.EntityIdNo Is Nothing OrElse Me.EntityIdNo.Length = 0 Then
+        Me.EntityIdNo = person.IdNo
+      End If
+      If force OrElse Me.EntityTaxId Is Nothing OrElse Me.EntityTaxId.Length = 0 Then
+        Me.EntityTaxId = person.TaxId
+      End If
+      If force OrElse Me.EntityAddress Is Nothing OrElse Me.EntityAddress.Length = 0 Then
+        Me.EntityAddress = person.BillingAddress
+      End If
+      If force OrElse Me.PrintName Is Nothing OrElse Me.PrintName.Length = 0 Then
+        Me.PrintName = person.Name
+      End If
+      If force Then
+        Select Case person.PersonType.Value
+          Case 0
+            Me.Type = New WitholdingTaxType(4)
+          Case 1
+            Me.Type = New WitholdingTaxType(7)
+        End Select
+      End If
+    End Sub
 #End Region
 
 #Region "Items"
