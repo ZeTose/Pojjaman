@@ -1695,9 +1695,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 Return m_ibillableperson
             End Get
-            Set(ByVal Value As IBillablePerson)
-                m_ibillableperson = Value
-            End Set
+      Set(ByVal Value As IBillablePerson)
+        Dim oldPerson As IBillablePerson = m_ibillableperson
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If
+        m_ibillableperson = Value
+      End Set
         End Property
 
         Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection

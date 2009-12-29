@@ -211,9 +211,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Get
                 Return m_supplier
             End Get
-            Set(ByVal Value As Supplier)
-                m_supplier = Value
-            End Set
+      Set(ByVal Value As Supplier)
+        Dim oldPerson As IBillablePerson = m_supplier
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If
+        m_supplier = Value
+      End Set
         End Property
         Public Property DocDate() As Date Implements IPayable.Date, IGLAble.Date, IWitholdingTaxable.Date, IVatable.Date
             Get

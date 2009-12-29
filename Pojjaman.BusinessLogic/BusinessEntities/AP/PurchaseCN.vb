@@ -210,7 +210,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
     Public Property RefDocCollection() As PurchaseCNRefDocCollection      Get        Return m_refDocCollection      End Get      Set(ByVal Value As PurchaseCNRefDocCollection)        m_refDocCollection = Value      End Set    End Property
-    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IPayable.Date, IGLAble.Date, IReceivable.Date, IWitholdingTaxable.Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      'Get      '  Dim ccId As Integer = 0      '  For Each ref As PurchaseCNRefDoc In Me.RefDocCollection
+    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        Dim oldPerson As IBillablePerson = m_supplier
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If        m_supplier = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IPayable.Date, IGLAble.Date, IReceivable.Date, IWitholdingTaxable.Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      'Get      '  Dim ccId As Integer = 0      '  For Each ref As PurchaseCNRefDoc In Me.RefDocCollection
       '    If ccId <> ref.Vatitem.CcId Then
       '      If ccId <> 0 Then
       '        ccId = 0

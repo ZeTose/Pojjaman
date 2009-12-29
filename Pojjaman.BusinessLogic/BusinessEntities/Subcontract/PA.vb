@@ -2411,6 +2411,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Sc.SubContractor Is Nothing Then
           Me.Sc.SubContractor = New Supplier
         End If
+        Dim oldPerson As IBillablePerson = Me.Sc.SubContractor
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If
         Me.Sc.SubContractor = CType(Value, Supplier)
       End Set
     End Property

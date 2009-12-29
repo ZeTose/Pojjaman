@@ -209,7 +209,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Set
         End Property
         Public Property RefDocCollection() As SaleCNRefDocCollection            Get                Return m_refDocCollection            End Get            Set(ByVal Value As SaleCNRefDocCollection)                m_refDocCollection = Value            End Set        End Property
-        Public Property Customer() As Customer            Get                Return m_customer            End Get            Set(ByVal Value As Customer)                m_customer = Value            End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property    Public Property ToCostCenter() As CostCenter
+        Public Property Customer() As Customer            Get                Return m_customer            End Get      Set(ByVal Value As Customer)        Dim oldPerson As IBillablePerson = m_customer
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If        m_customer = Value      End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property    Public Property ToCostCenter() As CostCenter
       'Get
       '  Dim ccId As Integer = 0
       '  For Each ref As SaleCNRefDoc In Me.RefDocCollection

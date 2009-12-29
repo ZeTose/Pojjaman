@@ -208,9 +208,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Get
                 Return Me.Bankacct.BankBranch
             End Get
-            Set(ByVal Value As IBillablePerson)
-                Me.Bankacct.BankBranch = CType(Value, BankBranch)
-            End Set
+      Set(ByVal Value As IBillablePerson)
+        Dim oldPerson As IBillablePerson = Me.Bankacct.BankBranch
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+            For Each wht As WitholdingTax In m_whtcol
+              wht.UpdateRefDoc(Value, True)
+            Next
+          End If
+        End If
+        Me.Bankacct.BankBranch = CType(Value, BankBranch)
+      End Set
         End Property
 
         Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
