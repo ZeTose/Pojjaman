@@ -13,7 +13,7 @@
 				<MenuItem id="rptscmovement" icon="Icons.16x16.RptSCMovement" label="${res:MainMenu.Subcontract.RptSCMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovement"/>
 				<MenuItem id="rptscmovementenumerate" icon="Icons.16x16.RptSCMovementEnumerate" label="${res:MainMenu.Subcontract.RptSCMovementEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate"/>
 				<!--<MenuItem id="rptscretention" icon="Icons.16x16.RptSCRetention" label="${res:MainMenu.Subcontract.RptSCRetention.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCRetention"/>-->
-				<MenuItem id="rptscremainingadv" icon="Icons.16x16.RptSCRemainingADV" label="${res:MainMenu.Subcontract.RptSCRemainingADV.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCRemainingADV"/>
+				<!--<MenuItem id="rptscremainingadv" icon="Icons.16x16.RptSCRemainingADV" label="${res:MainMenu.Subcontract.RptSCRemainingADV.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCRemainingADV"/>-->
 				<MenuItem id="rptscmanagement" icon="Icons.16x16.RptSCManagement" label="${res:MainMenu.Subcontract.RptSCManagement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCManagement"/>
 
 			</MenuItem>
@@ -27,7 +27,7 @@
 		<EntityFilter id="rptscmovement" entity="rptvo" filter="Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel"/>
 		<EntityFilter id="rptscmovementenumerate" entity="rptdr" filter="Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel"/>
 		<!--<EntityFilter id="rptscretention" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCRetentionFilterSubPanel"/>-->
-		<EntityFilter id="rptscremainingadv" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCRemainingADVFilterSubPanel"/>
+		<!--<EntityFilter id="rptscremainingadv" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCRemainingADVFilterSubPanel"/>-->
 		<EntityFilter id="rptscmanagement" entity="rptpa" filter="Longkong.Pojjaman.Gui.Panels.RptSCManagementFilterSubPanel"/>
 
 	</Extension>
@@ -53,9 +53,9 @@
 		<!--<EntityTab id="rptscretention">
 		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>-->
-		<EntityTab id="rptscremainingadv">
+		<!--<EntityTab id="rptscremainingadv">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
-		</EntityTab>
+		</EntityTab>-->
 		<EntityTab id="rptscmanagement">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>

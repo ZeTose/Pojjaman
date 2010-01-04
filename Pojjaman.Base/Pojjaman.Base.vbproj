@@ -482,9 +482,7 @@
     <Compile Include="Pojjaman\Commands\NoteEntity.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb" />
     <Compile Include="Pojjaman\Commands\OpenFile.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -501,9 +499,7 @@
     <Compile Include="Pojjaman\Commands\Paste.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb" />
     <Compile Include="Pojjaman\Commands\Print.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -672,21 +668,11 @@
     <Compile Include="Pojjaman\Gui\Components\MyBalloonWindow.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb" />
     <Compile Include="Pojjaman\Gui\Components\PJMMessageBox.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -765,12 +751,8 @@
     <Compile Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\AttachmentForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -783,9 +765,7 @@
     <Compile Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\CurrentPanelPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -801,15 +781,11 @@
     <Compile Include="Pojjaman\Gui\Dialogs\GraphDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\LoginDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -819,24 +795,14 @@
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\BaseClasses\BaseWizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LineTerminatorStyle.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\Base\WizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -912,27 +878,21 @@
     <Compile Include="Pojjaman\Gui\Dialogs\StatusPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\VersionInformationTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\WizardDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb" />
     <Compile Include="Pojjaman\Gui\ErrorDialogs\LoadingError.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1000,18 +960,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb" />
-    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb" />
     <Compile Include="Pojjaman\Gui\Workbench\WorkbenchMemento.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb" />
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb" />
     <Compile Include="Pojjaman\Gui\XmlForms\PojjamanObjectCreator.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1252,9 +1206,7 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb" />
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>

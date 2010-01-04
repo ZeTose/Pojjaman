@@ -3346,6 +3346,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
+      'DueDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DueDate"
+      dpi.Value = Me.DueDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
       'VatCode
       dpi = New DocPrintingItem
       dpi.Mapping = "VatCode"

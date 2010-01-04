@@ -189,9 +189,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             While Regex.IsMatch(pattern, ccText)
                 pattern = Regex.Replace(pattern, ccText, ccCode)
             End While
-            While Regex.IsMatch(pattern, accountBookText)
-                pattern = Regex.Replace(pattern, accountBookText, accountBookCode)
-            End While
+      While Regex.IsMatch(pattern, accountBookText)
+        pattern = Regex.Replace(pattern, accountBookText, accountBookCode)
+      End While
             Return pattern
         End Function
         'Public Shared Function GetPattern(ByVal pattern As String _
