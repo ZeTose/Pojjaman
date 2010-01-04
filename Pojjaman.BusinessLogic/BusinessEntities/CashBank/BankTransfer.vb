@@ -135,6 +135,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Function GetJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As New JournalEntryItem
+
       ' Dr. เงินฝากธนาคาร(โอนเข้า)    ji.Mapping = "G6.1"
       SetGLG6_1(jiColl)
       ' Dr. ค่าธรรมเนียมธนาคาร                ji.Mapping = "G6.2"
@@ -144,7 +145,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SetGLG6_3(jiColl)
       ' Cr. ภาษีหัก ณ ที่จ่าย                    ji.Mapping = "G6.4"
       SetGLG6_4(jiColl)
-
+      ''Dr. Cr. เกี่ยวกับ check
+      'SetGLCheck(jiColl)
       Return jiColl
     End Function
     ' DR. เงินฝากธนาคาร(ปลายทาง)
@@ -250,6 +252,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
+    'Dr. Cr. เกี่ยวกับ check
+    Private Sub SetGLCheck(ByVal jicoll As JournalEntryItemCollection)
+      'Dim ji As New JournalEntryItem
+
+      'Dim acct As New Account
+      'acct = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence).Account
+      'ji = New JournalEntryItem
+      'ji.Mapping = "H2.1"
+      'ji.Amount = Me.Check.Amount
+      'If acct.Originated Then
+      'ji.Account = acct
+      'End If
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'jicoll.Add(ji)
+
+      'ji = New JournalEntryItem
+      'ji.Mapping = "PM1.5"
+      'ji.Amount = Me.Check.Amount
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'jicoll.Add(ji)
+
+    End Sub
+
 #End Region
 
 #Region " IWitholdingTaxable "
@@ -305,28 +330,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim showStr As String
       'Dim oldCqCode As String
       'oldCqCode = Me.Check.CqCode
-      If Me.CqCode = Nothing OrElse Me.CqCode.Trim = "" Then
-        If Not CBool(Configuration.GetConfig("AllowNoCqCode")) Then
-          Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
-        End If
-      End If
+      'If Me.CqCode = Nothing OrElse Me.CqCode.Trim = "" Then
+      'If Not CBool(Configuration.GetConfig("AllowNoCqCode")) Then
+      'Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
+      'End If
+      'End If
       '----------------------Create Check-----------------------
       'OneCheckPerPV
-
-      If Not (Me.Originated) AndAlso Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
-        If Not Me.Check.Originated And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) Then
-          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          Me.Check = New OutgoingCheck(Me.CqCode)
-          If Not (Me.Check.Originated) Then
-            If Not (msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {Me.CqCode})) Then
-              'Me.Check = New OutgoingCheck(oldCqCode)
-              Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
-            End If
-          Else
-            Return New SaveErrorException("${res:Global.Error.AlreadyHasOutGoingCheck}")
+      'ให้ใส่ check ได้ทีหลัง
+      'If Not (Me.Originated) AndAlso Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
+      If Not Me.Check.Originated Then 'And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) Then
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        Me.Check = New OutgoingCheck(Me.CqCode)
+        If Not (Me.Check.Originated) Then
+          If Not (msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {Me.CqCode})) Then
+            'Me.Check = New OutgoingCheck(oldCqCode)
+            Return New SaveErrorException("${res:Global.Error.NotAllowNoCqCode}")
           End If
+        Else
+          Return New SaveErrorException("${res:Global.Error.AlreadyHasOutGoingCheck}")
         End If
       End If
+      'End If
       '---------------------End Create Check-------------------------
 
       If Me.Bankacct Is Nothing OrElse Not Me.Bankacct.Originated Then
@@ -528,7 +553,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
           End If
+        Else
 
+          Me.Check.WHT = Me.WHT
+          If Me.Status.Value = 0 Then
+            Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
+          Else
+            Me.Check.DocStatus = New OutgoingCheckDocStatus(2)
+          End If
+
+          Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
+          If Not IsNumeric(checkSaveError.Message) Then
+            Return checkSaveError
+          Else
+            Select Case CInt(checkSaveError.Message)
+              Case -1, -5
+                Return checkSaveError
+              Case -2
+                Return checkSaveError
+              Case Else
+            End Select
+          End If
         End If
         '------------------------End Save Check---------------------------
         trans.Commit()
@@ -686,7 +731,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
 #End Region
-
 
 #Region "IPrintableEntity"
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm

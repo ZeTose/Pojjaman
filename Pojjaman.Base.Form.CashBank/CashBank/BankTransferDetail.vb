@@ -889,7 +889,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     Me.m_entity.Code = txtCode.Text
                 Case "txtcqcode"
                     dirtyFlag = True
-                    Me.m_entity.CqCode = txtCqCode.Text
+          Me.m_entity.CqCode = txtCqCode.Text
+          Me.m_entity.Check = New OutgoingCheck
                 Case "txtnote"
                     dirtyFlag = True
                     Me.m_entity.Note = txtNote.Text
@@ -1220,11 +1221,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheck)
     End Sub
     Private Sub SetCheck(ByVal e As ISimpleEntity)
+
       Me.txtCqCode.Text = CType(e, OutgoingCheck).CqCode
       Me.ChangeProperty(txtCqCode, Nothing)
+      Me.txtAmount.Text = CType(e, OutgoingCheck).Amount - CType(e, OutgoingCheck).BankCharge
+      Me.ChangeProperty(txtAmount, Nothing)
+      Me.txtBankcharge.Text = CType(e, OutgoingCheck).BankCharge
+      Me.ChangeProperty(txtBankcharge, Nothing)
+      Me.txtSourceCode.Text = CType(e, OutgoingCheck).Bankacct.Code
+      Me.ChangeProperty(txtSourceCode, Nothing)
+
+      'CType(Me.Entity, BankTransfer).Bankacct = CType(e, OutgoingCheck).Bankacct
       CType(Me.Entity, BankTransfer).Check = CType(e, OutgoingCheck)
-      'Me.txtSupplierCode.Text = e.Code
-      'Me.ChangeProperty(txtSupplierCode, Nothing)
+      'CType(Me.Entity, BankTransfer).Note = CType(e, OutgoingCheck).Note
+      'CType(Me.Entity, BankTransfer).WHT = CType(e, OutgoingCheck).WHT
+
     End Sub
   End Class
 End Namespace
