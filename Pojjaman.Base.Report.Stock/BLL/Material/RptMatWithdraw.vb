@@ -340,7 +340,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpiColl.Add(dpi)
 
           countDoc += 1
-          sumAmount += CDec(m_grid(rowIndex, 8).CellValue)
+          If IsNumeric(m_grid(rowIndex, 8).CellValue) Then
+            sumAmount += CDec(m_grid(rowIndex, 8).CellValue)
+          End If
         Else
           dpi = New DocPrintingItem
           dpi.Mapping = "col1"
@@ -369,7 +371,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "col5"
           dpi.Value = m_grid(rowIndex, 6).CellValue
-          dpi.DataType = "System.Decimal"
+          dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
@@ -377,7 +379,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "col6"
           dpi.Value = m_grid(rowIndex, 7).CellValue
-          dpi.DataType = "System.Decimal"
+          dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
@@ -385,7 +387,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "col7"
           dpi.Value = m_grid(rowIndex, 8).CellValue
-          dpi.DataType = "System.Decimal"
+          dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
