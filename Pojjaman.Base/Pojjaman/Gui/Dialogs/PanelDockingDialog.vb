@@ -108,7 +108,8 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
             Me.MaximizeBox = False
             Me.MinimizeBox = False
             Me.Name = "PanelDockingDialog"
-            Me.ShowInTaskbar = False
+            Me.ShowInTaskbar = True
+            Me.TopMost = True
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 
         End Sub
