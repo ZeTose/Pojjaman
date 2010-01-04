@@ -52,7 +52,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-        Public Property IsDefault() As Boolean            Get                Return m_isDefault            End Get            Set(ByVal Value As Boolean)                m_isDefault = Value            End Set        End Property
+        Public Property IsDefault() As Boolean
+            Get
+                Return m_isDefault
+            End Get
+            Set(ByVal Value As Boolean)
+                m_isDefault = Value
+            End Set
+        End Property
         Public Property Name() As String Implements IHasName.Name
             Get
                 Return m_name

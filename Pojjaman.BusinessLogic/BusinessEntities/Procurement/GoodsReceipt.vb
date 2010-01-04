@@ -2510,8 +2510,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
         'End If
 
-        If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then    'ไม่มี,แยก,ไม่มีภาษี
+        If Me.TaxType.Value = 1 Then    'แยก
           itemAmount = item.TaxBase 'item.Amount
+        ElseIf Me.TaxType.Value = 0 OrElse item.UnVatable Then 'ไม่มี,ไม่มีภาษี
+          itemAmount = item.Amount
         Else    'Me.TaxType.Value = 2 รวม
           itemAmount = itemRemainAmount
         End If

@@ -215,20 +215,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
-    Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
-    Public Property AssetString() As String      Get        Return m_assetString      End Get      Set(ByVal Value As String)        m_assetString = Value
-      End Set    End Property
-    Public Property Quality() As String      Get        Return m_quality      End Get      Set(ByVal Value As String)        m_quality = Value
-      End Set    End Property
+    Public Property WBSDistributeCollection() As WBSDistributeCollection
+      Get
+        Return m_WBSDistributeCollection
+      End Get
+      Set(ByVal Value As WBSDistributeCollection)
+        m_WBSDistributeCollection = Value
+      End Set
+    End Property
+    Public ReadOnly Property Sequence() As Integer
+      Get
+        Return m_sequence
+      End Get
+    End Property
+    Public Property AssetString() As String
+      Get
+        Return m_assetString
+      End Get
+      Set(ByVal Value As String)
+        m_assetString = Value
+      End Set
+    End Property
+    Public Property Quality() As String
+      Get
+        Return m_quality
+      End Get
+      Set(ByVal Value As String)
+        m_quality = Value
+      End Set
+    End Property
     Public ReadOnly Property GoodsReceiptId() As Integer
       Get
         Return m_goodsReceiptId
       End Get
     End Property
-    Public Property GoodsReceipt() As GoodsReceipt      Get        Return m_goodsReceipt      End Get      Set(ByVal Value As GoodsReceipt)        m_goodsReceipt = Value        If Value Is Nothing Then          m_goodsReceiptId = 0
+    Public Property GoodsReceipt() As GoodsReceipt
+      Get
+        Return m_goodsReceipt
+      End Get
+      Set(ByVal Value As GoodsReceipt)
+        m_goodsReceipt = Value
+        If Value Is Nothing Then
+          m_goodsReceiptId = 0
           Return
-        End If        m_goodsReceiptId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property POitem() As POitem      Get        Return m_poitem      End Get      Set(ByVal Value As POitem)        m_poitem = Value      End Set    End Property    Public Property ItemType() As ItemType      Get        Return m_itemType      End Get      Set(ByVal Value As ItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If
+        m_goodsReceiptId = Value.Id
+      End Set
+    End Property
+
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+
+    Public Property POitem() As POItem
+      Get
+        Return m_poitem
+      End Get
+      Set(ByVal Value As POItem)
+        m_poitem = Value
+      End Set
+    End Property
+    Public Property ItemType() As ItemType
+      Get
+        Return m_itemType
+      End Get
+      Set(ByVal Value As ItemType)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemType Is Nothing Then
           m_itemType = Value
           Me.Clear()
@@ -257,10 +314,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_goodsReceipt.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
           Next
           'Me.Clear()
-        End If      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
+        End If
+      End Set
+    End Property
+    Public Property Entity() As IHasName
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As IHasName)
+        m_entity = Value
+        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
-        End If      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.GoodsReceipt Is Nothing Then        Return False
-      End If      If Me.ItemType Is Nothing Then
+        End If
+      End Set
+    End Property
+    Public Function DupCode(ByVal myCode As String) As Boolean
+      If Me.GoodsReceipt Is Nothing Then
+        Return False
+      End If
+      If Me.ItemType Is Nothing Then
         Return False
       End If
       If Me.ItemType.Value = 42 Then
@@ -286,7 +358,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return False
-    End Function    Private Function GetAmountFromSproc(ByVal sproc As String, ByVal ParamArray filters() As SqlParameter) As Decimal
+    End Function
+    Private Function GetAmountFromSproc(ByVal sproc As String, ByVal ParamArray filters() As SqlParameter) As Decimal
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
@@ -300,9 +373,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       Catch ex As Exception
       End Try
-    End Function    Public Sub SetItemCode(ByVal theCode As String)      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    End Function
+    Public Sub SetItemCode(ByVal theCode As String)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim unitPrice As Decimal = 0
-      Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyGRPricing"))      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyGRPricing"))
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -316,121 +392,127 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Case 160, 162 'Note
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveCode}")
           Return
-				Case 0		', 88, 89 'Blank
-					msgServ.ShowMessage("${res:Global.Error.BlankItemORLaborOrEQCannotHaveCode}")
-					Return
-				Case 28		 'F/A
-					msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
-					Return
-				Case 19		 'Tool
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
-					End If
-					Dim myTool As New Tool(theCode)
-					If Not myTool.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
-						Return
-					ElseIf myTool.Canceled Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.ToolIsCanceled}", New String() {theCode})
-						Return
-					Else
-						Select Case pricing
-							Case 0
-								unitPrice = myTool.FairPrice
-							Case 1
-								unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
-								, New SqlParameter("@stock_entity", GoodsReceipt.ValidIdOrDBNull(GoodsReceipt.Supplier)) _
-								, New SqlParameter("@stocki_entity", myTool.Id) _
-								, New SqlParameter("@stocki_entitytype", myTool.EntityId) _
-								, New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
-								)
-							Case 2
-								unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
-								, New SqlParameter("@stock_entity", DBNull.Value) _
-								, New SqlParameter("@stocki_entity", myTool.Id) _
-								, New SqlParameter("@stocki_entitytype", myTool.EntityId) _
-								, New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
-								)
-						End Select
-						Dim myUnit As Unit = myTool.Unit
-						Me.m_unit = myUnit
-						Me.m_entity = myTool
-						If Me.Conversion <> 0 Then
-							unitPrice = unitPrice * Conversion
-						End If
-						Me.UnitPrice = unitPrice
-						Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
-						If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
-							Me.m_account = ga.Account
-							Me.m_account.Name = ga.Account.Name & "<" & myStringParserService.Parse("${res:Global.Default}") & ">"
-						Else
-							Me.m_account = New Account
-						End If
-					End If
-				Case 42, 88, 89		 'LCI
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						If Me.ItemType.Value = 42 Then
-							Return
-						Else
-							Exit Select
-						End If
-					End If
-					Dim lci As New LCIItem(theCode)
-					If Not lci.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
-						Return
-					ElseIf lci.Canceled Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {theCode})
-						Return
-					Else
-						Select Case pricing
-							Case 0
-								unitPrice = lci.FairPrice
-							Case 1
-								unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
-								, New SqlParameter("@stock_entity", GoodsReceipt.ValidIdOrDBNull(GoodsReceipt.Supplier)) _
-								, New SqlParameter("@stocki_entity", lci.Id) _
-								, New SqlParameter("@stocki_entitytype", lci.EntityId) _
-								, New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
-								)
-							Case 2
-								unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
-								, New SqlParameter("@stock_entity", DBNull.Value) _
-								, New SqlParameter("@stocki_entity", lci.Id) _
-								, New SqlParameter("@stocki_entitytype", lci.EntityId) _
-								, New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
-								)
-						End Select
-						Dim myUnit As Unit = lci.DefaultUnit
-						Me.m_unit = myUnit
-						Me.m_entity = lci
-						If Me.Conversion <> 0 Then
-							unitPrice = unitPrice * Conversion
-						End If
-						Me.UnitPrice = unitPrice
-						If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
-							Me.m_account = lci.Account
-							Me.m_account.Name = lci.Account.Name & "<" & myStringParserService.Parse("${res:Global.Default}") & ">"
-						Else
-							Me.m_account = New Account
-						End If
-					End If
-				Case Else
-						msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-						Return
-			End Select
+        Case 0    ', 88, 89 'Blank
+          msgServ.ShowMessage("${res:Global.Error.BlankItemORLaborOrEQCannotHaveCode}")
+          Return
+        Case 28    'F/A
+          msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
+          Return
+        Case 19    'Tool
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim myTool As New Tool(theCode)
+          If Not myTool.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+            Return
+          ElseIf myTool.Canceled Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.ToolIsCanceled}", New String() {theCode})
+            Return
+          Else
+            Select Case pricing
+              Case 0
+                unitPrice = myTool.FairPrice
+              Case 1
+                unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
+                , New SqlParameter("@stock_entity", GoodsReceipt.ValidIdOrDBNull(GoodsReceipt.Supplier)) _
+                , New SqlParameter("@stocki_entity", myTool.Id) _
+                , New SqlParameter("@stocki_entitytype", myTool.EntityId) _
+                , New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
+                )
+              Case 2
+                unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
+                , New SqlParameter("@stock_entity", DBNull.Value) _
+                , New SqlParameter("@stocki_entity", myTool.Id) _
+                , New SqlParameter("@stocki_entitytype", myTool.EntityId) _
+                , New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
+                )
+            End Select
+            Dim myUnit As Unit = myTool.Unit
+            Me.m_unit = myUnit
+            Me.m_entity = myTool
+            If Me.Conversion <> 0 Then
+              unitPrice = unitPrice * Conversion
+            End If
+            Me.UnitPrice = unitPrice
+            Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
+            If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
+              Me.m_account = ga.Account
+              Me.m_account.Name = ga.Account.Name & "<" & myStringParserService.Parse("${res:Global.Default}") & ">"
+            Else
+              Me.m_account = New Account
+            End If
+          End If
+        Case 42, 88, 89    'LCI
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            If Me.ItemType.Value = 42 Then
+              Return
+            Else
+              Exit Select
+            End If
+          End If
+          Dim lci As New LCIItem(theCode)
+          If Not lci.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
+            Return
+          ElseIf lci.Canceled Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {theCode})
+            Return
+          Else
+            Select Case pricing
+              Case 0
+                unitPrice = lci.FairPrice
+              Case 1
+                unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
+                , New SqlParameter("@stock_entity", GoodsReceipt.ValidIdOrDBNull(GoodsReceipt.Supplier)) _
+                , New SqlParameter("@stocki_entity", lci.Id) _
+                , New SqlParameter("@stocki_entitytype", lci.EntityId) _
+                , New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
+                )
+              Case 2
+                unitPrice = GetAmountFromSproc("GetGRPriceForSupplier" _
+                , New SqlParameter("@stock_entity", DBNull.Value) _
+                , New SqlParameter("@stocki_entity", lci.Id) _
+                , New SqlParameter("@stocki_entitytype", lci.EntityId) _
+                , New SqlParameter("@stock_type", GoodsReceipt.EntityId) _
+                )
+            End Select
+            Dim myUnit As Unit = lci.DefaultUnit
+            Me.m_unit = myUnit
+            Me.m_entity = lci
+            If Me.Conversion <> 0 Then
+              unitPrice = unitPrice * Conversion
+            End If
+            Me.UnitPrice = unitPrice
+            If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
+              Me.m_account = lci.Account
+              Me.m_account.Name = lci.Account.Name & "<" & myStringParserService.Parse("${res:Global.Default}") & ">"
+            Else
+              Me.m_account = New Account
+            End If
+          End If
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+          Return
+      End Select
       Me.Qty = 1
-    End Sub    Public Property EntityName() As String      Get        Return m_entityName      End Get      Set(ByVal Value As String)        Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    End Sub
+    Public Property EntityName() As String
+      Get
+        Return m_entityName
+      End Get
+      Set(ByVal Value As String)
+        Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -470,7 +552,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case Else '160, 162
             Me.m_entityName = Value
-        End Select      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End Select
+      End Set
+    End Property
+    Public Property Unit() As Unit
+      Get
+        Return m_unit
+      End Get
+      Set(ByVal Value As Unit)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -511,11 +601,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Me.m_unitPrice = (newConversion / oldConversion) * Me.m_unitPrice
             Me.UnitPrice = (Me.UnitPrice / oldConversion) * newConversion
           End If
-					m_unit = Value
-					Me.Conversion = newConversion
+          m_unit = Value
+          Me.Conversion = newConversion
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Private Sub UpdateWBS()
+        End If
+      End Set
+    End Property
+    Private Sub UpdateWBS()
       If Not Me.GoodsReceipt Is Nothing Then
         Me.GoodsReceipt.RefreshTaxBase()
         For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
@@ -526,7 +619,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
         Next
       End If
-    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Sub
+    Public Property Qty() As Decimal
+      Get
+        Return m_qty
+      End Get
+      Set(ByVal Value As Decimal)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -536,7 +635,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
-        End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)        UpdateWBS()      End Set    End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If
+        m_qty = Configuration.Format(Value, DigitConfig.Qty)
+
+        UpdateWBS()
+      End Set
+    End Property
+    Public Property UnitPrice() As Decimal
+      Get
+        Return m_unitPrice
+      End Get
+      Set(ByVal Value As Decimal)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -551,7 +661,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
             UpdateWBS()
           Case Else
             msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        End Select      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Sub SetAccountCode(ByVal theCode As String)      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        End Select
+      End Set
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Sub SetAccountCode(ByVal theCode As String)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
@@ -626,14 +748,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return
         End Select
       End If
-    End Sub    Public Property Account() As Account      Get
+    End Sub
+    Public Property Account() As Account
+      Get
         Return Me.m_account
       End Get
       Set(ByVal Value As Account)
         m_account = Value
       End Set
-    End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property    Public Property Discount() As Discount      Get        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)        m_discount.AmountBeforeDiscount = amtFormatted
-        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value      End Set    End Property
+    End Property
+    Public ReadOnly Property StockQty() As Decimal
+      Get
+        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)
+      End Get
+    End Property
+    Public Property Discount() As Discount
+      Get
+        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
+        m_discount.AmountBeforeDiscount = amtFormatted
+        Return m_discount
+      End Get
+      Set(ByVal Value As Discount)
+        m_discount = Value
+      End Set
+    End Property
     Public ReadOnly Property DiscountAmount() As Decimal
       Get
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
@@ -660,15 +798,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Get
     End Property
-    Public ReadOnly Property TaxAmount() As Decimal      Get        If Me.GoodsReceipt Is Nothing Then
+    Public ReadOnly Property TaxAmount() As Decimal
+      Get
+        If Me.GoodsReceipt Is Nothing Then
           Return 0
-        End If        Return (Me.GoodsReceipt.TaxRate * Me.TaxBase) / 100      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get        If Me.GoodsReceipt Is Nothing Then
+        End If
+        Return (Me.GoodsReceipt.TaxRate * Me.TaxBase) / 100
+      End Get
+    End Property
+    Public ReadOnly Property BeforeTax() As Decimal
+      Get
+        If Me.GoodsReceipt Is Nothing Then
           Return 0
-        End If        Dim myGross As Decimal = Me.GoodsReceipt.Gross
+        End If
+        Dim myGross As Decimal = Me.GoodsReceipt.Gross
         Dim myDiscount As Decimal = Me.GoodsReceipt.DiscountAmount
         If myGross = 0 Then
           Return 0
-        End If        Select Case Me.GoodsReceipt.TaxType.Value
+        End If
+        Select Case Me.GoodsReceipt.TaxType.Value
           Case 0
             Return (Me.AmountWithoutFormat - _
             ( _
@@ -681,13 +829,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             )
           Case 2
             Return Me.AfterTax - Me.TaxAmount
-        End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        If Me.GoodsReceipt Is Nothing Then
+        End Select
+      End Get
+    End Property
+
+    Public ReadOnly Property AfterTax() As Decimal
+      Get
+        If Me.GoodsReceipt Is Nothing Then
           Return 0
-        End If        Dim myGross As Decimal = Me.GoodsReceipt.Gross
+        End If
+        Dim myGross As Decimal = Me.GoodsReceipt.Gross
         Dim myDiscount As Decimal = Me.GoodsReceipt.DiscountAmount
         If myGross = 0 Then
           Return 0
-        End If        Select Case Me.GoodsReceipt.TaxType.Value
+        End If
+        Select Case Me.GoodsReceipt.TaxType.Value
           Case 0
             Return Me.BeforeTax
           Case 1
@@ -697,7 +853,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ( _
             (Me.AmountWithoutFormat / myGross) * myDiscount) _
             )
-        End Select      End Get    End Property
+        End Select
+      End Get
+    End Property
     Public ReadOnly Property DiscountFromParent() As Decimal
       Get
         If Me.GoodsReceipt Is Nothing Then
@@ -772,7 +930,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tmpCost
       End Get
     End Property
-    Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
+    Public Property UnVatable() As Boolean
+      Get
+        Return m_unvatable
+      End Get
+      Set(ByVal Value As Boolean)
+        m_unvatable = Value
+      End Set
+    End Property
     Public ReadOnly Property UnitCost() As Decimal
       Get
         Dim tmpCost As Decimal = 0
@@ -799,7 +964,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return 0
       End Get
     End Property
-    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property
+    Public Property Conversion() As Decimal
+      Get
+        Return m_conversion
+      End Get
+      Set(ByVal Value As Decimal)
+        m_conversion = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
@@ -842,89 +1014,89 @@ Namespace Longkong.Pojjaman.BusinessLogic
             row.SetColumnError("stocki_unitprice", "")
             row.SetColumnError("stocki_itemname", "")
             row.SetColumnError("code", "")
-					Case 0, 88, 89				 'blank item /ค่าแรง/เครื่องจักร
-						If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
-							row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-						Else
-							row.SetColumnError("stocki_itemName", "")
-						End If
-						If Not IsNumeric(stocki_qty) Then					'OrElse CDec(stocki_qty) <= 0 Then
-							row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-						Else
-							row.SetColumnError("stocki_qty", "")
-						End If
-						'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
-						'    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-						'Else
-						'    row.SetColumnError("stocki_unitprice", "")
-						'End If
-						row.SetColumnError("stocki_unitprice", "")
-						row.SetColumnError("code", "")
-					Case 19				'เครื่องมือ
-						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
-							row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-						Else
-							row.SetColumnError("stocki_itemName", "")
-						End If
-						If Not IsNumeric(stocki_qty) Then					'OrElse CDec(stocki_qty) <= 0 Then
-							row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-						Else
-							row.SetColumnError("stocki_qty", "")
-						End If
-						'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
-						'    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-						'Else
-						'    row.SetColumnError("stocki_unitprice", "")
-						'End If
-						row.SetColumnError("stocki_unitprice", "")
-					Case 28				'F/A
-						If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
-							row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-						Else
-							row.SetColumnError("stocki_itemName", "")
-						End If
-						If Not IsNumeric(stocki_qty) Then					'OrElse CDec(stocki_qty) <= 0 Then
-							row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-						Else
-							row.SetColumnError("stocki_qty", "")
-						End If
-						'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
-						'    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-						'Else
-						'    row.SetColumnError("stocki_unitprice", "")
-						'End If
-						row.SetColumnError("stocki_unitprice", "")
-						row.SetColumnError("code", "")
-					Case 42				 'LCI
-						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
-							row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-						Else
-							row.SetColumnError("stocki_itemName", "")
-						End If
-						If Not IsNumeric(stocki_qty) Then					 'OrElse CDec(stocki_qty) <= 0 Then
-							row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-						Else
-							row.SetColumnError("stocki_qty", "")
-						End If
-						'If Not IsNumeric(stocki_unitprice) Then ' OrElse CDec(stocki_unitprice) <= 0 Then
-						'    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-						'Else
-						'    row.SetColumnError("stocki_unitprice", "")
-						'End If
-						row.SetColumnError("stocki_unitprice", "")
-					Case Else
-						Return
-				End Select
+          Case 0, 88, 89         'blank item /ค่าแรง/เครื่องจักร
+            If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
+              row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("stocki_itemName", "")
+            End If
+            If Not IsNumeric(stocki_qty) Then         'OrElse CDec(stocki_qty) <= 0 Then
+              row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            Else
+              row.SetColumnError("stocki_qty", "")
+            End If
+            'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
+            '    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            'Else
+            '    row.SetColumnError("stocki_unitprice", "")
+            'End If
+            row.SetColumnError("stocki_unitprice", "")
+            row.SetColumnError("code", "")
+          Case 19       'เครื่องมือ
+            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
+              row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("stocki_itemName", "")
+            End If
+            If Not IsNumeric(stocki_qty) Then         'OrElse CDec(stocki_qty) <= 0 Then
+              row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            Else
+              row.SetColumnError("stocki_qty", "")
+            End If
+            'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
+            '    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            'Else
+            '    row.SetColumnError("stocki_unitprice", "")
+            'End If
+            row.SetColumnError("stocki_unitprice", "")
+          Case 28       'F/A
+            If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
+              row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("stocki_itemName", "")
+            End If
+            If Not IsNumeric(stocki_qty) Then         'OrElse CDec(stocki_qty) <= 0 Then
+              row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            Else
+              row.SetColumnError("stocki_qty", "")
+            End If
+            'If Not IsNumeric(stocki_unitprice) Then 'OrElse CDec(stocki_unitprice) <= 0 Then
+            '    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            'Else
+            '    row.SetColumnError("stocki_unitprice", "")
+            'End If
+            row.SetColumnError("stocki_unitprice", "")
+            row.SetColumnError("code", "")
+          Case 42        'LCI
+            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If IsDBNull(stocki_itemName) OrElse stocki_itemName.ToString.Length = 0 Then
+              row.SetColumnError("stocki_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("stocki_itemName", "")
+            End If
+            If Not IsNumeric(stocki_qty) Then          'OrElse CDec(stocki_qty) <= 0 Then
+              row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            Else
+              row.SetColumnError("stocki_qty", "")
+            End If
+            'If Not IsNumeric(stocki_unitprice) Then ' OrElse CDec(stocki_unitprice) <= 0 Then
+            '    row.SetColumnError("stocki_unitprice", myStringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            'Else
+            '    row.SetColumnError("stocki_unitprice", "")
+            'End If
+            row.SetColumnError("stocki_unitprice", "")
+          Case Else
+            Return
+        End Select
       End If
     End Sub
     Public Sub CopyFromPOItem(ByVal poitem As POItem)
@@ -1008,18 +1180,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row("Button") = "invisible"
               row("stocki_itemName") = Me.EntityName
             Case 88, 89
-							If Not Me.Entity Is Nothing Then
-								row("stocki_entity") = Me.Entity.Id
-								row("stocki_itemName") = Me.Entity.Name
-								row("EntityName") = Me.Entity.Name
-								row("Code") = Me.Entity.Code
-								If Not Me.EntityName Is Nothing AndAlso Me.EntityName.Length > 0 Then
-									If Me.Entity.Name <> Me.EntityName Then
-										row("stocki_itemName") = Me.EntityName & "<" & Me.Entity.Name & ">"
-									End If
-								End If
-							End If
-							row("Button") = ""
+              If Not Me.Entity Is Nothing Then
+                row("stocki_entity") = Me.Entity.Id
+                row("stocki_itemName") = Me.Entity.Name
+                row("EntityName") = Me.Entity.Name
+                row("Code") = Me.Entity.Code
+                If Not Me.EntityName Is Nothing AndAlso Me.EntityName.Length > 0 Then
+                  If Me.Entity.Name <> Me.EntityName Then
+                    row("stocki_itemName") = Me.EntityName & "<" & Me.Entity.Name & ">"
+                  End If
+                End If
+              End If
+              row("Button") = ""
             Case 160, 162
               row("Button") = "invisible"
               row("AccountButton") = "invisible"
@@ -1223,7 +1395,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class GoodsReceiptItemCollection
+  Public Class GoodsReceiptItemCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -1366,7 +1538,15 @@ Public Class GoodsReceiptItemCollection
 #End Region
 
 #Region "Properties"
-    Public Property GoodsReceipt() As GoodsReceipt      Get        Return m_goodsReceipt      End Get      Set(ByVal Value As GoodsReceipt)        m_goodsReceipt = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As GoodsReceiptItem
+    Public Property GoodsReceipt() As GoodsReceipt
+      Get
+        Return m_goodsReceipt
+      End Get
+      Set(ByVal Value As GoodsReceipt)
+        m_goodsReceipt = Value
+      End Set
+    End Property
+    Default Public Property Item(ByVal index As Integer) As GoodsReceiptItem
       Get
         Return CType(MyBase.List.Item(index), GoodsReceiptItem)
       End Get
@@ -1461,41 +1641,41 @@ Public Class GoodsReceiptItemCollection
       Next
       Return myCollection
     End Function
-		Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
-			For i As Integer = 0 To items.Count - 1
-				Dim itemEntityLevel As Integer
-				Dim item As BasketItem = CType(items(i), BasketItem)
-				Dim newItem As IHasName
-				Dim newType As Integer = -1
-				Select Case item.FullClassName.ToLower
-					Case "longkong.pojjaman.businesslogic.lciitem"
-						newItem = New LCIItem(item.Id)
-						If targetType > -1 Then
-							newType = targetType
-						Else
-							newType = 42
-						End If
-						itemEntityLevel = CType(newItem, LCIItem).Level
-					Case "longkong.pojjaman.businesslogic.tool"
-						newItem = New Tool(item.Id)
-						newType = 19
-						itemEntityLevel = 5
-				End Select
-				If itemEntityLevel = 5 Then
-					Dim doc As New GoodsReceiptItem
-					If Not Me.CurrentItem Is Nothing Then
-						doc = Me.CurrentItem
-						doc.ItemType.Value = newType
-						Me.CurrentItem = Nothing
-					Else
-						Me.Add(doc)
-						doc.ItemType = New ItemType(newType)
-					End If
-					'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
-					doc.SetItemCode(newItem.Code)
-				End If
-			Next
-		End Sub
+    Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
+      For i As Integer = 0 To items.Count - 1
+        Dim itemEntityLevel As Integer
+        Dim item As BasketItem = CType(items(i), BasketItem)
+        Dim newItem As IHasName
+        Dim newType As Integer = -1
+        Select Case item.FullClassName.ToLower
+          Case "longkong.pojjaman.businesslogic.lciitem"
+            newItem = New LCIItem(item.Id)
+            If targetType > -1 Then
+              newType = targetType
+            Else
+              newType = 42
+            End If
+            itemEntityLevel = CType(newItem, LCIItem).Level
+          Case "longkong.pojjaman.businesslogic.tool"
+            newItem = New Tool(item.Id)
+            newType = 19
+            itemEntityLevel = 5
+        End Select
+        If itemEntityLevel = 5 Then
+          Dim doc As New GoodsReceiptItem
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.ItemType.Value = newType
+            Me.CurrentItem = Nothing
+          Else
+            Me.Add(doc)
+            doc.ItemType = New ItemType(newType)
+          End If
+          'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
+          doc.SetItemCode(newItem.Code)
+        End If
+      Next
+    End Sub
 #End Region
 
 #Region "Collection Methods"
