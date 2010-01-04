@@ -888,21 +888,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     dirtyFlag = True
                     Me.m_entity.Code = txtCode.Text
                 Case "txtcqcode"
-                    dirtyFlag = True
+          dirtyFlag = True
+          'If Me.m_entity.Check.Originated Then
+          'Me.m_entity.Check.DocStatus = New OutgoingCheckDocStatus(1)
+
+          'End If
           Me.m_entity.CqCode = txtCqCode.Text
           Me.m_entity.Check = New OutgoingCheck
                 Case "txtnote"
                     dirtyFlag = True
                     Me.m_entity.Note = txtNote.Text
-
-                Case "dtpdocdate"
-                    If Not Me.m_entity.Docdate.Equals(dtpDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.Docdate = dtpDocDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
+        Case "dtpdocdate"
+          If Not Me.m_entity.Docdate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.Docdate = dtpDocDate.Value
+            End If
+            dirtyFlag = True
+          End If
                 Case "txtdocdate"
                     m_dateSetting = True
                     If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then

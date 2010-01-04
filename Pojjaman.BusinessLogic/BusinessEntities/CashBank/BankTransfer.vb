@@ -33,6 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_whtcol As WitholdingTaxCollection
     Private m_check As OutgoingCheck
+    Private m_oldCheck As OutgoingCheck
 #End Region
 
 #Region "Constructs"
@@ -52,11 +53,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_whtcol = New WitholdingTaxCollection
         .m_whtcol.Direction = New WitholdingTaxDirection(1)
         .m_check = New OutgoingCheck(.CqCode)
+        .m_oldCheck = New OutgoingCheck(.CqCode)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       MyBase.Construct(ds, aliasPrefix)
       Me.m_check = New OutgoingCheck(Me.CqCode)
+      Me.m_oldCheck = New OutgoingCheck(Me.CqCode)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -64,6 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_whtcol = New WitholdingTaxCollection(Me)
         .m_whtcol.Direction = New WitholdingTaxDirection(1)
         .m_check = New OutgoingCheck(.CqCode)
+        .m_oldCheck = New OutgoingCheck(.CqCode)
       End With
     End Sub
 #End Region
@@ -80,6 +84,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As OutgoingCheck)
         Me.m_check = Value
+      End Set
+    End Property
+    Public Property OldCheck() As OutgoingCheck
+      Get
+        Return Me.m_oldCheck
+      End Get
+      Set(ByVal Value As OutgoingCheck)
+        Me.m_oldCheck = Value
       End Set
     End Property
 #End Region
@@ -512,6 +524,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else
           End Select
         End If
+
+        '------------------------Save Old Check-------------------------------
+        If Me.OldCheck.Originated Then
+          Me.OldCheck.DocStatus = New OutgoingCheckDocStatus(1)
+          Dim checkSaveError As SaveErrorException = Me.OldCheck.Save(theUser.Id, conn, trans)
+          If Not IsNumeric(checkSaveError.Message) Then
+            Return checkSaveError
+          Else
+            Select Case CInt(checkSaveError.Message)
+              Case -1, -5
+                Return checkSaveError
+              Case -2
+                Return checkSaveError
+              Case Else
+            End Select
+          End If
+        End If
+        '-----------------------------------------------------------------
+
         '------------------------Save Check-------------------------------
         If Not Me.Check.Originated Then 'And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) 
           If Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
@@ -664,28 +695,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
         '------------------------Save Check-------------------------------
-        If Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
+        If Me.Check.Originated Then
 
-          Me.Check.IssueDate = Me.Docdate
-          Me.Check.DueDate = Me.Docdate
-          If Not (Me.Check.Originated) Then
-            Me.Check.Code = Check.GetNextCode
-            Me.Check.CqCode = Me.CqCode
-          End If
           Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
-          Me.Check.Amount = Me.Amount + Me.BankCharge
-          Me.Check.Bankacct = Me.Bankacct
-          Me.Check.Note = Me.Note
-          Me.Check.BankCharge = Me.BankCharge
-          Me.Check.WHT = Me.WHT
 
-          Dim o As Object = Configuration.GetConfig("CheckDateFromWHT")
-          If Not o Is Nothing AndAlso CBool(o) Then
-            'CheckDateFromWHT
-            If Me.WitholdingTaxCollection.Count >= 1 Then
-              Me.Check.DueDate = Me.WitholdingTaxCollection(0).DocDate
-            End If
-          End If
           Dim checkSaveError As SaveErrorException = Me.Check.Save(currentUserId, conn, trans)
           If Not IsNumeric(checkSaveError.Message) Then
             Return checkSaveError
