@@ -191,6 +191,7 @@
     <Compile Include="Main\PojjamanMain.vb">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.Loan.addin" />
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin" />
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
