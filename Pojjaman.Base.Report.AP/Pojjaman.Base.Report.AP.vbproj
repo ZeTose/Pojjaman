@@ -614,6 +614,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\AP</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\AP
+copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\Purchase</PostBuildEvent>
   </PropertyGroup>
 </Project>
