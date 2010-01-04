@@ -1,0 +1,24 @@
+<AddIn name="Pojjaman Cash-Bank Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="Pojjaman.Base.Form.CashBank.dll"/>
+		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+		<Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
+		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<!--<EntityFilter id="advancemoney" entity="advancemoney" filter="Longkong.Pojjaman.Gui.Panels.AdvanceMoneyFilterSubPanel"/>
+		<EntityFilter id="pettycashclaim" entity="pettycashclaim" filter="Longkong.Pojjaman.Gui.Panels.PettyCashClaimFilterSubPanel"/>-->
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="loan">
+			<EntityTab id="LoanDetailView" view="Longkong.Pojjaman.Gui.Panels.LoanDetailView"/>
+		</EntityTab>					
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityListViews">
+		<!--<EntityListView id="bank" entity="bank" view="Longkong.Pojjaman.Gui.Panels.BankListView"/>		-->
+	</Extension>
+  <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
+    <MenuItem id="Separator4" label="-"/>
+    <MenuItem id="Loan" icon="Icons.16x16.Loan" label="${res:MainMenu.CashBankMenu.Loan}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Loan"/>
+  </Extension>
+</AddIn>
