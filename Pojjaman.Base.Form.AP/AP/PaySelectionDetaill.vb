@@ -1733,8 +1733,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
 
-      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)), _
-      New Filter("pays_id", Me.m_entity.Id)}
+      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292))}
       'New Filter("remainMustValid", True), _
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
@@ -1746,7 +1745,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       entities(4) = New PurchaseCNForPaySelection
       entities(5) = New PurchaseRetentionForPaySelection
       'entities(5) = New PurchaseDN
-      entities(6) = New PA
+      entities(6) = New PAForPaySelection
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
@@ -1787,7 +1786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               newItem = CType(item.Tag, BillAcceptanceItem)
               'Case "Longkong.Pojjaman.BusinessLogic.GoodsReceipt"
               '    If Not IsDBNull(item.Tag) Then
-              '        newItem = New BillAcceptanceItem(New GoodsReceipt(CInt(item.Tag)), Me.m_entity)
+              '       newItem = New BillAcceptanceItem(New GoodsReceipt(CInt(item.Tag)), Me.m_entity)
               '    End If
               'Case "Longkong.Pojjaman.BusinessLogic.PurchaseCN"
               '    If Not IsDBNull(item.Tag) Then
@@ -1842,6 +1841,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         If Not newItem Is Nothing Then
           'newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
+          'newItem.UnpaidAmount = Math.Min(newItem.RealAmount, newItem.UnpaidAmount)
           newItem.Amount = 0
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item
@@ -1868,6 +1868,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.SetType(newItem.EntityId)
               theDoc.CreditPeriod = newItem.CreditPeriod
               theDoc.Date = newItem.Date
+              theDoc.RetentionType = newItem.RetentionType
             End If
           Else
             Me.m_entity.ItemCollection.Insert(insertIndex, newItem)

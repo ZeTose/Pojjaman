@@ -1127,12 +1127,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
       Dim value As Decimal = CDec(e.ProposedValue)
-      Dim remain As Decimal = doc.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+      'Dim remain As Decimal = doc.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+      Dim remain As Decimal = doc.UnpaidAmount
       m_updating = True
-      If doc.UnpaidAmount <> remain Then
-        doc.UnpaidAmount = remain
-        e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
-      End If
+      'If doc.UnpaidAmount <> remain Then
+      'doc.UnpaidAmount = remain
+      e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
+      'End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If e.Row.IsNull("billai_entityType") Then
         msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
@@ -2154,6 +2155,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             theDoc.BeforeTax = newItem.BeforeTax
 
             theDoc.TaxBase = newItem.TaxBase
+            theDoc.RetentionType = newItem.RetentionType
           End If
         Else
           Me.m_entity.ItemCollection.Insert(insertIndex, newItem)

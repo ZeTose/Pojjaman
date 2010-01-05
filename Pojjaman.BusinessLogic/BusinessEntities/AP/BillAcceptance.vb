@@ -1078,20 +1078,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     'Public Sub New(ByVal pa As PA)
-    '  MyBase.New()
-    '  m_typeId = pa.EntityId
-    '  Me.Id = pa.Id
-    '  Me.Code = pa.Code
-    '  Me.Date = pa.DocDate
-    '  Me.DueDate = pa.DueDate
-    '  Me.BeforeTax = pa.BeforeTax
-    '  'Me.Retention = pa.Retention 
-    '  Me.AfterTax = pa.AfterTax
-    '  'Me.Retention = 0
-    '  Me.UnpaidAmount = pa.GetRemainingAmountWithBillAcceptance(0)
-    '  'Me.Amount = 0
+    'MyBase.New()
+    'm_typeId = pa.EntityId
+    'Me.Id = pa.Id
+    'Me.Code = pa.Code
+    'Me.Date = pa.DocDate
+    'Me.DueDate = pa.DueDate
+    'Me.BeforeTax = pa.BeforeTax
+    ''Me.Retention = pa.Retention 
+    'Me.AfterTax = pa.AfterTax
+    ''Me.Retention = pa.Retention
+    'Me.UnpaidAmount = pa.GetRemainingAmountWithBillAcceptance(0)
+    ''Me.Amount = 0
 
-    '  Me.Note = pa.Note
+    'Me.Note = pa.Note
 
     'End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal billA As BillAcceptance)
@@ -1167,10 +1167,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case "billai"
             If Not m_billAcceptance Is Nothing Then
-              Me.m_unpaidAmount = Me.GetRemainingAmountWithBillAcceptance(Me.m_billAcceptance.Id)
-              Me.m_billedAmount = Me.m_unpaidAmount
+              'Me.m_unpaidAmount = Me.GetRemainingAmountWithBillAcceptance(Me.m_billAcceptance.Id)
+              'Me.m_billedAmount = Me.m_unpaidAmount
               Me.m_amount = CDec(dr(aliasPrefix & "remain"))
               Me.m_unpaidAmount = CDec(dr(aliasPrefix & "remain"))
+              Me.m_billedAmount = Me.m_unpaidAmount
             End If
         End Select
       End If
@@ -1358,10 +1359,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_retention
       End Get
     End Property
-    Public ReadOnly Property RetentionType() As Integer
+    Public Property RetentionType() As Integer
       Get
         Return m_retentionType
       End Get
+      Set(ByVal value As Integer)
+        m_retentionType = value
+      End Set
     End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
@@ -1383,6 +1387,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub SetType(ByVal type As Integer)
       Me.m_typeId = type
+    End Sub
+    Public Sub SetRetention(ByVal Retention As Decimal)
+      Me.m_retention = Retention
     End Sub
     Public Sub Clear()
       Me.Id = 0
@@ -1643,6 +1650,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("billai_unpaidamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("billai_billedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("billai_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("billai_retentiontype", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("stock_retention", GetType(Decimal)))
 
       For Each tableRow As DataRow In dt.Rows
         Dim row As TreeRow = myDatatable.Childs.Add
@@ -1678,9 +1687,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim payable As New BillAcceptanceItem
         payable.Id = CInt(row("stock_id"))
         payable.ParentId = CInt(row("billa_id"))
-        row("billai_unpaidamt") = Configuration.FormatToString(payable.GetRemainingAmountPayselection(pays_id), DigitConfig.Price)
+        If Not tableRow.IsNull("billai_retentiontype") Then
+          payable.RetentionType = CInt(tableRow("billai_retentiontype"))
+        End If
+        Dim type As Integer
+        If Not tableRow.IsNull("stock_type") Then
+          type = CInt(tableRow("stock_type"))
+        End If
+        If type = 199 Then
+          row("billai_retentiontype") = tableRow("billai_retentiontype")
+          row("billai_unpaidamt") = Configuration.FormatToString(CDec(tableRow("remain")), DigitConfig.Price)
+        ElseIf type = 292 Then
+          row("stock_retention") = tableRow("stock_retention")
+          row("billai_unpaidamt") = Configuration.FormatToString(CDec(tableRow("remain")), DigitConfig.Price)
+        Else
+          row("billai_unpaidamt") = Configuration.FormatToString(payable.GetRemainingAmountPayselection(pays_id), DigitConfig.Price)
+        End If
         row("billai_billedamt") = tableRow("billai_billedamt")
         row("billai_linenumber") = tableRow("billai_linenumber")
+
         row.State = RowExpandState.None
       Next
       Return myDatatable
@@ -2081,6 +2106,7 @@ Public Class BillAcceptanceItemCollection
             Me(index).UnpaidAmount = remainningBalance
 
             If refresh Then ''ให้ default Amount ให้ ถ้าดึงเอกสารมาวางบิล
+              Me(index).UnpaidAmount = Math.Min(Me(index).BilledAmount, remainningBalance)
               If Me(index).Amount = 0 Then
                 Me(index).Amount = Math.Min(Me(index).BilledAmount, remainningBalance)
               Else
