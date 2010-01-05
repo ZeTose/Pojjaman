@@ -147,6 +147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If SumCC > 0 Then
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).Font.Bold = True
             m_grid.RowStyles(currItemIndex).ReadOnly = True
             m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
             m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
@@ -166,6 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tmpEachDisc = 0
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).Font.Bold = True
             m_grid.RowStyles(currItemIndex).ReadOnly = True
             m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.Sum}") 'รวม
             m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpAmount, DigitConfig.Price)
@@ -199,15 +201,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         'If Not row.IsNull("ccid") Then
-
-        For Each rowitem As DataRow In dt.Select("ccid=" & row("ccid").ToString)
-          If SumItem > 0 Then
-            If currentItemId <> rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString Then
-              m_grid.RowCount += 1
-              currItemIndex = m_grid.RowCount
-              m_grid.RowStyles(currItemIndex).ReadOnly = True
-              m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
-              m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
+          Dim rowitem As DataRow
+          For Each rowitem In dt.Select("ccid=" & row("ccid").ToString)
+            If SumItem > 0 Then
+              If currentItemId <> rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString Then
+                m_grid.RowCount += 1
+                currItemIndex = m_grid.RowCount
+                m_grid.RowStyles(currItemIndex).Font.Bold = True
+                m_grid.RowStyles(currItemIndex).ReadOnly = True
+                m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
+                m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
                 m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
                 m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
 
@@ -218,40 +221,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
                 tmpEachAmount = 0
-              tmpEachTaxAmt = 0
-              tmpEachAfterTax = 0
+                tmpEachTaxAmt = 0
+                tmpEachAfterTax = 0
+              End If
             End If
-          End If
 
-          m_grid.RowCount += 1
-          currItemIndex = m_grid.RowCount
-          m_grid.RowStyles(currItemIndex).ReadOnly = True
-          If IsDate(rowitem("DocDate")) Then
-            m_grid(currItemIndex, 1).CellValue = indent & CDate(rowitem("DocDate")).ToShortDateString
-          End If
-          If Not rowitem.IsNull("ItemName") Then
-            m_grid(currItemIndex, 2).CellValue = indent & rowitem("ItemName").ToString
-          End If
-          If Not rowitem.IsNull("ItemNote") Then
-            m_grid(currItemIndex, 3).CellValue = indent & rowitem("ItemNote").ToString
+            m_grid.RowCount += 1
+            currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).ReadOnly = True
+            If IsDate(rowitem("DocDate")) Then
+              m_grid(currItemIndex, 1).CellValue = indent & CDate(rowitem("DocDate")).ToShortDateString
+            End If
+            If Not rowitem.IsNull("ItemName") Then
+              m_grid(currItemIndex, 2).CellValue = indent & rowitem("ItemName").ToString
+            End If
+            If Not rowitem.IsNull("ItemNote") Then
+              m_grid(currItemIndex, 3).CellValue = indent & rowitem("ItemNote").ToString
               m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             End If
-          If IsNumeric(rowitem("Qty")) Then
-            m_grid(currItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Qty")), DigitConfig.Qty)
-          End If
-          If Not rowitem.IsNull("UnitName") Then
-            m_grid(currItemIndex, 5).CellValue = indent & rowitem("UnitName").ToString
-          End If
-          If IsNumeric(rowitem("UnitPrice")) Then
-            m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(rowitem("UnitPrice")), DigitConfig.Price)
+            If IsNumeric(rowitem("Qty")) Then
+              m_grid(currItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Qty")), DigitConfig.Qty)
+            End If
+            If Not rowitem.IsNull("UnitName") Then
+              m_grid(currItemIndex, 5).CellValue = indent & rowitem("UnitName").ToString
+            End If
+            If IsNumeric(rowitem("UnitPrice")) Then
+              m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(rowitem("UnitPrice")), DigitConfig.Price)
               m_grid(currItemIndex, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             End If
-          If IsNumeric(rowitem("Amount")) Then
-            m_grid(currItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Amount")), DigitConfig.Price)
+            If IsNumeric(rowitem("Amount")) Then
+              m_grid(currItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(rowitem("Amount")), DigitConfig.Price)
               m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
               tmpEachAmount += CDec(rowitem("Amount"))
-            tmpAmount += CDec(rowitem("Amount"))
-            SumAmount += CDec(rowitem("Amount"))
+              tmpAmount += CDec(rowitem("Amount"))
+              SumAmount += CDec(rowitem("Amount"))
             End If
 
             If IsNumeric(rowitem("discount")) Then
@@ -269,106 +272,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
               tmpTaxAmt += CDec(rowitem("TaxAmt"))
               SumTaxAmt += CDec(rowitem("TaxAmt"))
             End If
-          If IsNumeric(rowitem("AfterTax")) Then
+            If IsNumeric(rowitem("AfterTax")) Then
               m_grid(currItemIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(rowitem("AfterTax")), DigitConfig.Price)
               m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
               tmpEachAfterTax += CDec(rowitem("AfterTax"))
-            tmpAfterTax += CDec(rowitem("AfterTax"))
-            SumAfterTax += CDec(rowitem("AfterTax"))
-          End If
-          If Not rowitem.IsNull("SupplierInfo") Then
+              tmpAfterTax += CDec(rowitem("AfterTax"))
+              SumAfterTax += CDec(rowitem("AfterTax"))
+            End If
+            If Not rowitem.IsNull("SupplierInfo") Then
               m_grid(currItemIndex, 11).CellValue = indent & rowitem("SupplierInfo").ToString
-          End If
-          If Not rowitem.IsNull("EmployeeName") Then
+            End If
+            If Not rowitem.IsNull("EmployeeName") Then
               m_grid(currItemIndex, 12).CellValue = indent & rowitem("EmployeeName").ToString
-          End If
-          If Not rowitem.IsNull("PVCode") Then
+            End If
+            If Not rowitem.IsNull("PVCode") Then
               m_grid(currItemIndex, 13).CellValue = indent & rowitem("PVCode").ToString
-          End If
-          If Not rowitem.IsNull("stock_code") Then
+            End If
+            If Not rowitem.IsNull("stock_code") Then
               m_grid(currItemIndex, 14).CellValue = indent & rowitem("stock_code").ToString
-          End If
-          currentItemId = rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString
-          SumItem += 1
-        Next
-        'End If
-        'If currentItemId <> row("ItemId").ToString & row("ItemCode").ToString & row("ItemName").ToString & row("UnitName").ToString Then
-        '    m_grid.RowCount += 1
-        '    currItemIndex = m_grid.RowCount
-        '    m_grid.RowStyles(currItemIndex).ReadOnly = True
-        '    m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
-        '    m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
-        '    m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
-        '    m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
-        '    tmpEachAmount = 0
-        '    tmpEachTaxAmt = 0
-        '    tmpEachAfterTax = 0
-        'End If
-        'm_grid.RowCount += 1
-        'currItemIndex = m_grid.RowCount
-        'm_grid.RowStyles(currItemIndex).ReadOnly = True
-        'If IsDate(row("DocDate")) Then
-        '    m_grid(currItemIndex, 1).CellValue = indent & CDate(row("DocDate")).ToShortDateString
-        'End If
-        'If Not row.IsNull("ItemName") Then
-        '    m_grid(currItemIndex, 2).CellValue = indent & row("ItemName").ToString
-        'End If
-        'If Not row.IsNull("ItemNote") Then
-        '    m_grid(currItemIndex, 3).CellValue = indent & row("ItemNote").ToString
-        'End If
-        'If IsNumeric(row("Qty")) Then
-        '    m_grid(currItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
-        'End If
-        'If Not row.IsNull("UnitName") Then
-        '    m_grid(currItemIndex, 5).CellValue = indent & row("UnitName").ToString
-        'End If
-        'If IsNumeric(row("UnitPrice")) Then
-        '    m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(row("UnitPrice")), DigitConfig.Price)
-        'End If
-        'If IsNumeric(row("Amount")) Then
-        '    m_grid(currItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-        '    tmpEachAmount += CDec(row("Amount"))
-        '    tmpAmount += CDec(row("Amount"))
-        '    SumAmount += CDec(row("Amount"))
-        'End If
-        'If IsNumeric(row("TaxAmt")) Then
-        '    m_grid(currItemIndex, 8).CellValue = indent & Configuration.FormatToString(CDec(row("TaxAmt")), DigitConfig.Price)
-        '    tmpEachTaxAmt += CDec(row("TaxAmt"))
-        '    tmpTaxAmt += CDec(row("TaxAmt"))
-        '    SumTaxAmt += CDec(row("TaxAmt"))
-        'End If
-        'If IsNumeric(row("AfterTax")) Then
-        '    m_grid(currItemIndex, 9).CellValue = indent & Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
-        '    tmpEachAfterTax += CDec(row("AfterTax"))
-        '    tmpAfterTax += CDec(row("AfterTax"))
-        '    SumAfterTax += CDec(row("AfterTax"))
-        'End If
-        'If Not row.IsNull("SupplierInfo") Then
-        '    m_grid(currItemIndex, 10).CellValue = indent & row("SupplierInfo").ToString
-        'End If
-        'If Not row.IsNull("EmployeeName") Then
-        '    m_grid(currItemIndex, 11).CellValue = indent & row("EmployeeName").ToString
-        'End If
-        'If Not row.IsNull("PVCode") Then
-        '    m_grid(currItemIndex, 12).CellValue = indent & row("PVCode").ToString
-        'End If
-        'If Not row.IsNull("stock_code") Then
-        '    m_grid(currItemIndex, 13).CellValue = indent & row("stock_code").ToString
-        'End If
-        'currentItemId = row("ItemId").ToString & row("ItemCode").ToString & row("ItemName").ToString & row("UnitName").ToString
-				End If
-			Next
+            End If
+            currentItemId = rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString
+            SumItem += 1
+          Next
 
-      'm_grid.RowCount += 1
-      'currItemIndex = m_grid.RowCount
-      'm_grid.RowStyles(currItemIndex).ReadOnly = True
-      'm_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
-      'm_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
-      'm_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
-      'm_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
+        End If
+      Next
+      If SumItem > 0 Then
+        'If currentItemId <> rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString Then
+        m_grid.RowCount += 1
+        currItemIndex = m_grid.RowCount
+        m_grid.RowStyles(currItemIndex).Font.Bold = True
+        m_grid.RowStyles(currItemIndex).ReadOnly = True
+        m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
+        m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
+        m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
+        m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
 
+        m_grid(currItemIndex, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+        m_grid(currItemIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+        m_grid(currItemIndex, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+        m_grid(currItemIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+        m_grid(currItemIndex, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
+        tmpEachAmount = 0
+        tmpEachTaxAmt = 0
+        tmpEachAfterTax = 0
+        'End If
+      End If
       m_grid.RowCount += 1
       currItemIndex = m_grid.RowCount
+      m_grid.RowStyles(currItemIndex).Font.Bold = True
       m_grid.RowStyles(currItemIndex).ReadOnly = True
       m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.Sum}") 'รวม
       m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpAmount, DigitConfig.Price)
