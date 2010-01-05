@@ -3333,7 +3333,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 								Me.m_entity.DocDate = dtpDocDate.Value
 								Me.m_entity.Payment.DocDate = dtpDocDate.Value
 								Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-								Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+                Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+                If Not Me.m_entity.Originated Then
+                  If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
+                    Me.txtDeliveryDocDate.Text = Me.txtDueDate.Text
+                    Me.dtpDeliveryDocDate.Value = Me.dtpDueDate.Value
+                  End If
+                  If Me.txtInvoiceCode.Text.Trim.Length > 0 Then
+                    Me.txtInvoiceDate.Text = Me.txtDueDate.Text
+                    Me.dtpInvoiceDate.Value = Me.dtpDueDate.Value
+                  End If
+                End If
 								dirtyFlag = True
 							End If
 						End If
@@ -3431,116 +3441,118 @@ Namespace Longkong.Pojjaman.Gui.Panels
 							Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
 							dirtyFlag = True
 						End If
-					Else
-						dtpDeliveryDocDate.Value = Date.Now
-						Me.m_entity.DeliveryDocDate = Date.MinValue
+            'Else
+            'dtpDeliveryDocDate.Value = Date.Now
+            'Me.m_entity.DeliveryDocDate = Date.MinValue
 					End If
 					m_dateSetting = False
-				Case "dtpdeliverydocdate"
-					If Not m_dateSetting Then
-						If Not Me.m_entity.DeliveryDocDate.Equals(dtpDeliveryDocDate.Value) Then
-							If Not m_dateSetting Then
-								Me.txtDeliveryDocDate.Text = MinDateToNull(dtpDeliveryDocDate.Value, "")
-								Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
-								dirtyFlag = True
-							End If
-						End If
-					End If
-				Case "txtpocode"
-					If pOCodeChanged Then
-						pOCodeChanged = False
-						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If Me.txtPOCode.TextLength <> 0 Then
-							Dim poNeedsApproval As Boolean = False
-							poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
-							Dim newPo As New PO(txtPOCode.Text)
-							If poNeedsApproval AndAlso newPo.ApproveDate.Equals(Date.MinValue) Then
-								msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsNotApproved}", New String() {newPo.Code})
-							ElseIf Not newPo.Status Is Nothing AndAlso newPo.Status.Value = 0 Then
-								msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsCanceled}", New String() {newPo.Code})
-							ElseIf newPo.Closed = True Then
-								msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsClosed}", New String() {newPo.Code})
-							ElseIf msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangePO}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangePO}") Then
-								dirtyFlag = PO.GetPO(txtPOCode, Me.m_entity.Po)
-								Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
-								Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
-								Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
-								Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
-								Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
-								For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
-									vitem.PrintName = Me.m_entity.Supplier.Name
-									vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
-								Next
-								Me.m_entity.AdvancePayItemCollection.Clear()
-								Me.RefreshBlankGrid()
-								UpdateAmount()
-								txtcreditprdChanged = False
-							Else
-								Me.txtPOCode.Text = Me.m_entity.Po.Code
-								pOCodeChanged = False
-							End If
-						Else
-							Me.m_entity.Po = New PO
-							Me.txtPODate.Text = ""
-						End If
-						Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-						Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-					End If
-					RefreshDocs()
-				Case "txtinvoicecode"
-					If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
-						Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
-						m_oldInvoiceCode = Me.txtInvoiceCode.Text
-						dirtyFlag = True
-					End If
-				Case "txtinvoicedate"
-					m_dateSetting = True
-					dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
-					m_dateSetting = False
-				Case "dtpinvoicedate"
-					dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
-				Case "txttoccpersoncode"
-					If toCCPersonCodeChanged Then
-						dirtyFlag = Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
-						toCCPersonCodeChanged = False
-					End If
-				Case "txttocostcentercode"
-					If toCCCodeChanged Then
-						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
-							If Me.txtToCostCenterCode.TextLength <> 0 Then
-								dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-								If dirtyFlag Then
-									UpdateDestAdmin()
-								End If
-							Else
-								Me.m_entity.ToCostCenter = New CostCenter
-								txtToCostCenterName.Text = ""
-							End If
-							Try
-								If oldCCId <> Me.m_entity.ToCostCenter.Id Then
-									Me.WorkbenchWindow.ViewContent.IsDirty = True
-									oldCCId = Me.m_entity.ToCostCenter.Id
-									ChangeCC()
-								End If
-							Catch ex As Exception
+        Case "dtpdeliverydocdate"
+          If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+            If Not m_dateSetting Then
+              If Not Me.m_entity.DeliveryDocDate.Equals(dtpDeliveryDocDate.Value) Then
+                If Not m_dateSetting Then
+                  Me.txtDeliveryDocDate.Text = MinDateToNull(dtpDeliveryDocDate.Value, "")
+                  Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
+                  dirtyFlag = True
+                End If
+              End If
+            End If
+          End If
+        Case "txtpocode"
+          If pOCodeChanged Then
+            pOCodeChanged = False
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.txtPOCode.TextLength <> 0 Then
+              Dim poNeedsApproval As Boolean = False
+              poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
+              Dim newPo As New PO(txtPOCode.Text)
+              If poNeedsApproval AndAlso newPo.ApproveDate.Equals(Date.MinValue) Then
+                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsNotApproved}", New String() {newPo.Code})
+              ElseIf Not newPo.Status Is Nothing AndAlso newPo.Status.Value = 0 Then
+                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsCanceled}", New String() {newPo.Code})
+              ElseIf newPo.Closed = True Then
+                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsClosed}", New String() {newPo.Code})
+              ElseIf msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangePO}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangePO}") Then
+                dirtyFlag = PO.GetPO(txtPOCode, Me.m_entity.Po)
+                Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
+                Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
+                Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
+                Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+                Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
+                For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+                  vitem.PrintName = Me.m_entity.Supplier.Name
+                  vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                Next
+                Me.m_entity.AdvancePayItemCollection.Clear()
+                Me.RefreshBlankGrid()
+                UpdateAmount()
+                txtcreditprdChanged = False
+              Else
+                Me.txtPOCode.Text = Me.m_entity.Po.Code
+                pOCodeChanged = False
+              End If
+            Else
+              Me.m_entity.Po = New PO
+              Me.txtPODate.Text = ""
+            End If
+            Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+          End If
+          RefreshDocs()
+        Case "txtinvoicecode"
+          If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
+            Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            dirtyFlag = True
+          End If
+        Case "txtinvoicedate"
+          m_dateSetting = True
+          dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
+          m_dateSetting = False
+        Case "dtpinvoicedate"
+          dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
+        Case "txttoccpersoncode"
+          If toCCPersonCodeChanged Then
+            dirtyFlag = Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
+            toCCPersonCodeChanged = False
+          End If
+        Case "txttocostcentercode"
+          If toCCCodeChanged Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
+              If Me.txtToCostCenterCode.TextLength <> 0 Then
+                dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+                If dirtyFlag Then
+                  UpdateDestAdmin()
+                End If
+              Else
+                Me.m_entity.ToCostCenter = New CostCenter
+                txtToCostCenterName.Text = ""
+              End If
+              Try
+                If oldCCId <> Me.m_entity.ToCostCenter.Id Then
+                  Me.WorkbenchWindow.ViewContent.IsDirty = True
+                  oldCCId = Me.m_entity.ToCostCenter.Id
+                  ChangeCC()
+                End If
+              Catch ex As Exception
 
-							End Try
-							toCCCodeChanged = False
-						Else
-							Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
-							toCCCodeChanged = False
-						End If
-					End If
-				Case "txtdeliveryperson"
-					Me.m_entity.DeliveryPerson = txtDeliveryPerson.Text
-					dirtyFlag = True
-				Case "cmbdoctype"
-					Dim item As IdValuePair = CType(Me.cmbDocType.SelectedItem, IdValuePair)
-					Me.m_entity.ToAccountType.Value = item.Id
-					dirtyFlag = True
-				Case Else
-			End Select
+              End Try
+              toCCCodeChanged = False
+            Else
+              Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+              toCCCodeChanged = False
+            End If
+          End If
+        Case "txtdeliveryperson"
+          Me.m_entity.DeliveryPerson = txtDeliveryPerson.Text
+          dirtyFlag = True
+        Case "cmbdoctype"
+          Dim item As IdValuePair = CType(Me.cmbDocType.SelectedItem, IdValuePair)
+          Me.m_entity.ToAccountType.Value = item.Id
+          dirtyFlag = True
+        Case Else
+      End Select
 			Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 			CheckFormEnable()
 		End Sub

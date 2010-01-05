@@ -759,60 +759,63 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "UI Validation Code"
 		Public Sub CodeChanged(ByVal newCode As String)
-			Dim vi As VatItem
-			If Me.ItemCollection.Count <= 0 Then
-				vi = New VatItem
-				Me.ItemCollection.Add(vi)
-			End If
-			vi = Me.ItemCollection(0)
-			vi.Code = newCode
+      Dim vi As VatItem
+      If newCode.Trim.Length > 0 Then
+        If Me.ItemCollection.Count <= 0 Then
+          vi = New VatItem
+          Me.ItemCollection.Add(vi)
+        End If
+        vi = Me.ItemCollection(0)
+        vi.Code = newCode
 
-			'--------------------------------------------------
-			vi.DocDate = Me.RefDoc.Date
-			vi.PrintName = Me.RefDoc.Person.Name
-			vi.PrintAddress = Me.RefDoc.Person.BillingAddress
+        '--------------------------------------------------
+        vi.DocDate = Me.RefDoc.Date
+        vi.PrintName = Me.RefDoc.Person.Name
+        vi.PrintAddress = Me.RefDoc.Person.BillingAddress
 
-			vi.TaxBase = Me.RefDoc.TaxBase
-			'--------------------------------------------------
-		End Sub
+        vi.TaxBase = Me.RefDoc.TaxBase
+        '--------------------------------------------------
+      End If
+    End Sub
 		Public Function DateTextChanged(ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal validator As PJMTextboxValidator) As Boolean
 			Dim dirtyFlag As Boolean = False
 			Dim vi As VatItem
-			If Me.ItemCollection.Count <= 0 Then
-				vi = New VatItem
-				Me.ItemCollection.Add(vi)
-			End If
-			vi = Me.ItemCollection(0)
-			If Not txtInvoiceDate.Text.Length = 0 AndAlso validator.GetErrorMessage(txtInvoiceDate) = "" Then
-				Dim theDate As Date = CDate(txtInvoiceDate.Text)
-				If Not vi.DocDate.Equals(theDate) Then
-					dtpInvoiceDate.Value = theDate
-					vi.DocDate = dtpInvoiceDate.Value
-					dirtyFlag = True
-				End If
-			Else
-				dtpInvoiceDate.Value = Date.Now
-				vi.DocDate = Date.MinValue
-				dirtyFlag = True
-			End If
-			Return dirtyFlag
+      If Me.ItemCollection.Count > 0 Then
+        'vi = New VatItem
+        'Me.ItemCollection.Add(vi)
+        vi = Me.ItemCollection(0)
+        If Not txtInvoiceDate.Text.Length = 0 AndAlso validator.GetErrorMessage(txtInvoiceDate) = "" Then
+          Dim theDate As Date = CDate(txtInvoiceDate.Text)
+          If Not vi.DocDate.Equals(theDate) Then
+            dtpInvoiceDate.Value = theDate
+            vi.DocDate = dtpInvoiceDate.Value
+            dirtyFlag = True
+          End If
+        Else
+          dtpInvoiceDate.Value = Date.Now
+          vi.DocDate = Date.MinValue
+          dirtyFlag = True
+        End If
+        Return dirtyFlag
+      End If
 		End Function
 		Public Function DatePickerChanged(ByVal dtpInvoiceDate As DateTimePicker, ByVal txtInvoiceDate As TextBox, ByVal dateSetting As Boolean) As Boolean
 			Dim dirtyFlag As Boolean = False
 			Dim vi As VatItem
-			If Me.ItemCollection.Count <= 0 Then
-				vi = New VatItem
-				Me.ItemCollection.Add(vi)
-			End If
-			vi = Me.ItemCollection(0)
-			If Not vi.DocDate.Equals(dtpInvoiceDate.Value) Then
-				If Not dateSetting Then
-					txtInvoiceDate.Text = MinDateToNull(dtpInvoiceDate.Value, "")
-					vi.DocDate = dtpInvoiceDate.Value
-				End If
-				dirtyFlag = True
-			End If
-			Return dirtyFlag
+      If Me.ItemCollection.Count > 0 Then
+        'vi = New VatItem
+        'Me.ItemCollection.Add(vi)
+
+        vi = Me.ItemCollection(0)
+        If Not vi.DocDate.Equals(dtpInvoiceDate.Value) Then
+          If Not dateSetting Then
+            txtInvoiceDate.Text = MinDateToNull(dtpInvoiceDate.Value, "")
+            vi.DocDate = dtpInvoiceDate.Value
+          End If
+          dirtyFlag = True
+        End If
+        Return dirtyFlag
+      End If
 		End Function
 		Public Function MinDateToNull(ByVal dt As Date, ByVal nullString As String) As String
 			If dt.Equals(Date.MinValue) Then
