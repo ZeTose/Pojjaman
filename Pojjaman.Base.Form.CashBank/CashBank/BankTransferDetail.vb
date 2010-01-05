@@ -5,74 +5,78 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class BankTransferDetail
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class BankTransferDetail
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblDocDate As System.Windows.Forms.Label
-        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents txtNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
-        Friend WithEvents lblBaht As System.Windows.Forms.Label
-        Friend WithEvents lblAmount As System.Windows.Forms.Label
-        Friend WithEvents txtAmount As System.Windows.Forms.TextBox
-        Friend WithEvents lblBankcharge As System.Windows.Forms.Label
-        Friend WithEvents txtBankcharge As System.Windows.Forms.TextBox
-        Friend WithEvents lblBaht1 As System.Windows.Forms.Label
-        Friend WithEvents lblWHT As System.Windows.Forms.Label
-        Friend WithEvents txtWHT As System.Windows.Forms.TextBox
-        Friend WithEvents lblBaht2 As System.Windows.Forms.Label
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtCqCode As System.Windows.Forms.TextBox
-        Friend WithEvents grbDestination As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnDestinationFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDestinationBranch As System.Windows.Forms.TextBox
-        Friend WithEvents lblDestinationBranch As System.Windows.Forms.Label
-        Friend WithEvents lblDestination As System.Windows.Forms.Label
-        Friend WithEvents btnDestinationEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDestinationCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtDestinationName As System.Windows.Forms.TextBox
-        Friend WithEvents grbSource As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnSourceFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtSourceBranch As System.Windows.Forms.TextBox
-        Friend WithEvents lblSourceBranch As System.Windows.Forms.Label
-        Friend WithEvents btnSourceEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblSource As System.Windows.Forms.Label
-        Friend WithEvents txtSourceName As System.Windows.Forms.TextBox
-        Friend WithEvents txtSourceCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblCqCode As System.Windows.Forms.Label
-        Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents lblBankAcctType As System.Windows.Forms.Label
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblDocDate As System.Windows.Forms.Label
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
+    Friend WithEvents lblBaht As System.Windows.Forms.Label
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents txtAmount As System.Windows.Forms.TextBox
+    Friend WithEvents lblBankcharge As System.Windows.Forms.Label
+    Friend WithEvents txtBankcharge As System.Windows.Forms.TextBox
+    Friend WithEvents lblBaht1 As System.Windows.Forms.Label
+    Friend WithEvents lblWHT As System.Windows.Forms.Label
+    Friend WithEvents txtWHT As System.Windows.Forms.TextBox
+    Friend WithEvents lblBaht2 As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtCqCode As System.Windows.Forms.TextBox
+    Friend WithEvents grbDestination As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnDestinationFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDestinationBranch As System.Windows.Forms.TextBox
+    Friend WithEvents lblDestinationBranch As System.Windows.Forms.Label
+    Friend WithEvents lblDestination As System.Windows.Forms.Label
+    Friend WithEvents btnDestinationEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDestinationCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtDestinationName As System.Windows.Forms.TextBox
+    Friend WithEvents grbSource As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnSourceFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtSourceBranch As System.Windows.Forms.TextBox
+    Friend WithEvents lblSourceBranch As System.Windows.Forms.Label
+    Friend WithEvents btnSourceEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblSource As System.Windows.Forms.Label
+    Friend WithEvents txtSourceName As System.Windows.Forms.TextBox
+    Friend WithEvents txtSourceCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblCqCode As System.Windows.Forms.Label
+    Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents lblBankAcctType As System.Windows.Forms.Label
     Friend WithEvents cmbBankAcctType As System.Windows.Forms.ComboBox
     Friend WithEvents ibtnShowCheckDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblBaht3 As System.Windows.Forms.Label
+    Friend WithEvents txtSum As System.Windows.Forms.TextBox
+    Friend WithEvents lblSum As System.Windows.Forms.Label
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
 
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BankTransferDetail))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnShowCheckDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.txtDocDate = New System.Windows.Forms.TextBox()
@@ -113,7 +117,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ibtnShowCheckDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtSum = New System.Windows.Forms.TextBox()
+      Me.lblBaht3 = New System.Windows.Forms.Label()
+      Me.lblSum = New System.Windows.Forms.Label()
       Me.grbMaster.SuspendLayout()
       Me.grbDestination.SuspendLayout()
       Me.grbSource.SuspendLayout()
@@ -124,6 +130,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.lblSum)
+      Me.grbMaster.Controls.Add(Me.lblBaht3)
+      Me.grbMaster.Controls.Add(Me.txtSum)
       Me.grbMaster.Controls.Add(Me.ibtnShowCheckDialog)
       Me.grbMaster.Controls.Add(Me.chkAutorun)
       Me.grbMaster.Controls.Add(Me.lblStatus)
@@ -155,6 +164,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "รายละเอียดโอนเงิน"
+      '
+      'ibtnShowCheckDialog
+      '
+      Me.ibtnShowCheckDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowCheckDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowCheckDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowCheckDialog.Location = New System.Drawing.Point(267, 47)
+      Me.ibtnShowCheckDialog.Name = "ibtnShowCheckDialog"
+      Me.ibtnShowCheckDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowCheckDialog.TabIndex = 182
+      Me.ibtnShowCheckDialog.TabStop = False
+      Me.ibtnShowCheckDialog.ThemedImage = CType(resources.GetObject("ibtnShowCheckDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'chkAutorun
       '
@@ -687,17 +708,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'ibtnShowCheckDialog
+      'txtSum
       '
-      Me.ibtnShowCheckDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowCheckDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowCheckDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowCheckDialog.Location = New System.Drawing.Point(267, 47)
-      Me.ibtnShowCheckDialog.Name = "ibtnShowCheckDialog"
-      Me.ibtnShowCheckDialog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowCheckDialog.TabIndex = 182
-      Me.ibtnShowCheckDialog.TabStop = False
-      Me.ibtnShowCheckDialog.ThemedImage = CType(resources.GetObject("ibtnShowCheckDialog.ThemedImage"), System.Drawing.Bitmap)
+      Me.Validator.SetDataType(Me.txtSum, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
+      Me.Validator.SetDisplayName(Me.txtSum, "")
+      Me.txtSum.Enabled = False
+      Me.txtSum.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtSum, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtSum, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtSum, System.Drawing.Color.Empty)
+      Me.txtSum.Location = New System.Drawing.Point(384, 352)
+      Me.txtSum.MaxLength = 13
+      Me.Validator.SetMinValue(Me.txtSum, "")
+      Me.txtSum.Name = "txtSum"
+      Me.txtSum.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtSum, "")
+      Me.Validator.SetRequired(Me.txtSum, False)
+      Me.txtSum.Size = New System.Drawing.Size(104, 21)
+      Me.txtSum.TabIndex = 183
+      Me.txtSum.TabStop = False
+      Me.txtSum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'lblBaht3
+      '
+      Me.lblBaht3.AutoSize = True
+      Me.lblBaht3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblBaht3.ForeColor = System.Drawing.Color.Black
+      Me.lblBaht3.Location = New System.Drawing.Point(496, 354)
+      Me.lblBaht3.Name = "lblBaht3"
+      Me.lblBaht3.Size = New System.Drawing.Size(27, 13)
+      Me.lblBaht3.TabIndex = 184
+      Me.lblBaht3.Text = "บาท"
+      Me.lblBaht3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'lblSum
+      '
+      Me.lblSum.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSum.ForeColor = System.Drawing.Color.Black
+      Me.lblSum.Location = New System.Drawing.Point(331, 353)
+      Me.lblSum.Name = "lblSum"
+      Me.lblSum.Size = New System.Drawing.Size(45, 18)
+      Me.lblSum.TabIndex = 185
+      Me.lblSum.Text = "รวม:"
+      Me.lblSum.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'BankTransferDetail
       '
@@ -716,193 +769,189 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
-        Private Enum BankFocus
-            BankSource
-            BankDestination
-        End Enum
+    Private Enum BankFocus
+      BankSource
+      BankDestination
+    End Enum
 
 #Region " SetLabelText "
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbMaster}")
-            Me.grbSource.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbSource}")
-            Me.grbDestination.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbDestination}")
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbMaster}")
+      Me.grbSource.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbSource}")
+      Me.grbDestination.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.grbDestination}")
 
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblCode}")
-            Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblCode}")
+      Me.Validator.SetDisplayName(txtCode, lblCode.Text)
 
-            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
-            Me.Validator.SetDisplayName(txtDocDate, lblDocDate.Text)
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
+      Me.Validator.SetDisplayName(txtDocDate, lblDocDate.Text)
 
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
-            Me.Validator.SetDisplayName(txtNote, lblNote.Text)
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+      Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblAmount}")
-            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblAmount}")
+      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-            Me.lblBankcharge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblBankcharge}")
-            Me.Validator.SetDisplayName(txtBankcharge, lblBankcharge.Text)
+      Me.lblBankcharge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblBankcharge}")
+      Me.Validator.SetDisplayName(txtBankcharge, lblBankcharge.Text)
 
-            Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblWHT}")
-            Me.Validator.SetDisplayName(txtWHT, lblWHT.Text)
+      Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblWHT}")
+      Me.Validator.SetDisplayName(txtWHT, lblWHT.Text)
 
-            Me.lblDestinationBranch.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblDestinationBranch}")
-            Me.lblSourceBranch.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblSourceBranch}")
+      Me.lblDestinationBranch.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblDestinationBranch}")
+      Me.lblSourceBranch.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblSourceBranch}")
 
-            Me.lblCqCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblCqCode}")
-            Me.Validator.SetDisplayName(txtCqCode, lblCqCode.Text)
+      Me.lblCqCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblCqCode}")
+      Me.Validator.SetDisplayName(txtCqCode, lblCqCode.Text)
 
-            Me.lblSource.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
-            Me.Validator.SetDisplayName(txtSourceCode, lblSource.Text)
+      Me.lblSource.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
+      Me.Validator.SetDisplayName(txtSourceCode, lblSource.Text)
 
-            Me.lblDestination.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
-            Me.Validator.SetDisplayName(txtDestinationCode, lblDestination.Text)
+      Me.lblDestination.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
+      Me.Validator.SetDisplayName(txtDestinationCode, lblDestination.Text)
 
-            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            
-        End Sub
+      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+
+    End Sub
 #End Region
 
 #Region "Members"
-        Private m_entity As BankTransfer
-        Private m_isInitialized As Boolean = False
+    Private m_entity As BankTransfer
+    Private m_isInitialized As Boolean = False
 #End Region
 
 #Region "Methods"
-        Private Sub UpdateBankBranchName(ByVal focus As BankFocus)
-            Dim oldStatus As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            Select Case focus
-                Case BankFocus.BankSource
-                    If Me.m_entity.Bankacct.BankBranch Is Nothing OrElse Not Me.m_entity.Bankacct.BankBranch.Originated Then
-                        txtSourceBranch.Text = ""
-                        cmbBankAcctType.SelectedIndex = 0
-                    Else
-                        txtSourceBranch.Text = Me.m_entity.Bankacct.BankBranch.Bank.Name & " / " & _
-                                               Me.m_entity.Bankacct.BankBranch.Name
-                    End If
-                    If Me.m_entity.Bankacct.Type Is Nothing Then
-                        Me.m_entity.Bankacct.Type = New BankAccountType(1)
-                    End If
-                    For Each item As IdValuePair In Me.cmbBankAcctType.Items
-                        If item.Id = Me.m_entity.Bankacct.Type.Value Then
-                            cmbBankAcctType.SelectedItem = item
-                        End If
-                    Next
-                    'Hack: Harcoded
-                    If (Me.m_entity.Bankacct.Type.Value = 3) Then
-                        'กระแสรายวัน
-                        If CBool(Configuration.GetConfig("AllowNoCqCode")) = True Then
-                            Me.Validator.SetRequired(Me.txtCqCode, False)
-                        Else
-                            Me.Validator.SetRequired(Me.txtCqCode, True)
-                        End If
-                    Else
-                        Me.Validator.SetRequired(Me.txtCqCode, False)
-                        Me.ErrorProvider1.SetError(Me.txtCqCode, "")
-                    End If
-                Case BankFocus.BankDestination
-                    If Me.m_entity.BankacctDestinate.BankBranch Is Nothing OrElse Not Me.m_entity.BankacctDestinate.BankBranch.Originated Then
-                        txtDestinationBranch.Text = ""
-                    Else
-                        txtDestinationBranch.Text = Me.m_entity.BankacctDestinate.BankBranch.Bank.Name & " / " & _
-                                               Me.m_entity.BankacctDestinate.BankBranch.Name
-                    End If
-            End Select
-            Me.m_isInitialized = oldStatus
-        End Sub
+    Private Sub UpdateBankBranchName(ByVal focus As BankFocus)
+      Dim oldStatus As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Select Case focus
+        Case BankFocus.BankSource
+          If Me.m_entity.Bankacct.BankBranch Is Nothing OrElse Not Me.m_entity.Bankacct.BankBranch.Originated Then
+            txtSourceBranch.Text = ""
+            cmbBankAcctType.SelectedIndex = 0
+          Else
+            txtSourceBranch.Text = Me.m_entity.Bankacct.BankBranch.Bank.Name & " / " & _
+                                   Me.m_entity.Bankacct.BankBranch.Name
+          End If
+          If Me.m_entity.Bankacct.Type Is Nothing Then
+            Me.m_entity.Bankacct.Type = New BankAccountType(1)
+          End If
+          For Each item As IdValuePair In Me.cmbBankAcctType.Items
+            If item.Id = Me.m_entity.Bankacct.Type.Value Then
+              cmbBankAcctType.SelectedItem = item
+            End If
+          Next
+          'Hack: Harcoded
+          If (Me.m_entity.Bankacct.Type.Value = 3) Then
+            'กระแสรายวัน
+            If CBool(Configuration.GetConfig("AllowNoCqCode")) = True Then
+              Me.Validator.SetRequired(Me.txtCqCode, False)
+            Else
+              Me.Validator.SetRequired(Me.txtCqCode, True)
+            End If
+          Else
+            Me.Validator.SetRequired(Me.txtCqCode, False)
+            Me.ErrorProvider1.SetError(Me.txtCqCode, "")
+          End If
+        Case BankFocus.BankDestination
+          If Me.m_entity.BankacctDestinate.BankBranch Is Nothing OrElse Not Me.m_entity.BankacctDestinate.BankBranch.Originated Then
+            txtDestinationBranch.Text = ""
+          Else
+            txtDestinationBranch.Text = Me.m_entity.BankacctDestinate.BankBranch.Bank.Name & " / " & _
+                                   Me.m_entity.BankacctDestinate.BankBranch.Name
+          End If
+      End Select
+      Me.m_isInitialized = oldStatus
+    End Sub
 #End Region
 
 #Region "Constructs"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
 
-            Initialize()
-            EventWiring()
-            SetLabelText()
-        End Sub
+      Initialize()
+      EventWiring()
+      SetLabelText()
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
       End If
       If Not Me.m_entity.Check Is Nothing AndAlso Me.m_entity.Check.Originated Then
         Me.txtSourceCode.Enabled = False
-        'Me.txtSourceBranch.Enabled = False
         Me.txtAmount.Enabled = False
-        Me.txtBankcharge.Enabled = False
         Me.btnSourceEdit.Enabled = False
         Me.btnSourceFind.Enabled = False
       ElseIf Not Me.m_entity.Check Is Nothing AndAlso Not Me.m_entity.Check.Originated Then
         Me.txtSourceCode.Enabled = True
-        'Me.txtSourceBranch.Enabled = True
         Me.txtAmount.Enabled = True
-        Me.txtBankcharge.Enabled = True
         Me.btnSourceEdit.Enabled = True
         Me.btnSourceFind.Enabled = True
       End If
-            If Not Me.m_entity.Status Is Nothing Then
-                If Me.m_entity.Status.Value = 0 _
-                OrElse Me.m_entity.Status.Value >= 3 _
-                Then
-                    Me.Enabled = False
-                Else
-                    Me.Enabled = True
-                End If
-            End If
-        End Sub
-        Public Overrides Sub Initialize()
-            CodeDescription.ListCodeDescriptionInComboBox(cmbBankAcctType, "bankacct_type")
-        End Sub
+      If Not Me.m_entity.Status Is Nothing Then
+        If Me.m_entity.Status.Value = 0 _
+        OrElse Me.m_entity.Status.Value >= 3 _
+        Then
+          Me.Enabled = False
+        Else
+          Me.Enabled = True
+        End If
+      End If
+    End Sub
+    Public Overrides Sub Initialize()
+      CodeDescription.ListCodeDescriptionInComboBox(cmbBankAcctType, "bankacct_type")
+    End Sub
 
-        Protected Overrides Sub EventWiring()
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtCqCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+    Protected Overrides Sub EventWiring()
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCqCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtDestinationCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtSourceCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDestinationCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSourceCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtBankcharge.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtWHT.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBankcharge.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtWHT.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtAmount.Validated, AddressOf Me.NumberTextBoxChange
-            AddHandler txtBankcharge.Validated, AddressOf Me.NumberTextBoxChange
-            AddHandler txtWHT.Validated, AddressOf Me.NumberTextBoxChange
-        End Sub
-        Private Sub NumberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtamount"
-                    txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
-                Case "txtbankcharge"
-                    txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
-                Case "txtwht"
-                    txtWHT.Text = Configuration.FormatToString(Me.m_entity.WHT, DigitConfig.Price)
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcode"
-                    dirtyFlag = True
-                    Me.m_entity.Code = txtCode.Text
-                Case "txtcqcode"
+      AddHandler txtAmount.Validated, AddressOf Me.NumberTextBoxChange
+      AddHandler txtBankcharge.Validated, AddressOf Me.NumberTextBoxChange
+      AddHandler txtWHT.Validated, AddressOf Me.NumberTextBoxChange
+    End Sub
+    Private Sub NumberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtamount"
+          txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+        Case "txtbankcharge"
+          txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
+        Case "txtwht"
+          txtWHT.Text = Configuration.FormatToString(Me.m_entity.WHT, DigitConfig.Price)
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          dirtyFlag = True
+          Me.m_entity.Code = txtCode.Text
+        Case "txtcqcode"
           dirtyFlag = True
           'If Me.m_entity.Check.Originated Then
           'Me.m_entity.Check.DocStatus = New OutgoingCheckDocStatus(1)
@@ -910,9 +959,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'End If
           Me.m_entity.CqCode = txtCqCode.Text
           Me.m_entity.Check = New OutgoingCheck
-                Case "txtnote"
-                    dirtyFlag = True
-                    Me.m_entity.Note = txtNote.Text
+        Case "txtnote"
+          dirtyFlag = True
+          Me.m_entity.Note = txtNote.Text
         Case "dtpdocdate"
           If Not Me.m_entity.Docdate.Equals(dtpDocDate.Value) Then
             If Not m_dateSetting Then
@@ -921,176 +970,181 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             dirtyFlag = True
           End If
-                Case "txtdocdate"
-                    m_dateSetting = True
-                    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDate.Text)
-                        If Not Me.m_entity.Docdate.Equals(theDate) Then
-                            dtpDocDate.Value = theDate
-                            Me.m_entity.Docdate = dtpDocDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        Me.dtpDocDate.Value = Date.Now
-                        Me.m_entity.Docdate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-
-                Case "txtdestinationcode"
-                    Dim editBankacct As New BankAccount(txtDestinationCode.Text)
-                    If CheckSamBankAccount(BankFocus.BankDestination, editBankacct) Then
-                        txtDestinationCode.Text = ""
-                        txtDestinationName.Text = ""
-                        editBankacct = New BankAccount
-                    Else
-                        txtDestinationCode.Text = editBankacct.Code
-                        txtDestinationName.Text = editBankacct.Name
-                    End If
-                    Me.m_entity.BankacctDestinate = editBankacct
-                    UpdateBankBranchName(BankFocus.BankDestination)
-                    dirtyFlag = True
-
-                Case "txtsourcecode"
-                    Dim editBankacct As New BankAccount(txtSourceCode.Text)
-                    If CheckSamBankAccount(BankFocus.BankSource, editBankacct) Then
-                        txtSourceCode.Text = ""
-                        txtSourceName.Text = ""
-                        editBankacct = New BankAccount
-                    Else
-                        txtSourceCode.Text = editBankacct.Code
-                        txtSourceName.Text = editBankacct.Name
-                    End If
-                    Me.m_entity.Bankacct = editBankacct
-                    UpdateBankBranchName(BankFocus.BankSource)
-                    dirtyFlag = True
-
-                Case "txtamount"
-                    dirtyFlag = True
-                    If txtAmount.TextLength > 0 Then
-                        Me.m_entity.Amount = CDec(txtAmount.Text)
-                    Else
-                        Me.m_entity.Amount = Nothing
-                    End If
-
-                Case "txtbankcharge"
-                    dirtyFlag = True
-                    If txtBankcharge.TextLength > 0 Then
-                        Me.m_entity.BankCharge = CDec(txtBankcharge.Text)
-                    Else
-                        Me.m_entity.BankCharge = Nothing
-                    End If
-
-                Case "txtwht"
-
-            End Select
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            SetStatus()
-            CheckFormEnable()
-        End Sub
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.Docdate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.Docdate = dtpDocDate.Value
+              dirtyFlag = True
             End If
-            txtCode.Text = Me.m_entity.Code
-            txtCqCode.Text = Me.m_entity.CqCode
-            ' autogencode
-            m_oldCode = m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+          Else
+            Me.dtpDocDate.Value = Date.Now
+            Me.m_entity.Docdate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
 
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.Docdate)
-            txtDocDate.Text = MinDateToNull(Me.m_entity.Docdate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            txtNote.Text = Me.m_entity.Note
+        Case "txtdestinationcode"
+          Dim editBankacct As New BankAccount(txtDestinationCode.Text)
+          If CheckSamBankAccount(BankFocus.BankDestination, editBankacct) Then
+            txtDestinationCode.Text = ""
+            txtDestinationName.Text = ""
+            editBankacct = New BankAccount
+          Else
+            txtDestinationCode.Text = editBankacct.Code
+            txtDestinationName.Text = editBankacct.Name
+          End If
+          Me.m_entity.BankacctDestinate = editBankacct
+          UpdateBankBranchName(BankFocus.BankDestination)
+          dirtyFlag = True
 
-            ' ผู้โอนให้
-            If Not Me.m_entity.Bankacct Is Nothing Then
-                txtSourceCode.Text = Me.m_entity.Bankacct.Code
-                txtSourceName.Text = Me.m_entity.Bankacct.Name
-                UpdateBankBranchName(BankFocus.BankSource)
+        Case "txtsourcecode"
+          Dim editBankacct As New BankAccount(txtSourceCode.Text)
+          If CheckSamBankAccount(BankFocus.BankSource, editBankacct) Then
+            txtSourceCode.Text = ""
+            txtSourceName.Text = ""
+            editBankacct = New BankAccount
+          Else
+            txtSourceCode.Text = editBankacct.Code
+            txtSourceName.Text = editBankacct.Name
+          End If
+          Me.m_entity.Bankacct = editBankacct
+          UpdateBankBranchName(BankFocus.BankSource)
+          dirtyFlag = True
+
+        Case "txtamount"
+          dirtyFlag = True
+          If txtAmount.TextLength > 0 Then
+            Me.m_entity.Amount = CDec(txtAmount.Text)
+          Else
+            Me.m_entity.Amount = Nothing
+          End If
+
+        Case "txtbankcharge"
+          dirtyFlag = True
+          If txtBankcharge.TextLength > 0 Then
+            Me.m_entity.BankCharge = CDec(txtBankcharge.Text)
+            If txtSum.TextLength > 0 Then
+              Me.m_entity.Amount = CDec(txtSum.Text) - Me.m_entity.BankCharge
+              txtAmount.Text = Me.m_entity.Amount
             End If
+          Else
+            Me.m_entity.BankCharge = Nothing
+          End If
 
-            ' ผู้รับปลายทาง
-            If Not Me.m_entity.BankacctDestinate Is Nothing Then
-                txtDestinationCode.Text = Me.m_entity.BankacctDestinate.Code
-                txtDestinationName.Text = Me.m_entity.BankacctDestinate.Name
-                UpdateBankBranchName(BankFocus.BankDestination)
-            End If
+        Case "txtwht"
 
-            txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
-            txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
+      End Select
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      SetStatus()
+      CheckFormEnable()
+    End Sub
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      txtCode.Text = Me.m_entity.Code
+      txtCqCode.Text = Me.m_entity.CqCode
+      txtSum.Text = Configuration.FormatToString(Me.m_entity.Amount + Me.m_entity.BankCharge, DigitConfig.Price)
+      ' autogencode
+      m_oldCode = m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            If Not Me.m_entity.WitholdingTaxCollection Is Nothing Then
-                txtWHT.Text = Configuration.FormatToString(Me.m_entity.WitholdingTaxCollection.Amount, DigitConfig.Price)
-            End If
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.Docdate)
+      txtDocDate.Text = MinDateToNull(Me.m_entity.Docdate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      txtNote.Text = Me.m_entity.Note
 
-            For Each item As IdValuePair In Me.cmbBankAcctType.Items
-                If item.Id = Me.m_entity.Bankacct.Type.Value Then
-                    cmbBankAcctType.SelectedItem = item
-                    Exit For
-                End If
-            Next
+      ' ผู้โอนให้
+      If Not Me.m_entity.Bankacct Is Nothing Then
+        txtSourceCode.Text = Me.m_entity.Bankacct.Code
+        txtSourceName.Text = Me.m_entity.Bankacct.Name
+        UpdateBankBranchName(BankFocus.BankSource)
+      End If
 
-            m_isInitialized = True
+      ' ผู้รับปลายทาง
+      If Not Me.m_entity.BankacctDestinate Is Nothing Then
+        txtDestinationCode.Text = Me.m_entity.BankacctDestinate.Code
+        txtDestinationName.Text = Me.m_entity.BankacctDestinate.Name
+        UpdateBankBranchName(BankFocus.BankDestination)
+      End If
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-        End Sub
-        Public Overrides Sub ClearDetail()
-            lblStatus.Text = ""
-            For Each crlt As Control In grbMaster.Controls
-                If TypeOf crlt Is TextBox Then
-                    crlt.Text = ""
-                End If
-            Next
+      txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+      txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
 
-            txtDocDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-            dtpDocDate.Value = Date.Now
+      If Not Me.m_entity.WitholdingTaxCollection Is Nothing Then
+        txtWHT.Text = Configuration.FormatToString(Me.m_entity.WitholdingTaxCollection.Amount, DigitConfig.Price)
+      End If
 
-            cmbBankAcctType.SelectedIndex = -1
-            cmbBankAcctType.SelectedIndex = -1
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, BankTransfer)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+      For Each item As IdValuePair In Me.cmbBankAcctType.Items
+        If item.Id = Me.m_entity.Bankacct.Type.Value Then
+          cmbBankAcctType.SelectedItem = item
+          Exit For
+        End If
+      Next
 
-        Public Sub SetStatus()
-            If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name
-            ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name
-            ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name
-            Else
-                lblStatus.Text = "ยังไม่ได้บันทึก"
-            End If
-        End Sub
+      m_isInitialized = True
+
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+    End Sub
+    Public Overrides Sub ClearDetail()
+      lblStatus.Text = ""
+      For Each crlt As Control In grbMaster.Controls
+        If TypeOf crlt Is TextBox Then
+          crlt.Text = ""
+        End If
+      Next
+
+      txtDocDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpDocDate.Value = Date.Now
+
+      cmbBankAcctType.SelectedIndex = -1
+      cmbBankAcctType.SelectedIndex = -1
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
+        Me.m_entity = CType(Value, BankTransfer)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+
+    Public Sub SetStatus()
+      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        lblStatus.Text = "ยังไม่ได้บันทึก"
+      End If
+    End Sub
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Overrides"
@@ -1098,139 +1152,139 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event of Button controls"
-        ' BankAccount Source 
-        Private Sub btnSourceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSourceEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New BankAccount)
-        End Sub
-        Private Sub btnSourceFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSourceFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountSourceDialog)
-        End Sub
-        Private Sub SetBankAccountSourceDialog(ByVal e As ISimpleEntity)
-            If CheckSamBankAccount(BankFocus.BankSource, e) Then
-                txtSourceCode.Text = ""
-                txtSourceName.Text = ""
-                Me.m_entity.Bankacct = New BankAccount
-                UpdateBankBranchName(BankFocus.BankSource)
-                Return
-            End If
-            Me.txtSourceCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or BankAccount.GetBankAccount(txtSourceCode, txtSourceName, Me.m_entity.Bankacct)
-            UpdateBankBranchName(BankFocus.BankSource)
-        End Sub
+    ' BankAccount Source 
+    Private Sub btnSourceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSourceEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New BankAccount)
+    End Sub
+    Private Sub btnSourceFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSourceFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountSourceDialog)
+    End Sub
+    Private Sub SetBankAccountSourceDialog(ByVal e As ISimpleEntity)
+      If CheckSamBankAccount(BankFocus.BankSource, e) Then
+        txtSourceCode.Text = ""
+        txtSourceName.Text = ""
+        Me.m_entity.Bankacct = New BankAccount
+        UpdateBankBranchName(BankFocus.BankSource)
+        Return
+      End If
+      Me.txtSourceCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or BankAccount.GetBankAccount(txtSourceCode, txtSourceName, Me.m_entity.Bankacct)
+      UpdateBankBranchName(BankFocus.BankSource)
+    End Sub
 
-        ' BankAccount Destination
-        Private Sub btnDestinationEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDestinationEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New BankAccount)
-        End Sub
-        Private Sub btnDestinationFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDestinationFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountDestinateDialog)
-        End Sub
-        Private Sub SetBankAccountDestinateDialog(ByVal e As ISimpleEntity)
-            If CheckSamBankAccount(BankFocus.BankDestination, e) Then
-                txtDestinationCode.Text = ""
-                txtDestinationName.Text = ""
-                Me.m_entity.BankacctDestinate = New BankAccount
-                UpdateBankBranchName(BankFocus.BankDestination)
-                Return
+    ' BankAccount Destination
+    Private Sub btnDestinationEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDestinationEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New BankAccount)
+    End Sub
+    Private Sub btnDestinationFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDestinationFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountDestinateDialog)
+    End Sub
+    Private Sub SetBankAccountDestinateDialog(ByVal e As ISimpleEntity)
+      If CheckSamBankAccount(BankFocus.BankDestination, e) Then
+        txtDestinationCode.Text = ""
+        txtDestinationName.Text = ""
+        Me.m_entity.BankacctDestinate = New BankAccount
+        UpdateBankBranchName(BankFocus.BankDestination)
+        Return
+      End If
+      Me.txtDestinationCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or BankAccount.GetBankAccount(txtDestinationCode, txtDestinationName, Me.m_entity.BankacctDestinate)
+      UpdateBankBranchName(BankFocus.BankDestination)
+    End Sub
+    Private Function CheckSamBankAccount(ByVal traget As BankFocus, ByVal e As ISimpleEntity) As Boolean
+      Select Case traget
+        Case BankFocus.BankSource
+          If Not Me.m_entity.BankacctDestinate Is Nothing AndAlso Me.m_entity.BankacctDestinate.Originated Then
+            If e.Id = Me.m_entity.BankacctDestinate.Id Then
+              Dim myMessageService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              myMessageService.ShowWarningFormatted("${res:Global.BankAccountOutDuplicateIn}")
+              txtSourceCode.Focus()
+              Return True
             End If
-            Me.txtDestinationCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or BankAccount.GetBankAccount(txtDestinationCode, txtDestinationName, Me.m_entity.BankacctDestinate)
-            UpdateBankBranchName(BankFocus.BankDestination)
-        End Sub
-        Private Function CheckSamBankAccount(ByVal traget As BankFocus, ByVal e As ISimpleEntity) As Boolean
-            Select Case traget
-                Case BankFocus.BankSource
-                    If Not Me.m_entity.BankacctDestinate Is Nothing AndAlso Me.m_entity.BankacctDestinate.Originated Then
-                        If e.Id = Me.m_entity.BankacctDestinate.Id Then
-                            Dim myMessageService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                            myMessageService.ShowWarningFormatted("${res:Global.BankAccountOutDuplicateIn}")
-                            txtSourceCode.Focus()
-                            Return True
-                        End If
-                    End If
-                Case BankFocus.BankDestination
-                    If Not Me.m_entity.Bankacct Is Nothing AndAlso Me.m_entity.Bankacct.Originated Then
-                        If e.Id = Me.m_entity.Bankacct.Id Then
-                            Dim myMessageService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                            myMessageService.ShowWarningFormatted("${res:Global.BankAccountOutDuplicateIn}")
-                            txtDestinationCode.Focus()
-                            Return True
-                        End If
-                    End If
-                Case Else
-                    Return False
-            End Select
-            Return False
-        End Function
+          End If
+        Case BankFocus.BankDestination
+          If Not Me.m_entity.Bankacct Is Nothing AndAlso Me.m_entity.Bankacct.Originated Then
+            If e.Id = Me.m_entity.Bankacct.Id Then
+              Dim myMessageService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              myMessageService.ShowWarningFormatted("${res:Global.BankAccountOutDuplicateIn}")
+              txtDestinationCode.Focus()
+              Return True
+            End If
+          End If
+        Case Else
+          Return False
+      End Select
+      Return False
+    End Function
 
 
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New BankAccount).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtsourcecode", "txtsourcename" _
-                                , "txtdestinationcode", "txtdestinationname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New BankAccount).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
-                Dim entity As New BankAccount(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtsourcecode", "txtsourcename"
-                            Me.SetBankAccountSourceDialog(entity)
-                        Case "txtdestinationcode", "txtdestinationname"
-                            Me.SetBankAccountDestinateDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New BankAccount).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtsourcecode", "txtsourcename" _
+                  , "txtdestinationcode", "txtdestinationname"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New BankAccount).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
+        Dim entity As New BankAccount(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtsourcecode", "txtsourcename"
+              Me.SetBankAccountSourceDialog(entity)
+            Case "txtdestinationcode", "txtdestinationname"
+              Me.SetBankAccountDestinateDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region " Autogencode "
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
-                Me.Validator.SetRequired(Me.txtCode, False)
-                Me.ErrorProvider1.SetError(Me.txtCode, "")
-                Me.txtCode.ReadOnly = True
-                m_oldCode = Me.txtCode.Text
-                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-                'Hack: set Code เป็น "" เอง
-                Me.m_entity.Code = ""
-                Me.m_entity.AutoGen = True
-            Else
-                Me.Validator.SetRequired(Me.txtCode, True)
-                Me.txtCode.Text = m_oldCode
-                Me.txtCode.ReadOnly = False
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        Me.Validator.SetRequired(Me.txtCode, False)
+        Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.txtCode.ReadOnly = True
+        m_oldCode = Me.txtCode.Text
+        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+        'Hack: set Code เป็น "" เอง
+        Me.m_entity.Code = ""
+        Me.m_entity.AutoGen = True
+      Else
+        Me.Validator.SetRequired(Me.txtCode, True)
+        Me.txtCode.Text = m_oldCode
+        Me.txtCode.ReadOnly = False
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
 #End Region
 
     Private Sub ibtnShowCheckDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCheckDialog.Click
@@ -1247,18 +1301,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.txtCqCode.Text = CType(e, OutgoingCheck).CqCode
       Me.ChangeProperty(txtCqCode, Nothing)
-      Me.txtAmount.Text = CType(e, OutgoingCheck).Amount - CType(e, OutgoingCheck).BankCharge
+      Me.txtAmount.Text = CType(e, OutgoingCheck).Amount '- CType(e, OutgoingCheck).BankCharge
       Me.ChangeProperty(txtAmount, Nothing)
-      Me.txtBankcharge.Text = CType(e, OutgoingCheck).BankCharge
-      Me.ChangeProperty(txtBankcharge, Nothing)
+      Me.txtSum.Text = CType(e, OutgoingCheck).Amount
+      Me.ChangeProperty(txtSum, Nothing)
       Me.txtSourceCode.Text = CType(e, OutgoingCheck).Bankacct.Code
       Me.ChangeProperty(txtSourceCode, Nothing)
+      Me.txtBankcharge.Text = 0
+      Me.ChangeProperty(txtBankcharge, Nothing)
 
-      'CType(Me.Entity, BankTransfer).Bankacct = CType(e, OutgoingCheck).Bankacct
       CType(Me.Entity, BankTransfer).Check = CType(e, OutgoingCheck)
-      'CType(Me.Entity, BankTransfer).Note = CType(e, OutgoingCheck).Note
-      'CType(Me.Entity, BankTransfer).WHT = CType(e, OutgoingCheck).WHT
+
       Me.CheckFormEnable()
+
     End Sub
   End Class
 End Namespace
