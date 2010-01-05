@@ -530,12 +530,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.OldCheck.DocStatus = New OutgoingCheckDocStatus(1)
           Dim checkSaveError As SaveErrorException = Me.OldCheck.Save(theUser.Id, conn, trans)
           If Not IsNumeric(checkSaveError.Message) Then
+            trans.Rollback()
+            Me.ResetID(oldid, oldje)
             Return checkSaveError
           Else
             Select Case CInt(checkSaveError.Message)
               Case -1, -5
+                trans.Rollback()
+                Me.ResetID(oldid, oldje)
                 Return checkSaveError
               Case -2
+                trans.Rollback()
+                Me.ResetID(oldid, oldje)
                 Return checkSaveError
               Case Else
             End Select
@@ -573,12 +579,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
             If Not IsNumeric(checkSaveError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldje)
               Return checkSaveError
             Else
               Select Case CInt(checkSaveError.Message)
                 Case -1, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldje)
                   Return checkSaveError
                 Case -2
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldje)
                   Return checkSaveError
                 Case Else
               End Select
@@ -595,12 +607,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
           If Not IsNumeric(checkSaveError.Message) Then
+            trans.Rollback()
+            Me.ResetID(oldid, oldje)
             Return checkSaveError
           Else
             Select Case CInt(checkSaveError.Message)
               Case -1, -5
+                trans.Rollback()
+                Me.ResetID(oldid, oldje)
                 Return checkSaveError
               Case -2
+                trans.Rollback()
+                Me.ResetID(oldid, oldje)
                 Return checkSaveError
               Case Else
             End Select

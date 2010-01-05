@@ -830,7 +830,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Public Overrides Sub CheckFormEnable()
             If Me.m_entity Is Nothing Then
                 Return
-            End If
+      End If
+      If Not Me.m_entity.Check Is Nothing AndAlso Me.m_entity.Check.Originated Then
+        Me.txtSourceCode.Enabled = False
+        'Me.txtSourceBranch.Enabled = False
+        Me.txtAmount.Enabled = False
+        Me.txtBankcharge.Enabled = False
+        Me.btnSourceEdit.Enabled = False
+        Me.btnSourceFind.Enabled = False
+      ElseIf Not Me.m_entity.Check Is Nothing AndAlso Not Me.m_entity.Check.Originated Then
+        Me.txtSourceCode.Enabled = True
+        'Me.txtSourceBranch.Enabled = True
+        Me.txtAmount.Enabled = True
+        Me.txtBankcharge.Enabled = True
+        Me.btnSourceEdit.Enabled = True
+        Me.btnSourceFind.Enabled = True
+      End If
             If Not Me.m_entity.Status Is Nothing Then
                 If Me.m_entity.Status.Value = 0 _
                 OrElse Me.m_entity.Status.Value >= 3 _
@@ -1221,7 +1236,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowCheckDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCheckDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheck)
+
+      Dim filters(0) As Filter
+      'filters(0) = New Filter("IDList", GenIDListFromDataTable()) 'ID ที่ต้องไม่เรียกมา
+      filters(0) = New Filter("showOnlyAmountMoreThanZero", True)
+
+      myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheck, filters)
     End Sub
     Private Sub SetCheck(ByVal e As ISimpleEntity)
 
@@ -1238,7 +1258,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.Entity, BankTransfer).Check = CType(e, OutgoingCheck)
       'CType(Me.Entity, BankTransfer).Note = CType(e, OutgoingCheck).Note
       'CType(Me.Entity, BankTransfer).WHT = CType(e, OutgoingCheck).WHT
-
+      Me.CheckFormEnable()
     End Sub
   End Class
 End Namespace
