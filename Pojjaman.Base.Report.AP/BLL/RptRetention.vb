@@ -130,216 +130,216 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(2, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
-      Dim dt As DataTable = Me.DataSet.Tables(0)
-      Dim dt2 As DataTable = Me.DataSet.Tables(1)
+            Dim dtOnRet As DataTable = Me.DataSet.Tables(0)  'Table ที่หัก Retention ไว้
+            Dim dtRelRet As DataTable = Me.DataSet.Tables(1) 'Table ที่จ่าย Retention 
 
-      Dim currSupplierCode As String = ""
-      Dim currCostCenterCode As String = ""
-      Dim currentItemCode As String = ""
-      Dim currSupplierIndex As Integer = -1
-      Dim currCostCenterIndex As Integer = -1
-      Dim currItemIndex As Integer = -1
-      Dim indent As String = Space(3)
-      Dim sumGrossAmt_Supplier As Decimal = 0
-      Dim sumGrossAmt_Costcenter As Decimal = 0
-      Dim sumRetention_Supplier As Decimal = 0
-      Dim sumRetention_Costcenter As Decimal = 0
+            Dim currSupplierCode As String = ""
+            Dim currCostCenterCode As String = ""
+            Dim currentItemCode As String = ""
+            Dim currSupplierIndex As Integer = -1
+            Dim currCostCenterIndex As Integer = -1
+            Dim currItemIndex As Integer = -1
+            Dim indent As String = Space(3)
+            Dim sumGrossAmt_Supplier As Decimal = 0
+            Dim sumGrossAmt_Costcenter As Decimal = 0
+            Dim sumRetention_Supplier As Decimal = 0
+            Dim sumRetention_Costcenter As Decimal = 0
 
-      Dim sumOpbRetention_Supplier As Decimal = 0
-      Dim sumOpbRetention_Costcenter As Decimal = 0
+            Dim sumOpbRetention_Supplier As Decimal = 0
+            Dim sumOpbRetention_Costcenter As Decimal = 0
 
-      Dim sumRetentionPays_Supplier As Decimal = 0
-      Dim sumRetentionPays_Costcenter As Decimal = 0
-      Dim sumPaysBalance_Supplier As Decimal = 0
-      Dim sumPaysBalance_Costcenter As Decimal = 0
+            Dim sumRetentionPays_Supplier As Decimal = 0
+            Dim sumRetentionPays_Costcenter As Decimal = 0
+            Dim sumPaysBalance_Supplier As Decimal = 0
+            Dim sumPaysBalance_Costcenter As Decimal = 0
 
-      Dim tmpRetention As Decimal
-      Dim tmpOpbRetention As Decimal
-      Dim tmpPaysBalance As Decimal
+            Dim tmpRetention As Decimal
+            Dim tmpOpbRetention As Decimal
+            Dim tmpPaysBalance As Decimal
 
-      Dim sumRetention As Decimal = 0
-      Dim sumOpbRetention As Decimal = 0
-      Dim sumRetentionPays As Decimal = 0
-      Dim sumPaysBalance As Decimal = 0
+            Dim sumRetention As Decimal = 0
+            Dim sumOpbRetention As Decimal = 0
+            Dim sumRetentionPays As Decimal = 0
+            Dim sumPaysBalance As Decimal = 0
 
-      For Each row As DataRow In dt.Rows
-        Try
-          'New Supplier
-          If Not currSupplierCode.Equals(row("Supplier_Code").ToString) Then
-            currSupplierCode = row("Supplier_Code").ToString
-            m_grid.RowCount += 1
-            currSupplierIndex = m_grid.RowCount
-            m_grid.RowStyles(currSupplierIndex).BackColor = Color.FromArgb(128, 255, 128)
-            m_grid.RowStyles(currSupplierIndex).Font.Bold = True
-            m_grid.RowStyles(currSupplierIndex).ReadOnly = True
-            m_grid(currSupplierIndex, 1).CellValue = row("Supplier_Code")
-            m_grid(currSupplierIndex, 2).CellValue = row("Supplier_Name")
-            m_grid(currSupplierIndex, 1).Tag = "Supplier"
+            For Each drowOnRet As DataRow In dtOnRet.Rows
+                Try
+                    'New Supplier
+                    If Not currSupplierCode.Equals(drowOnRet("Supplier_Code").ToString) Then
+                        currSupplierCode = drowOnRet("Supplier_Code").ToString
+                        m_grid.RowCount += 1
+                        currSupplierIndex = m_grid.RowCount
+                        m_grid.RowStyles(currSupplierIndex).BackColor = Color.FromArgb(128, 255, 128)
+                        m_grid.RowStyles(currSupplierIndex).Font.Bold = True
+                        m_grid.RowStyles(currSupplierIndex).ReadOnly = True
+                        m_grid(currSupplierIndex, 1).CellValue = drowOnRet("Supplier_Code")
+                        m_grid(currSupplierIndex, 2).CellValue = drowOnRet("Supplier_Name")
+                        m_grid(currSupplierIndex, 1).Tag = "Supplier"
 
-            'First New CostCenter
-            currCostCenterCode = row("CC_Code").ToString
-            m_grid.RowCount += 1
-            currCostCenterIndex = m_grid.RowCount
-            m_grid.RowStyles(currCostCenterIndex).BackColor = Color.AntiqueWhite
-            m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
-            m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
-            m_grid(currCostCenterIndex, 1).CellValue = indent & row("CC_Code").ToString
-            m_grid(currCostCenterIndex, 2).CellValue = indent & row("CC_Name").ToString
-            m_grid(currCostCenterIndex, 1).Tag = "CostCenter"
+                        'First New CostCenter
+                        currCostCenterCode = drowOnRet("CC_Code").ToString
+                        m_grid.RowCount += 1
+                        currCostCenterIndex = m_grid.RowCount
+                        m_grid.RowStyles(currCostCenterIndex).BackColor = Color.AntiqueWhite
+                        m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
+                        m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
+                        m_grid(currCostCenterIndex, 1).CellValue = indent & drowOnRet("CC_Code").ToString
+                        m_grid(currCostCenterIndex, 2).CellValue = indent & drowOnRet("CC_Name").ToString
+                        m_grid(currCostCenterIndex, 1).Tag = "CostCenter"
 
-            sumGrossAmt_Supplier = 0
-            sumGrossAmt_Costcenter = 0
-            sumRetention_Supplier = 0
-            sumRetention_Costcenter = 0
-            sumOpbRetention_Supplier = 0
-            sumOpbRetention_Costcenter = 0
-            sumRetentionPays_Supplier = 0
-            sumRetentionPays_Costcenter = 0
-            sumPaysBalance_Supplier = 0
-            sumPaysBalance_Costcenter = 0
+                        sumGrossAmt_Supplier = 0
+                        sumGrossAmt_Costcenter = 0
+                        sumRetention_Supplier = 0
+                        sumRetention_Costcenter = 0
+                        sumOpbRetention_Supplier = 0
+                        sumOpbRetention_Costcenter = 0
+                        sumRetentionPays_Supplier = 0
+                        sumRetentionPays_Costcenter = 0
+                        sumPaysBalance_Supplier = 0
+                        sumPaysBalance_Costcenter = 0
 
-          Else
-            If Not currCostCenterCode.Equals(row("CC_Code").ToString) Then
-              currCostCenterCode = row("CC_Code").ToString
+                    Else
+                        If Not currCostCenterCode.Equals(drowOnRet("CC_Code").ToString) Then
+                            currCostCenterCode = drowOnRet("CC_Code").ToString
 
-              'New CostCenter
-              m_grid.RowCount += 1
-              currCostCenterIndex = m_grid.RowCount
-              m_grid.RowStyles(currCostCenterIndex).BackColor = Color.AntiqueWhite
-              m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
-              m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
-              m_grid(currCostCenterIndex, 1).CellValue = indent & row("CC_Code").ToString
-              m_grid(currCostCenterIndex, 2).CellValue = indent & row("CC_Name").ToString
-              m_grid(currCostCenterIndex, 1).Tag = "CostCenter"
+                            'New CostCenter
+                            m_grid.RowCount += 1
+                            currCostCenterIndex = m_grid.RowCount
+                            m_grid.RowStyles(currCostCenterIndex).BackColor = Color.AntiqueWhite
+                            m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
+                            m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
+                            m_grid(currCostCenterIndex, 1).CellValue = indent & drowOnRet("CC_Code").ToString
+                            m_grid(currCostCenterIndex, 2).CellValue = indent & drowOnRet("CC_Name").ToString
+                            m_grid(currCostCenterIndex, 1).Tag = "CostCenter"
 
-              sumGrossAmt_Costcenter = 0
-              sumRetention_Costcenter = 0
-              sumOpbRetention_Costcenter = 0
-              sumRetentionPays_Costcenter = 0
-              sumPaysBalance_Costcenter = 0
-            End If
-          End If
+                            sumGrossAmt_Costcenter = 0
+                            sumRetention_Costcenter = 0
+                            sumOpbRetention_Costcenter = 0
+                            sumRetentionPays_Costcenter = 0
+                            sumPaysBalance_Costcenter = 0
+                        End If
+                    End If
 
-          'PUR Items
-          m_grid.RowCount += 1
-          currItemIndex = m_grid.RowCount
-          m_grid.RowStyles(currItemIndex).ReadOnly = True
-          If Not row.IsNull("Stock_DocDate") Then
-            m_grid(currItemIndex, 1).CellValue = indent & indent & CDate(row("Stock_DocDate")).ToShortDateString
-          End If
-          If Not row.IsNull("Stock_Code") Then
-            m_grid(currItemIndex, 2).CellValue = indent & indent & row("Stock_Code").ToString
-          End If
-          If Not row.IsNull("Stock_pvrv") Then
-            m_grid(currItemIndex, 3).CellValue = indent & indent & row("Stock_pvrv").ToString
-          End If
-          If IsNumeric(row("Stock_Aftertax")) Then
-            m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(row("Stock_Aftertax")), DigitConfig.Price)
-            sumGrossAmt_Supplier += CDec(row("Stock_Aftertax"))
-            sumGrossAmt_Costcenter += CDec(row("Stock_Aftertax"))
-          End If
-          If IsNumeric(row("Stock_Retention")) Then
-            tmpRetention = CDec(row("Stock_Retention"))
-            sumRetention_Supplier += tmpRetention
-            sumRetention_Costcenter += tmpRetention
-            sumRetention += tmpRetention
-          End If
-          If tmpRetention <> 0 Then
-            m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
-          End If
-          If IsNumeric(row("opbRet")) Then
-            tmpOpbRetention = CDec(row("opbRet"))
-            sumOpbRetention_Supplier += tmpOpbRetention
-            sumOpbRetention_Costcenter += tmpOpbRetention
-            sumOpbRetention += tmpOpbRetention
-          End If
-          If tmpOpbRetention <> 0 Then
-            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
-          End If
+                    'PUR Items
+                    m_grid.RowCount += 1
+                    currItemIndex = m_grid.RowCount
+                    m_grid.RowStyles(currItemIndex).ReadOnly = True
+                    If Not drowOnRet.IsNull("Stock_DocDate") Then
+                        m_grid(currItemIndex, 1).CellValue = indent & indent & CDate(drowOnRet("Stock_DocDate")).ToShortDateString
+                    End If
+                    If Not drowOnRet.IsNull("Stock_Code") Then
+                        m_grid(currItemIndex, 2).CellValue = indent & indent & drowOnRet("Stock_Code").ToString
+                    End If
+                    If Not drowOnRet.IsNull("Stock_pvrv") Then
+                        m_grid(currItemIndex, 3).CellValue = indent & indent & drowOnRet("Stock_pvrv").ToString
+                    End If
+                    If IsNumeric(drowOnRet("Stock_Aftertax")) Then
+                        m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(drowOnRet("Stock_Aftertax")), DigitConfig.Price)
+                        sumGrossAmt_Supplier += CDec(drowOnRet("Stock_Aftertax"))
+                        sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_Aftertax"))
+                    End If
+                    If IsNumeric(drowOnRet("Stock_Retention")) Then
+                        tmpRetention = CDec(drowOnRet("Stock_Retention"))
+                        sumRetention_Supplier += tmpRetention
+                        sumRetention_Costcenter += tmpRetention
+                        sumRetention += tmpRetention
+                    End If
+                    If tmpRetention <> 0 Then
+                        m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
+                    End If
+                    If IsNumeric(drowOnRet("opbRet")) Then
+                        tmpOpbRetention = CDec(drowOnRet("opbRet"))
+                        sumOpbRetention_Supplier += tmpOpbRetention
+                        sumOpbRetention_Costcenter += tmpOpbRetention
+                        sumOpbRetention += tmpOpbRetention
+                    End If
+                    If tmpOpbRetention <> 0 Then
+                        m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
+                    End If
 
-          Dim tmpSumPaysItem As Decimal = 0
-          Dim tmpPaysDate As String = ""
-          Dim tmpPaysCode As String = ""
-          Dim tmpPaymentCode As String = ""
-          For Each row2 As DataRow In dt2.Select("Supplier_Code='" & row("Supplier_Code").ToString & _
-                                                  "' And Stock_Code='" & row("Stock_Code").ToString & "'")
-            If IsNumeric(row2("Pays_Gross")) Then
-              tmpSumPaysItem += CDec(row2("Pays_Gross"))
-            End If
-            If Not row2.IsNull("Pays_DocDate") Then
-              tmpPaysDate &= "," & CDate(row2("Pays_DocDate")).ToShortDateString
-            End If
-            If Not row2.IsNull("Pays_Code") Then
-              tmpPaysCode &= "," & row2("Pays_Code").ToString
-            End If
-            If Not row2.IsNull("Payment_Code") Then
-              tmpPaymentCode &= "," & row2("Payment_Code").ToString
-            End If
-          Next
+                    Dim tmpSumPaysItem As Decimal = 0
+                    Dim tmpPaysDate As String = ""
+                    Dim tmpPaysCode As String = ""
+                    Dim tmpPaymentCode As String = ""
+                    For Each drowRelRet As DataRow In dtRelRet.Select("Supplier_Code='" & drowOnRet("Supplier_Code").ToString & _
+                                                            "' And Stock_Code='" & drowOnRet("Stock_Code").ToString & "'")
+                        If IsNumeric(drowRelRet("Pays_Gross")) Then
+                            tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
+                        End If
+                        If Not drowRelRet.IsNull("Pays_DocDate") Then
+                            tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
+                        End If
+                        If Not drowRelRet.IsNull("Pays_Code") Then
+                            tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
+                        End If
+                        If Not drowRelRet.IsNull("Payment_Code") Then
+                            tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
+                        End If
+                    Next
 
-          If tmpSumPaysItem > 0 Then
-            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
-            sumRetentionPays_Supplier += tmpSumPaysItem
-            sumRetentionPays_Costcenter += tmpSumPaysItem
-            sumPaysBalance += tmpSumPaysItem
-          End If
+                    If tmpSumPaysItem > 0 Then
+                        m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
+                        sumRetentionPays_Supplier += tmpSumPaysItem
+                        sumRetentionPays_Costcenter += tmpSumPaysItem
+                        sumRetentionPays += tmpSumPaysItem
+                    End If
 
-          If tmpPaysDate.Length > 1 Then
-            m_grid(currItemIndex, 9).CellValue = tmpPaysDate.Substring(1)
-          End If
-          If tmpPaysCode.Length > 1 Then
-            m_grid(currItemIndex, 10).CellValue = tmpPaysCode.Substring(1)
-          End If
-          If tmpPaymentCode.Length > 1 Then
-            m_grid(currItemIndex, 11).CellValue = tmpPaymentCode.Substring(1)
-          End If
+                    If tmpPaysDate.Length > 1 Then
+                        m_grid(currItemIndex, 9).CellValue = tmpPaysDate.Substring(1)
+                    End If
+                    If tmpPaysCode.Length > 1 Then
+                        m_grid(currItemIndex, 10).CellValue = tmpPaysCode.Substring(1)
+                    End If
+                    If tmpPaymentCode.Length > 1 Then
+                        m_grid(currItemIndex, 11).CellValue = tmpPaymentCode.Substring(1)
+                    End If
 
-          tmpPaysBalance = tmpOpbRetention - tmpSumPaysItem
-          If tmpPaysBalance <> 0 Then
-            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
-            sumPaysBalance_Supplier += tmpPaysBalance
-            sumPaysBalance_Costcenter += tmpPaysBalance
-            sumPaysBalance += tmpPaysBalance
-          End If
+                    tmpPaysBalance = tmpOpbRetention - tmpSumPaysItem
+                    If tmpPaysBalance <> 0 Then
+                        m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
+                        sumPaysBalance_Supplier += tmpPaysBalance
+                        sumPaysBalance_Costcenter += tmpPaysBalance
+                        sumPaysBalance += tmpPaysBalance
+                    End If
 
-          If sumGrossAmt_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Supplier, DigitConfig.Price)
-          End If
-          If sumGrossAmt_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Costcenter, DigitConfig.Price)
-          End If
+                    If sumGrossAmt_Supplier <> 0 Then
+                        m_grid(currSupplierIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Supplier, DigitConfig.Price)
+                    End If
+                    If sumGrossAmt_Costcenter <> 0 Then
+                        m_grid(currCostCenterIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Costcenter, DigitConfig.Price)
+                    End If
 
-          If sumRetention_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Supplier, DigitConfig.Price)
-          End If
-          If sumRetention_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Costcenter, DigitConfig.Price)
-          End If
+                    If sumRetention_Supplier <> 0 Then
+                        m_grid(currSupplierIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Supplier, DigitConfig.Price)
+                    End If
+                    If sumRetention_Costcenter <> 0 Then
+                        m_grid(currCostCenterIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Costcenter, DigitConfig.Price)
+                    End If
 
-          If sumOpbRetention_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(sumRetention_Supplier, DigitConfig.Price)
-          End If
-          If sumOpbRetention_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumRetention_Costcenter, DigitConfig.Price)
-          End If
+                    If sumOpbRetention_Supplier <> 0 Then
+                        m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(sumOpbRetention_Supplier, DigitConfig.Price)
+                    End If
+                    If sumOpbRetention_Costcenter <> 0 Then
+                        m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumOpbRetention_Costcenter, DigitConfig.Price)
+                    End If
 
-          If sumRetentionPays_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Supplier, DigitConfig.Price)
-          End If
-          If sumRetentionPays_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Costcenter, DigitConfig.Price)
-          End If
+                    If sumRetentionPays_Supplier <> 0 Then
+                        m_grid(currSupplierIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Supplier, DigitConfig.Price)
+                    End If
+                    If sumRetentionPays_Costcenter <> 0 Then
+                        m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Costcenter, DigitConfig.Price)
+                    End If
 
-          If sumPaysBalance_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Supplier, DigitConfig.Price)
-          End If
-          If sumPaysBalance_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Costcenter, DigitConfig.Price)
-          End If
-        Catch ex As Exception
-          MessageBox.Show(ex.ToString & vbCrLf & ex.StackTrace)
-        End Try
-      Next
+                    If sumPaysBalance_Supplier <> 0 Then
+                        m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Supplier, DigitConfig.Price)
+                    End If
+                    If sumPaysBalance_Costcenter <> 0 Then
+                        m_grid(currCostCenterIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Costcenter, DigitConfig.Price)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString & vbCrLf & ex.StackTrace)
+                End Try
+            Next
       'sumPaysBalance
       m_grid.RowCount += 1
       currItemIndex = m_grid.RowCount
