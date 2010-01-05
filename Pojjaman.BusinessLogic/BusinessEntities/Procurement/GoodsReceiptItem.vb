@@ -1275,7 +1275,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim parent As GoodsReceipt = Me.GoodsReceipt
         If parent Is Nothing Then parent = New GoodsReceipt
         If Me.Qty <> 0 Then 'AndAlso parent.ValidateRow(row) Then
-          row("stocki_qty") = Me.Qty
+          row("stocki_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
         Else
           row("stocki_qty") = ""
         End If
@@ -1286,7 +1286,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         row("stocki_discrate") = Me.Discount.Rate
         If Me.Amount <> 0 Then ' AndAlso parent.ValidateRow(row) Then
-          row("Amount") = Me.Amount
+          row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
         Else
           row("Amount") = ""
         End If
@@ -1294,12 +1294,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("stocki_note") = Me.Note
         row("stocki_quality") = Me.Quality
         If Me.UnitPrice <> 0 Then 'AndAlso parent.ValidateRow(row) Then
-          row("stocki_unitprice") = Me.UnitPrice
+          row("stocki_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
         Else
           row("stocki_unitprice") = ""
         End If
         If Me.StockQty <> 0 Then 'AndAlso parent.ValidateRow(row) Then
-          row("StockQty") = Me.StockQty
+          row("StockQty") = Configuration.FormatToString(Me.StockQty, DigitConfig.Qty) 'Me.StockQty
         Else
           row("StockQty") = ""
         End If
