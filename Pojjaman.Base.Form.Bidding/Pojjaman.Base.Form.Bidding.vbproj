@@ -82,6 +82,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pojjaman.ContentInterface, Version=1.0.3657.26792, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman.ContentInterface\bin\Pojjaman.ContentInterface.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -260,10 +264,6 @@
     <ProjectReference Include="..\Pojjaman.BusinessLogic\Pojjaman.BusinessLogic.vbproj">
       <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
       <Name>Pojjaman.BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj">
-      <Project>{E32EDF66-304F-4672-8F8C-503E153E0D84}</Project>
-      <Name>Pojjaman.ContentInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
       <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>

@@ -87,11 +87,6 @@
       <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
       <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj">
-      <Name>Pojjaman.ContentInterface</Name>
-      <Project>{E32EDF66-304F-4672-8F8C-503E153E0D84}</Project>
-      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
       <Name>Longkong.Core</Name>
       <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>

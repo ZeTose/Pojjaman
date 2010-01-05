@@ -142,11 +142,6 @@
       <Project>{99405137-4677-441A-94A2-24638C285A67}</Project>
       <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj">
-      <Name>Pojjaman.ContentInterface</Name>
-      <Project>{E32EDF66-304F-4672-8F8C-503E153E0D84}</Project>
-      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Core\Longkong.Core.vbproj">
       <Name>Longkong.Core</Name>
       <Project>{C69DD17A-2AA3-4D3A-BE00-E25A189318FB}</Project>
@@ -191,6 +186,10 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="Pojjaman.ContentInterface, Version=1.0.3657.26792, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman.ContentInterface\bin\Pojjaman.ContentInterface.dll</HintPath>
     </Reference>
     <Reference Include="SHDocVw">
       <Name>Interop.SHDocVw</Name>

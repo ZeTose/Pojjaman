@@ -16,8 +16,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.BusinessLogic", "P
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.Data", "Pojjaman.Data\Pojjaman.Data.vbproj", "{1B192737-9099-4018-A30F-F1BC49EC97ED}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.DefaultTextEditor", "Pojjaman.DefaultTextEditor\Pojjaman.DefaultTextEditor.vbproj", "{DC00402D-4488-4224-ABE5-F6033ACE1607}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Longkong.CommandBar", "Longkong.CommandBar\Longkong.CommandBar.csproj", "{BF57B58F-6C32-45FE-A4FD-0E60FB249C0A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Longkong.ColorPicker", "Longkong.ColorPicker\Longkong.ColorPicker.csproj", "{56C7B8D0-024A-4938-A8F1-D3D8801F8C99}"
@@ -37,8 +35,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Longkong.ShapeControl", "Longkong.ShapeControl\Longkong.ShapeControl.csproj", "{05E935E9-8E73-40F3-9323-2F8D061F4D7D}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Longkong.Core.Services", "Longkong.Core.Services\Longkong.Core.Services.vbproj", "{6B97573D-7213-452D-9749-E7D0230BC4BE}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.ContentInterface", "Pojjaman.ContentInterface\Pojjaman.ContentInterface.vbproj", "{E32EDF66-304F-4672-8F8C-503E153E0D84}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Longkong.FormTable", "Longkong.FormTable\Longkong.FormTable.vbproj", "{FAAACFB3-413C-4E5F-AE52-EEAC23ECB039}"
 EndProject
@@ -168,14 +164,6 @@ Global
 		{1B192737-9099-4018-A30F-F1BC49EC97ED}.Forms-Reports|Any CPU.Build.0 = Release|Any CPU
 		{1B192737-9099-4018-A30F-F1BC49EC97ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B192737-9099-4018-A30F-F1BC49EC97ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.BusinessLogic|Any CPU.ActiveCfg = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.BusinessLogic|Any CPU.Build.0 = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Forms-Reports|Any CPU.ActiveCfg = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Forms-Reports|Any CPU.Build.0 = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC00402D-4488-4224-ABE5-F6033ACE1607}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF57B58F-6C32-45FE-A4FD-0E60FB249C0A}.BusinessLogic|Any CPU.ActiveCfg = Release|Any CPU
 		{BF57B58F-6C32-45FE-A4FD-0E60FB249C0A}.BusinessLogic|Any CPU.Build.0 = Release|Any CPU
 		{BF57B58F-6C32-45FE-A4FD-0E60FB249C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -256,14 +244,6 @@ Global
 		{6B97573D-7213-452D-9749-E7D0230BC4BE}.Forms-Reports|Any CPU.Build.0 = Release|Any CPU
 		{6B97573D-7213-452D-9749-E7D0230BC4BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B97573D-7213-452D-9749-E7D0230BC4BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.BusinessLogic|Any CPU.ActiveCfg = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.BusinessLogic|Any CPU.Build.0 = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Forms-Reports|Any CPU.ActiveCfg = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Forms-Reports|Any CPU.Build.0 = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E32EDF66-304F-4672-8F8C-503E153E0D84}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAAACFB3-413C-4E5F-AE52-EEAC23ECB039}.BusinessLogic|Any CPU.ActiveCfg = Release|Any CPU
 		{FAAACFB3-413C-4E5F-AE52-EEAC23ECB039}.BusinessLogic|Any CPU.Build.0 = Release|Any CPU
 		{FAAACFB3-413C-4E5F-AE52-EEAC23ECB039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
