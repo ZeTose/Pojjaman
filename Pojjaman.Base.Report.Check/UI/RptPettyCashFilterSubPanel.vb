@@ -692,7 +692,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
+        Public Property DocDateEnd() As Date
+            Get
+                Return m_DocDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateEnd = Value
+            End Set
+        End Property
+        Public Property DocDateStart() As Date
+            Get
+                Return m_DocDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateStart = Value
+            End Set
+        End Property
     Public Property PettyCash() As PettyCash
       Get
         Return m_pc
