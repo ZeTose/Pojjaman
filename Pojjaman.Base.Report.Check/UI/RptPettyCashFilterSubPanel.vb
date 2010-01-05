@@ -1,5 +1,5 @@
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
@@ -55,53 +55,50 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblAccountEnd As System.Windows.Forms.Label
     Friend WithEvents btnAccountStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
-    Friend WithEvents lblAccountStart As System.Windows.Forms.Label
+    Friend WithEvents chkIncludeChildCC As System.Windows.Forms.CheckBox
     Friend WithEvents btnCCCodeStart As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCCCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblCCStart As System.Windows.Forms.Label
-    Friend WithEvents btnCCCodeEnd As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtCCCodeEnd As System.Windows.Forms.TextBox
-    Friend WithEvents lblCCEnd As System.Windows.Forms.Label
+    Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
+    Friend WithEvents lblAccountStart As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(RptPettyCashFilterSubPanel))
-      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtTemp = New System.Windows.Forms.TextBox
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnCCCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtCCCodeStart = New System.Windows.Forms.TextBox
-      Me.lblCCStart = New System.Windows.Forms.Label
-      Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox
-      Me.lblAccountEnd = New System.Windows.Forms.Label
-      Me.btnAccountStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtAccountCodeStart = New System.Windows.Forms.TextBox
-      Me.lblAccountStart = New System.Windows.Forms.Label
-      Me.btnEmpEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnEmpStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtEmpCodeEnd = New System.Windows.Forms.TextBox
-      Me.lblCustEnd = New System.Windows.Forms.Label
-      Me.txtEmpCodeStart = New System.Windows.Forms.TextBox
-      Me.lblCustStart = New System.Windows.Forms.Label
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox
-      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.lblDocDateStart = New System.Windows.Forms.Label
-      Me.lblDocDateEnd = New System.Windows.Forms.Label
-      Me.btnPCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtPCCodeEnd = New System.Windows.Forms.TextBox
-      Me.lblPCEnd = New System.Windows.Forms.Label
-      Me.btnPCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtPCCodeStart = New System.Windows.Forms.TextBox
-      Me.lblPCStart = New System.Windows.Forms.Label
-      Me.btnCCCodeEnd = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtCCCodeEnd = New System.Windows.Forms.TextBox
-      Me.lblCCEnd = New System.Windows.Forms.Label
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.btnReset = New System.Windows.Forms.Button
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptPettyCashFilterSubPanel))
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblAccountEnd = New System.Windows.Forms.Label()
+      Me.btnAccountStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAccountCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblAccountStart = New System.Windows.Forms.Label()
+      Me.btnEmpEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnEmpStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtEmpCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblCustEnd = New System.Windows.Forms.Label()
+      Me.txtEmpCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblCustStart = New System.Windows.Forms.Label()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.lblDocDateEnd = New System.Windows.Forms.Label()
+      Me.btnPCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtPCCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblPCEnd = New System.Windows.Forms.Label()
+      Me.btnPCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtPCCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblPCStart = New System.Windows.Forms.Label()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.chkIncludeChildCC = New System.Windows.Forms.CheckBox()
+      Me.btnCCCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCCCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblCCStart = New System.Windows.Forms.Label()
+      Me.txtCostCenterName = New System.Windows.Forms.TextBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
@@ -113,13 +110,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.txtTemp)
       Me.grbMaster.Controls.Add(Me.grbDetail)
-      Me.grbMaster.Controls.Add(Me.btnSearch)
-      Me.grbMaster.Controls.Add(Me.btnReset)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 0)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(528, 200)
+      Me.grbMaster.Size = New System.Drawing.Size(676, 166)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
@@ -132,7 +127,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.txtTemp.Location = New System.Drawing.Point(532, 32)
       Me.txtTemp.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtTemp, "")
       Me.Validator.SetMinValue(Me.txtTemp, "")
       Me.txtTemp.Name = "txtTemp"
       Me.txtTemp.ReadOnly = True
@@ -140,14 +134,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTemp, False)
       Me.txtTemp.Size = New System.Drawing.Size(104, 21)
       Me.txtTemp.TabIndex = 3
-      Me.txtTemp.Text = ""
       Me.txtTemp.Visible = False
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.chkIncludeChildCC)
       Me.grbDetail.Controls.Add(Me.btnCCCodeStart)
+      Me.grbDetail.Controls.Add(Me.btnSearch)
+      Me.grbDetail.Controls.Add(Me.btnReset)
       Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
       Me.grbDetail.Controls.Add(Me.lblCCStart)
+      Me.grbDetail.Controls.Add(Me.txtCostCenterName)
       Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
       Me.grbDetail.Controls.Add(Me.lblAccountEnd)
@@ -172,58 +169,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.btnPCStartFind)
       Me.grbDetail.Controls.Add(Me.txtPCCodeStart)
       Me.grbDetail.Controls.Add(Me.lblPCStart)
-      Me.grbDetail.Controls.Add(Me.btnCCCodeEnd)
-      Me.grbDetail.Controls.Add(Me.txtCCCodeEnd)
-      Me.grbDetail.Controls.Add(Me.lblCCEnd)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(16, 16)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(488, 144)
+      Me.grbDetail.Size = New System.Drawing.Size(647, 144)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
-      '
-      'btnCCCodeStart
-      '
-      Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
-      Me.btnCCCodeStart.Location = New System.Drawing.Point(264, 88)
-      Me.btnCCCodeStart.Name = "btnCCCodeStart"
-      Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
-      Me.btnCCCodeStart.TabIndex = 58
-      Me.btnCCCodeStart.TabStop = False
-      Me.btnCCCodeStart.ThemedImage = CType(resources.GetObject("btnCCCodeStart.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'txtCCCodeStart
-      '
-      Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
-      Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-      Me.txtCCCodeStart.Location = New System.Drawing.Point(168, 88)
-      Me.txtCCCodeStart.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
-      Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
-      Me.txtCCCodeStart.Name = "txtCCCodeStart"
-      Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
-      Me.Validator.SetRequired(Me.txtCCCodeStart, False)
-      Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
-      Me.txtCCCodeStart.TabIndex = 6
-      Me.txtCCCodeStart.Text = ""
-      '
-      'lblCCStart
-      '
-      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
-      Me.lblCCStart.Location = New System.Drawing.Point(56, 88)
-      Me.lblCCStart.Name = "lblCCStart"
-      Me.lblCCStart.Size = New System.Drawing.Size(104, 18)
-      Me.lblCCStart.TabIndex = 55
-      Me.lblCCStart.Text = "ตั้งแต่ Cost Center"
-      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnAccountEndFind
       '
@@ -246,14 +198,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAccountCodeEnd, System.Drawing.Color.Empty)
       Me.txtAccountCodeEnd.Location = New System.Drawing.Point(328, 112)
-      Me.Validator.SetMaxValue(Me.txtAccountCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtAccountCodeEnd, "")
       Me.txtAccountCodeEnd.Name = "txtAccountCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtAccountCodeEnd, "")
       Me.Validator.SetRequired(Me.txtAccountCodeEnd, False)
       Me.txtAccountCodeEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtAccountCodeEnd.TabIndex = 9
-      Me.txtAccountCodeEnd.Text = ""
       '
       'lblAccountEnd
       '
@@ -287,14 +237,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAccountCodeStart, System.Drawing.Color.Empty)
       Me.txtAccountCodeStart.Location = New System.Drawing.Point(168, 112)
-      Me.Validator.SetMaxValue(Me.txtAccountCodeStart, "")
       Me.Validator.SetMinValue(Me.txtAccountCodeStart, "")
       Me.txtAccountCodeStart.Name = "txtAccountCodeStart"
       Me.Validator.SetRegularExpression(Me.txtAccountCodeStart, "")
       Me.Validator.SetRequired(Me.txtAccountCodeStart, False)
       Me.txtAccountCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtAccountCodeStart.TabIndex = 8
-      Me.txtAccountCodeStart.Text = ""
       '
       'lblAccountStart
       '
@@ -340,14 +288,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtEmpCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtEmpCodeEnd, System.Drawing.Color.Empty)
       Me.txtEmpCodeEnd.Location = New System.Drawing.Point(328, 64)
-      Me.Validator.SetMaxValue(Me.txtEmpCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtEmpCodeEnd, "")
       Me.txtEmpCodeEnd.Name = "txtEmpCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtEmpCodeEnd, "")
       Me.Validator.SetRequired(Me.txtEmpCodeEnd, False)
       Me.txtEmpCodeEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtEmpCodeEnd.TabIndex = 5
-      Me.txtEmpCodeEnd.Text = ""
       '
       'lblCustEnd
       '
@@ -369,14 +315,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtEmpCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtEmpCodeStart, System.Drawing.Color.Empty)
       Me.txtEmpCodeStart.Location = New System.Drawing.Point(168, 64)
-      Me.Validator.SetMaxValue(Me.txtEmpCodeStart, "")
       Me.Validator.SetMinValue(Me.txtEmpCodeStart, "")
       Me.txtEmpCodeStart.Name = "txtEmpCodeStart"
       Me.Validator.SetRegularExpression(Me.txtEmpCodeStart, "")
       Me.Validator.SetRequired(Me.txtEmpCodeStart, False)
       Me.txtEmpCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtEmpCodeStart.TabIndex = 4
-      Me.txtEmpCodeStart.Text = ""
       '
       'lblCustStart
       '
@@ -398,14 +342,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(328, 16)
       Me.txtDocDateEnd.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
       Me.txtDocDateEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtDocDateEnd.TabIndex = 1
-      Me.txtDocDateEnd.Text = ""
       '
       'txtDocDateStart
       '
@@ -416,18 +358,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.txtDocDateStart.Location = New System.Drawing.Point(168, 16)
       Me.txtDocDateStart.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
       Me.txtDocDateStart.Size = New System.Drawing.Size(96, 21)
       Me.txtDocDateStart.TabIndex = 0
-      Me.txtDocDateStart.Text = ""
       '
       'dtpDocDateStart
       '
-      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateStart.Location = New System.Drawing.Point(168, 16)
       Me.dtpDocDateStart.Name = "dtpDocDateStart"
       Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
@@ -436,7 +376,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDateEnd
       '
-      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateEnd.Location = New System.Drawing.Point(328, 16)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
       Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
@@ -486,14 +426,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtPCCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtPCCodeEnd, System.Drawing.Color.Empty)
       Me.txtPCCodeEnd.Location = New System.Drawing.Point(328, 40)
-      Me.Validator.SetMaxValue(Me.txtPCCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtPCCodeEnd, "")
       Me.txtPCCodeEnd.Name = "txtPCCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtPCCodeEnd, "")
       Me.Validator.SetRequired(Me.txtPCCodeEnd, False)
       Me.txtPCCodeEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtPCCodeEnd.TabIndex = 3
-      Me.txtPCCodeEnd.Text = ""
       '
       'lblPCEnd
       '
@@ -527,14 +465,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtPCCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtPCCodeStart, System.Drawing.Color.Empty)
       Me.txtPCCodeStart.Location = New System.Drawing.Point(168, 40)
-      Me.Validator.SetMaxValue(Me.txtPCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtPCCodeStart, "")
       Me.txtPCCodeStart.Name = "txtPCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtPCCodeStart, "")
       Me.Validator.SetRequired(Me.txtPCCodeStart, False)
       Me.txtPCCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtPCCodeStart.TabIndex = 2
-      Me.txtPCCodeStart.Text = ""
       '
       'lblPCStart
       '
@@ -547,54 +483,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPCStart.Text = "รหัสเงินสดย่อย"
       Me.lblPCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'btnCCCodeEnd
-      '
-      Me.btnCCCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCCodeEnd.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeEnd.Image = CType(resources.GetObject("btnCCCodeEnd.Image"), System.Drawing.Image)
-      Me.btnCCCodeEnd.Location = New System.Drawing.Point(424, 88)
-      Me.btnCCCodeEnd.Name = "btnCCCodeEnd"
-      Me.btnCCCodeEnd.Size = New System.Drawing.Size(24, 22)
-      Me.btnCCCodeEnd.TabIndex = 58
-      Me.btnCCCodeEnd.TabStop = False
-      Me.btnCCCodeEnd.ThemedImage = CType(resources.GetObject("btnCCCodeEnd.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'txtCCCodeEnd
-      '
-      Me.Validator.SetDataType(Me.txtCCCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCCodeEnd, "")
-      Me.txtCCCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeEnd, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
-      Me.txtCCCodeEnd.Location = New System.Drawing.Point(328, 88)
-      Me.txtCCCodeEnd.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtCCCodeEnd, "")
-      Me.Validator.SetMinValue(Me.txtCCCodeEnd, "")
-      Me.txtCCCodeEnd.Name = "txtCCCodeEnd"
-      Me.Validator.SetRegularExpression(Me.txtCCCodeEnd, "")
-      Me.Validator.SetRequired(Me.txtCCCodeEnd, False)
-      Me.txtCCCodeEnd.Size = New System.Drawing.Size(96, 21)
-      Me.txtCCCodeEnd.TabIndex = 7
-      Me.txtCCCodeEnd.Text = ""
-      '
-      'lblCCEnd
-      '
-      Me.lblCCEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCCEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblCCEnd.Location = New System.Drawing.Point(296, 88)
-      Me.lblCCEnd.Name = "lblCCEnd"
-      Me.lblCCEnd.Size = New System.Drawing.Size(24, 18)
-      Me.lblCCEnd.TabIndex = 54
-      Me.lblCCEnd.Text = "ถึง"
-      Me.lblCCEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
       'btnSearch
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(440, 168)
+      Me.btnSearch.Location = New System.Drawing.Point(568, 116)
       Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 3
       Me.btnSearch.Text = "ค้นหา"
       '
@@ -602,8 +497,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(360, 168)
+      Me.btnReset.Location = New System.Drawing.Point(488, 116)
       Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 2
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
@@ -613,22 +509,91 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
+      '
+      'chkIncludeChildCC
+      '
+      Me.chkIncludeChildCC.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkIncludeChildCC.Location = New System.Drawing.Point(451, 89)
+      Me.chkIncludeChildCC.Name = "chkIncludeChildCC"
+      Me.chkIncludeChildCC.Size = New System.Drawing.Size(128, 21)
+      Me.chkIncludeChildCC.TabIndex = 59
+      Me.chkIncludeChildCC.Text = "รวม Cost Center ลูก"
+      '
+      'btnCCCodeStart
+      '
+      Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
+      Me.btnCCCodeStart.Location = New System.Drawing.Point(264, 89)
+      Me.btnCCCodeStart.Name = "btnCCCodeStart"
+      Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCCodeStart.TabIndex = 56
+      Me.btnCCCodeStart.TabStop = False
+      Me.btnCCCodeStart.ThemedImage = CType(resources.GetObject("btnCCCodeStart.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtCCCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.txtCCCodeStart.Location = New System.Drawing.Point(168, 89)
+      Me.txtCCCodeStart.MaxLength = 50
+      Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Name = "txtCCCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
+      Me.Validator.SetRequired(Me.txtCCCodeStart, False)
+      Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtCCCodeStart.TabIndex = 55
+      '
+      'lblCCStart
+      '
+      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
+      Me.lblCCStart.Location = New System.Drawing.Point(72, 89)
+      Me.lblCCStart.Name = "lblCCStart"
+      Me.lblCCStart.Size = New System.Drawing.Size(88, 18)
+      Me.lblCCStart.TabIndex = 57
+      Me.lblCCStart.Text = "Cost Center"
+      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtCostCenterName
+      '
+      Me.Validator.SetDataType(Me.txtCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCostCenterName, "")
+      Me.txtCostCenterName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterName, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
+      Me.txtCostCenterName.Location = New System.Drawing.Point(288, 89)
+      Me.txtCostCenterName.MaxLength = 50
+      Me.Validator.SetMinValue(Me.txtCostCenterName, "")
+      Me.txtCostCenterName.Name = "txtCostCenterName"
+      Me.txtCostCenterName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
+      Me.Validator.SetRequired(Me.txtCostCenterName, False)
+      Me.txtCostCenterName.Size = New System.Drawing.Size(160, 21)
+      Me.txtCostCenterName.TabIndex = 58
       '
       'RptPettyCashFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptPettyCashFilterSubPanel"
-      Me.Size = New System.Drawing.Size(544, 208)
+      Me.Size = New System.Drawing.Size(692, 174)
       Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -657,8 +622,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.lblAccountStart}")
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.lblCCStart}")
-      Me.lblCCEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRetentionFilterSubPanel.lblCCStart}")
+      Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.grbMaster}")
@@ -675,8 +640,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_EmployeeEnd As Employee
     Private m_AccountBookStart As AccountBook
     Private m_AccountBookEnd As AccountBook
-    Private m_fromcc As CostCenter
-    Private m_tocc As CostCenter
+    Private m_cc As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -692,22 +656,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-        Public Property DocDateEnd() As Date
-            Get
-                Return m_DocDateEnd
-            End Get
-            Set(ByVal Value As Date)
-                m_DocDateEnd = Value
-            End Set
-        End Property
-        Public Property DocDateStart() As Date
-            Get
-                Return m_DocDateStart
-            End Get
-            Set(ByVal Value As Date)
-                m_DocDateStart = Value
-            End Set
-        End Property
+    Public Property DocDateEnd() As Date
+      Get
+        Return m_DocDateEnd
+      End Get
+      Set(ByVal Value As Date)
+        m_DocDateEnd = Value
+      End Set
+    End Property
+    Public Property DocDateStart() As Date
+      Get
+        Return m_DocDateStart
+      End Get
+      Set(ByVal Value As Date)
+        m_DocDateStart = Value
+      End Set
+    End Property
     Public Property PettyCash() As PettyCash
       Get
         Return m_pc
@@ -748,20 +712,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_AccountBookEnd = Value
       End Set
     End Property
-    Public Property FromCostcenter() As CostCenter
+    Public Property Costcenter() As CostCenter
       Get
-        Return m_fromcc
+        Return m_cc
       End Get
       Set(ByVal Value As CostCenter)
-        m_fromcc = Value
-      End Set
-    End Property
-    Public Property ToCostcenter() As CostCenter
-      Get
-        Return m_tocc
-      End Get
-      Set(ByVal Value As CostCenter)
-        m_tocc = Value
+        m_cc = Value
       End Set
     End Property
 #End Region
@@ -785,8 +741,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PettyCash = New PettyCash
       Me.EmployeeStart = New Employee
       Me.EmployeeEnd = New Employee
-      Me.ToCostcenter = New CostCenter
-      Me.FromCostcenter = New CostCenter
+      Me.Costcenter = New CostCenter
 
       Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
       Me.DocDateStart = dtStart
@@ -814,8 +769,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(5) = New Filter("EmpCodeEnd", IIf(txtEmpCodeEnd.TextLength > 0, txtEmpCodeEnd.Text, DBNull.Value))
       arr(6) = New Filter("AccountbookStart", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
       arr(7) = New Filter("Accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
-      arr(8) = New Filter("fromcc", Me.ValidIdOrDBNull(m_fromcc))
-      arr(9) = New Filter("tocc", Me.ValidIdOrDBNull(m_tocc))
+      arr(8) = New Filter("CCId", Me.ValidIdOrDBNull(m_cc))
+      arr(9) = New Filter("ChildCCIncluded", Me.chkIncludeChildCC.Checked)
 
       Return arr
     End Function
@@ -954,9 +909,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler btnCCCodeStart.Click, AddressOf Me.btnCostcenterFind_Click
       AddHandler txtCCCodeStart.Validated, AddressOf Me.ChangeProperty
 
-      AddHandler btnCCCodeEnd.Click, AddressOf Me.btnCostcenterFind_Click
-      AddHandler txtCCCodeEnd.Validated, AddressOf Me.ChangeProperty
-
     End Sub
 
     Private m_dateSetting As Boolean
@@ -1011,11 +963,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtaccountcodeend"
           AccountBook.GetAccountBook(txtAccountCodeEnd, txtAcctbookname, Me.m_AccountBookEnd)
         Case "txtcccodestart"
-          Dim txt As New TextBox
-          CostCenter.GetCostCenter(txtCCCodeStart, txt, m_fromcc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-        Case "txtcccodeend"
-          Dim txt As New TextBox
-          CostCenter.GetCostCenter(txtCCCodeEnd, txt, m_tocc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          Costcenter.GetCostCenter(txtCCCodeStart, Me.txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
 
       End Select
     End Sub
@@ -1102,25 +1050,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountCodeEnd.Text = e.Code
       AccountBook.GetAccountBook(txtAccountCodeEnd, txtAcctbookname, Me.m_AccountBookEnd)
     End Sub
+    Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
+      Me.txtCCCodeStart.Text = e.Code
+      Costcenter.GetCostCenter(txtCCCodeStart, txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+    End Sub
     ' Costcenter
     Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Select Case CType(sender, Control).Name.ToLower
         Case "btncccodestart"
-          myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeStartDialog)
-        Case "btncccodeend"
-          myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeEndDialog)
+          myEntityPanelService.OpenTreeDialog(New Costcenter, AddressOf SetCCCodeStartDialog)
       End Select
-    End Sub
-    Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
-      Me.txtCCCodeStart.Text = e.Code
-      Dim txt As New TextBox
-      CostCenter.GetCostCenter(txtCCCodeStart, txt, m_fromcc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-    End Sub
-    Private Sub SetCCCodeEndDialog(ByVal e As ISimpleEntity)
-      Me.txtCCCodeEnd.Text = e.Code
-      Dim txt As New TextBox
-      CostCenter.GetCostCenter(txtCCCodeStart, txt, m_tocc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
     End Sub
 #End Region
 
