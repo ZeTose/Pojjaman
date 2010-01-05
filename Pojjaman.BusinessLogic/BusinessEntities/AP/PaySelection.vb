@@ -972,7 +972,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IWitholdingTaxable"
         Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
-            Return Me.Gross
+      Return Me.TaxBase
         End Function
         Public Property Person() As IBillablePerson Implements IWitholdingTaxable.Person, IVatable.Person
             Get

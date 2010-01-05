@@ -111,7 +111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Inherits IIdentifiable
         Property [Date]() As Date
         Property Person() As IBillablePerson
-        Function GetMaximumWitholdingTaxBase() As Decimal
+    Function GetMaximumWitholdingTaxBase() As Decimal
     Property WitholdingTaxCollection() As WitholdingTaxCollection
   End Interface
 

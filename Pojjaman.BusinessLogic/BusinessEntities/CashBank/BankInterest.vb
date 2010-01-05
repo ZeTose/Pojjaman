@@ -201,7 +201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 
         Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
-            Return Me.Amount
+      Return Me.Amount
         End Function
 
         Public Property Person() As IBillablePerson Implements IWitholdingTaxable.Person
