@@ -814,6 +814,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
       Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
       Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+
+      Me.lblSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblSum}")
 
     End Sub
 #End Region
