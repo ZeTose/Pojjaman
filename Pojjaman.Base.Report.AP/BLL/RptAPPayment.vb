@@ -424,8 +424,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         e.HilightValue = True
       End If
     End Sub
-#End Region#Region "Shared"
-#End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
+#End Region
+
+#Region "Shared"
+#End Region
+
+#Region "Properties"
+    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "RptAPPayment"
       End Get
@@ -459,7 +464,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
-#End Region#Region "IPrintableEntity"
+#End Region
+
+#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
       Return "RptAPPayment"
     End Function
@@ -563,7 +570,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return dpiColl
     End Function
-#End Region
+#End Region
+
   End Class
 End Namespace
 
