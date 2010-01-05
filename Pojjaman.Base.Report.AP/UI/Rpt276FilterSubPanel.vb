@@ -758,8 +758,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 m_supplier = Value
             End Set
         End Property
-        Public Property DocDateEnd() As Date            Get                Return m_DocDateEnd            End Get            Set(ByVal Value As Date)                m_DocDateEnd = Value            End Set        End Property        Public Property DocDateStart() As Date            Get                Return m_DocDateStart            End Get            Set(ByVal Value As Date)                m_DocDateStart = Value            End Set        End Property
-        Public Property DueDateEnd() As Date            Get                Return m_DueDateEnd            End Get            Set(ByVal Value As Date)                m_DueDateEnd = Value            End Set        End Property        Public Property DueDateStart() As Date            Get                Return m_DueDateStart            End Get            Set(ByVal Value As Date)                m_DueDateStart = Value            End Set        End Property
+        Public Property DocDateEnd() As Date
+            Get
+                Return m_DocDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateEnd = Value
+            End Set
+        End Property
+
+        Public Property DocDateStart() As Date
+            Get
+                Return m_DocDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateStart = Value
+            End Set
+        End Property
+        Public Property DueDateEnd() As Date
+            Get
+                Return m_DueDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DueDateEnd = Value
+            End Set
+        End Property
+
+        Public Property DueDateStart() As Date
+            Get
+                Return m_DueDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DueDateStart = Value
+            End Set
+        End Property
         Public Property SupplierGroup() As SupplierGroup
             Get
                 Return m_suppliergroup
