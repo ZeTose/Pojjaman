@@ -1011,13 +1011,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_entity Is Nothing Then
         Return
       End If
-      '------------------- CMBCode---------------
-      cmbCode.Items.Clear()
-      cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      cmbCode.Text = m_entity.Code
-      '---------------cmcCode ---------------
-      'txtCode.Text = m_entity.Code
-      m_oldCode = m_entity.Code
+      ''------------------- CMBCode---------------
+      'cmbCode.Items.Clear()
+      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      'cmbCode.Text = m_entity.Code
+      ''---------------cmcCode ---------------
+      ''txtCode.Text = m_entity.Code
+      'm_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 

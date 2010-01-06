@@ -1626,7 +1626,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtrealgross"
           dirtyFlag = True
         Case "cmbcode"
-          Me.m_entity.Code = cmbCode.Text
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            'Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text

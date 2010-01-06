@@ -101,7 +101,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 .m_docDate = Now.Date
                 .m_status = New MatOpenningBalanceStatus(-1)
                 Me.m_toCostCenter = New CostCenter
-                .m_je.DocDate = Me.m_docDate
+        .m_je.DocDate = Me.m_docDate
+
+        'AutoCode
+        .AutoCodeFormat = New AutoCodeFormat(Me)
             End With
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -128,13 +131,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     .m_status = New MatOpenningBalanceStatus(CInt(dr(aliasPrefix & "stock_status")))
                 End If
                 m_je = New JournalEntry(Me)
-            End With
+      End With
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
         End Sub
 #End Region
 
 #Region "Properties"
         Public Property ItemTable() As TreeTable            Get                Return m_itemTable            End Get            Set(ByVal Value As TreeTable)                m_itemTable = Value            End Set        End Property
-    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
         End If      End Get    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, MatOpenningBalanceStatus)      End Set    End Property    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "MatOpenningBalance"
@@ -237,10 +241,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Me.Status.Value = 2
                 End If
 
-                If Me.AutoGen And Me.Code.Length = 0 Then
-                    Me.Code = Me.GetNextCode
-                End If
-                Me.AutoGen = False
+        '---- AutoCode Format --------
+        If Not AutoCodeFormat Is Nothing Then
+
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.m_je.RefreshGLFormat()
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.RefreshGLFormat()
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
+        Me.m_je.DocDate = Me.DocDate
+        Me.AutoGen = False
+        Me.m_je.AutoGen = False
                 paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
                 paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
                 paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", ValidDateOrDBNull(Me.DocDate)))
@@ -306,7 +354,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 Return saveJeError
                             Case Else
                         End Select
-                    End If
+          End If
+
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetId(oldid, oldjeid)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetId(oldid, oldjeid)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
+
                     trans.Commit()
                     Return New SaveErrorException(returnVal.Value.ToString)
                 Catch ex As SqlException
@@ -684,14 +751,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IGLAble"
-        Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetGLFormatForEntity" _
-            , New SqlParameter("@entity_name", Me.ClassName), New SqlParameter("@default", 1))
-            Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
-            Return glf
-        End Function
+    Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetGLFormatForEntity" _
+      , New SqlParameter("@entity_name", Me.ClassName), New SqlParameter("@default", 1))
+      Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
+      Return glf
+    End Function
         Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
             Get
                 Return Me.m_je
