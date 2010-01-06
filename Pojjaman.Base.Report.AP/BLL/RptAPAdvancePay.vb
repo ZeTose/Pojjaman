@@ -451,20 +451,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'costcenter start
             dpi = New DocPrintingItem
             dpi.Mapping = "costcenterstart"
-            If Not IsDBNull(Filters(6).Value) Then
-                dpi.Value = CStr((Filters(6).Value)).ToString
-            End If
+      If Not IsDBNull(Filters(12).Value) Then
+        dpi.Value = CStr((Filters(12).Value)).ToString
+      End If
             dpi.DataType = "System.String"
             dpiColl.Add(dpi)
-
-            'costcenter end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "costcenterend"
-            If Not IsDBNull(Filters(7).Value) Then
-                dpi.Value = CStr((Filters(7).Value)).ToString
-            End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'ยกเลิก
+      ''costcenter end
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "costcenterend"
+      'If Not IsDBNull(Filters(7).Value) Then
+      'dpi.Value = CStr((Filters(7).Value)).ToString
+      'End If
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
             Dim n As Integer = 0
             Dim SumTaxBase As Decimal = 0

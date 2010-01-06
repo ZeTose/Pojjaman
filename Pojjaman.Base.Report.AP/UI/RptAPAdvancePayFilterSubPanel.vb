@@ -715,7 +715,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(11) As Filter
+      Dim arr(12) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("SuppliCodeStart", IIf(txtSuppliCodeStart.TextLength > 0, txtSuppliCodeStart.Text, DBNull.Value))
@@ -728,6 +728,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(9) = New Filter("Canceled", cmbStatus.SelectedIndex)
       arr(10) = New Filter("ShowDetail", IIf(chkDetail.Checked, 1, 0))
       arr(11) = New Filter("AdvancePayType", cmbAdvpayType.SelectedIndex)
+      arr(12) = New Filter("CCcode", Me.ValidCodeOrDBNull(m_cc))
+
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button

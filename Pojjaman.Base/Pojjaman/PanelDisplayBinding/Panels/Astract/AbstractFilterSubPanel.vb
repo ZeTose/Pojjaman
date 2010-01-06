@@ -136,7 +136,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return DBNull.Value
             End If
             Return entity.Id
-        End Function
+    End Function
+    Public Function ValidCodeOrDBNull(ByVal entity As SimpleBusinessEntityBase) As Object
+      If entity Is Nothing OrElse Not entity.Valid Then
+        Return DBNull.Value
+      End If
+      Return entity.Code
+    End Function
         Public Function ValidDateOrDBNull(ByVal myDate As Date) As Object
             If myDate.Equals(Date.MinValue) Then
                 Return DBNull.Value

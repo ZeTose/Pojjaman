@@ -169,7 +169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               totalAfterTax += CDec(advanceRow("aftertax"))
             End If
             If Not advanceRow.IsNull("openningbalanceremain") Then
-              trDoc("col8") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
+              trDoc("col9") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
               advanceRemain = CDec(advanceRow("openningbalanceremain"))
             End If
             If Not advanceRow.IsNull("status") Then
@@ -427,26 +427,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'CostCenterStart
       dpi = New DocPrintingItem
       dpi.Mapping = "costcenterstart"
-      If Not IsDBNull(Filters(7).Value) Then
-        dpi.Value = CStr((Filters(7).Value)).ToString
-      End If
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
-
-      'CostCenterEnd
-      dpi = New DocPrintingItem
-      dpi.Mapping = "costcenterend"
       If Not IsDBNull(Filters(8).Value) Then
         dpi.Value = CStr((Filters(8).Value)).ToString
       End If
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      ''CostCenterEnd ยกเลิก
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "costcenterend"
+      'If Not IsDBNull(Filters(8).Value) Then
+      'dpi.Value = CStr((Filters(8).Value)).ToString
+      'End If
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
+
       'IncludeChildren
       dpi = New DocPrintingItem
       dpi.Mapping = "IncludeChildren"
-      If Not IsDBNull(Filters(5).Value) Then
-        If CType(Filters(5).Value, Boolean) Then
+      If Not IsDBNull(Filters(4).Value) Then
+        If CType(Filters(4).Value, Boolean) Then
           dpi.Value = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARFilterSubPanel.chkIncludeChildren}")
         End If
       End If
