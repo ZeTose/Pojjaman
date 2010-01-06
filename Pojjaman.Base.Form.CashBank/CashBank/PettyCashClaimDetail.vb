@@ -59,35 +59,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(PettyCashClaimDetail))
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.txtGross = New System.Windows.Forms.TextBox
-      Me.lblGross = New System.Windows.Forms.Label
-      Me.lblGrossUnit = New System.Windows.Forms.Label
-      Me.txtAmount = New System.Windows.Forms.TextBox
-      Me.lblAmount = New System.Windows.Forms.Label
-      Me.lblAmountUnit = New System.Windows.Forms.Label
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.ibtnShowPettyCash = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtPettyCashName = New System.Windows.Forms.TextBox
-      Me.ibtnShowPettyCashDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblPettyCash = New System.Windows.Forms.Label
-      Me.txtPettyCashCode = New System.Windows.Forms.TextBox
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnGetItems = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.cmbCode = New System.Windows.Forms.ComboBox
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PettyCashClaimDetail))
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.txtGross = New System.Windows.Forms.TextBox()
+      Me.lblGross = New System.Windows.Forms.Label()
+      Me.lblGrossUnit = New System.Windows.Forms.Label()
+      Me.txtAmount = New System.Windows.Forms.TextBox()
+      Me.lblAmount = New System.Windows.Forms.Label()
+      Me.lblAmountUnit = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.ibtnShowPettyCash = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtPettyCashName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowPettyCashDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblPettyCash = New System.Windows.Forms.Label()
+      Me.txtPettyCashCode = New System.Windows.Forms.TextBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnGetItems = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.SuspendLayout()
       '
       'lblCode
@@ -110,7 +108,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtNote, -15)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(128, 88)
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -118,7 +115,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.Size = New System.Drawing.Size(552, 21)
       Me.txtNote.TabIndex = 3
       Me.txtNote.TabStop = False
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -138,7 +134,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.txtGross.Location = New System.Drawing.Point(440, 63)
-      Me.Validator.SetMaxValue(Me.txtGross, "")
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -146,7 +141,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtGross, False)
       Me.txtGross.Size = New System.Drawing.Size(128, 21)
       Me.txtGross.TabIndex = 20
-      Me.txtGross.Text = ""
       '
       'lblGross
       '
@@ -177,7 +171,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(128, 63)
-      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.txtAmount.ReadOnly = True
@@ -185,7 +178,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAmount, False)
       Me.txtAmount.Size = New System.Drawing.Size(128, 21)
       Me.txtAmount.TabIndex = 14
-      Me.txtAmount.Text = ""
       '
       'lblAmount
       '
@@ -247,7 +239,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtPettyCashName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtPettyCashName, System.Drawing.Color.Empty)
       Me.txtPettyCashName.Location = New System.Drawing.Point(256, 40)
-      Me.Validator.SetMaxValue(Me.txtPettyCashName, "")
       Me.Validator.SetMinValue(Me.txtPettyCashName, "")
       Me.txtPettyCashName.Name = "txtPettyCashName"
       Me.txtPettyCashName.ReadOnly = True
@@ -256,7 +247,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtPettyCashName.Size = New System.Drawing.Size(288, 21)
       Me.txtPettyCashName.TabIndex = 10
       Me.txtPettyCashName.TabStop = False
-      Me.txtPettyCashName.Text = ""
       '
       'ibtnShowPettyCashDialog
       '
@@ -289,14 +279,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtPettyCashCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtPettyCashCode, System.Drawing.Color.Empty)
       Me.txtPettyCashCode.Location = New System.Drawing.Point(128, 40)
-      Me.Validator.SetMaxValue(Me.txtPettyCashCode, "")
       Me.Validator.SetMinValue(Me.txtPettyCashCode, "")
       Me.txtPettyCashCode.Name = "txtPettyCashCode"
       Me.Validator.SetRegularExpression(Me.txtPettyCashCode, "")
       Me.Validator.SetRequired(Me.txtPettyCashCode, True)
       Me.txtPettyCashCode.Size = New System.Drawing.Size(128, 21)
       Me.txtPettyCashCode.TabIndex = 2
-      Me.txtPettyCashCode.Text = ""
       '
       'chkAutorun
       '
@@ -315,14 +303,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(424, 16)
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(126, 21)
       Me.txtDocDate.TabIndex = 1
-      Me.txtDocDate.Text = ""
       '
       'dtpDocDate
       '
@@ -360,7 +346,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
-      Me.ibtnDelRow.Location = New System.Drawing.Point(120, 112)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(117, 112)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 269
@@ -382,9 +368,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
@@ -427,8 +413,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "PettyCashClaimDetail"
       Me.Size = New System.Drawing.Size(736, 352)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -529,11 +515,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      cmbCode.Items.Clear()
-      cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      cmbCode.Text = m_entity.Code
-
+      'cmbCode.Items.Clear()
+      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      'cmbCode.Text = m_entity.Code
       'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
+      'UpdateAutogen ทำแทนแล้ว
       m_oldCode = m_entity.Code
       txtNote.Text = m_entity.Note
 
@@ -586,9 +572,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
-          Me.m_entity.Code = cmbCode.Text
-          ComboCodeIndex = cmbCode.SelectedIndex
-          m_oldCode = Me.cmbCode.Text
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
@@ -672,13 +660,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        'Me.Validator.SetRequired(Me.txtCode, False)
-        'Me.ErrorProvider1.SetError(Me.txtCode, "")
-        'Me.txtCode.ReadOnly = True
-        'Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
-        'cmbCode.SelectedIndex = ComboCodeIndex
-        'm_oldCode = Me.cmbCode.Text
-
         Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDown
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
