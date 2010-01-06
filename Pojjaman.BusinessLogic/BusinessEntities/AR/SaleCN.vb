@@ -132,7 +132,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 .m_payment = New Payment(Me)
                 .m_payment.DocDate = Me.m_docDate
-                '----------------------------End Tab Entities-----------------------------------------
+        '----------------------------End Tab Entities-----------------------------------------
+        .AutoCodeFormat = New AutoCodeFormat(Me)
             End With
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -195,7 +196,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 .m_je = New JournalEntry(Me)
                 .m_refDocCollection = New SaleCNRefDocCollection(Me)
-            End With
+      End With
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
         End Sub
 #End Region
 
@@ -215,7 +217,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property    Public Property ToCostCenter() As CostCenter
+        End If        m_customer = Value      End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date            Get                Return m_docDate            End Get            Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value            End Set        End Property    Public Property ToCostCenter() As CostCenter
       'Get
       '  Dim ccId As Integer = 0
       '  For Each ref As SaleCNRefDoc In Me.RefDocCollection
@@ -464,11 +466,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Me.Status = New SaleCNStatus(2)
 				End If
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
-          Me.JournalEntry.RefreshGLFormat()
-          Me.Code = Me.GetNextCode
+        '---- AutoCode Format --------
+        If Not AutoCodeFormat Is Nothing Then
+
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.m_je.RefreshGLFormat()
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.RefreshGLFormat()
+            Me.m_je.Code = m_je.GetNextCode
+          End If
         End If
-				Me.AutoGen = False
+        Me.m_je.DocDate = Me.DocDate
+        Me.m_payment.Code = m_je.Code
+        Me.m_payment.DocDate = m_je.DocDate
+        Me.AutoGen = False
+        Me.m_payment.AutoGen = False
+        Me.m_je.AutoGen = False
 				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
 				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
 				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", Me.Customer.Id))
@@ -627,6 +675,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid, oldpay, oldvat, oldje)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid, oldpay, oldvat, oldje)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
+
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
@@ -1736,14 +1803,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IGLAble"
-        Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetGLFormatForEntity" _
-            , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
-            Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
-            Return glf
-        End Function
+    Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetGLFormatForEntity" _
+      , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
+      Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
+      Return glf
+    End Function
         Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
             Dim jiColl As New JournalEntryItemCollection
             Dim ji As JournalEntryItem
