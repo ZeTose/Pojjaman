@@ -2501,7 +2501,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemRemainAmount = (Me.TaxGross - Me.RealTaxAmount) * itemAmountPerGross
         Else
           itemRemainAmount = item.TaxBase
-
         End If
 
         Dim itemAmount As Decimal ' = item.Amount
@@ -2512,13 +2511,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Me.TaxType.Value = 1 Then    'แยก
           itemAmount = item.TaxBase 'item.Amount
-        ElseIf Me.TaxType.Value = 0 OrElse item.UnVatable Then 'ไม่มี,ไม่มีภาษี
+        ElseIf Me.TaxType.Value = 0 Then 'ไม่มี,ไม่มีภาษี
           itemAmount = item.Amount
-        Else    'Me.TaxType.Value = 2 รวม
+        ElseIf Me.TaxType.Value = 2 Then 'รวม
           itemAmount = itemRemainAmount
         End If
 
-
+        If item.UnVatable Then
+          itemAmount = item.Amount
+        End If
 
         For Each addedJi As JournalEntryItem In jiColl
           If Not item.ItemType Is Nothing Then
