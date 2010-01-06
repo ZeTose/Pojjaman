@@ -135,18 +135,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
-    Public Property DocDate() As Date Implements IPayable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return pcc_docDate      End Get      Set(ByVal Value As Date)        pcc_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String Implements IPayable.Note, IGLAble.Note      Get        Return pcc_note      End Get      Set(ByVal Value As String)        pcc_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property PettyCash() As PettyCash      Get        Return pcc_pc      End Get      Set(ByVal Value As PettyCash)        pcc_pc = Value        ChangePettyCash()        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private Sub ChangePettyCash()      LoadNewItems()
-    End Sub    Public ReadOnly Property Gross() As Decimal      Get        Return pcc_gross      End Get    End Property    Public Sub UpdateGross()
-      If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then        pcc_gross = 0
+    Public Property ItemTable() As TreeTable
+      Get
+        Return m_itemTable
+      End Get
+      Set(ByVal Value As TreeTable)
+        m_itemTable = Value
+      End Set
+    End Property
+    Public Property DocDate() As Date Implements IPayable.Date, IGLAble.Date, ICheckPeriod.DocDate
+      Get
+        Return pcc_docDate
+      End Get
+      Set(ByVal Value As Date)
+        pcc_docDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+        Me.m_je.DocDate = Value
+      End Set
+    End Property
+    Public Property Note() As String Implements IPayable.Note, IGLAble.Note
+      Get
+        Return pcc_note
+      End Get
+      Set(ByVal Value As String)
+        pcc_note = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property PettyCash() As PettyCash
+      Get
+        Return pcc_pc
+      End Get
+      Set(ByVal Value As PettyCash)
+        pcc_pc = Value
+        ChangePettyCash()
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Private Sub ChangePettyCash()
+      LoadNewItems()
+    End Sub
+    Public ReadOnly Property Gross() As Decimal
+      Get
+        Return pcc_gross
+      End Get
+    End Property
+    Public Sub UpdateGross()
+      If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then
+        pcc_gross = 0
       Else
-        Dim amt As Decimal = 0        For Each row As TreeRow In Me.ItemTable.Rows
+        Dim amt As Decimal = 0
+        For Each row As TreeRow In Me.ItemTable.Rows
           If Not row.IsNull("Amount") AndAlso IsNumeric(row("Amount")) Then
             amt += CDec(row("Amount"))
           End If
-        Next        pcc_gross = amt
+        Next
+        pcc_gross = amt
       End If
-    End Sub    Public Overrides Property Status() As CodeDescription
+    End Sub
+    Public Overrides Property Status() As CodeDescription
       Get
         Return pcc_status
       End Get
@@ -383,6 +430,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
+
         Me.m_je.DocDate = Me.DocDate
         Me.m_payment.Code = m_je.Code
         Me.m_payment.DocDate = m_je.DocDate
@@ -477,17 +525,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return saveJeError
               Case Else
             End Select
-					End If
+          End If
 
-					Me.DeleteRef(conn, trans)
-					SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PCCRef" _
-					, New SqlParameter("@pcc_id", Me.Id))
-					If Me.Status.Value = 0 Then
-						Me.CancelRef(conn, trans)
-					End If
-					trans.Commit()
-					Return New SaveErrorException(returnVal.Value.ToString)
-				Catch ex As SqlException
+          Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PCCRef" _
+          , New SqlParameter("@pcc_id", Me.Id))
+          If Me.Status.Value = 0 Then
+            Me.CancelRef(conn, trans)
+          End If
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid, oldpay, oldje)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid, oldpay, oldje)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
+          trans.Commit()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje)
           Return New SaveErrorException(ex.ToString)
@@ -876,6 +941,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IGLAble"
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetGLFormatForEntity" _
@@ -955,11 +1023,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
           trans.Rollback()
           Return New SaveErrorException(returnVal.Value.ToString)
-				End If
-				Me.DeleteRef(conn, trans)
-				trans.Commit()
-				Return New SaveErrorException("1")
-			Catch ex As SqlException
+        End If
+        Me.DeleteRef(conn, trans)
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
         trans.Rollback()
         Return New SaveErrorException(ex.Message)
       Catch ex As Exception
@@ -1076,9 +1144,83 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property PettyCashClaim() As PettyCashClaim      Get        Return m_pcc      End Get      Set(ByVal Value As PettyCashClaim)        m_pcc = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Paymentid() As Integer      Get        Return m_paymentid      End Get      Set(ByVal Value As Integer)        m_paymentid = Value      End Set    End Property    Public Property PaymentLine() As Integer      Get        Return m_paymentLine      End Get      Set(ByVal Value As Integer)        m_paymentLine = Value      End Set    End Property
-    Public Property RefDocCode() As String      Get        Return m_refDocCode      End Get      Set(ByVal Value As String)        m_refDocCode = Value      End Set    End Property    Public Property RefDocDate() As Date      Get        Return m_refDocDate      End Get      Set(ByVal Value As Date)        m_refDocDate = Value      End Set    End Property    Public ReadOnly Property RefDocType() As String      Get        Return m_entityType.Description      End Get    End Property    Public Property EntityType() As PettyCashClaimEntityType      Get        Return m_entityType      End Get      Set(ByVal Value As PettyCashClaimEntityType)        m_entityType = Value      End Set    End Property    Public Property RefDocAmount() As Decimal      Get        Return m_refDocAmount      End Get      Set(ByVal Value As Decimal)        m_refDocAmount = Value      End Set    End Property
-    Public Property PaidAmount() As Decimal      Get        Return m_paidAmount      End Get      Set(ByVal Value As Decimal)        m_paidAmount = Value      End Set    End Property
+    Public Property PettyCashClaim() As PettyCashClaim
+      Get
+        Return m_pcc
+      End Get
+      Set(ByVal Value As PettyCashClaim)
+        m_pcc = Value
+      End Set
+    End Property
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+    Public Property Paymentid() As Integer
+      Get
+        Return m_paymentid
+      End Get
+      Set(ByVal Value As Integer)
+        m_paymentid = Value
+      End Set
+    End Property
+    Public Property PaymentLine() As Integer
+      Get
+        Return m_paymentLine
+      End Get
+      Set(ByVal Value As Integer)
+        m_paymentLine = Value
+      End Set
+    End Property
+    Public Property RefDocCode() As String
+      Get
+        Return m_refDocCode
+      End Get
+      Set(ByVal Value As String)
+        m_refDocCode = Value
+      End Set
+    End Property
+    Public Property RefDocDate() As Date
+      Get
+        Return m_refDocDate
+      End Get
+      Set(ByVal Value As Date)
+        m_refDocDate = Value
+      End Set
+    End Property
+    Public ReadOnly Property RefDocType() As String
+      Get
+        Return m_entityType.Description
+      End Get
+    End Property
+    Public Property EntityType() As PettyCashClaimEntityType
+      Get
+        Return m_entityType
+      End Get
+      Set(ByVal Value As PettyCashClaimEntityType)
+        m_entityType = Value
+      End Set
+    End Property
+    Public Property RefDocAmount() As Decimal
+      Get
+        Return m_refDocAmount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_refDocAmount = Value
+      End Set
+    End Property
+    Public Property PaidAmount() As Decimal
+      Get
+        Return m_paidAmount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_paidAmount = Value
+      End Set
+    End Property
     Public Property Note() As String
       Get
         Return m_note
