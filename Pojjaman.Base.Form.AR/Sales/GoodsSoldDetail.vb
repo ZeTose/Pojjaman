@@ -2484,6 +2484,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.ItemCollection.Remove(doc)
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
       RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
