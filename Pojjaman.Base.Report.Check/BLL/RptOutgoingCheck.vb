@@ -110,9 +110,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Dim indent As String = Space(3)
 
-            Dim TrBank As TreeRow
-            Dim TrAcc As TreeRow
-            Dim TrCheq As TreeRow
+      Dim TrBank As TreeRow = Nothing
+      Dim TrAcc As TreeRow = Nothing
+      Dim TrCheq As TreeRow = Nothing
 
             'Dim PVCode As String = ""
             'Dim PVRefCode As String = ""
@@ -229,7 +229,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             TrCheq("col11") = Configuration.FormatToString(CDec(row("Remain")), DigitConfig.Price)
                         End If
                         If Not row.IsNull("CheckStatus") Then
-                            TrCheq("col12") = indent & indent & row("CheckStatus").ToString
+              TrCheq("col12") = indent & indent & row("CheckStatus").ToString
                         End If
                         If Not row.IsNull("cc_code") Then
                             TrCheq("col13") = row("cc_code").ToString
