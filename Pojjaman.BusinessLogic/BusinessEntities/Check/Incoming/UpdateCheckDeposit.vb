@@ -121,13 +121,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate
+    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate
       Get
         Return m_issuedate
       End Get
       Set(ByVal Value As Date)
         m_issuedate = Value
-        Me.m_je.DocDate = Value
       End Set
     End Property
 
@@ -341,81 +340,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           paramArrayList.Add(New SqlParameter("@" & .Prefix & "_id", .Id))
         End If
 
-<<<<<<< .mine
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
-        '---- AutoCode Format --------
-        If Not AutoCodeFormat Is Nothing Then
-=======
-        Dim theTime As Date = Now
-        Dim theUser As New User(currentUserId)
->>>>>>> .r109
 
-<<<<<<< .mine
-=======
         'If Me.AutoGen And Me.Code.Length = 0 Then
         'Me.Code = Me.GetNextCode
         'End If
         '---- AutoCode Format --------
         If Not AutoCodeFormat Is Nothing Then
->>>>>>> .r109
 
-<<<<<<< .mine
-          Select Case Me.AutoCodeFormat.CodeConfig.Value
-            Case 0
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.m_je.RefreshGLFormat()
-                Me.Code = Me.GetNextCode
-              End If
-              Me.m_je.DontSave = True
-              Me.m_je.Code = ""
-              Me.m_je.DocDate = Me.DocDate
-            Case 1
-              'ตาม entity
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
-              Me.m_je.Code = Me.Code
-            Case 2
-              'ตาม gl
-              If Me.m_je.AutoGen Then
-                Me.m_je.RefreshGLFormat()
-                Me.m_je.Code = m_je.GetNextCode
-              End If
-              Me.Code = Me.m_je.Code
-            Case Else
-              'แยก
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
-              If Me.m_je.AutoGen Then
-                Me.m_je.RefreshGLFormat()
-                Me.m_je.Code = m_je.GetNextCode
-              End If
-          End Select
-        Else
-          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-            Me.Code = Me.GetNextCode
-          End If
-          If Me.m_je.AutoGen Then
-            Me.m_je.RefreshGLFormat()
-            Me.m_je.Code = m_je.GetNextCode
-          End If
-        End If
-        Me.m_je.DocDate = Me.DocDate
-        Me.AutoGen = False
-        Me.m_je.AutoGen = False
-=======
->>>>>>> .r109
 
-<<<<<<< .mine
-        If Me.m_je.Status.Value = 4 Then
-          Me.Status.Value = 4
-        End If
-        If Me.Status.Value = -1 Then
-          Me.Status.Value = 2
-        End If
-=======
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
@@ -460,116 +394,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je.DocDate = Me.Date
         Me.AutoGen = False
         Me.m_je.AutoGen = False
->>>>>>> .r109
 
-<<<<<<< .mine
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.DocDate)))
-=======
         If Me.m_je.Status.Value = 4 Then
           Me.Status.Value = 4
         End If
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
->>>>>>> .r109
 
-<<<<<<< .mine
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New IncomingCheck).EntityId))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", .Note))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
-=======
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.IssueDate)))
->>>>>>> .r109
 
-<<<<<<< .mine
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_updatedstatus", .UpdatedStatus.Value))
-=======
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New IncomingCheck).EntityId))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", .Note))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
->>>>>>> .r109
 
-<<<<<<< .mine
-        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
-=======
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_updatedstatus", .UpdatedStatus.Value))
->>>>>>> .r109
 
-<<<<<<< .mine
-        ' สร้าง SqlParameter จาก ArrayList ...
-        Dim sqlparams() As SqlParameter
-        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-=======
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
->>>>>>> .r109
 
-<<<<<<< .mine
-        Dim trans As SqlTransaction
-        Dim conn As New SqlConnection(.ConnectionString)
-=======
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
->>>>>>> .r109
 
-<<<<<<< .mine
-        If conn.State = ConnectionState.Open Then conn.Close()
-        conn.Open()
-        trans = conn.BeginTransaction()
-=======
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(.ConnectionString)
->>>>>>> .r109
 
-<<<<<<< .mine
-        Dim oldid As Integer = Me.Id
-        Dim oldje As Integer = m_je.Id
-=======
         If conn.State = ConnectionState.Open Then conn.Close()
         conn.Open()
         trans = conn.BeginTransaction()
->>>>>>> .r109
 
-<<<<<<< .mine
-        Try
-          .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-=======
         Dim oldid As Integer = Me.Id
         Dim oldje As Integer = m_je.Id
->>>>>>> .r109
 
-<<<<<<< .mine
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldje)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldje)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-=======
         Try
           .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
->>>>>>> .r109
 
-<<<<<<< .mine
-          Dim saveDetailError As SaveErrorException = SaveDetail(.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) OrElse CInt(saveDetailError.Message) < 0 Then
-            trans.Rollback()
-            Return saveDetailError
-          End If
-=======
           If IsNumeric(returnVal.Value) Then
             Select Case CInt(returnVal.Value)
               Case -1, -2, -5
@@ -583,79 +445,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.ResetID(oldid, oldje)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
->>>>>>> .r109
 
-<<<<<<< .mine
-          ' Save GL
-=======
           Dim saveDetailError As SaveErrorException = SaveDetail(.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) OrElse CInt(saveDetailError.Message) < 0 Then
             trans.Rollback()
             Return saveDetailError
           End If
->>>>>>> .r109
 
-<<<<<<< .mine
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            ResetID(oldid, oldje)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetID(oldid, oldje)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            trans.Rollback()
-            ResetID(oldid, oldje)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid, oldje)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-=======
           ' Save GL
->>>>>>> .r109
 
-<<<<<<< .mine
-          trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid, oldje)
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid, oldje)
-          Return New SaveErrorException(ex.ToString)
-        Finally
-          conn.Close()
-        End Try
-      End With
-    End Function
-    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      Try
-        Dim da As New SqlDataAdapter("Select * from CheckUpdateItem where cqupdatei_cqupdateid = " & Me.Id, conn)
-=======
           If Me.m_je.Status.Value = -1 Then
             m_je.Status.Value = 3
           End If
@@ -676,11 +474,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
->>>>>>> .r109
 
-<<<<<<< .mine
-        Dim cmdBuilder As New SqlCommandBuilder(da)
-=======
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
           If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -697,11 +491,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
           '==============================AUTOGEN==========================================
->>>>>>> .r109
 
-<<<<<<< .mine
-        Dim ds As New DataSet
-=======
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
@@ -720,80 +510,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from CheckUpdateItem where cqupdatei_cqupdateid = " & Me.Id, conn)
->>>>>>> .r109
 
-<<<<<<< .mine
-        da.SelectCommand.Transaction = trans
-        cmdBuilder.GetDeleteCommand.Transaction = trans
-        cmdBuilder.GetInsertCommand.Transaction = trans
-        cmdBuilder.GetUpdateCommand.Transaction = trans
-        da.Fill(ds, "CheckUpdateItem")
-=======
         Dim cmdBuilder As New SqlCommandBuilder(da)
->>>>>>> .r109
 
-<<<<<<< .mine
-        UpdateOldItemStatus(conn, trans)
-=======
         Dim ds As New DataSet
->>>>>>> .r109
 
-<<<<<<< .mine
-        Dim dbCount As Integer = ds.Tables("CheckUpdateItem").Rows.Count
-        Dim itemCount As Integer = Me.ItemTable.Childs.Count
-        With ds.Tables("CheckUpdateItem")
-          For Each row As DataRow In .Rows
-            row.Delete()
-          Next
-          Dim i As Integer = 0
-          For n As Integer = 0 To Me.MaxRowIndex
-            Dim row As TreeRow = Me.m_itemTable.Childs(n)
-            If ValidateRow(row) Then
-              Dim item As New UpdateCheckDepositItem
-              item.CopyFromDataRow(row)
-              i += 1
-              Dim dr As DataRow = .NewRow
-              dr("cqupdatei_cqupdateid") = Me.Id
-              dr("cqupdatei_linenumber") = i
-              dr("cqupdatei_entity") = item.Entity.Id
-              dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
-              .Rows.Add(dr)
-=======
         da.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
         cmdBuilder.GetInsertCommand.Transaction = trans
         cmdBuilder.GetUpdateCommand.Transaction = trans
         da.Fill(ds, "CheckUpdateItem")
->>>>>>> .r109
 
-<<<<<<< .mine
-              ' update IncomingCheck ...
-              UpdateCheckStatus(item.Entity.Id, conn, trans)
-            End If
-          Next
-        End With
-        Dim dt As DataTable = ds.Tables("CheckUpdateItem")
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-=======
         UpdateOldItemStatus(conn, trans)
->>>>>>> .r109
 
-<<<<<<< .mine
-        Return New SaveErrorException("1")
-      Catch ex As Exception
-        Return New SaveErrorException(ex.ToString)
-      End Try
-    End Function
-    Private Function UpdateOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, Optional ByVal changeAll As Boolean = False) As SaveErrorException
-      Dim daOldRef As New SqlDataAdapter("select * from incomingcheck " & _
-      "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
-      " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
-      " and check_id in (select receivei_entity from receiveitem " & _
-      " where receivei_entitytype = 27 and receivei_status <> 0)" _
-      , conn) '-----> มีใน checkupdate และ receive
-=======
         Dim dbCount As Integer = ds.Tables("CheckUpdateItem").Rows.Count
         Dim itemCount As Integer = Me.ItemTable.Childs.Count
         With ds.Tables("CheckUpdateItem")
@@ -813,16 +542,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr("cqupdatei_entity") = item.Entity.Id
               dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
               .Rows.Add(dr)
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim daOldStatusRef As New SqlDataAdapter("select * from incomingcheck " & _
-      "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
-      " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
-      " and check_id not in (select receivei_entity from receiveitem " & _
-      " where receivei_entitytype = 27 and receivei_status <> 0)" _
-      , conn) '-----> มีใน checkupdate ไม่มีใน receive
-=======
               ' update IncomingCheck ...
               UpdateCheckStatus(item.Entity.Id, conn, trans)
             End If
@@ -832,11 +552,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim cmdBuilder As SqlCommandBuilder
-=======
         Return New SaveErrorException("1")
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
@@ -849,68 +565,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       " and check_id in (select receivei_entity from receiveitem " & _
       " where receivei_entitytype = 27 and receivei_status <> 0)" _
       , conn) '-----> มีใน checkupdate และ receive
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim ds As New DataSet
-=======
       Dim daOldStatusRef As New SqlDataAdapter("select * from incomingcheck " & _
       "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
       " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
       " and check_id not in (select receivei_entity from receiveitem " & _
       " where receivei_entitytype = 27 and receivei_status <> 0)" _
       , conn) '-----> มีใน checkupdate ไม่มีใน receive
->>>>>>> .r109
 
-<<<<<<< .mine
-      cmdBuilder = New SqlCommandBuilder(daOldRef)
-      daOldRef.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-      cmdBuilder = Nothing
-      daOldRef.Fill(ds, "OldCheck")
-=======
       Dim cmdBuilder As SqlCommandBuilder
->>>>>>> .r109
 
-<<<<<<< .mine
-      cmdBuilder = New SqlCommandBuilder(daOldStatusRef)
-      daOldStatusRef.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-      cmdBuilder = Nothing
-      daOldStatusRef.Fill(ds, "OldCheckStatus")
-=======
       Dim ds As New DataSet
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim dtOldRef As DataTable = ds.Tables("OldCheck")
-      For Each row As DataRow In dtOldRef.Rows
-        Dim found As Boolean = False
-        For n As Integer = 0 To Me.MaxRowIndex
-          Dim item As TreeRow = Me.m_itemTable.Childs(n)
-          If ValidateRow(item) Then
-            If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
-              'เจอแล้ว --> 
-              found = True
-              Exit For
-            End If
-          End If
-        Next
-        If (Not found) Or changeAll Then
-          'ไม่เจอ -- 
-          'แก้เฉพาะ docstatus เพราะมีอ้างอิงอยู่ที่อื่นด้วย
-          If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
-            If CInt(row("check_docstatus")) = 3 Then
-              row("check_docstatus") = 1
-            End If
-          End If
-        End If
-      Next
-=======
       cmdBuilder = New SqlCommandBuilder(daOldRef)
       daOldRef.SelectCommand.Transaction = trans
       cmdBuilder.GetDeleteCommand.Transaction = trans
@@ -918,41 +584,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cmdBuilder.GetUpdateCommand.Transaction = trans
       cmdBuilder = Nothing
       daOldRef.Fill(ds, "OldCheck")
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim dtOldStatusRef As DataTable = ds.Tables("OldCheckStatus")
-      For Each row As DataRow In dtOldStatusRef.Rows
-        Dim found As Boolean = False
-        For n As Integer = 0 To Me.MaxRowIndex
-          Dim item As TreeRow = Me.m_itemTable.Childs(n)
-          If ValidateRow(item) Then
-            If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
-              'เจอแล้ว --> 
-              found = True
-              Exit For
-            End If
-          End If
-        Next
-        If (Not found) Or changeAll Then
-          'ไม่เจอ
-          'แก้ทั้ง docstatus,status เพราะไม่มีอ้างอิงอยู่ที่อื่นด้วย
-          If Not row.IsNull("check_status") AndAlso IsNumeric(row("check_status")) Then
-            If CInt(row("check_status")) = 3 Then
-              row("check_status") = 2
-            End If
-          End If
-          If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
-            If CInt(row("check_docstatus")) = 3 Then
-              row("check_docstatus") = 1
-            End If
-          End If
-        End If
-      Next
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Added))
-=======
       cmdBuilder = New SqlCommandBuilder(daOldStatusRef)
       daOldStatusRef.SelectCommand.Transaction = trans
       cmdBuilder.GetDeleteCommand.Transaction = trans
@@ -960,18 +592,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cmdBuilder.GetUpdateCommand.Transaction = trans
       cmdBuilder = Nothing
       daOldStatusRef.Fill(ds, "OldCheckStatus")
->>>>>>> .r109
 
-<<<<<<< .mine
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Added))
-    End Function
-    Private Function UpdateCheckStatus(ByVal checkID As Integer, _
-                                        ByVal conn As SqlConnection, _
-                                        ByVal trans As SqlTransaction) As Integer
-      Dim sqlSelecttext As String
-=======
       Dim dtOldRef As DataTable = ds.Tables("OldCheck")
       For Each row As DataRow In dtOldRef.Rows
         Dim found As Boolean = False
@@ -995,11 +616,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
       Next
->>>>>>> .r109
 
-<<<<<<< .mine
-      sqlSelecttext = "Select * from IncomingCheck Where check_id = " & checkID
-=======
       Dim dtOldStatusRef As DataTable = ds.Tables("OldCheckStatus")
       For Each row As DataRow In dtOldStatusRef.Rows
         Dim found As Boolean = False
@@ -1031,12 +648,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
       daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
       daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Added))
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim da As New SqlDataAdapter(sqlSelecttext, conn)
-      Dim cmdBuilder As New SqlCommandBuilder(da)
-=======
       daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
       daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
       daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Added))
@@ -1045,48 +657,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                         ByVal conn As SqlConnection, _
                                         ByVal trans As SqlTransaction) As Integer
       Dim sqlSelecttext As String
->>>>>>> .r109
 
-<<<<<<< .mine
-      Dim ds As New DataSet
-=======
       sqlSelecttext = "Select * from IncomingCheck Where check_id = " & checkID
->>>>>>> .r109
 
-<<<<<<< .mine
-      da.SelectCommand.Transaction = trans
-=======
       Dim da As New SqlDataAdapter(sqlSelecttext, conn)
       Dim cmdBuilder As New SqlCommandBuilder(da)
->>>>>>> .r109
 
-<<<<<<< .mine
-      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-
-      da.Fill(ds)
-      With ds.Tables(0)
-        For Each row As DataRow In .Rows
-          If Not IsNumeric(row("check_status")) OrElse CInt(row("check_docstatus")) = 1 Then
-            row("check_docstatus") = Me.UpdatedStatus.Value
-          End If
-          If Not IsNumeric(row("check_status")) OrElse CInt(row("check_status")) <> 0 Then
-            row("check_status") = 3
-          End If
-          row("check_bankacct") = ValidIdOrDBNull(Me.BankAccount)
-        Next
-      End With
-      Dim dt As DataTable = ds.Tables(0)
-      ' First process deletes.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      ' Next process updates.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      ' Finally process inserts.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-    End Function
-=======
       Dim ds As New DataSet
 
       da.SelectCommand.Transaction = trans
@@ -1116,7 +692,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Finally process inserts.
       da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
     End Function
->>>>>>> .r109
 #End Region
 
 #Region "Items"
@@ -1342,16 +917,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region " IGLAble "
-<<<<<<< .mine
-    Public Property [Date]() As Date Implements IGLAble.Date
-      Get
-        Return Me.DocDate
-      End Get
-      Set(ByVal Value As Date)
-        Me.DocDate = Value
-      End Set
-    End Property
-=======
     Public Property [Date]() As Date Implements IGLAble.Date
       Get
         Return Me.IssueDate
@@ -1361,7 +926,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.IssueDate = Value
       End Set
     End Property
->>>>>>> .r109
 
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
       If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
@@ -1572,7 +1136,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
-<<<<<<< .mine
     Public Property UpdateCheckDeposit() As UpdateCheckDeposit
       Get
         Return m_UpdateCheckDeposit
@@ -1581,41 +1144,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_UpdateCheckDeposit = Value
       End Set
     End Property
-=======
-    Public Property UpdateCheckDeposit() As UpdateCheckDeposit
-      Get
-        Return m_UpdateCheckDeposit
-      End Get
-      Set(ByVal Value As UpdateCheckDeposit)
-        m_UpdateCheckDeposit = Value
-      End Set
-    End Property
-
-    Public Property BeforeStatus() As IncomingCheckDocStatus
-      Get
-        Return m_beforestatus
-      End Get
-      Set(ByVal Value As IncomingCheckDocStatus)
-        m_beforestatus = Value
-      End Set
-    End Property
-    Public Property LineNumber() As Integer
-      Get
-        Return m_lineNumber
-      End Get
-      Set(ByVal Value As Integer)
-        m_lineNumber = Value
-      End Set
-    End Property
-    Public Property Entity() As IncomingCheck
-      Get
-        Return m_entity
-      End Get
-      Set(ByVal Value As IncomingCheck)
-        m_entity = Value
-      End Set
-    End Property
->>>>>>> .r109
 
     Public Property BeforeStatus() As IncomingCheckDocStatus
       Get
