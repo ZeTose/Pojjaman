@@ -1053,7 +1053,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''---------------cmcCode ---------------
 
       ''txtCode.Text = m_entity.Code
-      'm_oldCode = m_entity.Code
+      m_oldCode = m_entity.Code
       ''UpdateAutogen ทำแทนแล้ว
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
