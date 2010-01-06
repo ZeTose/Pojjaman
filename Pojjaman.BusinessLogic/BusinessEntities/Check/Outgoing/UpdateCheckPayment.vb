@@ -8,117 +8,115 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 
 Namespace Longkong.Pojjaman.BusinessLogic
-    Public Class UpdateCheckPayment
-        Inherits SimpleBusinessEntityBase
-        Implements IGLAble
+  Public Class UpdateCheckPayment
+    Inherits SimpleBusinessEntityBase
+    Implements IGLAble
 
 #Region "Member"
-        Private m_issuedate As Date
-        Private m_note As String
+    Private m_docdate As Date
+    Private m_note As String
 
-        Private m_updatedstatus As OutgoingCheckDocStatus
-        Private m_totalamount As Decimal
+    Private m_updatedstatus As OutgoingCheckDocStatus
+    Private m_totalamount As Decimal
 
-        Private m_itemTable As TreeTable
+    Private m_itemTable As TreeTable
 
-        Private m_je As JournalEntry
+    Private m_je As JournalEntry
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            ReLoadItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Public Sub New(ByVal Code As String)
-            MyBase.New(Code)
-            ReLoadItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Public Sub New(ByVal id As Integer)
-            MyBase.New(id)
-            ReLoadItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-            ReLoadItems(ds, aliasPrefix)
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-            ReLoadItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Protected Overloads Overrides Sub Construct()
-            MyBase.Construct()
-            With Me
-                .m_issuedate = Now.Date
-                .m_updatedstatus = New OutgoingCheckDocStatus(1)
-                .Status = New StockStatus(-1)
-                .m_je = New JournalEntry(Me)
-                .m_je.DocDate = Me.m_issuedate
-            End With
-            ReLoadItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Construct(dr, aliasPrefix)
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            MyBase.Construct(dr, aliasPrefix)
-            With Me
-                ' Issuedate ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
-                    .m_issuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
-                End If
-                ' Note ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
-                    .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
-                End If
-                ' Total amount ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalamount") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalamount") Then
-                    .m_totalamount = CInt(dr(aliasPrefix & Me.Prefix & "_totalamount"))
-                End If
-                ' check status
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_updatedstatus") _
-                  AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_updatedstatus") Then
-                    m_updatedstatus.Value = CInt(dr(aliasPrefix & Me.Prefix & "_updatedstatus"))
-                End If
-                ' updatecheck status 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") _
-                  AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
-                    Status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
-                End If
+    Public Sub New()
+      MyBase.New()
+      ReLoadItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+      ReLoadItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+      ReLoadItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+      ReLoadItems(ds, aliasPrefix)
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+      ReLoadItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+      With Me
+        .m_docdate = Now.Date
+        .m_updatedstatus = New OutgoingCheckDocStatus(1)
+        .Status = New StockStatus(-1)
+        .m_je = New JournalEntry(Me)
+        .m_je.DocDate = Me.m_docdate
+        .AutoCodeFormat = New AutoCodeFormat(Me)
+      End With
+      ReLoadItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Construct(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
+        ' Issuedate ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
+          .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+        End If
+        ' Note ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
+          .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
+        End If
+        ' Total amount ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalamount") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalamount") Then
+          .m_totalamount = CInt(dr(aliasPrefix & Me.Prefix & "_totalamount"))
+        End If
+        ' check status
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_updatedstatus") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_updatedstatus") Then
+          m_updatedstatus.Value = CInt(dr(aliasPrefix & Me.Prefix & "_updatedstatus"))
+        End If
+        ' updatecheck status 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+          Status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
+        End If
 
-                .m_je = New JournalEntry(Me)
-            End With
-        End Sub
+        .m_je = New JournalEntry(Me)
+      End With
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+    End Sub
 
 #End Region
 
 #Region "Properties"
-    Public ReadOnly Property DocDate() As Date
+    Public Property DocDate() As Date
       Get
-        Return m_issuedate
-      End Get
-    End Property
-    Public Property IssueDate() As Date
-      Get
-        Return m_issuedate
+        Return m_docdate
       End Get
       Set(ByVal Value As Date)
-        m_issuedate = Value
+        m_docdate = Value
+        Me.m_je.DocDate = Value
       End Set
     End Property
     Public Property TotalAmount() As Decimal
@@ -145,7 +143,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_updatedstatus = Value
       End Set
     End Property
-    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
+    Public Property ItemTable() As TreeTable
+      Get
+        Return m_itemTable
+      End Get
+      Set(ByVal Value As TreeTable)
+        m_itemTable = Value
+      End Set
+    End Property
 
 #End Region
 
@@ -263,11 +268,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
+        '---- AutoCode Format --------
+        If Not AutoCodeFormat Is Nothing Then
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
-          Me.Code = Me.GetNextCode
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.m_je.RefreshGLFormat()
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.RefreshGLFormat()
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.RefreshGLFormat()
+            Me.m_je.Code = m_je.GetNextCode
+          End If
         End If
+        Me.m_je.DocDate = Me.DocDate
         Me.AutoGen = False
+        Me.m_je.AutoGen = False
 
         If Me.m_je.Status.Value = 4 Then
           Me.Status.Value = 4
@@ -277,7 +325,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.IssueDate)))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.DocDate)))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New OutgoingCheck).EntityId))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", .Note))
@@ -297,6 +345,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If conn.State = ConnectionState.Open Then conn.Close()
         conn.Open()
         trans = conn.BeginTransaction()
+
+        Dim oldid As Integer = Me.Id
+        Dim oldje As Integer = Me.m_je.Id
+
         Try
           .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
@@ -336,6 +388,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid, oldje)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid, oldje)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
 
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -769,13 +837,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region " IGLAble "
     Public Property [Date]() As Date Implements IGLAble.Date
       Get
-        Return Me.IssueDate
+        Return Me.DocDate
       End Get
       Set(ByVal Value As Date)
-        Me.IssueDate = Value
+        Me.DocDate = Value
       End Set
     End Property
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
                   , CommandType.StoredProcedure _
                   , "GetGLFormatForEntity" _
@@ -783,9 +854,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim glf As GLFormat
       If Me.UpdatedStatus.Value = 0 Then
-				glf = New GLFormat(ds.Tables(0).Rows(1), "")
+        glf = New GLFormat(ds.Tables(0).Rows(1), "")
       ElseIf Me.UpdatedStatus.Value = 2 Then
-				glf = New GLFormat(ds.Tables(0).Rows(0), "")
+        glf = New GLFormat(ds.Tables(0).Rows(0), "")
       Else
         glf = New GLFormat
       End If
@@ -797,31 +868,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As New JournalEntryItem
       Dim notCombine As Boolean = True 'ถ้าไม่ต้องการรวมยอดเช็คใน GL
       If Me.TotalAmount > 0 Then
-				'If notCombine Then
-				'  If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
-				'    ' เช็คจ่ายล่วงหน้า {mix} ji.Mapping = "H2.3" สลับกับ เจ้าหนี้การค้า {mix} ji.Mapping = "H2.4"
-				'    SetPassCheckOutgoingAndCreditor(jiColl)
-				'  ElseIf Me.UpdatedStatus.Value = 2 Then ' จ่ายผ่าน  { H2.1 , H2.2 }
-				'    ' เช็คจ่ายล่วงหน้า  {mix} ji.Mapping = "H2.1"  ตามเจ้าหนี้ สลับกับ เงินฝากธนาคาร {dynamic} ji.Mapping = "H2.2"
-				'    SetCancelCheckOutgoingAndBankAcct(jiColl)
-				'  End If
-				'Else
-				If Me.UpdatedStatus.Value = 0 Then			 ' ยกเลิก { H2.3 , H2.4 }
-					' เช็คจ่ายล่วงหน้า {mix}           ji.Mapping = "H2.3"
-					SetCancelCheckOutgoing(jiColl)
-					' เงินฝากธนาคาร {dynamic}            ji.Mapping = "H2.4"
-					'SetCancelBankAcct(jiColl)
-					' เจ้าหนี้การค้า {mix}
-					SetCancelCreditor(jiColl)
-				ElseIf Me.UpdatedStatus.Value = 2 Then		' จ่ายผ่าน  { H2.1 , H2.2 }
-					' เช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
-					SetPassCheckOutgoing(jiColl)
-					' เจ้าหนี้การค้า {mix}       ji.Mapping = "H2.2"
-					SetPassCreditor(jiColl)
+        'If notCombine Then
+        '  If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
+        '    ' เช็คจ่ายล่วงหน้า {mix} ji.Mapping = "H2.3" สลับกับ เจ้าหนี้การค้า {mix} ji.Mapping = "H2.4"
+        '    SetPassCheckOutgoingAndCreditor(jiColl)
+        '  ElseIf Me.UpdatedStatus.Value = 2 Then ' จ่ายผ่าน  { H2.1 , H2.2 }
+        '    ' เช็คจ่ายล่วงหน้า  {mix} ji.Mapping = "H2.1"  ตามเจ้าหนี้ สลับกับ เงินฝากธนาคาร {dynamic} ji.Mapping = "H2.2"
+        '    SetCancelCheckOutgoingAndBankAcct(jiColl)
+        '  End If
+        'Else
+        If Me.UpdatedStatus.Value = 0 Then       ' ยกเลิก { H2.3 , H2.4 }
+          ' เช็คจ่ายล่วงหน้า {mix}           ji.Mapping = "H2.3"
+          SetCancelCheckOutgoing(jiColl)
+          ' เงินฝากธนาคาร {dynamic}            ji.Mapping = "H2.4"
+          'SetCancelBankAcct(jiColl)
+          ' เจ้าหนี้การค้า {mix}
+          SetCancelCreditor(jiColl)
+        ElseIf Me.UpdatedStatus.Value = 2 Then    ' จ่ายผ่าน  { H2.1 , H2.2 }
+          ' เช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
+          SetPassCheckOutgoing(jiColl)
+          ' เจ้าหนี้การค้า {mix}       ji.Mapping = "H2.2"
+          SetPassCreditor(jiColl)
 
-				End If
-				'End If
-			End If
+        End If
+        'End If
+      End If
 
       Return jiColl
     End Function
@@ -848,7 +919,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         If sumvalue > 0 Then
           ji = New JournalEntryItem
-					ji.Mapping = "H2.2"
+          ji.Mapping = "H2.2"
           ji.Amount = sumvalue
           If acct.Originated Then
             ji.Account = acct
@@ -882,7 +953,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         If sumvalue > 0 Then
           ji = New JournalEntryItem
-					ji.Mapping = "H2.1"
+          ji.Mapping = "H2.1"
           ji.Amount = sumvalue
           If acct.Originated Then
             ji.Account = acct
@@ -948,9 +1019,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         If sumvalue > 0 Then
           ji = New JournalEntryItem
-					ji.Mapping = "H2.3"
-					ji.Amount = sumvalue
-					ji.IsDebit = True
+          ji.Mapping = "H2.3"
+          ji.Amount = sumvalue
+          ji.IsDebit = True
           If acct.Originated Then
             ji.Account = acct
           End If
@@ -958,108 +1029,108 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
-		End Sub
-		' เงินฝากธนาคาร
-		Private Sub SetCancelBankAcct(ByVal jiColl As JournalEntryItemCollection)
-			Dim ji As New JournalEntryItem
-			Dim ht As New Hashtable
-			For Each trow As TreeRow In Me.ItemTable.Childs
-				If ValidateRow(trow) Then
-					Dim bankacct As New BankAccount(CStr(trow("bankacct_code")))
-					ht(bankacct.Account.Id) = bankacct.Account
-				End If
-			Next
-			For Each acct As Account In ht.Values
-				Dim sumvalue As Decimal = 0
-				For i As Integer = Me.MaxRowIndex To 0 Step -1
-					Dim row As TreeRow = Me.ItemTable.Childs(i)
-					If ValidateRow(row) Then
-						Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
-						If bankacct.Account.Id = acct.Id Then
-							sumvalue += CDec(row("check_amount"))
-						End If
-					End If
-				Next
-				If sumvalue > 0 Then
-					ji = New JournalEntryItem
-					ji.Mapping = "H2.3"
-					ji.Amount = sumvalue
-					If acct.Originated Then
-						ji.Account = acct
-					End If
-					ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-					jiColl.Add(ji)
-				End If
-			Next
-		End Sub
-		' เจ้าหนี้การค้า
-		Private Sub SetCancelCreditor(ByVal jiColl As JournalEntryItemCollection)
-			Dim ji As New JournalEntryItem
-			Dim ht As New Hashtable
-			For Each trow As TreeRow In Me.ItemTable.Childs
-				If ValidateRow(trow) Then
-					Dim supplieracct As New Supplier(CInt(trow("check_supplier")))
-					ht(supplieracct.Account.Id) = supplieracct.Account
-				End If
-			Next
-			For Each acct As Account In ht.Values
-				Dim sumvalue As Decimal = 0
-				For i As Integer = Me.MaxRowIndex To 0 Step -1
-					Dim row As TreeRow = Me.ItemTable.Childs(i)
-					If ValidateRow(row) Then
-						Dim supplieracct As New Supplier(CInt(row("check_supplier")))
-						If supplieracct.Account.Id = acct.Id Then
-							sumvalue += CDec(row("check_amount"))
-						End If
-					End If
-				Next
-				If sumvalue > 0 Then
-					ji = New JournalEntryItem
-					ji.Mapping = "H2.4"
-					ji.Amount = sumvalue
-					If acct.Originated Then
-						ji.Account = acct
-					End If
-					ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-					jiColl.Add(ji)
-				End If
-			Next
-		End Sub
-		' เช็คจ่ายล่วงหน้า กรณียกเลิก สลับกับ เงินฝากธนาคาร
-		Private Sub SetCancelCheckOutgoingAndBankAcct(ByVal jiColl As JournalEntryItemCollection)
-			Dim ji As New JournalEntryItem
-			For Each row As TreeRow In Me.ItemTable.Childs
-				If ValidateRow(row) Then
-					Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
-					ji = New JournalEntryItem
-					ji.Mapping = "Through"
-					ji.Amount = CDec(row("check_amount"))
-					ji.Account = ga.Account
-					ji.IsDebit = True
-					ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-					jiColl.Add(ji)
+    End Sub
+    ' เงินฝากธนาคาร
+    Private Sub SetCancelBankAcct(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      Dim ht As New Hashtable
+      For Each trow As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(trow) Then
+          Dim bankacct As New BankAccount(CStr(trow("bankacct_code")))
+          ht(bankacct.Account.Id) = bankacct.Account
+        End If
+      Next
+      For Each acct As Account In ht.Values
+        Dim sumvalue As Decimal = 0
+        For i As Integer = Me.MaxRowIndex To 0 Step -1
+          Dim row As TreeRow = Me.ItemTable.Childs(i)
+          If ValidateRow(row) Then
+            Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
+            If bankacct.Account.Id = acct.Id Then
+              sumvalue += CDec(row("check_amount"))
+            End If
+          End If
+        Next
+        If sumvalue > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.3"
+          ji.Amount = sumvalue
+          If acct.Originated Then
+            ji.Account = acct
+          End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
+        End If
+      Next
+    End Sub
+    ' เจ้าหนี้การค้า
+    Private Sub SetCancelCreditor(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      Dim ht As New Hashtable
+      For Each trow As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(trow) Then
+          Dim supplieracct As New Supplier(CInt(trow("check_supplier")))
+          ht(supplieracct.Account.Id) = supplieracct.Account
+        End If
+      Next
+      For Each acct As Account In ht.Values
+        Dim sumvalue As Decimal = 0
+        For i As Integer = Me.MaxRowIndex To 0 Step -1
+          Dim row As TreeRow = Me.ItemTable.Childs(i)
+          If ValidateRow(row) Then
+            Dim supplieracct As New Supplier(CInt(row("check_supplier")))
+            If supplieracct.Account.Id = acct.Id Then
+              sumvalue += CDec(row("check_amount"))
+            End If
+          End If
+        Next
+        If sumvalue > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.4"
+          ji.Amount = sumvalue
+          If acct.Originated Then
+            ji.Account = acct
+          End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
+        End If
+      Next
+    End Sub
+    ' เช็คจ่ายล่วงหน้า กรณียกเลิก สลับกับ เงินฝากธนาคาร
+    Private Sub SetCancelCheckOutgoingAndBankAcct(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(row) Then
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = CDec(row("check_amount"))
+          ji.Account = ga.Account
+          ji.IsDebit = True
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
 
-					Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
-					ji = New JournalEntryItem
-					ji.Mapping = "Through"
-					ji.Amount = CDec(row("check_amount"))
-					ji.Account = bankacct.Account
-					ji.IsDebit = False
-					ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-					jiColl.Add(ji)
+          Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = CDec(row("check_amount"))
+          ji.Account = bankacct.Account
+          ji.IsDebit = False
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
 
-				End If
-			Next
-		End Sub
+        End If
+      Next
+    End Sub
 
-		Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
-			Get
-				Return Me.m_je
-			End Get
-			Set(ByVal Value As JournalEntry)
-				m_je = Value
-			End Set
-		End Property
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
+      Get
+        Return Me.m_je
+      End Get
+      Set(ByVal Value As JournalEntry)
+        m_je = Value
+      End Set
+    End Property
 
 #End Region
 
@@ -1128,214 +1199,249 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
   End Class
 
-    ' Update check items
-    Public Class UpdateCheckPaymentItem
+  ' Update check items
+  Public Class UpdateCheckPaymentItem
 
 #Region "Members"
-        Private m_updatecheckpayment As UpdateCheckPayment
-        Private m_lineNumber As Integer
-        Private m_entity As OutgoingCheck
+    Private m_updatecheckpayment As UpdateCheckPayment
+    Private m_lineNumber As Integer
+    Private m_entity As OutgoingCheck
 
-        Private m_amount As Decimal
-        Private m_bankcharge As Decimal
-        Private m_wht As Decimal
+    Private m_amount As Decimal
+    Private m_bankcharge As Decimal
+    Private m_wht As Decimal
 
-        Private m_beforestatus As OutgoingCheckDocStatus
+    Private m_beforestatus As OutgoingCheckDocStatus
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+    End Sub
 
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            With Me
-                ' Line number ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
-                End If
-                ' Entity ...
-                If dr.Table.Columns.Contains(aliasPrefix & "check_id") AndAlso Not dr.IsNull(aliasPrefix & "check_id") Then
-                    .m_entity = New OutgoingCheck(dr, aliasPrefix)
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
-                        .m_entity = New OutgoingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
-                    End If
-                End If
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        ' Line number ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
+        End If
+        ' Entity ...
+        If dr.Table.Columns.Contains(aliasPrefix & "check_id") AndAlso Not dr.IsNull(aliasPrefix & "check_id") Then
+          .m_entity = New OutgoingCheck(dr, aliasPrefix)
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
+            .m_entity = New OutgoingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
+          End If
+        End If
 
-                ' before status ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_beforestatus") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_beforestatus") Then
-                    .m_beforestatus = New OutgoingCheckDocStatus(CInt(dr(aliasPrefix & Me.Prefix & "_beforestatus")))
-                End If
+        ' before status ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_beforestatus") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_beforestatus") Then
+          .m_beforestatus = New OutgoingCheckDocStatus(CInt(dr(aliasPrefix & Me.Prefix & "_beforestatus")))
+        End If
 
-            End With
-        End Sub
-        Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Private ReadOnly Property Prefix() As String
-            Get
-                Return "cqupdatei"
-            End Get
-        End Property
+    Private ReadOnly Property Prefix() As String
+      Get
+        Return "cqupdatei"
+      End Get
+    End Property
 
-        Public Property UpdateCheckPayment() As UpdateCheckPayment            Get                Return m_updatecheckpayment            End Get            Set(ByVal Value As UpdateCheckPayment)                m_updatecheckpayment = Value            End Set        End Property
-        Public Property BeforeStatus() As CodeDescription            Get
-                Return m_beforestatus
-            End Get
-            Set(ByVal Value As CodeDescription)
-                m_beforestatus = CType(Value, OutgoingCheckDocStatus)
-            End Set
-        End Property        Public Property LineNumber() As Integer            Get                Return m_lineNumber            End Get            Set(ByVal Value As Integer)                m_lineNumber = Value            End Set        End Property        Public Property Amount() As Decimal            Get
-                Return m_amount
-            End Get
-            Set(ByVal Value As Decimal)
-                m_amount = Value
-            End Set
-        End Property        Public Property BankCharge() As Decimal            Get
-                Return m_bankcharge
-            End Get
-            Set(ByVal Value As Decimal)
-                m_bankcharge = Value
-            End Set
-        End Property        Public Property WHT() As Decimal
-            Get
-                Return m_wht
-            End Get
-            Set(ByVal Value As Decimal)
-                m_wht = Value
-            End Set
-        End Property        Public Property Entity() As OutgoingCheck            Get                Return m_entity            End Get            Set(ByVal Value As OutgoingCheck)                m_entity = Value            End Set        End Property
+    Public Property UpdateCheckPayment() As UpdateCheckPayment
+      Get
+        Return m_updatecheckpayment
+      End Get
+      Set(ByVal Value As UpdateCheckPayment)
+        m_updatecheckpayment = Value
+      End Set
+    End Property
+
+    Public Property BeforeStatus() As CodeDescription
+      Get
+        Return m_beforestatus
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_beforestatus = CType(Value, OutgoingCheckDocStatus)
+      End Set
+    End Property
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+
+    Public Property Amount() As Decimal
+      Get
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amount = Value
+      End Set
+    End Property
+
+    Public Property BankCharge() As Decimal
+      Get
+        Return m_bankcharge
+      End Get
+      Set(ByVal Value As Decimal)
+        m_bankcharge = Value
+      End Set
+    End Property
+
+    Public Property WHT() As Decimal
+      Get
+        Return m_wht
+      End Get
+      Set(ByVal Value As Decimal)
+        m_wht = Value
+      End Set
+    End Property
+
+    Public Property Entity() As OutgoingCheck
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As OutgoingCheck)
+        m_entity = Value
+      End Set
+    End Property
+
 #End Region
 
 #Region "Methods"
-        Public Sub CopyToDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Me.UpdateCheckPayment.IsInitialized = False
-            row("linenumber") = Me.LineNumber
-            If Not Me.Entity Is Nothing Then
-                row("cqupdatei_entity") = Me.Entity.Id
-                row("code") = Me.Entity.Code
-                row("cqcode") = Entity.CqCode
-                row("docdate") = Entity.IssueDate
-                row("recipient") = Entity.Recipient
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.UpdateCheckPayment.IsInitialized = False
+      row("linenumber") = Me.LineNumber
+      If Not Me.Entity Is Nothing Then
+        row("cqupdatei_entity") = Me.Entity.Id
+        row("code") = Me.Entity.Code
+        row("cqcode") = Entity.CqCode
+        row("docdate") = Entity.IssueDate
+        row("recipient") = Entity.Recipient
 
-                row("check_id") = Me.Entity.Id
-                row("check_code") = Entity.Code
-                row("check_cqcode") = Entity.CqCode
-                row("check_issuedate") = Entity.IssueDate
-                row("check_recipient") = Entity.Recipient
+        row("check_id") = Me.Entity.Id
+        row("check_code") = Entity.Code
+        row("check_cqcode") = Entity.CqCode
+        row("check_issuedate") = Entity.IssueDate
+        row("check_recipient") = Entity.Recipient
 
-                If Not Entity.Supplier Is Nothing Then
-                    row("check_supplier") = Entity.Supplier.Id
-                End If
+        If Not Entity.Supplier Is Nothing Then
+          row("check_supplier") = Entity.Supplier.Id
+        End If
 
-                If Not Entity.Bankacct Is Nothing Then
-                    row("bankacct_id") = Entity.Bankacct.Id
-                    row("bankacct_code") = Entity.Bankacct.Code
-                    row("bankacct_name") = Entity.Bankacct.Name
-                    row("bank_id") = Entity.Bankacct.BankBranch.Bank.Id
-                    row("bank_code") = Entity.Bankacct.BankBranch.Bank.Code
-                    row("bank_name") = Entity.Bankacct.BankBranch.Bank.Name
-                End If
+        If Not Entity.Bankacct Is Nothing Then
+          row("bankacct_id") = Entity.Bankacct.Id
+          row("bankacct_code") = Entity.Bankacct.Code
+          row("bankacct_name") = Entity.Bankacct.Name
+          row("bank_id") = Entity.Bankacct.BankBranch.Bank.Id
+          row("bank_code") = Entity.Bankacct.BankBranch.Bank.Code
+          row("bank_name") = Entity.Bankacct.BankBranch.Bank.Name
+        End If
 
-                row("check_bankcharge") = Entity.BankCharge
-                row("check_wht") = Entity.WHT
-                row("check_amt") = Entity.Amount
-                row("check_amount") = Entity.Amount
+        row("check_bankcharge") = Entity.BankCharge
+        row("check_wht") = Entity.WHT
+        row("check_amt") = Entity.Amount
+        row("check_amount") = Entity.Amount
 
-                row("cqupdatei_beforestatus") = Entity.DocStatus.Value
-            Else
-                row("cqupdatei_entity") = DBNull.Value
-                row("code") = DBNull.Value
-                row("cqcode") = DBNull.Value
-                row("docdate") = DBNull.Value
-                row("check_id") = DBNull.Value
-                row("check_code") = DBNull.Value
-                row("check_cqcode") = DBNull.Value
-                row("check_issuedate") = DBNull.Value
+        row("cqupdatei_beforestatus") = Entity.DocStatus.Value
+      Else
+        row("cqupdatei_entity") = DBNull.Value
+        row("code") = DBNull.Value
+        row("cqcode") = DBNull.Value
+        row("docdate") = DBNull.Value
+        row("check_id") = DBNull.Value
+        row("check_code") = DBNull.Value
+        row("check_cqcode") = DBNull.Value
+        row("check_issuedate") = DBNull.Value
 
-                row("recipient") = DBNull.Value
-                row("check_recipient") = DBNull.Value
-                row("check_supplier") = DBNull.Value
+        row("recipient") = DBNull.Value
+        row("check_recipient") = DBNull.Value
+        row("check_supplier") = DBNull.Value
 
-                row("bankacct_id") = DBNull.Value
-                row("bankacct_code") = DBNull.Value
-                row("bankacct_name") = DBNull.Value
+        row("bankacct_id") = DBNull.Value
+        row("bankacct_code") = DBNull.Value
+        row("bankacct_name") = DBNull.Value
 
-                row("bank_id") = DBNull.Value
-                row("bank_code") = DBNull.Value
-                row("bank_name") = DBNull.Value
+        row("bank_id") = DBNull.Value
+        row("bank_code") = DBNull.Value
+        row("bank_name") = DBNull.Value
 
-                row("check_bankcharge") = DBNull.Value
-                row("check_wht") = DBNull.Value
-                row("check_amount") = DBNull.Value
-                row("check_amt") = DBNull.Value
+        row("check_bankcharge") = DBNull.Value
+        row("check_wht") = DBNull.Value
+        row("check_amount") = DBNull.Value
+        row("check_amt") = DBNull.Value
 
-                row("cqupdatei_beforestatus") = DBNull.Value
-            End If
+        row("cqupdatei_beforestatus") = DBNull.Value
+      End If
 
-            Me.UpdateCheckPayment.IsInitialized = True
-        End Sub
-        Public Sub CopyFromDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Try
-                ' Line number ...
-                If Not row.IsNull(("linenumber")) Then
-                    Me.LineNumber = CInt(row("linenumber"))
-                End If
-                ' Entity ...
-                If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull("check_id") Then
-                    Me.Entity = New OutgoingCheck(row, "")
-                Else
-                    If row.Table.Columns.Contains("cqupdatei_entity") _
-                    AndAlso Not row.IsNull(("cqupdatei_entity")) Then
-                        Me.Entity = New OutgoingCheck(CInt(row("cqupdatei_entity")))
-                    End If
-                End If
+      Me.UpdateCheckPayment.IsInitialized = True
+    End Sub
+    Public Sub CopyFromDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Try
+        ' Line number ...
+        If Not row.IsNull(("linenumber")) Then
+          Me.LineNumber = CInt(row("linenumber"))
+        End If
+        ' Entity ...
+        If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull("check_id") Then
+          Me.Entity = New OutgoingCheck(row, "")
+        Else
+          If row.Table.Columns.Contains("cqupdatei_entity") _
+          AndAlso Not row.IsNull(("cqupdatei_entity")) Then
+            Me.Entity = New OutgoingCheck(CInt(row("cqupdatei_entity")))
+          End If
+        End If
 
-                If row.Table.Columns.Contains("check_amount") _
-                    AndAlso Not row.IsNull(("check_amount")) Then
-                    Me.Amount = CDec(row("check_amount"))
-                End If
+        If row.Table.Columns.Contains("check_amount") _
+            AndAlso Not row.IsNull(("check_amount")) Then
+          Me.Amount = CDec(row("check_amount"))
+        End If
 
-                If row.Table.Columns.Contains("check_bankcharge") _
-                    AndAlso Not row.IsNull(("check_bankcharge")) Then
-                    Me.BankCharge = CDec(row("check_bankcharge"))
-                End If
+        If row.Table.Columns.Contains("check_bankcharge") _
+            AndAlso Not row.IsNull(("check_bankcharge")) Then
+          Me.BankCharge = CDec(row("check_bankcharge"))
+        End If
 
-                If row.Table.Columns.Contains("check_wht") _
-                    AndAlso Not row.IsNull(("check_wht")) Then
-                    Me.WHT = CDec(row("check_wht"))
-                End If
+        If row.Table.Columns.Contains("check_wht") _
+            AndAlso Not row.IsNull(("check_wht")) Then
+          Me.WHT = CDec(row("check_wht"))
+        End If
 
-                If row.Table.Columns.Contains("cqupdatei_beforestatus") _
-                    AndAlso Not row.IsNull(("cqupdatei_beforestatus")) Then
-                    Me.BeforeStatus = New OutgoingCheckDocStatus(CInt(row("cqupdatei_beforestatus")))
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.Message & "::" & ex.StackTrace)
-            End Try
+        If row.Table.Columns.Contains("cqupdatei_beforestatus") _
+            AndAlso Not row.IsNull(("cqupdatei_beforestatus")) Then
+          Me.BeforeStatus = New OutgoingCheckDocStatus(CInt(row("cqupdatei_beforestatus")))
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+      End Try
 
-        End Sub
+    End Sub
 #End Region
 
-    End Class
+  End Class
 End Namespace
