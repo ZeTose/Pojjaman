@@ -269,13 +269,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
         '---- AutoCode Format --------
+        Me.m_je.RefreshGLFormat()
         If Not AutoCodeFormat Is Nothing Then
-
 
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.m_je.RefreshGLFormat()
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.DontSave = True
