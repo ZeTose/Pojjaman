@@ -789,8 +789,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
-      txtIssuedate.Text = MinDateToNull(Me.m_entity.IssueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      dtpIssueDate.Value = MinDateToNow(Me.m_entity.IssueDate)
+      txtIssuedate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpIssueDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
       If Not Me.m_entity.BankAccount Is Nothing Then
         txtBankAcctCode.Text = Me.m_entity.BankAccount.Code
@@ -841,11 +841,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "dtpissuedate"
           txtIssuedate.Text = MinDateToNull(dtpIssueDate.Value, "")
-          Me.m_entity.IssueDate = dtpIssueDate.Value
+          Me.m_entity.DocDate = dtpIssueDate.Value
           dirtyFlag = True
         Case "txtissuedate"
           Dim dt As Date = StringToDate(txtIssuedate, dtpIssueDate)
-          Me.m_entity.IssueDate = dt
+          Me.m_entity.DocDate = dt
           dirtyFlag = True
 
         Case "cmbstatus"

@@ -15,7 +15,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Member"
     Private m_bankacct As BankAccount
-    Private m_issuedate As Date
+    Private m_docdate As Date
     Private m_note As String
 
     Private m_updatedstatus As IncomingCheckDocStatus
@@ -61,14 +61,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
-        .m_issuedate = Now.Date
+        .m_docdate = Now.Date
         .m_bankacct = New BankAccount
 
         .m_updatedstatus = New IncomingCheckDocStatus(3)    ' π”Ω“° ...
         .Status = New CheckStatus(-1)
         .m_je = New JournalEntry(Me)
         .m_incomingcheckremoved = ""
-        .m_je.DocDate = Me.m_issuedate
+        .m_je.DocDate = Me.m_docdate
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
       ReLoadItems()
@@ -85,7 +85,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' Issuedate ...
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
-          .m_issuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+          .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
         End If
         ' Note ...
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
@@ -121,12 +121,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate
       Get
-        Return m_issuedate
+        Return m_docdate
       End Get
       Set(ByVal Value As Date)
-        m_issuedate = Value
+        m_docdate = Value
+        Me.m_je.DocDate = Value
       End Set
     End Property
 
@@ -358,7 +359,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               Me.m_je.DontSave = True
               Me.m_je.Code = ""
-              Me.m_je.DocDate = Me.Date
+              Me.m_je.DocDate = Me.DocDate
             Case 1
               'µ“¡ entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
@@ -391,7 +392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
-        Me.m_je.DocDate = Me.Date
+        Me.m_je.DocDate = Me.DocDate
         Me.AutoGen = False
         Me.m_je.AutoGen = False
 
@@ -403,7 +404,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.IssueDate)))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.DocDate)))
 
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New IncomingCheck).EntityId))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
@@ -917,17 +918,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region " IGLAble "
-    Public Property [Date]() As Date Implements IGLAble.Date
-      Get
-        Return Me.IssueDate
-      End Get
-      Set(ByVal Value As Date)
-        Me.m_je.DocDate = Value
-        Me.IssueDate = Value
-      End Set
-    End Property
-
-    Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
       If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
         Return Me.AutoCodeFormat.GLFormat
       End If
