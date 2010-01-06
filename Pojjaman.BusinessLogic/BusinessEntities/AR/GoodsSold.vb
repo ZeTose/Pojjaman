@@ -448,6 +448,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status = New GoodsSoldStatus(2)
         End If
+        If Not Me.m_je.ManualFormat Then
+          Me.m_je.GLFormat = Me.GetDefaultGLFormat
+          Me.m_je.SetGLFormat(Me.m_je.GLFormat)
+        End If
 
         '---- AutoCode Format --------
         If Not AutoCodeFormat Is Nothing Then
@@ -455,10 +459,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
-              Me.m_je.GLFormat = Me.GetDefaultGLFormat
-              Me.m_je.SetGLFormat(Me.m_je.GLFormat)
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                'Me.m_je.RefreshGLFormat()
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.DontSave = True
@@ -466,36 +467,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.DocDate = Me.DocDate
             Case 1
               'ตาม entity
-              'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              'Me.m_je.RefreshGLFormat()
-              Me.m_je.GLFormat = Me.GetDefaultGLFormat
-              Me.m_je.SetGLFormat(Me.m_je.GLFormat)
-              'Me.Code = Me.GetNextCode
-              'End If
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
                 Me.m_je.Code = m_je.GetNextCode
               End If
             Case 2
               'ตาม gl
-              'If Me.m_je.AutoGen Then
-              'Me.m_je.RefreshGLFormat()
-              Me.m_je.GLFormat = Me.GetDefaultGLFormat
-              Me.m_je.SetGLFormat(Me.m_je.GLFormat)
-              'Me.m_je.Code = m_je.GetNextCode
-              'End If
               If Me.AutoGen Then
                 Me.Code = Me.GetNextCode
                 Me.m_je.Code = m_je.GetNextCode
               End If
             Case Else
               'แยก
-              'If Me.m_je.AutoGen Then
-              'Me.m_je.RefreshGLFormat()
-              Me.m_je.GLFormat = Me.GetDefaultGLFormat
-              Me.m_je.SetGLFormat(Me.m_je.GLFormat)
-              'Me.m_je.Code = m_je.GetNextCode
-              'End If
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
                 Me.m_je.Code = m_je.GetNextCode
@@ -503,17 +486,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End Select
         Else
-          'If Me.m_je.AutoGen Then
-          'Me.m_je.RefreshGLFormat()
-          Me.m_je.GLFormat = Me.GetDefaultGLFormat
-          Me.m_je.SetGLFormat(Me.m_je.GLFormat)
-          'Me.m_je.Code = m_je.GetNextCode
-          'End If
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
             Me.Code = Me.GetNextCode
             Me.m_je.Code = m_je.GetNextCode
           End If
-
         End If
         Me.m_je.DocDate = Me.DocDate
         Me.m_receive.Code = m_je.Code
