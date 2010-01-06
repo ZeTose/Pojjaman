@@ -246,6 +246,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Next
 
+      trCheq("col6") = indent & indent & rvCode
+      trCheq("col7") = indent & indent & rvRefCode
+
       'Account สุดท้าย
       If Not TrAcc Is Nothing Then
         If Not SumAmount.Equals(0) Then
