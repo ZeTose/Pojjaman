@@ -124,20 +124,67 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property PettyCash() As PettyCash      Get        Return m_pettycash      End Get      Set(ByVal Value As PettyCash)        m_pettycash = Value      End Set    End Property    Public ReadOnly Property EntityType() As Integer      Get        Return m_pettycash.EntityId      End Get    End Property    Public Property Amount() As Decimal      Get        Return m_amt      End Get      Set(ByVal Value As Decimal)        m_amt = Value      End Set    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property RemainAmount() As Decimal      Get
+
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate
+      Get
+        Return m_docdate
+      End Get
+      Set(ByVal Value As Date)
+        m_docdate = Value
+        Me.m_je.DocDate = Value
+      End Set
+    End Property
+
+    Public Property PettyCash() As PettyCash
+      Get
+        Return m_pettycash
+      End Get
+      Set(ByVal Value As PettyCash)
+        m_pettycash = Value
+      End Set
+    End Property
+
+    Public ReadOnly Property EntityType() As Integer
+      Get
+        Return m_pettycash.EntityId
+      End Get
+
+    End Property
+
+    Public Property Amount() As Decimal
+      Get
+        Return m_amt
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amt = Value
+      End Set
+    End Property
+
+    Public Property Note() As String Implements IGLAble.Note
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property RemainAmount() As Decimal
+      Get
         Return m_remainamt
       End Get
       Set(ByVal Value As Decimal)
         m_remainamt = Value
       End Set
-    End Property    Public Overrides Property Status() As CodeDescription
+    End Property
+    Public Overrides Property Status() As CodeDescription
       Get
         Return m_status
       End Get
       Set(ByVal Value As CodeDescription)
         m_status = CType(Value, PettyCashClosedStatus)
       End Set
-    End Property#End Region
+    End Property
+#End Region
 
 #Region "Methods"
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldreceive As Integer, ByVal oldje As Integer)

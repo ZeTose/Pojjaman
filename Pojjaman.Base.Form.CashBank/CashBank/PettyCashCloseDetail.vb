@@ -1147,11 +1147,12 @@ Public Class PettyCashCloseDetail
         Return
       End If
 
-      cmbCode.Items.Clear()
-      cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      cmbCode.Text = m_entity.Code
-      BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
-      m_oldCode = m_entity.Code
+      'cmbCode.Items.Clear()
+      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      'cmbCode.Text = m_entity.Code
+      'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
+      'm_oldCode = m_entity.Code
+      'UpdateAutogen ทำแทนแล้ว
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
@@ -1245,9 +1246,7 @@ Public Class PettyCashCloseDetail
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        'Me.Validator.SetRequired(Me.txtCode, False)
-        'Me.ErrorProvider1.SetError(Me.txtCode, "")
-        'Me.txtCode.ReadOnly = True
+        
         Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
