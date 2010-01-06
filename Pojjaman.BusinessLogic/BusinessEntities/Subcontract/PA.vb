@@ -1953,27 +1953,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
-          'ItemCode
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ItemCode"
-          dpi.Value = item.Entity.Code
-          dpi.DataType = "System.String"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
-
-          'ItemName
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ItemName"
-          If Not item.Entity Is Nothing Then
-            dpi.Value = item.Entity.Name
-          Else
+          If item.ItemType.Value = 289 Then
+            'ItemName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ItemName"
             dpi.Value = item.EntityName
+            dpi.DataType = "System.String"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
+          Else
+            'ItemCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ItemCode"
+            dpi.Value = item.Entity.Code
+            dpi.DataType = "System.String"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
+
+            'ItemName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ItemName"
+            If Not item.Entity Is Nothing Then
+              If item.ItemType.Value = 0 Then
+                dpi.Value = item.EntityName
+              Else
+                dpi.Value = item.Entity.Name
+              End If
+            Else
+              dpi.Value = item.EntityName
+            End If
+            dpi.DataType = "System.String"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
           End If
-          dpi.DataType = "System.String"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
 
           'UnitCode
           dpi = New DocPrintingItem
