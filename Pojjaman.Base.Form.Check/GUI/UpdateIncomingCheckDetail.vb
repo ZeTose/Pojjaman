@@ -848,8 +848,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
-      txtIssueDate.Text = MinDateToNull(Me.m_entity.IssueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      dtpIssueDate.Value = MinDateToNow(Me.m_entity.IssueDate)
+      txtIssueDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpIssueDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
       txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
       txtWht.Text = Configuration.FormatToString(Me.m_entity.WHT, DigitConfig.Price)
@@ -921,12 +921,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "dtpissuedate"
           txtIssueDate.Text = MinDateToNull(dtpIssueDate.Value, "")
-          Me.m_entity.IssueDate = dtpIssueDate.Value
+          Me.m_entity.DocDate = dtpIssueDate.Value
           dirtyFlag = True
 
         Case "txtissuedate"
           Dim dt As Date = StringToDate(txtIssueDate, dtpIssueDate)
-          Me.m_entity.IssueDate = dt
+          Me.m_entity.DocDate = dt
           dirtyFlag = True
 
         Case "cmbstatus"

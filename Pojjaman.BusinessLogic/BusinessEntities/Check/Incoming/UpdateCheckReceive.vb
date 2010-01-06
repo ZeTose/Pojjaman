@@ -13,7 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Implements IGLAble, IWitholdingTaxable
 
 #Region "Member"
-    Private m_issuedate As Date
+    Private m_docdate As Date
     Private m_note As String
 
     Private m_updatedstatus As IncomingCheckDocStatus
@@ -64,11 +64,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
-        .m_issuedate = Now.Date
+        .m_docdate = Now.Date
         .m_updatedstatus = New IncomingCheckDocStatus(-1)
         .Status = New CheckStatus(-1)
         .m_je = New JournalEntry(Me)
-        .m_je.DocDate = Me.m_issuedate
+        .m_je.DocDate = Me.m_docdate
         .m_whtcol = New WitholdingTaxCollection
         .m_whtcol.Direction = New WitholdingTaxDirection(0)
         .m_incomingcheckremoved = ""
@@ -88,7 +88,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' Issuedate ...
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
-          .m_issuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+          .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
         End If
         ' bank charge
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_bankcharge") _
@@ -133,23 +133,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property [Date]() As Date Implements IGLAble.Date, IWitholdingTaxable.Date
+    Public Property DocDate() As Date Implements IGLAble.Date, IWitholdingTaxable.Date
       Get
-        Return Me.IssueDate
+        Return Me.m_docdate
       End Get
       Set(ByVal Value As Date)
+        m_docdate = Value
         Me.m_je.DocDate = Value
-        Me.IssueDate = Value
       End Set
     End Property
-    Public Property IssueDate() As Date
-      Get
-        Return m_issuedate
-      End Get
-      Set(ByVal Value As Date)
-        m_issuedate = Value
-      End Set
-    End Property
+    
     Public Property TotalAmount() As Decimal
       Get
         m_totalamount = GetTotalAmount()
@@ -372,7 +365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               Me.m_je.DontSave = True
               Me.m_je.Code = ""
-              Me.m_je.DocDate = Me.Date
+              Me.m_je.DocDate = Me.DocDate
             Case 1
               'ตาม entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
@@ -405,7 +398,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
-        Me.m_je.DocDate = Me.Date
+        Me.m_je.DocDate = Me.DocDate
         Me.AutoGen = False
         Me.m_je.AutoGen = False
 
@@ -418,7 +411,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
-        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.IssueDate)))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.DocDate)))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New IncomingCheck).EntityId))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
         paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", .Note))
