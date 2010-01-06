@@ -636,7 +636,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(8) As Filter
+      Dim arr(9) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("SupplierGroupCode", IIf(txtSpgCodeStart.TextLength > 0, txtSpgCodeStart.Text, DBNull.Value))
@@ -646,7 +646,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             arr(7) = New Filter("ChildCCIncluded", Me.chkIncludeChildCC.Checked)
             arr(8) = New Filter("ChildSupplierGroupIncluded", Me.chkIncludeChildSupplierGroup.Checked)
-            Return arr
+      arr(9) = New Filter("CCcode", Me.ValidCodeOrDBNull(m_cc))
+      Return arr
         End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
             Get

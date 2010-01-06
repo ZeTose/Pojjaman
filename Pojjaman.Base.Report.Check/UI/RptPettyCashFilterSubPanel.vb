@@ -771,6 +771,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(7) = New Filter("Accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
       arr(8) = New Filter("CCId", Me.ValidIdOrDBNull(m_cc))
       arr(9) = New Filter("ChildCCIncluded", Me.chkIncludeChildCC.Checked)
+      arr(10) = New Filter("CCcode", Me.ValidCodeOrDBNull(m_cc))
 
       Return arr
     End Function
