@@ -1396,7 +1396,7 @@ Namespace Longkong.AdobeForm
 												_Value = item.Value
 											End If
 											If Not item.Mapping Is Nothing Then
-												_Mapping = item.Mapping
+                        _Mapping = item.Mapping.ToLower
 											End If
 											_LineStyle = item.LineStyle
 											If Not item.Font Is Nothing Then
@@ -1410,7 +1410,7 @@ Namespace Longkong.AdobeForm
 										If Me.m_sumPageColHash.Contains(_Mapping) Then
 											If rowInfoItem Is Nothing OrElse (Not (rowInfoItem Is Nothing) AndAlso (CStr(rowInfoItem.Value) = "0")) Then
 
-												Dim obj As Object = Me.m_sumPageHash(item.Mapping.ToLower)
+                        Dim obj As Object = Me.m_sumPageHash(_Mapping)
 												If IsNumeric(obj) Then
 													oldValue = CDec(obj)
 												End If
