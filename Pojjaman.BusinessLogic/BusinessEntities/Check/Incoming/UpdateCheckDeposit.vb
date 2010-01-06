@@ -385,7 +385,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.Code = Me.GetNextCode
           End If
           If Me.m_je.AutoGen Then
-            Me.m_je.RefreshGLFormat()
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If

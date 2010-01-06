@@ -289,7 +289,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 2
               'ตาม gl
               If Me.m_je.AutoGen Then
-                Me.m_je.RefreshGLFormat()
                 Me.m_je.Code = m_je.GetNextCode
               End If
               Me.Code = Me.m_je.Code
