@@ -6,8 +6,8 @@
 		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<!--<EntityFilter id="advancemoney" entity="advancemoney" filter="Longkong.Pojjaman.Gui.Panels.AdvanceMoneyFilterSubPanel"/>
-		<EntityFilter id="pettycashclaim" entity="pettycashclaim" filter="Longkong.Pojjaman.Gui.Panels.PettyCashClaimFilterSubPanel"/>-->
+		<EntityFilter id="loan" entity="loan" filter="Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel"/>
+    <!--<EntityFilter id="pettycashclaim" entity="pettycashclaim" filter="Longkong.Pojjaman.Gui.Panels.PettyCashClaimFilterSubPanel"/>-->
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="loan">

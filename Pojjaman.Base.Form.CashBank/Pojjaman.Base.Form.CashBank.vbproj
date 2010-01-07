@@ -165,6 +165,9 @@
     <Compile Include="Loan\LoanDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Loan\LoanFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="BankAccount\BankAccountDetailView.resx">
       <DependentUpon>BankAccountDetailView.vb</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Loan\LoanDetailView.resx">
       <DependentUpon>LoanDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Loan\LoanFilterSubPanel.resx">
+      <DependentUpon>LoanFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

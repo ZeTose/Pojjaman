@@ -58,6 +58,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LoanDetailView))
             Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblCostCenter = New System.Windows.Forms.Label()
+            Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtCCCode = New System.Windows.Forms.TextBox()
+            Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtCCName = New System.Windows.Forms.TextBox()
             Me.cmbType = New System.Windows.Forms.ComboBox()
             Me.txtInterest = New Longkong.Pojjaman.Gui.Components.MultiLineTextBox()
             Me.lblInterest = New System.Windows.Forms.Label()
@@ -79,11 +84,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblCode = New System.Windows.Forms.Label()
             Me.txtCode = New System.Windows.Forms.TextBox()
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-            Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.txtCCCode = New System.Windows.Forms.TextBox()
-            Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.txtCCName = New System.Windows.Forms.TextBox()
-            Me.lblCostCenter = New System.Windows.Forms.Label()
             Me.grbDetail.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -126,6 +126,72 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ข้อมูลธนาคาร : "
+            '
+            'lblCostCenter
+            '
+            Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblCostCenter.ForeColor = System.Drawing.Color.Black
+            Me.lblCostCenter.Location = New System.Drawing.Point(8, 176)
+            Me.lblCostCenter.Name = "lblCostCenter"
+            Me.lblCostCenter.Size = New System.Drawing.Size(136, 18)
+            Me.lblCostCenter.TabIndex = 24
+            Me.lblCostCenter.Text = "CostCenter:"
+            Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'btnCCFind
+            '
+            Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnCCFind.Location = New System.Drawing.Point(496, 173)
+            Me.btnCCFind.Name = "btnCCFind"
+            Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
+            Me.btnCCFind.TabIndex = 20
+            Me.btnCCFind.TabStop = False
+            Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'txtCCCode
+            '
+            Me.Validator.SetDataType(Me.txtCCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtCCCode, "")
+            Me.txtCCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtCCCode, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtCCCode, System.Drawing.Color.Empty)
+            Me.txtCCCode.Location = New System.Drawing.Point(150, 175)
+            Me.Validator.SetMinValue(Me.txtCCCode, "")
+            Me.txtCCCode.Name = "txtCCCode"
+            Me.Validator.SetRegularExpression(Me.txtCCCode, "")
+            Me.Validator.SetRequired(Me.txtCCCode, False)
+            Me.txtCCCode.Size = New System.Drawing.Size(136, 21)
+            Me.txtCCCode.TabIndex = 22
+            '
+            'btnCCEdit
+            '
+            Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnCCEdit.Location = New System.Drawing.Point(520, 173)
+            Me.btnCCEdit.Name = "btnCCEdit"
+            Me.btnCCEdit.Size = New System.Drawing.Size(24, 23)
+            Me.btnCCEdit.TabIndex = 21
+            Me.btnCCEdit.TabStop = False
+            Me.btnCCEdit.ThemedImage = CType(resources.GetObject("btnCCEdit.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'txtCCName
+            '
+            Me.Validator.SetDataType(Me.txtCCName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtCCName, "")
+            Me.txtCCName.Enabled = False
+            Me.txtCCName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtCCName, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtCCName, System.Drawing.Color.Empty)
+            Me.txtCCName.Location = New System.Drawing.Point(287, 175)
+            Me.Validator.SetMinValue(Me.txtCCName, "")
+            Me.txtCCName.Name = "txtCCName"
+            Me.txtCCName.ReadOnly = True
+            Me.Validator.SetRegularExpression(Me.txtCCName, "")
+            Me.Validator.SetRequired(Me.txtCCName, False)
+            Me.txtCCName.Size = New System.Drawing.Size(208, 21)
+            Me.txtCCName.TabIndex = 23
+            Me.txtCCName.TabStop = False
             '
             'cmbType
             '
@@ -395,72 +461,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.HasNewRow = False
             Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
             '
-            'btnCCFind
-            '
-            Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCFind.Location = New System.Drawing.Point(496, 173)
-            Me.btnCCFind.Name = "btnCCFind"
-            Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
-            Me.btnCCFind.TabIndex = 20
-            Me.btnCCFind.TabStop = False
-            Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtCCCode
-            '
-            Me.Validator.SetDataType(Me.txtCCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtCCCode, "")
-            Me.txtCCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtCCCode, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtCCCode, System.Drawing.Color.Empty)
-            Me.txtCCCode.Location = New System.Drawing.Point(150, 175)
-            Me.Validator.SetMinValue(Me.txtCCCode, "")
-            Me.txtCCCode.Name = "txtCCCode"
-            Me.Validator.SetRegularExpression(Me.txtCCCode, "")
-            Me.Validator.SetRequired(Me.txtCCCode, False)
-            Me.txtCCCode.Size = New System.Drawing.Size(136, 21)
-            Me.txtCCCode.TabIndex = 22
-            '
-            'btnCCEdit
-            '
-            Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnCCEdit.Location = New System.Drawing.Point(520, 173)
-            Me.btnCCEdit.Name = "btnCCEdit"
-            Me.btnCCEdit.Size = New System.Drawing.Size(24, 23)
-            Me.btnCCEdit.TabIndex = 21
-            Me.btnCCEdit.TabStop = False
-            Me.btnCCEdit.ThemedImage = CType(resources.GetObject("btnCCEdit.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtCCName
-            '
-            Me.Validator.SetDataType(Me.txtCCName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtCCName, "")
-            Me.txtCCName.Enabled = False
-            Me.txtCCName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtCCName, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtCCName, System.Drawing.Color.Empty)
-            Me.txtCCName.Location = New System.Drawing.Point(287, 175)
-            Me.Validator.SetMinValue(Me.txtCCName, "")
-            Me.txtCCName.Name = "txtCCName"
-            Me.txtCCName.ReadOnly = True
-            Me.Validator.SetRegularExpression(Me.txtCCName, "")
-            Me.Validator.SetRequired(Me.txtCCName, False)
-            Me.txtCCName.Size = New System.Drawing.Size(208, 21)
-            Me.txtCCName.TabIndex = 23
-            Me.txtCCName.TabStop = False
-            '
-            'lblCostCenter
-            '
-            Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCostCenter.ForeColor = System.Drawing.Color.Black
-            Me.lblCostCenter.Location = New System.Drawing.Point(8, 176)
-            Me.lblCostCenter.Name = "lblCostCenter"
-            Me.lblCostCenter.Size = New System.Drawing.Size(136, 18)
-            Me.lblCostCenter.TabIndex = 24
-            Me.lblCostCenter.Text = "CostCenter:"
-            Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
             'LoanDetailView
             '
             Me.Controls.Add(Me.grbDetail)
@@ -712,6 +712,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
-  End Class
+        Private Sub lblCostCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblCostCenter.Click
+
+        End Sub
+        Private Sub txtCCName_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCCName.TextChanged
+
+        End Sub
+        Private Sub txtCCCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCCCode.TextChanged
+
+        End Sub
+    End Class
 
 End Namespace
