@@ -5,69 +5,69 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class AdvanceMoneyDetail
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class AdvanceMoneyDetail
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
     Friend WithEvents lblAccount As System.Windows.Forms.Label
-        Friend WithEvents txtAccountName As System.Windows.Forms.TextBox
-        Friend WithEvents grbAdvanceMoney As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtAmount As System.Windows.Forms.TextBox
-        Friend WithEvents lblAmount As System.Windows.Forms.Label
-        Friend WithEvents lblBaht As System.Windows.Forms.Label
-        Friend WithEvents txtNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents btnAccountEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtAccountCode As System.Windows.Forms.TextBox
-        Friend WithEvents btnAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents txtdocdate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents lblDocDate As System.Windows.Forms.Label
-        Friend WithEvents txtTotal As System.Windows.Forms.TextBox
-        Friend WithEvents lblTotal As System.Windows.Forms.Label
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents lblItem As System.Windows.Forms.Label
-        Friend WithEvents btnEmployeeFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnEmployeeEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtEmployeeCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtEmployeeName As System.Windows.Forms.TextBox
-        Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblDueDate As System.Windows.Forms.Label
-        Friend WithEvents lblBaht2 As System.Windows.Forms.Label
-        Friend WithEvents lblIsClosed As System.Windows.Forms.Label
-        Friend WithEvents txtIsClosed As System.Windows.Forms.TextBox
-        Friend WithEvents grbLocation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
-        Friend WithEvents rdIsEmployee As System.Windows.Forms.RadioButton
-        Friend WithEvents rdIsCC As System.Windows.Forms.RadioButton
-        Friend WithEvents btnCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtCCName As System.Windows.Forms.TextBox
+    Friend WithEvents txtAccountName As System.Windows.Forms.TextBox
+    Friend WithEvents grbAdvanceMoney As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtAmount As System.Windows.Forms.TextBox
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents lblBaht As System.Windows.Forms.Label
+    Friend WithEvents txtNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents btnAccountEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtAccountCode As System.Windows.Forms.TextBox
+    Friend WithEvents btnAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents txtdocdate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents lblDocDate As System.Windows.Forms.Label
+    Friend WithEvents txtTotal As System.Windows.Forms.TextBox
+    Friend WithEvents lblTotal As System.Windows.Forms.Label
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents btnEmployeeFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnEmployeeEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtEmployeeCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtEmployeeName As System.Windows.Forms.TextBox
+    Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblDueDate As System.Windows.Forms.Label
+    Friend WithEvents lblBaht2 As System.Windows.Forms.Label
+    Friend WithEvents lblIsClosed As System.Windows.Forms.Label
+    Friend WithEvents txtIsClosed As System.Windows.Forms.TextBox
+    Friend WithEvents grbLocation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
+    Friend WithEvents rdIsEmployee As System.Windows.Forms.RadioButton
+    Friend WithEvents rdIsCC As System.Windows.Forms.RadioButton
+    Friend WithEvents btnCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtCCName As System.Windows.Forms.TextBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container
@@ -741,141 +741,141 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Setlabeltext "
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblName}")
-            Me.Validator.SetDisplayName(txtName, lblName.Text)
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblName}")
+      Me.Validator.SetDisplayName(txtName, lblName.Text)
 
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblCode}")
       Me.Validator.SetDisplayName(cmbCode, lblCode.Text)
 
-            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDocDate}")
-            Me.Validator.SetDisplayName(txtdocdate, lblDocDate.Text)
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDocDate}")
+      Me.Validator.SetDisplayName(txtdocdate, lblDocDate.Text)
 
-            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDueDate}")
-            Me.Validator.SetDisplayName(txtDueDate, lblDueDate.Text)
+      Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDueDate}")
+      Me.Validator.SetDisplayName(txtDueDate, lblDueDate.Text)
 
-            Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAccount}")
-            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+      Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAccount}")
+      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAmount}")
-            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAmount}")
+      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
 
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblNote}")
-            Me.Validator.SetDisplayName(txtNote, lblNote.Text)
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblNote}")
+      Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-            Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsEmployee}")
-            Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsCC}")
+      Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsEmployee}")
+      Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsCC}")
 
-            Me.lblIsClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblIsClosed}")
+      Me.lblIsClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblIsClosed}")
 
-            Me.grbAdvanceMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.grbAdvanceMoney}")
+      Me.grbAdvanceMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.grbAdvanceMoney}")
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Members"
-        Private m_entity As AdvanceMoney
-        Private m_isInitialized As Boolean = False
+    Private m_entity As AdvanceMoney
+    Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_combocodeindex As Integer
 #End Region
 
 #Region "Constructs"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
 
-            Initialize()
+      Initialize()
 
-            Dim dt As TreeTable = AdvanceMoney.GetSchemaTable()
-            Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
+      Dim dt As TreeTable = AdvanceMoney.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
 
-            EventWiring()
-        End Sub
+      EventWiring()
+    End Sub
 #End Region
 
 #Region " Style "
-        Public Shared Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "AdvanceMoney"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Public Shared Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "AdvanceMoney"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-            ' Items
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "avdm_linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 25
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "avdm_linenumber"
+      ' Items
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "avdm_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 25
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "avdm_linenumber"
 
-            Dim csDate As New TreeTextColumn
-            csDate.MappingName = "Date"
-            csDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.DateHeaderText}")
-            csDate.NullText = ""
-            csDate.Width = 50
-            csDate.ReadOnly = True
-            csDate.TextBox.Name = "Date"
+      Dim csDate As New TreeTextColumn
+      csDate.MappingName = "Date"
+      csDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.DateHeaderText}")
+      csDate.NullText = ""
+      csDate.Width = 50
+      csDate.ReadOnly = True
+      csDate.TextBox.Name = "Date"
 
-            Dim csDueDate As New TreeTextColumn
-            csDueDate.MappingName = "DueDate"
-            csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.DueDateHeaderText}")
-            csDueDate.NullText = ""
-            csDueDate.Width = 50
-            csDueDate.ReadOnly = True
-            csDueDate.TextBox.Name = "DueDate"
+      Dim csDueDate As New TreeTextColumn
+      csDueDate.MappingName = "DueDate"
+      csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.DueDateHeaderText}")
+      csDueDate.NullText = ""
+      csDueDate.Width = 50
+      csDueDate.ReadOnly = True
+      csDueDate.TextBox.Name = "DueDate"
 
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "Code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.ReadOnly = True
-            csCode.TextBox.Name = "Code"
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
 
-            Dim csAmount As New TreeTextColumn
-            csAmount.MappingName = "Amount"
-            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.AmountHeaderText}")
-            csAmount.NullText = ""
-            csAmount.ReadOnly = True
-            csAmount.Format = "#,###.##"
-            csAmount.DataAlignment = HorizontalAlignment.Right
-            csAmount.Alignment = HorizontalAlignment.Right
-            csAmount.TextBox.Name = "Amount"
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.ReadOnly = True
+      csAmount.Format = "#,###.##"
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.Alignment = HorizontalAlignment.Right
+      csAmount.TextBox.Name = "Amount"
 
-            Dim csRemainingAmount As New TreeTextColumn
-            csRemainingAmount.MappingName = "RemainingAmount"
-            csRemainingAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.RemainingAmountHeaderText}")
-            csRemainingAmount.NullText = ""
-            csRemainingAmount.ReadOnly = True
-            csRemainingAmount.Format = "#,###.##"
-            csRemainingAmount.DataAlignment = HorizontalAlignment.Right
-            csRemainingAmount.Alignment = HorizontalAlignment.Right
-            csRemainingAmount.TextBox.Name = "RemainingAmount"
+      Dim csRemainingAmount As New TreeTextColumn
+      csRemainingAmount.MappingName = "RemainingAmount"
+      csRemainingAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.RemainingAmountHeaderText}")
+      csRemainingAmount.NullText = ""
+      csRemainingAmount.ReadOnly = True
+      csRemainingAmount.Format = "#,###.##"
+      csRemainingAmount.DataAlignment = HorizontalAlignment.Right
+      csRemainingAmount.Alignment = HorizontalAlignment.Right
+      csRemainingAmount.TextBox.Name = "RemainingAmount"
 
-            Dim csNote As New TreeTextColumn
-            csNote.MappingName = "avdm_note"
-            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.NoteHeaderText}")
-            csNote.NullText = ""
-            csNote.Width = 180
-            csNote.TextBox.Name = "avdm_note"
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "avdm_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 180
+      csNote.TextBox.Name = "avdm_note"
 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csDate)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csAmount)
-            dst.GridColumnStyles.Add(csRemainingAmount)
-            dst.GridColumnStyles.Add(csNote)
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csDate)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csRemainingAmount)
+      dst.GridColumnStyles.Add(csNote)
 
-            Return dst
+      Return dst
     End Function
     Private Property ComboCodeIndex() As Integer
       Get
@@ -893,116 +893,116 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Methods"
-        Private Function ConvertItemsToValueArray(ByVal list As String) As String
-            Dim result As String = ""
-            If list Is Nothing OrElse list.Length = 0 Then
-                Return Nothing
-            Else
-                For Each item As String In list.Split(","c)
-                    result &= CStr(CInt(item) + 1) & ","
-                Next
-                If result.Length <> 0 Then
-                    result = result.TrimEnd(","c)
-                End If
-                Return result
-            End If
-        End Function
+    Private Function ConvertItemsToValueArray(ByVal list As String) As String
+      Dim result As String = ""
+      If list Is Nothing OrElse list.Length = 0 Then
+        Return Nothing
+      Else
+        For Each item As String In list.Split(","c)
+          result &= CStr(CInt(item) + 1) & ","
+        Next
+        If result.Length <> 0 Then
+          result = result.TrimEnd(","c)
+        End If
+        Return result
+      End If
+    End Function
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            If Me.m_entity.Status.Value = 0 _
-            OrElse Me.m_entity.Status.Value >= 3 _
-            OrElse Me.m_entity.Closed _
-            OrElse Me.m_entity.Payment.Status.Value = 0 _
-            OrElse Me.m_entity.Payment.Status.Value >= 3 _
-            Then
-                For Each ctl As Control In Me.grbAdvanceMoney.Controls
-                    If ctl.Name = "tgItem" Then
-                        ctl.Enabled = True
-                    Else
-                        ctl.Enabled = False
-                    End If
-                Next
-            Else
-                For Each ctl As Control In Me.grbAdvanceMoney.Controls
-                    If ctl.Name = "tgItem" Then
-                        ctl.Enabled = True
-                    Else
-                        ctl.Enabled = True
-                    End If
-                Next
-                SetRequireEntity()
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.Status.Value = 0 _
+      OrElse Me.m_entity.Status.Value >= 3 _
+      OrElse Me.m_entity.Closed _
+      OrElse Me.m_entity.Payment.Status.Value = 0 _
+      OrElse Me.m_entity.Payment.Status.Value >= 3 _
+      Then
+        For Each ctl As Control In Me.grbAdvanceMoney.Controls
+          If ctl.Name = "tgItem" Then
+            ctl.Enabled = True
+          Else
+            ctl.Enabled = False
+          End If
+        Next
+      Else
+        For Each ctl As Control In Me.grbAdvanceMoney.Controls
+          If ctl.Name = "tgItem" Then
+            ctl.Enabled = True
+          Else
+            ctl.Enabled = True
+          End If
+        Next
+        SetRequireEntity()
 
-            End If
-        End Sub
-        Private Sub SetRequireEntity()
-            ' Set Validator Require.
-            If Me.m_entity.IsForEmployee Then
-                Me.Validator.SetRequired(txtEmployeeCode, True)
-                Me.Validator.SetRequired(txtCCCode, False)
-                txtEmployeeCode.Enabled = True
-                btnEmployeeFind.Enabled = True
+      End If
+    End Sub
+    Private Sub SetRequireEntity()
+      ' Set Validator Require.
+      If Me.m_entity.IsForEmployee Then
+        Me.Validator.SetRequired(txtEmployeeCode, True)
+        Me.Validator.SetRequired(txtCCCode, False)
+        txtEmployeeCode.Enabled = True
+        btnEmployeeFind.Enabled = True
 
-                Me.ErrorProvider1.SetError(Me.txtCCCode, "")
-                txtCCCode.Enabled = False
-                btnCCFind.Enabled = False
-            Else
-                Me.Validator.SetRequired(txtCCCode, True)
-                Me.Validator.SetRequired(txtEmployeeCode, False)
-                txtCCCode.Enabled = True
-                btnCCFind.Enabled = True
+        Me.ErrorProvider1.SetError(Me.txtCCCode, "")
+        txtCCCode.Enabled = False
+        btnCCFind.Enabled = False
+      Else
+        Me.Validator.SetRequired(txtCCCode, True)
+        Me.Validator.SetRequired(txtEmployeeCode, False)
+        txtCCCode.Enabled = True
+        btnCCFind.Enabled = True
 
-                Me.ErrorProvider1.SetError(Me.txtEmployeeCode, "")
-                txtEmployeeCode.Enabled = False
-                btnEmployeeFind.Enabled = False
-            End If
-        End Sub
-        Public Overrides Sub Initialize()
+        Me.ErrorProvider1.SetError(Me.txtEmployeeCode, "")
+        txtEmployeeCode.Enabled = False
+        btnEmployeeFind.Enabled = False
+      End If
+    End Sub
+    Public Overrides Sub Initialize()
 
-        End Sub
+    End Sub
 
-        Protected Overrides Sub EventWiring()
-            AddHandler rdIsEmployee.CheckedChanged, AddressOf Me.ChangeProperty
-            AddHandler rdIsCC.CheckedChanged, AddressOf Me.ChangeProperty
+    Protected Overrides Sub EventWiring()
+      AddHandler rdIsEmployee.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler rdIsCC.CheckedChanged, AddressOf Me.ChangeProperty
 
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtdocdate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtdocdate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtEmployeeCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtAccountCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtEmployeeCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtAccountCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAmount.Validated, AddressOf Me.NumericChanged
+      AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAmount.Validated, AddressOf Me.NumericChanged
 
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-        End Sub
-        Public Sub NumericChanged(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtamount"
-                    txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+    End Sub
+    Public Sub NumericChanged(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtamount"
+          txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
@@ -1096,152 +1096,146 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
       End Select
 
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-            CheckFormEnable()
-        End Sub
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
-            End If
+      CheckFormEnable()
+    End Sub
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      m_oldCode = m_entity.Code
+      txtName.Text = Me.m_entity.Name
 
-      'cmbCode.Items.Clear()
-      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      'cmbCode.Text = m_entity.Code
-      'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
-      'm_oldCode = m_entity.Code
-      'UpdateAutogen ทำแทนแล้ว
-            txtName.Text = Me.m_entity.Name
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+      txtdocdate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-            txtdocdate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+      txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
 
-            txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+      If Me.m_entity.IsForEmployee Then
+        rdIsEmployee.Checked = True
+      Else
+        rdIsCC.Checked = True
+      End If
 
-            If Me.m_entity.IsForEmployee Then
-                rdIsEmployee.Checked = True
-            Else
-                rdIsCC.Checked = True
-            End If
+      If Not Me.m_entity.Employee Is Nothing Then
+        txtEmployeeCode.Text = Me.m_entity.Employee.Code
+        txtEmployeeName.Text = Me.m_entity.Employee.Name
+      End If
+      If Not Me.m_entity.Costcenter Is Nothing Then
+        txtCCCode.Text = Me.m_entity.Costcenter.Code
+        txtCCName.Text = Me.m_entity.Costcenter.Name
+      End If
 
-            If Not Me.m_entity.Employee Is Nothing Then
-                txtEmployeeCode.Text = Me.m_entity.Employee.Code
-                txtEmployeeName.Text = Me.m_entity.Employee.Name
-            End If
-            If Not Me.m_entity.Costcenter Is Nothing Then
-                txtCCCode.Text = Me.m_entity.Costcenter.Code
-                txtCCName.Text = Me.m_entity.Costcenter.Name
-            End If
+      txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
 
-            txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+      If Not Me.m_entity.Account Is Nothing Then
+        txtAccountCode.Text = Me.m_entity.Account.Code
+        txtAccountName.Text = Me.m_entity.Account.Name
+      End If
 
-            If Not Me.m_entity.Account Is Nothing Then
-                txtAccountCode.Text = Me.m_entity.Account.Code
-                txtAccountName.Text = Me.m_entity.Account.Name
-            End If
+      txtNote.Text = Me.m_entity.Note
 
-            txtNote.Text = Me.m_entity.Note
+      Dim closed As String
+      If Me.m_entity.Closed = True Then
+        closed = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.IsClosedYes}")
+      ElseIf Me.m_entity.Closed = False Then
+        closed = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.IsClosedNo}")
+      End If
 
-            Dim closed As String
-            If Me.m_entity.Closed = True Then
-                closed = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.IsClosedYes}")
-            ElseIf Me.m_entity.Closed = False Then
-                closed = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.IsClosedNo}")
-            End If
+      txtIsClosed.Text = closed
 
-            txtIsClosed.Text = closed
+      Me.m_entity.ReLoadItems()
 
-            Me.m_entity.ReLoadItems()
+      'Load Items**********************************************************
+      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      Me.Validator.DataTable = m_treeManager.Treetable
+      '********************************************************************
+      UpdateAmount()
 
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
-            UpdateAmount()
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
+      m_isInitialized = True
+    End Sub
 
-            m_isInitialized = True
-        End Sub
+    Public Overrides Sub ClearDetail()
+      lblStatus.Text = ""
+      For Each crlt As Control In grbAdvanceMoney.Controls
+        If TypeOf crlt Is TextBox Then
+          crlt.Text = ""
+        End If
+      Next
 
-        Public Overrides Sub ClearDetail()
-            lblStatus.Text = ""
-            For Each crlt As Control In grbAdvanceMoney.Controls
-                If TypeOf crlt Is TextBox Then
-                    crlt.Text = ""
-                End If
-            Next
+      rdIsEmployee.Checked = True
 
-            rdIsEmployee.Checked = True
+      dtpDocDate.Value = Date.Now
+      txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
 
-            dtpDocDate.Value = Date.Now
-            txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpDueDate.Value = Date.Now
+      txtDueDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
+        Me.m_entity = CType(Value, AdvanceMoney)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
 
-            dtpDueDate.Value = Date.Now
-            txtDueDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, AdvanceMoney)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+    Private Sub UpdateAmount()
+      txtTotal.Text = Configuration.FormatToString(m_entity.GetRemainingAmount, DigitConfig.Price)
+    End Sub
 
-        Private Sub UpdateAmount()
-            txtTotal.Text = Configuration.FormatToString(m_entity.GetRemainingAmount, DigitConfig.Price)
-        End Sub
-
-        Public Sub SetStatus()
-            If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name
-            ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name
-            ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name
-            Else
-                lblStatus.Text = "ยังไม่ได้บันทึก"
-            End If
-        End Sub
+    Public Sub SetStatus()
+      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        lblStatus.Text = "ยังไม่ได้บันทึก"
+      End If
+    End Sub
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Overrides"
 #End Region
 
 #Region "Event Handlers"
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
         Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
@@ -1270,102 +1264,102 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.txtCode.ReadOnly = False
         Me.m_entity.AutoGen = False
       End If
-        End Sub
+    End Sub
 #End Region
 
 #Region "Event of Button controls"
-        ' Employee
-        Private Sub btnEmployeeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmployeeEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Employee)
-        End Sub
-        Private Sub btnEmployeeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmployeeFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
-        End Sub
-        Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
-            Me.txtEmployeeCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Employee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
-        End Sub
-        ' Costcenter
-        Private Sub btnCCEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New CostCenter)
-        End Sub
-        Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostcenterDialog)
-        End Sub
-        Private Sub SetCostcenterDialog(ByVal e As ISimpleEntity)
-            Me.txtCCCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or CostCenter.GetCostCenter(txtCCCode, txtCCName, Me.m_entity.Costcenter)
-        End Sub
-        ' Account
-        Private Sub btnAccountEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Account)
-        End Sub
-        Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
-        End Sub
-        Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtAccountCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtAccountCode, txtAccountName, Me.m_entity.Account)
-        End Sub
+    ' Employee
+    Private Sub btnEmployeeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmployeeEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Employee)
+    End Sub
+    Private Sub btnEmployeeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmployeeFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
+    End Sub
+    Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
+      Me.txtEmployeeCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Employee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
+    End Sub
+    ' Costcenter
+    Private Sub btnCCEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New CostCenter)
+    End Sub
+    Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostcenterDialog)
+    End Sub
+    Private Sub SetCostcenterDialog(ByVal e As ISimpleEntity)
+      Me.txtCCCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or CostCenter.GetCostCenter(txtCCCode, txtCCName, Me.m_entity.Costcenter)
+    End Sub
+    ' Account
+    Private Sub btnAccountEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Account)
+    End Sub
+    Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
+    End Sub
+    Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtAccountCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtAccountCode, txtAccountName, Me.m_entity.Account)
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New Account).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtaccountcode", "txtaccountname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New Employee).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
-                Dim entity As New Employee(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtemployeecode", "txtemployeename"
-                            Me.SetEmployeeDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New Account).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
-                Dim entity As New Account(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtaccountcode", "txtaccountname"
-                            Me.SetAccountDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Account).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtaccountcode", "txtaccountname"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New Employee).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
+        Dim entity As New Employee(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtemployeecode", "txtemployeename"
+              Me.SetEmployeeDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New Account).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
+        Dim entity As New Account(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtaccountcode", "txtaccountname"
+              Me.SetAccountDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
-        Protected Overrides Sub UpdateDefaultButton()
+    Protected Overrides Sub UpdateDefaultButton()
 
-        End Sub
-    End Class
+    End Sub
+  End Class
 End Namespace

@@ -785,7 +785,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbCode.Text = m_entity.Code
       txtNote.Text = m_entity.Note
       ' autogencode 
-      'm_oldCode = m_entity.Code
+      m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 

@@ -1047,6 +1047,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_entity Is Nothing Then
         Return
       End If
+      m_oldCode = m_entity.Code
       txtCqCode.Text = Me.m_entity.CqCode
       txtSum.Text = Configuration.FormatToString(Me.m_entity.Amount + Me.m_entity.BankCharge, DigitConfig.Price)
       Me.chkAutorun.Checked = Me.m_entity.AutoGen

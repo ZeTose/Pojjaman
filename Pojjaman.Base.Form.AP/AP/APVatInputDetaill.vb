@@ -1012,7 +1012,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtNote.Text = m_entity.Note
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
-
+      m_oldCode = m_entity.Code
       txtSupplierCode.Text = m_entity.Supplier.Code
       txtSupplierName.Text = m_entity.Supplier.Name
 

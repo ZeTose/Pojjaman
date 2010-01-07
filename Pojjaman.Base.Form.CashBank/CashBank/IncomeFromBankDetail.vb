@@ -612,7 +612,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtBankBranch.Text = Me.m_entity.Bankacct.BankBranchName
       End If
 
-
+      m_oldCode = m_entity.Code
       txtNote.Text = Me.m_entity.Note
       m_isInitialized = True
 

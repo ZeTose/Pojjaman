@@ -1095,11 +1095,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			UpdateRefDoc()
 
             Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.DateTimeType)
-            If TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
-                If CType(Me.m_entity, SimpleBusinessEntityBase).AutoCodeFormat.CodeConfig.Value = 0 Then
-                    Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.StringType)
-                End If
-            End If
+      If TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
+        Dim si As SimpleBusinessEntityBase = CType(Me.m_entity, SimpleBusinessEntityBase)
+        If Not si.AutoCodeFormat.GLFormat Is Nothing Then
+          If CType(Me.m_entity, SimpleBusinessEntityBase).AutoCodeFormat.CodeConfig.Value = 0 Then
+            Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.StringType)
+          End If
+        End If
+      End If
 
 			RefreshDocs()
 
