@@ -15,8 +15,10 @@ Namespace Longkong.Core.AddIns.Codons
         Private m_subItems As ArrayList
         <XmlMemberAttributeAttribute("tooltip")> _
         Private m_toolTip As String
-        <XmlMemberAttributeAttribute("label")> _
-        Private m_label As String
+    <XmlMemberAttributeAttribute("label")> _
+    Private m_label As String
+    <XmlMemberArray("shortcut", Separator:="|"c)> _
+    Private m_shortcut As String()
 #End Region
 
 #Region "Constructors"
@@ -24,7 +26,8 @@ Namespace Longkong.Core.AddIns.Codons
             Me.m_icon = Nothing
             Me.m_toolTip = Nothing
             Me.m_subItems = Nothing
-            Me.m_enabled = True
+      Me.m_enabled = True
+      Me.m_shortcut = Nothing
         End Sub
 #End Region
 
@@ -71,7 +74,15 @@ Namespace Longkong.Core.AddIns.Codons
             Set(ByVal value As String)
                 Me.m_toolTip = value
             End Set
-        End Property
+    End Property
+    Public Property Shortcut() As String()
+      Get
+        Return Me.m_shortcut
+      End Get
+      Set(ByVal value As String())
+        Me.m_shortcut = value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"

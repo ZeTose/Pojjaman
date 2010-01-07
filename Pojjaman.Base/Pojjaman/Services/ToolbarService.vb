@@ -67,6 +67,21 @@ Namespace Longkong.Pojjaman.Services
               CType(item, PJMToolStripMenuItem).Command = CType(tbCodon.AddIn.CreateObject(tbCodon.Class), ICommand)
             End If
           End If
+          If ((Not tbCodon.Shortcut Is Nothing) AndAlso TypeOf item Is Pojjaman.Gui.Components.PJMToolStripMenuItem) Then
+            Try
+              Dim newItem As PJMToolStripMenuItem = CType(item, PJMToolStripMenuItem)
+              Dim textArray1 As String() = tbCodon.Shortcut
+              Dim allKeys As Keys = Keys.None
+              For Each key As String In tbCodon.Shortcut
+                Dim thisKey As Keys = CType([Enum].Parse(GetType(Keys), key), Keys)
+                allKeys = allKeys Or thisKey
+              Next
+              newItem.ShortcutKeys = allKeys
+              newItem.ShowShortcutKeys = True
+            Catch ex As Exception
+              CType(item, Pojjaman.Gui.Components.PJMToolStripMenuItem).ShortcutKeys = Keys.None
+            End Try
+          End If
         End If
         If Not item Is Nothing Then
           item.DisplayStyle = ToolStripItemDisplayStyle.Image

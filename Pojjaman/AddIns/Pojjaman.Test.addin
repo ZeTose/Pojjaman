@@ -10,7 +10,7 @@
 				<ToolbarItem id="Refresh" insertafter="TestSeparator" icon="Icons.16x16.ILDasm" tooltip="Refresh Codedescription" class="Longkong.Pojjaman.Commands.RefreshCodeList"/>
 				<ToolbarItem id="ShowCodeDescription" insertafter="Refresh" icon="Icons.16x16.Info" tooltip="ShowCodeDescription" class="Longkong.Pojjaman.Commands.ShowCodeDescription"/>
 				<Conditional activewindow="*" action="Disable">
-					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" shortcut="Insert" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
+					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
 				</Conditional>		
 				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>						
 				<ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.Info" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
