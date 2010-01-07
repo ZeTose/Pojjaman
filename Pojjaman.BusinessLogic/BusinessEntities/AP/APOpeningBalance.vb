@@ -394,6 +394,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_je.Code = m_je.GetNextCode
         End If
       End If
+      'paymentcode is null
       Me.m_je.DocDate = Me.DocDate
       Me.m_payment.DocDate = Me.m_je.DocDate
       Me.AutoGen = False

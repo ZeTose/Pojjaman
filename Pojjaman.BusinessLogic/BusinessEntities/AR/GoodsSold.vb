@@ -469,25 +469,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'ตาม entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
-                Me.m_je.Code = m_je.GetNextCode
               End If
+              Me.m_je.Code = Me.Code
             Case 2
               'ตาม gl
-              If Me.AutoGen Then
-                Me.Code = Me.GetNextCode
+              If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
+              Me.Code = Me.m_je.Code
             Case Else
               'แยก
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
 
           End Select
         Else
+          'แยก
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
             Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If

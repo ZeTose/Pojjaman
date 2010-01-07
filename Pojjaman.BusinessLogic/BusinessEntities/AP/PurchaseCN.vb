@@ -592,10 +592,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '---- AutoCode Format --------
         If Not AutoCodeFormat Is Nothing Then
 
-
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
-              If Me.AutoGen Then
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.DontSave = True
@@ -603,26 +602,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.DocDate = Me.DocDate
             Case 1
               'ตาม entity
-              If Me.AutoGen Then
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
-                Me.m_je.Code = Me.Code
               End If
+              Me.m_je.Code = Me.Code
             Case 2
               'ตาม gl
               If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
-                Me.Code = Me.m_je.Code
               End If
+              Me.Code = Me.m_je.Code
             Case Else
               'แยก
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.m_je.Code = m_je.GetNextCode
                 Me.Code = Me.GetNextCode
               End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+
           End Select
         Else
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
             Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
