@@ -334,10 +334,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim theTime As Date = Now
       Dim theUser As New User(currentUserId)
-      If Me.AutoGen And Me.Code.Length = 0 Then
-        Me.Code = Me.GetNextCode
-      End If
-      Me.AutoGen = False
+      'If Me.AutoGen And Me.Code.Length = 0 Then
+      'Me.Code = Me.GetNextCode
+      'End If
+      'Me.AutoGen = False
 
       If Me.m_je.Status.Value = 4 Then
         Me.Status.Value = 4
