@@ -1134,16 +1134,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ""
     End Function
     Public Overridable Function GetNextCode() As String Implements ICodeGeneratable.GetNextCode
-      Dim autoCodeFormat As String = Entity.GetAutoCodeFormat(Me.EntityId)
-      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+      Dim autoCodeFormat As String
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+      End If
+      Dim pattern As String = CodeGenerator.GetPattern(AutoCodeFormat, Me)
 
       pattern = CodeGenerator.GetPattern(pattern)
 
       Dim lastCode As String = Me.GetLastCode(pattern)
       Dim newCode As String = _
-      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      CodeGenerator.Generate(AutoCodeFormat, lastCode, Me)
       While DuplicateCode(newCode)
-        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+        newCode = CodeGenerator.Generate(AutoCodeFormat, newCode, Me)
       End While
       Return newCode
     End Function
