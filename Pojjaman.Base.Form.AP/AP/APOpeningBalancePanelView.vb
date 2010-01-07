@@ -25,7 +25,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtAmount As System.Windows.Forms.TextBox
     Friend WithEvents lblDocDate As System.Windows.Forms.Label
     Friend WithEvents lblCode As System.Windows.Forms.Label
-    Friend WithEvents txtCode As System.Windows.Forms.TextBox
     Friend WithEvents lblCreditPrd As System.Windows.Forms.Label
     Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
     Friend WithEvents lblNote As System.Windows.Forms.Label
@@ -65,87 +64,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblCostCenter As System.Windows.Forms.Label
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents txtCostCenterCode As System.Windows.Forms.TextBox
     Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(APOpeningBalancePanelView))
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtSupplierCode = New System.Windows.Forms.TextBox
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.txtCreditPrd = New System.Windows.Forms.TextBox
-      Me.txtAmount = New System.Windows.Forms.TextBox
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.txtInvoiceDate = New System.Windows.Forms.TextBox
-      Me.txtCostCenterCode = New System.Windows.Forms.TextBox
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtSupplierName = New System.Windows.Forms.TextBox
-      Me.txtInvoiceCode = New System.Windows.Forms.TextBox
-      Me.txtBeforeTax = New System.Windows.Forms.TextBox
-      Me.txtTaxAmount = New System.Windows.Forms.TextBox
-      Me.txtTaxRate = New System.Windows.Forms.TextBox
-      Me.txtRealTaxAmount = New System.Windows.Forms.TextBox
-      Me.txtRealTaxBase = New System.Windows.Forms.TextBox
-      Me.txtTaxBase = New System.Windows.Forms.TextBox
-      Me.txtCostCenterName = New System.Windows.Forms.TextBox
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblCostCenter = New System.Windows.Forms.Label
-      Me.lblTaxBase = New System.Windows.Forms.Label
-      Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker
-      Me.lblDueDate = New System.Windows.Forms.Label
-      Me.lblPercent = New System.Windows.Forms.Label
-      Me.lblBeforeTax = New System.Windows.Forms.Label
-      Me.lblTaxAmount = New System.Windows.Forms.Label
-      Me.cmbTaxType = New System.Windows.Forms.ComboBox
-      Me.lblTaxType = New System.Windows.Forms.Label
-      Me.lblTaxRate = New System.Windows.Forms.Label
-      Me.lblInvoiceCode = New System.Windows.Forms.Label
-      Me.lblInvoiceDate = New System.Windows.Forms.Label
-      Me.dtpInvoiceDate = New System.Windows.Forms.DateTimePicker
-      Me.ibtnEnableVatInput = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.lblBaht = New System.Windows.Forms.Label
-      Me.lblDay = New System.Windows.Forms.Label
-      Me.btnSupplierEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.lblSupplier = New System.Windows.Forms.Label
-      Me.lblAmount = New System.Windows.Forms.Label
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblCreditPrd = New System.Windows.Forms.Label
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(APOpeningBalancePanelView))
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.txtSupplierCode = New System.Windows.Forms.TextBox()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.txtCreditPrd = New System.Windows.Forms.TextBox()
+      Me.txtAmount = New System.Windows.Forms.TextBox()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.txtInvoiceDate = New System.Windows.Forms.TextBox()
+      Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.txtSupplierName = New System.Windows.Forms.TextBox()
+      Me.txtInvoiceCode = New System.Windows.Forms.TextBox()
+      Me.txtBeforeTax = New System.Windows.Forms.TextBox()
+      Me.txtTaxAmount = New System.Windows.Forms.TextBox()
+      Me.txtTaxRate = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxAmount = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxBase = New System.Windows.Forms.TextBox()
+      Me.txtTaxBase = New System.Windows.Forms.TextBox()
+      Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCostCenter = New System.Windows.Forms.Label()
+      Me.lblTaxBase = New System.Windows.Forms.Label()
+      Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblDueDate = New System.Windows.Forms.Label()
+      Me.lblPercent = New System.Windows.Forms.Label()
+      Me.lblBeforeTax = New System.Windows.Forms.Label()
+      Me.lblTaxAmount = New System.Windows.Forms.Label()
+      Me.cmbTaxType = New System.Windows.Forms.ComboBox()
+      Me.lblTaxType = New System.Windows.Forms.Label()
+      Me.lblTaxRate = New System.Windows.Forms.Label()
+      Me.lblInvoiceCode = New System.Windows.Forms.Label()
+      Me.lblInvoiceDate = New System.Windows.Forms.Label()
+      Me.dtpInvoiceDate = New System.Windows.Forms.DateTimePicker()
+      Me.ibtnEnableVatInput = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.lblBaht = New System.Windows.Forms.Label()
+      Me.lblDay = New System.Windows.Forms.Label()
+      Me.btnSupplierEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.lblSupplier = New System.Windows.Forms.Label()
+      Me.lblAmount = New System.Windows.Forms.Label()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblCreditPrd = New System.Windows.Forms.Label()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
-      '
-      'txtCode
-      '
-      Me.txtCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCode, "")
-      Me.ErrorProvider1.SetError(Me.txtCode, "กำหนดรหัส")
-      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.txtCode.Location = New System.Drawing.Point(136, 24)
-      Me.txtCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtCode, "")
-      Me.Validator.SetMinValue(Me.txtCode, "")
-      Me.txtCode.Name = "txtCode"
-      Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, True)
-      Me.txtCode.Size = New System.Drawing.Size(120, 21)
-      Me.txtCode.TabIndex = 1
-      Me.txtCode.Text = ""
       '
       'txtSupplierCode
       '
@@ -158,14 +138,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.txtSupplierCode.Location = New System.Drawing.Point(136, 96)
       Me.txtSupplierCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtSupplierCode, "")
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
       Me.Validator.SetRequired(Me.txtSupplierCode, True)
       Me.txtSupplierCode.Size = New System.Drawing.Size(120, 21)
       Me.txtSupplierCode.TabIndex = 5
-      Me.txtSupplierCode.Text = ""
       '
       'txtDocDate
       '
@@ -176,14 +154,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(384, 24)
       Me.txtDocDate.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(107, 21)
       Me.txtDocDate.TabIndex = 2
-      Me.txtDocDate.Text = ""
       '
       'txtCreditPrd
       '
@@ -195,14 +171,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCreditPrd, System.Drawing.Color.Empty)
       Me.txtCreditPrd.Location = New System.Drawing.Point(136, 48)
       Me.txtCreditPrd.MaxLength = 15
-      Me.Validator.SetMaxValue(Me.txtCreditPrd, "")
       Me.Validator.SetMinValue(Me.txtCreditPrd, "")
       Me.txtCreditPrd.Name = "txtCreditPrd"
       Me.Validator.SetRegularExpression(Me.txtCreditPrd, "")
       Me.Validator.SetRequired(Me.txtCreditPrd, False)
       Me.txtCreditPrd.Size = New System.Drawing.Size(120, 21)
       Me.txtCreditPrd.TabIndex = 3
-      Me.txtCreditPrd.Text = ""
       Me.txtCreditPrd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtAmount
@@ -215,14 +189,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(136, 72)
       Me.txtAmount.MaxLength = 15
-      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
       Me.Validator.SetRequired(Me.txtAmount, True)
       Me.txtAmount.Size = New System.Drawing.Size(120, 21)
       Me.txtAmount.TabIndex = 4
-      Me.txtAmount.Text = ""
       Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtNote
@@ -234,14 +206,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtNote, -15)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(136, 144)
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(360, 21)
       Me.txtNote.TabIndex = 6
-      Me.txtNote.Text = ""
       '
       'txtInvoiceDate
       '
@@ -251,14 +221,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtInvoiceDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtInvoiceDate, System.Drawing.Color.Empty)
       Me.txtInvoiceDate.Location = New System.Drawing.Point(344, 168)
-      Me.Validator.SetMaxValue(Me.txtInvoiceDate, "")
       Me.Validator.SetMinValue(Me.txtInvoiceDate, "")
       Me.txtInvoiceDate.Name = "txtInvoiceDate"
       Me.Validator.SetRegularExpression(Me.txtInvoiceDate, "")
       Me.Validator.SetRequired(Me.txtInvoiceDate, False)
       Me.txtInvoiceDate.Size = New System.Drawing.Size(126, 21)
       Me.txtInvoiceDate.TabIndex = 330
-      Me.txtInvoiceDate.Text = ""
       '
       'txtCostCenterCode
       '
@@ -269,14 +237,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.txtCostCenterCode.Location = New System.Drawing.Point(136, 120)
-      Me.Validator.SetMaxValue(Me.txtCostCenterCode, "")
       Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
       Me.txtCostCenterCode.Name = "txtCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtCostCenterCode, True)
       Me.txtCostCenterCode.Size = New System.Drawing.Size(120, 21)
       Me.txtCostCenterCode.TabIndex = 363
-      Me.txtCostCenterCode.Text = ""
       '
       'Validator
       '
@@ -295,7 +261,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(256, 96)
-      Me.Validator.SetMaxValue(Me.txtSupplierName, "")
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
@@ -304,7 +269,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Size = New System.Drawing.Size(192, 21)
       Me.txtSupplierName.TabIndex = 186
       Me.txtSupplierName.TabStop = False
-      Me.txtSupplierName.Text = ""
       '
       'txtInvoiceCode
       '
@@ -314,14 +278,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInvoiceCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInvoiceCode, System.Drawing.Color.Empty)
       Me.txtInvoiceCode.Location = New System.Drawing.Point(136, 168)
-      Me.Validator.SetMaxValue(Me.txtInvoiceCode, "")
       Me.Validator.SetMinValue(Me.txtInvoiceCode, "")
       Me.txtInvoiceCode.Name = "txtInvoiceCode"
       Me.Validator.SetRegularExpression(Me.txtInvoiceCode, "")
       Me.Validator.SetRequired(Me.txtInvoiceCode, False)
       Me.txtInvoiceCode.Size = New System.Drawing.Size(110, 21)
       Me.txtInvoiceCode.TabIndex = 329
-      Me.txtInvoiceCode.Text = ""
       '
       'txtBeforeTax
       '
@@ -331,7 +293,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.txtBeforeTax.Location = New System.Drawing.Point(136, 216)
-      Me.Validator.SetMaxValue(Me.txtBeforeTax, "")
       Me.Validator.SetMinValue(Me.txtBeforeTax, "")
       Me.txtBeforeTax.Name = "txtBeforeTax"
       Me.txtBeforeTax.ReadOnly = True
@@ -340,7 +301,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBeforeTax.Size = New System.Drawing.Size(120, 21)
       Me.txtBeforeTax.TabIndex = 349
       Me.txtBeforeTax.TabStop = False
-      Me.txtBeforeTax.Text = ""
       Me.txtBeforeTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtTaxAmount
@@ -351,7 +311,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.txtTaxAmount.Location = New System.Drawing.Point(136, 264)
-      Me.Validator.SetMaxValue(Me.txtTaxAmount, "")
       Me.Validator.SetMinValue(Me.txtTaxAmount, "")
       Me.txtTaxAmount.Name = "txtTaxAmount"
       Me.txtTaxAmount.ReadOnly = True
@@ -360,7 +319,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxAmount.Size = New System.Drawing.Size(120, 21)
       Me.txtTaxAmount.TabIndex = 351
       Me.txtTaxAmount.TabStop = False
-      Me.txtTaxAmount.Text = ""
       Me.txtTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtTaxRate
@@ -371,7 +329,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.txtTaxRate.Location = New System.Drawing.Point(264, 192)
-      Me.Validator.SetMaxValue(Me.txtTaxRate, "")
       Me.Validator.SetMinValue(Me.txtTaxRate, "")
       Me.txtTaxRate.Name = "txtTaxRate"
       Me.txtTaxRate.ReadOnly = True
@@ -379,7 +336,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTaxRate, True)
       Me.txtTaxRate.Size = New System.Drawing.Size(40, 21)
       Me.txtTaxRate.TabIndex = 347
-      Me.txtTaxRate.Text = ""
       Me.txtTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRealTaxAmount
@@ -389,14 +345,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
       Me.txtRealTaxAmount.Location = New System.Drawing.Point(280, 264)
-      Me.Validator.SetMaxValue(Me.txtRealTaxAmount, "")
       Me.Validator.SetMinValue(Me.txtRealTaxAmount, "")
       Me.txtRealTaxAmount.Name = "txtRealTaxAmount"
       Me.Validator.SetRegularExpression(Me.txtRealTaxAmount, "")
       Me.Validator.SetRequired(Me.txtRealTaxAmount, False)
       Me.txtRealTaxAmount.Size = New System.Drawing.Size(120, 21)
       Me.txtRealTaxAmount.TabIndex = 358
-      Me.txtRealTaxAmount.Text = ""
       Me.txtRealTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRealTaxBase
@@ -406,14 +360,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
       Me.txtRealTaxBase.Location = New System.Drawing.Point(280, 240)
-      Me.Validator.SetMaxValue(Me.txtRealTaxBase, "")
       Me.Validator.SetMinValue(Me.txtRealTaxBase, "")
       Me.txtRealTaxBase.Name = "txtRealTaxBase"
       Me.Validator.SetRegularExpression(Me.txtRealTaxBase, "")
       Me.Validator.SetRequired(Me.txtRealTaxBase, False)
       Me.txtRealTaxBase.Size = New System.Drawing.Size(120, 21)
       Me.txtRealTaxBase.TabIndex = 357
-      Me.txtRealTaxBase.Text = ""
       Me.txtRealTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtTaxBase
@@ -424,7 +376,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.txtTaxBase.Location = New System.Drawing.Point(136, 240)
-      Me.Validator.SetMaxValue(Me.txtTaxBase, "")
       Me.Validator.SetMinValue(Me.txtTaxBase, "")
       Me.txtTaxBase.Name = "txtTaxBase"
       Me.txtTaxBase.ReadOnly = True
@@ -432,7 +383,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTaxBase, False)
       Me.txtTaxBase.Size = New System.Drawing.Size(120, 21)
       Me.txtTaxBase.TabIndex = 362
-      Me.txtTaxBase.Text = ""
       Me.txtTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtCostCenterName
@@ -443,7 +393,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(256, 120)
-      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -452,13 +401,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.Size = New System.Drawing.Size(192, 21)
       Me.txtCostCenterName.TabIndex = 365
       Me.txtCostCenterName.TabStop = False
-      Me.txtCostCenterName.Text = ""
       '
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.cmbCode)
       Me.grbDetail.Controls.Add(Me.txtCostCenterName)
       Me.grbDetail.Controls.Add(Me.btnCCEdit)
       Me.grbDetail.Controls.Add(Me.btnCCFind)
@@ -501,7 +450,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.txtAmount)
       Me.grbDetail.Controls.Add(Me.lblDocDate)
       Me.grbDetail.Controls.Add(Me.lblCode)
-      Me.grbDetail.Controls.Add(Me.txtCode)
       Me.grbDetail.Controls.Add(Me.lblCreditPrd)
       Me.grbDetail.Controls.Add(Me.txtSupplierName)
       Me.grbDetail.Controls.Add(Me.lblNote)
@@ -517,9 +465,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCEdit
       '
+      Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCEdit.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCEdit.Image = CType(resources.GetObject("btnCCEdit.Image"), System.Drawing.Image)
       Me.btnCCEdit.Location = New System.Drawing.Point(472, 120)
       Me.btnCCEdit.Name = "btnCCEdit"
       Me.btnCCEdit.Size = New System.Drawing.Size(24, 23)
@@ -529,9 +477,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCFind
       '
+      Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCFind.Image = CType(resources.GetObject("btnCCFind.Image"), System.Drawing.Image)
       Me.btnCCFind.Location = New System.Drawing.Point(448, 120)
       Me.btnCCFind.Name = "btnCCFind"
       Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
@@ -564,7 +512,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnResetTaxAmount
       '
-      Me.ibtnResetTaxAmount.Image = CType(resources.GetObject("ibtnResetTaxAmount.Image"), System.Drawing.Image)
+      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(256, 264)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
@@ -574,7 +522,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnResetTaxBase
       '
-      Me.ibtnResetTaxBase.Image = CType(resources.GetObject("ibtnResetTaxBase.Image"), System.Drawing.Image)
+      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnResetTaxBase.Location = New System.Drawing.Point(256, 240)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
@@ -585,7 +533,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpDueDate
       '
       Me.dtpDueDate.Enabled = False
-      Me.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDueDate.Location = New System.Drawing.Point(384, 48)
       Me.dtpDueDate.Name = "dtpDueDate"
       Me.dtpDueDate.Size = New System.Drawing.Size(128, 21)
@@ -700,9 +648,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnEnableVatInput
       '
+      Me.ibtnEnableVatInput.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnEnableVatInput.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnEnableVatInput.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnEnableVatInput.Image = CType(resources.GetObject("ibtnEnableVatInput.Image"), System.Drawing.Image)
       Me.ibtnEnableVatInput.Location = New System.Drawing.Point(488, 168)
       Me.ibtnEnableVatInput.Name = "ibtnEnableVatInput"
       Me.ibtnEnableVatInput.Size = New System.Drawing.Size(24, 24)
@@ -726,7 +674,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht.Location = New System.Drawing.Point(264, 72)
       Me.lblBaht.Name = "lblBaht"
-      Me.lblBaht.Size = New System.Drawing.Size(25, 17)
+      Me.lblBaht.Size = New System.Drawing.Size(27, 13)
       Me.lblBaht.TabIndex = 204
       Me.lblBaht.Text = "บาท"
       Me.lblBaht.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -737,15 +685,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDay.Location = New System.Drawing.Point(264, 48)
       Me.lblDay.Name = "lblDay"
-      Me.lblDay.Size = New System.Drawing.Size(17, 17)
+      Me.lblDay.Size = New System.Drawing.Size(19, 13)
       Me.lblDay.TabIndex = 203
       Me.lblDay.Text = "วัน"
       Me.lblDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'btnSupplierEdit
       '
+      Me.btnSupplierEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnSupplierEdit.Image = CType(resources.GetObject("btnSupplierEdit.Image"), System.Drawing.Image)
       Me.btnSupplierEdit.Location = New System.Drawing.Point(472, 96)
       Me.btnSupplierEdit.Name = "btnSupplierEdit"
       Me.btnSupplierEdit.Size = New System.Drawing.Size(24, 23)
@@ -755,9 +703,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSupplierDialog
       '
+      Me.btnSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSupplierDialog.Image = CType(resources.GetObject("btnSupplierDialog.Image"), System.Drawing.Image)
       Me.btnSupplierDialog.Location = New System.Drawing.Point(448, 96)
       Me.btnSupplierDialog.Name = "btnSupplierDialog"
       Me.btnSupplierDialog.Size = New System.Drawing.Size(24, 23)
@@ -772,7 +720,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Enabled = False
       Me.lblStatus.Location = New System.Drawing.Point(8, 304)
       Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(47, 17)
+      Me.lblStatus.Size = New System.Drawing.Size(48, 13)
       Me.lblStatus.TabIndex = 198
       Me.lblStatus.Text = "lblStatus"
       '
@@ -841,11 +789,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDate
       '
-      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDate.Location = New System.Drawing.Point(384, 24)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(128, 21)
       Me.dtpDocDate.TabIndex = 185
+      '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(136, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(120, 21)
+      Me.cmbCode.TabIndex = 368
       '
       'APOpeningBalancePanelView
       '
@@ -854,6 +811,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "APOpeningBalancePanelView"
       Me.Size = New System.Drawing.Size(624, 352)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -937,7 +895,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAmount, Me.lblAmount.Text)
 
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOpeningBalancePanelView.lblCode}")
-      Me.Validator.SetDisplayName(Me.txtCode, Me.lblCode.Text)
+      Me.Validator.SetDisplayName(Me.cmbCode, Me.lblCode.Text)
 
       Me.lblCreditPrd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOpeningBalancePanelView.lblCreditPrd}")
       Me.Validator.SetDisplayName(Me.txtCreditPrd, Me.lblCreditPrd.Text)
@@ -952,7 +910,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
       AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
@@ -1079,7 +1039,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       oldSupId = Me.m_entity.Supplier.Id
-      txtCode.Text = Me.m_entity.Code
+      ' txtCode.Text = Me.m_entity.Code
       m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
@@ -1165,8 +1125,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtrealtaxamount"
           dirtyFlag = True
-        Case "txtcode"
-          Me.m_entity.Code = txtCode.Text
+        Case "cmbcode"
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
@@ -1464,18 +1428,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
+        'Me.txtCode.ReadOnly = True
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+        m_oldCode = Me.cmbCode.Text
+        'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
         'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
+        'Me.m_entity.Code = ""
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
+        ' Me.Validator.SetRequired(Me.txtCode, True)
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Text = m_oldCode
+        'Me.txtCode.ReadOnly = False
         Me.m_entity.AutoGen = False
       End If
     End Sub

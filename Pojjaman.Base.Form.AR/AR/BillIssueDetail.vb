@@ -984,6 +984,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Protected Overrides Sub EventWiring()
 
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtEmployeeCode.Validated, AddressOf Me.ChangeProperty

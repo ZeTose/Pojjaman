@@ -508,8 +508,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
+        If Me.Payment.Gross <> 0 Then
+          Me.m_payment.Code = m_je.Code
+        End If
+
         Me.m_je.DocDate = Me.DocDate
-        Me.m_payment.Code = m_je.Code
         Me.m_payment.DocDate = m_je.DocDate
         Me.AutoGen = False
         Me.m_payment.AutoGen = False

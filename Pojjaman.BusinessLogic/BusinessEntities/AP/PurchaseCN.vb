@@ -626,8 +626,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.Code = m_je.GetNextCode
           End If
         End If
+        If Me.Receive.Gross <> 0 Then
+          Me.m_receive.Code = m_je.Code
+        End If
+
         Me.m_je.DocDate = Me.DocDate
-        Me.m_receive.Code = m_je.Code
         Me.m_receive.DocDate = m_je.DocDate
         Me.AutoGen = False
         Me.m_receive.AutoGen = False
@@ -771,22 +774,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               m_je.SetGLFormat(Me.GetDefaultGLFormat)
             End If
             '********************************************
-            '==============================AUTOGEN==========================================
-            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-            If Not IsNumeric(saveAutoCodeError.Message) Then
-              trans.Rollback()
-              ResetID(oldid, oldreceive, oldvat, oldje)
-              Return saveAutoCodeError
-            Else
-              Select Case CInt(saveAutoCodeError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
-                  ResetID(oldid, oldreceive, oldvat, oldje)
-                  Return saveAutoCodeError
-                Case Else
-              End Select
-            End If
-            '==============================AUTOGEN==========================================
+
 
 
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
@@ -806,6 +794,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Case Else
               End Select
             End If
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetID(oldid, oldreceive, oldvat, oldje)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid, oldreceive, oldvat, oldje)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
             trans.Commit()
           Catch ex As Exception
             trans.Rollback()

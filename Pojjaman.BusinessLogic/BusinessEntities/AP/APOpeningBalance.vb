@@ -198,6 +198,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Date)
         Me.stock_docDate = Value
+        Me.m_je.DocDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
@@ -349,6 +350,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.Status.Value = -1 Then
         Me.Status.Value = 2
       End If
+      '---- AutoCode Format --------
+      Me.m_je.RefreshGLFormat()
+      If Not AutoCodeFormat Is Nothing Then
+
+
+        Select Case Me.AutoCodeFormat.CodeConfig.Value
+          Case 0
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            Me.m_je.DontSave = True
+            Me.m_je.Code = ""
+            Me.m_je.DocDate = Me.DocDate
+          Case 1
+            'ตาม entity
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            Me.m_je.Code = Me.Code
+          Case 2
+            'ตาม gl
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+            Me.Code = Me.m_je.Code
+          Case Else
+            'แยก
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+        End Select
+      Else
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        If Me.m_je.AutoGen Then
+          Me.m_je.Code = m_je.GetNextCode
+        End If
+      End If
+      Me.m_je.DocDate = Me.DocDate
+      Me.m_payment.DocDate = Me.m_je.DocDate
+      Me.AutoGen = False
+      Me.m_je.AutoGen = False
+
+
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
@@ -458,6 +507,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
+
+        '==============================AUTOGEN==========================================
+        Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+        If Not IsNumeric(saveAutoCodeError.Message) Then
+          trans.Rollback()
+          ResetID(oldid, oldPayment, oldje, oldVatId)
+          Return saveAutoCodeError
+        Else
+          Select Case CInt(saveAutoCodeError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              ResetID(oldid, oldPayment, oldje, oldVatId)
+              Return saveAutoCodeError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
+
         trans.Commit()
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
@@ -476,6 +543,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IGLAble"
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetGLFormatForEntity" _

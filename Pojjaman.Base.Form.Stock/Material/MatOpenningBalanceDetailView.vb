@@ -685,6 +685,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
@@ -699,7 +700,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       'txtCode.Text = m_entity.Code
-      'm_oldCode = m_entity.Code
+      m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
