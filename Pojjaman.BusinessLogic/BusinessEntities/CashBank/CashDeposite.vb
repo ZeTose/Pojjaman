@@ -25,14 +25,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Protected Overloads Overrides Sub Construct()
             MyBase.Construct()
-            Me.BankingTransType = New BankingTransType(1)
+      Me.BankingTransType = New BankingTransType(1)
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
             MyBase.Construct(ds, aliasPrefix)
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            MyBase.Construct(dr, aliasPrefix)
-        End Sub
+      MyBase.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Overrides"
