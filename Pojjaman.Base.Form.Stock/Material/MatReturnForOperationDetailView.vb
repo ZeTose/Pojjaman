@@ -1187,11 +1187,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       'txtCode.Text = m_entity.Code
-      cmbCode.Items.Clear()
-      cmbCode.DropDownStyle = ComboBoxStyle.Simple
-      cmbCode.Text = m_entity.Code
-      BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
-      txtNote.Text = m_entity.Note
+      'cmbCode.Items.Clear()
+      'cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      'cmbCode.Text = m_entity.Code
+      'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
+      'txtNote.Text = m_entity.Note
       m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
@@ -1256,9 +1256,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
-          Me.m_entity.Code = cmbCode.Text
-          ComboCodeIndex = cmbCode.SelectedIndex
-          m_oldCode = Me.cmbCode.Text
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
@@ -1547,17 +1549,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.ErrorProvider1.SetError(Me.txtCode, "")
         'Me.txtCode.ReadOnly = True
         Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
-        cmbCode.SelectedIndex = ComboCodeIndex
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
         m_oldCode = Me.cmbCode.Text
         'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
         'Hack: set Code เป็น "" เอง
+        'Me.m_entity.Code = ""
         Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
-        'Me.Validator.SetRequired(Me.txtCode, True)
+        ' Me.Validator.SetRequired(Me.txtCode, True)
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
         Me.cmbCode.Text = m_oldCode
-        'Me.txtCode.Text = m_oldCode
         'Me.txtCode.ReadOnly = False
         Me.m_entity.AutoGen = False
       End If
