@@ -237,7 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_je.DocDate = Me.DocDate
           Case 1
             'ตาม entity
-            If Me.AutoGen And Me.Code.Length = 0 Then
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
               Me.Code = Me.GetNextCode
             End If
             Me.m_je.Code = Me.Code

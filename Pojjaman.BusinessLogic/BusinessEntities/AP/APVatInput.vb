@@ -76,9 +76,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_note = ""
         .m_docDate = Date.Now.Date
         .m_status = New APVatInputStatus(-1)
-                .m_je = New JournalEntry(Me)
+        .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docDate
-        m_itemCollection = New BillAcceptanceItemCollection(Me)
+        .m_itemCollection = New BillAcceptanceItemCollection(Me)
+        .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -118,6 +119,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_itemCollection = New BillAcceptanceItemCollection(Me)
       End With
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
@@ -144,6 +146,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Date)
         m_docDate = Value
+        Me.m_je.DocDate = Value
       End Set
     End Property
     Public Property Note() As String Implements IGLAble.Note
@@ -332,11 +335,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
+        '---- AutoCode Format --------
+        Me.m_je.RefreshGLFormat()
+        If Not AutoCodeFormat Is Nothing Then
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
-          Me.Code = Me.GetNextCode
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.Code = m_je.GetNextCode
+          End If
         End If
+        Me.m_je.DocDate = Me.DocDate
         Me.AutoGen = False
+        Me.m_je.AutoGen = False
         paramArrayList.Add(New SqlParameter("@pays_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@pays_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@pays_supplier", Me.ValidIdOrDBNull(Me.Supplier)))
@@ -431,6 +473,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid, oldje, oldVatId)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid, oldje, oldVatId)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
 
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -562,6 +620,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IGLAble"
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetGLFormatForEntity" _
