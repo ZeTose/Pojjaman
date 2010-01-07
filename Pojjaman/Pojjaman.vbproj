@@ -463,7 +463,9 @@
     <None Include="AddIns\Forms\FFormat\Pojjaman.Base.Form.FFormat.addin" />
     <None Include="AddIns\Forms\Stock\Pojjaman.Base.Form.Stock.addin" />
     <None Include="AddIns\Pojjaman.Accounting.addin" />
-    <None Include="AddIns\Pojjaman.Base.addin" />
+    <None Include="AddIns\Pojjaman.Base.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Pojjaman.EnityDatabase.addin" />
     <None Include="AddIns\Pojjaman.General.addin" />
     <None Include="AddIns\Pojjaman.Test.addin" />
