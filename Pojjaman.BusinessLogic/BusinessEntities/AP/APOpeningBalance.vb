@@ -198,7 +198,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Date)
         Me.stock_docDate = Value
-        Me.m_je.DocDate = Value
+        If Me.m_je IsNot Nothing Then
+          Me.m_je.DocDate = Value
+        End If
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
