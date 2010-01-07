@@ -102,10 +102,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_termNote = ""
         .m_deliveryTime = ""
         .m_placeOfDelivery = ""
-        .m_attachment = "..............................................................."
-        .m_specialCondition = "..............................................................."
+        '.m_attachment = "..............................................................." 'PLE Only
+        '.m_specialCondition = "..............................................................." 'PLE Only
 				.m_closed = False
-				.m_closedBefor = False
+        .m_closedBefor = False
+        .AutoCodeFormat = New AutoCodeFormat(Me)
 			End With
 			MatActualHash = New Hashtable
 			LabActualHash = New Hashtable
@@ -229,6 +230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New PRItemCollection(Me)
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
@@ -958,6 +960,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertPRProcedure" _
           , New SqlParameter("@pr", Me.Id))
 
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
@@ -974,7 +993,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
     Public Overrides Function GetNextCode() As String
-      Dim autoCodeFormat As String = Me.Code  'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim autoCodeFormat As String
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Me.Code
+      End If
+      'Entity.GetAutoCodeFormat(Me.EntityId)
       Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
 
       pattern = CodeGenerator.GetPattern(pattern)

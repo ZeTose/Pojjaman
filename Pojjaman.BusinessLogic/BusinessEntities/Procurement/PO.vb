@@ -111,17 +111,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				m_country = New Country
 				m_country.Id = 366
 				.m_useTerm = False
-				.m_attachment = "..............................................................."
-				.m_specialCondition = "..............................................................."
+        '.m_attachment = "..............................................................."
+        '.m_specialCondition = "..............................................................."
 				.m_remainDiscAmt = New Discount("")
 				.m_closed = False
-				.m_closedBefor = False
+        .m_closedBefor = False
+        .AutoCodeFormat = New AutoCodeFormat(Me)
 			End With
 			MatActualHash = New Hashtable
 			LabActualHash = New Hashtable
 			EQActualHash = New Hashtable
 			m_itemCollection = New POItemCollection(Me)
-			m_itemCollection.RefreshBudget()
+      m_itemCollection.RefreshBudget()
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
 		End Sub
 		Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
 			MyBase.Construct(dr, aliasPrefix)
@@ -1308,6 +1310,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 					SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertPOProcedure" _
 					, New SqlParameter("@po", Me.Id))
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
 
 					trans.Commit()
 
@@ -1339,7 +1357,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			End With
 		End Function
 		Public Overrides Function GetNextCode() As String
-			Dim autoCodeFormat As String = Me.Code		'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim autoCodeFormat As String = Me.Code
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Me.Code
+      End If
+      'Entity.GetAutoCodeFormat(Me.EntityId)
 			Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
 
 			pattern = CodeGenerator.GetPattern(pattern)
