@@ -1,5 +1,7 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
+
+
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
@@ -31,421 +33,221 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
-      Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
-      lkg.DefaultBehavior = False
-      lkg.HilightWhenMinus = True
-      lkg.Init()
-      lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
-      ListInGrid(tm)
-      lkg.TreeTableStyle = CreateSimpleTableStyle()
-      lkg.TreeTable = tm.Treetable
-      If CInt(Me.Filters(14).Value) = 0 Then
-        lkg.Rows.HeaderCount = 2
-        lkg.Rows.FrozenCount = 2
-      Else
-        lkg.Rows.HeaderCount = 3
-        lkg.Rows.FrozenCount = 3
-      End If
-      lkg.Refresh()
-    End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
-      Me.m_treemanager = tm
-      Me.m_treemanager.Treetable.Clear()
+      m_grid.BeginUpdate()
+      m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+      m_grid.Model.Options.NumberedColHeaders = False
+      m_grid.Model.Options.WrapCellBehavior = Syncfusion.Windows.Forms.Grid.GridWrapCellBehavior.WrapRow
       CreateHeader()
       PopulateData()
+      m_grid.EndUpdate()
     End Sub
     Private Sub CreateHeader()
-      If Me.m_treemanager Is Nothing Then
-        Return
-      End If
+      m_grid.RowCount = 0
+      m_grid.ColCount = 26
 
-      Dim indent As String = Space(3)
-      Dim tr As TreeRow
+      m_grid.ColWidths(1) = 100
+      m_grid.ColWidths(2) = 100
+      m_grid.ColWidths(3) = 100
+      m_grid.ColWidths(4) = 100
+      m_grid.ColWidths(5) = 100
+      m_grid.ColWidths(6) = 100
+      m_grid.ColWidths(7) = 220
+      m_grid.ColWidths(8) = 100
+      m_grid.ColWidths(9) = 100
+      m_grid.ColWidths(10) = 100
+      m_grid.ColWidths(11) = 100
+      m_grid.ColWidths(12) = 100
+      m_grid.ColWidths(13) = 200
+      m_grid.ColWidths(14) = 100
+      m_grid.ColWidths(15) = 100
+      m_grid.ColWidths(16) = 100
+      m_grid.ColWidths(17) = 200
+      m_grid.ColWidths(18) = 100
+      m_grid.ColWidths(19) = 100
+      m_grid.ColWidths(20) = 100
+      m_grid.ColWidths(21) = 100
+      m_grid.ColWidths(22) = 100
+      m_grid.ColWidths(23) = 100
+      m_grid.ColWidths(24) = 200
+      m_grid.ColWidths(25) = 180
+      m_grid.ColWidths(26) = 100
 
-      If CInt(Me.Filters(14).Value) = 0 Then
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.ItemCode}") '"รหัสสินค้า"
-        tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.ItemName}") '"ชื่อสินค้า"
 
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DocDate}")  '"วันที่เอกสาร"
-        tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DocID}")  '"เลขที่เอกสาร"
-        tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.RefCode}")  '"เลขที่ใบกำกับ"
-        tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.POCode}") '"เลขที่ใบรับของ"
-        tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.PO}")  '"เลขที่ใบรับของ"
-        tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.SupplierName}")  '"ชื่อผู้ขาย"
-        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Num}")  '"จำนวน"
-        tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Unit}")  '"หน่วยนับ"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.UnitPrice}")  '"ราคา/หน่วย"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DiscAmount}")  '"ส่วนลดสินค้า(เป็นเงิน)"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Amount}")  '"จำนวนเงิน"
-      Else
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.SupplierCode}")  '"ชื่อรหัส"
-        tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.SupplierName}")  '"ชื่อผู้ขาย"
+      m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      m_grid.ColStyles(15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(18).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(19).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(20).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(21).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(22).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(23).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(24).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.POCode}") '"เลขที่ใบรับของ"
-        tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DocDate}")  '"วันที่เอกสาร"
-        tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DocID}")  '"เลขที่เอกสาร"
-        tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.RefCode}")  '"เลขที่ใบกำกับ"
-        tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.PO}")  '"เลขที่PO"
-        'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Amount}")  '"จำนวนเงิน"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.BeforeTaxAmount}") '"ก่อน Vat"
-        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.TaxAmount}") '"Vat"
-        tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.AfterTaxAmount}") '"หลัง Vat"
+      m_grid.Rows.HeaderCount = 0
+      m_grid.Rows.FrozenCount = 0
+      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockOtherDocCode}") '"เลขที่เอกสาร"
+      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.tock_originDate}") '"วันที่เอกสาร"
+      m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockCode}") '"ใบส่งของ"
+      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.otherDocDate}") '"วันที่ใบส่งของ"
+      m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.DueDate}") '"วันที่ครบกำหนด"
+      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.supplierCode}") '"รหัสผู้ขาย"
+      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.supplierName}") '"ชื่อผู้ขาย"
+      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Total}") '"ยอดรวม"
+      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Tax}") '"ภาษี"
+      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.TotalTax}") '"ยอดรวมภาษี"
+      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockAfterTax}") '"ยอดคงเหลือ"
+      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccCode}") '"รหัส Cost Center"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccName}") '"Cost Center รับ"
+      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_creditPeriod}") '"เครดิต"
+      m_grid(0, 15).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pvcode}") '"ใบสำคัญจ่าย"
+      m_grid(0, 16).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pocode}") '"ใบสั่งซื้อ"
+      m_grid(0, 17).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.prcode}") '"ใบขอซื้อ"
+      m_grid(0, 18).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.lasteditorinfo}") '"ผู้อนุมัติ"
+      m_grid(0, 19).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockApprovedate}") '"วันที่อนุมัติ"
+      m_grid(0, 20).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.refstatus}") '"การอ้างอิง"
+      m_grid(0, 21).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccpersoninfo}")
+      m_grid(0, 22).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.referable}")
+      m_grid(0, 23).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Address}") '"ที่อยู่"
+      m_grid(0, 24).Text = Me.StringParserService.Parse("${res:Column.10.supplier_phone}") '"โทรศัพท์"
+      m_grid(0, 25).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Fax}") '"โทรสาร"
+      m_grid(0, 26).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_note}")
 
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.ItemCode}")    '"รหัสสินค้า"
-        tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.ItemName}")   '"ชื่อสินค้า"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Num}")  '"จำนวน"
-        tr("col6") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Unit}")   '"หน่วยนับ"
-        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.UnitPrice}")  '"ราคา/หน่วย"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.DiscAmount}")  '"ส่วนลดสินค้า(เป็นเงิน)"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Amount}")  '"จำนวนเงิน"
-      End If
-
+      m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 19).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 20).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 21).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 22).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 23).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 24).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
-      Dim dt As DataTable = Me.DataSet.Tables(0) 'Me.DataSet.Tables(m_ShowPeriod + 1)
+      Dim dt As DataTable = Me.DataSet.Tables(0)
 
-      If dt.Rows.Count = 0 Then
-        Return
-      End If
-
+      Dim currTrIndex As Integer = -1
       Dim indent As String = Space(3)
-      Dim currentItemCode As String = ""
-      Dim currentSupplierCode As String = ""
-      Dim currentStockCode As String = ""
 
-      Dim trSupplier As TreeRow
-      Dim trItem As TreeRow
-      Dim trStock As TreeRow
+      Dim Total As Decimal = 0 'รวมยอดเงิน
+      Dim sumTax As Decimal = 0 'รวมภาษี
+      Dim sumAftertax As Decimal = 0 'รวมยอดรวมภาษี 
+      Dim sumRemain As Decimal = 0 'รวมยอดคงเหลือ
 
-      Dim itemQty As Decimal = 0
-      Dim itemDiscAmt As Decimal = 0
-      Dim itemAmt As Decimal = 0
-      Dim totalItemQty As Decimal = 0
-      Dim totalItemDiscAmt As Decimal = 0
-      Dim totalItemAmt As Decimal = 0
-
-      Dim totalQty As Decimal = 0
-      Dim totalDiscAmt As Decimal = 0
-      Dim totalAmt As Decimal = 0
-      Dim totalStockQty As Decimal = 0
-      Dim totalStockDiscAmt As Decimal = 0
-      Dim totalStockAmt As Decimal = 0
-      Dim totalBeforTax As Decimal = 0
-      Dim totalTaxAmt As Decimal = 0
-      Dim totalAfterTax As Decimal = 0
-      Dim countRow As Integer = 0
-      Dim sumCountRow As Integer = 0
-
-      If CInt(Me.Filters(14).Value) = 0 Then
-        For Each row As DataRow In dt.Rows
-          If row("ItemCode").ToString & row("ItemName").ToString <> currentItemCode Then
-            If Not trItem Is Nothing Then
-              trItem("col2") = Configuration.FormatToString(countRow, DigitConfig.Int)
-              trItem("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Description}") '"รายการ"
-              trItem("col6") = Configuration.FormatToString(itemQty, DigitConfig.Qty)
-              trItem("col9") = Configuration.FormatToString(itemDiscAmt, DigitConfig.Price)
-              trItem("col10") = Configuration.FormatToString(itemAmt, DigitConfig.Price)
-
-              itemQty = 0
-              itemDiscAmt = 0
-              itemAmt = 0
-              countRow = 0
-            End If
-
-            trItem = Me.m_treemanager.Treetable.Childs.Add
-            trItem("col0") = row("ItemCode").ToString
-            trItem("col1") = row("ItemName").ToString
-            trItem.Tag = "Font.Bold"
-            trItem.State = RowExpandState.Expanded
-            currentItemCode = row("ItemCode").ToString & row("ItemName").ToString
-          End If
-          If Not trItem Is Nothing Then
-            trStock = trItem.Childs.Add
-            If Not row.IsNull("DocDate") Then
-              If IsDate(row("DocDate")) Then
-                trStock("col0") = indent & CDate(row("DocDate")).ToShortDateString
-              End If
-            End If
-            trStock("col1") = indent & row("DocCode").ToString
-            trStock("col2") = indent & row("RefCode").ToString
-            trStock("col3") = indent & row("PurCode").ToString
-            trStock("col4") = indent & row("PO").ToString
-            trStock("col5") = indent & row("SupplierName").ToString
-            trStock("col6") = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
-            trStock("col7") = indent & row("Unit").ToString
-            trStock("col8") = Configuration.FormatToString(CDec(row("UnitPrice")), DigitConfig.Price)
-            trStock("col9") = Configuration.FormatToString(CDec(row("DiscAmount")), DigitConfig.Price)
-            trStock("col10") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-
-            itemQty += CDec(row("Qty"))
-            totalItemQty += CDec(row("Qty"))
-            itemDiscAmt += CDec(row("DiscAmount"))
-            totalItemDiscAmt += CDec(row("DiscAmount"))
-            itemAmt += CDec(row("Amount"))
-            totalItemAmt += CDec(row("Amount"))
-            countRow += 1
-            sumCountRow += 1
-          End If
-
-        Next
-
-        'สำหรับ Item สุดท้าย
-        If Not trItem Is Nothing Then
-          trItem("col2") = Configuration.FormatToString(countRow, DigitConfig.Int)
-          trItem("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Description}") '"รายการ"
-          trItem("col6") = Configuration.FormatToString(itemQty, DigitConfig.Qty)
-          trItem("col9") = Configuration.FormatToString(itemDiscAmt, DigitConfig.Price)
-          trItem("col10") = Configuration.FormatToString(itemAmt, DigitConfig.Price)
-        End If
-
-        trItem = Me.m_treemanager.Treetable.Childs.Add
-        trItem("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Sum}") '"รวม"
-        trItem("col2") = Configuration.FormatToString(sumCountRow, DigitConfig.Int)
-        trItem("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Description}") '"รายการ"
-        trItem("col6") = Configuration.FormatToString(totalItemQty, DigitConfig.Qty)
-        trItem("col9") = Configuration.FormatToString(totalItemDiscAmt, DigitConfig.Price)
-        trItem("col10") = Configuration.FormatToString(totalItemAmt, DigitConfig.Price)
-        trItem.Tag = "Font.Bold"
-
-      Else
-        For Each row As DataRow In dt.Rows
-          If row("SupplierCode").tostring <> currentSupplierCode Then
-            trSupplier = Me.m_treemanager.Treetable.Childs.Add
-            trSupplier("col0") = row("SupplierCode").ToString
-            trSupplier("col1") = row("SupplierName").ToString
-            trSupplier.Tag = "Font.Bold"
-            trSupplier.State = RowExpandState.Expanded
-            currentSupplierCode = row("SupplierCode").Tostring
-          End If
-
-          If row("PurCode").tostring <> currentStockCode Then
-            If Not trStock Is Nothing Then
-              trStock("col5") = Configuration.FormatToString(totalStockQty, DigitConfig.Qty)
-              trStock("col8") = Configuration.FormatToString(totalStockDiscAmt, DigitConfig.Price)
-              trStock("col9") = Configuration.FormatToString(totalStockAmt, DigitConfig.Price)
-              totalStockQty = 0
-              totalStockDiscAmt = 0
-              totalStockAmt = 0
-            End If
-
-            trStock = trSupplier.Childs.Add
-            trStock("col0") = indent & row("PurCode").ToString
-            If Not row.IsNull("DocDate") Then
-              If IsDate(row("DocDate")) Then
-                trStock("col1") = indent & CDate(row("DocDate")).ToShortDateString
-              End If
-            End If
-            trStock("col2") = indent & row("DocCode").ToString
-            trStock("col3") = indent & row("RefCode").ToString
-            trStock("col4") = indent & row("PO").ToString
-            trStock("col10") = Configuration.FormatToString(CDec(row("BeforeTax")), DigitConfig.Price)
-            trStock("col11") = Configuration.FormatToString(CDec(row("TaxAmount")), DigitConfig.Price)
-            trStock("col12") = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
-            trStock.State = RowExpandState.Expanded
-            currentStockCode = row("PurCode").tostring
-
-            totalBeforTax += CDec(row("BeforeTax"))
-            totalTaxAmt += CDec(row("TaxAmount"))
-            totalAfterTax += CDec(row("AfterTax"))
-          End If
-
-          If Not trStock Is Nothing Then
-            trItem = trStock.Childs.Add
-            trItem("col0") = indent & indent & row("itemCode").toString
-            trItem("col1") = indent & indent & row("itemName").toString
-            trItem("col5") = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
-            trItem("col6") = indent & indent & row("Unit").ToString
-            trItem("col7") = Configuration.FormatToString(CDec(row("UnitPrice")), DigitConfig.Price)
-            trItem("col8") = Configuration.FormatToString(CDec(row("DiscAmount")), DigitConfig.Price)
-            trItem("col9") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-
-            totalStockQty += CDec(row("Qty"))
-            totalStockDiscAmt += CDec(row("DiscAmount"))
-            totalStockAmt += CDec(row("Amount"))
-            totalQty += CDec(row("Qty"))
-            totalDiscAmt += CDec(row("DiscAmount"))
-            totalAmt += CDec(row("Amount"))
-          End If
-        Next
-
-        'สำหรับ Stock ตัวสุดท้าย
-        If Not trStock Is Nothing Then
-          trStock("col5") = Configuration.FormatToString(totalStockQty, DigitConfig.Qty)
-          trStock("col8") = Configuration.FormatToString(totalStockDiscAmt, DigitConfig.Price)
-          trStock("col9") = Configuration.FormatToString(totalStockAmt, DigitConfig.Price)
-        End If
-
-        trSupplier = Me.m_treemanager.Treetable.Childs.Add
-        trSupplier("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCreditPurchase.Sum}") '"รวม"
-        trSupplier("col5") = Configuration.FormatToString(totalQty, DigitConfig.Price)
-        trSupplier("col8") = Configuration.FormatToString(totalDiscAmt, DigitConfig.Price)
-        trSupplier("col9") = Configuration.FormatToString(totalAmt, DigitConfig.Price)
-        trSupplier("col10") = Configuration.FormatToString(totalBeforTax, DigitConfig.Price)
-        trSupplier("col11") = Configuration.FormatToString(totalTaxAmt, DigitConfig.Price)
-        trSupplier("col12") = Configuration.FormatToString(totalAfterTax, DigitConfig.Price)
-        trSupplier.Tag = "Font.Bold"
-
-      End If
-
-    End Sub
-    Private Function SearchTag(ByVal id As Integer) As TreeRow
-      If Me.m_treemanager Is Nothing Then
-        Return Nothing
-      End If
-      Dim dt As TreeTable = m_treemanager.Treetable
-      For Each row As TreeRow In dt.Rows
-        If IsNumeric(row.Tag) AndAlso CInt(row.Tag) = id Then
-          Return row
-        End If
-      Next
-    End Function
-    Public Overrides Function GetSimpleSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("Report")
-
-      myDatatable.Columns.Add(New DataColumn("col0", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col1", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col2", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col3", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
-
-      Return myDatatable
-    End Function
-    Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "Report"
-      Dim widths As New ArrayList
-      Dim colCount As Integer = 0
-      If CInt(Me.Filters(14).Value) = 0 Then
-        colCount = 10
-        widths.Add(120)
-        widths.Add(200)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(120)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-      Else
-        colCount = 12
-        widths.Add(120)
-        widths.Add(200)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(120)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-        widths.Add(100)
-      End If
-
-
-      For i As Integer = 0 To colCount
-        If CInt(Me.Filters(14).Value) = 0 Then
-          If i = 1 Then
-            Dim cs As New PlusMinusTreeTextColumn
-            cs.MappingName = "col" & i
-            cs.HeaderText = ""
-            cs.Width = CInt(widths(i))
-            cs.NullText = ""
-            cs.Alignment = HorizontalAlignment.Left
-            cs.ReadOnly = True
-            cs.Format = "s"
-            AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-            dst.GridColumnStyles.Add(cs)
-          Else
-            Dim cs As New TreeTextColumn(i, True, Color.Khaki)
-            cs.MappingName = "col" & i
-            cs.HeaderText = ""
-            cs.Width = CInt(widths(i))
-            cs.NullText = ""
-            cs.Alignment = HorizontalAlignment.Left
-            Select Case i
-              Case 6, 8, 9, 10
-                cs.Alignment = HorizontalAlignment.Right
-                cs.DataAlignment = HorizontalAlignment.Right
-                cs.Format = "d"
-              Case Else
-                cs.Alignment = HorizontalAlignment.Left
-                cs.DataAlignment = HorizontalAlignment.Left
-                cs.Format = "s"
-            End Select
-            cs.ReadOnly = True
-
-            AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-            dst.GridColumnStyles.Add(cs)
-          End If
-
+      Dim n As Int32 = 0
+      For Each row As DataRow In dt.Rows
+        m_grid.RowCount += 1
+        currTrIndex = m_grid.RowCount
+        If ((currTrIndex Mod 2) = 0) Then
+          m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(202, 220, 200)
         Else
-          If i = 1 Then
-            Dim cs As New PlusMinusTreeTextColumn
-            cs.MappingName = "col" & i
-            cs.HeaderText = ""
-            cs.Width = CInt(widths(i))
-            cs.NullText = ""
-            cs.Alignment = HorizontalAlignment.Left
-            cs.ReadOnly = True
-            cs.Format = "s"
-            AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-            dst.GridColumnStyles.Add(cs)
-          Else
-            Dim cs As New TreeTextColumn(i, True, Color.Khaki)
-            cs.MappingName = "col" & i
-            cs.HeaderText = ""
-            cs.Width = CInt(widths(i))
-            cs.NullText = ""
-            cs.Alignment = HorizontalAlignment.Left
-            Select Case i
-              Case 5, 7, 8, 9, 10, 11, 12
-                cs.Alignment = HorizontalAlignment.Right
-                cs.DataAlignment = HorizontalAlignment.Right
-                cs.Format = "d"
-              Case Else
-                cs.Alignment = HorizontalAlignment.Left
-                cs.DataAlignment = HorizontalAlignment.Left
-                cs.Format = "s"
-            End Select
-            cs.ReadOnly = True
+          m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(255, 255, 255)
 
-            AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-            dst.GridColumnStyles.Add(cs)
-          End If
         End If
+        m_grid(currTrIndex, 1).CellValue = row("stock_code").ToString
+        If Not row.IsNull("DocDate") Then
+          m_grid(currTrIndex, 2).CellValue = CDate(row("DocDate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 3).CellValue = row("stock_otherDocCode").ToString
+        If Not row.IsNull("otherdocdate") Then
+          m_grid(currTrIndex, 4).CellValue = CDate(row("otherdocdate")).ToShortDateString
+        End If
+        If Not row.IsNull("duedate") Then
+          m_grid(currTrIndex, 5).CellValue = CDate(row("duedate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 6).CellValue = row("supplierCode").ToString
+        m_grid(currTrIndex, 7).CellValue = row("supplierName").ToString
+        If Not row.IsNull("BeforTax") Then
+          m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(CDec(row("BeforTax")), DigitConfig.Price)
+          Total += CDec(row("BeforTax"))
+        End If
+        If Not row.IsNull("TextAmount") Then
+          m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TextAmount")), DigitConfig.Price)
+          sumTax += CDec(row("TextAmount"))
+        End If
+        If Not row.IsNull("AfterTex") Then
+          m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTex")), DigitConfig.Price)
+          sumAftertax += CDec(row("AfterTex"))
+        End If
+        If Not row.IsNull("remain") Then
+          m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(CDec(row("remain")), DigitConfig.Price)
+          sumRemain += CDec(row("remain"))
+        End If
+        m_grid(currTrIndex, 12).CellValue = row("toccCode").ToString
+        m_grid(currTrIndex, 13).CellValue = row("toccName").ToString
+        m_grid(currTrIndex, 14).CellValue = row("stock_creditPeriod").ToString
+        m_grid(currTrIndex, 15).CellValue = row("pvcode").ToString
+        m_grid(currTrIndex, 16).CellValue = row("pocode").ToString
+        m_grid(currTrIndex, 17).CellValue = row("prcode").ToString
+        m_grid(currTrIndex, 18).CellValue = row("lasteditorinfo").ToString
+        If Not row.IsNull("stock_approvedate") Then
+          m_grid(currTrIndex, 19).CellValue = CDate(row("stock_approvedate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 20).CellValue = row("refstatus").ToString
+        m_grid(currTrIndex, 21).CellValue = row("toccpersoninfo").ToString
+        m_grid(currTrIndex, 22).CellValue = row("GoodsReceiptStatusinfo").ToString
+        If row("stock_status").ToString = "0" Then
+          m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(142, 142, 142)
+        End If
+        m_grid(currTrIndex, 23).CellValue = row("supplieraddress").ToString
+        m_grid(currTrIndex, 24).CellValue = row("supplierphone").ToString
+        m_grid(currTrIndex, 25).CellValue = row("supplierfax").ToString
+        m_grid(currTrIndex, 26).CellValue = row("stock_note").ToString
+        m_grid.RowStyles(currTrIndex).ReadOnly = True
+
       Next
 
-      Return dst
-    End Function
-    Public Overrides Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-      e.HilightValue = False
-      If e.Row <= 1 Then
-        e.HilightValue = True
-      End If
+      m_grid.RowCount += 1
+      currTrIndex = m_grid.RowCount
+      m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(167, 214, 231)
+      m_grid.RowStyles(currTrIndex).Font.Bold = True
+      m_grid.RowStyles(currTrIndex).ReadOnly = True
+      m_grid(currTrIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currTrIndex, 7).CellValue = "รวม"
+      m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(Total, DigitConfig.Price)
+      m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(sumTax, DigitConfig.Price)
+      m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(sumAftertax, DigitConfig.Price)
+      m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(sumRemain, DigitConfig.Price)
     End Sub
-#End Region#Region "Shared"
-#End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
+#End Region
+
+#Region "Shared"
+#End Region
+
+#Region "Properties"
+    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "RptCreditPurchase"
       End Get
@@ -479,7 +281,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
-#End Region#Region "IPrintableEntity"
+#End Region
+
+#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
       Return "RptCreditPurchase"
     End Function
@@ -489,44 +293,250 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
-      Dim fn As Font
 
       For Each fixDpi As DocPrintingItem In Me.FixValueCollection
         dpiColl.Add(fixDpi)
       Next
 
-      Dim startRow As Integer = 0
-      If CInt(Me.Filters(14).Value) = 0 Then
-        startRow = 3
-      Else
-        startRow = 4
-      End If
+      Dim LineNumber As Integer = 0
+
       Dim n As Integer = 0
-      For rowIndex As Integer = startRow To m_grid.RowCount
+      Dim i As Integer = 0
+      For rowIndex As Integer = 1 To m_grid.RowCount
+        i += 1
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LineNumber"
+        dpi.Value = i
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        If Not CType(Me.m_treemanager.Treetable.Rows(rowIndex - 1), TreeRow).Tag Is Nothing Then
-          fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-        Else
-          fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-        End If
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col0"
+        dpi.Value = m_grid(rowIndex, 1).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        For colIndex As Integer = 0 To m_grid.ColCount - 1
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col" & colIndex.ToString
-          dpi.Value = m_grid(rowIndex, colIndex + 1).CellValue
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpi.Font = fn
-          dpiColl.Add(dpi)
-        Next
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col1"
+        dpi.Value = m_grid(rowIndex, 2).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col2"
+        dpi.Value = m_grid(rowIndex, 3).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col3"
+        dpi.Value = m_grid(rowIndex, 4).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col4"
+        dpi.Value = m_grid(rowIndex, 5).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col5"
+        dpi.Value = m_grid(rowIndex, 6).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col6"
+        dpi.Value = m_grid(rowIndex, 7).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col7"
+        dpi.Value = m_grid(rowIndex, 8).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col8"
+        dpi.Value = m_grid(rowIndex, 9).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col9"
+        dpi.Value = m_grid(rowIndex, 10).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col10"
+        dpi.Value = m_grid(rowIndex, 11).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col11"
+        dpi.Value = m_grid(rowIndex, 12).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col12"
+        dpi.Value = m_grid(rowIndex, 13).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col13"
+        dpi.Value = m_grid(rowIndex, 14).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col14"
+        dpi.Value = m_grid(rowIndex, 15).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col15"
+        dpi.Value = m_grid(rowIndex, 16).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col16"
+        dpi.Value = m_grid(rowIndex, 17).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col17"
+        dpi.Value = m_grid(rowIndex, 18).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col18"
+        dpi.Value = m_grid(rowIndex, 19).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col19"
+        dpi.Value = m_grid(rowIndex, 20).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col20"
+        dpi.Value = m_grid(rowIndex, 21).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col21"
+        dpi.Value = m_grid(rowIndex, 22).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col22"
+        dpi.Value = m_grid(rowIndex, 23).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col23"
+        dpi.Value = m_grid(rowIndex, 24).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col24"
+        dpi.Value = m_grid(rowIndex, 25).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col25"
+        dpi.Value = m_grid(rowIndex, 26).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col26"
+        dpi.Value = m_grid(rowIndex, 27).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         n += 1
       Next
 
       Return dpiColl
     End Function
-#End Region
+#End Region
+
   End Class
 End Namespace
-

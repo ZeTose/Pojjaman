@@ -123,6 +123,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptCreditPurchase.vb" />
     <Compile Include="BLL\RptCashPurchase.vb" />
     <Compile Include="BLL\Rpt274.vb">
       <SubType>Code</SubType>
@@ -193,9 +194,6 @@
     <Compile Include="BLL\RptCheckPRWithdraw.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\RptCreditPurchase.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BLL\RptExpenseSummary.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -264,6 +262,9 @@
     </Compile>
     <Compile Include="BLL\RptUnreceivedPOItem.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptCreditPurchaseFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptCashPurchaseFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -337,9 +338,6 @@
     <Compile Include="UI\RptCheckPRWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\RptCreditPurchaseFilterSubPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="UI\RptExpenseSummaryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -409,6 +407,9 @@
     <Compile Include="UI\RptUnreceivedPOItemFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptCreditPurchaseFilterSubPanel.resx">
+      <DependentUpon>RptCreditPurchaseFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptCashPurchaseFilterSubPanel.resx">
       <DependentUpon>RptCashPurchaseFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -480,9 +481,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptCheckPRWithdrawFilterSubPanel.resx">
       <DependentUpon>RptCheckPRWithdrawFilterSubPanel.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\RptCreditPurchaseFilterSubPanel.resx">
-      <DependentUpon>RptCreditPurchaseFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptExpenseSummaryFilterSubPanel.resx">
       <DependentUpon>RptExpenseSummaryFilterSubPanel.vb</DependentUpon>
