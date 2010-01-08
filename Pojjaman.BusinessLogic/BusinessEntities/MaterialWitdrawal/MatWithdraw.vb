@@ -1032,7 +1032,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
     Public Overrides Function GetNextCode() As String
-      Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim autoCodeFormat As String
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Me.Code
+      End If
       Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
 
       pattern = CodeGenerator.GetPattern(pattern)

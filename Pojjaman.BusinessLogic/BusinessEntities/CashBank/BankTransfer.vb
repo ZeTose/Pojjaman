@@ -402,10 +402,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim theTime As Date = Now
       Dim theUser As New User(currentUserId)
 
-      If Me.AutoGen And Me.Code.Length = 0 Then
-        Me.Code = Me.GetNextCode
+      '---- AutoCode Format --------
+      Me.JournalEntry.RefreshGLFormat()
+      If Not AutoCodeFormat Is Nothing Then
+        Select Case Me.AutoCodeFormat.CodeConfig.Value
+          Case 0
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+
+              Me.Code = Me.GetNextCode
+            End If
+            Me.JournalEntry.DontSave = True
+            Me.JournalEntry.Code = ""
+            Me.JournalEntry.DocDate = Me.Docdate
+          Case 1
+            'ตาม entity
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            Me.JournalEntry.Code = Me.Code
+          Case 2
+            'ตาม gl
+            If Me.JournalEntry.AutoGen Then
+              Me.JournalEntry.Code = JournalEntry.GetNextCode
+            End If
+            Me.Code = Me.JournalEntry.Code
+          Case Else
+            'แยก
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            If Me.JournalEntry.AutoGen Then
+              Me.JournalEntry.Code = JournalEntry.GetNextCode
+            End If
+        End Select
+      Else
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        If Me.JournalEntry.AutoGen Then
+          Me.JournalEntry.Code = JournalEntry.GetNextCode
+        End If
       End If
+      Me.JournalEntry.DocDate = Me.Docdate
       Me.AutoGen = False
+      Me.JournalEntry.AutoGen = False
 
       If Me.JournalEntry.Status.Value = 4 Then
         Me.Status.Value = 4
@@ -627,6 +667,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         '------------------------End Save Check---------------------------
+        '==============================AUTOGEN==========================================
+        Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+        If Not IsNumeric(saveAutoCodeError.Message) Then
+          trans.Rollback()
+          ResetID(oldid, oldje)
+          Return saveAutoCodeError
+        Else
+          Select Case CInt(saveAutoCodeError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              ResetID(oldid, oldje)
+              Return saveAutoCodeError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
+
         trans.Commit()
         ' ตรวจจับ Error ของการ Save ...
         Return New SaveErrorException(returnVal.Value.ToString)
