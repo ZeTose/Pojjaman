@@ -1245,6 +1245,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Me.Level = 0 OrElse Me.RefEntity.Id <> 289 Then
           row("pai_refdoc") = Me.RefEntity.Name
+          'row.CustomFontStyle = FontStyle.Bold
         End If
 
         row("pai_linenumber") = Me.LineNumber
@@ -1302,7 +1303,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   row("pai_itemName") = m_EntityName
                 End If
               End If
-            Case 0
+            Case 0, 291
               row("Button") = "invisible"
               row("pai_itemName") = m_EntityName
             Case 160, 162
@@ -1312,6 +1313,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 289
               row("Button") = "invisible"
               row("pai_itemName") = Trim(m_EntityName)
+              row.CustomFontStyle = FontStyle.Bold
           End Select
         End If
 

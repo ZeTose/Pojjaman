@@ -1701,830 +1701,863 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				dpi.Value = Me.RefDoc.DueDate.ToShortDateString
 				dpi.DataType = "System.String"
 				dpiColl.Add(dpi)
-			End If
-
-			'Note
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Note"
-			dpi.Value = Me.Note
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			If Not Me.CostCenter Is Nothing Then
-				'CostCenterInfo
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CostCenterInfo"
-				dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'CostCenterCode
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CostCenterCode"
-				dpi.Value = Me.CostCenter.Code
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'CostCenterName
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CostCenterName"
-				dpi.Value = Me.CostCenter.Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
-
-			If Not Me.RefDoc.Recipient Is Nothing Then
-				'SupplierInfo
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierInfo"
-				dpi.Value = Me.RefDoc.Recipient.Code & ":" & Me.RefDoc.Recipient.Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierCode
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierCode"
-				dpi.Value = Me.RefDoc.Recipient.Code
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierName
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierName"
-				If TypeOf Me.RefDoc Is AdvanceMoney Then
-					Dim myAdvm As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
-					If myAdvm.IsForEmployee Then
-						dpi.Value = myAdvm.Employee.Name
-					Else
-						dpi.Value = myAdvm.Costcenter.Name
-					End If
-				Else
-					dpi.Value = Me.RefDoc.Recipient.Name
-				End If
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierAddress
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierAddress"
-				dpi.Value = Me.RefDoc.Recipient.BillingAddress
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierCurrentAddress
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierCurrentAddress"
-				dpi.Value = Me.RefDoc.Recipient.Address
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierPhone
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierPhone"
-				dpi.Value = Me.RefDoc.Recipient.Phone
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierFax
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierFax"
-				dpi.Value = Me.RefDoc.Recipient.Fax
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierTaxId
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierTaxId"
-				dpi.Value = Me.RefDoc.Recipient.TaxId
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'SupplierIdNo
-				dpi = New DocPrintingItem
-				dpi.Mapping = "SupplierIdNo"
-				dpi.Value = Me.RefDoc.Recipient.IdNo
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
-
-			Dim TotalCash As Decimal = 0
-			Dim TotalPettyCash As Decimal = 0
-			Dim TotalAdvancePay As Decimal = 0
-			Dim TotalCheck As Decimal = 0
-			Dim TotalTransferOut As Decimal = 0
-			Dim TotalAdvanceMoney As Decimal = 0
-			Dim CheckCode As String = ""
-
-			Dim tmpCode As String = ""
-			Dim tmpName As String = ""
-			Dim tmpEmpCode As String = ""
-			Dim tmpEmpName As String = ""
-
-			For tableType As Integer = 0 To 2
-				'tableType 0 = เฉพาะเช็ค
-				'tableType 1 = เฉพาะโอน
-				'tableType 2 = ทั้งหมด
-
-				Dim tableName As String
-				Select Case tableType
-					Case 0
-						tableName = "PaymentItem"
-					Case 1
-						tableName = "PaymentItemBTO"
-					Case 2
-						tableName = "PaymentItemAll"
-				End Select
-
-				Dim n As Integer = 0
-				For Each item As PaymentItem In Me.ItemCollection
-					Dim entityType As Integer = item.EntityType.Value
-
-					'PaymentItem.LineNumber
-					dpi = New DocPrintingItem
-					dpi.Mapping = tableName & ".LineNumber"
-					dpi.Value = n + 1
-					dpi.DataType = "System.Int32"
-					dpi.Row = n + 1
-					dpi.Table = tableName
-					dpiColl.Add(dpi)
-
-					Dim itIsCheck As Boolean = (TypeOf item.Entity Is OutgoingCheck)
-					Dim itIsBto As Boolean = (TypeOf item.Entity Is BankTransferOut)
-					Dim itIsCash As Boolean = (TypeOf item.Entity Is CashItem)
-					Dim itIsPC As Boolean = (TypeOf item.Entity Is PettyCash)
-					Dim itIsADVP As Boolean = (TypeOf item.Entity Is AdvancePay)
-					Dim itIsADVM As Boolean = (TypeOf item.Entity Is AdvanceMoney)
-
-					Dim PaymentTypeName As String = ""
-					If itIsCheck Then
-						PaymentTypeName = "itIsCheck"
-					ElseIf itIsBto Then
-						PaymentTypeName = "itIsBto"
-					ElseIf itIsCash Then
-						PaymentTypeName = "itIsCash"
-					ElseIf itIsPC Then
-						PaymentTypeName = "itIsPC"
-					ElseIf itIsADVP Then
-						PaymentTypeName = "itIsADVP"
-					ElseIf itIsADVM Then
-						PaymentTypeName = "itIsADVM"
-					End If
-					'PaymentItem..PaymentTypeName
-					dpi = New DocPrintingItem
-					dpi.Mapping = tableName & "." & PaymentTypeName
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpi.Row = n + 1
-					dpi.Table = tableName
-					dpiColl.Add(dpi)
-
-					If itIsCheck Then
-						If CheckCode Is Nothing OrElse CheckCode.Length = 0 Then
-							CheckCode = CType(item.Entity, OutgoingCheck).CqCode
-						End If
-					End If
-
-					If (itIsCash) Then
-						'PaymentItem.DueDate
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".DueDate"
-						dpi.Value = item.DueDate.ToShortDateString
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-
-						'PaymentItem.Amount
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".Amount"
-						dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-						dpi.DataType = "System.Decimal"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-					End If
-
-					If (itIsPC) Then
-						If Not item.Entity Is Nothing Then
-							Dim iPC As New PettyCash(item.Entity.Id)
-							tmpCode = iPC.Code
-							tmpName = iPC.Name
-							tmpEmpCode = iPC.Employee.Code
-							tmpEmpName = iPC.Employee.Name
-						End If
-					End If
-					If (itIsADVM) Then
-						Dim iADVM As New AdvanceMoney(item.Entity.Id)
-						tmpCode = iADVM.Code
-						tmpName = iADVM.Name
-						tmpEmpCode = iADVM.Employee.Code
-						tmpEmpName = iADVM.Employee.Name
-					End If
-					If (itIsPC Or itIsADVM) And (tableType = 0 Or tableType = 2) Then
-						'PaymentItem.SetMoneyCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".SetMoneyCode"
-						dpi.Value = tmpCode
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-
-						'PaymentItem.SetMoneyName
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".SetMoneyName"
-						dpi.Value = tmpName
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-
-						'PaymentItem.EmployeeCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".EmployeeCode"
-						dpi.Value = tmpEmpCode
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-
-						'PaymentItem.EmployeeName
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".EmployeeName"
-						dpi.Value = tmpEmpName
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-					End If
-
-					If (itIsCheck And tableType = 0) _
-					 Or (itIsBto And tableType = 1) _
-					 Or (itIsCheck Or itIsBto) And tableType = 2 _
-					 Then
-
-						If itIsCheck Then
-							'PaymentItem.DueDate
-							dpi = New DocPrintingItem
-							dpi.Mapping = tableName & ".DueDate"
-							If CType(item.Entity, OutgoingCheck).DueDate.Equals(Date.MinValue) Then
-								dpi.Value = ""
-							Else
-								dpi.Value = CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString
-							End If
-							dpi.DataType = "System.DateTime"
-							dpi.Row = n + 1
-							dpi.Table = tableName
-							dpiColl.Add(dpi)
-						Else
-							'PaymentItem.DueDate
-							dpi = New DocPrintingItem
-							dpi.Mapping = tableName & ".DueDate"
-							If item.DueDate.Equals(Date.MinValue) Then
-								dpi.Value = ""
-							Else
-								dpi.Value = item.DueDate.ToShortDateString
-							End If
-							dpi.DataType = "System.DateTime"
-							dpi.Row = n + 1
-							dpi.Table = tableName
-							dpiColl.Add(dpi)
-						End If
-
-						'PaymentItem.CqCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = tableName & ".CqCode"
-						If itIsCheck Then
-							dpi.Value = CType(item.Entity, OutgoingCheck).CqCode
-						Else
-							dpi.Value = item.Entity.Code
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = tableName
-						dpiColl.Add(dpi)
-
-						If TypeOf item.Entity Is IHasAmount Then
-							'PaymentItem.Amount
-							dpi = New DocPrintingItem
-							dpi.Mapping = tableName & ".Amount"
-							dpi.Value = Configuration.FormatToString(CType(item.Entity, IHasAmount).Amount, DigitConfig.Price)
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = tableName
-							dpiColl.Add(dpi)
-						End If
-
-						If TypeOf item.Entity Is IHasBankAccount Then
-							Dim hasBankAccount As IHasBankAccount = CType(item.Entity, IHasBankAccount)
-							Dim bankAcct As BankAccount = hasBankAccount.BankAccount
-							Dim bankBranch As bankBranch
-							Dim bank As bank
-							If Not bankAcct Is Nothing Then
-								'PaymentItem.BankAccount
-								dpi = New DocPrintingItem
-								dpi.Mapping = tableName & ".BankAccount"
-								dpi.Value = bankAcct.Name
-								dpi.DataType = "System.String"
-								dpi.Row = n + 1
-								dpi.Table = tableName
-								dpiColl.Add(dpi)
-
-								'PaymentItem.BankAccountCode
-								dpi = New DocPrintingItem
-								dpi.Mapping = tableName & ".BankAccountCode"
-								dpi.Value = bankAcct.BankCode
-								dpi.DataType = "System.String"
-								dpi.Row = n + 1
-								dpi.Table = tableName
-								dpiColl.Add(dpi)
-
-								bankBranch = bankAcct.BankBranch
-								If Not bankBranch Is Nothing Then
-									'PaymentItem.BankBranch
-									dpi = New DocPrintingItem
-									dpi.Mapping = tableName & ".BankBranch"
-									dpi.Value = bankBranch.Name
-									dpi.DataType = "System.String"
-									dpi.Row = n + 1
-									dpi.Table = tableName
-									dpiColl.Add(dpi)
-
-									bank = bankBranch.Bank
-									If Not bank Is Nothing Then
-										'PaymentItem.Bank
-										dpi = New DocPrintingItem
-										dpi.Mapping = tableName & ".Bank"
-										dpi.Value = bank.Name
-										dpi.DataType = "System.String"
-										dpi.Row = n + 1
-										dpi.Table = tableName
-										dpiColl.Add(dpi)
-									End If								'Not bank Is Nothing Then
-								End If							 'Not bankBranch Is Nothing Then
-							End If						 'Not bankAcct Is Nothing Then
-						End If					 'TypeOf item.Entity Is IHasBankAccount Then
-					End If
-
-					'PaymentItem.Note
-					dpi = New DocPrintingItem
-					dpi.Mapping = tableName & ".Note"
-					dpi.Value = item.Note
-					dpi.DataType = "System.String"
-					dpi.Row = n + 1
-					dpi.Table = tableName
-					dpiColl.Add(dpi)
-
-					n += 1
-
-					If tableType = 0 Then
-						If itIsCheck Then
-							TotalCheck += item.Amount
-						ElseIf itIsBto Then
-							TotalTransferOut += item.Amount
-						ElseIf itIsCash Then
-							TotalCash += item.Amount
-						ElseIf itIsPC Then
-							TotalPettyCash += item.Amount
-						ElseIf itIsADVP Then
-							TotalAdvancePay += item.Amount
-						ElseIf itIsADVM Then
-							TotalAdvanceMoney += item.Amount
-						End If
-					End If
-				Next
-			Next
-
-			'TotalCash
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalCash"
-			dpi.Value = Configuration.FormatToString(TotalCash, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalPettyCash
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalPettyCash"
-			dpi.Value = Configuration.FormatToString(TotalPettyCash, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalAdvancePay
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalAdvancePay"
-			dpi.Value = Configuration.FormatToString(TotalAdvancePay, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalAdvanceMoney
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalAdvanceMoney"
-			dpi.Value = Configuration.FormatToString(TotalAdvanceMoney, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalCheck
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalCheck"
-			dpi.Value = Configuration.FormatToString(TotalCheck, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'CheckCode
-			dpi = New DocPrintingItem
-			dpi.Mapping = "CheckCode"
-			dpi.Value = CheckCode
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalTransferOut
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalTransferOut"
-			dpi.Value = Configuration.FormatToString(TotalTransferOut, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'TotalCheckAndBTO
-			dpi = New DocPrintingItem
-			dpi.Mapping = "TotalCheckAndBTO"
-			dpi.Value = Configuration.FormatToString(TotalCheck + TotalTransferOut, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'############################################################################
-			dpiColl.AddRange(GetGLDocPrintingEntries)
-			dpiColl.AddRange(GetGoodsReceiptDocPrintingEntries)
-			dpiColl.AddRange(GetAdvancePayDocPrintingEntries)
-			dpiColl.AddRange(GetPettyCashClaimItemDocPrintingEntries)
-			dpiColl.AddRange(GetAdvanceMoneyDocPrintingEntries)
-			dpiColl.AddRange(GetPaymentSelectionDocPrintingEntries)
-			'############################################################################
-
-			'RemainingAmount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RemainingAmount"
-			dpi.Value = Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.UnitPrice)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'PaidAmount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "PaidAmount"
-			dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'OtherCutPayAmount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "OtherCutPayAmount"
-			dpi.Value = Configuration.FormatToString(Me.DebitAmount, DigitConfig.UnitPrice)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			Dim r As Integer = 0
-			If TypeOf Me.RefDoc Is IVatable Then
-				For Each vitem As VatItem In CType(Me.RefDoc, IVatable).Vat.ItemCollection
-
-					'VatItem.LineNumber
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.LineNumber"
-					dpi.Value = r + 1
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.RunNumber
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.RunNumber"
-					dpi.Value = vitem.Runnumber
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.Code
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.Code"
-					dpi.Value = vitem.Code
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.DocDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.DocDate"
-					dpi.Value = vitem.DocDate.ToShortDateString
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem..PrintName
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem..PrintName"
-					dpi.Value = vitem.PrintName
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem..PrintAddress
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem..PrintAddress"
-					dpi.Value = vitem.PrintAddress
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.TaxBase
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.TaxBase"
-					dpi.Value = Configuration.FormatToString(vitem.TaxBase, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.TaxRate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.TaxRate"
-					dpi.Value = Configuration.FormatToString(vitem.TaxRate, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.VatAmount
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.VatAmount"
-					dpi.Value = Configuration.FormatToString(vitem.Amount, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					'VatItem.Note
-					dpi = New DocPrintingItem
-					dpi.Mapping = "VatItem.Note"
-					dpi.Value = vitem.Note
-					dpi.DataType = "System.String"
-					dpi.Row = r + 1
-					dpi.Table = "VatItem"
-					dpiColl.Add(dpi)
-
-					r += 1
-				Next
-			End If
-
-			Return dpiColl
-		End Function
-		Private Function GetGLDocPrintingEntries() As DocPrintingItemCollection
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			Dim SumCredit As Decimal = 0
-			Dim SumDebit As Decimal = 0
-			If TypeOf Me.RefDoc Is IGLAble Then
-				Dim je As JournalEntry = CType(Me.RefDoc, IGLAble).JournalEntry
-				If Not je Is Nothing Then
-					'AccountBook
-					dpi = New DocPrintingItem
-					dpi.Mapping = "AccountBook"
-					If Not je.AccountBook Is Nothing Then
-						dpi.Value = je.AccountBook.Name
-					End If
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-					'JournalName
-					dpi = New DocPrintingItem
-					dpi.Mapping = "JournalName"
-					dpi.Value = je.AccountBook.TitleName
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-					Dim n As Integer = 0
-					For Each item As JournalEntryItem In je.ItemCollection
-						'Item.LineNumber
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.LineNumber"
-						dpi.Value = n + 1
-						dpi.DataType = "System.Int32"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
-
-						'Item.AccountCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.AccountCode"
-						If Not item.Account Is Nothing Then
-							dpi.Value = item.Account.Code
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
-
-						Dim amt As String = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-						Dim Bfpoint As String = Trim(Split(Replace(amt, ",", ""), ".")(0))
-						Dim Aftpoint As String = "00"
-						If UBound(Split(amt, "."), 1) <> 0 Then
-							Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-						End If
-						amt = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-						Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
-						Aftpoint = "00"
-						If UBound(Split(amt, "."), 1) <> 0 Then
-							Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-						End If
-						Dim space As String = ""
-						If item.IsDebit Then
-							'Item.Debit
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Debit"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							SumDebit += item.Amount
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.DebitBaht
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.DebitBaht"
-							dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.DebitSatang
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.DebitSatang"
-							dpi.Value = Aftpoint
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.Amount
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Amount"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-						Else
-							'Item.Credit
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Credit"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							SumCredit += item.Amount
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.CreditBaht
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.CreditBaht"
-							dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.CreditSatang
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.CreditSatang"
-							dpi.Value = Aftpoint
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'Item.Amount
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Amount"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-                            space = "     "
-						End If
-
-						'Item.AccountName
-						dpi = New DocPrintingItem
-                        dpi.Mapping = "Item.AccountName"
-						If Not item.Account Is Nothing Then
-                            dpi.Value = space & item.Account.Name
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
-
-						'Item.CostCenter
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.CostCenter"
-						If Not item.CostCenter Is Nothing Then
-							dpi.Value = item.CostCenter.Code
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
-
-						'Item.Note
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.Note"
-						If Not item.Account Is Nothing Then
-							dpi.Value = item.Note
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
-
-						n += 1
-					Next
-					'SumCredit
-					dpi = New DocPrintingItem
-					dpi.Mapping = "SumCredit"
-					dpi.Value = Configuration.FormatToString(SumCredit, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'SumDebit
-					dpi = New DocPrintingItem
-					dpi.Mapping = "SumDebit"
-					dpi.Value = Configuration.FormatToString(SumDebit, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-				End If
-			End If
-			Return dpiColl
-		End Function
-		Private Function GetAdvancePayDocPrintingEntries() As DocPrintingItemCollection
-			Dim n As Integer
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is AdvancePay Then
-				Dim advp As AdvancePay = CType(Me.RefDoc, AdvancePay)
-				If Not advp Is Nothing Then
-					If Not advp.CostCenter Is Nothing Then
-						'ToCostCenterInfo
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterInfo"
-						dpi.Value = advp.CostCenter.Code & ":" & advp.CostCenter.Name
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-
-						'ToCostCenterCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterCode"
-						dpi.Value = advp.CostCenter.Code
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-
-						'ToCostCenterName
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterName"
-						dpi.Value = advp.CostCenter.Name
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-					End If
-					'RefDocCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocCode"
-					dpi.Value = advp.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'RefDocDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocDate"
-					dpi.Value = advp.DocDate
-					dpi.DataType = "System.DateTime"
-					dpiColl.Add(dpi)
-
-					'WHTAmount
-					dpi = New DocPrintingItem
-					dpi.Mapping = "WHTAmount"
-					dpi.Value = Configuration.FormatToString(advp.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
-					dpi.DataType = "System.String"
+      End If
+
+      ''Reference By PA Only ''''''''''
+      If Me.RefDoc IsNot Nothing Then
+        If TypeOf Me.RefDoc Is PA Then
+          Dim newPa As PA = CType(Me.RefDoc, PA)
+
+          'RefDocTaxAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocTaxAmount"
+          dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocAfterTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAfterTax"
+          dpi.Value = Configuration.FormatToString(newPa.AfterTax, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocWHTAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocWHTAmount"
+          dpi.Value = Configuration.FormatToString(newPa.WitholdingTax, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          For Each refDpi As DocPrintingItem In newPa.GetDocPrintingItemsEntries
+            refDpi.Table = "RefDoc" + refDpi.Table
+            dpiColl.Add(refDpi)
+          Next
+        End If
+      End If
+
+      'Note
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      If Not Me.CostCenter Is Nothing Then
+        'CostCenterInfo
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterInfo"
+        dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CostCenterCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterCode"
+        dpi.Value = Me.CostCenter.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CostCenterName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterName"
+        dpi.Value = Me.CostCenter.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
+      If Not Me.RefDoc.Recipient Is Nothing Then
+        'SupplierInfo
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierInfo"
+        dpi.Value = Me.RefDoc.Recipient.Code & ":" & Me.RefDoc.Recipient.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierCode"
+        dpi.Value = Me.RefDoc.Recipient.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierName"
+        If TypeOf Me.RefDoc Is AdvanceMoney Then
+          Dim myAdvm As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
+          If myAdvm.IsForEmployee Then
+            dpi.Value = myAdvm.Employee.Name
+          Else
+            dpi.Value = myAdvm.Costcenter.Name
+          End If
+        Else
+          dpi.Value = Me.RefDoc.Recipient.Name
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierAddress"
+        dpi.Value = Me.RefDoc.Recipient.BillingAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierCurrentAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierCurrentAddress"
+        dpi.Value = Me.RefDoc.Recipient.Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierPhone
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierPhone"
+        dpi.Value = Me.RefDoc.Recipient.Phone
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierFax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierFax"
+        dpi.Value = Me.RefDoc.Recipient.Fax
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierTaxId
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierTaxId"
+        dpi.Value = Me.RefDoc.Recipient.TaxId
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SupplierIdNo
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierIdNo"
+        dpi.Value = Me.RefDoc.Recipient.IdNo
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
+      Dim TotalCash As Decimal = 0
+      Dim TotalPettyCash As Decimal = 0
+      Dim TotalAdvancePay As Decimal = 0
+      Dim TotalCheck As Decimal = 0
+      Dim TotalTransferOut As Decimal = 0
+      Dim TotalAdvanceMoney As Decimal = 0
+      Dim CheckCode As String = ""
+
+      Dim tmpCode As String = ""
+      Dim tmpName As String = ""
+      Dim tmpEmpCode As String = ""
+      Dim tmpEmpName As String = ""
+
+      For tableType As Integer = 0 To 2
+        'tableType 0 = เฉพาะเช็ค
+        'tableType 1 = เฉพาะโอน
+        'tableType 2 = ทั้งหมด
+
+        Dim tableName As String
+        Select Case tableType
+          Case 0
+            tableName = "PaymentItem"
+          Case 1
+            tableName = "PaymentItemBTO"
+          Case 2
+            tableName = "PaymentItemAll"
+        End Select
+
+        Dim n As Integer = 0
+        For Each item As PaymentItem In Me.ItemCollection
+          Dim entityType As Integer = item.EntityType.Value
+
+          'PaymentItem.LineNumber
+          dpi = New DocPrintingItem
+          dpi.Mapping = tableName & ".LineNumber"
+          dpi.Value = n + 1
+          dpi.DataType = "System.Int32"
+          dpi.Row = n + 1
+          dpi.Table = tableName
+          dpiColl.Add(dpi)
+
+          Dim itIsCheck As Boolean = (TypeOf item.Entity Is OutgoingCheck)
+          Dim itIsBto As Boolean = (TypeOf item.Entity Is BankTransferOut)
+          Dim itIsCash As Boolean = (TypeOf item.Entity Is CashItem)
+          Dim itIsPC As Boolean = (TypeOf item.Entity Is PettyCash)
+          Dim itIsADVP As Boolean = (TypeOf item.Entity Is AdvancePay)
+          Dim itIsADVM As Boolean = (TypeOf item.Entity Is AdvanceMoney)
+
+          Dim PaymentTypeName As String = ""
+          If itIsCheck Then
+            PaymentTypeName = "itIsCheck"
+          ElseIf itIsBto Then
+            PaymentTypeName = "itIsBto"
+          ElseIf itIsCash Then
+            PaymentTypeName = "itIsCash"
+          ElseIf itIsPC Then
+            PaymentTypeName = "itIsPC"
+          ElseIf itIsADVP Then
+            PaymentTypeName = "itIsADVP"
+          ElseIf itIsADVM Then
+            PaymentTypeName = "itIsADVM"
+          End If
+          'PaymentItem..PaymentTypeName
+          dpi = New DocPrintingItem
+          dpi.Mapping = tableName & "." & PaymentTypeName
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = tableName
+          dpiColl.Add(dpi)
+
+          If itIsCheck Then
+            If CheckCode Is Nothing OrElse CheckCode.Length = 0 Then
+              CheckCode = CType(item.Entity, OutgoingCheck).CqCode
+            End If
+          End If
+
+          If (itIsCash) Then
+            'PaymentItem.DueDate
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".DueDate"
+            dpi.Value = item.DueDate.ToShortDateString
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.Amount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".Amount"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+          End If
+
+          If (itIsPC) Then
+            If Not item.Entity Is Nothing Then
+              Dim iPC As New PettyCash(item.Entity.Id)
+              tmpCode = iPC.Code
+              tmpName = iPC.Name
+              tmpEmpCode = iPC.Employee.Code
+              tmpEmpName = iPC.Employee.Name
+            End If
+          End If
+          If (itIsADVM) Then
+            Dim iADVM As New AdvanceMoney(item.Entity.Id)
+            tmpCode = iADVM.Code
+            tmpName = iADVM.Name
+            tmpEmpCode = iADVM.Employee.Code
+            tmpEmpName = iADVM.Employee.Name
+          End If
+          If (itIsPC Or itIsADVM) And (tableType = 0 Or tableType = 2) Then
+            'PaymentItem.SetMoneyCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".SetMoneyCode"
+            dpi.Value = tmpCode
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.SetMoneyName
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".SetMoneyName"
+            dpi.Value = tmpName
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.EmployeeCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".EmployeeCode"
+            dpi.Value = tmpEmpCode
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.EmployeeName
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".EmployeeName"
+            dpi.Value = tmpEmpName
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+          End If
+
+          If (itIsCheck And tableType = 0) _
+           Or (itIsBto And tableType = 1) _
+           Or (itIsCheck Or itIsBto) And tableType = 2 _
+           Then
+
+            If itIsCheck Then
+              'PaymentItem.DueDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = tableName & ".DueDate"
+              If CType(item.Entity, OutgoingCheck).DueDate.Equals(Date.MinValue) Then
+                dpi.Value = ""
+              Else
+                dpi.Value = CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString
+              End If
+              dpi.DataType = "System.DateTime"
+              dpi.Row = n + 1
+              dpi.Table = tableName
+              dpiColl.Add(dpi)
+            Else
+              'PaymentItem.DueDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = tableName & ".DueDate"
+              If item.DueDate.Equals(Date.MinValue) Then
+                dpi.Value = ""
+              Else
+                dpi.Value = item.DueDate.ToShortDateString
+              End If
+              dpi.DataType = "System.DateTime"
+              dpi.Row = n + 1
+              dpi.Table = tableName
+              dpiColl.Add(dpi)
+            End If
+
+            'PaymentItem.CqCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".CqCode"
+            If itIsCheck Then
+              dpi.Value = CType(item.Entity, OutgoingCheck).CqCode
+            Else
+              dpi.Value = item.Entity.Code
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            If TypeOf item.Entity Is IHasAmount Then
+              'PaymentItem.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = tableName & ".Amount"
+              dpi.Value = Configuration.FormatToString(CType(item.Entity, IHasAmount).Amount, DigitConfig.Price)
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = tableName
+              dpiColl.Add(dpi)
+            End If
+
+            If TypeOf item.Entity Is IHasBankAccount Then
+              Dim hasBankAccount As IHasBankAccount = CType(item.Entity, IHasBankAccount)
+              Dim bankAcct As BankAccount = hasBankAccount.BankAccount
+              Dim bankBranch As BankBranch
+              Dim bank As Bank
+              If Not bankAcct Is Nothing Then
+                'PaymentItem.BankAccount
+                dpi = New DocPrintingItem
+                dpi.Mapping = tableName & ".BankAccount"
+                dpi.Value = bankAcct.Name
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = tableName
+                dpiColl.Add(dpi)
+
+                'PaymentItem.BankAccountCode
+                dpi = New DocPrintingItem
+                dpi.Mapping = tableName & ".BankAccountCode"
+                dpi.Value = bankAcct.BankCode
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = tableName
+                dpiColl.Add(dpi)
+
+                bankBranch = bankAcct.BankBranch
+                If Not bankBranch Is Nothing Then
+                  'PaymentItem.BankBranch
+                  dpi = New DocPrintingItem
+                  dpi.Mapping = tableName & ".BankBranch"
+                  dpi.Value = bankBranch.Name
+                  dpi.DataType = "System.String"
+                  dpi.Row = n + 1
+                  dpi.Table = tableName
+                  dpiColl.Add(dpi)
+
+                  bank = bankBranch.Bank
+                  If Not bank Is Nothing Then
+                    'PaymentItem.Bank
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = tableName & ".Bank"
+                    dpi.Value = bank.Name
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = tableName
+                    dpiColl.Add(dpi)
+                  End If                'Not bank Is Nothing Then
+                End If               'Not bankBranch Is Nothing Then
+              End If             'Not bankAcct Is Nothing Then
+            End If           'TypeOf item.Entity Is IHasBankAccount Then
+          End If
+
+          'PaymentItem.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = tableName & ".Note"
+          dpi.Value = item.Note
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = tableName
+          dpiColl.Add(dpi)
+
+          n += 1
+
+          If tableType = 0 Then
+            If itIsCheck Then
+              TotalCheck += item.Amount
+            ElseIf itIsBto Then
+              TotalTransferOut += item.Amount
+            ElseIf itIsCash Then
+              TotalCash += item.Amount
+            ElseIf itIsPC Then
+              TotalPettyCash += item.Amount
+            ElseIf itIsADVP Then
+              TotalAdvancePay += item.Amount
+            ElseIf itIsADVM Then
+              TotalAdvanceMoney += item.Amount
+            End If
+          End If
+        Next
+      Next
+
+      'TotalCash
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalCash"
+      dpi.Value = Configuration.FormatToString(TotalCash, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalPettyCash
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalPettyCash"
+      dpi.Value = Configuration.FormatToString(TotalPettyCash, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalAdvancePay
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalAdvancePay"
+      dpi.Value = Configuration.FormatToString(TotalAdvancePay, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalAdvanceMoney
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalAdvanceMoney"
+      dpi.Value = Configuration.FormatToString(TotalAdvanceMoney, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalCheck
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalCheck"
+      dpi.Value = Configuration.FormatToString(TotalCheck, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'CheckCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CheckCode"
+      dpi.Value = CheckCode
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalTransferOut
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalTransferOut"
+      dpi.Value = Configuration.FormatToString(TotalTransferOut, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalCheckAndBTO
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalCheckAndBTO"
+      dpi.Value = Configuration.FormatToString(TotalCheck + TotalTransferOut, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      '############################################################################
+      dpiColl.AddRange(GetGLDocPrintingEntries)
+      dpiColl.AddRange(GetGoodsReceiptDocPrintingEntries)
+      dpiColl.AddRange(GetAdvancePayDocPrintingEntries)
+      dpiColl.AddRange(GetPettyCashClaimItemDocPrintingEntries)
+      dpiColl.AddRange(GetAdvanceMoneyDocPrintingEntries)
+      dpiColl.AddRange(GetPaymentSelectionDocPrintingEntries)
+      '############################################################################
+
+      'RemainingAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RemainingAmount"
+      dpi.Value = Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.UnitPrice)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'PaidAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "PaidAmount"
+      dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'OtherCutPayAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "OtherCutPayAmount"
+      dpi.Value = Configuration.FormatToString(Me.DebitAmount, DigitConfig.UnitPrice)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim r As Integer = 0
+      If TypeOf Me.RefDoc Is IVatable Then
+        For Each vitem As VatItem In CType(Me.RefDoc, IVatable).Vat.ItemCollection
+
+          'VatItem.LineNumber
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.LineNumber"
+          dpi.Value = r + 1
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.RunNumber
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.RunNumber"
+          dpi.Value = vitem.Runnumber
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.Code"
+          dpi.Value = vitem.Code
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.DocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.DocDate"
+          dpi.Value = vitem.DocDate.ToShortDateString
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem..PrintName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem..PrintName"
+          dpi.Value = vitem.PrintName
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem..PrintAddress
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem..PrintAddress"
+          dpi.Value = vitem.PrintAddress
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.TaxBase
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.TaxBase"
+          dpi.Value = Configuration.FormatToString(vitem.TaxBase, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.TaxRate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.TaxRate"
+          dpi.Value = Configuration.FormatToString(vitem.TaxRate, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.VatAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.VatAmount"
+          dpi.Value = Configuration.FormatToString(vitem.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          'VatItem.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatItem.Note"
+          dpi.Value = vitem.Note
+          dpi.DataType = "System.String"
+          dpi.Row = r + 1
+          dpi.Table = "VatItem"
+          dpiColl.Add(dpi)
+
+          r += 1
+        Next
+      End If
+
+      Return dpiColl
+    End Function
+    Private Function GetGLDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      Dim SumCredit As Decimal = 0
+      Dim SumDebit As Decimal = 0
+      If TypeOf Me.RefDoc Is IGLAble Then
+        Dim je As JournalEntry = CType(Me.RefDoc, IGLAble).JournalEntry
+        If Not je Is Nothing Then
+          'AccountBook
+          dpi = New DocPrintingItem
+          dpi.Mapping = "AccountBook"
+          If Not je.AccountBook Is Nothing Then
+            dpi.Value = je.AccountBook.Name
+          End If
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+          'JournalName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "JournalName"
+          dpi.Value = je.AccountBook.TitleName
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+          Dim n As Integer = 0
+          For Each item As JournalEntryItem In je.ItemCollection
+            'Item.LineNumber
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.LineNumber"
+            dpi.Value = n + 1
+            dpi.DataType = "System.Int32"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.AccountCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.AccountCode"
+            If Not item.Account Is Nothing Then
+              dpi.Value = item.Account.Code
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            Dim amt As String = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            Dim Bfpoint As String = Trim(Split(Replace(amt, ",", ""), ".")(0))
+            Dim Aftpoint As String = "00"
+            If UBound(Split(amt, "."), 1) <> 0 Then
+              Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+            End If
+            amt = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
+            Aftpoint = "00"
+            If UBound(Split(amt, "."), 1) <> 0 Then
+              Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+            End If
+            Dim space As String = ""
+            If item.IsDebit Then
+              'Item.Debit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Debit"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              SumDebit += item.Amount
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.DebitBaht
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.DebitBaht"
+              dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.DebitSatang
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.DebitSatang"
+              dpi.Value = Aftpoint
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Amount"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+            Else
+              'Item.Credit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Credit"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              SumCredit += item.Amount
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.CreditBaht
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.CreditBaht"
+              dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.CreditSatang
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.CreditSatang"
+              dpi.Value = Aftpoint
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Amount"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              space = "     "
+            End If
+
+            'Item.AccountName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.AccountName"
+            If Not item.Account Is Nothing Then
+              dpi.Value = space & item.Account.Name
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.CostCenter
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.CostCenter"
+            If Not item.CostCenter Is Nothing Then
+              dpi.Value = item.CostCenter.Code
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Note
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Note"
+            If Not item.Account Is Nothing Then
+              dpi.Value = item.Note
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            n += 1
+          Next
+          'SumCredit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumCredit"
+          dpi.Value = Configuration.FormatToString(SumCredit, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'SumDebit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumDebit"
+          dpi.Value = Configuration.FormatToString(SumDebit, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+        End If
+      End If
+      Return dpiColl
+    End Function
+    Private Function GetAdvancePayDocPrintingEntries() As DocPrintingItemCollection
+      Dim n As Integer
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is AdvancePay Then
+        Dim advp As AdvancePay = CType(Me.RefDoc, AdvancePay)
+        If Not advp Is Nothing Then
+          If Not advp.CostCenter Is Nothing Then
+            'ToCostCenterInfo
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterInfo"
+            dpi.Value = advp.CostCenter.Code & ":" & advp.CostCenter.Name
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'ToCostCenterCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterCode"
+            dpi.Value = advp.CostCenter.Code
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'ToCostCenterName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterName"
+            dpi.Value = advp.CostCenter.Name
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+          End If
+          'RefDocCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocCode"
+          dpi.Value = advp.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocDate"
+          dpi.Value = advp.DocDate
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+
+          'WHTAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "WHTAmount"
+          dpi.Value = Configuration.FormatToString(advp.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
           'RefDoc Tax Amount
@@ -2534,793 +2567,793 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
-					'RefDocAftertax
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocAftertax"
-					dpi.Value = Configuration.FormatToString(advp.AfterTax, DigitConfig.UnitPrice)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			End If
-
-			Return dpiColl
-		End Function
-		Private Function GetGoodsReceiptDocPrintingEntries() As DocPrintingItemCollection
-			Dim n As Integer
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is GoodsReceipt Then
-				Dim gr As GoodsReceipt = CType(Me.RefDoc, GoodsReceipt)
-				If Not gr Is Nothing Then
-					If Not gr.ToCostCenter Is Nothing Then
-						'ToCostCenterInfo
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterInfo"
-						dpi.Value = gr.ToCostCenter.Code & ":" & gr.ToCostCenter.Name
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-
-						'ToCostCenterCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterCode"
-						dpi.Value = gr.ToCostCenter.Code
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-
-						'ToCostCenterName
-						dpi = New DocPrintingItem
-						dpi.Mapping = "CostCenterName"
-						dpi.Value = gr.ToCostCenter.Name
-						dpi.DataType = "System.String"
-						dpiColl.Add(dpi)
-					End If
-					'RefDocCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocCode"
-					dpi.Value = gr.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'RefDocDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocDate"
-					dpi.Value = gr.DocDate
-					dpi.DataType = "System.DateTime"
-					dpiColl.Add(dpi)
-
-					'POCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "POCode"
-					dpi.Value = gr.Po.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'PODocDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PODocDate"
-					dpi.Value = gr.Po.DocDate.ToShortDateString
-					dpi.DataType = "System.DateTime"
-					dpiColl.Add(dpi)
-
-					'PURCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PURCode"
-					dpi.Value = gr.Payment.RefDoc.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'PURDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PURDate"
-					dpi.Value = gr.Payment.RefDoc.Date.ToShortDateString
-					dpi.DataType = "System.DateTime"
-					dpiColl.Add(dpi)
-
-					Dim dt As DataTable = GetBAFromSproc("GetBAfromGoodsReceiptCodeList", gr.Payment.RefDoc.Id)
-					Dim tmpBillaCode As String = ""
-					Dim tmpBillaDocDate As String = ""
-					If Not dt Is Nothing Then
-						For Each row As DataRow In dt.Rows
-							If Not row.IsNull("BillaCode") Then
-								tmpBillaCode &= row("BillaCode").ToString & ","
-							End If
-							If IsDate(row("BillaDocDate")) Then
-								tmpBillaDocDate &= CDate(row("BillaDocDate")).ToShortDateString & ","
-							End If
-						Next
-					End If
-					If tmpBillaCode.Length > 0 Then
-						tmpBillaCode = tmpBillaCode.Substring(0, tmpBillaCode.Length - 1)
-					End If
-					If tmpBillaDocDate.Length > 0 Then
-						tmpBillaDocDate = tmpBillaDocDate.Substring(0, tmpBillaDocDate.Length - 1)
-					End If
-
-					'BICode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "BICode"
-					dpi.Value = tmpBillaCode
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'BIDocDate
-					dpi = New DocPrintingItem
-					dpi.Mapping = "BIDocDate"
-					dpi.Value = tmpBillaDocDate
-					dpi.DataType = "System.DateTime"
-					dpiColl.Add(dpi)
-
-
-					'RefDocTaxAmount
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocTaxAmount"
-					dpi.Value = Configuration.FormatToString(gr.RealTaxAmount, DigitConfig.UnitPrice)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					'RefDocAfterTax
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocAfterTax"
-					dpi.Value = Configuration.FormatToString(gr.AfterTax, DigitConfig.UnitPrice)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					Dim sumRefDocItemAmount As Decimal = 0
-					Dim line As Integer = 0
-
-					Dim grColl As New GoodsReceiptItemCollection(gr)
-					For Each item As GoodsReceiptItem In grColl
-
-						'RefDocItem.Code
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Code"
-						dpi.Value = item.Entity.Code
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						''RefDocItem.Code
-						'dpi = New DocPrintingItem
-						'dpi.Mapping = "RefDocItem.Code"
-						'dpi.Value = item.Entity.Code
-						'dpi.DataType = "System.String"
-						'dpi.Row = n + 1
-						'dpi.Table = "RefDocItem"
-						'dpiColl.Add(dpi)
-
-						If (item.ItemType.Value <> 160 And item.ItemType.Value <> 162) Then
-							line += 1
-							'Item.LineNumber
-							'************** เอามาไว้เป็นอันที่ 2
-							'RefDocItem.LineNumber
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.LineNumber"
-							dpi.Value = line
-							dpi.DataType = "System.Int32"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.Unit
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.Unit"
-							dpi.Value = item.Unit.Name
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.Qty
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.Qty"
-							dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.UnitPrice
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.UnitPrice"
-							If item.UnitPrice = 0 Then
-								dpi.Value = ""
-							Else
-								dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
-							End If
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.DiscountRate
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.DiscountRate"
-							dpi.Value = item.Discount.Rate
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.DiscountAmount
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.DiscountAmount"
-							If item.Discount.Amount = 0 Then
-								dpi.Value = ""
-							Else
-								dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
-							End If
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.Amount
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.Amount"
-							If item.Amount = 0 Then
-								dpi.Value = ""
-							Else
-								dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-								sumRefDocItemAmount += item.Amount
-							End If
-							dpi.DataType = "System.String"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-
-							'RefDocItem.ZeroVat
-							dpi = New DocPrintingItem
-							dpi.Mapping = "RefDocItem.ZeroVat"
-							dpi.Value = item.UnVatable
-							dpi.DataType = "System.Boolean"
-							dpi.Row = n + 1
-							dpi.Table = "RefDocItem"
-							dpiColl.Add(dpi)
-						End If
-						'RefDocItem.Description
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Description"
-						If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
-							dpi.Value = item.EntityName
-						Else
-							dpi.Value = item.Entity.Name
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						'RefDocItem.Note
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Note"
-						dpi.Value = item.Note
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						n += 1
-					Next
-					''RemainingAmount
-					'dpi = New DocPrintingItem
-					'dpi.Mapping = "RemainingAmount"
-					'dpi.Value = Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.UnitPrice)
-					'dpi.DataType = "System.String"
-					'dpiColl.Add(dpi)
-
-					''PaidAmount
-					'dpi = New DocPrintingItem
-					'dpi.Mapping = "PaidAmount"
-					'dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
-					'dpi.DataType = "System.String"
-					'dpiColl.Add(dpi)
-
-					''PaidAmount
-					'dpi = New DocPrintingItem
-					'dpi.Mapping = "OtherCutPayAmount"
-					'dpi.Value = Configuration.FormatToString(Me.DebitAmount, DigitConfig.UnitPrice)
-					'dpi.DataType = "System.String"
-					'dpiColl.Add(dpi)
-
-					'WHTAmount
-					dpi = New DocPrintingItem
-					dpi.Mapping = "WHTAmount"
-					dpi.Value = Configuration.FormatToString(gr.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-				End If
-			End If
-
-			Return dpiColl
-		End Function
-		Private Function GetAdvanceMoneyDocPrintingEntries() As DocPrintingItemCollection
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is AdvanceMoney Then
-				Dim am As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
-				Dim n As Integer = 0
-
-				'AdvanceMoneyName
-				dpi = New DocPrintingItem
-				dpi.Mapping = "AdvanceMoneyName"
-				dpi.Value = am.Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				For Each itemRow As TreeRow In am.ItemTable.Rows
-					'RefDocItem.LineNumber
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocItem.LineNumber"
-					dpi.Value = n + 1
-					dpi.DataType = "System.Int32"
-					dpi.Row = n + 1
-					dpi.Table = "RefDocItem"
-					dpiColl.Add(dpi)
-
-					'RefDocItem.Description
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocItem.Description"
-					dpi.Value = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GetAdvanceMoneyDocPrintingEntries.AdvanceMoney}")
-					dpi.DataType = "System.String"
-					dpi.Row = n + 1
-					dpi.Table = "RefDocItem"
-					dpiColl.Add(dpi)
-
-					'RefDocItem.Amount
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RefDocItem.Amount"
-					dpi.Value = Configuration.FormatToString(am.Amount, DigitConfig.Price)
-					dpi.DataType = "System.String"
-					dpi.Row = n + 1
-					dpi.Table = "RefDocItem"
-					dpiColl.Add(dpi)
-
-					n += 1
-				Next
-			End If
-			Return dpiColl
-		End Function
-
-		Private Function GetPettyCashClaimItemDocPrintingEntries() As DocPrintingItemCollection
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is PettyCashClaim Then
-				Dim pcc As PettyCashClaim = CType(Me.RefDoc, PettyCashClaim)
-				Dim n As Integer = 0
-
-				'RefDocGross
-				dpi = New DocPrintingItem
-				dpi.Mapping = "RefDocGross"
-				dpi.Value = Configuration.FormatToString(pcc.Gross, DigitConfig.Price)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'RefPettyCashCode
-				dpi = New DocPrintingItem
-				dpi.Mapping = "RefPettyCashCode"
-				dpi.Value = pcc.PettyCash.Code
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'RefPettyCashName
-				dpi = New DocPrintingItem
-				dpi.Mapping = "RefPettyCashName"
-				dpi.Value = pcc.PettyCash.Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				Dim refCC As New ArrayList
-				Dim refCCName As String = ""
-				For Each itemRow As TreeRow In pcc.ItemTable.Rows
-					If pcc.ValidateRow(itemRow) Then
-						Dim item As New PettyCashClaimItem
-						item.CopyFromDataRow(itemRow)
-
-						'RefDocItem.LineNumber
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.LineNumber"
-						dpi.Value = n + 1
-						dpi.DataType = "System.Int32"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						'RefDocItem.Description
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Description"
-						dpi.Value = item.RefDocCode & " : " & item.RefDocType
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						'RefDocItem.Amount
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Amount"
-						dpi.Value = Configuration.FormatToString(item.RefDocAmount, DigitConfig.Price)
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						'RefDocItem.PaidAmount
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.PaidAmount"
-						dpi.Value = Configuration.FormatToString(item.PaidAmount, DigitConfig.Price)
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						'RefDocItem.Note
-						dpi = New DocPrintingItem
-						dpi.Mapping = "RefDocItem.Note"
-						dpi.Value = item.Note
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "RefDocItem"
-						dpiColl.Add(dpi)
-
-						Dim py As New Payment(item.Paymentid)
-						If Not py Is Nothing Then
-							Dim cc As New CostCenter(py.payment_ccId)
-							If Not cc Is Nothing Then
-								'RefDocItem.CostCenterCode
-								dpi = New DocPrintingItem
-								dpi.Mapping = "RefDocItem.CostCenterCode"
-								dpi.Value = cc.Code
-								dpi.DataType = "System.String"
-								dpi.Row = n + 1
-								dpi.Table = "RefDocItem"
-								dpiColl.Add(dpi)
-
-								'RefDocItem.CostCenterName
-								dpi = New DocPrintingItem
-								dpi.Mapping = "RefDocItem.CostCenterName"
-								dpi.Value = cc.Name
-								dpi.DataType = "System.String"
-								dpi.Row = n + 1
-								dpi.Table = "RefDocItem"
-								dpiColl.Add(dpi)
-
-								If Not cc.Name Is Nothing Then
-									If refCC.Count = 0 Then
-										refCC.Add(cc.Name)
-									ElseIf refCC.Count > 0 Then
-										Dim chkDup As Boolean = False
-										For i As Integer = 0 To refCC.Count - 1
-											If refCC(i).ToString = cc.Name Then
-												chkDup = True
-											End If
-										Next
-										If Not chkDup Then
-											refCC.Add(cc.Name)
-										End If
-									End If
-								End If
-
-							End If
-						End If
-
-						n += 1
-					End If
-				Next
-
-				For i As Integer = 0 To refCC.Count - 1
-					If i < refCC.Count - 1 Then
-						refCCName &= refCC(i).ToString & ","
-					Else
-						refCCName &= refCC(i).ToString
-					End If
-				Next
-				'If refCCName.Length <> 0 Then
-				'  refCCName = refCCName.Substring(0, refCCName.Length - 1)
-				'End If
-
-				'RefPettyCashItemCostCenter
-				dpi = New DocPrintingItem
-				dpi.Mapping = "RefPettyCashItemCostCenter"
-				dpi.Value = refCCName
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
-			Return dpiColl
-		End Function
-		Private Function GetPaymentSelectionDocPrintingEntries() As DocPrintingItemCollection
-			Dim n As Integer
-			Dim sumAfterTax As Decimal = 0
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-
-			If TypeOf Me.RefDoc Is PaySelection Then
-				Dim ps As PaySelection = CType(Me.RefDoc, PaySelection)
-                    'RefDocCode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefDocCode"
-                    dpi.Value = ps.Code
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-
-                    'RefDocDate
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefDocDate"
-                    dpi.Value = ps.DocDate
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-
-                    'PVDocCode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "PVDocCode"
-                    dpi.Value = ps.Payment.Code
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-
-                    'PVDocDate
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "PVDocDate"
-                    dpi.Value = ps.Payment.DocDate
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-
-                    Dim dt As TreeTable = PaySelection.GetSchemaTable()
-                    ps.ItemCollection.PopulatePaySelectionItem(dt)
-
-                    Dim tmpRefItemCode As String = ""
-                    Dim tmpBACode As String = ""
-                    Dim tmpDescription As String = ""
-
-                    For Each dr As TreeRow In dt.Rows
-
-                        If dr.IsNull("paysi_parentEntity") OrElse CDec(dr("paysi_parentEntity")) <> 0 Then
-                        If Not IsDBNull(dr("paysi_entityType")) Then
-                            Dim dh As New DataRowHelper(dr)
-                            Dim stock_id As Integer=dh.GetValue(Of Integer)("paysi_entity")
-                            Dim stock_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
-                            Dim s As Stock = ps.FindStock(stock_id, stock_type)
-                            If s IsNot Nothing Then
-                                'RefDocItem.Glnote
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "RefDocItem.glnote"
-                                dpi.Value = s.GLNote
-                                dpi.DataType = "System.String"
-                                dpi.Row = n + 1
-                                dpi.Table = "RefDocItem"
-                                dpiColl.Add(dpi)
-
-                                'RefDocItem.GLCode
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "RefDocItem.GLCode"
-                                dpi.Value = s.GLCode
-                                dpi.DataType = "System.String"
-                                dpi.Row = n + 1
-                                dpi.Table = "RefDocItem"
-                                dpiColl.Add(dpi)
-
-                                'RefDocItem.refnote
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "RefDocItem.refnote"
-                                dpi.Value = s.Note
-                                dpi.DataType = "System.String"
-                                dpi.Row = n + 1
-                                dpi.Table = "RefDocItem"
-                                dpiColl.Add(dpi)
-
-                                'RefDocItem.VatCodes
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "RefDocItem.VatCodes"
-                                dpi.Value = s.GetVatCodes
-                                dpi.DataType = "System.String"
-                                dpi.Row = n + 1
-                                dpi.Table = "RefDocItem"
-                                dpiColl.Add(dpi)
-
-                            End If
-                            'RefDocItem.LineNumber
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.LineNumber"
-                            If Not IsDBNull(dr("paysi_linenumber")) Then
-                                dpi.Value = dr("paysi_linenumber")
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.Description
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.Description"
-                            If Not IsDBNull(dr("paysi_entityType")) Then
-                                If Not IsDBNull(dr("Code")) Then
-                                    dpi.Value = CodeDescription.GetDescription("paysi_entityType", CInt(dr("paysi_entityType"))) & ":" & CStr(dr("Code"))
-                                    tmpRefItemCode = tmpRefItemCode & CStr(dr("Code")) & ","
-                                Else
-                                    dpi.Value = CodeDescription.GetDescription("paysi_entityType", CInt(dr("paysi_entityType")))
-                                End If
-                            Else
-                                If Not IsDBNull(dr("Code")) Then
-                                    dpi.Value = CStr(dr("Code"))
-                                Else
-                                    dpi.Value = ""
-                                End If
-                            End If
-                            tmpDescription = CStr(dpi.Value)
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            If Not IsDBNull(dr("paysi_parentEntity")) Then
-                                If CInt(dr("paysi_parentEntityType")) = 60 Then
-                                    tmpBACode = tmpBACode & CStr(dr("Code")) & ","
-                                End If
-                            End If
-
-                            'RefDocItem.DescriptionWithNote
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.DescriptionWithNote"
-                            If Not IsDBNull(dr("paysi_note")) Then
-                                dpi.Value = tmpDescription & " - " & CStr(dr("paysi_note"))
-                            Else
-                                dpi.Value = tmpDescription
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.Amount
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.Amount"
-                            If Not IsDBNull(dr("paysi_amt")) Then
-                                dpi.Value = Configuration.FormatToString(CDec(dr("paysi_amt")), DigitConfig.UnitPrice)
-                                sumAfterTax += CDec(dr("paysi_amt"))
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.Note
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.Note"
-                            If Not IsDBNull(dr("paysi_note")) Then
-                                dpi.Value = CStr(dr("paysi_note"))
-                            Else
-                                dpi.Value = ""
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.DocDate
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.DocDate"
-                            If Not IsDBNull(dr("DocDate")) And IsDate(dr("DocDate")) Then
-                                dpi.Value = CDate(dr("DocDate")).ToShortDateString
-                            Else
-                                dpi.Value = ""
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.DueDate
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.DueDate"
-                            If Not IsDBNull(dr("DueDate")) And IsDate(dr("DueDate")) Then
-                                dpi.Value = CDate(dr("DueDate")).ToShortDateString
-                            Else
-                                dpi.Value = ""
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.RealAmount
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.RealAmount"
-                            If Not IsDBNull(dr("RealAmount")) Then
-                                dpi.Value = Configuration.FormatToString(CDec(dr("RealAmount")), DigitConfig.UnitPrice)
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            'RefDocItem.UnpaidAmount
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "RefDocItem.UnpaidAmount"
-                            If Not IsDBNull(dr("UnpaidAmount")) Then
-                                dpi.Value = Configuration.FormatToString(CDec(dr("UnpaidAmount")), DigitConfig.UnitPrice)
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = n + 1
-                            dpi.Table = "RefDocItem"
-                            dpiColl.Add(dpi)
-
-                            n += 1
-
-                        End If
-                        End If
-
+          'RefDocAftertax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAftertax"
+          dpi.Value = Configuration.FormatToString(advp.AfterTax, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
+
+      Return dpiColl
+    End Function
+    Private Function GetGoodsReceiptDocPrintingEntries() As DocPrintingItemCollection
+      Dim n As Integer
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is GoodsReceipt Then
+        Dim gr As GoodsReceipt = CType(Me.RefDoc, GoodsReceipt)
+        If Not gr Is Nothing Then
+          If Not gr.ToCostCenter Is Nothing Then
+            'ToCostCenterInfo
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterInfo"
+            dpi.Value = gr.ToCostCenter.Code & ":" & gr.ToCostCenter.Name
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'ToCostCenterCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterCode"
+            dpi.Value = gr.ToCostCenter.Code
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'ToCostCenterName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "CostCenterName"
+            dpi.Value = gr.ToCostCenter.Name
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+          End If
+          'RefDocCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocCode"
+          dpi.Value = gr.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocDate"
+          dpi.Value = gr.DocDate
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+
+          'POCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "POCode"
+          dpi.Value = gr.Po.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'PODocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PODocDate"
+          dpi.Value = gr.Po.DocDate.ToShortDateString
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+
+          'PURCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PURCode"
+          dpi.Value = gr.Payment.RefDoc.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'PURDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PURDate"
+          dpi.Value = gr.Payment.RefDoc.Date.ToShortDateString
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+
+          Dim dt As DataTable = GetBAFromSproc("GetBAfromGoodsReceiptCodeList", gr.Payment.RefDoc.Id)
+          Dim tmpBillaCode As String = ""
+          Dim tmpBillaDocDate As String = ""
+          If Not dt Is Nothing Then
+            For Each row As DataRow In dt.Rows
+              If Not row.IsNull("BillaCode") Then
+                tmpBillaCode &= row("BillaCode").ToString & ","
+              End If
+              If IsDate(row("BillaDocDate")) Then
+                tmpBillaDocDate &= CDate(row("BillaDocDate")).ToShortDateString & ","
+              End If
+            Next
+          End If
+          If tmpBillaCode.Length > 0 Then
+            tmpBillaCode = tmpBillaCode.Substring(0, tmpBillaCode.Length - 1)
+          End If
+          If tmpBillaDocDate.Length > 0 Then
+            tmpBillaDocDate = tmpBillaDocDate.Substring(0, tmpBillaDocDate.Length - 1)
+          End If
+
+          'BICode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "BICode"
+          dpi.Value = tmpBillaCode
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'BIDocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "BIDocDate"
+          dpi.Value = tmpBillaDocDate
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+
+
+          'RefDocTaxAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocTaxAmount"
+          dpi.Value = Configuration.FormatToString(gr.RealTaxAmount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocAfterTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAfterTax"
+          dpi.Value = Configuration.FormatToString(gr.AfterTax, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          Dim sumRefDocItemAmount As Decimal = 0
+          Dim line As Integer = 0
+
+          Dim grColl As New GoodsReceiptItemCollection(gr)
+          For Each item As GoodsReceiptItem In grColl
+
+            'RefDocItem.Code
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Code"
+            dpi.Value = item.Entity.Code
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            ''RefDocItem.Code
+            'dpi = New DocPrintingItem
+            'dpi.Mapping = "RefDocItem.Code"
+            'dpi.Value = item.Entity.Code
+            'dpi.DataType = "System.String"
+            'dpi.Row = n + 1
+            'dpi.Table = "RefDocItem"
+            'dpiColl.Add(dpi)
+
+            If (item.ItemType.Value <> 160 And item.ItemType.Value <> 162) Then
+              line += 1
+              'Item.LineNumber
+              '************** เอามาไว้เป็นอันที่ 2
+              'RefDocItem.LineNumber
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.LineNumber"
+              dpi.Value = line
+              dpi.DataType = "System.Int32"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Unit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Unit"
+              dpi.Value = item.Unit.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Qty
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Qty"
+              dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.UnitPrice
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.UnitPrice"
+              If item.UnitPrice = 0 Then
+                dpi.Value = ""
+              Else
+                dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.DiscountRate
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.DiscountRate"
+              dpi.Value = item.Discount.Rate
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.DiscountAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.DiscountAmount"
+              If item.Discount.Amount = 0 Then
+                dpi.Value = ""
+              Else
+                dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Amount"
+              If item.Amount = 0 Then
+                dpi.Value = ""
+              Else
+                dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+                sumRefDocItemAmount += item.Amount
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.ZeroVat
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.ZeroVat"
+              dpi.Value = item.UnVatable
+              dpi.DataType = "System.Boolean"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+            End If
+            'RefDocItem.Description
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Description"
+            If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+              dpi.Value = item.EntityName
+            Else
+              dpi.Value = item.Entity.Name
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            'RefDocItem.Note
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Note"
+            dpi.Value = item.Note
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            n += 1
+          Next
+          ''RemainingAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "RemainingAmount"
+          'dpi.Value = Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.UnitPrice)
+          'dpi.DataType = "System.String"
+          'dpiColl.Add(dpi)
+
+          ''PaidAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "PaidAmount"
+          'dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
+          'dpi.DataType = "System.String"
+          'dpiColl.Add(dpi)
+
+          ''PaidAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "OtherCutPayAmount"
+          'dpi.Value = Configuration.FormatToString(Me.DebitAmount, DigitConfig.UnitPrice)
+          'dpi.DataType = "System.String"
+          'dpiColl.Add(dpi)
+
+          'WHTAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "WHTAmount"
+          dpi.Value = Configuration.FormatToString(gr.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+        End If
+      End If
+
+      Return dpiColl
+    End Function
+    Private Function GetAdvanceMoneyDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is AdvanceMoney Then
+        Dim am As AdvanceMoney = CType(Me.RefDoc, AdvanceMoney)
+        Dim n As Integer = 0
+
+        'AdvanceMoneyName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AdvanceMoneyName"
+        dpi.Value = am.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        For Each itemRow As TreeRow In am.ItemTable.Rows
+          'RefDocItem.LineNumber
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocItem.LineNumber"
+          dpi.Value = n + 1
+          dpi.DataType = "System.Int32"
+          dpi.Row = n + 1
+          dpi.Table = "RefDocItem"
+          dpiColl.Add(dpi)
+
+          'RefDocItem.Description
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocItem.Description"
+          dpi.Value = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GetAdvanceMoneyDocPrintingEntries.AdvanceMoney}")
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "RefDocItem"
+          dpiColl.Add(dpi)
+
+          'RefDocItem.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocItem.Amount"
+          dpi.Value = Configuration.FormatToString(am.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "RefDocItem"
+          dpiColl.Add(dpi)
+
+          n += 1
+        Next
+      End If
+      Return dpiColl
+    End Function
+
+    Private Function GetPettyCashClaimItemDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is PettyCashClaim Then
+        Dim pcc As PettyCashClaim = CType(Me.RefDoc, PettyCashClaim)
+        Dim n As Integer = 0
+
+        'RefDocGross
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocGross"
+        dpi.Value = Configuration.FormatToString(pcc.Gross, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'RefPettyCashCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefPettyCashCode"
+        dpi.Value = pcc.PettyCash.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'RefPettyCashName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefPettyCashName"
+        dpi.Value = pcc.PettyCash.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        Dim refCC As New ArrayList
+        Dim refCCName As String = ""
+        For Each itemRow As TreeRow In pcc.ItemTable.Rows
+          If pcc.ValidateRow(itemRow) Then
+            Dim item As New PettyCashClaimItem
+            item.CopyFromDataRow(itemRow)
+
+            'RefDocItem.LineNumber
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.LineNumber"
+            dpi.Value = n + 1
+            dpi.DataType = "System.Int32"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            'RefDocItem.Description
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Description"
+            dpi.Value = item.RefDocCode & " : " & item.RefDocType
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            'RefDocItem.Amount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Amount"
+            dpi.Value = Configuration.FormatToString(item.RefDocAmount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            'RefDocItem.PaidAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.PaidAmount"
+            dpi.Value = Configuration.FormatToString(item.PaidAmount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            'RefDocItem.Note
+            dpi = New DocPrintingItem
+            dpi.Mapping = "RefDocItem.Note"
+            dpi.Value = item.Note
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "RefDocItem"
+            dpiColl.Add(dpi)
+
+            Dim py As New Payment(item.Paymentid)
+            If Not py Is Nothing Then
+              Dim cc As New CostCenter(py.payment_ccId)
+              If Not cc Is Nothing Then
+                'RefDocItem.CostCenterCode
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.CostCenterCode"
+                dpi.Value = cc.Code
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'RefDocItem.CostCenterName
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.CostCenterName"
+                dpi.Value = cc.Name
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                If Not cc.Name Is Nothing Then
+                  If refCC.Count = 0 Then
+                    refCC.Add(cc.Name)
+                  ElseIf refCC.Count > 0 Then
+                    Dim chkDup As Boolean = False
+                    For i As Integer = 0 To refCC.Count - 1
+                      If refCC(i).ToString = cc.Name Then
+                        chkDup = True
+                      End If
                     Next
-
-                    'RefItemCode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefItemCode"
-                    If tmpRefItemCode.Length > 1 Then
-                        dpi.Value = tmpRefItemCode.Substring(0, tmpRefItemCode.Length - 1)
-                    Else
-                        dpi.Value = ""
+                    If Not chkDup Then
+                      refCC.Add(cc.Name)
                     End If
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+                  End If
+                End If
 
-                    'BACode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "BACode"
-                    If tmpBACode.Length > 1 Then
-                        dpi.Value = tmpBACode.Substring(0, tmpBACode.Length - 1)
-                    Else
-                        dpi.Value = ""
-                    End If
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+              End If
+            End If
 
-                    'RefDocTaxAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefDocTaxAmount"
-                    dpi.Value = Configuration.FormatToString(ps.Vat.Amount, DigitConfig.UnitPrice)
-                    dpi.DataType = "System.Decimal"
-                    dpiColl.Add(dpi)
+            n += 1
+          End If
+        Next
 
-                    'RefDocAfterTax
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefDocAfterTax"
-                    dpi.Value = Configuration.FormatToString(sumAfterTax, DigitConfig.UnitPrice)
-                    dpi.DataType = "System.Decimal"
-                    dpiColl.Add(dpi)
+        For i As Integer = 0 To refCC.Count - 1
+          If i < refCC.Count - 1 Then
+            refCCName &= refCC(i).ToString & ","
+          Else
+            refCCName &= refCC(i).ToString
+          End If
+        Next
+        'If refCCName.Length <> 0 Then
+        '  refCCName = refCCName.Substring(0, refCCName.Length - 1)
+        'End If
 
-                    'WHTAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "WHTAmount"
-                    If ps.WitholdingTaxCollection.Amount > 0 Then
-                        dpi.Value = Configuration.FormatToString(ps.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
-                    Else
-                        dpi.Value = ""
-                    End If
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+        'RefPettyCashItemCostCenter
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefPettyCashItemCostCenter"
+        dpi.Value = refCCName
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+      Return dpiColl
+    End Function
+    Private Function GetPaymentSelectionDocPrintingEntries() As DocPrintingItemCollection
+      Dim n As Integer
+      Dim sumAfterTax As Decimal = 0
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-                    'PaidAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "PaidAmount"
-                    dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+      If TypeOf Me.RefDoc Is PaySelection Then
+        Dim ps As PaySelection = CType(Me.RefDoc, PaySelection)
+        'RefDocCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocCode"
+        dpi.Value = ps.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-                    'DiscountAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "DiscountAmount"
-                    dpi.Value = Configuration.FormatToString(Me.DiscountAmount, DigitConfig.UnitPrice)
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+        'RefDocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocDate"
+        dpi.Value = ps.DocDate
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-                    'WHTAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "WHTAmount"
-                    dpi.Value = Configuration.FormatToString(ps.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+        'PVDocCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "PVDocCode"
+        dpi.Value = ps.Payment.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-			End If
-			Return dpiColl
-		End Function
+        'PVDocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "PVDocDate"
+        dpi.Value = ps.Payment.DocDate
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        Dim dt As TreeTable = PaySelection.GetSchemaTable()
+        ps.ItemCollection.PopulatePaySelectionItem(dt)
+
+        Dim tmpRefItemCode As String = ""
+        Dim tmpBACode As String = ""
+        Dim tmpDescription As String = ""
+
+        For Each dr As TreeRow In dt.Rows
+
+          If dr.IsNull("paysi_parentEntity") OrElse CDec(dr("paysi_parentEntity")) <> 0 Then
+            If Not IsDBNull(dr("paysi_entityType")) Then
+              Dim dh As New DataRowHelper(dr)
+              Dim stock_id As Integer = dh.GetValue(Of Integer)("paysi_entity")
+              Dim stock_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
+              Dim s As Stock = ps.FindStock(stock_id, stock_type)
+              If s IsNot Nothing Then
+                'RefDocItem.Glnote
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.glnote"
+                dpi.Value = s.GLNote
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'RefDocItem.GLCode
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.GLCode"
+                dpi.Value = s.GLCode
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'RefDocItem.refnote
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.refnote"
+                dpi.Value = s.Note
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'RefDocItem.VatCodes
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.VatCodes"
+                dpi.Value = s.GetVatCodes
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+              End If
+              'RefDocItem.LineNumber
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.LineNumber"
+              If Not IsDBNull(dr("paysi_linenumber")) Then
+                dpi.Value = dr("paysi_linenumber")
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Description
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Description"
+              If Not IsDBNull(dr("paysi_entityType")) Then
+                If Not IsDBNull(dr("Code")) Then
+                  dpi.Value = CodeDescription.GetDescription("paysi_entityType", CInt(dr("paysi_entityType"))) & ":" & CStr(dr("Code"))
+                  tmpRefItemCode = tmpRefItemCode & CStr(dr("Code")) & ","
+                Else
+                  dpi.Value = CodeDescription.GetDescription("paysi_entityType", CInt(dr("paysi_entityType")))
+                End If
+              Else
+                If Not IsDBNull(dr("Code")) Then
+                  dpi.Value = CStr(dr("Code"))
+                Else
+                  dpi.Value = ""
+                End If
+              End If
+              tmpDescription = CStr(dpi.Value)
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              If Not IsDBNull(dr("paysi_parentEntity")) Then
+                If CInt(dr("paysi_parentEntityType")) = 60 Then
+                  tmpBACode = tmpBACode & CStr(dr("Code")) & ","
+                End If
+              End If
+
+              'RefDocItem.DescriptionWithNote
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.DescriptionWithNote"
+              If Not IsDBNull(dr("paysi_note")) Then
+                dpi.Value = tmpDescription & " - " & CStr(dr("paysi_note"))
+              Else
+                dpi.Value = tmpDescription
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Amount"
+              If Not IsDBNull(dr("paysi_amt")) Then
+                dpi.Value = Configuration.FormatToString(CDec(dr("paysi_amt")), DigitConfig.UnitPrice)
+                sumAfterTax += CDec(dr("paysi_amt"))
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.Note
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Note"
+              If Not IsDBNull(dr("paysi_note")) Then
+                dpi.Value = CStr(dr("paysi_note"))
+              Else
+                dpi.Value = ""
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.DocDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.DocDate"
+              If Not IsDBNull(dr("DocDate")) And IsDate(dr("DocDate")) Then
+                dpi.Value = CDate(dr("DocDate")).ToShortDateString
+              Else
+                dpi.Value = ""
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.DueDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.DueDate"
+              If Not IsDBNull(dr("DueDate")) And IsDate(dr("DueDate")) Then
+                dpi.Value = CDate(dr("DueDate")).ToShortDateString
+              Else
+                dpi.Value = ""
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.RealAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.RealAmount"
+              If Not IsDBNull(dr("RealAmount")) Then
+                dpi.Value = Configuration.FormatToString(CDec(dr("RealAmount")), DigitConfig.UnitPrice)
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.UnpaidAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.UnpaidAmount"
+              If Not IsDBNull(dr("UnpaidAmount")) Then
+                dpi.Value = Configuration.FormatToString(CDec(dr("UnpaidAmount")), DigitConfig.UnitPrice)
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              n += 1
+
+            End If
+          End If
+
+        Next
+
+        'RefItemCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefItemCode"
+        If tmpRefItemCode.Length > 1 Then
+          dpi.Value = tmpRefItemCode.Substring(0, tmpRefItemCode.Length - 1)
+        Else
+          dpi.Value = ""
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'BACode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "BACode"
+        If tmpBACode.Length > 1 Then
+          dpi.Value = tmpBACode.Substring(0, tmpBACode.Length - 1)
+        Else
+          dpi.Value = ""
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'RefDocTaxAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocTaxAmount"
+        dpi.Value = Configuration.FormatToString(ps.Vat.Amount, DigitConfig.UnitPrice)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RefDocAfterTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocAfterTax"
+        dpi.Value = Configuration.FormatToString(sumAfterTax, DigitConfig.UnitPrice)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'WHTAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "WHTAmount"
+        If ps.WitholdingTaxCollection.Amount > 0 Then
+          dpi.Value = Configuration.FormatToString(ps.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
+        Else
+          dpi.Value = ""
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'PaidAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "PaidAmount"
+        dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.UnitPrice)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'DiscountAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "DiscountAmount"
+        dpi.Value = Configuration.FormatToString(Me.DiscountAmount, DigitConfig.UnitPrice)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'WHTAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "WHTAmount"
+        dpi.Value = Configuration.FormatToString(ps.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+      End If
+      Return dpiColl
+    End Function
 
 #End Region
 
@@ -3338,7 +3371,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-		Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
         If TypeOf Me.RefDoc Is IHasToCostCenter Then
           Return CType(Me.RefDoc, IHasToCostCenter).ToCC
@@ -3347,11 +3380,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return Me.CostCenter
       End Get
-			Set(ByVal Value As CostCenter)
+      Set(ByVal Value As CostCenter)
 
-			End Set
-		End Property
-	End Class
+      End Set
+    End Property
+  End Class
 
 	Public Class PaymentEntityType
 		Inherits CodeDescription

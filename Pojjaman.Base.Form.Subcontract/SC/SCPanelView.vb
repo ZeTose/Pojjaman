@@ -432,7 +432,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxRate.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtTaxRate, "")
       Me.Validator.SetRequired(Me.txtTaxRate, True)
-      Me.txtTaxRate.Size = New System.Drawing.Size(32, 21)
+      Me.txtTaxRate.Size = New System.Drawing.Size(37, 21)
       Me.txtTaxRate.TabIndex = 45
       Me.txtTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
@@ -1244,7 +1244,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblPercent.BackColor = System.Drawing.Color.Transparent
       Me.lblPercent.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPercent.Location = New System.Drawing.Point(752, 442)
+      Me.lblPercent.Location = New System.Drawing.Point(758, 442)
       Me.lblPercent.Name = "lblPercent"
       Me.lblPercent.Size = New System.Drawing.Size(16, 18)
       Me.lblPercent.TabIndex = 46

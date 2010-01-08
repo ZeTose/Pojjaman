@@ -29,8 +29,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PA
     Inherits SimpleBusinessEntityBase
-		Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
-						, IBillAcceptable, IWBSAllocatable
+    Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
+        , IBillAcceptable, IWBSAllocatable
 
 #Region "Members"
     '**************
@@ -56,6 +56,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_discount As Discount
     Private m_advmoney As Decimal
     Private m_taxAmount As Decimal
+    Private m_contactPerson As String
+    Private m_otherdoccode As String
+    Private m_otherdocdate As Date
 
     'Private m_witholdingTax As Decimal
 
@@ -105,6 +108,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         .m_docDate = Now.Date
         .m_costcenter = New CostCenter
+        .m_otherdoccode = ""
+        .m_otherdocdate = Now.Date
         .m_sc = New Sc
         .m_sc.SubContractor = New Supplier
         .m_sc.CostCenter = New CostCenter
@@ -112,6 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_note = ""
         .m_taxType = New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+        .m_contactPerson = ""
 
         '------- Tab Entities -----------------------------------------------------------
         .m_vat = New Vat(Me)
@@ -123,8 +129,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_payment = New Payment(Me)
         .m_payment.DocDate = Me.m_docDate
 
-				.m_je = New JournalEntry(Me)
-				.m_je.DocDate = Me.m_docDate
+        .m_je = New JournalEntry(Me)
+        .m_je.DocDate = Me.m_docDate
 
         .m_advancePayItemColl = New AdvancePayItemCollection(Me)
         '------- End Tab Entities -------------------------------------------------------
@@ -142,7 +148,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_realGross = 0
         .m_realTaxAmount = 0
         .m_realTaxBase = 0
-
+        .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       m_itemCollection = New PAItemCollection(Me)
     End Sub
@@ -163,11 +169,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '.m_subcontractor = New Supplier(dr, "supplier.")
         End If
+        If dr.Table.Columns.Contains("pa_otherdoccode") AndAlso Not dr.IsNull("pa_otherdoccode") Then
+          .m_otherdoccode = CStr(dr("pa_otherdoccode"))
+        End If
+        If dr.Table.Columns.Contains("pa_otherdocdate") AndAlso Not dr.IsNull("pa_otherdocdate") Then
+          If IsDate(dr("pa_otherdocdate")) Then
+            .m_otherdocdate = CDate(dr("pa_otherdocdate"))
+          End If
+          '.m_subcontractor = New Supplier(dr, "supplier.")
+        End If
         If dr.Table.Columns.Contains("pa_note") AndAlso Not dr.IsNull("pa_note") Then
           .m_note = CStr(dr("pa_note"))
         End If
         If dr.Table.Columns.Contains("pa_creditPeriod") AndAlso Not dr.IsNull("pa_creditPeriod") Then
           .m_creditPeriod = CLng(dr("pa_creditPeriod"))
+        End If
+        If Not dr.IsNull("pa_contactPerson") Then
+          .m_contactPerson = CStr(dr("pa_contactPerson"))
         End If
         'If dr.Table.Columns.Contains("sc_id") Then
         '    If Not dr.IsNull("sc_id") Then
@@ -273,6 +291,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
 
         .m_advancePayItemColl = New AdvancePayItemCollection(Me.Id, Me.EntityId)
+        .AutoCodeFormat = New AutoCodeFormat(Me)
         '------- End Tab Entities -------------------------------------------------------
 
         Dim ret As Decimal = Me.GetSCRetentionRemaining
@@ -316,8 +335,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_docDate
       End Get
       Set(ByVal Value As Date)
+        If Me.m_je IsNot Nothing Then
+          Me.m_je.DocDate = Value
+        End If
         m_docDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property OtherDocCode As String
+      Get
+        Return m_otherdoccode
+      End Get
+      Set(ByVal value As String)
+        m_otherdoccode = value
+      End Set
+    End Property
+    Public Property OtherDocDate As Date
+      Get
+        Return m_otherdocdate
+      End Get
+      Set(ByVal value As Date)
+        m_otherdocdate = value
       End Set
     End Property
     Public Property Receiver() As Employee
@@ -337,6 +375,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property
+    Public Property ContactPerson As String
+      Get
+        Return m_contactPerson
+      End Get
+      Set(ByVal value As String)
+        m_contactPerson = value
+      End Set
+    End Property
     Public ReadOnly Property BeforeTax() As Decimal
       Get
         Select Case Me.TaxType.Value
@@ -732,6 +778,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return 0
     End Function
+    Public Function GetSCDistCountRemaining() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSCDistCountRemaining" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          If CDec(ds.Tables(0).Rows(0)(0)) <= 0 Then
+            Return 0
+          End If
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
 
     Private Function Validate() As SaveErrorException
       ''ถ้าวันที่เอกสารน้อยกว่าวันที่เอกสารรับงานล่าสุดไม่ให้บันทึก
@@ -856,17 +919,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         'Me.RefreshTaxBase()
 
-        If Me.AutoGen Then    'And Me.Code.Length = 0 Then
-          Me.Code = Me.GetNextCode
+        'If Me.AutoGen Then    'And Me.Code.Length = 0 Then
+        'Me.Code = Me.GetNextCode
+        'End If
+        '---- AutoCode Format --------
+        Me.m_je.RefreshGLFormat()
+        If Not AutoCodeFormat Is Nothing Then
+
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.Code = m_je.GetNextCode
+          End If
         End If
+        If Me.Payment.Gross <> 0 Then
+          Me.m_payment.Code = m_je.Code
+        End If
+        Me.m_je.DocDate = Me.DocDate
+        Me.m_payment.DocDate = m_je.DocDate
         Me.AutoGen = False
+        Me.m_je.AutoGen = False
+        Me.m_payment.AutoGen = False
+
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_sc", ValidIdOrDBNull(Me.Sc)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docDate", Me.DocDate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_subcontractor", ValidIdOrDBNull(Me.Sc.SubContractor)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherdoccode", Me.otherdocCode))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherdocDate", Me.OtherDocDate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiver", ValidIdOrDBNull(Me.Receiver)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", ValidIdOrDBNull(Me.Sc.CostCenter)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_creditPeriod", Me.CreditPeriod))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_contactPerson", Me.ContactPerson))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxType", Me.TaxType.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxRate", Me.TaxRate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxbase", Me.TaxBase))
@@ -1071,6 +1188,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             End If
           Next
+
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
 
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
@@ -1434,6 +1569,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_retention = ret
       'Dim adv As Decimal = Me.GetSCAdvancePayRemaining
       'Me.m_advancePayRemaining = ret
+      Dim dist As Decimal = Me.GetSCDistCountRemaining
+      If dist > 0 Then
+        Dim distString As String = dist.ToString
+        Me.m_discount = New Discount(distString)
+      End If
 
       Me.ItemCollection.Clear()
 
@@ -1614,11 +1754,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
+      'OtherDocCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "OtherDocCode"
+      dpi.Value = Me.OtherDocCode
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'OtherDocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "OtherDocDate"
+      dpi.Value = Me.OtherDocDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
+      'CreditPeriod
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CreditPeriod"
+      dpi.Value = Configuration.FormatToString(Me.CreditPeriod, DigitConfig.Int)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'DueDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DueDate"
+      dpi.Value = Me.DueDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
+      'ContactPerson
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactPerson"
+      dpi.Value = Me.ContactPerson
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
       If Not Me.Sc Is Nothing Then
         'SCCode
         dpi = New DocPrintingItem
         dpi.Mapping = "SCCode"
         dpi.Value = Me.Sc.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SCDocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCDocDate"
+        dpi.Value = Me.Sc.DocDate.ToShortDateString
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1656,6 +1838,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "SubContractorBillingAddress"
         dpi.Value = Me.SubContractor.BillingAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorFax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorFax"
+        dpi.Value = Me.SubContractor.Fax
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorPhone
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorPhone"
+        dpi.Value = Me.SubContractor.Phone
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1806,6 +2002,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      dpiColl.AddRange(GetDocPrintingItemsEntries)
+
+      Return dpiColl
+    End Function
+    Public Function GetDocPrintingItemsEntries() As DocPrintingItemCollection
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
       Dim RefItem As New ArrayList
       Dim DrRefItem As New ArrayList
       Dim NotRefItem As New ArrayList
@@ -1822,10 +2027,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim RefDocItemType As String
       Dim LineNumber As Integer = 0
       Dim RowNumber As Integer = 0
+      Dim ParentLineNumber As Integer = 0
+      Dim ChildLineNumber As Integer = 0
       Dim newItem As PAItem = Nothing
       Dim newDRItem As PAItem = Nothing
       Dim RealItems As New ArrayList
-      Dim fn As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim fn As Font '= New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim fnBold As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
 
       For i As Integer = 0 To 2
         RealItems.Clear()
@@ -1844,6 +2052,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         For Each item As PAItem In RealItems
+          If item.ItemType.Value = 289 Then
+            fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          Else
+            fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          End If
           If item.RefEntity.Id = 291 Then
             If newDRItem Is Nothing Then
               newDRItem = New PAItem
@@ -1868,7 +2081,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Value = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}")  '"รวม" 
               dpi.DataType = "System.String"
               dpi.Table = "Item"
-              dpi.Font = fn
+              dpi.Font = fnBold
               dpi.Row = RowNumber
               dpiColl.Add(dpi)
 
@@ -1878,7 +2091,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Value = Configuration.FormatToString(newItem.TotalBudget, DigitConfig.Price)
               dpi.DataType = "System.Decimal"
               dpi.Table = "Item"
-              dpi.Font = fn
+              dpi.Font = fnBold
               dpi.Row = RowNumber
               dpiColl.Add(dpi)
 
@@ -1888,7 +2101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Value = Configuration.FormatToString(newItem.TotalReceived, DigitConfig.Price)
               dpi.DataType = "System.Decimal"
               dpi.Table = "Item"
-              dpi.Font = fn
+              dpi.Font = fnBold
               dpi.Row = RowNumber
               dpiColl.Add(dpi)
 
@@ -1898,7 +2111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Value = Configuration.FormatToString(newItem.TotalProgressReceive, DigitConfig.Price)
               dpi.DataType = "System.Decimal"
               dpi.Table = "Item"
-              dpi.Font = fn
+              dpi.Font = fnBold
               dpi.Row = RowNumber
               dpiColl.Add(dpi)
 
@@ -1909,11 +2122,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           LineNumber += 1
           RowNumber += 1
+          If item.ItemType.Value = 289 Then
+            ParentLineNumber += 1
+            ChildLineNumber = 1
+          Else
+            ChildLineNumber += 1
+          End If
 
           'LineNumber
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.LineNumber"
-          dpi.Value = Configuration.FormatToString(LineNumber, DigitConfig.Int)
+          If item.ItemType.Value = 289 Then
+            dpi.Value = ParentLineNumber
+          Else
+            dpi.Value = ParentLineNumber.ToString & "." & ChildLineNumber.ToString
+          End If
+          dpi.Font = fn
           dpi.DataType = "System.Integer"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -1923,6 +2147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.RefDocItemTypeName"
           dpi.Value = item.RefEntity.Name
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -1939,6 +2164,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 291
               dpi.Value = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.DR.DetailLabel}")
           End Select
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -1948,16 +2174,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemType"
           dpi.Value = item.ItemType.Description
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
           If item.ItemType.Value = 289 Then
+            'ItemCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ItemCode"
+            dpi.Value = ""
+            dpi.Font = fn
+            dpi.DataType = "System.String"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
+
             'ItemName
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.ItemName"
             dpi.Value = item.EntityName
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -1967,6 +2205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.ItemCode"
             dpi.Value = item.Entity.Code
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -1984,6 +2223,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               dpi.Value = item.EntityName
             End If
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -1994,6 +2234,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.UnitCode"
           dpi.Value = item.Unit.Code
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2003,6 +2244,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.UnitName"
           dpi.Value = item.Unit.Name
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2012,6 +2254,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractQty"
           dpi.Value = Configuration.FormatToString(item.BudgetQtyCostAmount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2021,6 +2264,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractAmount"
           dpi.Value = Configuration.FormatToString(item.BudgetCostAmount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2030,6 +2274,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedQty"
           dpi.Value = Configuration.FormatToString(item.ReceivedQty, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2039,6 +2284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedAmount"
           dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2048,6 +2294,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Qty"
           dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2057,6 +2304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.UnitPrice"
           dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2066,6 +2314,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2075,6 +2324,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.RemainingAmount"
           dpi.Value = Configuration.FormatToString(item.BudgetCostAmount - item.ReceivedAmount - item.Amount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2084,6 +2334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ProgressReceivedAmount"
           dpi.Value = Configuration.FormatToString(item.TotalProgressReceive, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2093,6 +2344,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.CostAmount"
           dpi.Value = Configuration.FormatToString(item.CostAmount, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2110,6 +2362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.AllocateCCList"
             dpi.Value = ccList
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -2120,6 +2373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.MatAmount"
           dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2129,6 +2383,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.LabAmount"
           dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2138,6 +2393,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.EqAmount"
           dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2148,6 +2404,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.AccountCode"
             dpi.Value = item.MatAccount.Code
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -2157,6 +2414,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.AccountName"
             dpi.Value = item.MatAccount.Name
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -2166,6 +2424,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.AccountInfo"
             dpi.Value = item.MatAccount.Code & ":" & item.MatAccount.Name
+            dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
             dpi.Row = RowNumber
@@ -2176,6 +2435,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemNote"
           dpi.Value = item.Note
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
@@ -2190,6 +2450,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemName"
           dpi.Value = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}")  '"รวม" 
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2200,6 +2461,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractAmount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalBudget, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2210,6 +2472,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedAmount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalReceived, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2220,6 +2483,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalProgressReceive, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2240,6 +2504,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemName"
           dpi.Value = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}")  '"รวม" 
+          dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2250,6 +2515,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractAmount"
           dpi.Value = Configuration.FormatToString(newItem.TotalBudget, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2260,6 +2526,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedAmount"
           dpi.Value = Configuration.FormatToString(newItem.TotalReceived, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2270,6 +2537,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(newItem.TotalProgressReceive, DigitConfig.Price)
+          dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -2562,6 +2830,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IGLAble"
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
       Dim entId As Integer = Me.EntityId
       'If Not Me.Asset Is Nothing AndAlso Me.Asset.Originated Then
       '	entId = 50

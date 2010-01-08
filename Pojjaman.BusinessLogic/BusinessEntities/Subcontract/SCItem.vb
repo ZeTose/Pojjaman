@@ -1138,6 +1138,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.SC.IsInitialized = False
         If Me.Level = 0 Then
           row.FixLevel = 1
+          row.CustomFontStyle = FontStyle.Bold
         Else
           row.FixLevel = -1
         End If
