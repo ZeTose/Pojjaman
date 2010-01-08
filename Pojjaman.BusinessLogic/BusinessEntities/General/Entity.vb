@@ -223,7 +223,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
       "select * from entityautogen " & _
-      "left join userautocode on entityauto_id = userauto_entityauto " & _
+      "left join userautogen on entityauto_id = userauto_entityauto " & _
       "where entity_id ='" & entityId & "' " & _
       "and " & _
       "userauto_user ='" & userId & "' " & _
