@@ -43,7 +43,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
-      m_grid.ColCount = 12
+      m_grid.ColCount = 13
 
       Dim GridRangeStyle1 As GridRangeStyle = New GridRangeStyle
       m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(0, 10, 0, 12)})
@@ -60,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(10) = 120
       m_grid.ColWidths(11) = 120
       m_grid.ColWidths(12) = 120
+      m_grid.ColWidths(13) = 200
 
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -74,6 +75,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
 
       m_grid.Rows.HeaderCount = 1
@@ -98,6 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.Debit}")     '"เดบิต"
       m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.Credit}")    '"เครดิต"
       m_grid(1, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.Status}")   '"คงเหลือ"
+      m_grid(1, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}")   '"หมายเหตุ"
 
       GridRangeStyle1.Range = GridRangeInfo.Cell(0, 10)
       GridRangeStyle1.StyleInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.Retention}")  '"Retention"
@@ -123,6 +126,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
+      m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
 
     End Sub
     Private Sub PopulateData()
@@ -221,8 +227,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("Type") Then
             m_grid(currentDocIndex, 4).CellValue = indent & row("Type").ToString
           End If
-          If Not row.IsNull("RVCode") Then
-            m_grid(currentDocIndex, 5).CellValue = indent & row("RVCode").ToString
+          If Not row.IsNull("GlCode") Then
+            m_grid(currentDocIndex, 5).CellValue = indent & row("GlCode").ToString
           End If
           If IsNumeric(row("Debit")) Then
             m_grid(currentDocIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Debit")), DigitConfig.Price)
@@ -254,6 +260,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           m_grid(currentDocIndex, 12).CellValue = Configuration.FormatToString(tmpRetRemain, DigitConfig.Price)
           currentDocCode = row("DocCode").ToString
+          If Not row.IsNull("GlNote") Then
+            m_grid(currentDocIndex, 13).CellValue = indent & row("GlNote").ToString
+          End If
         End If
       Next
 

@@ -53,10 +53,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCustCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblCustStart As System.Windows.Forms.Label
     Friend WithEvents chkDetail As System.Windows.Forms.CheckBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txtRefDocCodePrefix As System.Windows.Forms.TextBox
+    Friend WithEvents txtGLCodeprefix As System.Windows.Forms.TextBox
     Friend WithEvents chkShowAll As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptARRemainFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.chkDetail = New System.Windows.Forms.CheckBox()
@@ -78,10 +85,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart = New System.Windows.Forms.Label()
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
       Me.chkShowAll = New System.Windows.Forms.CheckBox()
-      Me.btnSearch = New System.Windows.Forms.Button()
-      Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Label2 = New System.Windows.Forms.Label()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.txtRefDocCodePrefix = New System.Windows.Forms.TextBox()
+      Me.txtGLCodeprefix = New System.Windows.Forms.TextBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
@@ -99,10 +108,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 8)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(555, 156)
+      Me.grbMaster.Size = New System.Drawing.Size(628, 162)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
+      '
+      'btnSearch
+      '
+      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSearch.Location = New System.Drawing.Point(539, 128)
+      Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+      Me.btnSearch.TabIndex = 2
+      Me.btnSearch.Text = "ค้นหา"
+      '
+      'btnReset
+      '
+      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReset.Location = New System.Drawing.Point(459, 128)
+      Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
+      Me.btnReset.TabIndex = 1
+      Me.btnReset.TabStop = False
+      Me.btnReset.Text = "เคลียร์"
       '
       'txtTemp
       '
@@ -110,7 +140,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTemp, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.txtTemp.Location = New System.Drawing.Point(432, 32)
+      Me.txtTemp.Location = New System.Drawing.Point(801, 35)
       Me.txtTemp.MaxLength = 255
       Me.Validator.SetMinValue(Me.txtTemp, "")
       Me.txtTemp.Name = "txtTemp"
@@ -123,6 +153,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.Label2)
+      Me.grbDetail.Controls.Add(Me.Label1)
+      Me.grbDetail.Controls.Add(Me.txtRefDocCodePrefix)
+      Me.grbDetail.Controls.Add(Me.txtGLCodeprefix)
       Me.grbDetail.Controls.Add(Me.chkDetail)
       Me.grbDetail.Controls.Add(Me.chkIncludeChildren)
       Me.grbDetail.Controls.Add(Me.btnCCCodeStart)
@@ -145,7 +179,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(16, 16)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(532, 138)
+      Me.grbDetail.Size = New System.Drawing.Size(602, 138)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
@@ -170,9 +204,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCCodeStart
       '
+      Me.btnCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
       Me.btnCCCodeStart.Location = New System.Drawing.Point(200, 65)
       Me.btnCCCodeStart.Name = "btnCCCodeStart"
       Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
@@ -228,9 +262,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCustEndFind
       '
+      Me.btnCustEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCustEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCustEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCustEndFind.Image = CType(resources.GetObject("btnCustEndFind.Image"), System.Drawing.Image)
       Me.btnCustEndFind.Location = New System.Drawing.Point(360, 40)
       Me.btnCustEndFind.Name = "btnCustEndFind"
       Me.btnCustEndFind.Size = New System.Drawing.Size(24, 22)
@@ -267,9 +301,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCustStartFind
       '
+      Me.btnCustStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCustStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCustStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCustStartFind.Image = CType(resources.GetObject("btnCustStartFind.Image"), System.Drawing.Image)
       Me.btnCustStartFind.Location = New System.Drawing.Point(200, 40)
       Me.btnCustStartFind.Name = "btnCustStartFind"
       Me.btnCustStartFind.Size = New System.Drawing.Size(24, 22)
@@ -385,27 +419,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkShowAll.TabIndex = 29
       Me.chkShowAll.Text = "แสดงทุกเอกสาร"
       '
-      'btnSearch
-      '
-      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(466, 124)
-      Me.btnSearch.Name = "btnSearch"
-      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-      Me.btnSearch.TabIndex = 2
-      Me.btnSearch.Text = "ค้นหา"
-      '
-      'btnReset
-      '
-      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(386, 124)
-      Me.btnReset.Name = "btnReset"
-      Me.btnReset.Size = New System.Drawing.Size(75, 23)
-      Me.btnReset.TabIndex = 1
-      Me.btnReset.TabStop = False
-      Me.btnReset.Text = "เคลียร์"
-      '
       'Validator
       '
       Me.Validator.BackcolorChanging = False
@@ -419,12 +432,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'Label2
+      '
+      Me.Label2.Location = New System.Drawing.Point(390, 45)
+      Me.Label2.Name = "Label2"
+      Me.Label2.Size = New System.Drawing.Size(80, 16)
+      Me.Label2.TabIndex = 47
+      Me.Label2.Text = "RefCodePrefix"
+      '
+      'Label1
+      '
+      Me.Label1.Location = New System.Drawing.Point(390, 21)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(72, 16)
+      Me.Label1.TabIndex = 46
+      Me.Label1.Text = "GLCodePrefix"
+      '
+      'txtRefDocCodePrefix
+      '
+      Me.Validator.SetDataType(Me.txtRefDocCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRefDocCodePrefix, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+      Me.txtRefDocCodePrefix.Location = New System.Drawing.Point(472, 45)
+      Me.Validator.SetMinValue(Me.txtRefDocCodePrefix, "")
+      Me.txtRefDocCodePrefix.Name = "txtRefDocCodePrefix"
+      Me.Validator.SetRegularExpression(Me.txtRefDocCodePrefix, "")
+      Me.Validator.SetRequired(Me.txtRefDocCodePrefix, False)
+      Me.txtRefDocCodePrefix.Size = New System.Drawing.Size(120, 21)
+      Me.txtRefDocCodePrefix.TabIndex = 45
+      '
+      'txtGLCodeprefix
+      '
+      Me.Validator.SetDataType(Me.txtGLCodeprefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtGLCodeprefix, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtGLCodeprefix, System.Drawing.Color.Empty)
+      Me.txtGLCodeprefix.Location = New System.Drawing.Point(472, 21)
+      Me.Validator.SetMinValue(Me.txtGLCodeprefix, "")
+      Me.txtGLCodeprefix.Name = "txtGLCodeprefix"
+      Me.Validator.SetRegularExpression(Me.txtGLCodeprefix, "")
+      Me.Validator.SetRequired(Me.txtGLCodeprefix, False)
+      Me.txtGLCodeprefix.Size = New System.Drawing.Size(120, 21)
+      Me.txtGLCodeprefix.TabIndex = 44
+      '
       'RptARRemainFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptARRemainFilterSubPanel"
-      Me.Size = New System.Drawing.Size(571, 172)
+      Me.Size = New System.Drawing.Size(644, 178)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
@@ -557,7 +614,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(8) As Filter
+      Dim arr(10) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("CustCodeStart", IIf(txtCustCodeStart.TextLength > 0, txtCustCodeStart.Text, DBNull.Value))
@@ -567,6 +624,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       arr(7) = New Filter("ShowDetail", Me.chkDetail.Checked)
       arr(8) = New Filter("ShowAll", Me.chkShowAll.Checked)
+      arr(9) = New Filter("GLCodeprefix", IIf(txtGLCodeprefix.TextLength > 0, txtGLCodeprefix.Text, DBNull.Value))
+      arr(10) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button

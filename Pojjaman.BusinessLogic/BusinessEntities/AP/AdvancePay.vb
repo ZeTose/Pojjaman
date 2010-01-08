@@ -643,6 +643,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         Me.m_payment.Code = m_je.Code
+        If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
+          Me.m_payment.Code = Me.Code
+        End If
         Me.m_payment.DocDate = m_je.DocDate
         Me.AutoGen = False
         Me.m_payment.AutoGen = False
