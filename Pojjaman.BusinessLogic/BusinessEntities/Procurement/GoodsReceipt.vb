@@ -439,6 +439,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_docDate = Value
         Me.m_je.DocDate = Value
+        Me.Vat.SubmitalDate = Value
       End Set
     End Property
     Public Property ToCostCenter() As CostCenter
