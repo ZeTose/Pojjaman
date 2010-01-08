@@ -775,6 +775,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         vi.TaxBase = Me.RefDoc.TaxBase
         '--------------------------------------------------
+      Else
+        Me.ItemCollection.Clear()
       End If
     End Sub
 		Public Function DateTextChanged(ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal validator As PJMTextboxValidator) As Boolean

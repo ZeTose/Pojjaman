@@ -135,6 +135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
 		Friend WithEvents ibtUnlocker As Longkong.Pojjaman.Gui.Components.ImageButton
 		<System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GoodsReceiptDetail))
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.lblCode = New System.Windows.Forms.Label()
@@ -323,8 +324,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowEquipment
       '
+      Me.ibtnShowEquipment.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEquipment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEquipment.Image = CType(resources.GetObject("ibtnShowEquipment.Image"), System.Drawing.Image)
       Me.ibtnShowEquipment.Location = New System.Drawing.Point(328, 96)
       Me.ibtnShowEquipment.Name = "ibtnShowEquipment"
       Me.ibtnShowEquipment.Size = New System.Drawing.Size(24, 23)
@@ -351,9 +352,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowEquipmentDiaog
       '
+      Me.ibtnShowEquipmentDiaog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEquipmentDiaog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowEquipmentDiaog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowEquipmentDiaog.Image = CType(resources.GetObject("ibtnShowEquipmentDiaog.Image"), System.Drawing.Image)
       Me.ibtnShowEquipmentDiaog.Location = New System.Drawing.Point(304, 96)
       Me.ibtnShowEquipmentDiaog.Name = "ibtnShowEquipmentDiaog"
       Me.ibtnShowEquipmentDiaog.Size = New System.Drawing.Size(24, 23)
@@ -437,8 +438,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtShowToCostCenter
       '
+      Me.ibtShowToCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtShowToCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtShowToCostCenter.Image = CType(resources.GetObject("ibtShowToCostCenter.Image"), System.Drawing.Image)
       Me.ibtShowToCostCenter.Location = New System.Drawing.Point(328, 15)
       Me.ibtShowToCostCenter.Name = "ibtShowToCostCenter"
       Me.ibtShowToCostCenter.Size = New System.Drawing.Size(24, 23)
@@ -465,9 +466,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowToCostCenterDialog
       '
+      Me.ibtnShowToCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowToCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCostCenterDialog.Image = CType(resources.GetObject("ibtnShowToCostCenterDialog.Image"), System.Drawing.Image)
       Me.ibtnShowToCostCenterDialog.Location = New System.Drawing.Point(304, 15)
       Me.ibtnShowToCostCenterDialog.Name = "ibtnShowToCostCenterDialog"
       Me.ibtnShowToCostCenterDialog.Size = New System.Drawing.Size(24, 23)
@@ -511,8 +512,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowToCCPerson
       '
+      Me.ibtnShowToCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowToCCPerson.Image = CType(resources.GetObject("ibtnShowToCCPerson.Image"), System.Drawing.Image)
       Me.ibtnShowToCCPerson.Location = New System.Drawing.Point(328, 39)
       Me.ibtnShowToCCPerson.Name = "ibtnShowToCCPerson"
       Me.ibtnShowToCCPerson.Size = New System.Drawing.Size(24, 23)
@@ -522,9 +523,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowToCCPersonDialog
       '
+      Me.ibtnShowToCCPersonDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCCPersonDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowToCCPersonDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCCPersonDialog.Image = CType(resources.GetObject("ibtnShowToCCPersonDialog.Image"), System.Drawing.Image)
       Me.ibtnShowToCCPersonDialog.Location = New System.Drawing.Point(304, 39)
       Me.ibtnShowToCCPersonDialog.Name = "ibtnShowToCCPersonDialog"
       Me.ibtnShowToCCPersonDialog.Size = New System.Drawing.Size(24, 23)
@@ -591,8 +592,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowSupplier
       '
+      Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplier.Image = CType(resources.GetObject("ibtnShowSupplier.Image"), System.Drawing.Image)
       Me.ibtnShowSupplier.Location = New System.Drawing.Point(344, 16)
       Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
       Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
@@ -619,9 +620,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowSupplierDialog
       '
+      Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSupplierDialog.Image = CType(resources.GetObject("ibtnShowSupplierDialog.Image"), System.Drawing.Image)
       Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(320, 16)
       Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
       Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
@@ -806,9 +807,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblInvoiceCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblInvoiceCode.ForeColor = System.Drawing.Color.Black
-      Me.lblInvoiceCode.Location = New System.Drawing.Point(352, 34)
+      Me.lblInvoiceCode.Location = New System.Drawing.Point(370, 34)
       Me.lblInvoiceCode.Name = "lblInvoiceCode"
-      Me.lblInvoiceCode.Size = New System.Drawing.Size(118, 18)
+      Me.lblInvoiceCode.Size = New System.Drawing.Size(100, 18)
       Me.lblInvoiceCode.TabIndex = 21
       Me.lblInvoiceCode.Text = "àÅ¢·Õèãº¡Ó¡ÑºÀÒÉÕ:"
       Me.lblInvoiceCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1174,9 +1175,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowPODialog
       '
+      Me.ibtnShowPODialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowPODialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowPODialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowPODialog.Image = CType(resources.GetObject("ibtnShowPODialog.Image"), System.Drawing.Image)
       Me.ibtnShowPODialog.Location = New System.Drawing.Point(582, 10)
       Me.ibtnShowPODialog.Name = "ibtnShowPODialog"
       Me.ibtnShowPODialog.Size = New System.Drawing.Size(24, 23)
@@ -1189,7 +1190,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(298, 10)
+      Me.dtpDocDate.Location = New System.Drawing.Point(300, 10)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpDocDate.TabIndex = 24
@@ -1200,7 +1201,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDeliveryDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDeliveryDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDeliveryDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDeliveryDocDate.Location = New System.Drawing.Point(264, 34)
+      Me.dtpDeliveryDocDate.Location = New System.Drawing.Point(266, 34)
       Me.dtpDeliveryDocDate.Name = "dtpDeliveryDocDate"
       Me.dtpDeliveryDocDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpDeliveryDocDate.TabIndex = 27
@@ -1211,7 +1212,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpInvoiceDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpInvoiceDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpInvoiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpInvoiceDate.Location = New System.Drawing.Point(646, 34)
+      Me.dtpInvoiceDate.Location = New System.Drawing.Point(648, 34)
       Me.dtpInvoiceDate.Name = "dtpInvoiceDate"
       Me.dtpInvoiceDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpInvoiceDate.TabIndex = 28
@@ -1230,7 +1231,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(104, 136)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -1240,7 +1241,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(128, 136)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -1378,10 +1379,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnEnableVatInput
       '
+      Me.ibtnEnableVatInput.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnEnableVatInput.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnEnableVatInput.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnEnableVatInput.Image = CType(resources.GetObject("ibtnEnableVatInput.Image"), System.Drawing.Image)
-      Me.ibtnEnableVatInput.Location = New System.Drawing.Point(740, 32)
+      Me.ibtnEnableVatInput.Location = New System.Drawing.Point(745, 32)
       Me.ibtnEnableVatInput.Name = "ibtnEnableVatInput"
       Me.ibtnEnableVatInput.Size = New System.Drawing.Size(24, 24)
       Me.ibtnEnableVatInput.TabIndex = 29
@@ -1432,7 +1433,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnAddWBS
       '
       Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnAddWBS.Image = CType(resources.GetObject("ibtnAddWBS.Image"), System.Drawing.Image)
+      Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnAddWBS.Location = New System.Drawing.Point(437, 377)
       Me.ibtnAddWBS.Name = "ibtnAddWBS"
       Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
@@ -1443,7 +1444,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelWBS
       '
       Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnDelWBS.Image = CType(resources.GetObject("ibtnDelWBS.Image"), System.Drawing.Image)
+      Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelWBS.Location = New System.Drawing.Point(461, 377)
       Me.ibtnDelWBS.Name = "ibtnDelWBS"
       Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
@@ -1467,8 +1468,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnApprove
       '
       Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.Image = CType(resources.GetObject("btnApprove.Image"), System.Drawing.Image)
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
       Me.btnApprove.Location = New System.Drawing.Point(750, 8)
       Me.btnApprove.Name = "btnApprove"
@@ -1481,7 +1482,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxBase
       '
       Me.ibtnResetTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxBase.Image = CType(resources.GetObject("ibtnResetTaxBase.Image"), System.Drawing.Image)
+      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnResetTaxBase.Location = New System.Drawing.Point(749, 398)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
@@ -1492,7 +1493,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetGross
       '
       Me.ibtnResetGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetGross.Image = CType(resources.GetObject("ibtnResetGross.Image"), System.Drawing.Image)
+      Me.ibtnResetGross.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnResetGross.Location = New System.Drawing.Point(749, 312)
       Me.ibtnResetGross.Name = "ibtnResetGross"
       Me.ibtnResetGross.Size = New System.Drawing.Size(24, 20)
@@ -1503,7 +1504,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxAmount
       '
       Me.ibtnResetTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxAmount.Image = CType(resources.GetObject("ibtnResetTaxAmount.Image"), System.Drawing.Image)
+      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(749, 441)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
@@ -1532,9 +1533,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnShowAdvancePay
       '
       Me.ibtnShowAdvancePay.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ibtnShowAdvancePay.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowAdvancePay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowAdvancePay.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowAdvancePay.Image = CType(resources.GetObject("ibtnShowAdvancePay.Image"), System.Drawing.Image)
       Me.ibtnShowAdvancePay.Location = New System.Drawing.Point(665, 355)
       Me.ibtnShowAdvancePay.Name = "ibtnShowAdvancePay"
       Me.ibtnShowAdvancePay.Size = New System.Drawing.Size(24, 23)
@@ -1558,10 +1559,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtUnlocker.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.ibtUnlocker.BackColor = System.Drawing.Color.White
+      Me.ibtUnlocker.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtUnlocker.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtUnlocker.ForeColor = System.Drawing.Color.White
       Me.ibtUnlocker.GenerateDisabledImage = True
-      Me.ibtUnlocker.Image = CType(resources.GetObject("ibtUnlocker.Image"), System.Drawing.Image)
       Me.ibtUnlocker.Location = New System.Drawing.Point(821, 32)
       Me.ibtUnlocker.Name = "ibtUnlocker"
       Me.ibtUnlocker.Size = New System.Drawing.Size(32, 24)
@@ -1572,7 +1573,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'GoodsReceiptDetail
       '
-      Me.Controls.Add(Me.dtpDeliveryDocDate)
+      Me.Controls.Add(Me.txtDeliveryDocDate)
       Me.Controls.Add(Me.txtDeliveryCode)
       Me.Controls.Add(Me.txtInvoiceCode)
       Me.Controls.Add(Me.txtInvoiceDate)
@@ -1609,10 +1610,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblPODate)
       Me.Controls.Add(Me.lblDeliveryCode)
       Me.Controls.Add(Me.lblDeliveryDocDate)
-      Me.Controls.Add(Me.lblInvoiceCode)
       Me.Controls.Add(Me.txtPOCode)
       Me.Controls.Add(Me.ibtnShowPODialog)
-      Me.Controls.Add(Me.txtDeliveryDocDate)
       Me.Controls.Add(Me.txtPODate)
       Me.Controls.Add(Me.lblInvoiceDate)
       Me.Controls.Add(Me.dtpInvoiceDate)
@@ -1640,6 +1639,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblAdvancePay)
       Me.Controls.Add(Me.txtAdvancePayAmount)
       Me.Controls.Add(Me.ibtnShowAdvancePay)
+      Me.Controls.Add(Me.dtpDeliveryDocDate)
+      Me.Controls.Add(Me.lblInvoiceCode)
       Me.Name = "GoodsReceiptDetail"
       Me.Size = New System.Drawing.Size(869, 528)
       Me.grbReceive.ResumeLayout(False)
@@ -3087,76 +3088,78 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
 			dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-			Me.txtDeliveryCode.Text = Me.m_entity.DeliveryDocCode
-			txtDeliveryDocDate.Text = MinDateToNull(Me.m_entity.DeliveryDocDate, "")
-			dtpDeliveryDocDate.Value = MinDateToNow(Me.m_entity.DeliveryDocDate)
+      Me.txtDeliveryCode.Text = Me.m_entity.DeliveryDocCode
+      'If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
+      txtDeliveryDocDate.Text = MinDateToNull(Me.m_entity.DeliveryDocDate, "")
+      dtpDeliveryDocDate.Value = MinDateToNow(Me.m_entity.DeliveryDocDate)
+      ' End If
 
-			Dim myVat As Vat = Me.m_entity.Vat
-			If Not myVat Is Nothing Then
-				If myVat.ItemCollection.Count <= 0 Then			 ' No Vat
-					VatInputEnabled(True)
-					Me.txtInvoiceCode.Text = ""
-					Me.txtInvoiceDate.Text = ""
-					Me.dtpInvoiceDate.Value = Now
-				ElseIf myVat.ItemCollection.Count = 1 Then
-					VatInputEnabled(True)
-					Dim vi As VatItem
-					vi = myVat.ItemCollection(0)
-					Me.txtInvoiceCode.Text = vi.Code
-					Me.txtInvoiceDate.Text = MinDateToNull(vi.DocDate, "")				'Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-					Me.dtpInvoiceDate.Value = MinDateToNow(vi.DocDate)
-				Else
-					VatInputEnabled(False)
-					Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-					Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-					Me.dtpInvoiceDate.Value = Now
-				End If
-			End If
-			m_oldInvoiceCode = Me.txtInvoiceCode.Text
+      Dim myVat As Vat = Me.m_entity.Vat
+      If Not myVat Is Nothing Then
+        If myVat.ItemCollection.Count <= 0 Then      ' No Vat
+          VatInputEnabled(True)
+          Me.txtInvoiceCode.Text = ""
+          Me.txtInvoiceDate.Text = ""
+          Me.dtpInvoiceDate.Value = Now
+        ElseIf myVat.ItemCollection.Count = 1 Then
+          VatInputEnabled(True)
+          Dim vi As VatItem
+          vi = myVat.ItemCollection(0)
+          Me.txtInvoiceCode.Text = vi.Code
+          Me.txtInvoiceDate.Text = MinDateToNull(vi.DocDate, "")        'Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          Me.dtpInvoiceDate.Value = MinDateToNow(vi.DocDate)
+        Else
+          VatInputEnabled(False)
+          Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+          Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+          Me.dtpInvoiceDate.Value = Now
+        End If
+      End If
+      m_oldInvoiceCode = Me.txtInvoiceCode.Text
 
-			If Not Me.m_entity.Po Is Nothing AndAlso Me.m_entity.Po.Originated Then
-				Me.txtPOCode.Text = Me.m_entity.Po.Code
-				Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
-			Else
-				Me.txtPOCode.Text = ""
-				Me.txtPODate.Text = ""
-			End If
+      If Not Me.m_entity.Po Is Nothing AndAlso Me.m_entity.Po.Originated Then
+        Me.txtPOCode.Text = Me.m_entity.Po.Code
+        Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
+      Else
+        Me.txtPOCode.Text = ""
+        Me.txtPODate.Text = ""
+      End If
 
-			If Not Me.m_entity.Asset Is Nothing AndAlso Me.m_entity.Asset.Originated Then
-				Me.txtEquipmentCode.Text = Me.m_entity.Asset.Code
-				Me.txtEquipmentName.Text = Me.m_entity.Asset.Name
-			End If
+      If Not Me.m_entity.Asset Is Nothing AndAlso Me.m_entity.Asset.Originated Then
+        Me.txtEquipmentCode.Text = Me.m_entity.Asset.Code
+        Me.txtEquipmentName.Text = Me.m_entity.Asset.Name
+      End If
 
-			dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-			txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-			If m_entity.TaxType.Value = 0 OrElse m_entity.TaxType.Value = 1 Then
-				txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.Price)
-			Else
-				txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetAmount, DigitConfig.Price)
-			End If
-			txtSupplierCode.Text = m_entity.Supplier.Code
-			txtSupplierName.Text = m_entity.Supplier.Name
+      dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+      txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+      If m_entity.TaxType.Value = 0 OrElse m_entity.TaxType.Value = 1 Then
+        txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.Price)
+      Else
+        txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetAmount, DigitConfig.Price)
+      End If
+      txtSupplierCode.Text = m_entity.Supplier.Code
+      txtSupplierName.Text = m_entity.Supplier.Name
 
-			Me.txtDeliveryPerson.Text = Me.m_entity.DeliveryPerson
+      Me.txtDeliveryPerson.Text = Me.m_entity.DeliveryPerson
 
-			txtToCostCenterCode.Text = m_entity.ToCostCenter.Code
-			txtToCostCenterName.Text = m_entity.ToCostCenter.Name
+      txtToCostCenterCode.Text = m_entity.ToCostCenter.Code
+      txtToCostCenterName.Text = m_entity.ToCostCenter.Name
 
-			Me.txtToCCPersonCode.Text = m_entity.ToCostCenterPerson.Code
-			txtToCCPersonName.Text = m_entity.ToCostCenterPerson.Name
+      Me.txtToCCPersonCode.Text = m_entity.ToCostCenterPerson.Code
+      txtToCCPersonName.Text = m_entity.ToCostCenterPerson.Name
 
-			If Not m_entity.WitholdingTaxCollection Is Nothing Then
-				txtWHT.Text = Configuration.FormatToString(m_entity.WitholdingTaxCollection.Amount(), DigitConfig.Price)
-			End If
+      If Not m_entity.WitholdingTaxCollection Is Nothing Then
+        txtWHT.Text = Configuration.FormatToString(m_entity.WitholdingTaxCollection.Amount(), DigitConfig.Price)
+      End If
 
-			CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.ToAccountType)
+      CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.ToAccountType)
 
-			RefreshDocs()
+      RefreshDocs()
 
-			SetStatus()
-			SetLabelText()
-			CheckFormEnable()
-			m_isInitialized = True
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
 		End Sub
 		Private Sub VatInputEnabled(ByVal enable As Boolean)
 			Me.txtInvoiceCode.Enabled = enable
@@ -3269,11 +3272,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
                 If Not Me.m_entity.Originated Then
                   If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
-                    Me.txtDeliveryDocDate.Text = Me.txtDueDate.Text
+                    'Me.txtDeliveryDocDate.Text = Me.txtDueDate.Text
                     Me.dtpDeliveryDocDate.Value = Me.dtpDueDate.Value
                   End If
                   If Me.txtInvoiceCode.Text.Trim.Length > 0 Then
-                    Me.txtInvoiceDate.Text = Me.txtDueDate.Text
+                    'Me.txtInvoiceDate.Text = Me.txtDueDate.Text
                     Me.dtpInvoiceDate.Value = Me.dtpDueDate.Value
                   End If
                 End If
@@ -3290,14 +3293,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
 							Me.m_entity.DocDate = dtpDocDate.Value
 							Me.m_entity.Payment.DocDate = dtpDocDate.Value
 							Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-							Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-							dirtyFlag = True
+              Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+              If Not Me.m_entity.Originated Then
+                If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
+                  Me.txtDeliveryDocDate.Text = Me.txtDueDate.Text
+                  'Me.dtpDeliveryDocDate.Value = Me.dtpDueDate.Value
+                End If
+                If Me.txtInvoiceCode.Text.Trim.Length > 0 Then
+                  Me.txtInvoiceDate.Text = Me.txtDueDate.Text
+                  'Me.dtpInvoiceDate.Value = Me.dtpDueDate.Value
+                End If
+              End If
+              dirtyFlag = True
 						End If
 					Else
 						dtpDocDate.Value = Date.Now
 						Me.m_entity.DocDate = Date.MinValue
-						Me.m_entity.Payment.DocDate = Date.MinValue
-					End If
+            Me.m_entity.Payment.DocDate = Date.MinValue
+            If Not Me.m_entity.Originated Then
+              If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
+                Me.txtDeliveryDocDate.Text = Me.txtDueDate.Text
+                'Me.dtpDeliveryDocDate.Value = Me.dtpDueDate.Value
+              End If
+              If Me.txtInvoiceCode.Text.Trim.Length > 0 Then
+                Me.txtInvoiceDate.Text = Me.txtDueDate.Text
+                'Me.dtpInvoiceDate.Value = Me.dtpDueDate.Value
+              End If
+            End If
+          End If
 					m_dateSetting = False
 				Case "dtpduedate"
 					If Not m_dateSetting Then
@@ -3363,17 +3386,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					UpdateAmount()
 					dirtyFlag = True
 				Case "txtdeliverycode"
-					Me.m_entity.DeliveryDocCode = txtDeliveryCode.Text
-					dirtyFlag = True
+          Me.m_entity.DeliveryDocCode = txtDeliveryCode.Text
+          If Not Me.m_entity.Originated Then
+            If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
+              Me.txtDeliveryDocDate.Text = Me.txtDocDate.Text
+              Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
+              dtpDeliveryDocDate.Value = theDate
+              Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
+            Else
+              Me.txtDeliveryDocDate.Text = ""
+              Me.m_entity.DeliveryDocDate = Nothing
+            End If
+          End If
+          dirtyFlag = True
 				Case "txtdeliverydocdate"
 					m_dateSetting = True
 					If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
-						If Not Me.m_entity.DeliveryDocDate.Equals(theDate) Then
-							dtpDeliveryDocDate.Value = theDate
-							Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
-							dirtyFlag = True
-						End If
+            Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
+            dtpDeliveryDocDate.Value = theDate
+            Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
+            If Not Me.m_entity.DeliveryDocDate.Equals(theDate) Then
+              dirtyFlag = True
+            End If
             'Else
             'dtpDeliveryDocDate.Value = Date.Now
             'Me.m_entity.DeliveryDocDate = Date.MinValue
@@ -3436,6 +3470,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
             Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            If Not Me.m_entity.Originated Then
+              If Me.txtInvoiceCode.Text.Trim.Length > 0 Then
+                Me.txtInvoiceDate.Text = Me.txtDocDate.Text
+              Else
+                Me.txtInvoiceDate.Text = ""
+              End If
+            End If
             dirtyFlag = True
           End If
         Case "txtinvoicedate"
