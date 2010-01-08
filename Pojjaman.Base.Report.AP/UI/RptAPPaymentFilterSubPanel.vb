@@ -872,7 +872,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If Len(type) > 0 Then
             type &= ","
           End If
-          type &= "32"
+          type &= "65"
         End If
         If Me.chkPettyCash.Checked Then
           If Len(type) > 0 Then
