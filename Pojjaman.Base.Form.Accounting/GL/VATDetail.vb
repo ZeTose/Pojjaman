@@ -1079,8 +1079,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 			Me.txtNote.Text = Me.m_vat.Note
 
-
-			m_tmpsubmitalDate = Me.m_vat.SubmitalDate
+      'Me.m_vat.RefDoc.Date
+      m_tmpsubmitalDate = Me.m_vat.RefDoc.Date 'Me.m_vat.SubmitalDate
 			txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
 			dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
 
