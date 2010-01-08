@@ -2933,7 +2933,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'txtCode.Text = m_entity.Code
             txtCreditPrd.Text = m_entity.CreditPeriod.ToString
-      'm_oldCode = m_entity.Code
+      m_oldCode = m_entity.Code
             Me.chkAutorun.Checked = Me.m_entity.AutoGen
             Me.UpdateAutogenStatus()
 
