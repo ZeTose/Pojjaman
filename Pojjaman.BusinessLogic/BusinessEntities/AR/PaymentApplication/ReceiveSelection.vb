@@ -269,6 +269,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         RefreshTaxBase()
+
+        'Hack by pui ใช้แล้วไปเปลี่ยนตอน save wht ให้ดึง Me.RealTaxBase แทน ไม่งั้นมัน Lock
+        Me.RealTaxBase = Me.GetReceiveTaxBase
+
         m_saving = True
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
@@ -1007,6 +1011,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    Dim m_realTaxBase As Decimal
+    Public Property RealTaxBase As Decimal
+      Get
+        Return m_realTaxBase
+      End Get
+      Set(ByVal value As Decimal)
+        m_realTaxBase = value
+      End Set
+    End Property
     Private m_taxbase As Decimal
     Public Sub RefreshTaxBase()
       If m_saving Then
@@ -1038,7 +1051,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IWitholdingTaxable"
     Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
-      Return Me.TaxBase
+      Return Me.RealTaxBase 'Me.TaxBase
     End Function
     Public Property Person() As IBillablePerson Implements IWitholdingTaxable.Person, IVatable.Person
       Get
