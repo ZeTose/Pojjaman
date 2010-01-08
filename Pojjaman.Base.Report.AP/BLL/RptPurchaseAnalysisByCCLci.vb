@@ -211,6 +211,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_grid.RowStyles(currItemIndex).ReadOnly = True
                 m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
                 m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
+                m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpEachDisc, DigitConfig.Price)
                 m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
                 m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
 
@@ -223,6 +224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 tmpEachAmount = 0
                 tmpEachTaxAmt = 0
                 tmpEachAfterTax = 0
+                tmpEachDisc = 0
               End If
             End If
 
@@ -305,6 +307,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid.RowStyles(currItemIndex).ReadOnly = True
         m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.SumEachItem}") 'รวมตามรายการ
         m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpEachAmount, DigitConfig.Price)
+        m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpEachDisc, DigitConfig.Price)
         m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpEachTaxAmt, DigitConfig.Price)
         m_grid(currItemIndex, 10).CellValue = Configuration.FormatToString(tmpEachAfterTax, DigitConfig.Price)
 
@@ -317,6 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tmpEachAmount = 0
         tmpEachTaxAmt = 0
         tmpEachAfterTax = 0
+        tmpEachDisc = 0
         'End If
       End If
       m_grid.RowCount += 1
