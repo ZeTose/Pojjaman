@@ -2033,7 +2033,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newDRItem As PAItem = Nothing
       Dim RealItems As New ArrayList
       Dim fn As Font '= New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Dim fnBold As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim fnBold As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
 
       For i As Integer = 0 To 2
         RealItems.Clear()
@@ -2053,9 +2054,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         For Each item As PAItem In RealItems
           If item.ItemType.Value = 289 Then
-            fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            indent = Space(0)
           Else
-            fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            indent = Space(3)
           End If
           If item.RefEntity.Id = 291 Then
             If newDRItem Is Nothing Then
@@ -2124,7 +2127,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           RowNumber += 1
           If item.ItemType.Value = 289 Then
             ParentLineNumber += 1
-            ChildLineNumber = 1
+            ChildLineNumber = 0
           Else
             ChildLineNumber += 1
           End If
@@ -2194,7 +2197,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'ItemName
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.ItemName"
-            dpi.Value = item.EntityName
+            dpi.Value = indent & item.EntityName.Trim
             dpi.Font = fn
             dpi.DataType = "System.String"
             dpi.Table = "Item"
@@ -2216,9 +2219,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Mapping = "Item.ItemName"
             If Not item.Entity Is Nothing Then
               If item.ItemType.Value = 0 Then
-                dpi.Value = item.EntityName
+                dpi.Value = indent & item.EntityName.Trim
               Else
-                dpi.Value = item.Entity.Name
+                dpi.Value = indent & item.Entity.Name.Trim
               End If
             Else
               dpi.Value = item.EntityName

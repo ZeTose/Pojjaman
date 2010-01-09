@@ -29,7 +29,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 	End Class
 	Public Class Payment
 		Inherits SimpleBusinessEntityBase
-		Implements IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, IHasMainDoc
+    Implements IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, IHasMainDoc
 
 #Region "Members"
 		Private payment_docDate As Date
@@ -1703,38 +1703,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				dpiColl.Add(dpi)
       End If
 
-      ''Reference By PA Only ''''''''''
-      If Me.RefDoc IsNot Nothing Then
-        If TypeOf Me.RefDoc Is PA Then
-          Dim newPa As PA = CType(Me.RefDoc, PA)
+      ' ''Reference By PA Only ''''''''''
+      'If Me.RefDoc IsNot Nothing Then
+      'If TypeOf Me.RefDoc Is PA Then
+      'Dim newPa As PA = CType(Me.RefDoc, PA)
 
-          'RefDocTaxAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RefDocTaxAmount"
-          dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+      ''RefDocTaxAmount
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "RefDocTaxAmount"
+      'dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-          'RefDocAfterTax
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RefDocAfterTax"
-          dpi.Value = Configuration.FormatToString(newPa.AfterTax, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+      ''RefDocAfterTax
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "RefDocAfterTax"
+      'dpi.Value = Configuration.FormatToString(newPa.AfterTax, DigitConfig.Price)
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-          'RefDocWHTAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RefDocWHTAmount"
-          dpi.Value = Configuration.FormatToString(newPa.WitholdingTax, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+      ''RefDocWHTAmount
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "RefDocWHTAmount"
+      'dpi.Value = Configuration.FormatToString(newPa.WitholdingTax, DigitConfig.Price)
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-          For Each refDpi As DocPrintingItem In newPa.GetDocPrintingItemsEntries
-            refDpi.Table = "RefDoc" + refDpi.Table
-            dpiColl.Add(refDpi)
-          Next
-        End If
-      End If
+      'For Each refDpi As DocPrintingItem In newPa.GetDocPrintingItemsEntries
+      'refDpi.Table = "RefDoc" + refDpi.Table
+      'dpiColl.Add(refDpi)
+      'Next
+      'End If
+      'End If
 
       'Note
       dpi = New DocPrintingItem
@@ -2191,6 +2191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.AddRange(GetPettyCashClaimItemDocPrintingEntries)
       dpiColl.AddRange(GetAdvanceMoneyDocPrintingEntries)
       dpiColl.AddRange(GetPaymentSelectionDocPrintingEntries)
+      dpiColl.AddRange(GetPADocPrintingEntries)
       '############################################################################
 
       'RemainingAmount
@@ -2688,6 +2689,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "RefDocTaxAmount"
           dpi.Value = Configuration.FormatToString(gr.RealTaxAmount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocRetention
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocRetention"
+          dpi.Value = Configuration.FormatToString(gr.Retention, DigitConfig.UnitPrice)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
@@ -3352,6 +3360,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
       End If
+      Return dpiColl
+    End Function
+    Private Function GetPADocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      If Me.RefDoc IsNot Nothing Then
+        If TypeOf Me.RefDoc Is PA Then
+          Dim newPa As PA = CType(Me.RefDoc, PA)
+
+          'RefDocTaxAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocTaxAmount"
+          dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocAfterTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAfterTax"
+          dpi.Value = Configuration.FormatToString(newPa.AfterTax, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocWHTAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocWHTAmount"
+          dpi.Value = Configuration.FormatToString(newPa.WitholdingTax, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          For Each refDpi As DocPrintingItem In newPa.GetDocPrintingItemsEntries
+            refDpi.Table = "RefDoc" + refDpi.Table
+            refDpi.Mapping = "RefDoc" + refDpi.Mapping
+            dpiColl.Add(refDpi)
+          Next
+        End If
+      End If
+
       Return dpiColl
     End Function
 

@@ -1805,18 +1805,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim parentLine As Integer = 0
       Dim childLine As Integer = 0
       Dim fn As Font
+      Dim indent As String = ""
       For Each item As SCItem In Me.ItemCollection
         'If Not item.NewChild Then
         line += 1
         If item.Level = 0 Then
           parentLine += 1
-          childLine = 1
-          fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          childLine = 0
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(0)
         Else
           If item.ItemType.Value <> 162 Then
             childLine += 1
           End If
-          fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(3)
         End If
 
         'Item.LineNumber
@@ -1850,9 +1853,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Name"
         If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
-          dpi.Value = item.EntityName
+          dpi.Value = indent & item.EntityName.Trim
         Else
-          dpi.Value = item.Entity.Name
+          dpi.Value = indent & item.Entity.Name.Trim
         End If
         dpi.Font = fn
         dpi.DataType = "System.String"
