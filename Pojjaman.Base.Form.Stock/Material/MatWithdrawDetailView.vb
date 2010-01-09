@@ -1771,6 +1771,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If IsNumeric(e.ProposedValue.ToString) Then
               Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+
+              Dim remaining As Decimal = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
+              Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
+              Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
+              'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
+              If value > (remaining / doc.Conversion) Then
+                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                  e.ProposedValue = (remaining / doc.Conversion)
+                  doc.Qty = e.ProposedValue
+                  Return
+                End If
+              End If
               'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
               '  If doc.OldQty > 0 Then
               '    'เทจากตะกร้า
@@ -2330,7 +2342,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbCode.DropDownStyle = ComboBoxStyle.Simple
       'cmbCode.Text = m_entity.Code
       'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
-      'm_oldCode = m_entity.Code
+      m_oldCode = m_entity.Code
       'UpdateAutogen ทำแทนแล้ว
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
@@ -2429,6 +2441,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.Code = Me.m_entity.AutoCodeFormat.Format
             Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True

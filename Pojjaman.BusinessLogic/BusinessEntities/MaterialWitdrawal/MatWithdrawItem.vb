@@ -367,6 +367,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
 
+      'Me.m_oldRemainingQty = Me.m_qty
+
       Me.m_note = prItem.Note
       If Not prItem.WBSDistributeCollection Is Nothing Then
         'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
