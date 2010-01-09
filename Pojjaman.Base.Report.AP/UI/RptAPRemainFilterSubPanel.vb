@@ -679,10 +679,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(4) = New Filter("sg_id", Me.ValidIdOrDBNull(m_sg))
       arr(5) = New Filter("IncludeChildSG", Me.chkIncludeSGChildren.Checked)
       arr(6) = New Filter("cc_id", Me.ValidIdOrDBNull(m_cc))
-      arr(7) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
-      arr(8) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      arr(9) = New Filter("ShowDetail", Me.chkDetail.Checked)
-      arr(10) = New Filter("ShowAll", Me.chkShowAll.Checked)
+      arr(7) = New Filter("ShowDetail", Me.chkDetail.Checked)
+      arr(8) = New Filter("ShowAll", Me.chkShowAll.Checked)
+      arr(9) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
+      arr(10) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button

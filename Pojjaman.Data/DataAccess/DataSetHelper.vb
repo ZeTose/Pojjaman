@@ -607,7 +607,11 @@ Namespace Longkong.Pojjaman.DataAccessLayer
     Public Function GetValue(Of T)(ByVal columnName As String, Optional ByVal defaultValue As T = Nothing) As T
       If row.Table.Columns.Contains(columnName) Then
         If Not row.IsNull(columnName) Then
-          Return CType(row(columnName), T)
+          Try
+            Return CType(row(columnName), T)
+          Catch ex As Exception
+
+          End Try
         End If
       End If
       Return defaultValue

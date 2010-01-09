@@ -174,25 +174,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If CInt(Me.Filters(7).Value) <> 0 Then
           trCustomer.State = RowExpandState.Expanded
           For Each detailRow As DataRow In dt2.Select("Customer =" & supplierRow("Cust_ID").ToString)
+            Dim deh As New DataRowHelper(detailRow)
+
             If Not trCustomer Is Nothing Then
               trDetail = trCustomer.Childs.Add
-              If Not detailRow.IsNull("entity_description") Then
-                trDetail("col0") = indent & detailRow("entity_description").ToString
-              End If
-              If Not detailRow.IsNull("doccode") Then
-                trDetail("col1") = indent & detailRow("doccode").ToString
-              End If
-              If Not detailRow.IsNull("docdate") Then
-                If IsDate(detailRow("docdate")) Then
-                  trDetail("col2") = indent & CDate(detailRow("docdate")).ToShortDateString
-                End If
-              End If
-              If Not detailRow.IsNull("glcode") Then
-                trDetail("col3") = indent & detailRow("glcode").ToString
-              End If
-              If Not detailRow.IsNull("OpeningBalance") Then
-                trDetail("col4") = Configuration.FormatToString(CDec(detailRow("OpeningBalance")), DigitConfig.Price)
-              End If
+
+              trDetail("col0") = indent & deh.GetValue(Of String)("entity_description", "-")
+              trDetail("col1") = indent & deh.GetValue(Of String)("doccode", "-")
+              trDetail("col2") = indent & deh.GetValue(Of Date)("docdate", Now.Date).ToShortDateString
+              trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
+              trDetail("col4") = Configuration.FormatToString(deh.GetValue(Of Decimal)("OpeningBalance"), DigitConfig.Price)
+              
               If Not detailRow.IsNull("Amount") Then
                 If CDec(detailRow("Amount")) > 0 Then
                   trDetail("col5") = Configuration.FormatToString(CDec(detailRow("Amount")), DigitConfig.Price)
@@ -301,20 +293,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim widths As New ArrayList
       Dim iCol As Integer = 13 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
-      widths.Add(100)
-      widths.Add(200)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(0)
-      widths.Add(200)
+      widths.Add(90)
+      widths.Add(180)
+      widths.Add(80 * CInt(Me.Filters(7).Value))
+      widths.Add(95 * CInt(Me.Filters(7).Value))
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(180 * CInt(Me.Filters(7).Value))
 
       For i As Integer = 0 To iCol
         If i = 1 Then

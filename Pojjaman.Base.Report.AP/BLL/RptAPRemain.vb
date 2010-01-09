@@ -56,7 +56,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
-      m_showDetailInGrid = CInt(Me.Filters(9).Value)
+      m_showDetailInGrid = CInt(Me.Filters(7).Value)
       CreateHeader()
       PopulateData()
     End Sub
@@ -72,34 +72,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
         tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.SupplierCode}") '"รหัสเจ้าหนี้"
         tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.SupplierName}") '"ชื่อเจ้าหนี้"
-        tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OpenningBalance}") '"ยอดยกมา"
-        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Debt}") '"ยอดซื้อเชื่อ"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Dicount}") '"ยอดลดหนี้"
-        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Pay}") '"ยอดจ่ายชำระ"
-        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.EndingBalance}") '"ยอดยกไป"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionOpeningBalance}") '"ยอด Retention ยกมา"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Retention}") '"ยอด Retention"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.PayRetention}") '"ยอดจ่ายชำระ Retention"
-        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionEndingBalance}") '"ยอด Retention ยกไป"
+        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OpenningBalance}") '"ยอดยกมา"
+        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Debt}") '"ยอดซื้อเชื่อ"
+        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Dicount}") '"ยอดลดหนี้"
+        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Pay}") '"ยอดจ่ายชำระ"
+        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.EndingBalance}") '"ยอดยกไป"
+        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionOpeningBalance}") '"ยอด Retention ยกมา"
+        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Retention}") '"ยอด Retention"
+        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.PayRetention}") '"ยอดจ่ายชำระ Retention"
+        tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionEndingBalance}") '"ยอด Retention ยกไป"
+        tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}") '"หมายเหตุ"
       Else
         ' Level 1.
         Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
         tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.SupplierCode}") '"รหัสเจ้าหนี้"
         tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.SupplierName}") '"ชื่อเจ้าหนี้"
-        tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OpenningBalance}") '"ยอดยกมา"
-        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Debt}") '"ยอดซื้อเชื่อ"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Dicount}") '"ยอดลดหนี้"
-        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Pay}") '"ยอดจ่ายชำระ"
-        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.EndingBalance}") '"ยอดยกไป"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionOpeningBalance}") '"ยอด Retention ยกมา"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Retention}") '"ยอด Retention"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.PayRetention}") '"ยอดจ่ายชำระ Retention"
-        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionEndingBalance}") '"ยอด Retention ยกไป"
+        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OpenningBalance}") '"ยอดยกมา"
+        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Debt}") '"ยอดซื้อเชื่อ"
+        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Dicount}") '"ยอดลดหนี้"
+        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Pay}") '"ยอดจ่ายชำระ"
+        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.EndingBalance}") '"ยอดยกไป"
+        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionOpeningBalance}") '"ยอด Retention ยกมา"
+        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Retention}") '"ยอด Retention"
+        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.PayRetention}") '"ยอดจ่ายชำระ Retention"
+        tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionEndingBalance}") '"ยอด Retention ยกไป"
+        tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}") '"หมายเหตุ"
         ' Level 2.
         tr = Me.m_treemanager.Treetable.Childs.Add
         tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAging.DocType}") '"ประเภทเอกสาร"
         tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAging.DNDocNo}") '"เลขที่เอกสาร"
         tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DocDate}") '"วันที่เอกสาร"
+        tr("col3") = indent & Me.StringParserService.Parse("เลขที่ใบสำคัญ") '"เลขที่ใบสำคัญ"
       End If
     End Sub
     Private Sub PopulateData()
@@ -109,7 +112,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dt.Rows.Count = 0 Then
         Return
       End If
-
       Dim indent As String = Space(3)
 
       Dim trSupplier As TreeRow
@@ -126,7 +128,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumEndingBalanceRetention As Decimal = 0
 
       For Each supplierRow As DataRow In dt.Rows
-
+        Dim deh As New DataRowHelper(supplierRow)
         trSupplier = Me.Treemanager.Treetable.Childs.Add
         trSupplier.Tag = "Font.Bold"
         If Not supplierRow.IsNull("supplier_code") Then
@@ -136,50 +138,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trSupplier("col1") = supplierRow("supplier_name").ToString
         End If
         If Not supplierRow.IsNull("OpeningBalance") Then
-          trSupplier("col3") = Configuration.FormatToString(CDec(supplierRow("OpeningBalance")), DigitConfig.Price)
+          trSupplier("col4") = Configuration.FormatToString(CDec(supplierRow("OpeningBalance")), DigitConfig.Price)
           sumOpenningBalance += CDec(supplierRow("OpeningBalance"))
         End If
         If Not supplierRow.IsNull("Amount") Then
           If CDec(supplierRow("Amount")) <> 0 Then
-            trSupplier("col4") = Configuration.FormatToString(CDec(supplierRow("Amount")), DigitConfig.Price)
+            trSupplier("col5") = Configuration.FormatToString(CDec(supplierRow("Amount")), DigitConfig.Price)
             sumAmount += CDec(supplierRow("Amount"))
           End If
         End If
         If Not supplierRow.IsNull("PCN") Then
           If CDec(supplierRow("PCN")) <> 0 Then
-            trSupplier("col5") = Configuration.FormatToString(CDec(supplierRow("PCN")), DigitConfig.Price)
+            trSupplier("col6") = Configuration.FormatToString(CDec(supplierRow("PCN")), DigitConfig.Price)
             sumPCNAmount += CDec(supplierRow("PCN"))
           End If
         End If
         If Not supplierRow.IsNull("Pays") Then
           If CDec(supplierRow("Pays")) <> 0 Then
-            trSupplier("col6") = Configuration.FormatToString(CDec(supplierRow("Pays")), DigitConfig.Price)
+            trSupplier("col7") = Configuration.FormatToString(CDec(supplierRow("Pays")), DigitConfig.Price)
             sumPayAmount += CDec(supplierRow("Pays"))
           End If
         End If
         If Not supplierRow.IsNull("EndingBalance") Then
-          trSupplier("col7") = Configuration.FormatToString(CDec(supplierRow("EndingBalance")), DigitConfig.Price)
+          trSupplier("col8") = Configuration.FormatToString(CDec(supplierRow("EndingBalance")), DigitConfig.Price)
           sumEndingBalance += CDec(supplierRow("EndingBalance"))
         End If
 
         If Not supplierRow.IsNull("OpeningBalanceRetention") Then
-          trSupplier("col8") = Configuration.FormatToString(CDec(supplierRow("OpeningBalanceRetention")), DigitConfig.Price)
+          trSupplier("col9") = Configuration.FormatToString(CDec(supplierRow("OpeningBalanceRetention")), DigitConfig.Price)
           sumOpeningBalanceRetention += CDec(supplierRow("OpeningBalanceRetention"))
         End If
         If Not supplierRow.IsNull("Retention") Then
           If CDec(supplierRow("Retention")) <> 0 Then
-            trSupplier("col9") = Configuration.FormatToString(CDec(supplierRow("Retention")), DigitConfig.Price)
+            trSupplier("col10") = Configuration.FormatToString(CDec(supplierRow("Retention")), DigitConfig.Price)
             sumRetention += CDec(supplierRow("Retention"))
           End If
         End If
         If Not supplierRow.IsNull("PayRetention") Then
           If CDec(supplierRow("PayRetention")) <> 0 Then
-            trSupplier("col10") = Configuration.FormatToString(CDec(supplierRow("PayRetention")), DigitConfig.Price)
+            trSupplier("col11") = Configuration.FormatToString(CDec(supplierRow("PayRetention")), DigitConfig.Price)
             sumPaysRetention += CDec(supplierRow("PayRetention"))
           End If
         End If
         If Not supplierRow.IsNull("EndingBalanceRetention") Then
-          trSupplier("col11") = Configuration.FormatToString(CDec(supplierRow("EndingBalanceRetention")), DigitConfig.Price)
+          trSupplier("col12") = Configuration.FormatToString(CDec(supplierRow("EndingBalanceRetention")), DigitConfig.Price)
           sumEndingBalanceRetention += CDec(supplierRow("EndingBalanceRetention"))
         End If
 
@@ -202,69 +204,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trDetail("col2") = indent & CDate(detailRow("docdate")).ToShortDateString
                 End If
               End If
-
+               trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
               If Not detailRow.IsNull("OpeningBalance") Then
-                trDetail("col3") = Configuration.FormatToString(CDec(detailRow("OpeningBalance")), DigitConfig.Price)
+                trDetail("col4") = Configuration.FormatToString(CDec(detailRow("OpeningBalance")), DigitConfig.Price)
               End If
               If Not detailRow.IsNull("Amount") Then
                 If CDec(detailRow("Amount")) <> 0 Then
-                  trDetail("col4") = Configuration.FormatToString(CDec(detailRow("Amount")), DigitConfig.Price)
+                  trDetail("col5") = Configuration.FormatToString(CDec(detailRow("Amount")), DigitConfig.Price)
                 End If
               End If
               If Not detailRow.IsNull("PCN") Then
                 If CDec(detailRow("PCN")) <> 0 Then
-                  trDetail("col5") = Configuration.FormatToString(CDec(detailRow("PCN")), DigitConfig.Price)
+                  trDetail("col6") = Configuration.FormatToString(CDec(detailRow("PCN")), DigitConfig.Price)
                 End If
               End If
               If Not detailRow.IsNull("Pays") Then
                 If CDec(detailRow("Pays")) <> 0 Then
-                  trDetail("col6") = Configuration.FormatToString(CDec(detailRow("Pays")), DigitConfig.Price)
+                  trDetail("col7") = Configuration.FormatToString(CDec(detailRow("Pays")), DigitConfig.Price)
                 End If
               End If
               If Not detailRow.IsNull("EndingBalance") Then
-                trDetail("col7") = Configuration.FormatToString(CDec(detailRow("EndingBalance")), DigitConfig.Price)
+                trDetail("col8") = Configuration.FormatToString(CDec(detailRow("EndingBalance")), DigitConfig.Price)
               End If
               If Not detailRow.IsNull("OpeningBalanceRetention") Then
-                trDetail("col8") = Configuration.FormatToString(CDec(detailRow("OpeningBalanceRetention")), DigitConfig.Price)
+                trDetail("col9") = Configuration.FormatToString(CDec(detailRow("OpeningBalanceRetention")), DigitConfig.Price)
               End If
               If Not detailRow.IsNull("Retention") Then
                 If CDec(detailRow("Retention")) <> 0 Then
-                  trDetail("col9") = Configuration.FormatToString(CDec(detailRow("Retention")), DigitConfig.Price)
+                  trDetail("col10") = Configuration.FormatToString(CDec(detailRow("Retention")), DigitConfig.Price)
                 End If
               End If
               If Not detailRow.IsNull("PayRetention") Then
                 If CDec(detailRow("PayRetention")) <> 0 Then
-                  trDetail("col10") = Configuration.FormatToString(CDec(detailRow("PayRetention")), DigitConfig.Price)
+                  trDetail("col11") = Configuration.FormatToString(CDec(detailRow("PayRetention")), DigitConfig.Price)
                 End If
               End If
+              trDetail("col12") = Configuration.FormatToString(deh.GetValue(Of Decimal)("EndingBalanceRetention"), DigitConfig.Price)
+              trDetail("col13") = indent & deh.GetValue(Of String)("glNote", "-")
             End If
           Next
         End If
       Next
-
+      'ตูดรายงาน
       trSupplier = Me.Treemanager.Treetable.Childs.Add
       trSupplier.Tag = "Font.Bold"
       trSupplier("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.Total}")  'รวม
-      trSupplier("col3") = Configuration.FormatToString(sumOpenningBalance, DigitConfig.Price)
+      trSupplier("col4") = Configuration.FormatToString(sumOpenningBalance, DigitConfig.Price)
       If sumAmount > 0 Then
-        trSupplier("col4") = Configuration.FormatToString(sumAmount, DigitConfig.Price)
+        trSupplier("col5") = Configuration.FormatToString(sumAmount, DigitConfig.Price)
       End If
       If sumPCNAmount > 0 Then
-        trSupplier("col5") = Configuration.FormatToString(sumPCNAmount, DigitConfig.Price)
+        trSupplier("col6") = Configuration.FormatToString(sumPCNAmount, DigitConfig.Price)
       End If
       If sumPayAmount > 0 Then
-        trSupplier("col6") = Configuration.FormatToString(sumPayAmount, DigitConfig.Price)
+        trSupplier("col7") = Configuration.FormatToString(sumPayAmount, DigitConfig.Price)
       End If
-      trSupplier("col7") = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
+      trSupplier("col8") = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
 
-      trSupplier("col8") = Configuration.FormatToString(sumOpeningBalanceRetention, DigitConfig.Price)
-      If sumPCNAmount > 0 Then
-        trSupplier("col9") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
+      trSupplier("col9") = Configuration.FormatToString(sumOpeningBalanceRetention, DigitConfig.Price)
+      If sumRetention > 0 Then
+        trSupplier("col10") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
       End If
-      If sumPayAmount > 0 Then
-        trSupplier("col10") = Configuration.FormatToString(sumPaysRetention, DigitConfig.Price)
+      If sumPaysRetention > 0 Then
+        trSupplier("col11") = Configuration.FormatToString(sumPaysRetention, DigitConfig.Price)
       End If
-      trSupplier("col11") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
+      trSupplier("col12") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
 
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
@@ -292,6 +296,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
 
       Return myDatatable
     End Function
@@ -299,25 +305,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 10 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 13 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
-      widths.Add(100)
-      widths.Add(200)
-      widths.Add(150)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
+      widths.Add(90)
+      widths.Add(180)
+      widths.Add(80 * CInt(Me.Filters(7).Value))
+      widths.Add(95 * CInt(Me.Filters(7).Value))
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(95)
+      widths.Add(180 * CInt(Me.Filters(7).Value))
 
-
-
-      For i As Integer = 0 To iCol
+For i As Integer = 0 To iCol
         If i = 1 Then
-          If m_showDetailInGrid <> 0 Then
+          If CInt(Me.Filters(7).Value) <> 0 Then
             Dim cs As New PlusMinusTreeTextColumn
             cs.MappingName = "col" & i
             cs.HeaderText = ""
@@ -347,9 +354,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Width = CInt(widths(i))
           cs.NullText = ""
           cs.Alignment = HorizontalAlignment.Left
-          If Me.m_showDetailInGrid <> 0 Then
+          If CInt(Me.Filters(7).Value) <> 0 Then
             Select Case i
-              Case 0, 1, 2
+              Case 0, 1, 2, 3
                 cs.Alignment = HorizontalAlignment.Left
                 cs.DataAlignment = HorizontalAlignment.Left
                 cs.Format = "s"
@@ -360,7 +367,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           Else
             Select Case i
-              Case 0, 1
+              Case 0, 1, 9
                 cs.Alignment = HorizontalAlignment.Left
                 cs.DataAlignment = HorizontalAlignment.Left
                 cs.Format = "s"
