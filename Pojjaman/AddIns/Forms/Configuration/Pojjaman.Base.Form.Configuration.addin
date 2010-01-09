@@ -56,6 +56,7 @@
 		</DialogPanel>-->]
     <DialogPanel id="AccountConfig" label="${res:Dialog.Options.TreeViewOptions.AccountConfigText}">
       <DialogPanel id="WHTConfigurationView" label="${res:Dialog.Options.PojjamanOptions.WHTConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.WHTConfigurationView"/>
+      <DialogPanel id="RetentionPointView" label="${res:Dialog.Options.PojjamanOptions.RetentionPointView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.RetentionPointView"/>
     </DialogPanel>
   </Extension>	
 </AddIn>

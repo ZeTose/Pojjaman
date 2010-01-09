@@ -129,6 +129,9 @@
     <Compile Include="Configuration\ConfigurationView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Configuration\RetentionPointView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Configuration\WHTConfigurationView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -209,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigurationView.resx">
       <DependentUpon>ConfigurationView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\RetentionPointView.resx">
+      <DependentUpon>RetentionPointView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\WHTConfigurationView.resx">
       <DependentUpon>WHTConfigurationView.vb</DependentUpon>
