@@ -1571,13 +1571,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim line As Integer = 0
       Dim counter As Integer = 0
       Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
       For Each item As DRItem In Me.ItemCollection
         line += 1
+
         'Item.LineNumber
         '************** เอามาไว้เป็นอันที่ 2
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
         dpi.Value = line
+        dpi.Font = fn
         dpi.DataType = "System.Int32"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1587,6 +1593,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Code"
         dpi.Value = item.Entity.Code
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1600,6 +1607,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = item.Entity.Name
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1609,6 +1617,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Unit"
         dpi.Value = item.Unit.Name
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1622,6 +1631,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1635,6 +1645,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1648,6 +1659,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1661,6 +1673,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1674,6 +1687,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1687,6 +1701,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1700,6 +1715,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1709,6 +1725,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Note"
         dpi.Value = item.Note
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"

@@ -1834,7 +1834,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         dpi.Font = fn
-        dpi.DataType = "System.Int32"
+        dpi.DataType = "System.string"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)

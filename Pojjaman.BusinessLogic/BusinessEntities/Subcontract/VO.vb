@@ -1774,14 +1774,37 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Dim line As Integer = 0
       Dim counter As Integer = 0
       Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font
+      Dim indent As String = ""
       For Each item As VOItem In Me.ItemCollection
         line += 1
+        If item.Level = 0 Then
+          parentLine += 1
+          childLine = 0
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(0)
+        Else
+          If item.ItemType.Value <> 162 Then
+            childLine += 1
+          End If
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(3)
+        End If
         'Item.LineNumber
         '************** เอามาไว้เป็นอันที่ 2
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
-        dpi.Value = line
-        dpi.DataType = "System.Int32"
+        If item.Level = 0 Then
+          dpi.Value = parentLine
+        Else
+          If item.ItemType.Value <> 162 Then
+            dpi.Value = parentLine.ToString & "." & childLine.ToString
+          End If
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.string"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
@@ -1790,6 +1813,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Code"
         dpi.Value = item.Entity.Code
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1799,10 +1823,11 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Name"
         If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
-          dpi.Value = item.EntityName
+          dpi.Value = indent & item.EntityName.Trim
         Else
-          dpi.Value = item.Entity.Name
+          dpi.Value = indent & item.Entity.Name.Trim
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1812,6 +1837,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Unit"
         dpi.Value = item.Unit.Name
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1825,6 +1851,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1838,6 +1865,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1851,6 +1879,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1864,6 +1893,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1877,6 +1907,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1890,6 +1921,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1903,6 +1935,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Else
           dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
         End If
+        dpi.Font = fn
         dpi.DataType = "System.Decimal"
         dpi.Row = i + 1
         dpi.Table = "Item"
@@ -1912,6 +1945,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Note"
         dpi.Value = item.Note
+        dpi.Font = fn
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
