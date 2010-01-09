@@ -8,6 +8,9 @@ Imports System.Reflection
 Imports System.Drawing.Printing
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+Imports System.Text.RegularExpressions
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PurchaseCNDetailView
     Inherits AbstractEntityDetailPanelView
@@ -87,7 +90,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblFromCostCenter As System.Windows.Forms.Label
     Friend WithEvents ibtnShowFromCostCenter As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
+    Friend WithEvents txtRealGross As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetGross As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnShowFromCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Dim oldSupId As Integer
     Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PurchaseCNDetailView))
@@ -97,6 +107,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.txtDueDate = New System.Windows.Forms.TextBox()
       Me.txtInvoiceDate = New System.Windows.Forms.TextBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.tgWBS = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblWBS = New System.Windows.Forms.Label()
@@ -154,6 +165,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtInvoiceCode = New System.Windows.Forms.TextBox()
       Me.txtFromCostCenterName = New System.Windows.Forms.TextBox()
       Me.txtFromCostCenterCode = New System.Windows.Forms.TextBox()
+      Me.txtRealGross = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxAmount = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxBase = New System.Windows.Forms.TextBox()
       Me.lblItemRf = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.ibtnShowNote = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -164,7 +178,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblFromCostCenter = New System.Windows.Forms.Label()
       Me.ibtnShowFromCostCenter = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowFromCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDelivery.SuspendLayout()
       Me.grbSummary.SuspendLayout()
       Me.SuspendLayout()
@@ -238,6 +254,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtInvoiceDate, False)
       Me.txtInvoiceDate.Size = New System.Drawing.Size(78, 21)
       Me.txtInvoiceDate.TabIndex = 3
+      '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(96, 17)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(88, 21)
+      Me.cmbCode.TabIndex = 108
       '
       'tgWBS
       '
@@ -351,7 +376,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtSupplierName
       '
-      Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
       Me.Validator.SetDataType(Me.txtSupplierName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
@@ -359,7 +383,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Location = New System.Drawing.Point(152, 16)
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
-      Me.txtSupplierName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
       Me.Validator.SetRequired(Me.txtSupplierName, False)
       Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
@@ -507,7 +530,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblPercent.BackColor = System.Drawing.Color.Transparent
       Me.lblPercent.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPercent.Location = New System.Drawing.Point(560, 493)
+      Me.lblPercent.Location = New System.Drawing.Point(800, 494)
       Me.lblPercent.Name = "lblPercent"
       Me.lblPercent.Size = New System.Drawing.Size(16, 18)
       Me.lblPercent.TabIndex = 84
@@ -522,13 +545,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
-      Me.txtTaxBase.Location = New System.Drawing.Point(656, 471)
+      Me.txtTaxBase.Location = New System.Drawing.Point(628, 469)
       Me.Validator.SetMinValue(Me.txtTaxBase, "")
       Me.txtTaxBase.Name = "txtTaxBase"
       Me.txtTaxBase.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtTaxBase, "")
       Me.Validator.SetRequired(Me.txtTaxBase, False)
-      Me.txtTaxBase.Size = New System.Drawing.Size(144, 21)
+      Me.txtTaxBase.Size = New System.Drawing.Size(81, 21)
       Me.txtTaxBase.TabIndex = 90
       Me.txtTaxBase.TabStop = False
       Me.txtTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -541,13 +564,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtBeforeTax, "")
       Me.Validator.SetGotFocusBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
-      Me.txtBeforeTax.Location = New System.Drawing.Point(656, 450)
+      Me.txtBeforeTax.Location = New System.Drawing.Point(628, 442)
       Me.Validator.SetMinValue(Me.txtBeforeTax, "")
       Me.txtBeforeTax.Name = "txtBeforeTax"
       Me.txtBeforeTax.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtBeforeTax, "")
       Me.Validator.SetRequired(Me.txtBeforeTax, False)
-      Me.txtBeforeTax.Size = New System.Drawing.Size(144, 21)
+      Me.txtBeforeTax.Size = New System.Drawing.Size(188, 21)
       Me.txtBeforeTax.TabIndex = 89
       Me.txtBeforeTax.TabStop = False
       Me.txtBeforeTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -560,13 +583,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
-      Me.txtTaxAmount.Location = New System.Drawing.Point(656, 492)
+      Me.txtTaxAmount.Location = New System.Drawing.Point(628, 515)
       Me.Validator.SetMinValue(Me.txtTaxAmount, "")
       Me.txtTaxAmount.Name = "txtTaxAmount"
       Me.txtTaxAmount.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtTaxAmount, "")
       Me.Validator.SetRequired(Me.txtTaxAmount, False)
-      Me.txtTaxAmount.Size = New System.Drawing.Size(144, 21)
+      Me.txtTaxAmount.Size = New System.Drawing.Size(81, 21)
       Me.txtTaxAmount.TabIndex = 91
       Me.txtTaxAmount.TabStop = False
       Me.txtTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -576,7 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblGross.BackColor = System.Drawing.Color.Transparent
       Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblGross.Location = New System.Drawing.Point(576, 409)
+      Me.lblGross.Location = New System.Drawing.Point(548, 395)
       Me.lblGross.Name = "lblGross"
       Me.lblGross.Size = New System.Drawing.Size(80, 18)
       Me.lblGross.TabIndex = 80
@@ -588,7 +611,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxAmount.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxAmount.Location = New System.Drawing.Point(576, 493)
+      Me.lblTaxAmount.Location = New System.Drawing.Point(544, 515)
       Me.lblTaxAmount.Name = "lblTaxAmount"
       Me.lblTaxAmount.Size = New System.Drawing.Size(80, 18)
       Me.lblTaxAmount.TabIndex = 85
@@ -603,13 +626,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtGross, "")
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.txtGross.Location = New System.Drawing.Point(656, 408)
+      Me.txtGross.Location = New System.Drawing.Point(628, 394)
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtGross, "")
       Me.Validator.SetRequired(Me.txtGross, False)
-      Me.txtGross.Size = New System.Drawing.Size(144, 21)
+      Me.txtGross.Size = New System.Drawing.Size(81, 21)
       Me.txtGross.TabIndex = 87
       Me.txtGross.TabStop = False
       Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -622,7 +645,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
-      Me.txtDiscountRate.Location = New System.Drawing.Point(560, 429)
+      Me.txtDiscountRate.Location = New System.Drawing.Point(532, 421)
       Me.Validator.SetMinValue(Me.txtDiscountRate, "")
       Me.txtDiscountRate.Name = "txtDiscountRate"
       Me.Validator.SetRegularExpression(Me.txtDiscountRate, "")
@@ -635,7 +658,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxType.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxType.Location = New System.Drawing.Point(328, 493)
+      Me.lblTaxType.Location = New System.Drawing.Point(550, 491)
       Me.lblTaxType.Name = "lblTaxType"
       Me.lblTaxType.Size = New System.Drawing.Size(72, 18)
       Me.lblTaxType.TabIndex = 77
@@ -651,13 +674,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAfterTax.ForeColor = System.Drawing.Color.Blue
       Me.Validator.SetGotFocusBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
-      Me.txtAfterTax.Location = New System.Drawing.Point(656, 513)
+      Me.txtAfterTax.Location = New System.Drawing.Point(628, 539)
       Me.Validator.SetMinValue(Me.txtAfterTax, "")
       Me.txtAfterTax.Name = "txtAfterTax"
       Me.txtAfterTax.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAfterTax, "")
       Me.Validator.SetRequired(Me.txtAfterTax, False)
-      Me.txtAfterTax.Size = New System.Drawing.Size(144, 21)
+      Me.txtAfterTax.Size = New System.Drawing.Size(188, 21)
       Me.txtAfterTax.TabIndex = 92
       Me.txtAfterTax.TabStop = False
       Me.txtAfterTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -667,7 +690,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAfterTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblAfterTax.BackColor = System.Drawing.Color.Transparent
       Me.lblAfterTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAfterTax.Location = New System.Drawing.Point(560, 514)
+      Me.lblAfterTax.Location = New System.Drawing.Point(528, 539)
       Me.lblAfterTax.Name = "lblAfterTax"
       Me.lblAfterTax.Size = New System.Drawing.Size(96, 18)
       Me.lblAfterTax.TabIndex = 86
@@ -678,7 +701,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDiscountAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblDiscountAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDiscountAmount.Location = New System.Drawing.Point(488, 432)
+      Me.lblDiscountAmount.Location = New System.Drawing.Point(460, 424)
       Me.lblDiscountAmount.Name = "lblDiscountAmount"
       Me.lblDiscountAmount.Size = New System.Drawing.Size(64, 18)
       Me.lblDiscountAmount.TabIndex = 78
@@ -690,7 +713,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxBase.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxBase.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxBase.Location = New System.Drawing.Point(528, 472)
+      Me.lblTaxBase.Location = New System.Drawing.Point(496, 469)
       Me.lblTaxBase.Name = "lblTaxBase"
       Me.lblTaxBase.Size = New System.Drawing.Size(128, 18)
       Me.lblTaxBase.TabIndex = 81
@@ -702,7 +725,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBeforeTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblBeforeTax.BackColor = System.Drawing.Color.Transparent
       Me.lblBeforeTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBeforeTax.Location = New System.Drawing.Point(536, 451)
+      Me.lblBeforeTax.Location = New System.Drawing.Point(508, 443)
       Me.lblBeforeTax.Name = "lblBeforeTax"
       Me.lblBeforeTax.Size = New System.Drawing.Size(120, 18)
       Me.lblBeforeTax.TabIndex = 79
@@ -713,9 +736,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbTaxType.Location = New System.Drawing.Point(400, 492)
+      Me.cmbTaxType.Location = New System.Drawing.Point(628, 491)
       Me.cmbTaxType.Name = "cmbTaxType"
-      Me.cmbTaxType.Size = New System.Drawing.Size(64, 21)
+      Me.cmbTaxType.Size = New System.Drawing.Size(56, 21)
       Me.cmbTaxType.TabIndex = 9
       '
       'txtDiscountAmount
@@ -726,13 +749,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
-      Me.txtDiscountAmount.Location = New System.Drawing.Point(656, 429)
+      Me.txtDiscountAmount.Location = New System.Drawing.Point(628, 421)
       Me.Validator.SetMinValue(Me.txtDiscountAmount, "")
       Me.txtDiscountAmount.Name = "txtDiscountAmount"
       Me.txtDiscountAmount.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtDiscountAmount, "")
       Me.Validator.SetRequired(Me.txtDiscountAmount, False)
-      Me.txtDiscountAmount.Size = New System.Drawing.Size(144, 21)
+      Me.txtDiscountAmount.Size = New System.Drawing.Size(188, 21)
       Me.txtDiscountAmount.TabIndex = 88
       Me.txtDiscountAmount.TabStop = False
       Me.txtDiscountAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -745,7 +768,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
-      Me.txtTaxRate.Location = New System.Drawing.Point(528, 492)
+      Me.txtTaxRate.Location = New System.Drawing.Point(762, 494)
       Me.Validator.SetMinValue(Me.txtTaxRate, "")
       Me.txtTaxRate.Name = "txtTaxRate"
       Me.txtTaxRate.ReadOnly = True
@@ -760,7 +783,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxRate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxRate.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxRate.Location = New System.Drawing.Point(464, 493)
+      Me.lblTaxRate.Location = New System.Drawing.Point(696, 494)
       Me.lblTaxRate.Name = "lblTaxRate"
       Me.lblTaxRate.Size = New System.Drawing.Size(64, 18)
       Me.lblTaxRate.TabIndex = 82
@@ -983,7 +1006,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtFromCostCenterName
       '
-      Me.txtFromCostCenterName.BackColor = System.Drawing.SystemColors.Control
       Me.Validator.SetDataType(Me.txtFromCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtFromCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterName, System.Drawing.Color.Empty)
@@ -991,7 +1013,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCostCenterName.Location = New System.Drawing.Point(280, 80)
       Me.Validator.SetMinValue(Me.txtFromCostCenterName, "")
       Me.txtFromCostCenterName.Name = "txtFromCostCenterName"
-      Me.txtFromCostCenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtFromCostCenterName, "")
       Me.Validator.SetRequired(Me.txtFromCostCenterName, False)
       Me.txtFromCostCenterName.Size = New System.Drawing.Size(176, 21)
@@ -1007,11 +1028,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCostCenterCode.Location = New System.Drawing.Point(216, 80)
       Me.Validator.SetMinValue(Me.txtFromCostCenterCode, "")
       Me.txtFromCostCenterCode.Name = "txtFromCostCenterCode"
-      Me.txtFromCostCenterCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtFromCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtFromCostCenterCode, False)
       Me.txtFromCostCenterCode.Size = New System.Drawing.Size(64, 21)
       Me.txtFromCostCenterCode.TabIndex = 103
+      '
+      'txtRealGross
+      '
+      Me.txtRealGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.txtRealGross, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRealGross, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRealGross, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRealGross, System.Drawing.Color.Empty)
+      Me.txtRealGross.Location = New System.Drawing.Point(735, 392)
+      Me.Validator.SetMinValue(Me.txtRealGross, "")
+      Me.txtRealGross.Name = "txtRealGross"
+      Me.Validator.SetRegularExpression(Me.txtRealGross, "")
+      Me.Validator.SetRequired(Me.txtRealGross, False)
+      Me.txtRealGross.Size = New System.Drawing.Size(81, 21)
+      Me.txtRealGross.TabIndex = 109
+      Me.txtRealGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtRealTaxAmount
+      '
+      Me.txtRealTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.txtRealTaxAmount, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRealTaxAmount, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
+      Me.txtRealTaxAmount.Location = New System.Drawing.Point(735, 515)
+      Me.Validator.SetMinValue(Me.txtRealTaxAmount, "")
+      Me.txtRealTaxAmount.Name = "txtRealTaxAmount"
+      Me.Validator.SetRegularExpression(Me.txtRealTaxAmount, "")
+      Me.Validator.SetRequired(Me.txtRealTaxAmount, False)
+      Me.txtRealTaxAmount.Size = New System.Drawing.Size(81, 21)
+      Me.txtRealTaxAmount.TabIndex = 111
+      Me.txtRealTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtRealTaxBase
+      '
+      Me.txtRealTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.txtRealTaxBase, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRealTaxBase, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
+      Me.txtRealTaxBase.Location = New System.Drawing.Point(735, 467)
+      Me.Validator.SetMinValue(Me.txtRealTaxBase, "")
+      Me.txtRealTaxBase.Name = "txtRealTaxBase"
+      Me.Validator.SetRegularExpression(Me.txtRealTaxBase, "")
+      Me.Validator.SetRequired(Me.txtRealTaxBase, False)
+      Me.txtRealTaxBase.Size = New System.Drawing.Size(81, 21)
+      Me.txtRealTaxBase.TabIndex = 110
+      Me.txtRealTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblItemRf
       '
@@ -1037,7 +1105,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(8, 248)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(800, 152)
+      Me.tgItem.Size = New System.Drawing.Size(813, 140)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 59
       Me.tgItem.TreeManager = Nothing
@@ -1130,17 +1198,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowFromCostCenterDialog.TabStop = False
       Me.ibtnShowFromCostCenterDialog.ThemedImage = CType(resources.GetObject("ibtnShowFromCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
       '
-      'cmbCode
+      'ibtnResetGross
       '
-      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(96, 17)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(88, 21)
-      Me.cmbCode.TabIndex = 108
+      Me.ibtnResetGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ibtnResetGross.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetGross.Location = New System.Drawing.Point(711, 392)
+      Me.ibtnResetGross.Name = "ibtnResetGross"
+      Me.ibtnResetGross.Size = New System.Drawing.Size(24, 20)
+      Me.ibtnResetGross.TabIndex = 112
+      Me.ibtnResetGross.TabStop = False
+      Me.ibtnResetGross.ThemedImage = CType(resources.GetObject("ibtnResetGross.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnResetTaxAmount
+      '
+      Me.ibtnResetTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(711, 516)
+      Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
+      Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
+      Me.ibtnResetTaxAmount.TabIndex = 114
+      Me.ibtnResetTaxAmount.TabStop = False
+      Me.ibtnResetTaxAmount.ThemedImage = CType(resources.GetObject("ibtnResetTaxAmount.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnResetTaxBase
+      '
+      Me.ibtnResetTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(711, 469)
+      Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
+      Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
+      Me.ibtnResetTaxBase.TabIndex = 113
+      Me.ibtnResetTaxBase.TabStop = False
+      Me.ibtnResetTaxBase.ThemedImage = CType(resources.GetObject("ibtnResetTaxBase.ThemedImage"), System.Drawing.Bitmap)
       '
       'PurchaseCNDetailView
       '
+      Me.Controls.Add(Me.txtRealGross)
+      Me.Controls.Add(Me.ibtnResetGross)
+      Me.Controls.Add(Me.txtRealTaxAmount)
+      Me.Controls.Add(Me.ibtnResetTaxAmount)
+      Me.Controls.Add(Me.txtRealTaxBase)
+      Me.Controls.Add(Me.ibtnResetTaxBase)
       Me.Controls.Add(Me.cmbCode)
       Me.Controls.Add(Me.ibtnShowFromCostCenter)
       Me.Controls.Add(Me.ibtnShowFromCostCenterDialog)
@@ -1376,7 +1474,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       item.CopyFromDataRow(tr)
       Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
       Dim row As TreeRow = Me.m_wbsTreeManager.SelectedRow
-      CType(row.Tag, WBSDistribute).WBS = CType(wbs, wbs)
+      CType(row.Tag, WBSDistribute).WBS = CType(wbs, WBS)
       Dim view As Integer = 45
       m_wbsdInitialized = False
       wsdColl.Populate(dt, item, view)
@@ -2899,6 +2997,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtFromCostCenterCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtFromCostCenterCode.TextChanged, AddressOf Me.TextHandler
 
+      AddHandler txtFromCostCenterName.Validated, AddressOf ChangeProperty
+      AddHandler txtSupplierName.Validated, AddressOf ChangeProperty
+
+      AddHandler txtRealTaxBase.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxBase.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtRealGross.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealGross.Validated, AddressOf Me.TextHandler
     End Sub
     Private supplierCodeChanged As Boolean = False
     Private txtcreditprdChanged As Boolean = False
@@ -2916,6 +3025,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_invoicecodechange = True
         Case "txtfromcostcentercode"
           fromCCCodeChanged = True
+        Case "txtrealtaxbase"
+          Dim txt As String = Me.txtRealTaxBase.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxBase = 0
+          Else
+            Try
+              Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxBase = 0
+            End Try
+          End If
+          UpdateAmount()
+        Case "txtrealgross"
+          Dim txt As String = Me.txtRealGross.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealGross = 0
+          Else
+            Try
+              Me.m_entity.RealGross = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealGross = 0
+            End Try
+          End If
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount()
+        Case "txtrealtaxamount"
+          Dim txt As String = Me.txtRealTaxAmount.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxAmount = 0
+          Else
+            Try
+              Me.m_entity.RealTaxAmount = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxAmount = 0
+            End Try
+          End If
+          UpdateAmount()
       End Select
     End Sub
     Private m_oldInvoiceCode As String = ""
@@ -3048,6 +3198,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
+        Case "txtrealtaxbase"
+          dirtyFlag = True
+        Case "txtrealtaxamount"
+          dirtyFlag = True
+        Case "txtrealgross"
+          Me.m_entity.RealGross = Me.txtRealGross.Text
+          'forceUpdateTaxBase = False
+          'forceUpdateTaxAmount = False
+          forceUpdateGross = False
+          dirtyFlag = True
         Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
           'เพิ่ม AutoCode
@@ -3069,123 +3229,167 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
+        Case "txtfromcostcentername"
+          Dim txt As String = txtFromCostCenterName.Text
+          Dim reg As New Regex("\[(.*)\]")
+          If reg.IsMatch(txt) Then
+            Dim cc As CostCenter
+            Try
+              cc = New CostCenter(reg.Match(txt).Groups(1).Value)
+              Me.m_entity.FromCostCenter = cc
+              dirtyFlag = True
+            Catch ex As Exception
+              cc = New CostCenter
+            End Try
+          End If
+          m_isInitialized = False
+          Me.txtFromCostCenterCode.Text = Me.m_entity.FromCostCenter.Code
+          Me.txtFromCostCenterName.Text = Me.m_entity.FromCostCenter.Name
+          m_isInitialized = True
         Case "txtnote"
-            Me.m_entity.Note = txtNote.Text
-            dirtyFlag = True
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
         Case "txtsuppliercode"
-            If supplierCodeChanged Then
-              supplierCodeChanged = False
-              dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
-              If dirtyFlag Then
-                For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
-                  vitem.PrintName = Me.m_entity.Supplier.Name
-                  vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
-                Next
-                Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
-                Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-                txtcreditprdChanged = False
-              End If
-              Me.RefreshBlankGrid()
-              RefreshBlankDocGrid()
-            End If
-        Case "dtpdocdate"
-            If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-              If Not m_dateSetting Then
-                Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                Me.m_entity.DocDate = dtpDocDate.Value
-                Me.m_entity.Receive.DocDate = dtpDocDate.Value
-                dirtyFlag = True
-              End If
-            End If
-            txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-        Case "txtdocdate"
-            m_dateSetting = True
-            If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-              Dim theDate As Date = CDate(Me.txtDocDate.Text)
-              If Not Me.m_entity.DocDate.Equals(theDate) Then
-                dtpDocDate.Value = theDate
-                Me.m_entity.DocDate = MinDateToNow(dtpDocDate.Value)
-                If Not Me.m_entity.Payment Is Nothing Then
-                  Me.m_entity.Payment.DocDate = MinDateToNow(dtpDocDate.Value)
-                End If
-                dirtyFlag = True
-              End If
-            Else
-              dtpDocDate.Value = Date.Now
-              Me.m_entity.DocDate = Date.MinValue
-              Me.m_entity.Payment.DocDate = Date.MinValue
-            End If
-            txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-            m_dateSetting = False
-        Case "dtpduedate"
-            If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
-              If Not m_dateSetting Then
-                Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                Me.m_entity.DueDate = dtpDueDate.Value
-                'Me.m_entity.Receive.DocDate = dtpDocDate.Value
-                dirtyFlag = True
-              End If
-            End If
-            Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
-        Case "txtduedate"
-            m_dateSetting = True
-            If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
-              Dim theDate As Date = CDate(Me.txtDueDate.Text)
-              If Not Me.m_entity.DueDate.Equals(theDate) Then
-                dtpDueDate.Value = theDate
-                Me.m_entity.DueDate = dtpDueDate.Value
-                'Me.m_entity.Payment.DocDate = dtpDocDate.Value
-                dirtyFlag = True
-              End If
-            Else
-              dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)   'Date.Now
-              'Me.m_entity.DocDate = Date.MinValue
-              'Me.m_entity.Payment.DocDate = Date.MinValue
-            End If
-            Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
-            m_dateSetting = False
-        Case "txtcreditprd"
-            If txtcreditprdChanged Then
+          If supplierCodeChanged Then
+            supplierCodeChanged = False
+            dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+            If dirtyFlag Then
+              For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+                vitem.PrintName = Me.m_entity.Supplier.Name
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+              Next
+              Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
+              Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
               txtcreditprdChanged = False
-              Dim txt As String = Me.txtCreditPrd.Text
-              If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                Me.m_entity.CreditPeriod = CInt(txt)
-              Else
-                Me.m_entity.CreditPeriod = 0
+            End If
+            Me.RefreshBlankGrid()
+            RefreshBlankDocGrid()
+          End If
+        Case "txtsuppliername"
+          Dim txt As String = txtSupplierName.Text
+          Dim reg As New Regex("\[(.*)\]")
+          If reg.IsMatch(txt) Then
+            Dim sup As Supplier
+            Try
+              sup = New Supplier(reg.Match(txt).Groups(1).Value)
+              dirtyFlag = True
+            Catch ex As Exception
+              sup = New Supplier
+            End Try
+            Me.m_entity.Supplier = sup
+            If dirtyFlag Then
+              For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+                vitem.PrintName = Me.m_entity.Supplier.Name
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+              Next
+              Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
+              Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+              txtcreditprdChanged = False
+            End If
+            Me.RefreshBlankGrid()
+            RefreshBlankDocGrid()
+          End If
+          m_isInitialized = False
+          Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
+          Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
+          m_isInitialized = True
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
+              Me.m_entity.Receive.DocDate = dtpDocDate.Value
+              dirtyFlag = True
+            End If
+          End If
+          txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = MinDateToNow(dtpDocDate.Value)
+              If Not Me.m_entity.Payment Is Nothing Then
+                Me.m_entity.Payment.DocDate = MinDateToNow(dtpDocDate.Value)
               End If
-              txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-              Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
               dirtyFlag = True
             End If
+          Else
+            dtpDocDate.Value = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            Me.m_entity.Payment.DocDate = Date.MinValue
+          End If
+          txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+          m_dateSetting = False
+        Case "dtpduedate"
+          If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DueDate = dtpDueDate.Value
+              'Me.m_entity.Receive.DocDate = dtpDocDate.Value
+              dirtyFlag = True
+            End If
+          End If
+          Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
+        Case "txtduedate"
+          m_dateSetting = True
+          If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDueDate.Text)
+            If Not Me.m_entity.DueDate.Equals(theDate) Then
+              dtpDueDate.Value = theDate
+              Me.m_entity.DueDate = dtpDueDate.Value
+              'Me.m_entity.Payment.DocDate = dtpDocDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)   'Date.Now
+            'Me.m_entity.DocDate = Date.MinValue
+            'Me.m_entity.Payment.DocDate = Date.MinValue
+          End If
+          Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
+          m_dateSetting = False
+        Case "txtcreditprd"
+          If txtcreditprdChanged Then
+            txtcreditprdChanged = False
+            Dim txt As String = Me.txtCreditPrd.Text
+            If txt.Length > 0 AndAlso IsNumeric(txt) Then
+              Me.m_entity.CreditPeriod = CInt(txt)
+            Else
+              Me.m_entity.CreditPeriod = 0
+            End If
+            txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+            Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+            dirtyFlag = True
+          End If
         Case "txttaxbase"
-            'Todo
+          'Todo
         Case "txtdiscountrate"
-            Me.m_entity.Discount.Rate = txtDiscountRate.Text
-            UpdateAmount()
-            dirtyFlag = True
+          Me.m_entity.Discount.Rate = txtDiscountRate.Text
+          UpdateAmount()
+          dirtyFlag = True
         Case "cmbtaxtype"
-            Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
-            Me.m_entity.TaxType.Value = item.Id
-            UpdateAmount()
-            RefreshDocs()
-            dirtyFlag = True
+          Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
+          Me.m_entity.TaxType.Value = item.Id
+          UpdateAmount()
+          RefreshDocs()
+          dirtyFlag = True
         Case "txtinvoicecode"
-            If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
-              Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
-              m_oldInvoiceCode = Me.txtInvoiceCode.Text
-              dirtyFlag = True
-              m_invoicecodechange = False
-            End If
+          If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
+            Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            dirtyFlag = True
+            m_invoicecodechange = False
+          End If
         Case "txtinvoicedate"
-            m_dateSetting = True
-            dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
-            m_dateSetting = False
+          m_dateSetting = True
+          dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
+          m_dateSetting = False
         Case "dtpinvoicedate"
-            dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
-        Case Else
+          dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)        
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()
@@ -3212,6 +3416,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = False
       m_entity.RefreshTaxBase()
 
+      'HACK: forceUpdateGross ต้องอยู่อันแรกนะจ๊ะ
+      If forceUpdateGross OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealGross = Me.m_entity.Gross
+        forceUpdateGross = False
+      End If
+      If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+        forceUpdateTaxBase = False
+      End If
+      If forceUpdateTaxAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount) Then
+        Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+        forceUpdateTaxAmount = False
+      End If
+
       txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
       txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
       txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
@@ -3225,6 +3443,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtOrgTotal.Text = Configuration.FormatToString(realAmt, DigitConfig.Price)
       txtAdjVal.Text = Configuration.FormatToString(realAmt - m_entity.Gross, DigitConfig.Price)
       txtDiff.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+
+      txtRealGross.Text = Configuration.FormatToString(m_entity.RealGross, DigitConfig.Price)
+      txtRealTaxAmount.Text = Configuration.FormatToString(m_entity.RealTaxAmount, DigitConfig.Price)
+      txtRealTaxBase.Text = Configuration.FormatToString(m_entity.RealTaxBase, DigitConfig.Price)
 
       m_isInitialized = True
       'SetVatInputAfterAmountChange()
@@ -3292,6 +3514,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Public Overrides Sub Initialize()
       SetTaxTypeComboBox()
+
+      Me.txtSupplierName.AutoCompleteSource = AutoCompleteSource.CustomSource
+      Me.txtSupplierName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+      Dim a As New AutoCompleteStringCollection
+      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+        a.Add(kv.Value & " [" & kv.Key & "]")
+      Next
+      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+        a.Add("[" & kv.Key & "] " & kv.Value)
+      Next
+      Me.txtSupplierName.AutoCompleteCustomSource = a
+
+      Me.txtFromCostCenterName.AutoCompleteSource = AutoCompleteSource.CustomSource
+      Me.txtFromCostCenterName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+      a = New AutoCompleteStringCollection
+      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+        a.Add(kv.Value & " [" & kv.Key & "]")
+      Next
+      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+        a.Add("[" & kv.Key & "] " & kv.Value)
+      Next
+      Me.txtFromCostCenterName.AutoCompleteCustomSource = a
     End Sub
     ' 
     Private Sub SetTaxTypeComboBox()
@@ -3749,7 +3993,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -3907,6 +4151,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
+    Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
+      If Me.m_entity.RealGross <> Me.m_entity.Gross Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealGross = Me.m_entity.Gross
+      UpdateAmount()
+    End Sub
+    Private Sub ibtnResetTaxBase_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxBase.Click
+      If Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+      UpdateAmount()
+    End Sub
+    Private Sub ibtnResetTaxAmount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxAmount.Click
+      If Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+      UpdateAmount()
+    End Sub
+    Private forceUpdateTaxBase As Boolean = False
+    Private forceUpdateGross As Boolean = False
+    Private forceUpdateTaxAmount As Boolean = False
   End Class
 End Namespace
 

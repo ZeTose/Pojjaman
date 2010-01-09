@@ -55,6 +55,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxRate As Decimal
     Private m_taxType As TaxType
 
+    Private m_realTaxBase As Decimal
+    Private m_realGross As Decimal
+    Private m_realTaxAmount As Decimal
+
     Private m_status As PurchaseCNStatus
 
     Private m_refDocCollection As PurchaseCNRefDocCollection
@@ -192,6 +196,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_status = New PurchaseCNStatus(CInt(dr(aliasPrefix & "stock_status")))
         End If
 
+        '--------------------REAL-------------------------
+        ' Tax Base
+        If dr.Table.Columns.Contains(aliasPrefix & "stock_taxbase") _
+        AndAlso Not dr.IsNull(aliasPrefix & "stock_taxbase") Then
+          .m_realTaxBase = CDec(dr(aliasPrefix & "stock_taxbase"))
+        End If
+
+        ' Gross
+        If dr.Table.Columns.Contains(aliasPrefix & "stock_gross") _
+        AndAlso Not dr.IsNull(aliasPrefix & "stock_gross") Then
+          .m_realGross = CDec(dr(aliasPrefix & "stock_gross"))
+        End If
+
+        ' Tax Amount
+        If dr.Table.Columns.Contains(aliasPrefix & "stock_taxamt") _
+        AndAlso Not dr.IsNull(aliasPrefix & "stock_taxamt") Then
+          .m_realTaxAmount = CDec(dr(aliasPrefix & "stock_taxamt"))
+        End If
+        '--------------------END REAL-------------------------
+
         .m_vat = New Vat(Me)
         m_vat.Direction.Value = 1
 
@@ -208,6 +232,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    '--------------------REAL-------------------------
+    Public Property RealGross() As Decimal
+      Get
+        'HACK
+        If m_realGross = 0 AndAlso m_gross <> 0 Then
+          m_realGross = m_gross
+        End If
+        Return m_realGross
+      End Get
+      Set(ByVal Value As Decimal)
+        If m_realGross <> Value Then
+          OnGlChanged()
+        End If
+        m_realGross = Value
+      End Set
+    End Property
+    Public Property RealTaxAmount() As Decimal
+      Get
+        Return m_realTaxAmount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_realTaxAmount = Value
+      End Set
+    End Property
+    Public Property RealTaxBase() As Decimal
+      Get
+        Return m_realTaxBase
+      End Get
+      Set(ByVal Value As Decimal)
+        m_realTaxBase = Value
+      End Set
+    End Property
+    '--------------------END REAL-------------------------
+
     Public Property ItemTable() As TreeTable
       Get
         Return m_itemTable
@@ -360,7 +418,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property DiscountAmount() As Decimal
       Get
-        Me.Discount.AmountBeforeDiscount = Me.Gross
+        Me.Discount.AmountBeforeDiscount = Me.RealGross
         Return Me.Discount.Amount
       End Get
     End Property
@@ -393,16 +451,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property TaxAmount() As Decimal
       Get
-        Return (Me.TaxRate * Me.TaxBase) / 100
+        Return (Me.TaxRate * Me.RealTaxBase) / 100
       End Get
     End Property
     Public ReadOnly Property BeforeTax() As Decimal
       Get
         Select Case Me.TaxType.Description.ToLower
           Case "ไม่มี"
-            Return Me.Gross - Me.DiscountAmount
+            Return Me.RealGross - Me.DiscountAmount
           Case "แยก"
-            Return Me.Gross - Me.DiscountAmount
+            Return Me.RealGross - Me.DiscountAmount
           Case "รวม"
             Return Configuration.Format(Vat.GetExcludedVatAmount(Me.AfterTax - Me.m_unTaxGross, Me.TaxRate) + Me.m_unTaxGross, DigitConfig.Price)
         End Select
@@ -414,9 +472,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case "ไม่มี"
             Return Me.BeforeTax
           Case "แยก"
-            Return Me.BeforeTax + Me.TaxAmount
+            Return Me.BeforeTax + Me.RealTaxAmount
           Case "รวม"
-            Return Me.Gross - Me.DiscountAmount
+            Return Me.RealGross - Me.DiscountAmount
         End Select
       End Get
     End Property
@@ -650,14 +708,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", ValidDateOrDBNull(Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromcc", ValidIdOrDBNull(Me.FromCostCenter)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_creditPeriod", Me.CreditPeriod))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_gross", Me.Gross))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_gross", Me.RealGross))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discRate", Me.Discount.Rate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discAmt", Me.DiscountAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxType", Me.TaxType.Value))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxbase", Me.TaxBase))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxbase", Me.RealTaxBase))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_beforeTax", Me.BeforeTax))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxRate", Me.TaxRate))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.TaxAmount))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.RealTaxAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_afterTax", Me.AfterTax))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
@@ -1986,10 +2044,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีซื้อ
-      If Me.TaxAmount > 0 Then
+      If Me.RealTaxAmount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B6.9"
-        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+        ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
         If Me.FromCostCenter.Originated Then
           ji.CostCenter = Me.FromCostCenter
         Else

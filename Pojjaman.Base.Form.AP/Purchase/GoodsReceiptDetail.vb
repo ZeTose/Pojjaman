@@ -9,6 +9,8 @@ Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
+Imports System.Collections.Generic
+Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.Gui.Panels
 	Public Class GoodsReceiptDetail
@@ -407,7 +409,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtToCCPersonName
       '
-      Me.txtToCCPersonName.BackColor = System.Drawing.SystemColors.Control
       Me.Validator.SetDataType(Me.txtToCCPersonName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtToCCPersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCCPersonName, System.Drawing.Color.Empty)
@@ -449,7 +450,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtToCostCenterName
       '
-      Me.txtToCostCenterName.BackColor = System.Drawing.SystemColors.Control
       Me.Validator.SetDataType(Me.txtToCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtToCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCostCenterName, System.Drawing.Color.Empty)
@@ -457,7 +457,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCostCenterName.Location = New System.Drawing.Point(176, 16)
       Me.Validator.SetMinValue(Me.txtToCostCenterName, "")
       Me.txtToCostCenterName.Name = "txtToCostCenterName"
-      Me.txtToCostCenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToCostCenterName, "")
       Me.Validator.SetRequired(Me.txtToCostCenterName, False)
       Me.txtToCostCenterName.Size = New System.Drawing.Size(128, 20)
@@ -603,7 +602,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtSupplierName
       '
-      Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
       Me.Validator.SetDataType(Me.txtSupplierName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
@@ -611,7 +609,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Location = New System.Drawing.Point(152, 16)
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
-      Me.txtSupplierName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
       Me.Validator.SetRequired(Me.txtSupplierName, False)
       Me.txtSupplierName.Size = New System.Drawing.Size(168, 20)
@@ -2976,6 +2973,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			AddHandler txtToCCPersonCode.TextChanged, AddressOf Me.TextHandler
 			AddHandler txtToCostCenterCode.TextChanged, AddressOf Me.TextHandler
 
+      AddHandler txtToCostCenterName.Validated, AddressOf ChangeProperty
+      AddHandler txtSupplierName.Validated, AddressOf ChangeProperty
+
 			AddHandler txtDeliveryPerson.TextChanged, AddressOf Me.ChangeProperty
 
 			AddHandler cmbDocType.SelectedIndexChanged, AddressOf Me.ChangeProperty
@@ -3260,15 +3260,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						Catch ex As Exception
 
 						End Try
-					End If
-				Case "dtpdocdate"
-					If Not m_dateSetting Then
-						If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-							If Not m_dateSetting Then
-								Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-								Me.m_entity.DocDate = dtpDocDate.Value
-								Me.m_entity.Payment.DocDate = dtpDocDate.Value
-								Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+          End If
+        Case "txtsuppliername"
+          Dim txt As String = txtSupplierName.Text
+          Dim reg As New Regex("\[(.*)\]")
+          If reg.IsMatch(txt) Then
+            Dim sup As Supplier
+            Try
+              sup = New Supplier(reg.Match(txt).Groups(1).Value)
+            Catch ex As Exception
+              sup = New Supplier
+            End Try
+            Dim oldSupplier As Supplier = Me.m_entity.Supplier
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            Me.m_entity.Supplier = sup
+            If oldSupId <> Me.m_entity.Supplier.Id Then
+              If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeSupplier}") Then
+                oldSupId = Me.m_entity.Supplier.Id
+                dirtyFlag = True
+                ChangeSupplier()
+              Else
+                dirtyFlag = False
+                Me.m_entity.Supplier = oldSupplier
+              End If
+            End If
+          End If
+          m_isInitialized = False
+          Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
+          Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
+          m_isInitialized = True
+        Case "dtpdocdate"
+          If Not m_dateSetting Then
+            If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                Me.m_entity.DocDate = dtpDocDate.Value
+                Me.m_entity.Payment.DocDate = dtpDocDate.Value
+                Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
                 Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
                 If Not Me.m_entity.Originated Then
                   If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
@@ -3280,10 +3308,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     Me.dtpInvoiceDate.Value = Me.dtpDueDate.Value
                   End If
                 End If
-								dirtyFlag = True
-							End If
-						End If
-					End If
+                dirtyFlag = True
+              End If
+            End If
+          End If
 				Case "txtdocdate"
 					m_dateSetting = True
 					If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
@@ -3518,6 +3546,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
               toCCCodeChanged = False
             End If
           End If
+        Case "txttocostcentername"
+          Dim txt As String = txtToCostCenterName.Text
+          Dim reg As New Regex("\[(.*)\]")
+          If reg.IsMatch(txt) Then
+            Dim cc As CostCenter
+            Try
+              cc = New CostCenter(reg.Match(txt).Groups(1).Value)
+              Me.m_entity.ToCostCenter = cc
+              dirtyFlag = True
+            Catch ex As Exception
+              cc = New CostCenter
+            End Try
+            If dirtyFlag Then
+              UpdateDestAdmin()
+            End If
+          End If
+          m_isInitialized = False
+          Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+          Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
+          m_isInitialized = True
         Case "txtdeliveryperson"
           Me.m_entity.DeliveryPerson = txtDeliveryPerson.Text
           dirtyFlag = True
@@ -3753,7 +3801,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		End Property
 		Public Overrides Sub Initialize()
 			SetTaxTypeComboBox()
-			ListType()
+      ListType()
+
+      Me.txtSupplierName.AutoCompleteSource = AutoCompleteSource.CustomSource
+      Me.txtSupplierName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+      Dim a As New AutoCompleteStringCollection
+      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+        a.Add(kv.Value & " [" & kv.Key & "]")
+      Next
+      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+        a.Add("[" & kv.Key & "] " & kv.Value)
+      Next
+      Me.txtSupplierName.AutoCompleteCustomSource = a
+
+      Me.txtToCostCenterName.AutoCompleteSource = AutoCompleteSource.CustomSource
+      Me.txtToCostCenterName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+      a = New AutoCompleteStringCollection
+      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+        a.Add(kv.Value & " [" & kv.Key & "]")
+      Next
+      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+        a.Add("[" & kv.Key & "] " & kv.Value)
+      Next
+      Me.txtToCostCenterName.AutoCompleteCustomSource = a
 		End Sub
 		Private Sub ListType()
 			Dim oldType As New GoodsReceiptToAcctType(-1)
