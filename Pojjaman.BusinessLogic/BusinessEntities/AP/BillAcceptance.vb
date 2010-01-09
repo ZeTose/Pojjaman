@@ -1367,6 +1367,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_retentionType = value
       End Set
     End Property
+
+    Public ReadOnly Property RetentionForGL() As Decimal
+      Get
+        If Me.EntityId = 199 AndAlso Me.RetentionType = 45 Then
+          Return Me.Amount
+        End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property AmountForGL As Decimal
+      Get
+        If Me.EntityId = 46 Then
+          Return -Me.Amount
+        Else
+          Return Me.Amount
+        End If
+      End Get
+    End Property
+
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "BillAcceptanceItem"
