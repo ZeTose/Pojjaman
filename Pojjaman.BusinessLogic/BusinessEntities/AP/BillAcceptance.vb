@@ -1012,7 +1012,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_parentCode As String
     Private m_parentType As Integer
 
-    Private m_retention As Decimal
     Private m_retentionType As Integer
     Private m_remainningBalance As Decimal
 
@@ -1351,13 +1350,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unpaidAmount = Value
       End Set
     End Property
-    Public ReadOnly Property Retention() As Decimal
+    Private m_retention As Decimal
+    Public Property Retention() As Decimal
       Get
         If Me.m_typeId = 199 Then
           Return 0
         End If
         Return m_retention
       End Get
+      Set(ByVal value As Decimal)
+        m_retention = value
+      End Set
     End Property
     Public Property RetentionType() As Integer
       Get
@@ -1406,9 +1409,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub SetType(ByVal type As Integer)
       Me.m_typeId = type
-    End Sub
-    Public Sub SetRetention(ByVal Retention As Decimal)
-      Me.m_retention = Retention
     End Sub
     Public Sub Clear()
       Me.Id = 0

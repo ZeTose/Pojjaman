@@ -859,6 +859,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If myCC Is Nothing OrElse Not myCC.Originated Then
         myCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
       End If
+      Dim tmp As Object = Configuration.GetConfig("APRetentionPoint")
+      Dim apRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        apRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (apRetentionPoint = 1)
+
       Dim ccList As New Dictionary(Of Integer, CostCenter)
 
       For Each doc As BillAcceptanceItem In Me.ItemCollection
@@ -879,7 +886,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เจ้าหนี้การค้า
           ji = New JournalEntryItem
           ji.Mapping = "B8.1"
-          ji.Amount = myDebt
+          If retentionHere Then
+            ji.Amount = myDebt + doc.Retention
+          Else
+            ji.Amount = myDebt
+          End If
           If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
             ji.Account = Me.Supplier.Account
           End If
@@ -896,8 +907,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.CostCenter = itemCC
           jiColl.Add(ji)
         End If
+
+        'Retention หัก
+        If retentionHere AndAlso doc.Retention > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.16"
+          ji.Amount = doc.Retention
+          ji.CostCenter = itemCC
+          ji.Note = Me.Recipient.Name
+          jiColl.Add(ji)
+        End If
       Next
-     
+
       'ภาษีซื้อ
       If Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem

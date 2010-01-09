@@ -2145,7 +2145,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Value = ParentLineNumber.ToString & "." & ChildLineNumber.ToString
           End If
           dpi.Font = fn
-          dpi.DataType = "System.Integer"
+          dpi.DataType = "System.String"
           dpi.Table = "Item"
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
@@ -2858,7 +2858,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
-
+      Dim tmp As Object = Configuration.GetConfig("APRetentionPoint")
+      Dim apRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        apRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (apRetentionPoint = 0)
       '¤èÒãªé¨èÒÂ«èÍÁ
       Dim i41 As Decimal = 0
       If Me.TaxType.Value = 2 Then
@@ -2870,12 +2875,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If i41 > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "I4.1"
-        ji.Amount = i41
+        If retentionHere Then
+          ji.Amount = i41 + Me.Retention
+        Else
+          ji.Amount = i41
+        End If
         If Me.CostCenter.Originated Then
           ji.CostCenter = Me.CostCenter
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        jiColl.Add(ji)
+      End If
+
+      'Retention
+      If retentionHere AndAlso Me.Retention > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "E3.16"
+        ji.Amount = Me.Retention
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.Note = Me.Recipient.Name
         jiColl.Add(ji)
       End If
 
@@ -2947,20 +2970,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
-        jiColl.Add(ji)
-      End If
-
-      'Retention
-      If Me.Retention > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "E3.16"
-        ji.Amount = Me.Retention
-        If Me.CostCenter.Originated Then
-          ji.CostCenter = Me.CostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        ji.Note = Me.Recipient.Name
         jiColl.Add(ji)
       End If
 

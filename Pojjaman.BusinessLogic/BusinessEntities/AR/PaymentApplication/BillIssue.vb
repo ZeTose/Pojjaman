@@ -1961,10 +1961,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             jiColl.Add(ji)
           End If
 
+          Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+          Dim apRetentionPoint As Integer = 0
+          If IsNumeric(tmp) Then
+            apRetentionPoint = CInt(tmp)
+          End If
+          Dim retentionHere As Boolean = (apRetentionPoint = 0)
 
           'ËÑ¡à§Ô¹ Retention C7.18
           Dim rtnAmt As Decimal = Me.ItemCollection.GetRetentionAmount(pma)
-          If rtnAmt <> 0 Then
+          If retentionHere AndAlso rtnAmt <> 0 Then
             ji = New JournalEntryItem
             ji.Amount = rtnAmt
             ji.Mapping = "C7.18"

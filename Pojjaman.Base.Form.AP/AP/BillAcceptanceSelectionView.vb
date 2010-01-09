@@ -443,7 +443,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   newItem.RetentionType = CInt(childRow("billai_retentiontype"))
                 End If
                 If Not childRow.IsNull("stock_retention") Then
-                  newItem.SetRetention(CDbl(childRow("stock_retention")))
+                  newItem.Retention = CDbl(childRow("stock_retention"))
                 End If
                 bi.Tag = newItem
                 m_basketItems.Add(bi)

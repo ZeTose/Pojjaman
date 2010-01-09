@@ -767,6 +767,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stock_aftertax") = billi.AfterTax
           dr("stock_taxBase") = billi.TaxBase
           dr("stock_note") = billi.Note
+          'dr("stock_retention") = billi.Retention ==> Version 22
           dr("stock_status") = Me.Status.Value
           .Rows.Add(dr)
         Next
@@ -889,18 +890,67 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
       Dim cc As CostCenter = GetAllCC()
 
-      If Me.Gross > 0 Then
-        'ลูกหนี้การค้า
-        ji = New JournalEntryItem
-        ji.Mapping = "C8.2"
-        ji.Amount = Me.Gross
-        If Not Me.Customer.Account Is Nothing AndAlso Me.Customer.Account.Originated Then
-          ji.Account = Me.Customer.Account
-        End If
-        ji.CostCenter = cc
-        jiColl.Add(ji)
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim apRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        apRetentionPoint = CInt(tmp)
       End If
+      Dim retentionHere As Boolean = (apRetentionPoint = 1)
 
+      For Each doc As SaleBillIssueItem In Me.ItemCollection
+        Dim docRetention As Decimal = 0
+        Dim itemCC As CostCenter
+        If doc.ParentType = 81 Then
+          'วางบิลงวด                   
+          Dim bi As BillIssue = CType(Me.m_billissues(doc.ParentId), BillIssue)
+          For Each mi As Milestone In bi.ItemCollection
+            If mi.Id = doc.Id AndAlso Not mi.TaxType.Value = 0 Then
+              itemCC = mi.CostCenter
+            End If
+          Next
+          docRetention = bi.ItemCollection.GetRetentionAmount(Nothing)
+        Else
+          Dim tmpcc As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
+          If tmpcc Is Nothing Then
+            tmpcc = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          If Not tmpcc Is Nothing Then
+            itemCC = tmpcc
+          End If
+        End If
+        If itemCC Is Nothing Then
+          itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        Dim myGross As Decimal = doc.AmountForGL
+        Dim myRetention As Decimal = doc.RetentionForGL
+        Dim myDebt As Decimal = myGross - myRetention
+
+        If doc.AmountForGL > 0 Then
+          'ลูกหนี้การค้า
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.2"
+          If retentionHere Then
+            ji.Amount = myDebt + docRetention
+          Else
+            ji.Amount = myDebt
+          End If
+          If Not Me.Customer.Account Is Nothing AndAlso Me.Customer.Account.Originated Then
+            ji.Account = Me.Customer.Account
+          End If
+          ji.CostCenter = itemCC
+          jiColl.Add(ji)
+        End If
+
+        'Retention หัก
+        If retentionHere AndAlso docRetention > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C7.18"
+          ji.Amount = docRetention
+          ji.CostCenter = itemCC
+          ji.Note = Me.Payer.Name
+          jiColl.Add(ji)
+        End If
+      Next
 
       'ภาษีหัก ณ ที่จ่าย
       If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then

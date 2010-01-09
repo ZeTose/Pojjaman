@@ -717,7 +717,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRetention.NullText = ""
       csRetention.DataAlignment = HorizontalAlignment.Right
       csRetention.Format = "#,###.##"
-      csRetention.ReadOnly = True
       csRetention.TextBox.Name = "Retention"
 
       Dim csPlusRetention As New TreeTextColumn
@@ -859,6 +858,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'If IsNumeric(e) Then
             SetAmount(e)
             'End If
+          Case "retention"
+            SetRetention(e)
           Case "paysi_note"
             SetNote(e)
         End Select
@@ -990,6 +991,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       doc.Amount = value
+      m_updating = False
+    End Sub
+    Public Sub SetRetention(ByVal e As DataColumnChangeEventArgs)
+      If m_updating Then
+        Return
+      End If
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+        e.ProposedValue = 0
+      End If
+      If Not IsNumeric(e.ProposedValue) Then
+        e.ProposedValue = e.Row(e.Column)
+        m_updating = False
+        Return
+      End If
+      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
+      Dim value As Decimal = CDec(e.ProposedValue)
+      'Dim remain As Decimal = doc.UnpaidAmount
+      m_updating = True
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If e.Row.IsNull("paysi_entityType") Then
+      'msgServ.ShowMessage("${res:Global.Error.NoPaySelectionEntityType}")
+      'e.ProposedValue = e.Row(e.Column)
+      'm_updating = False
+      'Return
+      'End If
+      'If Configuration.Compare(remain, value, DigitConfig.Price) < 0 Then
+      'msgServ.ShowMessageFormatted("${res:Global.Error.PaysRemainingAmountLessThanAmount}", _
+      'New String() { _
+      'Configuration.FormatToString(remain, DigitConfig.Price) _
+      ', Configuration.FormatToString(value, DigitConfig.Price) _
+      '})
+
+      'e.ProposedValue = e.Row(e.Column)
+      'm_updating = False
+      'Return
+      'End If
+      doc.Retention = value
       m_updating = False
     End Sub
     Public Sub SetRealAmount(ByVal e As DataColumnChangeEventArgs)

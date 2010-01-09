@@ -833,7 +833,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Property BeforeTax() As Decimal      Get        Return m_beforeTax      End Get      Set(ByVal Value As Decimal)        m_beforeTax = Value      End Set    End Property    Public Property AfterTax() As Decimal      Get        Return m_afterTax      End Get      Set(ByVal Value As Decimal)        m_afterTax = Value      End Set    End Property    Public Property TaxBase() As Decimal      Get        Return m_taxBase      End Get      Set(ByVal Value As Decimal)        m_taxBase = Value      End Set		End Property
 		Public Property RealAmount() As Decimal			Get				Return m_realAmount			End Get			Set(ByVal Value As Decimal)				m_realAmount = Value			End Set		End Property		Public Property Amount() As Decimal			Get				Return m_amount			End Get			Set(ByVal Value As Decimal)				m_amount = Value			End Set		End Property
-		Public Property UnreceivedAmount() As Decimal			Get				Return m_unReceivedAmount			End Get			Set(ByVal Value As Decimal)				m_unReceivedAmount = Value			End Set		End Property
+		Public Property UnreceivedAmount() As Decimal			Get				Return m_unReceivedAmount			End Get			Set(ByVal Value As Decimal)				m_unReceivedAmount = Value			End Set    End Property
+    Public ReadOnly Property RetentionForGL() As Decimal
+      Get
+        'If Me.EntityId = 199 AndAlso Me.RetentionType = 45 Then
+        'Return Me.Amount
+        'End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property AmountForGL As Decimal
+      Get
+        If Me.EntityId = 79 OrElse Me.EntityId = 48 Then
+          Return -Me.Amount
+        Else
+          Return Me.Amount
+        End If
+      End Get
+    End Property
+
 		Public Overrides ReadOnly Property ClassName() As String
 			Get
 				Return "SaleBillIssueItem"
