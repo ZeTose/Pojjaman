@@ -190,6 +190,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 RecentCompanies.CurrentCompany.SiteConnectionString _
                 , CommandType.StoredProcedure _
                 , "GetMatWithdrawQtyStore" _
+                , New SqlParameter("@doc_id", m_matWithdraw.Id) _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@cc_id", cc) _
                 )
@@ -346,6 +347,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  End Try
     '  Return 0
     'End Function
+    Public Function AllowWithdrawFromPR() As Decimal
+      Dim qty As Decimal = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
+      Dim remainstock As Decimal = Me.Matwithdraw.GetRemainLCIItem(Me.m_entity.Id)
+      Dim allowWithdrawn As Decimal = Math.Min(remainstock, Me.m_qty * Pritem.Conversion)
+      Return remainstock
+    End Function
     Public Sub CopyFromPRItem(ByVal prItem As Pritem, ByVal cumWithdrawn As Decimal)
       Me.m_pritem = prItem
       Me.m_entity = prItem.Entity
@@ -366,8 +373,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_qty = allowWithdrawn / prItem.Conversion
         End If
       End If
-
-      'Me.m_oldRemainingQty = Me.m_qty
 
       Me.m_note = prItem.Note
       If Not prItem.WBSDistributeCollection Is Nothing Then

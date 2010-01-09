@@ -2692,6 +2692,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
+          'RefDocBeforeTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocBeforeTax"
+          dpi.Value = Configuration.FormatToString(gr.BeforeTax, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
           'RefDocRetention
           dpi = New DocPrintingItem
           dpi.Mapping = "RefDocRetention"
@@ -3072,6 +3079,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetPaymentSelectionDocPrintingEntries() As DocPrintingItemCollection
       Dim n As Integer
       Dim sumAfterTax As Decimal = 0
+      Dim sumBeforTax As Decimal = 0
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
@@ -3319,6 +3327,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Configuration.FormatToString(ps.Vat.Amount, DigitConfig.UnitPrice)
         dpi.DataType = "System.Decimal"
         dpiColl.Add(dpi)
+
+        ''RefDocBeforeTax
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "RefDocBeforeTax"
+        'dpi.Value = Configuration.FormatToString(ps.BeforeTax, DigitConfig.UnitPrice)
+        'dpi.DataType = "System.String"
+        'dpiColl.Add(dpi)
 
         'RefDocAfterTax
         dpi = New DocPrintingItem

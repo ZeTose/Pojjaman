@@ -1771,8 +1771,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If IsNumeric(e.ProposedValue.ToString) Then
               Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              Dim remaining As Decimal = 0
 
-              Dim remaining As Decimal = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
+              If Not (doc.Pritem Is Nothing) Then
+                remaining = doc.AllowWithdrawFromPR
+              Else
+                remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
+              End If
+
               Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
@@ -1793,15 +1799,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
               '  End If
               '  Return
               'End If
-              If Not (doc.Pritem Is Nothing) Then
-                If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
-                  doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
-                Else
-                  doc.Qty = value
-                End If
-              Else
-                doc.Qty = value
-              End If
+
+              'If Not (doc.Pritem Is Nothing) Then
+              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+              'Else
+              'doc.Qty = value
+              'End If
+              'Else
+              doc.Qty = value
+              'End If
             End If
           Case "stocki_transferunitprice"
             'If IsDBNull(e.ProposedValue) Then
