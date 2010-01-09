@@ -43,34 +43,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 26
+      m_grid.ColCount = 27
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 100
-      m_grid.ColWidths(3) = 100
-      m_grid.ColWidths(4) = 100
+      m_grid.ColWidths(3) = 0
+      m_grid.ColWidths(4) = 0
       m_grid.ColWidths(5) = 100
       m_grid.ColWidths(6) = 100
       m_grid.ColWidths(7) = 220
-      m_grid.ColWidths(8) = 100
-      m_grid.ColWidths(9) = 100
-      m_grid.ColWidths(10) = 100
-      m_grid.ColWidths(11) = 100
-      m_grid.ColWidths(12) = 100
-      m_grid.ColWidths(13) = 200
-      m_grid.ColWidths(14) = 100
-      m_grid.ColWidths(15) = 100
-      m_grid.ColWidths(16) = 100
-      m_grid.ColWidths(17) = 200
-      m_grid.ColWidths(18) = 100
-      m_grid.ColWidths(19) = 100
-      m_grid.ColWidths(20) = 100
-      m_grid.ColWidths(21) = 100
-      m_grid.ColWidths(22) = 100
-      m_grid.ColWidths(23) = 100
-      m_grid.ColWidths(24) = 200
-      m_grid.ColWidths(25) = 180
-      m_grid.ColWidths(26) = 100
+      m_grid.ColWidths(8) = 100 '"ยอดรวม"
+      m_grid.ColWidths(9) = 100 '"ภาษี"
+      m_grid.ColWidths(10) = 100 '"ยอดปรับปรุงจำนวนจ่าย"
+      m_grid.ColWidths(11) = 100 '"ยอดรวมภาษี"
+      m_grid.ColWidths(12) = 0 '"ยอดคงเหลือ"
+      m_grid.ColWidths(13) = 100 '"รหัส Cost Center"
+      m_grid.ColWidths(14) = 200 '"Cost Center รับ"
+      m_grid.ColWidths(15) = 100 '"เครดิต"
+      m_grid.ColWidths(16) = 100 '"ใบสำคัญจ่าย"
+      m_grid.ColWidths(17) = 100 '"ใบสั่งซื้อ"
+      m_grid.ColWidths(18) = 200 '"ใบขอซื้อ"
+      m_grid.ColWidths(19) = 100 '"ผู้อนุมัติ"
+      m_grid.ColWidths(20) = 100 '"วันที่อนุมัติ"
+      m_grid.ColWidths(21) = 0 '"การอ้างอิง"
+      m_grid.ColWidths(22) = 0
+      m_grid.ColWidths(23) = 0
+      m_grid.ColWidths(24) = 0 '"ที่อยู่"
+      m_grid.ColWidths(25) = 0 '"โทรศัพท์"
+      m_grid.ColWidths(26) = 0 '"โทรสาร"
+      m_grid.ColWidths(27) = 100 'Note
 
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
@@ -84,10 +85,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-      m_grid.ColStyles(15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
       m_grid.ColStyles(16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(18).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -99,6 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(24).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(27).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 0
       m_grid.Rows.FrozenCount = 0
@@ -111,23 +113,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.supplierName}") '"ชื่อผู้ขาย"
       m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Total}") '"ยอดรวม"
       m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Tax}") '"ภาษี"
-      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.TotalTax}") '"ยอดรวมภาษี"
-      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockAfterTax}") '"ยอดคงเหลือ"
-      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccCode}") '"รหัส Cost Center"
-      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccName}") '"Cost Center รับ"
-      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_creditPeriod}") '"เครดิต"
-      m_grid(0, 15).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pvcode}") '"ใบสำคัญจ่าย"
-      m_grid(0, 16).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pocode}") '"ใบสั่งซื้อ"
-      m_grid(0, 17).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.prcode}") '"ใบขอซื้อ"
-      m_grid(0, 18).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.lasteditorinfo}") '"ผู้อนุมัติ"
-      m_grid(0, 19).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockApprovedate}") '"วันที่อนุมัติ"
-      m_grid(0, 20).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.refstatus}") '"การอ้างอิง"
-      m_grid(0, 21).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccpersoninfo}")
-      m_grid(0, 22).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.referable}")
-      m_grid(0, 23).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Address}") '"ที่อยู่"
-      m_grid(0, 24).Text = Me.StringParserService.Parse("${res:Column.10.supplier_phone}") '"โทรศัพท์"
-      m_grid(0, 25).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Fax}") '"โทรสาร"
-      m_grid(0, 26).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_note}")
+      m_grid(0, 10).Text = Me.StringParserService.Parse("ยอดปรับปรุงจำนวนจ่าย") '"ยอดปรับปรุงจำนวนจ่าย"
+      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.TotalTax}") '"ยอดรวมภาษี"
+      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockAfterTax}") '"ยอดคงเหลือ"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccCode}") '"รหัส Cost Center"
+      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccName}") '"Cost Center รับ"
+      m_grid(0, 15).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_creditPeriod}") '"เครดิต"
+      m_grid(0, 16).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pvcode}") '"ใบสำคัญจ่าย"
+      m_grid(0, 17).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.pocode}") '"ใบสั่งซื้อ"
+      m_grid(0, 18).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.prcode}") '"ใบขอซื้อ"
+      m_grid(0, 19).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.lasteditorinfo}") '"ผู้อนุมัติ"
+      m_grid(0, 20).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockApprovedate}") '"วันที่อนุมัติ"
+      m_grid(0, 21).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.refstatus}") '"การอ้างอิง"
+      m_grid(0, 22).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.toccpersoninfo}")
+      m_grid(0, 23).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.referable}")
+      m_grid(0, 24).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Address}") '"ที่อยู่"
+      m_grid(0, 25).Text = Me.StringParserService.Parse("${res:Column.10.supplier_phone}") '"โทรศัพท์"
+      m_grid(0, 26).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Fax}") '"โทรสาร"
+      m_grid(0, 27).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_note}")
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -138,9 +141,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -154,6 +158,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 24).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 27).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -163,6 +168,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim Total As Decimal = 0 'รวมยอดเงิน
       Dim sumTax As Decimal = 0 'รวมภาษี
+      Dim sumAdjust As Decimal = 0 'รวมยอดปรับปรุง
       Dim sumAftertax As Decimal = 0 'รวมยอดรวมภาษี 
       Dim sumRemain As Decimal = 0 'รวมยอดคงเหลือ
 
@@ -197,34 +203,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TextAmount")), DigitConfig.Price)
           sumTax += CDec(row("TextAmount"))
         End If
+        If Not row.IsNull("AdjAmount") Then
+          m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AdjAmount")), DigitConfig.Price)
+          sumAdjust += CDec(row("AdjAmount"))
+        End If
         If Not row.IsNull("AfterTex") Then
-          m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTex")), DigitConfig.Price)
+          m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(CDec(row("AfterTex")), DigitConfig.Price)
           sumAftertax += CDec(row("AfterTex"))
         End If
         If Not row.IsNull("remain") Then
-          m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(CDec(row("remain")), DigitConfig.Price)
+          m_grid(currTrIndex, 12).CellValue = Configuration.FormatToString(CDec(row("remain")), DigitConfig.Price)
           sumRemain += CDec(row("remain"))
         End If
-        m_grid(currTrIndex, 12).CellValue = row("toccCode").ToString
-        m_grid(currTrIndex, 13).CellValue = row("toccName").ToString
-        m_grid(currTrIndex, 14).CellValue = row("stock_creditPeriod").ToString
-        m_grid(currTrIndex, 15).CellValue = row("pvcode").ToString
-        m_grid(currTrIndex, 16).CellValue = row("pocode").ToString
-        m_grid(currTrIndex, 17).CellValue = row("prcode").ToString
-        m_grid(currTrIndex, 18).CellValue = row("lasteditorinfo").ToString
+        m_grid(currTrIndex, 13).CellValue = row("toccCode").ToString
+        m_grid(currTrIndex, 14).CellValue = row("toccName").ToString
+        m_grid(currTrIndex, 15).CellValue = row("stock_creditPeriod").ToString
+        m_grid(currTrIndex, 16).CellValue = row("pvcode").ToString
+        m_grid(currTrIndex, 17).CellValue = row("pocode").ToString
+        m_grid(currTrIndex, 18).CellValue = row("prcode").ToString
+        m_grid(currTrIndex, 19).CellValue = row("lasteditorinfo").ToString
         If Not row.IsNull("stock_approvedate") Then
-          m_grid(currTrIndex, 19).CellValue = CDate(row("stock_approvedate")).ToShortDateString
+          m_grid(currTrIndex, 20).CellValue = CDate(row("stock_approvedate")).ToShortDateString
         End If
-        m_grid(currTrIndex, 20).CellValue = row("refstatus").ToString
-        m_grid(currTrIndex, 21).CellValue = row("toccpersoninfo").ToString
-        m_grid(currTrIndex, 22).CellValue = row("GoodsReceiptStatusinfo").ToString
+        m_grid(currTrIndex, 21).CellValue = row("refstatus").ToString
+        m_grid(currTrIndex, 22).CellValue = row("toccpersoninfo").ToString
+        m_grid(currTrIndex, 23).CellValue = row("GoodsReceiptStatusinfo").ToString
         If row("stock_status").ToString = "0" Then
           m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(142, 142, 142)
         End If
-        m_grid(currTrIndex, 23).CellValue = row("supplieraddress").ToString
-        m_grid(currTrIndex, 24).CellValue = row("supplierphone").ToString
-        m_grid(currTrIndex, 25).CellValue = row("supplierfax").ToString
-        m_grid(currTrIndex, 26).CellValue = row("stock_note").ToString
+        m_grid(currTrIndex, 24).CellValue = row("supplieraddress").ToString
+        m_grid(currTrIndex, 25).CellValue = row("supplierphone").ToString
+        m_grid(currTrIndex, 26).CellValue = row("supplierfax").ToString
+        m_grid(currTrIndex, 27).CellValue = row("stock_note").ToString
         m_grid.RowStyles(currTrIndex).ReadOnly = True
 
       Next
@@ -238,8 +248,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currTrIndex, 7).CellValue = "รวม"
       m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(Total, DigitConfig.Price)
       m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(sumTax, DigitConfig.Price)
-      m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(sumAftertax, DigitConfig.Price)
-      m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(sumRemain, DigitConfig.Price)
+      m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(sumAdjust, DigitConfig.Price)
+      m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(sumAftertax, DigitConfig.Price)
+      m_grid(currTrIndex, 12).CellValue = Configuration.FormatToString(sumRemain, DigitConfig.Price)
     End Sub
 #End Region
 
