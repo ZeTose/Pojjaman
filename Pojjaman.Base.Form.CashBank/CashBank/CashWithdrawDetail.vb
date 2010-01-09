@@ -612,22 +612,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Overrides"
-    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
-      If Not successful Then
-        Return
-      End If
-      If Me.m_entity.Canceled Then
-        Me.m_entity.CancelPerson = Me.SecurityService.CurrentUser
-        Me.m_entity.CancelDate = Now
-      Else
-        Me.m_entity.CancelPerson = New User
-        Me.m_entity.CancelDate = Date.MinValue
-        Me.m_entity.LastEditor = Me.SecurityService.CurrentUser
-        Me.m_entity.LastEditDate = Now
-      End If
-      SetStatus()
-      CheckFormEnable()
-    End Sub
+    'Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+    'If Not successful Then
+    'Return
+    'End If
+    'If Me.m_entity.Canceled Then
+    'Me.m_entity.CancelPerson = Me.SecurityService.CurrentUser
+    'Me.m_entity.CancelDate = Now
+    'Else
+    'Me.m_entity.CancelPerson = New User
+    'Me.m_entity.CancelDate = Date.MinValue
+    'Me.m_entity.LastEditor = Me.SecurityService.CurrentUser
+    'Me.m_entity.LastEditDate = Now
+    'End If
+    'SetStatus()
+    'CheckFormEnable()
+    'End Sub
 
 #End Region
 

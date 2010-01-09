@@ -597,6 +597,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_entity Is Nothing Then
         Return
       End If
+
+      m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
@@ -612,7 +614,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtBankBranch.Text = Me.m_entity.Bankacct.BankBranchName
       End If
 
-      m_oldCode = m_entity.Code
       txtNote.Text = Me.m_entity.Note
       m_isInitialized = True
 
@@ -672,22 +673,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Overrides"
-    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
-      If Not successful Then
-        Return
-      End If
-      If Me.m_entity.Canceled Then
-        Me.m_entity.CancelPerson = Me.SecurityService.CurrentUser
-        Me.m_entity.CancelDate = Now
-      Else
-        Me.m_entity.CancelPerson = New User
-        Me.m_entity.CancelDate = Date.MinValue
-        Me.m_entity.LastEditor = Me.SecurityService.CurrentUser
-        Me.m_entity.LastEditDate = Now
-      End If
-      SetStatus()
-      CheckFormEnable()
-    End Sub
+    'Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+    'If Not successful Then
+    'Return
+    'End If
+    'If Me.m_entity.Canceled Then
+    'Me.m_entity.CancelPerson = Me.SecurityService.CurrentUser
+    'Me.m_entity.CancelDate = Now
+    'Else
+    'Me.m_entity.CancelPerson = New User
+    'Me.m_entity.CancelDate = Date.MinValue
+    'Me.m_entity.LastEditor = Me.SecurityService.CurrentUser
+    'Me.m_entity.LastEditDate = Now
+    'End If
+    'SetStatus()
+    'CheckFormEnable()
+    'End Sub
 
 #End Region
 
