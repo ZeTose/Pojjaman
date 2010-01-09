@@ -356,6 +356,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Check.Originated Then 'And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) Then
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         Me.Check = New OutgoingCheck(Me.CqCode)
+        If Me.Check Is Nothing Then
+          Me.Check = New OutgoingCheck
+        ElseIf Me.Check IsNot Nothing AndAlso (Me.Check.Id = 0 OrElse Me.Check.EntityId = 0) Then
+          Me.Check = New OutgoingCheck
+        End If     
         If Not (Me.Check.Originated) Then
           If Not (msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {Me.CqCode})) Then
             'Me.Check = New OutgoingCheck(oldCqCode)
