@@ -127,18 +127,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If IsNumeric(row("Qty")) Then
           m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Price)
         End If
-        If IsNumeric(row("Qty")) AndAlso CDec(row("Qty")) <> 0 Then
-          m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("Costamt")) / CDec(row("QTY")), DigitConfig.Price)
+        If IsNumeric(row("Qty")) Then
+          If CDec(row("Qty")) = 0 Then
+            m_grid(currItemIndex, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.ZeroStock}")
+          Else
+            m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("Costamt")) / CDec(row("QTY")), DigitConfig.Price)
+          End If
         Else
           m_grid(currItemIndex, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.NoCost}")
         End If
-        currentItemCode = row("LciCode").ToString
-        If (CDec(row("Qty")) <> 0 AndAlso CDec(row("costamt")) <> 0) Then
-          m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("costamt")), DigitConfig.UnitPrice)
-        Else
-          m_grid(currItemIndex, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.NoCost}")
-        End If
-        'SumCost += CDec(remainAmount)
+          currentItemCode = row("LciCode").ToString
+          If (CDec(row("Qty")) <> 0 AndAlso CDec(row("costamt")) <> 0) Then
+            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("costamt")), DigitConfig.UnitPrice)
+          Else
+          m_grid(currItemIndex, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.NoCost}")
+          End If
+          'SumCost += CDec(remainAmount)
       Next
       'm_grid.RowCount += 1
       'currItemIndex = m_grid.RowCount

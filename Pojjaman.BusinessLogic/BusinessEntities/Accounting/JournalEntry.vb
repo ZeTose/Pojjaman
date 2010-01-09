@@ -504,19 +504,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Sub RefreshGLFormat()
-            If Not Me.ManualFormat Then
-                If Not TypeOf Me.RefDoc Is GoodsSold _
-                AndAlso Not TypeOf Me.RefDoc Is PurchaseCN Then
-                    Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
-                    Me.SetGLFormat(Me.GLFormat)
-                End If
-            End If
-            'If Not Me.ManualFormat Then
-            'If Not TypeOf Me.RefDoc Is PurchaseCN Then
-            'Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
-            'Me.SetGLFormat(Me.GLFormat)
-            'End If
-            'End If
+      If Not Me.ManualFormat Then
+        If Not TypeOf Me.RefDoc Is GoodsSold _
+        AndAlso Not TypeOf Me.RefDoc Is PurchaseCN Then
+          Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
+          Me.SetGLFormat(Me.GLFormat)
+        End If
+      End If
+      'If Not Me.ManualFormat Then
+      'If Not TypeOf Me.RefDoc Is PurchaseCN Then
+      'Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
+      'Me.SetGLFormat(Me.GLFormat)
+      'End If
+      'End If
     End Sub
     Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date) As DataTable
       Dim params(1) As SqlParameter

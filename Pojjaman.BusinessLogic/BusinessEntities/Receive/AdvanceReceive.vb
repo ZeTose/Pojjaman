@@ -569,10 +569,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         Me.m_receive.Code = m_je.Code
+        Me.m_receive.DocDate = m_je.DocDate
         If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
           Me.m_receive.Code = Me.Code
+          Me.m_receive.DocDate = Me.DocDate
         End If
-        Me.m_receive.DocDate = m_je.DocDate
         Me.AutoGen = False
         Me.m_receive.AutoGen = False
         Me.m_je.AutoGen = False
