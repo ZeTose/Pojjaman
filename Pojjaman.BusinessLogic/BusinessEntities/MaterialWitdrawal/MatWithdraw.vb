@@ -523,6 +523,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , "GetRemainLCIItemForCC" _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.FromCC)) _
+                , New SqlParameter("@doc_id", Me.Id) _
                 )
         Dim tableIndex As Integer = 0
         If ds.Tables.Count > tableIndex Then
