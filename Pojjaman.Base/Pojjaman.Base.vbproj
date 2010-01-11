@@ -791,6 +791,12 @@
     <Compile Include="Pojjaman\Gui\Dialogs\CustomNoteForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\RefDialog.Designer.vb">
+      <DependentUpon>RefDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\RefDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\FolderDialog.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1460,6 +1466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\RDScreenForm.resx">
       <DependentUpon>RDScreenForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\RefDialog.resx">
+      <DependentUpon>RefDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ResetPasswordDialog.resx">
       <DependentUpon>ResetPasswordDialog.vb</DependentUpon>

@@ -554,6 +554,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return False
     End Function
+    Public Overridable Function IsReferedFrom() As Boolean
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetIsReferedFrom" _
+                , New SqlParameter("@refto_id", Me.Id) _
+                , New SqlParameter("@refto_type", Me.EntityId) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          If ds.Tables(0).Rows(0).IsNull(0) Then
+            Return False
+          End If
+          Return CBool(ds.Tables(0).Rows(0)(0))
+        End If
+      Catch ex As Exception
+      End Try
+      Return False
+    End Function
     Public Overridable Function IsCancelable() As Boolean
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -573,7 +592,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return False
     End Function
-    Public Function GetReferenceDocs() As DataTable
+    Public Function GetReferenceDocs() As DataSet
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
@@ -582,9 +601,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , New SqlParameter("@entity_id", Me.Id) _
                 , New SqlParameter("@entity_type", Me.EntityId) _
                 )
-        If ds.Tables(0).Rows.Count > 0 Then
-          Return ds.Tables(0)
-        End If
+        Return ds
       Catch ex As Exception
       End Try
     End Function
