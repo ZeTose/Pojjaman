@@ -34,7 +34,8 @@
 
 		<EntityFilter id="purchaseretention" entity="purchaseretention" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
 		<EntityFilter id="billacceptance" entity="billacceptance" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
-		<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>
+    <EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel"/>
+    <!--<EntityFilter id="billacceptanceitem" entity="billacceptanceitem" filter="Longkong.Pojjaman.Gui.Panels.PLE_BillAcceptanceFilterSubPanel"/>-->
 		<EntityFilter id="payselection" entity="payselection" filter="Longkong.Pojjaman.Gui.Panels.PaySelectionFilterSubPanel"/>
 		<EntityFilter id="apvatinput" entity="apvatinput" filter="Longkong.Pojjaman.Gui.Panels.PaySelectionFilterSubPanel"/>
 		<EntityFilter id="purchasecn" entity="purchasecn" filter="Longkong.Pojjaman.Gui.Panels.PurchaseCNFilterSubPanel"/>
