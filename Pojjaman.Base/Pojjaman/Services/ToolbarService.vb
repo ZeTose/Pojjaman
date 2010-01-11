@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.Services
     Public Function CreateToolBarFromCodon(ByVal owner As Object, ByVal codon As ToolbarItemCodon) As ToolStrip
       Dim tb As New ToolStrip
       tb.Size = New System.Drawing.Size(705, 31)
-      tb.ImageScalingSize = New System.Drawing.Size(24, 24)
+      tb.ImageScalingSize = New System.Drawing.Size(16, 16)
       Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
       If codon.SubItems.Count > 0 Then
         If CType(codon.SubItems(0), ToolbarItemCodon).Label <> "" Then
