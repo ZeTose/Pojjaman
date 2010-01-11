@@ -1873,6 +1873,7 @@ FinalLine:
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.Code = m_entity.AutoCodeFormat.Format
           End If
 					dirtyFlag = True
 				Case "txtnote"
