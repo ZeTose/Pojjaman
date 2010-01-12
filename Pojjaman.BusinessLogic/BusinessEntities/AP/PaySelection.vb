@@ -273,6 +273,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.ItemCollection.GetRetention
       End Get
     End Property
+    Public ReadOnly Property BeforeTax As Decimal
+      Get
+        'Return Me.ItemCollection.GetBeforeTax
+        Dim ret As Decimal = 0
+        For Each doc As BillAcceptanceItem In Me.ItemCollection         
+            ret += doc.BeforeTax
+        Next
+        Return ret
+      End Get
+    End Property
     Public ReadOnly Property RemainingAmountAfter() As Decimal
       Get
         Return Me.ItemCollection.RemainingAmount

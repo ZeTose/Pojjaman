@@ -1703,39 +1703,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
       End If
 
-      ' ''Reference By PA Only ''''''''''
-      'If Me.RefDoc IsNot Nothing Then
-      'If TypeOf Me.RefDoc Is PA Then
-      'Dim newPa As PA = CType(Me.RefDoc, PA)
-
-      ''RefDocTaxAmount
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "RefDocTaxAmount"
-      'dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
-      'dpi.DataType = "System.String"
-      'dpiColl.Add(dpi)
-
-      ''RefDocAfterTax
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "RefDocAfterTax"
-      'dpi.Value = Configuration.FormatToString(newPa.AfterTax, DigitConfig.Price)
-      'dpi.DataType = "System.String"
-      'dpiColl.Add(dpi)
-
-      ''RefDocWHTAmount
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "RefDocWHTAmount"
-      'dpi.Value = Configuration.FormatToString(newPa.WitholdingTax, DigitConfig.Price)
-      'dpi.DataType = "System.String"
-      'dpiColl.Add(dpi)
-
-      'For Each refDpi As DocPrintingItem In newPa.GetDocPrintingItemsEntries
-      'refDpi.Table = "RefDoc" + refDpi.Table
-      'dpiColl.Add(refDpi)
-      'Next
-      'End If
-      'End If
-
       'Note
       dpi = New DocPrintingItem
       dpi.Mapping = "Note"
@@ -3328,12 +3295,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.Decimal"
         dpiColl.Add(dpi)
 
-        ''RefDocBeforeTax
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "RefDocBeforeTax"
-        'dpi.Value = Configuration.FormatToString(ps.BeforeTax, DigitConfig.UnitPrice)
-        'dpi.DataType = "System.String"
-        'dpiColl.Add(dpi)
+        'RefDocBeforeTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocBeforeTax"
+        dpi.Value = Configuration.FormatToString(ps.BeforeTax, DigitConfig.UnitPrice)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
         'RefDocAfterTax
         dpi = New DocPrintingItem
