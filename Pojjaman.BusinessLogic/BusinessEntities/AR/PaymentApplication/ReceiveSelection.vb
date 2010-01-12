@@ -925,7 +925,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim myRetention As Decimal = doc.RetentionForGL
         Dim myDebt As Decimal = myGross - myRetention
 
-        If doc.AmountForGL > 0 Then
+        If doc.AmountForGL <> 0 Then
           'ลูกหนี้การค้า
           ji = New JournalEntryItem
           ji.Mapping = "C8.2"
@@ -942,7 +942,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         'Retention หัก
-        If retentionHere AndAlso docRetention > 0 Then
+        If retentionHere AndAlso docRetention <> 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "C7.18"
           ji.Amount = docRetention
@@ -953,7 +953,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       'ภาษีหัก ณ ที่จ่าย
-      If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
+      If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount <> 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C8.1"
         ji.Amount = Me.WitholdingTaxCollection.Amount

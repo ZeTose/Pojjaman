@@ -605,6 +605,9 @@ Namespace Longkong.Pojjaman.DataAccessLayer
     End Sub
     Private row As DataRow
     Public Function GetValue(Of T)(ByVal columnName As String, Optional ByVal defaultValue As T = Nothing) As T
+      If row Is Nothing Then
+        Return defaultValue
+      End If
       If row.Table.Columns.Contains(columnName) Then
         If Not row.IsNull(columnName) Then
           Try

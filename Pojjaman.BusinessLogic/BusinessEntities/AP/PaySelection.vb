@@ -892,7 +892,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim myGross As Decimal = doc.AmountForGL
         Dim myRetention As Decimal = doc.RetentionForGL
         Dim myDebt As Decimal = myGross - myRetention
-        If myDebt > 0 Then
+        If myDebt <> 0 Then
           'เจ้าหนี้การค้า
           ji = New JournalEntryItem
           ji.Mapping = "B8.1"
@@ -909,7 +909,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-        If myRetention > 0 Then
+        If myRetention <> 0 Then
           'เจ้าหนี้เงินประกันผลงาน
           ji = New JournalEntryItem
           ji.Mapping = "B8.3"
@@ -930,7 +930,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       'ภาษีซื้อ
-      If Me.Vat.Amount > 0 Then
+      If Me.Vat.Amount <> 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B8.4"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
@@ -939,7 +939,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
-      If Me.Vat.Amount > 0 Then
+      If Me.Vat.Amount <> 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B8.5"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
