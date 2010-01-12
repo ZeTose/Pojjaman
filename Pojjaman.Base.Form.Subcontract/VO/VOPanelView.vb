@@ -1700,10 +1700,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '        End Sub
 #End Region
 
-    '#Region "CheckPJMModule"
-    '        Private m_ApproveDocModule As New PJMModule("approvedoc")
-    '#End Region
-
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()
       If Me.m_entity Is Nothing Then
@@ -1857,7 +1853,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '                    requestorCodeChanged = True
         'Case "txtcostcentercode"
         '    toCCCodeChanged = True
-      Case "txtsccode"
+        Case "txtsccode"
           scCodeChanged = True
           'Case "txtretention"
           '            'Dim txt As String = Me.txtRetention.Text
@@ -2325,90 +2321,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handler"
-    'Private Sub ibtnGetFromBOQ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnGetFromBOQ.Click
-    '    'If Me.m_entity.VO.CostCenter Is Nothing Then
-    '    '    Return
-    '    'End If
-    '    'Dim arr As New ArrayList
-    '    'arr.Add(Me.m_entity.VO.CostCenter)
-    '    'Dim myEntityPanelService As IEntityPanelService = _
-    '    '            CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-    '    'myEntityPanelService.OpenListDialog(New BOQForSelection, AddressOf SetItems, arr)
-    'End Sub
-    'Private Sub SetItems(ByVal items As BasketItemCollection)
-    'If tgItem.CurrentRowIndex = 0 Then
-    '    'Hack
-    '    tgItem.CurrentRowIndex = 1
-    'End If
-    'Dim index As Integer = tgItem.CurrentRowIndex
-    'Me.m_entity.ItemCollection.SetItems(items, m_targetType)
-    'Me.txtReceivingDate.Text = Me.m_entity.ReceivingDate.ToShortDateString
-    'tgItem.CurrentRowIndex = index
-    'Dim cc As CostCenter = Me.m_entity.GetCCFromPR
-    'If Not cc Is Nothing AndAlso cc.Id <> Me.m_entity.CostCenter.Id Then
-    '    Me.SetCostCenterDialog(cc)
-    'End If
-    'forceUpdateTaxBase = True
-    'forceUpdateTaxAmount = True
-    'forceUpdateGross = True
-    'RefreshDocs()
-    'Me.WorkbenchWindow.ViewContent.IsDirty = True
-    'dirtyFlag = True
-    'End Sub
-    '        Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-    '            If Me.m_entity Is Nothing Then
-    '                Return
-    '            End If
-    '            If Me.m_entity.CostCenter Is Nothing Then
-    '                msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-    '                Return
-    '            End If
-    '            If Me.m_entity.CostCenter.BoqId = 0 Then
-    '                msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
-    '                Return
-    '            End If
-    '            Dim doc As POItem = Me.m_entity.ItemCollection.CurrentItem
-    '            If doc Is Nothing Then
-    '                Return
-    '            End If
-    '            Dim dt As TreeTable = Me.m_treeManager2.Treetable
-    '            dt.Clear()
-    '            Dim view As Integer = 6
-    '            Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-    '            If wsdColl.GetSumPercent >= 100 Then
-    '                msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-    '            ElseIf doc.ItemType.Value = 160 Or doc.ItemType.Value = 162 Then
-    '                msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveWBS}")
-    '            Else
-    '                Dim wbsd As New WBSDistribute
-    '                wbsd.CostCenter = Me.m_entity.CostCenter
-    '                wbsd.Percent = 100 - wsdColl.GetSumPercent
-    '                wsdColl.Add(wbsd)
-    '            End If
-    '            m_wbsdInitialized = False
-    '            wsdColl.Populate(dt, doc, view)
-    '            m_wbsdInitialized = True
-    '            Me.WorkbenchWindow.ViewContent.IsDirty = True
-    '        End Sub
-    '        Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '            Dim dt As TreeTable = Me.m_treeManager2.Treetable
-    '            dt.Clear()
-    '            Dim doc As POItem = Me.m_entity.ItemCollection.CurrentItem
-    '            If doc Is Nothing Then
-    '                Return
-    '            End If
-    '            Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-    '            If wsdColl.Count > 0 Then
-    '                wsdColl.Remove(wsdColl.Count - 1)
-    '                Me.WorkbenchWindow.ViewContent.IsDirty = True
-    '            End If
-    '            Dim view As Integer = 6
-    '            m_wbsdInitialized = False
-    '            wsdColl.Populate(dt, doc, view)
-    '            m_wbsdInitialized = True
-    '        End Sub
-    'Private currentY As Integer = -1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
       'If tgItem.CurrentRowIndex <> currentY Then
       Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
@@ -2418,20 +2330,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
     End Sub
 
-    '        Private Sub RefreshWBS()
-    '            Dim dt As TreeTable = Me.m_treeManager2.Treetable
-    '            dt.Clear()
-    '            Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-    '            If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
-    '                Return
-    '            End If
-    '            Dim item As POItem = Me.m_entity.ItemCollection.CurrentItem
-    '            Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-    '            Dim view As Integer = 6
-    '            m_wbsdInitialized = False
-    '            wsdColl.Populate(dt, item, view)
-    '            m_wbsdInitialized = True
-    '        End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
@@ -2442,6 +2340,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
         m_oldCode = Me.cmbCode.Text
         Me.m_entity.Code = m_oldCode
+        If cmbCode.Items.Count > 0 Then
+          cmbCode.SelectedIndex = 0
+        End If
         Me.m_entity.AutoGen = True
       Else
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple

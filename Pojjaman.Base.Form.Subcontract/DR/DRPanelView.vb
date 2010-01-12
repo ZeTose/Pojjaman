@@ -2413,6 +2413,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
         m_oldCode = Me.cmbCode.Text
         Me.m_entity.Code = m_oldCode
+        If cmbCode.Items.Count > 0 Then
+          cmbCode.SelectedIndex = 0
+        End If
         Me.m_entity.AutoGen = True
       Else
         'Me.Validator.SetRequired(Me.txtCode, True)

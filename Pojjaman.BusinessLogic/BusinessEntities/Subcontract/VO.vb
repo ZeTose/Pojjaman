@@ -10,10 +10,6 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-  'Public Class OldNew
-  '  Public OldValue As Decimal
-  '  Public NewValue As Decimal
-  'End Class
   Public Class VO
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
@@ -22,10 +18,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_docDate As Date
     Private m_VO As VO
     Private m_note As String
-    'Private m_subcontractor As Supplier
-    'Private m_cc As CostCenter
-    'Private m_retention As Decimal
-    'Private m_director As Employee
     Private m_gross As Decimal
     Private m_discount As Discount
     Private m_beforeTax As Decimal
@@ -73,14 +65,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
-        '.m_subcontractor = New Supplier
-
         .m_cc = New CostCenter
-        '.m_closed = False
         .DocDate = Now.Date
         .m_subcontractor = New Supplier
 
-        '.m_director = New Employee
         .m_sc = New SC
         .m_note = ""
         .m_gross = 0
@@ -932,29 +920,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
             End If
           End If
         End If
-        'If Me.SC.Status.Value = 0 OrElse Me.SC.Closed Then
-        '  Return New SaveErrorException("${res:Global.Error.CanceledSC}", New String() {Me.SC.Code})
-        'End If
-        '        Dim config As Integer = CInt(Configuration.GetConfig("POOverBudget"))
-        '        Select Case config
-        '            Case 0 'Not allow
-        '                If OverBudget() Then
-        '                    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.POOverBudgetCannotBeSaved}"))
-        '                End If
-        '            Case 1 'Warn
-        '                If OverBudget() Then
-        'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        'If Not msgServ.AskQuestion("${res:Global.Question.POOverBudgetSaveAnyway}") Then
-        '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-        'End If
-        '                End If
-        '            Case 2 'Do Nothing
-        '        End Select
-        '        Me.RefreshTaxBase()
-        '        If Me.ItemCollection.Count = 0 Then
-        '            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        '        End If
-        'Dim tmpBoq As BOQ = Me.CostCenter.Boq
 
         If Me.ItemCollection.Count = 0 Then   '.ItemTable.Childs.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.vo.NoItem}"))
@@ -1043,24 +1008,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
               ResetID(oldid)
               Return New SaveErrorException(returnVal.Value.ToString)
           End Select
-          '    '-------------------------------------------------------
-          '    Dim pris As String = GetPritemString()
-          '    Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
-          '    "in (select convert(nvarchar,poi_pr) + '|' +  convert(nvarchar,poi_prilinenumber) from poitem " & _
-          '    "where poi_po =" & Me.Id & ") or convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) in " & pris
-
-          '    Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-          '    RecentCompanies.CurrentCompany.SiteConnectionString _
-          '    , CommandType.Text _
-          '    , sql _
-          '    )
-          '    Dim arr As New ArrayList
-          '    For Each row As DataRow In ds.Tables(0).Rows
-          '        Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
-          '        arr.Add(o)
-          '    Next
-          '    '-------------------------------------------------------
-
+        
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
@@ -1114,7 +1062,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
               End If
             End If
           Next
-
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
                                     , New SqlParameter("@id", Me.Id) _
