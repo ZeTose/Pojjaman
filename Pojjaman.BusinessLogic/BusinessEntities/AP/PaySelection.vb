@@ -803,15 +803,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Rows
     End Function
     Public Function GetCCFromItem() As CostCenter
-      Dim dummyCCId As Integer = 0
+      Dim dummyCC As CostCenter
       For Each item As BillAcceptanceItem In Me.ItemCollection
-        Dim ccId As Integer = item.CostCenterId
-        If dummyCCId <> 0 AndAlso dummyCCId <> ccId Then
+        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(item.EntityId, item.Id)
+        If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
           Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
-        dummyCCId = ccId
+        dummyCC = thisCC
       Next
-      Return New CostCenter(dummyCCId)
+      Return dummyCC
     End Function
     Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer) As CostCenter
       Try
