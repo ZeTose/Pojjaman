@@ -881,6 +881,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
       Return glf
     End Function
+    Private Function GetCCFromDocTypeAndId(ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetCCIdFromDocTypeAndId" _
+      , New SqlParameter("@docType", docType) _
+      , New SqlParameter("@entityId", entityId))
+
+      If ds.Tables.Count > 0 _
+      AndAlso ds.Tables(0).Rows.Count = 1 _
+      AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+        Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
+        If Not cc Is Nothing AndAlso cc.Originated Then
+          Return cc
+        End If
+      End If
+      Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    End Function
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
@@ -898,14 +915,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ccList As New Dictionary(Of Integer, CostCenter)
 
       For Each doc As BillAcceptanceItem In Me.ItemCollection
-        Dim itemCC As CostCenter
-        If ccList.ContainsKey(doc.CostCenterId) Then
-          itemCC = ccList(doc.CostCenterId)
-        Else
-          itemCC = New CostCenter(doc.CostCenterId)
-          ccList(itemCC.Id) = itemCC
-        End If
-        If itemCC Is Nothing OrElse Not itemCC.Originated Then
+        Dim itemCC As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
+        If itemCC Is Nothing Then
           itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
         Dim myGross As Decimal = doc.AmountForGL
