@@ -2653,16 +2653,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim pmGross As Decimal = 0
 
-        If retentionHere Then
-          pmGross = Me.Payment.Gross
-        Else
-          pmGross = Me.Payment.Gross + Me.Retention
-        End If
+
+        pmGross = Me.Payment.Gross
 
         If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "E3.8"
-          ji.Amount = Me.Payment.Amount - pmGross
+
+          If retentionHere Then
+            ji.Amount = Me.Payment.Amount - pmGross
+          Else
+            ji.Amount = (Me.Payment.Amount + Me.Retention) - pmGross
+          End If
           If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
             ji.Account = Me.Supplier.Account
           End If
@@ -2679,7 +2681,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "I4.3"
-          ji.Amount = Me.Payment.Amount - pmGross
+          If retentionHere Then
+            ji.Amount = Me.Payment.Amount - pmGross
+          Else
+            ji.Amount = (Me.Payment.Amount + Me.Retention) - pmGross
+          End If
           If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
             ji.Account = Me.Supplier.Account
           End If
