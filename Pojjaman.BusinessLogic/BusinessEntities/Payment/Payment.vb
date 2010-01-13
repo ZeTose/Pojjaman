@@ -2097,18 +2097,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim totalOtherCutPay As Decimal
       totalOtherCutPay = Me.DiscountAmount + Me.OtherRevenue + Me.WitholdingTax + Me.DebitCollection.GetAmount
-      'TotalIncrease
+      'totalOtherCutPay
       dpi = New DocPrintingItem
-      dpi.Mapping = "TotalIncrease"
+      dpi.Mapping = "TotalOtherCutPay"
       dpi.Value = Configuration.FormatToString(totalOtherCutPay, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       Dim totalOtherPay As Decimal
       totalOtherPay = Me.Interest + Me.BankCharge + Me.OtherExpense + Me.CreditCollection.GetAmount
-      'TotalDescrease
+      'totalOtherPay
       dpi = New DocPrintingItem
-      dpi.Mapping = "TotalDescrease"
+      dpi.Mapping = "TotalOtherPay"
       dpi.Value = Configuration.FormatToString(totalOtherPay, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
@@ -2543,6 +2543,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "WHTAmount"
           dpi.Value = Configuration.FormatToString(advp.WitholdingTaxCollection.Amount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocBeforeTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocBeforeTax"
+          dpi.Value = Configuration.FormatToString(advp.BeforeTax, DigitConfig.Price)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
