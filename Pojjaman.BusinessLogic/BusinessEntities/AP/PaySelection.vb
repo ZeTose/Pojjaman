@@ -813,6 +813,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return New CostCenter(dummyCCId)
     End Function
+    Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer) As CostCenter
+      Try
+        Dim dsr As DataSet = SqlHelper.ExecuteDataset( _
+            Me.ConnectionString _
+            , CommandType.StoredProcedure _
+            , "GetCCForBillAccaptance" _
+            , New SqlParameter("@stock_id", stock_id) _
+            , New SqlParameter("@stock_type", stock_type) _
+            )
+        If dsr.Tables(0).Rows.Count > 0 Then
+          If Not dsr.Tables(0).Rows(0).IsNull("cc_id") Then
+            Return New CostCenter(dsr.Tables(0).Rows(0), "")
+          End If
+        End If
+        Return New CostCenter
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
+    End Function
 #End Region
 
 #Region "IPayable"

@@ -2095,6 +2095,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Next
 
+      Dim totalIncrease As Decimal
+      totalIncrease = Me.DiscountAmount + Me.OtherRevenue + Me.WitholdingTax + Me.DebitCollection.GetAmount
+      'TotalIncrease
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalIncrease"
+      dpi.Value = Configuration.FormatToString(totalIncrease, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim totalDescrease As Decimal
+      totalDescrease = Me.Interest + Me.BankCharge + Me.OtherExpense + Me.CreditCollection.GetAmount
+      'TotalDescrease
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalDescrease"
+      dpi.Value = Configuration.FormatToString(totalDescrease, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'TotalCash
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalCash"
@@ -2666,6 +2684,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
+          'RefDocAdvanceMoney
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAdvanceMoney"
+          Select Case gr.TaxType.Value
+            Case 0, 1 '"ไม่มี","แยก"
+              dpi.Value = Configuration.FormatToString(gr.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.UnitPrice)
+            Case 2 '"รวม"
+              dpi.Value = Configuration.FormatToString(gr.AdvancePayItemCollection.GetAmount, DigitConfig.UnitPrice)
+          End Select
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
           'RefDocRetention
           dpi = New DocPrintingItem
           dpi.Mapping = "RefDocRetention"
@@ -3232,6 +3262,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 dpi.Value = ""
               End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
+              'RefDocItem.CostCenterCode
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.CostCenterCode"
+              dpi.Value = ps.GetCostCenterFromRefDoc(stock_id, stock_type).Code
               dpi.DataType = "System.String"
               dpi.Row = n + 1
               dpi.Table = "RefDocItem"
