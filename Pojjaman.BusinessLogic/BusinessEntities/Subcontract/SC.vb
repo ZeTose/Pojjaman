@@ -549,19 +549,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Shared"
     Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC) As Boolean
-      Dim scNew As New SC(txtCode.Text)
-      If txtCode.Text.Length <> 0 AndAlso Not scNew.Valid Then
-        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
-        scNew = oldSC
-        txtCode.Text = ""
-        Return False
-      End If
-      txtCode.Text = scNew.Code
-      If oldSC.Id <> scNew.Id Then
+      If txtCode.Text.Length > 0 Then
+        Dim scNew As New SC(txtCode.Text)
+        If txtCode.Text.Length <> 0 AndAlso Not scNew.Valid Then
+          MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+          scNew = oldSC
+          txtCode.Text = ""
+          Return False
+        End If
+        txtCode.Text = scNew.Code
+        If oldSC.Id <> scNew.Id Then
+          oldSC = scNew
+          Return True
+        End If
         oldSC = scNew
-        Return True
       End If
-      oldSC = scNew
+
       Return True
 
     End Function

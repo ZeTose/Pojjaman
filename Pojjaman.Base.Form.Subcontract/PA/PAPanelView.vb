@@ -2680,7 +2680,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtsccode"
           If scCodeChanged Then
-            dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.Sc)
+            If txtSCCode.Text.Length > 0 Then
+              dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.Sc)
+              SetSC(Me.m_entity.Sc)
+            Else
+              Me.m_entity.Sc = New SC
+              SetSC(Me.m_entity.Sc)
+              dirtyFlag = False
+            End If
           End If
         Case "txtpacode"
           Me.m_entity.OtherDocCode = txtPACode.Text
@@ -3205,7 +3212,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If Not row Is Nothing AndAlso TypeOf row.Tag Is PAItem Then
 
             Dim sitem As PAItem = CType(row.Tag, PAItem)
-            key = sitem.RefDocType.ToString & ":" & sitem.Sequence.ToString
+            key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
             If sitem.Level = 0 Then
               If Not hashParent.Contains(key) Then
                 hashParent(key) = sitem
@@ -3223,7 +3230,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       For Each sitem As PAItem In Me.m_entity.ItemCollection 'หาลูกทั้งหมด
         For Each pitem As PAItem In hashParent.Values
           If sitem.Parent = pitem.Parent AndAlso sitem.Level = 1 Then
-            key = sitem.RefDocType.ToString & ":" & sitem.Sequence.ToString
+            key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
             If Not hashChild.Contains(key) Then
               hashChild(key) = sitem
             End If

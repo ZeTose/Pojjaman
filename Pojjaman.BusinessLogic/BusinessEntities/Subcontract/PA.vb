@@ -1564,10 +1564,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return Rows
     End Function
-    Private Sub ChangeSC()      'ลบรายการ
-      'For Each itm As PAItem In Me.ItemCollection
-      '    Me.ItemCollection.Remove(itm)
-      'Next
+    Private Sub ChangeSC()      If Me.Sc Is Nothing OrElse Me.Sc.Code.Length = 0 Then
+        ClearSC()
+        Return
+      End If
+
       Dim ret As Decimal = Me.GetSCRetentionRemaining
       Me.m_retentionRemaining = ret
       Me.m_retention = ret
@@ -1581,9 +1582,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.ItemCollection.Clear()
 
-      If Me.Sc Is Nothing Then
-        Return
-      End If
+      'If Me.Sc Is Nothing OrElse Me.Sc.Code.Length = 0 Then
+      'ClearSC()
+      'Return
+      'End If
 
       Dim refDocType As Decimal = 0
       Dim sequence As String = ""
@@ -1660,6 +1662,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       Me.RefreshTaxBase()
+    End Sub    Public Sub ClearSC()      Me.m_retentionRemaining = 0
+      Me.m_retention = 0
+      Me.m_discount = New Discount("")
+
+      Me.ItemCollection.Clear()
     End Sub#End Region
 
 #Region "RefreshTaxBase"
