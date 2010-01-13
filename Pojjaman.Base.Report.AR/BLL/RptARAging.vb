@@ -107,8 +107,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' Level 2.
         If m_showDetailInGrid <> 0 Then
           tr = Me.m_treemanager.Treetable.Childs.Add
-          tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.SaleBilliDocCode}") '"รหัสใบวางบิล"
-          tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.StockCode}")     '"รหัสใบสั่งซื้อ/รับของ"             
+                    tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.SaleBilliDocCode}") '"เลขที่ใบวางบิล"
+                    tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.StockCode}")     '"เลขที่เอกสาร"             
           tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.DueDate}")     '"วันที่กำหนดชำระ"               
         End If
 

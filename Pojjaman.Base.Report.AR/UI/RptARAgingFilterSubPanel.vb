@@ -456,7 +456,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.rdbPaySelection.Name = "rdbPaySelection"
 			Me.rdbPaySelection.Size = New System.Drawing.Size(168, 24)
 			Me.rdbPaySelection.TabIndex = 58
-			Me.rdbPaySelection.Text = "แสดง Retention ตอนรับาชำระ"
+            Me.rdbPaySelection.Text = "แสดง Retention ตอนรับชำระ"
 			'
 			'RptARAgingFilterSubPanel
 			'
