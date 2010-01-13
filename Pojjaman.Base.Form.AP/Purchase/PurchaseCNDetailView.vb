@@ -99,7 +99,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnShowFromCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Dim oldSupId As Integer
     Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PurchaseCNDetailView))
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.txtDocDate = New System.Windows.Forms.TextBox()
@@ -212,7 +211,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnAddWBS
       '
       Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnAddWBS.Image = CType(resources.GetObject("ibtnAddWBS.Image"), System.Drawing.Image)
       Me.ibtnAddWBS.Location = New System.Drawing.Point(104, 400)
       Me.ibtnAddWBS.Name = "ibtnAddWBS"
       Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
@@ -287,7 +286,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelWBS
       '
       Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelWBS.Image = CType(resources.GetObject("ibtnDelWBS.Image"), System.Drawing.Image)
       Me.ibtnDelWBS.Location = New System.Drawing.Point(128, 400)
       Me.ibtnDelWBS.Name = "ibtnDelWBS"
       Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
@@ -365,8 +364,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowSupplier
       '
-      Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowSupplier.Image = CType(resources.GetObject("ibtnShowSupplier.Image"), System.Drawing.Image)
       Me.ibtnShowSupplier.Location = New System.Drawing.Point(344, 16)
       Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
       Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
@@ -391,9 +390,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowSupplierDialog
       '
-      Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowSupplierDialog.Image = CType(resources.GetObject("ibtnShowSupplierDialog.Image"), System.Drawing.Image)
       Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(320, 16)
       Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
       Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
@@ -487,7 +486,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlankDoc
       '
-      Me.ibtnBlankDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlankDoc.Image = CType(resources.GetObject("ibtnBlankDoc.Image"), System.Drawing.Image)
       Me.ibtnBlankDoc.Location = New System.Drawing.Point(104, 80)
       Me.ibtnBlankDoc.Name = "ibtnBlankDoc"
       Me.ibtnBlankDoc.Size = New System.Drawing.Size(24, 24)
@@ -497,7 +496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelDoc
       '
-      Me.ibtnDelDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelDoc.Image = CType(resources.GetObject("ibtnDelDoc.Image"), System.Drawing.Image)
       Me.ibtnDelDoc.Location = New System.Drawing.Point(128, 80)
       Me.ibtnDelDoc.Name = "ibtnDelDoc"
       Me.ibtnDelDoc.Size = New System.Drawing.Size(24, 24)
@@ -507,7 +506,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
       Me.ibtnBlank.Location = New System.Drawing.Point(104, 224)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -517,7 +516,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
       Me.ibtnDelRow.Location = New System.Drawing.Point(128, 224)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -1113,15 +1112,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnShowNote
       '
       Me.ibtnShowNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnShowNote.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowNote.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowNote.Image = CType(resources.GetObject("ibtnShowNote.Image"), System.Drawing.Image)
       Me.ibtnShowNote.Location = New System.Drawing.Point(792, 208)
       Me.ibtnShowNote.Name = "ibtnShowNote"
       Me.ibtnShowNote.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowNote.TabIndex = 9
       Me.ibtnShowNote.TabStop = False
       Me.ibtnShowNote.ThemedImage = CType(resources.GetObject("ibtnShowNote.ThemedImage"), System.Drawing.Bitmap)
+      Me.ibtnShowNote.Visible = False
       '
       'chkAutoRunVat
       '
@@ -1177,8 +1177,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowFromCostCenter
       '
-      Me.ibtnShowFromCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowFromCostCenter.Image = CType(resources.GetObject("ibtnShowFromCostCenter.Image"), System.Drawing.Image)
       Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(480, 80)
       Me.ibtnShowFromCostCenter.Name = "ibtnShowFromCostCenter"
       Me.ibtnShowFromCostCenter.Size = New System.Drawing.Size(24, 23)
@@ -1188,9 +1188,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowFromCostCenterDialog
       '
-      Me.ibtnShowFromCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowFromCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowFromCostCenterDialog.Image = CType(resources.GetObject("ibtnShowFromCostCenterDialog.Image"), System.Drawing.Image)
       Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(456, 80)
       Me.ibtnShowFromCostCenterDialog.Name = "ibtnShowFromCostCenterDialog"
       Me.ibtnShowFromCostCenterDialog.Size = New System.Drawing.Size(24, 23)
@@ -1201,7 +1201,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetGross
       '
       Me.ibtnResetGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetGross.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetGross.Image = CType(resources.GetObject("ibtnResetGross.Image"), System.Drawing.Image)
       Me.ibtnResetGross.Location = New System.Drawing.Point(711, 392)
       Me.ibtnResetGross.Name = "ibtnResetGross"
       Me.ibtnResetGross.Size = New System.Drawing.Size(24, 20)
@@ -1212,7 +1212,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxAmount
       '
       Me.ibtnResetTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxAmount.Image = CType(resources.GetObject("ibtnResetTaxAmount.Image"), System.Drawing.Image)
       Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(711, 516)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
@@ -1223,7 +1223,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxBase
       '
       Me.ibtnResetTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxBase.Image = CType(resources.GetObject("ibtnResetTaxBase.Image"), System.Drawing.Image)
       Me.ibtnResetTaxBase.Location = New System.Drawing.Point(711, 469)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
@@ -3374,6 +3374,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "cmbtaxtype"
           Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
           Me.m_entity.TaxType.Value = item.Id
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
           UpdateAmount()
           RefreshDocs()
           dirtyFlag = True
@@ -3539,7 +3541,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' 
     Private Sub SetTaxTypeComboBox()
-      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType", "code_Value <> 0")
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
       If cmbTaxType.Items.Count > 0 Then
         cmbTaxType.SelectedIndex = 1
       End If
