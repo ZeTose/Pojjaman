@@ -23,6 +23,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ret &= "," & vc
       Next
       ret = ret.TrimStart(","c)
+      Return ret
     End Function
   End Class
 
