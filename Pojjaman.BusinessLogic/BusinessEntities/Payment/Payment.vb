@@ -2095,21 +2095,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Next
 
-      Dim totalIncrease As Decimal
-      totalIncrease = Me.DiscountAmount + Me.OtherRevenue + Me.WitholdingTax + Me.DebitCollection.GetAmount
+      Dim totalOtherCutPay As Decimal
+      totalOtherCutPay = Me.DiscountAmount + Me.OtherRevenue + Me.WitholdingTax + Me.DebitCollection.GetAmount
       'TotalIncrease
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalIncrease"
-      dpi.Value = Configuration.FormatToString(totalIncrease, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(totalOtherCutPay, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      Dim totalDescrease As Decimal
-      totalDescrease = Me.Interest + Me.BankCharge + Me.OtherExpense + Me.CreditCollection.GetAmount
+      Dim totalOtherPay As Decimal
+      totalOtherPay = Me.Interest + Me.BankCharge + Me.OtherExpense + Me.CreditCollection.GetAmount
       'TotalDescrease
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalDescrease"
-      dpi.Value = Configuration.FormatToString(totalDescrease, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(totalOtherPay, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
