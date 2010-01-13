@@ -762,7 +762,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           selectString = "opbi_cc=" & row(0).ToString
         End If
-        Dim rows As DataRow() = Me.ItemTable.Select(selectString)
+        Dim rows As DataRow() = Me.ItemTable.Select(selectString, "opbi_linenumber")
         Dim sumProfit As Decimal = 0
         Dim thisCC As New CostCenter(CInt(row(0)))
         For i As Integer = 0 To rows.Length - 1
