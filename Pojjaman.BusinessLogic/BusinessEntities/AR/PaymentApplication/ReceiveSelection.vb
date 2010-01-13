@@ -300,6 +300,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_whtcol.SetStatus(4)
           Me.m_vat.Status.Value = 4
         End If
+        If Me.Status.Value = 0 Then
+          Me.m_receive.Status.Value = 0
+          Me.m_whtcol.SetStatus(0)
+          Me.m_vat.Status.Value = 0
+          Me.m_je.Status.Value = 0
+        End If
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If

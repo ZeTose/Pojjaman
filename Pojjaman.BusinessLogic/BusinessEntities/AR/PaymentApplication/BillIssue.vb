@@ -308,7 +308,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Originated Then
           paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
         End If
-
+        If Me.Status.Value = 0 Then
+          Me.m_vat.Status.Value = 0
+          Me.m_je.Status.Value = 0
+        End If
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
 
