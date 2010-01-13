@@ -2684,6 +2684,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
+          'RefDocDiscountAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocDiscountAmount"
+          dpi.Value = Configuration.FormatToString(gr.DiscountAmount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
           'RefDocAdvanceMoney
           dpi = New DocPrintingItem
           dpi.Mapping = "RefDocAdvanceMoney"
@@ -3395,6 +3402,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "RefDocTaxAmount"
           dpi.Value = Configuration.FormatToString(newPa.TaxAmount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocBeforeTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocBeforeTax"
+          dpi.Value = Configuration.FormatToString(newPa.BeforeTax, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocDiscountAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocDiscountAmount"
+          dpi.Value = Configuration.FormatToString(newPa.DiscountAmount, DigitConfig.UnitPrice)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocAdvanceMoney
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocAdvanceMoney"
+          Select Case newPa.TaxType.Value
+            Case 0, 1 '"ไม่มี","แยก"
+              dpi.Value = Configuration.FormatToString(newPa.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.UnitPrice)
+            Case 2 '"รวม"
+              dpi.Value = Configuration.FormatToString(newPa.AdvancePayItemCollection.GetAmount, DigitConfig.UnitPrice)
+          End Select
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefDocRetention
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocRetention"
+          dpi.Value = Configuration.FormatToString(newPa.Retention, DigitConfig.UnitPrice)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
