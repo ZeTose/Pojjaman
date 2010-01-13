@@ -919,7 +919,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         'Retention หัก
-        If retentionHere AndAlso doc.Retention > 0 Then
+        If retentionHere AndAlso doc.Retention <> 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "E3.16"
           ji.Amount = doc.Retention

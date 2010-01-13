@@ -1025,7 +1025,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '--- Pui 20080422 เนื่องจาก รับชำระหน้าภาษี สามารถแบ่งรับชำระได้
       'ภาษีขาย-ไม่ถึงกำหนด
-      If jVat > 0 Then
+      If jVat <> 0 Then
         'If TaxAmount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C8.3"
@@ -1036,7 +1036,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีขาย 
-      If jVat > 0 Then
+      If jVat <> 0 Then
         'If TaxAmount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C8.4"
