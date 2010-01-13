@@ -140,103 +140,103 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim ReceivedRow As DataRow()
 
             For Each poRow As DataRow In poDt.Rows
-                If ShowAll OrElse (poRow("POaftertax") - poRow("Stockaftertax")) > 0 Then
-                    If currentPOId <> "" And currentPOId <> poRow("DocId").ToString Then
-                        If Not notShowDetail Then
-                            m_grid.RowCount += 1
-                            currDiscIndex = m_grid.RowCount
-                            m_grid.RowStyles(currDiscIndex).ReadOnly = True
-                            m_grid(currDiscIndex, 4).CellValue = "ÊèÇ¹Å´"
-                            m_grid(currDiscIndex, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-                            m_grid(currDiscIndex, 7).CellValue = Configuration.FormatToString(DiscAmt * -1, DigitConfig.Price)
-                            m_grid(currDiscIndex, 8).CellValue = Configuration.FormatToString(ReceiveDiscAmt * -1, DigitConfig.Price)
-                            m_grid(currDiscIndex, 9).CellValue = Configuration.FormatToString(RemainingDiscAmt * -1, DigitConfig.Price)
-                            m_grid(currDiscIndex, 1).Tag = "Font.Bold"
+        If ShowAll OrElse poRow("RemainingAmt") > 0 Then
+          If currentPOId <> "" And currentPOId <> poRow("DocId").ToString Then
+            If Not notShowDetail Then
+              m_grid.RowCount += 1
+              currDiscIndex = m_grid.RowCount
+              m_grid.RowStyles(currDiscIndex).ReadOnly = True
+              m_grid(currDiscIndex, 4).CellValue = "ÊèÇ¹Å´"
+              m_grid(currDiscIndex, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+              m_grid(currDiscIndex, 7).CellValue = Configuration.FormatToString(DiscAmt * -1, DigitConfig.Price)
+              m_grid(currDiscIndex, 8).CellValue = Configuration.FormatToString(ReceiveDiscAmt * -1, DigitConfig.Price)
+              m_grid(currDiscIndex, 9).CellValue = Configuration.FormatToString(RemainingDiscAmt * -1, DigitConfig.Price)
+              m_grid(currDiscIndex, 1).Tag = "Font.Bold"
 
-                            m_grid.RowCount += 1
-                            currVatIndex = m_grid.RowCount
-                            m_grid.RowStyles(currVatIndex).ReadOnly = True
-                            m_grid(currVatIndex, 4).CellValue = "VAT"
-                            m_grid(currVatIndex, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-                            m_grid(currVatIndex, 7).CellValue = Configuration.FormatToString(VATAmt, DigitConfig.Price)
-                            m_grid(currVatIndex, 8).CellValue = Configuration.FormatToString(ReceiveVATAmt, DigitConfig.Price)
-                            m_grid(currVatIndex, 9).CellValue = Configuration.FormatToString(RemainingVATAmt, DigitConfig.Price)
-                            m_grid(currVatIndex, 1).Tag = "Font.Bold"
-                        End If
-                    End If
+              m_grid.RowCount += 1
+              currVatIndex = m_grid.RowCount
+              m_grid.RowStyles(currVatIndex).ReadOnly = True
+              m_grid(currVatIndex, 4).CellValue = "VAT"
+              m_grid(currVatIndex, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+              m_grid(currVatIndex, 7).CellValue = Configuration.FormatToString(VATAmt, DigitConfig.Price)
+              m_grid(currVatIndex, 8).CellValue = Configuration.FormatToString(ReceiveVATAmt, DigitConfig.Price)
+              m_grid(currVatIndex, 9).CellValue = Configuration.FormatToString(RemainingVATAmt, DigitConfig.Price)
+              m_grid(currVatIndex, 1).Tag = "Font.Bold"
+            End If
+          End If
 
-                    If poRow("DocId").ToString <> currentPOId Then
-                        m_grid.RowCount += 1
-                        currPOIndex = m_grid.RowCount
-                        m_grid.RowStyles(currPOIndex).BackColor = Color.FromArgb(128, 255, 128)
-                        m_grid.RowStyles(currPOIndex).Font.Bold = True
-                        m_grid.RowStyles(currPOIndex).ReadOnly = True
-                        If Not poRow.IsNull("DocDate") Then
-                            If IsDate(poRow("DocDate")) Then
-                                m_grid(currPOIndex, 1).CellValue = CDate(poRow("DocDate")).ToShortDateString
-                            End If
-                        End If
-                        m_grid(currPOIndex, 2).CellValue = poRow("DocCode")
-                        m_grid(currPOIndex, 3).CellValue = poRow("SupplierName")
-                        m_grid(currPOIndex, 7).CellValue = Configuration.FormatToString(poRow("POaftertax"), DigitConfig.Price)
+          If poRow("DocId").ToString <> currentPOId Then
+            m_grid.RowCount += 1
+            currPOIndex = m_grid.RowCount
+            m_grid.RowStyles(currPOIndex).BackColor = Color.FromArgb(128, 255, 128)
+            m_grid.RowStyles(currPOIndex).Font.Bold = True
+            m_grid.RowStyles(currPOIndex).ReadOnly = True
+            If Not poRow.IsNull("DocDate") Then
+              If IsDate(poRow("DocDate")) Then
+                m_grid(currPOIndex, 1).CellValue = CDate(poRow("DocDate")).ToShortDateString
+              End If
+            End If
+            m_grid(currPOIndex, 2).CellValue = poRow("DocCode")
+            m_grid(currPOIndex, 3).CellValue = poRow("SupplierName")
+            m_grid(currPOIndex, 7).CellValue = Configuration.FormatToString(poRow("POaftertax"), DigitConfig.Price)
             m_grid(currPOIndex, 8).CellValue = Configuration.FormatToString(poRow("Stockaftertax"), DigitConfig.Price)
-                        m_grid(currPOIndex, 9).CellValue = Configuration.FormatToString(poRow("POaftertax") - poRow("Stockaftertax"), DigitConfig.Price)
-                        If Not poRow.IsNull("DueDate") Then
-                            If IsDate(poRow("DueDate")) Then
-                                m_grid(currPOIndex, 10).CellValue = CDate(poRow("DueDate")).ToShortDateString
-                            End If
-                        End If
-                        m_grid(currPOIndex, 1).Tag = "Font.Bold"
+            m_grid(currPOIndex, 9).CellValue = Configuration.FormatToString(poRow("POaftertax") - poRow("Stockaftertax"), DigitConfig.Price)
+            If Not poRow.IsNull("DueDate") Then
+              If IsDate(poRow("DueDate")) Then
+                m_grid(currPOIndex, 10).CellValue = CDate(poRow("DueDate")).ToShortDateString
+              End If
+            End If
+            m_grid(currPOIndex, 1).Tag = "Font.Bold"
 
-                        sumPOAmt += poRow("POaftertax")
-                        sumPOReceive += poRow("Stockaftertax")
-                        'sumPORemain += poRow("POaftertax")
+            sumPOAmt += poRow("POaftertax")
+            sumPOReceive += poRow("Stockaftertax")
+            'sumPORemain += poRow("POaftertax")
 
-                        DiscAmt = Configuration.FormatToString(poRow("PODiscAmt"), DigitConfig.Price)
-                        ReceiveDiscAmt = Configuration.FormatToString(poRow("StockDiscAmt"), DigitConfig.Price)
-                        RemainingDiscAmt = Configuration.FormatToString(DiscAmt - ReceiveDiscAmt, DigitConfig.Price)
+            DiscAmt = Configuration.FormatToString(poRow("PODiscAmt"), DigitConfig.Price)
+            ReceiveDiscAmt = Configuration.FormatToString(poRow("StockDiscAmt"), DigitConfig.Price)
+            RemainingDiscAmt = Configuration.FormatToString(DiscAmt - ReceiveDiscAmt, DigitConfig.Price)
 
-                        VATAmt = Configuration.FormatToString(poRow("POtaxAmt"), DigitConfig.Price)
-                        ReceiveVATAmt = Configuration.FormatToString(poRow("StocktaxAmt"), DigitConfig.Price)
-                        RemainingVATAmt = Configuration.FormatToString(VATAmt - ReceiveVATAmt, DigitConfig.Price)
+            VATAmt = Configuration.FormatToString(poRow("POtaxAmt"), DigitConfig.Price)
+            ReceiveVATAmt = Configuration.FormatToString(poRow("StocktaxAmt"), DigitConfig.Price)
+            RemainingVATAmt = Configuration.FormatToString(VATAmt - ReceiveVATAmt, DigitConfig.Price)
 
-                        currentPOId = poRow("DocId")
-                    End If
+            currentPOId = poRow("DocId")
+          End If
 
-                    If Not notShowDetail Then
-                        m_grid.RowCount += 1
-                        currItemIndex = m_grid.RowCount
-                        m_grid.RowStyles(currItemIndex).ReadOnly = True
-                        'If poRow("UnitID").ToString <> currItemIndex And currItemIndex <> "" Then
-                        '    UnitFlag = False
-                        'End If
-                        If Not poRow.IsNull("ItemCode") Then
-                            m_grid(currItemIndex, 2).CellValue = indent & poRow("ItemCode").ToString
-                        End If
-                        If Not poRow.IsNull("ItemName") Then
-                            m_grid(currItemIndex, 3).CellValue = indent & poRow("ItemName").ToString
-                        End If
-                        If Not poRow.IsNull("UnitName") Then
-                            m_grid(currItemIndex, 4).CellValue = indent & poRow("UnitName").ToString
-                        End If
-                        If IsNumeric(poRow("ItemQty")) Then
-                            m_grid(currItemIndex, 5).CellValue = indent & Configuration.FormatToString(CDec(poRow("ItemQty")), DigitConfig.Qty)
-                        End If
-                        If IsNumeric(poRow("ItemUnitPrice")) Then
-                            m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(poRow("ItemUnitPrice")), DigitConfig.Qty)
-                        End If
-                        If IsNumeric(poRow("ItemAmt")) Then
-                            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(poRow("ItemAmt")), DigitConfig.Price)
-                        End If
-                        If IsNumeric(poRow("ItemRecAmt")) Then
-                            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(poRow("ItemRecAmt")), DigitConfig.Price)
-                        End If
-                        If IsNumeric(poRow("RemainingAmt")) Then
-                            m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(poRow("RemainingAmt")), DigitConfig.Price)
-                        End If
-                        If Not poRow.IsNull("ReceivingDate") Then
-                            m_grid(currItemIndex, 10).CellValue = indent & (poRow("ReceivingDate")).ToString
-                        End If
+          If Not notShowDetail Then
+            m_grid.RowCount += 1
+            currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).ReadOnly = True
+            'If poRow("UnitID").ToString <> currItemIndex And currItemIndex <> "" Then
+            '    UnitFlag = False
+            'End If
+            If Not poRow.IsNull("ItemCode") Then
+              m_grid(currItemIndex, 2).CellValue = indent & poRow("ItemCode").ToString
+            End If
+            If Not poRow.IsNull("ItemName") Then
+              m_grid(currItemIndex, 3).CellValue = indent & poRow("ItemName").ToString
+            End If
+            If Not poRow.IsNull("UnitName") Then
+              m_grid(currItemIndex, 4).CellValue = indent & poRow("UnitName").ToString
+            End If
+            If IsNumeric(poRow("ItemQty")) Then
+              m_grid(currItemIndex, 5).CellValue = indent & Configuration.FormatToString(CDec(poRow("ItemQty")), DigitConfig.Qty)
+            End If
+            If IsNumeric(poRow("ItemUnitPrice")) Then
+              m_grid(currItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(poRow("ItemUnitPrice")), DigitConfig.Qty)
+            End If
+            If IsNumeric(poRow("ItemAmt")) Then
+              m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(poRow("ItemAmt")), DigitConfig.Price)
+            End If
+            If IsNumeric(poRow("ItemRecAmt")) Then
+              m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(poRow("ItemRecAmt")), DigitConfig.Price)
+            End If
+            If IsNumeric(poRow("RemainingAmt")) Then
+              m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(poRow("RemainingAmt")), DigitConfig.Price)
+            End If
+            If Not poRow.IsNull("ReceivingDate") Then
+              m_grid(currItemIndex, 10).CellValue = indent & (poRow("ReceivingDate")).ToString
+            End If
           End If
         End If
       Next
