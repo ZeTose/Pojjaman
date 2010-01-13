@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
+Imports System.Collections
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class JournalEntryItem
 
@@ -331,105 +333,125 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			dt.Columns.Add(New DataColumn("Value", GetType(Decimal)))
 			dt.Columns.Add(New DataColumn("Note", GetType(String)))
 
-			Dim mapHash As New Hashtable
-			Dim ccHash As New Hashtable
-			Dim acctHash As New Hashtable
-			For Each m As Match In reg.Matches(glfi.Mapping)
-				If Not mapHash.Contains(m.Value.ToLower) Then
-					mapHash(m.Value.ToLower) = m
-					Dim tmpColl As JournalEntryItemCollection = GetMappingItems(m.Value)
-					Dim cc As CostCenter = glfi.CostCenter
-					For Each ji As JournalEntryItem In tmpColl
-						If cc Is Nothing OrElse Not cc.Originated OrElse ji.CostCenter.Id = cc.Id Then
-							If Not ccHash.Contains(ji.CostCenter.Id) Then
-								ccHash(ji.CostCenter.Id) = ji.CostCenter
-							End If
-							Dim theRow As TreeRow = dt.Childs.Add
-							theRow("Mapping") = m.Value
-							theRow("CostCenter") = ji.CostCenter.Id
-							'Dim acct As Account
-							Select Case glfi.FieldType.Value
-								Case 1								'GeneralAccount
-									If glfi.Account Is Nothing OrElse Not glfi.Account.Originated Then
-										acct = CType(glfi.Field, GeneralAccount).Account
-										acct = New Account(acct.Code)
-									Else
-										acct = glfi.Account
-									End If
-								Case 2, 3								'mix
-									If TypeOf glfi.Field Is GeneralAccount AndAlso (ji.Account Is Nothing OrElse Not ji.Account.Originated) Then
-										acct = CType(glfi.Field, GeneralAccount).Account
-										acct = New Account(acct.Code)
-									Else
-										acct = ji.Account
-									End If
-								Case Else
-									MessageBox.Show("GL Error")
-							End Select
-							If Not acctHash.Contains(acct.Id) Then
-								acctHash(acct.Id) = acct
-							End If
-							ji.Account = acct
-							theRow("Account") = acct.Id
-							theRow("Value") = ji.Amount
-							theRow("Note") = ji.Note
-							theRow.Tag = ji
-						End If
-					Next
-				End If
-			Next
-			For Each ccItem As DictionaryEntry In ccHash
-				Dim ccId As Integer = CInt(ccItem.Key)
-				For Each acctItem As DictionaryEntry In acctHash
-					Dim acctId As Integer = CInt(acctItem.Key)
-					Dim rows() As DataRow = dt.Select("CostCenter = '" & ccId.ToString & "' and Account='" & acctId.ToString & "'")
-					Dim mapValHash As New Hashtable
-					Dim itemnote As String = ""
-					For Each row As DataRow In rows
-						Dim map As String = row("Mapping").ToString
-						Dim value As Decimal = CDec(row("Value"))
-						itemnote = row("Note").ToString
-						If mapValHash.Contains(map.ToLower) Then
-							mapValHash(map.ToLower) = CDec(mapValHash(map.ToLower)) + value
-						Else
-							mapValHash(map.ToLower) = value
-						End If
-					Next
-					Dim mapping As String = glfi.Mapping.ToLower
-					For Each m As Match In reg.Matches(glfi.Mapping.ToLower)
-						If mapValHash.Contains(m.Value.ToLower) Then
-							mapping = mapping.Replace(m.Value.ToLower, mapValHash(m.Value.ToLower).ToString)
-						Else
-							mapping = mapping.Replace(m.Value.ToLower, "0")
-						End If
-					Next
-					Dim amt As Decimal = CDec(TextHelper.TextParser.Evaluate(mapping))
-					Dim ji As New JournalEntryItem
-					ji.Account = CType(acctItem.Value, Account)
-					ji.Amount = Configuration.Format(amt, DigitConfig.Price)
-					ji.Note = itemnote
-					Dim cc As CostCenter = CType(ccItem.Value, CostCenter)
-					If Not cc Is Nothing AndAlso cc.Originated Then
-						ji.CostCenter = cc
-					Else
-						ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-					End If
-					If ji.Amount <> 0 Then
-						If ji.Amount > 0 Then
-							ji.IsDebit = glfi.IsDebit
-						Else
-							ji.Amount = -ji.Amount
-							ji.IsDebit = Not glfi.IsDebit
-						End If
+      Dim mapHash As New Hashtable
+      Dim mapTable As New TreeTable
+      mapTable.Columns.Add(New DataColumn("Key", GetType(String)))
 
-						If ji.Note Is Nothing OrElse ji.Note = "" Then
-							ji.Note = glfi.Field.Name
-						End If
+      Dim ccHash As New Hashtable
+      Dim ccTable As New TreeTable
+      ccTable.Columns.Add(New DataColumn("Key", GetType(Integer)))
 
-						ret.Add(ji)
-					End If
-				Next
-			Next
+      Dim acctHash As New Hashtable
+      Dim acctTable As New TreeTable
+      acctTable.Columns.Add(New DataColumn("Key", GetType(Integer)))
+
+      Dim theRow As TreeRow
+      Dim theRow2 As TreeRow
+      For Each m As Match In reg.Matches(glfi.Mapping)
+        If Not mapHash.Contains(m.Value.ToLower) Then
+          mapHash(m.Value.ToLower) = m
+          theRow2 = mapTable.Childs.Add
+          theRow2("Key") = m.Value.ToLower
+          theRow2.Tag = m
+          Dim tmpColl As JournalEntryItemCollection = GetMappingItems(m.Value)
+          Dim cc As CostCenter = glfi.CostCenter
+          For Each ji As JournalEntryItem In tmpColl
+            If cc Is Nothing OrElse Not cc.Originated OrElse ji.CostCenter.Id = cc.Id Then
+              If Not ccHash.Contains(ji.CostCenter.Id) Then
+                ccHash(ji.CostCenter.Id) = ji.CostCenter
+                theRow2 = ccTable.Childs.Add
+                theRow2("Key") = ji.CostCenter.Id
+                theRow2.Tag = ji.CostCenter
+              End If
+              theRow = dt.Childs.Add
+              theRow("Mapping") = m.Value
+              theRow("CostCenter") = ji.CostCenter.Id
+              'Dim acct As Account
+              Select Case glfi.FieldType.Value
+                Case 1                'GeneralAccount
+                  If glfi.Account Is Nothing OrElse Not glfi.Account.Originated Then
+                    acct = CType(glfi.Field, GeneralAccount).Account
+                    acct = New Account(acct.Code)
+                  Else
+                    acct = glfi.Account
+                  End If
+                Case 2, 3               'mix
+                  If TypeOf glfi.Field Is GeneralAccount AndAlso (ji.Account Is Nothing OrElse Not ji.Account.Originated) Then
+                    acct = CType(glfi.Field, GeneralAccount).Account
+                    acct = New Account(acct.Code)
+                  Else
+                    acct = ji.Account
+                  End If
+                Case Else
+                  MessageBox.Show("GL Error")
+              End Select
+              If Not acctHash.Contains(acct.Id) Then
+                acctHash(acct.Id) = acct
+                theRow2 = acctTable.Childs.Add
+                theRow2("Key") = acct.Id
+                theRow2.Tag = acct
+              End If
+              ji.Account = acct
+              theRow("Account") = acct.Id
+              theRow("Value") = ji.Amount
+              theRow("Note") = ji.Note
+              theRow.Tag = ji
+            End If
+          Next
+        End If
+      Next
+      For Each ccItem As TreeRow In ccTable.Childs 'As DictionaryEntry In ccHash
+        Dim ccId As Integer = CInt(ccItem("Key")) '(ccItem.Key)
+        For Each acctItem As TreeRow In acctTable.Childs 'DictionaryEntry In acctHash
+          Dim acctId As Integer = CInt(acctItem("Key")) '(acctItem.Key)
+          Dim rows() As DataRow = dt.Select("CostCenter = '" & ccId.ToString & "' and Account='" & acctId.ToString & "'")
+          Dim mapValHash As New Hashtable
+          Dim itemnote As String = ""
+          For Each row As DataRow In rows
+            Dim map As String = row("Mapping").ToString
+            Dim value As Decimal = CDec(row("Value"))
+            itemnote = row("Note").ToString
+            If mapValHash.Contains(map.ToLower) Then
+              mapValHash(map.ToLower) = CDec(mapValHash(map.ToLower)) + value
+            Else
+              mapValHash(map.ToLower) = value
+            End If
+          Next
+          Dim mapping As String = glfi.Mapping.ToLower
+          For Each m As Match In reg.Matches(glfi.Mapping.ToLower)
+            If mapValHash.Contains(m.Value.ToLower) Then
+              mapping = mapping.Replace(m.Value.ToLower, mapValHash(m.Value.ToLower).ToString)
+            Else
+              mapping = mapping.Replace(m.Value.ToLower, "0")
+            End If
+          Next
+          Dim amt As Decimal = CDec(TextHelper.TextParser.Evaluate(mapping))
+          Dim ji As New JournalEntryItem
+          ji.Account = CType(acctItem.Tag, Account) '(acctItem.Value, Account)
+          ji.Amount = Configuration.Format(amt, DigitConfig.Price)
+          ji.Note = itemnote
+          Dim cc As CostCenter = CType(ccItem.Tag, CostCenter) '(ccItem.Value, CostCenter)
+          If Not cc Is Nothing AndAlso cc.Originated Then
+            ji.CostCenter = cc
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          If ji.Amount <> 0 Then
+            If ji.Amount > 0 Then
+              ji.IsDebit = glfi.IsDebit
+            Else
+              ji.Amount = -ji.Amount
+              ji.IsDebit = Not glfi.IsDebit
+            End If
+
+            If ji.Note Is Nothing OrElse ji.Note = "" Then
+              ji.Note = glfi.Field.Name
+            End If
+
+            ret.Add(ji)
+          End If
+        Next
+      Next
 			Return ret
 		End Function
 		'Public Function CreateTableStyle() As DataGridTableStyle
