@@ -1629,6 +1629,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            m_entity.Code = m_entity.AutoCodeFormat.Format
             'Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True
@@ -2060,6 +2061,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
           If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+            m_entity.Code = m_entity.AutoCodeFormat.Format
           End If
         End If
         Me.m_entity.AutoGen = True
