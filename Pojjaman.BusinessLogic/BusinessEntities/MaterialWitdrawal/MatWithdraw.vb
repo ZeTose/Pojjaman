@@ -770,7 +770,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         '---- AutoCode Format --------
         Me.m_je.RefreshGLFormat()
-        If Not AutoCodeFormat Is Nothing Then
+        If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
 
 
           Select Case Me.AutoCodeFormat.CodeConfig.Value
