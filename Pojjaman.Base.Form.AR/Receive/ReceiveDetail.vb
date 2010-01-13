@@ -17,6 +17,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ReceiveDetail
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable, IAuxTab
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -1381,33 +1382,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           m_dateSetting = False
         Case "txtdiscountamount"
+          Dim value As Decimal = 0
           If IsNumeric(txtDiscountAmount.Text) Then
-            Me.m_receive.DiscountAmount = CDec(txtDiscountAmount.Text)
+            value = CDec(txtDiscountAmount.Text)
           End If
+          Me.m_receive.DiscountAmount = value
+          'txtDiscountAmount.Text = Configuration.FormatToString(Me.m_receive.DiscountAmount, DigitConfig.Price)
           Me.UpdateAmount()
           dirtyFlag = True
         Case "txtotherrevenue"
+          Dim value As Decimal = 0
           If IsNumeric(txtOtherRevenue.Text) Then
-            Me.m_receive.OtherRevenue = CDec(txtOtherRevenue.Text)
+            value = CDec(txtOtherRevenue.Text)
           End If
+          Me.m_receive.OtherRevenue = value
+          'txtOtherRevenue.Text = Configuration.FormatToString(Me.m_receive.OtherRevenue, DigitConfig.Price)
           Me.UpdateAmount()
           dirtyFlag = True
         Case "txtinterest"
+          Dim value As Decimal = 0
           If IsNumeric(txtInterest.Text) Then
-            Me.m_receive.Interest = CDec(txtInterest.Text)
+            value = CDec(txtInterest.Text)
           End If
+          Me.m_receive.Interest = value
+          'txtInterest.Text = Configuration.FormatToString(Me.m_receive.Interest, DigitConfig.Price)
           Me.UpdateAmount()
           dirtyFlag = True
         Case "txtbankcharge"
+          Dim value As Decimal = 0
           If IsNumeric(txtBankCharge.Text) Then
-            Me.m_receive.BankCharge = CDec(txtBankCharge.Text)
+            value = CDec(txtBankCharge.Text)
           End If
+          Me.m_receive.BankCharge = value
+          'txtBankCharge.Text = Configuration.FormatToString(Me.m_receive.BankCharge, DigitConfig.Price)
           Me.UpdateAmount()
           dirtyFlag = True
         Case "txtotherexpense"
+          Dim value As Decimal = 0
           If IsNumeric(txtOtherExpense.Text) Then
-            Me.m_receive.OtherExpense = CDec(txtOtherExpense.Text)
+            value = CDec(txtOtherExpense.Text)
           End If
+          Me.m_receive.OtherExpense = value
+          'txtOtherExpense.Text = Configuration.FormatToString(Me.m_receive.OtherExpense, DigitConfig.Price)
           Me.UpdateAmount()
           dirtyFlag = True
       End Select
