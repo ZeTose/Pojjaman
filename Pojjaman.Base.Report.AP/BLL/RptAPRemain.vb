@@ -128,7 +128,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumEndingBalanceRetention As Decimal = 0
 
       For Each supplierRow As DataRow In dt.Rows
-        Dim deh As New DataRowHelper(supplierRow)
         trSupplier = Me.Treemanager.Treetable.Childs.Add
         trSupplier.Tag = "Font.Bold"
         If Not supplierRow.IsNull("supplier_code") Then
@@ -188,9 +187,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If m_showDetailInGrid <> 0 Then
           Dim dt2 As DataTable = Me.DataSet.Tables(2)
-
           trSupplier.State = RowExpandState.Expanded
           For Each detailRow As DataRow In dt2.Select("Supplier=" & supplierRow("Supplier_ID").ToString)
+            Dim deh As New DataRowHelper(detailRow)
             If Not trSupplier Is Nothing Then
               trDetail = trSupplier.Childs.Add
               If Not detailRow.IsNull("entity_description") Then
@@ -204,7 +203,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trDetail("col2") = indent & CDate(detailRow("docdate")).ToShortDateString
                 End If
               End If
-               trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
+
+              trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
+
               If Not detailRow.IsNull("OpeningBalance") Then
                 trDetail("col4") = Configuration.FormatToString(CDec(detailRow("OpeningBalance")), DigitConfig.Price)
               End If
