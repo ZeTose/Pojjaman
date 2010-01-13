@@ -2650,7 +2650,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       If Not Me.Payment Is Nothing Then
         'ส่วนต่างระหว่างยอดจ่ายกับยอดจริง ---> เจ้าหนี้
-        Dim pmGross As Decimal = Me.Payment.Gross
+
+        Dim pmGross As Decimal = 0
+
+        If retentionHere Then
+          pmGross = Me.Payment.Gross
+        Else
+          pmGross = Me.Payment.Gross + Me.Retention
+        End If
+
         If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "E3.8"
