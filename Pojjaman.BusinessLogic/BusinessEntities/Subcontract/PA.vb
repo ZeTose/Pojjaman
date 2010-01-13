@@ -2225,7 +2225,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If item.ItemType.Value = 0 Then
                 dpi.Value = indent & item.EntityName.Trim
               Else
-                dpi.Value = indent & item.Entity.Name.Trim
+                If item.Entity.Name.Length > 0 Then
+                  dpi.Value = indent & item.Entity.Name.Trim
+                Else
+                  dpi.Value = ""
+                End If
               End If
             Else
               dpi.Value = item.EntityName
