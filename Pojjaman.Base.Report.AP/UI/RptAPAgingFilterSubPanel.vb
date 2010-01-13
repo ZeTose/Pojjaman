@@ -701,7 +701,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.NotSpecialize}")) 'ไม่ระบุ
       Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbDuebyPUR}")) 'ใบซื้อสินค้าบริการ/รับของ
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbDuebyBA}")) 'ใบวางบิล
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbDuebyBA}")) 'ใบรับวางบิล
       Me.cmbDueDateType.SelectedIndex = 0
 
       Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblDueDate}")

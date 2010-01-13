@@ -506,7 +506,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbShowPeriod.SelectedIndex = 0
 
       Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbNotSpecialize}")) 'ไม่ได้ระบุ
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbDuebyPUR}")) 'ใบซื้อสินค้าบริการ/รับของ
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbDuebyPUR}")) 'ใบขายสินค้า/บริการ
       Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbDuebyBA}")) 'ใบวางบิล
       Me.cmbDueDateType.SelectedIndex = 0
 
