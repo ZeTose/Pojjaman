@@ -1423,6 +1423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
           If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+            m_entity.Code = m_entity.AutoCodeFormat.Format
           End If
         End If
         m_oldCode = Me.cmbCode.Text
