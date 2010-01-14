@@ -1644,8 +1644,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '---- AutoCode Format --------
         Me.m_je.RefreshGLFormat()
         If Not AutoCodeFormat Is Nothing Then
-
-
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
@@ -1676,6 +1674,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
           End Select
         Else
+          '=====เอาออกได้นะ block นี่้
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
             Me.Code = Me.GetNextCode
           End If

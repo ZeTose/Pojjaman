@@ -89,6 +89,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_config As AutoCodeConfig
     Public Property CodeConfig() As AutoCodeConfig
       Get
+        If m_config Is Nothing Then
+          m_config = New AutoCodeConfig(-1)
+        End If
         Return m_config
       End Get
       Set(ByVal Value As AutoCodeConfig)
