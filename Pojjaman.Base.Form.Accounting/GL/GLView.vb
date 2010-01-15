@@ -1060,58 +1060,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End Select
 		End Sub
 		' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-		Public Overrides Sub UpdateEntityProperties()
-			m_isInitialized = False
-			ClearDetail()
-			If m_je Is Nothing Then
-				Return
-			End If
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_je Is Nothing Then
+        Return
+      End If
 
-			'***************************************************************
-			'If Not m_je.Originated Then
-			'    Me.m_je.SetGLFormat(Me.m_je.RefDoc.GetDefaultGLFormat)
-			'End If
-			'***************************************************************
+      '***************************************************************
+      'If Not m_je.Originated Then
+      '    Me.m_je.SetGLFormat(Me.m_je.RefDoc.GetDefaultGLFormat)
+      'End If
+      '***************************************************************
 
-			txtCode.Text = Me.m_je.Code
-			m_oldCode = m_je.Code
-			Me.chkAutorun.Checked = Me.m_je.AutoGen
-			Me.UpdateAutogenStatus()
-			txtNote.Text = Me.m_je.Note
-			txtDocDate.Text = MinDateToNull(Me.m_je.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-			dtpDocDate.Value = MinDateToNow(Me.m_je.DocDate)
+      txtCode.Text = Me.m_je.Code
+      m_oldCode = m_je.Code
+      Me.chkAutorun.Checked = Me.m_je.AutoGen
+      Me.UpdateAutogenStatus()
+      txtNote.Text = Me.m_je.Note
+      txtDocDate.Text = MinDateToNull(Me.m_je.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_je.DocDate)
 
-			UpdateUsingRefCode()
+      UpdateUsingRefCode()
 
-			Me.chkPost.Checked = Me.m_je.ManualFormat
+      Me.chkPost.Checked = Me.m_je.ManualFormat
 
-			txtFormatCode.Text = m_je.GLFormat.Code
-			txtFormatName.Text = m_je.GLFormat.Name
+      txtFormatCode.Text = m_je.GLFormat.Code
+      txtFormatName.Text = m_je.GLFormat.Name
 
-			txtAccountBookCode.Text = m_je.AccountBook.Code
-			txtAccountBookName.Text = m_je.AccountBook.Name
+      txtAccountBookCode.Text = m_je.AccountBook.Code
+      txtAccountBookName.Text = m_je.AccountBook.Name
 
 
-			UpdateRefDoc()
+      UpdateRefDoc()
 
-            Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.DateTimeType)
+      Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.DateTimeType)
       If TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
         Dim si As SimpleBusinessEntityBase = CType(Me.m_entity, SimpleBusinessEntityBase)
-        If Not si.AutoCodeFormat.GLFormat Is Nothing Then
+        If si.AutoCodeFormat IsNot Nothing AndAlso Not si.AutoCodeFormat.GLFormat Is Nothing Then
           If CType(Me.m_entity, SimpleBusinessEntityBase).AutoCodeFormat.CodeConfig.Value = 0 Then
             Me.Validator.SetDataType(Me.txtDocDate, DataTypeConstants.StringType)
           End If
         End If
       End If
 
-			RefreshDocs()
+      RefreshDocs()
 
 
-			SetStatus()
-			SetLabelText()
-			CheckFormEnable()
-			m_isInitialized = True
-		End Sub
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
 		Private Sub RefreshDocs()
 			Dim flag As Boolean = Me.m_isInitialized
 			Me.m_isInitialized = False
