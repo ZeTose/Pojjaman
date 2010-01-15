@@ -333,7 +333,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmd.Parameters.Add("@DateEnd", Me.DateEnd)
         cmd.Parameters.Add("@recalUnitCost", Me.IsRecalUnitCost)
 
-        cmd.ExecuteReader()
+        'cmd.ExecuteReader()
+
+        Dim myDataReader As SqlDataReader = cmd.ExecuteReader()
+        If Not IsNothing(myDataReader) Then
+          If Not myDataReader.IsClosed Then
+            myDataReader.Close()
+          End If
+
+        End If
         trans.Commit()
 
         Return New SaveErrorException("")
@@ -341,6 +349,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trans.Rollback()
         'ResetId(oldid, oldjeid)
         Return New SaveErrorException(ex.ToString)
+      Finally
+        'If conn.State <> ConnectionState.Closed Then
+        'cmd = Nothing
+        'trans = Nothing
+        'conn.Close()
+        'conn.Dispose()
+        'End If
       End Try
 
     End Function

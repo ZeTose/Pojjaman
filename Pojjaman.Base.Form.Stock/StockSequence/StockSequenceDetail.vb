@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class StockSequenceDetail
     Inherits AbstractEntityPanelViewContent
     Implements IValidatable, ISimpleListPanel
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -464,7 +465,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.IsDirty = False
 
       SetStatus()
-      SetLabelText()
+      'SetLabelText()
       CheckFormEnable()
       m_isInitialized = True
     End Sub
@@ -887,9 +888,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       EnableTextBox()
       SetProgress()
       aThread.Start()
-      'Save()
 
-      'Dim bThreadStart As New Threading.ThreadStart(AddressOf SetProgress)
+      'Save()
+       'Dim bThreadStart As New Threading.ThreadStart(AddressOf SetProgress)
       'Dim bThread As New Thread(bThreadStart)
       'bThread.Name = "ProgressThred"
       'bThread.Start()
@@ -998,19 +999,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.OnSaved(New SaveEventArgs(False))
       Else
         msgServ.ShowMessage("${res:Global.Info.DataSaved}")
-        CType(Me, ISimpleListPanel).RefreshData("")
+        'CType(Me, ISimpleListPanel).RefreshData("")
         Me.IsDirty = False
         Me.OnSaved(New SaveEventArgs(True))
       End If
 
-      SecurityService.UpdateAccessTable()
-      WorkbenchSingleton.Workbench.RedrawEditComponents()
+      'SecurityService.UpdateAccessTable()
+      'WorkbenchSingleton.Workbench.RedrawEditComponents()
 
-      lblProgress.Text = ""
-      ProgressBar1.Visible = False
+      'lblProgress.Text = ""
+      'ProgressBar1.Visible = False
+      ''CheckFormEnable()
 
-      m_entity = New StockSequence("***") 'Hack by julawut
-      Me.UpdateEntityProperties()
+      'm_entity = New StockSequence("***") 'Hack by julawut
+      'Me.UpdateEntityProperties()
 
       'GC.Collect()
     End Sub
