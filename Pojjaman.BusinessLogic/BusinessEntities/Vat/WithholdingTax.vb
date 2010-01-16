@@ -2239,8 +2239,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'UNDONE
         Return New SaveErrorException("WHTRefdoc IS NOTHING.")
       End If
-      If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
-        Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+      Dim refTaxBase As Decimal = 0
+      If TypeOf wht_refDoc Is ReceiveSelection Then
+        If Me.Amount > CType(wht_refDoc, ReceiveSelection).RealTaxBase Then
+          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+        End If
+      Else
+        If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
+          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+        End If
       End If
       Dim whtsToRemove As New ArrayList
       For Each wht As WitholdingTax In Me

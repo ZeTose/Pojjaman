@@ -1111,7 +1111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IWitholdingTaxable"
     Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
-      Return Me.RealTaxBase 'Me.TaxBase
+      Return Me.TaxBase
     End Function
     Public Property Person() As IBillablePerson Implements IWitholdingTaxable.Person, IVatable.Person
       Get
@@ -1290,7 +1290,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 iTaxBase += CDec(row("vat_taxbase"))
               End If
             Next
-
+          Case 83
+            'ถ้าไม่ได้มาจากใบวางบิลงวด แต่มาจากการขายสินค้า หรือวางบิล
+            Dim d As Decimal = 0
+            'For Each item As SaleBillIssueItem In Me.ItemCollection
+              'ถ้าไม่ใช่ใบวางบิลงวด
+            'If Not item.ParentType = 81 Then
+            'ถ้าเป็นใบวางบิลขาย และเป็นรายการขายสินค้า
+            'If item.ParentType = 125 And item.EntityId = 83 Then
+            iTaxBase += GoodsSold.GetTaxBase(item.Id)
+            'End If
+            'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            'iTaxBase -= d
+            'End If
+            'Next
         End Select
       Next
 
