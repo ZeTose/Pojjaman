@@ -410,7 +410,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not cc Is Nothing Then
             Me.m_receive.CcId = cc.Id
-            Me.m_whtcol.SetCCId(cc.Id)
+            'Me.m_whtcol.SetCCId(cc.Id)
             Me.m_vat.SetCCId(cc.Id)
           End If
           Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)

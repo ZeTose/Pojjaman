@@ -114,6 +114,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private wht_cumulative As String
 
     Private m_latestCode As String
+
 #End Region
 
 #Region "Constructors"
@@ -835,7 +836,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			myDatatable.Columns.Add(New DataColumn("whti_taxrate", GetType(String)))
 			myDatatable.Columns.Add(New DataColumn("whti_taxbase", GetType(String)))
 			myDatatable.Columns.Add(New DataColumn("whti_realtaxbase", GetType(Decimal)))		 'เก็บค่าเต็มๆ
-			myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("whti_cc", GetType(Integer)))
 			'myDatatable.Columns.Add(New DataColumn("AfterVat", GetType(String)))
 			Return myDatatable
 		End Function
@@ -2157,6 +2159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return TypeOf Me.RefDoc Is ICanDelayWHT
       End Get
     End Property
+
 #End Region
 
 #Region "Shared"
