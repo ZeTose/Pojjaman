@@ -631,9 +631,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
-            If DontSave Then
-                Return New SaveErrorException("0")
-            End If
+      If DontSave Then
+        Return New SaveErrorException("0")
+      End If
       RefreshGLFormat()
       With Me
         Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)

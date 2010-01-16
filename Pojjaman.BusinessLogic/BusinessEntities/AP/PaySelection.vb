@@ -522,6 +522,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Open()
         trans = conn.BeginTransaction()
 
+        'HACK================================
+        SimpleBusinessEntityBase.Connection = conn
+        SimpleBusinessEntityBase.Transaction = trans
+        'HACK================================
+
         Dim oldid As Integer = Me.Id
         Dim oldpay As Integer = Me.m_payment.Id
         Dim oldVatId As Integer = Me.m_vat.Id
@@ -550,7 +555,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           SaveDetail(Me.Id, conn, trans)
           Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-          Dim mycc As CostCenter = GetCCFromItem(conn, trans)
+          Dim mycc As CostCenter = GetCCFromItem()
           If Not mycc Is Nothing Then
             Me.m_payment.CCId = mycc.Id
             Me.m_whtcol.SetCCId(mycc.Id)
@@ -698,6 +703,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
+          'HACK================================
+          SimpleBusinessEntityBase.Connection = Nothing
+          SimpleBusinessEntityBase.Transaction = Nothing
+          'HACK================================
         End Try
       End With
     End Function
@@ -827,17 +836,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return dummyCC
     End Function
-    Public Function GetCCFromItem(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As CostCenter
-      Dim dummyCC As CostCenter
-      For Each item As BillAcceptanceItem In Me.ItemCollection
-        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(conn, trans, item.EntityId, item.Id)
-        If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
-          Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        dummyCC = thisCC
-      Next
-      Return dummyCC
-    End Function
+
     Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer) As CostCenter
       Try
         Dim dsr As DataSet = SqlHelper.ExecuteDataset( _
@@ -905,46 +904,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
       Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
       Return glf
-    End Function
-    Private Function GetCCFromDocTypeAndId(ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-      , CommandType.StoredProcedure _
-      , "GetCCIdFromDocTypeAndId" _
-      , New SqlParameter("@docType", docType) _
-      , New SqlParameter("@entityId", entityId))
-
-      If ds.Tables.Count > 0 _
-      AndAlso ds.Tables(0).Rows.Count = 1 _
-      AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
-        Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
-        If Not cc Is Nothing AndAlso cc.Originated Then
-          Return cc
-        End If
-      End If
-      Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-    End Function
-    Private Function GetCCFromDocTypeAndId(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, _
-                                           ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans _
-      , CommandType.StoredProcedure _
-      , "GetCCIdFromDocTypeAndId" _
-      , New SqlParameter("@docType", docType) _
-      , New SqlParameter("@entityId", entityId))
-
-      If ds.Tables.Count > 0 _
-      AndAlso ds.Tables(0).Rows.Count = 1 _
-      AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
-        Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
-        If Not cc Is Nothing AndAlso cc.Originated Then
-          Return cc
-        End If
-      End If
-      Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-    End Function
+    End Function    
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
-      Dim myCC As CostCenter = GetCCFromItem()
+      Dim myCC As CostCenter
+      myCC = GetCCFromItem()
       If myCC Is Nothing OrElse Not myCC.Originated Then
         myCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
       End If

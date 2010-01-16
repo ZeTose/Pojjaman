@@ -573,7 +573,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Return sumAmount
 			End Get
 		End Property
-
+    Public Property CCId As Integer
 		Public Overrides ReadOnly Property GetListSprocName() As String
 			Get
 				Return "GetWitholdingTaxList"
@@ -844,14 +844,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-		Public Sub SetCCId(ByVal ccId As Integer)
-			For n As Integer = 0 To Me.MaxRowIndex
-				Dim item As TreeRow = Me.m_itemTable.Childs(n)
-				If ValidateRow(item) Then
-					item("whti_cc") = ccId
-				End If
-			Next
-		End Sub
+    Public Sub SetCCId(ByVal ccId As Integer)
+      Me.CCId = ccId
+      'For n As Integer = 0 To Me.MaxRowIndex
+      'Dim item As TreeRow = Me.m_itemTable.Childs(n)
+      'If ValidateRow(item) Then
+      'item("whti_cc") = ccId
+      'End If
+      'Next
+    End Sub
 		Public Shared Sub DeleteFromRefDoc(ByVal refDocId As Integer, ByVal refDocType As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction)
 			Dim paramArrayList As New ArrayList
 			paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
@@ -922,111 +923,122 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
 				End If
 
-				If Me.TaxBase > Me.RefDoc.GetMaximumWitholdingTaxBase Then
-					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
-				End If
-				Me.UpdateRefDoc()
-				Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-				returnVal.ParameterName = "RETURN_VALUE"
-				returnVal.DbType = DbType.Int32
-				returnVal.Direction = ParameterDirection.ReturnValue
-				returnVal.SourceVersion = DataRowVersion.Current
+        If TypeOf Me.RefDoc Is PaySelection Then
+          If Me.TaxBase > CType(Me.RefDoc, PaySelection).RealTaxBase Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+          End If
+        ElseIf TypeOf Me.RefDoc Is ReceiveSelection Then
+          If Me.TaxBase > CType(Me.RefDoc, ReceiveSelection).RealTaxBase Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+          End If
+        Else
+          If Me.TaxBase > Me.RefDoc.GetMaximumWitholdingTaxBase Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+          End If
+        End If
 
-				' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-				Dim paramArrayList As New ArrayList
+        Me.UpdateRefDoc()
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
 
-				paramArrayList.Add(returnVal)
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
 
-				If Me.Originated Then
-					paramArrayList.Add(New SqlParameter("@wht_id", Me.Id))
-				End If
-				Dim theTime As Date = Now
-				Dim theUser As New User(currentUserId)
+        paramArrayList.Add(returnVal)
 
-				If Me.AutoGen And Me.Code.Length = 0 Then
-					Me.Code = Me.GetNextCode
-				End If
+        If Me.Originated Then
+          paramArrayList.Add(New SqlParameter("@wht_id", Me.Id))
+        End If
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
 
-				Me.AutoGen = False
-				paramArrayList.Add(New SqlParameter("@wht_code", Me.Code))
-				paramArrayList.Add(New SqlParameter("@wht_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
-				paramArrayList.Add(New SqlParameter("@wht_bookNo", Me.BookNo))
+        If Me.AutoGen And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
 
-				Dim refDocType As Integer
-				If TypeOf Me.RefDoc Is ISimpleEntity Then
-					refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
-				End If
-				paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
-				paramArrayList.Add(New SqlParameter("@wht_refdoc", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
-				paramArrayList.Add(New SqlParameter("@wht_refDocCode", Me.RefDoc.Code))
-				paramArrayList.Add(New SqlParameter("@wht_refDocDate", Me.RefDoc.Date))
+        Me.AutoGen = False
+        paramArrayList.Add(New SqlParameter("@wht_code", Me.Code))
+        paramArrayList.Add(New SqlParameter("@wht_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
+        paramArrayList.Add(New SqlParameter("@wht_bookNo", Me.BookNo))
 
-				If Not Me.RefDoc.Person Is Nothing AndAlso TypeOf Me.RefDoc.Person Is SimpleBusinessEntityBase Then
-					Dim payee As SimpleBusinessEntityBase = CType(Me.RefDoc.Person, SimpleBusinessEntityBase)
-					paramArrayList.Add(New SqlParameter("@wht_entity", ValidIdOrDBNull(payee)))
-					paramArrayList.Add(New SqlParameter("@wht_entityType", payee.EntityId))
-				End If
+        Dim refDocType As Integer
+        If TypeOf Me.RefDoc Is ISimpleEntity Then
+          refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
+        End If
+        paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
+        paramArrayList.Add(New SqlParameter("@wht_refdoc", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@wht_refDocCode", Me.RefDoc.Code))
+        paramArrayList.Add(New SqlParameter("@wht_refDocDate", Me.RefDoc.Date))
 
-				paramArrayList.Add(New SqlParameter("@wht_printname", Me.PrintName))
-				paramArrayList.Add(New SqlParameter("@wht_entityAddress", Me.EntityAddress))
-				paramArrayList.Add(New SqlParameter("@wht_entitytaxid", Me.EntityTaxId))
-				paramArrayList.Add(New SqlParameter("@wht_entityidno", Me.EntityIdNo))
+        If Not Me.RefDoc.Person Is Nothing AndAlso TypeOf Me.RefDoc.Person Is SimpleBusinessEntityBase Then
+          Dim payee As SimpleBusinessEntityBase = CType(Me.RefDoc.Person, SimpleBusinessEntityBase)
+          paramArrayList.Add(New SqlParameter("@wht_entity", ValidIdOrDBNull(payee)))
+          paramArrayList.Add(New SqlParameter("@wht_entityType", payee.EntityId))
+        End If
 
-				paramArrayList.Add(New SqlParameter("@wht_taxbase", Me.TaxBase))
-				paramArrayList.Add(New SqlParameter("@wht_amt", Me.Amount))
-				paramArrayList.Add(New SqlParameter("@wht_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@wht_printname", Me.PrintName))
+        paramArrayList.Add(New SqlParameter("@wht_entityAddress", Me.EntityAddress))
+        paramArrayList.Add(New SqlParameter("@wht_entitytaxid", Me.EntityTaxId))
+        paramArrayList.Add(New SqlParameter("@wht_entityidno", Me.EntityIdNo))
+
+        paramArrayList.Add(New SqlParameter("@wht_taxbase", Me.TaxBase))
+        paramArrayList.Add(New SqlParameter("@wht_amt", Me.Amount))
+        paramArrayList.Add(New SqlParameter("@wht_note", Me.Note))
 
 
-				paramArrayList.Add(New SqlParameter("@wht_direction", Me.Direction.Value))
-				paramArrayList.Add(New SqlParameter("@wht_status", Me.Status.Value))
-				paramArrayList.Add(New SqlParameter("@wht_type", Me.Type.Value))
-				paramArrayList.Add(New SqlParameter("@wht_paymenttype", Me.PaymentType.Value))
-				paramArrayList.Add(New SqlParameter("@wht_otherpaymenttype", Me.PaymentType.OtherPaymentType))
+        paramArrayList.Add(New SqlParameter("@wht_direction", Me.Direction.Value))
+        paramArrayList.Add(New SqlParameter("@wht_status", Me.Status.Value))
+        paramArrayList.Add(New SqlParameter("@wht_type", Me.Type.Value))
+        paramArrayList.Add(New SqlParameter("@wht_paymenttype", Me.PaymentType.Value))
+        paramArrayList.Add(New SqlParameter("@wht_otherpaymenttype", Me.PaymentType.OtherPaymentType))
 
-				paramArrayList.Add(New SqlParameter("@wht_representName", Me.RepresentName))
-				paramArrayList.Add(New SqlParameter("@wht_representAddress", Me.RepresentAddress))
-				paramArrayList.Add(New SqlParameter("@wht_representTaxId", Me.RepresentTaxId))
-				paramArrayList.Add(New SqlParameter("@wht_representIdNo", Me.RepresentIdNo))
-				paramArrayList.Add(New SqlParameter("@wht_employerAcct", Me.EmployerAcct))
-				paramArrayList.Add(New SqlParameter("@wht_employeeSSN", Me.EmployeeSSN))
-				paramArrayList.Add(New SqlParameter("@wht_CompanySupport", Me.CompanySupport))
-				paramArrayList.Add(New SqlParameter("@wht_license", Me.License))
-				paramArrayList.Add(New SqlParameter("@wht_cumulative", Me.Cumulative))
+        paramArrayList.Add(New SqlParameter("@wht_representName", Me.RepresentName))
+        paramArrayList.Add(New SqlParameter("@wht_representAddress", Me.RepresentAddress))
+        paramArrayList.Add(New SqlParameter("@wht_representTaxId", Me.RepresentTaxId))
+        paramArrayList.Add(New SqlParameter("@wht_representIdNo", Me.RepresentIdNo))
+        paramArrayList.Add(New SqlParameter("@wht_employerAcct", Me.EmployerAcct))
+        paramArrayList.Add(New SqlParameter("@wht_employeeSSN", Me.EmployeeSSN))
+        paramArrayList.Add(New SqlParameter("@wht_CompanySupport", Me.CompanySupport))
+        paramArrayList.Add(New SqlParameter("@wht_license", Me.License))
+        paramArrayList.Add(New SqlParameter("@wht_cumulative", Me.Cumulative))
 
-				SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-				' สร้าง SqlParameter จาก ArrayList ...
-				Dim sqlparams() As SqlParameter
-				sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-				Dim oldid As Integer = Me.Id
+        Dim oldid As Integer = Me.Id
 
-				Try
-					Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-					If IsNumeric(returnVal.Value) Then
-						Select Case CInt(returnVal.Value)
-							Case -1
-								Me.ResetID(oldid)
-								Return New SaveErrorException("${res:Global.Error.WHTCodeDuplicated}", Me.Code)
-							Case -2, -5
-								Me.ResetID(oldid)
-								Return New SaveErrorException(returnVal.Value.ToString)
-							Case Else
-						End Select
-					ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-						Me.ResetID(oldid)
-						Return New SaveErrorException(returnVal.Value.ToString)
-					End If
-					SaveDetail(Me.Id, conn, trans)
-					Return New SaveErrorException(returnVal.Value.ToString)
-				Catch ex As SqlException
-					Me.ResetID(oldid)
-					Return New SaveErrorException(ex.ToString)
-				Catch ex As Exception
-					Me.ResetID(oldid)
-					Return New SaveErrorException(ex.ToString)
-				End Try
-			End With
+        Try
+          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1
+                Me.ResetID(oldid)
+                Return New SaveErrorException("${res:Global.Error.WHTCodeDuplicated}", Me.Code)
+              Case -2, -5
+                Me.ResetID(oldid)
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            Me.ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+          SaveDetail(Me.Id, conn, trans)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+        End Try
+      End With
 		End Function
 
 		Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
@@ -1065,7 +1077,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						dr("whti_taxbase") = item("whti_taxbase")
 						dr("whti_amt") = item("Amount")
 						dr("whti_note") = item("whti_note")
-						dr("whti_cc") = item("whti_cc")
+            dr("whti_cc") = Me.CCId 'item("whti_cc")
 						dr("whti_type") = item("whti_type")
 						If dr.IsNull("whti_type") Then
 							dr("whti_type") = 0
@@ -2159,7 +2171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return TypeOf Me.RefDoc Is ICanDelayWHT
       End Get
     End Property
-
+    Public Property CCId As Integer
 #End Region
 
 #Region "Shared"
@@ -2167,6 +2179,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Class Methods"
     Public Sub SetCCId(ByVal ccId As Integer)
+      Me.CCId = ccId
       For Each wht As WitholdingTax In Me
         wht.SetCCId(ccId)
       Next
@@ -2248,9 +2261,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
         End If
       ElseIf TypeOf wht_refDoc Is PaySelection Then
-        If Me.Amount > CType(wht_refDoc, PaySelection).RealTaxBase Then
-          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
-        End If
+        'If Me.Amount > CType(wht_refDoc, PaySelection).RealTaxBase Then
+        'Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+        'End If
       Else
         If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
           Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
@@ -2446,7 +2459,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               drItem("whti_taxbase") = item("whti_taxbase")
               drItem("whti_amt") = item("Amount")
               drItem("whti_note") = item("whti_note")
-              drItem("whti_cc") = item("whti_cc")
+              drItem("whti_cc") = Me.CCId 'item("whti_cc")
               drItem("whti_type") = item("whti_type")
               If drItem.IsNull("whti_type") Then
                 drItem("whti_type") = 0

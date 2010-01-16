@@ -380,6 +380,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Open()
         trans = conn.BeginTransaction()
 
+        'HACK================================
+        SimpleBusinessEntityBase.Connection = conn
+        SimpleBusinessEntityBase.Transaction = trans
+        'HACK================================
+
         Dim oldid As Integer = Me.Id
         Dim oldreceive As Integer = Me.m_receive.Id
         Dim oldvat As Integer = Me.m_vat.Id
@@ -410,7 +415,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not cc Is Nothing Then
             Me.m_receive.CcId = cc.Id
-            'Me.m_whtcol.SetCCId(cc.Id)
+            Me.m_whtcol.SetCCId(cc.Id)
             Me.m_vat.SetCCId(cc.Id)
           End If
           Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
@@ -539,6 +544,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Finally
           conn.Close()
           m_saving = False
+          'HACK================================
+          SimpleBusinessEntityBase.Connection = Nothing
+          SimpleBusinessEntityBase.Transaction = Nothing
+          'HACK================================
         End Try
       End With
     End Function
@@ -1411,24 +1420,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
       End If
       Return cc
-    End Function
-    Private Function GetCCFromDocTypeAndId(ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-      , CommandType.StoredProcedure _
-      , "GetCCIdFromDocTypeAndId" _
-      , New SqlParameter("@docType", docType) _
-      , New SqlParameter("@entityId", entityId))
-
-      If ds.Tables.Count > 0 _
-      AndAlso ds.Tables(0).Rows.Count = 1 _
-      AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
-        Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
-        If Not cc Is Nothing AndAlso cc.Originated Then
-          Return cc
-        End If
-      End If
-      Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-    End Function
+    End Function    
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
         'RefreshTaxBase()
