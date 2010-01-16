@@ -71,6 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Constructors"
+    Private _getCCFromItem As CostCenter
     Public Sub New()
       MyBase.New()
     End Sub
@@ -549,7 +550,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           SaveDetail(Me.Id, conn, trans)
           Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-          Dim mycc As CostCenter = GetCCFromItem()
+          Dim mycc As CostCenter = GetCCFromItem(conn, trans)
           If Not mycc Is Nothing Then
             Me.m_payment.CCId = mycc.Id
             Me.m_whtcol.SetCCId(mycc.Id)
@@ -826,6 +827,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return dummyCC
     End Function
+    Public Function GetCCFromItem(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As CostCenter
+      Dim dummyCC As CostCenter
+      For Each item As BillAcceptanceItem In Me.ItemCollection
+        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(conn, trans, item.EntityId, item.Id)
+        If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
+          Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        dummyCC = thisCC
+      Next
+      Return dummyCC
+    End Function
     Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer) As CostCenter
       Try
         Dim dsr As DataSet = SqlHelper.ExecuteDataset( _
@@ -896,6 +908,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function GetCCFromDocTypeAndId(ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetCCIdFromDocTypeAndId" _
+      , New SqlParameter("@docType", docType) _
+      , New SqlParameter("@entityId", entityId))
+
+      If ds.Tables.Count > 0 _
+      AndAlso ds.Tables(0).Rows.Count = 1 _
+      AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+        Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
+        If Not cc Is Nothing AndAlso cc.Originated Then
+          Return cc
+        End If
+      End If
+      Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    End Function
+    Private Function GetCCFromDocTypeAndId(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, _
+                                           ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans _
       , CommandType.StoredProcedure _
       , "GetCCIdFromDocTypeAndId" _
       , New SqlParameter("@docType", docType) _
