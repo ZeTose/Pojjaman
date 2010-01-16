@@ -2244,6 +2244,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Amount > CType(wht_refDoc, ReceiveSelection).RealTaxBase Then
           Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
         End If
+      ElseIf TypeOf wht_refDoc Is PaySelection Then
+        If Me.Amount > CType(wht_refDoc, PaySelection).RealTaxBase Then
+          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+        End If
       Else
         If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
           Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")

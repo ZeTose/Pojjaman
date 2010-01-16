@@ -67,6 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_vat As Vat
 
     Private m_refWHTCollection As New ArrayList
+    Private m_realTaxBaes As Decimal
 #End Region
 
 #Region "Constructors"
@@ -206,6 +207,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As BillAcceptanceItemCollection)
         m_itemCollection = Value
+      End Set
+    End Property
+    Public Property RealTaxBase As Decimal
+      Get
+        Return m_realTaxBaes
+      End Get
+      Set(ByVal value As Decimal)
+        m_realTaxBaes = value
       End Set
     End Property
     Public Property Supplier() As Supplier
@@ -391,6 +400,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+
+        'Hack by pui ใช้แล้วไปเปลี่ยนตอน save wht ให้ดึง Me.RealTaxBase แทน ไม่งั้นมัน Lock
+        Me.RealTaxBase = Me.GetTaxBase
 
         If Originated Then
           If Not Supplier Is Nothing Then
