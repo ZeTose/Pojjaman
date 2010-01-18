@@ -923,17 +923,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
 				End If
 
-        If TypeOf Me.RefDoc Is PaySelection Then
-          If Me.TaxBase > CType(Me.RefDoc, PaySelection).RealTaxBase Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+        Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+        Dim refTaxBase As Decimal = 0
+        If TypeOf RefDoc Is ReceiveSelection Then
+          If Me.Amount > CType(RefDoc, ReceiveSelection).RealTaxBase Then
+            If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                  New String() { _
+                                                    Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                    Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).RealTaxBase, DigitConfig.Price) _
+                                                  }) Then
+              Return New SaveErrorException("")
+            End If
           End If
-        ElseIf TypeOf Me.RefDoc Is ReceiveSelection Then
-          If Me.TaxBase > CType(Me.RefDoc, ReceiveSelection).RealTaxBase Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+        ElseIf TypeOf RefDoc Is PaySelection Then
+          If Me.Amount > CType(RefDoc, PaySelection).RealTaxBase Then
+            If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                  New String() { _
+                                                    Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                    Configuration.FormatToString(CType(wht_refDoc, PaySelection).RealTaxBase, DigitConfig.Price) _
+                                                  }) Then
+              Return New SaveErrorException("")
+            End If
           End If
         Else
-          If Me.TaxBase > Me.RefDoc.GetMaximumWitholdingTaxBase Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceededTaxBase}"))
+          If Me.Amount > RefDoc.GetMaximumWitholdingTaxBase Then
+            Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
           End If
         End If
 
@@ -2258,8 +2273,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
-      '"${res:Global.ConfirmDeletePaySelection}"
-     
       Dim refTaxBase As Decimal = 0
       If TypeOf wht_refDoc Is ReceiveSelection Then
         If Me.Amount > CType(wht_refDoc, ReceiveSelection).RealTaxBase Then
@@ -2276,7 +2289,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                 New String() { _
                                                   Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                  Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).RealTaxBase, DigitConfig.Price) _
+                                                  Configuration.FormatToString(CType(wht_refDoc, PaySelection).RealTaxBase, DigitConfig.Price) _
                                                 }) Then
             Return New SaveErrorException("")
           End If
