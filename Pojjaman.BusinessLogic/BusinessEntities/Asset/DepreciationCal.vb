@@ -1314,17 +1314,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property DepreamntInProcess() As Decimal
       Get
-        Return m_depreamntinprocess
+          Return m_depreamntinprocess
       End Get
     End Property
     Public ReadOnly Property DepreOpeningBalanceamnt() As Decimal
       Get
-        Return m_depreopeningamnt
+        If Me.m_entity.Type.DepreAble Then
+          Return m_depreopeningamnt
+        End If
+
+        Return 0
       End Get
     End Property
     Public ReadOnly Property Depreamnt() As Decimal
       Get
-        Return m_depreamnt
+        If Me.m_entity.Type.DepreAble Then
+          Return m_depreamnt
+        End If
+
+        Return 0
       End Get
     End Property
     Public ReadOnly Property DepreRemainingamnt() As Decimal

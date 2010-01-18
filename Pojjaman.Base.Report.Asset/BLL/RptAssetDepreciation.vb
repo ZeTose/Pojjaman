@@ -124,9 +124,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAssetDTotalNetAmt As Decimal = 0
       Dim sumEdbAmt As Decimal = 0
       Dim sumEdbNetAmt As Decimal = 0
+      Dim depreAble As Integer = 0
 
       For Each row As DataRow In dt.Rows
         no += 1
+        If Not row.IsNull("assettype_depreable") Then
+          depreAble = CInt(row("assettype_depreable"))
+        End If
+
         If row("AcctCode").ToString <> currentAssetAcctCode Then
           If no <> 1 Then
             m_grid(currAssetTypeIndex, 8).CellValue = Configuration.FormatToString(sumOpbAmt, DigitConfig.Price)
@@ -163,21 +168,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currDocIndex, 3).CellValue = indent & myItem.Name
         m_grid(currDocIndex, 4).CellValue = indent & myItem.BuyDate.ToShortDateString
         m_grid(currDocIndex, 7).CellValue = indent & Configuration.FormatToString(myItem.BuyPrice, DigitConfig.Price)
-        temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateStart")).AddDays(-1))
-        temp -= myItem.Salvage
-        If temp <= 0 Then
-          temp = myItem.Salvage
-        End If
-        m_grid(currDocIndex, 8).CellValue = indent & Configuration.FormatToString(temp, DigitConfig.Price)
         m_grid(currDocIndex, 9).CellValue = indent & Configuration.FormatToString(myItem.CalcRate, DigitConfig.Price)
-        m_grid(currDocIndex, 10).CellValue = indent & Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))), DigitConfig.Price)
-        m_grid(currDocIndex, 11).CellValue = indent & Configuration.FormatToString(myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd"))), DigitConfig.Price)
-        temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
-        temp -= myItem.Salvage
-        If temp <= myItem.Salvage Then
-          temp = myItem.Salvage
+
+        If depreAble <> 0 Then 'ถ้าเป็นสินทรัพย์กลุ่มที่ไม่ต้องคิิดค่าเสื่อมก็ไม่ต้องคิดค่าเสื่อม
+          temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateStart")).AddDays(-1))
+          temp -= myItem.Salvage
+          If temp <= 0 Then
+            temp = myItem.Salvage
+          End If
+          m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
+          m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))), DigitConfig.Price)
+          m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd"))), DigitConfig.Price)
+          temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
+          temp -= myItem.Salvage
+          If temp <= myItem.Salvage Then
+            temp = myItem.Salvage
+          End If
+          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
+        Else
+          m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+          m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+          m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
         End If
-        m_grid(currDocIndex, 12).CellValue = indent & Configuration.FormatToString(temp, DigitConfig.Price)
         '-----------------------------ASSET--------------------------------------------------
 
         If Not row.IsNull("cc_code") Then
