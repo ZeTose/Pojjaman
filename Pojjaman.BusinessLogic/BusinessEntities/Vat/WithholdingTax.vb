@@ -2255,15 +2255,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'UNDONE
         Return New SaveErrorException("WHTRefdoc IS NOTHING.")
       End If
+
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      '"${res:Global.ConfirmDeletePaySelection}"
+     
       Dim refTaxBase As Decimal = 0
       If TypeOf wht_refDoc Is ReceiveSelection Then
         If Me.Amount > CType(wht_refDoc, ReceiveSelection).RealTaxBase Then
-          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+          If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                New String() { _
+                                                  Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                  Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).RealTaxBase, DigitConfig.Price) _
+                                                }) Then
+            Return New SaveErrorException("")
+          End If
         End If
       ElseIf TypeOf wht_refDoc Is PaySelection Then
-        'If Me.Amount > CType(wht_refDoc, PaySelection).RealTaxBase Then
-        'Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
-        'End If
+        If Me.Amount > CType(wht_refDoc, PaySelection).RealTaxBase Then
+          If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                New String() { _
+                                                  Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                  Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).RealTaxBase, DigitConfig.Price) _
+                                                }) Then
+            Return New SaveErrorException("")
+          End If
+        End If
       Else
         If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
           Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
