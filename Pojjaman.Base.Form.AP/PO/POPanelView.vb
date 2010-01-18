@@ -3087,7 +3087,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.chkAutorun.Checked Then
         'Me.Validator.SetRequired(Me.txtCode, False)
         'Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDown
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
         If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
@@ -3110,6 +3110,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
         Me.cmbCode.Items.Clear()
         Me.cmbCode.Text = m_oldCode
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = False
       End If
     End Sub
