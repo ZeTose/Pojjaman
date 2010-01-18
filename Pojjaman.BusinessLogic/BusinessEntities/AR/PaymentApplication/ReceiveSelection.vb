@@ -1300,19 +1300,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             Next
           Case 83
-            'ถ้าไม่ได้มาจากใบวางบิลงวด แต่มาจากการขายสินค้า หรือวางบิล
-            Dim d As Decimal = 0
-            'For Each item As SaleBillIssueItem In Me.ItemCollection
-              'ถ้าไม่ใช่ใบวางบิลงวด
-            'If Not item.ParentType = 81 Then
-            'ถ้าเป็นใบวางบิลขาย และเป็นรายการขายสินค้า
-            'If item.ParentType = 125 And item.EntityId = 83 Then
-            iTaxBase += GoodsSold.GetTaxBase(item.Id)
-            'End If
-            'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-            'iTaxBase -= d
-            'End If
-            'Next
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+            , CommandType.Text _
+            , " select vat_taxbase from receiveselectionitem " & _
+            " left join vat on receivesi_receives = vat_refDoc  " & _
+            " where stock_id = " & item.Id & "  " & _
+            " and stock_type = " & item.EntityId & "  " & _
+            " and vat_refDocType = 82 " _
+            )
+            For Each row As DataRow In ds.Tables(0).Rows
+              If Not row.IsNull("vat_taxbase") Then
+                iTaxBase += CDec(row("vat_taxbase"))
+              End If
+            Next
+
+            'Dim d As Decimal = 0
+            'iTaxBase += GoodsSold.GetTaxBase(item.Id)
         End Select
       Next
 

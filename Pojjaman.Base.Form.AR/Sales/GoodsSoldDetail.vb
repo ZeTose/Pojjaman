@@ -1862,7 +1862,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtInvoiceCode.Text = myVatitem.Code
         End If
         Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, "")
-        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)  
       End If
       m_oldInvoiceCode = Me.txtInvoiceCode.Text
       Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen

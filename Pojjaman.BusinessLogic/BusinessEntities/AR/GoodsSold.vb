@@ -408,7 +408,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.RefreshTaxBase()
         Dim tmpTaxBase As Decimal = Configuration.Format(Me.RealTaxBase, DigitConfig.Price) 'ใช้ RealTaxBase แทน TaxBase
         Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-        If tmpTaxBase <> tmpVatTaxBase Then
+        If Me.Vat.TaxBase <> 0 AndAlso tmpTaxBase <> tmpVatTaxBase Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
           New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
           , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
@@ -449,6 +449,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsSoldStatus(2)
         End If
         If Not Me.m_je.ManualFormat Then
+          If Me.Vat.Code.Length = 0 Then
+            Me.Vat.ItemCollection.Clear()
+          End If
           Me.m_je.GLFormat = Me.GetDefaultGLFormat
           Me.m_je.SetGLFormat(Me.m_je.GLFormat)
         End If
@@ -607,10 +610,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-
-          If (Not Me.Vat.AutoGen AndAlso (Me.m_vat.ItemCollection.Item(0).Code Is Nothing OrElse Me.m_vat.ItemCollection.Item(0).Code.Length = 0)) OrElse Me.TaxType.Value = 0 Then
-            Me.m_vat.ItemCollection.Clear()
+          If Me.Vat.ItemCollection.Count > 0 Then
+            If (Not Me.Vat.AutoGen AndAlso (Me.m_vat.ItemCollection.Item(0).Code Is Nothing OrElse Me.m_vat.ItemCollection.Item(0).Code.Length = 0)) _
+                OrElse Me.TaxType.Value = 0 _
+                OrElse Me.Vat.Code.Length = 0 Then
+              Me.m_vat.ItemCollection.Clear()
+            End If
           End If
+
           Me.m_vat.SetRefDocToItem(Me.Id, Me.EntityId)
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
