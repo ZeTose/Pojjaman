@@ -1461,11 +1461,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each tmpJi As JournalEntryItem In jiColl
         tmpJi.Amount = Configuration.Format(tmpJi.Amount, DigitConfig.Price)
       Next
-      For Each addedJi As JournalEntryItem In jiColl
-        If addedJi.Mapping = "C10.4" OrElse addedJi.Mapping = "C10.3" Then
-          addedJi.Amount -= Me.DiscountAmount
-        End If
-      Next
+      'For Each addedJi As JournalEntryItem In jiColl
+      'If addedJi.Mapping = "C10.4" OrElse addedJi.Mapping = "C10.3" Then
+      'addedJi.Amount -= Me.DiscountAmount
+      'End If
+      'Next
       Return jiColl
     End Function
     Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
