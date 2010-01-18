@@ -948,7 +948,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Me.Amount > RefDoc.GetMaximumWitholdingTaxBase Then
-            Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+            If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                  New String() { _
+                                                    Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                    Configuration.FormatToString(RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                  }) Then
+              Return New SaveErrorException("")
+            End If
           End If
         End If
 
@@ -2296,7 +2302,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Else
         If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
-          Return New SaveErrorException("${res:Global.Error.ExceededTaxBase}")
+          If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
+                                                  New String() { _
+                                                    Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
+                                                    Configuration.FormatToString(RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                  }) Then
+            Return New SaveErrorException("")
+          End If
         End If
       End If
       Dim whtsToRemove As New ArrayList
