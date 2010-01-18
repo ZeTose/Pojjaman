@@ -1104,13 +1104,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  Me.m_entity.Code = txtCode.Text
           '  dirtyFlag = True
         Case "cmbcode"
-          Me.m_entity.Code = cmbCode.Text
-          'เพิ่ม AutoCode
-          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
-            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
-            Me.m_entity.OnGlChanged()
+          If m_entity.AutoGen Then
+            'เพิ่ม AutoCode
+            If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+              Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+              Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            End If
+          Else
+            Me.m_entity.Code = cmbCode.Text
           End If
-          'MessageBox.Show(Me.m_entity.AutoCodeFormat.Id.ToString)
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text

@@ -1059,10 +1059,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
-          'เพิ่ม AutoCode
-          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
-            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
-            Me.m_entity.OnGlChanged()
+          If m_entity.AutoGen Then
+            'เพิ่ม AutoCode
+            If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+              Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+              Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            End If
+          Else
+            Me.m_entity.Code = cmbCode.Text
           End If
           dirtyFlag = True
         Case "txtcreditprd"
