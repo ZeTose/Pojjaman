@@ -380,17 +380,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
         'เอาไว้ดูว่า Row ไหนมาจากการ Sum
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "Group Level"
-        'dpi.Value = m_grid(rowIndex, 11).CellValue
-        'dpi.DataType = "System.Integer"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
-
-        n += 1
+        If rowIndex = m_grid.RowCount Then
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Group Level"
+          dpi.Value = m_grid(rowIndex, 10).CellValue
+          dpi.DataType = "System.Integer"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        End If
+        
         'If IsNumeric(m_grid(rowIndex, 8).CellValue) AndAlso CInt(m_grid(rowIndex, 8).CellValue) = 0 Then
         If CStr(m_grid(rowIndex, 1).Tag).ToLower <> "summary" Then
+
           If IsNumeric(m_grid(rowIndex, 8).CellValue) Then
             SumAmt += CDec(m_grid(rowIndex, 8).CellValue)
           End If
@@ -400,6 +402,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         'End If
+
+        n += 1
 
       Next
 
@@ -413,7 +417,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 			'SumCol7
 			dpi = New DocPrintingItem
-      dpi.Mapping = "SumCol8"
+      dpi.Mapping = "SumCol7"
 			dpi.Value = Configuration.FormatToString(SumAmt, DigitConfig.Price)
 			dpi.DataType = "System.String"
 			dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
@@ -421,7 +425,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 			'SumCol9
 			dpi = New DocPrintingItem
-      dpi.Mapping = "SumCol10"
+      dpi.Mapping = "SumCol9"
 			dpi.Value = Configuration.FormatToString(SumWHT, DigitConfig.Price)
 			dpi.DataType = "System.String"
 			dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
