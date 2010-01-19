@@ -157,7 +157,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 				m_grid.RowCount += 1
 				currDocIndex = m_grid.RowCount
-				m_grid.RowStyles(currDocIndex).ReadOnly = True
+        m_grid.RowStyles(currDocIndex).ReadOnly = True
+        m_grid(currDocIndex, 1).Tag = ""
 				If IsDate(row("DocDate")) Then
           m_grid(currDocIndex, 1).CellValue = indent & CDate(row("DocDate")).ToShortDateString
 				End If
@@ -207,6 +208,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currDocIndex, 7).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingWht.Total}")   '"รวม"
       m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(tmpAmount, DigitConfig.Price)
       m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(tmpWHT, DigitConfig.Price)
+      m_grid(currDocIndex, 1).Tag = "summary"
 
 			'm_grid.RowCount += 1
 			'currDocIndex = m_grid.RowCount
@@ -387,7 +389,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'dpiColl.Add(dpi)
 
         n += 1
-        If IsNumeric(m_grid(rowIndex, 11).CellValue) AndAlso CInt(m_grid(rowIndex, 11).CellValue) = 0 Then
+        'If IsNumeric(m_grid(rowIndex, 8).CellValue) AndAlso CInt(m_grid(rowIndex, 8).CellValue) = 0 Then
+        If CStr(m_grid(rowIndex, 1).Tag).ToLower <> "summary" Then
           If IsNumeric(m_grid(rowIndex, 8).CellValue) Then
             SumAmt += CDec(m_grid(rowIndex, 8).CellValue)
           End If
@@ -395,6 +398,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             SumWHT += CDec(m_grid(rowIndex, 10).CellValue)
           End If
         End If
+
+        'End If
 
       Next
 
