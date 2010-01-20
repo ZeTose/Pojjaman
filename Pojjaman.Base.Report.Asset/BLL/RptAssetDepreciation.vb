@@ -171,19 +171,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currDocIndex, 9).CellValue = indent & Configuration.FormatToString(myItem.CalcRate, DigitConfig.Price)
 
         If depreAble <> 0 Then 'ถ้าเป็นสินทรัพย์กลุ่มที่ไม่ต้องคิิดค่าเสื่อมก็ไม่ต้องคิดค่าเสื่อม
-          temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateStart")).AddDays(-1))
-          temp -= myItem.Salvage
+          If CDate(row("DateStart")) < myItem.TransferDate Then
+            temp = myItem.RemainValue
+          Else
+            temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateStart")).AddDays(-1))
+            temp -= myItem.Salvage
+          End If
           If temp <= 0 Then
             temp = myItem.Salvage
           End If
+
           m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
-          m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))), DigitConfig.Price)
-          m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd"))), DigitConfig.Price)
-          temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
-          temp -= myItem.Salvage
+
+          If CDate(row("DateStart")) < myItem.TransferDate Then
+            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))), DigitConfig.Price)
+            m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreOpening + myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))), DigitConfig.Price)
+          Else
+            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))), DigitConfig.Price)
+            m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd"))), DigitConfig.Price)
+          End If
+
+          If CDate(row("DateStart")) < myItem.TransferDate Then
+            temp = myItem.BuyPrice - (myItem.DepreOpening + myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))))
+          Else
+            temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
+            temp -= myItem.Salvage
+          End If
           If temp <= myItem.Salvage Then
             temp = myItem.Salvage
           End If
+
           m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
         Else
           m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
