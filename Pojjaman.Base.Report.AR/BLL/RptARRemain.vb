@@ -232,7 +232,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
               If Not detailRow.IsNull("GlNote") Then
-                trDetail("col14") = indent & detailRow("Glnote").ToString
+                trDetail("col14") = detailRow("Glnote").ToString
               End If
             End If
           Next
@@ -320,7 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(95)
       widths.Add(95)
       widths.Add(95)
-      widths.Add(95)
+      widths.Add(105)
       widths.Add(180 * CInt(Me.Filters(7).Value))
 
       For i As Integer = 0 To iCol
@@ -357,7 +357,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           If CInt(Me.Filters(7).Value) <> 0 Then
             Select Case i
-              Case 0, 1, 2, 3
+              Case 0, 1, 2, 3, 14
                 cs.Alignment = HorizontalAlignment.Left
                 cs.DataAlignment = HorizontalAlignment.Left
                 cs.Format = "s"
