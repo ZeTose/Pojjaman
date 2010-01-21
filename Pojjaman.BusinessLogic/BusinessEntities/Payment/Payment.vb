@@ -1882,6 +1882,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If CheckCode Is Nothing OrElse CheckCode.Length = 0 Then
               CheckCode = CType(item.Entity, OutgoingCheck).CqCode
             End If
+
+            'PaymentItem.CheckPayAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".CheckPayAmount"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+
           End If
 
           If (itIsCash) Then
@@ -1912,6 +1923,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
               tmpEmpCode = iPC.Employee.Code
               tmpEmpName = iPC.Employee.Name
             End If
+
+            'PaymentItem.PettyCashPayAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".PettyCashPayAmount"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.PettyCashAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".PettyCashAmount"
+            dpi.Value = Configuration.FormatToString(item.Entity.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItem.PettyCashPayDate
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".PettyCashPayDate"
+            dpi.Value = item.DueDate.ToShortDateString
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
           End If
           If (itIsADVM) Then
             Dim iADVM As New AdvanceMoney(item.Entity.Id)
@@ -2308,6 +2347,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If TypeOf Me.RefDoc Is IGLAble Then
         Dim je As JournalEntry = CType(Me.RefDoc, IGLAble).JournalEntry
         If Not je Is Nothing Then
+          'RefGLCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefGLCode"
+          dpi.Value = je.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RefGLDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefGLDate"
+          dpi.Value = je.DocDate.ToShortDateString
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
           'AccountBook
           dpi = New DocPrintingItem
           dpi.Mapping = "AccountBook"

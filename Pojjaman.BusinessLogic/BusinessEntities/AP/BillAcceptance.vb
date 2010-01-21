@@ -1125,8 +1125,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_docdate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docdate") Then
         Me.m_docDate = CDate(dr(aliasPrefix & "stock_docdate"))
       End If
-      If dr.Table.Columns.Contains(aliasPrefix & "stock_creditprd") AndAlso Not dr.IsNull(aliasPrefix & "stock_creditprd") Then
-        Me.m_creditPeriod = CInt(dr(aliasPrefix & "stock_creditprd"))
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_creditperiod") AndAlso Not dr.IsNull(aliasPrefix & "stock_creditperiod") Then
+        Me.m_creditPeriod = CInt(dr(aliasPrefix & "stock_creditperiod"))
       End If
       Me.m_realAmount = Me.m_afterTax
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_amt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_amt") Then

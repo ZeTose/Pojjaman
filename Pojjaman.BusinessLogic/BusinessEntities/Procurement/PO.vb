@@ -2022,7 +2022,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			dpi.Mapping = "BeforeTax"
 			dpi.Value = Configuration.FormatToString(Me.BeforeTax, DigitConfig.Price)
 			dpi.DataType = "System.Decimal"
-			dpiColl.Add(dpi)
+      dpiColl.Add(dpi)
+
+      'TaxBase
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxBase"
+      dpi.Value = Configuration.FormatToString(Me.RealTaxBase, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
 
 			'TaxAmount
 			dpi = New DocPrintingItem
