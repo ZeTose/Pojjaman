@@ -866,33 +866,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As New JournalEntryItem
       Dim notCombine As Boolean = True 'ถ้าไม่ต้องการรวมยอดเช็คใน GL
       If Me.TotalAmount > 0 Then
-        'If notCombine Then
-        '  If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
-        '    ' เช็คจ่ายล่วงหน้า {mix} ji.Mapping = "H2.3" สลับกับ เจ้าหนี้การค้า {mix} ji.Mapping = "H2.4"
-        '    SetPassCheckOutgoingAndCreditor(jiColl)
-        '  ElseIf Me.UpdatedStatus.Value = 2 Then ' จ่ายผ่าน  { H2.1 , H2.2 }
-        '    ' เช็คจ่ายล่วงหน้า  {mix} ji.Mapping = "H2.1"  ตามเจ้าหนี้ สลับกับ เงินฝากธนาคาร {dynamic} ji.Mapping = "H2.2"
-        '    SetCancelCheckOutgoingAndBankAcct(jiColl)
-        '  End If
-        'Else
-        If Me.UpdatedStatus.Value = 0 Then       ' ยกเลิก { H2.3 , H2.4 }
-          ' เช็คจ่ายล่วงหน้า {mix}           ji.Mapping = "H2.3"
-          SetCancelCheckOutgoing(jiColl)
-          ' เงินฝากธนาคาร {dynamic}            ji.Mapping = "H2.4"
-          'SetCancelBankAcct(jiColl)
-          ' เจ้าหนี้การค้า {mix}
-          SetCancelCreditor(jiColl)
-        ElseIf Me.UpdatedStatus.Value = 2 Then    ' จ่ายผ่าน  { H2.1 , H2.2 }
-          ' เช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
-          SetPassCheckOutgoing(jiColl)
-          ' เจ้าหนี้การค้า {mix}       ji.Mapping = "H2.2"
-          SetPassCreditor(jiColl)
+        If notCombine Then
+          If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
+            ' เช็คจ่ายล่วงหน้า {mix} ji.Mapping = "H2.3" สลับกับ เจ้าหนี้การค้า {mix} ji.Mapping = "H2.4"
+            SetPassCheckOutgoingAndCreditor(jiColl)
+          ElseIf Me.UpdatedStatus.Value = 2 Then ' จ่ายผ่าน  { H2.1 , H2.2 }
+            ' เช็คจ่ายล่วงหน้า  {mix} ji.Mapping = "H2.1"  ตามเจ้าหนี้ สลับกับ เงินฝากธนาคาร {dynamic} ji.Mapping = "H2.2"
+            SetCancelCheckOutgoingAndBankAcct(jiColl)
+          End If
+        Else
+          If Me.UpdatedStatus.Value = 0 Then       ' ยกเลิก { H2.3 , H2.4 }
+            ' เช็คจ่ายล่วงหน้า {mix}           ji.Mapping = "H2.3"
+            SetCancelCheckOutgoing(jiColl)
+            ' เงินฝากธนาคาร {dynamic}            ji.Mapping = "H2.4"
+            'SetCancelBankAcct(jiColl)
+            ' เจ้าหนี้การค้า {mix}
+            SetCancelCreditor(jiColl)
+          ElseIf Me.UpdatedStatus.Value = 2 Then    ' จ่ายผ่าน  { H2.1 , H2.2 }
+            ' เช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
+            SetPassCheckOutgoing(jiColl)
+            ' เจ้าหนี้การค้า {mix}       ji.Mapping = "H2.2"
+            SetPassCreditor(jiColl)
 
+          End If
         End If
-        'End If
       End If
 
-      Return jiColl
+        Return jiColl
     End Function
     ' เช็คจ่ายล่วงหน้า
     Private Sub SetPassCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
