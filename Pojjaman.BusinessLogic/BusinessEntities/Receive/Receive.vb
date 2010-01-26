@@ -2155,7 +2155,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						dpiColl.Add(dpi)
 					End If
 				End If
-			Next
+      Next
+
+      Dim totalOtherCutReceive As Decimal
+      totalOtherCutReceive = Me.DiscountAmount + Me.BankCharge + Me.OtherExpense + Me.WitholdingTax + Me.CreditCollection.GetAmount
+      'totalOtherCutReceive
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalOtherCutReceive"
+      dpi.Value = Configuration.FormatToString(totalOtherCutReceive, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim totalOtherReceive As Decimal
+      totalOtherReceive = Me.Interest + Me.OtherRevenue + Me.DebitCollection.GetAmount
+      'totalOtherReceive
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalOtherReceive"
+      dpi.Value = Configuration.FormatToString(totalOtherReceive, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'DiscountAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DiscountAmount"
+      dpi.Value = Configuration.FormatToString(Me.DiscountAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
 			'TotalCash
 			dpi = New DocPrintingItem
