@@ -2403,7 +2403,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtSupplierName.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
 
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
@@ -2420,7 +2420,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtCostCenterCode.TextChanged, AddressOf Me.TextHandler
+
       AddHandler txtCostCenterName.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSupplierName.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtRequestorCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtRequestorCode.TextChanged, AddressOf Me.TextHandler
@@ -2449,6 +2451,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           requestorCodeChanged = True
         Case "txtcostcentercode"
           CCCodeChanged = True
+        Case "txtsuppliercode"
+          supplierCodeChanged = True
         Case "txtretention"
           Dim txt As String = Me.txtRetention.Text
           txt = txt.Replace(",", "")
