@@ -449,9 +449,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsSoldStatus(2)
         End If
         If Not Me.m_je.ManualFormat Then
+
+          'เช็ครอบ 1 TODO: ทำไมต้องเช็ค 2 รอบด้วย?
+          '=============================================
           If Me.Vat.Code.Length = 0 Then
-            Me.Vat.ItemCollection.Clear()
+            If Not Me.Vat.AutoGen Then
+              Me.Vat.ItemCollection.Clear()
+            End If
           End If
+          '=============================================
+
           Me.m_je.GLFormat = Me.GetDefaultGLFormat
           Me.m_je.SetGLFormat(Me.m_je.GLFormat)
         End If
@@ -543,7 +550,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
-        Dim conn As New SqlConnection(Me.ConnectionString)
+        Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
         conn.Open()
         trans = conn.BeginTransaction()
 
@@ -610,13 +617,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          'เช็ครอบ 2 TODO: ทำไมต้องเช็ค 2 รอบด้วย?
+          '=============================================
           If Me.Vat.ItemCollection.Count > 0 Then
-            If (Not Me.Vat.AutoGen AndAlso (Me.m_vat.ItemCollection.Item(0).Code Is Nothing OrElse Me.m_vat.ItemCollection.Item(0).Code.Length = 0)) _
-                OrElse Me.TaxType.Value = 0 _
-                OrElse Me.Vat.Code.Length = 0 Then
+            Dim firstVatItem As VatItem = Me.m_vat.ItemCollection.Item(0)
+            If Me.TaxType.Value = 0 OrElse _
+              (Not Me.Vat.AutoGen AndAlso String.IsNullOrEmpty(firstVatItem.Code)) OrElse _
+                 (Not Me.Vat.AutoGen AndAlso Me.Vat.Code.Length = 0) Then
               Me.m_vat.ItemCollection.Clear()
             End If
           End If
+          '=============================================
 
           Me.m_vat.SetRefDocToItem(Me.Id, Me.EntityId)
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
