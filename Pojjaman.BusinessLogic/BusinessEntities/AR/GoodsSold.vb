@@ -452,9 +452,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'เช็ครอบ 1 TODO: ทำไมต้องเช็ค 2 รอบด้วย?
           '=============================================
-          If Me.Vat.Code.Length = 0 Then
-            If Not Me.Vat.AutoGen Then
-              Me.Vat.ItemCollection.Clear()
+          If Me.Vat.ItemCollection.Count > 0 Then
+            Dim firstVatItem As VatItem = Me.m_vat.ItemCollection.Item(0)
+            If Me.TaxType.Value = 0 OrElse _
+              (Not Me.Vat.AutoGen AndAlso String.IsNullOrEmpty(firstVatItem.Code)) Then
+              Me.m_vat.ItemCollection.Clear()
             End If
           End If
           '=============================================
@@ -623,8 +625,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Vat.ItemCollection.Count > 0 Then
             Dim firstVatItem As VatItem = Me.m_vat.ItemCollection.Item(0)
             If Me.TaxType.Value = 0 OrElse _
-              (Not Me.Vat.AutoGen AndAlso String.IsNullOrEmpty(firstVatItem.Code)) OrElse _
-                 (Not Me.Vat.AutoGen AndAlso Me.Vat.Code.Length = 0) Then
+              (Not Me.Vat.AutoGen AndAlso String.IsNullOrEmpty(firstVatItem.Code)) Then
               Me.m_vat.ItemCollection.Clear()
             End If
           End If

@@ -514,7 +514,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				End If
 			Next
 			Return ""
-		End Function
+    End Function
+    Private Function DupSalesVatCode() As String
+      Dim codes As String = ""
+      For Each item As VatItem In Me.ItemCollection
+        If DupInside(item).Length > 0 Then
+          Return item.Code
+        End If
+        codes &= "|" & item.Code & "|"
+      Next
+      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+            , CommandType.StoredProcedure _
+            , "GetDupSalesVatCode" _
+            , New SqlParameter("@vati_code", codes) _
+            , New SqlParameter("@vat_id", Me.Id) _
+            )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return ds.Tables(0).Rows(0)("vati_code").ToString
+      End If
+      Return ""
+    End Function
 		Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
 			With Me
 				Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
@@ -526,7 +546,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
 						End If
 					End If
-				End If
+        End If
+
+        '================Checking for duplicate Vat Code (Sales Tax) =============
+        Dim salesVatDup As String = DupSalesVatCode()
+        If salesVatDup.Length > 0 Then
+          Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+        End If
+        '================Checking for duplicate Vat Code (Sales Tax) =============
+
 				'Me.RefreshVatTaxBase()
 				Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
 				If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
