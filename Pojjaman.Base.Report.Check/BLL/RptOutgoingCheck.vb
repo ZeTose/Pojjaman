@@ -78,7 +78,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.DocNumber}") '"เลขที่เอกสาร"
       tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNumber}")  '"เลขที่เช็ค"
       tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Supplier}") '"ผู้ขาย"
-      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.PV}")  '"PV"
+      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.PV}")  '"PV ใบสำคัญ"
       tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.GL}")  '"GL"
       tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.PVRef}")  '"เอกสารอ้างอิง"
       tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Cost}") '"จำนวนเงินบนเช็ค"
@@ -86,6 +86,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Amt}") '"จำนวนเงินคงเหลือ"
       tr("col12") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Status}") '"สถานะ"
       tr("col13") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.cc}") '"รหัส Cost center"
+
 
     End Sub
     Private Sub PopulateData()
@@ -364,14 +365,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100) '3
       widths.Add(100) '4
       widths.Add(200) '5
-      widths.Add(220) '6
-      widths.Add(220) '7
-      widths.Add(220) '8
+      widths.Add(180) '6
+      widths.Add(0) '7 GLCode จะซ้ำเลยเอาออก
+      widths.Add(180) '8
       widths.Add(100) '9
       widths.Add(120) '10
       widths.Add(120) '11
       widths.Add(120) '12
-      widths.Add(120) '13
+      widths.Add(220) '13
 
       For i As Integer = 0 To 13
         If i = 1 Then
