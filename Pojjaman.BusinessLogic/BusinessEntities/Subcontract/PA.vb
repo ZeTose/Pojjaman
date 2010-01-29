@@ -3158,7 +3158,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "E3.8"
-          ji.Amount = Me.Payment.Amount - pmGross
+          If retentionHere Then
+            ji.Amount = Me.Payment.Amount - pmGross
+          Else
+            ji.Amount = (Me.Payment.Amount + Me.Retention) - pmGross
+          End If
           If Not Me.SubContractor.Account Is Nothing AndAlso Me.SubContractor.Account.Originated Then
             ji.Account = Me.SubContractor.Account
           End If
