@@ -125,24 +125,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumEdbAmt As Decimal = 0
       Dim sumEdbNetAmt As Decimal = 0
       Dim depreAble As Integer = 0
+      Dim sumUnitPriceByAccount As Decimal = 0
+      Dim sumUnitPrice As Decimal = 0
+      Dim isRefAsset As Boolean = False
 
       For Each row As DataRow In dt.Rows
         no += 1
         If Not row.IsNull("assettype_depreable") Then
           depreAble = CInt(row("assettype_depreable"))
         End If
+        If Not row.IsNull("asset_refsequence") Then
+          If CInt(row("asset_refsequence")) > 0 Then
+            isRefAsset = True
+          End If
+        End If
 
         If row("AcctCode").ToString <> currentAssetAcctCode Then
           If no <> 1 Then
+            m_grid(currAssetTypeIndex, 7).CellValue = Configuration.FormatToString(sumUnitPriceByAccount, DigitConfig.Price)
             m_grid(currAssetTypeIndex, 8).CellValue = Configuration.FormatToString(sumOpbAmt, DigitConfig.Price)
             m_grid(currAssetTypeIndex, 10).CellValue = Configuration.FormatToString(sumAssetDAmt, DigitConfig.Price)
             m_grid(currAssetTypeIndex, 11).CellValue = Configuration.FormatToString(sumAssetDTotalAmt, DigitConfig.Price)
-            m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumEdbAmt, DigitConfig.Price)
+            m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumUnitPriceByAccount - sumAssetDTotalAmt, DigitConfig.Price)  'sumEdbAmt, DigitConfig.Price)
 
             sumOpbAmt = 0
             sumAssetDAmt = 0
             sumAssetDTotalAmt = 0
             sumEdbAmt = 0
+            sumUnitPriceByAccount = 0
           End If
 
           m_grid.RowCount += 1
@@ -170,43 +180,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currDocIndex, 7).CellValue = indent & Configuration.FormatToString(myItem.BuyPrice, DigitConfig.Price)
         m_grid(currDocIndex, 9).CellValue = indent & Configuration.FormatToString(myItem.CalcRate, DigitConfig.Price)
 
+        sumUnitPriceByAccount += myItem.BuyPrice
+        sumUnitPrice += myItem.BuyPrice
+
         If depreAble <> 0 Then 'ถ้าเป็นสินทรัพย์กลุ่มที่ไม่ต้องคิิดค่าเสื่อมก็ไม่ต้องคิดค่าเสื่อม
           If CDate(row("DateStart")) < myItem.TransferDate Then
             temp = myItem.RemainValue
+            If isRefAsset Then
+              temp += myItem.Salvage
+            End If
           Else
             temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateStart")).AddDays(-1))
-            temp -= myItem.Salvage
+            'temp -= myItem.Salvage
           End If
-          If temp <= 0 Then
-            temp = myItem.Salvage
-          End If
+
+          'If temp <= 0 Then
+          'temp = myItem.Salvage
+          'End If
 
           m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
 
           If CDate(row("DateStart")) < myItem.TransferDate Then
-            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))), DigitConfig.Price)
+            'm_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))) - myItem.Salvage, DigitConfig.Price)
+            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
             m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreOpening + myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))), DigitConfig.Price)
           Else
-            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))), DigitConfig.Price)
+            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(CDate(row("DateStart")), CDate(row("DateEnd"))) - myItem.Salvage, DigitConfig.Price)
             m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd"))), DigitConfig.Price)
           End If
 
-          If CDate(row("DateStart")) < myItem.TransferDate Then
-            temp = myItem.BuyPrice - (myItem.DepreOpening + myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))))
-          Else
-            temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
-            temp -= myItem.Salvage
-          End If
-          If temp <= myItem.Salvage Then
-            temp = myItem.Salvage
-          End If
+          'If CDate(row("DateStart")) < myItem.TransferDate Then
+          'temp = myItem.BuyPrice - (myItem.DepreOpening + myItem.DepreCalcBetweenDateIgnoreStartCalcAmt(myItem.TransferDate, CDate(row("DateEnd"))))
+          'Else
+          'temp = myItem.BuyPrice - myItem.DepreCalcAtDateIgnoreStartCalcAmt(CDate(row("DateEnd")))
+          'temp -= myItem.Salvage
+          'End If
+          'If temp <= myItem.Salvage Then
+          'temp = myItem.Salvage
+          'End If
 
-          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(temp, DigitConfig.Price)
+          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(myItem.BuyPrice - CDec(m_grid(currDocIndex, 11).CellValue), DigitConfig.Price)  'temp, DigitConfig.Price)
+
+          If (myItem.BuyPrice - CDec(m_grid(currDocIndex, 11).CellValue)) <> temp Then
+            m_grid(currDocIndex, 11).CellValue = CDec(m_grid(currDocIndex, 11).CellValue) - myItem.Salvage
+          End If
         Else
-          m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+          m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(myItem.BuyPrice, DigitConfig.Price)
           m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
           m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
-          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(myItem.BuyPrice, DigitConfig.Price)
         End If
         '-----------------------------ASSET--------------------------------------------------
 
@@ -231,19 +253,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         sumEdbNetAmt += CDec(m_grid(currDocIndex, 12).CellValue)
       Next
       'สำหรับประเภทสินทรัพย์ตัวสุดท้าย
+      m_grid(currAssetTypeIndex, 7).CellValue = Configuration.FormatToString(sumUnitPriceByAccount, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 8).CellValue = Configuration.FormatToString(sumOpbAmt, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 10).CellValue = Configuration.FormatToString(sumAssetDAmt, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 11).CellValue = Configuration.FormatToString(sumAssetDTotalAmt, DigitConfig.Price)
-      m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumEdbAmt, DigitConfig.Price)
+      m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumUnitPriceByAccount - sumAssetDTotalAmt, DigitConfig.Price) 'sumEdbAmt, DigitConfig.Price)
 
       m_grid.RowCount += 1
       currAssetTypeIndex = m_grid.RowCount
       m_grid.RowStyles(currAssetTypeIndex).ReadOnly = True
       m_grid(currAssetTypeIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Total}")   '"รวม"
+      m_grid(currAssetTypeIndex, 7).CellValue = Configuration.FormatToString(sumUnitPrice, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 8).CellValue = Configuration.FormatToString(sumOpbNetAmt, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 10).CellValue = Configuration.FormatToString(sumAssetDNetAmt, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 11).CellValue = Configuration.FormatToString(sumAssetDTotalNetAmt, DigitConfig.Price)
-      m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumEdbNetAmt, DigitConfig.Price)
+      m_grid(currAssetTypeIndex, 12).CellValue = Configuration.FormatToString(sumUnitPrice - sumAssetDTotalNetAmt, DigitConfig.Price) 'sumEdbNetAmt, DigitConfig.Price)
       m_grid(currAssetTypeIndex, 1).Tag = "Font.Bold"
     End Sub
 #End Region#Region "Shared"
