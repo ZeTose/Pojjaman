@@ -702,7 +702,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("AccountCode", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Account", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("AccountButton", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("pai_unvatable", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("pai_unvatable", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("pai_note", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("isSummaryRow", GetType(String)))
 
@@ -2232,10 +2232,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If item.ItemType.Value = 0 Then
                 dpi.Value = indent & item.EntityName.Trim
               Else
-                If item.Entity.Name.Length > 0 Then
+                If item.Entity.Name IsNot Nothing AndAlso item.Entity.Name.Length > 0 Then
                   dpi.Value = indent & item.Entity.Name.Trim
                 Else
-                  dpi.Value = ""
+                  dpi.Value = item.EntityName
                 End If
               End If
             Else
