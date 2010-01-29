@@ -69,57 +69,69 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCostCenterCode As System.Windows.Forms.TextBox
     Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
     Friend WithEvents btnCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblApprover As System.Windows.Forms.Label
+    Friend WithEvents cmbStatusApprovel As System.Windows.Forms.ComboBox
+    Friend WithEvents lblStatusApprover As System.Windows.Forms.Label
+    Friend WithEvents txtApproverCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtApproverName As System.Windows.Forms.TextBox
+    Friend WithEvents btnApproverDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblCC As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(POFilterSubPanel))
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.grbReceivingDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtReceivingdateEnd = New System.Windows.Forms.TextBox
-      Me.txtReceivingDateStart = New System.Windows.Forms.TextBox
-      Me.lblReceivingDateStart = New System.Windows.Forms.Label
-      Me.lblReceivingDateEnd = New System.Windows.Forms.Label
-      Me.dtpReceivingDateStart = New System.Windows.Forms.DateTimePicker
-      Me.dtpReceivingDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-      Me.lblDocDateStart = New System.Windows.Forms.Label
-      Me.lblDocDateEnd = New System.Windows.Forms.Label
-      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.btnReset = New System.Windows.Forms.Button
-      Me.grbItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblBlank = New System.Windows.Forms.Label
-      Me.txtBlank = New System.Windows.Forms.TextBox
-      Me.ibtnShowLCIDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowLCI = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblLCI = New System.Windows.Forms.Label
-      Me.txtLCI = New System.Windows.Forms.TextBox
-      Me.txtLCIName = New System.Windows.Forms.TextBox
-      Me.txtToolName = New System.Windows.Forms.TextBox
-      Me.ibtnShowTool = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblTool = New System.Windows.Forms.Label
-      Me.ibtnShowToolDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtTool = New System.Windows.Forms.TextBox
-      Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnCostCenterPanel = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtCostCenterCode = New System.Windows.Forms.TextBox
-      Me.txtCostCenterName = New System.Windows.Forms.TextBox
-      Me.btnCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblCC = New System.Windows.Forms.Label
-      Me.cmbStatus = New System.Windows.Forms.ComboBox
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.btnSupplierPanel = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtSupplierCode = New System.Windows.Forms.TextBox
-      Me.txtSupplierName = New System.Windows.Forms.TextBox
-      Me.btnSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblSupplier = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(POFilterSubPanel))
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbReceivingDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtReceivingdateEnd = New System.Windows.Forms.TextBox()
+      Me.txtReceivingDateStart = New System.Windows.Forms.TextBox()
+      Me.lblReceivingDateStart = New System.Windows.Forms.Label()
+      Me.lblReceivingDateEnd = New System.Windows.Forms.Label()
+      Me.dtpReceivingDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpReceivingDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.lblDocDateEnd = New System.Windows.Forms.Label()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
+      Me.grbItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblBlank = New System.Windows.Forms.Label()
+      Me.txtBlank = New System.Windows.Forms.TextBox()
+      Me.ibtnShowLCIDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowLCI = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblLCI = New System.Windows.Forms.Label()
+      Me.txtLCI = New System.Windows.Forms.TextBox()
+      Me.txtLCIName = New System.Windows.Forms.TextBox()
+      Me.txtToolName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowTool = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblTool = New System.Windows.Forms.Label()
+      Me.ibtnShowToolDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtTool = New System.Windows.Forms.TextBox()
+      Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtApproverCode = New System.Windows.Forms.TextBox()
+      Me.lblApprover = New System.Windows.Forms.Label()
+      Me.txtApproverName = New System.Windows.Forms.TextBox()
+      Me.btnApproverDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.cmbStatusApprovel = New System.Windows.Forms.ComboBox()
+      Me.lblStatusApprover = New System.Windows.Forms.Label()
+      Me.btnCostCenterPanel = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
+      Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+      Me.btnCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCC = New System.Windows.Forms.Label()
+      Me.cmbStatus = New System.Windows.Forms.ComboBox()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.btnSupplierPanel = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtSupplierCode = New System.Windows.Forms.TextBox()
+      Me.txtSupplierName = New System.Windows.Forms.TextBox()
+      Me.btnSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblSupplier = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.grbDetail.SuspendLayout()
       Me.grbReceivingDate.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
@@ -146,14 +158,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(96, 16)
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(224, 21)
       Me.txtCode.TabIndex = 0
-      Me.txtCode.Text = ""
       '
       'grbDetail
       '
@@ -166,7 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(744, 224)
+      Me.grbDetail.Size = New System.Drawing.Size(744, 268)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
@@ -179,7 +189,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceivingDate.Controls.Add(Me.dtpReceivingDateStart)
       Me.grbReceivingDate.Controls.Add(Me.dtpReceivingDateEnd)
       Me.grbReceivingDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbReceivingDate.Location = New System.Drawing.Point(344, 144)
+      Me.grbReceivingDate.Location = New System.Drawing.Point(344, 186)
       Me.grbReceivingDate.Name = "grbReceivingDate"
       Me.grbReceivingDate.Size = New System.Drawing.Size(232, 72)
       Me.grbReceivingDate.TabIndex = 3
@@ -194,14 +204,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtReceivingdateEnd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtReceivingdateEnd, System.Drawing.Color.Empty)
       Me.txtReceivingdateEnd.Location = New System.Drawing.Point(72, 40)
-      Me.Validator.SetMaxValue(Me.txtReceivingdateEnd, "")
       Me.Validator.SetMinValue(Me.txtReceivingdateEnd, "")
       Me.txtReceivingdateEnd.Name = "txtReceivingdateEnd"
       Me.Validator.SetRegularExpression(Me.txtReceivingdateEnd, "")
       Me.Validator.SetRequired(Me.txtReceivingdateEnd, False)
       Me.txtReceivingdateEnd.Size = New System.Drawing.Size(118, 20)
       Me.txtReceivingdateEnd.TabIndex = 1
-      Me.txtReceivingdateEnd.Text = ""
       '
       'txtReceivingDateStart
       '
@@ -211,14 +219,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtReceivingDateStart, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtReceivingDateStart, System.Drawing.Color.Empty)
       Me.txtReceivingDateStart.Location = New System.Drawing.Point(72, 16)
-      Me.Validator.SetMaxValue(Me.txtReceivingDateStart, "")
       Me.Validator.SetMinValue(Me.txtReceivingDateStart, "")
       Me.txtReceivingDateStart.Name = "txtReceivingDateStart"
       Me.Validator.SetRegularExpression(Me.txtReceivingDateStart, "")
       Me.Validator.SetRequired(Me.txtReceivingDateStart, False)
       Me.txtReceivingDateStart.Size = New System.Drawing.Size(118, 20)
       Me.txtReceivingDateStart.TabIndex = 0
-      Me.txtReceivingDateStart.Text = ""
       '
       'lblReceivingDateStart
       '
@@ -244,7 +250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpReceivingDateStart
       '
-      Me.dtpReceivingDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpReceivingDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpReceivingDateStart.Location = New System.Drawing.Point(72, 16)
       Me.dtpReceivingDateStart.Name = "dtpReceivingDateStart"
       Me.dtpReceivingDateStart.Size = New System.Drawing.Size(136, 20)
@@ -253,7 +259,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpReceivingDateEnd
       '
-      Me.dtpReceivingDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpReceivingDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpReceivingDateEnd.Location = New System.Drawing.Point(72, 40)
       Me.dtpReceivingDateEnd.Name = "dtpReceivingDateEnd"
       Me.dtpReceivingDateEnd.Size = New System.Drawing.Size(136, 20)
@@ -269,7 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
       Me.grbDocDate.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDocDate.Location = New System.Drawing.Point(8, 144)
+      Me.grbDocDate.Location = New System.Drawing.Point(8, 186)
       Me.grbDocDate.Name = "grbDocDate"
       Me.grbDocDate.Size = New System.Drawing.Size(328, 72)
       Me.grbDocDate.TabIndex = 2
@@ -284,14 +290,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.txtDocDateStart.Location = New System.Drawing.Point(96, 16)
-      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
       Me.txtDocDateStart.Size = New System.Drawing.Size(118, 20)
       Me.txtDocDateStart.TabIndex = 0
-      Me.txtDocDateStart.Text = ""
       '
       'txtDocDateEnd
       '
@@ -301,14 +305,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(96, 40)
-      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
       Me.txtDocDateEnd.Size = New System.Drawing.Size(118, 20)
       Me.txtDocDateEnd.TabIndex = 1
-      Me.txtDocDateEnd.Text = ""
       '
       'lblDocDateStart
       '
@@ -334,7 +336,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDateStart
       '
-      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateStart.Location = New System.Drawing.Point(96, 16)
       Me.dtpDocDateStart.Name = "dtpDocDateStart"
       Me.dtpDocDateStart.Size = New System.Drawing.Size(136, 20)
@@ -343,7 +345,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDateEnd
       '
-      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateEnd.Location = New System.Drawing.Point(96, 40)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
       Me.dtpDocDateEnd.Size = New System.Drawing.Size(136, 20)
@@ -354,8 +356,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(664, 192)
+      Me.btnSearch.Location = New System.Drawing.Point(664, 236)
       Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 4
       Me.btnSearch.Text = "Search"
       '
@@ -363,8 +366,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(584, 192)
+      Me.btnReset.Location = New System.Drawing.Point(584, 236)
       Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 5
       Me.btnReset.Text = "Reset"
       '
@@ -409,20 +413,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBlank, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBlank, System.Drawing.Color.Empty)
       Me.txtBlank.Location = New System.Drawing.Point(72, 64)
-      Me.Validator.SetMaxValue(Me.txtBlank, "")
       Me.Validator.SetMinValue(Me.txtBlank, "")
       Me.txtBlank.Name = "txtBlank"
       Me.Validator.SetRegularExpression(Me.txtBlank, "")
       Me.Validator.SetRequired(Me.txtBlank, False)
       Me.txtBlank.Size = New System.Drawing.Size(280, 20)
       Me.txtBlank.TabIndex = 2
-      Me.txtBlank.Text = ""
       '
       'ibtnShowLCIDialog
       '
+      Me.ibtnShowLCIDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowLCIDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowLCIDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowLCIDialog.Image = CType(resources.GetObject("ibtnShowLCIDialog.Image"), System.Drawing.Image)
       Me.ibtnShowLCIDialog.Location = New System.Drawing.Point(304, 16)
       Me.ibtnShowLCIDialog.Name = "ibtnShowLCIDialog"
       Me.ibtnShowLCIDialog.Size = New System.Drawing.Size(24, 23)
@@ -432,8 +434,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowLCI
       '
+      Me.ibtnShowLCI.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowLCI.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowLCI.Image = CType(resources.GetObject("ibtnShowLCI.Image"), System.Drawing.Image)
       Me.ibtnShowLCI.Location = New System.Drawing.Point(328, 16)
       Me.ibtnShowLCI.Name = "ibtnShowLCI"
       Me.ibtnShowLCI.Size = New System.Drawing.Size(24, 23)
@@ -460,14 +462,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtLCI, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtLCI, System.Drawing.Color.Empty)
       Me.txtLCI.Location = New System.Drawing.Point(72, 16)
-      Me.Validator.SetMaxValue(Me.txtLCI, "")
       Me.Validator.SetMinValue(Me.txtLCI, "")
       Me.txtLCI.Name = "txtLCI"
       Me.Validator.SetRegularExpression(Me.txtLCI, "")
       Me.Validator.SetRequired(Me.txtLCI, False)
       Me.txtLCI.Size = New System.Drawing.Size(80, 20)
       Me.txtLCI.TabIndex = 0
-      Me.txtLCI.Text = ""
       '
       'txtLCIName
       '
@@ -476,7 +476,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtLCIName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtLCIName, System.Drawing.Color.Empty)
       Me.txtLCIName.Location = New System.Drawing.Point(152, 16)
-      Me.Validator.SetMaxValue(Me.txtLCIName, "")
       Me.Validator.SetMinValue(Me.txtLCIName, "")
       Me.txtLCIName.Name = "txtLCIName"
       Me.txtLCIName.ReadOnly = True
@@ -485,7 +484,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtLCIName.Size = New System.Drawing.Size(152, 20)
       Me.txtLCIName.TabIndex = 6
       Me.txtLCIName.TabStop = False
-      Me.txtLCIName.Text = ""
       '
       'txtToolName
       '
@@ -494,7 +492,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtToolName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToolName, System.Drawing.Color.Empty)
       Me.txtToolName.Location = New System.Drawing.Point(152, 40)
-      Me.Validator.SetMaxValue(Me.txtToolName, "")
       Me.Validator.SetMinValue(Me.txtToolName, "")
       Me.txtToolName.Name = "txtToolName"
       Me.txtToolName.ReadOnly = True
@@ -503,12 +500,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToolName.Size = New System.Drawing.Size(152, 20)
       Me.txtToolName.TabIndex = 7
       Me.txtToolName.TabStop = False
-      Me.txtToolName.Text = ""
       '
       'ibtnShowTool
       '
+      Me.ibtnShowTool.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowTool.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowTool.Image = CType(resources.GetObject("ibtnShowTool.Image"), System.Drawing.Image)
       Me.ibtnShowTool.Location = New System.Drawing.Point(328, 40)
       Me.ibtnShowTool.Name = "ibtnShowTool"
       Me.ibtnShowTool.Size = New System.Drawing.Size(24, 23)
@@ -530,9 +526,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowToolDialog
       '
+      Me.ibtnShowToolDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToolDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowToolDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToolDialog.Image = CType(resources.GetObject("ibtnShowToolDialog.Image"), System.Drawing.Image)
       Me.ibtnShowToolDialog.Location = New System.Drawing.Point(304, 40)
       Me.ibtnShowToolDialog.Name = "ibtnShowToolDialog"
       Me.ibtnShowToolDialog.Size = New System.Drawing.Size(24, 23)
@@ -547,17 +543,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTool, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTool, System.Drawing.Color.Empty)
       Me.txtTool.Location = New System.Drawing.Point(72, 40)
-      Me.Validator.SetMaxValue(Me.txtTool, "")
       Me.Validator.SetMinValue(Me.txtTool, "")
       Me.txtTool.Name = "txtTool"
       Me.Validator.SetRegularExpression(Me.txtTool, "")
       Me.Validator.SetRequired(Me.txtTool, False)
       Me.txtTool.Size = New System.Drawing.Size(80, 20)
       Me.txtTool.TabIndex = 1
-      Me.txtTool.Text = ""
       '
       'grbMainDetail
       '
+      Me.grbMainDetail.Controls.Add(Me.txtApproverCode)
+      Me.grbMainDetail.Controls.Add(Me.lblApprover)
+      Me.grbMainDetail.Controls.Add(Me.txtApproverName)
+      Me.grbMainDetail.Controls.Add(Me.btnApproverDialog)
+      Me.grbMainDetail.Controls.Add(Me.cmbStatusApprovel)
+      Me.grbMainDetail.Controls.Add(Me.lblStatusApprover)
       Me.grbMainDetail.Controls.Add(Me.btnCostCenterPanel)
       Me.grbMainDetail.Controls.Add(Me.txtCostCenterCode)
       Me.grbMainDetail.Controls.Add(Me.txtCostCenterName)
@@ -575,15 +575,89 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMainDetail.Location = New System.Drawing.Point(8, 16)
       Me.grbMainDetail.Name = "grbMainDetail"
-      Me.grbMainDetail.Size = New System.Drawing.Size(328, 120)
+      Me.grbMainDetail.Size = New System.Drawing.Size(328, 168)
       Me.grbMainDetail.TabIndex = 0
       Me.grbMainDetail.TabStop = False
       Me.grbMainDetail.Text = "รายละเอียดทั่วไป"
       '
+      'txtApproverCode
+      '
+      Me.Validator.SetDataType(Me.txtApproverCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtApproverCode, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtApproverCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtApproverCode, System.Drawing.Color.Empty)
+      Me.txtApproverCode.Location = New System.Drawing.Point(96, 113)
+      Me.Validator.SetMinValue(Me.txtApproverCode, "")
+      Me.txtApproverCode.Name = "txtApproverCode"
+      Me.Validator.SetRegularExpression(Me.txtApproverCode, "")
+      Me.Validator.SetRequired(Me.txtApproverCode, False)
+      Me.txtApproverCode.Size = New System.Drawing.Size(80, 20)
+      Me.txtApproverCode.TabIndex = 203
+      '
+      'lblApprover
+      '
+      Me.lblApprover.BackColor = System.Drawing.Color.Transparent
+      Me.lblApprover.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblApprover.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblApprover.Location = New System.Drawing.Point(8, 112)
+      Me.lblApprover.Name = "lblApprover"
+      Me.lblApprover.Size = New System.Drawing.Size(88, 18)
+      Me.lblApprover.TabIndex = 20
+      Me.lblApprover.Text = "ชื่อผู้อนุมัติ:"
+      Me.lblApprover.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtApproverName
+      '
+      Me.Validator.SetDataType(Me.txtApproverName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtApproverName, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtApproverName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtApproverName, System.Drawing.Color.Empty)
+      Me.txtApproverName.Location = New System.Drawing.Point(176, 113)
+      Me.Validator.SetMinValue(Me.txtApproverName, "")
+      Me.txtApproverName.Name = "txtApproverName"
+      Me.txtApproverName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtApproverName, "")
+      Me.Validator.SetRequired(Me.txtApproverName, False)
+      Me.txtApproverName.Size = New System.Drawing.Size(120, 20)
+      Me.txtApproverName.TabIndex = 204
+      Me.txtApproverName.TabStop = False
+      '
+      'btnApproverDialog
+      '
+      Me.btnApproverDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApproverDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnApproverDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnApproverDialog.Location = New System.Drawing.Point(294, 113)
+      Me.btnApproverDialog.Name = "btnApproverDialog"
+      Me.btnApproverDialog.Size = New System.Drawing.Size(24, 23)
+      Me.btnApproverDialog.TabIndex = 205
+      Me.btnApproverDialog.TabStop = False
+      Me.btnApproverDialog.ThemedImage = CType(resources.GetObject("btnApproverDialog.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'cmbStatusApprovel
+      '
+      Me.cmbStatusApprovel.FormattingEnabled = True
+      Me.cmbStatusApprovel.Location = New System.Drawing.Point(96, 137)
+      Me.cmbStatusApprovel.Name = "cmbStatusApprovel"
+      Me.cmbStatusApprovel.Size = New System.Drawing.Size(121, 21)
+      Me.cmbStatusApprovel.TabIndex = 6
+      '
+      'lblStatusApprover
+      '
+      Me.lblStatusApprover.BackColor = System.Drawing.Color.Transparent
+      Me.lblStatusApprover.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblStatusApprover.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblStatusApprover.Location = New System.Drawing.Point(8, 137)
+      Me.lblStatusApprover.Name = "lblStatusApprover"
+      Me.lblStatusApprover.Size = New System.Drawing.Size(88, 18)
+      Me.lblStatusApprover.TabIndex = 19
+      Me.lblStatusApprover.Text = "สถานะการอนุมัติ:"
+      Me.lblStatusApprover.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'btnCostCenterPanel
       '
+      Me.btnCostCenterPanel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostCenterPanel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCostCenterPanel.Image = CType(resources.GetObject("btnCostCenterPanel.Image"), System.Drawing.Image)
       Me.btnCostCenterPanel.Location = New System.Drawing.Point(296, 64)
       Me.btnCostCenterPanel.Name = "btnCostCenterPanel"
       Me.btnCostCenterPanel.Size = New System.Drawing.Size(24, 23)
@@ -598,14 +672,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.txtCostCenterCode.Location = New System.Drawing.Point(96, 64)
-      Me.Validator.SetMaxValue(Me.txtCostCenterCode, "")
       Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
       Me.txtCostCenterCode.Name = "txtCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtCostCenterCode, False)
       Me.txtCostCenterCode.Size = New System.Drawing.Size(80, 20)
       Me.txtCostCenterCode.TabIndex = 14
-      Me.txtCostCenterCode.Text = ""
       '
       'txtCostCenterName
       '
@@ -614,7 +686,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(176, 64)
-      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -623,13 +694,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.Size = New System.Drawing.Size(96, 20)
       Me.txtCostCenterName.TabIndex = 16
       Me.txtCostCenterName.TabStop = False
-      Me.txtCostCenterName.Text = ""
       '
       'btnCostCenterDialog
       '
+      Me.btnCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCostCenterDialog.Image = CType(resources.GetObject("btnCostCenterDialog.Image"), System.Drawing.Image)
       Me.btnCostCenterDialog.Location = New System.Drawing.Point(272, 64)
       Me.btnCostCenterDialog.Name = "btnCostCenterDialog"
       Me.btnCostCenterDialog.Size = New System.Drawing.Size(24, 23)
@@ -671,8 +741,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSupplierPanel
       '
+      Me.btnSupplierPanel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierPanel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnSupplierPanel.Image = CType(resources.GetObject("btnSupplierPanel.Image"), System.Drawing.Image)
       Me.btnSupplierPanel.Location = New System.Drawing.Point(296, 40)
       Me.btnSupplierPanel.Name = "btnSupplierPanel"
       Me.btnSupplierPanel.Size = New System.Drawing.Size(24, 23)
@@ -687,14 +757,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.txtSupplierCode.Location = New System.Drawing.Point(96, 40)
-      Me.Validator.SetMaxValue(Me.txtSupplierCode, "")
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
       Me.Validator.SetRequired(Me.txtSupplierCode, False)
       Me.txtSupplierCode.Size = New System.Drawing.Size(80, 20)
       Me.txtSupplierCode.TabIndex = 1
-      Me.txtSupplierCode.Text = ""
       '
       'txtSupplierName
       '
@@ -703,7 +771,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(176, 40)
-      Me.Validator.SetMaxValue(Me.txtSupplierName, "")
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
@@ -712,13 +779,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Size = New System.Drawing.Size(96, 20)
       Me.txtSupplierName.TabIndex = 6
       Me.txtSupplierName.TabStop = False
-      Me.txtSupplierName.Text = ""
       '
       'btnSupplierDialog
       '
+      Me.btnSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSupplierDialog.Image = CType(resources.GetObject("btnSupplierDialog.Image"), System.Drawing.Image)
       Me.btnSupplierDialog.Location = New System.Drawing.Point(272, 40)
       Me.btnSupplierDialog.Name = "btnSupplierDialog"
       Me.btnSupplierDialog.Size = New System.Drawing.Size(24, 23)
@@ -747,20 +813,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'POFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "POFilterSubPanel"
-      Me.Size = New System.Drawing.Size(776, 240)
+      Me.Size = New System.Drawing.Size(776, 283)
       Me.grbDetail.ResumeLayout(False)
       Me.grbReceivingDate.ResumeLayout(False)
+      Me.grbReceivingDate.PerformLayout()
       Me.grbDocDate.ResumeLayout(False)
+      Me.grbDocDate.PerformLayout()
       Me.grbItem.ResumeLayout(False)
+      Me.grbItem.PerformLayout()
       Me.grbMainDetail.ResumeLayout(False)
+      Me.grbMainDetail.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -784,6 +854,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_tool As Tool
     Private dummyCC As New CostCenter
     Private m_cc As CostCenter
+    Private m_Approver As Employee
     Private docDateStart As Date
     Private docDateEnd As Date
     Private receivingDateStart As Date
@@ -916,6 +987,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Text = ""
       Me.m_supplier = New Supplier
 
+      Me.txtApproverCode.Text = ""
+      Me.txtApproverCode.Text = ""
+      Me.m_Approver = New Employee
 
       Me.txtLCI.Text = ""
       Me.txtLCIName.Text = ""
@@ -951,9 +1025,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.receivingDateEnd = DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
 
       cmbStatus.SelectedIndex = 0
+      cmbStatusApprovel.SelectedIndex = 0
     End Sub
     Private Sub PopulateStatus()
       CodeDescription.ListCodeDescriptionInComboBox(cmbStatus, "po_status", True)
+      CodeDescription.ListCodeDescriptionInComboBox(cmbStatusApprovel, "po_statusApp", True)
     End Sub
     Public Sub SetLabelText()
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POFilterSubPanel.grbDetail}")
@@ -976,7 +1052,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POFilterSubPanel.grbMainDetail}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(11) As Filter
+      Dim arr(13) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("supplier_id", IIf(Me.m_supplier.Valid, Me.m_supplier.Id, DBNull.Value))
       arr(2) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
@@ -989,6 +1065,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(9) = New Filter("poi_itemName", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))
       arr(10) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
       arr(11) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(12) = New Filter("statusApp", IIf(cmbStatusApprovel.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatusApprovel.SelectedItem, IdValuePair).Id))
+      arr(13) = New Filter("approver", IIf(Me.m_Approver.Valid, Me.m_Approver.Id, DBNull.Value))
+
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -999,6 +1078,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub txtapproverCode_Validated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtApproverCode.Validated
+      Employee.GetEmployee(txtApproverCode, txtApproverName, Me.m_Approver)
+    End Sub
+    Private Sub btnapproverDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApproverDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetToCCPerson)
+    End Sub
+    Private Sub SetToCCPerson(ByVal e As ISimpleEntity)
+      Me.txtApproverCode.Text = e.Code
+      Employee.GetEmployee(txtApproverCode, txtApproverName, Me.m_Approver)
+    End Sub
     Private Sub txtSupplierCode_Validated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSupplierCode.Validated
       Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_supplier)
     End Sub
@@ -1079,7 +1169,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return True
           End Select
         End If
-
+        If data.GetDataPresent((New Employee).FullClassName) Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtapprovercode", "txtapprovername"
+              Return True
+          End Select
+        End If
         If data.GetDataPresent((New Supplier).FullClassName) Then
           Select Case Me.ActiveControl.Name.ToLower
             Case "txtsuppliercode", "txtsuppliername"
@@ -1119,6 +1214,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Select Case Me.ActiveControl.Name.ToLower
           Case "txtsuppliercode", "txtsuppliername"
             Me.SetSupplier(entity)
+        End Select
+      End If
+      If data.GetDataPresent((New Employee).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
+        Dim entity As New Employee(id)
+        Select Case Me.ActiveControl.Name.ToLower
+          Case "txtapprovercode", "txtapprovername"
+            Me.SetToCCPerson(entity)
         End Select
       End If
       If data.GetDataPresent((New LCIItem).FullClassName) Then
