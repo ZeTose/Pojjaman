@@ -434,6 +434,7 @@
     <Content Include="Externals\BalloonWindow.dll" />
     <Content Include="Externals\ICSharpCode.SharpZipLib.dll" />
     <Content Include="PojjamanIcon.ico" />
+    <Content Include="Release.txt" />
     <Content Include="Resources\Images\tv_minus.bmp" />
     <Content Include="Resources\Images\tv_plus.bmp" />
     <EmbeddedResource Include="data\resources\BitmapResources.resources" />
@@ -894,6 +895,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent />
+    <PostBuildEvent>copy $(ProjectDir)..\Pojjaman\Release.txt $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
   </PropertyGroup>
 </Project>
