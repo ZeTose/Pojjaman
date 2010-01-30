@@ -434,7 +434,7 @@
     <Content Include="Externals\BalloonWindow.dll" />
     <Content Include="Externals\ICSharpCode.SharpZipLib.dll" />
     <Content Include="PojjamanIcon.ico" />
-    <Content Include="Release.txt" />
+    <Content Include="release.txt" />
     <Content Include="Resources\Images\tv_minus.bmp" />
     <Content Include="Resources\Images\tv_plus.bmp" />
     <EmbeddedResource Include="data\resources\BitmapResources.resources" />
