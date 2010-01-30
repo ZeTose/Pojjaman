@@ -1653,6 +1653,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csVatable.MappingName = "pai_unvatable"
       csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.UnVatableHeaderText}")
       csVatable.Width = 100
+      'csVatable.ReadOnly = True
       csVatable.InvisibleWhenUnspcified = True
 
       '"หมายเหตุ"
@@ -1691,7 +1692,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dst.GridColumnStyles.Add(csAccountButton)
       'dst.GridColumnStyles.Add(csAccount)
       dst.GridColumnStyles.Add(csNote)
-      'dst.GridColumnStyles.Add(csVatable)
+      dst.GridColumnStyles.Add(csVatable)
 
       m_tableStyleEnable = New Hashtable
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
@@ -1797,7 +1798,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Select Case e.Column.ColumnName.ToLower
 
-        Case "unit", "pai_qty", "amount", "pai_note", "pai_unvatable", "pai_mat", "pai_lab", "pai_eq", "accountcode", "account"
+        Case "unit", "pai_qty", "amount", "pai_note", "pai_mat", "pai_lab", "pai_eq", "accountcode", "account", "pai_unvatable"
           'รายการที่แก้ไขได้
         Case Else
           If doc.RefEntity.Id > 0 Then

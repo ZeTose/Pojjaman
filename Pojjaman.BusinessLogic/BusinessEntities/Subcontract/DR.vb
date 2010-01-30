@@ -531,6 +531,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("ReceivedAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("dri_note", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DRAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("dri_unvatable", GetType(Boolean)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       'Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -1090,7 +1091,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("dri_unitCost") = item.UnitCost
             '.Rows.Add(dr)
             'dr("dri_drDesc") = ""
-            'dr("dri_unvatable") = ""
+            dr("dri_unvatable") = item.UnVatable
 
             Dim dr2 As DataRow = dtOld.NewRow
             dr2("drio_sequence") = dr("dri_sequence")

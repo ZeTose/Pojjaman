@@ -138,6 +138,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_entityName = ""
         End If
 
+        'dri_unvatable
+        If dr.Table.Columns.Contains(aliasPrefix & "dri_unvatable") AndAlso Not dr.IsNull(aliasPrefix & "dri_unvatable") Then
+          .m_unvatable = CBool(dr("dri_unvatable"))
+        End If
         'If dr.Table.Columns.Contains(aliasPrefix & "ReceiptAmount") AndAlso Not dr.IsNull(aliasPrefix & "ReceiptAmount") Then
         '  .m_receiptAmount = CDec(dr("ReceiptAmount"))
         'End If
@@ -1291,7 +1295,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         row("dri_note") = Me.Note
 
-        'row("dri_unvatable") = Me.UnVatable
+        row("dri_unvatable") = Me.UnVatable
 
         Me.Dr.IsInitialized = True
       Catch ex As NoConversionException

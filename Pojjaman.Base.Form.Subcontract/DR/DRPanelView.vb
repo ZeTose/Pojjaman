@@ -1224,7 +1224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csVatable.MappingName = "dri_unvatable"
       csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.UnVatableHeaderText}")
       csVatable.Width = 100
-      csVatable.InvisibleWhenUnspcified = False
+      csVatable.InvisibleWhenUnspcified = True
 
 
       'dst.GridColumnStyles.Add(csDRDesc)
@@ -1243,7 +1243,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csEq)
       dst.GridColumnStyles.Add(csReceivedAmount)
       dst.GridColumnStyles.Add(csNote)
-      dst.GridColumnStyles.Add(csVatable)
+      'dst.GridColumnStyles.Add(csVatable)
 
       m_tableStyleEnable = New Hashtable
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
@@ -1404,6 +1404,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
             doc.Eq = value
+          Case "dri_unvatable"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = False
+            End If
+            doc.UnVatable = CBool(e.ProposedValue)
         End Select
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
