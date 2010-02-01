@@ -62,6 +62,8 @@ Namespace Longkong.Pojjaman.Services
             Else
               item = New PJMToolStripMenuItem(tbCodon.Conditions, owner, text)
               item.Image = myResourceService.GetBitmap(tbCodon.Icon)
+              Dim serv As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+              item.ToolTipText = serv.Parse(tbCodon.ToolTip)
             End If
             If (Not tbCodon.Class Is Nothing) Then
               CType(item, PJMToolStripMenuItem).Command = CType(tbCodon.AddIn.CreateObject(tbCodon.Class), ICommand)
