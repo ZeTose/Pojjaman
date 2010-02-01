@@ -2900,7 +2900,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'Retention
-      If retentionHere AndAlso Me.Retention > 0 Then
+      If (Me.Payment.Amount - Me.Payment.Gross = 0 OrElse retentionHere) AndAlso Me.Retention > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "E3.16"
         ji.Amount = Me.Retention
