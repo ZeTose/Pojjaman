@@ -549,9 +549,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         '================Checking for duplicate Vat Code (Sales Tax) =============
-        Dim salesVatDup As String = DupSalesVatCode()
-        If salesVatDup.Length > 0 Then
-          Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+        If Me.Direction.Value = 0 Then
+          Dim salesVatDup As String = DupSalesVatCode()
+          If salesVatDup.Length > 0 Then
+            Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+          End If
         End If
         '================Checking for duplicate Vat Code (Sales Tax) =============
 
