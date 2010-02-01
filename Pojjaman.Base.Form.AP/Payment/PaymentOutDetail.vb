@@ -1100,7 +1100,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ElseIf TypeOf Me.m_entity Is AdvanceMoney Then
         csType = New DataGridComboColumn("paymenti_entityType" _
         , CodeDescription.GetCodeList("paymenti_entityType" _
-        , "code_value not in (36,59,174)") _
+        , "code_value not in (59,174)") _
         , "code_description", "code_value")
       ElseIf TypeOf Me.m_entity Is GoodsReceipt OrElse TypeOf Me.m_entity Is EqMaintenance Then
         csType = New DataGridComboColumn("paymenti_entityType" _

@@ -1103,6 +1103,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         csType = New DataGridComboColumn("receivei_entityType", CodeDescription.GetCodeList("receivei_entityType", "code_value <>" & Me.m_entity.EntityId), "code_description", "code_value")
       ElseIf TypeOf Me.m_entity Is GoodsSold Then
         csType = New DataGridComboColumn("receivei_entityType", CodeDescription.GetCodeList("receivei_entityType", "code_value <> 71"), "code_description", "code_value")
+        'ElseIf TypeOf Me.m_entity Is AdvanceMoneyClosed Then
+        'csType = New DataGridComboColumn("receivei_entityType", CodeDescription.GetCodeList("receivei_entityType", "not code_value in (27,71)"), "code_description", "code_value")
       Else
         csType = New DataGridComboColumn("receivei_entityType", CodeDescription.GetCodeList("receivei_entityType"), "code_description", "code_value")
       End If

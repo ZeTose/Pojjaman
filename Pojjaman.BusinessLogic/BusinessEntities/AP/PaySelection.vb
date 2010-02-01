@@ -924,6 +924,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       For Each doc As BillAcceptanceItem In Me.ItemCollection
         Dim itemCC As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
+        Dim itemCode As String = doc.Code.ToString
+        Dim itemType As String = GetTypeNameFromDocType(doc.EntityId)
         If itemCC Is Nothing Then
           itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -944,6 +946,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           ji.CostCenter = itemCC
+          ji.Note = itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
 
@@ -951,8 +954,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เจ้าหนี้เงินประกันผลงาน
           ji = New JournalEntryItem
           ji.Mapping = "B8.3"
-          ji.Amount = myRetention
+            ji.Amount = myRetention
           ji.CostCenter = itemCC
+          ji.Note = itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
 
@@ -962,7 +966,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.16"
           ji.Amount = doc.Retention
           ji.CostCenter = itemCC
-          ji.Note = Me.Recipient.Name
+          ji.Note = Me.Recipient.Name & ":" & itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
       Next

@@ -2677,10 +2677,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					If Not Me.Unlock AndAlso ApproveDocColl.MaxLevel > 0 Then					'(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
 						'(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
 						For Each ctrl As Control In Me.Controls
-							If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-								ctrl.Enabled = False
-							End If
-						Next
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "ibtUnlocker" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            Me.ibtUnlocker.Enabled = True
 						tgItem.Enabled = True
 						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
 							If colStyle.MappingName.ToLower = "accountcode" _
@@ -2705,11 +2706,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					'ถ้าใช้การอนุมัติแบบเก่า
 					If Not Me.Unlock AndAlso Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
 						For Each ctrl As Control In Me.Controls
-							If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-								ctrl.Enabled = False
-							End If
-						Next
-						tgItem.Enabled = True
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "ibtUnlocker" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            Me.ibtUnlocker.Enabled = True
+            tgItem.Enabled = True
 						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
 							If colStyle.MappingName.ToLower = "accountcode" _
 							Or colstyle.MappingName.ToLower = "accountbutton" Then

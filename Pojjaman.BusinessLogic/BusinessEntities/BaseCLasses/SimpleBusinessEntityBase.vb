@@ -1242,7 +1242,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Event GlChanged(ByVal sender As Object, ByVal e As System.EventArgs) Implements IGlChangable.GlChanged
 #End Region
 
-#Region "GetCC"
+#Region "GetAnything"
     Public Shared Connection As SqlConnection
     Public Shared Transaction As SqlTransaction
     Public Shared Function GetCCFromDocTypeAndId(ByVal docType As Integer, ByVal entityId As Integer) As CostCenter
@@ -1268,6 +1268,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
       Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    End Function
+    Public Shared Function GetTypeNameFromDocType(ByVal docType As Integer) As String
+      Dim ds As DataSet
+      If Not Connection Is Nothing AndAlso Not Transaction Is Nothing Then
+        ds = SqlHelper.ExecuteDataset(Connection, Transaction _
+        , CommandType.StoredProcedure _
+        , "GetTypeNameFromDocType" _
+        , New SqlParameter("@docType", docType))
+      Else        ds = SqlHelper.ExecuteDataset(ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetTypeNameFromDocType" _
+        , New SqlParameter("@docType", docType))
+      End If
+      If ds.Tables.Count > 0 _
+      AndAlso ds.Tables(0).Rows.Count = 1  Then
+        Return ds.Tables(0).Rows(0)(0).ToString
+      End If
+      Return ""
     End Function
 #End Region
    
