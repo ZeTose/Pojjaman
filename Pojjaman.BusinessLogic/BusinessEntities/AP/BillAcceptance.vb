@@ -1154,8 +1154,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_retention") AndAlso Not dr.IsNull(aliasPrefix & "stock_retention") Then
         Me.m_retention = CDec(dr(aliasPrefix & "stock_retention"))
       End If
-      If dr.Table.Columns.Contains("billai_retentiontype") AndAlso Not dr.IsNull("billai_retentiontype") Then
-        Me.m_retentionType = CInt(dr("billai_retentiontype"))
+      If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_retentiontype") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_retentiontype") Then
+        Me.m_retentionType = CInt(dr(aliasPrefix & m_itemprefix & "_retentiontype"))
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "remain") AndAlso Not dr.IsNull(aliasPrefix & "remain") Then
         Select Case m_itemprefix
@@ -1373,7 +1373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property RetentionForGL() As Decimal
       Get
-        If Me.EntityId = 199 AndAlso Me.RetentionType = 45 Then
+        If Me.EntityId = 199 Then
           Return Me.Amount
         End If
         Return 0
