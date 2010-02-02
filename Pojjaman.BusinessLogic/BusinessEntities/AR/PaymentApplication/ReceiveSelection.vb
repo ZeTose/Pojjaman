@@ -915,12 +915,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each doc As SaleBillIssueItem In Me.ItemCollection
         Dim docRetention As Decimal = 0
         Dim itemCC As CostCenter
+        Dim itemType As String = ""
         If doc.ParentType = 81 Then
           'วางบิลงวด                   
           Dim bi As BillIssue = CType(Me.m_billissues(doc.ParentId), BillIssue)
           For Each mi As Milestone In bi.ItemCollection
             If mi.Id = doc.Id AndAlso Not mi.TaxType.Value = 0 Then
               itemCC = mi.CostCenter
+              itemType = mi.Type.Description
             End If
           Next
           docRetention = bi.ItemCollection.GetRetentionAmount(Nothing)
@@ -932,6 +934,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not tmpcc Is Nothing Then
             itemCC = tmpcc
           End If
+          itemType = GetTypeNameFromDocType(doc.EntityId)
         End If
         If itemCC Is Nothing Then
           itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -956,6 +959,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
+        If doc.AmountForGL <> 0 Then
+          'ลูกหนี้การค้า
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.2W"
+          If retentionHere Then
+            ji.Amount = myDebt + docRetention
+          Else
+            ji.Amount = myDebt
+          End If
+          If Not Me.Customer.Account Is Nothing AndAlso Me.Customer.Account.Originated Then
+            ji.Account = Me.Customer.Account
+          End If
+          ji.CostCenter = itemCC
+          ji.Note = itemType & ":" & doc.Code.ToString
+          jiColl.Add(ji)
+        End If
+
         'Retention หัก
         If retentionHere AndAlso docRetention <> 0 Then
           ji = New JournalEntryItem
@@ -965,6 +985,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Note = Me.Payer.Name
           jiColl.Add(ji)
         End If
+
+        'Retention หัก
+        If retentionHere AndAlso docRetention <> 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C7.18W"
+          ji.Amount = docRetention
+          ji.CostCenter = itemCC
+          ji.Note = Me.Payer.Name
+          jiColl.Add(ji)
+        End If
+
       Next
 
       'ภาษีหัก ณ ที่จ่าย
@@ -1060,6 +1091,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.CostCenter = cc   'GetVatCC()
         jiColl.Add(ji)
       End If
+
+      For Each vi As VatItem In Me.Vat.ItemCollection
+        ji = New JournalEntryItem
+        ji.Mapping = "C8.4D"
+        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        ji.Note = vi.Code & "/" & vi.PrintName
+        jiColl.Add(ji)
+
+        ji = New JournalEntryItem
+        ji.Mapping = "C8.4W"
+        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        ji.Note = vi.Code & "/" & vi.PrintName
+        jiColl.Add(ji)
+
+      Next
 
       If Not Me.Receive Is Nothing Then
         jiColl.AddRange(Me.Receive.GetJournalEntries)

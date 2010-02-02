@@ -1261,7 +1261,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.UpdateAmount()
       Me.m_isInitialized = flag
 
-      Me.m_je.DBItemCollection.Populate(m_treeManager2.Treetable)
+      If Me.m_je.DBItemCollection IsNot Nothing Then
+        Me.m_je.DBItemCollection.Populate(m_treeManager2.Treetable)
+      End If
 
 		End Sub
 		Private Sub UpdateRefDoc()
