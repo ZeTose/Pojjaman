@@ -954,6 +954,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           ji.CostCenter = itemCC
+          ji.Note = itemType
+          jiColl.Add(ji)
+        End If
+
+        If myDebt <> 0 Then
+          'เจ้าหนี้การค้า แบบแยก W
+          ji = New JournalEntryItem
+          ji.Mapping = "B8.1W"
+          If retentionHere Then
+            ji.Amount = myDebt + doc.Retention
+          Else
+            ji.Amount = myDebt
+          End If
+          If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
+            ji.Account = Me.Supplier.Account
+          End If
+
+          ji.CostCenter = itemCC
           ji.Note = itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
@@ -962,6 +980,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เจ้าหนี้เงินประกันผลงาน
           ji = New JournalEntryItem
           ji.Mapping = "B8.3"
+          ji.Amount = myRetention
+          ji.CostCenter = itemCC
+          ji.Note = itemCode & ":" & itemType
+          jiColl.Add(ji)
+        End If
+
+        If myRetention <> 0 Then
+          'เจ้าหนี้เงินประกันผลงาน W
+          ji = New JournalEntryItem
+          ji.Mapping = "B8.3W"
           ji.Amount = myRetention
           ji.CostCenter = itemCC
           ji.Note = itemCode & ":" & itemType
@@ -977,6 +1005,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Note = Me.Recipient.Name & ":" & itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
+
+        'Retention หัก
+        If retentionHere AndAlso doc.Retention <> 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.16W"
+          ji.Amount = doc.Retention
+          ji.CostCenter = itemCC
+          ji.Note = Me.Recipient.Name & ":" & itemCode & ":" & itemType
+          jiColl.Add(ji)
+        End If
+
       Next
 
       'ภาษีซื้อ
@@ -987,6 +1026,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.CostCenter = myCC
         jiColl.Add(ji)
       End If
+
+      For Each vi As VatItem In Me.Vat.ItemCollection
+        ji = New JournalEntryItem
+        ji.Mapping = "B8.4D"
+        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        ji.Note = vi.Code & "/" & vi.PrintName
+        jiColl.Add(ji)
+
+        ji = New JournalEntryItem
+        ji.Mapping = "B8.4W"
+        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        ji.Note = vi.Code & "/" & vi.PrintName
+        jiColl.Add(ji)
+
+      Next
 
       'ภาษีซื้อไม่ถึงกำหนด
       If Me.Vat.Amount <> 0 Then
