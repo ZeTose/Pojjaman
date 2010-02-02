@@ -828,7 +828,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetCCFromItem() As CostCenter
       Dim dummyCC As CostCenter
       For Each item As BillAcceptanceItem In Me.ItemCollection
-        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(item.EntityId, item.Id)
+        Dim docType As Integer = item.EntityId
+        If docType = 199 Then
+          docType = item.RetentionType
+        End If
+        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(docType, item.Id)
         If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
           Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -923,7 +927,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ccList As New Dictionary(Of Integer, CostCenter)
 
       For Each doc As BillAcceptanceItem In Me.ItemCollection
-        Dim itemCC As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
+        Dim docType As Integer = doc.EntityId
+        If docType = 199 Then
+          docType = doc.RetentionType
+        End If
+        Dim itemCC As CostCenter = GetCCFromDocTypeAndId(docType, doc.Id)
         Dim itemCode As String = doc.Code.ToString
         Dim itemType As String = GetTypeNameFromDocType(doc.EntityId)
         If itemCC Is Nothing Then
@@ -954,7 +962,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เจ้าหนี้เงินประกันผลงาน
           ji = New JournalEntryItem
           ji.Mapping = "B8.3"
-            ji.Amount = myRetention
+          ji.Amount = myRetention
           ji.CostCenter = itemCC
           ji.Note = itemCode & ":" & itemType
           jiColl.Add(ji)
