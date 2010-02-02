@@ -445,7 +445,6 @@
     <EmbeddedResource Include="data\resources\StringResources.en.resources" />
     <EmbeddedResource Include="data\resources\StringResources.th.resources" />
     <EmbeddedResource Include="data\resources\StringResources.vi.resources" />
-    <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="Main\Dialogs\ExceptionBox.resx">
       <DependentUpon>ExceptionBox.vb</DependentUpon>
     </EmbeddedResource>
