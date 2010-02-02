@@ -202,6 +202,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
       m_itemCollection = New JournalEntryItemCollection(Me)
+      DBItemCollection = New JournalEntryItemCollection(Me)
     End Sub
     Public Sub SetRefDoc(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Dim refDocType As Integer
@@ -258,6 +259,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End Get
     End Property
+    ''' <summary>
+    ''' Load From DB
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property DBItemCollection() As JournalEntryItemCollection
     Public Property ItemCollection() As JournalEntryItemCollection
       Get
         Return m_itemCollection

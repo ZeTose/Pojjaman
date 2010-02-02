@@ -68,52 +68,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents chkUseRefCode As System.Windows.Forms.CheckBox
     Friend WithEvents txtFormatName As System.Windows.Forms.TextBox
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
+    Friend WithEvents tgItem2 As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents txtFormatCode As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(GLView))
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.lblGLFormat = New System.Windows.Forms.Label
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtRefDocDate = New System.Windows.Forms.TextBox
-      Me.lblRefDocDate = New System.Windows.Forms.Label
-      Me.dtpRefDocDate = New System.Windows.Forms.DateTimePicker
-      Me.txtRefDocCode = New System.Windows.Forms.TextBox
-      Me.lblRefDoc = New System.Windows.Forms.Label
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblAccountBook = New System.Windows.Forms.Label
-      Me.ibtnShowAccountBook = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowAccountBookDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtAccountBookName = New System.Windows.Forms.TextBox
-      Me.txtAccountBookCode = New System.Windows.Forms.TextBox
-      Me.chkPost = New System.Windows.Forms.CheckBox
-      Me.txtTotalDebit = New System.Windows.Forms.TextBox
-      Me.lblTotalDebit = New System.Windows.Forms.Label
-      Me.lblTotalCredit = New System.Windows.Forms.Label
-      Me.txtTotalCredit = New System.Windows.Forms.TextBox
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.ibtnShowGLFormat = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowGLFormatDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnPost = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.chkUseRefCode = New System.Windows.Forms.CheckBox
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.txtFormatName = New System.Windows.Forms.TextBox
-      Me.txtFormatCode = New System.Windows.Forms.TextBox
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GLView))
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.lblGLFormat = New System.Windows.Forms.Label()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.TabControl1 = New System.Windows.Forms.TabControl()
+      Me.TabPage1 = New System.Windows.Forms.TabPage()
+      Me.TabPage2 = New System.Windows.Forms.TabPage()
+      Me.txtFormatName = New System.Windows.Forms.TextBox()
+      Me.txtFormatCode = New System.Windows.Forms.TextBox()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtRefDocDate = New System.Windows.Forms.TextBox()
+      Me.lblRefDocDate = New System.Windows.Forms.Label()
+      Me.dtpRefDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.txtRefDocCode = New System.Windows.Forms.TextBox()
+      Me.lblRefDoc = New System.Windows.Forms.Label()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAccountBook = New System.Windows.Forms.Label()
+      Me.ibtnShowAccountBook = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowAccountBookDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAccountBookName = New System.Windows.Forms.TextBox()
+      Me.txtAccountBookCode = New System.Windows.Forms.TextBox()
+      Me.chkPost = New System.Windows.Forms.CheckBox()
+      Me.txtTotalDebit = New System.Windows.Forms.TextBox()
+      Me.lblTotalDebit = New System.Windows.Forms.Label()
+      Me.lblTotalCredit = New System.Windows.Forms.Label()
+      Me.txtTotalCredit = New System.Windows.Forms.TextBox()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.ibtnShowGLFormat = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowGLFormatDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnPost = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkUseRefCode = New System.Windows.Forms.CheckBox()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.tgItem2 = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.grbDetail.SuspendLayout()
+      Me.TabControl1.SuspendLayout()
+      Me.TabPage1.SuspendLayout()
+      Me.TabPage2.SuspendLayout()
       Me.grbRefDoc.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -121,17 +131,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
+      Me.tgItem.Dock = System.Windows.Forms.DockStyle.Fill
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 168)
+      Me.tgItem.Location = New System.Drawing.Point(3, 3)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(712, 200)
+      Me.tgItem.Size = New System.Drawing.Size(692, 171)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 2
       Me.tgItem.TreeManager = Nothing
@@ -162,6 +170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.TabControl1)
       Me.grbDetail.Controls.Add(Me.txtFormatName)
       Me.grbDetail.Controls.Add(Me.txtFormatCode)
       Me.grbDetail.Controls.Add(Me.lblDocDate)
@@ -182,7 +191,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.txtAccountBookCode)
       Me.grbDetail.Controls.Add(Me.chkPost)
       Me.grbDetail.Controls.Add(Me.lblGLFormat)
-      Me.grbDetail.Controls.Add(Me.tgItem)
       Me.grbDetail.Controls.Add(Me.lblItem)
       Me.grbDetail.Controls.Add(Me.txtTotalDebit)
       Me.grbDetail.Controls.Add(Me.lblTotalDebit)
@@ -201,6 +209,70 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "การผ่านบัญชี"
+      '
+      'TabControl1
+      '
+      Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.TabControl1.Controls.Add(Me.TabPage1)
+      Me.TabControl1.Controls.Add(Me.TabPage2)
+      Me.TabControl1.Location = New System.Drawing.Point(6, 170)
+      Me.TabControl1.Name = "TabControl1"
+      Me.TabControl1.SelectedIndex = 0
+      Me.TabControl1.Size = New System.Drawing.Size(706, 203)
+      Me.TabControl1.TabIndex = 342
+      '
+      'TabPage1
+      '
+      Me.TabPage1.Controls.Add(Me.tgItem)
+      Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+      Me.TabPage1.Name = "TabPage1"
+      Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+      Me.TabPage1.Size = New System.Drawing.Size(698, 177)
+      Me.TabPage1.TabIndex = 0
+      Me.TabPage1.Text = "Auto"
+      '
+      'TabPage2
+      '
+      Me.TabPage2.Controls.Add(Me.tgItem2)
+      Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+      Me.TabPage2.Name = "TabPage2"
+      Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+      Me.TabPage2.Size = New System.Drawing.Size(698, 177)
+      Me.TabPage2.TabIndex = 1
+      Me.TabPage2.Text = "DB"
+      '
+      'txtFormatName
+      '
+      Me.Validator.SetDataType(Me.txtFormatName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtFormatName, "")
+      Me.txtFormatName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtFormatName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtFormatName, System.Drawing.Color.Empty)
+      Me.txtFormatName.Location = New System.Drawing.Point(200, 96)
+      Me.Validator.SetMinValue(Me.txtFormatName, "")
+      Me.txtFormatName.Name = "txtFormatName"
+      Me.txtFormatName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtFormatName, "")
+      Me.Validator.SetRequired(Me.txtFormatName, False)
+      Me.txtFormatName.Size = New System.Drawing.Size(328, 21)
+      Me.txtFormatName.TabIndex = 341
+      '
+      'txtFormatCode
+      '
+      Me.txtFormatCode.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtFormatCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtFormatCode, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtFormatCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtFormatCode, System.Drawing.Color.Empty)
+      Me.txtFormatCode.Location = New System.Drawing.Point(144, 96)
+      Me.Validator.SetMinValue(Me.txtFormatCode, "")
+      Me.txtFormatCode.Name = "txtFormatCode"
+      Me.Validator.SetRegularExpression(Me.txtFormatCode, "")
+      Me.Validator.SetRequired(Me.txtFormatCode, False)
+      Me.txtFormatCode.Size = New System.Drawing.Size(56, 20)
+      Me.txtFormatCode.TabIndex = 340
       '
       'lblDocDate
       '
@@ -221,14 +293,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, 23)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(344, 71)
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(124, 20)
       Me.txtDocDate.TabIndex = 337
-      Me.txtDocDate.Text = ""
       '
       'dtpDocDate
       '
@@ -271,7 +341,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCode, 23)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(88, 71)
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
@@ -279,7 +348,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Size = New System.Drawing.Size(104, 21)
       Me.txtCode.TabIndex = 332
       Me.txtCode.TabStop = False
-      Me.txtCode.Text = ""
       '
       'txtNote
       '
@@ -291,7 +359,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(368, 376)
       Me.txtNote.MaxLength = 250
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
       Me.txtNote.Name = "txtNote"
@@ -301,7 +368,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.Size = New System.Drawing.Size(344, 42)
       Me.txtNote.TabIndex = 333
       Me.txtNote.TabStop = False
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -340,7 +406,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtRefDocDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtRefDocDate, System.Drawing.Color.Empty)
       Me.txtRefDocDate.Location = New System.Drawing.Point(328, 16)
-      Me.Validator.SetMaxValue(Me.txtRefDocDate, "")
       Me.Validator.SetMinValue(Me.txtRefDocDate, "")
       Me.txtRefDocDate.Name = "txtRefDocDate"
       Me.Validator.SetRegularExpression(Me.txtRefDocDate, "")
@@ -348,7 +413,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocDate.Size = New System.Drawing.Size(124, 20)
       Me.txtRefDocDate.TabIndex = 3
       Me.txtRefDocDate.TabStop = False
-      Me.txtRefDocDate.Text = ""
       '
       'lblRefDocDate
       '
@@ -382,7 +446,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRefDocCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRefDocCode, System.Drawing.Color.Empty)
       Me.txtRefDocCode.Location = New System.Drawing.Point(112, 16)
-      Me.Validator.SetMaxValue(Me.txtRefDocCode, "")
       Me.Validator.SetMinValue(Me.txtRefDocCode, "")
       Me.txtRefDocCode.Name = "txtRefDocCode"
       Me.Validator.SetRegularExpression(Me.txtRefDocCode, "")
@@ -390,7 +453,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocCode.Size = New System.Drawing.Size(144, 20)
       Me.txtRefDocCode.TabIndex = 1
       Me.txtRefDocCode.TabStop = False
-      Me.txtRefDocCode.Text = ""
       '
       'lblRefDoc
       '
@@ -404,7 +466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(136, 144)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -414,7 +476,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(160, 144)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -435,9 +497,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowAccountBook
       '
+      Me.ibtnShowAccountBook.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowAccountBook.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowAccountBook.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowAccountBook.Image = CType(resources.GetObject("ibtnShowAccountBook.Image"), System.Drawing.Image)
       Me.ibtnShowAccountBook.Location = New System.Drawing.Point(408, 120)
       Me.ibtnShowAccountBook.Name = "ibtnShowAccountBook"
       Me.ibtnShowAccountBook.Size = New System.Drawing.Size(24, 23)
@@ -447,9 +509,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowAccountBookDialog
       '
+      Me.ibtnShowAccountBookDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowAccountBookDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowAccountBookDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowAccountBookDialog.Image = CType(resources.GetObject("ibtnShowAccountBookDialog.Image"), System.Drawing.Image)
       Me.ibtnShowAccountBookDialog.Location = New System.Drawing.Point(384, 120)
       Me.ibtnShowAccountBookDialog.Name = "ibtnShowAccountBookDialog"
       Me.ibtnShowAccountBookDialog.Size = New System.Drawing.Size(24, 23)
@@ -465,7 +527,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAccountBookName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAccountBookName, System.Drawing.Color.Empty)
       Me.txtAccountBookName.Location = New System.Drawing.Point(200, 120)
-      Me.Validator.SetMaxValue(Me.txtAccountBookName, "")
       Me.Validator.SetMinValue(Me.txtAccountBookName, "")
       Me.txtAccountBookName.Name = "txtAccountBookName"
       Me.txtAccountBookName.ReadOnly = True
@@ -474,7 +535,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountBookName.Size = New System.Drawing.Size(184, 20)
       Me.txtAccountBookName.TabIndex = 214
       Me.txtAccountBookName.TabStop = False
-      Me.txtAccountBookName.Text = ""
       '
       'txtAccountBookCode
       '
@@ -483,14 +543,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAccountBookCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAccountBookCode, System.Drawing.Color.Empty)
       Me.txtAccountBookCode.Location = New System.Drawing.Point(144, 120)
-      Me.Validator.SetMaxValue(Me.txtAccountBookCode, "")
       Me.Validator.SetMinValue(Me.txtAccountBookCode, "")
       Me.txtAccountBookCode.Name = "txtAccountBookCode"
       Me.Validator.SetRegularExpression(Me.txtAccountBookCode, "")
       Me.Validator.SetRequired(Me.txtAccountBookCode, False)
       Me.txtAccountBookCode.Size = New System.Drawing.Size(56, 20)
       Me.txtAccountBookCode.TabIndex = 1
-      Me.txtAccountBookCode.Text = ""
       '
       'chkPost
       '
@@ -509,7 +567,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTotalDebit, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotalDebit, System.Drawing.Color.Empty)
       Me.txtTotalDebit.Location = New System.Drawing.Point(296, 144)
-      Me.Validator.SetMaxValue(Me.txtTotalDebit, "")
       Me.Validator.SetMinValue(Me.txtTotalDebit, "")
       Me.txtTotalDebit.Name = "txtTotalDebit"
       Me.txtTotalDebit.ReadOnly = True
@@ -518,7 +575,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalDebit.Size = New System.Drawing.Size(112, 20)
       Me.txtTotalDebit.TabIndex = 196
       Me.txtTotalDebit.TabStop = False
-      Me.txtTotalDebit.Text = ""
       Me.txtTotalDebit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblTotalDebit
@@ -548,7 +604,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTotalCredit, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotalCredit, System.Drawing.Color.Empty)
       Me.txtTotalCredit.Location = New System.Drawing.Point(504, 144)
-      Me.Validator.SetMaxValue(Me.txtTotalCredit, "")
       Me.Validator.SetMinValue(Me.txtTotalCredit, "")
       Me.txtTotalCredit.Name = "txtTotalCredit"
       Me.txtTotalCredit.ReadOnly = True
@@ -557,7 +612,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalCredit.Size = New System.Drawing.Size(120, 20)
       Me.txtTotalCredit.TabIndex = 196
       Me.txtTotalCredit.TabStop = False
-      Me.txtTotalCredit.Text = ""
       Me.txtTotalCredit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblStatus
@@ -567,16 +621,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblStatus.Location = New System.Drawing.Point(16, 400)
       Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(35, 17)
+      Me.lblStatus.Size = New System.Drawing.Size(38, 13)
       Me.lblStatus.TabIndex = 193
       Me.lblStatus.Text = "Status"
       Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'ibtnShowGLFormat
       '
+      Me.ibtnShowGLFormat.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowGLFormat.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowGLFormat.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowGLFormat.Image = CType(resources.GetObject("ibtnShowGLFormat.Image"), System.Drawing.Image)
       Me.ibtnShowGLFormat.Location = New System.Drawing.Point(552, 96)
       Me.ibtnShowGLFormat.Name = "ibtnShowGLFormat"
       Me.ibtnShowGLFormat.Size = New System.Drawing.Size(24, 23)
@@ -586,9 +640,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowGLFormatDialog
       '
+      Me.ibtnShowGLFormatDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowGLFormatDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowGLFormatDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowGLFormatDialog.Image = CType(resources.GetObject("ibtnShowGLFormatDialog.Image"), System.Drawing.Image)
       Me.ibtnShowGLFormatDialog.Location = New System.Drawing.Point(528, 96)
       Me.ibtnShowGLFormatDialog.Name = "ibtnShowGLFormatDialog"
       Me.ibtnShowGLFormatDialog.Size = New System.Drawing.Size(24, 23)
@@ -598,7 +652,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnPost
       '
-      Me.ibtnPost.Image = CType(resources.GetObject("ibtnPost.Image"), System.Drawing.Image)
+      Me.ibtnPost.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnPost.Location = New System.Drawing.Point(504, 24)
       Me.ibtnPost.Name = "ibtnPost"
       Me.ibtnPost.Size = New System.Drawing.Size(72, 64)
@@ -621,57 +675,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'txtFormatName
+      'tgItem2
       '
-      Me.Validator.SetDataType(Me.txtFormatName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtFormatName, "")
-      Me.txtFormatName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtFormatName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtFormatName, System.Drawing.Color.Empty)
-      Me.txtFormatName.Location = New System.Drawing.Point(200, 96)
-      Me.Validator.SetMaxValue(Me.txtFormatName, "")
-      Me.Validator.SetMinValue(Me.txtFormatName, "")
-      Me.txtFormatName.Name = "txtFormatName"
-      Me.txtFormatName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtFormatName, "")
-      Me.Validator.SetRequired(Me.txtFormatName, False)
-      Me.txtFormatName.Size = New System.Drawing.Size(328, 21)
-      Me.txtFormatName.TabIndex = 341
-      Me.txtFormatName.Text = ""
-      '
-      'txtFormatCode
-      '
-      Me.txtFormatCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtFormatCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtFormatCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtFormatCode, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtFormatCode, System.Drawing.Color.Empty)
-      Me.txtFormatCode.Location = New System.Drawing.Point(144, 96)
-      Me.Validator.SetMaxValue(Me.txtFormatCode, "")
-      Me.Validator.SetMinValue(Me.txtFormatCode, "")
-      Me.txtFormatCode.Name = "txtFormatCode"
-      Me.Validator.SetRegularExpression(Me.txtFormatCode, "")
-      Me.Validator.SetRequired(Me.txtFormatCode, False)
-      Me.txtFormatCode.Size = New System.Drawing.Size(56, 20)
-      Me.txtFormatCode.TabIndex = 340
-      Me.txtFormatCode.Text = ""
+      Me.tgItem2.AllowNew = False
+      Me.tgItem2.AllowSorting = False
+      Me.tgItem2.AutoColumnResize = True
+      Me.tgItem2.CaptionVisible = False
+      Me.tgItem2.Cellchanged = False
+      Me.tgItem2.DataMember = ""
+      Me.tgItem2.Dock = System.Windows.Forms.DockStyle.Fill
+      Me.tgItem2.HeaderForeColor = System.Drawing.SystemColors.ControlText
+      Me.tgItem2.Location = New System.Drawing.Point(3, 3)
+      Me.tgItem2.Name = "tgItem2"
+      Me.tgItem2.Size = New System.Drawing.Size(692, 171)
+      Me.tgItem2.SortingArrowColor = System.Drawing.Color.Red
+      Me.tgItem2.TabIndex = 4
+      Me.tgItem2.TreeManager = Nothing
       '
       'GLView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "GLView"
       Me.Size = New System.Drawing.Size(744, 440)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
+      Me.TabControl1.ResumeLayout(False)
+      Me.TabPage1.ResumeLayout(False)
+      Me.TabPage2.ResumeLayout(False)
       Me.grbRefDoc.ResumeLayout(False)
+      Me.grbRefDoc.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -689,6 +729,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_enableState As Hashtable
 
     Private m_format As GLFormat
+
+    Private m_treeManager2 As TreeManager
 
 #End Region
 
@@ -714,6 +756,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
 			AddHandler dt.RowDeleted, AddressOf JEItemDelete
 
+      Dim dt2 As TreeTable = JournalEntry.GetSchemaTable()
+      Dim dst2 As DataGridTableStyle = Me.CreateDBTableStyle()
+      m_treeManager2 = New TreeManager(dt2, tgItem2)
+      m_treeManager2.SetTableStyle(dst2)
+      m_treeManager2.AllowSorting = False
+      m_treeManager2.AllowDelete = False
+      tgItem2.AllowNew = False
+
 			EventWiring()
 
 		End Sub
@@ -726,112 +776,201 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
-		Private Function CreateTableStyle() As DataGridTableStyle
-			Dim dst As New DataGridTableStyle
-			dst.MappingName = "JournalEntry"
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    ''' <summary>
+    ''' For DB Table
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Private Function CreateDBTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "JournalEntry"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-			Dim csLineNumber As New TreeTextColumn
-			csLineNumber.MappingName = "gli_linenumber"
-			csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.LineNumberHeaderText}")
-			csLineNumber.NullText = ""
-			csLineNumber.Width = 30
-			csLineNumber.DataAlignment = HorizontalAlignment.Center
-			csLineNumber.ReadOnly = True
-			csLineNumber.TextBox.Name = "gli_linenumber"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "gli_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "gli_linenumber"
 
-			Dim csCode As New TreeTextColumn
-			csCode.MappingName = "Code"
-			csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CodeHeaderText}")
-			csCode.NullText = ""
-			'csCode.ReadOnly = True
-			csCode.TextBox.Name = "Code"
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
 
-			Dim csButton As New DataGridButtonColumn
-			csButton.MappingName = "Button"
-			csButton.HeaderText = ""
-			csButton.NullText = ""
-			csButton.ButtonColor = Color.Lavender
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "Name"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DescriptionHeaderText}")
+      csName.NullText = ""
+      csName.Width = 180
+      csName.TextBox.Name = "Description"
+      csName.ReadOnly = True
 
-			Dim csName As New TreeTextColumn
-			csName.MappingName = "Name"
-			csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DescriptionHeaderText}")
-			csName.NullText = ""
-			csName.Width = 180
-			csName.TextBox.Name = "Description"
-			csName.ReadOnly = True
+      Dim csDebitAmount As New TreeTextColumn
+      csDebitAmount.MappingName = "DebitAmount"
+      csDebitAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DebitAmountHeaderText}")
+      csDebitAmount.NullText = ""
+      csDebitAmount.DataAlignment = HorizontalAlignment.Right
+      csDebitAmount.Format = "#,###.##"
+      csDebitAmount.TextBox.Name = "DebitAmount"
+      csDebitAmount.Width = 60
+      csDebitAmount.ReadOnly = True
 
-			Dim csDebitAmount As New TreeTextColumn
-			csDebitAmount.MappingName = "DebitAmount"
-			csDebitAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DebitAmountHeaderText}")
-			csDebitAmount.NullText = ""
-			csDebitAmount.DataAlignment = HorizontalAlignment.Right
-			csDebitAmount.Format = "#,###.##"
-			csDebitAmount.TextBox.Name = "DebitAmount"
-			csDebitAmount.Width = 60
+      Dim csCreditAmount As New TreeTextColumn
+      csCreditAmount.MappingName = "CreditAmount"
+      csCreditAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CreditAmountHeaderText}")
+      csCreditAmount.NullText = ""
+      csCreditAmount.DataAlignment = HorizontalAlignment.Right
+      csCreditAmount.Format = "#,###.##"
+      csCreditAmount.TextBox.Name = "CreditAmount"
+      csCreditAmount.Width = 60
+      csCreditAmount.ReadOnly = True
 
-			Dim csCreditAmount As New TreeTextColumn
-			csCreditAmount.MappingName = "CreditAmount"
-			csCreditAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CreditAmountHeaderText}")
-			csCreditAmount.NullText = ""
-			csCreditAmount.DataAlignment = HorizontalAlignment.Right
-			csCreditAmount.Format = "#,###.##"
-			csCreditAmount.TextBox.Name = "CreditAmount"
-			csCreditAmount.Width = 60
+      Dim csCCCode As New TreeTextColumn
+      csCCCode.MappingName = "CCCode"
+      csCCCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCCodeHeaderText}")
+      csCCCode.NullText = ""
+      csCCCode.TextBox.Name = "CCCode"
+      csCCCode.Width = 60
+      csCCCode.ReadOnly = True
 
-			Dim csCCCode As New TreeTextColumn
-			csCCCode.MappingName = "CCCode"
-			csCCCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCCodeHeaderText}")
-			csCCCode.NullText = ""
-			csCCCode.TextBox.Name = "CCCode"
-			csCCCode.Width = 60
-			'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-			'csUnit.DataAlignment = HorizontalAlignment.Center
+      Dim csCCName As New TreeTextColumn
+      csCCName.MappingName = "CCName"
+      csCCName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCNameHeaderText}")
+      csCCName.NullText = ""
+      csCCName.TextBox.Name = "CCName"
+      csCCName.ReadOnly = True
+      csCCName.Width = 100
 
-			Dim csCCButton As New DataGridButtonColumn
-			csCCButton.MappingName = "CCButton"
-			csCCButton.HeaderText = ""
-			csCCButton.NullText = ""
-			AddHandler csCCButton.Click, AddressOf CCClicked
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "gli_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 100
+      csNote.TextBox.Name = "gli_note"
+      csNote.ReadOnly = True
 
-			Dim csCCName As New TreeTextColumn
-			csCCName.MappingName = "CCName"
-			csCCName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCNameHeaderText}")
-			csCCName.NullText = ""
-			csCCName.TextBox.Name = "CCName"
-			csCCName.ReadOnly = True
-			csCCName.Width = 100
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csDebitAmount)
+      dst.GridColumnStyles.Add(csCreditAmount)
+      dst.GridColumnStyles.Add(csCCCode)
+      dst.GridColumnStyles.Add(csCCName)
+      dst.GridColumnStyles.Add(csNote)
 
-			Dim csNote As New TreeTextColumn
-			csNote.MappingName = "gli_note"
-			csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.NoteHeaderText}")
-			csNote.NullText = ""
-			csNote.Width = 100
-			csNote.TextBox.Name = "gli_note"
+      Return dst
+    End Function
+    Private Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "JournalEntry"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-			dst.GridColumnStyles.Add(csLineNumber)
-			dst.GridColumnStyles.Add(csCode)
-			dst.GridColumnStyles.Add(csButton)
-			dst.GridColumnStyles.Add(csName)
-			dst.GridColumnStyles.Add(csDebitAmount)
-			dst.GridColumnStyles.Add(csCreditAmount)
-			dst.GridColumnStyles.Add(csCCCode)
-			dst.GridColumnStyles.Add(csCCButton)
-			dst.GridColumnStyles.Add(csCCName)
-			dst.GridColumnStyles.Add(csNote)
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "gli_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "gli_linenumber"
 
-			For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-				m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-			Next
-			Return dst
-		End Function
-		Public Sub CCClicked(ByVal e As ButtonColumnEventArgs)
-			If e.Column = 2 Then
-				AcctButtonClick(e)
-			Else
-				CCButtonClick(e)
-			End If
-		End Sub
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      'csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
+
+      Dim csButton As New DataGridButtonColumn
+      csButton.MappingName = "Button"
+      csButton.HeaderText = ""
+      csButton.NullText = ""
+      csButton.ButtonColor = Color.Lavender
+
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "Name"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DescriptionHeaderText}")
+      csName.NullText = ""
+      csName.Width = 180
+      csName.TextBox.Name = "Description"
+      csName.ReadOnly = True
+
+      Dim csDebitAmount As New TreeTextColumn
+      csDebitAmount.MappingName = "DebitAmount"
+      csDebitAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.DebitAmountHeaderText}")
+      csDebitAmount.NullText = ""
+      csDebitAmount.DataAlignment = HorizontalAlignment.Right
+      csDebitAmount.Format = "#,###.##"
+      csDebitAmount.TextBox.Name = "DebitAmount"
+      csDebitAmount.Width = 60
+
+      Dim csCreditAmount As New TreeTextColumn
+      csCreditAmount.MappingName = "CreditAmount"
+      csCreditAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CreditAmountHeaderText}")
+      csCreditAmount.NullText = ""
+      csCreditAmount.DataAlignment = HorizontalAlignment.Right
+      csCreditAmount.Format = "#,###.##"
+      csCreditAmount.TextBox.Name = "CreditAmount"
+      csCreditAmount.Width = 60
+
+      Dim csCCCode As New TreeTextColumn
+      csCCCode.MappingName = "CCCode"
+      csCCCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCCodeHeaderText}")
+      csCCCode.NullText = ""
+      csCCCode.TextBox.Name = "CCCode"
+      csCCCode.Width = 60
+      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+      'csUnit.DataAlignment = HorizontalAlignment.Center
+
+      Dim csCCButton As New DataGridButtonColumn
+      csCCButton.MappingName = "CCButton"
+      csCCButton.HeaderText = ""
+      csCCButton.NullText = ""
+      AddHandler csCCButton.Click, AddressOf CCClicked
+
+      Dim csCCName As New TreeTextColumn
+      csCCName.MappingName = "CCName"
+      csCCName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCNameHeaderText}")
+      csCCName.NullText = ""
+      csCCName.TextBox.Name = "CCName"
+      csCCName.ReadOnly = True
+      csCCName.Width = 100
+
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "gli_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 100
+      csNote.TextBox.Name = "gli_note"
+
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csButton)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csDebitAmount)
+      dst.GridColumnStyles.Add(csCreditAmount)
+      dst.GridColumnStyles.Add(csCCCode)
+      dst.GridColumnStyles.Add(csCCButton)
+      dst.GridColumnStyles.Add(csCCName)
+      dst.GridColumnStyles.Add(csNote)
+
+      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+      Next
+      Return dst
+    End Function
+    Public Sub CCClicked(ByVal e As ButtonColumnEventArgs)
+      If e.Column = 2 Then
+        AcctButtonClick(e)
+      Else
+        CCButtonClick(e)
+      End If
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -1120,7 +1259,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			ReIndex()
 			Me.m_treeManager.Treetable.AcceptChanges()
 			Me.UpdateAmount()
-			Me.m_isInitialized = flag
+      Me.m_isInitialized = flag
+
+      Me.m_je.DBItemCollection.Populate(m_treeManager2.Treetable)
+
 		End Sub
 		Private Sub UpdateRefDoc()
 			Me.txtRefDocCode.Text = Me.m_je.RefDoc.Code
