@@ -417,28 +417,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.cmbReportType.SelectedIndex = 0
             End If
         End Sub
-        Public Overrides Function GetFilterString() As String
-
-        End Function
-        Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(3) As Filter
-            arr(0) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
-            arr(1) = New Filter("CCStart", IIf(txtStartCostCenterCode.TextLength > 0, txtStartCostCenterCode.Text, DBNull.Value))
-            arr(2) = New Filter("CCEnd", IIf(txtEndCostCenterCode.TextLength > 0, txtEndCostCenterCode.Text, DBNull.Value))
-            Dim type As BOQ.WBSReportType = BOQ.WBSReportType.GoodsReceipt
-            Select Case cmbReportType.SelectedIndex
-                Case 0
-                    type = BOQ.WBSReportType.PR
-                Case 1
-                    type = BOQ.WBSReportType.PO
-                Case 2
-                    type = BOQ.WBSReportType.GoodsReceipt
-                Case 3
-                    type = BOQ.WBSReportType.MatWithdraw
-            End Select
-            arr(3) = New Filter("WBSReportType", type)
-            Return arr
-        End Function
+    Public Overrides Function GetFilterArray() As Filter()
+      Dim arr(4) As Filter
+      arr(0) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
+      arr(1) = New Filter("CCStart", IIf(txtStartCostCenterCode.TextLength > 0, txtStartCostCenterCode.Text, DBNull.Value))
+      arr(2) = New Filter("CCEnd", IIf(txtEndCostCenterCode.TextLength > 0, txtEndCostCenterCode.Text, DBNull.Value))
+      Dim type As BOQ.WBSReportType = BOQ.WBSReportType.GoodsReceipt
+      Select Case cmbReportType.SelectedIndex
+        Case 0
+          type = BOQ.WBSReportType.PR
+        Case 1
+          type = BOQ.WBSReportType.PO
+        Case 2
+          type = BOQ.WBSReportType.GoodsReceipt
+        Case 3
+          type = BOQ.WBSReportType.MatWithdraw
+      End Select
+      arr(3) = New Filter("WBSReportType", type)
+      arr(4) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      Return arr
+    End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
             Get
                 Return Me.btnSearch

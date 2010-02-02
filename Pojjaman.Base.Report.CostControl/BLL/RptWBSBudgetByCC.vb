@@ -578,8 +578,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '        Public Overrides Sub RefreshDataSet()
 
     '        End Sub
-    '#End Region#Region "Shared"
-#End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
+    '#End Region
+
+#Region "Shared"
+#End Region
+
+#Region "Properties"
+    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "RptWBSBudgetByCC"
       End Get
@@ -613,7 +618,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
-#End Region
+#End Region
+
 #Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
       Return "RptWBSBudgetByCC"

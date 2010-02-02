@@ -1410,7 +1410,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgWBS.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgWBS.Location = New System.Drawing.Point(8, 377)
       Me.tgWBS.Name = "tgWBS"
-      Me.tgWBS.Size = New System.Drawing.Size(429, 145)
+      Me.tgWBS.Size = New System.Drawing.Size(479, 145)
       Me.tgWBS.SortingArrowColor = System.Drawing.Color.Red
       Me.tgWBS.TabIndex = 22
       Me.tgWBS.TreeManager = Nothing
@@ -1431,7 +1431,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnAddWBS.Location = New System.Drawing.Point(437, 377)
+      Me.ibtnAddWBS.Location = New System.Drawing.Point(485, 377)
       Me.ibtnAddWBS.Name = "ibtnAddWBS"
       Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
       Me.ibtnAddWBS.TabIndex = 41
@@ -1442,7 +1442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelWBS.Location = New System.Drawing.Point(461, 377)
+      Me.ibtnDelWBS.Location = New System.Drawing.Point(509, 377)
       Me.ibtnDelWBS.Name = "ibtnDelWBS"
       Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelWBS.TabIndex = 42
