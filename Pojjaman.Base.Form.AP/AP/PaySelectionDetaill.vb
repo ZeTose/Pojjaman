@@ -1902,6 +1902,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.Code = newItem.Code
               theDoc.AfterTax = newItem.AfterTax
               theDoc.RealAmount = newItem.BilledAmount
+              theDoc.BilledAmount = newItem.BilledAmount
               theDoc.Amount = newItem.Amount
               theDoc.UnpaidAmount = newItem.UnpaidAmount
               theDoc.SetType(newItem.EntityId)
