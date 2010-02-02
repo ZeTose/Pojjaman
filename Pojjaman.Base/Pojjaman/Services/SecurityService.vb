@@ -76,6 +76,7 @@ Namespace Longkong.Pojjaman.Services
       ret = dlg.ShowDialog
       If ret = DialogResult.OK Then
         Dim loginUser As User
+        User.RefreshUserTable()
         If NoPassword Then  'Hack
           loginUser = New User(dlg.UserName)
         Else
@@ -84,10 +85,23 @@ Namespace Longkong.Pojjaman.Services
         If loginUser.Originated Then
           CheckLicense()
           Me.m_curentUser = loginUser
+
+          '========================================SETUP===========================================
+          SqlHelper.CurrentConnString = RecentCompanies.CurrentCompany.ConnectionString
           UpdateAccessTable()
           Configuration.RefreshConfigurationList()
           CodeDescription.RefreshCodeList()
-                    SqlHelper.CurrentConnString = RecentCompanies.CurrentCompany.ConnectionString
+          PJMModule.RefreshPJMModuleList()
+          Access.RefreshFormAccessTable()
+          ColumnCollection.RefreshColumnList()
+          ReportColumnCollection.RefreshReportColumnList()
+          Province.RefreshProvinceList()
+          Account.RefreshEntityTable()
+          GeneralAccount.RefreshGATable()
+          CostCenter.RefreshDefaultCC()
+          CBS.RefreshTree()
+          AdvanceFindField.RefreshCodeList()
+          '========================================SETUP===========================================
         End If
       End If
       Return ret
