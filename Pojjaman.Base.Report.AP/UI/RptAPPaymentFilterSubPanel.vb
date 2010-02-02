@@ -72,6 +72,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtTemp As System.Windows.Forms.TextBox
     Friend WithEvents chkDetail As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAPPaymentFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtTemp = New System.Windows.Forms.TextBox()
@@ -219,6 +220,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAdvMoney.Size = New System.Drawing.Size(88, 16)
       Me.chkAdvMoney.TabIndex = 16
       Me.chkAdvMoney.Text = "เงินทดรองจ่าย"
+      Me.chkAdvMoney.Checked = True
       '
       'chkChq
       '
@@ -228,6 +230,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkChq.Size = New System.Drawing.Size(47, 16)
       Me.chkChq.TabIndex = 17
       Me.chkChq.Text = "เช็ค"
+      Me.chkChq.Checked = True
       '
       'chkPettyCash
       '
@@ -237,6 +240,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPettyCash.Size = New System.Drawing.Size(88, 16)
       Me.chkPettyCash.TabIndex = 15
       Me.chkPettyCash.Text = "เงินสดย่อย"
+      Me.chkPettyCash.Checked = True
       '
       'chkTransfer
       '
@@ -246,6 +250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkTransfer.Size = New System.Drawing.Size(47, 16)
       Me.chkTransfer.TabIndex = 14
       Me.chkTransfer.Text = "โอน"
+      Me.chkTransfer.Checked = True
       '
       'chkCash
       '
@@ -255,6 +260,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkCash.Size = New System.Drawing.Size(88, 16)
       Me.chkCash.TabIndex = 13
       Me.chkCash.Text = "เงินสด"
+      Me.chkCash.Checked = True
       '
       'Label2
       '
@@ -368,9 +374,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSupplierGroupStart
       '
+      Me.btnSupplierGroupStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierGroupStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSupplierGroupStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSupplierGroupStart.Image = CType(resources.GetObject("btnSupplierGroupStart.Image"), System.Drawing.Image)
       Me.btnSupplierGroupStart.Location = New System.Drawing.Point(182, 40)
       Me.btnSupplierGroupStart.Name = "btnSupplierGroupStart"
       Me.btnSupplierGroupStart.Size = New System.Drawing.Size(24, 22)
@@ -405,9 +411,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCCodeStart
       '
+      Me.btnCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
       Me.btnCCCodeStart.Location = New System.Drawing.Point(182, 87)
       Me.btnCCCodeStart.Name = "btnCCCodeStart"
       Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
@@ -463,9 +469,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSuppliEndFind
       '
+      Me.btnSuppliEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSuppliEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSuppliEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSuppliEndFind.Image = CType(resources.GetObject("btnSuppliEndFind.Image"), System.Drawing.Image)
       Me.btnSuppliEndFind.Location = New System.Drawing.Point(342, 63)
       Me.btnSuppliEndFind.Name = "btnSuppliEndFind"
       Me.btnSuppliEndFind.Size = New System.Drawing.Size(24, 22)
@@ -502,9 +508,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSuppliStartFind
       '
+      Me.btnSuppliStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSuppliStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSuppliStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSuppliStartFind.Image = CType(resources.GetObject("btnSuppliStartFind.Image"), System.Drawing.Image)
       Me.btnSuppliStartFind.Location = New System.Drawing.Point(182, 63)
       Me.btnSuppliStartFind.Name = "btnSuppliStartFind"
       Me.btnSuppliStartFind.Size = New System.Drawing.Size(24, 22)
@@ -790,15 +796,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RegisterDropdown()
       ' ประเภทการจ่าย
       CodeDescription.ListCodeDescriptionInComboBox(cmbPaymentType, "paymenti_entityType", True)
-      Dim cmbOrderbyOption(2) As String
+      Dim cmbOrderbyOption(3) As String
       cmbPaymentType.SelectedIndex = 0
       cmbOrderBy.Items.Clear()
       cmbOrderbyOption(0) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")
       cmbOrderbyOption(1) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")
       cmbOrderbyOption(2) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")
+      cmbOrderbyOption(3) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.SupplierCode}")
       cmbOrderBy.Items.Add(cmbOrderbyOption(0))
       cmbOrderBy.Items.Add(cmbOrderbyOption(1))
       cmbOrderBy.Items.Add(cmbOrderbyOption(2))
+      cmbOrderBy.Items.Add(cmbOrderbyOption(3))
       cmbOrderBy.SelectedIndex = 0
 
     End Sub
@@ -830,9 +838,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.Value = Me.DocDateEnd
       Me.chkDetail.Checked = False
     End Sub
-    Public Overrides Function GetFilterString() As String
-
-    End Function
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(14) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
