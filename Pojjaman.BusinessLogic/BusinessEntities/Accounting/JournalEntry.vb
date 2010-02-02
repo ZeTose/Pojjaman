@@ -554,7 +554,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '-------------------------------Basic--------------------------------
 
       '-------------------------------Bypass ตรงๆมาจาก Entity--------------------------------
-      Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc.GetMappingItems("Through")
+      Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc.GetExactMappingItems("Through")
       For Each matchItem As JournalEntryItem In throughMatchItems
         If Not matchItem Is Nothing Then
           Dim myItem As New JournalEntryItem
