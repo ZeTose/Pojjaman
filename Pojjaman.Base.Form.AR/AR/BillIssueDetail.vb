@@ -1091,13 +1091,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case "chksinglevat"
           If Not Me.m_entity.NoVat Then
-						'If chkSingleVat.Checked Then
-						'  Me.m_entity.GenSingleVatItem()
-						'Else
-						'  Me.m_entity.GenVatItems()
-						'End If
+            If chkSingleVat.Checked Then
+              Me.m_entity.GenSingleVatItem()
+            Else
+              Me.m_entity.GenVatItems()
+            End If
 						Me.m_entity.SingleVat = Me.chkSingleVat.Checked
-						UpdateVat()
+            'UpdateVat()
           End If
           dirtyFlag = True
           'Case "txtcode"
