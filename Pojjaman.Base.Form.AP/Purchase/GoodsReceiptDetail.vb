@@ -3218,7 +3218,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				Case "txtrealtaxamount"
 					dirtyFlag = True
 				Case "txtrealgross"
-					Me.m_entity.RealGross = Me.txtRealGross.Text
+          If IsNumeric(Me.txtRealGross.Text) Then
+            Me.m_entity.RealGross = CDec(Me.txtRealGross.Text)
+          Else
+            Me.m_entity.RealGross = 0
+          End If
 					'forceUpdateTaxBase = False
 					'forceUpdateTaxAmount = False
 					forceUpdateGross = False
