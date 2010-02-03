@@ -28,6 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Dim ShowDetail As Integer '= CInt(Me.Filters(7).Value)
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
@@ -38,10 +39,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+      ShowDetail = CInt(Me.Filters(7).Value)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
-      If CInt(Me.Filters(7).Value) <> 0 Then
+      If ShowDetail <> 0 Then
         lkg.Rows.HeaderCount = 3
         lkg.Rows.FrozenCount = 3
       Else
@@ -51,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       lkg.Refresh()
     End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       CreateHeader()
@@ -78,8 +80,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARReceive.Decrease}")    '"ยอดหักรับ"
       tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARReceive.Increase}")   '"ยอดเพิ่มรับ"
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARReceive.Amount}")   '"ยอดรับชำระ"
-
-      If CInt(Me.Filters(7).Value) <> 0 Then
+      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARReceive.GlNote}")   '"หมายเหตุ"
+      If ShowDetail <> 0 Then
         ' Level 2.
         tr = Me.m_treemanager.Treetable.Childs.Add
         tr.Tag = ""
@@ -130,7 +132,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In dt.Rows
 
         trReceive = Me.m_treemanager.Treetable.Childs.Add
-        If CInt(Me.Filters(7).Value) <> 0 Then
+        If ShowDetail <> 0 Then
           trReceive.Tag = "Font.Bold"
         End If
         If Not row.IsNull("receive_DocDate") Then
@@ -155,10 +157,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim sumRefDocBillAmt As Decimal = 0
           For Each refDocItem As DataRow In dt3.Select("receivesi_receives=" & row("receive_refDoc").ToString)
             If Not refDocItem.IsNull("stock_aftertax") Then
-              sumRefDocStockAmt += CDec(refdocitem("stock_aftertax"))
+              sumRefDocStockAmt += CDec(refDocItem("stock_aftertax"))
             End If
             If Not refDocItem.IsNull("receivesi_billedamt") Then
-              sumRefDocBillAmt += CDec(refdocitem("receivesi_billedamt"))
+              sumRefDocBillAmt += CDec(refDocItem("receivesi_billedamt"))
             End If
           Next
           trReceive("col5") = Configuration.FormatToString(sumRefDocStockAmt, DigitConfig.Price)
@@ -187,8 +189,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trReceive("col10") = Configuration.FormatToString(CDec(row("receive_gross")), DigitConfig.Price)
           sumPaysGross += CDec(row("receive_gross"))
         End If
+        If Not row.IsNull("Note") Then
+          trReceive("col11") = row("Note")
+        End If
 
-        If CInt(Me.Filters(7).Value) <> 0 Then
+        If ShowDetail <> 0 Then
           trReceive.State = RowExpandState.Expanded
 
           trReceiveType = trReceive.Childs.Add
@@ -230,11 +235,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If CInt(row("receive_refDocType")).Equals(82) Then
               For Each refDocItem As DataRow In dt3.Select("receivesi_receives=" & row("receive_refDoc").ToString)
                 trRefDocitem = trDoc.Childs.Add
-                If Not refDocItem.IsNull("DocCode") Then
-                  trRefDocitem("col1") = refDocItem("DocCode").toString
+                If Not refDocItem.IsNull("gl_code") Then
+                  trRefDocitem("col1") = refDocItem("gl_code").ToString
                 End If
                 If Not refDocItem.IsNull("entity_description") Then
-                  trRefDocitem("col2") = indent & indent & refDocItem("entity_description").toString
+                  trRefDocitem("col2") = indent & indent & refDocItem("entity_description").ToString
+                End If
+                If Not refDocItem.IsNull("DocCode") Then
+                  trRefDocitem("col3") = refDocItem("DocCode").ToString
                 End If
                 If IsDate(refDocItem("stock_docdate")) Then
                   trRefDocitem("col4") = indent & indent & CDate(refDocItem("stock_docdate")).ToShortDateString
@@ -248,14 +256,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If IsNumeric(refDocItem("receivesi_amt")) Then
                   trRefDocitem("col10") = Configuration.FormatToString(CDec(refDocItem("receivesi_amt")), DigitConfig.Price)
                 End If
+                If Not refDocItem.IsNull("Note") Then
+                  trRefDocitem("col11") = refDocItem("Note").ToString
+                End If
               Next
             Else
               trRefDocitem = trDoc.Childs.Add
-              If Not row.IsNull("receive_refdocCode") Then
-                trRefDocitem("col1") = row("receive_refdocCode").ToString
+              If Not row.IsNull("receive_Code") Then
+                trRefDocitem("col1") = row("receive_Code").ToString
               End If
               If Not row.IsNull("entity_description") Then
                 trRefDocitem("col2") = indent & indent & row("entity_description").ToString
+              End If
+              If Not row.IsNull("receive_refdocCode") Then
+                trRefDocitem("col3") = row("receive_refdocCode").ToString
               End If
               If IsDate(row("receive_refdocdate")) Then
                 trRefDocitem("col4") = indent & indent & CDate(row("receive_refdocdate")).ToShortDateString
@@ -307,6 +321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
 
       Return myDatatable
     End Function
@@ -326,10 +341,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(105)
       widths.Add(105)
       widths.Add(105)
+      widths.Add(300)
 
-      For i As Integer = 0 To 10
+      For i As Integer = 0 To 11
         If i = 1 Then
-          If CInt(Me.Filters(7).Value) <> 0 Then
+          If ShowDetail <> 0 Then
             Dim cs As New PlusMinusTreeTextColumn
             cs.MappingName = "col" & i
             cs.HeaderText = ""
@@ -361,7 +377,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.NullText = ""
           cs.Alignment = HorizontalAlignment.Left
           Select Case i
-            Case 0, 1, 2, 3, 4
+            Case 0, 1, 2, 3, 4, 11
               cs.Alignment = HorizontalAlignment.Left
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"
@@ -498,7 +514,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim i As Integer = 0
       Dim fn As Font
       Dim startRow As Integer = 2
-      If CInt(Me.Filters(7).Value) <> 0 Then
+      If ShowDetail <> 0 Then
         startRow = 4
       End If
       For rowIndex As Integer = startRow To m_grid.RowCount
