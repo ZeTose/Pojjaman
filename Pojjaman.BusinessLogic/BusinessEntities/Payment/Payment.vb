@@ -3184,6 +3184,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim tmpBACode As String = ""
         Dim tmpDescription As String = ""
 
+        Dim refRetention As Decimal = 0
+        Dim refDocRetention As Decimal = 0
+
         For Each dr As TreeRow In dt.Rows
 
           If dr.IsNull("paysi_parentEntity") OrElse CDec(dr("paysi_parentEntity")) <> 0 Then
@@ -3295,6 +3298,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "RefDocItem"
               dpiColl.Add(dpi)
 
+              refRetention = ps.GetRetentionItem(stock_id, stock_type)
+              refDocRetention += refRetention
+              'RefDocItem.Retention
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.Retention"
+              dpi.Value = Configuration.FormatToString(refRetention, DigitConfig.UnitPrice)
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
               'RefDocItem.Note
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.Note"
@@ -3371,6 +3385,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
         Next
+
+        'RefDocRetention
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocRetention"
+        dpi.Value = Configuration.FormatToString(refDocRetention, DigitConfig.UnitPrice)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
         'RefItemCode
         dpi = New DocPrintingItem
