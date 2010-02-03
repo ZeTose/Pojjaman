@@ -3793,9 +3793,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				End Select
 
 				m_entity = Value
-
+        SetRefDocGLChange()
 			End Set
-		End Property
+    End Property
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_payment Is Nothing Then
+        If TypeOf m_payment.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_payment.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
 		Private Function HasCash() As Boolean
 			For Each item As PaymentItem In Me.Payment.ItemCollection
 				If Not item Is Me Then
@@ -3865,7 +3876,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Else
 					Return
 				End If
-				m_entityType = Value
+        m_entityType = Value
+        SetRefDocGLChange()
 			End Set
 		End Property
 		Public Property DueDate() As Date
@@ -4011,7 +4023,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
 						Return
 				End Select
-				m_amount = Value
+        m_amount = Value
+        SetRefDocGLChange()
 			End Set
 		End Property
 		Public Property RealAmount() As Decimal
@@ -4075,7 +4088,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
 						Return
 				End Select
-				Me.Entity.Amount = Value
+        Me.Entity.Amount = Value
+        SetRefDocGLChange()
 			End Set
 		End Property
 		Public Property Note() As String
@@ -4220,7 +4234,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Case Else
 					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
 					Return
-			End Select
+      End Select
+      SetRefDocGLChange()
 		End Sub
 		Public Sub SetBankAccount(ByVal theCode As String)
 			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -4586,46 +4601,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Collection Methods"
-		Public Function Add(ByVal value As PaymentItem) As Integer
-			If Not m_payment Is Nothing Then
-				value.Payment = m_payment
-			End If
-			Return MyBase.List.Add(value)
-		End Function
-		Public Sub AddRange(ByVal value As PaymentItemCollection)
-			For i As Integer = 0 To value.Count - 1
-				Me.Add(value(i))
-			Next
-		End Sub
-		Public Sub AddRange(ByVal value As PaymentItem())
-			For i As Integer = 0 To value.Length - 1
-				Me.Add(value(i))
-			Next
-		End Sub
-		Public Function Contains(ByVal value As PaymentItem) As Boolean
-			Return MyBase.List.Contains(value)
-		End Function
-		Public Sub CopyTo(ByVal array As PaymentItem(), ByVal index As Integer)
-			MyBase.List.CopyTo(array, index)
-		End Sub
-		Public Shadows Function GetEnumerator() As PaymentItemEnumerator
-			Return New PaymentItemEnumerator(Me)
-		End Function
-		Public Function IndexOf(ByVal value As PaymentItem) As Integer
-			Return MyBase.List.IndexOf(value)
-		End Function
-		Public Sub Insert(ByVal index As Integer, ByVal value As PaymentItem)
-			If Not m_payment Is Nothing Then
-				value.Payment = m_payment
-			End If
-			MyBase.List.Insert(index, value)
-		End Sub
-		Public Sub Remove(ByVal value As PaymentItem)
-			MyBase.List.Remove(value)
-		End Sub
-		Public Sub Remove(ByVal index As Integer)
-			MyBase.List.RemoveAt(index)
-		End Sub
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_payment Is Nothing Then
+        If TypeOf m_payment.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_payment.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
+    Public Function Add(ByVal value As PaymentItem) As Integer
+      If Not m_payment Is Nothing Then
+        value.Payment = m_payment
+      End If
+      SetRefDocGLChange()
+      Return MyBase.List.Add(value)
+    End Function
+    Public Sub AddRange(ByVal value As PaymentItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As PaymentItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As PaymentItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As PaymentItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Shadows Function GetEnumerator() As PaymentItemEnumerator
+      Return New PaymentItemEnumerator(Me)
+    End Function
+    Public Function IndexOf(ByVal value As PaymentItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As PaymentItem)
+      If Not m_payment Is Nothing Then
+        value.Payment = m_payment
+      End If
+      SetRefDocGLChange()
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As PaymentItem)
+      SetRefDocGLChange()
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      SetRefDocGLChange()
+      MyBase.List.RemoveAt(index)
+    End Sub
 #End Region
 
 

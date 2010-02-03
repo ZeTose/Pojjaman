@@ -49,9 +49,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class GoodsReceipt
     Inherits SimpleBusinessEntityBase
-		Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
-		, ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
-	, IUnlockAble
+    Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
+    , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
+   , IUnlockAble, IGLCheckingBeforeRefresh
 
 
 #Region "Members"

@@ -7,7 +7,16 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
+  ''' <summary>
+  ''' Interface เปล่า เอาไว้แปะเพื่อให้เช็คว่า GL เปลี่ยนไหมก่อน Refresh
+  ''' ถ้าแปะที่ไหนแล้วต้องใส่ OnGlChanged ทุก Property ที่จะทำให้ GL เปลี่ยนใน Class นั้น
+  ''' </summary>
+  ''' <remarks></remarks>
+  Public Interface IGLCheckingBeforeRefresh
+  End Interface
   Public Class JournalEntryStatus
     Inherits CodeDescription
 
@@ -103,7 +112,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.gl_reftype = refType
     End Sub
-        Property DontSave As Boolean
+    Property DontSave As Boolean
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
@@ -121,6 +130,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_manualFormat = False
       End With
       m_itemCollection = New JournalEntryItemCollection(Me)
+      DBItemCollection = New JournalEntryItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -305,7 +315,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If      End Set    End Property
     Private Sub GlChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
-      RefreshGLFormat()
+      'RefreshGLFormat()
     End Sub
     Public Property RefDoctype() As Integer
       Get
@@ -519,12 +529,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.SetGLFormat(Me.GLFormat)
         End If
       End If
-      'If Not Me.ManualFormat Then
-      'If Not TypeOf Me.RefDoc Is PurchaseCN Then
-      'Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
-      'Me.SetGLFormat(Me.GLFormat)
-      'End If
-      'End If
     End Sub
     Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date) As DataTable
       Dim params(1) As SqlParameter
@@ -537,11 +541,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetGLFormat(ByVal glf As GLFormat)
       If Me.RefDoc Is Nothing Then
         Return
-            End If
+      End If
+      If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
+        Return
+      End If
 
-            If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
-                Return
-            End If
+      '===================Check ว่า GL เปลี่ยนไหม ================================
+      If TypeOf Me.RefDoc Is IGLCheckingBeforeRefresh AndAlso TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
+        If Not CType(Me.RefDoc, SimpleBusinessEntityBase).GLIsChanged Then
+          'ไม่เปลี่ยน ==> ออกเลย
+          Return
+        Else
+          'เปลี่ยน ==> เปลี่ยนกลับ แล้วไปต่อ
+          CType(Me.RefDoc, SimpleBusinessEntityBase).GLIsChanged = False
+        End If
+      End If
+      '===================Check ว่า GL เปลี่ยนไหม ================================
+
       Me.RefDoctype = CType(Me.RefDoc, IObjectReflectable).EntityId
       Dim entriesFromDoc As JournalEntryItemCollection = Me.RefDoc.GetJournalEntries
       Me.AccountBook = glf.AccountBook
@@ -769,9 +785,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-            If DontSave Then
-                Return New SaveErrorException("0")
-            End If
+      If DontSave Then
+        Return New SaveErrorException("0")
+      End If
       With Me
         If Me.ItemCollection.Count <= 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
@@ -1530,7 +1546,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ccinfo As String = ""
         Dim hascc As IHasFromCostCenter = CType(Me.RefDoc, IHasFromCostCenter)
         If Not hascc.FromCC Is Nothing Then
-          ccinfo = hascc.FromCC.Code & ":" & hascc.fromcc.Name
+          ccinfo = hascc.FromCC.Code & ":" & hascc.FromCC.Name
         End If
         'CostCenterInfo
         dpi = New DocPrintingItem
@@ -1723,6 +1739,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+    Public Sub SortDebitCredit()
+      Dim debitList As New List(Of JournalEntryItem)
+      Dim creditList As New List(Of JournalEntryItem)
+      For Each item As JournalEntryItem In Me.ItemCollection
+        If item.IsDebit Then
+          debitList.Add(item)
+        Else
+          creditList.Add(item)
+        End If
+      Next
+      Me.ItemCollection.Clear()
+      For Each debitItem As JournalEntryItem In debitList
+        Me.ItemCollection.Add(debitItem)
+      Next
+      For Each creditItem As JournalEntryItem In creditList
+        Me.ItemCollection.Add(creditItem)
+      Next
+    End Sub
   End Class
 
   Public Class JournalEntryUpdate

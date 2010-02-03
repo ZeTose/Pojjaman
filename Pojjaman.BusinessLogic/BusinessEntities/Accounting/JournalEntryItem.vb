@@ -245,6 +245,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Sub MoveItemUp(ByVal item As JournalEntryItem)
+      Dim currIndex As Integer = Me.IndexOf(item)
+      If currIndex <= 0 Then
+        Return
+      End If
+      Me.Remove(item)
+      Me.Insert(currIndex - 1, item)
+    End Sub
+    Public Sub MoveItemDown(ByVal item As JournalEntryItem)
+      Dim currIndex As Integer = Me.IndexOf(item)
+      If currIndex >= Me.Count - 1 Then
+        Return
+      End If
+      Me.Remove(item)
+      If currIndex = Me.Count - 1 Then
+        Me.Add(item)
+      Else
+        Me.Insert(currIndex + 1, item)
+      End If
+    End Sub
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0

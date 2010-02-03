@@ -1234,7 +1234,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return MyBase.ToString
     End Function
 
+    Property GLIsChanged As Boolean = False
     Public Sub OnGlChanged()
+      Me.GLIsChanged = True
       RaiseEvent GlChanged(Me, Nothing)
     End Sub
 
