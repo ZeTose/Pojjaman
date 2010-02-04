@@ -55,7 +55,7 @@ Namespace Longkong.AdobeForm
     Private Sub ProcessXmlNode(ByVal xmlnode As XmlNode)
       'columnWidths
       Dim cols As String()
-      Dim foundedNode As xmlnode
+      Dim foundedNode As XmlNode
       If Not xmlnode.Attributes("columnWidths") Is Nothing Then
         cols = xmlnode.Attributes("columnWidths").Value.Split(" "c)
         Dim nodes As XmlNodeList = xmlnode.SelectNodes("subform")
@@ -63,7 +63,7 @@ Namespace Longkong.AdobeForm
           Me.m_rowsPerPage = nodes.Count
           Me.m_rowsPerLastPage = Me.m_rowsPerPage
           For i As Integer = 0 To nodes.Count - 1
-            Dim cell As xmlnode = nodes(i).SelectSingleNode("draw")
+            Dim cell As XmlNode = nodes(i).SelectSingleNode("draw")
             If Not cell Is Nothing Then
               Dim t As New TextControl(cell)
               If Not t.Caption Is Nothing AndAlso t.Caption.ToLower = "lastrow" Then
@@ -78,7 +78,7 @@ Namespace Longkong.AdobeForm
           Dim cells As XmlNodeList = foundedNode.SelectNodes("draw")
           If Not cells Is Nothing Then
             For i As Integer = 0 To cells.Count - 1
-              Dim node As xmlnode = cells(i)
+              Dim node As XmlNode = cells(i)
               Dim cell As New TextControl(node)
               If i = 0 Then
                 Me.m_rowHeight = cell.Height
@@ -97,10 +97,21 @@ Namespace Longkong.AdobeForm
       If Not xmlnode.Attributes("name") Is Nothing Then
         Me.TableName = xmlnode.Attributes("name").Value
       End If
+      If Not xmlnode.Attributes("presence") Is Nothing Then
+        Me.LastPage = (xmlnode.Attributes("presence").Value.ToLower = "invisible")
+      End If
     End Sub
 #End Region
 
 #Region "Properties"
+    ''' <summary>
+    ''' บอกว่า Table นี้แสดงเฉพาะหน้าสุดท้าย
+    ''' ใช้ Precence: Invisible ใน Adobe ครับ
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property LastPage As Boolean
     Public Property CellTopEdge() As Edge      Get        Return m_cellTopEdge      End Get      Set(ByVal Value As Edge)        m_cellTopEdge = Value      End Set    End Property    Public Property CellBottomEdge() As Edge      Get        Return m_cellBottomEdge      End Get      Set(ByVal Value As Edge)        m_cellBottomEdge = Value      End Set    End Property
     Public Overrides Property Height() As Integer
       Get

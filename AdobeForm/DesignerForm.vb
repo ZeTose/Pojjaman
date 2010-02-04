@@ -1336,256 +1336,258 @@ Namespace Longkong.AdobeForm
 						If ProcessControl(ctrl, f) Then
 							ctrl.Draw(pe.Graphics)
 						End If
-					Else
-						Dim tb As TableControl = CType(ctrl, TableControl)
-						tb.Draw(pe.Graphics)
-						If Not m_tableColl Is Nothing Then
-							Dim startRow As Integer = tb.CurrentRow + 1
-							Dim verticalInterval As Integer = 5
-							Dim horizontalInterval As Integer = 5
-							Dim currentPageRow As Integer = 0
-							Dim rowOffset As Integer = 0
-							For i As Integer = startRow To (tb.RowsPerPage + startRow - 1)
-								If i > tb.RowCount Then
-									'เกินจำนวนแล้ว
-									Exit For
-								End If
+          Else            
+            Dim tb As TableControl = CType(ctrl, TableControl)
+            If Me.m_pageCount = 1 OrElse Not tb.LastPage OrElse Me.m_currentPage = Me.m_pageCount Then
+              tb.Draw(pe.Graphics)
+              If Not m_tableColl Is Nothing Then
+                Dim startRow As Integer = tb.CurrentRow + 1
+                Dim verticalInterval As Integer = 5
+                Dim horizontalInterval As Integer = 5
+                Dim currentPageRow As Integer = 0
+                Dim rowOffset As Integer = 0
+                For i As Integer = startRow To (tb.RowsPerPage + startRow - 1)
+                  If i > tb.RowCount Then
+                    'เกินจำนวนแล้ว
+                    Exit For
+                  End If
 
-								'---------------แบบนี้จะไปขึ้นหน้าสุดท้ายแบบตลกๆ
-								'Dim checking As Integer = tb.RowsPerPage
-								'If Me.m_currentPage = Me.m_pageCount - 1 Then
-								'    checking = tb.RowsPerLastPage
-								'End If
-								'If currentPageRow + rowOffset + 1 > checking Then
-								'    'เกินจำนวนแล้ว
-								'    Exit For
-								'End If
-								'----------------------------------------------------
+                  '---------------แบบนี้จะไปขึ้นหน้าสุดท้ายแบบตลกๆ
+                  'Dim checking As Integer = tb.RowsPerPage
+                  'If Me.m_currentPage = Me.m_pageCount - 1 Then
+                  '    checking = tb.RowsPerLastPage
+                  'End If
+                  'If currentPageRow + rowOffset + 1 > checking Then
+                  '    'เกินจำนวนแล้ว
+                  '    Exit For
+                  'End If
+                  '----------------------------------------------------
 
-								If currentPageRow + rowOffset + 1 > tb.RowsPerPage Then
-									'เกินจำนวนแล้ว
-									Exit For
-								End If
-
-
-								tb.CurrentRow = i
-								Dim colOffset As Integer = 0
-								Dim maxLines As Integer = 0
-								Dim rowInfoItem As DocPrintingItem
-								rowInfoItem = Me.ParseTableItem(tb.TableName, "Group Level", i)
-								For Each col As Column In tb.Columns
-									colOffset = col.Width + colOffset
-									Dim _DataType As String = ""
-									Dim _Value As Object = Nothing
-									Dim _Mapping As String = ""
-									Dim _LineStyle As Integer = 0
-									Dim _Font As Font = Nothing
-									Dim item As DocPrintingItem = Nothing
-									Dim data As String = ""
-
-									If col.ReportField Like "=*" Then
-										data = col.ReportField.Replace("=", "")
-										data = ProcessTableItem(tb.TableName, data, i)
-									Else
-										item = Me.ParseTableItem(tb.TableName, col.ReportField, i)
-										If Not item Is Nothing Then
-											If Not item.DataType Is Nothing Then
-												_DataType = item.DataType
-											End If
-											If Not item.Value Is Nothing Then
-												_Value = item.Value
-											End If
-											If Not item.Mapping Is Nothing Then
-                        _Mapping = item.Mapping.ToLower
-											End If
-											_LineStyle = item.LineStyle
-											If Not item.Font Is Nothing Then
-												_Font = item.Font
-											End If
-										End If
-									End If
-
-									If Not (_Value Is Nothing) And Not (_Mapping = "") Then
-										Dim oldValue As Decimal = 0
-										If Me.m_sumPageColHash.Contains(_Mapping) Then
-											If rowInfoItem Is Nothing OrElse (Not (rowInfoItem Is Nothing) AndAlso (CStr(rowInfoItem.Value) = "0")) Then
-
-                        Dim obj As Object = Me.m_sumPageHash(_Mapping)
-												If IsNumeric(obj) Then
-													oldValue = CDec(obj)
-												End If
-												If IsNumeric(item.Value) Then
-													Me.m_sumPageHash(_Mapping) = oldValue + Configuration.Format(CDec(_Value), DigitConfig.Price)
-												End If
-
-											End If
-										End If
-									End If
-
-									If Not (_Value Is Nothing) And Not (_DataType = "") Then
-										If _DataType = "System.Boolean" Then
-											If CBool(item.Value) = True Then
-												Dim glyphSize As Integer = 15
-												Dim startPoint As Integer
-												Select Case col.Alignment
-													Case HorizontalAlignment.Center
-														startPoint = CInt((col.Width / 2) - (glyphSize / 2)) + colOffset - col.Width
-													Case HorizontalAlignment.Left
-														startPoint = colOffset - col.Width + horizontalInterval
-													Case HorizontalAlignment.Right
-														startPoint = CInt(colOffset - glyphSize - horizontalInterval)
-												End Select
-												ControlPaint.DrawMenuGlyph(pe.Graphics, tb.Location.X + startPoint, tb.Location.Y + (i - startRow) * tb.RowHeight + verticalInterval, glyphSize, glyphSize, MenuGlyph.Checkmark)
-											End If
-										Else
-											Select Case _DataType.ToLower
-												Case "system.datetime"
-													If IsDate(_Value) Then
-														Dim itemDate As DateTime = CDate(_Value)
-														data = itemDate.ToShortDateString
-													Else
-														data = _Value.ToString
-													End If
-												Case "system.integer"
-													Dim itemValue As Integer
-													If _Value.ToString.Length > 0 Then
-														If IsNumeric(_Value) Then
-															itemValue = CInt(_Value)
-															data = Configuration.FormatToString(itemValue, DigitConfig.Int)
-														Else
-															data = _Value.ToString
-														End If
-													Else
-														data = _Value.ToString
-													End If
-												Case "system.decimal"
-													Dim itemValue As Decimal
-													If _Value.ToString.Length > 0 Then
-														If IsNumeric(_Value) Then
-															itemValue = CDec(_Value)
-															If itemvalue = 0 Then
-																data = ""
-															Else
-																data = Configuration.FormatToString(itemValue, DigitConfig.Price)
-															End If
-														Else
-															data = _Value.ToString
-														End If
-													Else
-														data = _Value.ToString
-													End If
-												Case Else
-													data = _Value.ToString
-											End Select
-										End If
-										'Else
-										'	data = ProcessTableItem(tb.TableName, data, i)
-									End If
-
-									If Not (data = "") Then
+                  If currentPageRow + rowOffset + 1 > tb.RowsPerPage Then
+                    'เกินจำนวนแล้ว
+                    Exit For
+                  End If
 
 
-										Dim dataFont As Font
-										If Not col.Font Is Nothing Then
-											dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
-										ElseIf Not _Font Is Nothing Then
-											dataFont = New Font(_Font.FontFamily.Name, _Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
-										Else
-											dataFont = New Font(tb.Font.FontFamily.Name, tb.Font.Size, tb.Font.Style, System.Drawing.GraphicsUnit.Point, tb.Font.GdiCharSet)
-										End If
-										Dim stf As New StringFormat
-										stf.Trimming = StringTrimming.None
-										stf.FormatFlags = StringFormatFlags.NoClip
-										Select Case col.Alignment
-											Case HorizontalAlignment.Center
-												stf.LineAlignment = StringAlignment.Near
-												stf.Alignment = StringAlignment.Center
-											Case HorizontalAlignment.Left
-												stf.LineAlignment = StringAlignment.Near
-												stf.Alignment = StringAlignment.Near
-											Case HorizontalAlignment.Right
-												stf.LineAlignment = StringAlignment.Near
-												stf.Alignment = StringAlignment.Far
-										End Select
-										Dim innerRow() As String = Split(data, "|br|")
-										Dim p As New PointF(0, 0)
-										Dim indentSize As SizeF = g.MeasureString("|", dataFont, p, stf)
-										Dim x1 As Integer
-										Dim y1 As Integer
+                  tb.CurrentRow = i
+                  Dim colOffset As Integer = 0
+                  Dim maxLines As Integer = 0
+                  Dim rowInfoItem As DocPrintingItem
+                  rowInfoItem = Me.ParseTableItem(tb.TableName, "Group Level", i)
+                  For Each col As Column In tb.Columns
+                    colOffset = col.Width + colOffset
+                    Dim _DataType As String = ""
+                    Dim _Value As Object = Nothing
+                    Dim _Mapping As String = ""
+                    Dim _LineStyle As Integer = 0
+                    Dim _Font As Font = Nothing
+                    Dim item As DocPrintingItem = Nothing
+                    Dim data As String = ""
 
-										If innerRow.Length > 1 Then
-											Dim allLine As Integer = 0
-											For irow As Integer = 0 To innerRow.Length - 1 Step 1
-												Dim textSize As SizeF = g.MeasureString(Trim(innerRow(irow)), dataFont, p, stf)
-												Dim indent As Integer = indentSize.Width * IndentCount(innerRow(irow))
-												Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))												'+6?
-												allLine += lines
-											Next
-											maxLines = allLine
-											If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
-												'เกินจำนวนแล้ว
-												tb.CurrentRow -= 1
-												Exit For
-											End If
-											Dim passLine As Integer = 0
-											For irow As Integer = 0 To innerRow.Length - 1 Step 1
-												x1 = (tb.Location.X + colOffset) - col.Width
-												y1 = tb.Location.Y + ((i - startRow + rowOffset + passLine) * tb.RowHeight)
-												Dim textSize As SizeF = g.MeasureString(Trim(innerRow(irow)), dataFont, p, stf)
-												Dim indent As Integer = indentSize.Width * IndentCount(innerRow(irow))
-												Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))												'+6?
-												passLine += lines
-												Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
-												pe.Graphics.DrawString(Trim(innerRow(irow)), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
-											Next
-										Else
-											x1 = (tb.Location.X + colOffset) - col.Width
-											y1 = tb.Location.Y + ((i - startRow + rowOffset) * tb.RowHeight)
-											Dim textSize As SizeF = g.MeasureString(Trim(data), dataFont, p, stf)
-											Dim indent As Integer = indentSize.Width * IndentCount(data)
-											Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))											'+6?
-											If lines > maxLines Then
-												maxLines = lines
-											End If
-											If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
-												'เกินจำนวนแล้ว
-												tb.CurrentRow -= 1
-												Exit For
-											End If
-											Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
-											pe.Graphics.DrawString(Trim(data), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
+                    If col.ReportField Like "=*" Then
+                      data = col.ReportField.Replace("=", "")
+                      data = ProcessTableItem(tb.TableName, data, i)
+                    Else
+                      item = Me.ParseTableItem(tb.TableName, col.ReportField, i)
+                      If Not item Is Nothing Then
+                        If Not item.DataType Is Nothing Then
+                          _DataType = item.DataType
+                        End If
+                        If Not item.Value Is Nothing Then
+                          _Value = item.Value
+                        End If
+                        If Not item.Mapping Is Nothing Then
+                          _Mapping = item.Mapping.ToLower
+                        End If
+                        _LineStyle = item.LineStyle
+                        If Not item.Font Is Nothing Then
+                          _Font = item.Font
+                        End If
+                      End If
+                    End If
 
-										End If
+                    If Not (_Value Is Nothing) And Not (_Mapping = "") Then
+                      Dim oldValue As Decimal = 0
+                      If Me.m_sumPageColHash.Contains(_Mapping) Then
+                        If rowInfoItem Is Nothing OrElse (Not (rowInfoItem Is Nothing) AndAlso (CStr(rowInfoItem.Value) = "0")) Then
 
-										' DrawLine Style
-										x1 = (tb.Location.X + colOffset) - col.Width
-										y1 = tb.Location.Y + ((i - startRow + rowOffset) * tb.RowHeight)
-										Select Case _LineStyle
-											Case 0											'None
-											Case 1											'Single
-												pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines), x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines))
-											Case 2											'Double
-												pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines) - 2, x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines) - 2)
-												pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines) - 4, x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines) - 4)
-										End Select
-									End If
+                          Dim obj As Object = Me.m_sumPageHash(_Mapping)
+                          If IsNumeric(obj) Then
+                            oldValue = CDec(obj)
+                          End If
+                          If IsNumeric(item.Value) Then
+                            Me.m_sumPageHash(_Mapping) = oldValue + Configuration.Format(CDec(_Value), DigitConfig.Price)
+                          End If
 
-								Next								'Col
-								'''''
-								currentPageRow += 1
-								If maxLines > 1 Then
-									rowOffset += maxLines - 1
-								End If
-							Next							'Row
-							If Me.m_countPage Then
-								If Me.m_rowOffsetHash.Contains(Me.m_currentPage - 1) Then
-									Me.m_rowOffsetHash(Me.m_currentPage) = rowOffset + Me.m_rowOffsetHash(Me.m_currentPage - 1)
-								Else
-									Me.m_rowOffsetHash(Me.m_currentPage) = rowOffset
-								End If
-							End If
-						End If
-						eot = eot And tb.EndOfTable
+                        End If
+                      End If
+                    End If
+
+                    If Not (_Value Is Nothing) And Not (_DataType = "") Then
+                      If _DataType = "System.Boolean" Then
+                        If CBool(item.Value) = True Then
+                          Dim glyphSize As Integer = 15
+                          Dim startPoint As Integer
+                          Select Case col.Alignment
+                            Case HorizontalAlignment.Center
+                              startPoint = CInt((col.Width / 2) - (glyphSize / 2)) + colOffset - col.Width
+                            Case HorizontalAlignment.Left
+                              startPoint = colOffset - col.Width + horizontalInterval
+                            Case HorizontalAlignment.Right
+                              startPoint = CInt(colOffset - glyphSize - horizontalInterval)
+                          End Select
+                          ControlPaint.DrawMenuGlyph(pe.Graphics, tb.Location.X + startPoint, tb.Location.Y + (i - startRow) * tb.RowHeight + verticalInterval, glyphSize, glyphSize, MenuGlyph.Checkmark)
+                        End If
+                      Else
+                        Select Case _DataType.ToLower
+                          Case "system.datetime"
+                            If IsDate(_Value) Then
+                              Dim itemDate As DateTime = CDate(_Value)
+                              data = itemDate.ToShortDateString
+                            Else
+                              data = _Value.ToString
+                            End If
+                          Case "system.integer"
+                            Dim itemValue As Integer
+                            If _Value.ToString.Length > 0 Then
+                              If IsNumeric(_Value) Then
+                                itemValue = CInt(_Value)
+                                data = Configuration.FormatToString(itemValue, DigitConfig.Int)
+                              Else
+                                data = _Value.ToString
+                              End If
+                            Else
+                              data = _Value.ToString
+                            End If
+                          Case "system.decimal"
+                            Dim itemValue As Decimal
+                            If _Value.ToString.Length > 0 Then
+                              If IsNumeric(_Value) Then
+                                itemValue = CDec(_Value)
+                                If itemValue = 0 Then
+                                  data = ""
+                                Else
+                                  data = Configuration.FormatToString(itemValue, DigitConfig.Price)
+                                End If
+                              Else
+                                data = _Value.ToString
+                              End If
+                            Else
+                              data = _Value.ToString
+                            End If
+                          Case Else
+                            data = _Value.ToString
+                        End Select
+                      End If
+                      'Else
+                      '	data = ProcessTableItem(tb.TableName, data, i)
+                    End If
+
+                    If Not (data = "") Then
+
+
+                      Dim dataFont As Font
+                      If Not col.Font Is Nothing Then
+                        dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                      ElseIf Not _Font Is Nothing Then
+                        dataFont = New Font(_Font.FontFamily.Name, _Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                      Else
+                        dataFont = New Font(tb.Font.FontFamily.Name, tb.Font.Size, tb.Font.Style, System.Drawing.GraphicsUnit.Point, tb.Font.GdiCharSet)
+                      End If
+                      Dim stf As New StringFormat
+                      stf.Trimming = StringTrimming.None
+                      stf.FormatFlags = StringFormatFlags.NoClip
+                      Select Case col.Alignment
+                        Case HorizontalAlignment.Center
+                          stf.LineAlignment = StringAlignment.Near
+                          stf.Alignment = StringAlignment.Center
+                        Case HorizontalAlignment.Left
+                          stf.LineAlignment = StringAlignment.Near
+                          stf.Alignment = StringAlignment.Near
+                        Case HorizontalAlignment.Right
+                          stf.LineAlignment = StringAlignment.Near
+                          stf.Alignment = StringAlignment.Far
+                      End Select
+                      Dim innerRow() As String = Split(data, "|br|")
+                      Dim p As New PointF(0, 0)
+                      Dim indentSize As SizeF = g.MeasureString("|", dataFont, p, stf)
+                      Dim x1 As Integer
+                      Dim y1 As Integer
+
+                      If innerRow.Length > 1 Then
+                        Dim allLine As Integer = 0
+                        For irow As Integer = 0 To innerRow.Length - 1 Step 1
+                          Dim textSize As SizeF = g.MeasureString(Trim(innerRow(irow)), dataFont, p, stf)
+                          Dim indent As Integer = indentSize.Width * IndentCount(innerRow(irow))
+                          Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))                        '+6?
+                          allLine += lines
+                        Next
+                        maxLines = allLine
+                        If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
+                          'เกินจำนวนแล้ว
+                          tb.CurrentRow -= 1
+                          Exit For
+                        End If
+                        Dim passLine As Integer = 0
+                        For irow As Integer = 0 To innerRow.Length - 1 Step 1
+                          x1 = (tb.Location.X + colOffset) - col.Width
+                          y1 = tb.Location.Y + ((i - startRow + rowOffset + passLine) * tb.RowHeight)
+                          Dim textSize As SizeF = g.MeasureString(Trim(innerRow(irow)), dataFont, p, stf)
+                          Dim indent As Integer = indentSize.Width * IndentCount(innerRow(irow))
+                          Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))                        '+6?
+                          passLine += lines
+                          Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
+                          pe.Graphics.DrawString(Trim(innerRow(irow)), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
+                        Next
+                      Else
+                        x1 = (tb.Location.X + colOffset) - col.Width
+                        y1 = tb.Location.Y + ((i - startRow + rowOffset) * tb.RowHeight)
+                        Dim textSize As SizeF = g.MeasureString(Trim(data), dataFont, p, stf)
+                        Dim indent As Integer = indentSize.Width * IndentCount(data)
+                        Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))                      '+6?
+                        If lines > maxLines Then
+                          maxLines = lines
+                        End If
+                        If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
+                          'เกินจำนวนแล้ว
+                          tb.CurrentRow -= 1
+                          Exit For
+                        End If
+                        Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
+                        pe.Graphics.DrawString(Trim(data), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
+
+                      End If
+
+                      ' DrawLine Style
+                      x1 = (tb.Location.X + colOffset) - col.Width
+                      y1 = tb.Location.Y + ((i - startRow + rowOffset) * tb.RowHeight)
+                      Select Case _LineStyle
+                        Case 0                      'None
+                        Case 1                      'Single
+                          pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines), x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines))
+                        Case 2                      'Double
+                          pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines) - 2, x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines) - 2)
+                          pe.Graphics.DrawLine(Pens.Black, x1 + 5, y1 + (tb.RowHeight * maxLines) - 4, x1 + col.Width - 5, y1 + (tb.RowHeight * maxLines) - 4)
+                      End Select
+                    End If
+
+                  Next                'Col
+                  '''''
+                  currentPageRow += 1
+                  If maxLines > 1 Then
+                    rowOffset += maxLines - 1
+                  End If
+                Next              'Row
+                If Me.m_countPage Then
+                  If Me.m_rowOffsetHash.Contains(Me.m_currentPage - 1) Then
+                    Me.m_rowOffsetHash(Me.m_currentPage) = rowOffset + Me.m_rowOffsetHash(Me.m_currentPage - 1)
+                  Else
+                    Me.m_rowOffsetHash(Me.m_currentPage) = rowOffset
+                  End If
+                End If
+              End If
+              eot = eot And tb.EndOfTable
+            End If 'Me.m_pageCount = 1 OrElse Not tb.LastPage OrElse Me.m_currentPage = Me.m_pageCount Then
 					End If					' IS TABLE
 				Next
 			Catch ex As Exception
