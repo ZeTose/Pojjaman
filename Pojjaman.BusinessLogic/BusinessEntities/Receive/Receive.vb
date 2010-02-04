@@ -2114,7 +2114,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 										dpiColl.Add(dpi)
 									End If
 								End If
-							End If
+              End If
+
+              If itIsBto Then
+                Dim bti As BankTransferIn = CType(item.Entity, BankTransferIn)
+                If Not bti Is Nothing Then
+                  'ReceiveItem.BankName
+                  dpi = New DocPrintingItem
+                  dpi.Mapping = tableName & ".TransferDate"
+                  dpi.Value = bti.DocDate.ToShortDateString
+                  dpi.DataType = "System.String"
+                  dpi.Row = n + 1
+                  dpi.Table = tableName
+                  dpiColl.Add(dpi)
+                End If
+              End If
+
 
 							n += 1
 
