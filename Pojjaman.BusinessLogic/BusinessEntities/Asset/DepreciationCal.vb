@@ -1129,11 +1129,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.ToCostcenter = Value
       End Set
     End Property
-
-
+    
   End Class
 
-  ' Item Class
+  'Item Class
   Public Class DepreciationCalItem
 
 #Region "Members"
@@ -1257,7 +1256,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("asset_startCalcDate") = Me.DepreciationCal.ValidDateOrDBNull(Me.Entity.StartCalcDate)
 
         ' คำนวณค่า
-        Me.DepreciationCalculation(Me.Entity)
+        'Me.DepreciationCalculation(Me.Entity)
+        Me.GetDepreciationFromDB(Me.Entity, Me.DepreciationCal.DepreDate)
 
         row("deprei_note") = Me.Note
         row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
@@ -1340,6 +1340,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_remainingamnt
       End Get
     End Property
+    Public Sub GetDepreciationFromDB(ByVal myAsset As Asset, ByVal DepreDate As DateTime)
+      If myAsset Is Nothing OrElse Not myAsset.Originated Then
+        Return
+      End If
+
+      Dim ds As New DataSet
+
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+        ds = SqlHelper.ExecuteDataset(sqlConString _
+        , CommandType.StoredProcedure _
+        , "AssetDepreciation" _
+        , New SqlParameter("@AssetId", myAsset.Id) _
+        , New SqlParameter("@DocDateEnd", DepreDate))
+
+        If ds.Tables(0).Rows.Count > 0 Then
+          m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
+          m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount")) + m_depreamnt
+        End If
+      Catch ex As Exception
+
+      End Try
+    End Sub
     Public Sub DepreciationCalculation(ByVal myAsset As Asset)
       If myAsset Is Nothing OrElse Not myAsset.Originated Then
         Return

@@ -162,7 +162,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currAssetIndex, 1).CellValue = indent & no.ToString
         m_grid(currAssetIndex, 2).CellValue = indent & darow.GetValue(Of String)("asset_code")
         m_grid(currAssetIndex, 3).CellValue = indent & darow.GetValue(Of String)("asset_name")
-        m_grid(currAssetIndex, 4).CellValue = indent & darow.GetValue(Of DateTime)("AcctName").ToShortDateString
+        m_grid(currAssetIndex, 4).CellValue = indent & darow.GetValue(Of DateTime)("asset_buyDate").ToShortDateString
         m_grid(currAssetIndex, 5).CellValue = indent & darow.GetValue(Of String)("cc_code")
         m_grid(currAssetIndex, 6).CellValue = indent & darow.GetValue(Of String)("cc_name")
         m_grid(currAssetIndex, 7).CellValue = indent & Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_buyPrice"), DigitConfig.Price)
