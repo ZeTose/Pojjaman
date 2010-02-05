@@ -4174,6 +4174,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
         '--------------------- WBS Section ------------------
+        Dim WBSCCCode As String = ""
+        Dim WBSCCName As String = ""
+        Dim WBSCCInfo As String = ""
         Dim WBSCode As String = ""
         Dim WBSCodePercent As String = ""
         Dim WBSCodeAmount As String = ""
@@ -4183,6 +4186,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Populate ให้คำนวณคงเหลือแบบหลอกๆ
           'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
           If item.WBSDistributeCollection.Count = 1 Then
+            WBSCCCode = item.WBSDistributeCollection.Item(0).CostCenter.Code
+            WBSCCName = item.WBSDistributeCollection.Item(0).CostCenter.Name
+            WBSCCInfo = item.WBSDistributeCollection.Item(0).CostCenter.Name
             WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
             WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
             WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price) & ")"
@@ -4191,12 +4197,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             Dim i As Integer
             For i = 0 To item.WBSDistributeCollection.Count - 1
+              WBSCCCode &= item.WBSDistributeCollection.Item(i).CostCenter.Code
+              WBSCCName &= item.WBSDistributeCollection.Item(i).CostCenter.Name
+              WBSCCInfo &= item.WBSDistributeCollection.Item(i).CostCenter.Code & ":" & item.WBSDistributeCollection.Item(i).CostCenter.Name
               WBSCode &= item.WBSDistributeCollection.Item(i).WBS.Code
               WBSCodePercent &= item.WBSDistributeCollection.Item(i).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(i).Percent, DigitConfig.Price) & "%)"
               WBSCodeAmount &= item.WBSDistributeCollection.Item(i).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(i).Amount, DigitConfig.Price) & ")"
               WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).BudgetRemain, DigitConfig.Price)
               WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).QtyRemain, DigitConfig.Price)
               If i < item.WBSDistributeCollection.Count - 1 Then
+                WBSCCCode &= ", "
+                WBSCCName &= ", "
+                WBSCCInfo &= ", "
                 WBSCode &= ", "
                 WBSCodePercent &= ", "
                 WBSCodeAmount &= ", "
@@ -4206,6 +4218,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
           End If
         End If
+
+        'Item.WBSCCCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCCName"
+        dpi.Value = WBSCCCode
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSCCName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCCName"
+        dpi.Value = WBSCCName
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSCCInfo
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCCInfo"
+        dpi.Value = WBSCCInfo
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.WBSCode
         dpi = New DocPrintingItem
