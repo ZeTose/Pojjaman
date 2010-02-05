@@ -877,7 +877,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If sitem.Level = 0 Then
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
-          If sitem.Amount <> m_value Then
+          If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
               Me.RecalculateAmount()
             Else
@@ -890,22 +890,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
           '  New String() {Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(sitem.ChildAmount, DigitConfig.Price)})
           'End If
-          If sitem.Mat <> sitem.ChildMat Then 'รายการ "{0}" Mat {1} ผลรวม Mat {2} รายการย่อยไม่เท่ากัน 
+          If Configuration.Format(sitem.Mat, DigitConfig.Price) <> Configuration.Format(sitem.ChildMat, DigitConfig.Price) Then 'รายการ "{0}" Mat {1} ผลรวม Mat {2} รายการย่อยไม่เท่ากัน 
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverMat}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Mat, DigitConfig.Price), Configuration.FormatToString(sitem.ChildMat, DigitConfig.Price)})
           End If
-          If sitem.Lab <> sitem.ChildLab Then 'รายการ "{0}" Lab {1} ผลรวม Lab {2} รายการย่อยไม่เท่ากัน 
+          If Configuration.Format(sitem.Lab, DigitConfig.Price) <> Configuration.Format(sitem.ChildLab, DigitConfig.Price) Then 'รายการ "{0}" Lab {1} ผลรวม Lab {2} รายการย่อยไม่เท่ากัน 
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverLab}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Lab, DigitConfig.Price), Configuration.FormatToString(sitem.ChildLab, DigitConfig.Price)})
           End If
-          If sitem.Eq <> sitem.ChildEq Then 'รายการ "{0}" Eq {1} ผลรวม Eq {2} รายการย่อยไม่เท่ากัน 
+          If Configuration.Format(sitem.Eq, DigitConfig.Price) <> Configuration.Format(sitem.ChildEq, DigitConfig.Price) Then 'รายการ "{0}" Eq {1} ผลรวม Eq {2} รายการย่อยไม่เท่ากัน 
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverEq}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Eq, DigitConfig.Price), Configuration.FormatToString(sitem.ChildEq, DigitConfig.Price)})
           End If
 
         Else
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
-          If sitem.Amount <> m_value Then
+          If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
