@@ -4188,7 +4188,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.WBSDistributeCollection.Count = 1 Then
             WBSCCCode = item.WBSDistributeCollection.Item(0).CostCenter.Code
             WBSCCName = item.WBSDistributeCollection.Item(0).CostCenter.Name
-            WBSCCInfo = item.WBSDistributeCollection.Item(i).CostCenter.Code & ":" & item.WBSDistributeCollection.Item(i).CostCenter.Name
+            WBSCCInfo = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Name
             WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
             WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
             WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price) & ")"

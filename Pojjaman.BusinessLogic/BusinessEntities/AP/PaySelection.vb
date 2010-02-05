@@ -861,8 +861,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
     Public Function GetRetentionItem(ByVal entityid As Integer, ByVal entityType As Integer) As Decimal
+      Dim ds As DataSet
       If entityType = 45 Then
-        Dim ds As DataSet
         ds = SqlHelper.ExecuteDataset(ConnectionString _
         , CommandType.Text _
         , "SELECT isnull(stock_retention,0) [stock_retention] FROM stock " & _
@@ -873,6 +873,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return CDec(ds.Tables(0).Rows(0)(0))
           End If
         End If
+      Else
+        ds = SqlHelper.ExecuteDataset(ConnectionString _
+        , CommandType.Text _
+        , "SELECT isnull(pa_retention,0) [stock_retention] FROM pa " & _
+          "WHERE pa_id = " & entityid)
+        If ds.Tables(0).Rows.Count > 0 Then
+          If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+            Return CDec(ds.Tables(0).Rows(0)(0))
+          End If
+        End If
+
       End If
 
       Return 0
