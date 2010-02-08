@@ -1257,7 +1257,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         ' คำนวณค่า
         'Me.DepreciationCalculation(Me.Entity)
-        Me.GetDepreciationFromDB(Me.Entity, Me.DepreciationCal.DepreDate)
+        Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
 
         row("deprei_note") = Me.Note
         row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
@@ -1340,7 +1340,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_remainingamnt
       End Get
     End Property
-    Public Sub GetDepreciationFromDB(ByVal myAsset As Asset, ByVal DepreDate As DateTime)
+    Public Sub GetDepreciationFromDB(ByVal Depre As DepreciationCal, ByVal myAsset As Asset)
       If myAsset Is Nothing OrElse Not myAsset.Originated Then
         Return
       End If
@@ -1353,12 +1353,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds = SqlHelper.ExecuteDataset(sqlConString _
         , CommandType.StoredProcedure _
         , "AssetDepreciation" _
+        , New SqlParameter("@DepreId", Depre.Id) _
         , New SqlParameter("@AssetId", myAsset.Id) _
-        , New SqlParameter("@DocDateEnd", DepreDate))
+        , New SqlParameter("@DocDateEnd", Depre.DocDate))
 
         If ds.Tables(0).Rows.Count > 0 Then
           m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
-          m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount")) + m_depreamnt
+          m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount"))
         End If
       Catch ex As Exception
 
