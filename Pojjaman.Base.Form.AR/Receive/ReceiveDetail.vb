@@ -1718,11 +1718,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return Nothing
             End If
 
-            If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
+            If File.Exists(thePath) Then
               Dim df As New DesignerForm(thePath, CType(Me.m_receive, IPrintableEntity))
-              Return df.PrintDocument
-            ElseIf File.Exists(thePath) Then
-              Dim df As New DocumentForm(thePath, CType(Me.m_receive, IPrintableEntity))
               Return df.PrintDocument
             End If
           End If

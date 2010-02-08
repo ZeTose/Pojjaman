@@ -502,7 +502,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Else
               Return Nothing
             End If
-            If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
+            If File.Exists(thePath) Then
               If TypeOf Me.Entity Is RptFinancialStatement Then
                 Dim fform As New FFormatForm(thePath, CType(Me.Entity, IPrintableEntity))
                 Return fform.PrintDocument
@@ -516,9 +516,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim df As New DesignerForm(thePath, CType(Me.Entity, IPrintableEntity))
                 Return df.PrintDocument
               End If
-            ElseIf File.Exists(thePath) Then
-              Dim df As New DocumentForm(thePath, CType(Me.Entity, IPrintableEntity))
-              Return df.PrintDocument
             End If
           End If
         End If

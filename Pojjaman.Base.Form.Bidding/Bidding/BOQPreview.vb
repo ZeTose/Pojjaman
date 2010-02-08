@@ -671,7 +671,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Dim m_currentPage As Integer
     Dim m_pageCount As Integer
     Dim m_printingForm As DesignerForm
-    Dim thePath As String = ""
     Dim startEndRowRemoved As Boolean = False
     Private ReadOnly Property IsHorizontalForm() As Boolean
       Get
@@ -692,30 +691,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
       Get
-        If Not File.Exists(thePath) OrElse Not thePath.ToLower.EndsWith(".xml") Then
-          Dim myPropertyService As Core.Properties.PropertyService = CType(ServiceManager.Services.GetService(GetType(Core.Properties.PropertyService)), Core.Properties.PropertyService)
-          Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
+        Dim thePath As String = ""
+        Dim myPropertyService As Core.Properties.PropertyService = CType(ServiceManager.Services.GetService(GetType(Core.Properties.PropertyService)), Core.Properties.PropertyService)
+        Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
 
-          Dim fileName As String = CType(Me.Entity, IPrintableEntity).GetDefaultForm
-          If fileName Is Nothing OrElse fileName.Length = 0 Then
-            fileName = Entity.ClassName
-          End If
-          thePath = FormPath & Path.DirectorySeparatorChar & fileName & ".xml"
+        Dim fileName As String = CType(Me.Entity, IPrintableEntity).GetDefaultForm
+        If fileName Is Nothing OrElse fileName.Length = 0 Then
+          fileName = Entity.ClassName
+        End If
+        thePath = FormPath & Path.DirectorySeparatorChar & fileName & ".xml"
 
-          Dim paths As FormPaths
-          Dim nameForPath As String
-          nameForPath = Entity.FullClassName & ".Documents"
-          Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-          paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
-          Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
-          If dlg.ShowDialog() = DialogResult.OK Then
-            thePath = dlg.KeyValuePair.Value
-          Else
-            Return Nothing
-          End If
+        Dim paths As FormPaths
+        Dim nameForPath As String
+        nameForPath = Entity.FullClassName & ".Documents"
+        Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+        paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
+        Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
+        If dlg.ShowDialog() = DialogResult.OK Then
+          thePath = dlg.KeyValuePair.Value
+        Else
+          Return Nothing
         End If
 
-        If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
+        If File.Exists(thePath) Then
           Dim offset As Integer = 0
           If Not Me.chkShowSumRow.Checked Then
             offset = 1
@@ -726,11 +724,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           For Each ctrl As AdobeForm.IDrawable In m_printingForm.Controls
             If TypeOf ctrl Is TableControl Then
               Dim tb As TableControl = CType(ctrl, TableControl)
-							'      If IsHorizontalForm Then
-							'tb.RowsPerPage = 20					 'Fix by pui
-							'      Else
-							'        tb.RowsPerPage = 35
-							'      End If
+              '      If IsHorizontalForm Then
+              'tb.RowsPerPage = 20					 'Fix by pui
+              '      Else
+              '        tb.RowsPerPage = 35
+              '      End If
               m_pageCount = CInt(Math.Ceiling((Me.m_treeManager.Treetable.Rows.Count - 1 - offset + Me.GetAddedRowCount(Me.m_entity.LevelConfigs)) / tb.RowsPerPage))  '----->Hack
               Exit For
             End If

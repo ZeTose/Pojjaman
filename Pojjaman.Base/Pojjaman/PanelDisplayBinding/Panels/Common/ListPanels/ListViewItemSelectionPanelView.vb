@@ -908,33 +908,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.lvItem.Items.Count > 0
       End Get
     End Property
-    Private thePath As String = ""
     Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
       Get
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
+        Dim thePath As String = ""
         If Not Me.Entity Is Nothing Then
           If TypeOf Me.Entity Is IPrintableEntity Then
-            If Not TypeOf Entity Is Report OrElse (Not File.Exists(thePath) OrElse Not thePath.ToLower.EndsWith(".xml")) Then
-              Dim fileName As String = "GeneralList"
-              thePath = FormPath & Path.DirectorySeparatorChar & fileName & ".xml"
-              Dim paths As FormPaths
-              Dim nameForPath As String
-              nameForPath = Entity.FullClassName & ".List"
-              Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-              paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
-              Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
-              If dlg.ShowDialog() = DialogResult.OK Then
-                thePath = dlg.KeyValuePair.Value
-              Else
-                Return Nothing
-              End If
+            Dim fileName As String = "GeneralList"
+            thePath = FormPath & Path.DirectorySeparatorChar & fileName & ".xml"
+            Dim paths As FormPaths
+            Dim nameForPath As String
+            nameForPath = Entity.FullClassName & ".List"
+            Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+            paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
+            Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
+            If dlg.ShowDialog() = DialogResult.OK Then
+              thePath = dlg.KeyValuePair.Value
+            Else
+              Return Nothing
             End If
-            If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
+            If File.Exists(thePath) Then
               Dim df As New DesignerForm(thePath, Me.lvItem)
-              Return df.PrintDocument
-            ElseIf File.Exists(thePath) Then
-              Dim df As New DocumentForm(thePath, CType(Me.Entity, IPrintableEntity))
               Return df.PrintDocument
             End If
           End If

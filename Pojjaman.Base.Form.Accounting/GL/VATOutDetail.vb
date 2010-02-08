@@ -1170,7 +1170,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not Me.m_vat Is Nothing Then
           If TypeOf Me.m_vat Is IPrintableEntity Then
-            'thePath = Microsoft.VisualBasic.InputBox("เลือกฟอร์ม", "เลือกฟอร์ม", thePath)
             Dim fileName As String = CType(Me.m_vat, IPrintableEntity).GetDefaultForm
             If fileName Is Nothing OrElse fileName.Length = 0 Then
               fileName = m_vat.ClassName
@@ -1189,11 +1188,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return Nothing
             End If
 
-            If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
+            If File.Exists(thePath) Then
               Dim df As New DesignerForm(thePath, CType(Me.m_vat, IPrintableEntity))
-              Return df.PrintDocument
-            ElseIf File.Exists(thePath) Then
-              Dim df As New DocumentForm(thePath, CType(Me.m_vat, IPrintableEntity))
               Return df.PrintDocument
             End If
           End If

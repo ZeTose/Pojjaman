@@ -1363,13 +1363,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
 							If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
 								Dim item As VatItem = Me.m_vat.ItemCollection(i)
-								If File.Exists(thePath) AndAlso thePath.ToLower.EndsWith(".xml") Then
-									Dim df As New DesignerForm(thePath, CType(item, IPrintableEntity))
-									arr.Add(df.PrintDocument)
-								ElseIf File.Exists(thePath) Then
-									Dim df As New DocumentForm(thePath, CType(item, IPrintableEntity))
-									arr.Add(df.PrintDocument)
-								End If
+                If File.Exists(thePath) Then
+                  Dim df As New DesignerForm(thePath, CType(item, IPrintableEntity))
+                  arr.Add(df.PrintDocument)
+                End If
 							End If
 						End If
 					Next
