@@ -140,7 +140,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub btnShowProperty_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowProperty.Click
             Try
                 Dim ty As Type = Me.m_entity.GetType
-                Dim pi As PropertyInfo = ty.GetProperty(Me.txtPropertyName.Text)
+        Dim pi As PropertyInfo = ty.GetProperty(Me.txtPropertyName.Text, BindingFlags.FlattenHierarchy Or BindingFlags.IgnoreCase Or BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public Or BindingFlags.Static)
                 If Not pi Is Nothing Then
                     Me.txtPropertyValue.Text = pi.GetValue(Me.m_entity, Nothing).ToString
                     Return
