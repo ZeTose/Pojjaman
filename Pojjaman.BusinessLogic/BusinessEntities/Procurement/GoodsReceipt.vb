@@ -4253,7 +4253,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Item.WBSCCCode
         dpi = New DocPrintingItem
-        dpi.Mapping = "Item.WBSCCName"
+        dpi.Mapping = "Item.WBSCCCode"
         dpi.Value = WBSCCCode
         dpi.DataType = "System.String"
         dpi.Row = n + 1
