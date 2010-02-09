@@ -341,6 +341,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property DocType As String = ""
     '--------------------REAL-------------------------
     Public Property RealGross() As Decimal
       Get
@@ -789,6 +790,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
+        If Not String.IsNullOrEmpty(MenuLabel) Then
+          Return MenuLabel
+        End If
         Return "${res:Longkong.Pojjaman.BusinessLogic.GoodsReceipt.DetailLabel}"
       End Get
     End Property
@@ -804,6 +808,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
+        If Not String.IsNullOrEmpty(MenuLabel) Then
+          Return MenuLabel
+        End If
         Return "${res:Longkong.Pojjaman.BusinessLogic.GoodsReceipt.ListLabel}"
       End Get
     End Property
@@ -1972,6 +1979,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim unitCost As Decimal = 0
         Dim Cost As Decimal = 0
 
+        Dim da_aux As New SqlDataAdapter("Select * from stock_aux where stock_aux_id=" & Me.Id, conn)
+
         Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
         Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
 
@@ -1992,6 +2001,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.FillSchema(ds, SchemaType.Mapped, "stockitem")
         da.Fill(ds, "stockitem")
 
+        cmdBuilder = New SqlCommandBuilder(da_aux)
+        da_aux.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        da_aux.FillSchema(ds, SchemaType.Mapped, "stock_aux")
+        da_aux.Fill(ds, "stock_aux")
+
         cmdBuilder = New SqlCommandBuilder(daWbs)
         daWbs.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
@@ -2003,11 +2021,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
 
         Dim dt As DataTable = ds.Tables("stockitem")
-        'Dim dc As DataColumn = dt.Columns!stocki_sequence
-        'dc.AutoIncrement = True
-        'dc.AutoIncrementSeed = -1
-        'dc.AutoIncrementStep = -1
 
+        Dim dtAux As DataTable = ds.Tables("stock_aux")
+        If IsNumeric(Me.DocType) AndAlso Me.DocType <> "0" Then
+          Dim drAux As DataRow
+          If dtAux.Rows.Count > 0 Then
+            drAux = dtAux.Rows(0)
+          Else
+            drAux = dtAux.NewRow
+            drAux("stock_aux_id") = Me.Id
+            dtAux.Rows.Add(drAux)
+          End If
+          If Not drAux Is Nothing Then
+            drAux("stock_aux_doctype") = CInt(Me.DocType)
+          End If
+        End If
+        
         Dim dtWbs As DataTable = ds.Tables("stockiwbs")
 
         For Each row As DataRow In ds.Tables("stockiwbs").Rows
@@ -2185,12 +2214,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
 
         daWbs.Update(GetDeletedRows(dtWbs))
+        da_aux.Update(GetDeletedRows(dtAux))
         tmpDa.Update(GetDeletedRows(dt))
 
         tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        da_aux.Update(dtAux.Select("", "", DataViewRowState.ModifiedCurrent))
         daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
 
         tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        da_aux.Update(dtAux.Select("", "", DataViewRowState.Added))
         ds.EnforceConstraints = False
         daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
         ds.EnforceConstraints = True

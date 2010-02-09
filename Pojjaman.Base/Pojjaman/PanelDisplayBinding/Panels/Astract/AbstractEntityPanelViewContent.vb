@@ -631,5 +631,7 @@ Namespace Longkong.Pojjaman.Gui
     End Property
 #End Region
 
+    Public Property ForceLabel As String Implements IViewContent.ForceLabel
+
   End Class
 End Namespace

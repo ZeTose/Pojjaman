@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -192,6 +192,9 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.Loan.addin" />
+    <None Include="AddIns\Forms\AP\Pojjaman.Base.Form.VArch.addin">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin" />
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
@@ -455,7 +458,9 @@
     <None Include="AddIns\Forms\AP\Pojjaman.Base.Form.AP.addin" />
     <None Include="AddIns\Forms\AR\Pojjaman.Base.Form.AR.addin" />
     <None Include="AddIns\Forms\Asset\Pojjaman.Base.Form.Asset.addin" />
-    <None Include="AddIns\Forms\Bidding\Pojjaman.Base.Form.Bidding.addin" />
+    <None Include="AddIns\Forms\Bidding\Pojjaman.Base.Form.Bidding.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.CashBank.addin" />
     <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.addin" />
     <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.Autorun.addin" />
@@ -466,7 +471,9 @@
     <None Include="AddIns\Pojjaman.Base.addin">
       <SubType>Designer</SubType>
     </None>
-    <None Include="AddIns\Pojjaman.EnityDatabase.addin" />
+    <None Include="AddIns\Pojjaman.EnityDatabase.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Pojjaman.General.addin" />
     <None Include="AddIns\Pojjaman.Test.addin" />
     <None Include="AddIns\Pojjaman.Wizard.addin" />

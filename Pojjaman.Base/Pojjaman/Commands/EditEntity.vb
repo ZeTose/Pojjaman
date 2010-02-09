@@ -18,12 +18,14 @@ Namespace Longkong.Pojjaman.Commands
 #End Region
 
 #Region "Methods"
-        Public Overrides Sub Run()
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            If Not Me.Entity Is Nothing Then
-                myEntityPanelService.OpenPanel(Me.Entity)
-            End If
-        End Sub
+    Property Args As String
+    Property Label As String
+    Public Overrides Sub Run()
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      If Not Me.Entity Is Nothing Then
+        myEntityPanelService.OpenPanel(Me.Entity, Me.Args, Me.Label)
+      End If
+    End Sub
 #End Region
 
     End Class

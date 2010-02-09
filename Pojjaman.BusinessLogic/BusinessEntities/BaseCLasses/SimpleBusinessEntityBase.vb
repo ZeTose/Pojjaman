@@ -1000,6 +1000,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "${res:Longkong.Pojjaman.BusinessLogic." & Me.ClassName & ".DetailLabel}"
       End Get
     End Property
+    Public Property MenuLabel As String Implements IPageInfoCapable.MenuLabel
     Public Overridable ReadOnly Property ListPanelIcon() As String Implements IPageInfoCapable.ListPanelIcon
       Get
         Return "Icons.16x16." & Me.ClassName

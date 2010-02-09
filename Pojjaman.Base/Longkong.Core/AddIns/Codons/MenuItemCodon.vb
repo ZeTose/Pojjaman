@@ -26,6 +26,10 @@ Namespace Longkong.Core.AddIns.Codons
     Private m_entity As String
     <XmlMemberAttributeAttribute("panel")> _
     Private m_panel As String
+    <XmlMemberAttributeAttribute("args")> _
+    Private m_args As String = ""
+    <XmlMemberAttributeAttribute("forcelabel")> _
+    Private m_forcelabel As String = ""
 #End Region
 
 #Region "Constructors"
@@ -92,6 +96,22 @@ Namespace Longkong.Core.AddIns.Codons
         Me.m_entity = value
       End Set
     End Property
+    Public Property Args() As String
+      Get
+        Return Me.m_args
+      End Get
+      Set(ByVal value As String)
+        Me.m_args = value
+      End Set
+    End Property
+    Public Property ForceLabel() As String
+      Get
+        Return Me.m_forcelabel
+      End Get
+      Set(ByVal value As String)
+        Me.m_forcelabel = value
+      End Set
+    End Property
     Public Property Shortcut() As String()
       Get
         Return Me.m_shortcut
@@ -124,6 +144,10 @@ Namespace Longkong.Core.AddIns.Codons
               If TypeOf command1 Is OpenPanel Then
                 CType(command1, OpenPanel).Panel = Me.Panel
                 CType(command1, OpenPanel).AddIn = Me.AddIn
+              End If
+              If TypeOf command1 Is EditEntity Then
+                CType(command1, EditEntity).Args = Me.Args
+                CType(command1, EditEntity).Label = Me.ForceLabel
               End If
             ElseIf TypeOf o Is IMenuCommand Then
               Dim command1 As IMenuCommand = CType(o, IMenuCommand)

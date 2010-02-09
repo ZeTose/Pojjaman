@@ -216,6 +216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ReadOnly Property ListPanelTitle() As String
     ReadOnly Property DetailPanelIcon() As String
     ReadOnly Property DetailPanelTitle() As String
+    Property MenuLabel As String
     ReadOnly Property TabPageText() As String
     Event TabPageTextChanged As EventHandler
   End Interface

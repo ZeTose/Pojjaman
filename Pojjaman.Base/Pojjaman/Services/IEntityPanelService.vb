@@ -17,7 +17,8 @@ Namespace Longkong.Pojjaman.Services
         Function GetPreAddViewForEntity(ByVal entity As ISimpleEntity) As UserControl
         Function IsOpen(ByVal entity As ISimpleEntity) As Boolean
         Function OpenPanel(ByVal entity As ISimpleEntity) As IWorkbenchWindow
-        Function OpenPanel(ByVal entityName As String) As IWorkbenchWindow
+    Function OpenPanel(ByVal entityName As String) As IWorkbenchWindow
+    Function OpenPanel(ByVal entityName As String, ByVal args As String, ByVal label As String) As IWorkbenchWindow
         Function OpenDetailPanel(ByVal entity As ISimpleEntity) As IWorkbenchWindow
 
 

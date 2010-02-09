@@ -46,7 +46,8 @@ Namespace Longkong.Pojjaman.Gui
         ReadOnly Property IsUntitled() As Boolean
         ReadOnly Property IsViewOnly() As Boolean
         Property TitleName() As String
-        Property UntitledName() As String
+    Property UntitledName() As String
+    Property ForceLabel As String
     End Interface
 End Namespace
 
