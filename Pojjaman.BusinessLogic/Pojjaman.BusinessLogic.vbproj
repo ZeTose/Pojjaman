@@ -356,7 +356,6 @@
     <Compile Include="BusinessEntities\CashBank\CashWithdraw.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BusinessEntities\CashBank\Loan.vb" />
     <Compile Include="BusinessEntities\CashBank\PettyCash.vb">
       <SubType>Code</SubType>
     </Compile>

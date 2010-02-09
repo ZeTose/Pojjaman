@@ -735,17 +735,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         m_selectedEntity = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName, m_selectedID)
       End If
-      If Not m_otherFilters Is Nothing Then
-        For Each f As Filter In m_otherFilters
-          Dim ty As Type = m_selectedEntity.GetType
-          Dim pi As PropertyInfo = ty.GetProperty(f.Name)
-          If Not pi Is Nothing Then
-            pi.SetValue(m_selectedEntity, f.Value, Nothing)
-          End If
-          If Not String.IsNullOrEmpty(Me.ForceLabel) Then
-            m_selectedEntity.MenuLabel = Me.ForceLabel
-          End If
-        Next
+      If Not Me.WorkbenchWindow Is Nothing Then
+        If Not m_otherFilters Is Nothing Then
+          For Each f As Filter In m_otherFilters
+            Dim ty As Type = m_selectedEntity.GetType
+            Dim pi As PropertyInfo = ty.GetProperty(f.Name)
+            If Not pi Is Nothing Then
+              pi.SetValue(m_selectedEntity, f.Value, Nothing)
+            End If
+            If Not String.IsNullOrEmpty(Me.ForceLabel) Then
+              m_selectedEntity.MenuLabel = Me.ForceLabel
+            End If
+          Next
+        End If
       End If
     End Sub
     Public Property SelectedEntity() As BusinessLogic.ISimpleEntity Implements ISimpleListPanel.SelectedEntity

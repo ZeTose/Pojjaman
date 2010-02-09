@@ -1,0 +1,22 @@
+<AddIn name="Pojjaman Loan" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+  <Runtime>
+    <Import assembly="Pojjaman.Base.Loan.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+    <EntityFilter id="loan" entity="loan" filter="Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel"/>
+    <EntityFilter id="withdrawloan" entity="withdrawloan" filter="Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel"/>    
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs">
+    <EntityTab id="loan">
+      <EntityTab id="LoanDetailView" view="Longkong.Pojjaman.Gui.Panels.LoanDetailView"/>
+    </EntityTab>
+    <EntityTab id="withdrawloan">
+      <EntityTab id="WithdrawLoanDetailView" view="Longkong.Pojjaman.Gui.Panels.WithdrawLoanDetailView"/>
+    </EntityTab>    
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
+  <MenuItem id="Separator4" label="-"/>
+    <MenuItem id="Loan" icon="Icons.16x16.Loan" label="${res:MainMenu.CashBankMenu.Loan}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Loan"/>
+    <MenuItem id="WithdrawLoan" icon="Icons.16x16.WithdrawLoan" label="${res:MainMenu.CashBankMenu.WithdrawLoan}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WithdrawLoan"/>
+  </Extension>
+</AddIn>
