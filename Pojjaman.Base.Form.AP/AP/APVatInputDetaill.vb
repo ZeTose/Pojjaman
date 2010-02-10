@@ -1010,9 +1010,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       oldSupId = Me.m_entity.Supplier.Id
       txtNote.Text = m_entity.Note
+      m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
-      m_oldCode = m_entity.Code
       txtSupplierCode.Text = m_entity.Supplier.Code
       txtSupplierName.Text = m_entity.Supplier.Name
 
@@ -1062,6 +1062,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
               Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
               Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+              Me.m_entity.OnGlChanged()
             End If
           Else
             Me.m_entity.Code = cmbCode.Text
