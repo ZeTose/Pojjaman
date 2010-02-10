@@ -1,5 +1,6 @@
 Option Explicit On 
 Option Strict On
+Imports System.Collections.Generic
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
@@ -32,12 +33,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       Try
         m_grid = grid
-        'm_grid.BeginUpdate()
-        'm_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-        'm_grid.Model.Options.NumberedColHeaders = False
-        'm_grid.Model.Options.WrapCellBehavior = Syncfusion.Windows.Forms.Grid.GridWrapCellBehavior.WrapRow
-        'CreateHeader()
-        'PopulateData()
 
         Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
         lkg.DefaultBehavior = False
@@ -72,178 +67,187 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DocNumber}")       '"เลขที่เอกสาร"
+
       tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.scBudget}")       '"SC Budget"
       tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DR}")     '"ยอดหัก DR"  '""  
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retention}")     '"มัดจำ"      
       tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retentionn}")       '"Retention"
 
-      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.docCode}")       '"เลขที่เอกสาร"
-      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.supplierinfo}")     '"ผู้รับเหมา"    
-      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.ccinfo}")           '"Cost Center "
-
       tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.sc_docDate}")        '"วันที่เอกสาร"
-      tr("col4") = Me.StringParserService.Parse("ตั้ง")              '"ตั้ง"
-      tr("col5") = Me.StringParserService.Parse("เบิก")              '"เบิก"
-      tr("col6") = Me.StringParserService.Parse("คงเหลือ")        '"คงเหลือ"
-      tr("col7") = Me.StringParserService.Parse("ตั้ง")       '"หมายเหตุ"
-      tr("col8") = Me.StringParserService.Parse("เบิก")     '"สถานะการเปิด SC"
-      tr("col9") = Me.StringParserService.Parse("คงเหลือ")       '"อ้างอิง"
-      tr("col10") = Me.StringParserService.Parse("ตั้ง")     '"ตั้ง"
-      tr("col11") = Me.StringParserService.Parse("เบิก")       '"เบิก"
-      tr("col12") = Me.StringParserService.Parse("คงเหลือ")              '"คงเหลือ"
-      tr("col13") = Me.StringParserService.Parse("ตั้ง")     '"ตั้ง"
-      tr("col14") = Me.StringParserService.Parse("เบิก")       '"เบิก"
-      tr("col15") = Me.StringParserService.Parse("คงเหลือ")              '"คงเหลือ"    
-      tr("col16") = Me.StringParserService.Parse("ยอดหนี้")     '"ยอดหนี้"
-      tr("col17") = Me.StringParserService.Parse("ยอดหนึ้ Retention")       '"ยอดหนึ้"
-      tr("col18") = Me.StringParserService.Parse("รวมทั้งสิ้น")              '"รวมทั้งสิ้น"  
-      m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 1, 0, 1), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 2, 2), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 2, 3), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, 2, 4), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 7), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 8, 1, 10), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 11, 1, 13), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 14, 0, 16), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 17, 2, 17), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 2, 18), Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 19, 2, 19)})
+
+      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.docCode}")       '"เลขที่เอกสาร"
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.supplierinfo}")      '"ผู้รับเหมา"    
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.ccinfo}")      '"Cost Center "
+
+      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
+      tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
+      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
+      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
+      tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
+      tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
+      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
+      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก" 
+      tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
+      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
+      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
+      tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"  
+      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalDebt}") '"ยอดหนี้"
+      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalRetentionDebt}") '"ยอดหนึ้"
+      tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Debt}") '"รวมทั้งสิ้น"  
+
+      'm_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      'm_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      'm_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      'm_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+
+      m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                                    {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 1, 0, 1), _
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 7), _
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 8, 1, 10), _
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 11, 1, 13), _
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 14, 1, 16)}) ' _
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 17, 2, 17), _
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 2, 18), _
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 19, 2, 19)})
+
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 2, 2), _
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 2, 3), _
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, 2, 4), _
     End Sub
 
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
-      'Dim dt1 As DataTable = Me.DataSet.Tables(1)
+      Dim dt1 As DataTable = Me.DataSet.Tables(1)
+      Dim dt2 As DataTable = Me.DataSet.Tables(2)
       If dt.Rows.Count = 0 Then
         Return
       End If
+      Dim IsPreveiewSummary As Boolean
+      IsPreveiewSummary = (CInt(Me.Filters(10).Value) = 1)
 
-      Dim trSubContranct As TreeRow
-      Dim trDetail As TreeRow
-      Dim trItem As TreeRow
-      'Dim indent As String = Space(3)
-      Dim scRemain As Decimal = 0
-      Dim drRemain As Decimal = 0
-      Dim advRemain As Decimal = 0
-      Dim retRemain As Decimal = 0
-
-      Dim summarrySCDebt As Decimal = 0
-      Dim summarryRetDebt As Decimal = 0
-      Dim summarryAdvDebt As Decimal = 0
-      Dim currSubContract As String = ""
+      Dim currSupplier As String = ""
       Dim currSC As String = ""
+      Dim trSubContractor As TreeRow
+
+      'Dim trAdvance As TreeRow
+      Dim trSC As TreeRow
+      Dim trDetail As TreeRow
+      Dim trSummary As TreeRow
+
+      Dim scRemain As Decimal
+      Dim drRemain As Decimal
+      Dim advRemain As Decimal
+      Dim retRemain As Decimal
+
+      Dim summarrySCDebt As Decimal
+      Dim summarryRetDebt As Decimal
+      Dim summarryAdvDebt As Decimal
+
       Dim isFirstAdvance As Boolean = False
-      For Each subcontractRow As DataRow In dt.Rows
-        If currSubContract <> subcontractRow("SubcontractorInfo").ToString Then
-          currSubContract = subcontractRow("SubcontractorInfo").ToString
+      Dim isHashChild As Boolean = False
 
-          trSubContranct = Me.Treemanager.Treetable.Childs.Add
-          trSubContranct.Tag = "Font.Bold"
-          If Not subcontractRow.IsNull("SubcontractorInfo") AndAlso Not subcontractRow.IsNull("Date") Then
-            trSubContranct("col0") = subcontractRow("SubcontractorInfo").ToString
-          End If
+      For Each subContRow As DataRow In dt.Rows 'ขึ้น SubContractor ใหม่
+        Dim newSubContRow As New DataRowHelper(subContRow)
+        trSubContractor = Me.Treemanager.Treetable.Childs.Add
+        trSubContractor.Tag = "Font.Bold"
+        trSubContractor("col0") = newSubContRow.GetValue(Of String)("SubContractorInfo")
+        trSubContractor("col10") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advopeningbalance"), DigitConfig.Price)
+        trSubContractor("col12") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advbalance"), DigitConfig.Price)
+        trSubContractor.State = RowExpandState.Expanded
 
-          trSubContranct.State = RowExpandState.Expanded
-          summarrySCDebt = 0
-          summarryRetDebt = 0
-          summarryAdvDebt = 0
-          isFirstAdvance = False
+        For Each scRow As DataRow In dt1.Select("supplier_id = " & subContRow("supplier_id").ToString & " and entityId = 289") 'ขึ้น SC ใบใหม่ใน SubContractor เดียวกัน
+          Dim newSCRow As New DataRowHelper(scRow)
 
-          If currSC <> subcontractRow("SubcontractorInfo").ToString & ":" & subcontractRow("sc_id").ToString Then
-            currSC = subcontractRow("SubcontractorInfo").ToString & ":" & subcontractRow("sc_id").ToString
-            scRemain = 0
-            drRemain = 0
-            advRemain = 0
-            retRemain = 0
-          End If
+          scRemain = (newSCRow.GetValue(Of Decimal)("sc") - newSCRow.GetValue(Of Decimal)("sc_debit"))
+          drRemain = (newSCRow.GetValue(Of Decimal)("dr") - newSCRow.GetValue(Of Decimal)("dr_debit"))
+          advRemain = (newSCRow.GetValue(Of Decimal)("advance") - newSCRow.GetValue(Of Decimal)("advance_debit"))
+          retRemain = (newSCRow.GetValue(Of Decimal)("retention") - newSCRow.GetValue(Of Decimal)("retention_debit"))
 
-          For Each detailRow As DataRow In dt.Select("supplier_id=" & subcontractRow("Supplier_ID").ToString)
-            If Not trSubContranct Is Nothing Then
-              'ถ้ามี AdvancePay Balance มากกว่าศูนย์ก็ให้แสดงยอด ไว้รายการแรก
-              If Not isFirstAdvance Then
-                isFirstAdvance = True
-                If Not detailRow.IsNull("ADVBalance") AndAlso CDec(detailRow("ADVBalance")) > 0 Then
-                  trDetail = trSubContranct.Childs.Add
-                  trDetail("col2") = "ยอดมัดจำจ่ายยกมา"
-                  trDetail("col10") = Configuration.FormatToString(CDec(detailRow("ADVBalance")), DigitConfig.Price)
-                  trDetail("col12") = Configuration.FormatToString((CDec(detailRow("ADVBalance")) - CDec(detailRow("advance_debit"))), DigitConfig.Price)
-                  summarryAdvDebt += CDec(detailRow("ADVBalance"))
-                  trDetail.State = RowExpandState.Expanded
-                End If
-              End If
+          summarrySCDebt = scRemain - drRemain - advRemain
+          summarryRetDebt = retRemain
+          summarryAdvDebt = summarrySCDebt + summarryRetDebt
 
-              trDetail = trSubContranct.Childs.Add
-              If Not detailRow.IsNull("Date") Then
-                trDetail("col0") = CDate(subcontractRow("Date")).ToShortDateString
-              End If
-              If Not detailRow.IsNull("Code") Then
-                trDetail("col1") = detailRow("Code").ToString
-              End If
-              If Not detailRow.IsNull("Type") Then
-                trDetail("col2") = detailRow("Type").ToString
-              End If
-              If Not detailRow.IsNull("ccinfo") Then
-                trDetail("col3") = detailRow("ccinfo").ToString
-              End If
-              If Not detailRow.IsNull("sc") Then
-                trDetail("col4") = Configuration.FormatToString(CDec(detailRow("sc")), DigitConfig.Price)
-                scRemain += CDec(detailRow("sc"))
-              End If
-              If Not detailRow.IsNull("sc_debit") Then
-                trDetail("col5") = Configuration.FormatToString(CDec(detailRow("sc_debit")), DigitConfig.Price)
-                scRemain -= CDec(detailRow("sc_debit"))
-              End If
-              If scRemain > 0 Then
-                trDetail("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
-              End If
-              If Not detailRow.IsNull("dr") Then
-                trDetail("col7") = Configuration.FormatToString(CDec(detailRow("dr")), DigitConfig.Price)
-                drRemain += CDec(detailRow("dr"))
-              End If
-              If Not detailRow.IsNull("dr_debit") Then
-                trDetail("col8") = Configuration.FormatToString(CDec(detailRow("dr_debit")), DigitConfig.Price)
-                drRemain -= CDec(detailRow("dr_debit"))
-              End If
-              If drRemain > 0 Then
-                trDetail("col9") = Configuration.FormatToString(drRemain, DigitConfig.Price)
-              End If
-              If Not detailRow.IsNull("advance") Then
-                trDetail("col10") = Configuration.FormatToString(CDec(detailRow("advance")), DigitConfig.Price)
-                advRemain += CDec(detailRow("advance"))
-              End If
-              If Not detailRow.IsNull("advance_debit") Then
-                trDetail("col11") = Configuration.FormatToString(CDec(detailRow("advance_debit")), DigitConfig.Price)
-                advRemain -= CDec(detailRow("advance_debit"))
-              End If
-              If advRemain > 0 Then
-                trDetail("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
-              End If
-              If Not detailRow.IsNull("retention") Then
-                trDetail("col13") = Configuration.FormatToString(CDec(detailRow("retention")), DigitConfig.Price)
-                retRemain += CDec(detailRow("retention"))
-              End If
-
-              If Not detailRow.IsNull("retention_debit") Then
-                trDetail("col14") = Configuration.FormatToString(CDec(detailRow("retention_debit")), DigitConfig.Price)
-                retRemain -= CDec(detailRow("retention_debit"))
-              End If
+          trSC = trSubContractor.Childs.Add
+          trSC("col0") = newSCRow.GetValue(Of Date)("sc_Date").ToShortDateString
+          trSC("col1") = newSCRow.GetValue(Of String)("Code")
+          trSC("col2") = newSCRow.GetValue(Of String)("sc_Type")
+          trSC("col3") = newSCRow.GetValue(Of String)("ccinfo")
+          trSC("col4") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
+          trSC("col5") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+          trSC("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+          trSC("col7") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("dr"), DigitConfig.Price)
+          trSC("col8") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+          trSC("col9") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+          trSC("col10") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
+          trSC("col11") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+          trSC("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
+          trSC("col13") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
+          trSC("col14") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+          trSC("col15") = Configuration.FormatToString(retRemain, DigitConfig.Price)
+          trSC("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+          trSC("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+          trSC("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
+          trSC.State = RowExpandState.Expanded
 
 
-              If retRemain > 0 Then
-                trDetail("col15") = Configuration.FormatToString(retRemain, DigitConfig.Price)
-              End If
+          For Each childSCRow As DataRow In dt1.Select("supplier_id = " & subContRow("supplier_id").ToString & " and sc_id = " & scRow("sc_id").ToString & " and entityId <> 289")
+            Dim newChildSCRow As New DataRowHelper(childSCRow)
 
-              summarrySCDebt = scRemain - drRemain - advRemain
-              summarryRetDebt = retRemain
-              summarryAdvDebt = summarrySCDebt + summarryRetDebt
+            scRemain += (newChildSCRow.GetValue(Of Decimal)("sc") - newChildSCRow.GetValue(Of Decimal)("sc_debit"))
+            drRemain += (newChildSCRow.GetValue(Of Decimal)("dr") - newChildSCRow.GetValue(Of Decimal)("dr_debit"))
+            advRemain += (newChildSCRow.GetValue(Of Decimal)("advance") - newChildSCRow.GetValue(Of Decimal)("advance_debit"))
+            retRemain += (newChildSCRow.GetValue(Of Decimal)("retention") - newChildSCRow.GetValue(Of Decimal)("retention_debit"))
 
-              If summarrySCDebt > 0 Then
-                trDetail("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
-              End If
-              If summarryRetDebt > 0 Then
-                trDetail("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
-              End If
-              If summarryAdvDebt > 0 Then
-                trDetail("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
-              End If
-            End If
-            trDetail.State = RowExpandState.Expanded
+            summarrySCDebt += (drRemain - advRemain)
+            summarryRetDebt += retRemain
+            summarryAdvDebt += ((drRemain - advRemain) + retRemain)
+
+            trDetail = trSC.Childs.Add
+            trDetail("col0") = newChildSCRow.GetValue(Of Date)("sc_Date").ToShortDateString
+            trDetail("col1") = newChildSCRow.GetValue(Of String)("Code")
+            trDetail("col2") = newChildSCRow.GetValue(Of String)("sc_Type")
+            trDetail("col3") = newChildSCRow.GetValue(Of String)("ccinfo")
+            trDetail("col4") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
+            trDetail("col5") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+            trDetail("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+            trDetail("col7") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("dr"), DigitConfig.Price)
+            trDetail("col8") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+            trDetail("col9") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+            trDetail("col10") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
+            trDetail("col11") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+            trDetail("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
+            trDetail("col13") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
+            trDetail("col14") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+            trDetail("col15") = Configuration.FormatToString(retRemain, DigitConfig.Price)
+            trDetail("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+            trDetail("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+            trDetail("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
+            'trDetail.State = RowExpandState.Expanded
           Next
+          If IsPreveiewSummary Then
+            For Each sumSCRow As DataRow In dt2.Select("supplier_id = " & subContRow("supplier_id").ToString & " and sc_id = " & scRow("sc_id").ToString)
+              Dim newSumSCRow As New DataRowHelper(sumSCRow)
 
-        End If
+              trSummary = trSC.Childs.Add
+              trSummary("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Total}") '"รวม"
+              trSummary("col4") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
+              trSummary("col5") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+              'trSummary("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+              trSummary("col7") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("dr"), DigitConfig.Price)
+              trSummary("col8") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+              'trSummary("col9") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+              trSummary("col10") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
+              trSummary("col11") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+              'trSummary("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
+              trSummary("col13") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
+              trSummary("col14") = Configuration.FormatToString(newSumSCRow.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+              'trSummary.State = RowExpandState.Expanded
+            Next
+          End If
+
+        Next
       Next
-      Return
-
 
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
