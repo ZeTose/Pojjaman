@@ -587,6 +587,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSCCode.TabIndex = 334
       Me.txtSCCode.TabStop = False
       Me.txtSCCode.Text = ""
+      Me.Validator.ErrorProvider.SetIconPadding(Me.txtSCCode, -15)
       '
       'txtFromCostCenterCode
       '
