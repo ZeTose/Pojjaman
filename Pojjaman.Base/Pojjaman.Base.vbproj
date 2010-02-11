@@ -195,6 +195,10 @@
       <Name>Interop.SHDocVw</Name>
       <HintPath>External\Interop.SHDocVw.dll</HintPath>
     </Reference>
+    <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Syncfusion\Essential Studio\5.1.1.47\precompiledassemblies\5.1.1.47\2.0\syncfusion.core.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Grid.Windows">
       <Name>Syncfusion.Grid.Windows</Name>
       <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>

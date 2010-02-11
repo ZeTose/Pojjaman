@@ -82,15 +82,17 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Syncfusion.Grid.Windows">
-      <Name>Syncfusion.Grid.Windows</Name>
-      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Grid.Windows.dll</HintPath>
-      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    <Reference Include="syncfusion.core, Version=5.101.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Syncfusion\Essential Studio\5.1.1.47\precompiledassemblies\5.1.1.47\2.0\syncfusion.core.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.Base">
-      <Name>Syncfusion.Shared.Base</Name>
-      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Shared.Base.dll</HintPath>
-      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
+    <Reference Include="syncfusion.grid.windows, Version=5.101.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Syncfusion\Essential Studio\5.1.1.47\precompiledassemblies\5.1.1.47\2.0\syncfusion.grid.windows.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.base, Version=5.101.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Syncfusion\Essential Studio\5.1.1.47\precompiledassemblies\5.1.1.47\2.0\syncfusion.shared.base.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -106,9 +108,6 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="Syncfusion.Core">
-      <Name>Syncfusion.Core</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
