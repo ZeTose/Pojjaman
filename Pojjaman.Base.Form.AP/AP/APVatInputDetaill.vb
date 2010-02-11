@@ -449,7 +449,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Alignment = HorizontalAlignment.Left
       csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Width = 100
-      csAmount.ReadOnly = True
+      csAmount.ReadOnly = False
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "paysi_note"
@@ -607,14 +607,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Private m_updating As Boolean = False
     Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If m_updating Then
+      'Return
+      'End If
       Dim doc As BillAcceptanceItem = Me.CurrentItem
       If doc Is Nothing Then
         Return
       End If
-      m_updating = True
+      'm_updating = True
       Dim amt As Decimal = 0
       Dim unpad As Decimal = 0
 
@@ -624,7 +626,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
       If doc.UnpaidAmount < amt Then
-
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
+                                     New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
+                                                   Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)})
         Return
       End If
 
@@ -1341,6 +1345,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         If Not newItem Is Nothing Then
           newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
+          newItem.UnpaidAmount = newItem.Amount
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item
             If Me.m_entity.ItemCollection.Count = 0 Then

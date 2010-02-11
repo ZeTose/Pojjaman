@@ -843,7 +843,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
         If item.TaxType.Value <> 0 Then
-          amt += item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          amt += item.Amount
+          'amt += item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         End If
       Next
       Return amt
