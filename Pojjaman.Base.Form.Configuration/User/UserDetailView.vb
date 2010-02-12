@@ -6,9 +6,9 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
     Public Class UserDetailView
-        'Inherits UserControl
-        Inherits AbstractEntityDetailPanelView
-        Implements IHelperCapable, IValidatable
+    'Inherits UserControl
+    Inherits AbstractEntityDetailPanelView
+    Implements IHelperCapable, IValidatable
 
 #Region " Windows Form Designer generated code "
 
@@ -195,7 +195,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(592, 648)
+      Me.grbDetail.Size = New System.Drawing.Size(592, 608)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "grbDetail: "
@@ -245,7 +245,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbApproveLevel.Controls.Add(Me.txtMaxAmtPO)
       Me.grbApproveLevel.Controls.Add(Me.txtMaxAmtDO)
       Me.grbApproveLevel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbApproveLevel.Location = New System.Drawing.Point(8, 436)
+      Me.grbApproveLevel.Location = New System.Drawing.Point(8, 392)
       Me.grbApproveLevel.Name = "grbApproveLevel"
       Me.grbApproveLevel.Size = New System.Drawing.Size(536, 203)
       Me.grbApproveLevel.TabIndex = 221
@@ -722,7 +722,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkAllCC
       '
       Me.chkAllCC.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.chkAllCC.Location = New System.Drawing.Point(360, 168)
+      Me.chkAllCC.Location = New System.Drawing.Point(362, 137)
       Me.chkAllCC.Name = "chkAllCC"
       Me.chkAllCC.Size = New System.Drawing.Size(184, 16)
       Me.chkAllCC.TabIndex = 217
@@ -731,7 +731,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(544, 184)
+      Me.ibtnBlank.Location = New System.Drawing.Point(546, 153)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 216
@@ -741,7 +741,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(544, 208)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(546, 177)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 215
@@ -757,7 +757,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 184)
+      Me.tgItem.Location = New System.Drawing.Point(10, 153)
       Me.tgItem.Name = "tgItem"
       Me.tgItem.Size = New System.Drawing.Size(536, 232)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
@@ -769,7 +769,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblItem.Location = New System.Drawing.Point(8, 168)
+      Me.lblItem.Location = New System.Drawing.Point(10, 137)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(208, 18)
       Me.lblItem.TabIndex = 214
@@ -941,7 +941,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "UserDetailView"
-      Me.Size = New System.Drawing.Size(608, 686)
+      Me.Size = New System.Drawing.Size(608, 630)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbApproveLevel.ResumeLayout(False)

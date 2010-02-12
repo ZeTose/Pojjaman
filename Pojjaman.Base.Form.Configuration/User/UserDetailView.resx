@@ -139,8 +139,8 @@
   <data name="btnClearImage.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEQAA
-        CxEBf2RfkQAAAyVJREFUOE9dk2tMVEcYhk8R8QLEIrKI1uVwZ7m5ChXR1QXZBQwgbTUCauRI1NQfTbSR
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAyVJREFUOE9dk2tMVEcYhk8R8QLEIrKI1uVwZ7m5ChXR1QXZBQwgbTUCauRI1NQfTbSR
         WLzE1ag1TdRovKe2RmuDRaTBRqKiR1ETrzkqEjUGt0W8VIyHS1tjd+Hp2UNYi5PMj8l8z/t+886MIHww
         KJksUZ4ts74c9qyG3ZWwrgzKZ8ievQ/rvWttU9SKFH7YBE0X4M5ZuF4Hl6vhUhVcraZ3byX/Lpiu/PNZ
         qjhASIdXzFZpOAZ3z2nQCVy/HuDNzrWoOypxVe2A2t1wchc9Rzbz9+I8tSPf/F7EXZalcO4o3D4N54/x
@@ -159,8 +159,8 @@
   <data name="ibtnBlank.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7QAA
-        Cu0BAohJwQAABHFJREFUSEutltlPXHUUx388qf+D0ReXV1/VLi6pprba2lpb64o+UfZlWAaG2Zj1zoIw
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7AAA
+        CuwB0M+rJQAABHFJREFUSEutltlPXHUUx388qf+D0ReXV1/VLi6pprba2lpb64o+UfZlWAaG2Zj1zoIw
         DDMwIWXNXGlSNZW6VFpc2hriqzHGGEKBQqHAhRbScu/9es69MwwwNbbGm3zD3HNnvp9zzu/3OxchclcB
         ffw/lXOOx+PLsVhMaW9vV9ra2pRoNKpEIhElHA4rkiQpwWBQCQQCis/nU7xer+LxeBS32624XC7F6XQq
         drtdsdlsSlNTk2K1WqfI+VHSQ5uE7u5uXdM07FQ6nd4WU1UNd+9qWFvT0NubxtKShoUFDbOzGqanNUxM
@@ -185,8 +185,8 @@
   <data name="ibtnDelRow.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7QAA
-        Cu0BAohJwQAABMFJREFUSEutlgtMVXUcxy9zamW2ZNUsRcuhzGpaljN8lJa1SqeV70wDEeV9eUoynJMr
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7AAA
+        CuwB0M+rJQAABMFJREFUSEutlgtMVXUcxy9zamW2ZNUsRcuhzGpaljN8lJa1SqeV70wDEeV9eUoynJMr
         EK8L8r6ADASJk26YWopQSiLmevoaykwRwbfiQVGRc+6n/7n34hUvLpud7btz73//fT//7++c/+9/dDr7
         5SR+/p+yO2dnZ1/LzMyUMzIy5PT0dDk1NVU2Go1ySkqKnJSUJCcmJsoJCQlyfHy8HBcXJ8fGxsoGg0GO
         iYmR16xZI69evVpetWqVHB0dLUdFRTUL58FCfe8S8vPzzaqqcr/Ky8u7jSmKyp07KjdvqhQXl9PaqnL5
@@ -212,8 +212,8 @@
   <data name="btnResetPassword.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7QAA
-        Cu0BAohJwQAAAuFJREFUOE99k3tIk2EUxr9JpXQRNbHUSCilgqJ/MiP/GRUSidgFAwWh6B6WtJyXFFME
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7AAA
+        CuwB0M+rJQAAAuFJREFUOE99k3tIk2EUxr9JpXQRNbHUSCilgqJ/MiP/GRUSidgFAwWh6B6WtJyXFFME
         S00UKUkzjaYfMzQjxUtqm+XM29Rma7rZVESZOvNStpa4p/OuGZbUCz9ezr7znD3nnO/juD+PgML/8Ve6
         LUxLk/klJFSUZmbWq3NyZJPZ2Y2m9PQ6U3JyxVR0tEQTFpbxwt//7DFKX0fYrahSXKycX1wEZmcBgwEY
         GlqAVmuGWm1Cc/M4yso0CAiINZLwILFhRQGe713U6YD29hnU1IygqmoYEokKWVmvkZj4HMHBKfD1vThL
