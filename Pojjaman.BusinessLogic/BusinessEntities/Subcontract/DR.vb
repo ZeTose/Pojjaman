@@ -222,11 +222,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property Sc() As Sc      Get        Return m_sc      End Get      Set(ByVal Value As Sc)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property Sc() As SC
+      Get
+        Return m_sc
+      End Get
+      Set(ByVal Value As SC)
+        If Value.Status.Value = 0 OrElse Value.Closed Then
+          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
           Return
-        End If        m_sc = Value        Me.TaxRate = m_sc.TaxRate
-        Me.TaxType = New TaxType(m_sc.TaxType.Value)        'ChangePO()      End Set    End Property
+        End If
+        m_sc = Value
+        Me.TaxRate = m_sc.TaxRate
+        Me.TaxType = New TaxType(m_sc.TaxType.Value)
+        'ChangePO()
+      End Set
+    End Property
 
     Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate
       Get
@@ -255,7 +266,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property Note() As String      Get
+    Public Property Note() As String
+      Get
         Return m_note
       End Get
       Set(ByVal Value As String)
@@ -408,7 +420,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End Get
     End Property
-    Public Property WitholdingTax() As Decimal      Get
+    Public Property WitholdingTax() As Decimal
+      Get
         Return m_witholdingTax
       End Get
       Set(ByVal Value As Decimal)
@@ -423,7 +436,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_closed = Value
       End Set
     End Property
-    Public Property Closing() As Boolean      Get
+    Public Property Closing() As Boolean
+      Get
         Return m_closing
       End Get
       Set(ByVal Value As Boolean)
@@ -437,10 +451,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
         Else 'ยกเลิกการปิด
           For Each item As DRItem In Me.ItemCollection
-            item.SetMat(item.oldMat)
-            item.SetLab(item.oldLab)
-            item.SetEq(item.oldEq)
-            item.SetQty(item.oldQty)
+            item.SetMat(item.OldMat)
+            item.SetLab(item.OldLab)
+            item.SetEq(item.OldEq)
+            item.SetQty(item.OldQty)
           Next
         End If
         Me.RefreshTaxBase()
