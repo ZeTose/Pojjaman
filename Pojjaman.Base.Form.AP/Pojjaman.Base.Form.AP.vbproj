@@ -82,24 +82,24 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Syncfusion.Core">
-      <Name>Syncfusion.Core</Name>
+    <Reference Include="Syncfusion.Core, Version=5.101.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\bin\Syncfusion.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Grid.Base">
-      <Name>Syncfusion.Grid.Base</Name>
+    <Reference Include="Syncfusion.Grid.Base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Grid.Windows">
-      <Name>Syncfusion.Grid.Windows</Name>
+    <Reference Include="Syncfusion.Grid.Windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.Base">
-      <Name>Syncfusion.Shared.Base</Name>
+    <Reference Include="Syncfusion.Shared.Base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.Windows">
-      <Name>Syncfusion.Shared.Windows</Name>
+    <Reference Include="Syncfusion.Shared.Windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System">
