@@ -197,11 +197,11 @@
     </Reference>
     <Reference Include="Syncfusion.Grid.Windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Syncfusion.Grid.Windows.dll</HintPath>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Windows.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Shared.Base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Syncfusion.Shared.Base.dll</HintPath>
+      <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Base.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
