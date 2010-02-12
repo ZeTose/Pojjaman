@@ -47,28 +47,52 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblMaxLevelApproveDO As System.Windows.Forms.Label
     Friend WithEvents chkApprovePR As System.Windows.Forms.CheckBox
     Friend WithEvents chkPOApproveBeforePrint As System.Windows.Forms.CheckBox
+    Friend WithEvents nudMaxLevelApproveWR As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMaxLevelApproveWR As System.Windows.Forms.Label
+    Friend WithEvents chkWR As System.Windows.Forms.CheckBox
+    Friend WithEvents chkPA As System.Windows.Forms.CheckBox
+    Friend WithEvents nudMaxLevelApprovePA As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMaxLevelApprovePA As System.Windows.Forms.Label
+    Friend WithEvents chkSCApproveBeforePrint As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSC As System.Windows.Forms.CheckBox
+    Friend WithEvents nudMaxLevelApproveSC As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMaxLevelApproveSC As System.Windows.Forms.Label
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents chkDR As System.Windows.Forms.CheckBox
+    Friend WithEvents nudMaxLevelApproveDR As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMaxLevelApproveDR As System.Windows.Forms.Label
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.grbItems = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkApprovePR = New System.Windows.Forms.CheckBox
-      Me.nudMaxLevelApprovePR = New System.Windows.Forms.NumericUpDown
-      Me.lblMaxLevelApprovePR = New System.Windows.Forms.Label
-      Me.chkPR = New System.Windows.Forms.CheckBox
-      Me.chkPO = New System.Windows.Forms.CheckBox
-      Me.chkDO = New System.Windows.Forms.CheckBox
-      Me.nudMaxLevelApprovePO = New System.Windows.Forms.NumericUpDown
-      Me.lblMaxLevelApprovePO = New System.Windows.Forms.Label
-      Me.nudMaxLevelApproveDO = New System.Windows.Forms.NumericUpDown
-      Me.lblMaxLevelApproveDO = New System.Windows.Forms.Label
-      Me.chkPOApproveBeforePrint = New System.Windows.Forms.CheckBox
-      Me.Panel1 = New System.Windows.Forms.Panel
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.grbItems = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkPA = New System.Windows.Forms.CheckBox()
+      Me.nudMaxLevelApprovePA = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApprovePA = New System.Windows.Forms.Label()
+      Me.chkSCApproveBeforePrint = New System.Windows.Forms.CheckBox()
+      Me.chkSC = New System.Windows.Forms.CheckBox()
+      Me.nudMaxLevelApproveSC = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApproveSC = New System.Windows.Forms.Label()
+      Me.Panel2 = New System.Windows.Forms.Panel()
+      Me.nudMaxLevelApproveWR = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApproveWR = New System.Windows.Forms.Label()
+      Me.chkWR = New System.Windows.Forms.CheckBox()
+      Me.chkPOApproveBeforePrint = New System.Windows.Forms.CheckBox()
+      Me.chkApprovePR = New System.Windows.Forms.CheckBox()
+      Me.nudMaxLevelApprovePR = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApprovePR = New System.Windows.Forms.Label()
+      Me.chkPR = New System.Windows.Forms.CheckBox()
+      Me.chkPO = New System.Windows.Forms.CheckBox()
+      Me.chkDO = New System.Windows.Forms.CheckBox()
+      Me.nudMaxLevelApprovePO = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApprovePO = New System.Windows.Forms.Label()
+      Me.nudMaxLevelApproveDO = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApproveDO = New System.Windows.Forms.Label()
+      Me.Panel1 = New System.Windows.Forms.Panel()
+      Me.chkDR = New System.Windows.Forms.CheckBox()
+      Me.nudMaxLevelApproveDR = New System.Windows.Forms.NumericUpDown()
+      Me.lblMaxLevelApproveDR = New System.Windows.Forms.Label()
       Me.grbItems.SuspendLayout()
-      CType(Me.nudMaxLevelApprovePR, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.nudMaxLevelApprovePO, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.nudMaxLevelApproveDO, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'ErrorProvider1
@@ -80,12 +104,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Nothing
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'grbItems
       '
+      Me.grbItems.Controls.Add(Me.chkDR)
+      Me.grbItems.Controls.Add(Me.nudMaxLevelApproveDR)
+      Me.grbItems.Controls.Add(Me.lblMaxLevelApproveDR)
+      Me.grbItems.Controls.Add(Me.chkPA)
+      Me.grbItems.Controls.Add(Me.nudMaxLevelApprovePA)
+      Me.grbItems.Controls.Add(Me.lblMaxLevelApprovePA)
+      Me.grbItems.Controls.Add(Me.chkSCApproveBeforePrint)
+      Me.grbItems.Controls.Add(Me.chkSC)
+      Me.grbItems.Controls.Add(Me.nudMaxLevelApproveSC)
+      Me.grbItems.Controls.Add(Me.lblMaxLevelApproveSC)
+      Me.grbItems.Controls.Add(Me.Panel2)
+      Me.grbItems.Controls.Add(Me.nudMaxLevelApproveWR)
+      Me.grbItems.Controls.Add(Me.lblMaxLevelApproveWR)
+      Me.grbItems.Controls.Add(Me.chkWR)
       Me.grbItems.Controls.Add(Me.chkPOApproveBeforePrint)
       Me.grbItems.Controls.Add(Me.chkApprovePR)
       Me.grbItems.Controls.Add(Me.nudMaxLevelApprovePR)
@@ -101,10 +139,114 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItems.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbItems.Location = New System.Drawing.Point(24, 16)
       Me.grbItems.Name = "grbItems"
-      Me.grbItems.Size = New System.Drawing.Size(424, 160)
+      Me.grbItems.Size = New System.Drawing.Size(424, 285)
       Me.grbItems.TabIndex = 0
       Me.grbItems.TabStop = False
       Me.grbItems.Text = "เอกสารที่ต้องการการอนุมัติ"
+      '
+      'chkPA
+      '
+      Me.chkPA.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkPA.Location = New System.Drawing.Point(24, 244)
+      Me.chkPA.Name = "chkPA"
+      Me.chkPA.Size = New System.Drawing.Size(176, 24)
+      Me.chkPA.TabIndex = 20
+      Me.chkPA.Text = "ใบรับงาน (PA)"
+      '
+      'nudMaxLevelApprovePA
+      '
+      Me.nudMaxLevelApprovePA.Location = New System.Drawing.Point(336, 244)
+      Me.nudMaxLevelApprovePA.Name = "nudMaxLevelApprovePA"
+      Me.nudMaxLevelApprovePA.Size = New System.Drawing.Size(48, 21)
+      Me.nudMaxLevelApprovePA.TabIndex = 22
+      Me.nudMaxLevelApprovePA.Value = New Decimal(New Integer() {1, 0, 0, 0})
+      '
+      'lblMaxLevelApprovePA
+      '
+      Me.lblMaxLevelApprovePA.Location = New System.Drawing.Point(208, 244)
+      Me.lblMaxLevelApprovePA.Name = "lblMaxLevelApprovePA"
+      Me.lblMaxLevelApprovePA.Size = New System.Drawing.Size(128, 21)
+      Me.lblMaxLevelApprovePA.TabIndex = 21
+      Me.lblMaxLevelApprovePA.Text = "ระดับสูงสุดในการอนุมัติ"
+      Me.lblMaxLevelApprovePA.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'chkSCApproveBeforePrint
+      '
+      Me.chkSCApproveBeforePrint.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkSCApproveBeforePrint.Location = New System.Drawing.Point(40, 170)
+      Me.chkSCApproveBeforePrint.Name = "chkSCApproveBeforePrint"
+      Me.chkSCApproveBeforePrint.Size = New System.Drawing.Size(176, 24)
+      Me.chkSCApproveBeforePrint.TabIndex = 18
+      Me.chkSCApproveBeforePrint.Text = "ป้องกันการพิมพ์ก่อนการอนุมัติ"
+      '
+      'chkSC
+      '
+      Me.chkSC.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkSC.Location = New System.Drawing.Point(24, 146)
+      Me.chkSC.Name = "chkSC"
+      Me.chkSC.Size = New System.Drawing.Size(176, 24)
+      Me.chkSC.TabIndex = 15
+      Me.chkSC.Text = "ใบสั่งจ้าง(SC,VO)"
+      '
+      'nudMaxLevelApproveSC
+      '
+      Me.nudMaxLevelApproveSC.Location = New System.Drawing.Point(336, 146)
+      Me.nudMaxLevelApproveSC.Name = "nudMaxLevelApproveSC"
+      Me.nudMaxLevelApproveSC.Size = New System.Drawing.Size(48, 21)
+      Me.nudMaxLevelApproveSC.TabIndex = 17
+      Me.nudMaxLevelApproveSC.Value = New Decimal(New Integer() {1, 0, 0, 0})
+      '
+      'lblMaxLevelApproveSC
+      '
+      Me.lblMaxLevelApproveSC.Location = New System.Drawing.Point(208, 146)
+      Me.lblMaxLevelApproveSC.Name = "lblMaxLevelApproveSC"
+      Me.lblMaxLevelApproveSC.Size = New System.Drawing.Size(128, 21)
+      Me.lblMaxLevelApproveSC.TabIndex = 16
+      Me.lblMaxLevelApproveSC.Text = "ระดับสูงสุดในการอนุมัติ"
+      Me.lblMaxLevelApproveSC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'Panel2
+      '
+      Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+      Me.Panel2.Location = New System.Drawing.Point(32, 154)
+      Me.Panel2.Name = "Panel2"
+      Me.Panel2.Size = New System.Drawing.Size(104, 24)
+      Me.Panel2.TabIndex = 19
+      '
+      'nudMaxLevelApproveWR
+      '
+      Me.nudMaxLevelApproveWR.Location = New System.Drawing.Point(336, 70)
+      Me.nudMaxLevelApproveWR.Name = "nudMaxLevelApproveWR"
+      Me.nudMaxLevelApproveWR.Size = New System.Drawing.Size(48, 21)
+      Me.nudMaxLevelApproveWR.TabIndex = 14
+      Me.nudMaxLevelApproveWR.Value = New Decimal(New Integer() {1, 0, 0, 0})
+      '
+      'lblMaxLevelApproveWR
+      '
+      Me.lblMaxLevelApproveWR.Location = New System.Drawing.Point(208, 70)
+      Me.lblMaxLevelApproveWR.Name = "lblMaxLevelApproveWR"
+      Me.lblMaxLevelApproveWR.Size = New System.Drawing.Size(128, 21)
+      Me.lblMaxLevelApproveWR.TabIndex = 13
+      Me.lblMaxLevelApproveWR.Text = "ระดับสูงสุดในการอนุมัติ"
+      Me.lblMaxLevelApproveWR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'chkWR
+      '
+      Me.chkWR.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkWR.Location = New System.Drawing.Point(24, 68)
+      Me.chkWR.Name = "chkWR"
+      Me.chkWR.Size = New System.Drawing.Size(176, 24)
+      Me.chkWR.TabIndex = 12
+      Me.chkWR.Text = "ใบขอจ้าง (WR)"
+      '
+      'chkPOApproveBeforePrint
+      '
+      Me.chkPOApproveBeforePrint.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkPOApproveBeforePrint.Location = New System.Drawing.Point(40, 127)
+      Me.chkPOApproveBeforePrint.Name = "chkPOApproveBeforePrint"
+      Me.chkPOApproveBeforePrint.Size = New System.Drawing.Size(176, 24)
+      Me.chkPOApproveBeforePrint.TabIndex = 10
+      Me.chkPOApproveBeforePrint.Text = "ป้องกันการพิมพ์ก่อนการอนุมัติ"
       '
       'chkApprovePR
       '
@@ -144,7 +286,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkPO
       '
       Me.chkPO.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkPO.Location = New System.Drawing.Point(24, 72)
+      Me.chkPO.Location = New System.Drawing.Point(24, 103)
       Me.chkPO.Name = "chkPO"
       Me.chkPO.Size = New System.Drawing.Size(176, 24)
       Me.chkPO.TabIndex = 4
@@ -153,7 +295,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkDO
       '
       Me.chkDO.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkDO.Location = New System.Drawing.Point(24, 120)
+      Me.chkDO.Location = New System.Drawing.Point(24, 223)
       Me.chkDO.Name = "chkDO"
       Me.chkDO.Size = New System.Drawing.Size(176, 24)
       Me.chkDO.TabIndex = 7
@@ -161,7 +303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'nudMaxLevelApprovePO
       '
-      Me.nudMaxLevelApprovePO.Location = New System.Drawing.Point(336, 72)
+      Me.nudMaxLevelApprovePO.Location = New System.Drawing.Point(336, 103)
       Me.nudMaxLevelApprovePO.Name = "nudMaxLevelApprovePO"
       Me.nudMaxLevelApprovePO.Size = New System.Drawing.Size(48, 21)
       Me.nudMaxLevelApprovePO.TabIndex = 6
@@ -169,7 +311,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'lblMaxLevelApprovePO
       '
-      Me.lblMaxLevelApprovePO.Location = New System.Drawing.Point(208, 72)
+      Me.lblMaxLevelApprovePO.Location = New System.Drawing.Point(208, 103)
       Me.lblMaxLevelApprovePO.Name = "lblMaxLevelApprovePO"
       Me.lblMaxLevelApprovePO.Size = New System.Drawing.Size(128, 21)
       Me.lblMaxLevelApprovePO.TabIndex = 5
@@ -178,7 +320,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'nudMaxLevelApproveDO
       '
-      Me.nudMaxLevelApproveDO.Location = New System.Drawing.Point(336, 120)
+      Me.nudMaxLevelApproveDO.Location = New System.Drawing.Point(336, 223)
       Me.nudMaxLevelApproveDO.Name = "nudMaxLevelApproveDO"
       Me.nudMaxLevelApproveDO.Size = New System.Drawing.Size(48, 21)
       Me.nudMaxLevelApproveDO.TabIndex = 9
@@ -186,40 +328,54 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'lblMaxLevelApproveDO
       '
-      Me.lblMaxLevelApproveDO.Location = New System.Drawing.Point(208, 120)
+      Me.lblMaxLevelApproveDO.Location = New System.Drawing.Point(208, 223)
       Me.lblMaxLevelApproveDO.Name = "lblMaxLevelApproveDO"
       Me.lblMaxLevelApproveDO.Size = New System.Drawing.Size(128, 21)
       Me.lblMaxLevelApproveDO.TabIndex = 8
       Me.lblMaxLevelApproveDO.Text = "ระดับสูงสุดในการอนุมัติ"
       Me.lblMaxLevelApproveDO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
-      'chkPOApproveBeforePrint
-      '
-      Me.chkPOApproveBeforePrint.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkPOApproveBeforePrint.Location = New System.Drawing.Point(40, 96)
-      Me.chkPOApproveBeforePrint.Name = "chkPOApproveBeforePrint"
-      Me.chkPOApproveBeforePrint.Size = New System.Drawing.Size(176, 24)
-      Me.chkPOApproveBeforePrint.TabIndex = 10
-      Me.chkPOApproveBeforePrint.Text = "ป้องกันการพิมพ์ก่อนการอนุมัติ"
-      '
       'Panel1
       '
       Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.Panel1.Location = New System.Drawing.Point(32, 80)
+      Me.Panel1.Location = New System.Drawing.Point(32, 111)
       Me.Panel1.Name = "Panel1"
       Me.Panel1.Size = New System.Drawing.Size(104, 24)
       Me.Panel1.TabIndex = 11
+      '
+      'chkDR
+      '
+      Me.chkDR.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkDR.Location = New System.Drawing.Point(24, 193)
+      Me.chkDR.Name = "chkDR"
+      Me.chkDR.Size = New System.Drawing.Size(176, 24)
+      Me.chkDR.TabIndex = 23
+      Me.chkDR.Text = "ใบหักค่าใช้จ่าย(DR)"
+      '
+      'nudMaxLevelApproveDR
+      '
+      Me.nudMaxLevelApproveDR.Location = New System.Drawing.Point(336, 193)
+      Me.nudMaxLevelApproveDR.Name = "nudMaxLevelApproveDR"
+      Me.nudMaxLevelApproveDR.Size = New System.Drawing.Size(48, 21)
+      Me.nudMaxLevelApproveDR.TabIndex = 25
+      Me.nudMaxLevelApproveDR.Value = New Decimal(New Integer() {1, 0, 0, 0})
+      '
+      'lblMaxLevelApproveDR
+      '
+      Me.lblMaxLevelApproveDR.Location = New System.Drawing.Point(208, 193)
+      Me.lblMaxLevelApproveDR.Name = "lblMaxLevelApproveDR"
+      Me.lblMaxLevelApproveDR.Size = New System.Drawing.Size(128, 21)
+      Me.lblMaxLevelApproveDR.TabIndex = 24
+      Me.lblMaxLevelApproveDR.Text = "ระดับสูงสุดในการอนุมัติ"
+      Me.lblMaxLevelApproveDR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'ApproveConfigurationView
       '
       Me.Controls.Add(Me.grbItems)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "ApproveConfigurationView"
-      Me.Size = New System.Drawing.Size(472, 192)
+      Me.Size = New System.Drawing.Size(472, 322)
       Me.grbItems.ResumeLayout(False)
-      CType(Me.nudMaxLevelApprovePR, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.nudMaxLevelApprovePO, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.nudMaxLevelApproveDO, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -228,7 +384,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
     Private m_isInitialized As Boolean
-    Public ConfigFilters(7) As Filter
+    Public ConfigFilters(16) As Filter
     Private Dirty As Boolean
 #End Region
 
@@ -258,9 +414,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.lblMaxLevelApprovePO.Visible = False
         Me.lblMaxLevelApproveDO.Visible = False
 
+        Me.lblMaxLevelApproveWR.Visible = False
+        Me.lblMaxLevelApproveSC.Visible = False
+        Me.lblMaxLevelApprovePA.Visible = False
+
         Me.nudMaxLevelApprovePR.Visible = False
         Me.nudMaxLevelApprovePO.Visible = False
         Me.nudMaxLevelApproveDO.Visible = False
+
+        Me.nudMaxLevelApproveWR.Visible = False
+        Me.nudMaxLevelApproveSC.Visible = False
+        Me.nudMaxLevelApprovePA.Visible = False
       End If
     End Sub
 #End Region
@@ -275,7 +439,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudMaxLevelApprovePO.Enabled = chkPO.Checked
       Me.nudMaxLevelApproveDO.Enabled = chkDO.Checked
 
+      Me.nudMaxLevelApproveWR.Enabled = chkWR.Checked
+      Me.nudMaxLevelApproveSC.Enabled = chkSC.Checked
+      Me.nudMaxLevelApproveDR.Enabled = chkDR.Checked
+      Me.nudMaxLevelApprovePA.Enabled = chkPA.Checked
+
       Me.chkPOApproveBeforePrint.Enabled = chkPO.Checked
+      Me.chkSCApproveBeforePrint.Enabled = chkSC.Checked
 
     End Sub
     Public Sub ClearDetail()
@@ -283,27 +453,54 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub SetLabelText()
       Me.grbItems.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.grbItems}")
       Me.chkPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkPR}")
+      Me.chkWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkWR}")
       Me.chkPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkPO}")
+      Me.chkSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkSC}")
+      Me.chkDR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkDR}")
       Me.chkPOApproveBeforePrint.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkPOApproveBeforePrint}")
+      Me.chkSCApproveBeforePrint.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkSCApproveBeforePrint}")
       Me.chkDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkDO}")
+      Me.chkPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkPA}")
       Me.chkApprovePR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.chkApprovePR}")
 
       Me.lblMaxLevelApprovePR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApprovePR}")
       Me.lblMaxLevelApprovePO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApprovePO}")
       Me.lblMaxLevelApproveDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApproveDO}")
+
+      Me.lblMaxLevelApproveWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApprovePR}")
+      Me.lblMaxLevelApproveSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApprovePO}")
+      Me.lblMaxLevelApproveDR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApprovePO}")
+      Me.lblMaxLevelApprovePA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ApproveConfigurationView.lblMaxLevelApproveDO}")
     End Sub
     Protected Sub EventWiring()
       AddHandler chkPR.CheckedChanged, AddressOf ChangeProperty
       AddHandler chkApprovePR.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkWR.CheckedChanged, AddressOf ChangeProperty
+
       AddHandler chkPO.CheckedChanged, AddressOf ChangeProperty
       AddHandler chkPOApproveBeforePrint.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkSC.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkSCApproveBeforePrint.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkDR.CheckedChanged, AddressOf ChangeProperty
+
       AddHandler chkDO.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkPA.CheckedChanged, AddressOf ChangeProperty
+
       AddHandler nudMaxLevelApprovePR.Validated, AddressOf ChangeProperty
       AddHandler nudMaxLevelApprovePR.Click, AddressOf ChangeProperty
       AddHandler nudMaxLevelApprovePO.Validated, AddressOf ChangeProperty
       AddHandler nudMaxLevelApprovePO.Click, AddressOf ChangeProperty
       AddHandler nudMaxLevelApproveDO.Validated, AddressOf ChangeProperty
       AddHandler nudMaxLevelApproveDO.Click, AddressOf ChangeProperty
+
+      AddHandler nudMaxLevelApproveWR.Validated, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApproveWR.Click, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApproveSC.Validated, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApproveSC.Validated, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApproveDR.Click, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApproveDR.Click, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApprovePA.Validated, AddressOf ChangeProperty
+      AddHandler nudMaxLevelApprovePA.Click, AddressOf ChangeProperty
     End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Not m_isInitialized Then
@@ -317,14 +514,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "chkapprovepr"
           Me.SetFilterValue("PRNeedStoreApprove", chkApprovePR.Checked)
           dirtyFlag = True
+        Case "chkwr"
+          Me.SetFilterValue("ApproveWR", chkWR.Checked)
+          dirtyFlag = True
         Case "chkpo"
           Me.SetFilterValue("ApprovePO", chkPO.Checked)
           dirtyFlag = True
         Case "chkpoapprovebeforeprint"
           Me.SetFilterValue("POApproveBeforePrint", chkPOApproveBeforePrint.Checked)
           dirtyFlag = True
+        Case "chksc"
+          Me.SetFilterValue("ApproveSC", chkSC.Checked)
+          dirtyFlag = True
+        Case "chkdr"
+          Me.SetFilterValue("ApproveDR", chkDR.Checked)
+          dirtyFlag = True
+        Case "chkscapprovebeforeprint"
+          Me.SetFilterValue("SCApproveBeforePrint", chkSCApproveBeforePrint.Checked)
+          dirtyFlag = True
         Case "chkdo"
           Me.SetFilterValue("ApproveDO", chkDO.Checked)
+          dirtyFlag = True
+        Case "chkpa"
+          Me.SetFilterValue("ApprovePA", chkPA.Checked)
           dirtyFlag = True
         Case "nudmaxlevelapprovepr"
           Me.SetFilterValue("MaxLevelApprovePR", nudMaxLevelApprovePR.Text)
@@ -334,6 +546,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "nudmaxlevelapprovedo"
           Me.SetFilterValue("MaxLevelApproveDO", nudMaxLevelApproveDO.Text)
+          dirtyFlag = True
+        Case "nudmaxlevelapprovewr"
+          Me.SetFilterValue("MaxLevelApproveWR", nudMaxLevelApproveWR.Text)
+          dirtyFlag = True
+        Case "nudmaxlevelapprovesc"
+          Me.SetFilterValue("MaxLevelApproveSC", nudMaxLevelApproveSC.Text)
+          dirtyFlag = True
+        Case "nudmaxlevelapprovedr"
+          Me.SetFilterValue("MaxLevelApproveDR", nudMaxLevelApproveDR.Text)
+          dirtyFlag = True
+        Case "nudmaxlevelapprovepa"
+          Me.SetFilterValue("MaxLevelApprovePA", nudMaxLevelApprovePA.Text)
           dirtyFlag = True
       End Select
       Dirty = Dirty Or dirtyFlag
@@ -351,6 +575,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ConfigFilters(5) = New Filter("MaxLevelApproveDO", Configuration.GetConfig("MaxLevelApproveDO"))
       ConfigFilters(6) = New Filter("PRNeedStoreApprove", Configuration.GetConfig("PRNeedStoreApprove"))
       ConfigFilters(7) = New Filter("POApproveBeforePrint", Configuration.GetConfig("POApproveBeforePrint"))
+
+      ConfigFilters(8) = New Filter("ApproveWR", Configuration.GetConfig("ApproveWR"))
+      ConfigFilters(9) = New Filter("ApproveSC", Configuration.GetConfig("ApproveSC"))
+      ConfigFilters(10) = New Filter("ApproveDR", Configuration.GetConfig("ApproveDR"))
+      ConfigFilters(11) = New Filter("ApprovePA", Configuration.GetConfig("ApprovePA"))
+      ConfigFilters(12) = New Filter("MaxLevelApproveWR", Configuration.GetConfig("MaxLevelApproveWR"))
+      ConfigFilters(13) = New Filter("MaxLevelApproveSC", Configuration.GetConfig("MaxLevelApproveSC"))
+      ConfigFilters(14) = New Filter("MaxLevelApproveDR", Configuration.GetConfig("MaxLevelApproveDR"))
+      ConfigFilters(15) = New Filter("MaxLevelApprovePA", Configuration.GetConfig("MaxLevelApprovePA"))
+      ConfigFilters(16) = New Filter("SCApproveBeforePrint", Configuration.GetConfig("SCApproveBeforePrint"))
     End Sub
     Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
       For Each filter As Filter In ConfigFilters
@@ -391,6 +625,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudMaxLevelApproveDO.Text = CInt(GetFilterValue("MaxLevelApproveDO"))
       Me.chkApprovePR.Checked = CBool(GetFilterValue("PRNeedStoreApprove"))
 
+      Me.chkWR.Checked = CBool(GetFilterValue("ApproveWR"))
+      Me.chkSC.Checked = CBool(GetFilterValue("ApproveSC"))
+      Me.chkDR.Checked = CBool(GetFilterValue("ApproveDR"))
+      Me.chkSCApproveBeforePrint.Checked = CBool(GetFilterValue("SCApproveBeforePrint"))
+      Me.chkPA.Checked = CBool(GetFilterValue("ApprovePA"))
+      Me.nudMaxLevelApproveWR.Text = CInt(GetFilterValue("MaxLevelApproveWR"))
+      Me.nudMaxLevelApproveSC.Text = CInt(GetFilterValue("MaxLevelApproveSC"))
+      Me.nudMaxLevelApproveDR.Text = CInt(GetFilterValue("MaxLevelApproveDR"))
+      Me.nudMaxLevelApprovePA.Text = CInt(GetFilterValue("MaxLevelApprovePA"))
+
       SetStatus()
       SetLabelText()
       CheckFormEnable()
@@ -409,12 +653,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
     End Property
 #End Region
+
 
   End Class
 End Namespace

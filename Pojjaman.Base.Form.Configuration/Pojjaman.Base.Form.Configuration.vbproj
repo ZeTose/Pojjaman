@@ -324,6 +324,10 @@
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
+      <Name>Pojjaman.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
