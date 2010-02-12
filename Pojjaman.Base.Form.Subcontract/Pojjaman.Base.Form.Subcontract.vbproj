@@ -130,6 +130,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApprovalComment\AdvanceApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApprovalComment\ApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +172,12 @@
     <Compile Include="WBS\scWBSView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="ApprovalComment\AdvanceApprovalCommentForm.resx">
+      <DependentUpon>AdvanceApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
+      <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DR\DRFilterSubPanel.resx">
       <DependentUpon>DRFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>

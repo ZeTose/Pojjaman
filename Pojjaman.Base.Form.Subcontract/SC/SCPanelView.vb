@@ -94,6 +94,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbContact As System.Windows.Forms.ComboBox
     Friend WithEvents lblContact As System.Windows.Forms.Label
     Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
+    Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnShowWR As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnBlankSubItem As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -178,6 +180,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.lblAdvancePay = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowWR = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -225,9 +229,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblDocDate
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocDate.Location = New System.Drawing.Point(247, 17)
+      Me.lblDocDate.Location = New System.Drawing.Point(275, 17)
       Me.lblDocDate.Name = "lblDocDate"
-      Me.lblDocDate.Size = New System.Drawing.Size(76, 18)
+      Me.lblDocDate.Size = New System.Drawing.Size(48, 18)
       Me.lblDocDate.TabIndex = 14
       Me.lblDocDate.Text = "วันที่:"
       Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -528,7 +532,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.AutoSize = True
       Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-      Me.lblStatus.Location = New System.Drawing.Point(244, 166)
+      Me.lblStatus.Location = New System.Drawing.Point(293, 167)
       Me.lblStatus.Name = "lblStatus"
       Me.lblStatus.Size = New System.Drawing.Size(38, 13)
       Me.lblStatus.TabIndex = 38
@@ -823,6 +827,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnApprove)
+      Me.grbDetail.Controls.Add(Me.ibtnShowWR)
       Me.grbDetail.Controls.Add(Me.cmbContact)
       Me.grbDetail.Controls.Add(Me.ibtnBlankSubItem)
       Me.grbDetail.Controls.Add(Me.lblWitholdingTax)
@@ -918,7 +924,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlankSubItem
       '
       Me.ibtnBlankSubItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlankSubItem.Location = New System.Drawing.Point(184, 161)
+      Me.ibtnBlankSubItem.Location = New System.Drawing.Point(228, 162)
       Me.ibtnBlankSubItem.Name = "ibtnBlankSubItem"
       Me.ibtnBlankSubItem.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlankSubItem.TabIndex = 346
@@ -1119,7 +1125,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(159, 161)
+      Me.ibtnBlank.Location = New System.Drawing.Point(203, 162)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 36
@@ -1130,7 +1136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(209, 161)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(253, 162)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 37
@@ -1205,7 +1211,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnGetFromBOQ.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnGetFromBOQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(103, 161)
+      Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(152, 162)
       Me.ibtnGetFromBOQ.Name = "ibtnGetFromBOQ"
       Me.ibtnGetFromBOQ.Size = New System.Drawing.Size(48, 24)
       Me.ibtnGetFromBOQ.TabIndex = 35
@@ -1260,6 +1266,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAdvancePay.TabIndex = 345
       Me.lblAdvancePay.Text = "มัดจำ:"
       Me.lblAdvancePay.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(664, 163)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 334
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnShowWR
+      '
+      Me.ibtnShowWR.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowWR.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.ibtnShowWR.Location = New System.Drawing.Point(104, 162)
+      Me.ibtnShowWR.Name = "ibtnShowWR"
+      Me.ibtnShowWR.Size = New System.Drawing.Size(48, 24)
+      Me.ibtnShowWR.TabIndex = 333
+      Me.ibtnShowWR.TabStop = False
+      Me.ibtnShowWR.Text = "WR"
+      Me.ibtnShowWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.ibtnShowWR.ThemedImage = CType(resources.GetObject("ibtnShowWR.ThemedImage"), System.Drawing.Bitmap)
+      Me.ToolTip1.SetToolTip(Me.ibtnShowWR, "PR")
       '
       'SCPanelView
       '
@@ -1778,10 +1812,75 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "TreeTable Handlers"
    #End Region
 
+#Region "CheckPJMModule"
+    Private m_ApproveDocModule As New PJMModule("approvedoc")
+#End Region
+
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()
       If Me.m_entity Is Nothing Then
         Return
+      End If
+
+      'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
+      If Not CBool(Configuration.GetConfig("ApprovePO")) Then
+        Me.btnApprove.Visible = False
+      Else
+        Me.btnApprove.Visible = True
+      End If
+
+      'จากการอนุมัติเอกสาร
+      If CBool(Configuration.GetConfig("ApprovePO")) Then
+        'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
+        If m_ApproveDocModule.Activated Then
+          'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
+          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
+          If ApproveDocColl.MaxLevel > 0 Then
+            '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+            For Each ctrl As Control In grbDetail.Controls
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            tgItem.Enabled = True
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = True
+            Next
+            Me.btnApprove.Enabled = True
+            Return
+          Else
+            For Each ctrl As Control In grbDetail.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        Else
+          'ถ้าใช้การอนุมัติแบบเก่า
+          If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+            For Each ctrl As Control In grbDetail.Controls
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            tgItem.Enabled = True
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = True
+            Next
+            Me.btnApprove.Enabled = True
+            Return
+          Else
+            For Each ctrl As Control In grbDetail.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        End If
       End If
 
       'จาก Status ของเอกสารเอง
@@ -1863,6 +1962,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblContact.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.lblContact}")
 
       Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.lblItem}")
+      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.btnApprove}")
 
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.lblNote}")
       Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.lblGross}")
@@ -2878,17 +2978,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = True
       InitialCombo()
     End Sub
-    '        Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '            ''PJMModule
-    '            'Dim x As Form
-    '            '   If m_ApproveDocModule.Activated Then
-    '            '	x = New AdvanceApprovalCommentForm(Me.Entity)
-    '            '   Else
-    '            '	x = New ApprovalCommentForm(Me.Entity)
-    '            'End If
-    '            'x.ShowDialog()
-    '            'CheckFormEnable()
-    '        End Sub
+    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      'PJMModule
+      Dim x As Form
+      If m_ApproveDocModule.Activated Then
+        x = New AdvanceApprovalCommentForm(Me.Entity)
+      Else
+        x = New ApprovalCommentForm(Me.Entity)
+      End If
+      x.ShowDialog()
+      CheckFormEnable()
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
@@ -3063,6 +3163,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+
+   
   End Class
 End Namespace
 
