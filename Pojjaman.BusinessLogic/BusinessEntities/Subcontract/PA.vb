@@ -30,12 +30,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PA
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
-        , IBillAcceptable, IWBSAllocatable
+        , IBillAcceptable, IWBSAllocatable, IApprovAble
+
 
 #Region "Members"
     '**************
     Private m_docDate As Date
-    Private m_sc As Sc
+    Private m_sc As SC
     'Private m_Supplier As Supplier
     Private m_receiver As Employee
     Private m_note As String
@@ -66,6 +67,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_realGross As Decimal
     Private m_realTaxAmount As Decimal
     Private m_closed As Boolean
+
+    Private m_approvePerson As User
+    Private m_approveDate As DateTime
 
     Private m_itemCollection As PAItemCollection
 
@@ -110,7 +114,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_costcenter = New CostCenter
         .m_otherdoccode = ""
         .m_otherdocdate = Now.Date
-        .m_sc = New Sc
+        .m_sc = New SC
         .m_sc.SubContractor = New Supplier
         .m_sc.CostCenter = New CostCenter
         .m_receiver = New Employee
@@ -159,7 +163,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'SC Info
         If dr.Table.Columns.Contains("pa_sc") Then
           If Not dr.IsNull("pa_sc") Then
-            .m_sc = New Sc(CInt(dr("pa_sc")))
+            .m_sc = New SC(CInt(dr("pa_sc")))
             '.m_subcontractor = New Supplier(dr, "supplier.")
           End If
         End If
@@ -279,6 +283,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_discount = New Discount(CStr(dr(aliasPrefix & "pa_discrate")))
         End If
 
+        ' ApprovePerson
+        If dr.Table.Columns.Contains("approvePerson.user_id") Then
+          If Not dr.IsNull("approvePerson.user_id") Then
+            .m_approvePerson = New User(dr, "approvePerson.")
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "pa_approvePerson") Then
+            .m_approvePerson = New User(CInt(dr(aliasPrefix & "pa_approvePerson")))
+          End If
+        End If
+        ' Approved Date
+        If Not dr.IsNull(aliasPrefix & "pa_approveDate") Then
+          .m_approveDate = CDate(dr(aliasPrefix & "pa_approveDate"))
+        End If
         '------- Tab Entities -----------------------------------------------------------
         .m_vat = New Vat(Me)
         .m_vat.Direction.Value = 1
@@ -305,7 +323,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property Sc() As Sc      Get        Return m_sc      End Get      Set(ByVal Value As Sc)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property Sc() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
           Return
         End If        m_sc = Value        Me.TaxRate = m_sc.TaxRate
@@ -364,6 +382,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Employee)
         m_receiver = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property ApprovePerson() As User
+      Get
+        Return m_approvePerson
+      End Get
+      Set(ByVal Value As User)
+        m_approvePerson = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property ApproveDate() As DateTime
+      Get
+        Return m_approveDate
+      End Get
+      Set(ByVal Value As DateTime)
+        m_approveDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
@@ -515,7 +551,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.RealGross        Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)      End Get    End Property
-    Public ReadOnly Property AfterTax() As Decimal  'Implements IApprovAble.AmountToApprove
+    Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove
       Get
         Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
@@ -611,6 +647,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_realTaxAmount = Value
       End Set
     End Property    '--------------------REAL-------------------------
+
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "PA"
@@ -981,7 +1018,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_sc", ValidIdOrDBNull(Me.Sc)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docDate", Me.DocDate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_subcontractor", ValidIdOrDBNull(Me.Sc.SubContractor)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherdoccode", Me.otherdocCode))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherdoccode", Me.OtherDocCode))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherdocDate", Me.OtherDocDate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiver", ValidIdOrDBNull(Me.Receiver)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", ValidIdOrDBNull(Me.Sc.CostCenter)))
@@ -3309,7 +3346,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
-                SetJournalEntryItem(jiColl, realaccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
               Case 88 'lab 
                 realAccount = Nothing
                 If Not item.LabAccount Is Nothing AndAlso item.LabAccount.Originated Then
@@ -3321,7 +3358,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainLab
                 End If
-                SetJournalEntryItem(jiColl, realaccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
               Case 89    ' eq
                 realAccount = Nothing
                 If Not item.EqAccount Is Nothing AndAlso item.EqAccount.Originated Then
@@ -3333,7 +3370,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainEQ
                 End If
-                SetJournalEntryItem(jiColl, realaccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
               Case 42 ' LCI
                 If Not item.MatAccount Is Nothing AndAlso item.MatAccount.Originated Then
                   'ใช้ acct ในรายการ
@@ -3344,7 +3381,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
-                SetJournalEntryItem(jiColl, realaccount, realAmount, Me.CostCenter, "E3.1")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.1")
               Case 19 'Tool
                 If Not item.MatAccount Is Nothing AndAlso item.MatAccount.Originated Then
                   'ใช้ acct ในรายการ
@@ -3379,7 +3416,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       jiColl.Add(ji)
     End Sub
-    Public Property JournalEntry() As JournalEntry Implements IGLAble.journalEntry
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get
         Return Me.m_je
       End Get
@@ -3410,6 +3447,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 
+#Region " IApprovAble "
+    Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
+      'เปลี่ยนไปใช้ Trigger แทน
+      Return New SaveErrorException("0")
+
+      With Me
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
+
+        paramArrayList.Add(returnVal)
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", DocID))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", currentUserId))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", theTime))
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+        ' ให้ Transaction ควบคุมที่ส่วนของ Client เพราะอาจมีหลาย loop ได้
+        Try
+          SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Approve" & Me.TableName, sqlparams)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+      End With
+    End Function
+    Dim m As CostCenter
+    Public Property ToCC() As CostCenter 'Implements IHasToCostCenter.ToCC
+      Get
+        Return m 'Me.CostCenter
+      End Get
+      Set(ByVal Value As CostCenter)
+        Me.m = Value
+      End Set
+    End Property
+    Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
+      Get
+        If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
+          Return True
+        End If
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
+      Get
+        Return "Icons.16x16.Approve"
+      End Get
+    End Property
+
+    Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public Function UnApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.UnApproveData
+
+    End Function
+
+    Public ReadOnly Property UnApproveIcon() As String Implements IApprovAble.UnApproveIcon
+      Get
+
+      End Get
+    End Property
+#End Region
   End Class
 
   Public Class PAForApprove

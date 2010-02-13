@@ -1823,14 +1823,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
-      If Not CBool(Configuration.GetConfig("ApprovePO")) Then
+      If Not CBool(Configuration.GetConfig("ApproveSC")) Then
         Me.btnApprove.Visible = False
       Else
         Me.btnApprove.Visible = True
       End If
 
       'จากการอนุมัติเอกสาร
-      If CBool(Configuration.GetConfig("ApprovePO")) Then
+      If CBool(Configuration.GetConfig("ApproveSC")) Then
         'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
         If m_ApproveDocModule.Activated Then
           'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)

@@ -93,6 +93,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtPADocDate As System.Windows.Forms.TextBox
     Friend WithEvents dtpPADocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblPADocDate As System.Windows.Forms.Label
+    Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblDirector As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -176,6 +177,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPADocDate = New System.Windows.Forms.Label()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail.SuspendLayout()
       Me.gbCostCenter.SuspendLayout()
       Me.gbSubContract.SuspendLayout()
@@ -748,6 +750,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.gbCostCenter)
       Me.grbDetail.Controls.Add(Me.gbSubContract)
       Me.grbDetail.Controls.Add(Me.ibtnBlankSubItem)
@@ -1267,6 +1270,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.TabStop = False
       Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
       Me.ibtnCopyMe.Visible = False
+      '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(662, 181)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 335
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
       '
       'PAPanelView
       '
@@ -2234,68 +2251,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      ''ถ้าไม่เปิดอนุมัติเอกสาร(ให้ซ่อนปุ่ม)
-      ''If Not CBool(Configuration.GetConfig("ApprovePa")) Then
-      ''	Me.btnApprove.Visible = False
-      ''Else
-      ''	Me.btnApprove.Visible = True
-      ''End If
+      'ถ้าไม่เปิดอนุมัติเอกสาร(ให้ซ่อนปุ่ม)
+      If Not CBool(Configuration.GetConfig("ApprovePa")) Then
+        Me.btnApprove.Visible = False
+      Else
+        Me.btnApprove.Visible = True
+      End If
 
-      ''จากการอนุมัติเอกสาร()
-      'If CBool(Configuration.GetConfig("ApprovePa")) Then
-      '	'ถ้าใช้การอนุมัติแบบใหม่(PJMModule)
-      '	If m_ApproveDocModule.Activated Then
-      '		Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      '		Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser)			'ระดับสิทธิแต่ละผู้ใช้
-      '		Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)			'ระดับสิทธิที่ได้ทำการ approve
-      '		If ApproveDocColl.MaxLevel > 0 Then
-      '                       (ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
-      '                       (Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-      '			For Each ctrl As Control In grbDetail.Controls
-      '				If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-      '					ctrl.Enabled = False
-      '				End If
-      '			Next
-      '			tgItem.Enabled = True
-      '			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '				colStyle.ReadOnly = True
-      '			Next
-      '			Me.btnApprove.Enabled = True
-      '			CheckWBSRight()
-      '			Return
-      '		Else
-      '			For Each ctrl As Control In grbDetail.Controls
-      '				ctrl.Enabled = CBool(m_enableState(ctrl))
-      '			Next
-      '			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '				colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-      '			Next
-      '		End If
-      '	Else
-      '		'ถ้าใช้การอนุมัติแบบเก่า()
-      '		If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
-      '			For Each ctrl As Control In grbDetail.Controls
-      '				If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-      '					ctrl.Enabled = False
-      '				End If
-      '			Next
-      '			tgItem.Enabled = True
-      '			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '				colStyle.ReadOnly = True
-      '			Next
-      '			'Me.btnApprove.Enabled = True
-      '			CheckWBSRight()
-      '			Return
-      '		Else
-      '			For Each ctrl As Control In grbDetail.Controls
-      '				ctrl.Enabled = CBool(m_enableState(ctrl))
-      '			Next
-      '			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '				colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-      '			Next
-      '		End If
-      '	End If
-      'End If
+      'จากการอนุมัติเอกสาร()
+      If CBool(Configuration.GetConfig("ApprovePa")) Then
+        'ถ้าใช้การอนุมัติแบบใหม่(PJMModule)
+        If m_ApproveDocModule.Activated Then
+          Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser)      'ระดับสิทธิแต่ละผู้ใช้
+          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)     'ระดับสิทธิที่ได้ทำการ approve
+          If ApproveDocColl.MaxLevel > 0 Then
+            '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+            For Each ctrl As Control In grbDetail.Controls
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            tgItem.Enabled = True
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = True
+            Next
+            Me.btnApprove.Enabled = True
+            CheckWBSRight()
+            Return
+          Else
+            For Each ctrl As Control In grbDetail.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        Else
+          'ถ้าใช้การอนุมัติแบบเก่า()
+          If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+            For Each ctrl As Control In grbDetail.Controls
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            tgItem.Enabled = True
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = True
+            Next
+            'Me.btnApprove.Enabled = True
+            CheckWBSRight()
+            Return
+          Else
+            For Each ctrl As Control In grbDetail.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        End If
+      End If
 
 
       ' จาก Status ของเอกสารเอง
@@ -3597,6 +3614,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         UpdateAmount()
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
+    End Sub
+    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+      'PJMModule
+      Dim x As Form
+      If m_ApproveDocModule.Activated Then
+        x = New AdvanceApprovalCommentForm(Me.Entity)
+      Else
+        x = New ApprovalCommentForm(Me.Entity)
+      End If
+      x.ShowDialog()
+      CheckFormEnable()
     End Sub
 #End Region
 
