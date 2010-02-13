@@ -63,7 +63,8 @@
 			</MenuItem>
 			
 			<MenuItem id="Subcontract" insertafter="Purchase" insertbefore="Stock" label="${res:MainMenu.SubcontractMenu}">
-				<MenuItem id="sc" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.SC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SC"/>
+        <MenuItem id="wr" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.WR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WR"/>
+        <MenuItem id="sc" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.SC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SC"/>
 				<MenuItem id="vo" icon="Icons.16x16.VO" label="${res:MainMenu.SubcontractMenu.VO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VO"/>
 				<MenuItem id="dr" icon="Icons.16x16.DR" label="${res:MainMenu.SubcontractMenu.DR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DR"/>
 				<MenuItem id="Separator" label="-"/>

@@ -727,6 +727,8 @@
     <Compile Include="BusinessEntities\Security\User.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Subcontract\WR.vb" />
+    <Compile Include="BusinessEntities\Subcontract\WRItem.vb" />
     <Compile Include="BusinessEntities\Subcontract\DR.vb">
       <SubType>Code</SubType>
     </Compile>

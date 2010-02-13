@@ -172,6 +172,12 @@
     <Compile Include="WBS\scWBSView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WR\WRFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WR\WRPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="ApprovalComment\AdvanceApprovalCommentForm.resx">
       <DependentUpon>AdvanceApprovalCommentForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -212,6 +218,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WBS\scWBSView.resx">
       <DependentUpon>scWBSView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WR\WRFilterSubPanel.resx">
+      <DependentUpon>WRFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WR\WRPanelView.resx">
+      <DependentUpon>WRPanelView.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

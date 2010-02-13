@@ -761,8 +761,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_refDoc = CType(Me.m_entity, IWBSAllocatable)
 
         Me.txtRefDocCode.Text = Me.m_entity.Code
-        Me.txtSubContractorName.Text = RefDoc.Supplier.Code & " : " & RefDoc.Supplier.Name
-        Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
+        If Not RefDoc.Supplier Is Nothing Then
+          Me.txtSubContractorName.Text = RefDoc.Supplier.Code & " : " & RefDoc.Supplier.Name
+        End If
+        If Not RefDoc.ToCostCenter Is Nothing Then
+          Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
+        End If
       End If
 
       RefreshDocs()
