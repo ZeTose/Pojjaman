@@ -180,6 +180,9 @@
     <Compile Include="User\AccessDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="User\VarchUserDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="User\IAccessPanel.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -257,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User\AccessDialog.resx">
       <DependentUpon>AccessDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\VarchUserDetailView.resx">
+      <DependentUpon>VarchUserDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User\OptionFrame.resx">
       <DependentUpon>OptionFrame.vb</DependentUpon>

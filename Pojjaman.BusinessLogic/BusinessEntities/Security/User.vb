@@ -82,6 +82,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Shared Sub New()
       RefreshUserTable()
     End Sub
+    Property CanSeeAllDocType1 As Boolean
+    Property CanSeeAllDocType2 As Boolean
     Public Shared Sub RefreshUserTable()
       Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
@@ -138,7 +140,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-
+        Dim deh As New DataRowHelper(dr)
+        Me.CanSeeAllDocType1 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType1")
+        Me.CanSeeAllDocType2 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType2")
       End With
     End Sub
     Public Overloads Sub LoadImage(ByVal reader As IDataReader)
@@ -508,7 +512,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@user_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@user_password", Me.Password))
         paramArrayList.Add(New SqlParameter("@user_name", Me.Name))
-
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", Me.CanSeeAllDocType1))
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", Me.CanSeeAllDocType2))
         'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise
 
         ' สร้าง SqlParameter จาก ArrayList ...

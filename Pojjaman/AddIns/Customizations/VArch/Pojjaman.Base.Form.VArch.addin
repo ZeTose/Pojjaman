@@ -3,12 +3,16 @@
 		<Import assembly="Pojjaman.Base.Form.AP.dll"/>
 		<Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
 		<Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
-		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/> 
-	</Runtime>
+		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>
+    <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
+  </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">
       <MenuItem id="GoodsReceipt1" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:1|"/>
       <MenuItem id="GoodsReceipt2" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceipt_v2}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.GoodsReceipt_v2}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:2|"/>
     </MenuItem>  
   </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs/user">
+    <EntityTab id="AccessDetailView2" insertafter="AccessDetailView" view="Longkong.Pojjaman.Gui.Panels.VarchUserDetailView"/>
+  </Extension>  
 </AddIn>
