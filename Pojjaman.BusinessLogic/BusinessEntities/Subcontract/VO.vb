@@ -12,7 +12,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class VO
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
 
 #Region "Members"
     Private m_docDate As Date
@@ -36,6 +36,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemCollection As VOItemCollection
     Private m_subcontractor As Supplier
     Private m_cc As CostCenter
+    Private m_approvePerson As User
+    Private m_approveDate As DateTime
 
     Private m_closed As Boolean
     Private m_closing As Boolean
@@ -142,7 +144,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_closed = CBool(dr(aliasPrefix & "vo_closed"))
           .m_closing = CBool(dr(aliasPrefix & "vo_closed"))
         End If
-
+        ' ApprovePerson
+        If dr.Table.Columns.Contains("approvePerson.user_id") Then
+          If Not dr.IsNull("approvePerson.user_id") Then
+            .m_approvePerson = New User(dr, "approvePerson.")
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "vo_approvePerson") Then
+            .m_approvePerson = New User(CInt(dr(aliasPrefix & "vo_approvePerson")))
+          End If
+        End If
+        ' Approved Date
+        If Not dr.IsNull(aliasPrefix & "vo_approveDate") Then
+          .m_approveDate = CDate(dr(aliasPrefix & "vo_approveDate"))
+        End If
 
         m_itemCollection = New VOItemCollection(Me)
       End With
@@ -276,7 +291,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End Get
     End Property
-    Public ReadOnly Property AfterTax() As Decimal  'Implements IApprovAble.AmountToApprove
+    Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove
       Get
         Select Case Me.TaxType.Value
           Case 0     '"ไม่มี"
@@ -380,6 +395,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Discount.AmountBeforeDiscount = Me.RealGross
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
+    End Property
+    Public Property ApprovePerson() As User
+      Get
+        Return m_approvePerson
+      End Get
+      Set(ByVal Value As User)
+        m_approvePerson = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property ApproveDate() As DateTime
+      Get
+        Return m_approveDate
+      End Get
+      Set(ByVal Value As DateTime)
+        m_approveDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
     End Property
     Public Property SC() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
@@ -1905,39 +1938,39 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 #End Region
 
 #Region " IApprovAble "
-    '        Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
-    '            'เปลี่ยนไปใช้ Trigger แทน
-    '            Return New SaveErrorException("0")
+    Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
+      'เปลี่ยนไปใช้ Trigger แทน
+      Return New SaveErrorException("0")
 
-    '            With Me
-    '                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-    '                returnVal.ParameterName = "RETURN_VALUE"
-    '                returnVal.DbType = DbType.Int32
-    '                returnVal.Direction = ParameterDirection.ReturnValue
-    '                returnVal.SourceVersion = DataRowVersion.Current
-    '                ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-    '                Dim paramArrayList As New ArrayList
+      With Me
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
 
-    '                paramArrayList.Add(returnVal)
-    '                paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", DocID))
-    '                paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", currentUserId))
-    '                paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", theTime))
+        paramArrayList.Add(returnVal)
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", DocID))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", currentUserId))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", theTime))
 
-    '                ' สร้าง SqlParameter จาก ArrayList ...
-    '                Dim sqlparams() As SqlParameter
-    '                sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-    '                ' ให้ Transaction ควบคุมที่ส่วนของ Client เพราะอาจมีหลาย loop ได้
-    '                Try
-    '                    SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Approve" & Me.TableName, sqlparams)
-    '                    Return New SaveErrorException(returnVal.Value.ToString)
-    '                Catch ex As SqlException
-    '                    Return New SaveErrorException(ex.ToString)
-    '                Catch ex As Exception
-    '                    Return New SaveErrorException(ex.ToString)
-    '                End Try
-    '            End With
-    '        End Function
+        ' ให้ Transaction ควบคุมที่ส่วนของ Client เพราะอาจมีหลาย loop ได้
+        Try
+          SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Approve" & Me.TableName, sqlparams)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+      End With
+    End Function
     Dim m As CostCenter
     Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
@@ -1947,36 +1980,36 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Me.m = Value
       End Set
     End Property
-    'Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
-    '    Get
-    '        If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
-    '            Return True
-    '        End If
-    '        Return False
-    '    End Get
-    'End Property
+    Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
+      Get
+        If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
+          Return True
+        End If
+        Return False
+      End Get
+    End Property
 
-    'Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
-    '    Get
-    '        Return "Icons.16x16.Approve"
-    '    End Get
-    'End Property
+    Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
+      Get
+        Return "Icons.16x16.Approve"
+      End Get
+    End Property
 
-    'Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
-    '    Get
-    '        Return False
-    '    End Get
-    'End Property
+    Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
+      Get
+        Return False
+      End Get
+    End Property
 
-    'Public Function UnApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.UnApproveData
+    Public Function UnApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.UnApproveData
 
-    'End Function
+    End Function
 
-    'Public ReadOnly Property UnApproveIcon() As String Implements IApprovAble.UnApproveIcon
-    '    Get
+    Public ReadOnly Property UnApproveIcon() As String Implements IApprovAble.UnApproveIcon
+      Get
 
-    '    End Get
-    'End Property
+      End Get
+    End Property
 #End Region
 
 #Region "Delete"

@@ -12,6 +12,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class DRPanelView
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -1691,9 +1692,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
 #End Region
 
-    '#Region "CheckPJMModule"
-    '        Private m_ApproveDocModule As New PJMModule("approvedoc")
-    '#End Region
+#Region "CheckPJMModule"
+    Private m_ApproveDocModule As New PJMModule("approvedoc")
+#End Region
 
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()

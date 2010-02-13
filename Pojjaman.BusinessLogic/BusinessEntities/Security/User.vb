@@ -546,12 +546,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             SaveDetail(Me.Id, conn, trans)
           End If
 
+          Dim saveerror As SaveErrorException
           If Not Me.m_costCenterUserAccessCollection Is Nothing AndAlso Me.m_costCenterUserAccessCollection.Count >= 0 Then
-            Me.m_costCenterUserAccessCollection.Save(Me)
+            saveerror = Me.m_costCenterUserAccessCollection.Save(Me)
+            If Not IsNumeric(saveerror.Message) Then
+              Throw New Exception(saveerror.Message)
+            End If
           End If
-
           If Not Me.m_approvalDocLevelCollection Is Nothing AndAlso Me.m_approvalDocLevelCollection.Count >= 0 Then
-            Me.m_approvalDocLevelCollection.Save(Me)
+            saveerror = Me.m_approvalDocLevelCollection.Save(Me)
+            If Not IsNumeric(saveerror.Message) Then
+              Throw New Exception(saveerror.Message)
+            End If
           End If
 
           ' Update UserImage & UserSignature ...

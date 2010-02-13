@@ -30,13 +30,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class DR
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
+
 
 #Region "Members"
 
     Private m_docDate As Date
     'Private m_subcontractor As Supplier
-    Private m_sc As Sc
+    Private m_sc As SC
     'Private m_director As Employee
     Private m_status As DRStatus
     Private m_note As String
@@ -60,6 +61,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_afterTax As Decimal
     Private m_realGross As Decimal
     Private m_realTaxAmount As Decimal
+
+    Private m_approvePerson As User
+    Private m_approveDate As DateTime
 
     Private m_retention As Decimal
     Private m_witholdingTax As Decimal
@@ -103,7 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
 
         .m_docDate = Now.Date
-        .m_sc = New Sc
+        .m_sc = New SC
         .m_sc.SubContractor = New Supplier
         .m_fromEmployee = New Employee
         .m_sc.CostCenter = New CostCenter
@@ -140,7 +144,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'SC Info
         If dr.Table.Columns.Contains("dr_sc") Then
           If Not dr.IsNull("dr_sc") Then
-            .m_sc = New Sc(CInt(dr("dr_sc")))
+            .m_sc = New SC(CInt(dr("dr_sc")))
           End If
         End If
         If dr.Table.Columns.Contains("dr_docdate") AndAlso Not dr.IsNull("dr_docdate") Then
@@ -212,6 +216,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "dr_witholdingtax") AndAlso Not dr.IsNull(aliasPrefix & "dr_witholdingtax") Then
           .m_witholdingTax = CDec(dr(aliasPrefix & "dr_witholdingtax"))
         End If
+
+        ' ApprovePerson
+        If dr.Table.Columns.Contains("approvePerson.user_id") Then
+          If Not dr.IsNull("approvePerson.user_id") Then
+            .m_approvePerson = New User(dr, "approvePerson.")
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "dr_approvePerson") Then
+            .m_approvePerson = New User(CInt(dr(aliasPrefix & "dr_approvePerson")))
+          End If
+        End If
+        ' Approved Date
+        If Not dr.IsNull(aliasPrefix & "dr_approveDate") Then
+          .m_approveDate = CDate(dr(aliasPrefix & "dr_approveDate"))
+        End If
         'MatActualHash = New Hashtable
         'LabActualHash = New Hashtable
         'EQActualHash = New Hashtable
@@ -280,6 +299,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As CodeDescription)
         m_status = CType(Value, DRStatus)
+      End Set
+    End Property
+    Public Property ApprovePerson() As User
+      Get
+        Return m_approvePerson
+      End Get
+      Set(ByVal Value As User)
+        m_approvePerson = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property ApproveDate() As DateTime
+      Get
+        Return m_approveDate
+      End Get
+      Set(ByVal Value As DateTime)
+        m_approveDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
     Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter
@@ -408,7 +445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End Get
     End Property
-    Public ReadOnly Property AfterTax() As Decimal 'Implements IApprovAble.AmountToApprove
+    Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove
       Get
         Select Case Me.TaxType.Value
           Case 0     '"ไม่มี"
@@ -1753,39 +1790,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region " IApprovAble "
-    'Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
-    '    'เปลี่ยนไปใช้ Trigger แทน
-    '    Return New SaveErrorException("0")
+    Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
+      'เปลี่ยนไปใช้ Trigger แทน
+      Return New SaveErrorException("0")
 
-    '    With Me
-    '        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-    '        returnVal.ParameterName = "RETURN_VALUE"
-    '        returnVal.DbType = DbType.Int32
-    '        returnVal.Direction = ParameterDirection.ReturnValue
-    '        returnVal.SourceVersion = DataRowVersion.Current
-    '        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-    '        Dim paramArrayList As New ArrayList
+      With Me
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
 
-    '        paramArrayList.Add(returnVal)
-    '        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", DocID))
-    '        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", currentUserId))
-    '        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", theTime))
+        paramArrayList.Add(returnVal)
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", DocID))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", currentUserId))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", theTime))
 
-    '        ' สร้าง SqlParameter จาก ArrayList ...
-    '        Dim sqlparams() As SqlParameter
-    '        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-    '        ' ให้ Transaction ควบคุมที่ส่วนของ Client เพราะอาจมีหลาย loop ได้
-    '        Try
-    '            SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Approve" & Me.TableName, sqlparams)
-    '            Return New SaveErrorException(returnVal.Value.ToString)
-    '        Catch ex As SqlException
-    '            Return New SaveErrorException(ex.ToString)
-    '        Catch ex As Exception
-    '            Return New SaveErrorException(ex.ToString)
-    '        End Try
-    '    End With
-    'End Function
+        ' ให้ Transaction ควบคุมที่ส่วนของ Client เพราะอาจมีหลาย loop ได้
+        Try
+          SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Approve" & Me.TableName, sqlparams)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+      End With
+    End Function
     Dim m As CostCenter
     Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
@@ -1795,8 +1832,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m = Value
       End Set
     End Property
+    Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
+      Get
+        If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
+          Return True
+        End If
+        Return False
+      End Get
+    End Property
 
+    Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
+      Get
+        Return "Icons.16x16.Approve"
+      End Get
+    End Property
 
+    Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public Function UnApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.UnApproveData
+
+    End Function
+
+    Public ReadOnly Property UnApproveIcon() As String Implements IApprovAble.UnApproveIcon
+      Get
+
+      End Get
+    End Property
 #End Region
 
 #Region "Delete"
@@ -1923,6 +1988,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return coll
     End Function
 
+  
   End Class
   '    Public Class DRStatus
   '        Inherits CodeDescription
