@@ -447,6 +447,15 @@ Public Class ApproveDocCollection
             MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApprovePO"))
           Case 45
             MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApproveDO"))
+          Case 324
+            MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApproveWR"))
+          Case 289, 290  'SC,VO
+            MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApproveSC"))
+          Case 291
+            MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApproveDR"))
+          Case 292
+            MaximumLevelOfApprove = CInt(Configuration.GetConfig("MaxLevelApprovePA"))
+
         End Select
       End If
       Return MaximumLevelOfApprove

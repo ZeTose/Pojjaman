@@ -1061,8 +1061,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discrate", Me.Discount.Rate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discamt", Me.DiscountAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.RealTaxAmount))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...

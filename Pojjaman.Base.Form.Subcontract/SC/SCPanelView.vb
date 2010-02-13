@@ -2978,7 +2978,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = True
       InitialCombo()
     End Sub
-    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
       'PJMModule
       Dim x As Form
       If m_ApproveDocModule.Activated Then
@@ -3165,6 +3165,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
    
+    
   End Class
 End Namespace
 
