@@ -1,9 +1,9 @@
 <AddIn name="Pojjaman AP For V-Arch" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Form.AP.dll"/>
-		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
-		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
-		<Import assembly="../SubContract/Pojjaman.Base.Form.SubContract.dll"/> 
+		<Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+		<Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
+		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/> 
 	</Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">
