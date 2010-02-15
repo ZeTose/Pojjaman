@@ -73,8 +73,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_itemCollection As PAItemCollection
 
+
+    Private m_advancePayToDoc As Decimal
     Private m_advancePayRemaining As Decimal
     Private m_retentionRemaining As Decimal
+    Private m_retentionToDoc As Decimal
     Private m_retention As Decimal
     Private m_customNoteColl As CustomNoteCollection
     Private m_advancePayItemColl As AdvancePayItemCollection
@@ -242,12 +245,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "pa_taxtype") AndAlso Not dr.IsNull(aliasPrefix & "pa_taxtype") Then
           .m_taxType = New TaxType(CInt(dr(aliasPrefix & "pa_taxtype")))
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "pa_retentiontodate") AndAlso Not dr.IsNull(aliasPrefix & "pa_retentiontodate") Then
+          .m_retentionToDoc = CDec(dr(aliasPrefix & "pa_retentiontodate"))
+        End If
         If dr.Table.Columns.Contains(aliasPrefix & "pa_retention") AndAlso Not dr.IsNull(aliasPrefix & "pa_retention") Then
           .m_retention = CDec(dr(aliasPrefix & "pa_retention"))
         End If
-        'If dr.Table.Columns.Contains(aliasPrefix & "pa_advancepay") AndAlso Not dr.IsNull(aliasPrefix & "pa_advancepay") Then
-        '  .m_advancepay = CDec(dr(aliasPrefix & "pa_advancepay"))
-        'End If
+        If dr.Table.Columns.Contains(aliasPrefix & "pa_advancepaytodate") AndAlso Not dr.IsNull(aliasPrefix & "pa_advancepaytodate") Then
+          .m_advancePayToDoc = CDec(dr(aliasPrefix & "pa_advancepaytodate"))
+        End If
         ''taxrate
         If Not dr.IsNull(aliasPrefix & "pa_taxrate") Then
           .m_taxRate = CDec(dr(aliasPrefix & "pa_taxrate"))
@@ -499,6 +505,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_retentionRemaining = Value
       End Set
     End Property
+    Public Property RetentionToDoc() As Decimal
+      Get
+        Return m_retentionToDoc
+      End Get
+      Set(ByVal Value As Decimal)
+        m_retentionToDoc = Value
+      End Set
+    End Property
     Public Property Retention() As Decimal      Get
         Return m_retention
       End Get
@@ -513,6 +527,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  Return
         'End If
         m_retention = Value
+      End Set
+    End Property
+    Public Property AdvancePayToDoc() As Decimal
+      Get
+        Return m_advancePayToDoc
+      End Get
+      Set(ByVal Value As Decimal)
+        m_advancePayToDoc = Value
       End Set
     End Property
     Public Property AdvancePayRemaining() As Decimal
@@ -832,6 +854,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return 0
     End Function
+    Public Function GetSCVat() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSCVat" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
+    Public Function GetSCVatOut() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSCVatOut" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
+    Public Function GetSCWhtOut() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSCWhtOut" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
 
     Private Function Validate() As SaveErrorException
       ''ถ้าวันที่เอกสารน้อยกว่าวันที่เอกสารรับงานล่าสุดไม่ให้บันทึก
@@ -1037,7 +1098,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discrate", Me.Discount.Rate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discamt", Me.Discount.Amount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.TaxAmount))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_retentiontodate", Me.RetentionToDoc))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_retention", Me.Retention))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_advancepaytodate", Me.AdvancePayToDoc))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_advancepay", Me.AdvancePay))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -1607,10 +1670,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim ret As Decimal = Me.GetSCRetentionRemaining
+      Me.m_retentionToDoc = ret
       Me.m_retentionRemaining = ret
       Me.m_retention = ret
-      'Dim adv As Decimal = Me.GetSCAdvancePayRemaining
-      'Me.m_advancePayRemaining = ret
+      Dim adv As Decimal = Me.GetSCAdvancePayRemaining
+      Me.m_advancePayToDoc = adv
       Dim dist As Decimal = Me.GetSCDistCountRemaining
       If dist > 0 Then
         Dim distString As String = dist.ToString
@@ -1980,6 +2044,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
       End If
 
+      ''Contract QTY  
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContractQty"
+      'dpi.Value = Configuration.FormatToString(Me.ItemCollection.SumQtyContractAmount, DigitConfig.Price)
+      'dpi.DataType = "System.Decimal"
+      'dpiColl.Add(dpi)
+
+      'Contract Amount 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.SumContractAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      ''Received QTY  
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ReceivedQty"
+      'dpi.Value = Configuration.FormatToString(Me.ItemCollection.SumQtyReceived, DigitConfig.Price)
+      'dpi.DataType = "System.Decimal"
+      'dpiColl.Add(dpi)
+
+      'Received Amount 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ReceivedAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.SumReceivedAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'ContractAdvancePayAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractAdvancePayAmount"
+      dpi.Value = Configuration.FormatToString(Me.Sc.AdvancePay, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'AdvancePayAmountTodate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvancePayAmountToDoc"
+      dpi.Value = Configuration.FormatToString(Me.AdvancePayToDoc, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'AdvancePayAmount
       dpi = New DocPrintingItem
       dpi.Mapping = "AdvancePayAmount"
@@ -2008,6 +2114,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'SCTaxAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SCTaxAmount"
+      dpi.Value = Configuration.FormatToString(Me.GetSCVat, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'SCTaxOutAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SCTaxOutAmount"
+      dpi.Value = Configuration.FormatToString(Me.GetSCVatOut, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'TaxAmount
       dpi = New DocPrintingItem
       dpi.Mapping = "TaxAmount"
@@ -2020,6 +2140,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Mapping = "TaxType"
       dpi.Value = Me.TaxType.Description
       dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'SCWithHoldingTaxOutAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SCWHTOutAmount"
+      dpi.Value = Configuration.FormatToString(Me.GetSCWhtOut, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'Contract Retention
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Contract Retention"
+      dpi.Value = Configuration.FormatToString(Me.Sc.Retention, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'Retentiontodate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RetentionToDoc"
+      dpi.Value = Configuration.FormatToString(Me.RetentionToDoc, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
       'Retention
@@ -2113,11 +2254,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               newDRItem = New PAItem
               newDRItem.RefEntity = New RefEntity
               newDRItem.RefEntity.Id = 291
-              newDRItem.TotalBudget = item.BudgetCostAmount
+              newDRItem.TotalBudget = item.ContractCostAmount
               newDRItem.TotalReceived = item.ReceivedAmount
               newDRItem.TotalProgressReceive = item.Amount
             Else
-              newDRItem.TotalBudget += item.BudgetCostAmount
+              newDRItem.TotalBudget += item.ContractCostAmount
               newDRItem.TotalReceived += item.ReceivedAmount
               newDRItem.TotalProgressReceive += item.Amount
             End If
@@ -2304,106 +2445,108 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
+          If item.ItemType.Value <> 289 Then
+            'ContractQty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ContractQty"
+            dpi.Value = Configuration.FormatToString(item.ContractQtyCostAmount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'ContractQty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ContractQty"
-          dpi.Value = Configuration.FormatToString(item.BudgetQtyCostAmount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'ContractAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ContractAmount"
+            dpi.Value = Configuration.FormatToString(item.ContractCostAmount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'ContractAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ContractAmount"
-          dpi.Value = Configuration.FormatToString(item.BudgetCostAmount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'ReceivedQty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ReceivedQty"
+            dpi.Value = Configuration.FormatToString(item.ReceivedQty, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'ReceivedQty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ReceivedQty"
-          dpi.Value = Configuration.FormatToString(item.ReceivedQty, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'ReceivedAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ReceivedAmount"
+            dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'ReceivedAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ReceivedAmount"
-          dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'Qty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Qty"
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'Qty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty"
-          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'UnitPrice
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.UnitPrice"
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'UnitPrice
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.UnitPrice"
-          dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'Amount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Amount"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'Amount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Amount"
-          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'RemainingAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.RemainingAmount"
+            dpi.Value = Configuration.FormatToString(item.ContractCostAmount - item.ReceivedAmount - item.Amount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'RemainingAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.RemainingAmount"
-          dpi.Value = Configuration.FormatToString(item.BudgetCostAmount - item.ReceivedAmount - item.Amount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'ProgressReceivedAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ProgressReceivedAmount"
+            dpi.Value = Configuration.FormatToString(item.TotalProgressReceive, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
 
-          'ProgressReceivedAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ProgressReceivedAmount"
-          dpi.Value = Configuration.FormatToString(item.TotalProgressReceive, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
-
-          'CostAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.CostAmount"
-          dpi.Value = Configuration.FormatToString(item.CostAmount, DigitConfig.Price)
-          dpi.Font = fn
-          dpi.DataType = "System.Decimal"
-          dpi.Table = "Item"
-          dpi.Row = RowNumber
-          dpiColl.Add(dpi)
+            'CostAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.CostAmount"
+            dpi.Value = Configuration.FormatToString(item.CostAmount, DigitConfig.Price)
+            dpi.Font = fn
+            dpi.DataType = "System.Decimal"
+            dpi.Table = "Item"
+            dpi.Row = RowNumber
+            dpiColl.Add(dpi)
+          End If
+          
 
           Dim ccList As String = ""
           For Each wbsd As WBSDistribute In item.WBSDistributeCollection

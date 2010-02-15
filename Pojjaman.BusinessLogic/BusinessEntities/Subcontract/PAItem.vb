@@ -708,10 +708,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_originAmt = Value
       End Set
     End Property    Public ReadOnly Property RemainingQtyCost() As Decimal      Get
-        Return Me.BudgetQtyCostAmount - Me.ReceivedQty
+        Return Me.ContractQtyCostAmount - Me.ReceivedQty
       End Get
     End Property    Public ReadOnly Property RemainingCost() As Decimal      Get
-        Return Me.BudgetCostAmount - Me.ReceivedAmount
+        Return Me.ContractCostAmount - Me.ReceivedAmount
       End Get
     End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Not IsNumeric(Value) Then
@@ -819,7 +819,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property SC() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        m_sc = Value      End Set    End Property    Public ReadOnly Property ReceivedQty() As Decimal      Get        Return Me.m_receivedQty      End Get    End Property    Public ReadOnly Property ReceivedAmount() As Decimal      Get
         Return Me.m_receivedAmount
       End Get
-    End Property    Public ReadOnly Property BudgetCostAmount() As Decimal      Get        Return Me.m_costAmount      End Get    End Property    Public ReadOnly Property BudgetQtyCostAmount() As Decimal      Get
+    End Property    Public ReadOnly Property ContractCostAmount() As Decimal      Get        Return Me.m_costAmount      End Get    End Property    Public ReadOnly Property ContractQtyCostAmount() As Decimal      Get
         Return Me.m_qtyCostAmount * (BudgetConversion / Me.Conversion)
       End Get
     End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property    Public ReadOnly Property UnitCost() As Decimal
@@ -884,17 +884,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If Me.RefEntity.Id > 0 Then          If Me.HashSCChild Then            'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน            msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
             Return
-          End If          If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then            If Me.BudgetCostAmount < 0 AndAlso Value >= 0 Then              'มูลค่ารับงานต้องน้อยกว่าศูนย์เสมอ              msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
+          End If          If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then            If Me.ContractCostAmount < 0 AndAlso Value >= 0 Then              'มูลค่ารับงานต้องน้อยกว่าศูนย์เสมอ              msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
               Return
-            End If            If Me.BudgetCostAmount < 0 AndAlso Me.RemainingCost > Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+            End If            If Me.ContractCostAmount < 0 AndAlso Me.RemainingCost > Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
                           New String() {Configuration.FormatToString(Math.Abs(Value), DigitConfig.Price), _
-                                        Configuration.FormatToString(Math.Abs(Me.BudgetCostAmount), DigitConfig.Price)})
+                                        Configuration.FormatToString(Math.Abs(Me.ContractCostAmount), DigitConfig.Price)})
               Return
             End If
           Else
             If Me.RemainingCost < Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
                           New String() {Configuration.FormatToString(Math.Abs(Value), DigitConfig.Price), _
-                                        Configuration.FormatToString(Math.Abs(Me.BudgetCostAmount), DigitConfig.Price)})
+                                        Configuration.FormatToString(Math.Abs(Me.ContractCostAmount), DigitConfig.Price)})
               Return
             End If
           End If
@@ -1376,13 +1376,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
 
-        If Me.BudgetCostAmount <> Decimal.MinValue AndAlso Me.BudgetCostAmount <> 0 Then
-          row("CostAmount") = Configuration.FormatToString(Me.BudgetCostAmount, DigitConfig.Price)
+        If Me.ContractCostAmount <> Decimal.MinValue AndAlso Me.ContractCostAmount <> 0 Then
+          row("CostAmount") = Configuration.FormatToString(Me.ContractCostAmount, DigitConfig.Price)
         Else
           row("CostAmount") = DBNull.Value
         End If
-        If Me.BudgetQtyCostAmount <> Decimal.MinValue AndAlso Me.BudgetQtyCostAmount <> 0 Then
-          row("QtyCostAmount") = Configuration.FormatToString(Me.BudgetQtyCostAmount, DigitConfig.Qty)
+        If Me.ContractQtyCostAmount <> Decimal.MinValue AndAlso Me.ContractQtyCostAmount <> 0 Then
+          row("QtyCostAmount") = Configuration.FormatToString(Me.ContractQtyCostAmount, DigitConfig.Qty)
         Else
           row("QtyCostAmount") = DBNull.Value
         End If
@@ -1696,7 +1696,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class PAItemCollection
+  Public Class PAItemCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -1706,6 +1706,11 @@ Public Class PAItemCollection
     Private m_currentItem As PAItem
     Private m_currentRealItem As PAItem
     Private m_currentLastItem As PAItem
+
+    'Private m_sumqtyCostAmount As Decimal
+    Private m_sumCostAmount As Decimal
+    'Private m_sumqtyReceivedAmount As Decimal
+    Private m_sumReceiveAmount As Decimal
     'Private m_parent As Hashtable
     'Private m_child As Hashtable
 #End Region
@@ -1781,6 +1786,40 @@ Public Class PAItemCollection
       Get
         Dim amt As Decimal = 0        For Each item As PAItem In Me
           amt += Configuration.Format(item.Amount, DigitConfig.Price)
+        Next
+        Return amt
+      End Get
+    End Property
+    'Public ReadOnly Property SumQtyContractAmount() As Decimal
+    'Get
+    'Dim amt As Decimal = 0    'For Each item As PAItem In Me
+    'amt += Configuration.Format(item.ContractQtyCostAmount, DigitConfig.Price)
+    'Next
+    'Return amt
+    'End Get
+    'End Property
+    Public ReadOnly Property SumContractAmount() As Decimal
+      Get
+        Dim amt As Decimal = 0        For Each item As PAItem In Me
+          amt += Configuration.Format(item.TotalBudget, DigitConfig.Price)
+        Next
+        Return amt
+      End Get
+    End Property
+    'Public ReadOnly Property SumQtyReceived() As Decimal
+    'Get
+    'Dim amt As Decimal = 0    'For Each item As PAItem In Me
+    'If item.Level = 0 Then
+    'amt += Configuration.Format(item.ReceivedQty, DigitConfig.Price)
+    'End If
+    'Next
+    'Return amt
+    'End Get
+    'End Property
+    Public ReadOnly Property SumReceivedAmount() As Decimal
+      Get
+        Dim amt As Decimal = 0        For Each item As PAItem In Me
+          amt += Configuration.Format(item.TotalReceived, DigitConfig.Price)
         Next
         Return amt
       End Get
@@ -1923,7 +1962,7 @@ Public Class PAItemCollection
           If HashSCItem.Contains(CurrentParent) Then
             newitem = CType(HashSCItem(CurrentParent), PAItem)
 
-            newitem.TotalBudget += pai.BudgetCostAmount
+            newitem.TotalBudget += pai.ContractCostAmount
             newitem.TotalReceived += pai.ReceivedAmount
             newitem.TotalProgressReceive += pai.Amount
 
@@ -1945,7 +1984,7 @@ Public Class PAItemCollection
           Me(Me.IndexOf(pai)).SetReceiveLab(pai.TotalLab)
           Me(Me.IndexOf(pai)).SetReceiveEq(pai.TotalEq)
         Else
-          Me(Me.IndexOf(pai)).TotalBudget = pai.BudgetCostAmount
+          Me(Me.IndexOf(pai)).TotalBudget = pai.ContractCostAmount
           Me(Me.IndexOf(pai)).TotalReceived = pai.ReceivedAmount
           Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
         End If
@@ -1953,7 +1992,7 @@ Public Class PAItemCollection
 
       ''== Summary Ref DR Item ==================================================
       For Each pai As PAItem In newItemDRRef
-        newDrItem.TotalBudget += pai.BudgetCostAmount
+        newDrItem.TotalBudget += pai.ContractCostAmount
         newDrItem.TotalReceived += pai.ReceivedAmount
         newDrItem.TotalProgressReceive += pai.Amount
         Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
@@ -1982,7 +2021,7 @@ Public Class PAItemCollection
           If HashSCItem.Contains(CurrentParent) Then
             newitem = CType(HashSCItem(CurrentParent), PAItem)
 
-            newitem.TotalBudget += pai.BudgetCostAmount
+            newitem.TotalBudget += pai.ContractCostAmount
             newitem.TotalReceived += pai.ReceivedAmount
             newitem.TotalProgressReceive += pai.Amount
 
