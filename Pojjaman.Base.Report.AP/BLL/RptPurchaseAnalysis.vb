@@ -169,7 +169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     currentSupplierCode = row("SupplierCode").ToString & row("SupplierName").ToString
                     currentItemCode = ""
                 End If
-                If row("ItemCode").ToString <> currentItemCode Then
+                If row("ItemCode").ToString & row("ItemName").ToString <> currentItemCode Then
                     If row("UnitID").ToString <> currentSubUnit And currentSubUnit <> "" Then
                         SubUnitFlag = False
                     End If
@@ -230,7 +230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     SumItem += 1
                     currentSubUnit = row("UnitID").ToString
                     currentUnit = row("UnitID").ToString
-                    currentItemCode = row("ItemCode").ToString
+                    currentItemCode = row("ItemCode").ToString & row("ItemName").ToString
                 End If
             Next
 
