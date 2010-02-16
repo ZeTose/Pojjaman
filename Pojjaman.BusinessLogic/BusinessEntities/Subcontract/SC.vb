@@ -697,8 +697,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not wri.Unit Is Nothing Then
               sci.WRIUnit = wri.Unit
             End If
-            sci.SetWRIQty(wri.Qty)
-            sci.SetWRIOrigingQty(wri.Qty)
+            If wri.ItemType.Value = 289 Then
+              sci.SetWRIQty(wri.Qty - wri.OrderedQty)
+              sci.SetWRIOrigingQty(sci.WRIQty)
+            Else
+              sci.SetWRIQty(wri.Qty)
+              sci.SetWRIOrigingQty(wri.Qty)
+            End If
+
             sci.Note = wri.Note
 
             Me.ItemCollection.Add(sci)
@@ -1094,11 +1100,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Next
 
-          'Update สถานะยกเลิก ไปให้เอกสาร DR VO ด้วย
+          Dim isCanceled As Integer = 0
           If Me.Status.Value = 0 Then
-
+            isCanceled = 1
           End If
-
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
                                     , New SqlParameter("@id", Me.Id) _
@@ -1111,8 +1116,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'If Me.Status.Value = 0 Then
           '    Me.CancelRef(conn, trans)
           'End If
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
+          , New SqlParameter("@entity_id", Me.WR.Id) _
+          , New SqlParameter("@entity_type", Me.WR.EntityId) _
+          , New SqlParameter("@refto_id", Me.Id) _
+          , New SqlParameter("@refto_type", Me.EntityId) _
+          , New SqlParameter("@refto_iscanceled", isCanceled) _
+          )
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
 
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)

@@ -1933,4 +1933,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+
+  Public Class WRForApprove
+    Inherits WR
+    Public Overrides ReadOnly Property CodonName As String
+      Get
+        Return "WRForApprove"
+      End Get
+    End Property
+  End Class
+
+  Public Class WRForSC
+    Inherits WR
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "WRForSC"
+      End Get
+    End Property
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      If id <= 0 Then
+        Return
+      End If
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetWR" _
+      , New SqlParameter("@" & Me.Prefix & "_id", id) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        Construct(ds.Tables(0).Rows(0), "")
+      End If
+    End Sub
+
+  End Class
+
 End Namespace

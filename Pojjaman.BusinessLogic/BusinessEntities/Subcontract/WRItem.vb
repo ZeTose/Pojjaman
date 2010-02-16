@@ -1244,50 +1244,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("wri_eq") = ""
         End If
 
-        'Select Case Me.ItemType.Value
-        '  Case 88
-        '    row("sci_mat") = ""
-        '    If Me.Lab <> 0 Then
-        '      row("sci_lab") = Configuration.FormatToString(Me.Lab, DigitConfig.Price)
-        '    Else
-        '      row("sci_lab") = ""
-        '    End If
-        '    row("sci_eq") = ""
-        '  Case 89
-        '    row("sci_mat") = ""
-        '    row("sci_lab") = ""
-        '    If Me.Eq <> 0 Then
-        '      row("sci_eq") = Configuration.FormatToString(Me.Eq, DigitConfig.Price)
-        '    Else
-        '      row("sci_eq") = ""
-        '    End If
-        '  Case 289
-        '    row("sci_mat") = ""
-        '    row("sci_lab") = ""
-        '    row("sci_eq") = ""
-        '  Case Else
-        '    If Me.Mat <> 0 Then
-        '      row("sci_mat") = Configuration.FormatToString(Me.Mat, DigitConfig.Price)
-        '    Else
-        '      row("sci_mat") = ""
-        '    End If
-        '    If Me.Lab <> 0 Then
-        '      row("sci_lab") = Configuration.FormatToString(Me.Lab, DigitConfig.Price)
-        '    Else
-        '      row("sci_lab") = ""
-        '    End If
-        '    If Me.Eq <> 0 Then
-        '      row("sci_eq") = Configuration.FormatToString(Me.Eq, DigitConfig.Price)
-        '    Else
-        '      row("sci_eq") = ""
-        '    End If
-        'End Select
-
-        'If Me.OriginQty <> 0 Then
-        '    row("sci_originqty") = Configuration.FormatToString(Me.OriginQty, DigitConfig.Qty)
-        'Else
-        '    row("sci_originqty") = ""
-        'End If
         If Me.UnitPrice <> 0 Then
           row("wri_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
         Else
@@ -1306,7 +1262,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("OrderedQty") = ""
         End If
 
-
         'If Me.OriginAmount <> 0 Then
         '    row("sci_originamt") = Configuration.FormatToString(Me.OriginAmount, DigitConfig.Price)
         'Else
@@ -1315,9 +1270,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         row("wri_note") = Me.Note
 
-
         'row("wri_unvatable") = Me.Unvatable
 
+        If Me.Level = 0 Then
+          row.FixLevel = 1
+          row.CustomFontStyle = FontStyle.Bold
+        Else
+          row.FixLevel = -1
+        End If
 
         Me.wr.IsInitialized = True
       Catch ex As NoConversionException

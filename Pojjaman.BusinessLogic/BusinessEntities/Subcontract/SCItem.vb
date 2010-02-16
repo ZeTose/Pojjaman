@@ -1089,13 +1089,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private Sub ItemWRValidateRow(ByVal row As DataRow)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim sci_wriqty As Object = row("sci_wriqty")
+      If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+        If Not Me.WR Is Nothing AndAlso Not Me.WR.Id <> 0 Then
+          row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+        Else
+          row.SetColumnError("sci_wriqty", "")
+        End If
+      Else
+        row.SetColumnError("sci_wriqty", "")
+      End If
+    End Sub
     Public Sub ItemValidateRow(ByVal row As DataRow)
       Dim code As Object = row("code")
       Dim sci_itemname As Object = row("sci_itemname")
       Dim sci_entitytype As Object = row("sci_entitytype")
       Dim unit As Object = row("unit")
       Dim sci_qty As Object = row("sci_qty")
-      Dim sci_wriqty As Object = row("sci_wriqty")
 
       Dim isClosed As Boolean = False
       isClosed = Me.SC.Closed
@@ -1119,11 +1131,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("sci_itemname", "")
             End If
             row.SetColumnError("code", "")
-            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-            Else
-              row.SetColumnError("sci_wriqty", "")
-            End If
+            ItemWRValidateRow(row)
           Case 160, 162
             row.SetColumnError("sci_qty", "")
             row.SetColumnError("sci_itemname", "")
@@ -1139,11 +1147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               row.SetColumnError("sci_qty", "")
             End If
-            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-            Else
-              row.SetColumnError("sci_wriqty", "")
-            End If
+            ItemWRValidateRow(row)
           Case 19    'เครื่องมือ
             If IsDBNull(code) OrElse code.ToString.Length = 0 Then
               row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
@@ -1160,11 +1164,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               row.SetColumnError("sci_qty", "")
             End If
-            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-            Else
-              row.SetColumnError("sci_wriqty", "")
-            End If
+            ItemWRValidateRow(row)
           Case 28    'F/A
             If IsDBNull(sci_itemname) OrElse sci_itemname.ToString.Length = 0 Then
               row.SetColumnError("sci_itemname", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
@@ -1193,11 +1193,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               row.SetColumnError("sci_qty", "")
             End If
-            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-            Else
-              row.SetColumnError("sci_wriqty", "")
-            End If
+            ItemWRValidateRow(row)
           Case Else
             Return
         End Select
@@ -1360,7 +1356,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         row("sci_unvatable") = Me.Unvatable
 
-        If Not Me.Unit Is Nothing Then
+        If Not Me.WRIUnit Is Nothing Then
           row("sci_wriUnit") = Me.WRIUnit.Id
           row("WRUnit") = Me.WRIUnit.Name
         End If

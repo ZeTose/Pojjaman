@@ -1844,6 +1844,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.Unvatable = CBool(e.ProposedValue)
           Case "sci_wriqty"
+            If doc.Level = 1 Then
+              msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.CannotChangeWRIQty}")
+              Return
+            End If
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
@@ -1961,9 +1965,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.WR Is Nothing OrElse Me.m_entity.WR.Id = 0 Then
         Me.txtCostCenterCode.Enabled = True
         Me.btnCCFind.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          If colStyle.MappingName = "sci_wriQty" Then
+            colStyle.ReadOnly = True
+          End If
+        Next
       Else
         Me.txtCostCenterCode.Enabled = False
         Me.btnCCFind.Enabled = False
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          If colStyle.MappingName = "sci_wriQty" Then
+            colStyle.ReadOnly = False
+          End If
+        Next
       End If
 
     End Sub
@@ -2950,12 +2964,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim myEntityPanelService As IEntityPanelService = _
                   CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+
+      Dim FilterEntities As New ArrayList
+      If Me.m_entity.CostCenter.Originated Then
+        FilterEntities.Add(Me.m_entity.CostCenter)
+      End If
+      Dim wrNeedsApproval As Boolean = False
+      wrNeedsApproval = CBool(Configuration.GetConfig("ApproveWR"))
+      Dim filters(0) As Filter
+      filters(0) = New Filter("wrNeedsApproval", wrNeedsApproval)
+
       If Me.m_entity.ItemCollection.Count > 0 Then
         If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeWRCode}") Then
-          myEntityPanelService.OpenListDialog(Me.m_entity.WR, AddressOf SetWRDialog)
+          myEntityPanelService.OpenListDialog(New WRForSC, AddressOf SetWRDialog, filters, FilterEntities)
         End If
       Else
-        myEntityPanelService.OpenListDialog(Me.m_entity.WR, AddressOf SetWRDialog)
+        myEntityPanelService.OpenListDialog(New WRForSC, AddressOf SetWRDialog, filters, FilterEntities)
       End If
     End Sub
     Private Sub SetWRDialog(ByVal e As ISimpleEntity)

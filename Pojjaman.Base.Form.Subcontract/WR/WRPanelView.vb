@@ -1038,8 +1038,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If doc.ItemType Is Nothing Then
       '  doc.ItemType = New SCIItemType(289)
       'End If
-      If doc.IsReferenced Then
-        MessageBox.Show("รายการนี้ถูกอ้างอิงไปสั่งจ้างแล้ว ไม่สามารถแก้ไขได้")
+      If doc.IsReferenced AndAlso doc.Level = 0 Then
+        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.ItemIsReferecned}")
         Return
       End If
       Try
@@ -2474,8 +2474,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateGross = True
       Me.RefreshDocs()
       'Me.RefreshWBS()
-
-
     End Sub
 
 #Region "Customization"
