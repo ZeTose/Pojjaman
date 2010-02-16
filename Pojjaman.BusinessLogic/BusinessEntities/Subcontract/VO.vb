@@ -2194,12 +2194,12 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
   '    End Class
 
-  'Public Class POForApprove
-  '    Inherits PO
-  '    Public Overrides ReadOnly Property CodonName() As String
-  '        Get
-  '            Return "POForApprove"
-  '        End Get
-  '    End Property
-  'End Class
+  Public Class VOForApprove
+    Inherits VO
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "VOForApprove"
+      End Get
+    End Property
+  End Class
 End Namespace

@@ -872,6 +872,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetSCVatOut" _
       , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
       )
       If ds.Tables(0).Rows.Count <> 0 Then
         If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
@@ -885,6 +886,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetSCWhtOut" _
       , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
       )
       If ds.Tables(0).Rows.Count <> 0 Then
         If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
@@ -1670,11 +1672,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim ret As Decimal = Me.GetSCRetentionRemaining
-      Me.m_retentionToDoc = ret
+      Me.m_retentionToDoc = Sc.Retention - ret
       Me.m_retentionRemaining = ret
       Me.m_retention = ret
       Dim adv As Decimal = Me.GetSCAdvancePayRemaining
-      Me.m_advancePayToDoc = adv
+      Me.m_advancePayToDoc = Sc.AdvancePay - adv
       Dim dist As Decimal = Me.GetSCDistCountRemaining
       If dist > 0 Then
         Dim distString As String = dist.ToString
@@ -3675,4 +3677,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
   End Class
 
+  Public Class SCForPA
+    Inherits SC
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "SCForPA"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        Return New ColumnCollection(Me.ClassName, 0)
+      End Get
+    End Property
+  End Class
 End Namespace

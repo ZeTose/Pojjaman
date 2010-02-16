@@ -2028,12 +2028,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   '    End Class
 
-  'Public Class POForApprove
-  '    Inherits PO
-  '    Public Overrides ReadOnly Property CodonName() As String
-  '        Get
-  '            Return "POForApprove"
-  '        End Get
-  '    End Property
-  'End Class
+  Public Class DRForApprove
+    Inherits DR
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "DRForApprove"
+      End Get
+    End Property
+  End Class
 End Namespace

@@ -3386,7 +3386,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myEntityPanelService As IEntityPanelService = _
         CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         Dim entities As New ArrayList
-        entities.Add(New SC)
+        entities.Add(New SCForPA)
         If Not Me.m_entity.CostCenter Is Nothing Then
           entities.Add(Me.m_entity.CostCenter)
         End If
@@ -3398,14 +3398,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '    entities.Add(Me.m_entity.Sc.CostCenter)
         'End If
 
-        'Dim poNeedsApproval As Boolean = False
-        'poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
-        'Dim filters(3) As Filter
-        'filters(0) = New Filter("poNeedsApproval", poNeedsApproval)
-        'filters(1) = New Filter("excludeCanceled", True)
-        'filters(2) = New Filter("excludedepleted", True)
-        'filters(3) = New Filter("excludeclosed", True)
-        myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, entities)
+        Dim scNeedsApproval As Boolean = False
+        scNeedsApproval = CBool(Configuration.GetConfig("ApproveSC"))
+        Dim filters(0) As Filter
+        filters(0) = New Filter("scNeedsApproval", scNeedsApproval)
+
+        myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, filters)
       End If
     End Sub
     Private Sub SetSC(ByVal e As ISimpleEntity)
