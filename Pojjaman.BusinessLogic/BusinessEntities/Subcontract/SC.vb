@@ -39,6 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_startDate As Date
     Private m_endDate As Date
     Private m_subcontractor As Supplier
+    Private m_wr As WR
     Private m_cc As CostCenter
     Private m_director As Employee
     Private m_gross As Decimal
@@ -103,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_contactPerson = ""
         .m_cc = New CostCenter
         .m_director = New Employee
+        .m_wr = New WR
 
         .m_gross = 0
         .m_discount = New Discount("")
@@ -196,6 +198,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not dr.IsNull(aliasPrefix & "sc_cc") Then
             .m_cc = New CostCenter(CInt(dr(aliasPrefix & "sc_cc")))
           End If
+        End If
+        If Not dr.IsNull(aliasPrefix & "sc_wr") Then
+          .m_wr = New WR(CInt(dr(aliasPrefix & "sc_wr")))
         End If
         If dr.Table.Columns.Contains("employee_id") Then
           If Not dr.IsNull("employee_id") Then
@@ -379,6 +384,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         m_subcontractor = Value
         'OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property WR As WR
+      Get
+        Return m_wr
+      End Get
+      Set(ByVal value As WR)
+        m_wr = value
+        ChangeWR()
       End Set
     End Property
     Public Property Director() As Employee
@@ -633,6 +647,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("sci_originamt", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("sci_level", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("sci_unvatable", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("WRUnit", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("sci_wriUnit", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("sci_wriQty", GetType(String)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -647,103 +664,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    'Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal type As Integer)
-    '    myWbs = New WBS(myWbs.Id)
-    '    Dim o_n As OldNew
-    '    Dim theHash As Hashtable
-    '    Select Case type
-    '        Case 0, 19, 42
-    '            theHash = MatActualHash
-    '        Case 88
-    '            theHash = LabActualHash
-    '        Case 89
-    '            theHash = EQActualHash
-    '    End Select
-    '    If Not theHash Is Nothing Then
-    '        If theHash.Contains(myWbs.Id) Then
-    '            o_n = CType(theHash(myWbs.Id), OldNew)
-    '        Else
-    '            o_n = New OldNew
-    '            Select Case type
-    '                Case 0, 19, 42
-    '                    o_n.OldValue = myWbs.GetActualMat(Me, 7)
-    '                Case 88
-    '                    o_n.OldValue = myWbs.GetActualLab(Me, 7)
-    '                Case 89
-    '                    o_n.OldValue = myWbs.GetActualEq(Me, 7)
-    '            End Select
-    '            o_n.NewValue = o_n.OldValue
-    '            theHash(myWbs.Id) = o_n
-    '        End If
-    '        o_n.NewValue += (newVal - oldVal)
+    Private Sub ChangeWR()
+      Me.ItemCollection.Clear()
+      Me.StartDate = Date.Now
+      Me.EndDate = Date.Now
+      Me.CostCenter = New CostCenter
+      Me.Director = New Employee
 
-    '        'ส่งต่อไปยังแม่
-    '        If Not myWbs.Parent Is Nothing AndAlso Not myWbs.Parent.Id = myWbs.Id Then
-    '            SetActual(CType(myWbs.Parent, WBS), oldVal, newVal, type)
-    '        End If
-    '    End If
-    'End Sub
-    'Public Function GetCurrentDiffForWBS(ByVal myWbs As WBS, ByVal itemType As SCIItemType) As Decimal
-    '    Dim theHash As Hashtable
-    '    Select Case itemType.Value
-    '        Case 0, 19, 42
-    '            theHash = MatActualHash
-    '        Case 88
-    '            theHash = LabActualHash
-    '        Case 89
-    '            theHash = EQActualHash
-    '    End Select
-    '    If Not theHash Is Nothing AndAlso theHash.Contains(myWbs.Id) Then
-    '        Dim o_n As OldNew = CType(theHash(myWbs.Id), OldNew)
-    '        Return o_n.NewValue - o_n.OldValue
-    '    End If
-    '    Return 0
-    'End Function
-    'Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal itemType As SCIItemType) As Decimal
-    '    Dim ret As Decimal = 0
-    '    For Each item As SCItem In Me.ItemCollection
-    '        Dim flag As Boolean = False
-    '        If Not item.ItemType Is Nothing Then
-    '            Select Case itemType.Value
-    '                Case 0, 19, 42
-    '                    Select Case item.ItemType.Value
-    '                        Case 0, 19, 42
-    '                            flag = True
-    '                        Case Else
-    '                            flag = False
-    '                    End Select
-    '                Case 88
-    '                    Select Case item.ItemType.Value
-    '                        Case 88
-    '                            flag = True
-    '                        Case Else
-    '                            flag = False
-    '                    End Select
-    '                Case 89
-    '                    Select Case item.ItemType.Value
-    '                        Case 89
-    '                            flag = True
-    '                        Case Else
-    '                            flag = False
-    '                    End Select
-    '            End Select
-    '        End If
-    '        If flag Then
-    '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-    '                If Not grWBSD.IsMarkup Then
-    '                    Dim isOut As Boolean = False
-    '                    Dim view As Integer = 7
-    '                    Dim transferAmt As Decimal = item.Amount
-    '                    Dim amt As Decimal = WBSDistribute.GetUsedAmount(transferAmt, item.Amount, isOut, view, 3)
-    '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-    '                        ret += (grWBSD.Percent * amt / 100)
-    '                    End If
-    '                End If
-    '            Next
-    '        End If
-    '    Next
-    '    Return ret
-    'End Function
+      Dim sci As SCItem
+      Dim lineNumber As Integer = 0
+      If Not Me.WR Is Nothing Then
+        Me.StartDate = WR.StartDate
+        Me.EndDate = WR.EndDate
+        Me.CostCenter = WR.CostCenter
+        Me.Director = WR.Director
+
+        If Not Me.WR.ItemCollection Is Nothing Then
+          For Each wri As WRItem In Me.WR.ItemCollection
+            lineNumber += 1
+            sci = New SCItem
+            If Not wri.ItemType Is Nothing Then
+              sci.ItemType = wri.ItemType
+            End If
+            If Not wri.Entity Is Nothing Then
+              sci.Entity = wri.Entity
+            End If
+            sci.Linenumber = lineNumber
+            sci.WRISequence = wri.Sequence
+            sci.Level = wri.Level
+            sci.WR = Me.WR
+            sci.ItemName = wri.ItemName
+            If Not wri.Unit Is Nothing Then
+              sci.WRIUnit = wri.Unit
+            End If
+            sci.SetWRIQty(wri.Qty)
+            sci.SetWRIOrigingQty(wri.Qty)
+            sci.Note = wri.Note
+
+            Me.ItemCollection.Add(sci)
+          Next
+        End If
+      End If
+    End Sub
     Public Function GetUnClosedContract() As String
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
@@ -1061,6 +1023,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discrate", Me.Discount.Rate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discamt", Me.DiscountAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.RealTaxAmount))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wr", ValidIdOrDBNull(Me.WR)))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -1326,6 +1289,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("sci_status") = Me.Status.Value
             dr("sci_unitCost") = item.UnitCost
 
+            dr("sci_wr") = item.WR.Id
+            dr("sci_wrSequence") = item.WRISequence
+            dr("sci_wrUnit") = item.WRIUnit.Id
+            dr("sci_wrQty") = item.WRIQty
 
             Dim dr2 As DataRow = dtOld.NewRow
             dr2("scio_sequence") = dr("sci_sequence")
@@ -2294,4 +2261,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+
+  Public Class SCForApprove
+    Inherits SC
+    Public Overrides ReadOnly Property CodonName As String
+      Get
+        Return "SCForApprove"
+      End Get
+    End Property
+  End Class
+
 End Namespace

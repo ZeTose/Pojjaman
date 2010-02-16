@@ -55,6 +55,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_state As RowExpandState
     Private m_wbsId As Integer
 
+    Private m_wr As WR
+    Private m_wriSequence As Long
+    Private m_wriUnit As Unit
+    Private m_wriQty As Decimal
+    Private m_wriorginQty As Decimal
     Private m_unitCost As Decimal
     Private m_discount As New Discount("")
     Private m_hasChild As Boolean
@@ -251,6 +256,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_oldAmount = CDec(dr(aliasPrefix & "scio_amount"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
+          .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sci_wrsequence") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrsequence") Then
+          .m_wriSequence = CLng(dr(aliasPrefix & "sci_wrsequence"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sci_wrunit") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrunit") Then
+          .m_wriUnit = New Unit(CInt(dr(aliasPrefix & "sci_wrunit")))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sci_wrqty") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrqty") Then
+          .m_wriQty = CDec(dr(aliasPrefix & "sci_wrqty"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "wrQtyRemain") AndAlso Not dr.IsNull(aliasPrefix & "wrQtyRemain") Then
+          .m_wriorginQty = CDec(dr(aliasPrefix & "wrQtyRemain"))
+        End If
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then
@@ -444,7 +464,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    'Private Sub UpdateWBS()
+        End If      End Set    End Property    Public Property WR As WR      Get        Return m_wr
+      End Get
+      Set(ByVal value As WR)
+        m_wr = value
+      End Set
+    End Property    Public Property WRISequence As Long
+      Get        Return m_wriSequence
+      End Get
+      Set(ByVal value As Long)
+        m_wriSequence = value
+      End Set
+    End Property    Public Property WRIUnit As Unit      Get        Return m_wriUnit
+      End Get
+      Set(ByVal value As Unit)
+        m_wriUnit = value
+      End Set
+    End Property    Public Property WRIQty As Decimal      Get        Return m_wriQty
+      End Get
+      Set(ByVal value As Decimal)
+        If (m_wriorginQty < value) Then
+          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
+                                           New String() {Configuration.FormatToString(m_wriorginQty, DigitConfig.Price), _
+                                                         Configuration.FormatToString(value, DigitConfig.Price)})
+          Return
+        End If
+        m_wriQty = value
+      End Set
+    End Property    Public ReadOnly Property WRIOriginQty As Decimal
+      Get
+        Return m_wriorginQty
+      End Get
+    End Property
+    Public Sub SetWRIQty(ByVal qty As Decimal)
+      m_wriQty = qty
+    End Sub
+    Public Sub SetWRIOrigingQty(ByVal qty As Decimal)
+      m_wriorginQty = qty
+    End Sub
+
+    'Private Sub UpdateWBS()
     '  For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
     '    Dim bfTax As Decimal = 0
     '    Dim oldVal As Decimal = wbsd.TransferAmount
@@ -1035,6 +1095,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sci_entitytype As Object = row("sci_entitytype")
       Dim unit As Object = row("unit")
       Dim sci_qty As Object = row("sci_qty")
+      Dim sci_wriqty As Object = row("sci_wriqty")
 
       Dim isClosed As Boolean = False
       isClosed = Me.SC.Closed
@@ -1058,6 +1119,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("sci_itemname", "")
             End If
             row.SetColumnError("code", "")
+            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("sci_wriqty", "")
+            End If
           Case 160, 162
             row.SetColumnError("sci_qty", "")
             row.SetColumnError("sci_itemname", "")
@@ -1072,6 +1138,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("sci_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
             Else
               row.SetColumnError("sci_qty", "")
+            End If
+            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("sci_wriqty", "")
             End If
           Case 19    'เครื่องมือ
             If IsDBNull(code) OrElse code.ToString.Length = 0 Then
@@ -1088,6 +1159,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("sci_qty", myStringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
             Else
               row.SetColumnError("sci_qty", "")
+            End If
+            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("sci_wriqty", "")
             End If
           Case 28    'F/A
             If IsDBNull(sci_itemname) OrElse sci_itemname.ToString.Length = 0 Then
@@ -1117,6 +1193,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               row.SetColumnError("sci_qty", "")
             End If
+            If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+              row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            Else
+              row.SetColumnError("sci_wriqty", "")
+            End If
           Case Else
             Return
         End Select
@@ -1129,6 +1210,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_unit = New Unit
       Me.m_unitprice = 0
       Me.m_note = ""
+      Me.m_wriSequence = 0
+      Me.m_wriQty = 0
+      Me.m_wriorginQty = 0
+      Me.m_wr = New WR
+      Me.m_wriUnit = New Unit
     End Sub
     Public Sub CopyToDataRow(ByVal row As TreeRow)
       If row Is Nothing Then
@@ -1244,50 +1330,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("sci_eq") = ""
         End If
 
-        'Select Case Me.ItemType.Value
-        '  Case 88
-        '    row("sci_mat") = ""
-        '    If Me.Lab <> 0 Then
-        '      row("sci_lab") = Configuration.FormatToString(Me.Lab, DigitConfig.Price)
-        '    Else
-        '      row("sci_lab") = ""
-        '    End If
-        '    row("sci_eq") = ""
-        '  Case 89
-        '    row("sci_mat") = ""
-        '    row("sci_lab") = ""
-        '    If Me.Eq <> 0 Then
-        '      row("sci_eq") = Configuration.FormatToString(Me.Eq, DigitConfig.Price)
-        '    Else
-        '      row("sci_eq") = ""
-        '    End If
-        '  Case 289
-        '    row("sci_mat") = ""
-        '    row("sci_lab") = ""
-        '    row("sci_eq") = ""
-        '  Case Else
-        '    If Me.Mat <> 0 Then
-        '      row("sci_mat") = Configuration.FormatToString(Me.Mat, DigitConfig.Price)
-        '    Else
-        '      row("sci_mat") = ""
-        '    End If
-        '    If Me.Lab <> 0 Then
-        '      row("sci_lab") = Configuration.FormatToString(Me.Lab, DigitConfig.Price)
-        '    Else
-        '      row("sci_lab") = ""
-        '    End If
-        '    If Me.Eq <> 0 Then
-        '      row("sci_eq") = Configuration.FormatToString(Me.Eq, DigitConfig.Price)
-        '    Else
-        '      row("sci_eq") = ""
-        '    End If
-        'End Select
 
-        'If Me.OriginQty <> 0 Then
-        '    row("sci_originqty") = Configuration.FormatToString(Me.OriginQty, DigitConfig.Qty)
-        'Else
-        '    row("sci_originqty") = ""
-        'End If
         If Me.UnitPrice <> 0 Then
           row("sci_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
         Else
@@ -1317,6 +1360,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         row("sci_unvatable") = Me.Unvatable
 
+        If Not Me.Unit Is Nothing Then
+          row("sci_wriUnit") = Me.WRIUnit.Id
+          row("WRUnit") = Me.WRIUnit.Name
+        End If
+
+        If Me.WRIQty > 0 Then
+          row("sci_wriQty") = Configuration.FormatToString(Me.WRIQty, DigitConfig.Qty)
+        End If
 
         Me.SC.IsInitialized = True
       Catch ex As NoConversionException

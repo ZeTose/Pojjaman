@@ -165,7 +165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_note = CStr(dr(aliasPrefix & "wr_note"))
         End If
         If Not dr.IsNull(aliasPrefix & "wr_approveDate") Then
-          .m_approveDate = CDate(dr(aliasPrefix & "pr_approveDate"))
+          .m_approveDate = CDate(dr(aliasPrefix & "wr_approveDate"))
         End If
         If dr.Table.Columns.Contains("approvePerson.user_id") Then
           If Not dr.IsNull("approvePerson.user_id") Then

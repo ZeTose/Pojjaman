@@ -1038,6 +1038,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If doc.ItemType Is Nothing Then
       '  doc.ItemType = New SCIItemType(289)
       'End If
+      If doc.IsReferenced Then
+        MessageBox.Show("รายการนี้ถูกอ้างอิงไปสั่งจ้างแล้ว ไม่สามารถแก้ไขได้")
+        Return
+      End If
       Try
         Select Case e.Column.ColumnName.ToLower
           Case "code"
@@ -1151,14 +1155,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
-      If Not CBool(Configuration.GetConfig("ApprovePO")) Then
+      If Not CBool(Configuration.GetConfig("ApproveWR")) Then
         Me.btnApprove.Visible = False
       Else
         Me.btnApprove.Visible = True
       End If
 
       'จากการอนุมัติเอกสาร
-      If CBool(Configuration.GetConfig("ApprovePO")) Then
+      If CBool(Configuration.GetConfig("ApproveWR")) Then
         'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
         If m_ApproveDocModule.Activated Then
           'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -1173,18 +1177,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             Next
             tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
+            'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            'colStyle.ReadOnly = True
+            'Next
             Me.btnApprove.Enabled = True
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
               ctrl.Enabled = CBool(m_enableState(ctrl))
             Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
+            'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            'Next
           End If
         Else
           'ถ้าใช้การอนุมัติแบบเก่า
@@ -1195,18 +1199,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             Next
             tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
+            'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            'colStyle.ReadOnly = True
+            'Next
             Me.btnApprove.Enabled = True
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
               ctrl.Enabled = CBool(m_enableState(ctrl))
             Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
+            'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            'Next
           End If
         End If
       End If
@@ -1219,16 +1223,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Next
         tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
+        'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        'colStyle.ReadOnly = True
+        'Next
       Else
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = CBool(m_enableState(ctrl))
         Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-        Next
+        'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        'Next
       End If
 
     End Sub

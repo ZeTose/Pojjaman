@@ -1300,8 +1300,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("Amount") = ""
         End If
 
-        If Me.OrderedAmount <> 0 Then
-          row("OrderedQty") = Configuration.FormatToString(Me.OrderedAmount, DigitConfig.Price)
+        If Me.OrderedQty <> 0 Then
+          row("OrderedQty") = Configuration.FormatToString(Me.OrderedQty, DigitConfig.Price)
         Else
           row("OrderedQty") = ""
         End If
@@ -1326,6 +1326,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+    Public Function IsReferenced() As Boolean
+      If Me.ItemType.Value = 289 Then
+        If OrderedQty > 0 Then
+          Return True
+        End If
+      Else
+        'IsParentRefercend
+        Dim doc As WRItem = Me.wr.ItemCollection.CurrentItem
+        If doc Is Nothing Then
+          Return False
+        End If
+        Dim lastIndex As Integer = Me.wr.ItemCollection.IndexOf(doc)
+        Dim startIndex As Integer = lastIndex
+
+        For i As Integer = startIndex To Me.wr.ItemCollection.Count - 1
+          If i > startIndex Then
+            If Me.wr.ItemCollection(i).ItemType.Value = 289 AndAlso Me.wr.ItemCollection(i).Parent = Me.Parent Then
+              Return True
+            End If
+            lastIndex = i
+          End If
+        Next
+
+        Return False
+
+      End If
+    End Function
     Public Function IsHasChild() As Boolean
       Dim doc As WRItem = Me.wr.ItemCollection.CurrentItem
       If doc Is Nothing Then
