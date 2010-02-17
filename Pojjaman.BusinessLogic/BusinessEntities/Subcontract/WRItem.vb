@@ -97,7 +97,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AddHandler wbsdColl.PropertyChanged, AddressOf Me.WBSChangedHandler
       m_WBSDistributeCollection = wbsdColl
       If ds.Tables.Count > 1 Then
-        For Each wbsRow As DataRow In ds.Tables(1).Select("voiw_sequence=" & Me.Sequence)
+        For Each wbsRow As DataRow In ds.Tables(1).Select("wriw_sequence=" & Me.Sequence)
           Dim wbsd As New WBSDistribute(wbsRow, "")
           m_WBSDistributeCollection.Add(wbsd)
         Next
@@ -346,11 +346,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
         End If
         If Me.wr.ItemCollection.IndexOf(Me) = 0 AndAlso Value.Value <> 289 Then
-          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCItem.wrItemOnly}")
+          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCItemOnly}")
           Return
         End If
         If HasChild() Then
-          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCItem.wrItemOnly}")
+          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCItemOnly}")
           Return
         End If
         If Not Value Is Nothing AndAlso Value.Value = m_itemType.Value Then
@@ -444,23 +444,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    'Private Sub UpdateWBS()
-    '  For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-    '    Dim bfTax As Decimal = 0
-    '    Dim oldVal As Decimal = wbsd.TransferAmount
-    '    Dim transferAmt As Decimal = Me.Amount
-    '    wbsd.BaseCost = bfTax
-    '    wbsd.TransferBaseCost = transferAmt
-    '    Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
-    '    If boqConversion = 0 Then
-    '      wbsd.BaseQty = Me.Qty
-    '    Else
-    '      wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-    '    End If
+        End If      End Set    End Property    Private Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
 
-    '    Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-    '  Next
-    'End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
           Return
@@ -497,7 +497,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        'UpdateWBS()      End Set    End Property
+        End If        UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type

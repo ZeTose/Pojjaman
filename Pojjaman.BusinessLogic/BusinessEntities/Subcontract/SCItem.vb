@@ -504,23 +504,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_wriorginQty = qty
     End Sub
 
-    'Private Sub UpdateWBS()
-    '  For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-    '    Dim bfTax As Decimal = 0
-    '    Dim oldVal As Decimal = wbsd.TransferAmount
-    '    Dim transferAmt As Decimal = Me.Amount
-    '    wbsd.BaseCost = bfTax
-    '    wbsd.TransferBaseCost = transferAmt
-    '    Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
-    '    If boqConversion = 0 Then
-    '      wbsd.BaseQty = Me.Qty
-    '    Else
-    '      wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-    '    End If
+    Private Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
 
-    '    Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-    '  Next
-    'End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
           Return
@@ -557,7 +557,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        'UpdateWBS()      End Set    End Property
+        End If        UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1093,7 +1093,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim sci_wriqty As Object = row("sci_wriqty")
       If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-        If Not Me.WR Is Nothing AndAlso Not Me.WR.Id <> 0 Then
+        If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 Then
           row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
         Else
           row.SetColumnError("sci_wriqty", "")

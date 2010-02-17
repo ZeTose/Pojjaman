@@ -570,13 +570,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If sitem.Level = 0 Then
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
           If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
-            If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
-              Me.RecalculateAmount()
-            Else
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-            End If
-            'Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
-            'New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
+            'If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
+            'Me.RecalculateAmount()
+            'Else
+            'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+            'End If
+
+            Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCAmountNotEqualAllocateAndReCalUnitPrice}")
+            ''New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
           'If sitem.Amount <> sitem.ChildAmount Then
           '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
