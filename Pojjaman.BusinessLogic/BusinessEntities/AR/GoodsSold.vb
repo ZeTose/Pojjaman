@@ -1091,20 +1091,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       '-------------------------------------HACK------------------------------------
-      ''ส่วนลดการค้า
-      'If Me.DiscountAmount > 0 Then
-      'ji = New JournalEntryItem
-      'ji.Mapping = "Through"
-      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount4).Account
-      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
-      'ji.Amount = Me.DiscountAmount
-      'If Me.FromCostCenter.Originated Then
-      'ji.CostCenter = Me.FromCostCenter
-      'Else
-      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-      'End If
-      'jiColl.Add(ji)
-      'End If
+      'ส่วนลดการค้า
+      If Me.DiscountAmount > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "Through"
+        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.PayDiscount).Account
+        ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+        ji.Amount = Me.DiscountAmount
+        If Me.FromCostCenter.Originated Then
+          ji.CostCenter = Me.FromCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
       '-------------------------------------HACK------------------------------------
 
       'เงินมัดจำรับล่วงหน้า()
