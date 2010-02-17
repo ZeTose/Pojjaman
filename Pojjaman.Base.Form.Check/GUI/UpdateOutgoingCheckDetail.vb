@@ -672,6 +672,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtIssueDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpIssueDate.ValueChanged, AddressOf Me.ChangeProperty
 
