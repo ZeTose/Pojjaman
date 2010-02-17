@@ -1520,6 +1520,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub SetAccountCode(ByVal theCode As String)      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Me.Pa.OnGlChanged()
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")

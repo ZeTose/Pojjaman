@@ -1247,6 +1247,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         Me.m_billedAmount = Value
+        SetGLChange()
       End Set
     End Property
     Public Property RemainningBalance As Decimal
@@ -1332,6 +1333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_realAmount = Value
+        SetGLChange()
       End Set
     End Property
     Public Property Amount() As Decimal
@@ -1348,6 +1350,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_unpaidAmount = Value
+        SetGLChange()
       End Set
     End Property
     Private m_retention As Decimal
@@ -1407,6 +1410,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetGLChange()
+      If Not m_pays Is Nothing Then
+        m_pays.OnGlChanged()
+      End If
+      If Not m_apvi Is Nothing Then
+        m_apvi.OnGlChanged()
+      End If
+    End Sub
     Public Sub SetType(ByVal type As Integer)
       Me.m_typeId = type
     End Sub
@@ -1852,6 +1867,18 @@ Public Class BillAcceptanceItemCollection
 #End Region
 
 #Region "Class Methods"
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetGLChange()
+      If Not m_pays Is Nothing Then
+        m_pays.OnGlChanged()
+      End If
+      If Not m_apvi Is Nothing Then
+        m_apvi.OnGlChanged()
+      End If
+    End Sub
     Public Function GetRemainFromOtherDocs(ByVal doc As BillAcceptanceItem) As Decimal
       Dim ret As Decimal = 0
       For Each myDoc As BillAcceptanceItem In Me
@@ -2145,7 +2172,7 @@ Public Class BillAcceptanceItemCollection
                   Me(index).Amount = Math.Min(Me(index).Amount, Math.Min(Me(index).BilledAmount, remainningBalance))
                 End If
               End If
-                          
+
               remainningBalance -= Me(index).Amount
             Else
               Me(index).UnpaidAmount = 0
@@ -2238,11 +2265,12 @@ Public Class BillAcceptanceItemCollection
       newRow("Button") = "invisible"
       Return newRow
     End Function
-  #End Region
+#End Region
 
 #Region "Collection Methods"
     Public Function Add(ByVal value As BillAcceptanceItem) As Integer
       Return MyBase.List.Add(value)
+      SetGLChange()
     End Function
     Public Sub AddRange(ByVal value As BillAcceptanceItemCollection)
       For i As Integer = 0 To value.Count - 1
@@ -2268,17 +2296,21 @@ Public Class BillAcceptanceItemCollection
     End Function
     Public Sub Insert(ByVal index As Integer, ByVal value As BillAcceptanceItem)
       MyBase.List.Insert(index, value)
+      SetGLChange()
     End Sub
     Public Sub Remove(ByVal value As BillAcceptanceItem)
       MyBase.List.Remove(value)
+      SetGLChange()
     End Sub
     Public Sub Remove(ByVal value As BillAcceptanceItemCollection)
       For i As Integer = 0 To value.Count - 1
         Me.Remove(value(i))
       Next
+      SetGLChange()
     End Sub
     Public Sub Remove(ByVal index As Integer)
       MyBase.List.RemoveAt(index)
+      SetGLChange()
     End Sub
 #End Region
 

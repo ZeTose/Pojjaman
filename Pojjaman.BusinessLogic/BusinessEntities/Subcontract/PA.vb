@@ -30,7 +30,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PA
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
-        , IBillAcceptable, IWBSAllocatable, IApprovAble
+        , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh
+
 
 
 #Region "Members"
@@ -659,6 +660,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_realGross = Value
+        OnGlChanged()
       End Set
     End Property
     Public Property RealTaxAmount() As Decimal

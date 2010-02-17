@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class APVatInput
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable
+    Implements IGLAble, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh
 
 #Region "Members"
     Private m_supplier As Supplier

@@ -2193,6 +2193,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Public Property CCId As Integer
+
 #End Region
 
 #Region "Shared"
@@ -2570,9 +2571,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Collection Methods"
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_wht Is Nothing Then
+        If TypeOf m_wht.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_wht.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
     Public Function Add(ByVal value As WitholdingTax) As Integer
       value.Direction = Me.Direction
       Return MyBase.List.Add(value)
+      SetRefDocGLChange()
     End Function
     Public Function Contains(ByVal value As WitholdingTax) As Boolean
       Return MyBase.List.Contains(value)
@@ -2586,12 +2599,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Insert(ByVal index As Integer, ByVal value As WitholdingTax)
       value.Direction = Me.Direction
       MyBase.List.Insert(index, value)
+      SetRefDocGLChange()
     End Sub
     Public Sub Remove(ByVal value As WitholdingTax)
       MyBase.List.Remove(value)
+      SetRefDocGLChange()
     End Sub
     Public Sub Remove(ByVal index As Integer)
       MyBase.List.RemoveAt(index)
+      SetRefDocGLChange()
     End Sub
 #End Region
 
@@ -2695,6 +2711,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As WitholdingTaxItemType)
         m_type = Value
+        SetRefDocGLChange()
       End Set
     End Property
     Public Property LineNumber() As Integer
@@ -2735,6 +2752,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Boolean)
         m_useCustomTaxAmt = Value
+        SetRefDocGLChange()
       End Set
     End Property
     Public Property Amount() As Decimal
@@ -2748,6 +2766,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_taxAmt = Value
+        SetRefDocGLChange()
       End Set
     End Property
     Public Property Note() As String
@@ -2771,6 +2790,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New CostCenter(m_ccId)
       End Get
     End Property
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_witholdingTax Is Nothing Then
+        If TypeOf m_witholdingTax.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_witholdingTax.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "Methods"

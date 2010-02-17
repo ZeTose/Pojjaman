@@ -2423,6 +2423,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         Me.UseCustomTaxAmount = True
         m_taxAmt = Value
+        SetRefDocGLChange()
       End Set
     End Property
     Public Property Note() As String
@@ -2450,6 +2451,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_vat Is Nothing Then
+        If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
     Public Sub ItemValidateRow(ByVal row As DataRow)
       Dim proposedTaxBase As Object = row("vati_taxbase")
       Dim proposedTaxRate As Object = row("vati_taxrate")
@@ -3659,10 +3671,22 @@ Public Class VatItemCollection
 #End Region
 
 #Region "Collection Methods"
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_vat Is Nothing Then
+        If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
     Public Function Add(ByVal value As VatItem) As Integer
       If Not m_vat Is Nothing Then
         value.Vat = m_vat
       End If
+      SetRefDocGLChange()
       Return MyBase.List.Add(value)
     End Function
     Public Sub AddRange(ByVal value As VatItemCollection)
@@ -3691,12 +3715,15 @@ Public Class VatItemCollection
       If Not m_vat Is Nothing Then
         value.Vat = m_vat
       End If
+      SetRefDocGLChange()
       MyBase.List.Insert(index, value)
     End Sub
     Public Sub Remove(ByVal value As VatItem)
+      SetRefDocGLChange()
       MyBase.List.Remove(value)
     End Sub
     Public Sub Remove(ByVal index As Integer)
+      SetRefDocGLChange()
       MyBase.List.RemoveAt(index)
     End Sub
 #End Region

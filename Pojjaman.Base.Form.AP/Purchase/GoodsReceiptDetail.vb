@@ -3225,7 +3225,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
 					'forceUpdateTaxBase = False
 					'forceUpdateTaxAmount = False
-					forceUpdateGross = False
+          forceUpdateGross = False
 					dirtyFlag = True
 				Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
@@ -3972,6 +3972,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetAcct(ByVal acct As ISimpleEntity)
       Me.m_treeManager.SelectedRow("AccountCode") = acct.Code
+      Me.m_entity.OnGlChanged() 'ยังหาทาง set ใน item ไม่ได้
     End Sub
     Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)

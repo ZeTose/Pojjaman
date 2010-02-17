@@ -47,7 +47,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PaySelection
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable
+    Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh
 
 #Region "Members"
     Private m_supplier As Supplier
