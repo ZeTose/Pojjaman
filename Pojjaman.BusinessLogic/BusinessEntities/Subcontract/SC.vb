@@ -1625,8 +1625,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "ContactPerson"
       dpi.Value = Me.ContactPerson
-      dpi.DataType = "System.DateTime"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
+
+      If Not Me.WR Is Nothing AndAlso Me.WR.Originated Then
+        'WR Code Reference Doc
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocWrCode "
+        dpi.Value = Me.WR.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'WR Date Reference
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefDocWrDate"
+        dpi.Value = Me.WR.DocDate
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      End If
 
       If Not Me.SubContractor Is Nothing AndAlso Me.SubContractor.Originated Then
         'SubcontractorInfo
