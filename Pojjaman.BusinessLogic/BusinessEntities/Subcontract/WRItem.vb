@@ -444,7 +444,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Private Sub UpdateWBSQty()
+        End If      End Set    End Property    Public Sub UpdateWBSQty()
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
@@ -1717,6 +1717,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.wr.Id, Me.wr.EntityId, Me.Entity.Id, _
                                                                         Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
 
+            UpdateWBSQty()
 
             'wbsd.Amount = CDec(e.Value)
             'Me.m_sc.SetActual(oldWBS, wbsd.Amount, 0, Me.ItemType.Value)
@@ -2206,11 +2207,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As WRItem In Me
         'If Not item.NewChild Then
         If boqItem.ItemType.Value = 42 Then
-          If item.WBSId = boqItem.WBS.Id And item.Entity.Id = boqItem.Entity.Id Then
+          If item.WBSId = boqItem.WBS.Id AndAlso item.Entity.Id = boqItem.Entity.Id Then
             Return item
           End If
         Else
-          If item.WBSId = boqItem.WBS.Id And item.EntityName = boqItem.EntityName Then
+          If item.WBSId = boqItem.WBS.Id AndAlso item.EntityName = boqItem.EntityName AndAlso item.ItemType.Value = boqItem.ItemType.Value Then
             Return item
           End If
         End If
@@ -2234,7 +2235,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         'End If
       Next
-      Return Me(Me.Count - 1)
+      If Me.Count > 0 Then       
+        Return Me(Me.Count - 1)
+      End If
     End Function
     Public Sub SetBudgetRemain(ByVal wbsd As WBSDistribute, ByVal Item As WRItem)
       Dim newWBS As WBS = wbsd.WBS ' CType(e.Value, WBS)
@@ -2266,10 +2269,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Item.wr.Id, Item.wr.EntityId, Item.ItemType.Value)
       wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Item.wr.Id, Item.wr.EntityId, Item.Entity.Id, _
                                                                   Item.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+      Item.UpdateWBSQty()
     End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       Dim currItem As WRItem = Nothing
+
+      'Verify m_hashWBSItems กับ Collection =================================>>>>
+      Dim newList As New Hashtable
+      For Each wbsxId As Object In m_hashWBSItems.Keys
+        Dim foundId As Boolean = False
+        For Each itmx As WRItem In Me
+          If CType(wbsxId, Integer) = itmx.WBSId Then
+            foundId = True
+            Exit For
+          End If
+        Next
+        If Not foundId Then
+          newList(wbsxId) = wbsxId
+        End If
+      Next
+      For Each wid As Integer In newList.Values
+        If m_hashWBSItems.Contains(wid) Then
+          m_hashWBSItems.Remove(wid)
+        End If
+      Next
+      'Verify m_hashWBSItems กับ Collection ==================================<<<<
+
       For i As Integer = 0 To items.Count - 1
+
         If Not TypeOf items(i) Is StockBasketItem Then
           '-----------------LCI Items--------------------
 
@@ -2384,11 +2411,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
+          ' ''=========
+          'Dim wbsd As New WBSDistribute
+          'Dim writ As WRItem
+
+          'writ = New WRItem
+          'Dim Currwritem As WRItem = GetCurrentItems(bitem)
+          'Dim lastboqitem As WRItem = GetCurrentLastItems(bitem)
+          'If Not Currwritem Is Nothing Then
+          'writ = Currwritem
+          'writ.WBSId = bitem.WBS.Id
+          'Else
+          'writ.WBSId = bitem.WBS.Id
+          'Me.Insert(Me.IndexOf(lastboqitem) + 1, writ)
+          'End If
+          'writ.ItemType = New SCIItemType(bitem.ItemType.Value)
+          'If bitem.ItemType.Value = 0 Then
+          'writ.EntityName = bitem.EntityName
+          'Else
+          'writ.Entity = bitem.Entity
+          'End If
+          'writ.Unit = bitem.Unit
+          'writ.Qty = bitem.Qty
+          'writ.UnitPrice = bitem.UMC
+
+          'If Not bitem.WBS Is Nothing Then
+          'wbsd.IsMarkup = False
+          'wbsd.CostCenter = Me.m_wr.CostCenter
+          'wbsd.WBS = bitem.WBS
+          'wbsd.Percent = 100
+          'wbsd.BaseCost = bitem.TotalMaterialCost
+          'wbsd.TransferBaseCost = bitem.TotalMaterialCost
+          'wbsd.IsOutWard = False
+          'wbsd.Toaccttype = 3
+          'End If
+
+          'If Not writ Is Nothing Then
+          'SetBudgetRemain(wbsd, writ)
+          'writ.WBSDistributeCollection.Add(wbsd)
+          ''m_WBSDistributeCollection = New WBSDistributeCollection
+          'AddHandler writ.WBSDistributeCollection.PropertyChanged, AddressOf writ.WBSChangedHandler
+          ''matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
+          'End If
+
+
+          'Return
+          ''=========
+
           If bitem.ItemType.Value = 18 Then     'ค่าแรง
             bitem.ItemType.Value = 88
             bitem.Entity.Id = 0
-          End If
-          If bitem.ItemType.Value = 20 Then     'ค่าเครื่องจักร
+          ElseIf bitem.ItemType.Value = 20 Then     'ค่าเครื่องจักร
             bitem.ItemType.Value = 89
             bitem.Entity.Id = 0
           End If
@@ -2437,6 +2510,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
               If bitem.ULC <> 0 Then       '88 -> Lab
+                bitem.ItemType.Value = 88  'Hack
                 labDoc = New WRItem
                 Dim item As WRItem = GetCurrentItems(bitem)
                 Dim lastboqitem As WRItem = GetCurrentLastItems(bitem)
@@ -2469,6 +2543,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
               If bitem.UEC <> 0 Then       '89 -> EQ
+                bitem.ItemType.Value = 89  'Hack
                 eqDoc = New WRItem
                 Dim item As WRItem = GetCurrentItems(bitem)
                 Dim lastboqitem As WRItem = GetCurrentLastItems(bitem)
@@ -2527,41 +2602,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 tempUnitPrice = bitem.UEC
 
               End If
-
-              'If Me.Count = 0 Then
-              '  If bitem.ItemType.Value = 88 Then
-              '    labDoc = New scitem
-              '    doc = labDoc
-              '    tempUnitPrice = bitem.ULC
-              '  End If
-              '  If bitem.ItemType.Value = 89 Then
-              '    eqDoc = New scitem
-              '    doc = eqDoc
-              '    tempUnitPrice = bitem.UEC
-              '  End If
-              '  Me.Add(doc)
-              'Else
-              '  If bitem.ItemType.Value = 88 Then
-              '    labDoc = New scitem
-              '    If Not Me.CurrentItem Is Nothing Then
-              '      labDoc = Me.CurrentItem
-              '    Else
-              '      Me.Add(labDoc)
-              '    End If
-              '    doc = labDoc
-              '    tempUnitPrice = bitem.ULC
-              '  End If
-              '  If bitem.ItemType.Value = 89 Then
-              '    eqDoc = New scitem
-              '    If Not Me.CurrentItem Is Nothing Then
-              '      eqDoc = Me.CurrentItem
-              '    Else
-              '      Me.Add(eqDoc)
-              '    End If
-              '    doc = eqDoc
-              '    tempUnitPrice = bitem.UEC
-              '  End If
-              'End If
 
               doc.ItemType = New SCIItemType(bitem.ItemType.Value)
               doc.Entity = bitem.Entity

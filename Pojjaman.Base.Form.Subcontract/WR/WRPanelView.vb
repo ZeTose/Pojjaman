@@ -2076,65 +2076,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
-      'Dim row As TreeRow = Me.m_treeManager.SelectedRow
-
-      'Dim lastIndex As Integer = row.Index
-      'Dim startIndex As Integer = row.Index
-
-      'For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-      '  If i > startIndex Then
-      '    If CType(Me.m_treeManager.Treetable.Childs(i).Tag, SCItem).Level = 0 Then
-      '      Exit For
-      '    End If
-      '    lastIndex = i
-      '  End If
-      'Next
-
-      'If lastIndex = startIndex Then
-      '  Me.m_entity.ItemCollection.Remove(doc)
-      'Else
-      '  For i As Integer = startIndex To lastIndex
-      '    Me.m_entity.ItemCollection.Remove(i)
-      '  Next
-      'End If
-
-      'Dim rowsCount As Integer = 0
+      ' ''Verify Õ’° —°°–√Õ∫
       'For Each Obj As Object In Me.m_treeManager.SelectedRows
-      '  If Not Obj Is Nothing Then
-      '    rowsCount += 1
-      '    Dim row As TreeRow = CType(Obj, TreeRow)
-      '    If row.Childs.Count > 0 Then
-      '      For Each childRow As TreeRow In row.Childs
-      '        If Not childRow Is Nothing Then
-      '          Dim doc As SCItem = CType(childRow.Tag, SCItem)
-      '          If Not doc Is Nothing Then
-      '            Me.m_entity.ItemCollection.Remove(doc) '≈∫≈Ÿ° Ê
-      '          End If
-      '        End If
-      '      Next
-      '    End If
-      '    If Not row Is Nothing Then
-      '      If TypeOf row.Tag Is SCItem Then
-      '        Dim doc As SCItem = CType(row.Tag, SCItem)
-      '        If Not doc Is Nothing Then
-      '          If Me.m_entity.ItemCollection.Contains(doc) Then
-      '            Me.m_entity.ItemCollection.Remove(doc) '≈∫·¡Ë Ê
-      '          End If
-      '        End If
-      '      End If
-      '    End If
-      '  End If
-      'Next
-
-      'If rowsCount.Equals(0) Then
-      '  Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentItem
-      '  If doc Is Nothing Then
-      '    Return
-      '  End If
-      '  Me.m_entity.ItemCollection.Remove(doc)
+      'If Not Obj Is Nothing Then
+      'Dim row As TreeRow = CType(Obj, TreeRow)
+      'If Not row Is Nothing Then
+      'Dim sitem As WRItem = CType(row.Tag, WRItem)
+      'If Me.m_entity.ItemCollection.Contains(sitem) Then
+      'Me.m_entity.ItemCollection.Remove(sitem)
       'End If
-
-
+      'End If
+      'End If
+      'Next
+      
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
