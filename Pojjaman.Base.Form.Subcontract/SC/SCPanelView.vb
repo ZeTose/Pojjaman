@@ -1980,6 +1980,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
+      If Not Me.m_entity.CostCenter.Originated Then
+        Me.ibtnGetFromBOQ.Enabled = False
+      Else
+        Me.ibtnGetFromBOQ.Enabled = True
+      End If
+
     End Sub
     Public Overrides Sub ClearDetail()
       lblStatus.Text = ""
@@ -2969,6 +2975,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.CostCenter.Originated Then
         FilterEntities.Add(Me.m_entity.CostCenter)
       End If
+      If Not Me.m_entity Is Nothing Then
+        FilterEntities.Add(Me.m_entity)
+      End If
+      'Me.m_entity.Status = New SCStatus(0)
+      'FilterEntities.Add(Me.m_entity.Status)
       Dim wrNeedsApproval As Boolean = False
       wrNeedsApproval = CBool(Configuration.GetConfig("ApproveWR"))
       Dim filters(0) As Filter
@@ -3032,6 +3043,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
       SetCCCodeBlankFlag()
+      CheckFormEnable()
     End Sub
     Private Sub btnCCEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCEdit.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -3109,7 +3121,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '        End Function
     Private Sub ibtnGetFromBOQ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnGetFromBOQ.Click
       Dim arr As New ArrayList
-      arr.Add(Me.m_entity.CostCenter)
+      If Not Me.m_entity.CostCenter Is Nothing Then
+        arr.Add(Me.m_entity.CostCenter)
+      End If
       Dim myEntityPanelService As IEntityPanelService = _
                   CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenListDialog(New BOQWBSForSelection, AddressOf SetItems, arr)

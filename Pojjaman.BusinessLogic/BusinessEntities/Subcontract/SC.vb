@@ -696,16 +696,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sci.ItemName = wri.ItemName
             If Not wri.Unit Is Nothing Then
               sci.WRIUnit = wri.Unit
+              sci.Unit = wri.Unit
             End If
             If wri.ItemType.Value = 289 Then
               sci.SetWRIQty(wri.Qty - wri.OrderedQty)
               sci.SetWRIOrigingQty(sci.WRIQty)
+              sci.SetQty(sci.WRIQty)
             Else
               sci.SetWRIQty(wri.Qty)
               sci.SetWRIOrigingQty(wri.Qty)
+              sci.SetQty(wri.Qty)
             End If
+            sci.UnitPrice = wri.UnitPrice
 
             sci.Note = wri.Note
+
+            sci.WBSDistributeCollection = New WBSDistributeCollection
+            AddHandler sci.WBSDistributeCollection.PropertyChanged, AddressOf sci.WBSChangedHandler
+            For Each wbsd As WBSDistribute In wri.WBSDistributeCollection
+              sci.WBSDistributeCollection.Add(wbsd)
+            Next
 
             Me.ItemCollection.Add(sci)
           Next

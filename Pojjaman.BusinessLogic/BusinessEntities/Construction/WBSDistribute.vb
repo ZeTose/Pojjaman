@@ -67,6 +67,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_isMarkup = CBool(dr(aliasPrefix & "voiw_isMarkup"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "paiw_isMarkup") Then
           m_isMarkup = CBool(dr(aliasPrefix & "paiw_isMarkup"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "wriw_isMarkup") Then
+          m_isMarkup = CBool(dr(aliasPrefix & "wriw_isMarkup"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "wbs_id") AndAlso Not dr.IsNull(aliasPrefix & "wbs_id") Then
@@ -100,6 +102,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_cc.Id = CInt(dr(aliasPrefix & "voiw_cc"))
           ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_cc") AndAlso Not dr.IsNull(aliasPrefix & "paiw_cc") Then
             m_cc.Id = CInt(dr(aliasPrefix & "paiw_cc"))
+          ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_cc") AndAlso Not dr.IsNull(aliasPrefix & "wriw_cc") Then
+            m_cc.Id = CInt(dr(aliasPrefix & "wriw_cc"))
           End If
 
 
@@ -128,6 +132,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_percent = CDec(dr(aliasPrefix & "voiw_percent"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_percent") AndAlso Not dr.IsNull(aliasPrefix & "paiw_percent") Then
           m_percent = CDec(dr(aliasPrefix & "paiw_percent"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_percent") AndAlso Not dr.IsNull(aliasPrefix & "wriw_percent") Then
+          m_percent = CDec(dr(aliasPrefix & "wriw_percent"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_amt") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_amt") Then
@@ -144,6 +150,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_amount = CDec(dr(aliasPrefix & "voiw_amt"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_amt") AndAlso Not dr.IsNull(aliasPrefix & "paiw_amt") Then
           m_amount = CDec(dr(aliasPrefix & "paiw_amt"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_amt") AndAlso Not dr.IsNull(aliasPrefix & "wriw_amt") Then
+          m_amount = CDec(dr(aliasPrefix & "wriw_amt"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_baseCost") Then
@@ -160,6 +168,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_baseCost = CDec(dr(aliasPrefix & "voiw_baseCost"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "paiw_baseCost") Then
           m_baseCost = CDec(dr(aliasPrefix & "paiw_baseCost"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "wriw_baseCost") Then
+          m_baseCost = CDec(dr(aliasPrefix & "wriw_baseCost"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_transferBaseCost") Then
@@ -176,6 +186,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_transferBaseCost = CDec(dr(aliasPrefix & "voiw_transferBaseCost"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "paiw_transferBaseCost") Then
           m_transferBaseCost = CDec(dr(aliasPrefix & "paiw_transferBaseCost"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "wriw_transferBaseCost") Then
+          m_transferBaseCost = CDec(dr(aliasPrefix & "wriw_transferBaseCost"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_direction") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_direction") Then
@@ -192,6 +204,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_outward = CBool(dr(aliasPrefix & "voiw_direction"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_direction") AndAlso Not dr.IsNull(aliasPrefix & "paiw_direction") Then
           m_outward = CBool(dr(aliasPrefix & "paiw_direction"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_direction") AndAlso Not dr.IsNull(aliasPrefix & "wriw_direction") Then
+          m_outward = CBool(dr(aliasPrefix & "wriw_direction"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_toaccttype") Then
@@ -208,6 +222,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_toaccttype = CInt(dr(aliasPrefix & "paiw_toaccttype"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "voiw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "voiw_toaccttype") Then
           m_toaccttype = CInt(dr(aliasPrefix & "voiw_toaccttype"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "wriw_toaccttype") Then
+          m_toaccttype = CInt(dr(aliasPrefix & "wriw_toaccttype"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "budgetremain") AndAlso Not dr.IsNull(aliasPrefix & "budgetremain") Then

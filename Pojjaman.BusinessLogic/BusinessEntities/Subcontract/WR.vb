@@ -1005,7 +1005,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     wbsd.Percent += (100 - currentSum)
                   End If
                   Dim bfTax As Decimal = 0
-                  'bfTax = item.CostAmount
+                  bfTax = item.Amount
                   wbsd.BaseCost = bfTax 'item.Amount
                   wbsd.TransferBaseCost = bfTax 'item.Amount
                   Dim childDr As DataRow = dtWbs.NewRow
@@ -1034,7 +1034,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     wbsd.CostCenter = Me.CostCenter
                     wbsd.Percent = 100 - currentSum
                     Dim bfTax As Decimal = 0
-                    'bfTax = item.CostAmount
+                    bfTax = item.Amount
                     wbsd.BaseCost = bfTax 'item.Amount
                     wbsd.TransferBaseCost = bfTax 'item.Amount
                     Dim childDr As DataRow = dtWbs.NewRow
@@ -1431,12 +1431,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      ''Gross
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "Gross"
-      'dpi.Value = Configuration.FormatToString(Me.RealGross, DigitConfig.Price)
-      'dpi.DataType = "System.Decimal"
-      'dpiColl.Add(dpi)
+      'Gross
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Gross"
+      dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
 
       ''DiscountRate
       'dpi = New DocPrintingItem

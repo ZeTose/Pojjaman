@@ -551,7 +551,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(1) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
       arr(2) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
       arr(3) = New Filter("docdateend", ValidDateOrDBNull(docDateEnd))
-      arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
+      If cmbStatus.SelectedIndex = -1 Then
+        arr(4) = New Filter("status", DBNull.Value)
+      Else
+        arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
+      End If
+
 
       'arr(7) = New Filter("lci_id", IIf(Me.m_lci.Valid, Me.m_lci.Id, DBNull.Value))
       'arr(8) = New Filter("tool_id", IIf(Me.m_tool.Valid, Me.m_tool.Id, DBNull.Value))
@@ -726,16 +731,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           If TypeOf entity Is SC Then
             If entity.Status.Value <> -1 Then
-              CodeDescription.ComboSelect(Me.cmbStatus, entity.Status)
-              Me.cmbStatus.Enabled = False
+              'CodeDescription.ComboSelect(Me.cmbStatus, entity.Status)
+              If cmbStatus.Items.Count > 0 Then
+                cmbStatus.SelectedIndex = 0
+              End If
             End If
+            Me.cmbStatus.Enabled = False
           End If
           If TypeOf entity Is CostCenter Then
             Me.SetCostCenter(CType(entity, CostCenter))
-            Me.txtCostCenterCode.Enabled = False
-            Me.txtCostCenterName.Enabled = False
-            Me.btnCostCenterDialog.Enabled = False
-            Me.btnCostCenterPanel.Enabled = False
+            'Me.txtCostCenterCode.Enabled = False
+            'Me.txtCostCenterName.Enabled = False
+            'Me.btnCostCenterDialog.Enabled = False
+            'Me.btnCostCenterPanel.Enabled = False
           End If
         Next
       End Set
