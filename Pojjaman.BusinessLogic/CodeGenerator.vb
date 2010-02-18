@@ -64,7 +64,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim toCCText As String = """TCC"""
             Dim fromCCText As String = """FCC"""
             Dim ccText As String = """CC"""
-            Dim accountBookText As String = """J"""
+      Dim accountBookText As String = """J"""
+
+      Dim scText As String = """sc"""
 
             Dim ty As Type = o.GetType
             Dim pi As PropertyInfo = ty.GetProperty("DocDate")
@@ -122,11 +124,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ccCode = toCCCode
             ElseIf Not fromCCCode Is Nothing AndAlso fromCCCode.Length > 0 Then
                 ccCode = fromCCCode
-            End If
-
-            Dim myDate As Date = Now
-
-            'HACK by Pla <--- Good!
+      End If
+      Dim scCode As String
+      'HACK by Tounsa
+      If TypeOf o Is VO Then
+        scCode = CType(o, VO).SC.Code
+      End If
+      If TypeOf o Is DR Then
+        scCode = CType(o, DR).Sc.Code
+      End If
+      Dim myDate As Date = Now
+      'HACK by Pla <--- Good!
             If TypeOf o Is Banking Then
                 myDate = CType(o, Banking).Docdate
             End If
@@ -188,7 +196,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End While
             While Regex.IsMatch(pattern, ccText)
                 pattern = Regex.Replace(pattern, ccText, ccCode)
-            End While
+      End While
+      While Regex.IsMatch(pattern, scText)
+        pattern = Regex.Replace(pattern, scText, scCode)
+      End While
       While Regex.IsMatch(pattern, accountBookText)
         pattern = Regex.Replace(pattern, accountBookText, accountBookCode)
       End While

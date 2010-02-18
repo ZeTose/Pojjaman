@@ -87,6 +87,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_status = New WRStatus(-1)
         .m_note = ""
         .m_approvePerson = New User
+        .AutoCodeFormat = New AutoCodeFormat(Me)
 
       End With
       m_itemCollection = New wrItemCollection(Me)
@@ -173,6 +174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         m_itemCollection = New wrItemCollection(Me)
+        Me.AutoCodeFormat = New AutoCodeFormat(Me)
       End With
     End Sub
 #End Region

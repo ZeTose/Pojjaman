@@ -132,6 +132,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         .m_retention = 0
         .m_witholdingTax = 0
+        .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       'MatActualHash = New Hashtable
       'LabActualHash = New Hashtable
@@ -235,6 +236,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'LabActualHash = New Hashtable
         'EQActualHash = New Hashtable
         m_itemCollection = New DRItemCollection(Me)
+        Me.AutoCodeFormat = New AutoCodeFormat(Me)
       End With
 
     End Sub

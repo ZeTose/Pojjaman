@@ -2111,6 +2111,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'TaxBase
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxBase"
+      dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'TaxRate
       dpi = New DocPrintingItem
       dpi.Mapping = "TaxRate"

@@ -86,6 +86,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_realGross = 0
         .m_realTaxAmount = 0
         .m_status = New VOStatus(-1)
+        .AutoCodeFormat = New AutoCodeFormat(Me)
 
       End With
 
@@ -161,6 +162,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_itemCollection = New VOItemCollection(Me)
       End With
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
