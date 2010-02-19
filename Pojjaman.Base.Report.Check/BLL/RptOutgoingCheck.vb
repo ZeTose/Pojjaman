@@ -86,8 +86,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Amt}") '"จำนวนเงินคงเหลือ"
       tr("col12") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Status}") '"สถานะ"
       tr("col13") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.cc}") '"รหัส Cost center"
-
-
+      tr("col14") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckRecipient}") '"ผู้รับเช็ค"
+      tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") '"หมายเหตุ"
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -235,7 +235,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("cc_code") Then
               TrCheq("col13") = row("cc_code").ToString
             End If
-
+            If Not row.IsNull("CqRecipient") Then
+              TrCheq("col14") = row("CqRecipient").ToString
+            End If
+            If Not row.IsNull("CqNote") Then
+              TrCheq("col15") = row("CqNote").ToString
+            End If
             If IsNumeric(row("Amount")) Then
               SumAmount += CDec(row("Amount"))
               SumBankAmt += CDec(row("Amount"))
@@ -351,7 +356,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
-
+      myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
       Return myDatatable
     End Function
     Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
@@ -373,8 +379,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(120) '11
       widths.Add(120) '12
       widths.Add(220) '13
-
-      For i As Integer = 0 To 13
+      widths.Add(220) '14
+      widths.Add(220) '15
+      For i As Integer = 0 To 15
         If i = 1 Then
           Dim cs As New PlusMinusTreeTextColumn
           cs.MappingName = "col" & i
