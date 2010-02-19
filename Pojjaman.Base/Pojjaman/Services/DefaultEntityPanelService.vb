@@ -164,6 +164,7 @@ Namespace Longkong.Pojjaman.Services
       End If
       AddHandler CType(view, ISimpleListPanel).EntitySelected, handler
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(CType(view, UserControl))
+      myDialog.TopMost = True
       myDialog.ShowDialog()
     End Sub
     Public Overloads Sub OpenListDialog(ByVal entity As BusinessLogic.ISimpleEntity _
@@ -278,6 +279,7 @@ Namespace Longkong.Pojjaman.Services
         view.grbDragging.Visible = False
         AddHandler view.EntitySelected, handler
         Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(view)
+        myDialog.TopMost = True
         myDialog.ShowDialog()
       Else
         Dim view As New GroupPanelView(entity, handler, Nothing, filters, entities)
@@ -285,6 +287,7 @@ Namespace Longkong.Pojjaman.Services
         view.grbDragging.Visible = False
         AddHandler view.EntitySelected, handler
         Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(view)
+        myDialog.TopMost = True
         myDialog.ShowDialog()
       End If
     End Sub
