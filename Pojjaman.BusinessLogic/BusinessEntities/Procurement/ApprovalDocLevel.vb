@@ -159,6 +159,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("app_level") = item.Level
           dr("app_maxamt") = item.MaxAmount
           dt.Rows.Add(dr)
+          If item.DocId = 289 Then ''พอดีใช้ Config เดียวกันกับ 289 
+            dr = dt.NewRow
+            dr("app_user") = user.Id
+            dr("app_doc") = 290
+            dr("app_level") = item.Level
+            dr("app_maxamt") = item.MaxAmount
+            dt.Rows.Add(dr)
+          End If
         Next
 
         ' First process deletes.

@@ -1753,7 +1753,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Select Case Me.ItemType.Value
               Case 289
-                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
               Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
@@ -2306,7 +2306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Select Case Item.ItemType.Value
         Case 289
-          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+          wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
           wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
         Case 0
           wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
