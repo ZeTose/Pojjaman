@@ -718,12 +718,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.ItemCollection = New GoodsSoldItemCollection(Me, False)
             '********************************************
             If Not Me.JournalEntry.ManualFormat Then
-              If Not (Me.m_je.GLFormat.Originated) Then
-                Dim glf As GLFormat = Me.GetDefaultGLFormat
-                If Not glf Is Nothing Then
-                  m_je.SetGLFormat(Me.GetDefaultGLFormat)
-                End If
+              'If Not (Me.m_je.GLFormat.Originated) Then
+              Dim glf As GLFormat = Me.GetDefaultGLFormat
+              If Not glf Is Nothing Then
+                m_je.SetGLFormat(Me.GetDefaultGLFormat)
               End If
+              'End If
             End If
             '********************************************
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
