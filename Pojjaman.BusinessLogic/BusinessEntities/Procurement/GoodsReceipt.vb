@@ -364,6 +364,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_realTaxAmount = Value
+        OnGlChanged()
       End Set
     End Property
     Public Property RealTaxBase() As Decimal
@@ -449,6 +450,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As CostCenter)
         m_toCostCenter = Value
+        OnGlChanged()
       End Set
     End Property
     Public Property ToCostCenterPerson() As Employee
@@ -504,6 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As PO)
         m_po = Value
         ChangePO()
+        OnGlChanged()
       End Set
     End Property
     Private Sub ChangePO()
