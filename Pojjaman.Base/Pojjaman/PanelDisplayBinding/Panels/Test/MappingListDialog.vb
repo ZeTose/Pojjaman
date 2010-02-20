@@ -97,23 +97,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub GetEntity()
             Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
 
-            If TypeOf window.ActiveViewContent Is IAuxTab Then
-        Dim aux As Object = CType(window.ActiveViewContent, IAuxTab).AuxEntity
-        If aux Is Nothing Then
-          aux = CType(window.ActiveViewContent, IAuxTabItem).AuxEntityItem
-        End If
-                If TypeOf aux Is IPrintableEntity Then
-                    Dim auxPrintable As IPrintableEntity = CType(aux, IPrintableEntity)
-                    dpiColl = auxPrintable.GetDocPrintingEntries
-                End If
-            ElseIf TypeOf window.ActiveViewContent Is ISimpleEntityPanel Then
-                Dim myentity As Object = CType(window.ActiveViewContent, ISimpleEntityPanel).Entity
-                If TypeOf myentity Is IPrintableEntity Then
-                    Dim iprintable As IPrintableEntity = CType(myentity, IPrintableEntity)
-                    dpiColl = iprintable.GetDocPrintingEntries
-                End If
-            End If
-
+      'If TypeOf window.ActiveViewContent Is IAuxTab Then
+      'Dim aux As Object = CType(window.ActiveViewContent, IAuxTab).AuxEntity
+      'If aux Is Nothing Then
+      'aux = CType(window.ActiveViewContent, IAuxTabItem).AuxEntityItem
+      'End If
+      'If TypeOf aux Is IPrintableEntity Then
+      'Dim auxPrintable As IPrintableEntity = CType(aux, IPrintableEntity)
+      'dpiColl = auxPrintable.GetDocPrintingEntries
+      'End If
+      'ElseIf TypeOf window.ActiveViewContent Is ISimpleEntityPanel Then
+      'Dim myentity As Object = CType(window.ActiveViewContent, ISimpleEntityPanel).Entity
+      'If TypeOf myentity Is IPrintableEntity Then
+      'Dim iprintable As IPrintableEntity = CType(myentity, IPrintableEntity)
+      'dpiColl = iprintable.GetDocPrintingEntries
+      'End If
+      'End If
+      dpiColl = (New SuperPrintableEntity).GetDocPrintingEntries
             Populate()
         End Sub
 

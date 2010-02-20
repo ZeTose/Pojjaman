@@ -17,6 +17,8 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports Longkong.Pojjaman.Commands
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.AdobeForm
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.Gui.Panels
   'มีไว้เพื่อเป็นแม่ของหน้า Detail ต่างๆ มี methods และ properties ที่จำเป็น
   Public Class AbstractEntityDetailPanelView
@@ -513,7 +515,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim fform As New ComplexReportForm(thePath, CType(Me.Entity, IPrintableEntity))
                 Return fform.PrintDocument
               Else
-                Dim df As New DesignerForm(thePath, CType(Me.Entity, IPrintableEntity))
+                'Dim df As New DesignerForm(thePath, CType(Me.Entity, IPrintableEntity))
+                Dim df As New DesignerForm(thePath, New SuperPrintableEntity)
                 Return df.PrintDocument
               End If
             End If
@@ -571,6 +574,91 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+  End Class
+  Public Class SuperPrintableEntity
+    Implements IPrintableEntity
+    Private m_entities As List(Of IPrintableEntity)
+    Private m_entityNames As Dictionary(Of IPrintableEntity, String)
+    Public Sub New()
+      m_entities = New List(Of IPrintableEntity)
+      m_entityNames = New Dictionary(Of IPrintableEntity, String)
+      Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
+      For Each myview As Object In window.SubViewContents
+        If TypeOf myview Is IAuxTab Then
+          Dim aux As Object = CType(myview, IAuxTab).AuxEntity
+          If aux Is Nothing Then
+            aux = CType(myview, IAuxTabItem).AuxEntityItem
+          End If
+          If TypeOf aux Is IPrintableEntity Then
+            Dim auxPrintable As IPrintableEntity = CType(aux, IPrintableEntity)
+            If Not m_entityNames.ContainsKey(CType(auxPrintable, IPrintableEntity)) Then
+              m_entityNames(CType(auxPrintable, IPrintableEntity)) = myview.GetType.Name
+            End If
+            m_entities.Add(CType(auxPrintable, IPrintableEntity))
+          End If
+        ElseIf Not TypeOf myview Is AbstractEntityPanelViewContent AndAlso TypeOf myview Is ISimpleEntityPanel Then
+          Dim myentity As Object = CType(window.ActiveViewContent, ISimpleEntityPanel).Entity
+          If TypeOf myentity Is IPrintableEntity Then
+            Dim iprintable As IPrintableEntity = CType(myentity, IPrintableEntity)
+            If Not m_entityNames.ContainsKey(CType(iprintable, IPrintableEntity)) Then
+              m_entityNames(CType(iprintable, IPrintableEntity)) = myview.GetType.Name
+            End If
+            m_entities.Add(CType(iprintable, IPrintableEntity))
+          End If
+        End If
+      Next
+    End Sub
+    Public Property Code As String Implements BusinessLogic.IIdentifiable.Code
+      Get
+
+      End Get
+      Set(ByVal value As String)
+
+      End Set
+    End Property
+
+    Public Property Id As Integer Implements BusinessLogic.IIdentifiable.Id
+      Get
+
+      End Get
+      Set(ByVal value As Integer)
+
+      End Set
+    End Property
+
+    Public Function GetDefaultForm() As String Implements BusinessLogic.IPrintableEntity.GetDefaultForm
+
+    End Function
+
+    Public Function GetDefaultFormPath() As String Implements BusinessLogic.IPrintableEntity.GetDefaultFormPath
+
+    End Function
+
+    Public Function GetDocPrintingEntries() As BusinessLogic.DocPrintingItemCollection Implements BusinessLogic.IPrintableEntity.GetDocPrintingEntries
+      Dim ret As New DocPrintingItemCollection
+      Dim tmpRet As New DocPrintingItemCollection
+      Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
+      Dim activeContent As Object = window.ActiveViewContent
+      For Each entity As IPrintableEntity In m_entities
+        For Each dpi As DocPrintingItem In entity.GetDocPrintingEntries
+          Dim tmpDPI As DocPrintingItem = dpi.Clone
+          If Not tmpDPI.Mapping Is Nothing Then
+            If m_entityNames.ContainsKey(entity) Then
+              tmpDPI.Mapping = m_entityNames(entity) & "." & tmpDPI.Mapping
+              If Not String.IsNullOrEmpty(tmpDPI.Table) Then
+                tmpDPI.Table = m_entityNames(entity) & "." & tmpDPI.Table
+              End If
+              If activeContent.GetType.Name = m_entityNames(entity) Then
+                ret.Add(dpi)
+              End If
+            End If
+          End If
+          tmpRet.Add(tmpDPI)
+        Next
+      Next
+      ret.AddRange(tmpRet)
+      Return ret
+    End Function
   End Class
 End Namespace
 
