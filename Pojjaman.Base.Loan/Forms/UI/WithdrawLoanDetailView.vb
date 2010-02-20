@@ -495,8 +495,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
 
       If Not Me.m_entity.Loan Is Nothing Then
-        txtLoanCode.Text = Me.m_entity.CostCenter.Code
-        txtLoanName.Text = Me.m_entity.CostCenter.Name
+        txtLoanCode.Text = Me.m_entity.Loan.Code
+        txtLoanName.Text = Me.m_entity.Loan.Name
       End If
 
       SetLabelText()

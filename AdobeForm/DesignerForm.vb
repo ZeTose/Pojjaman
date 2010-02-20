@@ -1111,20 +1111,31 @@ Namespace Longkong.AdobeForm
 									Dim mediumNode As xmlnode = xmlnode.SelectSingleNode("descendant::medium")
 									If Not mediumNode Is Nothing Then
 										If Not mediumNode.Attributes("orientation") Is Nothing Then
-											Me.m_printerSettings.DefaultPageSettings.Landscape = True
+                      DesignerForm.m_printerSettings.DefaultPageSettings.Landscape = True
 										Else
-											Me.m_printerSettings.DefaultPageSettings.Landscape = False
+                      DesignerForm.m_printerSettings.DefaultPageSettings.Landscape = False
 										End If
 										Dim thePaper As PaperSize = PJMPaper.Letter
 										If Not mediumNode.Attributes("stock") Is Nothing Then
 											Dim found As Boolean = False
-											For Each pz As PaperSize In Me.m_printerSettings.PaperSizes
-												If pz.PaperName.ToLower = mediumNode.Attributes("stock").Value.ToLower Then
-													thePaper = pz
-													found = True
-													Exit For
-												End If
-											Next
+                      'หาตาม PaperSize
+                      For Each pz As PaperSize In DesignerForm.m_printerSettings.PaperSizes
+                        If pz.PaperName.ToLower = mediumNode.Attributes("stock").Value.ToLower Then
+                          thePaper = pz
+                          found = True
+                          Exit For
+                        End If
+                      Next
+                      If Not found Then
+                        'หาตาม Kind
+                        For Each pz As PaperSize In DesignerForm.m_printerSettings.PaperSizes
+                          If pz.Kind.ToString.ToLower = mediumNode.Attributes("stock").Value.ToLower Then
+                            thePaper = pz
+                            found = True
+                            Exit For
+                          End If
+                        Next
+                      End If
 											If Not found Then
 												Select Case mediumNode.Attributes("stock").Value.ToLower
 													Case "default"
@@ -1138,11 +1149,13 @@ Namespace Longkong.AdobeForm
 													Case "a4extra"
 														thePaper = PJMPaper.A4Extra
 													Case "9by11inch"
-														thePaper = PJMPaper.NineByEleven
-												End Select
+                            thePaper = PJMPaper.NineByEleven
+                          Case Else
+                            thePaper = GetPaperSize(mediumNode.Attributes("stock").Value, mediumNode.Attributes("stock").Value)
+                        End Select
 											End If
 										End If
-										Me.m_printerSettings.DefaultPageSettings.PaperSize = thePaper
+                    DesignerForm.m_printerSettings.DefaultPageSettings.PaperSize = thePaper
 									End If
 									Exit For
 								Case "table"
@@ -1755,7 +1768,18 @@ Namespace Longkong.AdobeForm
 #End Region
 
 #Region "Shared"
-		Private Const dpi As Integer = 98
+    Private Const dpi As Integer = 98
+    Public Shared Function GetPaperSize(ByVal name As String, ByVal size As String) As PaperSize
+      Dim re As New Regex("(?<Num>[0-9][0-9]*(?:\.[0-9]*)?)(?<Unit>[a-zA-Z]*)")
+      Dim ms As MatchCollection = re.Matches(size)
+      Dim w As Decimal = 0
+      Dim h As Decimal = 0
+      If ms.Count = 2 Then
+        w = AnyThingToPixel(ms(0).Value)
+        h = AnyThingToPixel(ms(1).Value)
+      End If
+      Return New PaperSize(name, w, h)
+    End Function
 		Public Shared Function AnyThingToPixel(ByVal valueString As String) As Integer
 			Dim re As New Regex("(?<Num>[0-9][0-9]*(?:\.[0-9]*)?)(?<Unit>[a-zA-Z]*)")
 			Dim value As Decimal
@@ -1769,9 +1793,10 @@ Namespace Longkong.AdobeForm
 				Case "cm", "cm."
 					value = CDec(0.393700787 * dpi * value)
 				Case "in", "in."
-					value = dpi * value
-				Case Else
-			End Select
+          value = dpi * value
+        Case Else
+          value = dpi * value
+      End Select
 			Return CInt(value)
 		End Function
 		Public Shared Function GetFontFromNode(ByVal xmlNode As XmlNode) As Font
