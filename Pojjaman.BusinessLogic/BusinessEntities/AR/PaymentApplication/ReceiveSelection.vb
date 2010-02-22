@@ -2386,7 +2386,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item.RefDoc"
               dpiColl.Add(dpi)
 
-            Case 75, 77, 78, 79, 86    'Milestone
+            Case 75, 77, 78, 86    'Milestone
               Dim mi As New Milestone(item.Id)
               'Dim mic As New MilestoneCollection(Me.Customer)
               'Item.LineNumber
@@ -2401,7 +2401,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.Code
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDoc.Code"
-              dpi.Value = mi.code
+              dpi.Value = mi.Code
               dpi.DataType = "System.String"
               dpi.Row = n2 + 1
               dpi.Table = "Item.RefDoc"
@@ -2419,7 +2419,241 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.CodeAndName
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDoc.CodeAndName"
-              dpi.Value = mi.code & ":" & mi.Name
+              dpi.Value = mi.Code & ":" & mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.UnitPrice
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.UnitPrice"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Int32"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Unit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Unit"
+              dpi.Value = "รายการ"
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Qty
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.Qty"
+              dpi.Value = 1
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefCode
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.RefCode"
+              dpi.Value = item.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.RefDate"
+              dpi.Value = item.Date
+              dpi.DataType = "System.DateTime"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.SBICode
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.SBICode"
+              dpi.Value = item.ParentCode
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Amount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.Amount"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Int32"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RemainingAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.RemainingAmount"
+              dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+              dpi.DataType = "System.Int32"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.AmountHeaderText
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.AmountHeaderText"
+              dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+              dpi.DataType = "System.Int32"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Beforetax
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.Beforetax"
+              dpi.Value = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.TaxBase
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.TaxBase"
+              dpi.Value = Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.DiscountAmountItem
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.DiscountAmountItem"
+              dpi.Value = Configuration.FormatToString(mi.DiscountAmount, DigitConfig.Price)
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.MilestoneAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.MilestoneAmount"
+              dpi.Value = Configuration.FormatToString(mi.MileStoneAmount, DigitConfig.Price)
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Advance
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Advance"
+              dpi.Value = Configuration.FormatToString(mi.Advance, DigitConfig.Price)
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Note
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Note"
+              dpi.Value = item.Note
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.RefDocCode
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDocCode"
+              dpi.Value = mi.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n2
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefDocDate
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDocDate"
+              dpi.Value = mi.DocDate.ToShortDateString
+              dpi.DataType = "System.String"
+              dpi.Row = n2
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefDocCustomerCode
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDocCustomerCode"
+              dpi.Value = Me.Customer.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n2
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefDocCustomerName
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDocCustomerName"
+              dpi.Value = Me.Customer.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.RefDocCustomerInfo
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDocCustomerInfo"
+              dpi.Value = Me.Customer.Code & " : " & Me.Customer.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              If mi.TaxType.Value = 1 Then
+                sumVat += (mi.Amount - mi.BeforeTax)
+              End If
+
+              sumTaxBase += mi.RealTaxBase
+              sumMilestoneAmount += mi.Amount
+              sumAdvanceAmount += mi.Advance
+
+              grossitem += item.RealAmount
+
+              discountamountitem += mi.DiscountAmount
+
+
+              n2 += 1
+
+            Case 79   'Milestone  งานลด
+              Dim mi As New Milestone(item.Id)
+              'Dim mic As New MilestoneCollection(Me.Customer)
+              'Item.LineNumber
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.LineNumber"
+              dpi.Value = n2 + 1
+              dpi.DataType = "System.Int32"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Code
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.Code"
+              dpi.Value = mi.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.Name"
+              dpi.Value = mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.CodeAndName
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.RefDoc.CodeAndName"
+              dpi.Value = mi.Code & ":" & mi.Name
               dpi.DataType = "System.String"
               dpi.Row = n2 + 1
               dpi.Table = "Item.RefDoc"
@@ -2883,7 +3117,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.Amount ค่าข้างล่างถูกแล้ว ไม่ได้สลับนะ
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Amount"
-        dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+        If item.EntityId = 79 Then 'งานลด
+          dpi.Value = Configuration.FormatToString(-item.RemainingAmount, DigitConfig.Price)
+        Else
+          dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+        End If
         dpi.DataType = "System.Int32"
         dpi.Row = n + 1
         dpi.Table = "Item"

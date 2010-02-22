@@ -657,7 +657,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1 '"แยก"
             Return Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty)
           Case 2 '"รวม"
-            Return Me.RealTaxBase - Me.Retention
+            Return Me.RealTaxBase '- Me.Retention
             'Me.MileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty) - Me.TaxAmount
         End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If        Select Case Me.TaxType.Value
@@ -2637,7 +2637,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If roundBeforeSum Then
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
           End If
-          amt += itemAmount
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
         End If
       Next
       Return amt
@@ -2652,7 +2656,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
             'itemRetention = Configuration.Format(itemRetention, DigitConfig.Price)
           End If
-          amt += itemAmount    '+= (itemAmount + itemRetention)
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
         End If
       Next
       Return amt
@@ -2665,7 +2673,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If roundBeforeSum Then
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
           End If
-          amt += itemAmount
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
         End If
       Next
       Return amt

@@ -1565,7 +1565,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If mis.Amount = 0 Then
                   dpi.Value = ""
                 Else
-                  dpi.Value = Configuration.FormatToString(mis.Amount, DigitConfig.Price)
+                  If TypeOf mis Is VariationOrderDe Then
+                    dpi.Value = Configuration.FormatToString(-mis.Amount, DigitConfig.Price)
+                  Else
+                    dpi.Value = Configuration.FormatToString(mis.Amount, DigitConfig.Price)
+                  End If
                 End If
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
@@ -1645,7 +1649,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     If item.Amount = 0 Then
                       dpi.Value = ""
                     Else
-                      dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+                      If TypeOf mis Is VariationOrderDe Then
+                        dpi.Value = Configuration.FormatToString(-mis.Amount, DigitConfig.Price)
+                      Else
+                        dpi.Value = Configuration.FormatToString(mis.Amount, DigitConfig.Price)
+                      End If
                     End If
                     dpi.DataType = "System.String"
                     dpi.Row = n + 1
@@ -1760,7 +1768,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 								If mis.Amount = 0 Then
 									dpi.Value = ""
 								Else
-									dpi.Value = Configuration.FormatToString(mis.Amount, DigitConfig.Price)
+                  If TypeOf mis Is VariationOrderDe Then
+                    dpi.Value = Configuration.FormatToString(-mis.Amount, DigitConfig.Price)
+                  Else
+                    dpi.Value = Configuration.FormatToString(mis.Amount, DigitConfig.Price)
+                  End If
 								End If
 								dpi.DataType = "System.String"
 								dpi.Row = n + 1

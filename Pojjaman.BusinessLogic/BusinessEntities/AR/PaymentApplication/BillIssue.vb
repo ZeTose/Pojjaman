@@ -948,7 +948,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.MileStoneAmount = 0 Then
           dpi.Value = ""
         Else
-          dpi.Value = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
+          Select Case item.Type.Value
+            Case 75, 78
+              'ผ่าน
+              dpi.Value = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
+            Case 79 'ลด
+              dpi.Value = Configuration.FormatToString(-item.MileStoneAmount, DigitConfig.Price)
+            Case Else
+              dpi.Value = ""
+          End Select
         End If
         dpi.DataType = "System.String"
         dpi.Row = n + 1
@@ -962,8 +970,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 75
             'ผ่าน
             dpi.Value = Configuration.FormatToString(item.Advance + item.Retention + item.DiscountAmount + item.Penalty, DigitConfig.Price)
-          Case 78, 79 'เพิ่ม /ลด
+          Case 78 'เพิ่ม 
             dpi.Value = Configuration.FormatToString(item.DiscountAmount + item.Penalty, DigitConfig.Price)
+          Case 79 'ลด
+            dpi.Value = Configuration.FormatToString(-item.DiscountAmount - item.Penalty, DigitConfig.Price)
           Case Else
             dpi.Value = ""
         End Select
@@ -978,8 +988,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.Amount = 0 Then
           dpi.Value = ""
         Else
-          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          Select Case item.Type.Value
+            Case 75, 78
+              'ผ่าน
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            Case 79 'ลด
+              dpi.Value = Configuration.FormatToString(-item.Amount, DigitConfig.Price)
+            Case Else
+              dpi.Value = ""
+          End Select
         End If
+
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
