@@ -1177,13 +1177,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IListDetail"
 
         ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity.HaveAccess(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-                Me.grbDetail.Enabled = True
-            Else
-                Me.grbDetail.Enabled = False
-            End If
-        End Sub
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity.Originated Then
+      If Me.m_entity.HaveAccess(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+        Me.grbDetail.Enabled = True
+      Else
+        Me.grbDetail.Enabled = False
+        End If
+      Else
+        Me.grbDetail.Enabled = True
+      End If
+    End Sub
 
         ' เคลียร์ข้อมูลใน control
         Public Overrides Sub ClearDetail()
