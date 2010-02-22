@@ -1794,8 +1794,8 @@ Namespace Longkong.AdobeForm
 					value = CDec(0.393700787 * dpi * value)
 				Case "in", "in."
           value = dpi * value
-        Case Else
-          value = dpi * value
+          'Case Else
+          'value = dpi * value
       End Select
 			Return CInt(value)
 		End Function
