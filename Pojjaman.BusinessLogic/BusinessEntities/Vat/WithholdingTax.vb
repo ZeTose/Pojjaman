@@ -2322,11 +2322,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Remove(wht)
       Next
       GenCode()
-      For Each wht As WitholdingTax In Me
-        If wht.DuplicateCode(wht.Code) Then
-          Return New SaveErrorException("${res:Global.Error.AlreadyHasThisCode}", New String() {wht.Code})
-        End If
-      Next
+
+      If Not TypeOf Me.RefDoc Is ICanDelayWHT AndAlso Not Me.IsBeforePay Then
+        For Each wht As WitholdingTax In Me
+          If wht.DuplicateCode(wht.Code) Then
+            Return New SaveErrorException("${res:Global.Error.AlreadyHasThisCode}", New String() {wht.Code})
+          End If
+        Next
+      End If
+
+
       Try
         Dim refDocType As Integer
         If TypeOf wht_refDoc Is ISimpleEntity Then
