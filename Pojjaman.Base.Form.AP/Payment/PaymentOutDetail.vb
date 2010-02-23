@@ -1941,7 +1941,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
 
             If File.Exists(thePath) Then
-              Dim df As New DesignerForm(thePath, CType(Me.m_payment, IPrintableEntity))
+              'Dim df As New DesignerForm(thePath, CType(Me.m_payment, IPrintableEntity))
+              Dim df As New DesignerForm(thePath, New SuperPrintableEntity)
               Return df.PrintDocument
             End If
           End If
