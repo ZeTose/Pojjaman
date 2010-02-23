@@ -821,8 +821,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
               wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
 
-              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString
-              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description
+              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.AllocationType
+              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
               'Amount -----------------------------------------------------
               If Not hashWBS.Contains(key) Then
                 wbsd.RemainSummary = wbsd.BudgetRemain - wbsd.Amount
@@ -841,7 +841,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
               Else
                 Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
-                wbsd.QtyRemainSummary = parwbs.QtyRemainSummary - wbsd.Qty
+                wbsd.QtyRemainSummary = parWBS.QtyRemainSummary - wbsd.Qty
                 CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
 
               End If

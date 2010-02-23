@@ -398,7 +398,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If      End Set    End Property    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -435,7 +451,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        'UpdateWBS()      End Set    End Property
+        End If        UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1421,8 +1437,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_qty = value
     End Sub
 #End Region
-
-
+    
     Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
@@ -1440,7 +1455,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Select Case Me.ItemType.Value
               Case 289
-                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
               Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
@@ -1462,6 +1477,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.ItemType.Value)
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.Entity.Id, _
                                                                            Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+
+            UpdateWBSQty()
+
             'Me.m_vo.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
             'Me.m_vo.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
         End Select
@@ -1478,12 +1496,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 160, 162
             Return "${res:Global.Error.NoteCannotHaveWBS}"
           Case 289
-            If Me.ChildAmount <> Me.Amount Then
-              Return "${res:Global.Error.CannotAllocate}"
-            End If
-            If Me.GetChildAmount > 0 Then
-              Return "${res:Global.Error.CannotAllocate}"
-            End If
+            Return "${res:Global.Error.SCItemCannotHaveWBS}"
+            'If Me.ChildAmount <> Me.Amount Then
+            'Return "${res:Global.Error.CannotAllocate}"
+            'End If
+            'If Me.GetChildAmount > 0 Then
+            'Return "${res:Global.Error.CannotAllocate}"
+            'End If
 
         End Select
         Return ""
@@ -1502,7 +1521,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return indent & Me.Entity.Code & " : " & Trim(Me.Entity.Name)  '  Me.EntityName
       End Get
     End Property
-
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88, 289
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
+      End Get
+    End Property
     Public ReadOnly Property Type() As String Implements IWBSAllocatableItem.Type
       Get
         Dim indent As String = ""

@@ -32,6 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ReadOnly Property AllocationErrorMessage() As String
     Property WBSDistributeCollection() As WBSDistributeCollection
     Property WBSDistributeCollection2() As WBSDistributeCollection
+    ReadOnly Property AllocationType As String
   End Interface
 
   <Serializable(), DefaultMember("Item")> _

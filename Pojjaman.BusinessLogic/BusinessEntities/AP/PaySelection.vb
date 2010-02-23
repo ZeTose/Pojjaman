@@ -646,6 +646,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@pays_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_PaySRef" _
           , New SqlParameter("@pays_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If

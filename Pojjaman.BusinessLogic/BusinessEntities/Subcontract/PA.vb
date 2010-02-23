@@ -1745,6 +1745,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itm.ReceiveAmount = oldAmount  'ต้องการให้ MAT, LAB, EQ คำนวณแล้วเอาไปโชว์ด้วย
 
             Me.ItemCollection.Add(itm)
+            For Each wbsd As WBSDistribute In itm.WBSDistributeCollection
+              Me.ItemCollection.SetBudgetRemain(wbsd, itm)
+            Next
 
             'itm.WBSDistributeCollection = New WBSDistributeCollection
             'AddHandler itm.WBSDistributeCollection.PropertyChanged, AddressOf itm.WBSChangedHandler
@@ -2659,10 +2662,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemName"
           dpi.Value = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}")  '"รวม" 
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.String"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2670,10 +2672,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractAmount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalBudget, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2681,10 +2682,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedAmount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalReceived, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2692,10 +2692,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(newDRItem.TotalProgressReceive, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2713,10 +2712,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ItemName"
           dpi.Value = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}")  '"รวม" 
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.String"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2724,10 +2722,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ContractAmount"
           dpi.Value = Configuration.FormatToString(newItem.TotalBudget, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2735,10 +2732,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ReceivedAmount"
           dpi.Value = Configuration.FormatToString(newItem.TotalReceived, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
           dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
@@ -2746,7 +2742,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(newItem.TotalProgressReceive, DigitConfig.Price)
-          dpi.Font = fn
+          dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
           dpi.Font = fn
@@ -3585,7 +3581,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
       Dim coll As New WBSAllocatableItemCollection
       For Each item As PAItem In Me.ItemCollection
-        coll.Add(item)
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          'If Not item.IsHasChild Then
+          coll.Add(item)
+          'End If
+        End If
       Next
       Return coll
     End Function

@@ -720,7 +720,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
 
             Me.ItemCollection.Add(sci)
-          Next
+            For Each wbsd As WBSDistribute In sci.WBSDistributeCollection
+              Me.ItemCollection.SetBudgetRemain(wbsd, sci)
+            Next
+          Next         
         End If
       End If
     End Sub
@@ -782,6 +785,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
       Next
       Return ret
+    End Function
+    Public Function IsReferencedByPA() As Boolean
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetIsReferencedByPA" _
+                , New SqlParameter("@entity_id", Me.Id) _
+                , New SqlParameter("@entity_type", Me.EntityId) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          If ds.Tables(0).Rows(0).IsNull(0) Then
+            Return False
+          End If
+          Return CBool(ds.Tables(0).Rows(0)(0))
+        End If
+      Catch ex As Exception
+      End Try
+      Return False
     End Function
     'Public Function GetCurrentMatQtyForWBS(ByVal myWbs As WBS, ByVal matId As Integer) As Decimal
     '    Dim ret As Decimal = 0

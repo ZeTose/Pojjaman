@@ -1172,10 +1172,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
             '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
             For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
                 ctrl.Enabled = False
               End If
             Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
             tgItem.Enabled = True
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = True
@@ -1194,10 +1199,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ถ้าใช้การอนุมัติแบบเก่า
           If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
             For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
                 ctrl.Enabled = False
               End If
             Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
             tgItem.Enabled = True
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = True
@@ -1234,13 +1244,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         'Next
       End If
-
-      If Not Me.m_entity.CostCenter.Originated Then
-        Me.ibtnGetFromBOQ.Enabled = False
-      Else
-        Me.ibtnGetFromBOQ.Enabled = True
-      End If
-
 
     End Sub
     Public Overrides Sub ClearDetail()

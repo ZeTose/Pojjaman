@@ -393,10 +393,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ผ่านโลด
           Return
         End If
+        'If Not Value.Value = 160 AndAlso Not Value.Value = 162 Then
         If IsHasChild() Then
           msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCItemOnly}")
           Return
         End If
+        'End If
+
         'If msgServ.AskQuestion("${res:Global.Question.ChangePREntityType}") Then
         'Dim oldType As Integer = m_itemType.Value
         m_itemType = Value
@@ -1029,6 +1032,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
     Public Sub ItemValidateRow(ByVal row As DataRow)
       Dim unit As Object = row("unit")
       Dim code As Object = row("Code")
@@ -1489,8 +1509,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               theName = Me.Entity.Name
             End If
             Select Case Me.ItemType.Value
-              Case 289
-                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+              Case 289, 291
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB 'GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
               Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
@@ -1622,7 +1642,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return indent & Me.Entity.Code & " : " & Trim(Me.Entity.Name)  '  Me.EntityName
       End Get
     End Property
-
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88, 289, 291
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
+      End Get
+    End Property
     Public ReadOnly Property Type() As String Implements IWBSAllocatableItem.Type
       Get
         If Me.ItemType Is Nothing Then
@@ -1853,6 +1884,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Sub SetBudgetRemain(ByVal wbsd As WBSDistribute, ByVal Item As PAItem)
+      Dim newWBS As WBS = wbsd.WBS ' CType(e.Value, WBS)
+      Dim theName As String = Item.EntityName
+      If theName Is Nothing Then
+        theName = Item.Entity.Name
+      End If
+      Select Case Item.ItemType.Value
+        Case 289, 291
+          wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
+          wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+        Case 0
+          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+          wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+          'wbsd.BudgetQty = wbsd.BudgetQty - (newWBS.GetActualType0Qty(Me.SC, 6) - Me.SC.GetCurrentTypeQtyForWBS(newWBS, theName, 0))
+        Case 19
+          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+          wbsd.BudgetQty = 0        'ไม่มี budget ให้เครื่องมือแน่ๆ
+        Case 42
+          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+          wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Item.Entity.Id)
+        Case 88
+          wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
+          wbsd.BudgetQty = newWBS.GetTotalLabQtyFromDB(theName)
+        Case 89
+          wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
+          wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
+      End Select
+      wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Item.Pa.Id, Item.Pa.EntityId, Item.ItemType.Value)
+      wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Item.Pa.Id, Item.Pa.EntityId, Item.Entity.Id, _
+                                                                  Item.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+      Item.UpdateWBSQty()
+    End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       For i As Integer = 0 To items.Count - 1
         Dim itemEntityLevel As Integer

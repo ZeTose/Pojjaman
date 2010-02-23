@@ -1985,7 +1985,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
       Dim coll As New WBSAllocatableItemCollection
       For Each item As DRItem In Me.ItemCollection
-        coll.Add(item)
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          coll.Add(item)
+        End If
       Next
       Return coll
     End Function

@@ -1197,10 +1197,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim flag As Boolean = Me.m_isInitialized
       Dim hashWBS As New Hashtable
-      Dim hashWBS2 As New Hashtable
+      'Dim hashWBS2 As New Hashtable
 
       Dim hashWBSItem As New Hashtable
-      Dim hashWBSItem2 As New Hashtable
+      'Dim hashWBSItem2 As New Hashtable
       Dim key As String = ""
       Dim itemKey As String = ""
       Me.m_isInitialized = False
@@ -1212,6 +1212,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         dt.Clear()
         dt2.Clear()
 
+        '------- in ------------------------------------------------------------------------------------------------
+        ''-----------------------------------------------------------------------------------------------------------
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
           Dim newRow As TreeRow = dt.Childs.Add()
           If ali.AllocationErrorMessage.Length <> 0 Then
@@ -1225,7 +1227,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newRow("CCButton") = "invisible"
           newRow("Button") = "invisible"
           newRow.Tag = ali
+          If ali.AllocationErrorMessage.Length = 0 Then
+            For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
+              Dim transferAmt As Decimal = ali.ItemAmount
+              wbsd.BaseCost = transferAmt
+              wbsd.TransferBaseCost = transferAmt
+              Dim wbsRow As TreeRow = dt.Childs.Add()
+              wbsRow.FixLevel = -1
+              wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
+              If Not configToCC Is Nothing AndAlso Not CBool(configToCC) Then
+                wbsRow("CCButton") = "invisible"
+              End If
+              wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
+              wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
+              wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
+              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.AllocationType
+              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
+              'Amount -----------------------------------------------------
+              If Not hashWBS.Contains(key) Then
+                wbsd.RemainSummary = wbsd.BudgetRemain - wbsd.Amount
+                hashWBS(key) = wbsd
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+                wbsd.RemainSummary = parWBS.RemainSummary - wbsd.Amount
+                CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
+              End If
+              'Qty --------------------------------------------------------
+              If Not hashWBSItem.Contains(itemKey) Then
+                wbsd.QtyRemainSummary = wbsd.QtyRemain - wbsd.Qty
+                hashWBSItem(itemKey) = wbsd
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+                wbsd.QtyRemainSummary = parWBS.QtyRemainSummary - wbsd.Qty
+                CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
+              End If
+              wbsRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
+              wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Qty)
+              wbsRow.Tag = wbsd
+            Next
+          End If
+        Next
 
+
+        '------- out ------------------------------------------------------------------------------------------------
+        ''-----------------------------------------------------------------------------------------------------------
+        For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
           Dim newRow2 As TreeRow = dt2.Childs.Add()
           If ali.AllocationErrorMessage.Length <> 0 Then
             newRow2.FixLevel = 0
@@ -1239,62 +1285,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newRow2("Button") = "invisible"
           newRow2.Tag = ali
           If ali.AllocationErrorMessage.Length = 0 Then
-            '------- in ------------------------------------------------------------------------------------------------
-            ''-----------------------------------------------------------------------------------------------------------
-            For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
-              Dim transferAmt As Decimal = ali.ItemAmount
-
-              wbsd.BaseCost = transferAmt
-              wbsd.TransferBaseCost = transferAmt
-
-              Dim wbsRow As TreeRow = dt.Childs.Add()
-              wbsRow.FixLevel = -1
-              wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
-              If Not configToCC Is Nothing AndAlso Not CBool(configToCC) Then
-                wbsRow("CCButton") = "invisible"
-              End If
-              wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
-              wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
-              wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
-
-              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString
-              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description
-              'Amount -----------------------------------------------------
-              If Not hashWBS.Contains(key) Then
-                wbsd.RemainSummary = wbsd.BudgetRemain - wbsd.Amount
-                hashWBS(key) = wbsd
-
-              Else
-                Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
-                wbsd.RemainSummary = parWBS.RemainSummary - wbsd.Amount
-                CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
-
-              End If
-              'Qty --------------------------------------------------------
-              If Not hashWBSItem.Contains(itemKey) Then
-                wbsd.QtyRemainSummary = wbsd.QtyRemain - wbsd.Qty
-                hashWBSItem(itemKey) = wbsd
-
-              Else
-                Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
-                wbsd.QtyRemainSummary = parwbs.QtyRemainSummary - wbsd.Qty
-                CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
-
-              End If
-
-              wbsRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
-              wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Qty)
-
-              wbsRow.Tag = wbsd
-            Next
-            '------- out ------------------------------------------------------------------------------------------------
-            ''-----------------------------------------------------------------------------------------------------------
             For Each wbsd As WBSDistribute In ali.WBSDistributeCollection2
               Dim transferAmt As Decimal = ali.ItemAmount
-
               wbsd.BaseCost = transferAmt
               wbsd.TransferBaseCost = transferAmt
-
               Dim wbsRow As TreeRow = dt2.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
@@ -1304,50 +1298,201 @@ Namespace Longkong.Pojjaman.Gui.Panels
               wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
               wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
               wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
-
-              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString
-              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description
+              key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.AllocationType
+              itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
               'Amount -----------------------------------------------------
-              If Not hashWBS2.Contains(key) Then
+              If Not hashWBS.Contains(key) Then
                 Dim inWBSAmount As Decimal = 0
                 If hashWBS.Contains(key) Then
                   'ถ้ากรณีมีจัดสรร ไปยัง- ออกจาก- เป็น CostCenter เดียวกัน
                   inWBSAmount = CType(hashWBS(key), WBSDistribute).Amount
                 End If
                 wbsd.RemainSummary = (wbsd.BudgetRemain - inWBSAmount) + wbsd.Amount
-                hashWBS2(key) = wbsd
-
+                hashWBS(key) = wbsd
               Else
-                Dim parWBS As WBSDistribute = CType(hashWBS2(key), WBSDistribute)
+                Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
                 wbsd.RemainSummary = parWBS.RemainSummary + wbsd.Amount
-                CType(hashWBS2(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
-
+                CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
               End If
               'Qty --------------------------------------------------------
-              If Not hashWBSItem2.Contains(itemKey) Then
+              If Not hashWBSItem.Contains(itemKey) Then
                 wbsd.QtyRemainSummary = wbsd.QtyRemain + wbsd.Qty
-                hashWBSItem2(itemKey) = wbsd
-
+                hashWBSItem(itemKey) = wbsd
               Else
-                Dim parWBS As WBSDistribute = CType(hashWBSItem2(itemKey), WBSDistribute)
-                wbsd.QtyRemainSummary = parwbs.QtyRemainSummary + wbsd.Qty
-                CType(hashWBSItem2(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
-
+                Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+                wbsd.QtyRemainSummary = parWBS.QtyRemainSummary + wbsd.Qty
+                CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
               End If
-
               wbsRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
               wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Qty)
-
               wbsRow.Tag = wbsd
             Next
           End If
-
         Next
+
+
       End If
       RefreshBlankGrid()
       Me.UpdateAmount()
       Me.m_isInitialized = flag
     End Sub
+    'Private Sub RefreshDocs()
+    'Dim configToCC As Object = Configuration.GetConfig("DRAllowChangeToCCWBSAllocate")
+    'Dim configFromCC As Object = Configuration.GetConfig("DRAllowChangeFromCCWBSAllocate")
+
+    'Dim flag As Boolean = Me.m_isInitialized
+    'Dim hashWBS As New Hashtable
+    'Dim hashWBS2 As New Hashtable
+
+    'Dim hashWBSItem As New Hashtable
+    'Dim hashWBSItem2 As New Hashtable
+    'Dim key As String = ""
+    'Dim itemKey As String = ""
+    'Me.m_isInitialized = False
+
+    'If TypeOf m_entity Is IWBSAllocatable Then
+    'Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
+    'Dim dt As TreeTable = m_wbsToCCTreeManager.Treetable
+    'Dim dt2 As TreeTable = m_wbsFromCCTreeManager.Treetable
+    'dt.Clear()
+    'dt2.Clear()
+
+    'For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
+    'Dim newRow As TreeRow = dt.Childs.Add()
+    'If ali.AllocationErrorMessage.Length <> 0 Then
+    'newRow.FixLevel = 0
+    'Else
+    'newRow.FixLevel = 1
+    'End If
+    'newRow("ItemType") = ali.Type
+    'newRow("Description") = ali.Description
+    'newRow("ItemAmount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
+    'newRow("CCButton") = "invisible"
+    'newRow("Button") = "invisible"
+    'newRow.Tag = ali
+
+    'Dim newRow2 As TreeRow = dt2.Childs.Add()
+    'If ali.AllocationErrorMessage.Length <> 0 Then
+    'newRow2.FixLevel = 0
+    'Else
+    'newRow2.FixLevel = 1
+    'End If
+    'newRow2("ItemType") = ali.Type
+    'newRow2("Description") = ali.Description
+    'newRow2("ItemAmount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
+    'newRow2("CCButton") = "invisible"
+    'newRow2("Button") = "invisible"
+    'newRow2.Tag = ali
+    'If ali.AllocationErrorMessage.Length = 0 Then
+    ''------- in ------------------------------------------------------------------------------------------------
+    ' ''-----------------------------------------------------------------------------------------------------------
+    'For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
+    'Dim transferAmt As Decimal = ali.ItemAmount
+
+    'wbsd.BaseCost = transferAmt
+    'wbsd.TransferBaseCost = transferAmt
+
+    'Dim wbsRow As TreeRow = dt.Childs.Add()
+    'wbsRow.FixLevel = -1
+    'wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
+    'If Not configToCC Is Nothing AndAlso Not CBool(configToCC) Then
+    'wbsRow("CCButton") = "invisible"
+    'End If
+    'wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
+    'wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
+    'wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
+
+    'key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.AllocationType
+    'itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
+    ''Amount -----------------------------------------------------
+    'If Not hashWBS.Contains(key) Then
+    'wbsd.RemainSummary = wbsd.BudgetRemain - wbsd.Amount
+    'hashWBS(key) = wbsd
+
+    'Else
+    'Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+    'wbsd.RemainSummary = parWBS.RemainSummary - wbsd.Amount
+    'CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
+
+    'End If
+    ''Qty --------------------------------------------------------
+    'If Not hashWBSItem.Contains(itemKey) Then
+    'wbsd.QtyRemainSummary = wbsd.QtyRemain - wbsd.Qty
+    'hashWBSItem(itemKey) = wbsd
+
+    'Else
+    'Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+    'wbsd.QtyRemainSummary = parwbs.QtyRemainSummary - wbsd.Qty
+    'CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
+
+    'End If
+
+    'wbsRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
+    'wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Qty)
+
+    'wbsRow.Tag = wbsd
+    'Next
+    ''------- out ------------------------------------------------------------------------------------------------
+    ' ''-----------------------------------------------------------------------------------------------------------
+    'For Each wbsd As WBSDistribute In ali.WBSDistributeCollection2
+    'Dim transferAmt As Decimal = ali.ItemAmount
+
+    'wbsd.BaseCost = transferAmt
+    'wbsd.TransferBaseCost = transferAmt
+
+    'Dim wbsRow As TreeRow = dt2.Childs.Add()
+    'wbsRow.FixLevel = -1
+    'wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
+    'If Not configFromCC Is Nothing AndAlso Not CBool(configFromCC) Then
+    'wbsRow("CCButton") = "invisible"
+    'End If
+    'wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
+    'wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
+    'wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
+
+    'key = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.AllocationType
+    'itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
+    ''Amount -----------------------------------------------------
+    'If Not hashWBS2.Contains(key) Then
+    'Dim inWBSAmount As Decimal = 0
+    'If hashWBS.Contains(key) Then
+    ''ถ้ากรณีมีจัดสรร ไปยัง- ออกจาก- เป็น CostCenter เดียวกัน
+    'inWBSAmount = CType(hashWBS(key), WBSDistribute).Amount
+    'End If
+    'wbsd.RemainSummary = (wbsd.BudgetRemain - inWBSAmount) + wbsd.Amount
+    'hashWBS2(key) = wbsd
+
+    'Else
+    'Dim parWBS As WBSDistribute = CType(hashWBS2(key), WBSDistribute)
+    'wbsd.RemainSummary = parWBS.RemainSummary + wbsd.Amount
+    'CType(hashWBS2(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
+
+    'End If
+    ''Qty --------------------------------------------------------
+    'If Not hashWBSItem2.Contains(itemKey) Then
+    'wbsd.QtyRemainSummary = wbsd.QtyRemain + wbsd.Qty
+    'hashWBSItem2(itemKey) = wbsd
+
+    'Else
+    'Dim parWBS As WBSDistribute = CType(hashWBSItem2(itemKey), WBSDistribute)
+    'wbsd.QtyRemainSummary = parwbs.QtyRemainSummary + wbsd.Qty
+    'CType(hashWBSItem2(itemKey), WBSDistribute).QtyRemainSummary = wbsd.QtyRemainSummary
+
+    'End If
+
+    'wbsRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
+    'wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Qty)
+
+    'wbsRow.Tag = wbsd
+    'Next
+    'End If
+
+    'Next
+    'End If
+    'RefreshBlankGrid()
+    'Me.UpdateAmount()
+    'Me.m_isInitialized = flag
+    'End Sub
     Private Sub UpdateRefDoc()
       If TypeOf Me.m_entity Is IWBSAllocatable Then
         m_refDoc = CType(Me.m_entity, IWBSAllocatable)

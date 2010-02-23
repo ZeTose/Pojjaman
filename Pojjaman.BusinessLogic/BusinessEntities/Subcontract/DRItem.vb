@@ -28,9 +28,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class DRItem
     Implements IWBSAllocatableItem, IAllowWBSAllocatableItem
-
+    
 #Region "Members"
-    Private m_dr As Dr
+    Private m_dr As DR
     Private m_sequence As Integer
     Private m_sc As SC
     Private m_lineNumber As Integer
@@ -117,7 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & "dri_sc") AndAlso Not dr.IsNull(aliasPrefix & "dri_sc") Then
-          .m_dr = New dr(CInt(dr(aliasPrefix & "dri_sc")))
+          .m_dr = New DR(CInt(dr(aliasPrefix & "dri_sc")))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "dri_sequence") AndAlso Not dr.IsNull(aliasPrefix & "dri_sequence") Then
           .m_sequence = CInt(dr("dri_sequence"))
@@ -335,7 +335,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property AllowWBSAllocateFrom() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
       Get
-        If Me.ItemType.Value = 291 Then
+        If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
           Return False
         Else
           Return True
@@ -344,12 +344,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property AllowWBSAllocateTo() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
       Get
-        Return True
+        If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
+          Return False
+        Else
+          Return True
+        End If
       End Get
     End Property
     Public ReadOnly Property Sequence() As Integer
       Get
         Return m_sequence
+      End Get
+    End Property
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88, 289, 291
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
       End Get
     End Property
     Public ReadOnly Property Type() As String Implements IWBSAllocatableItem.Type
@@ -360,7 +376,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ItemType.Description
       End Get
     End Property
-    Public Property Dr() As Dr      Get        Return m_dr      End Get      Set(ByVal Value As Dr)        m_dr = Value      End Set    End Property
+    Public Property Dr() As DR      Get        Return m_dr      End Get      Set(ByVal Value As DR)        m_dr = Value      End Set    End Property
     Public Property Linenumber() As Integer
       Get
         Return m_lineNumber
@@ -492,7 +508,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If      End Set    End Property
+        End If        UpdateFromWBSQty()        UpdateToWBSQty()      End Set    End Property
     Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1304,6 +1320,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+    Public Sub UpdateFromWBSQty()
+      For Each wbsd As WBSDistribute In Me.FromCCWBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
+    Public Sub UpdateToWBSQty()
+      For Each wbsd As WBSDistribute In Me.ToCCWBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
     Public Sub SetMat(ByVal value As Decimal)
       m_mat = value
     End Sub
@@ -1437,8 +1487,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               theName = Me.Entity.Name
             End If
             Select Case Me.ItemType.Value
-              Case 289
-                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+              Case 289, 291
+                wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
               Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
@@ -1460,12 +1510,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.Dr.Id, Me.Dr.EntityId, Me.ItemType.Value, wbsd.IsOutWard)
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.Dr.Id, Me.Dr.EntityId, Me.Entity.Id, _
                                                                       Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+
             'Me.m_dr.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
             'Me.m_dr.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
         End Select
       End If
     End Sub
-
   End Class
 
   <Serializable(), DefaultMember("Item")> _

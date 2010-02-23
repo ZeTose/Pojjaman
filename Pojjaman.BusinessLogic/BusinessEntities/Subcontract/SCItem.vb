@@ -1849,6 +1849,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return indent & Me.Entity.Code & " : " & Trim(Me.Entity.Name)  '  Me.EntityName
       End Get
     End Property
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88, 289
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
+      End Get
+    End Property
     Public ReadOnly Property Type() As String Implements IWBSAllocatableItem.Type
       Get
         Dim indent As String = ""
@@ -2337,7 +2349,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newList As New Hashtable
       For Each wbsxId As Object In m_hashWBSItems.Keys
         Dim foundId As Boolean = False
-        For Each itmx As WRItem In Me
+        For Each itmx As SCItem In Me
           If CType(wbsxId, Integer) = itmx.WBSId Then
             foundId = True
             Exit For
@@ -2451,22 +2463,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
               msciWbsd.CostCenter = Me.m_sc.CostCenter
               msciWbsd.WBS = bitem.WBS
               msciWbsd.Percent = 100
-              msciWbsd.BaseCost = bitem.TotalMaterialCost
-              msciWbsd.TransferBaseCost = bitem.TotalMaterialCost
+              'msciWbsd.BaseCost = bitem.TotalMaterialCost
+              'msciWbsd.TransferBaseCost = bitem.TotalMaterialCost
               msciWbsd.IsOutWard = False
               msciWbsd.Toaccttype = 3
 
               If msciWbsd.Percent = 100 Then
                 If Not wsci Is Nothing Then
-                  SetBudgetRemain(msciWbsd, wsci)
-
                   wsci.WBSDistributeCollection.Add(msciWbsd)
                   AddHandler wsci.WBSDistributeCollection.PropertyChanged, AddressOf wsci.WBSChangedHandler
-
+                  SetBudgetRemain(msciWbsd, wsci)
                   'matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
                 End If
               End If
             End If
+          End If
+
+          If bitem.TotalCost = 0 Then
+            Return
           End If
 
           If bitem.ItemType.Value = 18 Then     'ค่าแรง
@@ -2515,8 +2529,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   matWbsd.CostCenter = Me.m_sc.CostCenter
                   matWbsd.WBS = bitem.WBS
                   matWbsd.Percent = 100
-                  matWbsd.BaseCost = bitem.TotalMaterialCost
-                  matWbsd.TransferBaseCost = bitem.TotalMaterialCost
+                  'matWbsd.BaseCost = bitem.TotalMaterialCost
+                  'matWbsd.TransferBaseCost = bitem.TotalMaterialCost
                   matWbsd.IsOutWard = False
                   matWbsd.Toaccttype = 3
                 End If
@@ -2548,8 +2562,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   labWbsd.CostCenter = Me.m_sc.CostCenter
                   labWbsd.WBS = bitem.WBS
                   labWbsd.Percent = 100
-                  labWbsd.BaseCost = bitem.TotalLaborCost
-                  labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                  'labWbsd.BaseCost = bitem.TotalLaborCost
+                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
                   labWbsd.IsOutWard = False
                   labWbsd.Toaccttype = 3
                 End If
@@ -2581,8 +2595,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   eqWbsd.CostCenter = Me.m_sc.CostCenter
                   eqWbsd.WBS = bitem.WBS
                   eqWbsd.Percent = 100
-                  eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                  eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.BaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
                   eqWbsd.IsOutWard = False
                   eqWbsd.Toaccttype = 3
                 End If
@@ -2612,44 +2626,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
                 End If
                 tempUnitPrice = bitem.UEC
-
               End If
-
-              'If Me.Count = 0 Then
-              '  If bitem.ItemType.Value = 88 Then
-              '    labDoc = New scitem
-              '    doc = labDoc
-              '    tempUnitPrice = bitem.ULC
-              '  End If
-              '  If bitem.ItemType.Value = 89 Then
-              '    eqDoc = New scitem
-              '    doc = eqDoc
-              '    tempUnitPrice = bitem.UEC
-              '  End If
-              '  Me.Add(doc)
-              'Else
-              '  If bitem.ItemType.Value = 88 Then
-              '    labDoc = New scitem
-              '    If Not Me.CurrentItem Is Nothing Then
-              '      labDoc = Me.CurrentItem
-              '    Else
-              '      Me.Add(labDoc)
-              '    End If
-              '    doc = labDoc
-              '    tempUnitPrice = bitem.ULC
-              '  End If
-              '  If bitem.ItemType.Value = 89 Then
-              '    eqDoc = New scitem
-              '    If Not Me.CurrentItem Is Nothing Then
-              '      eqDoc = Me.CurrentItem
-              '    Else
-              '      Me.Add(eqDoc)
-              '    End If
-              '    doc = eqDoc
-              '    tempUnitPrice = bitem.UEC
-              '  End If
-              'End If
-
               doc.ItemType = New SCIItemType(bitem.ItemType.Value)
               doc.Entity = bitem.Entity
               doc.EntityName = bitem.Entity.Name
@@ -2662,8 +2639,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   labWbsd.CostCenter = Me.m_sc.CostCenter
                   labWbsd.WBS = bitem.WBS
                   labWbsd.Percent = 100
-                  labWbsd.BaseCost = bitem.TotalLaborCost
-                  labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                  'labWbsd.BaseCost = bitem.TotalLaborCost
+                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
                   labWbsd.IsOutWard = False
                   labWbsd.Toaccttype = 3
                 End If
@@ -2674,8 +2651,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   eqWbsd.CostCenter = Me.m_sc.CostCenter
                   eqWbsd.WBS = bitem.WBS
                   eqWbsd.Percent = 100
-                  eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                  eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.BaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
                   eqWbsd.IsOutWard = False
                   eqWbsd.Toaccttype = 3
                 End If
@@ -2684,28 +2661,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           If matWbsd.Percent = 100 Then
             If Not matDoc Is Nothing Then
-              SetBudgetRemain(matWbsd, matDoc)
               matDoc.WBSDistributeCollection.Add(matWbsd)
               'm_WBSDistributeCollection = New WBSDistributeCollection
               AddHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
+              SetBudgetRemain(matWbsd, matDoc)
               'matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
             End If
           End If
           If labWbsd.Percent = 100 Then
             If Not labDoc Is Nothing Then
-              SetBudgetRemain(labWbsd, labDoc)
               labDoc.WBSDistributeCollection.Add(labWbsd)
               AddHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
-
+              SetBudgetRemain(labWbsd, labDoc)
               'labDoc.SC.SetActual(labWbsd.WBS, 0, labDoc.Amount, labDoc.ItemType.Value)
             End If
           End If
           If eqWbsd.Percent = 100 Then
             If Not eqDoc Is Nothing Then
-              SetBudgetRemain(eqWbsd, eqDoc)
               eqDoc.WBSDistributeCollection.Add(eqWbsd)
               AddHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
-
+              SetBudgetRemain(eqWbsd, eqDoc)
               'eqDoc.SC.SetActual(eqWbsd.WBS, 0, eqDoc.Amount, eqDoc.ItemType.Value)
             End If
           End If

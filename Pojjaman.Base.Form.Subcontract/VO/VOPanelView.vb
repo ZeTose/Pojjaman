@@ -566,7 +566,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDiscountAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
-      Me.txtDiscountAmount.Location = New System.Drawing.Point(664, 96)
+      Me.txtDiscountAmount.Location = New System.Drawing.Point(664, 86)
       Me.Validator.SetMinValue(Me.txtDiscountAmount, "")
       Me.txtDiscountAmount.Name = "txtDiscountAmount"
       Me.Validator.SetRegularExpression(Me.txtDiscountAmount, "")
@@ -585,7 +585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDiscountRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
-      Me.txtDiscountRate.Location = New System.Drawing.Point(560, 96)
+      Me.txtDiscountRate.Location = New System.Drawing.Point(560, 86)
       Me.Validator.SetMinValue(Me.txtDiscountRate, "")
       Me.txtDiscountRate.Name = "txtDiscountRate"
       Me.txtDiscountRate.ReadOnly = True
@@ -696,7 +696,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowWR.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowWR.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnShowWR.Location = New System.Drawing.Point(650, 64)
+      Me.ibtnShowWR.Location = New System.Drawing.Point(650, 54)
       Me.ibtnShowWR.Name = "ibtnShowWR"
       Me.ibtnShowWR.Size = New System.Drawing.Size(48, 24)
       Me.ibtnShowWR.TabIndex = 347
@@ -713,7 +713,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(648, 40)
+      Me.btnApprove.Location = New System.Drawing.Point(664, 113)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(104, 23)
       Me.btnApprove.TabIndex = 335
@@ -876,7 +876,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnGetFromBOQ.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnGetFromBOQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(704, 64)
+      Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(704, 54)
       Me.ibtnGetFromBOQ.Name = "ibtnGetFromBOQ"
       Me.ibtnGetFromBOQ.Size = New System.Drawing.Size(48, 24)
       Me.ibtnGetFromBOQ.TabIndex = 35
@@ -917,7 +917,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Label1.BackColor = System.Drawing.Color.Transparent
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.Location = New System.Drawing.Point(472, 96)
+      Me.Label1.Location = New System.Drawing.Point(472, 86)
       Me.Label1.Name = "Label1"
       Me.Label1.Size = New System.Drawing.Size(80, 18)
       Me.Label1.TabIndex = 50
@@ -930,7 +930,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ImageButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.ImageButton1.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ImageButton1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ImageButton1.Location = New System.Drawing.Point(640, 96)
+      Me.ImageButton1.Location = New System.Drawing.Point(640, 86)
       Me.ImageButton1.Name = "ImageButton1"
       Me.ImageButton1.Size = New System.Drawing.Size(24, 20)
       Me.ImageButton1.TabIndex = 64
