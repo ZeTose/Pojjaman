@@ -1072,10 +1072,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.BeforeTax
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.BeforeTax"
-        If item.BeforeTax = 0 Then
+        If item.MileStoneAmount = 0 Then
           dpi.Value = ""
         Else
-          dpi.Value = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
+          If item.Type.Value = 79 Then 'Ŵ�ҹ
+            dpi.Value = Configuration.FormatToString(-item.BeforeTax, DigitConfig.Price)
+          Else
+            dpi.Value = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
+          End If
         End If
         dpi.DataType = "System.String"
         dpi.Row = n + 1

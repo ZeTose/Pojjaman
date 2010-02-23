@@ -2798,9 +2798,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'RefDocItem.Amount
             dpi = New DocPrintingItem
             dpi.Mapping = "RefDocItem.Amount"
-            If Not IsDBNull(dr("receivesi_amt")) Then
-              dpi.Value = Configuration.FormatToString(CDec(dr("receivesi_amt")), DigitConfig.UnitPrice)
-              sumAfterTax += CDec(dr("receivesi_amt"))
+            If Not IsDBNull(dr("receivesi_entityType")) Then
+              If CInt(dr("receivesi_entityType")) = 79 Then  'Ŵ�ҹ
+                If Not IsDBNull(dr("receivesi_amt")) Then
+                  dpi.Value = Configuration.FormatToString(-CDec(dr("receivesi_amt")), DigitConfig.UnitPrice)
+                  sumAfterTax += CDec(dr("receivesi_amt"))
+                End If
+              Else
+                If Not IsDBNull(dr("receivesi_amt")) Then
+                  dpi.Value = Configuration.FormatToString(CDec(dr("receivesi_amt")), DigitConfig.UnitPrice)
+                  sumAfterTax += CDec(dr("receivesi_amt"))
+                End If
+              End If
+            Else
+              If Not IsDBNull(dr("receivesi_amt")) Then
+                dpi.Value = Configuration.FormatToString(CDec(dr("receivesi_amt")), DigitConfig.UnitPrice)
+                sumAfterTax += CDec(dr("receivesi_amt"))
+              End If
             End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
