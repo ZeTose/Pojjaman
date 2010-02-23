@@ -1895,8 +1895,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End If
 
-          If (itIsCash) Then
-            'PaymentItem.DueDate
+          If tableType = 2 Then 'paymentItemAll
+            'PaymentItemAll.DueDate
             dpi = New DocPrintingItem
             dpi.Mapping = tableName & ".DueDate"
             dpi.Value = item.DueDate.ToShortDateString
@@ -1905,9 +1905,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = tableName
             dpiColl.Add(dpi)
 
+            'PaymentItemAll.LimitAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".LimitAmount"
+            dpi.Value = Configuration.FormatToString(item.Entity.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+            'PaymentItemAll.payAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".PayAmount"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
+          End If
+
+
+
+
+          If (itIsCash) Then
+            'PaymentItem.DueDate
+            dpi = New DocPrintingItem
+            dpi.Mapping = tableName & ".CashDueDate"
+            dpi.Value = item.DueDate.ToShortDateString
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = tableName
+            dpiColl.Add(dpi)
+
             'PaymentItem.Amount
             dpi = New DocPrintingItem
-            dpi.Mapping = tableName & ".Amount"
+            dpi.Mapping = tableName & ".CashAmount"
             dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
             dpi.DataType = "System.Decimal"
             dpi.Row = n + 1
@@ -2873,8 +2906,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If item.Amount = 0 Then
                 dpi.Value = ""
               Else
-                dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-                sumRefDocItemAmount += item.Amount
+                If item.ItemType.Value = 46 Then
+                  dpi.Value = Configuration.FormatToString(-item.Amount, DigitConfig.Price)
+                  sumRefDocItemAmount -= item.Amount
+                Else
+                  dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+                  sumRefDocItemAmount += item.Amount
+                End If
               End If
               dpi.DataType = "System.String"
               dpi.Row = n + 1
