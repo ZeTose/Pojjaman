@@ -107,6 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public EQActualHash As Hashtable
 #End Region
 
+
 #Region "Constructors"
     Public Sub New()
       MyBase.New()

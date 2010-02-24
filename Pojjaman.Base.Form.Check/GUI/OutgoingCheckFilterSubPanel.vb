@@ -54,6 +54,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblDueDateEnd As System.Windows.Forms.Label
     Friend WithEvents dtpDueDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpDueDateEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtDueDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents txtDueDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents lblCheckStatus As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -67,8 +73,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbDueDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDueDateStart = New System.Windows.Forms.TextBox()
+      Me.txtDueDateEnd = New System.Windows.Forms.TextBox()
+      Me.lblDueDateStart = New System.Windows.Forms.Label()
+      Me.lblDueDateEnd = New System.Windows.Forms.Label()
+      Me.dtpDueDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDueDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.cmbStatus = New System.Windows.Forms.ComboBox()
       Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
       Me.lblDocDateStart = New System.Windows.Forms.Label()
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
@@ -84,14 +99,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnBankAcctFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtBankAcctCode = New System.Windows.Forms.TextBox()
       Me.txtRepient = New System.Windows.Forms.TextBox()
-      Me.grbDueDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.lblDueDateStart = New System.Windows.Forms.Label()
-      Me.lblDueDateEnd = New System.Windows.Forms.Label()
-      Me.dtpDueDateStart = New System.Windows.Forms.DateTimePicker()
-      Me.dtpDueDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.grbDetail.SuspendLayout()
-      Me.grbDocDate.SuspendLayout()
       Me.grbDueDate.SuspendLayout()
+      Me.grbDocDate.SuspendLayout()
       Me.SuspendLayout()
       '
       'lblCqcode
@@ -107,9 +119,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtCqcode
       '
+      Me.Validator.SetDataType(Me.txtCqcode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCqcode, "")
       Me.txtCqcode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCqcode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCqcode, System.Drawing.Color.Empty)
       Me.txtCqcode.Location = New System.Drawing.Point(120, 48)
+      Me.Validator.SetMinValue(Me.txtCqcode, "")
       Me.txtCqcode.Name = "txtCqcode"
+      Me.Validator.SetRegularExpression(Me.txtCqcode, "")
+      Me.Validator.SetRequired(Me.txtCqcode, False)
       Me.txtCqcode.Size = New System.Drawing.Size(248, 21)
       Me.txtCqcode.TabIndex = 3
       '
@@ -126,9 +145,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtSupplierCode
       '
+      Me.Validator.SetDataType(Me.txtSupplierCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.txtSupplierCode.Location = New System.Drawing.Point(120, 120)
+      Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
+      Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
+      Me.Validator.SetRequired(Me.txtSupplierCode, False)
       Me.txtSupplierCode.Size = New System.Drawing.Size(88, 21)
       Me.txtSupplierCode.TabIndex = 9
       '
@@ -167,9 +193,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtCode
       '
+      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCode, "")
       Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(120, 24)
+      Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
+      Me.Validator.SetRegularExpression(Me.txtCode, "")
+      Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(248, 21)
       Me.txtCode.TabIndex = 1
       '
@@ -206,6 +239,90 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "เช็คจ่าย"
       '
+      'grbDueDate
+      '
+      Me.grbDueDate.Controls.Add(Me.txtDueDateStart)
+      Me.grbDueDate.Controls.Add(Me.txtDueDateEnd)
+      Me.grbDueDate.Controls.Add(Me.lblDueDateStart)
+      Me.grbDueDate.Controls.Add(Me.lblDueDateEnd)
+      Me.grbDueDate.Controls.Add(Me.dtpDueDateStart)
+      Me.grbDueDate.Controls.Add(Me.dtpDueDateEnd)
+      Me.grbDueDate.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbDueDate.Location = New System.Drawing.Point(442, 84)
+      Me.grbDueDate.Name = "grbDueDate"
+      Me.grbDueDate.Size = New System.Drawing.Size(228, 68)
+      Me.grbDueDate.TabIndex = 19
+      Me.grbDueDate.TabStop = False
+      Me.grbDueDate.Text = "วันที่ครบกำหนด"
+      '
+      'txtDueDateStart
+      '
+      Me.txtDueDateStart.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDueDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDueDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDueDateStart, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDueDateStart, System.Drawing.Color.Empty)
+      Me.txtDueDateStart.Location = New System.Drawing.Point(74, 17)
+      Me.Validator.SetMinValue(Me.txtDueDateStart, "")
+      Me.txtDueDateStart.Name = "txtDueDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDueDateStart, "")
+      Me.Validator.SetRequired(Me.txtDueDateStart, False)
+      Me.txtDueDateStart.Size = New System.Drawing.Size(116, 21)
+      Me.txtDueDateStart.TabIndex = 22
+      '
+      'txtDueDateEnd
+      '
+      Me.txtDueDateEnd.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDueDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDueDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDueDateEnd, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDueDateEnd, System.Drawing.Color.Empty)
+      Me.txtDueDateEnd.Location = New System.Drawing.Point(74, 41)
+      Me.Validator.SetMinValue(Me.txtDueDateEnd, "")
+      Me.txtDueDateEnd.Name = "txtDueDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDueDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDueDateEnd, False)
+      Me.txtDueDateEnd.Size = New System.Drawing.Size(116, 21)
+      Me.txtDueDateEnd.TabIndex = 23
+      '
+      'lblDueDateStart
+      '
+      Me.lblDueDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDueDateStart.ForeColor = System.Drawing.Color.Black
+      Me.lblDueDateStart.Location = New System.Drawing.Point(12, 17)
+      Me.lblDueDateStart.Name = "lblDueDateStart"
+      Me.lblDueDateStart.Size = New System.Drawing.Size(56, 18)
+      Me.lblDueDateStart.TabIndex = 0
+      Me.lblDueDateStart.Text = "ตั้งแต่"
+      Me.lblDueDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblDueDateEnd
+      '
+      Me.lblDueDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDueDateEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblDueDateEnd.Location = New System.Drawing.Point(12, 41)
+      Me.lblDueDateEnd.Name = "lblDueDateEnd"
+      Me.lblDueDateEnd.Size = New System.Drawing.Size(56, 18)
+      Me.lblDueDateEnd.TabIndex = 2
+      Me.lblDueDateEnd.Text = "ถึง"
+      Me.lblDueDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'dtpDueDateStart
+      '
+      Me.dtpDueDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDueDateStart.Location = New System.Drawing.Point(74, 17)
+      Me.dtpDueDateStart.Name = "dtpDueDateStart"
+      Me.dtpDueDateStart.Size = New System.Drawing.Size(144, 21)
+      Me.dtpDueDateStart.TabIndex = 1
+      '
+      'dtpDueDateEnd
+      '
+      Me.dtpDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDueDateEnd.Location = New System.Drawing.Point(74, 41)
+      Me.dtpDueDateEnd.Name = "dtpDueDateEnd"
+      Me.dtpDueDateEnd.Size = New System.Drawing.Size(144, 21)
+      Me.dtpDueDateEnd.TabIndex = 3
+      '
       'cmbStatus
       '
       Me.cmbStatus.Location = New System.Drawing.Point(120, 96)
@@ -215,6 +332,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDocDate
       '
+      Me.grbDocDate.Controls.Add(Me.txtDocDateStart)
+      Me.grbDocDate.Controls.Add(Me.txtDocDateEnd)
       Me.grbDocDate.Controls.Add(Me.lblDocDateStart)
       Me.grbDocDate.Controls.Add(Me.lblDocDateEnd)
       Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
@@ -226,6 +345,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.TabIndex = 18
       Me.grbDocDate.TabStop = False
       Me.grbDocDate.Text = "วันที่เอกสาร"
+      '
+      'txtDocDateStart
+      '
+      Me.txtDocDateStart.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(74, 17)
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(116, 21)
+      Me.txtDocDateStart.TabIndex = 20
+      '
+      'txtDocDateEnd
+      '
+      Me.txtDocDateEnd.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(74, 41)
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(116, 21)
+      Me.txtDocDateEnd.TabIndex = 21
       '
       'lblDocDateStart
       '
@@ -311,20 +460,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtSupplierName
       '
       Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtSupplierName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.txtSupplierName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(208, 120)
+      Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
+      Me.Validator.SetRequired(Me.txtSupplierName, False)
       Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
       Me.txtSupplierName.TabIndex = 10
       '
       'txtBankAcctName
       '
       Me.txtBankAcctName.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtBankAcctName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtBankAcctName, "")
       Me.txtBankAcctName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtBankAcctName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtBankAcctName, System.Drawing.Color.Empty)
       Me.txtBankAcctName.Location = New System.Drawing.Point(208, 144)
+      Me.Validator.SetMinValue(Me.txtBankAcctName, "")
       Me.txtBankAcctName.Name = "txtBankAcctName"
       Me.txtBankAcctName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtBankAcctName, "")
+      Me.Validator.SetRequired(Me.txtBankAcctName, False)
       Me.txtBankAcctName.Size = New System.Drawing.Size(168, 21)
       Me.txtBankAcctName.TabIndex = 15
       '
@@ -364,81 +527,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtBankAcctCode
       '
+      Me.Validator.SetDataType(Me.txtBankAcctCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtBankAcctCode, "")
       Me.txtBankAcctCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtBankAcctCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtBankAcctCode, System.Drawing.Color.Empty)
       Me.txtBankAcctCode.Location = New System.Drawing.Point(120, 144)
+      Me.Validator.SetMinValue(Me.txtBankAcctCode, "")
       Me.txtBankAcctCode.Name = "txtBankAcctCode"
+      Me.Validator.SetRegularExpression(Me.txtBankAcctCode, "")
+      Me.Validator.SetRequired(Me.txtBankAcctCode, False)
       Me.txtBankAcctCode.Size = New System.Drawing.Size(88, 21)
       Me.txtBankAcctCode.TabIndex = 14
       '
       'txtRepient
       '
+      Me.Validator.SetDataType(Me.txtRepient, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRepient, "")
       Me.txtRepient.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtRepient, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRepient, System.Drawing.Color.Empty)
       Me.txtRepient.Location = New System.Drawing.Point(120, 72)
+      Me.Validator.SetMinValue(Me.txtRepient, "")
       Me.txtRepient.Name = "txtRepient"
+      Me.Validator.SetRegularExpression(Me.txtRepient, "")
+      Me.Validator.SetRequired(Me.txtRepient, False)
       Me.txtRepient.Size = New System.Drawing.Size(248, 21)
       Me.txtRepient.TabIndex = 5
       '
-      'grbDueDate
+      'ErrorProvider1
       '
-      Me.grbDueDate.Controls.Add(Me.lblDueDateStart)
-      Me.grbDueDate.Controls.Add(Me.lblDueDateEnd)
-      Me.grbDueDate.Controls.Add(Me.dtpDueDateStart)
-      Me.grbDueDate.Controls.Add(Me.dtpDueDateEnd)
-      Me.grbDueDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDueDate.Location = New System.Drawing.Point(442, 84)
-      Me.grbDueDate.Name = "grbDueDate"
-      Me.grbDueDate.Size = New System.Drawing.Size(228, 68)
-      Me.grbDueDate.TabIndex = 19
-      Me.grbDueDate.TabStop = False
-      Me.grbDueDate.Text = "วันที่ครบกำหนด"
+      Me.ErrorProvider1.ContainerControl = Me
       '
-      'lblDueDateStart
+      'Validator
       '
-      Me.lblDueDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDueDateStart.ForeColor = System.Drawing.Color.Black
-      Me.lblDueDateStart.Location = New System.Drawing.Point(12, 17)
-      Me.lblDueDateStart.Name = "lblDueDateStart"
-      Me.lblDueDateStart.Size = New System.Drawing.Size(56, 18)
-      Me.lblDueDateStart.TabIndex = 0
-      Me.lblDueDateStart.Text = "ตั้งแต่"
-      Me.lblDueDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblDueDateEnd
-      '
-      Me.lblDueDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDueDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblDueDateEnd.Location = New System.Drawing.Point(12, 41)
-      Me.lblDueDateEnd.Name = "lblDueDateEnd"
-      Me.lblDueDateEnd.Size = New System.Drawing.Size(56, 18)
-      Me.lblDueDateEnd.TabIndex = 2
-      Me.lblDueDateEnd.Text = "ถึง"
-      Me.lblDueDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'dtpDueDateStart
-      '
-      Me.dtpDueDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDueDateStart.Location = New System.Drawing.Point(74, 17)
-      Me.dtpDueDateStart.Name = "dtpDueDateStart"
-      Me.dtpDueDateStart.Size = New System.Drawing.Size(144, 21)
-      Me.dtpDueDateStart.TabIndex = 1
-      '
-      'dtpDueDateEnd
-      '
-      Me.dtpDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDueDateEnd.Location = New System.Drawing.Point(74, 41)
-      Me.dtpDueDateEnd.Name = "dtpDueDateEnd"
-      Me.dtpDueDateEnd.Size = New System.Drawing.Size(144, 21)
-      Me.dtpDueDateEnd.TabIndex = 3
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Me.ErrorProvider1
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'OutgoingCheckFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "OutgoingCheckFilterSubPanel"
-      Me.Size = New System.Drawing.Size(698, 200)
+      Me.Size = New System.Drawing.Size(698, 202)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      Me.grbDocDate.ResumeLayout(False)
       Me.grbDueDate.ResumeLayout(False)
+      Me.grbDueDate.PerformLayout()
+      Me.grbDocDate.ResumeLayout(False)
+      Me.grbDocDate.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -449,8 +589,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_supplier As New Supplier
     Private m_bankacct As New BankAccount
     Private m_checkstatus As OutgoingCheckDocStatus
-
     Private m_includeref As Boolean = True
+    Private docDateStart As Date
+    Private docDateEnd As Date
+    Private dueDateStart As Date
+    Private dueDateEnd As Date
 #End Region
 
 #Region "Constructors"
@@ -498,9 +641,115 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ' list in combobox
       OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(cmbStatus, "outgoingcheck_docstatus")
       ' clear item
+      AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDueDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDueDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDueDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDueDateEnd.ValueChanged, AddressOf Me.ChangeProperty
       ClearCriterias()
     End Sub
-
+    Private m_dateSetting As Boolean
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "dtpdocdatestart"
+          If Not Me.docDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.docDateStart = dtpDocDateStart.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtdocdatestart"
+          m_dateSetting = True
+          If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
+            If Not Me.docDateStart.Equals(theDate) Then
+              dtpDocDateStart.Value = theDate
+              Me.docDateStart = dtpDocDateStart.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpDocDateStart.Value = Date.Now
+            Me.docDateStart = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtpdocdateend"
+          If Not Me.docDateEnd.Equals(dtpDocDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.docDateEnd = dtpDocDateEnd.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtdocdateend"
+          m_dateSetting = True
+          If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
+            If Not Me.docDateEnd.Equals(theDate) Then
+              dtpDocDateEnd.Value = theDate
+              Me.docDateEnd = dtpDocDateEnd.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpDocDateEnd.Value = Date.Now
+            Me.docDateEnd = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtpduedatestart"
+          If Not Me.dueDateStart.Equals(dtpDueDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDueDateStart.Text = MinDateToNull(dtpDueDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.dueDateStart = dtpDueDateStart.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtduedatestart"
+          m_dateSetting = True
+          If Not Me.txtDueDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtDueDateStart.Text)
+            If Not Me.dueDateStart.Equals(theDate) Then
+              dtpDueDateStart.Value = theDate
+              Me.dueDateStart = dtpDueDateStart.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpDueDateStart.Value = Date.Now
+            Me.dueDateStart = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtpduedateend"
+          If Not Me.dueDateEnd.Equals(dtpDueDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDueDateEnd.Text = MinDateToNull(dtpDueDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.dueDateEnd = dtpDueDateEnd.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtduedateend"
+          m_dateSetting = True
+          If Not Me.txtDueDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtDueDateEnd.Text)
+            If Not Me.dueDateEnd.Equals(theDate) Then
+              dtpDueDateEnd.Value = theDate
+              Me.dueDateEnd = dtpDueDateEnd.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpDueDateEnd.Value = Date.Now
+            Me.dueDateEnd = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case Else
+      End Select
+    End Sub
     Private Sub ClearCriterias()
       For Each ctrl As Control In grbDetail.Controls
         If TypeOf ctrl Is TextBox Then
@@ -514,10 +763,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbStatus.SelectedIndex = -1
       Me.cmbStatus.SelectedIndex = -1
 
-      Me.dtpDocDateStart.Value = Date.Now.Subtract(New TimeSpan(30, 0, 0, 0))
-      Me.dtpDocDateEnd.Value = Date.Now
-      Me.dtpDueDateStart.Value = Date.Now.Subtract(New TimeSpan(30, 0, 0, 0))
-      Me.dtpDueDateEnd.Value = Date.Now
+      Dim generalDocDateStartBeforeToday As Long = Configuration.GetConfig("GeneralDocDateStartBeforeToday")
+      Dim generalDocDateEndAfterToday As Long = Configuration.GetConfig("GeneralDocDateEndAfterToday")
+      Dim generalDueDateStartBeforeToday As Long = Configuration.GetConfig("GeneralDueDateStartBeforeToday")
+      Dim generalDueDateEndAfterToday As Long = Configuration.GetConfig("GeneralDueDateEndAfterToday")
+
+      Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, generalDocDateStartBeforeToday, Now.Date)
+      Me.dtpDocDateEnd.Value = DateAdd(DateInterval.Day, generalDocDateEndAfterToday, Now.Date)
+
+      Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDocDateStartBeforeToday, Now.Date), "")
+      Me.txtDocDateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDocDateEndAfterToday, Now.Date), "")
+
+      Me.dtpDueDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, generalDueDateStartBeforeToday, Now.Date), "")
+      Me.dtpDueDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, generalDueDateEndAfterToday, Now.Date), "")
+
+      Me.txtDueDateStart.Text = ""
+      Me.txtDueDateEnd.Text = ""
+
       EntityRefresh()
     End Sub
 
@@ -533,11 +795,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         docstatus = CType(cmbStatus.SelectedItem, IdValuePair).Id
       End If
       arr(5) = New Filter("status", IIf(Me.cmbStatus.SelectedIndex = -1, DBNull.Value, docstatus))
-      arr(6) = New Filter("startdate ", dtpDocDateStart.Value)
-      arr(7) = New Filter("enddate", dtpDocDateEnd.Value)
-      arr(8) = New Filter("duedatestart", dtpDueDateStart.Value)
-      arr(9) = New Filter("duedateend", dtpDueDateEnd.Value)
-
+      arr(6) = New Filter("startdate ", ValidDateOrDBNull(docDateStart))
+      arr(7) = New Filter("enddate", ValidDateOrDBNull(docDateEnd))
+      arr(8) = New Filter("duedatestart", ValidDateOrDBNull(dueDateStart))
+      arr(9) = New Filter("duedateend", ValidDateOrDBNull(dueDateEnd))
       Return arr
     End Function
 
