@@ -1157,11 +1157,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
     Public Sub AddBlankRow(ByVal count As Integer)
+      Dim flag As Boolean = Me.IsInitialized
+      Me.IsInitialized = False
       For i As Integer = 0 To count - 1
         Dim myItem As New MilestoneItem
         Me.ItemTable.AcceptChanges()
         Me.Add(myItem)
       Next
+      Me.IsInitialized = flag
     End Sub
     Public Function Add(ByVal item As MilestoneItem) As TreeRow
       Dim myRow As TreeRow = Me.ItemTable.Childs.Add
