@@ -2148,6 +2148,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Dim coll As New WBSAllocatableItemCollection
       For Each item As VOItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
           coll.Add(item)
         End If
       Next

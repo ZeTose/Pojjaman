@@ -2821,6 +2821,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenListDialog(New BOQForSelection, AddressOf SetItems, arr)
     End Sub
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Not Me.m_entity.Originated Then
+        msgServ.ShowMessageFormatted("${res:Global.SaveDocumentFirst}", New String() {Me.m_entity.Code})
+        Return
+      End If
+      'Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.vo.NoItem}"))
       'PJMModule
       Dim x As Form
       If m_ApproveDocModule.Activated Then

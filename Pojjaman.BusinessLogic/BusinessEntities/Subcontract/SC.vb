@@ -907,9 +907,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = oldid
     End Sub
 
+    Dim hashAutoChild As Hashtable
     Private Function ValidateItem() As SaveErrorException
+      Dim key1 As String = ""
       Dim key As String = ""
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim j As Integer = 0
+      hashAutoChild = New Hashtable
+      For Each sitem As SCItem In Me.ItemCollection
+        If sitem.Level = 0 Then
+          If Not sitem.IsHasChild(True) Then
+            j += 1
+            key1 = j.ToString
+            hashAutoChild(key1) = sitem
+          End If
+        End If
+      Next
+      If hashAutoChild.Count > 0 Then
+        If msgServ.AskQuestion("${res:Global.Question.NotChildItemAndWantToAutoCreateChild}") Then
+          Return New SaveErrorException("2")
+        Else
+          Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        End If
+      End If
       For Each sitem As SCItem In Me.ItemCollection
         'If Not Me.Closing AndAlso Not sitem.NewChild Then
 
@@ -983,6 +1003,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ValidateError As SaveErrorException = ValidateItem()
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
+        Else
+          If CInt(ValidateError.Message) = 2 Then
+            For Each sitem As SCItem In hashAutoChild.Values
+              Dim nsitem As New SCItem
+              nsitem.ItemType = New SCIItemType(88)
+              nsitem.Entity = New BlankItem("")
+              nsitem.Level = 1
+              nsitem.ItemName = sitem.ItemName
+              nsitem.Unit = sitem.Unit
+              nsitem.SetQty(sitem.Qty)
+              nsitem.SetUnitPrice(sitem.UnitPrice)
+              'nsitem.SetMat(sitem.Mat)
+              nsitem.SetLab(sitem.Lab)
+              'nsitem.SetEq(sitem.Eq)
+              nsitem.WBSDistributeCollection = sitem.WBSDistributeCollection
+              AddHandler nsitem.WBSDistributeCollection.PropertyChanged, AddressOf nsitem.WBSChangedHandler
+
+              Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(sitem) + 1, nsitem)
+            Next
+          End If
         End If
         If Me.Closing Then
           Dim codeList As String = Me.GetUnClosedContract
@@ -1150,13 +1190,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'If Me.Status.Value = 0 Then
           '    Me.CancelRef(conn, trans)
           'End If
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
-          , New SqlParameter("@entity_id", Me.WR.Id) _
-          , New SqlParameter("@entity_type", Me.WR.EntityId) _
-          , New SqlParameter("@refto_id", Me.Id) _
-          , New SqlParameter("@refto_type", Me.EntityId) _
-          , New SqlParameter("@refto_iscanceled", isCanceled) _
-          )
+          If Not Me.WR Is Nothing AndAlso Me.WR.Originated Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
+            , New SqlParameter("@entity_id", Me.WR.Id) _
+            , New SqlParameter("@entity_type", Me.WR.EntityId) _
+            , New SqlParameter("@refto_id", Me.Id) _
+            , New SqlParameter("@refto_type", Me.EntityId) _
+            , New SqlParameter("@refto_iscanceled", isCanceled) _
+            )
+          End If
+
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
 
@@ -2267,6 +2310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim coll As New WBSAllocatableItemCollection
       For Each item As SCItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
           coll.Add(item)
         End If
       Next

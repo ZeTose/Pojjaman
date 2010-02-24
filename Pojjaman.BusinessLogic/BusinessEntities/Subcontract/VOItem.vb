@@ -451,7 +451,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        UpdateWBSQty()      End Set    End Property
+        End If        'UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1478,7 +1478,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.Entity.Id, _
                                                                            Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
 
-            UpdateWBSQty()
+            'UpdateWBSQty()
 
             'Me.m_vo.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
             'Me.m_vo.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)

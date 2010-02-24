@@ -3583,6 +3583,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As PAItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
           'If Not item.IsHasChild Then
+          item.UpdateWBSQty()
           coll.Add(item)
           'End If
         End If

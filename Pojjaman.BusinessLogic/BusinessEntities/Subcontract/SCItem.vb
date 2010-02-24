@@ -557,7 +557,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        UpdateWBSQty()      End Set    End Property
+        End If        'UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1372,8 +1372,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
-    Public Function IsHasChild() As Boolean
-      Dim doc As SCItem = Me.SC.ItemCollection.CurrentItem
+    Public Function IsHasChild(Optional ByVal CurrentItemIsMe As Boolean = False) As Boolean
+      Dim doc As SCItem = Nothing
+      If Not CurrentItemIsMe Then
+        doc = Me.SC.ItemCollection.CurrentItem
+      Else
+        doc = Me
+      End If
       If doc Is Nothing Then
         Return False
       End If
@@ -1776,7 +1781,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.SC.Id, Me.SC.EntityId, Me.Entity.Id, _
                                                                         Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
 
-            UpdateWBSQty()
+            'UpdateWBSQty()
 
             'wbsd.Amount = CDec(e.Value)
             'Me.m_sc.SetActual(oldWBS, wbsd.Amount, 0, Me.ItemType.Value)
@@ -2340,7 +2345,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Item.SC.Id, Item.SC.EntityId, Item.ItemType.Value)
       wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Item.SC.Id, Item.SC.EntityId, Item.Entity.Id, _
                                                                   Item.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
-      Item.UpdateWBSQty()
+      'Item.UpdateWBSQty()
     End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       Dim currItem As SCItem = Nothing

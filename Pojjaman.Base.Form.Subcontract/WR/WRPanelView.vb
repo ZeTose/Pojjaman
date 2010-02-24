@@ -1175,12 +1175,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
                 ctrl.Enabled = False
               End If
-            Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
-            End If
+            Next          
             tgItem.Enabled = True
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = True
@@ -1194,6 +1189,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
             'Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
           End If
         Else
           'ถ้าใช้การอนุมัติแบบเก่า
@@ -1202,12 +1202,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
                 ctrl.Enabled = False
               End If
-            Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
-            End If
+            Next           
             tgItem.Enabled = True
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = True
@@ -1221,6 +1216,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
             'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
             'Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
           End If
         End If
       End If
@@ -1228,7 +1228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'จาก Status ของเอกสารเอง
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 OrElse Me.m_entity.Closed Then
         For Each ctrl As Control In grbDetail.Controls
-          If Not ctrl.Name = "chkClosed" Then
+          If Not ctrl.Name = "chkClosed" AndAlso Not ctrl.Name = "btnApprove" Then
             ctrl.Enabled = False
           End If
         Next
@@ -1243,6 +1243,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
         'colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         'Next
+        If Not Me.m_entity.CostCenter.Originated Then
+          Me.ibtnGetFromBOQ.Enabled = False
+        Else
+          Me.ibtnGetFromBOQ.Enabled = True
+        End If
       End If
 
     End Sub
@@ -2287,6 +2292,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'InitialCombo()
     'End Sub
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Not Me.m_entity.Originated Then
+        msgServ.ShowMessageFormatted("${res:Global.SaveDocumentFirst}", New String() {Me.m_entity.Code})
+        Return
+      End If
       'PJMModule
       Dim x As Form
       If m_ApproveDocModule.Activated Then

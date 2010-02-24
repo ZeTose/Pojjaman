@@ -563,9 +563,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = oldid
     End Sub
 
+    Dim hashAutoChild As Hashtable
     Private Function ValidateItem() As SaveErrorException
+      Dim key1 As String = ""
       Dim key As String = ""
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim c As Integer = 0
+      Dim i As Integer = 0
+      Dim j As Integer = 0
+      hashAutoChild = New Hashtable
+      For Each witem As WRItem In Me.ItemCollection
+        If witem.Level = 0 Then
+          If Not witem.IsHasChild(True) Then
+            j += 1
+            key1 = j.ToString
+            hashAutoChild(key1) = witem
+          End If
+        End If
+      Next
+      If hashAutoChild.Count > 0 Then
+        If msgServ.AskQuestion("${res:Global.Question.NotChildItemAndWantToAutoCreateChild}") Then
+          'For Each witem As WRItem In hashAutoChild.Values
+          'Dim nwitem As New WRItem
+          'nwitem.ItemType = New SCIItemType(88)
+          'nwitem.Entity = New BlankItem("")
+          'nwitem.Level = 1
+          'nwitem.ItemName = witem.ItemName
+          'nwitem.Unit = witem.Unit
+          'nwitem.SetQty(witem.Qty)
+          'nwitem.SetUnitPrice(witem.UnitPrice)
+          ''nwitem.SetMat(witem.Mat)
+          'nwitem.SetLab(witem.Lab)
+          ''nwitem.SetEq(witem.Eq)
+
+          'Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(witem) + 1, nwitem)
+          'Next
+          Return New SaveErrorException("2")
+        Else
+          Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        End If
+      End If
+      'If i > 0 And c = 0 Then
+      'If msgServ.AskQuestion("${res:Global.Question.NotChildItemAndWantToAutoCreateChild}") Then
+      'Return New SaveErrorException("-2")
+      'End If
+      'End If
       For Each sitem As WRItem In Me.ItemCollection
         'If Not Me.Closing AndAlso Not sitem.NewChild Then
 
@@ -577,7 +619,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Else
             'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
             'End If
-
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCAmountNotEqualAllocateAndReCalUnitPrice}")
             ''New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
@@ -634,12 +675,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         'End If
         'End If
+        'hashAutoChild = New Hashtable
         If Me.ItemCollection.Count = 0 Then   '.ItemTable.Childs.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
         Dim ValidateError As SaveErrorException = ValidateItem()
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
+        Else
+          If CInt(ValidateError.Message) = 2 Then
+            For Each witem As WRItem In hashAutoChild.Values
+              Dim nwitem As New WRItem
+              nwitem.ItemType = New SCIItemType(88)
+              nwitem.Entity = New BlankItem("")
+              nwitem.Level = 1
+              nwitem.ItemName = witem.ItemName
+              nwitem.Unit = witem.Unit
+              nwitem.SetQty(witem.Qty)
+              nwitem.SetUnitPrice(witem.UnitPrice)
+              'nwitem.SetMat(witem.Mat)
+              nwitem.SetLab(witem.Lab)
+              'nwitem.SetEq(witem.Eq)
+              nwitem.WBSDistributeCollection = witem.WBSDistributeCollection
+              AddHandler nwitem.WBSDistributeCollection.PropertyChanged, AddressOf nwitem.WBSChangedHandler
+
+              Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(witem) + 1, nwitem)
+            Next
+          End If
         End If
         'If Me.Closing Then
         'Dim codeList As String = Me.GetUnClosedContract
@@ -1880,6 +1942,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim coll As New WBSAllocatableItemCollection
       For Each item As WRItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
           coll.Add(item)
         End If
       Next

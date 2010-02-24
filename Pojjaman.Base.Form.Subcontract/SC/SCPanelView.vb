@@ -1903,11 +1903,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 ctrl.Enabled = False
               End If
             Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
-            End If
             tgItem.Enabled = True
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
@@ -1921,6 +1916,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
             Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
           End If
         Else
           'ถ้าใช้การอนุมัติแบบเก่า
@@ -1930,11 +1930,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 ctrl.Enabled = False
               End If
             Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
-            End If
             tgItem.Enabled = True
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
@@ -1948,6 +1943,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
             Next
+            If Not Me.m_entity.CostCenter.Originated Then
+              Me.ibtnGetFromBOQ.Enabled = False
+            Else
+              Me.ibtnGetFromBOQ.Enabled = True
+            End If
           End If
         End If
       End If
@@ -1973,6 +1973,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
+        If Not Me.m_entity.CostCenter.Originated Then
+          Me.ibtnGetFromBOQ.Enabled = False
+        Else
+          Me.ibtnGetFromBOQ.Enabled = True
+        End If
       End If
 
       If Me.m_entity.WR Is Nothing OrElse Me.m_entity.WR.Id = 0 Then
@@ -3170,6 +3175,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       InitialCombo()
     End Sub
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Not Me.m_entity.Originated Then
+        msgServ.ShowMessageFormatted("${res:Global.SaveDocumentFirst}", New String() {Me.m_entity.Code})
+        Return
+      End If
       'PJMModule
       Dim x As Form
       If m_ApproveDocModule.Activated Then

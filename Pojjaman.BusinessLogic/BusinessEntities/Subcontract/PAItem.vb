@@ -1914,7 +1914,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Item.Pa.Id, Item.Pa.EntityId, Item.ItemType.Value)
       wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Item.Pa.Id, Item.Pa.EntityId, Item.Entity.Id, _
                                                                   Item.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
-      Item.UpdateWBSQty()
+      'Item.UpdateWBSQty()
     End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       For i As Integer = 0 To items.Count - 1

@@ -1986,6 +1986,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim coll As New WBSAllocatableItemCollection
       For Each item As DRItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
           coll.Add(item)
         End If
       Next

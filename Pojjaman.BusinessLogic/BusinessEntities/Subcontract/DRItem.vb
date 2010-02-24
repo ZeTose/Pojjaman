@@ -1029,6 +1029,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.ToCCWBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+      For Each wbsd As WBSDistribute In Me.FromCCWBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
     Public Sub ItemValidateRow(ByVal row As DataRow)
       Dim unit As Object = row("unit")
       Dim code As Object = row("Code")

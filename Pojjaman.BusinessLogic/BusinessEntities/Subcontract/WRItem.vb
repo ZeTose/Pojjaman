@@ -497,7 +497,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        UpdateWBSQty()      End Set    End Property
+        End If        'UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1313,8 +1313,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
     End Function
-    Public Function IsHasChild() As Boolean
-      Dim doc As WRItem = Me.wr.ItemCollection.CurrentItem
+    Public Function IsHasChild(Optional ByVal CurrentItemIsMe As Boolean = False) As Boolean
+      Dim doc As WRItem = Nothing
+      If Not CurrentItemIsMe Then
+        doc = Me.wr.ItemCollection.CurrentItem
+      Else
+        doc = Me
+      End If
+
       If doc Is Nothing Then
         Return False
       End If
@@ -1717,41 +1723,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.wr.Id, Me.wr.EntityId, Me.Entity.Id, _
                                                                         Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
 
-            UpdateWBSQty()
-
-            'wbsd.Amount = CDec(e.Value)
-            'Me.m_sc.SetActual(oldWBS, wbsd.Amount, 0, Me.ItemType.Value)
-            'Me.m_sc.SetActual(newWBS, 0, wbsd.Amount, Me.ItemType.Value)
-
-            'Select Case item.ItemType.Value
-            '  Case 0 'อื่นๆ
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualType0Qty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentTypeQtyForWBS(wbsd.WBS, theName, 0)
-            '  Case 19 'Tool
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualMatQty(item.Pr, View, item.Entity.Id, 19)
-            '    currentQty = item.Pr.GetCurrentTypeQtyForWBS(wbsd.WBS, theName, 19)
-            '  Case 42 'Mat
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualMatQty(item.Pr, View, item.Entity.Id, 42)
-            '    currentQty = item.Pr.GetCurrentMatQtyForWBS(wbsd.WBS, item.Entity.Id)
-            '  Case 88 'Lab
-            '    actual = wbsd.WBS.GetActualLab(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualLabQty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentLabQtyForWBS(wbsd.WBS, theName)
-            '  Case 89 'Eq
-            '    actual = wbsd.WBS.GetActualEq(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualEqQty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentEqQtyForWBS(wbsd.WBS, theName)
-            'End Select
+            'UpdateWBSQty()
 
         End Select
+        wbsd.BaseQty = Me.Qty
       End If
     End Sub
     Public ReadOnly Property AllocationErrorMessage() As String Implements IWBSAllocatableItem.AllocationErrorMessage
@@ -2281,7 +2256,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Item.wr.Id, Item.wr.EntityId, Item.ItemType.Value)
       wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Item.wr.Id, Item.wr.EntityId, Item.Entity.Id, _
                                                                   Item.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
-      Item.UpdateWBSQty()
+      'Item.UpdateWBSQty()
+      'wbsd.BaseQty = Item.Qty
     End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       Dim currItem As WRItem = Nothing
