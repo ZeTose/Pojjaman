@@ -88,37 +88,33 @@
     <Reference Include="Office">
       <Name>Office</Name>
     </Reference>
-    <Reference Include="Syncfusion.Core, Version=5.101.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4">
+    <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\bin\Syncfusion.Core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Grid.Base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="syncfusion.grid.base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Base.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\syncfusion.grid.base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Grid.Windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="syncfusion.grid.windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\bin\Syncfusion.Grid.Windows.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\syncfusion.grid.windows.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.Base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="syncfusion.shared.base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Base.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\syncfusion.shared.base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Shared.Windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="syncfusion.shared.windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\bin\Syncfusion.Shared.Windows.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\syncfusion.shared.windows.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Tools.Base">
-      <Name>Syncfusion.Tools.Base</Name>
-      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Tools.Base.dll</HintPath>
-      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
-      <Private>True</Private>
+    <Reference Include="syncfusion.tools.base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.tools.base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Tools.Windows">
-      <Name>Syncfusion.Tools.Windows</Name>
-      <HintPath>C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\PublicAssemblies\Syncfusion.Tools.Windows.dll</HintPath>
-      <AssemblyFolderKey>hklm\publicassemblies</AssemblyFolderKey>
-      <Private>True</Private>
+    <Reference Include="syncfusion.tools.windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.tools.windows.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
