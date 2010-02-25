@@ -92,9 +92,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
       tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
       tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"  
-      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalDebt}") '"ยอดหนี้"
-      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalRetentionDebt}") '"ยอดหนึ้"
-      tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Debt}") '"รวมทั้งสิ้น"  
+      'tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalDebt}") '"ยอดหนี้"
+      'tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalRetentionDebt}") '"ยอดหนึ้"
+      'tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Debt}") '"รวมทั้งสิ้น"  
 
       'm_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
       'm_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
@@ -185,9 +185,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trSC("col13") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
           trSC("col14") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
           trSC("col15") = Configuration.FormatToString(retRemain, DigitConfig.Price)
-          trSC("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
-          trSC("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
-          trSC("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
+          'trSC("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+          'trSC("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+          'trSC("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
           trSC.State = RowExpandState.Expanded
 
 
@@ -220,9 +220,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             trDetail("col13") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
             trDetail("col14") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
             trDetail("col15") = Configuration.FormatToString(retRemain, DigitConfig.Price)
-            trDetail("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
-            trDetail("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
-            trDetail("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
+            'trDetail("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+            'trDetail("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+            'trDetail("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
             'trDetail.State = RowExpandState.Expanded
           Next
           If IsPreveiewSummary Then
@@ -279,9 +279,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
 
       Return myDatatable
     End Function
@@ -306,12 +306,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100)
       widths.Add(100)
       widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
+      'widths.Add(100)
+      'widths.Add(100)
+      'widths.Add(100)
 
 
-      For i As Integer = 0 To 18
+      For i As Integer = 0 To 15
         If i = 0 Then
 
           Dim cs As New PlusMinusTreeTextColumn
