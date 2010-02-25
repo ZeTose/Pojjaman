@@ -1538,6 +1538,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   , sproc _
                   , New SqlParameter("@stock_id", Me.Id) _
                   , New SqlParameter("@paysi_pays", pays_id) _
+                  , New SqlParameter("@stock_type", Me.m_typeId) _
                   )
           If ds.Tables(0).Rows.Count > 0 Then
             Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
@@ -1576,6 +1577,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , New SqlParameter("@stock_id", Me.Id) _
                 , New SqlParameter("@paysi_pays", pays_id) _
                 , New SqlParameter("@billai_billa", billa_id) _
+                , New SqlParameter("@stock_type", Me.m_typeId) _
                 )
         If ds.Tables(0).Rows.Count > 0 Then
           Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
@@ -1626,8 +1628,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         ElseIf Me.m_typeId = 46 Then
           sproc = "GetUnpaidPurchaseCNAmount"
-        ElseIf Me.m_typeId = 292 Then
-          sproc = "GetUnpaidPAAmount"
+          'ElseIf Me.m_typeId = 292 Then
+          'sproc = "GetUnpaidPAAmount"
         Else
           sproc = "GetUnpaidStockAmount"
         End If
@@ -1637,6 +1639,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , sproc _
                 , New SqlParameter("@stock_id", Me.Id) _
                 , New SqlParameter("@billai_billa", billa_id) _
+                , New SqlParameter("@stock_type", Me.m_typeId) _
                 )
         If ds.Tables(0).Rows.Count > 0 Then
           Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
