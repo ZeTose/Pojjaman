@@ -2070,14 +2070,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'ElseIf group.IsControlGroup Then
         '    MessageBox.Show(group.Code & "-" & group.Name & " เป็นกลุ่มแม่")
         '    group = oldGroup
+        Return False
       End If
       txtCode.Text = group.Code
       txtName.Text = group.Name
-      If oldGroup Is Nothing OrElse oldGroup.Id <> group.Id Then
-        oldGroup = group
-        Return True
-      End If
-      Return False
+
+      oldGroup = group
+      Return True
+      'If oldGroup Is Nothing OrElse oldGroup.Id <> group.Id Then
+      'oldGroup = group
+      'Return True
+      'End If
+      'Return False
     End Function
 #End Region
 

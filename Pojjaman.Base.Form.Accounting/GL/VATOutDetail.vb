@@ -864,6 +864,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpSubmitalDate.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtVatGroupCode.Validated, AddressOf Me.ChangeProperty
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Private m_tmpsubmitalDate As Date = Now
@@ -886,6 +887,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       End If
+      Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+      Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
+
       Me.dtpDocDate.Value = MinDateToNow(vi.DocDate)
       m_oldCode = vi.Code
       Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
@@ -1036,6 +1040,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
           m_dateSetting = False
+        Case "txtvatgroupcode"
+          dirtyFlag = VatGroup.GetVatGroup(txtVatGroupCode, txtVatGroupName, Me.m_vat.VatGroup)
+          txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()

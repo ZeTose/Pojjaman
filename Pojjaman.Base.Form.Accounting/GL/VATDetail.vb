@@ -1148,7 +1148,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					Me.m_vat.Note = Me.txtNote.Text
 					dirtyFlag = True
 				Case "txtvatgroupcode"
-					dirtyFlag = VatGroup.GetVatGroup(txtVatGroupCode, txtVatGroupName, Me.m_vat.VatGroup)
+          dirtyFlag = VatGroup.GetVatGroup(txtVatGroupCode, txtVatGroupName, Me.m_vat.VatGroup)
+          txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
 				Case "dtpsubmitaldate"
 					If Not Me.m_tmpsubmitalDate.Date.Equals(dtpSubmitalDate.Value.Date) Then
 						If Not m_dateSetting Then
