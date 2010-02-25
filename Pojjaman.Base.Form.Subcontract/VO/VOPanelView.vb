@@ -2753,7 +2753,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         Dim entities As New ArrayList
         entities.Add(New SC)
-        entities.Add(New CostCenter)
+        'entities.Add(New CostCenter)
         'If Me.m_entity.SC.SubContractor.Originated Then
         '	entities.Add(Me.m_entity.SC.SubContractor)
         'End If
@@ -2966,43 +2966,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
 
-    Private Sub chkClosed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-      'Me.m_entity.Closed = Me.chkClosed.Checked
-      'If Me.m_entity.Closed Then
-      '    Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.chkClosedCancel}")
-      'Else
-      '    Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.chkClosed}")
-      'End If
-      'Me.SetColumnOriginQty()
-      Me.RefreshDocs()
-      'Me.RefreshWBS()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-
-#Region "Customization"
-    Public Overrides ReadOnly Property CanPrint() As Boolean
-      Get
-        Try
-          'Dim approveDocColl As New ApproveDocCollection(m_entity)
-          'Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
-          'If poNeedsApproval Then
-          '    If Not approveDocColl.IsApproved Then
-          '        Return False
-          '    End If
-          'End If
-        Catch ex As Exception
-        End Try
-        Return MyBase.CanPrint
-      End Get
-    End Property
-#End Region
-
-
-
-    Private Sub chkClosed_CheckedChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkClosed.CheckedChanged
+    Private Sub chkClosed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkClosed.CheckedChanged
       If Not m_isInitialized Then
         Return
       End If
@@ -3028,6 +2992,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateGross = True
       Me.RefreshDocs()
     End Sub
+
+#Region "Customization"
+    Public Overrides ReadOnly Property CanPrint() As Boolean
+      Get
+        Try
+          'Dim approveDocColl As New ApproveDocCollection(m_entity)
+          'Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
+          'If poNeedsApproval Then
+          '    If Not approveDocColl.IsApproved Then
+          '        Return False
+          '    End If
+          'End If
+        Catch ex As Exception
+        End Try
+        Return MyBase.CanPrint
+      End Get
+    End Property
+#End Region
+
   End Class
 End Namespace
 

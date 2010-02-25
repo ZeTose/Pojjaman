@@ -39,11 +39,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_remainSummary As Decimal
     Private m_qtyremainSummary As Decimal
     Private m_baseQty As Decimal
+
+    Private m_childIdList As ArrayList
+    Private m_childAmount As Decimal
 #End Region
 
 #Region "Constructors"
     Public Sub New()
       m_wbs = New WBS
+      m_childIdList = New ArrayList
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
@@ -52,6 +56,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         m_wbs = New WBS
         m_cc = New CostCenter
+        m_childIdList = New ArrayList
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_isMarkup") Then
           m_isMarkup = CBool(dr(aliasPrefix & "stockiw_isMarkup"))
@@ -236,6 +241,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_baseQty = CDec(dr(aliasPrefix & "qty"))
         End If
 
+        'm_childIdList = .GetChildIdList(m_wbs.Id)
+
       End With
     End Sub
 
@@ -281,6 +288,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Boolean)
         m_outward = Value
+      End Set
+    End Property
+    Public ReadOnly Property ChildIdList As ArrayList
+      Get
+        Return m_childIdList
+      End Get
+    End Property
+    Public Property ChildAmount As Decimal
+      Get
+        Return m_childAmount
+      End Get
+      Set(ByVal value As Decimal)
+        m_childAmount = value
       End Set
     End Property
 #End Region
@@ -386,6 +406,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       newWbsd.BudgetQty = Me.BudgetQty
       Return newWbsd
     End Function
+    Public Sub GetChildIdList()
+      Dim newArray As New ArrayList
+      Dim ConnString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnString, CommandType.Text, "select depend_wbs from swang_Depend where depend_parent = " & Me.WBS.Id)
+      For Each row As DataRow In ds.Tables(0).Rows
+        If Not row.IsNull("depend_wbs") Then
+          newArray.Add(CInt(row("depend_wbs")))
+        End If
+      Next
+      m_childIdList = newArray
+    End Sub
 #End Region
 
   End Class

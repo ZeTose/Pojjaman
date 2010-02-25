@@ -222,6 +222,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
+    Public ReadOnly Property AbleItemCollection As wrItemCollection
+      Get
+        Dim coll As New wrItemCollection(New WR)
+        Dim hash As New Hashtable
+        Dim key As String = ""
+        For Each witm As WRItem In Me.ItemCollection
+          If witm.Level = 0 Then
+            If (witm.Qty - witm.OrderedQty) > 0 Then
+              coll.Add(witm)
+              key = witm.Parent.ToString
+              hash(key) = witm
+            End If         
+          End If
+        Next
+        For Each witm As WRItem In Me.ItemCollection
+          If witm.Level = 1 Then           
+            key = witm.Parent.ToString
+            If hash.Contains(key) Then
+              coll.Add(witm)
+            End If
+          End If
+        Next
+        Return coll
+      End Get
+    End Property
     Public Property SubContractor() As Supplier Implements IWBSAllocatable.Supplier
       Get
         'Return m_subcontractor
@@ -422,7 +447,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-    Public Shared Function Getwr(ByVal txtCode As TextBox, ByRef oldwr As WR) As Boolean
+    Public Shared Function GetWR(ByVal txtCode As TextBox, ByRef oldwr As WR) As Boolean
       If txtCode.Text.Length > 0 Then
         Dim wrNew As New WR(txtCode.Text)
         If txtCode.Text.Length <> 0 AndAlso Not wrNew.Valid Then
@@ -1943,6 +1968,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As WRItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
           item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PAItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
           coll.Add(item)
         End If
       Next

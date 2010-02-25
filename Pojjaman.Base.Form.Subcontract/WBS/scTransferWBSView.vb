@@ -1245,11 +1245,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               itemKey = wbsd.WBS.Id.ToString & ":" & wbsd.CostCenter.Id.ToString & ":" & ali.Description & ":" & ali.AllocationType
               'Amount -----------------------------------------------------
               If Not hashWBS.Contains(key) Then
-                wbsd.RemainSummary = wbsd.BudgetRemain - wbsd.Amount
+                wbsd.RemainSummary = wbsd.BudgetRemain - (wbsd.Amount + wbsd.ChildAmount)
                 hashWBS(key) = wbsd
               Else
                 Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
-                wbsd.RemainSummary = parWBS.RemainSummary - wbsd.Amount
+                wbsd.RemainSummary = parWBS.RemainSummary - (wbsd.Amount + wbsd.ChildAmount)
                 CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
               End If
               'Qty --------------------------------------------------------
@@ -1307,11 +1307,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   'ถ้ากรณีมีจัดสรร ไปยัง- ออกจาก- เป็น CostCenter เดียวกัน
                   inWBSAmount = CType(hashWBS(key), WBSDistribute).Amount
                 End If
-                wbsd.RemainSummary = (wbsd.BudgetRemain - inWBSAmount) + wbsd.Amount
+                wbsd.RemainSummary = (wbsd.BudgetRemain - inWBSAmount) + (wbsd.Amount + wbsd.ChildAmount)
                 hashWBS(key) = wbsd
               Else
                 Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
-                wbsd.RemainSummary = parWBS.RemainSummary + wbsd.Amount
+                wbsd.RemainSummary = parWBS.RemainSummary + (wbsd.Amount + wbsd.ChildAmount)
                 CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
               End If
               'Qty --------------------------------------------------------

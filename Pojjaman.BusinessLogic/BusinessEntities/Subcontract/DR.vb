@@ -1987,6 +1987,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As DRItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
           item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.FromCCWBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PAItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+            For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PAItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
           coll.Add(item)
         End If
       Next

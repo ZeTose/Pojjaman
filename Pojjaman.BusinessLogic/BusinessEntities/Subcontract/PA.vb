@@ -2261,7 +2261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             indent = Space(0)
           Else
             fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            indent = Space(3)
+            indent = Space(2)
           End If
           If item.RefEntity.Id = 291 Then
             If newDRItem Is Nothing Then
@@ -2427,11 +2427,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If item.Entity.Name IsNot Nothing AndAlso item.Entity.Name.Length > 0 Then
                   dpi.Value = indent & item.Entity.Name.Trim
                 Else
-                  dpi.Value = item.EntityName
+                  dpi.Value = indent & item.EntityName.Trim
                 End If
               End If
             Else
-              dpi.Value = item.EntityName
+              dpi.Value = indent & item.EntityName.Trim
             End If
             dpi.Font = fn
             dpi.DataType = "System.String"
@@ -3584,6 +3584,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
           'If Not item.IsHasChild Then
           item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PAItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
           coll.Add(item)
           'End If
         End If

@@ -682,7 +682,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Director = WR.Director
 
         If Not Me.WR.ItemCollection Is Nothing Then
-          For Each wri As WRItem In Me.WR.ItemCollection
+          For Each wri As WRItem In Me.WR.AbleItemCollection
             lineNumber += 1
             sci = New SCItem
             If Not wri.ItemType Is Nothing Then
@@ -723,7 +723,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In sci.WBSDistributeCollection
               Me.ItemCollection.SetBudgetRemain(wbsd, sci)
             Next
-          Next         
+          Next
         End If
       End If
     End Sub
@@ -2311,6 +2311,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As SCItem In Me.ItemCollection
         If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
           item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PAItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
           coll.Add(item)
         End If
       Next
