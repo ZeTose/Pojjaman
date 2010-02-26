@@ -871,7 +871,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IBillIssuable"
     Public Function AmountToReceive() As Decimal Implements IReceivable.AmountToReceive
-      Return Me.Gross
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim apRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        apRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (apRetentionPoint = 1)
+      If retentionHere Then
+        Return Me.Gross - Me.ItemCollection.ARretention
+      Else
+        Return Me.Gross
+      End If
     End Function
     Public Property DueDate() As Date Implements IReceivable.DueDate
       Get
@@ -942,7 +952,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               itemType = mi.Type.Description
             End If
           Next
-          docRetention = bi.ItemCollection.GetRetentionAmount(Nothing)
+          'docRetention = bi.ItemCollection.GetRetentionAmount(Nothing)
         Else
           Dim tmpcc As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
           If tmpcc Is Nothing Then
@@ -957,8 +967,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
         Dim myGross As Decimal = doc.AmountForGL
-        Dim myRetention As Decimal = doc.RetentionForGL
-        Dim myDebt As Decimal = myGross - myRetention
+        docRetention = doc.ARretention
+        Dim myDebt As Decimal = myGross - docRetention
 
         If doc.AmountForGL <> 0 Then
           'ลูกหนี้การค้า

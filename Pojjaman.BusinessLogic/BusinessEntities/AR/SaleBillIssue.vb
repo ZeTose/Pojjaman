@@ -698,6 +698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_parentType As Integer
 
     Private m_stockid As Integer
+    Private m_ARretention As Decimal  'ยอดหัก Retention
 
 #End Region
 
@@ -755,6 +756,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "stock_type") AndAlso Not dr.IsNull(aliasPrefix & "stock_type") Then
         Me.m_typeId = CInt(dr(aliasPrefix & "stock_type"))
+        If m_typeId <> 83 Then
+          ARretention = getARretention()
+        End If
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "stock_docdate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docdate") Then
         Me.m_docDate = CDate(dr(aliasPrefix & "stock_docdate"))
@@ -814,6 +818,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_id") AndAlso Not dr.IsNull(aliasPrefix & "stock_id") Then
         Me.m_stockid = CInt(dr(aliasPrefix & "stock_id"))
       End If
+
+      
+
     End Sub
 #End Region
 
@@ -834,13 +841,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Property BeforeTax() As Decimal      Get        Return m_beforeTax      End Get      Set(ByVal Value As Decimal)        m_beforeTax = Value      End Set    End Property    Public Property AfterTax() As Decimal      Get        Return m_afterTax      End Get      Set(ByVal Value As Decimal)        m_afterTax = Value      End Set    End Property    Public Property TaxBase() As Decimal      Get        Return m_taxBase      End Get      Set(ByVal Value As Decimal)        m_taxBase = Value      End Set		End Property
 		Public Property RealAmount() As Decimal			Get				Return m_realAmount			End Get			Set(ByVal Value As Decimal)				m_realAmount = Value			End Set		End Property		Public Property Amount() As Decimal			Get				Return m_amount			End Get			Set(ByVal Value As Decimal)				m_amount = Value			End Set		End Property
 		Public Property UnreceivedAmount() As Decimal			Get				Return m_unReceivedAmount			End Get			Set(ByVal Value As Decimal)				m_unReceivedAmount = Value			End Set    End Property
-    Public ReadOnly Property RetentionForGL() As Decimal
+    Public Property ARretention() As Decimal
       Get
-        'If Me.EntityId = 199 AndAlso Me.RetentionType = 45 Then
-        'Return Me.Amount
-        'End If
-        Return 0
+        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+        Dim apRetentionPoint As Integer = 0
+        If IsNumeric(tmp) Then
+          apRetentionPoint = CInt(tmp)
+        End If
+        Dim retentionHere As Boolean = (apRetentionPoint = 1)
+        If retentionHere Then
+          Return m_ARretention
+        Else
+          Return 0
+        End If
       End Get
+      Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
     End Property
     Public ReadOnly Property AmountForGL As Decimal
       Get
@@ -1155,6 +1170,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
+    Function getARretention() As Decimal
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetMilestoneRetention" _
+      , New SqlParameter("@milestone_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return CDec(ds.Tables(0).Rows(0)(0))
+      End If
+    End Function
   End Class
 
   <Serializable(), DefaultMember("Item")> _
@@ -1232,6 +1260,15 @@ Public Class SaleBillIssueItemCollection
       Set(ByVal Value As Boolean)
         m_showDetail = Value
       End Set
+    End Property
+    Public ReadOnly Property ARretention As Decimal
+      Get
+        Dim SumRetention As Decimal = 0
+        For Each Item As SaleBillIssueItem In Me
+          SumRetention += Item.ARretention
+        Next
+        Return SumRetention
+      End Get
     End Property
 #End Region
 

@@ -1808,6 +1808,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         If Not newItem Is Nothing Then
           newItem.Amount = Math.Min(newItem.UnreceivedAmount, newItem.BilledAmount)
+          newItem.ARretention = newItem.getARretention()
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item                       
             If Me.m_entity.ItemCollection.Count = 0 Then

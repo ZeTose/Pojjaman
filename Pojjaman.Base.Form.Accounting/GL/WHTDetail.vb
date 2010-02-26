@@ -1472,6 +1472,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case "txtcode"
           m_txtCodeChange = True
+          dirtyFlag = True
         Case "txtbookno"
           Me.m_wht.BookNo = txtBookNo.Text
           dirtyFlag = True
