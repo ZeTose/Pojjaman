@@ -1816,6 +1816,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Me.m_advancePayItemColl.RefDoc Is Nothing Then
               Me.m_advancePayItemColl.RefDoc = Me
             End If
+            For Each advi As AdvancePayItem In Me.m_advancePayItemColl
+              advi.Status = Me.Status.Value
+            Next
             Dim saveAdvancePayError As SaveErrorException = Me.m_advancePayItemColl.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveAdvancePayError.Message) Then
               trans.Rollback()

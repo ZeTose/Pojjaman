@@ -213,7 +213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Private m_treeManager As TreeManager
 		Private m_entity As IAdvancePayItemAble
 		Private m_collection As AdvancePayItemCollection
-		Private m_oldcollection As AdvancePayItemCollection
+    Private m_oldcollection As AdvancePayItemCollection
 #End Region
 
 #Region "Constructors"
@@ -237,7 +237,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 			m_entity = myEntity
 			m_collection = m_entity.AdvancePayItemCollection
-			m_oldcollection = CType(Me.m_collection.Clone, AdvancePayItemCollection)
+      m_oldcollection = CType(Me.m_collection.Clone, AdvancePayItemCollection)
+
+      If TypeOf myEntity Is SimpleBusinessEntityBase Then
+        RefAdvancePayType = CType(myEntity, SimpleBusinessEntityBase).EntityId
+      End If
 
 			EventWiring()
 
@@ -309,7 +313,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				End If
 				Return CType(row.Tag, AdvancePayItem)
 			End Get
-		End Property
+    End Property
+    Public Property RefAdvancePayType As Integer     
 #End Region
 
 #Region "TreeTable Handlers"
@@ -547,13 +552,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Event Handlers"
 		Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
-			Dim entity As New ArrayList
+      Dim entity As New ArrayList
 			entity.Add(m_entity.Supplier)
 
-			Dim filters(2) As Filter
+      Dim filters(3) As Filter
 			filters(0) = New Filter("IDList", GenIDList())
 			filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
-			filters(2) = New Filter("TaxType", m_entity.TaxType.Value)
+      filters(2) = New Filter("TaxType", m_entity.TaxType.Value)
+      filters(3) = New Filter("RefAdvancePayType", RefAdvancePayType)
 			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 			myEntityPanelService.OpenListDialog(New AdvancePay, AddressOf SetAdvancePay, filters, entity)
 		End Sub
