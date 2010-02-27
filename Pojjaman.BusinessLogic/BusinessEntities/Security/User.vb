@@ -641,6 +641,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Public Shared Function MaxLevel() As Integer
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(RecentCompanies.CurrentCompany.ConnectionString _
+    , CommandType.Text, "select max(app_level) [maxLevel] from dbo.ApprovalDocLevel")
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CInt(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
 #End Region
 
 #Region "Delete"
