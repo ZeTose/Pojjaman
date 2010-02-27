@@ -820,18 +820,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtaccountcode01"
           dirtyFlag = Account.GetAccount(txtAccountCode01, txtAccountName01, WHTAcc01)
         Case "txtaccountcode02"
-          dirtyFlag = Account.GetAccount(txtAccountCode02, txtAccountName01, WHTAcc02)
+                    dirtyFlag = Account.GetAccount(txtAccountCode02, txtAccountName02, WHTAcc02)
         Case "txtaccountcode03"
-          dirtyFlag = Account.GetAccount(txtAccountCode03, txtAccountName01, WHTAcc03)
+                    dirtyFlag = Account.GetAccount(txtAccountCode03, txtAccountName03, WHTAcc03)
         Case "txtaccountcode04"
-          dirtyFlag = Account.GetAccount(txtAccountCode04, txtAccountName01, WHTAcc04)
+                    dirtyFlag = Account.GetAccount(txtAccountCode04, txtAccountName04, WHTAcc04)
         Case "txtaccountcode05"
-          dirtyFlag = Account.GetAccount(txtAccountCode05, txtAccountName01, WHTAcc05)
+                    dirtyFlag = Account.GetAccount(txtAccountCode05, txtAccountName05, WHTAcc05)
         Case "txtaccountcode06"
-          dirtyFlag = Account.GetAccount(txtAccountCode06, txtAccountName01, WHTAcc06)
+                    dirtyFlag = Account.GetAccount(txtAccountCode06, txtAccountName06, WHTAcc06)
         Case "txtaccountcode07"
-          dirtyFlag = Account.GetAccount(txtAccountCode07, txtAccountName01, WHTAcc07)
-      End Select
+                    dirtyFlag = Account.GetAccount(txtAccountCode07, txtAccountName07, WHTAcc07)
+                Case "txtaccountcode08"
+                    dirtyFlag = Account.GetAccount(txtAccountCode08, txtAccountName08, WHTAcc08)
+
+            End Select
       '-----
       Dirty = Dirty Or dirtyFlag
       CheckFormEnable()
@@ -846,7 +849,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ConfigFilters(3) = New Filter("WHTAcc04", Configuration.GetConfig("WHTAcc04"))
       ConfigFilters(4) = New Filter("WHTAcc05", Configuration.GetConfig("WHTAcc05"))
       ConfigFilters(5) = New Filter("WHTAcc06", Configuration.GetConfig("WHTAcc06"))
-      ConfigFilters(6) = New Filter("WHTAcc07", Configuration.GetConfig("WHTAcc07"))
+            ConfigFilters(6) = New Filter("WHTAcc07", Configuration.GetConfig("WHTAcc07"))
+            ConfigFilters(7) = New Filter("WHTAcc08", Configuration.GetConfig("WHTAcc08"))
+
     End Sub
     Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
       For Each filter As Filter In ConfigFilters
