@@ -972,6 +972,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       vi = Me.m_vat.ItemCollection(0)
       Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          vi.Code = Me.txtCode.Text
+          dirtyFlag = True
         Case "txtnote"
           vi.Note = Me.txtNote.Text
           dirtyFlag = True
