@@ -227,23 +227,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim coll As New wrItemCollection(New WR)
         Dim hash As New Hashtable
         Dim key As String = ""
+        Dim index As Integer
+        Dim childNumber As Integer = 0
         For Each witm As WRItem In Me.ItemCollection
           If witm.Level = 0 Then
             If (witm.Qty - witm.OrderedQty) > 0 Then
               coll.Add(witm)
               key = witm.Parent.ToString
               hash(key) = witm
-            End If         
-          End If
-        Next
-        For Each witm As WRItem In Me.ItemCollection
-          If witm.Level = 1 Then           
+            End If
+          Else
             key = witm.Parent.ToString
             If hash.Contains(key) Then
+              'index = coll.IndexOf(witm)
+              'coll.Insert(index + 1, witm)
               coll.Add(witm)
             End If
           End If
         Next
+        'For Each witm As WRItem In Me.ItemCollection
+        'If witm.Level = 1 Then           
+        'key = witm.Parent.ToString
+        'If hash.Contains(key) Then
+        'index = coll.IndexOf(witm)
+        'coll.Insert(index + childNumber + 1, witm)
+        'childNumber += 1
+        'End If
+        'Else
+        'childNumber = 0
+        'End If
+        'Next
         Return coll
       End Get
     End Property
