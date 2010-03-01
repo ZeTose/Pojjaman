@@ -238,6 +238,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MyBase.List.Item(index) = value
       End Set
     End Property
+    Public ReadOnly Property debitCount As Integer
+      Get
+        Dim i As Integer = 0
+        For Each ji As JournalEntryItem In Me
+          If ji.IsDebit Then
+            i += 1
+          End If
+        Next
+        Return i
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
