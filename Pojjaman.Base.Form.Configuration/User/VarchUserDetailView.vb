@@ -33,6 +33,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtName As System.Windows.Forms.TextBox
     Friend WithEvents chkDocType2 As System.Windows.Forms.CheckBox
     Friend WithEvents chkDocType1 As System.Windows.Forms.CheckBox
+    Friend WithEvents chkDocType0 As System.Windows.Forms.CheckBox
     Friend WithEvents grbUser As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.lblCode = New System.Windows.Forms.Label()
@@ -43,6 +44,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.chkDocType1 = New System.Windows.Forms.CheckBox()
       Me.chkDocType2 = New System.Windows.Forms.CheckBox()
+      Me.chkDocType0 = New System.Windows.Forms.CheckBox()
       Me.grbUser.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -120,25 +122,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkDocType1
       '
       Me.chkDocType1.AutoSize = True
-      Me.chkDocType1.Location = New System.Drawing.Point(8, 70)
+      Me.chkDocType1.Location = New System.Drawing.Point(8, 93)
       Me.chkDocType1.Name = "chkDocType1"
       Me.chkDocType1.Size = New System.Drawing.Size(245, 17)
-      Me.chkDocType1.TabIndex = 1
+      Me.chkDocType1.TabIndex = 2
       Me.chkDocType1.Text = "สามารถมองเห็นเอกสารเบิกเงินสดย่อยได้ทุกใบ"
       Me.chkDocType1.UseVisualStyleBackColor = True
       '
       'chkDocType2
       '
       Me.chkDocType2.AutoSize = True
-      Me.chkDocType2.Location = New System.Drawing.Point(8, 93)
+      Me.chkDocType2.Location = New System.Drawing.Point(8, 116)
       Me.chkDocType2.Name = "chkDocType2"
       Me.chkDocType2.Size = New System.Drawing.Size(193, 17)
-      Me.chkDocType2.TabIndex = 2
+      Me.chkDocType2.TabIndex = 3
       Me.chkDocType2.Text = "สามารถมองเห็นเอกสารคีย์เงินเดือน"
       Me.chkDocType2.UseVisualStyleBackColor = True
       '
+      'chkDocType0
+      '
+      Me.chkDocType0.AutoSize = True
+      Me.chkDocType0.Location = New System.Drawing.Point(8, 70)
+      Me.chkDocType0.Name = "chkDocType0"
+      Me.chkDocType0.Size = New System.Drawing.Size(250, 17)
+      Me.chkDocType0.TabIndex = 1
+      Me.chkDocType0.Text = "สามารถมองเห็นเอกสารซื้อสินค้า/บริการได้ทุกใบ"
+      Me.chkDocType0.UseVisualStyleBackColor = True
+      '
       'VarchUserDetailView
       '
+      Me.Controls.Add(Me.chkDocType0)
       Me.Controls.Add(Me.chkDocType2)
       Me.Controls.Add(Me.chkDocType1)
       Me.Controls.Add(Me.grbUser)
@@ -194,7 +207,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.lblCode}")
       Me.grbUser.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.grbUser}")
       Me.chkDocType1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.chkDocType1}")
-      Me.chkDocType1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.chkDocType2}")
+      Me.chkDocType2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.chkDocType2}")
+      Me.chkDocType0.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccessDetailView.chkDocType0}")
     End Sub
     ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()
@@ -221,6 +235,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.chkDocType1.Checked = Me.m_entity.CanSeeAllDocType1
       Me.chkDocType2.Checked = Me.m_entity.CanSeeAllDocType2
+      Me.chkDocType0.Checked = Me.m_entity.CanSeeAllDocType0
 
       SetLabelText()
       CheckFormEnable()
@@ -265,6 +280,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.CanSeeAllDocType2 = chkDocType2.Checked
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+
+    Private Sub chkDocType0_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDocType0.CheckedChanged
+      If Not m_isInitialized Then
+        Return
+      End If
+      Me.m_entity.CanSeeAllDocType0 = chkDocType0.Checked
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
   End Class

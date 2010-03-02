@@ -84,6 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Property CanSeeAllDocType1 As Boolean
     Property CanSeeAllDocType2 As Boolean
+    Property CanSeeAllDocType0 As Boolean
     Public Shared Sub RefreshUserTable()
       Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
