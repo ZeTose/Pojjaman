@@ -317,13 +317,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         dtCCchild = getChildCC(cclist)
 
-        For Each drChilds As DataRow In dtCCchild.Rows
-          Dim dr As DataRow = dt.NewRow
-          dr("usercc_user") = user.Id
-          dr("usercc_cc") = drChilds("usercc_cc")
-          dr("usercc_value") = 1
-          dt.Rows.Add(dr)
-        Next
+        If Not dtCCchild Is Nothing Then
+          For Each drChilds As DataRow In dtCCchild.Rows
+            Dim dr As DataRow = dt.NewRow
+            dr("usercc_user") = user.Id
+            dr("usercc_cc") = drChilds("usercc_cc")
+            dr("usercc_value") = 1
+            dt.Rows.Add(dr)
+          Next
+        End If
 
         If IsSuperMod Then
           Dim dr As DataRow = dt.NewRow

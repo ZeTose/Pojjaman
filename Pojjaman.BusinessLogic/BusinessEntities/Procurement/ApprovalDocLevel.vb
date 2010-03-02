@@ -148,24 +148,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim cmdBuilder As New SqlCommandBuilder(m_da)
 
         Dim dt As DataTable = m_dataset.Tables("ApprovalDocLevel")
+
         For Each row As DataRow In dt.Rows
           row.Delete()
         Next
-
+        
         For Each item As ApprovalDocLevel In Me
-          Dim dr As DataRow = dt.NewRow
-          dr("app_user") = user.Id
-          dr("app_doc") = item.DocId
-          dr("app_level") = item.Level
-          dr("app_maxamt") = item.MaxAmount
-          dt.Rows.Add(dr)
-          If item.DocId = 289 Then ''พอดีใช้ Config เดียวกันกับ 289 
-            dr = dt.NewRow
+          If item.DocId <> 290 Then
+            Dim dr As DataRow = dt.NewRow
             dr("app_user") = user.Id
-            dr("app_doc") = 290
+            dr("app_doc") = item.DocId
             dr("app_level") = item.Level
             dr("app_maxamt") = item.MaxAmount
             dt.Rows.Add(dr)
+            If item.DocId = 289 Then ''พอดีใช้ Config เดียวกันกับ 289              
+                dr = dt.NewRow
+                dr("app_user") = user.Id
+                dr("app_doc") = 290
+                dr("app_level") = item.Level
+                dr("app_maxamt") = item.MaxAmount
+                dt.Rows.Add(dr)
+              End If
           End If
         Next
 
