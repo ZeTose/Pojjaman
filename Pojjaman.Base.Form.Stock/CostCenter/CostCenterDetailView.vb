@@ -1179,10 +1179,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         ' µ√«® Õ∫ ∂“π–¢ÕßøÕ√Ï¡
     Public Overrides Sub CheckFormEnable()
       If Me.m_entity.Originated Then
-      If Me.m_entity.HaveAccess(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-        Me.grbDetail.Enabled = True
-      Else
-        Me.grbDetail.Enabled = False
+        If Me.m_entity.HaveAccess(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+          Me.grbDetail.Enabled = True
+        Else
+          If Me.m_entity.Originator.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+            Me.grbDetail.Enabled = True
+          Else
+            Me.grbDetail.Enabled = False
+          End If
         End If
       Else
         Me.grbDetail.Enabled = True
