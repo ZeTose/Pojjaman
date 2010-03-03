@@ -30,6 +30,8 @@ Namespace Longkong.Core.AddIns.Codons
     Private m_args As String = ""
     <XmlMemberAttributeAttribute("forcelabel")> _
     Private m_forcelabel As String = ""
+    <XmlMemberAttributeAttribute("forceaccessid")> _
+    Private m_forceaccessId As String = ""
 #End Region
 
 #Region "Constructors"
@@ -112,6 +114,14 @@ Namespace Longkong.Core.AddIns.Codons
         Me.m_forcelabel = value
       End Set
     End Property
+    Public Property ForceAcessId() As String
+      Get
+        Return Me.m_forceaccessId
+      End Get
+      Set(ByVal value As String)
+        Me.m_forceaccessId = value
+      End Set
+    End Property
     Public Property Shortcut() As String()
       Get
         Return Me.m_shortcut
@@ -148,6 +158,7 @@ Namespace Longkong.Core.AddIns.Codons
               If TypeOf command1 Is EditEntity Then
                 CType(command1, EditEntity).Args = Me.Args
                 CType(command1, EditEntity).Label = Me.ForceLabel
+                CType(command1, EditEntity).ForceAccessId = Me.ForceAcessId
               End If
             ElseIf TypeOf o Is IMenuCommand Then
               Dim command1 As IMenuCommand = CType(o, IMenuCommand)
