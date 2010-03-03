@@ -64,8 +64,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents rdbBillissue As System.Windows.Forms.RadioButton
     Friend WithEvents rdbPaySelection As System.Windows.Forms.RadioButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAPFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.rdbBillissue = New System.Windows.Forms.RadioButton()
@@ -99,8 +102,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSuppliCodeStart = New System.Windows.Forms.TextBox()
       Me.lblSuppliStart = New System.Windows.Forms.Label()
       Me.chkIncludeRetention = New System.Windows.Forms.CheckBox()
-      Me.btnSearch = New System.Windows.Forms.Button()
-      Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.grbMaster.SuspendLayout()
@@ -124,6 +125,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
+      '
+      'btnSearch
+      '
+      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSearch.Location = New System.Drawing.Point(513, 174)
+      Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+      Me.btnSearch.TabIndex = 2
+      Me.btnSearch.Text = "ค้นหา"
+      '
+      'btnReset
+      '
+      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReset.Location = New System.Drawing.Point(433, 174)
+      Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
+      Me.btnReset.TabIndex = 1
+      Me.btnReset.TabStop = False
+      Me.btnReset.Text = "เคลียร์"
       '
       'txtTemp
       '
@@ -203,9 +225,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAccountEndFind
       '
+      Me.btnAccountEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAccountEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountEndFind.Image = CType(resources.GetObject("btnAccountEndFind.Image"), System.Drawing.Image)
       Me.btnAccountEndFind.Location = New System.Drawing.Point(376, 111)
       Me.btnAccountEndFind.Name = "btnAccountEndFind"
       Me.btnAccountEndFind.Size = New System.Drawing.Size(24, 22)
@@ -242,9 +264,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAccountStartFind
       '
+      Me.btnAccountStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAccountStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountStartFind.Image = CType(resources.GetObject("btnAccountStartFind.Image"), System.Drawing.Image)
       Me.btnAccountStartFind.Location = New System.Drawing.Point(216, 111)
       Me.btnAccountStartFind.Name = "btnAccountStartFind"
       Me.btnAccountStartFind.Size = New System.Drawing.Size(24, 22)
@@ -327,9 +349,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSupplierGroupStart
       '
+      Me.btnSupplierGroupStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSupplierGroupStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSupplierGroupStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSupplierGroupStart.Image = CType(resources.GetObject("btnSupplierGroupStart.Image"), System.Drawing.Image)
       Me.btnSupplierGroupStart.Location = New System.Drawing.Point(216, 40)
       Me.btnSupplierGroupStart.Name = "btnSupplierGroupStart"
       Me.btnSupplierGroupStart.Size = New System.Drawing.Size(24, 22)
@@ -429,9 +451,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCCodeStart
       '
+      Me.btnCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
       Me.btnCCCodeStart.Location = New System.Drawing.Point(216, 87)
       Me.btnCCCodeStart.Name = "btnCCCodeStart"
       Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
@@ -487,9 +509,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSuppliEndFind
       '
+      Me.btnSuppliEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSuppliEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSuppliEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSuppliEndFind.Image = CType(resources.GetObject("btnSuppliEndFind.Image"), System.Drawing.Image)
       Me.btnSuppliEndFind.Location = New System.Drawing.Point(376, 63)
       Me.btnSuppliEndFind.Name = "btnSuppliEndFind"
       Me.btnSuppliEndFind.Size = New System.Drawing.Size(24, 22)
@@ -526,9 +548,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSuppliStartFind
       '
+      Me.btnSuppliStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSuppliStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSuppliStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSuppliStartFind.Image = CType(resources.GetObject("btnSuppliStartFind.Image"), System.Drawing.Image)
       Me.btnSuppliStartFind.Location = New System.Drawing.Point(216, 63)
       Me.btnSuppliStartFind.Name = "btnSuppliStartFind"
       Me.btnSuppliStartFind.Size = New System.Drawing.Size(24, 22)
@@ -572,27 +594,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeRetention.TabIndex = 11
       Me.chkIncludeRetention.Text = "รวมยอด Retention"
       Me.chkIncludeRetention.Visible = False
-      '
-      'btnSearch
-      '
-      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(513, 174)
-      Me.btnSearch.Name = "btnSearch"
-      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-      Me.btnSearch.TabIndex = 2
-      Me.btnSearch.Text = "ค้นหา"
-      '
-      'btnReset
-      '
-      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(433, 174)
-      Me.btnReset.Name = "btnReset"
-      Me.btnReset.Size = New System.Drawing.Size(75, 23)
-      Me.btnReset.TabIndex = 1
-      Me.btnReset.TabStop = False
-      Me.btnReset.Text = "เคลียร์"
       '
       'Validator
       '
@@ -780,9 +781,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.chkIncludeRetention.Checked = False
     End Sub
-    Public Overrides Function GetFilterString() As String
+    'Public Overrides Function GetFilterString() As String
 
-    End Function
+    'End Function
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(12) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
@@ -1122,9 +1123,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
-
-    End Sub
   End Class
 End Namespace
 
