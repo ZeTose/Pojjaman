@@ -54,7 +54,7 @@
 				<MenuItem id="NewPO" icon="Icons.16x16.PO" label="${res:MainMenu.FileMenu.New.Po.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PO"/>
 				<MenuItem id="Separator" label="-"/>
 				<!--<MenuItem id="GoodsReceipt" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt"/>-->
-        <MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:0|"/>
+        <MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:45|"/>
 				<MenuItem id="AuditSeparator" label="-"/>
 				<MenuItem id="ApproveMenu" icon="Icons.16x16.Approve" label="${res:MainMenu.ApproveDoc}">
 					<MenuItem id="ApprovePR" icon="Icons.16x16.ApprovePR" label="${res:MainMenu.ApproveDocPR}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PRForApprove"/>
