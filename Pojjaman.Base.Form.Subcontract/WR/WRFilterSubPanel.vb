@@ -44,6 +44,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCostCenterCode As System.Windows.Forms.TextBox
     Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
     Friend WithEvents btnCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents grbApprove As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents cmbApproveLevel As System.Windows.Forms.ComboBox
+    Friend WithEvents lblApproveLevel As System.Windows.Forms.Label
+    Friend WithEvents txtApprovePerson As System.Windows.Forms.TextBox
+    Friend WithEvents txtApprovePersonName As System.Windows.Forms.TextBox
+    Friend WithEvents lblApprovePerson As System.Windows.Forms.Label
+    Friend WithEvents btnFineApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblCC As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -51,6 +58,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbApprove = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbApproveLevel = New System.Windows.Forms.ComboBox()
+      Me.lblApproveLevel = New System.Windows.Forms.Label()
+      Me.txtApprovePerson = New System.Windows.Forms.TextBox()
+      Me.txtApprovePersonName = New System.Windows.Forms.TextBox()
+      Me.lblApprovePerson = New System.Windows.Forms.Label()
+      Me.btnFineApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
       Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
@@ -71,6 +85,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.grbDetail.SuspendLayout()
+      Me.grbApprove.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       Me.SuspendLayout()
@@ -98,21 +113,112 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
-      Me.txtCode.Size = New System.Drawing.Size(224, 21)
+      Me.txtCode.Size = New System.Drawing.Size(233, 21)
       Me.txtCode.TabIndex = 0
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.grbApprove)
       Me.grbDetail.Controls.Add(Me.grbDocDate)
       Me.grbDetail.Controls.Add(Me.btnSearch)
       Me.grbDetail.Controls.Add(Me.btnReset)
       Me.grbDetail.Controls.Add(Me.grbMainDetail)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Location = New System.Drawing.Point(8, 8)
+      Me.grbDetail.Location = New System.Drawing.Point(8, 3)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(503, 193)
+      Me.grbDetail.Size = New System.Drawing.Size(647, 180)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
+      '
+      'grbApprove
+      '
+      Me.grbApprove.Controls.Add(Me.cmbApproveLevel)
+      Me.grbApprove.Controls.Add(Me.lblApproveLevel)
+      Me.grbApprove.Controls.Add(Me.txtApprovePerson)
+      Me.grbApprove.Controls.Add(Me.txtApprovePersonName)
+      Me.grbApprove.Controls.Add(Me.lblApprovePerson)
+      Me.grbApprove.Controls.Add(Me.btnFineApprove)
+      Me.grbApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbApprove.Location = New System.Drawing.Point(8, 103)
+      Me.grbApprove.Name = "grbApprove"
+      Me.grbApprove.Size = New System.Drawing.Size(385, 68)
+      Me.grbApprove.TabIndex = 7
+      Me.grbApprove.TabStop = False
+      Me.grbApprove.Text = "การอนุมัติ"
+      '
+      'cmbApproveLevel
+      '
+      Me.cmbApproveLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbApproveLevel.Location = New System.Drawing.Point(97, 38)
+      Me.cmbApproveLevel.Name = "cmbApproveLevel"
+      Me.cmbApproveLevel.Size = New System.Drawing.Size(232, 21)
+      Me.cmbApproveLevel.TabIndex = 12
+      '
+      'lblApproveLevel
+      '
+      Me.lblApproveLevel.BackColor = System.Drawing.Color.Transparent
+      Me.lblApproveLevel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblApproveLevel.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblApproveLevel.Location = New System.Drawing.Point(6, 38)
+      Me.lblApproveLevel.Name = "lblApproveLevel"
+      Me.lblApproveLevel.Size = New System.Drawing.Size(91, 18)
+      Me.lblApproveLevel.TabIndex = 13
+      Me.lblApproveLevel.Text = "ระดับการอนุมัติ:"
+      Me.lblApproveLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtApprovePerson
+      '
+      Me.Validator.SetDataType(Me.txtApprovePerson, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtApprovePerson, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtApprovePerson, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtApprovePerson, System.Drawing.Color.Empty)
+      Me.txtApprovePerson.Location = New System.Drawing.Point(97, 15)
+      Me.Validator.SetMinValue(Me.txtApprovePerson, "")
+      Me.txtApprovePerson.Name = "txtApprovePerson"
+      Me.Validator.SetRegularExpression(Me.txtApprovePerson, "")
+      Me.Validator.SetRequired(Me.txtApprovePerson, False)
+      Me.txtApprovePerson.Size = New System.Drawing.Size(80, 20)
+      Me.txtApprovePerson.TabIndex = 1
+      '
+      'txtApprovePersonName
+      '
+      Me.Validator.SetDataType(Me.txtApprovePersonName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtApprovePersonName, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtApprovePersonName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtApprovePersonName, System.Drawing.Color.Empty)
+      Me.txtApprovePersonName.Location = New System.Drawing.Point(178, 15)
+      Me.Validator.SetMinValue(Me.txtApprovePersonName, "")
+      Me.txtApprovePersonName.Name = "txtApprovePersonName"
+      Me.txtApprovePersonName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtApprovePersonName, "")
+      Me.Validator.SetRequired(Me.txtApprovePersonName, False)
+      Me.txtApprovePersonName.Size = New System.Drawing.Size(150, 20)
+      Me.txtApprovePersonName.TabIndex = 8
+      Me.txtApprovePersonName.TabStop = False
+      '
+      'lblApprovePerson
+      '
+      Me.lblApprovePerson.BackColor = System.Drawing.Color.Transparent
+      Me.lblApprovePerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblApprovePerson.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblApprovePerson.Location = New System.Drawing.Point(5, 15)
+      Me.lblApprovePerson.Name = "lblApprovePerson"
+      Me.lblApprovePerson.Size = New System.Drawing.Size(94, 18)
+      Me.lblApprovePerson.TabIndex = 5
+      Me.lblApprovePerson.Text = "ผู้อนุมัติ:"
+      Me.lblApprovePerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnFineApprove
+      '
+      Me.btnFineApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnFineApprove.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnFineApprove.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnFineApprove.Location = New System.Drawing.Point(328, 15)
+      Me.btnFineApprove.Name = "btnFineApprove"
+      Me.btnFineApprove.Size = New System.Drawing.Size(24, 23)
+      Me.btnFineApprove.TabIndex = 10
+      Me.btnFineApprove.TabStop = False
+      Me.btnFineApprove.ThemedImage = CType(resources.GetObject("btnFineApprove.ThemedImage"), System.Drawing.Bitmap)
       '
       'grbDocDate
       '
@@ -123,9 +229,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
       Me.grbDocDate.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDocDate.Location = New System.Drawing.Point(8, 111)
+      Me.grbDocDate.Location = New System.Drawing.Point(399, 11)
       Me.grbDocDate.Name = "grbDocDate"
-      Me.grbDocDate.Size = New System.Drawing.Size(328, 72)
+      Me.grbDocDate.Size = New System.Drawing.Size(239, 69)
       Me.grbDocDate.TabIndex = 2
       Me.grbDocDate.TabStop = False
       Me.grbDocDate.Text = "วันที่เอกสาร"
@@ -204,7 +310,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(423, 161)
+      Me.btnSearch.Location = New System.Drawing.Point(567, 148)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 4
@@ -214,7 +320,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(343, 161)
+      Me.btnReset.Location = New System.Drawing.Point(487, 148)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 5
@@ -232,9 +338,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Controls.Add(Me.txtCode)
       Me.grbMainDetail.Controls.Add(Me.lblCode)
       Me.grbMainDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbMainDetail.Location = New System.Drawing.Point(8, 16)
+      Me.grbMainDetail.Location = New System.Drawing.Point(8, 11)
       Me.grbMainDetail.Name = "grbMainDetail"
-      Me.grbMainDetail.Size = New System.Drawing.Size(328, 92)
+      Me.grbMainDetail.Size = New System.Drawing.Size(385, 92)
       Me.grbMainDetail.TabIndex = 0
       Me.grbMainDetail.TabStop = False
       Me.grbMainDetail.Text = "รายละเอียดทั่วไป"
@@ -243,7 +349,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnCostCenterPanel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostCenterPanel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCostCenterPanel.Location = New System.Drawing.Point(296, 41)
+      Me.btnCostCenterPanel.Location = New System.Drawing.Point(351, 41)
       Me.btnCostCenterPanel.Name = "btnCostCenterPanel"
       Me.btnCostCenterPanel.Size = New System.Drawing.Size(24, 23)
       Me.btnCostCenterPanel.TabIndex = 18
@@ -276,7 +382,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
       Me.Validator.SetRequired(Me.txtCostCenterName, False)
-      Me.txtCostCenterName.Size = New System.Drawing.Size(96, 20)
+      Me.txtCostCenterName.Size = New System.Drawing.Size(152, 20)
       Me.txtCostCenterName.TabIndex = 16
       Me.txtCostCenterName.TabStop = False
       '
@@ -285,7 +391,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCostCenterDialog.Location = New System.Drawing.Point(272, 41)
+      Me.btnCostCenterDialog.Location = New System.Drawing.Point(327, 41)
       Me.btnCostCenterDialog.Name = "btnCostCenterDialog"
       Me.btnCostCenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.btnCostCenterDialog.TabIndex = 17
@@ -309,7 +415,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbStatus.Location = New System.Drawing.Point(96, 65)
       Me.cmbStatus.Name = "cmbStatus"
-      Me.cmbStatus.Size = New System.Drawing.Size(224, 21)
+      Me.cmbStatus.Size = New System.Drawing.Size(232, 21)
       Me.cmbStatus.TabIndex = 2
       '
       'lblStatus
@@ -341,8 +447,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "WRFilterSubPanel"
-      Me.Size = New System.Drawing.Size(522, 209)
+      Me.Size = New System.Drawing.Size(665, 191)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbApprove.ResumeLayout(False)
+      Me.grbApprove.PerformLayout()
       Me.grbDocDate.ResumeLayout(False)
       Me.grbDocDate.PerformLayout()
       Me.grbMainDetail.ResumeLayout(False)
@@ -373,6 +481,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private docDateEnd As Date
     '        Private receivingDateStart As Date
     '        Private receivingDateEnd As Date
+    Private m_user As New User
 #End Region
 
 #Region "Methods"
@@ -521,9 +630,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '            Me.receivingDateEnd = DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
 
       cmbStatus.SelectedIndex = 0
+      Me.cmbApproveLevel.SelectedIndex = 0
+
+      Me.txtApprovePerson.Text = ""
+      Me.txtApprovePersonName.Text = ""
+      Me.m_user = New User
     End Sub
     Private Sub PopulateStatus()
+      Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
+      Dim dt1 As DataTable
+
       CodeDescription.ListCodeDescriptionInComboBox(cmbStatus, "sc_status", True)
+      dt1 = CodeDescription.GetCodeList("reference_status")
+      For Each row As DataRow In dt1.Rows
+        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+        cmbStatus.Items.Add(item)
+      Next
+      dt1 = CodeDescription.GetCodeList("approve_status")
+      For Each row As DataRow In dt1.Rows
+        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+        cmbStatus.Items.Add(item)
+      Next
+      dt1 = CodeDescription.GetCodeList("close_status")
+      For Each row As DataRow In dt1.Rows
+        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+        cmbStatus.Items.Add(item)
+      Next
+
+      cmbApproveLevel.Items.Clear()
+      cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
+      For i As Integer = 0 To User.MaxLevel
+        Dim item As New IdValuePair(i, lvString & Space(1) & i.ToString)
+        cmbApproveLevel.Items.Add(item)
+      Next
     End Sub
     Public Sub SetLabelText()
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.grbDetail}")
@@ -544,24 +685,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.lblTool.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.lblTool}")
       'Me.lblBlank.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.lblBlank}")
       'Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.grbMainDetail}")
+      Me.grbApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.grbApprove}")
+      Me.lblApprovePerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.lblApprovePerson}")
+      Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.lblApproveLevel}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(4) As Filter
+      Dim arr(6) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
       arr(2) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
       arr(3) = New Filter("docdateend", ValidDateOrDBNull(docDateEnd))
-      If cmbStatus.SelectedIndex = -1 Then
-        arr(4) = New Filter("status", DBNull.Value)
-      Else
-        arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
-      End If
-
-
-      'arr(7) = New Filter("lci_id", IIf(Me.m_lci.Valid, Me.m_lci.Id, DBNull.Value))
-      'arr(8) = New Filter("tool_id", IIf(Me.m_tool.Valid, Me.m_tool.Id, DBNull.Value))
-      'arr(9) = New Filter("poi_itemName", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))
-      'arr(11) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
+      arr(5) = New Filter("ApprovePerson", ValidIdOrDBNull(m_user))
+      arr(6) = New Filter("ApproveLevel", IIf(cmbApproveLevel.SelectedItem Is Nothing, DBNull.Value, CType(cmbApproveLevel.SelectedItem, IdValuePair).Id))
 
       Return arr
     End Function
@@ -576,6 +712,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'Private Sub txtSupplierCode_Validated(ByVal sender As System.Object, ByVal e As System.EventArgs)
     'Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_subcontractor)
     'End Sub
+    Private Sub txtApprovePerson_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtApprovePerson.Validated
+      User.GetUser(txtApprovePerson, txtApprovePersonName, Me.m_user)
+    End Sub
     Private Sub txtCostCenterCode_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCostCenterCode.Validated
       CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
     End Sub
@@ -636,6 +775,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnSupplierPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenPanel(New Supplier)
+    End Sub
+    Private Sub SetUser(ByVal e As ISimpleEntity)
+      Me.txtApprovePerson.Text = e.Code
+      User.GetUser(txtApprovePerson, txtApprovePersonName, Me.m_user)
+    End Sub
+    Private Sub btnFineApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFineApprove.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New User, AddressOf SetUser)
     End Sub
 #End Region
 
