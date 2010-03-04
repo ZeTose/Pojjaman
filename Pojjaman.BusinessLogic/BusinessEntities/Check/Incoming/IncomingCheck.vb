@@ -29,9 +29,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_bank As Bank
         Private m_custbankbranch As String
 
-        Private m_note As String
+    Private m_note As String
+    Private m_beforecode As String
 
-        Private m_docStatus As IncomingCheckDocStatus
+    Private m_docStatus As IncomingCheckDocStatus
 
 #End Region
 
@@ -60,7 +61,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.Status = New CheckStatus(-1)
 
             Me.m_ReceiveDate = Now.Date
-            Me.m_dueDate = Now.Date
+      Me.m_dueDate = Now.Date
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
             MyBase.Construct(ds, aliasPrefix)
@@ -162,7 +163,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As String)
                 m_cqcode = Value
             End Set
-        End Property
+    End Property
+    Public Property beforeCode() As String
+      Get
+        Return m_beforecode
+      End Get
+      Set(ByVal Value As String)
+        m_beforecode = Value
+      End Set
+    End Property
         Public Property Amount() As Decimal Implements IHasAmount.Amount            Get                Return m_amount            End Get            Set(ByVal Value As Decimal)                m_amount = Value            End Set        End Property        Public Property BankCharge() As Decimal            Get
                 Return m_bankcharge
             End Get
@@ -288,10 +297,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim theTime As Date = Now
             Dim theUser As New User(currentUserId)
 
-            If Me.AutoGen And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-            End If
-            Me.AutoGen = False
+      Me.AutoGen = False
 
             If Me.Status.Value = -1 Then
                 Me.Status.Value = 2
@@ -376,99 +382,114 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         '----------------SAVING FROM OTHER DOC---------------------'
-        Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
-            If Me.Amount <= 0 Then
-                Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
-                "${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblAmount}")
-            End If
-            'Return New SaveErrorException("Not Yet Implemented")
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      If Me.Amount <= 0 Then
+        Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
+        "${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblAmount}")
+      End If
+      'Return New SaveErrorException("Not Yet Implemented")
 
-            Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-            returnVal.ParameterName = "RETURN_VALUE"
-            returnVal.DbType = DbType.Int32
-            returnVal.Direction = ParameterDirection.ReturnValue
-            returnVal.SourceVersion = DataRowVersion.Current
-            Dim paramArrayList As New ArrayList
+      Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      returnVal.ParameterName = "RETURN_VALUE"
+      returnVal.DbType = DbType.Int32
+      returnVal.Direction = ParameterDirection.ReturnValue
+      returnVal.SourceVersion = DataRowVersion.Current
+      Dim paramArrayList As New ArrayList
 
-            paramArrayList.Add(returnVal)
-            If Me.Originated Then
-                paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
-            End If
+      paramArrayList.Add(returnVal)
+      If Me.Originated Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      End If
 
-            Dim theTime As Date = Now
-            Dim theUser As New User(currentUserId)
+      Dim theTime As Date = Now
+      Dim theUser As New User(currentUserId)
 
-            If Me.AutoGen And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-            End If
-            Me.AutoGen = False
+      If beforeCode Is Nothing OrElse beforeCode = "" Then
+        If Me.AutoGen And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+      Else
+        Dim autoCodeFormat As String
+        If Not Me.AutoCodeFormat Is Nothing Then
+          If Me.AutoCodeFormat.Format.Length > 0 Then
+            autoCodeFormat = Me.AutoCodeFormat.Format
+          Else
+            autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+          End If
+        Else
+          autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+        End If
+        Me.Code = CodeGenerator.Generate(autoCodeFormat, beforeCode, Me)
+      End If
 
-            If Me.Status.Value = -1 Then
-                Me.Status.Value = 2
-            End If
-            If Me.DocStatus.Value = -1 Then
-                Me.DocStatus.Value = 1 'Default = เช็คในมือ
-            End If
+      Me.AutoGen = False
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cqcode", Me.CqCode))
+      If Me.Status.Value = -1 Then
+        Me.Status.Value = 2
+      End If
+      If Me.DocStatus.Value = -1 Then
+        Me.DocStatus.Value = 1 'Default = เช็คในมือ
+      End If
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ReceiveDate", ValidDateOrDBNull(Me.ReceiveDate)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", ValidDateOrDBNull(Me.DueDate)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cqcode", Me.CqCode))
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiveperson", ValidIdOrDBNull(Me.ReceivePerson)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_customer", ValidIdOrDBNull(Me.Customer)))
-            'paramArrayList.Add(New SqlParameter("@" & me.prefix & "_payer", DBNull.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ReceiveDate", ValidDateOrDBNull(Me.ReceiveDate)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", ValidDateOrDBNull(Me.DueDate)))
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bank", ValidIdOrDBNull(Me.Bank)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiveperson", ValidIdOrDBNull(Me.ReceivePerson)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_customer", ValidIdOrDBNull(Me.Customer)))
+      'paramArrayList.Add(New SqlParameter("@" & me.prefix & "_payer", DBNull.Value))
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankcharge", Me.BankCharge))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wht", Me.WHT))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bank", ValidIdOrDBNull(Me.Bank)))
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
-            'paramArrayList.Add(New SqlParameter("@" & me.prefix & "_payin", DBNull.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankcharge", Me.BankCharge))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wht", Me.WHT))
 
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+      'paramArrayList.Add(New SqlParameter("@" & me.prefix & "_payin", DBNull.Value))
 
-            SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
 
-            ' สร้าง SqlParameter จาก ArrayList ...
-            Dim sqlparams() As SqlParameter
-            sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-            Dim oldid As Integer = Me.Id
-            Try
-                Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-                If IsNumeric(returnVal.Value) Then
-                    Select Case CInt(returnVal.Value)
-                        Case -1 'เลขที่ซ้ำ
-                            Me.ResetID(oldid)
-                            Return New SaveErrorException("${res:Global.Error.DupCheckCode}", New String() {Me.Code, Me.CqCode})
-                        Case -2
-                            Me.ResetID(oldid)
-                            Return New SaveErrorException(returnVal.Value.ToString)
-                        Case Else
-                    End Select
-                ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-                    Me.ResetID(oldid)
-                    Return New SaveErrorException(returnVal.Value.ToString)
-                End If
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-                ' ตรวจจับ Error ของการ Save ...
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Catch ex As Exception
-                Me.ResetID(oldid)
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Catch ex As SqlException
-                Me.ResetID(oldid)
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Finally
-            End Try
+      Dim oldid As Integer = Me.Id
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1 'เลขที่ซ้ำ
+              Me.ResetID(oldid)
+              Return New SaveErrorException("${res:Global.Error.DupCheckCode}", New String() {Me.Code, Me.CqCode})
+            Case -2
+              Me.ResetID(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Me.ResetID(oldid)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
 
-        End Function
+        ' ตรวจจับ Error ของการ Save ...
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As Exception
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Finally
+      End Try
+
+    End Function
 #End Region
 
 #Region "Methods"

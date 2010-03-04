@@ -888,6 +888,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Else
                     check.Code = check.GetNextCode
                   End If
+                  check.AutoGen = False
                   check.DocStatus = New OutgoingCheckDocStatus(-1)
 
                   Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)

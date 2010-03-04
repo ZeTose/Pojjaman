@@ -518,7 +518,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				With ds.Tables("receiveitem")
 					For Each row As DataRow In .Rows
 						row.Delete()
-					Next
+          Next
+          Dim CurrentCheckCode As String = ""
 					For n As Integer = 0 To Me.MaxRowIndex
 						Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
 						If ValidateRow(itemRow) Then
@@ -530,8 +531,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 								Case 27				 'เช็ครับ
 									Dim check As New IncomingCheck
 									If CInt(itemRow("receivei_entity")) = 0 Then
-										check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
-										Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
+                    check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
+                    check.beforeCode = CurrentCheckCode
+                    Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
 										If Not IsNumeric(checkSaveError.Message) Then
 											Return checkSaveError
 										Else
@@ -542,7 +544,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 													Return New SaveErrorException(checkSaveError.Message)
 												Case Else
 											End Select
-										End If
+                    End If
+                    CurrentCheckCode = check.Code
 									Else
 										check.Id = CInt(itemRow("receivei_entity"))
 									End If
