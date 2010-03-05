@@ -114,7 +114,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .m_startDate = CDate(dr("wr_startdate"))
             End If
           End If
-        Else
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wr_startdate") Then
           If Not dr.IsNull(aliasPrefix & "wr_startdate") Then
             If IsDate(dr(aliasPrefix & "wr_startdate")) Then
               .m_startDate = CDate(aliasPrefix & "wr_startdate")
@@ -127,7 +127,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .m_endDate = CDate(dr("wr_enddate"))
             End If
           End If
-        Else
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wr_enddate") Then
           If Not dr.IsNull(aliasPrefix & "wr_enddate") Then
             If IsDate(dr(aliasPrefix & "wr_enddate")) Then
               .m_endDate = CDate(aliasPrefix & "wr_enddate")
@@ -152,7 +152,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_director = New Employee(CInt(dr(aliasPrefix & "wr_director")))
           End If
         End If
-        If Not dr.IsNull(aliasPrefix & "wr_gross") Then
+        If dr.Table.Columns.Contains(aliasPrefix & "wr_gross") AndAlso Not dr.IsNull(aliasPrefix & "wr_gross") Then
           .m_gross = CDec(dr(aliasPrefix & "wr_gross"))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "wr_closed") AndAlso Not dr.IsNull(aliasPrefix & "wr_closed") Then
@@ -165,7 +165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "wr_note") AndAlso Not dr.IsNull(aliasPrefix & "wr_note") Then
           .m_note = CStr(dr(aliasPrefix & "wr_note"))
         End If
-        If Not dr.IsNull(aliasPrefix & "wr_approveDate") Then
+        If dr.Table.Columns.Contains(aliasPrefix & "wr_approveDate") AndAlso Not dr.IsNull(aliasPrefix & "wr_approveDate") Then
           .m_approveDate = CDate(dr(aliasPrefix & "wr_approveDate"))
         End If
         If dr.Table.Columns.Contains("approvePerson.user_id") Then

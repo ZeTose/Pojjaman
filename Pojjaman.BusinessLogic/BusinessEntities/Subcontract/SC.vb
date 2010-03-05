@@ -200,8 +200,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_cc = New CostCenter(CInt(dr(aliasPrefix & "sc_cc")))
           End If
         End If
-        If Not dr.IsNull(aliasPrefix & "sc_wr") Then
-          .m_wr = New WR(CInt(dr(aliasPrefix & "sc_wr")))
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_wr") Then
+          If Not dr.IsNull(aliasPrefix & "sc_wr") Then
+            .m_wr = New WR(CInt(dr(aliasPrefix & "sc_wr")))
+          End If
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wr_id") Then
+          If Not dr.IsNull("wr_id") Then
+            .m_wr = New WR(dr, "")
+          End If
         End If
         If dr.Table.Columns.Contains("employee_id") Then
           If Not dr.IsNull("employee_id") Then

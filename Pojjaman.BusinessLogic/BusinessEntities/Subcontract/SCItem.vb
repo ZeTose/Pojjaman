@@ -258,13 +258,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
           .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
+        Else
+          If Not .m_sc.WR Is Nothing Then
+            .m_wr = .m_sc.WR
+          End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrsequence") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrsequence") Then
           .m_wriSequence = CLng(dr(aliasPrefix & "sci_wrsequence"))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrunit") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrunit") Then
           .m_wriUnit = New Unit(CInt(dr(aliasPrefix & "sci_wrunit")))
+          '.m_wriUnit = New Unit
+          '.m_wriUnit.Id = CInt(dr("wrunit_id"))
+          '.m_wriUnit.Code = CStr(dr("wrunit_code"))
+          '.m_wriUnit.Name = CStr(dr("wrunit_name"))
         End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "wrunit_id") AndAlso Not dr.IsNull(aliasPrefix & "wrunit_id") Then
+        'If Not dr.IsNull("wrunit_id") Then
+        '.m_wriUnit = New Unit(dr, "")
+        'End If
+        'Else
+        'If dr.Table.Columns.Contains(aliasPrefix & "sci_wrunit") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrunit") Then
+        '.m_wriUnit = New Unit(CInt(dr(aliasPrefix & "sci_wrunit")))
+        'End If
+        'End If
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrqty") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrqty") Then
           .m_wriQty = CDec(dr(aliasPrefix & "sci_wrqty"))
         End If
