@@ -904,18 +904,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       'Originator (am เพิ่ม)
-      dpi = New DocPrintingItem
-      dpi.Mapping = "Originator"
-      dpi.Value = Me.Originator.Name
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+      If Not Me.Originator Is Nothing Then
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Originator"
+        dpi.Value = Me.Originator.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
       'LastEditor (am เพิ่ม)
-      dpi = New DocPrintingItem
-      dpi.Mapping = "LastEditor"
-      dpi.Value = Me.LastEditor.Name
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+      If Not Me.LastEditor Is Nothing Then
+        dpi = New DocPrintingItem
+        dpi.Mapping = "LastEditor"
+        dpi.Value = Me.LastEditor.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
       'ToBankbrance (am เพิ่ม)
       dpi = New DocPrintingItem
