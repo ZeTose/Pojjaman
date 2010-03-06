@@ -53,7 +53,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
    , IUnlockAble, IGLCheckingBeforeRefresh
 
-
 #Region "Members"
     Private m_supplier As Supplier
     Private m_deliveryPerson As String
@@ -106,8 +105,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public LabActualHash As Hashtable
     Public EQActualHash As Hashtable
 #End Region
-
-
+    
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -4685,8 +4683,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
   End Class
-
-  Public Class GoodsReceiptForApprove
+    Public Class GoodsReceiptForApprove
     Inherits GoodsReceipt
     Public Overrides ReadOnly Property CodonName() As String
       Get

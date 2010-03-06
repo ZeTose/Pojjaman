@@ -696,6 +696,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               dirtyFlag = True
             End If
           Else
+
             Me.dtpDocDateEnd.Value = Date.Now
             Me.docDateEnd = Date.MinValue
             dirtyFlag = True
@@ -774,11 +775,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDocDateStartBeforeToday, Now.Date), "")
       Me.txtDocDateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDocDateEndAfterToday, Now.Date), "")
 
-      Me.dtpDueDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, generalDueDateStartBeforeToday, Now.Date), "")
-      Me.dtpDueDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, generalDueDateEndAfterToday, Now.Date), "")
-
-      Me.txtDueDateStart.Text = ""
-      Me.txtDueDateEnd.Text = ""
+      Me.dtpDueDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDueDateStartBeforeToday, Now.Date), "")
+      Me.dtpDueDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Day, generalDueDateEndAfterToday, Now.Date), "")
 
       EntityRefresh()
     End Sub
