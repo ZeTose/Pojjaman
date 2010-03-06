@@ -32,6 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_costCenter As CostCenter
     Private m_typeId As Integer
     Private m_statusId As Integer
+    Private m_account As Account
 #End Region
 
 #Region "Constructors"
@@ -49,6 +50,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
+      Me.m_account = New Account
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -68,6 +70,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       m_typeId = deh.GetValue(Of Integer)("loan_type")
       m_statusId = deh.GetValue(Of Integer)("loan_status")
+
+      Dim LoanAcct As Integer = deh.GetValue(Of Integer)("loan_acct")
+      Me.m_account = New Account(LoanAcct)
 
     End Sub
 #End Region
@@ -140,6 +145,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Integer)
         m_statusId = Value
+      End Set
+    End Property
+    Public Property Account() As Account
+      Get
+        Return m_account
+      End Get
+      Set(ByVal Value As Account)
+        m_account = Value
       End Set
     End Property
 #End Region
@@ -215,6 +228,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_CC", ValidIdOrDBNull(Me.CostCenter)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.TypeId))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.StatusId))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acct", IIf(Me.Account.Originated, Me.Account.Id, DBNull.Value)))
 
       ' Save Originator , LastEditor , CancelPerson ...
       ' SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)

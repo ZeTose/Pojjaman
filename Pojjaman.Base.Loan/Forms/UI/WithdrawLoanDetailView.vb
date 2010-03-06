@@ -437,6 +437,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler txtDocdate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
+
+      AddHandler txtCreditPeriod.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCreditPeriod.TextChanged, AddressOf Me.TextHandler
 
       AddHandler txtLoanCode.Validated, AddressOf Me.ChangeProperty
 
@@ -449,7 +454,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-
+    Private txtCreditPeriodChanged As Boolean = False
     ' µÃÇ¨ÊÍºÊ¶Ò¹Ð¢Í§¿ÍÃìÁ
     Public Overrides Sub CheckFormEnable()
 
@@ -493,6 +498,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
 
       txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+      txtCreditPeriod.Text = Configuration.FormatToString(m_entity.CreditPeriod, DigitConfig.Int)
 
       If Not Me.m_entity.Loan Is Nothing Then
         txtLoanCode.Text = Me.m_entity.Loan.Code
@@ -520,6 +526,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.Amount = 0
             End Try
           End If
+        Case "txtcreditperiod"
+          txtCreditPeriodChanged = True
       End Select
     End Sub
     Private m_dateSetting As Boolean = False
@@ -564,7 +572,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txtamount"
           dirtyFlag = True
-       
+        Case "dtpduedate"
+          If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DueDate = dtpDueDate.Value
+            End If
+            dirtyFlag = True
+            Me.txtCreditPeriod.Text = Configuration.FormatToString(m_entity.CreditPeriod, DigitConfig.Int)
+          End If
+        Case "txtduedate"
+          m_dateSetting = True
+          If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDueDate.Text)
+            If Not Me.m_entity.DueDate.Equals(theDate) Then
+              dtpDueDate.Value = theDate
+              Me.m_entity.DueDate = dtpDueDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpDueDate.Value = Me.m_entity.DueDate 
+            dirtyFlag = True
+          End If
+          Me.txtCreditPeriod.Text = Configuration.FormatToString(m_entity.CreditPeriod, DigitConfig.Int)
+          m_dateSetting = False
+        Case "txtcreditperiod"
+          If txtCreditPeriodChanged Then
+            txtCreditPeriodChanged = False
+            Dim txt As String = Me.txtCreditPeriod.Text
+            If txt.Length > 0 AndAlso IsNumeric(txt) Then
+              Me.m_entity.CreditPeriod = CInt(txt)
+            Else
+              Me.m_entity.CreditPeriod = 0
+            End If
+            txtCreditPeriod.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+            Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+            dirtyFlag = True
+          End If
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag

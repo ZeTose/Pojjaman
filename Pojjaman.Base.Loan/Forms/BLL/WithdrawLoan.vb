@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.DataAccessLayer
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class WithdrawLoan
     Inherits SimpleBusinessEntityBase
+    Implements IReceivable, IGLAble, ICancelable
+
 
 #Region "Members"
     'WL_id	numeric(18, 0)		Unchecked
@@ -20,9 +22,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'WL_Creditperiod	numeric(18, 0)	ตามนั้น	Checked
     'WL_status	nchar(10)	CodeDescription="WLStatus"	Checked
     'WL_Amount	numeric(18, 4)		Checked
-
-    'WL_refid	numeric(18, 0)	WL หรือ Aval (Check)	Checked
-    'WL_refType	numeric(18, 0)	WL หรือ Aval (Check)	Checked
+    'WL_refid	numeric(18, 0)	WL/Aval เพื่อการแปลงวงเงิน
+    'WL_refType	numeric(18, 0)	WL/Aval (Check)เพื่อการแปลงวงเงิน
 
     Private m_loan As Loan
     Private m_note As String
@@ -32,6 +33,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_amount As Decimal
     Private m_costCenter As CostCenter
     Private m_statusId As Integer
+    Private m_receive As Receive
+    Private m_je As JournalEntry
 #End Region
 
 #Region "Constructors"
@@ -48,7 +51,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Construct(dr, aliasPrefix)
     End Sub
     Protected Overloads Overrides Sub Construct()
+      'สร้างเอกสารใหม่
       MyBase.Construct()
+      m_docdate = Now.Date
+      m_creditperiod = 0
+      m_receive = New Receive(Me)
+      m_receive.DocDate = Me.m_docdate
+      '----------------------------Tab Entities-----------------------------------------
+      m_je = New JournalEntry(Me)
+      m_je.DocDate = Me.m_docdate
+
+      m_receive = New Receive(Me)
+      m_receive.DocDate = Me.m_docdate
+      '----------------------------End Tab Entities-----------------------------------------
+      AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -56,14 +72,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim loanId As Integer = deh.GetValue(Of Integer)("wl_loan")
       m_loan = New Loan(loanId)
       m_note = deh.GetValue(Of String)("wl_note")
-      m_creditperiod = deh.GetValue(Of Integer)("wl_creditperiod")
+      m_creditperiod = deh.GetValue(Of Integer)("WL_Creditperiod")
       m_docdate = deh.GetValue(Of Date)("wl_docdate")
       m_duedate = deh.GetValue(Of Date)("wl_duedate")
-
       m_amount = deh.GetValue(Of Decimal)("wl_amount")
-
       m_statusId = deh.GetValue(Of Integer)("wl_status")
+      m_receive = New Receive(Me)
+      m_je = New JournalEntry(Me)
 
+      m_receive = New Receive(Me)
+      m_receive.DocDate = Me.m_docdate
+      AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
@@ -78,7 +97,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_loan = Value
       End Set
     End Property
-    Public Property Note As String
+    Public Property Note As String Implements IReceivable.Note, IGLAble.Note
       Get
         Return m_note
       End Get
@@ -86,20 +105,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_note = Value
       End Set
     End Property
-    Public Property DocDate As Date
+    Public Property DocDate As Date Implements IReceivable.Date, IGLAble.Date
       Get
         Return m_docdate
       End Get
       Set(ByVal Value As Date)
         m_docdate = Value
+        Me.m_je.DocDate = Value
       End Set
     End Property
-    Public Property DueDate As Date
+    Public Property DueDate As Date Implements IReceivable.DueDate
       Get
-        Return m_duedate
+        Try
+          Return Me.DocDate.AddDays(Me.CreditPeriod)
+        Catch ex As Exception
+          Return Me.DocDate
+        End Try
       End Get
       Set(ByVal Value As Date)
-        m_duedate = Value
+        Try
+          m_creditperiod = CInt(DateDiff(DateInterval.Day, DocDate, Value))
+        Catch ex As Exception
+
+        End Try
       End Set
     End Property
     Public Property CreditPeriod As Integer
@@ -173,8 +201,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Method"
-    Private Sub ResetID(ByVal oldid As Integer)
+    Private Sub ResetID(ByVal oldid As Integer, ByVal oldreceive As Integer, ByVal oldje As Integer)
       Me.Id = oldid
+      Me.m_receive.Id = oldreceive
+      Me.m_je.Id = oldje
     End Sub
     Public Overrides Function ToString() As String
       Return Me.Code
@@ -194,12 +224,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim theTime As Date = Now
       Dim theUser As New User(currentUserId)
-
-      If Me.AutoGen And Me.Code.Length = 0 Then
-        Me.Code = Me.GetNextCode
+      If Me.m_je.Status.Value = 4 Then
+        If Me.Status.Value > 2 Then
+          Me.Status.Value = 3 'Post แล้ว ถือว่าสถานะเอกสารรับเงินกู้ เป็นถูกอ้างอิงเพื่อคงจะเปลี่ยนเป็นปิดได้
+        End If
+        Me.m_receive.Status.Value = 4
       End If
-      Me.AutoGen = False
+      If Me.Status.Value = 0 Then
+        Me.m_receive.Status.Value = 0
+        Me.m_je.Status.Value = 0
+      End If
 
+      Me.m_je.RefreshGLFormat()
+      '---- AutoCode Format --------
+      If Not AutoCodeFormat Is Nothing Then
+        Select Case Me.AutoCodeFormat.CodeConfig.Value
+          Case 0
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            Me.m_je.DontSave = True
+            Me.m_je.Code = ""
+            Me.m_je.DocDate = Me.DocDate
+          Case 1
+            'ตาม entity
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            Me.m_je.Code = Me.Code
+          Case 2
+            'ตาม gl
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+            Me.Code = Me.m_je.Code
+          Case Else
+            'แยก
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+
+        End Select
+      Else
+        'แยก
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        If Me.m_je.AutoGen Then
+          Me.m_je.Code = m_je.GetNextCode
+        End If
+      End If
+      If Me.Receive.Gross <> 0 Then
+        Me.m_receive.Code = m_je.Code
+      End If
+      Me.m_je.DocDate = Me.DocDate
+      Me.m_receive.DocDate = m_je.DocDate
+      If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
+        Me.m_receive.Code = Me.Code
+        Me.m_receive.DocDate = Me.DocDate
+      End If
+
+      Me.AutoGen = False
+      Me.m_receive.AutoGen = False
+      Me.m_je.AutoGen = False
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_loan", ValidIdOrDBNull(Me.Loan)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
@@ -223,19 +313,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
       conn.Open()
       trans = conn.BeginTransaction
       Dim oldid As Integer = Me.Id
+      Dim oldreceive As Integer = Me.m_receive.Id
+      Dim oldje As Integer = Me.m_je.Id
       Try
-        ' Save Processing ...
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldje)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case -2
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldje)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldreceive, oldje)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        If Not Me.CostCenter Is Nothing Then
+          Me.m_receive.CcId = Me.CostCenter.Id
+        End If
+        Dim saveReceiveError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
+        If Not IsNumeric(saveReceiveError.Message) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldreceive, oldje)
+          Return saveReceiveError
+        Else
+          Select Case CInt(saveReceiveError.Message)
+            Case -1, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldje)
+              Return saveReceiveError
+            Case -2
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldje)
+              Return saveReceiveError
+            Case Else
+          End Select
+        End If
+        If Me.m_je.Status.Value = -1 Then
+          m_je.Status.Value = 3
+        End If
+        Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+        If Not IsNumeric(saveJeError.Message) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldreceive, oldje)
+          Return saveJeError
+        Else
+          Select Case CInt(saveJeError.Message)
+            Case -1, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldje)
+              Return saveJeError
+            Case -2
+              'Post ไปแล้ว
+              Return saveJeError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
+        Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+        If Not IsNumeric(saveAutoCodeError.Message) Then
+          trans.Rollback()
+          ResetID(oldid, oldreceive, oldje)
+          Return saveAutoCodeError
+        Else
+          Select Case CInt(saveAutoCodeError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              ResetID(oldid, oldreceive, oldje)
+              Return saveAutoCodeError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
         trans.Commit()
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
         trans.Rollback()
-        Me.ResetID(oldid)
-        Return New SaveErrorException(returnVal.Value.ToString)
+        Me.ResetID(oldid, oldreceive, oldje)
+        Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
-        Me.ResetID(oldid)
-        Return New SaveErrorException(returnVal.Value.ToString)
+        Me.ResetID(oldid, oldreceive, oldje)
+        Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()
       End Try
@@ -262,7 +427,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Delete"
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
-        ' Hack :
+        Return Me.Status.Value <= 2
         Return True
       End Get
     End Property
@@ -309,6 +474,98 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+    End Function
+#End Region
+#Region "IGLAble"
+
+
+    Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+        Return Me.AutoCodeFormat.GLFormat
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetGLFormatForEntity" _
+      , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1) _
+      , New SqlParameter("@inventoryType", CInt(Configuration.GetConfig("CompanyInventoryMethod"))))
+      If ds.Tables(0).Rows.Count > 0 Then
+        Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
+        Return glf
+      End If
+      Return New GLFormat
+    End Function
+
+    Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      'เจ้าหนี้เงินกู้
+      If Me.Amount > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "WL1" 'ตั้งใหม่
+        ji.Amount = Configuration.Format(Me.Amount, DigitConfig.Price)
+        ji.Account = Me.Loan.Account
+        If Me.Loan.CostCenter.Originated Then 'เอกสารเคยมีใน DB หรือไม่
+          ji.CostCenter = Me.Loan.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
+      If Not Me.Receive Is Nothing Then
+        For Each ji1 As JournalEntryItem In Me.Receive.GetJournalEntries
+          ji1.CostCenter = Me.Loan.CostCenter 'เพื่อให้ลง CC ที่ Loan นั้นอยู่
+        Next
+        jiColl.AddRange(Me.Receive.GetJournalEntries)
+      End If
+      Return (jiColl)
+    End Function
+
+    Public Property JournalEntry As JournalEntry Implements IGLAble.JournalEntry
+      Get
+        Return Me.m_je
+      End Get
+      Set(ByVal Value As JournalEntry)
+        m_je = Value
+      End Set
+    End Property
+
+#End Region
+
+#Region "IReceivable"
+    Public Function AmountToReceive() As Decimal Implements IReceivable.AmountToReceive
+      Return Me.Amount
+    End Function
+
+
+    Public ReadOnly Property Payer As IBillablePerson Implements IReceivable.Payer
+      Get
+        Return New Employee
+      End Get
+    End Property
+
+    Public Property Receive As Receive Implements IReceivable.Receive
+      Get
+        Return m_receive
+      End Get
+      Set(ByVal value As Receive)
+        m_receive = value
+      End Set
+    End Property
+
+    Public Function RemainingAmount() As Decimal Implements IReceivable.RemainingAmount
+      Return Me.Amount 'ไม่รู้ว่าคืออะไรกันแน่
+    End Function
+#End Region
+
+#Region "ICancelable"
+    Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
+      Get
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+      End Get
+    End Property
+    Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
+      Me.Status.Value = 0
+      Return Me.Save(currentUserId)
     End Function
 #End Region
 

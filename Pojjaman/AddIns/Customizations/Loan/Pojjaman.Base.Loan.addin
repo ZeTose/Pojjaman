@@ -1,6 +1,8 @@
 <AddIn name="Pojjaman Loan" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
   <Runtime>
     <Import assembly="Pojjaman.Base.Loan.dll"/>
+    <Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
+    <Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
     <EntityFilter id="loan" entity="loan" filter="Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel"/>
@@ -12,6 +14,8 @@
     </EntityTab>
     <EntityTab id="withdrawloan">
       <EntityTab id="WithdrawLoanDetailView" view="Longkong.Pojjaman.Gui.Panels.WithdrawLoanDetailView"/>
+      <EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
     </EntityTab>    
   </Extension>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
