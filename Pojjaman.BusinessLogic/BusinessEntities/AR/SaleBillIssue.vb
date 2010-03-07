@@ -1404,7 +1404,8 @@ Public Class SaleBillIssueItemCollection
           End If
         End If
         'newRow("RealAmount") = Configuration.FormatToString(bai.BilledAmount, DigitConfig.Price)
-        newRow("RealAmount") = Configuration.FormatToString(bai.RemainingAmount, DigitConfig.Price)
+        newRow("RealAmount") = Configuration.FormatToString(bai.RemainingAmount + bai.ARretention, DigitConfig.Price)
+        newRow("RetentionAmount") = Configuration.FormatToString(bai.ARretention, DigitConfig.Price)
         newRow("UnreceivedAmount") = Configuration.FormatToString(Math.Min(bai.UnreceivedAmount, bai.BilledAmount), DigitConfig.Price)
         newRow(Me.m_prefix & "_amt") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
         newRow(Me.m_prefix & "_note") = bai.Note

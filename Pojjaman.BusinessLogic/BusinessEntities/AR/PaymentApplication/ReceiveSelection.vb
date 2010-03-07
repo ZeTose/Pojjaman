@@ -243,6 +243,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(dateCol)
 
       myDatatable.Columns.Add(New DataColumn("receivesi_amt", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RetentionAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnreceivedAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("receivesi_note", GetType(String)))
@@ -871,17 +872,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IBillIssuable"
     Public Function AmountToReceive() As Decimal Implements IReceivable.AmountToReceive
-      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
-      Dim apRetentionPoint As Integer = 0
-      If IsNumeric(tmp) Then
-        apRetentionPoint = CInt(tmp)
-      End If
-      Dim retentionHere As Boolean = (apRetentionPoint = 1)
-      If retentionHere Then
-        Return Me.Gross - Me.ItemCollection.ARretention
-      Else
-        Return Me.Gross
-      End If
+      'Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      'Dim apRetentionPoint As Integer = 0
+      'If IsNumeric(tmp) Then
+      'apRetentionPoint = CInt(tmp)
+      'End If
+      'Dim retentionHere As Boolean = (apRetentionPoint = 1)
+      'If retentionHere Then
+      'Return Me.Gross - Me.ItemCollection.ARretention
+      'Else
+      'Return Me.Gross
+      'End If
+      Return Me.Gross
     End Function
     Public Property DueDate() As Date Implements IReceivable.DueDate
       Get
@@ -933,11 +935,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim cc As CostCenter = GetAllCC()
 
       Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
-      Dim apRetentionPoint As Integer = 0
+      Dim arRetentionPoint As Integer = 0
       If IsNumeric(tmp) Then
-        apRetentionPoint = CInt(tmp)
+        arRetentionPoint = CInt(tmp)
       End If
-      Dim retentionHere As Boolean = (apRetentionPoint = 1)
+      Dim retentionHere As Boolean = (arRetentionPoint = 1)
 
       For Each doc As SaleBillIssueItem In Me.ItemCollection
         Dim docRetention As Decimal = 0
@@ -968,7 +970,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim myGross As Decimal = doc.AmountForGL
         docRetention = doc.ARretention
-        Dim myDebt As Decimal = myGross - docRetention
+        Dim myDebt As Decimal = myGross
 
         If doc.AmountForGL <> 0 Then
           'ลูกหนี้การค้า

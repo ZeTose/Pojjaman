@@ -629,6 +629,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRealAmount.ReadOnly = True
       csRealAmount.TextBox.Name = "RealAmount"
 
+      Dim csRetentionAmount As New TreeTextColumn
+      csRetentionAmount.MappingName = "RetentionAmount"
+      csRetentionAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.RetentionAmountHeaderText}")
+      csRetentionAmount.NullText = ""
+      csRetentionAmount.DataAlignment = HorizontalAlignment.Right
+      csRetentionAmount.Format = "#,###.##"
+      csRetentionAmount.ReadOnly = True
+      csRetentionAmount.TextBox.Name = "RetentionAmount"
+
       Dim csUnreceivedAmount As New TreeTextColumn
       csUnreceivedAmount.MappingName = "UnreceivedAmount"
       csUnreceivedAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.UnreceivedAmountHeaderText}")
@@ -660,6 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csDocDate)
       dst.GridColumnStyles.Add(csDueDate)
       dst.GridColumnStyles.Add(csRealAmount)
+      dst.GridColumnStyles.Add(csRetentionAmount)
       dst.GridColumnStyles.Add(csUnreceivedAmount)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csNote)

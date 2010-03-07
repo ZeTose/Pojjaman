@@ -469,6 +469,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
+
+
 #Region "Properties"
     '--------------------REAL-------------------------
     Public Property RealMileStoneAmount() As Decimal
@@ -547,6 +549,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_retention = Value
       End Set
+    End Property    Public Overridable ReadOnly Property ARRetentionAmount() As Decimal
+      Get
+        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+        Dim arRetentionPoint As Integer = 0
+        If IsNumeric(tmp) Then
+          arRetentionPoint = CInt(tmp)
+        End If
+        Dim ARretention As Boolean = (arRetentionPoint = 1)
+        If ARretention Then
+          Return m_retention
+        Else
+          Return 0
+        End If
+      End Get
     End Property    Public Overridable Property Penalty() As Decimal
       Get
         Return m_penalty
@@ -668,7 +684,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select      End Get    End Property    Public ReadOnly Property TaxPoint() As TaxPoint      Get        If Me.m_pma Is Nothing Then          Return New TaxPoint(1)
         End If        Return Me.m_pma.TaxPoint      End Get    End Property    Public Property Amount() As Decimal Implements IHasAmount.Amount
       Get
-        Return AfterTax
+        Return AfterTax + Me.ARRetentionAmount
       End Get
       Set(ByVal Value As Decimal)
 
@@ -820,6 +836,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("salebillii_billedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("salebillii_unreceivedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("salebillii_linenumber", GetType(Integer)))
+
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim arRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        arRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (arRetentionPoint = 1)
+
       For Each tableRow As DataRow In dt.Rows
         Dim row As TreeRow = myDatatable.Childs.Add
         row("Selected") = False
@@ -834,7 +858,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("stock_type") = tableRow("milestone_type")
         row("CostCenterName") = tableRow("costcentername")
         If Not tableRow.IsNull("milestone_aftertax") Then
-          row("Amount") = Configuration.FormatToString(CDec(tableRow("milestone_aftertax")), DigitConfig.Price) 'tableRow("billa_gross")
+          If retentionHere Then
+            row("Amount") = Configuration.FormatToString(CDec(tableRow("milestone_aftertax")) + CDec(tableRow("milestone_retention")), DigitConfig.Price) 'tableRow("billa_gross")
+          Else
+            row("Amount") = Configuration.FormatToString(CDec(tableRow("milestone_aftertax")), DigitConfig.Price) 'tableRow("billa_gross")
+          End If
         End If
         row("stock_id") = tableRow("milestone_id")
         row("stock_code") = tableRow("milestone_code")
