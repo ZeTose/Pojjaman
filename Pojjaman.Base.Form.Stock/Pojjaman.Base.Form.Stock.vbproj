@@ -195,6 +195,9 @@
     <Compile Include="Material\UnitListView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="StockSequence\ReSaveStockDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="StockSequence\StockSequenceDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -320,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Material\UnitListView.resx">
       <DependentUpon>UnitListView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockSequence\ReSaveStockDetail.resx">
+      <DependentUpon>ReSaveStockDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockSequence\StockSequenceDetail.resx">
       <DependentUpon>StockSequenceDetail.vb</DependentUpon>

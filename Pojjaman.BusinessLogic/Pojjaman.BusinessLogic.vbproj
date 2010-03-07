@@ -609,6 +609,7 @@
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatWithdrawItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\ReSaveStock.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\StockSequence.vb">
       <SubType>Code</SubType>
     </Compile>

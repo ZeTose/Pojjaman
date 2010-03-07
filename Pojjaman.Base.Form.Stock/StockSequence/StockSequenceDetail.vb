@@ -53,29 +53,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbGeneral As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents lblProgress As System.Windows.Forms.Label
+    Friend WithEvents btnReSave As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents chkRecalUnitCost As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblProgress = New System.Windows.Forms.Label
-      Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
-      Me.btnOK = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnPreview = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblDateStart = New System.Windows.Forms.Label
-      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-      Me.lblDateEnd = New System.Windows.Forms.Label
-      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.chkRecalUnitCost = New System.Windows.Forms.CheckBox
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblProgress = New System.Windows.Forms.Label()
+      Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+      Me.btnOK = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnPreview = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkRecalUnitCost = New System.Windows.Forms.CheckBox()
+      Me.lblDateStart = New System.Windows.Forms.Label()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.lblDateEnd = New System.Windows.Forms.Label()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.btnReSave = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
@@ -85,7 +85,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(255, Byte), CType(128, Byte))
+      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -115,9 +115,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'txtDocDateStart
       '
@@ -127,14 +127,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.txtDocDateStart.Location = New System.Drawing.Point(112, 16)
       Me.txtDocDateStart.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, True)
       Me.txtDocDateStart.Size = New System.Drawing.Size(115, 21)
       Me.txtDocDateStart.TabIndex = 2
-      Me.txtDocDateStart.Text = ""
       '
       'txtDocDateEnd
       '
@@ -144,14 +142,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(112, 40)
       Me.txtDocDateEnd.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, True)
       Me.txtDocDateEnd.Size = New System.Drawing.Size(115, 21)
       Me.txtDocDateEnd.TabIndex = 2
-      Me.txtDocDateEnd.Text = ""
       '
       'grbDetail
       '
@@ -183,6 +179,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbGeneral
       '
+      Me.grbGeneral.Controls.Add(Me.btnReSave)
       Me.grbGeneral.Controls.Add(Me.lblProgress)
       Me.grbGeneral.Controls.Add(Me.ProgressBar1)
       Me.grbGeneral.Controls.Add(Me.btnOK)
@@ -258,6 +255,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.FixedGroupBox1.TabIndex = 179
       Me.FixedGroupBox1.TabStop = False
       '
+      'chkRecalUnitCost
+      '
+      Me.chkRecalUnitCost.Checked = True
+      Me.chkRecalUnitCost.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkRecalUnitCost.Location = New System.Drawing.Point(112, 72)
+      Me.chkRecalUnitCost.Name = "chkRecalUnitCost"
+      Me.chkRecalUnitCost.Size = New System.Drawing.Size(200, 24)
+      Me.chkRecalUnitCost.TabIndex = 7
+      Me.chkRecalUnitCost.Text = "คำนวณต้นทุนก่อน Re-FIFO"
+      '
       'lblDateStart
       '
       Me.lblDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -302,25 +309,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.TabIndex = 3
       Me.dtpDocDateEnd.TabStop = False
       '
-      'chkRecalUnitCost
+      'btnReSave
       '
-      Me.chkRecalUnitCost.Checked = True
-      Me.chkRecalUnitCost.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkRecalUnitCost.Location = New System.Drawing.Point(112, 72)
-      Me.chkRecalUnitCost.Name = "chkRecalUnitCost"
-      Me.chkRecalUnitCost.Size = New System.Drawing.Size(200, 24)
-      Me.chkRecalUnitCost.TabIndex = 7
-      Me.chkRecalUnitCost.Text = "คำนวณต้นทุนก่อน Re-FIFO"
+      Me.btnReSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReSave.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReSave.ForeColor = System.Drawing.Color.Black
+      Me.btnReSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnReSave.Location = New System.Drawing.Point(8, 136)
+      Me.btnReSave.Name = "btnReSave"
+      Me.btnReSave.Size = New System.Drawing.Size(72, 23)
+      Me.btnReSave.TabIndex = 336
+      Me.btnReSave.Text = "ReSave"
+      Me.btnReSave.ThemedImage = Nothing
       '
       'StockSequenceDetail
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "StockSequenceDetail"
       Me.Size = New System.Drawing.Size(776, 464)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbGeneral.ResumeLayout(False)
       Me.FixedGroupBox1.ResumeLayout(False)
+      Me.FixedGroupBox1.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -403,6 +413,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.Enabled = True
       Me.btnOK.Enabled = True
       Me.chkRecalUnitCost.Enabled = True
+      Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+      Dim currentUserName As String = Me.SecurityService.CurrentUser.Name
+      btnReSave.Visible = False
+      If currentUserId = 1 OrElse currentUserName = "Pojjaman" Then
+        btnReSave.Visible = True
+      End If
     End Sub
     Public Sub EnableTextBox()
       Me.txtDocDateStart.Enabled = False
@@ -1053,5 +1069,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 
+    Private Sub btnReSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReSave.Click
+      Dim resaveStock As New ReSaveStock
+      resaveStock.DateStart = txtDocDateStart.Text
+      resaveStock.DateEnd = txtDocDateEnd.Text
+      resaveStock.DateStart = dtpDocDateStart.Value
+      resaveStock.save()
+    End Sub
   End Class
 End Namespace
