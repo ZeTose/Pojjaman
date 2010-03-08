@@ -655,6 +655,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           tmpRet.Add(tmpDPI)
         Next
+
+        '==============================CUSTOM NOTES=============================================
+        If m_entityNames.ContainsKey(entity) AndAlso activeContent.GetType.Name = m_entityNames(entity) Then
+          If TypeOf entity Is IHasCustomNote Then
+            Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
+            If TypeOf entity Is IHasMainDoc Then
+              If Not (TypeOf (entity) Is JournalEntry) Then
+                coll = CType(CType(entity, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
+              Else
+                coll = CType(entity, IHasCustomNote).GetCustomNoteCollection
+              End If
+            Else
+              coll = CType(entity, IHasCustomNote).GetCustomNoteCollection
+            End If
+            For Each note As CustomNote In coll
+              Dim dpi As New DocPrintingItem
+              dpi.Mapping = "Note." & note.NoteName
+              If note.IsDropDown Then
+                dpi.Value = Boolean.Parse(CStr(note.Note))
+                dpi.DataType = "System.Boolean"
+              Else
+                dpi.Value = CStr(note.Note)
+                dpi.DataType = "System.String"
+              End If
+              ret.Add(dpi)
+            Next
+          End If
+        End If
+        '==============================END CUSTOM NOTES=============================================
+
       Next
       ret.AddRange(tmpRet)
       Return ret
