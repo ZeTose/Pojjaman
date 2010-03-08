@@ -44,10 +44,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_customerCode As String
     Private m_monthperiod As Integer
+
+    Private m_AllLciitem As Hashtable
+    Private m_Lciitem As DataTable
 #End Region
 
 #Region "Constructors"
     Public Sub New()
+    End Sub
+    Public Sub New(ByVal row As DataRow)
+      Me.m_AllLciitem = New Hashtable
+      Dim drh As New DataRowHelper(row)
+      Dim key As String = drh.GetValue(Of String)("lci_id")
+      Me.m_AllLciitem(key) = row
+
+      Me.Id = drh.GetValue(Of Integer)("lci_id")
+      Me.Code = drh.GetValue(Of String)("lci_code")
+      Me.Name = drh.GetValue(Of String)("lci_name")
+      Me.AlternateName = drh.GetValue(Of String)("lci_altName")
+
+      Me.Parent = New LCIItem
+      Me.Parent.Id = drh.GetValue(Of Integer)("lciparent_id")
+
+      Me.Level = drh.GetValue(Of Integer)("lci_level")
+      'Me.Lv1 = drh.GetValue(Of String)("lci_lv1")
+      'Me.Lv2 = drh.GetValue(Of String)("lci_lv2")
+      'Me.Lv3 = drh.GetValue(Of String)("lci_lv3")
+      'Me.Lv4 = drh.GetValue(Of String)("lci_lv4")
+      'Me.Lv5 = drh.GetValue(Of String)("lci_lv5")
+      Me.FairPrice = drh.GetValue(Of Decimal)("lci_fairprice")
+
+      Me.DefaultUnit = New Unit(row, "")
+      'Me.DefaultUnit.Id = drh.GetValue(Of Integer)("unit_id")
+      'Me.DefaultUnit.Code = drh.GetValue(Of String)("unit_code")
+      'Me.DefaultUnit.Name = drh.GetValue(Of String)("unit_name")
+
+      Me.MemoryCompareUnit1 = New Unit(row, "")
+      'Me.MemoryCompareUnit1.Id = drh.GetValue(Of Integer)("compareUnit1.unit_id")
+      'Me.MemoryCompareUnit1.Code = drh.GetValue(Of String)("compareUnit1.unit_code")
+      'Me.MemoryCompareUnit1.Name = drh.GetValue(Of String)("compareUnit1.unit_name")
+
+      Me.MemoryCompareUnit2 = New Unit(row, "")
+      'Me.MemoryCompareUnit2.Id = drh.GetValue(Of Integer)("compareUnit2.unit_id")
+      'Me.MemoryCompareUnit2.Code = drh.GetValue(Of String)("compareUnit2.unit_code")
+      'Me.MemoryCompareUnit2.Name = drh.GetValue(Of String)("compareUnit2.unit_name")
+
+      Me.MemoryCompareUnit3 = New Unit(row, "")
+      'Me.MemoryCompareUnit3.Id = drh.GetValue(Of Integer)("compareUnit3.unit_id")
+      'Me.MemoryCompareUnit3.Code = drh.GetValue(Of String)("compareUnit3.unit_code")
+      'Me.MemoryCompareUnit3.Name = drh.GetValue(Of String)("compareUnit3.unit_name")
     End Sub
     Public Sub New(ByVal myParent As LCIItem)
       MyBase.New(myParent)
@@ -92,6 +137,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_unvatable = False
       LoadCostLink()
     End Sub
+
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
@@ -210,7 +256,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_monthperiod = CInt(Configuration.GetConfig("ActualPricePeriod"))
         End If
       End With
+
+      'Me.m_AllLciitem = New Hashtable
+      'Dim drh As New DataRowHelper(dr)
+      'Dim key As String = drh.GetValue(Of String)("lci_id")
+      'Me.m_AllLciitem(key) = dr
+
     End Sub
+
     Public Sub LoadCostLink()
       m_LCISupplierCostLink = New LCISupplierCostLink(Me)
       m_LCILaborCostLink = New LCILaborCostLink(Me)
@@ -314,8 +367,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property    Public Property ShelfLife() As Integer      Get        Return m_shelfLife      End Get      Set(ByVal Value As Integer)        m_shelfLife = Value      End Set    End Property    Public Property Note() As String Implements IHasNote.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property
     Public Property DefaultUnit() As Unit Implements IHasUnit.DefaultUnit      Get        If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryUnit)
-        End If        Return m_defaultUnit      End Get      Set(ByVal Value As Unit)        'm_defaultUnit = Value      End Set    End Property    Public Property MemoryUnit() As Unit Implements IHasUnit.MemoryUnit
+          'Return (New LCIItem(Me.Id).MemoryUnit)  
+            Return Me.GetLciitem(Me.Id).MemoryUnit
+          End If        Return m_defaultUnit      End Get      Set(ByVal Value As Unit)        'm_defaultUnit = Value      End Set    End Property    Public Property MemoryUnit() As Unit Implements IHasUnit.MemoryUnit
       Get
         Return Me.m_defaultUnit
       End Get
@@ -325,7 +379,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property CompareUnit1() As Unit
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryCompareUnit1)
+          'Return (New LCIItem(Me.Id).MemoryCompareUnit1)
+            Return Me.GetLciitem(Me.Id).MemoryCompareUnit1
         End If
         Return m_CompareUnit1
       End Get
@@ -344,7 +399,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property CompareUnit2() As Unit
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryCompareUnit2)
+          'Return (New LCIItem(Me.Id).MemoryCompareUnit2)
+            Return Me.GetLciitem(Me.Id).MemoryCompareUnit2
         End If
         Return m_CompareUnit2
       End Get
@@ -363,7 +419,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property CompareUnit3() As Unit
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryCompareUnit3)
+          'Return (New LCIItem(Me.Id).MemoryCompareUnit3)
+            Return Me.GetLciitem(Me.Id).MemoryCompareUnit3
         End If
         Return m_CompareUnit3
       End Get
@@ -382,7 +439,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ConversionUnit1() As Decimal
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryConversionUnit1)
+          'Return (New LCIItem(Me.Id).MemoryConversionUnit1)
+            Return Me.GetLciitem(Me.Id).MemoryConversionUnit1
         End If
         Return m_conversionUnit1
       End Get
@@ -401,7 +459,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ConversionUnit2() As Decimal
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryConversionUnit2)
+          'Return (New LCIItem(Me.Id).MemoryConversionUnit2)
+            Return Me.GetLciitem(Me.Id).MemoryConversionUnit2
         End If
         Return m_conversionUnit2
       End Get
@@ -420,7 +479,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ConversionUnit3() As Decimal
       Get
         If Me.Originated Then
-          Return (New LCIItem(Me.Id).MemoryConversionUnit3)
+          'Return (New LCIItem(Me.Id).MemoryConversionUnit3)
+            Return Me.GetLciitem(Me.Id).MemoryConversionUnit3
         End If
         Return m_conversionUnit3
       End Get
@@ -484,9 +544,160 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End Get
     End Property
-#End Region
+  #End Region
 
 #Region "Methods"
+    Public Shared Function GetSchemaTable() As DataTable
+      Dim myDatatable As New DataTable("lciitem")
+      myDatatable.Columns.Add(New DataColumn("lci_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_name", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_altName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_parid", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lciparent_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_level", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_path", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_control", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_lv1", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_lv2", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_lv3", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_lv4", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_lv5", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("lci_acct", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_unvatable", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_fairprice", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("lci_movingCost", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("lci_defaultunit", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_compareUnit1", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_compareUnit2", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_compareUnit3", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_unitConversion1", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("lci_unitConversion2", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("lci_unitConversion3", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("lci_shelflife", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("lci_note", GetType(String)))
+      Return myDatatable
+    End Function
+    Public Sub RefreshData(ByVal refresh As Boolean, ByVal ParamArray commandParameters() As SqlParameter)
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, Me.GetCollectionSproc, params)
+      If m_Lciitem Is Nothing OrElse refresh Then
+        'm_Lciitem = GetSchemaTable()
+        m_AllLciitem = New Hashtable
+        Dim key As String = ""
+
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString _
+      , CommandType.StoredProcedure _
+      , Me.GetCollectionSproc _
+      , commandParameters)
+        If ds.Tables(0).Rows.Count >= 1 Then
+          m_Lciitem = ds.Tables(0)
+
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim drh As New DataRowHelper(row)
+            key = CStr(drh.GetValue(Of Integer)("lci_id"))
+            m_AllLciitem(key) = row
+          Next
+        End If
+      End If
+    End Sub
+    Public Function GetLciitemFilter(ByVal level As Integer, ByVal parentId As Integer) As DataRow()
+      Dim drs As DataRow()
+      If m_Lciitem Is Nothing OrElse m_Lciitem.Rows.Count = 0 Then
+        Return drs
+      End If
+
+      If level = 1 Then
+        drs = m_Lciitem.Select("lci_level=1")
+      Else
+        drs = m_Lciitem.Select("lci_level=" & level.ToString & " and lci_parid=" & parentId.ToString)
+      End If
+
+      Return drs
+    End Function
+    Private Sub CountLciitemLv5(ByVal currentLciitemId As Integer)
+      Dim drs As DataRow()
+      Dim drs2 As DataRow()
+      Dim lv4Ids As String = ""
+      Dim countLci As Integer
+      drs = m_Lciitem.Select("lci_level=4 and lci_parid=" & currentLciitemId.ToString)
+      For i As Integer = 0 To drs.Length - 1
+        Dim dr As DataRow = drs(i)
+        If lv4Ids.Length > 0 Then
+          lv4Ids &= ","
+        End If
+
+        lv4Ids &= CStr(dr("lci_id"))
+        countLci += 1
+      Next
+      If lv4Ids.Length > 0 Then
+        drs2 = m_Lciitem.Select("lci_level=5 and lci_parid in (" & lv4Ids & ")")
+        countLci += drs2.Length
+      End If
+      CountCurrentLv4Lv5 = countLci
+    End Sub
+    'Public Function GetLciitemFilterLv5(ByVal lv4 As TreeBaseEntityCollection) As DataRow()
+    'Dim drs As DataRow()
+    'Dim idString As String = ""
+    'For Each lci As LCIItem In lv4
+    'If idString.Length > 0 Then
+    'idString &= ","
+    'End If
+    'idString &= lci.Id.ToString
+    'Next
+    'drs = m_LciitemLv5.Select("lci_parid in (" & idString & ")")
+
+    'Return drs
+    'End Function
+    Public Function GetLciitem(ByVal Id As Integer) As LCIItem
+      If Me.m_AllLciitem Is Nothing Then
+        Return New LCIItem(Id)
+      End If
+      Dim key As String = Id.ToString
+      Dim row As DataRow = CType(Me.m_AllLciitem(key), DataRow)
+      Dim lci As New LCIItem(row)
+
+      Return lci
+    End Function
+    'Private Function NewLciitem(ByVal row As DataRow) As LCIItem
+    'Dim lci As New LCIItem(row)
+    'Dim drh As New DataRowHelper(row)
+    'lci.Id = drh.GetValue(Of Integer)("lci_id")
+    'lci.Code = drh.GetValue(Of String)("lci_code")
+    'lci.Name = drh.GetValue(Of String)("lci_name")
+    'lci.AlternateName = drh.GetValue(Of String)("lci_altName")
+
+    'lci.Parent = New LCIItem(row)
+    'lci.Parent.Id = drh.GetValue(Of Integer)("lciparent_id")
+
+    'lci.Level = drh.GetValue(Of Integer)("lci_level")
+    'lci.Lv1 = drh.GetValue(Of String)("lci_lv1")
+    'lci.Lv2 = drh.GetValue(Of String)("lci_lv2")
+    'lci.Lv3 = drh.GetValue(Of String)("lci_lv3")
+    'lci.Lv4 = drh.GetValue(Of String)("lci_lv4")
+    'lci.Lv5 = drh.GetValue(Of String)("lci_lv5")
+    'lci.FairPrice = drh.GetValue(Of Decimal)("lci_fairprice")
+
+    'lci.DefaultUnit = New Unit
+    'lci.DefaultUnit.Id = drh.GetValue(Of Integer)("unit_id")
+    'lci.DefaultUnit.Code = drh.GetValue(Of String)("unit_code")
+    'lci.DefaultUnit.Name = drh.GetValue(Of String)("unit_name")
+
+    'lci.MemoryCompareUnit1 = New Unit
+    'lci.MemoryCompareUnit1.Id = drh.GetValue(Of Integer)("compareUnit1.unit_id")
+    'lci.MemoryCompareUnit1.Code = drh.GetValue(Of String)("compareUnit1.unit_code")
+    'lci.MemoryCompareUnit1.Name = drh.GetValue(Of String)("compareUnit1.unit_name")
+
+    'lci.MemoryCompareUnit2 = New Unit
+    'lci.MemoryCompareUnit2.Id = drh.GetValue(Of Integer)("compareUnit2.unit_id")
+    'lci.MemoryCompareUnit2.Code = drh.GetValue(Of String)("compareUnit2.unit_code")
+    'lci.MemoryCompareUnit2.Name = drh.GetValue(Of String)("compareUnit2.unit_name")
+
+    'lci.MemoryCompareUnit3 = New Unit
+    'lci.MemoryCompareUnit3.Id = drh.GetValue(Of Integer)("compareUnit3.unit_id")
+    'lci.MemoryCompareUnit3.Code = drh.GetValue(Of String)("compareUnit3.unit_code")
+    'lci.MemoryCompareUnit3.Name = drh.GetValue(Of String)("compareUnit3.unit_name")
+    'Return lci
+    'End Function
     Public Function CheckUnitBeforeSaving() As String
       Dim dt As DataTable = GetRefUnitTable()
       If dt Is Nothing Then
@@ -503,19 +714,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Level เดียวกัน
             lciToCompare = Me
           ElseIf theLevel = Me.Level - 1 Then
-            lciToCompare = New LCIItem(Me.Parent.Id)
+            'lciToCompare = New LCIItem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
           ElseIf theLevel = Me.Level - 2 Then
-            lciToCompare = New LCIItem(Me.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(Me.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 3 Then
-            lciToCompare = New LCIItem(Me.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(Me.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 4 Then
-            lciToCompare = New LCIItem(Me.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(Me.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           End If
           If Not row.IsNull("unit_id") Then
             Dim refUnit As New Unit(CInt(row("unit_id")))
@@ -744,447 +965,429 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       MessageBox.Show(Me.Name & ":" & unit.Name)
       Throw New NoConversionException(Me, unit)
-		End Function
-		Public Function GetChildCount() As Integer
-			Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-			ConnectionString _
-			, CommandType.StoredProcedure _
-			, "GetLCIChildCount" _
-			, New SqlParameter("@lci_id", Me.Id) _
-			)
-			Return CInt(ds.Tables(0).Rows(0)(0))
-		End Function
-		Public Overrides Function ToString() As String
-			Return Me.Code & " " & Me.Name
-		End Function
-		Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
-			If parId <> Id Then
-				Me.Parent = New LCIItem(parId)
-			Else
-				Me.Parent = Nothing
-			End If
-		End Sub
-		Public Overloads Overrides Sub SetParent(ByVal id As Integer, ByVal code As String, ByVal name As String)
-			Dim par As New LCIItem
-			par.Id = id
-			par.Code = code
-			par.Name = name
-			Me.Parent = par
-		End Sub
-		Public Function GetLCICollection(ByVal requiredLevel As Integer, ByVal parentId As Integer, ByVal ParamArray filters() As Filter) As TreeBaseEntityCollection
-			Dim params(filters.Length - 1 + 2) As SqlParameter
-			For i As Integer = 0 To filters.Length - 1
-				params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
-			Next
-			params(filters.Length) = New SqlParameter("@level", requiredLevel)
-			params(filters.Length + 1) = New SqlParameter("@parid", parentId)
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, Me.GetCollectionSproc, params)
-			Dim myCollection As New TreeBaseEntityCollection
-			For Each dr As DataRow In ds.Tables(0).Rows
-				Dim cancelled As Boolean = False
-				If Not dr.IsNull(Me.Prefix & "_canceled") AndAlso CBool(dr(Me.Prefix & "_canceled")) Then
-					cancelled = True
-				End If
-				If (Not cancelled) OrElse True Then				'เตรียมไว้ก่อน
-					Dim entity As New LCIItem
-					entity.Id = CInt(dr(Me.Prefix & "_id"))
-					entity.Code = CStr(dr(Me.Prefix & "_code"))
-					entity.Name = CStr(dr(Me.Prefix & "_name"))
-					If Not IsDBNull(dr(Me.Prefix & "_altname")) Then
-						entity.AlternateName = CStr(dr(Me.Prefix & "_altname"))
-					End If
-					entity.Level = CInt(dr(Me.Prefix & "_level"))
-					entity.Lv1 = CStr(dr(Me.Prefix & "_lv1"))
-					entity.Lv2 = CStr(dr(Me.Prefix & "_lv2"))
-					entity.Lv3 = CStr(dr(Me.Prefix & "_lv3"))
-					If Not IsDBNull(dr(Me.Prefix & "_lv4")) Then
-						entity.Lv4 = CStr(dr(Me.Prefix & "_lv4"))
-						If Not IsDBNull(dr(Me.Prefix & "_lv5")) Then
-							entity.Lv5 = CStr(dr(Me.Prefix & "_lv5"))
-						End If
-					End If
+    End Function
+    Public Function GetChildCount() As Integer
+      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+      ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetLCIChildCount" _
+      , New SqlParameter("@lci_id", Me.Id) _
+      )
+      Return CInt(ds.Tables(0).Rows(0)(0))
+    End Function
+    Public Overrides Function ToString() As String
+      Return Me.Code & " " & Me.Name
+    End Function
+    Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
+      If parId <> Id Then
+        Me.Parent = New LCIItem(parId)
+      Else
+        Me.Parent = Nothing
+      End If
+    End Sub
+    Public Overloads Overrides Sub SetParent(ByVal id As Integer, ByVal code As String, ByVal name As String)
+      Dim par As New LCIItem
+      par.Id = id
+      par.Code = code
+      par.Name = name
+      Me.Parent = par
+    End Sub
+    Public Function GetLCICollection(ByVal requiredLevel As Integer, ByVal parentId As Integer, ByVal refresh As Boolean, ByVal ParamArray filters() As Filter) As TreeBaseEntityCollection
+      Dim params(filters.Length - 1 + 2) As SqlParameter
+      For i As Integer = 0 To filters.Length - 1
+        params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+      Next
+      params(filters.Length) = New SqlParameter("@level", requiredLevel)
+      params(filters.Length + 1) = New SqlParameter("@parid", parentId)
 
-					Dim parid As Integer
-					Dim parCode As String
-					Dim parName As String
-					If dr.Table.Columns.Contains("parent." & Prefix & "_id") Then
-						If Not dr.IsNull("parent." & Prefix & "_id") Then
-							parid = CInt(dr("parent." & Prefix & "_id"))
-						End If
-					ElseIf dr.Table.Columns.Contains("parent_id") Then
-						If Not dr.IsNull("parent_id") Then
-							parid = CInt(dr("parent_id"))
-						End If
-					End If
-					If dr.Table.Columns.Contains("parent." & Prefix & "_code") Then
-						If Not dr.IsNull("parent." & Prefix & "_code") Then
-							parCode = CStr(dr("parent." & Prefix & "_code"))
-						End If
-					ElseIf dr.Table.Columns.Contains("parent_code") Then
-						If Not dr.IsNull("parent_code") Then
-							parCode = CStr(dr("parent_code"))
-						End If
-					End If
-					If dr.Table.Columns.Contains("parent." & Prefix & "_name") Then
-						If Not dr.IsNull("parent." & Prefix & "_name") Then
-							parName = CStr(dr("parent." & Prefix & "_name"))
-						End If
-					ElseIf dr.Table.Columns.Contains("parent_name") Then
-						If Not dr.IsNull("parent_name") Then
-							parName = CStr(dr("parent_name"))
-						End If
-					End If
-					entity.SetParent(parid, parCode, parName)
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, Me.GetCollectionSproc, params)
+      Me.RefreshData(refresh, params)
+      'Trace.Write(filtersString)
+      Dim drs As DataRow() = Me.GetLciitemFilter(requiredLevel, parentId)
 
-					If Not IsDBNull(dr(Me.Prefix & "_fairprice")) Then
-						entity.FairPrice = CDec(dr(Me.Prefix & "_fairprice"))
-					End If
-					If dr.Table.Columns.Contains("unit_id") Then
-						If Not dr.IsNull("unit_id") Then
-							entity.DefaultUnit = New Unit(dr, "")
-						End If
-					Else
-						If dr.Table.Columns.Contains(Me.Prefix & "_defaultUnit") AndAlso Not dr.IsNull(Me.Prefix & "_defaultUnit") Then
-							entity.DefaultUnit = New Unit(CInt(dr(Me.Prefix & "_defaultUnit")))
-						End If
-					End If
-					If dr.Table.Columns.Contains("compareUnit1.unit_id") Then
-						If Not dr.IsNull("compareUnit1.unit_id") Then
-							entity.CompareUnit1 = New Unit(dr, "compareUnit1.")
-						End If
-					Else
-						If dr.Table.Columns.Contains(Me.Prefix & "_compareUnit1") AndAlso Not dr.IsNull(Me.Prefix & "_compareUnit1") Then
-							entity.CompareUnit1 = New Unit(CInt(dr(Me.Prefix & "_compareUnit1")))
-						End If
-					End If
+      Dim myCollection As New TreeBaseEntityCollection
+      'For Each dr As DataRow In ds.Tables(0).Rows
+      'For Each row As DataRow In dt.Rows
+      'Dim lci As LCIItem = Me.NewLciitem(row)
+      'myCollection.Add(lci)
+      'Next
+      Dim key As String = ""
+      For i As Integer = 0 To drs.Length - 1
+        'Dim row As DataRow = drs(i)
+        Dim drh As New DataRowHelper(drs(i))
 
-					If dr.Table.Columns.Contains("compareUnit2.unit_id") Then
-						If Not dr.IsNull("compareUnit2.unit_id") Then
-							entity.CompareUnit2 = New Unit(dr, "compareUnit2.")
-						End If
-					Else
-						If dr.Table.Columns.Contains(Me.Prefix & "_compareUnit2") AndAlso Not dr.IsNull(Me.Prefix & "_compareUnit2") Then
-							entity.CompareUnit2 = New Unit(CInt(dr(Me.Prefix & "_compareUnit2")))
-						End If
-					End If
+        key = drh.GetValue(Of String)("lci_id")
+        'row = CType(Me.m_AllLciitem(key), DataRow)
+        Dim lci As New LCIItem(drs(i))
+        myCollection.Add(lci)
+      Next
 
-					If dr.Table.Columns.Contains("compareUnit3.unit_id") Then
-						If Not dr.IsNull("compareUnit3.unit_id") Then
-							entity.CompareUnit3 = New Unit(dr, "compareUnit3.")
-						End If
-					Else
-						If dr.Table.Columns.Contains(Me.Prefix & "_compareUnit3") AndAlso Not dr.IsNull(Me.Prefix & "_compareUnit3") Then
-							entity.CompareUnit3 = New Unit(CInt(dr(Me.Prefix & "_compareUnit3")))
-						End If
-					End If
+      Return myCollection
+    End Function
+    Private m_currentParenLciitem As LCIItem
+    Public Property CountCurrentLv4Lv5 As Integer
+    Public Property CurrentParentLciitem As LCIItem
+      Get
+        Return m_currentParenLciitem
+      End Get
+      Set(ByVal value As LCIItem)
+        m_currentParenLciitem = value
+        CountLciitemLv5(value.Id)
+      End Set
+    End Property
 
-					If Not IsDBNull(dr(Me.Prefix & "_unitconversion1")) Then
-						entity.ConversionUnit1 = CDec(dr(Me.Prefix & "_unitconversion1"))
-					End If
-					If Not IsDBNull(dr(Me.Prefix & "_unitconversion2")) Then
-						entity.ConversionUnit2 = CDec(dr(Me.Prefix & "_unitconversion2"))
-					End If
-					If Not IsDBNull(dr(Me.Prefix & "_unitconversion3")) Then
-						entity.ConversionUnit3 = CDec(dr(Me.Prefix & "_unitconversion3"))
-					End If
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
 
-					myCollection.Add(entity)
-				End If
-			Next
-			Return myCollection
-		End Function
-		Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-			With Me
-				Dim unitError As String = CheckUnitBeforeSaving()
-				If Not unitError Is Nothing AndAlso unitError.Length > 0 Then
-					Return New SaveErrorException(unitError)
-				End If
-				Dim parID As Object = 0
-				If Not Me.Parent Is Nothing AndAlso Me.Parent.Originated Then
-					parID = Me.Parent.Id
-				ElseIf Me.Originated Then
-					parID = Me.Id
-				Else
-					parID = DBNull.Value
-				End If
+      Dim parentItem As LCIItem = Me.CurrentParentLciitem
+      Dim drs As DataRow() = GetLciitemFilter(4, parentItem.Id)
+      Dim lciLv4Id As Integer
+      For i As Integer = 0 To drs.Length - 1
+        Dim drh As New DataRowHelper(drs(i))
+        Dim newRow As TreeRow = dt.Childs.Add()
+        newRow.State = RowExpandState.Expanded
+        newRow("Selected") = False
+        newRow("Code") = drh.GetValue(Of String)("lci_code")
+        newRow("Description") = drh.GetValue(Of String)("lci_name")
+        newRow.Tag = New LCIItem(drs(i))
 
-				Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-				returnVal.ParameterName = "RETURN_VALUE"
-				returnVal.DbType = DbType.Int32
-				returnVal.Direction = ParameterDirection.ReturnValue
-				returnVal.SourceVersion = DataRowVersion.Current
+        lciLv4Id = drh.GetValue(Of Integer)("lci_id")
+        Dim drs4 As DataRow() = GetLciitemFilter(5, lciLv4Id)
+        For j As Integer = 0 To drs4.Length - 1
 
-				Dim paramArrayList As New ArrayList
-				paramArrayList.Add(returnVal)
-				If .Originated Then
-					paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
-				End If
+          Dim drh5 As New DataRowHelper(drs4(j))
+          Dim newRow5 As TreeRow = newRow.Childs.Add()
+          newRow5.State = RowExpandState.None
+          newRow5("Selected") = False
+          newRow5("Code") = drh5.GetValue(Of String)("lci_code")
+          newRow5("Description") = drh5.GetValue(Of String)("lci_name")
 
-				Dim theTime As Date = Now
-				Dim theUser As New User(currentUserId)
+          newRow5("Unit") = drh5.GetValue(Of String)("unit_name")
+          If drh5.GetValue(Of Decimal)("lci_fairprice") <> 0 Then
+            newRow5("UnitPrice") = Configuration.FormatToString(drh5.GetValue(Of Decimal)("lci_fairprice"), DigitConfig.UnitPrice)
+          End If
 
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_altName", Me.AlternateName))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_parid", parID))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_level", Me.Level))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_path", Me.Path))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_control", Me.IsControlGroup))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv1", Me.Lv1))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv2", Me.Lv2))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv3", Me.Lv3))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv4", Me.Lv4))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv5", Me.Lv5))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acct", Me.Account.Id))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unvatable", Me.Unvatable))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fairprice", Me.FairPrice))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_defaultunit", Me.MemoryUnit.Id))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit1", Me.MemoryCompareUnit1.Id))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit2", Me.MemoryCompareUnit2.Id))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit3", Me.MemoryCompareUnit3.Id))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion1", Me.MemoryConversionUnit1))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion2", Me.MemoryConversionUnit2))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion3", Me.MemoryConversionUnit3))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_shelflife", Me.ShelfLife))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_pjmid", Me.PJMID))
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wbscode", Me.WBSCode))
+          newRow5("Unit1") = drh5.GetValue(Of String)("compareUnit1.unit_name")
+          If drh5.GetValue(Of Decimal)("lci_fairprice1") <> 0 Then
+            newRow5("UnitPrice1") = Configuration.FormatToString(drh5.GetValue(Of Decimal)("lci_fairprice1"), DigitConfig.UnitPrice)
+          End If
 
-				SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+          newRow5("Unit2") = drh5.GetValue(Of String)("compareUnit2.unit_name")
+          If drh5.GetValue(Of Decimal)("lci_fairprice2") <> 0 Then
+            newRow5("UnitPrice2") = Configuration.FormatToString(drh5.GetValue(Of Decimal)("lci_fairprice2"), DigitConfig.UnitPrice)
+          End If
 
-				' สร้าง SqlParameter จาก ArrayList ...
-				Dim sqlparams() As SqlParameter
-				sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-				Dim trans As SqlTransaction
-				Dim conn As New SqlConnection(Me.ConnectionString)
-				conn.Open()
-				trans = conn.BeginTransaction()
-				Try
-					Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-					If IsNumeric(returnVal.Value) Then
-						Select Case CInt(returnVal.Value)
-							Case -1, -2
-								trans.Rollback()
-								Return New SaveErrorException(returnVal.Value.ToString)
-							Case Else
-						End Select
-					ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-						trans.Rollback()
-						Return New SaveErrorException(returnVal.Value.ToString)
-					End If
+          newRow5("Unit3") = drh5.GetValue(Of String)("compareUnit3.unit_name")
+          If drh5.GetValue(Of Decimal)("lci_fairprice3") <> 0 Then
+            newRow5("UnitPrice3") = Configuration.FormatToString(drh5.GetValue(Of Decimal)("lci_fairprice3"), DigitConfig.UnitPrice)
+          End If
 
-					Dim saveSupplierError As SaveErrorException = Me.m_LCISupplierCostLink.Save(currentUserId, conn, trans)
-					If Not IsNumeric(saveSupplierError.Message) Then
-						trans.Rollback()
-						Return saveSupplierError
-					Else
-						Select Case CInt(saveSupplierError.Message)
-							Case -1, -2
-								trans.Rollback()
-								Return saveSupplierError
-							Case Else
-						End Select
-					End If
-					Dim saveLaborError As SaveErrorException = Me.m_LCILaborCostLink.Save(currentUserId, conn, trans)
-					If Not IsNumeric(saveLaborError.Message) Then
-						trans.Rollback()
-						Return saveLaborError
-					Else
-						Select Case CInt(saveLaborError.Message)
-							Case -1, -2
-								trans.Rollback()
-								Return saveLaborError
-							Case Else
-						End Select
-					End If
-					Dim saveEqError As SaveErrorException = Me.m_LCIEquipmentCostLink.Save(currentUserId, conn, trans)
-					If Not IsNumeric(saveEqError.Message) Then
-						trans.Rollback()
-						Return saveEqError
-					Else
-						Select Case CInt(saveEqError.Message)
-							Case -1, -2
-								trans.Rollback()
-								Return saveEqError
-							Case Else
-						End Select
-					End If
-					trans.Commit()
-					'Undone
-					'If Not Me.Image Is Nothing Then
-					' call update image 
-					SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
-					, "InsertLCIimage" _
-					, New SqlParameter("@lci_id", Me.Id) _
-					, New SqlParameter("@lci_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
-					'End If
-					Return New SaveErrorException(returnVal.Value.ToString)
-				Catch ex As SqlException
-					trans.Rollback()
-					Return New SaveErrorException(ex.ToString)
-				Catch ex As Exception
-					trans.Rollback()
-					Return New SaveErrorException(ex.ToString)
-				Finally
-					conn.Close()
-				End Try
+          newRow5.Tag = New LCIItem(drs4(j)) 'drs4(j)
 
-			End With
-		End Function
-		Public Shared Sub Import(ByVal dt As DataTable)
-			Dim lciArray As New ArrayList
-			Dim levelHash As New Hashtable
-			Dim currLevel As Integer = 1
-			Dim currLCI As LCIItem
-			Dim opbHash As New Hashtable
-			Dim i As Integer = 0
-			For Each row As DataRow In dt.Rows
-				If IsNumeric(row("Level")) Then
-					Dim newLevel As Integer = CInt(row("Level"))
-					Dim newLCI As LCIItem
-					Dim canAdd As Boolean = True
-					If newLevel = 1 Then					'มี root อีกอัน
-						newLCI = New LCIItem
-						newLCI.Parent = newLCI
-						newLCI.Level = 1
-					ElseIf newLevel = currLevel + 1 Then					'เป็นลูกอันก่อน
-						newLCI = New LCIItem(currLCI)
-					ElseIf newLevel = currLevel Then					'เป็นพี่น้อง
-						newLCI = New LCIItem(CType(currLCI.Parent, LCIItem))
-					ElseIf newLevel < currLevel Then					'เป็นพี่น้อง
-						If Not levelHash(newLevel - 1) Is Nothing Then
-							Dim parent As LCIItem = CType(levelHash(newLevel - 1), LCIItem)
-							newLCI = New LCIItem(parent)
-						Else
-							canAdd = False
-						End If
-					Else
-						canAdd = False
-					End If
-					If canAdd AndAlso Not newLCI Is Nothing Then
-						If dt.Columns.Contains("Lv1") AndAlso Not row.IsNull("Lv1") Then
-							newLCI.Lv1 = CStr(row("Lv1"))
-						End If
-						If dt.Columns.Contains("Lv2") AndAlso Not row.IsNull("Lv2") Then
-							newLCI.Lv2 = CStr(row("Lv2"))
-						End If
-						If dt.Columns.Contains("Lv3") AndAlso Not row.IsNull("Lv3") Then
-							newLCI.Lv3 = CStr(row("Lv3"))
-						End If
-						If newLCI.Level >= 4 Then
-							If dt.Columns.Contains("Lv4") AndAlso Not row.IsNull("Lv4") Then
-								newLCI.Lv4 = CStr(row("Lv4"))
-							End If
-							If newLCI.Level = 5 Then
-								If dt.Columns.Contains("Lv5") AndAlso Not row.IsNull("Lv5") Then
-									newLCI.Lv5 = CStr(row("Lv5"))
-								End If
-							End If
-						End If
-						Dim testLci As New LCIItem(newLCI.Code)
-						If testLci.Originated Then
-							newLCI = testLci
-						End If
-						If dt.Columns.Contains("Name") AndAlso Not row.IsNull("Name") Then
-							newLCI.Name = CStr(row("Name"))
-						End If
-						If dt.Columns.Contains("AltName") AndAlso Not row.IsNull("AltName") Then
-							newLCI.AlternateName = CStr(row("AltName"))
-						End If
-						If dt.Columns.Contains("Unit") AndAlso Not row.IsNull("Unit") Then
-							newLCI.MemoryUnit = New Unit(CStr(row("Unit")))
-						End If
+        Next
+      Next
 
-						If dt.Columns.Contains("Unit1") AndAlso Not row.IsNull("Unit1") Then
-							newLCI.MemoryCompareUnit1 = New Unit(CStr(row("Unit1")))
-							If newLCI.MemoryCompareUnit1.Originated Then
-								If dt.Columns.Contains("Conv1") AndAlso Not row.IsNull("Conv1") Then
-									newLCI.MemoryConversionUnit1 = CDec(row("Conv1"))
-								End If
-							End If
-						End If
-						If dt.Columns.Contains("Unit2") AndAlso Not row.IsNull("Unit2") Then
-							newLCI.MemoryCompareUnit2 = New Unit(CStr(row("Unit2")))
-							If newLCI.MemoryCompareUnit2.Originated Then
-								If dt.Columns.Contains("Conv2") AndAlso Not row.IsNull("Conv2") Then
-									newLCI.MemoryConversionUnit2 = CDec(row("Conv2"))
-								End If
-							End If
-						End If
-						If dt.Columns.Contains("Unit3") AndAlso Not row.IsNull("Unit3") Then
-							newLCI.MemoryCompareUnit3 = New Unit(CStr(row("Unit3")))
-							If newLCI.MemoryCompareUnit3.Originated Then
-								If dt.Columns.Contains("Conv3") AndAlso Not row.IsNull("Conv3") Then
-									newLCI.MemoryConversionUnit3 = CDec(row("Conv3"))
-								End If
-							End If
-						End If
+      'Dim l4coll As TreeBaseEntityCollection = Me.GetLCICollection(4, parentItem.Id, "")
+      'For Each lci As LCIItem In l4coll
+      'i += 1
+      'Dim newRow As TreeRow = dt.Childs.Add()
+      'lci.CopyToDataRow(newRow)
+      'lci.ItemValidateRow(newRow)
+      'newRow.Tag = lci
+      'Next
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      With Me
+        Dim unitError As String = CheckUnitBeforeSaving()
+        If Not unitError Is Nothing AndAlso unitError.Length > 0 Then
+          Return New SaveErrorException(unitError)
+        End If
+        Dim parID As Object = 0
+        If Not Me.Parent Is Nothing AndAlso Me.Parent.Originated Then
+          parID = Me.Parent.Id
+        ElseIf Me.Originated Then
+          parID = Me.Id
+        Else
+          parID = DBNull.Value
+        End If
 
-						If dt.Columns.Contains("FairPrice") AndAlso Not row.IsNull("FairPrice") Then
-							newLCI.FairPrice = CDec(row("FairPrice"))
-						End If
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
 
-						newLCI.Save(1)
-						currLCI = newLCI
-						currLevel = newLevel
-						levelHash(newLevel) = currLCI
+        Dim paramArrayList As New ArrayList
+        paramArrayList.Add(returnVal)
+        If .Originated Then
+          paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+        End If
 
-						If newLCI.Level = 5 Then
-							i += 1
-							If dt.Columns.Contains("CC") AndAlso Not row.IsNull("CC") Then
-								Dim cc As New CostCenter(CStr(row("CC")))
-								If Not cc.Originated Then
-									cc = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-								End If
-								If cc.Originated Then
-									Dim qty As Decimal = 0
-									If dt.Columns.Contains("Qty") AndAlso Not row.IsNull("Qty") Then
-										qty = CDec(row("Qty"))
-									End If
-									If qty <> 0 Then
-										Dim opb As MatOpenningBalance
-										If Not opbHash.Contains(cc.Id) Then
-											opb = New MatOpenningBalance
-											opb.ToCostCenter = cc
-											opb.DocDate = Now.Date
-											opb.Note = "AutoImport From Excel"
-											opbHash(cc.Id) = opb
-										Else
-											opb = CType(opbHash(cc.Id), MatOpenningBalance)
-										End If
-										Dim item As New MatOpenningBalanceItem
-										item.Entity = newLCI
-										item.Unit = newLCI.DefaultUnit
-										item.Conversion = 1
-										item.Qty = qty
-										item.UnitPrice = newLCI.FairPrice
-										opb.Add(item)
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
 
-									End If
-								End If
-							End If
-						End If
-					End If
-				End If
-			Next
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_altName", Me.AlternateName))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_parid", parID))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_level", Me.Level))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_path", Me.Path))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_control", Me.IsControlGroup))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv1", Me.Lv1))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv2", Me.Lv2))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv3", Me.Lv3))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv4", Me.Lv4))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lv5", Me.Lv5))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acct", Me.Account.Id))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unvatable", Me.Unvatable))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fairprice", Me.FairPrice))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_defaultunit", Me.MemoryUnit.Id))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit1", Me.MemoryCompareUnit1.Id))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit2", Me.MemoryCompareUnit2.Id))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_compareUnit3", Me.MemoryCompareUnit3.Id))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion1", Me.MemoryConversionUnit1))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion2", Me.MemoryConversionUnit2))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitConversion3", Me.MemoryConversionUnit3))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_shelflife", Me.ShelfLife))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_pjmid", Me.PJMID))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wbscode", Me.WBSCode))
 
-			For Each opb As MatOpenningBalance In opbHash.Values
-				opb.JournalEntry.RefDoc = opb
-				opb.JournalEntry.SetGLFormat(opb.GetDefaultGLFormat)
-				Dim s As SaveErrorException = opb.Save(1)
-				If Not IsNumeric(s.Message) OrElse CInt(s.Message) < 0 Then
-					MessageBox.Show(s.Message)
-				End If
-			Next
-			Dim trans As SqlTransaction
-			Dim conn As New SqlConnection(ConnectionString)
-			conn.Open()
-			trans = conn.BeginTransaction()
-			SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanLCI")
-			trans.Commit()
-			conn.Close()
-			conn = Nothing
-		End Sub
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        Dim trans As SqlTransaction
+        Dim conn As New SqlConnection(Me.ConnectionString)
+        conn.Open()
+        trans = conn.BeginTransaction()
+        Try
+          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1, -2
+                trans.Rollback()
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+
+          Dim saveSupplierError As SaveErrorException = Me.m_LCISupplierCostLink.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveSupplierError.Message) Then
+            trans.Rollback()
+            Return saveSupplierError
+          Else
+            Select Case CInt(saveSupplierError.Message)
+              Case -1, -2
+                trans.Rollback()
+                Return saveSupplierError
+              Case Else
+            End Select
+          End If
+          Dim saveLaborError As SaveErrorException = Me.m_LCILaborCostLink.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveLaborError.Message) Then
+            trans.Rollback()
+            Return saveLaborError
+          Else
+            Select Case CInt(saveLaborError.Message)
+              Case -1, -2
+                trans.Rollback()
+                Return saveLaborError
+              Case Else
+            End Select
+          End If
+          Dim saveEqError As SaveErrorException = Me.m_LCIEquipmentCostLink.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveEqError.Message) Then
+            trans.Rollback()
+            Return saveEqError
+          Else
+            Select Case CInt(saveEqError.Message)
+              Case -1, -2
+                trans.Rollback()
+                Return saveEqError
+              Case Else
+            End Select
+          End If
+          trans.Commit()
+          'Undone
+          'If Not Me.Image Is Nothing Then
+          ' call update image 
+          SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
+          , "InsertLCIimage" _
+          , New SqlParameter("@lci_id", Me.Id) _
+          , New SqlParameter("@lci_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+          'End If
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          trans.Rollback()
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          trans.Rollback()
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          conn.Close()
+        End Try
+
+      End With
+    End Function
+    Public Shared Sub Import(ByVal dt As DataTable)
+      Dim lciArray As New ArrayList
+      Dim levelHash As New Hashtable
+      Dim currLevel As Integer = 1
+      Dim currLCI As LCIItem
+      Dim opbHash As New Hashtable
+      Dim i As Integer = 0
+      For Each row As DataRow In dt.Rows
+        If IsNumeric(row("Level")) Then
+          Dim newLevel As Integer = CInt(row("Level"))
+          Dim newLCI As LCIItem
+          Dim canAdd As Boolean = True
+          If newLevel = 1 Then          'มี root อีกอัน
+            newLCI = New LCIItem
+            newLCI.Parent = newLCI
+            newLCI.Level = 1
+          ElseIf newLevel = currLevel + 1 Then          'เป็นลูกอันก่อน
+            newLCI = New LCIItem(currLCI)
+          ElseIf newLevel = currLevel Then          'เป็นพี่น้อง
+            newLCI = New LCIItem(CType(currLCI.Parent, LCIItem))
+          ElseIf newLevel < currLevel Then          'เป็นพี่น้อง
+            If Not levelHash(newLevel - 1) Is Nothing Then
+              Dim parent As LCIItem = CType(levelHash(newLevel - 1), LCIItem)
+              newLCI = New LCIItem(parent)
+            Else
+              canAdd = False
+            End If
+          Else
+            canAdd = False
+          End If
+          If canAdd AndAlso Not newLCI Is Nothing Then
+            If dt.Columns.Contains("Lv1") AndAlso Not row.IsNull("Lv1") Then
+              newLCI.Lv1 = CStr(row("Lv1"))
+            End If
+            If dt.Columns.Contains("Lv2") AndAlso Not row.IsNull("Lv2") Then
+              newLCI.Lv2 = CStr(row("Lv2"))
+            End If
+            If dt.Columns.Contains("Lv3") AndAlso Not row.IsNull("Lv3") Then
+              newLCI.Lv3 = CStr(row("Lv3"))
+            End If
+            If newLCI.Level >= 4 Then
+              If dt.Columns.Contains("Lv4") AndAlso Not row.IsNull("Lv4") Then
+                newLCI.Lv4 = CStr(row("Lv4"))
+              End If
+              If newLCI.Level = 5 Then
+                If dt.Columns.Contains("Lv5") AndAlso Not row.IsNull("Lv5") Then
+                  newLCI.Lv5 = CStr(row("Lv5"))
+                End If
+              End If
+            End If
+            Dim testLci As New LCIItem(newLCI.Code)
+            If testLci.Originated Then
+              newLCI = testLci
+            End If
+            If dt.Columns.Contains("Name") AndAlso Not row.IsNull("Name") Then
+              newLCI.Name = CStr(row("Name"))
+            End If
+            If dt.Columns.Contains("AltName") AndAlso Not row.IsNull("AltName") Then
+              newLCI.AlternateName = CStr(row("AltName"))
+            End If
+            If dt.Columns.Contains("Unit") AndAlso Not row.IsNull("Unit") Then
+              newLCI.MemoryUnit = New Unit(CStr(row("Unit")))
+            End If
+
+            If dt.Columns.Contains("Unit1") AndAlso Not row.IsNull("Unit1") Then
+              newLCI.MemoryCompareUnit1 = New Unit(CStr(row("Unit1")))
+              If newLCI.MemoryCompareUnit1.Originated Then
+                If dt.Columns.Contains("Conv1") AndAlso Not row.IsNull("Conv1") Then
+                  newLCI.MemoryConversionUnit1 = CDec(row("Conv1"))
+                End If
+              End If
+            End If
+            If dt.Columns.Contains("Unit2") AndAlso Not row.IsNull("Unit2") Then
+              newLCI.MemoryCompareUnit2 = New Unit(CStr(row("Unit2")))
+              If newLCI.MemoryCompareUnit2.Originated Then
+                If dt.Columns.Contains("Conv2") AndAlso Not row.IsNull("Conv2") Then
+                  newLCI.MemoryConversionUnit2 = CDec(row("Conv2"))
+                End If
+              End If
+            End If
+            If dt.Columns.Contains("Unit3") AndAlso Not row.IsNull("Unit3") Then
+              newLCI.MemoryCompareUnit3 = New Unit(CStr(row("Unit3")))
+              If newLCI.MemoryCompareUnit3.Originated Then
+                If dt.Columns.Contains("Conv3") AndAlso Not row.IsNull("Conv3") Then
+                  newLCI.MemoryConversionUnit3 = CDec(row("Conv3"))
+                End If
+              End If
+            End If
+
+            If dt.Columns.Contains("FairPrice") AndAlso Not row.IsNull("FairPrice") Then
+              newLCI.FairPrice = CDec(row("FairPrice"))
+            End If
+
+            newLCI.Save(1)
+            currLCI = newLCI
+            currLevel = newLevel
+            levelHash(newLevel) = currLCI
+
+            If newLCI.Level = 5 Then
+              i += 1
+              If dt.Columns.Contains("CC") AndAlso Not row.IsNull("CC") Then
+                Dim cc As New CostCenter(CStr(row("CC")))
+                If Not cc.Originated Then
+                  cc = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
+                If cc.Originated Then
+                  Dim qty As Decimal = 0
+                  If dt.Columns.Contains("Qty") AndAlso Not row.IsNull("Qty") Then
+                    qty = CDec(row("Qty"))
+                  End If
+                  If qty <> 0 Then
+                    Dim opb As MatOpenningBalance
+                    If Not opbHash.Contains(cc.Id) Then
+                      opb = New MatOpenningBalance
+                      opb.ToCostCenter = cc
+                      opb.DocDate = Now.Date
+                      opb.Note = "AutoImport From Excel"
+                      opbHash(cc.Id) = opb
+                    Else
+                      opb = CType(opbHash(cc.Id), MatOpenningBalance)
+                    End If
+                    Dim item As New MatOpenningBalanceItem
+                    item.Entity = newLCI
+                    item.Unit = newLCI.DefaultUnit
+                    item.Conversion = 1
+                    item.Qty = qty
+                    item.UnitPrice = newLCI.FairPrice
+                    opb.Add(item)
+
+                  End If
+                End If
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      For Each opb As MatOpenningBalance In opbHash.Values
+        opb.JournalEntry.RefDoc = opb
+        opb.JournalEntry.SetGLFormat(opb.GetDefaultGLFormat)
+        Dim s As SaveErrorException = opb.Save(1)
+        If Not IsNumeric(s.Message) OrElse CInt(s.Message) < 0 Then
+          MessageBox.Show(s.Message)
+        End If
+      Next
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanLCI")
+      trans.Commit()
+      conn.Close()
+      conn = Nothing
+    End Sub
 #End Region
 
 #Region "IHasImage"

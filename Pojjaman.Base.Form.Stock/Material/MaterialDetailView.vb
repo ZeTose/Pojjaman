@@ -1766,8 +1766,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						CType(Value, LCIItem).LoadCostLink()
 					End If
 				End If
-				Me.m_entity = Nothing
-				Me.m_entity = CType(Value, LCIItem)
+        Me.m_entity = Nothing
+
+        Me.m_entity = CType(Value, LCIItem)
+
 				'Hack:
 				Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
 				UpdateEntityProperties()

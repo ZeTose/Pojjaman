@@ -4022,6 +4022,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_targetType = doc.ItemType.Value
         Dim entities(1) As ISimpleEntity
         entities(0) = New LCIItem
+        'entities(0) = New Material
         entities(1) = New Tool
         Dim activeIndex As Integer = -1
         If Not doc.ItemType Is Nothing Then

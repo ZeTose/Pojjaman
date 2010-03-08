@@ -657,6 +657,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldBasket As BasketItemCollection
 
     Private m_mode As Selection = Selection.None
+    Private m_isInitialized As Boolean = False
 #End Region
 
 #Region "Properties"
@@ -690,11 +691,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Me.TitleName = Me.StringParserService.Parse(m_entity.ListPanelTitle)
       Me.PanelName = Me.Name
+      Dim dt As TreeTable = GetDataTable()
       Dim dst As DataGridTableStyle = CreateTableStyle()
-      m_treeManager = New TreeManager(GetDataTable(), tgItem)
+      m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
       m_treeManager.AllowSorting = False
       tgItem.AllowNew = False
+
+      AddHandler dt.RowChanging, AddressOf ItemTreetable_RowChanging
 
       m_filters = filters
 
@@ -800,6 +804,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not TypeOf Me.WorkbenchWindow.ActiveViewContent Is ISecondaryViewContent Then
           Me.WorkbenchWindow.SwitchView(1)
         Else
+          Dim lci As New LCIItem(Me.m_selectedEntity.Id)
           CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity = Me.m_selectedEntity
         End If
         Adding = False
@@ -807,6 +812,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub RefreshData(ByVal id As String) Implements ISimpleListPanel.RefreshData
+      'If Not m_isInitialized = False Then
+      'Return
+      'End If
       Dim selectedLci As LCIItem = CType(Me.SelectedEntity, LCIItem)
       If Not selectedLci Is Nothing Then
         Select Case selectedLci.Level
@@ -916,15 +924,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+      'If Not m_isInitialized = False Then
+      'Return
+      'End If
       Dim t As Date = Now
       FreezeSearchBox(True)
       ClearSelectedValue()
+      'Dim m_filterstring As String = Me.GetFilterString
       m_filters = Me.GetFilterArray
-      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(1, -1, m_filters)
+      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(1, -1, True, m_filters)
       Me.lvLevel1.Items.Clear()
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
-      Me.m_treeManager.Treetable.Rows.Clear()
+      'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel1.BeginUpdate()
       Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level1Loading}"), coll.Count)
@@ -938,7 +950,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel1.EndUpdate()
       Me.Cursor = Cursors.Default
       If Me.lvLevel1.Items.Count > 0 Then
-        Me.lvLevel1.Items(0).Selected = True
+        Try
+          Me.lvLevel1.Items(0).Selected = True
+        Catch ex As Exception
+          'หาสาเหตุมะเจอเลย hack ไว้แบบนี้ก่อนละกัน
+        End Try
       End If
     End Sub
     Private Sub Control_Focus(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvLevel1.GotFocus, lvLevel2.GotFocus _
@@ -948,6 +964,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     txtlv2.GotFocus, txtlv3.GotFocus, txtlv4.GotFocus, _
     txtlv5.GotFocus, txtMaxPrice.GotFocus, txtMinPrice.GotFocus, _
     txtName.GotFocus, btnClearAll.GotFocus, btnSearch.GotFocus
+      'If Not m_isInitialized = False Then
+      'Return
+      'End If
       Select Case CType(sender, Control).Name.ToLower
         Case "lvlevel1"
           If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel1 AndAlso lvLevel1.SelectedItems.Count > 0 Then
@@ -964,15 +983,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "tgitem"
           If Not Me.m_gridsetting Then
             If Not Me.m_treeManager.SelectedRow Is Nothing Then
-              Dim item As LCIItem = CType(CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow).Tag, LCIItem)
-              If item.Level = 4 Then
-                item.Parent = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
-              ElseIf item.Level = 5 Then
-                Dim parentItem As LCIItem = CType(CType(CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow).Parent, TreeRow).Tag, LCIItem)
-                item.Parent = parentItem
-              End If
-              If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.tgItem Then
-                SetSelectedValue(item)
+              If TypeOf Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber) Is TreeRow Then
+                Dim tr As TreeRow = CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow)
+                If TypeOf tr.Tag Is LCIItem Then
+                  Dim item As LCIItem = CType(tr.Tag, LCIItem)
+                  If item.Level = 4 Then
+                    item.Parent = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
+                  ElseIf item.Level = 5 Then
+                    Dim parentItem As LCIItem = CType(CType(CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow).Parent, TreeRow).Tag, LCIItem)
+                    item.Parent = parentItem
+                  End If
+                  If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.tgItem Then
+                    SetSelectedValue(item)
+                  End If
+                End If
               End If
             End If
           End If
@@ -999,10 +1023,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Application.DoEvents()
       Dim t As Date = Now
-      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(2, CType(lvLevel1.SelectedItems(0).Tag, LCIItem).Id, m_filters)
+      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(2, CType(lvLevel1.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
-      Me.m_treeManager.Treetable.Rows.Clear()
+      'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel2.BeginUpdate()
       Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level2Loading}"), coll.Count)
@@ -1017,7 +1041,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Cursor = Cursors.Default
       Control_Focus(lvLevel1, Nothing)
       If Me.lvLevel2.Items.Count > 0 Then
-        Me.lvLevel2.Items(0).Selected = True
+        Try
+          Me.lvLevel2.Items(0).Selected = True
+        Catch ex As Exception
+          'หาสาเหตุมะเจอเลย hack ไว้แบบนี้ก่อนละกัน
+        End Try
       End If
     End Sub
     Private Sub lvLevel2_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvLevel2.SelectedIndexChanged
@@ -1027,9 +1055,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Application.DoEvents()
       Dim t As Date = Now
-      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(3, CType(lvLevel2.SelectedItems(0).Tag, LCIItem).Id, m_filters)
+      Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(3, CType(lvLevel2.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel3.Items.Clear()
-      Me.m_treeManager.Treetable.Rows.Clear()
+      'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel3.BeginUpdate()
       Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level3Loading}"), coll.Count)
@@ -1044,7 +1072,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Cursor = Cursors.Default
       Control_Focus(lvLevel2, Nothing)
       If Me.lvLevel3.Items.Count > 0 Then
-        Me.lvLevel3.Items(0).Selected = True
+        Try
+          Me.lvLevel3.Items(0).Selected = True
+        Catch ex As Exception
+          'หาสาเหตุมะเจอเลย hack ไว้แบบนี้ก่อนละกัน
+        End Try
+      End If
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.Populate(m_treeManager.Treetable)
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.m_isInitialized = True
+    End Sub
+    Private Sub ItemTreetable_RowChanging(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+      'If Not m_isInitialized Then
+      'Return
+      'End If
+      If Me.m_treeManager Is Nothing Then
+        Return
+      End If
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim rowCount As Integer = Me.m_treeManager.Treetable.Rows.Count
+      If rowCount <= Me.m_entity.CountCurrentLv4Lv5 Then
+        Me.StatusBarService.ProgressMonitor.Worked(rowCount)
       End If
     End Sub
     Private m_gridsetting As Boolean = False
@@ -1053,69 +1107,86 @@ Namespace Longkong.Pojjaman.Gui.Panels
         ClearSelectedValue()
         Return
       End If
+
       Application.DoEvents()
-      Dim parentItem As LCIItem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
-      Dim dt As TreeTable = Me.GetDataTable
-      Dim l4coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(4, parentItem.Id, m_filters)
-      m_gridsetting = True
       Me.Cursor = Cursors.WaitCursor
-      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level5Loading}"), l4coll.Count)
-      Dim j As Integer = 0
-      For Each l4item As LCIItem In l4coll
-        Dim l4row As TreeRow = dt.Childs.Add()
-        l4row.State = RowExpandState.Expanded
-        l4row("Selected") = False
-        l4row("Code") = l4item.Code
-        l4row("Description") = l4item.Name
-        l4row.Tag = l4item
-        Dim l5coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(5, l4item.Id, m_filters)
-        Dim i As Integer = 0
-        Dim tmpLv5Item As LCIItem
-        For Each l5item As LCIItem In l5coll
-          Dim l5row As TreeRow = l4row.Childs.Add()
-          l5row.State = RowExpandState.None
-          l5row("Selected") = False
-          l5row("Code") = l5item.Code
-          l5row("Description") = l5item.Name
+      Me.m_gridsetting = True
+      Me.m_entity.CurrentParentLciitem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
 
-          l5row("Unit") = l5item.DefaultUnit.Name
-          If l5item.FairPrice <> 0 Then
-            l5row("UnitPrice") = Configuration.FormatToString(l5item.FairPrice, DigitConfig.UnitPrice)
-          End If
+      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level5Loading}"), Me.m_entity.CountCurrentLv4Lv5)
+      
+      RefreshDocs()
 
-          l5row("Unit1") = l5item.CompareUnit1.Name
-          If l5item.Price1 <> 0 Then
-            l5row("UnitPrice1") = Configuration.FormatToString(l5item.Price1, DigitConfig.UnitPrice)
-          End If
-
-          l5row("Unit2") = l5item.CompareUnit2.Name
-          If l5item.Price2 <> 0 Then
-            l5row("UnitPrice2") = Configuration.FormatToString(l5item.Price2, DigitConfig.UnitPrice)
-          End If
-
-          l5row("Unit3") = l5item.CompareUnit3.Name
-          If l5item.Price3 <> 0 Then
-            l5row("UnitPrice3") = Configuration.FormatToString(l5item.Price3, DigitConfig.UnitPrice)
-          End If
-
-          l5row.Tag = l5item
-          If i = l5coll.Count - 1 Then
-            tmpLv5Item = l5item
-          End If
-          i += 1
-        Next
-        'If Not tmpLv5Item Is Nothing Then
-        '    SetSelectedValue(tmpLv5Item)
-        'End If
-        j += 1
-        Me.StatusBarService.ProgressMonitor.Worked(j)
-      Next
-      Me.StatusBarService.ProgressMonitor.Done()
-      Me.m_treeManager.Treetable = dt
       Me.Cursor = Cursors.Default
+      Me.StatusBarService.ProgressMonitor.Done()
       Me.m_treeManager.Treegrid.RefreshHeights()
-      m_gridsetting = False
+      Me.m_gridsetting = False
       Control_Focus(lvLevel3, Nothing)
+      Return
+
+      'Application.DoEvents()
+      'Dim parentItem As LCIItem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
+      'Dim dt As TreeTable = Me.GetDataTable
+      'Dim l4coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(4, parentItem.Id, "")
+      'm_gridsetting = True
+      'Me.Cursor = Cursors.WaitCursor
+      'Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level5Loading}"), l4coll.Count)
+      'Dim j As Integer = 0
+      'For Each l4item As LCIItem In l4coll
+      'Dim l4row As TreeRow = dt.Childs.Add()
+      'l4row.State = RowExpandState.Expanded
+      'l4row("Selected") = False
+      'l4row("Code") = l4item.Code
+      'l4row("Description") = l4item.Name
+      'l4row.Tag = l4item
+      'Dim l5coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(5, l4item.Id, "")
+      'Dim i As Integer = 0
+      'Dim tmpLv5Item As LCIItem
+      'For Each l5item As LCIItem In l5coll
+      'Dim l5row As TreeRow = l4row.Childs.Add()
+      'l5row.State = RowExpandState.None
+      'l5row("Selected") = False
+      'l5row("Code") = l5item.Code
+      'l5row("Description") = l5item.Name
+
+      'l5row("Unit") = l5item.DefaultUnit.Name
+      'If l5item.FairPrice <> 0 Then
+      'l5row("UnitPrice") = Configuration.FormatToString(l5item.FairPrice, DigitConfig.UnitPrice)
+      'End If
+
+      'l5row("Unit1") = l5item.CompareUnit1.Name
+      'If l5item.Price1 <> 0 Then
+      'l5row("UnitPrice1") = Configuration.FormatToString(l5item.Price1, DigitConfig.UnitPrice)
+      'End If
+
+      'l5row("Unit2") = l5item.CompareUnit2.Name
+      'If l5item.Price2 <> 0 Then
+      'l5row("UnitPrice2") = Configuration.FormatToString(l5item.Price2, DigitConfig.UnitPrice)
+      'End If
+
+      'l5row("Unit3") = l5item.CompareUnit3.Name
+      'If l5item.Price3 <> 0 Then
+      'l5row("UnitPrice3") = Configuration.FormatToString(l5item.Price3, DigitConfig.UnitPrice)
+      'End If
+
+      'l5row.Tag = l5item
+      'If i = l5coll.Count - 1 Then
+      'tmpLv5Item = l5item
+      'End If
+      'i += 1
+      'Next
+      ''If Not tmpLv5Item Is Nothing Then
+      ''    SetSelectedValue(tmpLv5Item)
+      ''End If
+      'j += 1
+      'Me.StatusBarService.ProgressMonitor.Worked(j)
+      'Next
+      'Me.StatusBarService.ProgressMonitor.Done()
+      'Me.m_treeManager.Treetable = dt
+      'Me.Cursor = Cursors.Default
+      'Me.m_treeManager.Treegrid.RefreshHeights()
+      'm_gridsetting = False
+      'Control_Focus(lvLevel3, Nothing)
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAll.Click
       Select Case CType(sender, Button).Name.ToLower
@@ -1210,13 +1281,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(9) = New Filter("includecancel", Me.chkIncludeCancel.Checked)
       Return arr
     End Function
+    Private Function GetFilterString() As String
+      Dim filter As String = ""
+      If Me.txtFilterLv1.Text.Length > 0 Then
+        filter &= ConCatAnd(filter) & "lci_code='" & Me.txtFilterLv1.Text & "." & Me.txtFilterLv2.Text & "." & Me.txtFilterLv3.Text & "." & Me.txtFilterLv4.Text & "." & Me.txtFilterLv5.Text & "'"
+        filter &= "and lci_lv1 like '%" & Me.txtFilterLv1.Text & "%'"
+      End If
+      If Me.txtFilterName.Text.Length > 0 Then
+        filter &= ConCatAnd(filter) & "lci_name like '%" & Me.txtFilterName.Text & "%'"
+      End If
+      If Me.txtFilterAltName.Text.Length > 0 Then
+        filter &= ConCatAnd(filter) & "lci_altname like '%" & Me.txtFilterAltName.Text & "%'"
+      End If
+      If Me.txtMinPrice.Text.Length > 0 AndAlso IsNumeric(Me.txtMinPrice.Text) Then
+        filter &= ConCatAnd(filter) & "lci_fairprice>=" & Me.txtMinPrice.Text
+      End If
+      If Me.txtMaxPrice.Text.Length > 0 AndAlso IsNumeric(Me.txtMaxPrice.Text) Then
+        filter &= ConCatAnd(filter) & "lci_fairprice>=" & Me.txtMaxPrice.Text
+      End If
+      If Me.chkIncludeCancel.Checked Then
+        filter &= ConCatAnd(filter) & "lci_canceled=1"
+      End If
 
+      Return filter
+
+    End Function
+    Private Function ConCatAnd(ByVal filter As String) As String
+      If filter.Length > 0 Then
+        Return " and "
+      End If
+      Return ""
+    End Function
     Private Sub SetSelectedValue(ByVal lci As LCIItem)
       If lci Is Nothing Then
         Return
       End If
-      lci = New LCIItem(lci.Id)
-      lci.Parent = New LCIItem(lci.Parent.Id)
+      'lci = New LCIItem(lci.Id)
+      'lci.Parent = New LCIItem(lci.Parent.Id)
+      lci = Me.m_entity.GetLciitem(lci.Id)
+      lci.Parent = Me.m_entity.GetLciitem(lci.Parent.Id)
       Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
       If lci.Level = 5 Then
         StatusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
