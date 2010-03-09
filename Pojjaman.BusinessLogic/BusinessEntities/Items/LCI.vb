@@ -1212,6 +1212,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
+          , "InsertLciitemDepend" _
+          , New SqlParameter("@lci_id", Me.Id))
+
           trans.Commit()
           'Undone
           'If Not Me.Image Is Nothing Then

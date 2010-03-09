@@ -73,51 +73,50 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lvLevel2 As PJMListView
     Friend WithEvents chkIncludeCancel As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblAltName = New System.Windows.Forms.Label
-      Me.txtAltName = New System.Windows.Forms.TextBox
-      Me.txtlv5 = New System.Windows.Forms.TextBox
-      Me.txtlv4 = New System.Windows.Forms.TextBox
-      Me.txtlv3 = New System.Windows.Forms.TextBox
-      Me.txtlv2 = New System.Windows.Forms.TextBox
-      Me.txtlv1 = New System.Windows.Forms.TextBox
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblName = New System.Windows.Forms.Label
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblLevel4_5 = New System.Windows.Forms.Label
-      Me.lblLevel3 = New System.Windows.Forms.Label
-      Me.lblLevel2 = New System.Windows.Forms.Label
-      Me.lblLevel1 = New System.Windows.Forms.Label
-      Me.GroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.Label2 = New System.Windows.Forms.Label
-      Me.txtFilterAltName = New System.Windows.Forms.TextBox
-      Me.grpAmount = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.Label5 = New System.Windows.Forms.Label
-      Me.Label6 = New System.Windows.Forms.Label
-      Me.txtMinPrice = New System.Windows.Forms.TextBox
-      Me.txtMaxPrice = New System.Windows.Forms.TextBox
-      Me.Label7 = New System.Windows.Forms.Label
-      Me.Label8 = New System.Windows.Forms.Label
-      Me.txtFilterLv5 = New System.Windows.Forms.TextBox
-      Me.txtFilterLv4 = New System.Windows.Forms.TextBox
-      Me.txtFilterLv3 = New System.Windows.Forms.TextBox
-      Me.txtFilterLv2 = New System.Windows.Forms.TextBox
-      Me.txtFilterLv1 = New System.Windows.Forms.TextBox
-      Me.Label3 = New System.Windows.Forms.Label
-      Me.Label4 = New System.Windows.Forms.Label
-      Me.txtFilterName = New System.Windows.Forms.TextBox
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.btnClearAll = New System.Windows.Forms.Button
-      Me.lvLevel1 = New Longkong.Pojjaman.Gui.Components.PJMListView
-      Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-      Me.lvLevel2 = New Longkong.Pojjaman.Gui.Components.PJMListView
-      Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-      Me.lvLevel3 = New Longkong.Pojjaman.Gui.Components.PJMListView
-      Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-      Me.chkIncludeCancel = New System.Windows.Forms.CheckBox
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblAltName = New System.Windows.Forms.Label()
+      Me.txtAltName = New System.Windows.Forms.TextBox()
+      Me.txtlv5 = New System.Windows.Forms.TextBox()
+      Me.txtlv4 = New System.Windows.Forms.TextBox()
+      Me.txtlv3 = New System.Windows.Forms.TextBox()
+      Me.txtlv2 = New System.Windows.Forms.TextBox()
+      Me.txtlv1 = New System.Windows.Forms.TextBox()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblLevel4_5 = New System.Windows.Forms.Label()
+      Me.lblLevel3 = New System.Windows.Forms.Label()
+      Me.lblLevel2 = New System.Windows.Forms.Label()
+      Me.lblLevel1 = New System.Windows.Forms.Label()
+      Me.GroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkIncludeCancel = New System.Windows.Forms.CheckBox()
+      Me.Label2 = New System.Windows.Forms.Label()
+      Me.txtFilterAltName = New System.Windows.Forms.TextBox()
+      Me.grpAmount = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.Label5 = New System.Windows.Forms.Label()
+      Me.Label6 = New System.Windows.Forms.Label()
+      Me.txtMinPrice = New System.Windows.Forms.TextBox()
+      Me.txtMaxPrice = New System.Windows.Forms.TextBox()
+      Me.Label7 = New System.Windows.Forms.Label()
+      Me.Label8 = New System.Windows.Forms.Label()
+      Me.txtFilterLv5 = New System.Windows.Forms.TextBox()
+      Me.txtFilterLv4 = New System.Windows.Forms.TextBox()
+      Me.txtFilterLv3 = New System.Windows.Forms.TextBox()
+      Me.txtFilterLv2 = New System.Windows.Forms.TextBox()
+      Me.txtFilterLv1 = New System.Windows.Forms.TextBox()
+      Me.Label3 = New System.Windows.Forms.Label()
+      Me.Label4 = New System.Windows.Forms.Label()
+      Me.txtFilterName = New System.Windows.Forms.TextBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnClearAll = New System.Windows.Forms.Button()
+      Me.lvLevel1 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.lvLevel2 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.lvLevel3 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.grbDetail.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.GroupBox1.SuspendLayout()
       Me.grpAmount.SuspendLayout()
       Me.SuspendLayout()
@@ -137,9 +136,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Enabled = False
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbDetail.Location = New System.Drawing.Point(16, 8)
+      Me.grbDetail.Location = New System.Drawing.Point(9, 2)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(240, 96)
+      Me.grbDetail.Size = New System.Drawing.Size(243, 94)
       Me.grbDetail.TabIndex = 180
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียดวัสดุ"
@@ -147,9 +146,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblAltName
       '
       Me.lblAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAltName.Location = New System.Drawing.Point(8, 63)
+      Me.lblAltName.Location = New System.Drawing.Point(6, 63)
       Me.lblAltName.Name = "lblAltName"
-      Me.lblAltName.Size = New System.Drawing.Size(64, 24)
+      Me.lblAltName.Size = New System.Drawing.Size(79, 24)
       Me.lblAltName.TabIndex = 124
       Me.lblAltName.Text = "Other Name:"
       Me.lblAltName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -158,80 +157,74 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtAltName.BackColor = System.Drawing.SystemColors.Window
       Me.txtAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtAltName.Location = New System.Drawing.Point(80, 64)
+      Me.txtAltName.Location = New System.Drawing.Point(86, 64)
       Me.txtAltName.MaxLength = 200
       Me.txtAltName.Name = "txtAltName"
       Me.txtAltName.ReadOnly = True
       Me.txtAltName.Size = New System.Drawing.Size(152, 22)
       Me.txtAltName.TabIndex = 7
-      Me.txtAltName.Text = ""
       '
       'txtlv5
       '
       Me.txtlv5.BackColor = System.Drawing.SystemColors.Window
       Me.txtlv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv5.Location = New System.Drawing.Point(176, 16)
+      Me.txtlv5.Location = New System.Drawing.Point(182, 16)
       Me.txtlv5.MaxLength = 7
       Me.txtlv5.Name = "txtlv5"
       Me.txtlv5.ReadOnly = True
       Me.txtlv5.Size = New System.Drawing.Size(56, 23)
       Me.txtlv5.TabIndex = 4
-      Me.txtlv5.Text = ""
       '
       'txtlv4
       '
       Me.txtlv4.BackColor = System.Drawing.SystemColors.Window
       Me.txtlv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv4.Location = New System.Drawing.Point(152, 16)
+      Me.txtlv4.Location = New System.Drawing.Point(158, 16)
       Me.txtlv4.MaxLength = 2
       Me.txtlv4.Name = "txtlv4"
       Me.txtlv4.ReadOnly = True
       Me.txtlv4.Size = New System.Drawing.Size(24, 23)
       Me.txtlv4.TabIndex = 3
-      Me.txtlv4.Text = ""
       '
       'txtlv3
       '
       Me.txtlv3.BackColor = System.Drawing.SystemColors.Info
       Me.txtlv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv3.Location = New System.Drawing.Point(128, 16)
+      Me.txtlv3.Location = New System.Drawing.Point(134, 16)
       Me.txtlv3.MaxLength = 2
       Me.txtlv3.Name = "txtlv3"
       Me.txtlv3.ReadOnly = True
       Me.txtlv3.Size = New System.Drawing.Size(24, 23)
       Me.txtlv3.TabIndex = 2
-      Me.txtlv3.Text = ""
       '
       'txtlv2
       '
       Me.txtlv2.BackColor = System.Drawing.SystemColors.Info
       Me.txtlv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv2.Location = New System.Drawing.Point(104, 16)
+      Me.txtlv2.Location = New System.Drawing.Point(110, 16)
       Me.txtlv2.MaxLength = 2
       Me.txtlv2.Name = "txtlv2"
       Me.txtlv2.ReadOnly = True
       Me.txtlv2.Size = New System.Drawing.Size(24, 23)
       Me.txtlv2.TabIndex = 1
-      Me.txtlv2.Text = ""
       '
       'txtlv1
       '
       Me.txtlv1.BackColor = System.Drawing.SystemColors.Info
       Me.txtlv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv1.Location = New System.Drawing.Point(80, 16)
+      Me.txtlv1.Location = New System.Drawing.Point(86, 16)
       Me.txtlv1.MaxLength = 2
       Me.txtlv1.Name = "txtlv1"
       Me.txtlv1.ReadOnly = True
       Me.txtlv1.Size = New System.Drawing.Size(24, 23)
       Me.txtlv1.TabIndex = 0
-      Me.txtlv1.Text = ""
       '
       'lblCode
       '
       Me.lblCode.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCode.Location = New System.Drawing.Point(8, 16)
+      Me.lblCode.Location = New System.Drawing.Point(6, 16)
       Me.lblCode.Name = "lblCode"
-      Me.lblCode.Size = New System.Drawing.Size(64, 20)
+      Me.lblCode.Size = New System.Drawing.Size(79, 20)
       Me.lblCode.TabIndex = 123
       Me.lblCode.Text = "LCI Code:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -239,9 +232,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblName
       '
       Me.lblName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblName.Location = New System.Drawing.Point(8, 40)
+      Me.lblName.Location = New System.Drawing.Point(6, 40)
       Me.lblName.Name = "lblName"
-      Me.lblName.Size = New System.Drawing.Size(64, 20)
+      Me.lblName.Size = New System.Drawing.Size(79, 20)
       Me.lblName.TabIndex = 122
       Me.lblName.Text = "Name:"
       Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -250,13 +243,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtName.BackColor = System.Drawing.SystemColors.Window
       Me.txtName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtName.Location = New System.Drawing.Point(80, 40)
+      Me.txtName.Location = New System.Drawing.Point(86, 40)
       Me.txtName.MaxLength = 200
       Me.txtName.Name = "txtName"
       Me.txtName.ReadOnly = True
       Me.txtName.Size = New System.Drawing.Size(152, 22)
       Me.txtName.TabIndex = 6
-      Me.txtName.Text = ""
       '
       'tgItem
       '
@@ -271,9 +263,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 280)
+      Me.tgItem.Location = New System.Drawing.Point(8, 267)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(760, 256)
+      Me.tgItem.Size = New System.Drawing.Size(760, 270)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 190
       Me.tgItem.TreeManager = Nothing
@@ -282,9 +274,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel4_5.AutoSize = True
       Me.lblLevel4_5.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblLevel4_5.Location = New System.Drawing.Point(8, 264)
+      Me.lblLevel4_5.Location = New System.Drawing.Point(8, 253)
       Me.lblLevel4_5.Name = "lblLevel4_5"
-      Me.lblLevel4_5.Size = New System.Drawing.Size(70, 18)
+      Me.lblLevel4_5.Size = New System.Drawing.Size(70, 14)
       Me.lblLevel4_5.TabIndex = 189
       Me.lblLevel4_5.Text = "Material List"
       Me.lblLevel4_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -293,9 +285,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel3.AutoSize = True
       Me.lblLevel3.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel3.Location = New System.Drawing.Point(496, 104)
+      Me.lblLevel3.Location = New System.Drawing.Point(505, 94)
       Me.lblLevel3.Name = "lblLevel3"
-      Me.lblLevel3.Size = New System.Drawing.Size(49, 19)
+      Me.lblLevel3.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel3.TabIndex = 188
       Me.lblLevel3.Text = "Level3"
       Me.lblLevel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -304,9 +296,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel2.AutoSize = True
       Me.lblLevel2.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel2.Location = New System.Drawing.Point(256, 104)
+      Me.lblLevel2.Location = New System.Drawing.Point(256, 94)
       Me.lblLevel2.Name = "lblLevel2"
-      Me.lblLevel2.Size = New System.Drawing.Size(49, 19)
+      Me.lblLevel2.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel2.TabIndex = 187
       Me.lblLevel2.Text = "Level2"
       Me.lblLevel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -315,9 +307,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel1.AutoSize = True
       Me.lblLevel1.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblLevel1.Location = New System.Drawing.Point(16, 104)
+      Me.lblLevel1.Location = New System.Drawing.Point(12, 94)
       Me.lblLevel1.Name = "lblLevel1"
-      Me.lblLevel1.Size = New System.Drawing.Size(49, 19)
+      Me.lblLevel1.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel1.TabIndex = 186
       Me.lblLevel1.Text = "Level1"
       Me.lblLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -325,7 +317,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'GroupBox1
       '
       Me.GroupBox1.Controls.Add(Me.chkIncludeCancel)
-      Me.GroupBox1.Controls.Add(Me.Label2)
       Me.GroupBox1.Controls.Add(Me.txtFilterAltName)
       Me.GroupBox1.Controls.Add(Me.grpAmount)
       Me.GroupBox1.Controls.Add(Me.txtFilterLv5)
@@ -338,21 +329,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox1.Controls.Add(Me.txtFilterName)
       Me.GroupBox1.Controls.Add(Me.btnSearch)
       Me.GroupBox1.Controls.Add(Me.btnClearAll)
+      Me.GroupBox1.Controls.Add(Me.Label2)
       Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.GroupBox1.Location = New System.Drawing.Point(256, 8)
+      Me.GroupBox1.Location = New System.Drawing.Point(255, 2)
       Me.GroupBox1.Name = "GroupBox1"
-      Me.GroupBox1.Size = New System.Drawing.Size(512, 96)
+      Me.GroupBox1.Size = New System.Drawing.Size(513, 94)
       Me.GroupBox1.TabIndex = 180
       Me.GroupBox1.TabStop = False
       Me.GroupBox1.Text = "ค้นหาวัสดุ/หมวดวัสดุ"
       '
+      'chkIncludeCancel
+      '
+      Me.chkIncludeCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkIncludeCancel.Location = New System.Drawing.Point(434, 10)
+      Me.chkIncludeCancel.Name = "chkIncludeCancel"
+      Me.chkIncludeCancel.Size = New System.Drawing.Size(72, 24)
+      Me.chkIncludeCancel.TabIndex = 190
+      Me.chkIncludeCancel.TabStop = False
+      Me.chkIncludeCancel.Text = "รวมยกเลิก"
+      '
       'Label2
       '
       Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label2.Location = New System.Drawing.Point(8, 63)
+      Me.Label2.Location = New System.Drawing.Point(4, 63)
       Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(64, 24)
+      Me.Label2.Size = New System.Drawing.Size(79, 24)
       Me.Label2.TabIndex = 124
       Me.Label2.Text = "Other Name:"
       Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -361,12 +363,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtFilterAltName.BackColor = System.Drawing.SystemColors.Window
       Me.txtFilterAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterAltName.Location = New System.Drawing.Point(72, 64)
+      Me.txtFilterAltName.Location = New System.Drawing.Point(81, 64)
       Me.txtFilterAltName.MaxLength = 200
       Me.txtFilterAltName.Name = "txtFilterAltName"
       Me.txtFilterAltName.Size = New System.Drawing.Size(152, 22)
       Me.txtFilterAltName.TabIndex = 6
-      Me.txtFilterAltName.Text = ""
       '
       'grpAmount
       '
@@ -377,9 +378,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grpAmount.Controls.Add(Me.Label7)
       Me.grpAmount.Controls.Add(Me.Label8)
       Me.grpAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grpAmount.Location = New System.Drawing.Point(224, 8)
+      Me.grpAmount.Location = New System.Drawing.Point(235, 8)
       Me.grpAmount.Name = "grpAmount"
-      Me.grpAmount.Size = New System.Drawing.Size(200, 72)
+      Me.grpAmount.Size = New System.Drawing.Size(195, 78)
       Me.grpAmount.TabIndex = 189
       Me.grpAmount.TabStop = False
       Me.grpAmount.Text = "ราคา"
@@ -388,9 +389,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label5.ForeColor = System.Drawing.Color.Black
-      Me.Label5.Location = New System.Drawing.Point(8, 18)
+      Me.Label5.Location = New System.Drawing.Point(6, 18)
       Me.Label5.Name = "Label5"
-      Me.Label5.Size = New System.Drawing.Size(32, 18)
+      Me.Label5.Size = New System.Drawing.Size(48, 18)
       Me.Label5.TabIndex = 11
       Me.Label5.Text = "From"
       Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -399,9 +400,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Label6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label6.ForeColor = System.Drawing.Color.Black
-      Me.Label6.Location = New System.Drawing.Point(16, 42)
+      Me.Label6.Location = New System.Drawing.Point(6, 42)
       Me.Label6.Name = "Label6"
-      Me.Label6.Size = New System.Drawing.Size(24, 18)
+      Me.Label6.Size = New System.Drawing.Size(48, 18)
       Me.Label6.TabIndex = 11
       Me.Label6.Text = "To"
       Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -413,7 +414,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtMinPrice.Name = "txtMinPrice"
       Me.txtMinPrice.Size = New System.Drawing.Size(80, 22)
       Me.txtMinPrice.TabIndex = 187
-      Me.txtMinPrice.Text = ""
       '
       'txtMaxPrice
       '
@@ -422,7 +422,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtMaxPrice.Name = "txtMaxPrice"
       Me.txtMaxPrice.Size = New System.Drawing.Size(80, 22)
       Me.txtMaxPrice.TabIndex = 187
-      Me.txtMaxPrice.Text = ""
       '
       'Label7
       '
@@ -450,63 +449,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtFilterLv5.BackColor = System.Drawing.SystemColors.Window
       Me.txtFilterLv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv5.Location = New System.Drawing.Point(168, 16)
+      Me.txtFilterLv5.Location = New System.Drawing.Point(177, 16)
       Me.txtFilterLv5.MaxLength = 7
       Me.txtFilterLv5.Name = "txtFilterLv5"
       Me.txtFilterLv5.Size = New System.Drawing.Size(56, 23)
       Me.txtFilterLv5.TabIndex = 4
-      Me.txtFilterLv5.Text = ""
       '
       'txtFilterLv4
       '
       Me.txtFilterLv4.BackColor = System.Drawing.SystemColors.Window
       Me.txtFilterLv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv4.Location = New System.Drawing.Point(144, 16)
+      Me.txtFilterLv4.Location = New System.Drawing.Point(153, 16)
       Me.txtFilterLv4.MaxLength = 2
       Me.txtFilterLv4.Name = "txtFilterLv4"
       Me.txtFilterLv4.Size = New System.Drawing.Size(24, 23)
       Me.txtFilterLv4.TabIndex = 3
-      Me.txtFilterLv4.Text = ""
       '
       'txtFilterLv3
       '
       Me.txtFilterLv3.BackColor = System.Drawing.SystemColors.Info
       Me.txtFilterLv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv3.Location = New System.Drawing.Point(120, 16)
+      Me.txtFilterLv3.Location = New System.Drawing.Point(129, 16)
       Me.txtFilterLv3.MaxLength = 2
       Me.txtFilterLv3.Name = "txtFilterLv3"
       Me.txtFilterLv3.Size = New System.Drawing.Size(24, 23)
       Me.txtFilterLv3.TabIndex = 2
-      Me.txtFilterLv3.Text = ""
       '
       'txtFilterLv2
       '
       Me.txtFilterLv2.BackColor = System.Drawing.SystemColors.Info
       Me.txtFilterLv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv2.Location = New System.Drawing.Point(96, 16)
+      Me.txtFilterLv2.Location = New System.Drawing.Point(105, 16)
       Me.txtFilterLv2.MaxLength = 2
       Me.txtFilterLv2.Name = "txtFilterLv2"
       Me.txtFilterLv2.Size = New System.Drawing.Size(24, 23)
       Me.txtFilterLv2.TabIndex = 1
-      Me.txtFilterLv2.Text = ""
       '
       'txtFilterLv1
       '
       Me.txtFilterLv1.BackColor = System.Drawing.SystemColors.Info
       Me.txtFilterLv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv1.Location = New System.Drawing.Point(72, 16)
+      Me.txtFilterLv1.Location = New System.Drawing.Point(81, 16)
       Me.txtFilterLv1.MaxLength = 2
       Me.txtFilterLv1.Name = "txtFilterLv1"
       Me.txtFilterLv1.Size = New System.Drawing.Size(24, 23)
       Me.txtFilterLv1.TabIndex = 0
-      Me.txtFilterLv1.Text = ""
       '
       'Label3
       '
       Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label3.Location = New System.Drawing.Point(8, 16)
+      Me.Label3.Location = New System.Drawing.Point(4, 16)
       Me.Label3.Name = "Label3"
-      Me.Label3.Size = New System.Drawing.Size(64, 20)
+      Me.Label3.Size = New System.Drawing.Size(79, 20)
       Me.Label3.TabIndex = 123
       Me.Label3.Text = "LCI Code:"
       Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -514,9 +508,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Label4
       '
       Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label4.Location = New System.Drawing.Point(8, 40)
+      Me.Label4.Location = New System.Drawing.Point(4, 40)
       Me.Label4.Name = "Label4"
-      Me.Label4.Size = New System.Drawing.Size(64, 20)
+      Me.Label4.Size = New System.Drawing.Size(79, 20)
       Me.Label4.TabIndex = 122
       Me.Label4.Text = "Name:"
       Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -525,18 +519,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtFilterName.BackColor = System.Drawing.SystemColors.Window
       Me.txtFilterName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterName.Location = New System.Drawing.Point(72, 40)
+      Me.txtFilterName.Location = New System.Drawing.Point(81, 40)
       Me.txtFilterName.MaxLength = 200
       Me.txtFilterName.Name = "txtFilterName"
       Me.txtFilterName.Size = New System.Drawing.Size(152, 22)
       Me.txtFilterName.TabIndex = 5
-      Me.txtFilterName.Text = ""
       '
       'btnSearch
       '
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSearch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnSearch.Location = New System.Drawing.Point(440, 32)
+      Me.btnSearch.Location = New System.Drawing.Point(432, 34)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(64, 24)
       Me.btnSearch.TabIndex = 184
@@ -546,7 +539,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnClearAll.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnClearAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearAll.Location = New System.Drawing.Point(440, 56)
+      Me.btnClearAll.Location = New System.Drawing.Point(432, 62)
       Me.btnClearAll.Name = "btnClearAll"
       Me.btnClearAll.Size = New System.Drawing.Size(64, 24)
       Me.btnClearAll.TabIndex = 184
@@ -558,12 +551,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
       Me.lvLevel1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel1.HideSelection = False
-      Me.lvLevel1.Location = New System.Drawing.Point(16, 120)
+      Me.lvLevel1.Location = New System.Drawing.Point(8, 109)
       Me.lvLevel1.Name = "lvLevel1"
-      Me.lvLevel1.Size = New System.Drawing.Size(240, 144)
+      Me.lvLevel1.Size = New System.Drawing.Size(249, 144)
       Me.lvLevel1.SortIndex = -1
       Me.lvLevel1.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvLevel1.TabIndex = 192
+      Me.lvLevel1.UseCompatibleStateImageBehavior = False
       Me.lvLevel1.View = System.Windows.Forms.View.Details
       '
       'ColumnHeader1
@@ -577,12 +571,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
       Me.lvLevel2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel2.HideSelection = False
-      Me.lvLevel2.Location = New System.Drawing.Point(256, 120)
+      Me.lvLevel2.Location = New System.Drawing.Point(257, 109)
       Me.lvLevel2.Name = "lvLevel2"
-      Me.lvLevel2.Size = New System.Drawing.Size(240, 144)
+      Me.lvLevel2.Size = New System.Drawing.Size(249, 144)
       Me.lvLevel2.SortIndex = -1
       Me.lvLevel2.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvLevel2.TabIndex = 192
+      Me.lvLevel2.UseCompatibleStateImageBehavior = False
       Me.lvLevel2.View = System.Windows.Forms.View.Details
       '
       'ColumnHeader2
@@ -596,28 +591,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel3.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
       Me.lvLevel3.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel3.HideSelection = False
-      Me.lvLevel3.Location = New System.Drawing.Point(496, 120)
+      Me.lvLevel3.Location = New System.Drawing.Point(506, 109)
       Me.lvLevel3.Name = "lvLevel3"
-      Me.lvLevel3.Size = New System.Drawing.Size(264, 144)
+      Me.lvLevel3.Size = New System.Drawing.Size(260, 144)
       Me.lvLevel3.SortIndex = -1
       Me.lvLevel3.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvLevel3.TabIndex = 192
+      Me.lvLevel3.UseCompatibleStateImageBehavior = False
       Me.lvLevel3.View = System.Windows.Forms.View.Details
       '
       'ColumnHeader3
       '
       Me.ColumnHeader3.Text = "Items"
       Me.ColumnHeader3.Width = 222
-      '
-      'chkIncludeCancel
-      '
-      Me.chkIncludeCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCancel.Location = New System.Drawing.Point(432, 8)
-      Me.chkIncludeCancel.Name = "chkIncludeCancel"
-      Me.chkIncludeCancel.Size = New System.Drawing.Size(72, 24)
-      Me.chkIncludeCancel.TabIndex = 190
-      Me.chkIncludeCancel.TabStop = False
-      Me.chkIncludeCancel.Text = "รวมยกเลิก"
       '
       'LCIListViewPanelView
       '
@@ -627,18 +613,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbDetail)
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.lblLevel4_5)
+      Me.Controls.Add(Me.GroupBox1)
       Me.Controls.Add(Me.lblLevel3)
       Me.Controls.Add(Me.lblLevel2)
       Me.Controls.Add(Me.lblLevel1)
-      Me.Controls.Add(Me.GroupBox1)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "LCIListViewPanelView"
       Me.Size = New System.Drawing.Size(776, 544)
       Me.grbDetail.ResumeLayout(False)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.grbDetail.PerformLayout()
       Me.GroupBox1.ResumeLayout(False)
+      Me.GroupBox1.PerformLayout()
       Me.grpAmount.ResumeLayout(False)
+      Me.grpAmount.PerformLayout()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -804,7 +793,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not TypeOf Me.WorkbenchWindow.ActiveViewContent Is ISecondaryViewContent Then
           Me.WorkbenchWindow.SwitchView(1)
         Else
-          Dim lci As New LCIItem(Me.m_selectedEntity.Id)
           CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity = Me.m_selectedEntity
         End If
         Adding = False
@@ -856,6 +844,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Property SelectedEntity() As BusinessLogic.ISimpleEntity Implements ISimpleListPanel.SelectedEntity
       Get
+        'Hack: pui
+        Dim newLci As LCIItem
+        If Not m_selectedEntity Is Nothing Then
+          newLci = New LCIItem(m_selectedEntity.Id)
+          m_selectedEntity = newLci
+        End If
+
         Return m_selectedEntity
       End Get
       Set(ByVal Value As BusinessLogic.ISimpleEntity)
@@ -967,54 +962,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If Not m_isInitialized = False Then
       'Return
       'End If
-      Select Case CType(sender, Control).Name.ToLower
-        Case "lvlevel1"
-          If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel1 AndAlso lvLevel1.SelectedItems.Count > 0 Then
-            SetSelectedValue(CType(lvLevel1.SelectedItems(0).Tag, LCIItem))
-          End If
-        Case "lvlevel2"
-          If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel2 AndAlso lvLevel2.SelectedItems.Count > 0 Then
-            SetSelectedValue(CType(lvLevel2.SelectedItems(0).Tag, LCIItem))
-          End If
-        Case "lvlevel3"
-          If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel3 AndAlso lvLevel3.SelectedItems.Count > 0 Then
-            SetSelectedValue(CType(lvLevel3.SelectedItems(0).Tag, LCIItem))
-          End If
-        Case "tgitem"
-          If Not Me.m_gridsetting Then
-            If Not Me.m_treeManager.SelectedRow Is Nothing Then
-              If TypeOf Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber) Is TreeRow Then
-                Dim tr As TreeRow = CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow)
-                If TypeOf tr.Tag Is LCIItem Then
-                  Dim item As LCIItem = CType(tr.Tag, LCIItem)
-                  If item.Level = 4 Then
-                    item.Parent = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
-                  ElseIf item.Level = 5 Then
-                    Dim parentItem As LCIItem = CType(CType(CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow).Parent, TreeRow).Tag, LCIItem)
-                    item.Parent = parentItem
-                  End If
-                  If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.tgItem Then
-                    SetSelectedValue(item)
+      Try
+
+        Select Case CType(sender, Control).Name.ToLower
+          Case "lvlevel1"
+            If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel1 AndAlso lvLevel1.SelectedItems.Count > 0 Then
+              SetSelectedValue(CType(lvLevel1.SelectedItems(0).Tag, LCIItem))
+            End If
+          Case "lvlevel2"
+            If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel2 AndAlso lvLevel2.SelectedItems.Count > 0 Then
+              SetSelectedValue(CType(lvLevel2.SelectedItems(0).Tag, LCIItem))
+            End If
+          Case "lvlevel3"
+            If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.lvLevel3 AndAlso lvLevel3.SelectedItems.Count > 0 Then
+              SetSelectedValue(CType(lvLevel3.SelectedItems(0).Tag, LCIItem))
+            End If
+          Case "tgitem"
+            If Not Me.m_gridsetting Then
+              If Not Me.m_treeManager.SelectedRow Is Nothing Then
+                If TypeOf Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber) Is TreeRow Then
+                  Dim tr As TreeRow = CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow)
+                  If TypeOf tr.Tag Is LCIItem Then
+                    Dim item As LCIItem = CType(tr.Tag, LCIItem)
+                    If item.Level = 4 Then
+                      item.Parent = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
+                    ElseIf item.Level = 5 Then
+                      Dim parentItem As LCIItem = CType(CType(CType(Me.m_treeManager.Treetable.Rows(tgItem.CurrentCell.RowNumber), TreeRow).Parent, TreeRow).Tag, LCIItem)
+                      item.Parent = parentItem
+                    End If
+                    If Not Me.ActiveControl Is Nothing AndAlso Me.ActiveControl Is Me.tgItem Then
+                      SetSelectedValue(item)
+                    End If
                   End If
                 End If
               End If
             End If
-          End If
-        Case Me.txtAltName.Name.ToLower, Me.txtFilterAltName.Name.ToLower, Me.txtFilterLv1.Name.ToLower, _
-        Me.txtFilterLv2.Name.ToLower, Me.txtFilterLv3.Name.ToLower, Me.txtFilterLv4.Name.ToLower, _
-        Me.txtFilterLv5.Name.ToLower, Me.txtFilterName.Name.ToLower, Me.txtlv1.Name.ToLower, _
-        Me.txtlv2.Name.ToLower, Me.txtlv3.Name.ToLower, Me.txtlv4.Name.ToLower, _
-        Me.txtlv5.Name.ToLower, Me.txtMaxPrice.Name.ToLower, Me.txtMinPrice.Name.ToLower, _
-        Me.txtName.Name.ToLower, Me.btnClearAll.Name.ToLower, Me.btnSearch.Name.ToLower
-          If Me.ActiveControl Is Nothing Then
-            ClearSelectedValue()
-          ElseIf Not Me.ActiveControl Is lvLevel1 And _
-          Not Me.ActiveControl Is lvLevel2 And _
-          Not Me.ActiveControl Is lvLevel3 And _
-          Not Me.ActiveControl Is tgItem Then
-            ClearSelectedValue()
-          End If
-      End Select
+          Case Me.txtAltName.Name.ToLower, Me.txtFilterAltName.Name.ToLower, Me.txtFilterLv1.Name.ToLower, _
+          Me.txtFilterLv2.Name.ToLower, Me.txtFilterLv3.Name.ToLower, Me.txtFilterLv4.Name.ToLower, _
+          Me.txtFilterLv5.Name.ToLower, Me.txtFilterName.Name.ToLower, Me.txtlv1.Name.ToLower, _
+          Me.txtlv2.Name.ToLower, Me.txtlv3.Name.ToLower, Me.txtlv4.Name.ToLower, _
+          Me.txtlv5.Name.ToLower, Me.txtMaxPrice.Name.ToLower, Me.txtMinPrice.Name.ToLower, _
+          Me.txtName.Name.ToLower, Me.btnClearAll.Name.ToLower, Me.btnSearch.Name.ToLower
+            If Me.ActiveControl Is Nothing Then
+              ClearSelectedValue()
+            ElseIf Not Me.ActiveControl Is lvLevel1 And _
+            Not Me.ActiveControl Is lvLevel2 And _
+            Not Me.ActiveControl Is lvLevel3 And _
+            Not Me.ActiveControl Is tgItem Then
+              ClearSelectedValue()
+            End If
+        End Select
+      Catch ex As Exception
+        'หาสาเหตุมะเจอเลย hack ไว้แบบนี้ก่อนละกัน
+      End Try
     End Sub
     Private Sub lvLevel1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvLevel1.SelectedIndexChanged
       If lvLevel1.SelectedItems.Count = 0 Then
@@ -1208,6 +1208,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtFilterLv5.Text = ""
           Me.txtFilterAltName.Text = ""
           Me.txtFilterName.Text = ""
+
+          Me.txtMinPrice.Text = ""
+          Me.txtMaxPrice.Text = ""
+
+          Me.m_selectedEntity = Nothing
+          Me.lvLevel1.Items.Clear()
+          Me.lvLevel2.Items.Clear()
+          Me.lvLevel3.Items.Clear()
+          Me.m_treeManager.Treetable.Clear()
       End Select
     End Sub
 
