@@ -1019,6 +1019,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(2, CType(lvLevel1.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
+      Me.m_treeManager.Treetable.Clear()
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel2.BeginUpdate()
@@ -1050,6 +1051,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim t As Date = Now
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(3, CType(lvLevel2.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel3.Items.Clear()
+      Me.m_treeManager.Treetable.Clear()
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel3.BeginUpdate()
@@ -1070,28 +1072,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Catch ex As Exception
           'หาสาเหตุมะเจอเลย hack ไว้แบบนี้ก่อนละกัน
         End Try
-      End If
-    End Sub
-    Private Sub RefreshDocs()
-      Me.m_isInitialized = False
-      Me.m_entity.Populate(m_treeManager.Treetable)
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.m_isInitialized = True
-    End Sub
-    Private Sub ItemTreetable_RowChanging(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-      'If Not m_isInitialized Then
-      'Return
-      'End If
-      If Me.m_treeManager Is Nothing Then
-        Return
-      End If
-      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim rowCount As Integer = Me.m_treeManager.Treetable.Rows.Count
-      If rowCount <= Me.m_entity.CountCurrentLv4Lv5 Then
-        Me.StatusBarService.ProgressMonitor.Worked(rowCount)
       End If
     End Sub
     Private m_gridsetting As Boolean = False
@@ -1184,6 +1164,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_treeManager.Treegrid.RefreshHeights()
       'm_gridsetting = False
       'Control_Focus(lvLevel3, Nothing)
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.Populate(m_treeManager.Treetable)
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.m_isInitialized = True
+    End Sub
+    Private Sub ItemTreetable_RowChanging(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+      'If Not m_isInitialized Then
+      'Return
+      'End If
+      If Me.m_treeManager Is Nothing Then
+        Return
+      End If
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim rowCount As Integer = Me.m_treeManager.Treetable.Rows.Count
+      If rowCount <= Me.m_entity.CountCurrentLv4Lv5 Then
+        Me.StatusBarService.ProgressMonitor.Worked(rowCount)
+      End If
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAll.Click
       Select Case CType(sender, Button).Name.ToLower

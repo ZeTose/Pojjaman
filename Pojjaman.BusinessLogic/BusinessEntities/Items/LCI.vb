@@ -141,6 +141,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
+        '================================
+        Me.m_AllLciitem = New Hashtable
+        Dim key As String = Me.Id.ToString
+        Me.m_AllLciitem(key) = dr
+        '================================
+
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_code") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_code") Then
           m_code = CStr(dr(aliasPrefix & Me.Prefix & "_code"))
         End If
@@ -1207,7 +1213,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-          
+
           trans.Commit()
 
           SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
@@ -1220,6 +1226,69 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , "InsertLCIimage" _
           , New SqlParameter("@lci_id", Me.Id) _
           , New SqlParameter("@lci_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+
+          '== Update Lciitem ==========================================================
+          Dim key As String = Me.Id.ToString
+          Dim row As DataRow = CType(Me.m_AllLciitem(key), DataRow)
+          row("lci_code") = Me.Code
+          row("lci_name") = Me.Name
+          row("lci_altName") = Me.AlternateName
+          row("lci_parid") = Me.Parent.Id
+          row("lci_path") = Me.Path
+          row("lci_control") = Me.IsControlGroup
+          row("lci_lv1") = Me.lci_lv1
+          row("lci_lv2") = Me.lci_lv2
+          row("lci_lv3") = Me.lci_lv3
+          row("lci_lv4") = Me.lci_lv4
+          row("lci_lv5") = Me.lci_lv5
+          row("lci_acct") = Me.Account.Id
+          row("lci_unvatable") = IIf(Me.Unvatable, 1, 0)
+          row("lci_fairprice") = Me.FairPrice
+          row("lci_movingCost") = Me.MovingCost
+          'row("lci_defaultunit") = Me.DefaultUnit
+          'row("lci_compareUnit1") = Me.MemoryCompareUnit1
+          'row("lci_compareUnit2") = Me.MemoryCompareUnit2
+          'row("lci_compareUnit3") = Me.MemoryCompareUnit3
+          'row("lci_unitConversion1") = Me.MemoryConversionUnit1
+          'row("lci_unitConversion2") = Me.MemoryConversionUnit2
+          'row("lci_unitConversion3") = Me.MemoryConversionUnit3
+          row("lci_shelflife") = Me.ShelfLife
+          row("lci_note") = Me.Note
+          row("lci_lastEditDate") = Me.LastEditDate
+          'row("lci_lastEditor") = Me.LastEditor
+          row("lci_cancelDate") = Me.CancelDate
+          row("lci_canceled") = IIf(Me.Canceled, 1, 0)
+          'row("lci_cancelPerson") = Me.CancelPerson.Id
+          row("lci_pjmid") = Me.PJMID
+          row("lci_wbscode") = Me.WBSCode
+
+          row("parent_id") = Me.Parent.Id
+          row("parent_code") = Me.Parent.Code
+          row("parent_name") = Me.Parent.Name
+          If row.Table.Columns.Contains("lci_fairprice1") Then
+            row("lci_fairprice1") = Configuration.FormatToString(Me.FairPrice * Me.MemoryConversionUnit1, DigitConfig.Price)
+          End If
+          If row.Table.Columns.Contains("lci_fairprice2") Then
+            row("lci_fairprice2") = Configuration.FormatToString(Me.FairPrice * Me.MemoryConversionUnit2, DigitConfig.Price)
+          End If
+          If row.Table.Columns.Contains("lci_fairprice3") Then
+            row("lci_fairprice3") = Configuration.FormatToString(Me.FairPrice * Me.MemoryConversionUnit3, DigitConfig.Price)
+          End If
+
+          row("unit_id") = Me.DefaultUnit.Id
+          row("unit_code") = Me.DefaultUnit.Code
+          row("unit_name") = Me.DefaultUnit.Name
+          row("compareUnit1.unit_id") = Me.MemoryCompareUnit1.Id
+          row("compareUnit1.unit_code") = Me.MemoryCompareUnit1.Code
+          row("compareUnit1.unit_name") = Me.MemoryCompareUnit1.Name
+          row("compareUnit2.unit_id") = Me.MemoryCompareUnit2.Id
+          row("compareUnit2.unit_code") = Me.MemoryCompareUnit2.Code
+          row("compareUnit2.unit_name") = Me.MemoryCompareUnit2.Name
+          row("compareUnit3.unit_id") = Me.MemoryCompareUnit3.Id
+          row("compareUnit3.unit_code") = Me.MemoryCompareUnit3.Code
+          row("compareUnit3.unit_name") = Me.MemoryCompareUnit3.Name
+          Me.m_AllLciitem(key) = row
+          '============================================================
           'End If
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
