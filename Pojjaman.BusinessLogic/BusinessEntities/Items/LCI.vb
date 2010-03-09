@@ -257,11 +257,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
 
-      'Me.m_AllLciitem = New Hashtable
-      'Dim drh As New DataRowHelper(dr)
-      'Dim key As String = drh.GetValue(Of String)("lci_id")
-      'Me.m_AllLciitem(key) = dr
-
     End Sub
 
     Public Sub LoadCostLink()
@@ -547,37 +542,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
   #End Region
 
 #Region "Methods"
-    Public Shared Function GetSchemaTable() As DataTable
-      Dim myDatatable As New DataTable("lciitem")
-      myDatatable.Columns.Add(New DataColumn("lci_id", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_code", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_name", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_altName", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_parid", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lciparent_id", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_level", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_path", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_control", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_lv1", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_lv2", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_lv3", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_lv4", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_lv5", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("lci_acct", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_unvatable", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_fairprice", GetType(Decimal)))
-      myDatatable.Columns.Add(New DataColumn("lci_movingCost", GetType(Decimal)))
-      myDatatable.Columns.Add(New DataColumn("lci_defaultunit", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_compareUnit1", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_compareUnit2", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_compareUnit3", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_unitConversion1", GetType(Decimal)))
-      myDatatable.Columns.Add(New DataColumn("lci_unitConversion2", GetType(Decimal)))
-      myDatatable.Columns.Add(New DataColumn("lci_unitConversion3", GetType(Decimal)))
-      myDatatable.Columns.Add(New DataColumn("lci_shelflife", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("lci_note", GetType(String)))
-      Return myDatatable
-    End Function
+    'Public Shared Function GetSchemaTable() As DataTable
+    'Dim myDatatable As New DataTable("lciitem")
+    'myDatatable.Columns.Add(New DataColumn("lci_id", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_code", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_name", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_altName", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_parid", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lciparent_id", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_level", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_path", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_control", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_lv1", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_lv2", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_lv3", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_lv4", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_lv5", GetType(String)))
+    'myDatatable.Columns.Add(New DataColumn("lci_acct", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_unvatable", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_fairprice", GetType(Decimal)))
+    'myDatatable.Columns.Add(New DataColumn("lci_movingCost", GetType(Decimal)))
+    'myDatatable.Columns.Add(New DataColumn("lci_defaultunit", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_compareUnit1", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_compareUnit2", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_compareUnit3", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_unitConversion1", GetType(Decimal)))
+    'myDatatable.Columns.Add(New DataColumn("lci_unitConversion2", GetType(Decimal)))
+    'myDatatable.Columns.Add(New DataColumn("lci_unitConversion3", GetType(Decimal)))
+    'myDatatable.Columns.Add(New DataColumn("lci_shelflife", GetType(Integer)))
+    'myDatatable.Columns.Add(New DataColumn("lci_note", GetType(String)))
+    'Return myDatatable
+    'End Function
     Public Sub RefreshData(ByVal refresh As Boolean, ByVal ParamArray commandParameters() As SqlParameter)
       'Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, Me.GetCollectionSproc, params)
       If m_Lciitem Is Nothing OrElse refresh Then
@@ -654,7 +649,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Dim key As String = Id.ToString
       Dim row As DataRow = CType(Me.m_AllLciitem(key), DataRow)
-      Dim lci As New LCIItem(row)
+      Dim lci As New LCIItem(row, "") 'Pui
 
       Return lci
     End Function
@@ -1018,7 +1013,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         key = drh.GetValue(Of String)("lci_id")
         'row = CType(Me.m_AllLciitem(key), DataRow)
-        Dim lci As New LCIItem(drs(i))
+        Dim lci As New LCIItem(drs(i), "") 'Pui
         myCollection.Add(lci)
       Next
 
@@ -1049,7 +1044,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow("Selected") = False
         newRow("Code") = drh.GetValue(Of String)("lci_code")
         newRow("Description") = drh.GetValue(Of String)("lci_name")
-        newRow.Tag = New LCIItem(drs(i))
+        newRow.Tag = New LCIItem(drs(i), "") 'Pui
 
         lciLv4Id = drh.GetValue(Of Integer)("lci_id")
         Dim drs4 As DataRow() = GetLciitemFilter(5, lciLv4Id)
@@ -1082,7 +1077,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             newRow5("UnitPrice3") = Configuration.FormatToString(drh5.GetValue(Of Decimal)("lci_fairprice3"), DigitConfig.UnitPrice)
           End If
 
-          newRow5.Tag = New LCIItem(drs4(j)) 'drs4(j)
+          newRow5.Tag = New LCIItem(drs4(j), "") 'Pui 
 
         Next
       Next
@@ -1212,12 +1207,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+          
+          trans.Commit()
 
           SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
           , "InsertLciitemDepend" _
           , New SqlParameter("@lci_id", Me.Id))
-
-          trans.Commit()
           'Undone
           'If Not Me.Image Is Nothing Then
           ' call update image 

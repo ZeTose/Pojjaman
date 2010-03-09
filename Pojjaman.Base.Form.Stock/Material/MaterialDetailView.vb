@@ -1222,7 +1222,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Member"
-		Private m_entity As New LCIItem
+    Private m_entity As LCIItem
 		Private m_isInitialized As Boolean = False
 #End Region
 
@@ -1768,6 +1768,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				End If
         Me.m_entity = Nothing
 
+        'Hack: pui
         Me.m_entity = CType(Value, LCIItem)
 
 				'Hack:

@@ -91,7 +91,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevel1 = New System.Windows.Forms.Label()
       Me.GroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.chkIncludeCancel = New System.Windows.Forms.CheckBox()
-      Me.Label2 = New System.Windows.Forms.Label()
       Me.txtFilterAltName = New System.Windows.Forms.TextBox()
       Me.grpAmount = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.Label5 = New System.Windows.Forms.Label()
@@ -110,6 +109,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFilterName = New System.Windows.Forms.TextBox()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnClearAll = New System.Windows.Forms.Button()
+      Me.Label2 = New System.Windows.Forms.Label()
       Me.lvLevel1 = New Longkong.Pojjaman.Gui.Components.PJMListView()
       Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.lvLevel2 = New Longkong.Pojjaman.Gui.Components.PJMListView()
@@ -138,7 +138,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbDetail.Location = New System.Drawing.Point(9, 2)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(243, 94)
+      Me.grbDetail.Size = New System.Drawing.Size(243, 90)
       Me.grbDetail.TabIndex = 180
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียดวัสดุ"
@@ -263,9 +263,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 267)
+      Me.tgItem.Location = New System.Drawing.Point(8, 266)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(760, 270)
+      Me.tgItem.Size = New System.Drawing.Size(760, 272)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 190
       Me.tgItem.TreeManager = Nothing
@@ -274,7 +274,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel4_5.AutoSize = True
       Me.lblLevel4_5.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblLevel4_5.Location = New System.Drawing.Point(8, 253)
+      Me.lblLevel4_5.Location = New System.Drawing.Point(8, 251)
       Me.lblLevel4_5.Name = "lblLevel4_5"
       Me.lblLevel4_5.Size = New System.Drawing.Size(70, 14)
       Me.lblLevel4_5.TabIndex = 189
@@ -285,7 +285,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel3.AutoSize = True
       Me.lblLevel3.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel3.Location = New System.Drawing.Point(505, 94)
+      Me.lblLevel3.Location = New System.Drawing.Point(505, 91)
       Me.lblLevel3.Name = "lblLevel3"
       Me.lblLevel3.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel3.TabIndex = 188
@@ -296,7 +296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel2.AutoSize = True
       Me.lblLevel2.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel2.Location = New System.Drawing.Point(256, 94)
+      Me.lblLevel2.Location = New System.Drawing.Point(256, 91)
       Me.lblLevel2.Name = "lblLevel2"
       Me.lblLevel2.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel2.TabIndex = 187
@@ -307,7 +307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblLevel1.AutoSize = True
       Me.lblLevel1.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblLevel1.Location = New System.Drawing.Point(12, 94)
+      Me.lblLevel1.Location = New System.Drawing.Point(12, 91)
       Me.lblLevel1.Name = "lblLevel1"
       Me.lblLevel1.Size = New System.Drawing.Size(50, 16)
       Me.lblLevel1.TabIndex = 186
@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.GroupBox1.Location = New System.Drawing.Point(255, 2)
       Me.GroupBox1.Name = "GroupBox1"
-      Me.GroupBox1.Size = New System.Drawing.Size(513, 94)
+      Me.GroupBox1.Size = New System.Drawing.Size(513, 90)
       Me.GroupBox1.TabIndex = 180
       Me.GroupBox1.TabStop = False
       Me.GroupBox1.Text = "ค้นหาวัสดุ/หมวดวัสดุ"
@@ -342,22 +342,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkIncludeCancel
       '
       Me.chkIncludeCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCancel.Location = New System.Drawing.Point(434, 10)
+      Me.chkIncludeCancel.Location = New System.Drawing.Point(436, 10)
       Me.chkIncludeCancel.Name = "chkIncludeCancel"
       Me.chkIncludeCancel.Size = New System.Drawing.Size(72, 24)
       Me.chkIncludeCancel.TabIndex = 190
       Me.chkIncludeCancel.TabStop = False
       Me.chkIncludeCancel.Text = "รวมยกเลิก"
-      '
-      'Label2
-      '
-      Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label2.Location = New System.Drawing.Point(4, 63)
-      Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(79, 24)
-      Me.Label2.TabIndex = 124
-      Me.Label2.Text = "Other Name:"
-      Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtFilterAltName
       '
@@ -378,7 +368,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grpAmount.Controls.Add(Me.Label7)
       Me.grpAmount.Controls.Add(Me.Label8)
       Me.grpAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grpAmount.Location = New System.Drawing.Point(235, 8)
+      Me.grpAmount.Location = New System.Drawing.Point(236, 8)
       Me.grpAmount.Name = "grpAmount"
       Me.grpAmount.Size = New System.Drawing.Size(195, 78)
       Me.grpAmount.TabIndex = 189
@@ -498,7 +488,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Label3
       '
       Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label3.Location = New System.Drawing.Point(4, 16)
+      Me.Label3.Location = New System.Drawing.Point(3, 16)
       Me.Label3.Name = "Label3"
       Me.Label3.Size = New System.Drawing.Size(79, 20)
       Me.Label3.TabIndex = 123
@@ -508,7 +498,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Label4
       '
       Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label4.Location = New System.Drawing.Point(4, 40)
+      Me.Label4.Location = New System.Drawing.Point(3, 40)
       Me.Label4.Name = "Label4"
       Me.Label4.Size = New System.Drawing.Size(79, 20)
       Me.Label4.TabIndex = 122
@@ -529,7 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSearch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnSearch.Location = New System.Drawing.Point(432, 34)
+      Me.btnSearch.Location = New System.Drawing.Point(439, 34)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(64, 24)
       Me.btnSearch.TabIndex = 184
@@ -539,11 +529,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnClearAll.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnClearAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearAll.Location = New System.Drawing.Point(432, 62)
+      Me.btnClearAll.Location = New System.Drawing.Point(439, 62)
       Me.btnClearAll.Name = "btnClearAll"
       Me.btnClearAll.Size = New System.Drawing.Size(64, 24)
       Me.btnClearAll.TabIndex = 184
       Me.btnClearAll.Text = "Clear All"
+      '
+      'Label2
+      '
+      Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label2.Location = New System.Drawing.Point(3, 63)
+      Me.Label2.Name = "Label2"
+      Me.Label2.Size = New System.Drawing.Size(79, 24)
+      Me.Label2.TabIndex = 124
+      Me.Label2.Text = "Other Name:"
+      Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lvLevel1
       '
@@ -551,7 +551,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
       Me.lvLevel1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel1.HideSelection = False
-      Me.lvLevel1.Location = New System.Drawing.Point(8, 109)
+      Me.lvLevel1.Location = New System.Drawing.Point(8, 107)
       Me.lvLevel1.Name = "lvLevel1"
       Me.lvLevel1.Size = New System.Drawing.Size(249, 144)
       Me.lvLevel1.SortIndex = -1
@@ -571,7 +571,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
       Me.lvLevel2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel2.HideSelection = False
-      Me.lvLevel2.Location = New System.Drawing.Point(257, 109)
+      Me.lvLevel2.Location = New System.Drawing.Point(257, 107)
       Me.lvLevel2.Name = "lvLevel2"
       Me.lvLevel2.Size = New System.Drawing.Size(249, 144)
       Me.lvLevel2.SortIndex = -1
@@ -591,7 +591,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel3.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
       Me.lvLevel3.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lvLevel3.HideSelection = False
-      Me.lvLevel3.Location = New System.Drawing.Point(506, 109)
+      Me.lvLevel3.Location = New System.Drawing.Point(506, 107)
       Me.lvLevel3.Name = "lvLevel3"
       Me.lvLevel3.Size = New System.Drawing.Size(260, 144)
       Me.lvLevel3.SortIndex = -1
@@ -844,13 +844,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Property SelectedEntity() As BusinessLogic.ISimpleEntity Implements ISimpleListPanel.SelectedEntity
       Get
-        'Hack: pui
-        Dim newLci As LCIItem
-        If Not m_selectedEntity Is Nothing Then
-          newLci = New LCIItem(m_selectedEntity.Id)
-          m_selectedEntity = newLci
-        End If
-
         Return m_selectedEntity
       End Get
       Set(ByVal Value As BusinessLogic.ISimpleEntity)
@@ -1111,8 +1104,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Application.DoEvents()
       Me.Cursor = Cursors.WaitCursor
       Me.m_gridsetting = True
-      Me.m_entity.CurrentParentLciitem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
-
+      Try
+        Me.m_entity.CurrentParentLciitem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
+      Catch ex As Exception
+        'Erorr 
+      End Try
+      
       Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level5Loading}"), Me.m_entity.CountCurrentLv4Lv5)
       
       RefreshDocs()
@@ -1328,6 +1325,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lci = New LCIItem(lci.Id)
       'lci.Parent = New LCIItem(lci.Parent.Id)
       lci = Me.m_entity.GetLciitem(lci.Id)
+      If lci.Parent Is Nothing Then
+        lci.Parent = New LCIItem
+      End If
       lci.Parent = Me.m_entity.GetLciitem(lci.Parent.Id)
       Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
       If lci.Level = 5 Then
