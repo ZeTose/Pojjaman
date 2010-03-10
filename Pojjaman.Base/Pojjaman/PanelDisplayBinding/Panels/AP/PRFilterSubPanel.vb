@@ -4,6 +4,7 @@ Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PRFilterSubPanel
     Inherits AbstractFilterSubPanel
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -180,7 +181,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(7, 0)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(662, 304)
+      Me.grbDetail.Size = New System.Drawing.Size(748, 230)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
@@ -193,9 +194,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceivingDate.Controls.Add(Me.dtpReceivingDateStart)
       Me.grbReceivingDate.Controls.Add(Me.dtpReceivingDateEnd)
       Me.grbReceivingDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbReceivingDate.Location = New System.Drawing.Point(399, 85)
+      Me.grbReceivingDate.Location = New System.Drawing.Point(399, 156)
       Me.grbReceivingDate.Name = "grbReceivingDate"
-      Me.grbReceivingDate.Size = New System.Drawing.Size(254, 68)
+      Me.grbReceivingDate.Size = New System.Drawing.Size(252, 68)
       Me.grbReceivingDate.TabIndex = 4
       Me.grbReceivingDate.TabStop = False
       Me.grbReceivingDate.Text = "วันที่ต้องการรับของ"
@@ -277,9 +278,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
       Me.grbDocDate.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDocDate.Location = New System.Drawing.Point(399, 16)
+      Me.grbDocDate.Location = New System.Drawing.Point(399, 87)
       Me.grbDocDate.Name = "grbDocDate"
-      Me.grbDocDate.Size = New System.Drawing.Size(254, 68)
+      Me.grbDocDate.Size = New System.Drawing.Size(252, 68)
       Me.grbDocDate.TabIndex = 3
       Me.grbDocDate.TabStop = False
       Me.grbDocDate.Text = "วันที่เอกสาร"
@@ -356,7 +357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(582, 272)
+      Me.btnSearch.Location = New System.Drawing.Point(664, 201)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 5
@@ -366,7 +367,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(501, 272)
+      Me.btnReset.Location = New System.Drawing.Point(664, 172)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
@@ -387,7 +388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.Controls.Add(Me.ibtnShowToolDialog)
       Me.grbItem.Controls.Add(Me.txtTool)
       Me.grbItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbItem.Location = New System.Drawing.Point(8, 134)
+      Me.grbItem.Location = New System.Drawing.Point(8, 131)
       Me.grbItem.Name = "grbItem"
       Me.grbItem.Size = New System.Drawing.Size(385, 93)
       Me.grbItem.TabIndex = 1
@@ -559,9 +560,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbApprove.Controls.Add(Me.lblApprovePerson)
       Me.grbApprove.Controls.Add(Me.btnFineApprove)
       Me.grbApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbApprove.Location = New System.Drawing.Point(8, 228)
+      Me.grbApprove.Location = New System.Drawing.Point(399, 13)
       Me.grbApprove.Name = "grbApprove"
-      Me.grbApprove.Size = New System.Drawing.Size(385, 68)
+      Me.grbApprove.Size = New System.Drawing.Size(340, 74)
       Me.grbApprove.TabIndex = 2
       Me.grbApprove.TabStop = False
       Me.grbApprove.Text = "การอนุมัติ"
@@ -569,9 +570,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbApproveLevel
       '
       Me.cmbApproveLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbApproveLevel.Location = New System.Drawing.Point(103, 38)
+      Me.cmbApproveLevel.Location = New System.Drawing.Point(104, 38)
       Me.cmbApproveLevel.Name = "cmbApproveLevel"
-      Me.cmbApproveLevel.Size = New System.Drawing.Size(225, 21)
+      Me.cmbApproveLevel.Size = New System.Drawing.Size(203, 21)
       Me.cmbApproveLevel.TabIndex = 12
       '
       'lblApproveLevel
@@ -579,7 +580,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApproveLevel.BackColor = System.Drawing.Color.Transparent
       Me.lblApproveLevel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblApproveLevel.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblApproveLevel.Location = New System.Drawing.Point(7, 38)
+      Me.lblApproveLevel.Location = New System.Drawing.Point(8, 38)
       Me.lblApproveLevel.Name = "lblApproveLevel"
       Me.lblApproveLevel.Size = New System.Drawing.Size(96, 18)
       Me.lblApproveLevel.TabIndex = 13
@@ -592,7 +593,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtApprovePerson, "")
       Me.Validator.SetGotFocusBackColor(Me.txtApprovePerson, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtApprovePerson, System.Drawing.Color.Empty)
-      Me.txtApprovePerson.Location = New System.Drawing.Point(103, 15)
+      Me.txtApprovePerson.Location = New System.Drawing.Point(104, 15)
       Me.Validator.SetMinValue(Me.txtApprovePerson, "")
       Me.txtApprovePerson.Name = "txtApprovePerson"
       Me.Validator.SetRegularExpression(Me.txtApprovePerson, "")
@@ -606,13 +607,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtApprovePersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtApprovePersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtApprovePersonName, System.Drawing.Color.Empty)
-      Me.txtApprovePersonName.Location = New System.Drawing.Point(184, 15)
+      Me.txtApprovePersonName.Location = New System.Drawing.Point(185, 15)
       Me.Validator.SetMinValue(Me.txtApprovePersonName, "")
       Me.txtApprovePersonName.Name = "txtApprovePersonName"
       Me.txtApprovePersonName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtApprovePersonName, "")
       Me.Validator.SetRequired(Me.txtApprovePersonName, False)
-      Me.txtApprovePersonName.Size = New System.Drawing.Size(143, 20)
+      Me.txtApprovePersonName.Size = New System.Drawing.Size(121, 20)
       Me.txtApprovePersonName.TabIndex = 8
       Me.txtApprovePersonName.TabStop = False
       '
@@ -621,7 +622,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApprovePerson.BackColor = System.Drawing.Color.Transparent
       Me.lblApprovePerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblApprovePerson.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblApprovePerson.Location = New System.Drawing.Point(6, 15)
+      Me.lblApprovePerson.Location = New System.Drawing.Point(7, 15)
       Me.lblApprovePerson.Name = "lblApprovePerson"
       Me.lblApprovePerson.Size = New System.Drawing.Size(99, 18)
       Me.lblApprovePerson.TabIndex = 5
@@ -633,7 +634,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnFineApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnFineApprove.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnFineApprove.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnFineApprove.Location = New System.Drawing.Point(327, 15)
+      Me.btnFineApprove.Location = New System.Drawing.Point(306, 15)
       Me.btnFineApprove.Name = "btnFineApprove"
       Me.btnFineApprove.Size = New System.Drawing.Size(24, 23)
       Me.btnFineApprove.TabIndex = 10
@@ -657,7 +658,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Controls.Add(Me.lblCC)
       Me.grbMainDetail.Controls.Add(Me.btnRequestorDialog)
       Me.grbMainDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbMainDetail.Location = New System.Drawing.Point(8, 16)
+      Me.grbMainDetail.Location = New System.Drawing.Point(8, 13)
       Me.grbMainDetail.Name = "grbMainDetail"
       Me.grbMainDetail.Size = New System.Drawing.Size(385, 117)
       Me.grbMainDetail.TabIndex = 0
@@ -831,7 +832,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "PRFilterSubPanel"
-      Me.Size = New System.Drawing.Size(679, 312)
+      Me.Size = New System.Drawing.Size(764, 239)
       Me.grbDetail.ResumeLayout(False)
       Me.grbReceivingDate.ResumeLayout(False)
       Me.grbReceivingDate.PerformLayout()
