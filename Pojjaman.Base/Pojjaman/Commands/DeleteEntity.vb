@@ -32,6 +32,24 @@ Namespace Longkong.Pojjaman.Commands
         If IsNumeric(delErr.Message) Then
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessage("${res:Global.Deleted}")
+
+
+          'HACK================================================================
+          Try
+            If TypeOf CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleEntityPanel).Entity Is LCIItem Then
+              Dim lci As LCIItem = CType(CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleEntityPanel).Entity, LCIItem)
+              Dim currentEntity As LCIItem = CType(CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ActiveViewContent, ISimpleEntityPanel).Entity, LCIItem)
+              Dim deletedRow As DataRow = CType(LCIItem.AllLciitems(currentEntity.Id.ToString), DataRow)
+              LCIItem.AllLciitems.Remove(currentEntity.Id)
+              LCIItem.LciitemTable.Rows.Remove(deletedRow)
+              CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel).RefreshData("")
+            End If
+          Catch ex As Exception
+
+          End Try
+          'HACK================================================================
+
+
           WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SwitchView(0)
           CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel).RefreshData("")
         End If

@@ -2,7 +2,6 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.PanelDisplayBinding
 Imports Longkong.Pojjaman.Gui
-Imports Longkong.Pojjaman.Gui.Pads
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 
@@ -117,6 +116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel3 = New Longkong.Pojjaman.Gui.Components.PJMListView()
       Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.grbDetail.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.GroupBox1.SuspendLayout()
       Me.grpAmount.SuspendLayout()
       Me.SuspendLayout()
@@ -254,7 +254,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.Window
       Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
@@ -622,6 +622,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(776, 544)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.GroupBox1.ResumeLayout(False)
       Me.GroupBox1.PerformLayout()
       Me.grpAmount.ResumeLayout(False)
@@ -927,14 +928,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel1.BeginUpdate()
-      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level1Loading}"), coll.Count)
       Dim i As Integer = 0
       For Each lci As LCIItem In coll
         i += 1
         Me.lvLevel1.Items.Add(lci.ToString).Tag = lci
-        Me.StatusBarService.ProgressMonitor.Worked(i)
       Next
-      Me.StatusBarService.ProgressMonitor.Done()
       Me.lvLevel1.EndUpdate()
       Me.Cursor = Cursors.Default
       If Me.lvLevel1.Items.Count > 0 Then
@@ -1023,14 +1021,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel2.BeginUpdate()
-      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level2Loading}"), coll.Count)
       Dim i As Integer = 0
       For Each lci As LCIItem In coll
         i += 1
         Me.lvLevel2.Items.Add(lci.ToString).Tag = lci
-        Me.StatusBarService.ProgressMonitor.Worked(i)
       Next
-      Me.StatusBarService.ProgressMonitor.Done()
       Me.lvLevel2.EndUpdate()
       Me.Cursor = Cursors.Default
       Control_Focus(lvLevel1, Nothing)
@@ -1055,14 +1050,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel3.BeginUpdate()
-      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level3Loading}"), coll.Count)
       Dim i As Integer = 0
       For Each lci As LCIItem In coll
         i += 1
         Me.lvLevel3.Items.Add(lci.ToString).Tag = lci
-        Me.StatusBarService.ProgressMonitor.Worked(i)
       Next
-      Me.StatusBarService.ProgressMonitor.Done()
       Me.lvLevel3.EndUpdate()
       Me.Cursor = Cursors.Default
       Control_Focus(lvLevel2, Nothing)
@@ -1090,12 +1082,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Erorr 
       End Try
       
-      Me.StatusBarService.ProgressMonitor.BeginTask(Me.StringParserService.Parse("${res:Global.LCI.Level5Loading}"), Me.m_entity.CountCurrentLv4Lv5)
-      
       RefreshDocs()
 
       Me.Cursor = Cursors.Default
-      Me.StatusBarService.ProgressMonitor.Done()
       Me.m_treeManager.Treegrid.RefreshHeights()
       Me.m_gridsetting = False
       Control_Focus(lvLevel3, Nothing)
@@ -1181,10 +1170,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity Is Nothing Then
         Return
-      End If
-      Dim rowCount As Integer = Me.m_treeManager.Treetable.Rows.Count
-      If rowCount <= Me.m_entity.CountCurrentLv4Lv5 Then
-        Me.StatusBarService.ProgressMonitor.Worked(rowCount)
       End If
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearAll.Click
@@ -1331,10 +1316,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lci.Parent = New LCIItem
       End If
       lci.Parent = Me.m_entity.GetLciitem(lci.Parent.Id)
-      Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
-      If lci.Level = 5 Then
-        StatusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
-      End If
       Me.m_selectedEntity = lci
       Me.txtlv1.Text = lci.Lv1
       Me.txtlv2.Text = lci.Lv2
