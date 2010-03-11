@@ -10,7 +10,7 @@
 				<MenuItem id="rptmatwithdraw" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdraw"/>
 				<MenuItem id="RptAuditMatWithdraw" icon="Icons.16x16.RptAuditMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptAuditMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAuditMatWithdraw"/>		
 				<MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
-				<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}"/>			
+				<!--<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountResult"/>-->			
 				<MenuItem id="rptmatcountdetail" icon="Icons.16x16.RptMatCountDetail" label="${res:MainMenu.PurchaseMenu.RptMatCountDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountDetail"/>							
 				<MenuItem id="rptstockcardmat" icon="Icons.16x16.RptStockCardMat" label="${res:MainMenu.PurchaseMenu.RptStockCardMat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardMat"/>
                                 <!--<MenuItem id="rptstockcardtool" icon="Icons.16x16.RptStockCardTool" label="${res:MainMenu.PurchaseMenu.RptStockCardTool.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardTool"/>
@@ -27,7 +27,8 @@
 		<EntityFilter id="rptmatcount" entity="rptmatcount" filter="Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel"/>
 		<EntityFilter id="rptstockcardmat" entity="rptstockcardmat" filter="Longkong.Pojjaman.Gui.Panels.RptStockCardMatFilterSubPanel"/>
     <!--<EntityFilter id="rptstockcardtool" entity="RptStockCardTool" filter="Longkong.Pojjaman.Gui.Panels.RptStockCardToolFilterSubPanel"/>-->
-		<EntityFilter id="rptmatcountdetail" entity="rptmatcountdetail" filter="Longkong.Pojjaman.Gui.Panels.RptMatCountDetailFilterSubPanel"/>
+    <EntityFilter id="rptmatcountresult" entity="rptmatcountresult" filter="Longkong.Pojjaman.Gui.Panels.RptMatCountResultFilterSubPanel"/>
+    <EntityFilter id="rptmatcountdetail" entity="rptmatcountdetail" filter="Longkong.Pojjaman.Gui.Panels.RptMatCountDetailFilterSubPanel"/>
 		<!--<EntityFilter id="rptstockcard" entity="rptstockcard" filter="Longkong.Pojjaman.Gui.Panels.RptStockCardFilterSubPanel"/>
 		<EntityFilter id="rptstockoutcard" entity="rptstockoutcard" filter="Longkong.Pojjaman.Gui.Panels.RptStockOutCardFilterSubPanel"/>-->
 		<EntityFilter id="rptmatwithdrawbycc" entity="rptmatwithdrawbycc" filter="Longkong.Pojjaman.Gui.Panels.RptMatWithdrawByCCFilterSubPanel"/>

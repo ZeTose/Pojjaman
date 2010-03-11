@@ -563,7 +563,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
 				End If
 
-				Dim tmpRefTaxBase As Decimal = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+        Dim tmpRefTaxBase As Decimal = 0
+        If TypeOf Me.RefDoc Is PaySelection Then
+          Dim pays As PaySelection = CType(Me.RefDoc, PaySelection)
+          tmpRefTaxBase = Configuration.Format(pays.RealTaxBase, DigitConfig.Price)
+          'ถ้าใบจ่ายชำระนี้เป็นการแบ่งจ่ายชำระแล้ว จะไม่อนุญาติให้ออกใบกำกับภาษีมูลค่าเพิ่มที่เมนูจ่ายชำระแล้ว
+          If tmpTaxBase > 0 AndAlso pays.Gross <> pays.ItemCollection.GetPlusRetention Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
+          End If
+        Else
+          tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+        End If
+
 				If Me.Direction.Value = 0 AndAlso _
 				tmpTaxBase - tmpRefTaxBase = -0.01 Then			'ยอดในใบกำกับน้อยกว่า
 					If Me.ItemCollection.Count > 0 Then
@@ -593,7 +604,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ElseIf tmpTaxBase <> tmpRefTaxBase _
         AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
-        AndAlso Not TypeOf Me.RefDoc Is PaySelection _
         AndAlso Not TypeOf Me.RefDoc Is APOpeningBalance _
         AndAlso Not TypeOf Me.RefDoc Is EqMaintenance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsSold _
@@ -603,9 +613,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AndAlso Not TypeOf Me.RefDoc Is AROpeningBalance _
         AndAlso Not TypeOf Me.RefDoc Is PA _
           Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-          New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-          , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+          If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                   New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                   , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+          ElseIf Not TypeOf Me.RefDoc Is PaySelection Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+          End If
         End If
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter

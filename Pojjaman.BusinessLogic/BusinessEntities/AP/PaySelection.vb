@@ -402,8 +402,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
 
-        'Hack by pui ใช้แล้วไปเปลี่ยนตอน save wht ให้ดึง Me.RealTaxBase แทน ไม่งั้นมัน Lock
+        'Hack by pui ใช้แล้วไปเปลี่ยนตอน save vat, wht ให้ดึง Me.RealTaxBase แทน ไม่งั้นมัน Lock =============
         Me.RealTaxBase = Me.GetTaxBase
+        'Hack by pui =========================================================================
 
         If Originated Then
           If Not Supplier Is Nothing Then
@@ -1350,11 +1351,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetTaxBase() As Decimal
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
-        Dim d As Decimal = item.TaxBaseDeducted
-        If d = Decimal.MinValue Then
-          d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-          item.TaxBaseDeducted = d
-        End If
+        Dim d As Decimal '= item.TaxBaseDeducted
+        'If d = Decimal.MinValue Then
+        d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+        item.TaxBaseDeducted = d
+        'End If
         If item.TaxType.Value <> 0 Then
           amt += item.TaxBase - d
         End If

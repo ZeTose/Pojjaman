@@ -1074,20 +1074,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End If
 
 			RefreshDocs()
-
-			UpdateRefDoc()
-
-			Me.txtNote.Text = Me.m_vat.Note
+      
+      Me.txtNote.Text = Me.m_vat.Note
 
       'Me.m_vat.RefDoc.Date
       m_tmpsubmitalDate = Me.m_vat.SubmitalDate
-			txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
-			dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
+      txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
+      dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
 
-			txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
-			txtVatGroupName.Text = Me.m_vat.VatGroup.Name
+      txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+      txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
-			Me.m_vat.RefreshVatTaxBase()
+      Me.m_vat.RefreshVatTaxBase()
+
+      UpdateRefDoc()
 
 			SetStatus()
 			SetLabelText()
