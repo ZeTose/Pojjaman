@@ -48,117 +48,120 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents lblTaxRate As System.Windows.Forms.Label
         Friend WithEvents txtTaxBase As System.Windows.Forms.TextBox
         Friend WithEvents lblTaxBase As System.Windows.Forms.Label
-        Friend WithEvents lblAfterTax As System.Windows.Forms.Label
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents lblItem As System.Windows.Forms.Label
-        Friend WithEvents grbMilestone As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtProjectName As System.Windows.Forms.TextBox
-        Friend WithEvents txtCustomerCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtCustomerName As System.Windows.Forms.TextBox
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblGross As System.Windows.Forms.Label
-        Friend WithEvents txtAdvance As System.Windows.Forms.TextBox
-        Friend WithEvents lblAdvance As System.Windows.Forms.Label
-        Friend WithEvents lblRetention As System.Windows.Forms.Label
-        Friend WithEvents txtRetention As System.Windows.Forms.TextBox
-        Friend WithEvents lblTax As System.Windows.Forms.Label
-        Friend WithEvents txtAdvrRetention As System.Windows.Forms.TextBox
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtMilestoneAmount As System.Windows.Forms.TextBox
-        Friend WithEvents txtGross As System.Windows.Forms.TextBox
-        Friend WithEvents lblMilestoneAmount As System.Windows.Forms.Label
-        Friend WithEvents cmbType As System.Windows.Forms.ComboBox
-        Friend WithEvents txtPenalty As System.Windows.Forms.TextBox
-        Friend WithEvents lblPenalty As System.Windows.Forms.Label
-        Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblDocDate As System.Windows.Forms.Label
-        Friend WithEvents txtHandedDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpHandedDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblHandedDate As System.Windows.Forms.Label
-        Friend WithEvents ibtnPrint As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnPrintPreview As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnResetGross As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtRealMilestoneAmount As System.Windows.Forms.TextBox
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MilestoneDetail))
-      Me.lblProject = New System.Windows.Forms.Label
-      Me.txtProjectCode = New System.Windows.Forms.TextBox
-      Me.txtProjectName = New System.Windows.Forms.TextBox
-      Me.txtCustomerCode = New System.Windows.Forms.TextBox
-      Me.lblCustomer = New System.Windows.Forms.Label
-      Me.txtCustomerName = New System.Windows.Forms.TextBox
-      Me.grbMilestone = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtHandedDate = New System.Windows.Forms.TextBox
-      Me.dtpHandedDate = New System.Windows.Forms.DateTimePicker
-      Me.lblHandedDate = New System.Windows.Forms.Label
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.lblName = New System.Windows.Forms.Label
-      Me.cmbType = New System.Windows.Forms.ComboBox
-      Me.txtMilestoneAmount = New System.Windows.Forms.TextBox
-      Me.lblGross = New System.Windows.Forms.Label
-      Me.txtAdvance = New System.Windows.Forms.TextBox
-      Me.lblAdvance = New System.Windows.Forms.Label
-      Me.lblRetention = New System.Windows.Forms.Label
-      Me.txtRetention = New System.Windows.Forms.TextBox
-      Me.lblDiscountAmount = New System.Windows.Forms.Label
-      Me.txtDiscountAmount = New System.Windows.Forms.TextBox
-      Me.lblBeforeTax = New System.Windows.Forms.Label
-      Me.txtBeforeTax = New System.Windows.Forms.TextBox
-      Me.lblTax = New System.Windows.Forms.Label
-      Me.txtTaxAmount = New System.Windows.Forms.TextBox
-      Me.txtAfterTax = New System.Windows.Forms.TextBox
-      Me.txtDiscountRate = New System.Windows.Forms.TextBox
-      Me.cmbTaxType = New System.Windows.Forms.ComboBox
-      Me.lblTaxType = New System.Windows.Forms.Label
-      Me.txtTaxRate = New System.Windows.Forms.TextBox
-      Me.lblTaxRate = New System.Windows.Forms.Label
-      Me.txtTaxBase = New System.Windows.Forms.TextBox
-      Me.lblTaxBase = New System.Windows.Forms.Label
-      Me.lblAfterTax = New System.Windows.Forms.Label
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.txtAdvrRetention = New System.Windows.Forms.TextBox
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnPrint = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnPrintPreview = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.txtGross = New System.Windows.Forms.TextBox
-      Me.txtPenalty = New System.Windows.Forms.TextBox
-      Me.txtRealMilestoneAmount = New System.Windows.Forms.TextBox
-      Me.txtRealTaxBase = New System.Windows.Forms.TextBox
-      Me.txtRealTaxAmount = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.lblMilestoneAmount = New System.Windows.Forms.Label
-      Me.lblPenalty = New System.Windows.Forms.Label
-      Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents grbMilestone As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtProjectName As System.Windows.Forms.TextBox
+    Friend WithEvents txtCustomerCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtCustomerName As System.Windows.Forms.TextBox
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblGross As System.Windows.Forms.Label
+    Friend WithEvents txtAdvance As System.Windows.Forms.TextBox
+    Friend WithEvents lblAdvance As System.Windows.Forms.Label
+    Friend WithEvents lblRetention As System.Windows.Forms.Label
+    Friend WithEvents txtRetention As System.Windows.Forms.TextBox
+    Friend WithEvents lblTax As System.Windows.Forms.Label
+    Friend WithEvents txtAdvrRetention As System.Windows.Forms.TextBox
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtNote As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtMilestoneAmount As System.Windows.Forms.TextBox
+    Friend WithEvents txtGross As System.Windows.Forms.TextBox
+    Friend WithEvents lblMilestoneAmount As System.Windows.Forms.Label
+    Friend WithEvents cmbType As System.Windows.Forms.ComboBox
+    Friend WithEvents txtPenalty As System.Windows.Forms.TextBox
+    Friend WithEvents lblPenalty As System.Windows.Forms.Label
+    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblDocDate As System.Windows.Forms.Label
+    Friend WithEvents txtHandedDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpHandedDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblHandedDate As System.Windows.Forms.Label
+    Friend WithEvents ibtnPrint As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnPrintPreview As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnResetGross As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblAftertax As System.Windows.Forms.Label
+    Friend WithEvents txtAmount As System.Windows.Forms.TextBox
+    Friend WithEvents txtRealMilestoneAmount As System.Windows.Forms.TextBox
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MilestoneDetail))
+      Me.lblProject = New System.Windows.Forms.Label()
+      Me.txtProjectCode = New System.Windows.Forms.TextBox()
+      Me.txtProjectName = New System.Windows.Forms.TextBox()
+      Me.txtCustomerCode = New System.Windows.Forms.TextBox()
+      Me.lblCustomer = New System.Windows.Forms.Label()
+      Me.txtCustomerName = New System.Windows.Forms.TextBox()
+      Me.grbMilestone = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtHandedDate = New System.Windows.Forms.TextBox()
+      Me.dtpHandedDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblHandedDate = New System.Windows.Forms.Label()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.cmbType = New System.Windows.Forms.ComboBox()
+      Me.txtMilestoneAmount = New System.Windows.Forms.TextBox()
+      Me.lblGross = New System.Windows.Forms.Label()
+      Me.txtAdvance = New System.Windows.Forms.TextBox()
+      Me.lblAdvance = New System.Windows.Forms.Label()
+      Me.lblRetention = New System.Windows.Forms.Label()
+      Me.txtRetention = New System.Windows.Forms.TextBox()
+      Me.lblDiscountAmount = New System.Windows.Forms.Label()
+      Me.txtDiscountAmount = New System.Windows.Forms.TextBox()
+      Me.lblBeforeTax = New System.Windows.Forms.Label()
+      Me.txtBeforeTax = New System.Windows.Forms.TextBox()
+      Me.lblTax = New System.Windows.Forms.Label()
+      Me.txtTaxAmount = New System.Windows.Forms.TextBox()
+      Me.txtAfterTax = New System.Windows.Forms.TextBox()
+      Me.txtDiscountRate = New System.Windows.Forms.TextBox()
+      Me.cmbTaxType = New System.Windows.Forms.ComboBox()
+      Me.lblTaxType = New System.Windows.Forms.Label()
+      Me.txtTaxRate = New System.Windows.Forms.TextBox()
+      Me.lblTaxRate = New System.Windows.Forms.Label()
+      Me.txtTaxBase = New System.Windows.Forms.TextBox()
+      Me.lblTaxBase = New System.Windows.Forms.Label()
+      Me.lblAmount = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.txtAdvrRetention = New System.Windows.Forms.TextBox()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnPrint = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnPrintPreview = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.txtGross = New System.Windows.Forms.TextBox()
+      Me.txtPenalty = New System.Windows.Forms.TextBox()
+      Me.txtRealMilestoneAmount = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxBase = New System.Windows.Forms.TextBox()
+      Me.txtRealTaxAmount = New System.Windows.Forms.TextBox()
+      Me.txtAmount = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.lblMilestoneAmount = New System.Windows.Forms.Label()
+      Me.lblPenalty = New System.Windows.Forms.Label()
+      Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAftertax = New System.Windows.Forms.Label()
       Me.grbMilestone.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'lblProject
@@ -180,7 +183,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.txtProjectCode.Location = New System.Drawing.Point(96, 64)
-      Me.Validator.SetMaxValue(Me.txtProjectCode, "")
       Me.Validator.SetMinValue(Me.txtProjectCode, "")
       Me.txtProjectCode.Name = "txtProjectCode"
       Me.txtProjectCode.ReadOnly = True
@@ -189,7 +191,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectCode.Size = New System.Drawing.Size(88, 20)
       Me.txtProjectCode.TabIndex = 12
       Me.txtProjectCode.TabStop = False
-      Me.txtProjectCode.Text = ""
       '
       'txtProjectName
       '
@@ -199,7 +200,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.txtProjectName.Location = New System.Drawing.Point(184, 64)
-      Me.Validator.SetMaxValue(Me.txtProjectName, "")
       Me.Validator.SetMinValue(Me.txtProjectName, "")
       Me.txtProjectName.Name = "txtProjectName"
       Me.txtProjectName.ReadOnly = True
@@ -208,7 +208,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectName.Size = New System.Drawing.Size(424, 20)
       Me.txtProjectName.TabIndex = 13
       Me.txtProjectName.TabStop = False
-      Me.txtProjectName.Text = ""
       '
       'txtCustomerCode
       '
@@ -218,7 +217,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
       Me.txtCustomerCode.Location = New System.Drawing.Point(96, 84)
-      Me.Validator.SetMaxValue(Me.txtCustomerCode, "")
       Me.Validator.SetMinValue(Me.txtCustomerCode, "")
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.txtCustomerCode.ReadOnly = True
@@ -227,7 +225,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerCode.Size = New System.Drawing.Size(88, 20)
       Me.txtCustomerCode.TabIndex = 15
       Me.txtCustomerCode.TabStop = False
-      Me.txtCustomerCode.Text = ""
       '
       'lblCustomer
       '
@@ -247,7 +244,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.txtCustomerName.Location = New System.Drawing.Point(184, 84)
-      Me.Validator.SetMaxValue(Me.txtCustomerName, "")
       Me.Validator.SetMinValue(Me.txtCustomerName, "")
       Me.txtCustomerName.Name = "txtCustomerName"
       Me.txtCustomerName.ReadOnly = True
@@ -256,7 +252,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerName.Size = New System.Drawing.Size(424, 20)
       Me.txtCustomerName.TabIndex = 16
       Me.txtCustomerName.TabStop = False
-      Me.txtCustomerName.Text = ""
       '
       'grbMilestone
       '
@@ -295,19 +290,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtHandedDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtHandedDate, System.Drawing.Color.Empty)
       Me.txtHandedDate.Location = New System.Drawing.Point(288, 40)
-      Me.Validator.SetMaxValue(Me.txtHandedDate, "")
       Me.Validator.SetMinValue(Me.txtHandedDate, "")
       Me.txtHandedDate.Name = "txtHandedDate"
       Me.Validator.SetRegularExpression(Me.txtHandedDate, "")
       Me.Validator.SetRequired(Me.txtHandedDate, False)
       Me.txtHandedDate.Size = New System.Drawing.Size(86, 21)
       Me.txtHandedDate.TabIndex = 4
-      Me.txtHandedDate.Text = ""
       '
       'dtpHandedDate
       '
       Me.dtpHandedDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.dtpHandedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpHandedDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpHandedDate.Location = New System.Drawing.Point(288, 40)
       Me.dtpHandedDate.Name = "dtpHandedDate"
       Me.dtpHandedDate.Size = New System.Drawing.Size(104, 20)
@@ -335,19 +328,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(96, 40)
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(86, 21)
       Me.txtDocDate.TabIndex = 3
-      Me.txtDocDate.Text = ""
       '
       'dtpDocDate
       '
       Me.dtpDocDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDate.Location = New System.Drawing.Point(96, 40)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(104, 20)
@@ -383,14 +374,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(96, 16)
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, True)
       Me.txtCode.Size = New System.Drawing.Size(88, 20)
       Me.txtCode.TabIndex = 0
-      Me.txtCode.Text = ""
       '
       'txtName
       '
@@ -400,14 +389,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(224, 16)
-      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
       Me.Validator.SetRequired(Me.txtName, True)
       Me.txtName.Size = New System.Drawing.Size(320, 20)
       Me.txtName.TabIndex = 1
-      Me.txtName.Text = ""
       '
       'lblName
       '
@@ -437,8 +424,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtMilestoneAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtMilestoneAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMilestoneAmount, System.Drawing.Color.Empty)
-      Me.txtMilestoneAmount.Location = New System.Drawing.Point(496, 352)
-      Me.Validator.SetMaxValue(Me.txtMilestoneAmount, "")
+      Me.txtMilestoneAmount.Location = New System.Drawing.Point(190, 383)
       Me.Validator.SetMinValue(Me.txtMilestoneAmount, "")
       Me.txtMilestoneAmount.Name = "txtMilestoneAmount"
       Me.txtMilestoneAmount.ReadOnly = True
@@ -446,7 +432,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtMilestoneAmount, True)
       Me.txtMilestoneAmount.Size = New System.Drawing.Size(80, 20)
       Me.txtMilestoneAmount.TabIndex = 3
-      Me.txtMilestoneAmount.Text = ""
       Me.txtMilestoneAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblGross
@@ -468,22 +453,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAdvance, "")
       Me.Validator.SetGotFocusBackColor(Me.txtAdvance, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAdvance, System.Drawing.Color.Empty)
-      Me.txtAdvance.Location = New System.Drawing.Point(224, 372)
-      Me.Validator.SetMaxValue(Me.txtAdvance, "")
+      Me.txtAdvance.Location = New System.Drawing.Point(190, 404)
       Me.Validator.SetMinValue(Me.txtAdvance, "")
       Me.txtAdvance.Name = "txtAdvance"
       Me.Validator.SetRegularExpression(Me.txtAdvance, "")
       Me.Validator.SetRequired(Me.txtAdvance, False)
-      Me.txtAdvance.Size = New System.Drawing.Size(88, 20)
+      Me.txtAdvance.Size = New System.Drawing.Size(184, 20)
       Me.txtAdvance.TabIndex = 4
-      Me.txtAdvance.Text = ""
       Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblAdvance
       '
       Me.lblAdvance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblAdvance.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAdvance.Location = New System.Drawing.Point(136, 373)
+      Me.lblAdvance.Location = New System.Drawing.Point(102, 406)
       Me.lblAdvance.Name = "lblAdvance"
       Me.lblAdvance.Size = New System.Drawing.Size(88, 18)
       Me.lblAdvance.TabIndex = 15
@@ -495,7 +478,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRetention.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblRetention.BackColor = System.Drawing.Color.Transparent
       Me.lblRetention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRetention.Location = New System.Drawing.Point(320, 373)
+      Me.lblRetention.Location = New System.Drawing.Point(415, 406)
       Me.lblRetention.Name = "lblRetention"
       Me.lblRetention.Size = New System.Drawing.Size(80, 18)
       Me.lblRetention.TabIndex = 17
@@ -510,22 +493,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRetention, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRetention, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRetention, System.Drawing.Color.Empty)
-      Me.txtRetention.Location = New System.Drawing.Point(400, 372)
-      Me.Validator.SetMaxValue(Me.txtRetention, "")
+      Me.txtRetention.Location = New System.Drawing.Point(495, 405)
       Me.Validator.SetMinValue(Me.txtRetention, "")
       Me.txtRetention.Name = "txtRetention"
       Me.Validator.SetRegularExpression(Me.txtRetention, "")
       Me.Validator.SetRequired(Me.txtRetention, False)
-      Me.txtRetention.Size = New System.Drawing.Size(88, 20)
+      Me.txtRetention.Size = New System.Drawing.Size(185, 20)
       Me.txtRetention.TabIndex = 5
-      Me.txtRetention.Text = ""
       Me.txtRetention.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblDiscountAmount
       '
       Me.lblDiscountAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblDiscountAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDiscountAmount.Location = New System.Drawing.Point(352, 393)
+      Me.lblDiscountAmount.Location = New System.Drawing.Point(142, 428)
       Me.lblDiscountAmount.Name = "lblDiscountAmount"
       Me.lblDiscountAmount.Size = New System.Drawing.Size(48, 18)
       Me.lblDiscountAmount.TabIndex = 18
@@ -540,17 +521,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
-      Me.txtDiscountAmount.Location = New System.Drawing.Point(496, 392)
-      Me.Validator.SetMaxValue(Me.txtDiscountAmount, "")
+      Me.txtDiscountAmount.Location = New System.Drawing.Point(281, 427)
       Me.Validator.SetMinValue(Me.txtDiscountAmount, "")
       Me.txtDiscountAmount.Name = "txtDiscountAmount"
       Me.txtDiscountAmount.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtDiscountAmount, "")
       Me.Validator.SetRequired(Me.txtDiscountAmount, False)
-      Me.txtDiscountAmount.Size = New System.Drawing.Size(184, 20)
+      Me.txtDiscountAmount.Size = New System.Drawing.Size(93, 20)
       Me.txtDiscountAmount.TabIndex = 20
       Me.txtDiscountAmount.TabStop = False
-      Me.txtDiscountAmount.Text = ""
       Me.txtDiscountAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblBeforeTax
@@ -558,7 +537,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBeforeTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblBeforeTax.BackColor = System.Drawing.Color.Transparent
       Me.lblBeforeTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBeforeTax.Location = New System.Drawing.Point(376, 433)
+      Me.lblBeforeTax.Location = New System.Drawing.Point(376, 450)
       Me.lblBeforeTax.Name = "lblBeforeTax"
       Me.lblBeforeTax.Size = New System.Drawing.Size(120, 18)
       Me.lblBeforeTax.TabIndex = 22
@@ -573,8 +552,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtBeforeTax, "")
       Me.Validator.SetGotFocusBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
-      Me.txtBeforeTax.Location = New System.Drawing.Point(496, 432)
-      Me.Validator.SetMaxValue(Me.txtBeforeTax, "")
+      Me.txtBeforeTax.Location = New System.Drawing.Point(496, 449)
       Me.Validator.SetMinValue(Me.txtBeforeTax, "")
       Me.txtBeforeTax.Name = "txtBeforeTax"
       Me.txtBeforeTax.ReadOnly = True
@@ -583,7 +561,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBeforeTax.Size = New System.Drawing.Size(184, 20)
       Me.txtBeforeTax.TabIndex = 23
       Me.txtBeforeTax.TabStop = False
-      Me.txtBeforeTax.Text = ""
       Me.txtBeforeTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblTax
@@ -591,9 +568,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTax.BackColor = System.Drawing.Color.Transparent
       Me.lblTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTax.Location = New System.Drawing.Point(408, 473)
+      Me.lblTax.Location = New System.Drawing.Point(99, 490)
       Me.lblTax.Name = "lblTax"
-      Me.lblTax.Size = New System.Drawing.Size(88, 18)
+      Me.lblTax.Size = New System.Drawing.Size(91, 18)
       Me.lblTax.TabIndex = 29
       Me.lblTax.Text = "ภาษี:"
       Me.lblTax.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -606,8 +583,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
-      Me.txtTaxAmount.Location = New System.Drawing.Point(496, 472)
-      Me.Validator.SetMaxValue(Me.txtTaxAmount, "")
+      Me.txtTaxAmount.Location = New System.Drawing.Point(190, 491)
       Me.Validator.SetMinValue(Me.txtTaxAmount, "")
       Me.txtTaxAmount.Name = "txtTaxAmount"
       Me.txtTaxAmount.ReadOnly = True
@@ -616,7 +592,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxAmount.Size = New System.Drawing.Size(80, 20)
       Me.txtTaxAmount.TabIndex = 30
       Me.txtTaxAmount.TabStop = False
-      Me.txtTaxAmount.Text = ""
       Me.txtTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtAfterTax
@@ -628,17 +603,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAfterTax.ForeColor = System.Drawing.Color.Blue
       Me.Validator.SetGotFocusBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
-      Me.txtAfterTax.Location = New System.Drawing.Point(496, 492)
-      Me.Validator.SetMaxValue(Me.txtAfterTax, "")
+      Me.txtAfterTax.Location = New System.Drawing.Point(495, 383)
       Me.Validator.SetMinValue(Me.txtAfterTax, "")
       Me.txtAfterTax.Name = "txtAfterTax"
       Me.txtAfterTax.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAfterTax, "")
       Me.Validator.SetRequired(Me.txtAfterTax, False)
-      Me.txtAfterTax.Size = New System.Drawing.Size(184, 20)
+      Me.txtAfterTax.Size = New System.Drawing.Size(185, 20)
       Me.txtAfterTax.TabIndex = 32
       Me.txtAfterTax.TabStop = False
-      Me.txtAfterTax.Text = ""
       Me.txtAfterTax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtDiscountRate
@@ -649,15 +622,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
-      Me.txtDiscountRate.Location = New System.Drawing.Point(400, 392)
-      Me.Validator.SetMaxValue(Me.txtDiscountRate, "")
+      Me.txtDiscountRate.Location = New System.Drawing.Point(190, 427)
       Me.Validator.SetMinValue(Me.txtDiscountRate, "")
       Me.txtDiscountRate.Name = "txtDiscountRate"
       Me.Validator.SetRegularExpression(Me.txtDiscountRate, "")
       Me.Validator.SetRequired(Me.txtDiscountRate, False)
       Me.txtDiscountRate.Size = New System.Drawing.Size(88, 20)
       Me.txtDiscountRate.TabIndex = 6
-      Me.txtDiscountRate.Text = ""
       Me.txtDiscountRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'cmbTaxType
@@ -665,7 +636,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbTaxType.Enabled = False
-      Me.cmbTaxType.Location = New System.Drawing.Point(232, 472)
+      Me.cmbTaxType.Location = New System.Drawing.Point(190, 449)
       Me.cmbTaxType.Name = "cmbTaxType"
       Me.cmbTaxType.Size = New System.Drawing.Size(64, 21)
       Me.cmbTaxType.TabIndex = 8
@@ -675,7 +646,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxType.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxType.Location = New System.Drawing.Point(160, 473)
+      Me.lblTaxType.Location = New System.Drawing.Point(116, 450)
       Me.lblTaxType.Name = "lblTaxType"
       Me.lblTaxType.Size = New System.Drawing.Size(74, 18)
       Me.lblTaxType.TabIndex = 26
@@ -690,17 +661,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
-      Me.txtTaxRate.Location = New System.Drawing.Point(360, 472)
-      Me.Validator.SetMaxValue(Me.txtTaxRate, "")
+      Me.txtTaxRate.Location = New System.Drawing.Point(319, 449)
       Me.Validator.SetMinValue(Me.txtTaxRate, "")
       Me.txtTaxRate.Name = "txtTaxRate"
       Me.txtTaxRate.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtTaxRate, "")
       Me.Validator.SetRequired(Me.txtTaxRate, False)
-      Me.txtTaxRate.Size = New System.Drawing.Size(40, 20)
+      Me.txtTaxRate.Size = New System.Drawing.Size(55, 20)
       Me.txtTaxRate.TabIndex = 28
       Me.txtTaxRate.TabStop = False
-      Me.txtTaxRate.Text = ""
       Me.txtTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblTaxRate
@@ -708,7 +677,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxRate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxRate.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxRate.Location = New System.Drawing.Point(296, 473)
+      Me.lblTaxRate.Location = New System.Drawing.Point(259, 449)
       Me.lblTaxRate.Name = "lblTaxRate"
       Me.lblTaxRate.Size = New System.Drawing.Size(61, 18)
       Me.lblTaxRate.TabIndex = 27
@@ -723,8 +692,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
-      Me.txtTaxBase.Location = New System.Drawing.Point(496, 452)
-      Me.Validator.SetMaxValue(Me.txtTaxBase, "")
+      Me.txtTaxBase.Location = New System.Drawing.Point(190, 472)
       Me.Validator.SetMinValue(Me.txtTaxBase, "")
       Me.txtTaxBase.Name = "txtTaxBase"
       Me.txtTaxBase.ReadOnly = True
@@ -733,7 +701,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxBase.Size = New System.Drawing.Size(80, 20)
       Me.txtTaxBase.TabIndex = 25
       Me.txtTaxBase.TabStop = False
-      Me.txtTaxBase.Text = ""
       Me.txtTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblTaxBase
@@ -741,24 +708,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxBase.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxBase.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxBase.Location = New System.Drawing.Point(400, 453)
+      Me.lblTaxBase.Location = New System.Drawing.Point(94, 470)
       Me.lblTaxBase.Name = "lblTaxBase"
       Me.lblTaxBase.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxBase.TabIndex = 24
       Me.lblTaxBase.Text = "ฐานภาษี:"
       Me.lblTaxBase.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblAfterTax
+      'lblAmount
       '
-      Me.lblAfterTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.lblAfterTax.BackColor = System.Drawing.Color.Transparent
-      Me.lblAfterTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAfterTax.Location = New System.Drawing.Point(400, 493)
-      Me.lblAfterTax.Name = "lblAfterTax"
-      Me.lblAfterTax.Size = New System.Drawing.Size(96, 18)
-      Me.lblAfterTax.TabIndex = 31
-      Me.lblAfterTax.Text = "ยอดเบิกได้สุทธิ:"
-      Me.lblAfterTax.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblAmount.BackColor = System.Drawing.Color.Transparent
+      Me.lblAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAmount.Location = New System.Drawing.Point(400, 471)
+      Me.lblAmount.Name = "lblAmount"
+      Me.lblAmount.Size = New System.Drawing.Size(96, 18)
+      Me.lblAmount.TabIndex = 31
+      Me.lblAmount.Text = "ยอดเบิกได้สุทธิ:"
+      Me.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'tgItem
       '
@@ -778,7 +745,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(8, 176)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(672, 176)
+      Me.tgItem.Size = New System.Drawing.Size(672, 191)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 2
       Me.tgItem.TreeManager = Nothing
@@ -801,8 +768,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAdvrRetention, "")
       Me.Validator.SetGotFocusBackColor(Me.txtAdvrRetention, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAdvrRetention, System.Drawing.Color.Empty)
-      Me.txtAdvrRetention.Location = New System.Drawing.Point(496, 372)
-      Me.Validator.SetMaxValue(Me.txtAdvrRetention, "")
+      Me.txtAdvrRetention.Location = New System.Drawing.Point(16, 498)
       Me.Validator.SetMinValue(Me.txtAdvrRetention, "")
       Me.txtAdvrRetention.Name = "txtAdvrRetention"
       Me.txtAdvrRetention.ReadOnly = True
@@ -811,12 +777,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAdvrRetention.Size = New System.Drawing.Size(184, 20)
       Me.txtAdvrRetention.TabIndex = 19
       Me.txtAdvrRetention.TabStop = False
-      Me.txtAdvrRetention.Text = ""
       Me.txtAdvrRetention.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      Me.txtAdvrRetention.Visible = False
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(88, 152)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -827,7 +793,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(112, 152)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -838,7 +804,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnPrint
       '
-      Me.ibtnPrint.Image = CType(resources.GetObject("ibtnPrint.Image"), System.Drawing.Image)
+      Me.ibtnPrint.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnPrint.Location = New System.Drawing.Point(152, 152)
       Me.ibtnPrint.Name = "ibtnPrint"
       Me.ibtnPrint.Size = New System.Drawing.Size(24, 24)
@@ -849,7 +815,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnPrintPreview
       '
-      Me.ibtnPrintPreview.Image = CType(resources.GetObject("ibtnPrintPreview.Image"), System.Drawing.Image)
+      Me.ibtnPrintPreview.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnPrintPreview.Location = New System.Drawing.Point(176, 152)
       Me.ibtnPrintPreview.Name = "ibtnPrintPreview"
       Me.ibtnPrintPreview.Size = New System.Drawing.Size(24, 24)
@@ -863,9 +829,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
@@ -879,14 +845,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(88, 128)
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(392, 20)
       Me.txtNote.TabIndex = 1
-      Me.txtNote.Text = ""
       '
       'txtGross
       '
@@ -897,7 +861,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.txtGross.Location = New System.Drawing.Point(552, 128)
-      Me.Validator.SetMaxValue(Me.txtGross, "")
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -906,7 +869,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGross.Size = New System.Drawing.Size(112, 20)
       Me.txtGross.TabIndex = 12
       Me.txtGross.TabStop = False
-      Me.txtGross.Text = ""
       Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtPenalty
@@ -917,8 +879,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtPenalty, "")
       Me.Validator.SetGotFocusBackColor(Me.txtPenalty, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtPenalty, System.Drawing.Color.Empty)
-      Me.txtPenalty.Location = New System.Drawing.Point(496, 412)
-      Me.Validator.SetMaxValue(Me.txtPenalty, "")
+      Me.txtPenalty.Location = New System.Drawing.Point(495, 428)
       Me.Validator.SetMinValue(Me.txtPenalty, "")
       Me.txtPenalty.Name = "txtPenalty"
       Me.Validator.SetRegularExpression(Me.txtPenalty, "")
@@ -926,7 +887,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtPenalty.Size = New System.Drawing.Size(184, 20)
       Me.txtPenalty.TabIndex = 7
       Me.txtPenalty.TabStop = False
-      Me.txtPenalty.Text = ""
       Me.txtPenalty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRealMilestoneAmount
@@ -936,15 +896,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealMilestoneAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealMilestoneAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealMilestoneAmount, System.Drawing.Color.Empty)
-      Me.txtRealMilestoneAmount.Location = New System.Drawing.Point(600, 352)
-      Me.Validator.SetMaxValue(Me.txtRealMilestoneAmount, "")
+      Me.txtRealMilestoneAmount.Location = New System.Drawing.Point(294, 383)
       Me.Validator.SetMinValue(Me.txtRealMilestoneAmount, "")
       Me.txtRealMilestoneAmount.Name = "txtRealMilestoneAmount"
       Me.Validator.SetRegularExpression(Me.txtRealMilestoneAmount, "")
       Me.Validator.SetRequired(Me.txtRealMilestoneAmount, False)
       Me.txtRealMilestoneAmount.Size = New System.Drawing.Size(80, 20)
       Me.txtRealMilestoneAmount.TabIndex = 33
-      Me.txtRealMilestoneAmount.Text = ""
       Me.txtRealMilestoneAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRealTaxBase
@@ -954,15 +912,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
-      Me.txtRealTaxBase.Location = New System.Drawing.Point(600, 452)
-      Me.Validator.SetMaxValue(Me.txtRealTaxBase, "")
+      Me.txtRealTaxBase.Location = New System.Drawing.Point(294, 471)
       Me.Validator.SetMinValue(Me.txtRealTaxBase, "")
       Me.txtRealTaxBase.Name = "txtRealTaxBase"
       Me.Validator.SetRegularExpression(Me.txtRealTaxBase, "")
       Me.Validator.SetRequired(Me.txtRealTaxBase, False)
       Me.txtRealTaxBase.Size = New System.Drawing.Size(81, 20)
       Me.txtRealTaxBase.TabIndex = 35
-      Me.txtRealTaxBase.Text = ""
       Me.txtRealTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRealTaxAmount
@@ -972,16 +928,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
-      Me.txtRealTaxAmount.Location = New System.Drawing.Point(600, 472)
-      Me.Validator.SetMaxValue(Me.txtRealTaxAmount, "")
+      Me.txtRealTaxAmount.Location = New System.Drawing.Point(294, 491)
       Me.Validator.SetMinValue(Me.txtRealTaxAmount, "")
       Me.txtRealTaxAmount.Name = "txtRealTaxAmount"
       Me.Validator.SetRegularExpression(Me.txtRealTaxAmount, "")
       Me.Validator.SetRequired(Me.txtRealTaxAmount, False)
       Me.txtRealTaxAmount.Size = New System.Drawing.Size(81, 20)
       Me.txtRealTaxAmount.TabIndex = 38
-      Me.txtRealTaxAmount.Text = ""
       Me.txtRealTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtAmount
+      '
+      Me.txtAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtAmount.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtAmount, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAmount, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtAmount, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
+      Me.txtAmount.Location = New System.Drawing.Point(496, 471)
+      Me.Validator.SetMinValue(Me.txtAmount, "")
+      Me.txtAmount.Name = "txtAmount"
+      Me.txtAmount.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtAmount, "")
+      Me.Validator.SetRequired(Me.txtAmount, False)
+      Me.txtAmount.Size = New System.Drawing.Size(184, 20)
+      Me.txtAmount.TabIndex = 40
+      Me.txtAmount.TabStop = False
+      Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblNote
       '
@@ -997,7 +970,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblMilestoneAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblMilestoneAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblMilestoneAmount.Location = New System.Drawing.Point(408, 353)
+      Me.lblMilestoneAmount.Location = New System.Drawing.Point(102, 384)
       Me.lblMilestoneAmount.Name = "lblMilestoneAmount"
       Me.lblMilestoneAmount.Size = New System.Drawing.Size(88, 18)
       Me.lblMilestoneAmount.TabIndex = 16
@@ -1008,7 +981,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPenalty.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblPenalty.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPenalty.Location = New System.Drawing.Point(376, 413)
+      Me.lblPenalty.Location = New System.Drawing.Point(375, 429)
       Me.lblPenalty.Name = "lblPenalty"
       Me.lblPenalty.Size = New System.Drawing.Size(120, 18)
       Me.lblPenalty.TabIndex = 21
@@ -1018,8 +991,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetGross
       '
       Me.ibtnResetGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetGross.Image = CType(resources.GetObject("ibtnResetGross.Image"), System.Drawing.Image)
-      Me.ibtnResetGross.Location = New System.Drawing.Point(576, 352)
+      Me.ibtnResetGross.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetGross.Location = New System.Drawing.Point(270, 383)
       Me.ibtnResetGross.Name = "ibtnResetGross"
       Me.ibtnResetGross.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetGross.TabIndex = 34
@@ -1029,8 +1002,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxBase
       '
       Me.ibtnResetTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxBase.Image = CType(resources.GetObject("ibtnResetTaxBase.Image"), System.Drawing.Image)
-      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(576, 452)
+      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(270, 472)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxBase.TabIndex = 36
@@ -1040,16 +1013,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxAmount
       '
       Me.ibtnResetTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxAmount.Image = CType(resources.GetObject("ibtnResetTaxAmount.Image"), System.Drawing.Image)
-      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(576, 472)
+      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(270, 491)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxAmount.TabIndex = 37
       Me.ibtnResetTaxAmount.TabStop = False
       Me.ibtnResetTaxAmount.ThemedImage = CType(resources.GetObject("ibtnResetTaxAmount.ThemedImage"), System.Drawing.Bitmap)
       '
+      'lblAftertax
+      '
+      Me.lblAftertax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblAftertax.BackColor = System.Drawing.Color.Transparent
+      Me.lblAftertax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAftertax.Location = New System.Drawing.Point(380, 383)
+      Me.lblAftertax.Name = "lblAftertax"
+      Me.lblAftertax.Size = New System.Drawing.Size(115, 18)
+      Me.lblAftertax.TabIndex = 39
+      Me.lblAftertax.Text = "ยอดรวมภาษี:"
+      Me.lblAftertax.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'MilestoneDetail
       '
+      Me.Controls.Add(Me.lblAftertax)
+      Me.Controls.Add(Me.txtAmount)
       Me.Controls.Add(Me.txtRealTaxAmount)
       Me.Controls.Add(Me.ibtnResetTaxAmount)
       Me.Controls.Add(Me.txtRealTaxBase)
@@ -1073,7 +1060,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblTaxRate)
       Me.Controls.Add(Me.txtTaxBase)
       Me.Controls.Add(Me.lblTaxBase)
-      Me.Controls.Add(Me.lblAfterTax)
+      Me.Controls.Add(Me.lblAmount)
       Me.Controls.Add(Me.grbMilestone)
       Me.Controls.Add(Me.txtMilestoneAmount)
       Me.Controls.Add(Me.txtAdvance)
@@ -1092,551 +1079,570 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.ibtnPrint)
       Me.Controls.Add(Me.ibtnPrintPreview)
       Me.Name = "MilestoneDetail"
-      Me.Size = New System.Drawing.Size(688, 536)
+      Me.Size = New System.Drawing.Size(688, 538)
       Me.grbMilestone.ResumeLayout(False)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.grbMilestone.PerformLayout()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
 #End Region
 
 #Region "Members"
-        Private m_entity As Milestone
-        Private m_isInitialized As Boolean = False
-        Private m_treeManager As TreeManager
+    Private m_entity As Milestone
+    Private m_isInitialized As Boolean = False
+    Private m_treeManager As TreeManager
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-            Dim dt As TreeTable = Milestone.GetSchemaTable()
-            Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
-            EventWiring()
-        End Sub
+      Dim dt As TreeTable = Milestone.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
+      EventWiring()
+    End Sub
 #End Region
 
 #Region "Style"
-        Private Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "Milestone"
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "milestonei_linenumber"
-            csLineNumber.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "milestonei_linenumber"
+    Private Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "Milestone"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "milestonei_linenumber"
+      csLineNumber.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "milestonei_linenumber"
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "milestonei_desc"
-            csName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.DescriptionHeaderText}")
-            csName.NullText = ""
-            csName.Width = 180
-            csName.TextBox.Name = "Description"
-            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-            'csDescription.ReadOnly = True
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "milestonei_desc"
+      csName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.DescriptionHeaderText}")
+      csName.NullText = ""
+      csName.Width = 180
+      csName.TextBox.Name = "Description"
+      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+      'csDescription.ReadOnly = True
 
-            Dim csUnit As New TreeTextColumn
-            csUnit.MappingName = "Unit"
-            csUnit.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.UnitHeaderText}")
-            csUnit.NullText = ""
-            csUnit.TextBox.Name = "Unit"
-            'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-            'csUnit.DataAlignment = HorizontalAlignment.Center
+      Dim csUnit As New TreeTextColumn
+      csUnit.MappingName = "Unit"
+      csUnit.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.UnitHeaderText}")
+      csUnit.NullText = ""
+      csUnit.TextBox.Name = "Unit"
+      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+      'csUnit.DataAlignment = HorizontalAlignment.Center
 
-            Dim csUnitButton As New DataGridButtonColumn
-            csUnitButton.MappingName = "UnitButton"
-            csUnitButton.HeaderText = ""
-            csUnitButton.NullText = ""
-            AddHandler csUnitButton.Click, AddressOf ButtonClicked
+      Dim csUnitButton As New DataGridButtonColumn
+      csUnitButton.MappingName = "UnitButton"
+      csUnitButton.HeaderText = ""
+      csUnitButton.NullText = ""
+      AddHandler csUnitButton.Click, AddressOf ButtonClicked
 
-            Dim csQty As New TreeTextColumn
-            csQty.MappingName = "milestonei_qty"
-            csQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.QtyHeaderText}")
-            csQty.NullText = ""
-            csQty.DataAlignment = HorizontalAlignment.Right
-            csQty.Format = "#,###.##"
-            csQty.TextBox.Name = "Qty"
-            'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
+      Dim csQty As New TreeTextColumn
+      csQty.MappingName = "milestonei_qty"
+      csQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.QtyHeaderText}")
+      csQty.NullText = ""
+      csQty.DataAlignment = HorizontalAlignment.Right
+      csQty.Format = "#,###.##"
+      csQty.TextBox.Name = "Qty"
+      'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
 
-            Dim csUnitPRice As New TreeTextColumn
-            csUnitPRice.MappingName = "milestonei_unitprice"
-            csUnitPRice.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.milestonei_unitpriceHeaderText}")
-            csUnitPRice.NullText = ""
-            csUnitPRice.TextBox.Name = "milestonei_unitprice"
-            'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-            'csUnit.DataAlignment = HorizontalAlignment.Center
-
-
-            Dim csAmount As New TreeTextColumn
-            csAmount.MappingName = "milestonei_amt"
-            csAmount.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.AmountHeaderText}")
-            csAmount.NullText = ""
-            csAmount.TextBox.Name = "milestonei_amt"
-            csAmount.ReadOnly = True
-            'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-            'csUnit.DataAlignment = HorizontalAlignment.Center
-
-            Dim csNote As New TreeTextColumn
-            csNote.MappingName = "milestonei_note"
-            csNote.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.NoteHeaderText}")
-            csNote.NullText = ""
-            csNote.Width = 180
-            csNote.TextBox.Name = "milestonei_note"
+      Dim csUnitPRice As New TreeTextColumn
+      csUnitPRice.MappingName = "milestonei_unitprice"
+      csUnitPRice.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.milestonei_unitpriceHeaderText}")
+      csUnitPRice.NullText = ""
+      csUnitPRice.TextBox.Name = "milestonei_unitprice"
+      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+      'csUnit.DataAlignment = HorizontalAlignment.Center
 
 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csName)
-            dst.GridColumnStyles.Add(csUnit)
-            dst.GridColumnStyles.Add(csUnitButton)
-            dst.GridColumnStyles.Add(csQty)
-            dst.GridColumnStyles.Add(csUnitPRice)
-            dst.GridColumnStyles.Add(csAmount)
-            dst.GridColumnStyles.Add(csNote)
-            Return dst
-        End Function
-        Private Sub ButtonClicked(ByVal e As ButtonColumnEventArgs)
-            Me.UnitButtonClick(e)
-        End Sub
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "milestonei_amt"
+      csAmount.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.TextBox.Name = "milestonei_amt"
+      csAmount.ReadOnly = True
+      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+      'csUnit.DataAlignment = HorizontalAlignment.Center
+
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "milestonei_note"
+      csNote.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 180
+      csNote.TextBox.Name = "milestonei_note"
+
+
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csUnit)
+      dst.GridColumnStyles.Add(csUnitButton)
+      dst.GridColumnStyles.Add(csQty)
+      dst.GridColumnStyles.Add(csUnitPRice)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csNote)
+      Return dst
+    End Function
+    Private Sub ButtonClicked(ByVal e As ButtonColumnEventArgs)
+      Me.UnitButtonClick(e)
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.Status.Value = 0 Or Me.m_entity.Status.Value >= 3 Then
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = False
+        Next
+      Else
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
+      End If
+      Me.ibtnPrint.Enabled = True
+      Me.ibtnPrintPreview.Enabled = True
+    End Sub
+    Public Overrides Sub ClearDetail()
+      For Each crlt As Control In Me.Controls
+        If crlt.Name.StartsWith("txt") Then
+          crlt.Text = ""
+        End If
+      Next
+    End Sub
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblCode}")
+      Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
+
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblDocDate}")
+      Me.lblHandedDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblHandedDate}")
+      Me.lblPenalty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblPenalty}")
+
+      Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblGross}")
+
+      Me.lblMilestoneAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblMilestoneAmount}")
+
+      Me.lblDiscountAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblDiscountAmount}")
+      Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblBeforeTax}")
+      Me.lblTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTax}")
+      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblAmount}")
+      Me.lblAftertax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblAfterTax}")
+      Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxType}")
+      Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxRate}")
+
+      Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Global.lblCustomer}")
+      Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblRetention}")
+      Me.lblAdvance.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblAdvance}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblItem}")
+      Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxBase}")
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblName}")
+      Me.lblProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblProject}")
+    End Sub
+    Protected Overrides Sub EventWiring()
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtMilestoneAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRetention.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAdvance.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPenalty.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtMilestoneAmount.Validated, AddressOf Me.TextHandler
+      AddHandler txtRetention.Validated, AddressOf Me.TextHandler
+      AddHandler txtAdvance.Validated, AddressOf Me.TextHandler
+      AddHandler txtPenalty.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtHandedDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpHandedDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty 'Todo: .... จะแก้ได้หรือปล่าว แก้โลด
+      AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtRealTaxBase.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxBase.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtRealMilestoneAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealMilestoneAmount.Validated, AddressOf Me.TextHandler
+    End Sub
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtmilestoneamount"
+          Dim txt As String = txtMilestoneAmount.Text
+          If txt.Length > 0 AndAlso IsNumeric(txt) Then
+            Me.m_entity.MileStoneAmount = CDec(txt)
+          Else
+            Me.m_entity.MileStoneAmount = 0
+          End If
+          txtMilestoneAmount.Text = Configuration.FormatToString(Me.m_entity.MileStoneAmount, DigitConfig.Price)
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount(True)
+        Case "txtretention"
+          Dim txt As String = txtRetention.Text
+          If txt.Length > 0 AndAlso IsNumeric(txt) Then
+            Me.m_entity.Retention = CDec(txt)
+          Else
+            Me.m_entity.Retention = 0
+          End If
+          txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
+          UpdateAmount(True)
+        Case "txtadvance"
+          Dim txt As String = txtAdvance.Text
+          If txt.Length > 0 AndAlso IsNumeric(txt) Then
+            Me.m_entity.Advance = CDec(txt)
+          Else
+            Me.m_entity.Advance = 0
+          End If
+          txtAdvance.Text = Configuration.FormatToString(Me.m_entity.Advance, DigitConfig.Price)
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount(True)
+        Case "txtpenalty"
+          Dim txt As String = txtPenalty.Text
+          If txt.Length > 0 AndAlso IsNumeric(txt) Then
+            Me.m_entity.Penalty = CDec(txt)
+          Else
+            Me.m_entity.Penalty = 0
+          End If
+          txtPenalty.Text = Configuration.FormatToString(Me.m_entity.Penalty, DigitConfig.Price)
+          UpdateAmount(True)
+        Case "txtrealtaxbase"
+          Dim txt As String = Me.txtRealTaxBase.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxBase = 0
+          Else
+            Try
+              Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxBase = 0
+            End Try
+          End If
+          forceUpdateTaxAmount = True
+          UpdateAmount(True)
+        Case "txtrealmilestoneamount"
+          Dim txt As String = Me.txtRealMilestoneAmount.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealMileStoneAmount = 0
+          Else
+            Try
+              Me.m_entity.RealMileStoneAmount = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealMileStoneAmount = 0
+            End Try
+          End If
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount(True)
+        Case "txtrealtaxamount"
+          Dim txt As String = Me.txtRealTaxAmount.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxAmount = 0
+          Else
+            Try
+              Me.m_entity.RealTaxAmount = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxAmount = 0
+            End Try
+          End If
+          UpdateAmount(True)
+      End Select
+    End Sub
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      txtCode.Text = m_entity.Code
+      txtName.Text = m_entity.Name
+
+      txtCustomerCode.Text = m_entity.Customer.Code
+      txtCustomerName.Text = m_entity.Customer.Name
+
+      txtNote.Text = m_entity.Note
+
+      If Not Me.m_entity.CostCenter Is Nothing AndAlso Me.m_entity.CostCenter.Originated Then
+        txtProjectCode.Text = m_entity.CostCenter.Code
+        txtProjectName.Text = m_entity.CostCenter.Name
+        Me.txtCustomerCode.Text = Me.m_entity.Customer.Code
+        Me.txtCustomerName.Text = Me.m_entity.Customer.Name
+      End If
+
+      CodeDescription.ComboSelect(Me.cmbType, Me.m_entity.Type)
+      CodeDescription.ComboSelect(Me.cmbTaxType, Me.m_entity.TaxType)
+
+      Me.txtDocDate.Text = Me.MinDateToNull(Me.m_entity.DocDate, "")
+      Me.dtpDocDate.Value = Me.MinDateToNow(Me.m_entity.DocDate)
+
+      Me.txtHandedDate.Text = Me.MinDateToNull(Me.m_entity.HandedDate, "")
+      Me.dtpHandedDate.Value = Me.MinDateToNow(Me.m_entity.HandedDate)
+
+      'Load Items**********************************************************
+      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      Me.Validator.DataTable = m_treeManager.Treetable
+      '********************************************************************
+
+      Me.txtMilestoneAmount.Text = Configuration.FormatToString(m_entity.MileStoneAmount, DigitConfig.Price)
+      Me.txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+      Me.txtAdvance.Text = Configuration.FormatToString(m_entity.Advance, DigitConfig.Price)
+      Me.txtPenalty.Text = Configuration.FormatToString(m_entity.Penalty, DigitConfig.Price)
+
+      UpdateAmount(True)
+
+      RefreshBlankGrid()
+
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+    Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      If e.Name = "ItemChanged" Then
+        Me.UpdateAmount(False)
+        WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
+      End If
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtrealtaxbase"
+          dirtyFlag = True
+        Case "txtrealtaxamount"
+          dirtyFlag = True
+        Case "txtrealmilestoneamount"
+          dirtyFlag = True
+        Case "txtcode"
+          Me.m_entity.Code = txtCode.Text
+          dirtyFlag = True
+        Case "txtname"
+          Me.m_entity.Name = txtName.Text
+          dirtyFlag = True
+        Case "txtmilestoneamount"
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "txtretention"
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "txtadvance"
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "txtpenalty"
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
             End If
-            If Me.m_entity.Status.Value = 0 Or Me.m_entity.Status.Value >= 3 Then
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = False
-                Next
-            Else
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = True
-                Next
+            dirtyFlag = True
+          End If
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              dirtyFlag = True
             End If
-            Me.ibtnPrint.Enabled = True
-            Me.ibtnPrintPreview.Enabled = True
-        End Sub
-        Public Overrides Sub ClearDetail()
-            For Each crlt As Control In Me.Controls
-                If crlt.Name.StartsWith("txt") Then
-                    crlt.Text = ""
-                End If
-            Next
-        End Sub
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblCode}")
-            Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
-
-            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblDocDate}")
-            Me.lblHandedDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblHandedDate}")
-            Me.lblPenalty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblPenalty}")
-
-            Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblGross}")
-
-            Me.lblMilestoneAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblMilestoneAmount}")
-
-            Me.lblDiscountAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblDiscountAmount}")
-            Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblBeforeTax}")
-            Me.lblTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTax}")
-            Me.lblAfterTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblAfterTax}")
-            Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxType}")
-            Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxRate}")
-
-            Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Global.lblCustomer}")
-            Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblRetention}")
-            Me.lblAdvance.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblAdvance}")
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
-            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblItem}")
-            Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblTaxBase}")
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblName}")
-            Me.lblProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MilestoneDetail.lblProject}")
-        End Sub
-        Protected Overrides Sub EventWiring()
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtMilestoneAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtRetention.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAdvance.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtPenalty.TextChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtMilestoneAmount.Validated, AddressOf Me.TextHandler
-            AddHandler txtRetention.Validated, AddressOf Me.TextHandler
-            AddHandler txtAdvance.Validated, AddressOf Me.TextHandler
-            AddHandler txtPenalty.Validated, AddressOf Me.TextHandler
-
-            AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtHandedDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpHandedDate.ValueChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty 'Todo: .... จะแก้ได้หรือปล่าว
-            AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
-
-            AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtRealTaxBase.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtRealTaxBase.Validated, AddressOf Me.TextHandler
-
-            AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
-
-            AddHandler txtRealMilestoneAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtRealMilestoneAmount.Validated, AddressOf Me.TextHandler
-        End Sub
-        Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
+          Else
+            dtpDocDate.Value = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtphandeddate"
+          If Not Me.m_entity.HandedDate.Equals(dtpHandedDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtHandedDate.Text = MinDateToNull(dtpHandedDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.HandedDate = dtpHandedDate.Value
             End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtmilestoneamount"
-                    Dim txt As String = txtMilestoneAmount.Text
-                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                        Me.m_entity.MileStoneAmount = CDec(txt)
-                    Else
-                        Me.m_entity.MileStoneAmount = 0
-                    End If
-                    txtMilestoneAmount.Text = Configuration.FormatToString(Me.m_entity.MileStoneAmount, DigitConfig.Price)
-                Case "txtretention"
-                    Dim txt As String = txtRetention.Text
-                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                        Me.m_entity.Retention = CDec(txt)
-                    Else
-                        Me.m_entity.Retention = 0
-                    End If
-                    txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
-                Case "txtadvance"
-                    Dim txt As String = txtAdvance.Text
-                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                        Me.m_entity.Advance = CDec(txt)
-                    Else
-                        Me.m_entity.Advance = 0
-                    End If
-                    txtAdvance.Text = Configuration.FormatToString(Me.m_entity.Advance, DigitConfig.Price)
-                Case "txtpenalty"
-                    Dim txt As String = txtPenalty.Text
-                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                        Me.m_entity.Penalty = CDec(txt)
-                    Else
-                        Me.m_entity.Penalty = 0
-                    End If
-                    txtPenalty.Text = Configuration.FormatToString(Me.m_entity.Penalty, DigitConfig.Price)
-                Case "txtrealtaxbase"
-                    Dim txt As String = Me.txtRealTaxBase.Text
-                    txt = txt.Replace(",", "")
-                    If txt.Length = 0 Then
-                        Me.m_entity.RealTaxBase = 0
-                    Else
-                        Try
-                            Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
-                        Catch ex As Exception
-                            Me.m_entity.RealTaxBase = 0
-                        End Try
-                    End If
-                    UpdateAmount(True)
-                Case "txtrealmilestoneamount"
-                    Dim txt As String = Me.txtRealMilestoneAmount.Text
-                    txt = txt.Replace(",", "")
-                    If txt.Length = 0 Then
-                        Me.m_entity.RealMileStoneAmount = 0
-                    Else
-                        Try
-                            Me.m_entity.RealMileStoneAmount = CDec(TextParser.Evaluate(txt))
-                        Catch ex As Exception
-                            Me.m_entity.RealMileStoneAmount = 0
-                        End Try
-                    End If
-                    forceUpdateTaxBase = True
-                    forceUpdateTaxAmount = True
-                    UpdateAmount(True)
-                Case "txtrealtaxamount"
-                    Dim txt As String = Me.txtRealTaxAmount.Text
-                    txt = txt.Replace(",", "")
-                    If txt.Length = 0 Then
-                        Me.m_entity.RealTaxAmount = 0
-                    Else
-                        Try
-                            Me.m_entity.RealTaxAmount = CDec(TextParser.Evaluate(txt))
-                        Catch ex As Exception
-                            Me.m_entity.RealTaxAmount = 0
-                        End Try
-                    End If
-                    UpdateAmount(True)
-            End Select
-        End Sub
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
+            dirtyFlag = True
+          End If
+        Case "txthandeddate"
+          m_dateSetting = True
+          If Not Me.txtHandedDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtHandedDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtHandedDate.Text)
+            If Not Me.m_entity.HandedDate.Equals(theDate) Then
+              dtpHandedDate.Value = theDate
+              Me.m_entity.HandedDate = dtpHandedDate.Value
+              dirtyFlag = True
             End If
-            txtCode.Text = m_entity.Code
-            txtName.Text = m_entity.Name
+          Else
+            dtpHandedDate.Value = Date.Now
+            Me.m_entity.HandedDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "txttaxbase"
+          'Todo
+        Case "txtdiscountrate"
+          Me.m_entity.Discount.Rate = txtDiscountRate.Text
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "cmbtaxtype"
+          Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
+          Me.m_entity.TaxType.Value = item.Id
+          forceUpdateTaxBase = True
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "cmbtype"
+          'Do Nothing
+        Case Else
+      End Select
+      WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
+      If Me.m_entity.RealMileStoneAmount <> Me.m_entity.MileStoneAmount Then
+        WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealMileStoneAmount = Me.m_entity.MileStoneAmount
+      UpdateAmount(True)
+    End Sub
+    Private Sub ibtnResetTaxBase_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxBase.Click
+      If Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase Then
+        WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+      UpdateAmount(True)
+    End Sub
+    Private Sub ibtnResetTaxAmount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxAmount.Click
+      If Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount Then
+        WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+      UpdateAmount(True)
+    End Sub
+    Private forceUpdateTaxBase As Boolean = False
+    Private forceUpdateMileStoneAmount As Boolean = False
+    Private forceUpdateTaxAmount As Boolean = False
+    Private Sub UpdateAmount(ByVal refresh As Boolean)
+      m_isInitialized = False
+      If refresh Then
+        Me.m_entity.RefreshGross()
+      End If
 
-            txtCustomerCode.Text = m_entity.Customer.Code
-            txtCustomerName.Text = m_entity.Customer.Name
+      'HACK: forceUpdateGross ต้องอยู่อันแรกนะจ๊ะ
+      If forceUpdateMileStoneAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealMileStoneAmount = Me.m_entity.MileStoneAmount
+        forceUpdateTaxBase = True
+        forceUpdateMileStoneAmount = False
+      End If
+      If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+        forceUpdateTaxAmount = True
+        forceUpdateTaxBase = False
+      End If
+      If forceUpdateTaxAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount) Then
+        Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+        forceUpdateTaxAmount = False
+      End If
 
-            txtNote.Text = m_entity.Note
+      txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+      Me.txtAdvrRetention.Text = Configuration.FormatToString(m_entity.AdvancePlusRetention, DigitConfig.Price)
+      txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
+      txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
+      txtAmount.Text = Configuration.FormatToString(m_entity.Amount, DigitConfig.Price)
+      txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
+      txtDiscountRate.Text = m_entity.Discount.Rate
+      txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
+      txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
 
-            If Not Me.m_entity.CostCenter Is Nothing AndAlso Me.m_entity.CostCenter.Originated Then
-                txtProjectCode.Text = m_entity.CostCenter.Code
-                txtProjectName.Text = m_entity.CostCenter.Name
-                Me.txtCustomerCode.Text = Me.m_entity.Customer.Code
-                Me.txtCustomerName.Text = Me.m_entity.Customer.Name
-            End If
+      txtRealMilestoneAmount.Text = Configuration.FormatToString(m_entity.RealMileStoneAmount, DigitConfig.Price)
+      txtRealTaxAmount.Text = Configuration.FormatToString(m_entity.RealTaxAmount, DigitConfig.Price)
+      txtRealTaxBase.Text = Configuration.FormatToString(m_entity.RealTaxBase, DigitConfig.Price)
+      If m_entity.TaxPoint.Value <> 0 Then
+        txtAfterTax.Text = Configuration.FormatToString(m_entity.RealAfterTax, DigitConfig.Price)
+      Else
+        txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
+      End If
 
-            CodeDescription.ComboSelect(Me.cmbType, Me.m_entity.Type)
-            CodeDescription.ComboSelect(Me.cmbTaxType, Me.m_entity.TaxType)
-
-            Me.txtDocDate.Text = Me.MinDateToNull(Me.m_entity.DocDate, "")
-            Me.dtpDocDate.Value = Me.MinDateToNow(Me.m_entity.DocDate)
-
-            Me.txtHandedDate.Text = Me.MinDateToNull(Me.m_entity.HandedDate, "")
-            Me.dtpHandedDate.Value = Me.MinDateToNow(Me.m_entity.HandedDate)
-
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
-
-            Me.txtMilestoneAmount.Text = Configuration.FormatToString(m_entity.MileStoneAmount, DigitConfig.Price)
-            Me.txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
-            Me.txtAdvance.Text = Configuration.FormatToString(m_entity.Advance, DigitConfig.Price)
-            Me.txtPenalty.Text = Configuration.FormatToString(m_entity.Penalty, DigitConfig.Price)
-
-            UpdateAmount(True)
-
-            RefreshBlankGrid()
-
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
-        Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-            If e.Name = "ItemChanged" Then
-                Me.UpdateAmount(False)
-                WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
-            End If
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtrealtaxbase"
-                    dirtyFlag = True
-                Case "txtrealtaxamount"
-                    dirtyFlag = True
-                Case "txtrealmilestoneamount"
-                    dirtyFlag = True
-                Case "txtcode"
-                    Me.m_entity.Code = txtCode.Text
-                    dirtyFlag = True
-                Case "txtname"
-                    Me.m_entity.Name = txtName.Text
-                    dirtyFlag = True
-                Case "txtmilestoneamount"
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "txtretention"
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "txtadvance"
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "txtpenalty"
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "txtnote"
-                    Me.m_entity.Note = txtNote.Text
-                    dirtyFlag = True
-                Case "dtpdocdate"
-                    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txtdocdate"
-                    m_dateSetting = True
-                    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDate.Text)
-                        If Not Me.m_entity.DocDate.Equals(theDate) Then
-                            dtpDocDate.Value = theDate
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpDocDate.Value = Date.Now
-                        Me.m_entity.DocDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-                Case "dtphandeddate"
-                    If Not Me.m_entity.HandedDate.Equals(dtpHandedDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtHandedDate.Text = MinDateToNull(dtpHandedDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.HandedDate = dtpHandedDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txthandeddate"
-                    m_dateSetting = True
-                    If Not Me.txtHandedDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtHandedDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtHandedDate.Text)
-                        If Not Me.m_entity.HandedDate.Equals(theDate) Then
-                            dtpHandedDate.Value = theDate
-                            Me.m_entity.HandedDate = dtpHandedDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpHandedDate.Value = Date.Now
-                        Me.m_entity.HandedDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-                Case "txttaxbase"
-                    'Todo
-                Case "txtdiscountrate"
-                    Me.m_entity.Discount.Rate = txtDiscountRate.Text
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "cmbtaxtype"
-                    Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
-                    Me.m_entity.TaxType.Value = item.Id
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "cmbtype"
-                    'Do Nothing
-                Case Else
-            End Select
-            WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
-            If Me.m_entity.RealMileStoneAmount <> Me.m_entity.MileStoneAmount Then
-                WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
-            End If
-            Me.m_entity.RealMileStoneAmount = Me.m_entity.MileStoneAmount
-            UpdateAmount(True)
-        End Sub
-        Private Sub ibtnResetTaxBase_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxBase.Click
-            If Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase Then
-                WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
-            End If
-            Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
-            UpdateAmount(True)
-        End Sub
-        Private Sub ibtnResetTaxAmount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxAmount.Click
-            If Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount Then
-                WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = True
-            End If
-            Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
-            UpdateAmount(True)
-        End Sub
-        Private forceUpdateTaxBase As Boolean = False
-        Private forceUpdateMileStoneAmount As Boolean = False
-        Private forceUpdateTaxAmount As Boolean = False
-        Private Sub UpdateAmount(ByVal refresh As Boolean)
-            m_isInitialized = False
-            If refresh Then
-                Me.m_entity.RefreshGross()
-            End If
-
-            'HACK: forceUpdateGross ต้องอยู่อันแรกนะจ๊ะ
-            If forceUpdateMileStoneAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
-                Me.m_entity.RealMileStoneAmount = Me.m_entity.MileStoneAmount
-                forceUpdateMileStoneAmount = False
-            End If
-            If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
-                Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
-                forceUpdateTaxBase = False
-            End If
-            If forceUpdateTaxAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount) Then
-                Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
-                forceUpdateTaxAmount = False
-            End If
-
-            txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
-            Me.txtAdvrRetention.Text = Configuration.FormatToString(m_entity.AdvancePlusRetention, DigitConfig.Price)
-            txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
-            txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
-            txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
-            txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
-            txtDiscountRate.Text = m_entity.Discount.Rate
-            txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
-            txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
-
-            txtRealMilestoneAmount.Text = Configuration.FormatToString(m_entity.RealMileStoneAmount, DigitConfig.Price)
-            txtRealTaxAmount.Text = Configuration.FormatToString(m_entity.RealTaxAmount, DigitConfig.Price)
-            txtRealTaxBase.Text = Configuration.FormatToString(m_entity.RealTaxBase, DigitConfig.Price)
-
-            m_isInitialized = True
-        End Sub
-        Public Sub SetStatus()
-            If m_entity.Canceled Then
-                Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name)
-            ElseIf m_entity.Edited Then
-                Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name)
-            ElseIf Me.m_entity.Originated Then
-                Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name)
-            Else
-                Me.StatusBarService.SetMessage("")
-            End If
-        End Sub
-        Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As BusinessLogic.ISimpleEntity)
-                If Not m_entity Is Nothing Then
-                    RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-                    Me.m_entity = Nothing
-                End If
-                Me.m_entity = CType(Value, Milestone)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
-        Public Overrides Sub Initialize()
-            SetTaxTypeComboBox()
-            SetTypeCombo()
-        End Sub
-        ' 
-        Private Sub SetTaxTypeComboBox()
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
-        End Sub
-        Private Sub SetTypeCombo()
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbType, "milestone_type")
-        End Sub
+      m_isInitialized = True
+    End Sub
+    Public Sub SetStatus()
+      If m_entity.Canceled Then
+        Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name)
+      ElseIf m_entity.Edited Then
+        Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name)
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name)
+      Else
+        Me.StatusBarService.SetMessage("")
+      End If
+    End Sub
+    Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As BusinessLogic.ISimpleEntity)
+        If Not m_entity Is Nothing Then
+          RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+          Me.m_entity = Nothing
+        End If
+        Me.m_entity = CType(Value, Milestone)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+    Public Overrides Sub Initialize()
+      SetTaxTypeComboBox()
+      SetTypeCombo()
+    End Sub
+    ' 
+    Private Sub SetTaxTypeComboBox()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
+    End Sub
+    Private Sub SetTypeCombo()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbType, "milestone_type")
+    End Sub
 #End Region
 
 #Region "Event Handler"

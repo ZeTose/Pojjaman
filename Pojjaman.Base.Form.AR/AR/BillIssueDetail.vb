@@ -46,7 +46,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-    Friend WithEvents lblTotalAmount As System.Windows.Forms.Label
+    Friend WithEvents lblTotalReceivable As System.Windows.Forms.Label
     Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
     Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -70,51 +70,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkSingleVat As System.Windows.Forms.CheckBox
     Friend WithEvents ibtnShowCustomerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnShowMilestone As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txtTotalReceivable As System.Windows.Forms.TextBox
+    Friend WithEvents lblTotalAmount As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(BillIssueDetail))
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtItemCount = New System.Windows.Forms.TextBox
-      Me.lblItemCount = New System.Windows.Forms.Label
-      Me.lblItemCountUnit = New System.Windows.Forms.Label
-      Me.lblBaht = New System.Windows.Forms.Label
-      Me.txtTotalAmount = New System.Windows.Forms.TextBox
-      Me.lblTotalAmount = New System.Windows.Forms.Label
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtCreditPeriod = New System.Windows.Forms.TextBox
-      Me.txtCustomerName = New System.Windows.Forms.TextBox
-      Me.txtCustomerCode = New System.Windows.Forms.TextBox
-      Me.txtEmployeeName = New System.Windows.Forms.TextBox
-      Me.txtEmployeeCode = New System.Windows.Forms.TextBox
-      Me.ibtnShowCustomerDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.chkShowDetail = New System.Windows.Forms.CheckBox
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.imbMilestoneDetail = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.SecurityValidator = New Longkong.Pojjaman.Gui.Components.SecurityValidator(Me.components)
-      Me.grbCustomer = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblCredit = New System.Windows.Forms.Label
-      Me.lblDueDate = New System.Windows.Forms.Label
-      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker
-      Me.lblCustomer = New System.Windows.Forms.Label
-      Me.lblDay = New System.Windows.Forms.Label
-      Me.ibtnShowEmployee = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowEmployeeDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblEmployee = New System.Windows.Forms.Label
-      Me.chkSingleVat = New System.Windows.Forms.CheckBox
-      Me.ibtnShowMilestone = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.cmbCode = New System.Windows.Forms.ComboBox
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BillIssueDetail))
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtItemCount = New System.Windows.Forms.TextBox()
+      Me.lblItemCount = New System.Windows.Forms.Label()
+      Me.lblItemCountUnit = New System.Windows.Forms.Label()
+      Me.lblBaht = New System.Windows.Forms.Label()
+      Me.txtTotalAmount = New System.Windows.Forms.TextBox()
+      Me.lblTotalReceivable = New System.Windows.Forms.Label()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.txtCreditPeriod = New System.Windows.Forms.TextBox()
+      Me.txtCustomerName = New System.Windows.Forms.TextBox()
+      Me.txtCustomerCode = New System.Windows.Forms.TextBox()
+      Me.txtEmployeeName = New System.Windows.Forms.TextBox()
+      Me.txtEmployeeCode = New System.Windows.Forms.TextBox()
+      Me.ibtnShowCustomerDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkShowDetail = New System.Windows.Forms.CheckBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.imbMilestoneDetail = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.SecurityValidator = New Longkong.Pojjaman.Gui.Components.SecurityValidator()
+      Me.grbCustomer = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblCredit = New System.Windows.Forms.Label()
+      Me.lblDueDate = New System.Windows.Forms.Label()
+      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblCustomer = New System.Windows.Forms.Label()
+      Me.lblDay = New System.Windows.Forms.Label()
+      Me.ibtnShowEmployee = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowEmployeeDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblEmployee = New System.Windows.Forms.Label()
+      Me.chkSingleVat = New System.Windows.Forms.CheckBox()
+      Me.ibtnShowMilestone = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.txtTotalReceivable = New System.Windows.Forms.TextBox()
+      Me.lblTotalAmount = New System.Windows.Forms.Label()
       Me.grbSummary.SuspendLayout()
       Me.grbCustomer.SuspendLayout()
       Me.SuspendLayout()
@@ -185,12 +190,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.grbSummary, 0)
       Me.grbSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.grbSummary.Controls.Add(Me.Label1)
+      Me.grbSummary.Controls.Add(Me.txtTotalReceivable)
+      Me.grbSummary.Controls.Add(Me.lblTotalAmount)
       Me.grbSummary.Controls.Add(Me.txtItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCountUnit)
       Me.grbSummary.Controls.Add(Me.lblBaht)
       Me.grbSummary.Controls.Add(Me.txtTotalAmount)
-      Me.grbSummary.Controls.Add(Me.lblTotalAmount)
+      Me.grbSummary.Controls.Add(Me.lblTotalReceivable)
       Me.SecurityValidator.SetFailAction(Me.grbSummary, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbSummary.Location = New System.Drawing.Point(24, 384)
@@ -211,8 +219,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetFailAction(Me.txtItemCount, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount, System.Drawing.Color.Empty)
-      Me.txtItemCount.Location = New System.Drawing.Point(176, 16)
-      Me.Validator.SetMaxValue(Me.txtItemCount, "")
+      Me.txtItemCount.Location = New System.Drawing.Point(95, 16)
       Me.Validator.SetMinValue(Me.txtItemCount, "")
       Me.txtItemCount.Name = "txtItemCount"
       Me.txtItemCount.ReadOnly = True
@@ -221,7 +228,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtItemCount, 0)
       Me.txtItemCount.Size = New System.Drawing.Size(64, 20)
       Me.txtItemCount.TabIndex = 1
-      Me.txtItemCount.Text = ""
       Me.txtItemCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblItemCount
@@ -229,7 +235,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetAccessId(Me.lblItemCount, 0)
       Me.SecurityValidator.SetFailAction(Me.lblItemCount, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.lblItemCount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount.Location = New System.Drawing.Point(88, 16)
+      Me.lblItemCount.Location = New System.Drawing.Point(7, 16)
       Me.lblItemCount.Name = "lblItemCount"
       Me.SecurityValidator.SetRequiredLevel(Me.lblItemCount, 0)
       Me.lblItemCount.Size = New System.Drawing.Size(80, 18)
@@ -242,7 +248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetAccessId(Me.lblItemCountUnit, 0)
       Me.SecurityValidator.SetFailAction(Me.lblItemCountUnit, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.lblItemCountUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCountUnit.Location = New System.Drawing.Point(240, 16)
+      Me.lblItemCountUnit.Location = New System.Drawing.Point(159, 16)
       Me.lblItemCountUnit.Name = "lblItemCountUnit"
       Me.SecurityValidator.SetRequiredLevel(Me.lblItemCountUnit, 0)
       Me.lblItemCountUnit.Size = New System.Drawing.Size(40, 18)
@@ -255,7 +261,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetAccessId(Me.lblBaht, 0)
       Me.SecurityValidator.SetFailAction(Me.lblBaht, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.lblBaht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBaht.Location = New System.Drawing.Point(496, 16)
+      Me.lblBaht.Location = New System.Drawing.Point(392, 16)
       Me.lblBaht.Name = "lblBaht"
       Me.SecurityValidator.SetRequiredLevel(Me.lblBaht, 0)
       Me.lblBaht.Size = New System.Drawing.Size(32, 18)
@@ -273,8 +279,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetFailAction(Me.txtTotalAmount, Longkong.Pojjaman.Gui.Components.FailAction.None)
       Me.Validator.SetGotFocusBackColor(Me.txtTotalAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotalAmount, System.Drawing.Color.Empty)
-      Me.txtTotalAmount.Location = New System.Drawing.Point(400, 16)
-      Me.Validator.SetMaxValue(Me.txtTotalAmount, "")
+      Me.txtTotalAmount.Location = New System.Drawing.Point(296, 16)
       Me.Validator.SetMinValue(Me.txtTotalAmount, "")
       Me.txtTotalAmount.Name = "txtTotalAmount"
       Me.txtTotalAmount.ReadOnly = True
@@ -283,21 +288,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtTotalAmount, 0)
       Me.txtTotalAmount.Size = New System.Drawing.Size(88, 20)
       Me.txtTotalAmount.TabIndex = 4
-      Me.txtTotalAmount.Text = ""
       Me.txtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
-      'lblTotalAmount
+      'lblTotalReceivable
       '
-      Me.SecurityValidator.SetAccessId(Me.lblTotalAmount, 0)
-      Me.SecurityValidator.SetFailAction(Me.lblTotalAmount, Longkong.Pojjaman.Gui.Components.FailAction.None)
-      Me.lblTotalAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTotalAmount.Location = New System.Drawing.Point(304, 16)
-      Me.lblTotalAmount.Name = "lblTotalAmount"
-      Me.SecurityValidator.SetRequiredLevel(Me.lblTotalAmount, 0)
-      Me.lblTotalAmount.Size = New System.Drawing.Size(96, 18)
-      Me.lblTotalAmount.TabIndex = 3
-      Me.lblTotalAmount.Text = "รวมมูลค่าวางบิล"
-      Me.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.SecurityValidator.SetAccessId(Me.lblTotalReceivable, 0)
+      Me.SecurityValidator.SetFailAction(Me.lblTotalReceivable, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.lblTotalReceivable.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblTotalReceivable.Location = New System.Drawing.Point(418, 16)
+      Me.lblTotalReceivable.Name = "lblTotalReceivable"
+      Me.SecurityValidator.SetRequiredLevel(Me.lblTotalReceivable, 0)
+      Me.lblTotalReceivable.Size = New System.Drawing.Size(96, 18)
+      Me.lblTotalReceivable.TabIndex = 3
+      Me.lblTotalReceivable.Text = "รวมมูลค่าวางบิล"
+      Me.lblTotalReceivable.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtNote
       '
@@ -310,7 +314,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(80, 336)
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
       Me.txtNote.Name = "txtNote"
@@ -320,7 +323,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtNote.Size = New System.Drawing.Size(496, 42)
       Me.txtNote.TabIndex = 11
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -351,7 +353,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(96, 32)
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -359,16 +360,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtDocDate, 0)
       Me.txtDocDate.Size = New System.Drawing.Size(78, 20)
       Me.txtDocDate.TabIndex = 1
-      Me.txtDocDate.Text = ""
       '
       'Validator
       '
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'txtCreditPeriod
       '
@@ -380,7 +380,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
       Me.txtCreditPeriod.Location = New System.Drawing.Point(88, 64)
-      Me.Validator.SetMaxValue(Me.txtCreditPeriod, "")
       Me.Validator.SetMinValue(Me.txtCreditPeriod, "")
       Me.txtCreditPeriod.Name = "txtCreditPeriod"
       Me.Validator.SetRegularExpression(Me.txtCreditPeriod, "")
@@ -388,7 +387,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtCreditPeriod, 0)
       Me.txtCreditPeriod.Size = New System.Drawing.Size(64, 20)
       Me.txtCreditPeriod.TabIndex = 3
-      Me.txtCreditPeriod.Text = ""
       '
       'txtCustomerName
       '
@@ -400,7 +398,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.txtCustomerName.Location = New System.Drawing.Point(152, 16)
-      Me.Validator.SetMaxValue(Me.txtCustomerName, "")
       Me.Validator.SetMinValue(Me.txtCustomerName, "")
       Me.txtCustomerName.Name = "txtCustomerName"
       Me.txtCustomerName.ReadOnly = True
@@ -410,7 +407,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerName.Size = New System.Drawing.Size(192, 20)
       Me.txtCustomerName.TabIndex = 9
       Me.txtCustomerName.TabStop = False
-      Me.txtCustomerName.Text = ""
       '
       'txtCustomerCode
       '
@@ -421,7 +417,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
       Me.txtCustomerCode.Location = New System.Drawing.Point(88, 16)
-      Me.Validator.SetMaxValue(Me.txtCustomerCode, "")
       Me.Validator.SetMinValue(Me.txtCustomerCode, "")
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.Validator.SetRegularExpression(Me.txtCustomerCode, "")
@@ -429,7 +424,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtCustomerCode, 0)
       Me.txtCustomerCode.Size = New System.Drawing.Size(64, 20)
       Me.txtCustomerCode.TabIndex = 1
-      Me.txtCustomerCode.Text = ""
       '
       'txtEmployeeName
       '
@@ -441,7 +435,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtEmployeeName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtEmployeeName, System.Drawing.Color.Empty)
       Me.txtEmployeeName.Location = New System.Drawing.Point(152, 40)
-      Me.Validator.SetMaxValue(Me.txtEmployeeName, "")
       Me.Validator.SetMinValue(Me.txtEmployeeName, "")
       Me.txtEmployeeName.Name = "txtEmployeeName"
       Me.txtEmployeeName.ReadOnly = True
@@ -451,7 +444,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtEmployeeName.Size = New System.Drawing.Size(168, 20)
       Me.txtEmployeeName.TabIndex = 10
       Me.txtEmployeeName.TabStop = False
-      Me.txtEmployeeName.Text = ""
       '
       'txtEmployeeCode
       '
@@ -463,7 +455,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtEmployeeCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtEmployeeCode, System.Drawing.Color.Empty)
       Me.txtEmployeeCode.Location = New System.Drawing.Point(88, 40)
-      Me.Validator.SetMaxValue(Me.txtEmployeeCode, "")
       Me.Validator.SetMinValue(Me.txtEmployeeCode, "")
       Me.txtEmployeeCode.Name = "txtEmployeeCode"
       Me.Validator.SetRegularExpression(Me.txtEmployeeCode, "")
@@ -471,15 +462,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.txtEmployeeCode, 0)
       Me.txtEmployeeCode.Size = New System.Drawing.Size(64, 20)
       Me.txtEmployeeCode.TabIndex = 2
-      Me.txtEmployeeCode.Text = ""
       '
       'ibtnShowCustomerDialog
       '
       Me.SecurityValidator.SetAccessId(Me.ibtnShowCustomerDialog, 0)
       Me.SecurityValidator.SetFailAction(Me.ibtnShowCustomerDialog, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.ibtnShowCustomerDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCustomerDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowCustomerDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowCustomerDialog.Image = CType(resources.GetObject("ibtnShowCustomerDialog.Image"), System.Drawing.Image)
       Me.ibtnShowCustomerDialog.Location = New System.Drawing.Point(344, 16)
       Me.ibtnShowCustomerDialog.Name = "ibtnShowCustomerDialog"
       Me.SecurityValidator.SetRequiredLevel(Me.ibtnShowCustomerDialog, 0)
@@ -531,7 +521,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.ibtnDelRow, 0)
       Me.SecurityValidator.SetFailAction(Me.ibtnDelRow, Longkong.Pojjaman.Gui.Components.FailAction.None)
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(128, 96)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.SecurityValidator.SetRequiredLevel(Me.ibtnDelRow, 0)
@@ -544,7 +534,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.imbMilestoneDetail, 0)
       Me.SecurityValidator.SetFailAction(Me.imbMilestoneDetail, Longkong.Pojjaman.Gui.Components.FailAction.None)
-      Me.imbMilestoneDetail.Image = CType(resources.GetObject("imbMilestoneDetail.Image"), System.Drawing.Image)
+      Me.imbMilestoneDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.imbMilestoneDetail.Location = New System.Drawing.Point(152, 96)
       Me.imbMilestoneDetail.Name = "imbMilestoneDetail"
       Me.SecurityValidator.SetRequiredLevel(Me.imbMilestoneDetail, 0)
@@ -651,8 +641,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.ibtnShowEmployee, 0)
       Me.SecurityValidator.SetFailAction(Me.ibtnShowEmployee, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.ibtnShowEmployee.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEmployee.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEmployee.Image = CType(resources.GetObject("ibtnShowEmployee.Image"), System.Drawing.Image)
       Me.ibtnShowEmployee.Location = New System.Drawing.Point(344, 40)
       Me.ibtnShowEmployee.Name = "ibtnShowEmployee"
       Me.SecurityValidator.SetRequiredLevel(Me.ibtnShowEmployee, 0)
@@ -665,9 +655,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.ibtnShowEmployeeDialog, 0)
       Me.SecurityValidator.SetFailAction(Me.ibtnShowEmployeeDialog, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.ibtnShowEmployeeDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEmployeeDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowEmployeeDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowEmployeeDialog.Image = CType(resources.GetObject("ibtnShowEmployeeDialog.Image"), System.Drawing.Image)
       Me.ibtnShowEmployeeDialog.Location = New System.Drawing.Point(320, 40)
       Me.ibtnShowEmployeeDialog.Name = "ibtnShowEmployeeDialog"
       Me.SecurityValidator.SetRequiredLevel(Me.ibtnShowEmployeeDialog, 0)
@@ -705,7 +695,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.SecurityValidator.SetAccessId(Me.ibtnShowMilestone, 0)
       Me.SecurityValidator.SetFailAction(Me.ibtnShowMilestone, Longkong.Pojjaman.Gui.Components.FailAction.None)
-      Me.ibtnShowMilestone.Image = CType(resources.GetObject("ibtnShowMilestone.Image"), System.Drawing.Image)
+      Me.ibtnShowMilestone.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowMilestone.Location = New System.Drawing.Point(104, 96)
       Me.ibtnShowMilestone.Name = "ibtnShowMilestone"
       Me.SecurityValidator.SetRequiredLevel(Me.ibtnShowMilestone, 0)
@@ -723,6 +713,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SecurityValidator.SetRequiredLevel(Me.cmbCode, 0)
       Me.cmbCode.Size = New System.Drawing.Size(96, 21)
       Me.cmbCode.TabIndex = 24
+      '
+      'Label1
+      '
+      Me.SecurityValidator.SetAccessId(Me.Label1, 0)
+      Me.SecurityValidator.SetFailAction(Me.Label1, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.Location = New System.Drawing.Point(616, 17)
+      Me.Label1.Name = "Label1"
+      Me.SecurityValidator.SetRequiredLevel(Me.Label1, 0)
+      Me.Label1.Size = New System.Drawing.Size(32, 18)
+      Me.Label1.TabIndex = 8
+      Me.Label1.Text = "บาท"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'txtTotalReceivable
+      '
+      Me.SecurityValidator.SetAccessId(Me.txtTotalReceivable, 0)
+      Me.txtTotalReceivable.BackColor = System.Drawing.SystemColors.Control
+      Me.txtTotalReceivable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+      Me.Validator.SetDataType(Me.txtTotalReceivable, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtTotalReceivable, "")
+      Me.SecurityValidator.SetFailAction(Me.txtTotalReceivable, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.Validator.SetGotFocusBackColor(Me.txtTotalReceivable, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtTotalReceivable, System.Drawing.Color.Empty)
+      Me.txtTotalReceivable.Location = New System.Drawing.Point(520, 17)
+      Me.Validator.SetMinValue(Me.txtTotalReceivable, "")
+      Me.txtTotalReceivable.Name = "txtTotalReceivable"
+      Me.txtTotalReceivable.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtTotalReceivable, "")
+      Me.Validator.SetRequired(Me.txtTotalReceivable, False)
+      Me.SecurityValidator.SetRequiredLevel(Me.txtTotalReceivable, 0)
+      Me.txtTotalReceivable.Size = New System.Drawing.Size(88, 20)
+      Me.txtTotalReceivable.TabIndex = 7
+      Me.txtTotalReceivable.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'lblTotalAmount
+      '
+      Me.SecurityValidator.SetAccessId(Me.lblTotalAmount, 0)
+      Me.SecurityValidator.SetFailAction(Me.lblTotalAmount, Longkong.Pojjaman.Gui.Components.FailAction.None)
+      Me.lblTotalAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblTotalAmount.Location = New System.Drawing.Point(197, 17)
+      Me.lblTotalAmount.Name = "lblTotalAmount"
+      Me.SecurityValidator.SetRequiredLevel(Me.lblTotalAmount, 0)
+      Me.lblTotalAmount.Size = New System.Drawing.Size(96, 18)
+      Me.lblTotalAmount.TabIndex = 6
+      Me.lblTotalAmount.Text = "รวมยอดรับเงินสุทธิ"
+      Me.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'BillIssueDetail
       '
@@ -748,10 +785,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "BillIssueDetail"
       Me.SecurityValidator.SetRequiredLevel(Me, 0)
       Me.Size = New System.Drawing.Size(808, 448)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSummary.ResumeLayout(False)
+      Me.grbSummary.PerformLayout()
       Me.grbCustomer.ResumeLayout(False)
+      Me.grbCustomer.PerformLayout()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -835,6 +874,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAdvancePayment.Format = "#,###.##"
       csAdvancePayment.ReadOnly = True
 
+      Dim csDiscount As New TreeTextColumn
+      csDiscount.MappingName = "Discount"
+      csDiscount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.Discount}")
+      csDiscount.NullText = ""
+      csDiscount.TextBox.Name = "Discount"
+      csDiscount.Format = "#,###.##"
+      csDiscount.ReadOnly = True
+
       Dim csRetention As New TreeTextColumn
       csRetention.MappingName = "Retention"
       csRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.RetentionHeaderText}")
@@ -843,13 +890,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRetention.Format = "#,###.##"
       csRetention.ReadOnly = True
 
-      Dim csDiscAndPenal As New TreeTextColumn
-      csDiscAndPenal.MappingName = "DiscAndPenal"
-      csDiscAndPenal.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.DiscAndPenalHeaderText}")
-      csDiscAndPenal.NullText = ""
-      csDiscAndPenal.TextBox.Name = "DiscAndPenal"
-      csDiscAndPenal.Format = "#,###.##"
-      csDiscAndPenal.ReadOnly = True
+      Dim csPenalty As New TreeTextColumn
+      csPenalty.MappingName = "Penalty"
+      csPenalty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.PenaltyHeaderText}")
+      csPenalty.NullText = ""
+      csPenalty.TextBox.Name = "Penalty"
+      csPenalty.Format = "#,###.##"
+      csPenalty.ReadOnly = True
 
       Dim csExcVATAmount As New TreeTextColumn
       csExcVATAmount.MappingName = "ExcVATAmount"
@@ -880,8 +927,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csRealAmount)
       dst.GridColumnStyles.Add(csAdvancePayment)
+      dst.GridColumnStyles.Add(csDiscount)
       dst.GridColumnStyles.Add(csRetention)
-      dst.GridColumnStyles.Add(csDiscAndPenal)
+      dst.GridColumnStyles.Add(csPenalty)
       dst.GridColumnStyles.Add(csExcVATAmount)
       dst.GridColumnStyles.Add(csTaxBase)
       dst.GridColumnStyles.Add(csAmount)
@@ -970,6 +1018,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Global.ItemCountUnitText}")
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
       Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.lblTotalAmount}")
+      Me.lblTotalReceivable.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.lblTotalReceivable}")
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
       Me.lblCredit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.lblCredit}")
 
@@ -1096,7 +1145,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Else
               Me.m_entity.GenVatItems()
             End If
-						Me.m_entity.SingleVat = Me.chkSingleVat.Checked
+            Me.m_entity.SingleVat = Me.chkSingleVat.Checked
             'UpdateVat()
           End If
           dirtyFlag = True
@@ -1167,7 +1216,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub UpdateAmount()
       Dim flag As Boolean = Me.m_isInitialized
       m_isInitialized = False
-      Me.txtTotalAmount.Text = Configuration.FormatToString(Me.m_entity.Gross, DigitConfig.Price)
+      Me.txtTotalReceivable.Text = Configuration.FormatToString(Me.m_entity.RealBillIssueAmount, DigitConfig.Price)
+      Me.txtTotalAmount.Text = Configuration.FormatToString(Me.m_entity.BillIssueAmount, DigitConfig.Price)
       Me.txtItemCount.Text = Configuration.FormatToString(Me.m_entity.ItemCollection.Count, DigitConfig.Int)
       m_isInitialized = flag
     End Sub

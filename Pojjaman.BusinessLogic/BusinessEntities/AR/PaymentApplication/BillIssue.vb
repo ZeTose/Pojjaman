@@ -194,7 +194,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_itemCollection.GetCanGetAmount
       End Get
     End Property
-
+    'ยอดรับเงิน ยังไม่รวม retention
+    Public ReadOnly Property BillIssueAmount() As Decimal
+      Get
+        If m_itemCollection Is Nothing Then
+          Return 0
+        End If
+        Return m_itemCollection.GetCanGetAmount
+      End Get
+    End Property
+    'ยอดวางบิล
+    Public ReadOnly Property RealBillIssueAmount() As Decimal
+      Get
+        If m_itemCollection Is Nothing Then
+          Return 0
+        End If
+        Return m_itemCollection.GetAmountForBillIssue
+      End Get
+    End Property
     Public ReadOnly Property Subtracted() As Decimal
       Get
         If m_itemCollection Is Nothing Then
@@ -269,8 +286,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Type", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String))) 'ยอดจริง
       myDatatable.Columns.Add(New DataColumn("AdvancePayment", GetType(String))) 'ยอดเงินมัดจำ
+      myDatatable.Columns.Add(New DataColumn("Discount", GetType(String))) 'Discount And Penalty
       myDatatable.Columns.Add(New DataColumn("Retention", GetType(String))) 'Retention
-      myDatatable.Columns.Add(New DataColumn("DiscAndPenal", GetType(String))) 'Discount And Penalty
+      myDatatable.Columns.Add(New DataColumn("Penalty", GetType(String))) 'Discount And Penalty
       myDatatable.Columns.Add(New DataColumn("ExcVATAmount", GetType(String))) 'Excluding VAT Amount
       myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String))) 'มูลค่าสินค้า/บริการ
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String))) 'ยอดวางบิล
@@ -592,7 +610,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("billii_billi") = Me.Id
           dr("billii_linenumber") = i
           dr("billii_milestone") = mi.Id
-          dr("billii_amt") = mi.Amount
+          dr("billii_amt") = mi.ReceivableForBillIssue
           If Not mi.Cost = Decimal.MinValue Then
             dr("billii_cost") = mi.Cost
           Else
@@ -739,6 +757,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.string"
       dpiColl.Add(dpi)
 
+      'BillIssueAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillIssueAmount"
+      dpi.Value = Configuration.FormatToString(Me.BillIssueAmount, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
       'BeforeTax - ยอดไม่รวมภาษี
       dpi = New DocPrintingItem
       dpi.Mapping = "BeforeTax"
@@ -772,6 +797,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.Price)
       dpi.DataType = "System.string"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'LastPageBillIssueAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageBillIssueAmount"
+      dpi.Value = Configuration.FormatToString(Me.BillIssueAmount, DigitConfig.Price)
+      dpi.DataType = "System.string"
       dpiColl.Add(dpi)
 
       'LastPageBeforeTax - ยอดไม่รวมภาษี
@@ -985,15 +1017,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.Amount
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Amount"
-        If item.Amount = 0 Then
+        If item.ReceivableForBillIssue = 0 Then
           dpi.Value = ""
         Else
           Select Case item.Type.Value
             Case 75, 78
               'ผ่าน
-              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.Value = Configuration.FormatToString(item.ReceivableForBillIssue, DigitConfig.Price)
             Case 79 'ลด
-              dpi.Value = Configuration.FormatToString(-item.Amount, DigitConfig.Price)
+              dpi.Value = Configuration.FormatToString(-item.ReceivableForBillIssue, DigitConfig.Price)
             Case Else
               dpi.Value = ""
           End Select
@@ -1360,7 +1392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not item.IsDebit Then
           space = "   "
         End If
-        
+
         'Item.AccountCode
         dpi = New DocPrintingItem
         dpi.Mapping = "RefDocItem.AccountCode"
@@ -1640,15 +1672,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "ICancelable"
-		Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
-			Get
-				Return (Me.Status.Value = 1 OrElse Me.Status.Value = 2) AndAlso Me.IsCancelable
-			End Get
-		End Property
-		Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
-			Me.Status.Value = 0
-			Return Me.Save(currentUserId)
-		End Function
+    Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
+      Get
+        Return (Me.Status.Value = 1 OrElse Me.Status.Value = 2) AndAlso Me.IsCancelable
+      End Get
+    End Property
+    Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
+      Me.Status.Value = 0
+      Return Me.Save(currentUserId)
+    End Function
 #End Region
 
 #Region "IGLAble"
@@ -1750,7 +1782,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 mi.Cost = 0
                 Dim amt As Decimal = 0
                 If pma.IncludeThisItem(mi) Then
-                  Dim itemAmount As Decimal = mi.Amount
+                  Dim itemAmount As Decimal = mi.ReceivableForBillIssue
                   itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
                   If TypeOf mi Is VariationOrderDe Then
                     amt = -itemAmount
@@ -2071,269 +2103,270 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IVatable"
-		Public Sub GenVatItems()
-			Me.Vat.ItemCollection.Clear()
-			If Me.TaxTypeIs0 Then
-				Return
-			End If
-			Dim i As Integer = 0
-			Dim vi As New VatItem
-			'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
-			'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-			'pattern = CodeGenerator.GetPattern(pattern)
-			'Dim lastCode As String = vi.GetLastCode(pattern)
-			For Each item As Milestone In Me.ItemCollection
-				If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
-					i += 1
-					Dim vitem As New VatItem
-					'vitem.LineNumber = i
-					'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
-					vitem.Code = ""		 'newCode
-					'lastCode = newCode
-					vitem.AutoGen = True
-					vitem.DocDate = Me.DocDate
-					vitem.PrintName = Me.Customer.Name
-					vitem.PrintAddress = Me.Customer.BillingAddress
-					If TypeOf item Is VariationOrderDe Then
-						vitem.TaxBase = -item.TaxBase
-					Else
-						vitem.TaxBase = item.TaxBase
-					End If
-					vitem.TaxRate = TaxRate
-					vitem.CcId = item.CostCenter.Id
-					vitem.Milestone = item
-					Me.Vat.ItemCollection.Add(vitem)
-				End If
-			Next
-		End Sub
-		Public Sub GenSingleVatItem()
-			Me.Vat.ItemCollection.Clear()
-			Dim vitem As New VatItem
-			vitem.LineNumber = 1
-			'Dim ptn As String = Entity.GetAutoCodeFormat(vitem.EntityId)
-			'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-			'pattern = CodeGenerator.GetPattern(pattern)
-			vitem.Code = ""	 'CodeGenerator.Generate(ptn, vitem.GetLastCode(pattern), Me)
-			vitem.AutoGen = True
-			vitem.DocDate = Me.DocDate
-			vitem.PrintName = Me.Customer.Name
-			vitem.PrintAddress = Me.Customer.BillingAddress
-			vitem.TaxBase = Me.GetMaximumTaxBase
-			vitem.TaxRate = TaxRate
-			Me.Vat.ItemCollection.Add(vitem)
-		End Sub
-		Public ReadOnly Property TaxTypeIs0() As Boolean			Get				RefreshPMA()				For Each mi As Milestone In Me.ItemCollection
-					If mi.TaxType.Value <> 0 Then
-						Return False
-					End If
-				Next				Return True			End Get		End Property
-		Public ReadOnly Property TaxAmount() As Decimal			Get				Return Me.ItemCollection.GetCanGetTaxAmount			End Get		End Property
-		Public ReadOnly Property TaxRate() As Decimal
-			Get
-				Return CDec(Configuration.GetConfig("CompanyTaxRate"))
-			End Get
-		End Property
-		Public Function GetMilestoneAmountAftertax() As Decimal
-			Return Me.ItemCollection.GetCanGetMilestoneAmountAfterTax
-		End Function
-		Public Function GetAfterTax() As Decimal Implements IVatable.GetAfterTax
-			Return Me.ItemCollection.GetCanGetAfterTax
-		End Function
-		Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
-			Return Me.ItemCollection.GetCanGetBeforeTax
-		End Function
-		Public Property TaxBase() As Decimal Implements IVatable.TaxBase
-			Get
-				Return Me.GetMaximumTaxBase
-			End Get
-			Set(ByVal Value As Decimal)
+    Public Sub GenVatItems()
+      Me.Vat.ItemCollection.Clear()
+      If Me.TaxTypeIs0 Then
+        Return
+      End If
+      Dim i As Integer = 0
+      Dim vi As New VatItem
+      'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
+      'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      'pattern = CodeGenerator.GetPattern(pattern)
+      'Dim lastCode As String = vi.GetLastCode(pattern)
+      For Each item As Milestone In Me.ItemCollection
+        If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
+          i += 1
+          Dim vitem As New VatItem
+          'vitem.LineNumber = i
+          'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
+          vitem.Code = ""    'newCode
+          'lastCode = newCode
+          vitem.AutoGen = True
+          vitem.DocDate = Me.DocDate
+          vitem.PrintName = Me.Customer.Name
+          vitem.PrintAddress = Me.Customer.BillingAddress
+          If TypeOf item Is VariationOrderDe Then
+            vitem.TaxBase = -item.TaxBase
+          Else
+            vitem.TaxBase = item.TaxBase
+          End If
+          vitem.TaxRate = TaxRate
+          vitem.CcId = item.CostCenter.Id
+          vitem.Milestone = item
+          Me.Vat.ItemCollection.Add(vitem)
+        End If
+      Next
+    End Sub
+    Public Sub GenSingleVatItem()
+      Me.Vat.ItemCollection.Clear()
+      Dim vitem As New VatItem
+      vitem.LineNumber = 1
+      'Dim ptn As String = Entity.GetAutoCodeFormat(vitem.EntityId)
+      'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      'pattern = CodeGenerator.GetPattern(pattern)
+      vitem.Code = ""  'CodeGenerator.Generate(ptn, vitem.GetLastCode(pattern), Me)
+      vitem.AutoGen = True
+      vitem.DocDate = Me.DocDate
+      vitem.PrintName = Me.Customer.Name
+      vitem.PrintAddress = Me.Customer.BillingAddress
+      vitem.TaxBase = Me.GetMaximumTaxBase
+      vitem.TaxRate = TaxRate
+      Me.Vat.ItemCollection.Add(vitem)
+    End Sub
+    Public ReadOnly Property TaxTypeIs0() As Boolean      Get        RefreshPMA()        For Each mi As Milestone In Me.ItemCollection
+          If mi.TaxType.Value <> 0 Then
+            Return False
+          End If
+        Next        Return True      End Get    End Property
+    Public ReadOnly Property TaxAmount() As Decimal      Get        Return Me.ItemCollection.GetCanGetTaxAmount      End Get    End Property
+    Public ReadOnly Property TaxRate() As Decimal
+      Get
+        Return CDec(Configuration.GetConfig("CompanyTaxRate"))
+      End Get
+    End Property
+    Public Function GetMilestoneAmountAftertax() As Decimal
+      Return Me.ItemCollection.GetCanGetMilestoneAmountAfterTax
+    End Function
+    Public Function GetAfterTax() As Decimal Implements IVatable.GetAfterTax
+      Return Me.ItemCollection.GetCanGetAfterTax
+    End Function
+    Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
+      Return Me.ItemCollection.GetCanGetBeforeTax
+    End Function
+    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
+      Get
+        Return Me.GetMaximumTaxBase
+      End Get
+      Set(ByVal Value As Decimal)
 
-			End Set
-		End Property
-		Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
-			Dim amt As Decimal
-			For Each item As Milestone In Me.ItemCollection
-				If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
-					If TypeOf item Is VariationOrderDe Then
-						amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
-					Else
-						amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
-					End If
-				End If
-			Next
-			Return Configuration.Format(amt, DigitConfig.Price)
-		End Function
-		Public Function GetPseudoTaxBase(ByVal pmaId As Integer) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me.ItemCollection
-				If item.PMAId = pmaId Then
-					If item.TaxType.Value <> 0 Then
-						If TypeOf item Is VariationOrderDe Then
-							amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
-						Else
-							amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
-						End If
-					Else
-						If TypeOf item Is VariationOrderDe Then
-							amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
-						Else
-							amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
-						End If
-					End If
-				End If
-			Next
-			Return Configuration.Format(amt, DigitConfig.Price)
-		End Function
-		Public Function GetPseudoTaxAmount(ByVal pmaId As Integer) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me.ItemCollection
-				If item.PMAId = pmaId Then
-					If item.TaxType.Value <> 0 Then
-						If TypeOf item Is VariationOrderDe Then
-							amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
-						Else
-							amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
-						End If
-					End If
-				End If
-			Next
-			Return Configuration.Format(Vat.GetVatAmount(amt), DigitConfig.Price)
-		End Function
-		Public Function GetPseudoOtherTaxBase(ByVal pmaId As Integer) As Decimal
-			Dim amt As Decimal = 0
-			For Each item As Milestone In Me.ItemCollection
-				If item.PMAId = pmaId Then
-					amt -= item.PseudoOtherTaxBase
-				End If
-			Next
-			Return Configuration.Format(amt, DigitConfig.Price)
-		End Function
-		Public Function GetPseudoOtherTaxAmount(ByVal pmaId As Integer) As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me.ItemCollection
-				If item.PMAId = pmaId Then
-					If item.TaxType.Value <> 0 Then
-						If TypeOf item Is VariationOrderDe Then
-							amt += item.OtherTaxBase
-						Else
-							amt -= item.OtherTaxBase
-						End If
-					End If
-				End If
-			Next
-			Return Configuration.Format(Vat.GetVatAmount(amt), DigitConfig.Price)
-		End Function
-		Public Function GetOtherTaxBase() As Decimal
-			Dim amt As Decimal
-			For Each item As Milestone In Me.ItemCollection
-				If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
-					If TypeOf item Is VariationOrderDe Then
-						amt -= item.OtherTaxBase
-					Else
-						amt += item.OtherTaxBase
-					End If
-				End If
-			Next
-			Return Configuration.Format(amt, DigitConfig.Price)
-		End Function
-		Public Property Person() As IBillablePerson Implements IVatable.Person
-			Get
-				Return Me.Customer
-			End Get
-			Set(ByVal Value As IBillablePerson)
-			End Set
-		End Property
-		Public Property Vat() As Vat Implements IVatable.Vat
-			Get
-				Return Me.m_vat
-			End Get
-			Set(ByVal Value As Vat)
-				Me.m_vat = Value
-			End Set
-		End Property
-		Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
-			Get
-				If Not m_saving Then
-					RefreshPMA()
-				End If
-				For Each mi As Milestone In Me.ItemCollection
-					If mi.TaxPoint.Value = 1 Then
-						Return False
-					End If
-				Next
-				Return True
-			End Get
-		End Property
-		Public Sub RefreshPMA()
-			For Each item As Milestone In Me.ItemCollection
-				If Not Me.m_pmas.Contains(item.PMAId) Then
-					Me.m_pmas(item.PMAId) = New PaymentApplication(item.PMAId)
-				End If
-				item.PaymentApplication = CType(Me.m_pmas(item.PMAId), PaymentApplication)
-			Next
-		End Sub
-		Public Sub PopulateItemListing(ByVal dt As TreeTable, ByVal showDetail As Boolean)
-			dt.Clear()
-			Me.RefreshPMA()
-			Dim i As Integer
-			For Each item As Milestone In Me.ItemCollection
-				i += 1
-				Dim parRow As TreeRow = FindRow(item.CostCenter.Id, item.CostCenter.Code & ":" & item.CostCenter.Name, dt)
-				Dim row As TreeRow = parRow.Childs.Add()
-				row("Linenumber") = i
-				row("Type") = item.Type.Description
-				row("billii_milestone") = item.Code & ":" & item.Name
-				row("RealAmount") = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
-				row("AdvancePayment") = Configuration.FormatToString(item.Advance, DigitConfig.Price)
-				row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
-				row("DiscAndPenal") = Configuration.FormatToString(item.DiscountAmount + item.Penalty, DigitConfig.Price)
-				row("ExcVATAmount") = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
-				row("TaxBase") = Configuration.FormatToString(item.TaxBase, DigitConfig.Price)
-				row("Amount") = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-				row.Tag = item
-				If showDetail Then
-					'แสดงรายละเอียด
-					row.State = RowExpandState.Expanded
-					item.ReLoadItems()
-					For Each miDetailRow As TreeRow In item.ItemTable.Childs
-						Dim childRow As TreeRow = row.Childs.Add
-						Dim childText As String = miDetailRow("milestonei_desc").ToString
-						If Not miDetailRow.IsNull("milestonei_qty") AndAlso IsNumeric(miDetailRow("milestonei_qty")) AndAlso CDec(miDetailRow("milestonei_qty")) > 0 Then
-							Dim unitText As String = ""
-							If Not miDetailRow.IsNull("Unit") Then
-								unitText = " " & miDetailRow("Unit").ToString
-							End If
-							childText &= (Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty) & unitText)
-						End If
-						childRow("billii_milestone") = childText
-					Next
-				End If
-			Next
-			dt.AcceptChanges()
-		End Sub
-		Public Function FindRow(ByVal id As Integer, ByVal desc As String, ByVal dt As TreeTable) As TreeRow
-			For Each row As TreeRow In dt.Childs
-				If CInt(row.Tag) = id Then
-					Return row
-				End If
-			Next
-			Dim newRow As TreeRow
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-			Dim noParentText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.BlankParentText}")
-			If id = 0 Then
-				newRow = dt.Childs.Add
-			Else
-				Dim noParentRow As TreeRow = FindRow(0, noParentText, dt)
-				newRow = dt.Childs.InsertAt(dt.Childs.IndexOf(noParentRow))
-			End If
-			newRow.Tag = id
-			If desc Is Nothing OrElse IsDBNull(desc) Then
-				desc = noParentText
-			End If
-			newRow("billii_milestone") = desc
-			newRow.State = RowExpandState.Expanded
-			Return newRow
-		End Function
+      End Set
+    End Property
+    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+      Dim amt As Decimal
+      For Each item As Milestone In Me.ItemCollection
+        If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
+          If TypeOf item Is VariationOrderDe Then
+            amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
+          Else
+            amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
+          End If
+        End If
+      Next
+      Return Configuration.Format(amt, DigitConfig.Price)
+    End Function
+    Public Function GetPseudoTaxBase(ByVal pmaId As Integer) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me.ItemCollection
+        If item.PMAId = pmaId Then
+          If item.TaxType.Value <> 0 Then
+            If TypeOf item Is VariationOrderDe Then
+              amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
+            Else
+              amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
+            End If
+          Else
+            If TypeOf item Is VariationOrderDe Then
+              amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
+            Else
+              amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
+            End If
+          End If
+        End If
+      Next
+      Return Configuration.Format(amt, DigitConfig.Price)
+    End Function
+    Public Function GetPseudoTaxAmount(ByVal pmaId As Integer) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me.ItemCollection
+        If item.PMAId = pmaId Then
+          If item.TaxType.Value <> 0 Then
+            If TypeOf item Is VariationOrderDe Then
+              amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
+            Else
+              amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
+            End If
+          End If
+        End If
+      Next
+      Return Configuration.Format(Vat.GetVatAmount(amt), DigitConfig.Price)
+    End Function
+    Public Function GetPseudoOtherTaxBase(ByVal pmaId As Integer) As Decimal
+      Dim amt As Decimal = 0
+      For Each item As Milestone In Me.ItemCollection
+        If item.PMAId = pmaId Then
+          amt -= item.PseudoOtherTaxBase
+        End If
+      Next
+      Return Configuration.Format(amt, DigitConfig.Price)
+    End Function
+    Public Function GetPseudoOtherTaxAmount(ByVal pmaId As Integer) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me.ItemCollection
+        If item.PMAId = pmaId Then
+          If item.TaxType.Value <> 0 Then
+            If TypeOf item Is VariationOrderDe Then
+              amt += item.OtherTaxBase
+            Else
+              amt -= item.OtherTaxBase
+            End If
+          End If
+        End If
+      Next
+      Return Configuration.Format(Vat.GetVatAmount(amt), DigitConfig.Price)
+    End Function
+    Public Function GetOtherTaxBase() As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me.ItemCollection
+        If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
+          If TypeOf item Is VariationOrderDe Then
+            amt -= item.OtherTaxBase
+          Else
+            amt += item.OtherTaxBase
+          End If
+        End If
+      Next
+      Return Configuration.Format(amt, DigitConfig.Price)
+    End Function
+    Public Property Person() As IBillablePerson Implements IVatable.Person
+      Get
+        Return Me.Customer
+      End Get
+      Set(ByVal Value As IBillablePerson)
+      End Set
+    End Property
+    Public Property Vat() As Vat Implements IVatable.Vat
+      Get
+        Return Me.m_vat
+      End Get
+      Set(ByVal Value As Vat)
+        Me.m_vat = Value
+      End Set
+    End Property
+    Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
+      Get
+        If Not m_saving Then
+          RefreshPMA()
+        End If
+        For Each mi As Milestone In Me.ItemCollection
+          If mi.TaxPoint.Value = 1 Then
+            Return False
+          End If
+        Next
+        Return True
+      End Get
+    End Property
+    Public Sub RefreshPMA()
+      For Each item As Milestone In Me.ItemCollection
+        If Not Me.m_pmas.Contains(item.PMAId) Then
+          Me.m_pmas(item.PMAId) = New PaymentApplication(item.PMAId)
+        End If
+        item.PaymentApplication = CType(Me.m_pmas(item.PMAId), PaymentApplication)
+      Next
+    End Sub
+    Public Sub PopulateItemListing(ByVal dt As TreeTable, ByVal showDetail As Boolean)
+      dt.Clear()
+      Me.RefreshPMA()
+      Dim i As Integer
+      For Each item As Milestone In Me.ItemCollection
+        i += 1
+        Dim parRow As TreeRow = FindRow(item.CostCenter.Id, item.CostCenter.Code & ":" & item.CostCenter.Name, dt)
+        Dim row As TreeRow = parRow.Childs.Add()
+        row("Linenumber") = i
+        row("Type") = item.Type.Description
+        row("billii_milestone") = item.Code & ":" & item.Name
+        row("RealAmount") = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
+        row("AdvancePayment") = Configuration.FormatToString(item.Advance, DigitConfig.Price)
+        row("Discount") = Configuration.FormatToString(item.DiscountAmount, DigitConfig.Price)
+        row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
+        row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
+        row("ExcVATAmount") = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
+        row("TaxBase") = Configuration.FormatToString(item.TaxBase, DigitConfig.Price)
+        row("Amount") = Configuration.FormatToString(item.ReceivableForBillIssue, DigitConfig.Price)
+        row.Tag = item
+        If showDetail Then
+          'แสดงรายละเอียด
+          row.State = RowExpandState.Expanded
+          item.ReLoadItems()
+          For Each miDetailRow As TreeRow In item.ItemTable.Childs
+            Dim childRow As TreeRow = row.Childs.Add
+            Dim childText As String = miDetailRow("milestonei_desc").ToString
+            If Not miDetailRow.IsNull("milestonei_qty") AndAlso IsNumeric(miDetailRow("milestonei_qty")) AndAlso CDec(miDetailRow("milestonei_qty")) > 0 Then
+              Dim unitText As String = ""
+              If Not miDetailRow.IsNull("Unit") Then
+                unitText = " " & miDetailRow("Unit").ToString
+              End If
+              childText &= (Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty) & unitText)
+            End If
+            childRow("billii_milestone") = childText
+          Next
+        End If
+      Next
+      dt.AcceptChanges()
+    End Sub
+    Public Function FindRow(ByVal id As Integer, ByVal desc As String, ByVal dt As TreeTable) As TreeRow
+      For Each row As TreeRow In dt.Childs
+        If CInt(row.Tag) = id Then
+          Return row
+        End If
+      Next
+      Dim newRow As TreeRow
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim noParentText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.BlankParentText}")
+      If id = 0 Then
+        newRow = dt.Childs.Add
+      Else
+        Dim noParentRow As TreeRow = FindRow(0, noParentText, dt)
+        newRow = dt.Childs.InsertAt(dt.Childs.IndexOf(noParentRow))
+      End If
+      newRow.Tag = id
+      If desc Is Nothing OrElse IsDBNull(desc) Then
+        desc = noParentText
+      End If
+      newRow("billii_milestone") = desc
+      newRow.State = RowExpandState.Expanded
+      Return newRow
+    End Function
 #End Region
 
 #Region "IHasIBillablePerson"

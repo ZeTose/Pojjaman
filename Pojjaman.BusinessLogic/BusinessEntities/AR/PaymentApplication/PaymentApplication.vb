@@ -211,9 +211,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Case 0		 '"ไม่มี"
 						Return 0
 					Case 1		 '"แยก"
-						Return Me.TotalAmount
+            Return Me.ContractAmount - DiscountAmount
+            'Return Me.TotalAmount
 					Case 2		 '"รวม"
-						Return Me.TotalAmount * (100 / (Me.TaxRate + 100))
+            Return (Me.ContractAmount - DiscountAmount) * (100 / (Me.TaxRate + 100))
+            'Return Me.TotalAmount * (100 / (Me.TaxRate + 100))
 				End Select
       End Get
     End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Return (Me.TaxRate * Me.TaxBase) / 100      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get				Select Case Me.TaxType.Value
@@ -228,6 +230,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.BeforeTax
           Case 1, 2 'แยก,'รวม
             Return Me.BeforeTax + Me.TaxAmount
+        End Select      End Get    End Property    Public ReadOnly Property RealAfterTax() As Decimal      Get        Select Case Me.TaxType.Value
+          Case 0 '"ไม่มี"
+            Return Me.BeforeTax
+          Case 1, 2 'แยก,'รวม
+            Return Me.TaxBase + Me.TaxAmount
         End Select      End Get    End Property    Public ReadOnly Property DiscountAmount() As Decimal
       Get
         Return Me.m_itemCollection.GetCanGetDiscountAmount
@@ -277,7 +284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.ContractAmount + Me.VoInc - Me.VoDe - Me.DiscountAmount - Me.Penalty
       End Get
     End Property    Public ReadOnly Property Amount() As Decimal      Get
-        Return AllMilestoneAmount - Me.DiscountAmount - Me.Penalty
+        Return AllMilestoneAmount '- Me.DiscountAmount - Me.Penalty
       End Get
     End Property    Private m_advance As Decimal    Public Property Advance() As Decimal
       Get

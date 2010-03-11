@@ -330,7 +330,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_realTaxAmount As Decimal
 
     Private m_cost As Decimal
+    Private m_retentionAtReceives As Boolean
 #End Region
+
 
 #Region "Constructors"
     Private Sub Wire()
@@ -379,7 +381,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_receive.RefDoc = Me
         m_receive.DocDate = Me.m_docDate
         .m_cost = Decimal.MinValue
+        
       End With
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim arRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        arRetentionPoint = CInt(tmp)
+      End If
+      Me.m_retentionAtReceives = (arRetentionPoint = 1)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -465,6 +474,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '--------------------END REAL-------------------------
       End With
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim arRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        arRetentionPoint = CInt(tmp)
+      End If
+      Me.m_retentionAtReceives = (arRetentionPoint = 1)
     End Sub
 
 #End Region
@@ -542,22 +557,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return m_pma.CostCenter
       End Get
-    End Property    Public Overridable Property Retention() As Decimal
+    End Property#Region "No Effect to TaxAmount Properties"    Public Overridable Property Retention() As Decimal
       Get
         Return m_retention
       End Get
       Set(ByVal Value As Decimal)
         m_retention = Value
       End Set
-    End Property    Public Overridable ReadOnly Property ARRetentionAmount() As Decimal
+    End Property    Public Overridable ReadOnly Property RetentionforBillIssue() As Decimal
       Get
-        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
-        Dim arRetentionPoint As Integer = 0
-        If IsNumeric(tmp) Then
-          arRetentionPoint = CInt(tmp)
+        If Me.m_retentionAtReceives Then
+          Return m_retention
+        Else
+          Return 0
         End If
-        Dim ARretention As Boolean = (arRetentionPoint = 1)
-        If ARretention Then
+      End Get
+    End Property    Public Overridable ReadOnly Property RetentionforReceiveSelection() As Decimal
+      Get
+        If Me.m_retentionAtReceives Then
           Return m_retention
         Else
           Return 0
@@ -570,14 +587,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_penalty = Value
       End Set
-    End Property    Public Overridable Property Advance() As Decimal
+    End Property
+#End Region#Region "Effect to TaxAmount Properties"    Public Overridable Property Advance() As Decimal
       Get
         Return m_advance
       End Get
       Set(ByVal Value As Decimal)
         m_advance = Value
       End Set
-    End Property    Public Overridable ReadOnly Property AdvancePlusRetention() As Decimal
+    End Property    Public Overridable Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Overridable ReadOnly Property DiscountAmount() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+        End If        Select Case Me.TaxType.Value
+          Case 0, 1 '"ไม่มี",'"แยก"
+            'Me.Discount.AmountBeforeDiscount = Me.RealMileStoneAmount - sign * Me.AdvancePlusRetention            Me.Discount.AmountBeforeDiscount = Me.RealMileStoneAmount - sign * Me.Advance          Case 2 '"รวม"
+            'Me.Discount.AmountBeforeDiscount = (Me.RealMileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100) - sign * Me.Retention
+            Me.Discount.AmountBeforeDiscount = (Me.RealMileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100) '- sign * Me.Retention
+        End Select        Return Me.Discount.Amount      End Get    End Property
+#End Region        Public Overridable ReadOnly Property AdvancePlusRetention() As Decimal
       Get
         Return Advance + Retention
       End Get
@@ -589,16 +614,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_miAmount = Value
       End Set
-    End Property    Public Overridable Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Overridable ReadOnly Property DiscountAmount() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
-        End If        Select Case Me.TaxType.Value
+    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property#Region "Calculated"    Public Overridable ReadOnly Property CalculatedDiscountAmount() As Decimal      'ค่าที่ไม่ได้มาจากการป้อน --> มาจาก MilestoneAmount      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+        End If        Dim discount As New Discount(Me.Discount.Rate)        Select Case Me.TaxType.Value
+          ''' ------เวลาลดเขาเอายอด มัดจำมาคิดด้วยเหรอ งง
           Case 0, 1 '"ไม่มี",'"แยก"
-            Me.Discount.AmountBeforeDiscount = Me.RealMileStoneAmount - sign * Me.AdvancePlusRetention          Case 2 '"รวม"
-            Me.Discount.AmountBeforeDiscount = (Me.RealMileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100) - sign * Me.Retention
-        End Select        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property#Region "Calculated"    Public Overridable ReadOnly Property CalculatedDiscountAmount() As Decimal      'ค่าที่ไม่ได้มาจากการป้อน --> มาจาก MilestoneAmount      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
-        End If        Dim discount As New discount(Me.Discount.Rate)        Select Case Me.TaxType.Value
-          Case 0, 1 '"ไม่มี",'"แยก"
-            discount.AmountBeforeDiscount = Me.MileStoneAmount - sign * Me.AdvancePlusRetention          Case 2 '"รวม"
-            discount.AmountBeforeDiscount = (Me.MileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100) - sign * Me.Retention
+            'discount.AmountBeforeDiscount = Me.MileStoneAmount - sign * Me.AdvancePlusRetention            discount.AmountBeforeDiscount = Me.MileStoneAmount - sign * Me.Advance          Case 2 '"รวม"
+            'discount.AmountBeforeDiscount = (Me.MileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100) - sign * Me.Retention
+            discount.AmountBeforeDiscount = (Me.MileStoneAmount - sign * Me.Advance) / ((100 + Me.TaxRate) / 100)
         End Select        Return discount.Amount      End Get    End Property    Public ReadOnly Property CalculatedTaxBase() As Decimal      'ค่าที่ไม่ได้มาจากการป้อน --> มาจาก MilestoneAmount      Get
         Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If
@@ -606,9 +628,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 0 '"ไม่มี"
             Return 0
           Case 1 '"แยก"
-            Return CDec(Me.MileStoneAmount - sign * (Me.CalculatedDiscountAmount + Me.Penalty + Me.Advance))
+            'Return CDec(Me.MileStoneAmount - sign * (Me.CalculatedDiscountAmount + Me.Penalty + Me.Advance))
+            Return CDec(Me.MileStoneAmount - sign * (Me.CalculatedDiscountAmount + Me.Advance))
           Case 2 '"รวม"
-            Return CDec((Me.MileStoneAmount - sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.CalculatedDiscountAmount)
+            'Return CDec((Me.MileStoneAmount - sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.CalculatedDiscountAmount)
+            Return CDec((Me.MileStoneAmount - sign * (Me.CalculatedDiscountAmount + Me.Advance)) / ((100 + Me.TaxRate) / 100))
         End Select
       End Get
     End Property
@@ -619,15 +643,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1 '"แยก"
             Return Me.MileStoneAmount - sign * (Me.CalculatedDiscountAmount + Me.AdvancePlusRetention + Me.Penalty)
           Case 2 '"รวม"
-            Return Me.CalculatedTaxBase - Me.Retention
-        End Select      End Get    End Property    Public ReadOnly Property CalculatedAfterTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+            Return Me.CalculatedTaxBase - sign * (Me.Retention + Penalty)        End Select      End Get    End Property    Public ReadOnly Property CalculatedAfterTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return Me.CalculatedBeforeTax
           Case 1, 2 '"แยก"
             Return Me.CalculatedBeforeTax + Me.CalculatedTaxAmount
         End Select      End Get    End Property
-#End Region    Public ReadOnly Property TaxBase() As Decimal
+    Public ReadOnly Property CalculatedRealAfterTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+        End If        Select Case Me.TaxType.Value
+          Case 0 '"ไม่มี"
+            Return Me.CalculatedBeforeTax
+          Case 1, 2 '"แยก"
+            Return Me.CalculatedTaxBase + Me.CalculatedTaxAmount
+        End Select      End Get    End Property
+    Public ReadOnly Property CalculatedAmount() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+        End If        Select Case Me.TaxType.Value
+          Case 0 '"ไม่มี"
+            Return Me.CalculatedBeforeTax
+          Case 1, 2 '"แยก"
+            Return Me.CalculatedBeforeTax + Me.CalculatedTaxAmount
+        End Select      End Get    End Property
+#End Region#Region "Tax Properties"    ' TaxBase จับไป คูณ กับ Rate ต้องเป็น TaxAmount
+    Public ReadOnly Property TaxBase() As Decimal
       Get
         Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If
@@ -635,9 +673,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 0 '"ไม่มี"
             Return 0
           Case 1 '"แยก"
-            Return CDec(Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            ' Return CDec(Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            Return CDec(Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.Advance)) 'เอา ค่าปรับออกเพราะไม่ทำให้ Tax Base เปลี่ยน
           Case 2 '"รวม"
-            Return CDec((Me.RealMileStoneAmount - sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
+            'Return CDec((Me.RealMileStoneAmount - sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
+            Return CDec((Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.Advance)) / ((100 + Me.TaxRate) / 100))
         End Select
       End Get
     End Property    Public ReadOnly Property OtherTaxBase() As Decimal 'TaxBase ที่ลบออกจาก milestone
@@ -648,9 +688,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 0 '"ไม่มี"
             Return 0
           Case 1 '"แยก"
-            Return CDec(-sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            'Return CDec(-sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            Return CDec(-sign * (Me.DiscountAmount + Me.Advance))
           Case 2 '"รวม"
-            Return CDec((-sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
+            Return CDec((-sign * (Me.DiscountAmount + Me.Advance)) / ((100 + Me.TaxRate) / 100))
+            'Return CDec((-sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
         End Select
       End Get
     End Property    Public ReadOnly Property PseudoOtherTaxBase() As Decimal 'TaxBase ที่ลบออกจาก milestone
@@ -659,36 +701,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Select Case Me.TaxType.Value
           Case 0, 1 '"ไม่มี",'"แยก"
-            Return CDec(-sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            'Return CDec(-sign * (Me.DiscountAmount + Me.Penalty + Me.Advance))
+            Return CDec(-sign * (Me.DiscountAmount + Me.Advance))
           Case 2 '"รวม"
-            Return CDec((-sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
+            'Return CDec((-sign * (Me.Penalty + Me.Advance)) / ((100 + Me.TaxRate) / 100) - sign * Me.DiscountAmount)
+            Return CDec((-sign * (Me.Advance + Me.DiscountAmount)) / ((100 + Me.TaxRate) / 100))
         End Select
       End Get
     End Property    Public ReadOnly Property TaxType() As TaxType      Get        If Me.m_pma Is Nothing Then          Return New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
         End If        If Me.Type.Value = 77 Then          'Retention ไม่มี Vat          Return New TaxType(0)        Else
-          Return Me.m_pma.TaxType        End If      End Get    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Return (Me.TaxRate * Me.RealTaxBase) / 100      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
+          Return Me.m_pma.TaxType        End If      End Get    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Return (Me.TaxRate * Me.RealTaxBase) / 100      End Get    End Property    'ต่างจาก TaxBase ตรงที่ กรณี ไม่มี Vat มีค่าด้วย และ เอา พวกไม่มีผลต่อ TaxAmount มาลดคือ Retention Penalty    Public ReadOnly Property BeforeTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
         End If        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty)
           Case 1 '"แยก"
             Return Me.RealMileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty)
           Case 2 '"รวม"
-            Return Me.RealTaxBase '- Me.Retention
+            Return Me.RealTaxBase - sign * (Me.m_retention + Me.Penalty)
             'Me.MileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty) - Me.TaxAmount
-        End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        Dim sign As Integer = 1        If Me.Type.Value = 79 Then          sign = -1
-        End If        Select Case Me.TaxType.Value
-          Case 0 '"ไม่มี"
-            Return Me.BeforeTax
-          Case 1, 2 '"แยก"
-            Return Me.BeforeTax + Me.RealTaxAmount
-        End Select      End Get    End Property    Public ReadOnly Property TaxPoint() As TaxPoint      Get        If Me.m_pma Is Nothing Then          Return New TaxPoint(1)
-        End If        Return Me.m_pma.TaxPoint      End Get    End Property    Public Property Amount() As Decimal Implements IHasAmount.Amount
+        End Select      End Get    End Property    'AfterTax Case 1 เอาค่าไม่มีผลกับ TaxAmount ออกด้วย    Public ReadOnly Property AfterTax() As Decimal      Get        Return Me.BeforeTax + Me.RealTaxAmount      End Get    End Property    'Case 2 Aftertax = taxbase + taxamount    Public ReadOnly Property RealAfterTax() As Decimal      Get        Return Me.RealTaxBase + Me.RealTaxAmount
+      End Get    End Property    Public ReadOnly Property TaxPoint() As TaxPoint      Get        If Me.m_pma Is Nothing Then          Return New TaxPoint(1)
+        End If        Return Me.m_pma.TaxPoint      End Get    End Property#End Region    Public Property Amount() As Decimal Implements IHasAmount.Amount
       Get
-        Return AfterTax + Me.ARRetentionAmount
-      End Get
+        'If Me.TaxType.Value = 2 Then
+        'Return AfterTax - Me.m_retention
+        'Else
+        'Return AfterTax '+ Me.ARRetentionAmount
+        'End If
+          Return Me.AfterTax      End Get
       Set(ByVal Value As Decimal)
 
       End Set
+    End Property    Public ReadOnly Property Amount2() As Decimal
+      Get
+        Return Me.AfterTax - Retention - Penalty
+      End Get
+    End Property    Public ReadOnly Property ReceivableForBillIssue() As Decimal
+      Get
+        Return AfterTax + Me.RetentionforBillIssue
+      End Get
+    End Property    Public ReadOnly Property AmountForReceiveSelection() As Decimal
+      Get
+        If Me.TaxType.Value = 2 Then
+          Return AfterTax
+        Else
+          Return AfterTax + Me.RetentionforReceiveSelection
+        End If
+      End Get
     End Property    Public Overrides Property Status() As CodeDescription
       Get
         Return m_status
@@ -2254,6 +2313,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MyBase.List.Item(index) = value
       End Set
     End Property
+
 #End Region
 
 #Region "Class Methods"
@@ -2538,6 +2598,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function GetAmountForBillIssue(Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal = 0
+      For Each Item As Milestone In Me
+        Dim itemAmount As Decimal = Item.ReceivableForBillIssue
+        If roundBeforeSum Then
+          itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+        End If
+        If TypeOf Item Is VariationOrderDe Then
+          amt -= itemAmount
+        Else
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetAmountForReceiveSelection(Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal = 0
+      For Each Item As Milestone In Me
+        Dim itemAmount As Decimal = Item.AmountForReceiveSelection
+        If roundBeforeSum Then
+          itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+        End If
+        If TypeOf Item Is VariationOrderDe Then
+          amt -= itemAmount
+        Else
+          amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetCanGetAmountPlusRetention(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.ReceivableForBillIssue
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is VariationOrderDe Then
+            amt -= itemAmount
+          Else
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetCanGetTaxBase(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
@@ -2647,7 +2754,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim amt As Decimal
       For Each item As Milestone In Me
         If IncludeThisItem(item, pma) Then
-          Dim itemAmount As Decimal = item.CalculatedAfterTax
+          Dim itemAmount As Decimal = item.CalculatedAmount
           If roundBeforeSum Then
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
           End If

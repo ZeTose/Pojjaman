@@ -857,6 +857,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
     End Property
+    Public ReadOnly Property Retention() As Decimal
+      Get
+        Return m_ARretention
+      End Get
+    End Property
     Public ReadOnly Property AmountForGL As Decimal
       Get
         If Me.EntityId = 79 OrElse Me.EntityId = 48 Then
@@ -1268,6 +1273,33 @@ Public Class SaleBillIssueItemCollection
           SumRetention += Item.ARretention
         Next
         Return SumRetention
+      End Get
+    End Property
+    Public ReadOnly Property Retention As Decimal
+      Get
+        Dim SumRetention As Decimal = 0
+        For Each Item As SaleBillIssueItem In Me
+          SumRetention += Item.Retention
+        Next
+        Return SumRetention
+      End Get
+    End Property
+    Public ReadOnly Property BeforeTax As Decimal
+      Get
+        Dim SumBeforeTax As Decimal = 0
+        For Each Item As SaleBillIssueItem In Me
+          SumBeforeTax += Item.BeforeTax
+        Next
+        Return SumBeforeTax
+      End Get
+    End Property
+    Public ReadOnly Property WHTBase As Decimal
+      Get
+        Dim SumWHTBase As Decimal = 0
+        For Each Item As SaleBillIssueItem In Me
+          SumWHTBase += Item.BeforeTax + Item.Retention
+        Next
+        Return SumWHTBase
       End Get
     End Property
 #End Region

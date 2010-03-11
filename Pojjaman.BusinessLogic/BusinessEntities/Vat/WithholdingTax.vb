@@ -927,11 +927,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim refTaxBase As Decimal = 0
         If TypeOf RefDoc Is ReceiveSelection Then
-          If Me.Amount > CType(RefDoc, ReceiveSelection).RealTaxBase Then
+          If Me.Amount > CType(RefDoc, ReceiveSelection).GetMaximumWitholdingTaxBase Then
             If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                   New String() { _
                                                     Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                    Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).RealTaxBase, DigitConfig.Price) _
+                                                    Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).GetMaximumWitholdingTaxBase, DigitConfig.Price) _
                                                   }) Then
               Return New SaveErrorException("")
             End If

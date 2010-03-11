@@ -1641,6 +1641,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbAdvrRetention.ResumeLayout(False)
       Me.grbAdvrRetention.PerformLayout()
       Me.grbTax.ResumeLayout(False)
+      Me.grbTax.Enabled = True
       Me.grbTax.PerformLayout()
       Me.grbPaymentApplication.ResumeLayout(False)
       Me.grbPaymentApplication.PerformLayout()
@@ -3162,6 +3163,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.txtTaxRate.Text = Configuration.FormatToString(Me.m_entity.TaxRate, DigitConfig.Price)
 
+      Me.grbTax.Enabled = True
 
       'Load Items**********************************************************
       Me.PopulateItemListing()
@@ -3695,6 +3697,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       totalRow("Retention") = Configuration.FormatToString(Me.m_entity.ItemCollection.GetRetentionAmount, DigitConfig.Price)
       totalRow("Penalty") = Configuration.FormatToString(Me.m_entity.ItemCollection.GetPenaltyAmount, DigitConfig.Price)
       totalRow("RealAmount") = Configuration.FormatToString(Me.m_entity.ItemCollection.GetCanGetMilestoneAmount, DigitConfig.Price)
+      'totalRow("Discount") = Configuration.FormatToString(Me.m_entity.ItemCollection.GetDiscountAmount, DigitConfig.Price)
       totalRow("Amount") = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
       totalRow.Tag = Nothing
       Dim i As Integer
