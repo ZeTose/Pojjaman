@@ -4507,7 +4507,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Else
 						row("BACode") = DBNull.Value
 						row("BAName") = DBNull.Value
-					End If
+          End If
+          If TypeOf Me.Entity Is IHasName Then
+            Dim hasn As IHasName = CType(Me.Entity, IHasName)
+            row("BACode") = hasn.Code
+            row("BAName") = hasn.Name
+          Else
+            row("BACode") = DBNull.Value
+            row("BAName") = DBNull.Value
+          End If
 
 					If Me.Entity.Amount <> 0 Then
 						row("RealAmount") = Configuration.FormatToString(Me.Entity.Amount, DigitConfig.Price)
