@@ -1691,6 +1691,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.MappingName = "poi_unitprice"
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.poi_unitpriceHeaderText}")
       csUnitPRice.NullText = ""
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
       csUnitPRice.TextBox.Name = "poi_unitprice"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -1707,6 +1708,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.MappingName = "Amount"
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AmountHeaderText}")
       csAmount.NullText = ""
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty

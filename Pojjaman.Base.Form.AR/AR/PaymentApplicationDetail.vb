@@ -1157,7 +1157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(217, 222, 236)  'System.Drawing.SystemColors.InactiveCaptionText
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1728,6 +1728,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRealAmount.MappingName = "RealAmount"
       csRealAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.RealAmountHeaderText}")
       csRealAmount.NullText = ""
+      csRealAmount.DataAlignment = HorizontalAlignment.Right
       csRealAmount.TextBox.Name = "RealAmount"
       csRealAmount.Format = "#,###.##"
       AddHandler csRealAmount.CheckCellHilighted, AddressOf Me.SetHilightValues
@@ -1736,6 +1737,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.MappingName = "Amount"
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.AmountHeaderText}")
       csAmount.NullText = ""
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
       csAmount.Format = "#,###.##"
@@ -1745,6 +1747,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAdvance.MappingName = "Advance"
       csAdvance.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.AdvanceHeaderText}")
       csAdvance.NullText = ""
+      csAdvance.DataAlignment = HorizontalAlignment.Right
       csAdvance.TextBox.Name = "Advance"
       csAdvance.Format = "#,###.##"
       AddHandler csAdvance.CheckCellHilighted, AddressOf Me.SetHilightValues
@@ -1753,6 +1756,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRetention.MappingName = "Retention"
       csRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.RetentionHeaderText}")
       csRetention.NullText = ""
+      csRetention.DataAlignment = HorizontalAlignment.Right
       csRetention.TextBox.Name = "Retention"
       csRetention.Format = "#,###.##"
       AddHandler csRetention.CheckCellHilighted, AddressOf Me.SetHilightValues
@@ -1761,6 +1765,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csPenalty.MappingName = "Penalty"
       csPenalty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.PenaltyHeaderText}")
       csPenalty.NullText = ""
+      csPenalty.DataAlignment = HorizontalAlignment.Right
       csPenalty.TextBox.Name = "Penalty"
       csPenalty.Format = "#,###.##"
       AddHandler csPenalty.CheckCellHilighted, AddressOf Me.SetHilightValues
