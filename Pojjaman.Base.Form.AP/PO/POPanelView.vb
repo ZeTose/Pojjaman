@@ -2640,9 +2640,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim oldSupplier As Supplier = Me.m_entity.Supplier
             If Me.txtSupplierCode.TextLength <> 0 Then
               Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+              Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
             Else
               Me.m_entity.Supplier = New Supplier
               txtSupplierName.Text = ""
+              Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
             End If
             Try
               If oldSupId <> Me.m_entity.Supplier.Id Then
@@ -2654,6 +2656,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Me.m_entity.Supplier = oldSupplier
                   Me.txtSupplierCode.Text = oldSupplier.Code
                   Me.txtSupplierName.Text = oldSupplier.Name
+                  Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
                   supplierCodeChanged = False
                 End If
               End If
@@ -2687,6 +2690,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_isInitialized = False
           Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
           Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
+          Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
           m_isInitialized = True
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
