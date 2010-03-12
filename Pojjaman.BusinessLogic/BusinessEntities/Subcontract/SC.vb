@@ -1384,9 +1384,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("sci_status") = Me.Status.Value
             dr("sci_unitCost") = item.UnitCost
 
-            dr("sci_wr") = item.WR.Id
+            If Not WR Is Nothing Then
+              dr("sci_wr") = item.WR.Id
+            End If
             dr("sci_wrSequence") = item.WRISequence
-            dr("sci_wrUnit") = item.WRIUnit.Id
+            If Not item.WRIUnit Is Nothing Then
+              dr("sci_wrUnit") = item.WRIUnit.Id
+            End If
             dr("sci_wrQty") = item.WRIQty
 
             Dim dr2 As DataRow = dtOld.NewRow
