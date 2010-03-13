@@ -10,18 +10,18 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class EntityBaseClass
-        Implements IBaseEntityStatusCapable, IObjectReflectable
+    Implements IBaseEntityStatusCapable, IObjectReflectable
 
 #Region "Members"
-        Private m_canceled As Boolean
-        Private m_cancelDate As Date
-        Private m_cancelPerson As User
-        Private m_originated As Boolean
-        Private m_originDate As Date
-        Private m_originator As User
-        Private m_edited As Boolean
-        Private m_lastEditDate As Date
-        Private m_lastEditor As User
+    Private m_canceled As Boolean
+    Private m_cancelDate As Date
+    Private m_cancelPerson As User
+    Private m_originated As Boolean
+    Private m_originDate As Date
+    Private m_originator As User
+    Private m_edited As Boolean
+    Private m_lastEditDate As Date
+    Private m_lastEditor As User
 #End Region
 
 #Region "Properties"
@@ -33,101 +33,107 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IBaseEntityStatusCapable"
-        Public Property CancelDate() As Date Implements IBaseEntityStatusCapable.CancelDate
-            Get
-                Return m_cancelDate
-            End Get
-            Set(ByVal Value As Date)
-                m_cancelDate = Value
-            End Set
-        End Property
-        Public Property Canceled() As Boolean Implements IBaseEntityStatusCapable.Canceled
-            Get
-                Return m_canceled
-            End Get
-            Set(ByVal Value As Boolean)
-                m_canceled = Value
-            End Set
-        End Property
-        Public Property CancelPerson() As User Implements IBaseEntityStatusCapable.CancelPerson
-            Get
-                Return m_cancelPerson
-            End Get
-            Set(ByVal Value As User)
-                m_cancelPerson = Value
-            End Set
-        End Property
-        Public Property Edited() As Boolean Implements IBaseEntityStatusCapable.Edited
-            Get
-                Return m_edited
-            End Get
-            Set(ByVal Value As Boolean)
-                m_edited = Value
-            End Set
-        End Property
-        Public Property LastEditDate() As Date Implements IBaseEntityStatusCapable.LastEditDate
-            Get
-                Return m_lastEditDate
-            End Get
-            Set(ByVal Value As Date)
-                m_lastEditDate = Value
-            End Set
-        End Property
-        Public Property LastEditor() As User Implements IBaseEntityStatusCapable.LastEditor
-            Get
-                Return m_lastEditor
-            End Get
-            Set(ByVal Value As User)
-                m_lastEditor = Value
-            End Set
-        End Property
-        Public ReadOnly Property Originated() As Boolean Implements IBaseEntityStatusCapable.Originated
-            Get
-                Return m_originated
-            End Get
-        End Property
-        Public Property Originator() As User Implements IBaseEntityStatusCapable.Originator
-            Get
-                Return m_originator
-            End Get
-            Set(ByVal Value As User)
-                m_originator = Value
-            End Set
-        End Property
-        Public Property OriginDate() As Date Implements IBaseEntityStatusCapable.OriginDate
-            Get
-                Return m_originDate
-            End Get
-            Set(ByVal Value As Date)
-                m_originDate = Value
-            End Set
-        End Property
+    Public Property CancelDate() As Date Implements IBaseEntityStatusCapable.CancelDate
+      Get
+        Return m_cancelDate
+      End Get
+      Set(ByVal Value As Date)
+        m_cancelDate = Value
+      End Set
+    End Property
+    Public Property Canceled() As Boolean Implements IBaseEntityStatusCapable.Canceled
+      Get
+        Return m_canceled
+      End Get
+      Set(ByVal Value As Boolean)
+        m_canceled = Value
+      End Set
+    End Property
+    Public Property CancelPerson() As User Implements IBaseEntityStatusCapable.CancelPerson
+      Get
+        Return m_cancelPerson
+      End Get
+      Set(ByVal Value As User)
+        m_cancelPerson = Value
+      End Set
+    End Property
+    Public Property Edited() As Boolean Implements IBaseEntityStatusCapable.Edited
+      Get
+        Return m_edited
+      End Get
+      Set(ByVal Value As Boolean)
+        m_edited = Value
+      End Set
+    End Property
+    Public Property LastEditDate() As Date Implements IBaseEntityStatusCapable.LastEditDate
+      Get
+        Return m_lastEditDate
+      End Get
+      Set(ByVal Value As Date)
+        m_lastEditDate = Value
+      End Set
+    End Property
+    Public Property LastEditor() As User Implements IBaseEntityStatusCapable.LastEditor
+      Get
+        Return m_lastEditor
+      End Get
+      Set(ByVal Value As User)
+        m_lastEditor = Value
+      End Set
+    End Property
+    Public ReadOnly Property Originated() As Boolean Implements IBaseEntityStatusCapable.Originated
+      Get
+        Return m_originated
+      End Get
+    End Property
+    Public Property Originator() As User Implements IBaseEntityStatusCapable.Originator
+      Get
+        Return m_originator
+      End Get
+      Set(ByVal Value As User)
+        m_originator = Value
+      End Set
+    End Property
+    Public Property OriginDate() As Date Implements IBaseEntityStatusCapable.OriginDate
+      Get
+        Return m_originDate
+      End Get
+      Set(ByVal Value As Date)
+        m_originDate = Value
+      End Set
+    End Property
 #End Region
 
 #Region "IObjectReflectable"
-        Public Overridable ReadOnly Property [Namespace]() As String Implements IObjectReflectable.Namespace
-            Get
-                Return ""
-            End Get
-        End Property
-        Public Overridable ReadOnly Property ClassName() As String Implements IObjectReflectable.ClassName
-            Get
-                Return ""
-            End Get
-        End Property
-        Public ReadOnly Property FullClassName() As String Implements IObjectReflectable.FullClassName
-            Get
-                Return [Namespace] & "." & ClassName
-            End Get
-        End Property
+    Public Overridable ReadOnly Property [Namespace]() As String Implements IObjectReflectable.Namespace
+      Get
+        Return ""
+      End Get
+    End Property
+    Public Overridable ReadOnly Property ClassName() As String Implements IObjectReflectable.ClassName
+      Get
+        Return ""
+      End Get
+    End Property
+    Public ReadOnly Property FullClassName() As String Implements IObjectReflectable.FullClassName
+      Get
+        Return [Namespace] & "." & ClassName
+      End Get
+    End Property
 #End Region
 
-        Public ReadOnly Property EntityId() As Integer Implements IObjectReflectable.EntityId
-            Get
+    Public ReadOnly Property EntityId() As Integer Implements IObjectReflectable.EntityId
+      Get
 
-            End Get
-        End Property
-    End Class
+      End Get
+    End Property
+
+    Public ReadOnly Property FullClassNameForSecurity As String Implements IObjectReflectable.FullClassNameForSecurity
+      Get
+        Return FullClassName
+      End Get
+    End Property
+  End Class
 
    
     '    Public Class EntityBaseClass1

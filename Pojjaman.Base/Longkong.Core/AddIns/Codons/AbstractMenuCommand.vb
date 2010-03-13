@@ -62,7 +62,7 @@ Namespace Longkong.Core.AddIns.Codons
                     '    fcn = panel.Entity.FullClassName
                     'End If
                     'Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(fcn)
-                    Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(panel.Entity.FullClassName)
+          Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(panel.Entity.FullClassNameForSecurity)
                     If accessID = 0 Then
                         Return False 'MyBase.IsEnabled
                     End If

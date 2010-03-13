@@ -968,6 +968,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.Namespace & "." & Me.ClassName
       End Get
     End Property
+    Public Overridable ReadOnly Property FullClassNameForSecurity() As String Implements IObjectReflectable.FullClassNameForSecurity
+      Get
+        Return Me.FullClassName
+      End Get
+    End Property
     Public Overridable ReadOnly Property [Namespace]() As String Implements IObjectReflectable.Namespace
       Get
         Return "Longkong.Pojjaman.BusinessLogic"

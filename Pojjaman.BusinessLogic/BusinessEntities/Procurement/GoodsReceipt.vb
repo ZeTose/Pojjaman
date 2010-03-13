@@ -4698,7 +4698,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "GoodsReceiptForOperation"
       End Get
     End Property
-
+    Public Overrides ReadOnly Property FullClassNameForSecurity() As String
+      Get
+        Return Me.Namespace & "." & Me.CodonName
+      End Get
+    End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
         Return "${res:Longkong.Pojjaman.BusinessLogic.GoodsReceiptForOperation.DetailLabel}"

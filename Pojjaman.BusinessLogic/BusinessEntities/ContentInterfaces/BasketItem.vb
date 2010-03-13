@@ -189,6 +189,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ""
       End Get
     End Property
+
+    Public ReadOnly Property FullClassNameForSecurity As String Implements IObjectReflectable.FullClassNameForSecurity
+      Get
+        Return FullClassName
+      End Get
+    End Property
   End Class
   Public Interface IHasTag
     Property Tag() As Object

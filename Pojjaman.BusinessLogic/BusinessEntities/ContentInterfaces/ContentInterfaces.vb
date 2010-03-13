@@ -209,6 +209,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ReadOnly Property [Namespace]() As String
     ReadOnly Property ClassName() As String
     ReadOnly Property FullClassName() As String
+    ReadOnly Property FullClassNameForSecurity() As String
   End Interface
 
   Public Interface IPageInfoCapable
