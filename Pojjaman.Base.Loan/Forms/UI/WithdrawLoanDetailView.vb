@@ -55,6 +55,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WithdrawLoanDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblDay = New System.Windows.Forms.Label()
+      Me.txtCreditPeriod = New System.Windows.Forms.TextBox()
+      Me.lblCreditPeriod = New System.Windows.Forms.Label()
       Me.txtDueDate = New System.Windows.Forms.TextBox()
       Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
       Me.lblDueDate = New System.Windows.Forms.Label()
@@ -75,9 +78,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.lblCreditPeriod = New System.Windows.Forms.Label()
-      Me.txtCreditPeriod = New System.Windows.Forms.TextBox()
-      Me.lblDay = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -116,6 +116,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลธนาคาร : "
+      '
+      'lblDay
+      '
+      Me.lblDay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDay.ForeColor = System.Drawing.Color.Black
+      Me.lblDay.Location = New System.Drawing.Point(468, 76)
+      Me.lblDay.Name = "lblDay"
+      Me.lblDay.Size = New System.Drawing.Size(25, 18)
+      Me.lblDay.TabIndex = 9
+      Me.lblDay.Text = "วัน"
+      Me.lblDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'txtCreditPeriod
+      '
+      Me.Validator.SetDataType(Me.txtCreditPeriod, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
+      Me.Validator.SetDisplayName(Me.txtCreditPeriod, "")
+      Me.txtCreditPeriod.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
+      Me.txtCreditPeriod.Location = New System.Drawing.Point(419, 75)
+      Me.txtCreditPeriod.MaxLength = 13
+      Me.Validator.SetMinValue(Me.txtCreditPeriod, "")
+      Me.txtCreditPeriod.Name = "txtCreditPeriod"
+      Me.Validator.SetRegularExpression(Me.txtCreditPeriod, "")
+      Me.Validator.SetRequired(Me.txtCreditPeriod, True)
+      Me.txtCreditPeriod.Size = New System.Drawing.Size(38, 21)
+      Me.txtCreditPeriod.TabIndex = 8
+      Me.txtCreditPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'lblCreditPeriod
+      '
+      Me.lblCreditPeriod.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCreditPeriod.ForeColor = System.Drawing.Color.Black
+      Me.lblCreditPeriod.Location = New System.Drawing.Point(325, 76)
+      Me.lblCreditPeriod.Name = "lblCreditPeriod"
+      Me.lblCreditPeriod.Size = New System.Drawing.Size(88, 18)
+      Me.lblCreditPeriod.TabIndex = 7
+      Me.lblCreditPeriod.Text = "เครดิต:"
+      Me.lblCreditPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDueDate
       '
@@ -245,7 +284,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLoan.Name = "lblLoan"
       Me.lblLoan.Size = New System.Drawing.Size(136, 18)
       Me.lblLoan.TabIndex = 13
-      Me.lblLoan.Text = "สมุดเงินฝากธนาคาร:"
+      Me.lblLoan.Text = "วงเงินกู้:"
       Me.lblLoan.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblCurrencyUnit1
@@ -361,45 +400,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'lblCreditPeriod
-      '
-      Me.lblCreditPeriod.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCreditPeriod.ForeColor = System.Drawing.Color.Black
-      Me.lblCreditPeriod.Location = New System.Drawing.Point(325, 76)
-      Me.lblCreditPeriod.Name = "lblCreditPeriod"
-      Me.lblCreditPeriod.Size = New System.Drawing.Size(88, 18)
-      Me.lblCreditPeriod.TabIndex = 7
-      Me.lblCreditPeriod.Text = "เครดิต:"
-      Me.lblCreditPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtCreditPeriod
-      '
-      Me.Validator.SetDataType(Me.txtCreditPeriod, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
-      Me.Validator.SetDisplayName(Me.txtCreditPeriod, "")
-      Me.txtCreditPeriod.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCreditPeriod, System.Drawing.Color.Empty)
-      Me.txtCreditPeriod.Location = New System.Drawing.Point(419, 75)
-      Me.txtCreditPeriod.MaxLength = 13
-      Me.Validator.SetMinValue(Me.txtCreditPeriod, "")
-      Me.txtCreditPeriod.Name = "txtCreditPeriod"
-      Me.Validator.SetRegularExpression(Me.txtCreditPeriod, "")
-      Me.Validator.SetRequired(Me.txtCreditPeriod, True)
-      Me.txtCreditPeriod.Size = New System.Drawing.Size(38, 21)
-      Me.txtCreditPeriod.TabIndex = 8
-      Me.txtCreditPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'lblDay
-      '
-      Me.lblDay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDay.ForeColor = System.Drawing.Color.Black
-      Me.lblDay.Location = New System.Drawing.Point(468, 76)
-      Me.lblDay.Name = "lblDay"
-      Me.lblDay.Size = New System.Drawing.Size(25, 18)
-      Me.lblDay.TabIndex = 9
-      Me.lblDay.Text = "วัน"
-      Me.lblDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
       'WithdrawLoanDetailView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -423,7 +423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MyBase.New()
       Me.InitializeComponent()
       Me.SetLabelText()
-      Initialize()
+      'Initialize()
       UpdateEntityProperties()
       EventWiring()
     End Sub
@@ -626,9 +626,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         EventWiring()
       End Set
     End Property
-
-    Public Overrides Sub Initialize()
-    End Sub
 
 #End Region
 

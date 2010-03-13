@@ -71,8 +71,15 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\BLL\RefundLoan.vb" />
     <Compile Include="Forms\BLL\WithdrawLoan.vb" />
     <Compile Include="Forms\BLL\Loan.vb" />
+    <Compile Include="Forms\UI\RefundLoanDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\RefundLoanFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\UI\WithdrawLoanDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -102,6 +109,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\UI\RefundLoanDetailView.resx">
+      <DependentUpon>RefundLoanDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\RefundLoanFilterSubPanel.resx">
+      <DependentUpon>RefundLoanFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UI\WithdrawLoanDetailView.resx">
       <DependentUpon>WithdrawLoanDetailView.vb</DependentUpon>
     </EmbeddedResource>

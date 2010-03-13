@@ -539,7 +539,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property Payer As IBillablePerson Implements IReceivable.Payer
       Get
-        Return New Employee
+        'ไม่รู้จะ Return อะไรดี
       End Get
     End Property
 
@@ -553,7 +553,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
     Public Function RemainingAmount() As Decimal Implements IReceivable.RemainingAmount
-      Return Me.Amount 'ไม่รู้ว่าคืออะไรกันแน่
+      Return 0 'ไม่รู้ว่าคืออะไรกันแน่
     End Function
 #End Region
 

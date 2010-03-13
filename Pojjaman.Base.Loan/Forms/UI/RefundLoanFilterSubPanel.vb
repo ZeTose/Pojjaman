@@ -3,7 +3,7 @@ Imports longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class WithdrawLoanFilterSubPanel
+  Public Class RefundLoanFilterSubPanel
     Inherits AbstractFilterSubPanel
 
 #Region " Windows Form Designer generated code "
@@ -38,8 +38,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
     Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
     Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
-    Friend WithEvents txtWLCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblWLCode As System.Windows.Forms.Label
     Friend WithEvents btnBankAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtBankAccountName As System.Windows.Forms.TextBox
     Friend WithEvents txtBankAccountCode As System.Windows.Forms.TextBox
@@ -48,18 +46,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblCostCenter As System.Windows.Forms.Label
     Friend WithEvents txtCCName As System.Windows.Forms.TextBox
     Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
-    Friend WithEvents grbDueDate As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents txtDueDateStart As System.Windows.Forms.TextBox
-    Friend WithEvents txtDueDateEnd As System.Windows.Forms.TextBox
-    Friend WithEvents lblDueDateStart As System.Windows.Forms.Label
-    Friend WithEvents lblDueDateEnd As System.Windows.Forms.Label
-    Friend WithEvents dtpDueDateStart As System.Windows.Forms.DateTimePicker
-    Friend WithEvents dtpDueDateEnd As System.Windows.Forms.DateTimePicker
-    Friend WithEvents cmbType As System.Windows.Forms.ComboBox
+    Friend WithEvents txtLoanCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtLoanName As System.Windows.Forms.TextBox
+    Friend WithEvents lblLoan As System.Windows.Forms.Label
+    Friend WithEvents btnLoanFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WithdrawLoanFilterSubPanel))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RefundLoanFilterSubPanel))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
@@ -69,6 +63,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
       Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtLoanCode = New System.Windows.Forms.TextBox()
+      Me.txtLoanName = New System.Windows.Forms.TextBox()
+      Me.lblLoan = New System.Windows.Forms.Label()
       Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblCostCenter = New System.Windows.Forms.Label()
       Me.txtCCName = New System.Windows.Forms.TextBox()
@@ -76,8 +73,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnBankAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtBankAccountName = New System.Windows.Forms.TextBox()
       Me.txtBankAccountCode = New System.Windows.Forms.TextBox()
-      Me.txtWLCode = New System.Windows.Forms.TextBox()
-      Me.lblWLCode = New System.Windows.Forms.Label()
       Me.lblBankAccount = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.lblCode = New System.Windows.Forms.Label()
@@ -85,25 +80,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.grbDueDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtDueDateStart = New System.Windows.Forms.TextBox()
-      Me.txtDueDateEnd = New System.Windows.Forms.TextBox()
-      Me.lblDueDateStart = New System.Windows.Forms.Label()
-      Me.lblDueDateEnd = New System.Windows.Forms.Label()
-      Me.dtpDueDateStart = New System.Windows.Forms.DateTimePicker()
-      Me.dtpDueDateEnd = New System.Windows.Forms.DateTimePicker()
-      Me.cmbType = New System.Windows.Forms.ComboBox()
+      Me.btnLoanFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
-      Me.grbDueDate.SuspendLayout()
       Me.SuspendLayout()
       '
       'grbDetail
       '
       Me.grbDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.grbDueDate)
       Me.grbDetail.Controls.Add(Me.grbDocDate)
       Me.grbDetail.Controls.Add(Me.grbGeneral)
       Me.grbDetail.Controls.Add(Me.btnSearch)
@@ -111,8 +97,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(624, 206)
-      Me.grbDetail.TabIndex = 0
+      Me.grbDetail.Size = New System.Drawing.Size(624, 177)
+      Me.grbDetail.TabIndex = 9
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "มัดจำจ่าย"
       '
@@ -128,7 +114,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Location = New System.Drawing.Point(416, 16)
       Me.grbDocDate.Name = "grbDocDate"
       Me.grbDocDate.Size = New System.Drawing.Size(200, 72)
-      Me.grbDocDate.TabIndex = 1
+      Me.grbDocDate.TabIndex = 182
       Me.grbDocDate.TabStop = False
       Me.grbDocDate.Text = "วันที่เอกสาร"
       '
@@ -146,7 +132,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
       Me.txtDocDateStart.Size = New System.Drawing.Size(96, 20)
-      Me.txtDocDateStart.TabIndex = 1
+      Me.txtDocDateStart.TabIndex = 6
       '
       'txtDocDateEnd
       '
@@ -162,7 +148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
       Me.txtDocDateEnd.Size = New System.Drawing.Size(96, 20)
-      Me.txtDocDateEnd.TabIndex = 4
+      Me.txtDocDateEnd.TabIndex = 7
       '
       'lblDocDateStart
       '
@@ -171,7 +157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.Location = New System.Drawing.Point(8, 15)
       Me.lblDocDateStart.Name = "lblDocDateStart"
       Me.lblDocDateStart.Size = New System.Drawing.Size(56, 18)
-      Me.lblDocDateStart.TabIndex = 0
+      Me.lblDocDateStart.TabIndex = 8
       Me.lblDocDateStart.Text = "ตั้งแต่"
       Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -182,7 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateEnd.Location = New System.Drawing.Point(8, 39)
       Me.lblDocDateEnd.Name = "lblDocDateEnd"
       Me.lblDocDateEnd.Size = New System.Drawing.Size(56, 18)
-      Me.lblDocDateEnd.TabIndex = 3
+      Me.lblDocDateEnd.TabIndex = 9
       Me.lblDocDateEnd.Text = "ถึง"
       Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -192,7 +178,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateStart.Location = New System.Drawing.Point(72, 14)
       Me.dtpDocDateStart.Name = "dtpDocDateStart"
       Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 20)
-      Me.dtpDocDateStart.TabIndex = 2
+      Me.dtpDocDateStart.TabIndex = 10
       Me.dtpDocDateStart.TabStop = False
       '
       'dtpDocDateEnd
@@ -201,31 +187,77 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.Location = New System.Drawing.Point(72, 38)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
       Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 20)
-      Me.dtpDocDateEnd.TabIndex = 5
+      Me.dtpDocDateEnd.TabIndex = 11
       Me.dtpDocDateEnd.TabStop = False
       '
       'grbGeneral
       '
+      Me.grbGeneral.Controls.Add(Me.btnLoanFind)
+      Me.grbGeneral.Controls.Add(Me.txtLoanCode)
+      Me.grbGeneral.Controls.Add(Me.txtLoanName)
+      Me.grbGeneral.Controls.Add(Me.lblLoan)
       Me.grbGeneral.Controls.Add(Me.btnCCFind)
       Me.grbGeneral.Controls.Add(Me.lblCostCenter)
       Me.grbGeneral.Controls.Add(Me.txtCCName)
       Me.grbGeneral.Controls.Add(Me.txtCCCode)
       Me.grbGeneral.Controls.Add(Me.btnBankAccountFind)
-      Me.grbGeneral.Controls.Add(Me.cmbType)
       Me.grbGeneral.Controls.Add(Me.txtBankAccountName)
       Me.grbGeneral.Controls.Add(Me.txtBankAccountCode)
-      Me.grbGeneral.Controls.Add(Me.txtWLCode)
-      Me.grbGeneral.Controls.Add(Me.lblWLCode)
       Me.grbGeneral.Controls.Add(Me.lblBankAccount)
       Me.grbGeneral.Controls.Add(Me.txtCode)
       Me.grbGeneral.Controls.Add(Me.lblCode)
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbGeneral.Location = New System.Drawing.Point(8, 16)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(400, 152)
-      Me.grbGeneral.TabIndex = 0
+      Me.grbGeneral.Size = New System.Drawing.Size(402, 152)
+      Me.grbGeneral.TabIndex = 181
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "รายละเอียดทั่วไป"
+      '
+      'txtLoanCode
+      '
+      Me.Validator.SetDataType(Me.txtLoanCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtLoanCode, "")
+      Me.txtLoanCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtLoanCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtLoanCode, System.Drawing.Color.Empty)
+      Me.txtLoanCode.Location = New System.Drawing.Point(104, 43)
+      Me.txtLoanCode.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtLoanCode, "")
+      Me.txtLoanCode.Name = "txtLoanCode"
+      Me.Validator.SetRegularExpression(Me.txtLoanCode, "")
+      Me.Validator.SetRequired(Me.txtLoanCode, True)
+      Me.txtLoanCode.Size = New System.Drawing.Size(92, 21)
+      Me.txtLoanCode.TabIndex = 272
+      '
+      'txtLoanName
+      '
+      Me.Validator.SetDataType(Me.txtLoanName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtLoanName, "")
+      Me.txtLoanName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtLoanName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtLoanName, System.Drawing.Color.Empty)
+      Me.txtLoanName.Location = New System.Drawing.Point(199, 43)
+      Me.txtLoanName.MaxLength = 255
+      Me.Validator.SetMinValue(Me.txtLoanName, "")
+      Me.txtLoanName.Name = "txtLoanName"
+      Me.txtLoanName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtLoanName, "")
+      Me.Validator.SetRequired(Me.txtLoanName, False)
+      Me.txtLoanName.Size = New System.Drawing.Size(162, 21)
+      Me.txtLoanName.TabIndex = 273
+      Me.txtLoanName.TabStop = False
+      '
+      'lblLoan
+      '
+      Me.lblLoan.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblLoan.ForeColor = System.Drawing.Color.Black
+      Me.lblLoan.Location = New System.Drawing.Point(16, 41)
+      Me.lblLoan.Name = "lblLoan"
+      Me.lblLoan.Size = New System.Drawing.Size(80, 18)
+      Me.lblLoan.TabIndex = 271
+      Me.lblLoan.Text = "วงเงินกู้:"
+      Me.lblLoan.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnCCFind
       '
@@ -235,7 +267,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCFind.Location = New System.Drawing.Point(367, 117)
       Me.btnCCFind.Name = "btnCCFind"
       Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCFind.TabIndex = 12
+      Me.btnCCFind.TabIndex = 183
       Me.btnCCFind.TabStop = False
       Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -246,7 +278,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCostCenter.Location = New System.Drawing.Point(16, 119)
       Me.lblCostCenter.Name = "lblCostCenter"
       Me.lblCostCenter.Size = New System.Drawing.Size(80, 18)
-      Me.lblCostCenter.TabIndex = 9
+      Me.lblCostCenter.TabIndex = 186
       Me.lblCostCenter.Text = "CostCenter:"
       Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -265,7 +297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtCCName, "")
       Me.Validator.SetRequired(Me.txtCCName, False)
       Me.txtCCName.Size = New System.Drawing.Size(162, 21)
-      Me.txtCCName.TabIndex = 11
+      Me.txtCCName.TabIndex = 185
       Me.txtCCName.TabStop = False
       '
       'txtCCCode
@@ -281,7 +313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtCCCode, "")
       Me.Validator.SetRequired(Me.txtCCCode, False)
       Me.txtCCCode.Size = New System.Drawing.Size(92, 21)
-      Me.txtCCCode.TabIndex = 10
+      Me.txtCCCode.TabIndex = 184
       '
       'btnBankAccountFind
       '
@@ -291,7 +323,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnBankAccountFind.Location = New System.Drawing.Point(367, 93)
       Me.btnBankAccountFind.Name = "btnBankAccountFind"
       Me.btnBankAccountFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnBankAccountFind.TabIndex = 8
+      Me.btnBankAccountFind.TabIndex = 20
       Me.btnBankAccountFind.TabStop = False
       Me.btnBankAccountFind.ThemedImage = CType(resources.GetObject("btnBankAccountFind.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -310,7 +342,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtBankAccountName, "")
       Me.Validator.SetRequired(Me.txtBankAccountName, False)
       Me.txtBankAccountName.Size = New System.Drawing.Size(162, 21)
-      Me.txtBankAccountName.TabIndex = 7
+      Me.txtBankAccountName.TabIndex = 19
       Me.txtBankAccountName.TabStop = False
       '
       'txtBankAccountCode
@@ -327,34 +359,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtBankAccountCode, "")
       Me.Validator.SetRequired(Me.txtBankAccountCode, True)
       Me.txtBankAccountCode.Size = New System.Drawing.Size(92, 21)
-      Me.txtBankAccountCode.TabIndex = 6
-      '
-      'txtWLCode
-      '
-      Me.Validator.SetDataType(Me.txtWLCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtWLCode, "")
-      Me.txtWLCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtWLCode, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtWLCode, System.Drawing.Color.Empty)
-      Me.txtWLCode.Location = New System.Drawing.Point(104, 41)
-      Me.txtWLCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtWLCode, "")
-      Me.txtWLCode.Name = "txtWLCode"
-      Me.Validator.SetRegularExpression(Me.txtWLCode, "")
-      Me.Validator.SetRequired(Me.txtWLCode, False)
-      Me.txtWLCode.Size = New System.Drawing.Size(290, 21)
-      Me.txtWLCode.TabIndex = 3
-      '
-      'lblWLCode
-      '
-      Me.lblWLCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWLCode.ForeColor = System.Drawing.Color.Black
-      Me.lblWLCode.Location = New System.Drawing.Point(6, 41)
-      Me.lblWLCode.Name = "lblWLCode"
-      Me.lblWLCode.Size = New System.Drawing.Size(90, 18)
-      Me.lblWLCode.TabIndex = 2
-      Me.lblWLCode.Text = "เลขที่ใบรับเงิน:"
-      Me.lblWLCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.txtBankAccountCode.TabIndex = 18
       '
       'lblBankAccount
       '
@@ -363,7 +368,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBankAccount.Location = New System.Drawing.Point(16, 95)
       Me.lblBankAccount.Name = "lblBankAccount"
       Me.lblBankAccount.Size = New System.Drawing.Size(80, 18)
-      Me.lblBankAccount.TabIndex = 5
+      Me.lblBankAccount.TabIndex = 17
       Me.lblBankAccount.Text = "สมุดเงินฝาก:"
       Me.lblBankAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -381,16 +386,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(290, 21)
-      Me.txtCode.TabIndex = 1
+      Me.txtCode.TabIndex = 7
       '
       'lblCode
       '
       Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCode.ForeColor = System.Drawing.Color.Black
-      Me.lblCode.Location = New System.Drawing.Point(6, 16)
+      Me.lblCode.Location = New System.Drawing.Point(16, 16)
       Me.lblCode.Name = "lblCode"
-      Me.lblCode.Size = New System.Drawing.Size(90, 18)
-      Me.lblCode.TabIndex = 0
+      Me.lblCode.Size = New System.Drawing.Size(80, 18)
+      Me.lblCode.TabIndex = 13
       Me.lblCode.Text = "เลขที่:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -398,20 +403,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(528, 174)
+      Me.btnSearch.Location = New System.Drawing.Point(528, 145)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-      Me.btnSearch.TabIndex = 4
+      Me.btnSearch.TabIndex = 7
       Me.btnSearch.Text = "ค้นหา"
       '
       'btnReset
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(448, 174)
+      Me.btnReset.Location = New System.Drawing.Point(448, 145)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
-      Me.btnReset.TabIndex = 3
+      Me.btnReset.TabIndex = 7
       Me.btnReset.Text = "เคลียร์"
       '
       'Validator
@@ -427,114 +432,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'grbDueDate
+      'btnLoanFind
       '
-      Me.grbDueDate.Controls.Add(Me.txtDueDateStart)
-      Me.grbDueDate.Controls.Add(Me.txtDueDateEnd)
-      Me.grbDueDate.Controls.Add(Me.lblDueDateStart)
-      Me.grbDueDate.Controls.Add(Me.lblDueDateEnd)
-      Me.grbDueDate.Controls.Add(Me.dtpDueDateStart)
-      Me.grbDueDate.Controls.Add(Me.dtpDueDateEnd)
-      Me.grbDueDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDueDate.Location = New System.Drawing.Point(414, 95)
-      Me.grbDueDate.Name = "grbDueDate"
-      Me.grbDueDate.Size = New System.Drawing.Size(200, 72)
-      Me.grbDueDate.TabIndex = 2
-      Me.grbDueDate.TabStop = False
-      Me.grbDueDate.Text = "วันที่เอกสาร"
+      Me.btnLoanFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnLoanFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnLoanFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnLoanFind.Location = New System.Drawing.Point(367, 39)
+      Me.btnLoanFind.Name = "btnLoanFind"
+      Me.btnLoanFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnLoanFind.TabIndex = 274
+      Me.btnLoanFind.TabStop = False
+      Me.btnLoanFind.ThemedImage = CType(resources.GetObject("btnLoanFind.ThemedImage"), System.Drawing.Bitmap)
       '
-      'txtDueDateStart
-      '
-      Me.txtDueDateStart.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtDueDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDueDateStart, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDueDateStart, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDueDateStart, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDueDateStart, System.Drawing.Color.Empty)
-      Me.txtDueDateStart.Location = New System.Drawing.Point(72, 14)
-      Me.Validator.SetMinValue(Me.txtDueDateStart, "")
-      Me.txtDueDateStart.Name = "txtDueDateStart"
-      Me.Validator.SetRegularExpression(Me.txtDueDateStart, "")
-      Me.Validator.SetRequired(Me.txtDueDateStart, False)
-      Me.txtDueDateStart.Size = New System.Drawing.Size(96, 20)
-      Me.txtDueDateStart.TabIndex = 1
-      '
-      'txtDueDateEnd
-      '
-      Me.txtDueDateEnd.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtDueDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDueDateEnd, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDueDateEnd, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDueDateEnd, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDueDateEnd, System.Drawing.Color.Empty)
-      Me.txtDueDateEnd.Location = New System.Drawing.Point(72, 38)
-      Me.Validator.SetMinValue(Me.txtDueDateEnd, "")
-      Me.txtDueDateEnd.Name = "txtDueDateEnd"
-      Me.Validator.SetRegularExpression(Me.txtDueDateEnd, "")
-      Me.Validator.SetRequired(Me.txtDueDateEnd, False)
-      Me.txtDueDateEnd.Size = New System.Drawing.Size(96, 20)
-      Me.txtDueDateEnd.TabIndex = 4
-      '
-      'lblDueDateStart
-      '
-      Me.lblDueDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDueDateStart.ForeColor = System.Drawing.Color.Black
-      Me.lblDueDateStart.Location = New System.Drawing.Point(8, 15)
-      Me.lblDueDateStart.Name = "lblDueDateStart"
-      Me.lblDueDateStart.Size = New System.Drawing.Size(56, 18)
-      Me.lblDueDateStart.TabIndex = 0
-      Me.lblDueDateStart.Text = "ตั้งแต่"
-      Me.lblDueDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblDueDateEnd
-      '
-      Me.lblDueDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDueDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblDueDateEnd.Location = New System.Drawing.Point(8, 39)
-      Me.lblDueDateEnd.Name = "lblDueDateEnd"
-      Me.lblDueDateEnd.Size = New System.Drawing.Size(56, 18)
-      Me.lblDueDateEnd.TabIndex = 3
-      Me.lblDueDateEnd.Text = "ถึง"
-      Me.lblDueDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'dtpDueDateStart
-      '
-      Me.dtpDueDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDueDateStart.Location = New System.Drawing.Point(72, 14)
-      Me.dtpDueDateStart.Name = "dtpDueDateStart"
-      Me.dtpDueDateStart.Size = New System.Drawing.Size(120, 20)
-      Me.dtpDueDateStart.TabIndex = 2
-      Me.dtpDueDateStart.TabStop = False
-      '
-      'dtpDueDateEnd
-      '
-      Me.dtpDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDueDateEnd.Location = New System.Drawing.Point(72, 38)
-      Me.dtpDueDateEnd.Name = "dtpDueDateEnd"
-      Me.dtpDueDateEnd.Size = New System.Drawing.Size(120, 20)
-      Me.dtpDueDateEnd.TabIndex = 5
-      Me.dtpDueDateEnd.TabStop = False
-      '
-      'cmbType
-      '
-      Me.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbType.Location = New System.Drawing.Point(104, 68)
-      Me.cmbType.Name = "cmbType"
-      Me.cmbType.Size = New System.Drawing.Size(128, 21)
-      Me.cmbType.TabIndex = 4
-      '
-      'WithdrawLoanFilterSubPanel
+      'RefundLoanFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
-      Me.Name = "WithdrawLoanFilterSubPanel"
-      Me.Size = New System.Drawing.Size(640, 222)
+      Me.Name = "RefundLoanFilterSubPanel"
+      Me.Size = New System.Drawing.Size(640, 193)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDocDate.ResumeLayout(False)
       Me.grbDocDate.PerformLayout()
       Me.grbGeneral.ResumeLayout(False)
       Me.grbGeneral.PerformLayout()
-      Me.grbDueDate.ResumeLayout(False)
-      Me.grbDueDate.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -544,27 +463,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Sub SetLabelText()
       'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.grbDetail}")
-      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.grbGeneral}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel.grbDetail}")
+      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RefundLoanFilterSubPanel.grbGeneral}")
       Me.grbDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
-      Me.grbDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.grbDueDate}")
 
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblCode}")
-      Me.lblWLCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblWLCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RefundLoanFilterSubPanel.lblCode}")
+      Me.lblLoan.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RefundLoanFilterSubPanel.lblLoan}")
+      Me.lblBankAccount.Text = Me.StringParserService.Parse("${res:Global.Entity.23}")
+      Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
 
-      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblDocDateStart}")
+
+      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel.lblDocDateStart}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-      Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblDocDateEnd}")
-      Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-
-      Me.lblDueDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblDueDateStart}")
-      Me.Validator.SetDisplayName(txtDueDateStart, lblDueDateStart.Text)
-
-      Me.lblDueDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel.lblDueDateEnd}")
+      Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LoanFilterSubPanel.lblDocDateEnd}")
       Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
     End Sub
 #End Region
@@ -572,8 +487,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Member"
     Private m_docdatestart As Date
     Private m_docdateend As Date
-    Private m_duedatestart As Date
-    Private m_duedateend As Date
 #End Region
 
 #Region "Constructors"
@@ -604,22 +517,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_docdateend = Value
       End Set
     End Property
-    Private Property DuedateStart() As Date
-      Get
-        Return m_duedatestart
-      End Get
-      Set(ByVal Value As Date)
-        m_duedatestart = Value
-      End Set
-    End Property
-    Private Property DuedateEnd() As Date
-      Get
-        Return m_duedateend
-      End Get
-      Set(ByVal Value As Date)
-        m_duedateend = Value
-      End Set
-    End Property
 #End Region
 
 #Region "Methods"
@@ -628,16 +525,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtDueDateStart.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpDueDateStart.ValueChanged, AddressOf Me.ChangeProperty
-      AddHandler txtDueDateEnd.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpDueDateEnd.ValueChanged, AddressOf Me.ChangeProperty
-
       AddHandler txtBankAccountCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtCCCode.Validated, AddressOf Me.ChangeProperty
       ClearCriterias()
-      CodeDescription.ListCodeDescriptionInComboBox(cmbType, "LoanType", True)
     End Sub
     Private m_dateSetting As Boolean
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
@@ -694,52 +584,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
           m_dateSetting = False
-        Case "dtpduedatestart"
-          If Not Me.DuedateStart.Equals(dtpDueDateStart.Value) Then
-            If Not m_dateSetting Then
-              Me.txtDueDateStart.Text = MinDateToNull(dtpDueDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.DuedateStart = dtpDueDateStart.Value
-            End If
-            dirtyFlag = True
-          End If
-        Case "txtduedatestart"
-          m_dateSetting = True
-          If Not Me.txtDueDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDateStart) = "" Then
-            Dim theDate As Date = CDate(Me.txtDueDateStart.Text)
-            If Not Me.DuedateStart.Equals(theDate) Then
-              dtpDueDateStart.Value = theDate
-              Me.DuedateStart = dtpDueDateStart.Value
-              dirtyFlag = True
-            End If
-          Else
-            Me.dtpDueDateStart.Value = Date.Now
-            Me.DuedateStart = Date.MinValue
-            dirtyFlag = True
-          End If
-          m_dateSetting = False
-        Case "dtpduedateend"
-          If Not Me.DuedateEnd.Equals(dtpDueDateEnd.Value) Then
-            If Not m_dateSetting Then
-              Me.txtDueDateEnd.Text = MinDateToNull(dtpDueDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.DuedateEnd = dtpDueDateEnd.Value
-            End If
-            dirtyFlag = True
-          End If
-        Case "txtduedateend"
-          m_dateSetting = True
-          If Not Me.txtDueDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDateEnd) = "" Then
-            Dim theDate As Date = CDate(Me.txtDueDateEnd.Text)
-            If Not Me.DuedateEnd.Equals(theDate) Then
-              dtpDueDateEnd.Value = theDate
-              Me.DuedateEnd = dtpDueDateEnd.Value
-              dirtyFlag = True
-            End If
-          Else
-            Me.dtpDueDateEnd.Value = Date.Now
-            Me.DuedateEnd = Date.MinValue
-            dirtyFlag = True
-          End If
-          m_dateSetting = False
         Case Else
       End Select
     End Sub
@@ -762,18 +606,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.DocdateStart = Date.MinValue
       Me.DocdateEnd = Date.MinValue
 
-      Me.dtpDueDateStart.Value = Now.Date
-      Me.dtpDueDateEnd.Value = Now.Date
 
-      Me.txtDueDateStart.Text = ""
-      Me.txtDueDateEnd.Text = ""
-
-      Me.DuedateStart = Date.MinValue
-      Me.DuedateEnd = Date.MinValue
-
-      If cmbType.Items.Count > 0 Then
-        cmbType.SelectedIndex = 0
-      End If
 
       EntityRefresh()
     End Sub
@@ -781,20 +614,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(8) As Filter
-      arr(0) = New Filter("loan_code", IIf(Me.txtCode.TextLength = 0, DBNull.Value, Me.txtCode.Text))
-      arr(1) = New Filter("code", IIf(Me.txtWLCode.TextLength = 0, DBNull.Value, Me.txtWLCode.Text))
-      arr(2) = New Filter("cc_id", Me.ValidIdOrDBNull(Me.m_cc))
-      arr(3) = New Filter("docdatestart", Me.ValidDateOrDBNull(Me.DocdateStart))
-      arr(4) = New Filter("docdateend", Me.ValidDateOrDBNull(Me.DocdateEnd))
-      arr(5) = New Filter("bankacct_id", Me.ValidIdOrDBNull(Me.m_bankaccount))
-      Dim typeId As Integer = -1
-      If Not Me.cmbType.SelectedItem Is Nothing AndAlso TypeOf Me.cmbType.SelectedItem Is IdValuePair Then
-        typeId = CType(cmbType.SelectedItem, IdValuePair).Id
-      End If
-      arr(6) = New Filter("loan_type", typeId)
-      arr(7) = New Filter("duedatestart", Me.ValidDateOrDBNull(Me.DuedateStart))
-      arr(8) = New Filter("duedateend", Me.ValidDateOrDBNull(Me.DuedateEnd))
+      Dim arr(4) As Filter
+      arr(0) = New Filter("code", IIf(Me.txtCode.TextLength = 0, DBNull.Value, Me.txtCode.Text))
+      arr(1) = New Filter("cc_id", Me.ValidIdOrDBNull(Me.m_cc))
+      arr(2) = New Filter("docdatestart", Me.ValidDateOrDBNull(Me.DocdateStart))
+      arr(3) = New Filter("docdateend", Me.ValidDateOrDBNull(Me.DocdateEnd))
+      arr(4) = New Filter("bankacct_id", Me.ValidIdOrDBNull(Me.m_bankaccount))
       Return arr
     End Function
 
@@ -898,6 +723,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
 
+    Private Sub txtLoanCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtLoanCode.TextChanged
+
+    End Sub
   End Class
 End Namespace
 
