@@ -609,12 +609,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
-      'เจ้าหนี้เงินกู้
-      If Me.Amount > 0 Then
+      'เจ้าหนี้เงินกู้(ยอดคืนเงินต้น:Refund)
+      If Me.Refund > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "RFL1" 'ตั้งใหม่
-        ji.Amount = Configuration.Format(Me.Amount, DigitConfig.Price)
+        ji.Amount = Configuration.Format(Me.Refund, DigitConfig.Price)
         ji.Account = Me.Loan.Account
+        If Me.Loan.CostCenter.Originated Then 'เอกสารเคยมีใน DB หรือไม่
+          ji.CostCenter = Me.Loan.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
+      'ดอกเบี้ย(Interest)
+      If Me.Interest > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RFL2" 'ตั้งใหม่
+        ji.Amount = Configuration.Format(Me.Interest, DigitConfig.Price)
+        If Me.Loan.CostCenter.Originated Then 'เอกสารเคยมีใน DB หรือไม่
+          ji.CostCenter = Me.Loan.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
+      'ค่าธรรมเนียม(OtherCharge)
+      If Me.OtherCharge > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RFL3" 'ตั้งใหม่
+        ji.Amount = Configuration.Format(Me.OtherCharge, DigitConfig.Price)
         If Me.Loan.CostCenter.Originated Then 'เอกสารเคยมีใน DB หรือไม่
           ji.CostCenter = Me.Loan.CostCenter
         Else
@@ -659,7 +683,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
-          ji.Note = Me.Recipient.Name
+          ji.Note = Me.Loan.Name
           jiColl.Add(ji)
         End If
       Next
@@ -678,7 +702,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
-          ji.Note = Me.Recipient.Name
+          ji.Note = Me.Loan.Name
+
           jiColl.Add(ji)
         End If
       Next
@@ -697,7 +722,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
-          ji.Note = Me.Recipient.Name
+          ji.Note = Me.Loan.Name
           jiColl.Add(ji)
         End If
       Next
@@ -735,7 +760,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property Recipient As IBillablePerson Implements IPayable.Recipient
       Get
-        'ไม่รู้จะ Return อะไรดี
+        Return Supplier.GetDefaultSupplier(Supplier.DefaultSupplierType.AdvanceMoney)
       End Get
     End Property
 
