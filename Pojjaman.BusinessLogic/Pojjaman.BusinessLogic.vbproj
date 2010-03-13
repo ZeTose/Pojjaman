@@ -364,6 +364,7 @@
     <Compile Include="BusinessEntities\CashBank\CashWithdraw.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\CashBank\Loan.vb" />
     <Compile Include="BusinessEntities\CashBank\PettyCash.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -397,6 +398,7 @@
     <Compile Include="BusinessEntities\Check\Incoming\UpdateCheckReceive.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Check\Outgoing\OutgoingAval.vb" />
     <Compile Include="BusinessEntities\Check\Outgoing\ExportOutgoingCheck.vb">
       <SubType>Code</SubType>
     </Compile>

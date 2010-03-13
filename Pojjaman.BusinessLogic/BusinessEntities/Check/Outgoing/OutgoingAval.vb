@@ -8,9 +8,9 @@ Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class OutgoingCheck
+  Public Class OutgoingAval
     Inherits SimpleBusinessEntityBase
-    Implements IPaymentItem, IPrintableEntity, IHasBankAccount, IHasIBillablePerson, ICheckPeriod
+    Implements IPaymentItem, IPrintableEntity, IHasIBillablePerson, ICheckPeriod
 
 
 #Region "Members"
@@ -19,7 +19,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_dueDate As Date
     Private m_supplier As Supplier
     Private m_recipient As String
-    Private m_bankacct As BankAccount
+    Private m_Loan As Loan
 
     Private m_amount As Decimal
     Private m_bankcharge As Decimal
@@ -49,7 +49,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
 
-      Me.m_bankacct = New BankAccount
+      Me.m_Loan = New Loan
       Me.m_supplier = New Supplier
       Me.m_issueDate = Now.Date
       If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
@@ -95,11 +95,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "bankacct_id") Then
           If Not dr.IsNull(aliasPrefix & "bankacct_id") Then
-            .m_bankacct = New BankAccount(dr, aliasPrefix)
+            .m_Loan = New Loan(dr, aliasPrefix)
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "check_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "check_bankacct") Then
-            .m_bankacct = New BankAccount(CInt(dr(aliasPrefix & "check_bankacct")))
+            .m_Loan = New Loan(CInt(dr(aliasPrefix & "check_bankacct")))
           End If
         End If
 
@@ -148,7 +148,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If        If Not ConfigurationSettings.AppSettings.Item("AddInsDirectory") Is Nothing AndAlso ConfigurationSettings.AppSettings.Item("AddInsDirectory").ToLower.EndsWith("_ple\") Then
           RefreshPV()        End If
-      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        Return m_bankacct      End Get      Set(ByVal Value As BankAccount)        m_bankacct = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
+      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Loan() As Loan      Get        Return m_Loan      End Get      Set(ByVal Value As Loan)        m_Loan = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
         Return m_bankcharge
       End Get
       Set(ByVal Value As Decimal)
@@ -270,7 +270,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim endNumber As Integer = CInt(endText)
       Dim runNumbers As New ArrayList
       For runNumber As Integer = startNumber To endNumber
-        runNumbers.Add(runnumber.ToString.PadLeft(startText.Length, "0"c))
+        runNumbers.Add(runNumber.ToString.PadLeft(startText.Length, "0"c))
       Next
       For Each runNumber As String In runNumbers
         Dim chk As New OutgoingCheck
@@ -452,7 +452,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Overrides"
     Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "OutgoingCheck"
+        Return "OutgoingAval"
       End Get
     End Property
 
@@ -567,7 +567,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", ValidDateOrDBNull(Me.DueDate)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_supplier", Me.ValidIdOrDBNull(Me.Supplier)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_recipient", Me.Recipient))
-      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", Me.ValidIdOrDBNull(Me.Bankacct)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", Me.ValidIdOrDBNull(Me.Loan)))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankcharge", Me.BankCharge))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wht", Me.WHT))
@@ -576,6 +576,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isaval", True))
+
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -690,7 +692,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", ValidDateOrDBNull(Me.DueDate)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_supplier", Me.ValidIdOrDBNull(Me.Supplier)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_recipient", Me.Recipient))
-      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", Me.ValidIdOrDBNull(Me.Bankacct)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", Me.ValidIdOrDBNull(Me.Loan)))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankcharge", Me.BankCharge))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wht", Me.WHT))
@@ -699,6 +701,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isavl", True))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -738,7 +741,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.m_itemTable Is Nothing Then
           Return New SaveErrorException("0")
         End If
-        Dim da As New SqlDataAdapter("Select * from paymentitem where paymenti_entitytype = 22 and paymenti_entity=" & Me.Id, conn)
+        Dim da As New SqlDataAdapter("Select * from paymentitem where paymenti_entitytype = 336 and paymenti_entity=" & Me.Id, conn)
         Dim cmdBuilder As New SqlCommandBuilder(da)
 
         Dim ds As New DataSet
@@ -895,31 +898,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-   
-  End Class
-
-  Public Class OutgoingCheckDocStatus
-    Inherits CodeDescription
-
-#Region "Constructors"
-    Public Sub New(ByVal description As String)
-      MyBase.New(description)
-    End Sub
-    Public Sub New(ByVal value As Integer)
-      MyBase.New(value)
-    End Sub
-#End Region
-
-#Region "Properties"
-    Public Overrides ReadOnly Property CodeName() As String
-      Get
-        Return "outgoingcheck_docstatus"
-      End Get
-    End Property
-#End Region
 
   End Class
-
 
 
 End Namespace

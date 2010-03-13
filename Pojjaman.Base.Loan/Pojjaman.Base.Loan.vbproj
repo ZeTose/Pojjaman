@@ -73,7 +73,12 @@
   <ItemGroup>
     <Compile Include="Forms\BLL\RefundLoan.vb" />
     <Compile Include="Forms\BLL\WithdrawLoan.vb" />
-    <Compile Include="Forms\BLL\Loan.vb" />
+    <Compile Include="Forms\UI\OutgoingAvalDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\OutgoingAvalFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\UI\RefundLoanDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,6 +114,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\UI\OutgoingAvalDetailView.resx">
+      <DependentUpon>OutgoingAvalDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\OutgoingAvalFilterSubPanel.resx">
+      <DependentUpon>OutgoingAvalFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UI\RefundLoanDetailView.resx">
       <DependentUpon>RefundLoanDetailView.vb</DependentUpon>
     </EmbeddedResource>

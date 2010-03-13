@@ -909,6 +909,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Return New SaveErrorException("Check Saving Error")
                 End If
               End If
+              ' save Aval
+              If TypeOf item.Entity Is OutgoingAval Then
+                Dim Aval As OutgoingAval = CType(item.Entity, OutgoingAval)
+                If Not Aval.Originated Then
+                  Aval.IssueDate = Me.DocDate
+                  Aval.AutoGen = True
+                  If Not Me.RefDoc Is Nothing Then
+                    If Not Me.RefDoc.Recipient Is Nothing Then
+                      If TypeOf Me.RefDoc.Recipient Is Supplier Then
+                        Aval.Supplier = CType(Me.RefDoc.Recipient, Supplier)
+                        If TypeOf Me.RefDoc Is PettyCash Then
+                          Aval.Recipient = ""
+                        Else
+                          Aval.Recipient = Me.RefDoc.Recipient.Name
+                        End If
+                      Else
+                        Aval.Recipient = Me.RefDoc.Recipient.Name
+                      End If
+                    End If
+                  End If
+                  If lastCheckCode.Length <> 0 Then
+                    Aval.Code = CodeGenerator.Generate(Entity.GetAutoCodeFormat(Aval.EntityId), lastCheckCode, Aval)
+                  Else
+                    Aval.Code = Aval.GetNextCode
+                  End If
+                  Aval.AutoGen = False
+                  Aval.DocStatus = New OutgoingCheckDocStatus(-1)
+
+                  Dim checkSaveError As SaveErrorException = Aval.Save(currentUserId, conn, trans)
+                  If Not IsNumeric(checkSaveError.Message) Then
+                    Return checkSaveError
+                  Else
+                    Select Case CInt(checkSaveError.Message)
+                      Case -1, -5
+                        Return checkSaveError
+                      Case -2
+                        Return checkSaveError
+                      Case Else
+                    End Select
+                  End If
+                  lastCheckCode = Aval.Code
+                End If
+                If Not Aval.Originated Then
+                  Return New SaveErrorException("Check Saving Error")
+                End If
+              End If
               dr("paymenti_payment") = Me.Id
               dr("paymenti_linenumber") = i
               dr("paymenti_duedate") = Me.ValidDateOrDBNull(item.DueDate)
@@ -1123,6 +1169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetCashCheckJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
       Dim sumCheck As Decimal = 0
+      Dim sumAval As Decimal = 0
       Dim sumCash As Decimal = 0
       Dim sumAvp As Decimal = 0
       Dim ji As JournalEntryItem
@@ -1137,6 +1184,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               pm15note = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
             Else
               pm15note = pm15note & " " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+            End If
+          Case 336       'Aval
+            sumAval += item.Amount
+            If pm15note = "" Then
+              pm15note = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยตั๋วอาวัล " & CType(item.Entity, OutgoingAval).CqCode & "/" & CType(item.Entity, OutgoingAval).Loan.Name
+            Else
+              pm15note = pm15note & " " & CType(item.Entity, OutgoingAval).CqCode & "/" & CType(item.Entity, OutgoingAval).Loan.Name
             End If
           Case 0          'Cash
             sumCash += item.Amount
@@ -1159,6 +1213,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        jiColl.Add(ji)
+      End If
+      If sumAval > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.5"
+        ji.Amount = sumAval
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.Note = pm15note
         jiColl.Add(ji)
       End If
       If sumCheck > 0 Then
@@ -1190,6 +1256,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetCashCheckDetailJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
       Dim sumCheck As Decimal = 0
+      Dim sumAval As Decimal = 0
       Dim sumCash As Decimal = 0
       Dim sumAvp As Decimal = 0
       Dim ji As JournalEntryItem
@@ -1222,6 +1289,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Note = CType(item.Entity, OutgoingCheck).CqCode _
             & " " & CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString _
             & " " & CType(item.Entity, OutgoingCheck).Bankacct.Code _
+            & "/" & Me.RefDoc.Recipient.Name
+            jiColl.Add(ji)
+          Case 336         'Aval
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.5D"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, OutgoingAval).CqCode _
+            & " " & CType(item.Entity, OutgoingAval).DueDate.ToShortDateString _
+            & " " & CType(item.Entity, OutgoingAval).Loan.Code _
+            & "/" & Me.RefDoc.Recipient.Name
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.5W"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, OutgoingAval).CqCode _
+            & " " & CType(item.Entity, OutgoingAval).DueDate.ToShortDateString _
+            & " " & CType(item.Entity, OutgoingAval).Loan.Code _
             & "/" & Me.RefDoc.Recipient.Name
             jiColl.Add(ji)
 
@@ -1850,6 +1945,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpiColl.Add(dpi)
 
           Dim itIsCheck As Boolean = (TypeOf item.Entity Is OutgoingCheck)
+          Dim itIsAval As Boolean = (TypeOf item.Entity Is OutgoingAval)
           Dim itIsBto As Boolean = (TypeOf item.Entity Is BankTransferOut)
           Dim itIsCash As Boolean = (TypeOf item.Entity Is CashItem)
           Dim itIsPC As Boolean = (TypeOf item.Entity Is PettyCash)
@@ -1858,6 +1954,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim PaymentTypeName As String = ""
           If itIsCheck Then
+            PaymentTypeName = "itIsCheck"
+          ElseIf itIsAval Then
             PaymentTypeName = "itIsCheck"
           ElseIf itIsBto Then
             PaymentTypeName = "itIsBto"
@@ -1895,6 +1993,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
           End If
+          
 
           If tableType = 2 Then 'paymentItemAll
             'PaymentItemAll.DueDate
@@ -3922,7 +4021,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 								Me.m_amount = amt
 							Else
 								Me.m_amount = 0
-							End If
+              End If
+            Case 336      'เช็ค
+              Dim check As New OutgoingAval
+              Me.m_entity = check
+              If CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+                Me.Entity.Amount = amt
+                Me.m_amount = amt
+              Else
+                Me.m_amount = 0
+              End If
 						Case 59			 'มัดจำ
 							Me.m_entity = New AdvancePay
 							Me.m_amount = 0
@@ -3965,7 +4073,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						If Not check Is Nothing AndAlso check.Originated Then
 							msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckDate}")
 							Return
-						End If
+            End If
+          Case 336     'อาวัล
+            Dim aval As OutgoingAval = CType(Me.Entity, OutgoingAval)
+            If Not aval Is Nothing AndAlso aval.Originated Then
+              msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckDate}")
+              Return
+            End If
 					Case 36			'เงินสดย่อย
 						msgServ.ShowMessage("${res:Global.Error.CannotChangePettyCashDate}")
 						Return
@@ -4014,19 +4128,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						Else
 							Me.Entity.Amount = Value
 						End If
-					Case 22			'เช็คจ่าย
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
-							Dim remain As Decimal = check.GetRemainingAmount(Me.Payment.Id)
-							'ตรวจสอบที่ remain แทน
-							If Configuration.Compare(CDec(IIf(remain <= 0, oldRealAmount, remain)), Value) < 0 Then
-								msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
-								Return
-							End If
-						End If
+          Case 22    'เช็คจ่าย
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
+              Dim remain As Decimal = check.GetRemainingAmount(Me.Payment.Id)
+              'ตรวจสอบที่ remain แทน
+              If Configuration.Compare(CDec(IIf(remain <= 0, oldRealAmount, remain)), Value) < 0 Then
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
+          Case 336    'เช็คจ่าย
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Dim aval As OutgoingAval = CType(Me.Entity, OutgoingAval)
+              Dim remain As Decimal = aval.GetRemainingAmount(Me.Payment.Id)
+              'ตรวจสอบที่ remain แทน
+              If Configuration.Compare(CDec(IIf(remain <= 0, oldRealAmount, remain)), Value) < 0 Then
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
 					Case 36			'เงินสดย่อย
 						If Not TypeOf Me.Payment.RefDoc Is PettyCash Then
               Dim limit As Decimal
@@ -4240,6 +4367,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
           Me.Entity = check
+          'Case 336    'Aval
+          'If theCode Is Nothing OrElse theCode.Length = 0 Then
+          'If Me.Entity.Code.Length <> 0 Then
+          'If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteOutGoingCheckDetail}", New String() {Me.Entity.Code}) Then
+          'Me.Clear()
+          'End If
+          'End If
+          'Return
+          'End If
+          'Dim AvalInstant As New OutgoingAval(theCode)
+          'Dim aval As New OutgoingAval
+          'If Not AvalInstant.Originated Then
+          'If msgServ.AskQuestionFormatted("${res:Global.Question.CreateNewOutGoingCheck}", New String() {theCode}) Then
+          'aval.CqCode = theCode
+          'aval.Amount = Configuration.Format(Math.Max(parentAmount - parentGross + oldAmount, 0), DigitConfig.Price)
+          'aval.Bankacct = New BankAccount
+          'If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+          'aval.DueDate = Me.Payment.RefDoc.Date
+          'Dim o As Object = Configuration.GetConfig("CheckDateFromWHT")
+          'If Not o Is Nothing AndAlso CBool(o) Then
+          ''CheckDateFromWHT
+          'If TypeOf Me.Payment.RefDoc Is IWitholdingTaxable Then
+          'Dim whtref As IWitholdingTaxable = CType(Me.Payment.RefDoc, IWitholdingTaxable)
+          'If whtref.WitholdingTaxCollection.Count >= 1 Then
+          'aval.DueDate = whtref.WitholdingTaxCollection(0).DocDate
+          'End If
+          'End If
+          'End If
+          'End If
+          'Else
+          'Return
+          'End If
+          'End If
+          'Me.Entity = aval
 				Case 36		 'เงินสดย่อย
 					If theCode Is Nothing OrElse theCode.Length = 0 Then
 						If Me.Entity.Code.Length <> 0 Then
@@ -4410,7 +4571,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							row.SetColumnError("bacode", "")
 						Else
 							row.SetColumnError("bacode", "")
-						End If
+            End If
+          Case 336     'Aval
+            If (IsDBNull(code) OrElse code.ToString.Length = 0) And (Not CBool(Configuration.GetConfig("AllowNoCqCodeDate"))) Then       ' OrElse CreateNewEmptyCqCode = False
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.CheckCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If (IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue)) And Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+              row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
+            Else
+              row.SetColumnError("duedate", "")
+            End If
+            If Not IsNumeric(realamount) OrElse CDec(realamount) <= 0 Then
+              row.SetColumnError("realamount", myStringParserService.Parse("${res:Global.Error.RealAmountMissing}"))
+            Else
+              row.SetColumnError("realamount", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            If IsDBNull(bacode) OrElse bacode.ToString.Length = 0 Then
+              'row.SetColumnError("bacode", myStringParserService.Parse("${res:Global.Error.BACodeMissing}"))
+              row.SetColumnError("bacode", "")
+            Else
+              row.SetColumnError("bacode", "")
+            End If
+
 					Case 36			'เงินสดย่อย
 						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
 							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.PettyCashCodeMissing}"))
@@ -4496,7 +4685,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						row("code") = CType(Me.Entity, OutgoingCheck).CqCode
 					Else
 						row("code") = Me.Entity.Code
-					End If
+          End If
+          If TypeOf Me.Entity Is OutgoingAval Then
+            row("code") = CType(Me.Entity, OutgoingAval).CqCode
+          Else
+            row("code") = Me.Entity.Code
+          End If
 					row("DueDate") = Me.Entity.DueDate
 					If TypeOf Me.Entity Is IHasBankAccount Then
 						Dim hasb As IHasBankAccount = CType(Me.Entity, IHasBankAccount)
@@ -4504,11 +4698,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							row("BACode") = hasb.BankAccount.Code
 							row("BAName") = hasb.BankAccount.Name
 						End If
-					Else
-						row("BACode") = DBNull.Value
-						row("BAName") = DBNull.Value
-          End If
-          If TypeOf Me.Entity Is IHasName Then
+          ElseIf TypeOf Me.Entity Is OutgoingAval Then
+            Dim hasb As OutgoingAval = CType(Me.Entity, OutgoingAval)
+            If Not hasb.Loan Is Nothing Then
+              row("BACode") = hasb.Loan.Code
+              row("BAName") = hasb.Loan.Name
+            End If
+          ElseIf TypeOf Me.Entity Is IHasName Then
             Dim hasn As IHasName = CType(Me.Entity, IHasName)
             row("BACode") = hasn.Code
             row("BAName") = hasn.Name
@@ -4529,7 +4725,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						row("BAButton") = "invisible"
 					Case 22			'เช็คจ่าย
 						row("Button") = ""
-						row("BAButton") = ""
+            row("BAButton") = ""
+          Case 336     'Aval
+            row("Button") = ""
+            row("BAButton") = ""
 					Case 36			'เงินสดย่อย
 						row("Button") = ""
 						row("BAButton") = ""			 ' "invisible"

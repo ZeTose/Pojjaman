@@ -442,8 +442,12 @@
     <None Include="AddIns\Forms\Bidding\Pojjaman.Base.Form.Bidding.addin">
       <SubType>Designer</SubType>
     </None>
-    <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.CashBank.addin" />
-    <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.addin" />
+    <None Include="AddIns\Forms\Cashbank\Pojjaman.Base.Form.CashBank.addin">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.Autorun.addin" />
     <None Include="AddIns\Forms\Configuration\Pojjaman.Base.Form.Configuration.addin" />
     <None Include="AddIns\Forms\FFormat\Pojjaman.Base.Form.FFormat.addin" />

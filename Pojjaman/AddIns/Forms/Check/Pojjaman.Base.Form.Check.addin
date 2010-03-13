@@ -6,7 +6,7 @@
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="outgoingcheck" entity="outgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.OutgoingCheckFilterSubPanel"/>
-		<EntityFilter id="incomingcheck" entity="incomingcheck" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>
+    <EntityFilter id="incomingcheck" entity="incomingcheck" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>
 		<EntityFilter id="updatecheckpayment" entity="updatecheckpayment" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
 		<EntityFilter id="updatecheckreceive" entity="updatecheckreceive" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
 		<EntityFilter id="updatecheckdeposit" entity="updatecheckdeposit" filter="Longkong.Pojjaman.Gui.Panels.UpdateDepositCheckFilterSubPanel"/>

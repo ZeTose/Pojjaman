@@ -1090,17 +1090,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ElseIf TypeOf Me.m_entity Is PettyCashClaim Then
         csType = New DataGridComboColumn("paymenti_entityType" _
         , CodeDescription.GetCodeList("paymenti_entityType" _
-        , "code_value not in (36,66)") _
+        , "code_value not in (36,66,336)") _
         , "code_description", "code_value")
       ElseIf TypeOf Me.m_entity Is SaleCN Then
         csType = New DataGridComboColumn("paymenti_entityType" _
         , CodeDescription.GetCodeList("paymenti_entityType" _
-        , "code_value not in (36,59,174)") _
+        , "code_value not in (36,59,174,336)") _
         , "code_description", "code_value")
       ElseIf TypeOf Me.m_entity Is AdvanceMoney Then
         csType = New DataGridComboColumn("paymenti_entityType" _
         , CodeDescription.GetCodeList("paymenti_entityType" _
-        , "code_value not in (59,174)") _
+        , "code_value not in (59,174,336)") _
         , "code_description", "code_value")
       ElseIf TypeOf Me.m_entity Is GoodsReceipt OrElse TypeOf Me.m_entity Is EqMaintenance Then
         csType = New DataGridComboColumn("paymenti_entityType" _
@@ -1643,6 +1643,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ElseIf CInt(Me.m_payment.ItemTable.Rows(e.Row)("paymenti_entityType")) = 0 Then
       '    Return
       'End If
+      If Me.CurrentItem.EntityType.Value = 336 Then
+        Return
+      End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBA)
     End Sub
@@ -1716,6 +1719,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(0) = New Filter("IDList", GenIDListFromDataTable(22))
           filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
           myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetItems, filters, entities)
+        Case 336 'ตั๋วอาวัล
+          Dim entities As New ArrayList
+          If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
+            If Not Me.m_payment.RefDoc.Recipient Is Nothing Then
+              If TypeOf Me.m_payment.RefDoc.Recipient Is Supplier Then
+                entities.Add(Me.m_payment.RefDoc.Recipient)
+              End If
+            End If
+          End If
+          Dim filters(1) As Filter
+          filters(0) = New Filter("IDList", GenIDListFromDataTable(336))
+          filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
+          myEntityPanelService.OpenListDialog(New OutgoingAval, AddressOf SetItems, filters, entities)
         Case 36 'เงินสดย่อย
           Dim entities As New ArrayList
           If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
@@ -1777,6 +1793,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "longkong.pojjaman.businesslogic.outgoingcheck"
             newItem = New OutgoingCheck(item.Id)
             itemType = 22
+          Case "longkong.pojjaman.businesslogic.outgoingaval"
+            newItem = New OutgoingAval(item.Id)
+            itemType = 336
           Case "longkong.pojjaman.businesslogic.pettycash"
             newItem = New PettyCash(item.Id)
             itemType = 36

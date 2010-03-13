@@ -551,5 +551,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 #End Region
 
-    End Class
+  End Class
+
+  Public Class LoanforPayment
+    Inherits BankAccount
+
+#Region "Overrides"
+    Public Overrides ReadOnly Property GetSprocName() As String
+      Get
+        Return "Get" & Me.ClassName
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "bankacct"
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "LoanforPayment"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.BankAccount.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.BankAccount"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.BankAccount"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.BankAccount.ListLabel}"
+      End Get
+    End Property
+#End Region
+  End Class
 End Namespace
