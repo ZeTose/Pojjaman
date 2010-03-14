@@ -7,6 +7,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class GoodsReceiptStatus
     Inherits CodeDescription
@@ -65,7 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_deliveryDocCode As String
     Private m_deliveryDocDate As Date
 
-    Private m_po As Po
+    Private m_po As PO
     Private m_prcode As String
 
     Private m_vat As Vat
@@ -105,7 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public LabActualHash As Hashtable
     Public EQActualHash As Hashtable
 #End Region
-    
+
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -126,7 +128,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
-        .m_po = New Po
+        .m_po = New PO
         .m_supplier = New Supplier
         .m_creditPeriod = 0
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
@@ -185,7 +187,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("po_id") Then
           If Not dr.IsNull("po_id") Then
-            .m_po = New Po
+            .m_po = New PO
             .m_po.Id = CInt(dr(aliasPrefix & "po_id"))
             .m_po.Code = CStr(dr(aliasPrefix & "po_code"))
             .m_po.DocDate = CDate(dr(aliasPrefix & "po_docdate"))
@@ -197,7 +199,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "stock_refdoc") Then
-            .m_po = New Po
+            .m_po = New PO
             .m_po.Id = CInt(dr(aliasPrefix & "stock_refdoc"))
           End If
         End If
@@ -546,6 +548,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Discount = Me.m_po.RemainningDiscount
         Me.Retention = Math.Max(Me.m_po.Retention - Me.m_po.GetRetentionDeductedWithoutThisStock(Me.Id), 0)
         Dim oldTable As DataTable = Me.GetOldItemTable(Me.m_po)
+        Dim itemsTryToAdd As New List(Of POItem)
+        Dim itemsToAdd As New List(Of POItem)
         For Each newPoitem As POItem In Me.m_po.ItemCollection
           For Each row As DataRow In oldTable.Rows
             If CInt(row("poi_linenumber")) = newPoitem.LineNumber Then
@@ -554,9 +558,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Next
           If newPoitem.ItemType.Value = 160 OrElse newPoitem.ItemType.Value = 162 OrElse newPoitem.ReceivedQty * newPoitem.Conversion < newPoitem.StockQty Then
-            Dim item As New GoodsReceiptItem
-            item.CopyFromPOItem(newPoitem)
-            Me.ItemCollection.Add(item)
+            itemsTryToAdd.Add(newPoitem)
             'If newPoitem.ItemType.Value <> 160 AndAlso newPoitem.ItemType.Value <> 162 Then
             '  Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
             '                          , CommandType.StoredProcedure _
@@ -571,8 +573,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '    wbsdColl.Add(wbsd)
             'Next
             'End If
-            arr.Add(item)
           End If
+        Next
+        Dim hasRealItem As Boolean = False
+        For Each newPOitem As POItem In itemsTryToAdd
+          If newPOitem.ItemType.Value <> 160 AndAlso newPOitem.ItemType.Value <> 162 AndAlso newPOitem.ReceivedQty * newPOitem.Conversion < newPOitem.StockQty Then
+            hasRealItem = True
+          End If
+        Next
+        If hasRealItem Then
+          For Each newPOitem As POItem In itemsTryToAdd
+            itemsToAdd.Add(newPOitem)
+          Next
+        End If
+        For Each newPOitem As POItem In itemsToAdd
+          Dim item As New GoodsReceiptItem
+          item.CopyFromPOItem(newPOitem)
+          Me.ItemCollection.Add(item)
+          arr.Add(item)
         Next
         Me.RefreshTaxBase()
         For Each item As GoodsReceiptItem In arr
@@ -2041,7 +2059,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             drAux("stock_aux_doctype") = CInt(Me.DocType)
           End If
         End If
-        
+
         Dim dtWbs As DataTable = ds.Tables("stockiwbs")
 
         For Each row As DataRow In ds.Tables("stockiwbs").Rows
@@ -4683,7 +4701,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
   End Class
-    Public Class GoodsReceiptForApprove
+  Public Class GoodsReceiptForApprove
     Inherits GoodsReceipt
     Public Overrides ReadOnly Property CodonName() As String
       Get
