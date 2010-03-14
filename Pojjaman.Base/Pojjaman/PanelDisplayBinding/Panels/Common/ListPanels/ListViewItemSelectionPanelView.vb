@@ -12,6 +12,7 @@ Imports Longkong.Core.Properties
 Imports System.IO
 Imports Longkong.AdobeForm
 Imports System.Reflection
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ListViewItemSelectionPanelView
@@ -415,35 +416,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
       refHash = New Hashtable
 
       Dim dt As DataTable = m_entity.GetListDatatable(order, newfilters)
+
+      Dim SumList As New Dictionary(Of BusinessLogic.Column, Decimal)
       For Each row As DataRow In dt.Rows
-        Dim mineType As Type = m_entity.Columns(0).DataType
-        Dim mineValue As String = ""
-        If row.Table.Columns.Contains(m_entity.Columns(0).Name) Then
-          Select Case mineType.FullName.ToLower
-            Case "system.datetime"
-              Dim val As Date = Date.Now
-              If Not row.IsNull(m_entity.Columns(0).Name) Then
-                val = CDate(row(m_entity.Columns(0).Name))
-                If m_entity.Columns(0).Format = 2 Then
-                  mineValue = val.ToShortDateString
-                Else
-                  mineValue = val.ToShortDateString & ":" & val.ToShortTimeString
-                End If
+        Dim deh As New DataRowHelper(row)
+
+        '================FIRST COLUMN=======================================
+        Dim firstColumn As BusinessLogic.Column = m_entity.Columns(0)
+        Dim firstColumnText As String = ""
+        Select Case firstColumn.DataType.FullName.ToLower
+          Case "system.datetime"
+            Dim val As Nullable(Of Date) = deh.GetValue(Of Date)(firstColumn.Name)
+            If val.HasValue Then
+              If firstColumn.Format = 2 Then
+                firstColumnText = val.Value.ToShortDateString
               Else
-                mineValue = ""
+                firstColumnText = val.Value.ToShortDateString & ":" & val.Value.ToShortTimeString
               End If
-            Case "system.decimal"
-              Dim val As Decimal = 0
-              If Not row.IsNull(m_entity.Columns(0).Name) Then
-                val = CDec(row(m_entity.Columns(0).Name))
-              End If
-              mineValue = Configuration.FormatToString(val, m_entity.Columns(0).Format)
-            Case Else
-              mineValue = row(m_entity.Columns(0).Name).ToString()
-              mineValue = Me.StringParserService.Parse(mineValue)
-          End Select
+            End If
+          Case "system.decimal"
+            Dim val As Decimal = deh.GetValue(Of Decimal)(firstColumn.Name, 0)
+            firstColumnText = Configuration.FormatToString(val, firstColumn.Format)
+          Case Else
+            firstColumnText = deh.GetValue(Of String)(firstColumn.Name, "")
+            firstColumnText = Me.StringParserService.Parse(firstColumnText)
+        End Select
+        Dim litem As ListViewItem = Me.lvItem.Items.Add(firstColumnText)
+        If firstColumn.IsSum Then
+          If Not SumList.ContainsKey(firstColumn) Then
+            SumList(firstColumn) = 0
+          End If
+          SumList(firstColumn) += deh.GetValue(Of Decimal)(firstColumn.Name, 0)
         End If
-        Dim litem As ListViewItem = Me.lvItem.Items.Add(mineValue)
+        '================FIRST COLUMN=======================================
 
         litem.Tag = row(Me.m_entity.Prefix & "_id")
 
@@ -459,36 +464,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         For i As Integer = 1 To m_entity.Columns.Count - 1
-          Dim myType As Type = m_entity.Columns(i).DataType
-          Dim value As String = ""
-          If row.Table.Columns.Contains(m_entity.Columns(i).Name) Then
-            Select Case myType.FullName.ToLower
-              Case "system.datetime"
-                Dim val As Date = Date.Now
-                If Not row.IsNull(m_entity.Columns(i).Name) Then
-                  val = CDate(row(m_entity.Columns(i).Name))
-                  If m_entity.Columns(i).Format = 2 Then
-                    value = val.ToShortDateString
-                  Else
-                    value = val.ToShortDateString & ":" & val.ToShortTimeString
-                  End If
+          Dim otherColumn As BusinessLogic.Column = m_entity.Columns(i)
+          Dim otherColumnText As String = ""
+          Select Case otherColumn.DataType.FullName.ToLower
+            Case "system.datetime"
+              Dim val As Nullable(Of Date) = deh.GetValue(Of Date)(otherColumn.Name)
+              If val.HasValue Then
+                If otherColumn.Format = 2 Then
+                  otherColumnText = val.Value.ToShortDateString
                 Else
-                  value = ""
+                  otherColumnText = val.Value.ToShortDateString & ":" & val.Value.ToShortTimeString
                 End If
-              Case "system.decimal"
-                Dim val As Decimal = 0
-                If Not row.IsNull(m_entity.Columns(i).Name) Then
-                  val = CDec(row(m_entity.Columns(i).Name))
-                End If
-                value = Configuration.FormatToString(val, m_entity.Columns(i).Format)
-              Case Else
-                value = row(m_entity.Columns(i).Name).ToString()
-                value = Me.StringParserService.Parse(value)
-            End Select
+              End If
+            Case "system.decimal"
+              Dim val As Decimal = deh.GetValue(Of Decimal)(otherColumn.Name, 0)
+              otherColumnText = Configuration.FormatToString(val, otherColumn.Format)
+            Case Else
+              otherColumnText = deh.GetValue(Of String)(otherColumn.Name, "")
+              otherColumnText = Me.StringParserService.Parse(otherColumnText)
+          End Select
+          If otherColumn.IsSum Then
+            If Not SumList.ContainsKey(otherColumn) Then
+              SumList(otherColumn) = 0
+            End If
+            SumList(otherColumn) += deh.GetValue(Of Decimal)(otherColumn.Name, 0)
           End If
-          litem.SubItems.Add(value)
+          litem.SubItems.Add(otherColumnText)
         Next
       Next
+
+      Dim index As Integer = 0
+      For Each col As BusinessLogic.Column In m_entity.Columns
+        If SumList.ContainsKey(col) Then
+          lvItem.Columns(index).Text = col.Alias & " [" & Configuration.FormatToString(SumList(col), col.Format) & "]"
+        Else
+          lvItem.Columns(index).Text = col.Alias
+        End If
+        index += 1
+      Next
+
       lvItem.ListViewItemSorter = comparer
       If Not lvItem.ListViewItemSorter Is Nothing Then
         lvItem.Sort()
@@ -558,7 +572,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       lvItem.BeginUpdate()
       Dim indx As Integer = lvItem.SortIndex
-      Dim sortOrder As sortOrder = lvItem.SortOrder
+      Dim sortOrder As SortOrder = lvItem.SortOrder
       Dim myType As Type = m_entity.Columns(indx).DataType
       If myType Is GetType(Date) Then
         lvItem.ListViewItemSorter = New ListViewHelper.CompareByDate(indx, sortOrder)
@@ -842,59 +856,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Get
         m_basketItems.Clear()
         Dim idList As String = ""
-				For Each item As ListViewItem In Me.lvItem.CheckedItems
-					Dim id As Integer = CInt(item.Tag)
-					idList &= "|" & id.ToString & "|"
-					''Dim entity As ISimpleEntity = SimpleEntityFactory.CreateEntity(Me.m_entity.FullClassName, id)
-					'     'Dim basketitem As New basketitem(id, entity.Code, entity.FullClassName, entity.Code)
-					''m_basketItems.Add(basketitem)
-					If idList.Length > 3000 Then
-						Dim filters(0) As Filter
-						filters(0) = New Filter("IncludeIdList", idList)
-						Dim dt As DataTable = m_entity.GetListDatatable("", filters)
-						'For Each lvItem As ListViewItem In Me.lvItem.CheckedItems
-						'	Dim rows As DataRow() = dt.Select(m_entity.Prefix & "_id=" & CStr(lvItem.Tag))
-						'	If rows.Length > 0 Then
-						'		Dim row As DataRow = dt.Select(m_entity.Prefix & "_id=" & CStr(lvItem.Tag))(0)
-						'		Dim basketitem As New basketitem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
-						'		basketitem.Tag = row
-						'		m_basketItems.Add(basketitem)
-						'	End If
-						'Next
-						For Each row As DataRow In dt.Rows
-							Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")) _
-							, row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName _
-							, row(m_entity.Prefix & "_code").ToString)
-							basketitem.Tag = row
-							m_basketItems.Add(basketitem)
-						Next
-						idList = ""
-					End If
-				Next
+        For Each item As ListViewItem In Me.lvItem.CheckedItems
+          Dim id As Integer = CInt(item.Tag)
+          idList &= "|" & id.ToString & "|"
+          ''Dim entity As ISimpleEntity = SimpleEntityFactory.CreateEntity(Me.m_entity.FullClassName, id)
+          '     'Dim basketitem As New basketitem(id, entity.Code, entity.FullClassName, entity.Code)
+          ''m_basketItems.Add(basketitem)
+          If idList.Length > 3000 Then
+            Dim filters(0) As Filter
+            filters(0) = New Filter("IncludeIdList", idList)
+            Dim dt As DataTable = m_entity.GetListDatatable("", filters)
+            'For Each lvItem As ListViewItem In Me.lvItem.CheckedItems
+            '	Dim rows As DataRow() = dt.Select(m_entity.Prefix & "_id=" & CStr(lvItem.Tag))
+            '	If rows.Length > 0 Then
+            '		Dim row As DataRow = dt.Select(m_entity.Prefix & "_id=" & CStr(lvItem.Tag))(0)
+            '		Dim basketitem As New basketitem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
+            '		basketitem.Tag = row
+            '		m_basketItems.Add(basketitem)
+            '	End If
+            'Next
+            For Each row As DataRow In dt.Rows
+              Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")) _
+              , row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName _
+              , row(m_entity.Prefix & "_code").ToString)
+              basketitem.Tag = row
+              m_basketItems.Add(basketitem)
+            Next
+            idList = ""
+          End If
+        Next
 
-				If idList.Length > 0 Then
-					Dim filters(0) As Filter
-					filters(0) = New Filter("IncludeIdList", idList)
-					Dim dt As DataTable = m_entity.GetListDatatable("", filters)
-					'For Each item As ListViewItem In Me.lvItem.CheckedItems
-					'	Dim rows As DataRow() = dt.Select(m_entity.Prefix & "_id=" & CStr(item.Tag))
-					'	If rows.Length > 0 Then
-					'		Dim row As DataRow = dt.Select(m_entity.Prefix & "_id=" & CStr(item.Tag))(0)
-					'		Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
-					'		basketitem.Tag = row
-					'		m_basketItems.Add(basketitem)
-					'	End If
-					'Next
-					For Each row As DataRow In dt.Rows
-						Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")) _
-						, row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName _
-						, row(m_entity.Prefix & "_code").ToString)
-						basketitem.Tag = row
-						m_basketItems.Add(basketitem)
-					Next
-				End If
+        If idList.Length > 0 Then
+          Dim filters(0) As Filter
+          filters(0) = New Filter("IncludeIdList", idList)
+          Dim dt As DataTable = m_entity.GetListDatatable("", filters)
+          'For Each item As ListViewItem In Me.lvItem.CheckedItems
+          '	Dim rows As DataRow() = dt.Select(m_entity.Prefix & "_id=" & CStr(item.Tag))
+          '	If rows.Length > 0 Then
+          '		Dim row As DataRow = dt.Select(m_entity.Prefix & "_id=" & CStr(item.Tag))(0)
+          '		Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
+          '		basketitem.Tag = row
+          '		m_basketItems.Add(basketitem)
+          '	End If
+          'Next
+          For Each row As DataRow In dt.Rows
+            Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")) _
+            , row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName _
+            , row(m_entity.Prefix & "_code").ToString)
+            basketitem.Tag = row
+            m_basketItems.Add(basketitem)
+          Next
+        End If
 
-				Return m_basketItems
+        Return m_basketItems
       End Get
     End Property
     Public Overrides ReadOnly Property ProposedBasketItems() As BusinessLogic.BasketItemCollection

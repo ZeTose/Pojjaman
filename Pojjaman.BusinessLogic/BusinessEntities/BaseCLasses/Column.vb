@@ -51,22 +51,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_ordinal As Integer
         Private m_format As Integer
         Private m_accessId As Integer
+    Private m_issum As Boolean
 #End Region
 
 #Region "Constructors"
         Public Sub New(ByVal name As String, ByVal [alias] As String, ByVal width As Integer, ByVal alignment As Integer, ByVal ordinal As Integer)
-            Me.New(name, [alias], width, alignment, ordinal, 2)
+      Me.New(name, [alias], width, alignment, ordinal, 2, False)
         End Sub
-        Public Sub New(ByVal name As String, ByVal [alias] As String, ByVal width As Integer, ByVal alignment As Integer, ByVal ordinal As Integer, ByVal format As Integer)
-            With Me
-                .m_name = name
-                .m_alias = [alias]
-                .m_width = width
-                .m_alignment = CType(alignment, HorizontalAlignment)
-                .m_ordinal = ordinal
-                .m_format = format
-            End With
-        End Sub
+    Public Sub New(ByVal name As String, ByVal [alias] As String, ByVal width As Integer, ByVal alignment As Integer, ByVal ordinal As Integer, ByVal format As Integer, ByVal issum As Boolean)
+      With Me
+        .m_name = name
+        .m_alias = [alias]
+        .m_width = width
+        .m_alignment = CType(alignment, HorizontalAlignment)
+        .m_ordinal = ordinal
+        .m_format = format
+        .m_issum = issum
+      End With
+    End Sub
         Public Sub New(ByVal row As DataRow)
             Construct(row)
         End Sub
@@ -80,7 +82,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 .m_format = DBNullToInteger(row("col_format"))
                 .m_dataType = Type.GetType(DBNullToString(row("col_dataType")))
                 .m_accessId = DBNullToInteger(row("col_access"))
-            End With
+        .m_issum = DBNullToBoolean(row("col_issum"))
+      End With
         End Sub
         Private Function DBNullToString(ByVal obj As Object) As String
             If IsDBNull(obj) Then
@@ -93,7 +96,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return 0
             End If
             Return CInt(obj)
-        End Function
+    End Function
+    Private Function DBNullToBoolean(ByVal obj As Object) As Boolean
+      If IsDBNull(obj) Then
+        Return False
+      End If
+      Return CBool(obj)
+    End Function
 #End Region
 
 #Region "Proprties"
@@ -152,7 +161,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Integer)
                 Me.m_accessId = Value
             End Set
-        End Property
+    End Property
+    Public Property IsSum() As Boolean      Get        Return m_issum      End Get      Set(ByVal Value As Boolean)        m_issum = Value      End Set    End Property
 #End Region
 
     End Class
