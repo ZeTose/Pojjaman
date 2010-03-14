@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\BLL\RefundLoan.vb" />
+    <Compile Include="Forms\BLL\UpdateOutgoingAval.vb" />
     <Compile Include="Forms\BLL\WithdrawLoan.vb" />
     <Compile Include="Forms\UI\OutgoingAvalDetailView.vb">
       <SubType>UserControl</SubType>
@@ -83,6 +84,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\UI\RefundLoanFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\UpdateAvalDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\UpdateOutgoingAvalDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\UI\WithdrawLoanDetailView.vb">
@@ -125,6 +132,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UI\RefundLoanFilterSubPanel.resx">
       <DependentUpon>RefundLoanFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\UpdateAvalDetail.resx">
+      <DependentUpon>UpdateAvalDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\UpdateOutgoingAvalDetail.resx">
+      <DependentUpon>UpdateOutgoingAvalDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UI\WithdrawLoanDetailView.resx">
       <DependentUpon>WithdrawLoanDetailView.vb</DependentUpon>

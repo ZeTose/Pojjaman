@@ -5,6 +5,7 @@
     <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>
     <Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
     <Import assembly="../../Forms/CashBank/Pojjaman.Base.Form.CashBank.dll"/>
+    <Import assembly="../../Forms/Check/Pojjaman.Base.Form.Check.dll"/>
   </Runtime>
   
   <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
@@ -12,6 +13,7 @@
     <EntityFilter id="withdrawloan" entity="withdrawloan" filter="Longkong.Pojjaman.Gui.Panels.WithdrawLoanFilterSubPanel"/>
     <EntityFilter id="refundloan" entity="refundloan" filter="Longkong.Pojjaman.Gui.Panels.RefundLoanFilterSubPanel"/>
     <EntityFilter id="outgoingaval" entity="outgoingaval" filter="Longkong.Pojjaman.Gui.Panels.OutgoingAvalFilterSubPanel"/>
+    <EntityFilter id="updateoutgoingaval" entity="updateoutgoingaval" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
   </Extension>
   
   <Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -32,6 +34,11 @@
     <EntityTab id="outgoingaval">
       <EntityTab id="OutgoingAvalDetailView" view="Longkong.Pojjaman.Gui.Panels.OutgoingAvalDetailView"/>
     </EntityTab>
+    <EntityTab id="updateoutgoingaval">
+      <EntityTab id="UpdateOutgoingAvalDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateOutgoingAvalDetail"/>
+      <EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+    </EntityTab>
   </Extension>
   
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
@@ -40,6 +47,6 @@
     <MenuItem id="WithdrawLoan" insertbefore="Separator2" insertafter="Loan" icon="Icons.16x16.WithdrawLoan" label="${res:MainMenu.CashBankMenu.WithdrawLoan}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WithdrawLoan"/>
     <MenuItem id="RefundLoan" insertbefore="Separator2" insertafter="WithdrawLoan"   icon="Icons.16x16.RefundLoan" label="${res:MainMenu.CashBankMenu.RefundLoan}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RefundLoan"/>
     <MenuItem id="OutgoingAval" insertbefore="Separator2" insertafter="RefundLoan"   icon="Icons.16x16.OutgoingAval" label="${res:MainMenu.CashBankMenu.OutgoingAval}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OutgoingAval"/>
-    
+    <MenuItem id="UpdateOutgoingAval" insertbefore="Separator2" insertafter="OutgoingAval"   icon="Icons.16x16.OutgoingAval" label="${res:MainMenu.CashBankMenu.UpdateOutgoingAval}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateOutgoingAval"/>
   </Extension>
 </AddIn>

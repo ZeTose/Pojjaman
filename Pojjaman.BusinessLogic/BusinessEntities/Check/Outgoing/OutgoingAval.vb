@@ -21,6 +21,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_recipient As String
     Private m_Loan As Loan
 
+    Private m_intamt As Decimal
     Private m_amount As Decimal
     Private m_bankcharge As Decimal
     Private m_wht As Decimal
@@ -107,6 +108,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_amount = CDec(dr(aliasPrefix & "check_amt"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "check_interest") AndAlso Not dr.IsNull(aliasPrefix & "check_interest") Then
+          .m_intamt = CDec(dr(aliasPrefix & "check_interest"))
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "check_bankcharge") AndAlso Not dr.IsNull(aliasPrefix & "check_bankcharge") Then
           .m_bankcharge = CDec(dr(aliasPrefix & "check_bankcharge"))
         End If
@@ -148,7 +153,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If        If Not ConfigurationSettings.AppSettings.Item("AddInsDirectory") Is Nothing AndAlso ConfigurationSettings.AppSettings.Item("AddInsDirectory").ToLower.EndsWith("_ple\") Then
           RefreshPV()        End If
-      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Loan() As Loan      Get        Return m_Loan      End Get      Set(ByVal Value As Loan)        m_Loan = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
+      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Loan() As Loan      Get        Return m_Loan      End Get      Set(ByVal Value As Loan)        m_Loan = Value      End Set    End Property    Public Property InterestAmt() As Decimal      Get
+        Return m_intamt
+      End Get
+      Set(ByVal Value As Decimal)
+        m_intamt = Value
+      End Set
+    End Property    Public Property BankCharge() As Decimal      Get
         Return m_bankcharge
       End Get
       Set(ByVal Value As Decimal)
