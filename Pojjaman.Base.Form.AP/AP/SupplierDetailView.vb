@@ -1225,7 +1225,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           e.Row.SetColumnError("name", "")
         End If
         If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-          e.Row.SetColumnError(code, Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+          e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
         Else
           e.Row.SetColumnError("code", "")
         End If
