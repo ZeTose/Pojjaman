@@ -372,8 +372,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dst As New DataGridTableStyle
       dst.MappingName = "AccountPeriod"
 
-      Dim flag As Boolean = Not m_otherFilters Is Nothing
-
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "LineNumber"
       csLineNumber.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountPeriodView.LineNumberHeaderText}")
@@ -388,7 +386,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.NullText = ""
       csCode.Width = 60
       csCode.TextBox.Name = "code"
-      csCode.ReadOnly = flag
+      csCode.ReadOnly = readonlyFlag
 
       Dim csStartDate As New DataGridTimePickerColumn
       csStartDate.MappingName = "StartDate"
@@ -586,8 +584,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       m_updating = True
-      Dim flag As Boolean = m_otherFilters Is Nothing
-      If Not flag Then
+      If readonlyFlag() Then
         e.ProposedValue = e.Row(e.Column)
         m_updating = False
         Return
@@ -607,13 +604,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_period.Locking = [Enum].Parse(GetType(AccountPeriodLock), e.ProposedValue)
       m_updating = False
     End Sub
+    Private Function readonlyFlag() As Boolean
+      Return m_otherFilters IsNot Nothing AndAlso m_otherFilters.Length > 0
+    End Function
     Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
       If m_updating Then
         Return
       End If
       m_updating = True
-      Dim flag As Boolean = m_otherFilters Is Nothing
-      If Not flag Then
+      If readonlyFlag() Then
         e.ProposedValue = e.Row(e.Column)
         m_updating = False
         Return
@@ -645,8 +644,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       m_updating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Dim flag As Boolean = m_otherFilters Is Nothing
-      If Not flag Then
+      If readonlyFlag() Then
         e.ProposedValue = e.Row(e.Column)
         m_updating = False
         Return
@@ -679,8 +677,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       m_updating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Dim flag As Boolean = m_otherFilters Is Nothing
-      If Not flag Then
+      If readonlyFlag() Then
         e.ProposedValue = e.Row(e.Column)
         m_updating = False
         Return

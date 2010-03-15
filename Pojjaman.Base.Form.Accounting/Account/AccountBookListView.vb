@@ -341,45 +341,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim dst As New DataGridTableStyle
             dst.MappingName = "AccountBook"
 
-            Dim flag As Boolean = Not m_otherFilters Is Nothing
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "LineNumber"
+      csLineNumber.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
 
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "LineNumber"
-            csLineNumber.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "code"
+      csCode.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 100
+      csCode.TextBox.Name = "code"
+      csCode.ReadOnly = readonlyFlag
 
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "code"
-            csCode.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 100
-            csCode.TextBox.Name = "code"
-            csCode.ReadOnly = flag
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "name"
+      csName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.NameHeaderText}")
+      csName.NullText = ""
+      csName.Width = 100
+      csName.TextBox.Name = "name"
+      csName.ReadOnly = readonlyFlag
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "name"
-            csName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.NameHeaderText}")
-            csName.NullText = ""
-            csName.Width = 100
-            csName.TextBox.Name = "name"
-            csName.ReadOnly = flag
+      Dim csTitleName As New TreeTextColumn
+      csTitleName.MappingName = "titlename"
+      csTitleName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.TitleNameHeaderText}")
+      csTitleName.NullText = ""
+      csTitleName.Width = 100
+      csTitleName.ReadOnly = readonlyFlag
 
-            Dim csTitleName As New TreeTextColumn
-            csTitleName.MappingName = "titlename"
-            csTitleName.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.TitleNameHeaderText}")
-            csTitleName.NullText = ""
-            csTitleName.Width = 100
-            csTitleName.ReadOnly = flag
-
-            Dim csPrefix As New TreeTextColumn
-            csPrefix.MappingName = "Prefix"
-            csPrefix.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.PrefixHeaderText}")
-            csPrefix.NullText = ""
-            csPrefix.Width = 100
-            csPrefix.ReadOnly = flag
+      Dim csPrefix As New TreeTextColumn
+      csPrefix.MappingName = "Prefix"
+      csPrefix.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AccountBookListView.PrefixHeaderText}")
+      csPrefix.NullText = ""
+      csPrefix.Width = 100
+      csPrefix.ReadOnly = readonlyFlag
 
             dst.GridColumnStyles.Add(csLineNumber)
             dst.GridColumnStyles.Add(csCode)
@@ -511,18 +509,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 End If
             End If
             Return False
-        End Function
+    End Function
+    Private Function readonlyFlag() As Boolean
+      Return m_otherFilters IsNot Nothing AndAlso m_otherFilters.Length > 0
+    End Function
         Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
             If m_updating Then
                 Return
             End If
             m_updating = True
-            Dim flag As Boolean = m_otherFilters Is Nothing
-            If Not flag Then
-                e.ProposedValue = e.Row(e.Column)
-                m_updating = False
-                Return
-            End If
+      If readonlyFlag() Then
+        e.ProposedValue = e.Row(e.Column)
+        m_updating = False
+        Return
+      End If
             If m_AccountBook Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
                 m_updating = False
@@ -543,12 +543,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return
             End If
             m_updating = True
-            Dim flag As Boolean = m_otherFilters Is Nothing
-            If Not flag Then
-                e.ProposedValue = e.Row(e.Column)
-                m_updating = False
-                Return
-            End If
+      If readonlyFlag() Then
+        e.ProposedValue = e.Row(e.Column)
+        m_updating = False
+        Return
+      End If
             If m_AccountBook Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
                 m_updating = False
@@ -569,12 +568,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return
             End If
             m_updating = True
-            Dim flag As Boolean = m_otherFilters Is Nothing
-            If Not flag Then
-                e.ProposedValue = e.Row(e.Column)
-                m_updating = False
-                Return
-            End If
+      If readonlyFlag() Then
+        e.ProposedValue = e.Row(e.Column)
+        m_updating = False
+        Return
+      End If
             If m_AccountBook Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
                 m_updating = False
@@ -589,12 +587,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return
             End If
             m_updating = True
-            Dim flag As Boolean = m_otherFilters Is Nothing
-            If Not flag Then
-                e.ProposedValue = e.Row(e.Column)
-                m_updating = False
-                Return
-            End If
+      If readonlyFlag() Then
+        e.ProposedValue = e.Row(e.Column)
+        m_updating = False
+        Return
+      End If
             If m_AccountBook Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
                 m_updating = False
