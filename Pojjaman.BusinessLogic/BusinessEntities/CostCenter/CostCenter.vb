@@ -58,6 +58,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private cc_ccuseraccesscol As CostCenterUserAccessCollection
 
     Private m_rootWBSId As Integer
+    Private cc_isactive As Boolean
 
 #End Region
 
@@ -104,126 +105,130 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				.cc_cust = New Customer
 
 				.cc_project = New Project
-				.cc_boq = New Boq
+        .cc_boq = New BOQ
+        .cc_isactive = True
 			End With
 		End Sub
 		Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
 			MyBase.Construct(dr, aliasPrefix)
-			With Me
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_address") AndAlso Not dr.IsNull(aliasPrefix & "cc_address") Then
-					.cc_address = CStr(dr(aliasPrefix & "cc_address"))
-				End If
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_isactive") AndAlso Not dr.IsNull(aliasPrefix & "cc_isactive") Then
+          .cc_isactive = CBool(dr(aliasPrefix & "cc_isactive"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_address") AndAlso Not dr.IsNull(aliasPrefix & "cc_address") Then
+          .cc_address = CStr(dr(aliasPrefix & "cc_address"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_fax") AndAlso Not dr.IsNull(aliasPrefix & "cc_fax") Then
-					.cc_fax = CStr(dr(aliasPrefix & "cc_fax"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_fax") AndAlso Not dr.IsNull(aliasPrefix & "cc_fax") Then
+          .cc_fax = CStr(dr(aliasPrefix & "cc_fax"))
+        End If
 
-				Dim x, y As Integer
+        Dim x, y As Integer
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_mapPointX") AndAlso Not dr.IsNull(aliasPrefix & "cc_mapPointX") Then
-					x = CInt(dr(aliasPrefix & "cc_mapPointX"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_mapPointX") AndAlso Not dr.IsNull(aliasPrefix & "cc_mapPointX") Then
+          x = CInt(dr(aliasPrefix & "cc_mapPointX"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_mapPointy") AndAlso Not dr.IsNull(aliasPrefix & "cc_mapPointX") Then
-					y = CInt(dr(aliasPrefix & "cc_mapPointy"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_mapPointy") AndAlso Not dr.IsNull(aliasPrefix & "cc_mapPointX") Then
+          y = CInt(dr(aliasPrefix & "cc_mapPointy"))
+        End If
 
-				.cc_mapPosition = New Point(x, y)
+        .cc_mapPosition = New Point(x, y)
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_phone") AndAlso Not dr.IsNull(aliasPrefix & "cc_phone") Then
-					.cc_phone = CStr(dr(aliasPrefix & "cc_phone"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_phone") AndAlso Not dr.IsNull(aliasPrefix & "cc_phone") Then
+          .cc_phone = CStr(dr(aliasPrefix & "cc_phone"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "admin.employee_id") Then
-					If Not dr.IsNull(aliasPrefix & "admin.employee_id") Then
-						.cc_admin = New Employee(dr, "admin.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_admin") AndAlso Not dr.IsNull(aliasPrefix & "cc_admin") Then
-						.cc_admin = New Employee(CInt(dr(aliasPrefix & "cc_admin")))
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "admin.employee_id") Then
+          If Not dr.IsNull(aliasPrefix & "admin.employee_id") Then
+            .cc_admin = New Employee(dr, "admin.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_admin") AndAlso Not dr.IsNull(aliasPrefix & "cc_admin") Then
+            .cc_admin = New Employee(CInt(dr(aliasPrefix & "cc_admin")))
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "manager.employee_id") Then
-					If Not dr.IsNull(aliasPrefix & "manager.employee_id") Then
-						.cc_manager = New Employee(dr, "manager.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_manager") AndAlso Not dr.IsNull(aliasPrefix & "cc_manager") Then
-						.cc_manager = New Employee(CInt(dr(aliasPrefix & "cc_manager")))
-					End If
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_type") AndAlso Not dr.IsNull("cc_type") Then
-					.cc_type = New CostCenterType(CInt(dr(aliasPrefix & "cc_type")))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "manager.employee_id") Then
+          If Not dr.IsNull(aliasPrefix & "manager.employee_id") Then
+            .cc_manager = New Employee(dr, "manager.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_manager") AndAlso Not dr.IsNull(aliasPrefix & "cc_manager") Then
+            .cc_manager = New Employee(CInt(dr(aliasPrefix & "cc_manager")))
+          End If
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_type") AndAlso Not dr.IsNull("cc_type") Then
+          .cc_type = New CostCenterType(CInt(dr(aliasPrefix & "cc_type")))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_project") AndAlso Not dr.IsNull(aliasPrefix & "cc_project") Then
-					.cc_projectId = CInt(dr(aliasPrefix & "cc_project"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_project") AndAlso Not dr.IsNull(aliasPrefix & "cc_project") Then
+          .cc_projectId = CInt(dr(aliasPrefix & "cc_project"))
+        End If
 
-				' Load BOQ.
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_boq") AndAlso Not dr.IsNull(aliasPrefix & "cc_boq") Then
-					.cc_boqId = CInt(dr(aliasPrefix & "cc_boq"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "BOQ.boq_code") AndAlso Not dr.IsNull(aliasPrefix & "BOQ.boq_code") Then
-					.cc_boqCode = CStr(dr(aliasPrefix & "BOQ.boq_code"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "Project.project_code") AndAlso Not dr.IsNull(aliasPrefix & "Project.project_code") Then
-					.cc_projectCode = CStr(dr(aliasPrefix & "Project.project_code"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "Project.project_name") AndAlso Not dr.IsNull(aliasPrefix & "Project.project_name") Then
-					.cc_projectName = CStr(dr(aliasPrefix & "Project.project_name"))
-				End If
+        ' Load BOQ.
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_boq") AndAlso Not dr.IsNull(aliasPrefix & "cc_boq") Then
+          .cc_boqId = CInt(dr(aliasPrefix & "cc_boq"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "BOQ.boq_code") AndAlso Not dr.IsNull(aliasPrefix & "BOQ.boq_code") Then
+          .cc_boqCode = CStr(dr(aliasPrefix & "BOQ.boq_code"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "Project.project_code") AndAlso Not dr.IsNull(aliasPrefix & "Project.project_code") Then
+          .cc_projectCode = CStr(dr(aliasPrefix & "Project.project_code"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "Project.project_name") AndAlso Not dr.IsNull(aliasPrefix & "Project.project_name") Then
+          .cc_projectName = CStr(dr(aliasPrefix & "Project.project_name"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "wbs_id") AndAlso Not dr.IsNull(aliasPrefix & "wbs_id") Then
-					.m_rootWBSId = CInt(dr(aliasPrefix & "wbs_id"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "wbs_id") AndAlso Not dr.IsNull(aliasPrefix & "wbs_id") Then
+          .m_rootWBSId = CInt(dr(aliasPrefix & "wbs_id"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "customer.cust_id") Then
-					If Not dr.IsNull(aliasPrefix & "customer.cust_id") Then
-						.cc_cust = New Customer(dr, "customer.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_cust") AndAlso Not dr.IsNull(aliasPrefix & "cc_cust") Then
-						.cc_cust = New Customer(CInt(dr(aliasPrefix & "cc_cust")))
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "customer.cust_id") Then
+          If Not dr.IsNull(aliasPrefix & "customer.cust_id") Then
+            .cc_cust = New Customer(dr, "customer.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_cust") AndAlso Not dr.IsNull(aliasPrefix & "cc_cust") Then
+            .cc_cust = New Customer(CInt(dr(aliasPrefix & "cc_cust")))
+          End If
+        End If
 
-				'*****************************************
-				If dr.Table.Columns.Contains(aliasPrefix & "wipaccount.acct_id") Then
-					If Not dr.IsNull(aliasPrefix & "wipaccount.acct_id") Then
-						.cc_wipAccount = New Account(dr, "wipaccount.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_wipacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_wipacct") Then
-						.cc_wipAccount = New Account(CInt(dr(aliasPrefix & "cc_wipacct")))
-					End If
-				End If
+        '*****************************************
+        If dr.Table.Columns.Contains(aliasPrefix & "wipaccount.acct_id") Then
+          If Not dr.IsNull(aliasPrefix & "wipaccount.acct_id") Then
+            .cc_wipAccount = New Account(dr, "wipaccount.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_wipacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_wipacct") Then
+            .cc_wipAccount = New Account(CInt(dr(aliasPrefix & "cc_wipacct")))
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "storeaccount.acct_id") Then
-					If Not dr.IsNull(aliasPrefix & "storeaccount.acct_id") Then
-						.cc_storeAccount = New Account(dr, aliasPrefix & "storeaccount.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_storeacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_storeacct") Then
-						.cc_storeAccount = New Account(CInt(dr(aliasPrefix & "cc_storeacct")))
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "storeaccount.acct_id") Then
+          If Not dr.IsNull(aliasPrefix & "storeaccount.acct_id") Then
+            .cc_storeAccount = New Account(dr, aliasPrefix & "storeaccount.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_storeacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_storeacct") Then
+            .cc_storeAccount = New Account(CInt(dr(aliasPrefix & "cc_storeacct")))
+          End If
+        End If
 
-				If dr.Table.Columns.Contains("expenseAccount.acct_id") Then
-					If Not dr.IsNull(aliasPrefix & "expenseaccount.acct_id") Then
-						.cc_expenseAccount = New Account(dr, aliasPrefix & "expenseaccount.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "cc_expenseacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_expenseacct") Then
-						.cc_expenseAccount = New Account(CInt(dr(aliasPrefix & "cc_expenseacct")))
-					End If
-				End If
+        If dr.Table.Columns.Contains("expenseAccount.acct_id") Then
+          If Not dr.IsNull(aliasPrefix & "expenseaccount.acct_id") Then
+            .cc_expenseAccount = New Account(dr, aliasPrefix & "expenseaccount.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "cc_expenseacct") AndAlso Not dr.IsNull(aliasPrefix & "cc_expenseacct") Then
+            .cc_expenseAccount = New Account(CInt(dr(aliasPrefix & "cc_expenseacct")))
+          End If
+        End If
 
-				'*****************************************
-				'Hack เอาออกไปเพื่อความเร็ว ---> อย่าลืมโหลดใน View
-				'Me.LoadImage()
-			End With
+        '*****************************************
+        'Hack เอาออกไปเพื่อความเร็ว ---> อย่าลืมโหลดใน View
+        'Me.LoadImage()
+      End With
 		End Sub
 
 		Public Sub LoadImage(ByVal reader As IDataReader)
@@ -330,6 +335,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return True
       End Get
+    End Property
+    Public Property IsActive() As Boolean 'โครงการยัง Active(ยังไม่เสร็จ) เพื่อช่วย Filter
+      Get
+        Return cc_isactive
+      End Get
+      Set(ByVal Value As Boolean)
+        cc_isactive = Value
+      End Set
     End Property
 #End Region
 
@@ -499,6 +512,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@cc_admin", ValidIdOrDBNull(Me.Admin)))
         paramArrayList.Add(New SqlParameter("@cc_phone", Me.Phone))
         paramArrayList.Add(New SqlParameter("@cc_fax", Me.Fax))
+        paramArrayList.Add(New SqlParameter("@cc_isactive", Me.IsActive))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
