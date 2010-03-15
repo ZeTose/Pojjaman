@@ -143,8 +143,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+    'Public Property BankCharge() As Decimal
+    'Get
+    'Return m_bankcharge
+    'End Get
+    'Set(ByVal Value As Decimal)
+    'm_bankcharge = Value
+    'End Set
+    'End Property
+    'Public Property Interest() As Decimal
+    'Get
+    'Return m_intamt
+    'End Get
+    'Set(ByVal Value As Decimal)
+    'm_intamt = Value
+    'End Set
+    'End Property
+    'Public Property WHTAMT() As Decimal
+    'Get
+    'Return m_whtamt
+    'End Get
+    'Set(ByVal Value As Decimal)
+    'm_whtamt = Value
+    'End Set
+    'End Property
+    'Public Property TotalAmount() As Decimal
+    'Get
+    'Return m_totalamount
+    'End Get
+    'Set(ByVal Value As Decimal)
+    'm_totalamount = Value
+    'End Set
+    'End Property
+    Public Property TotalAmount() As Decimal
+      Get
+        m_totalamount = GetTotalAmount()
+        Return m_totalamount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_totalamount = Value
+      End Set
+    End Property
     Public Property BankCharge() As Decimal
       Get
+        m_bankcharge = GetBankChargeAmount()
         Return m_bankcharge
       End Get
       Set(ByVal Value As Decimal)
@@ -153,6 +195,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property Interest() As Decimal
       Get
+        m_intamt = GetInterestAmount()
         Return m_intamt
       End Get
       Set(ByVal Value As Decimal)
@@ -161,18 +204,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property WHTAMT() As Decimal
       Get
+        m_whtamt = GetWHTAmount()
         Return m_whtamt
       End Get
       Set(ByVal Value As Decimal)
         m_whtamt = Value
-      End Set
-    End Property
-    Public Property TotalAmount() As Decimal
-      Get
-        Return m_totalamount
-      End Get
-      Set(ByVal Value As Decimal)
-        m_totalamount = Value
       End Set
     End Property
     Public Property Note() As String Implements IGLAble.Note
@@ -335,7 +371,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("check_receivedate", GetType(Date)))
       myDatatable.Columns.Add(New DataColumn("check_duedate", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("check_recipient", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_recipient", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("check_supplier", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("check_bankacct", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("check_bank", GetType(Integer)))
@@ -353,6 +389,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private Function GetTotalAmount() As Decimal
+      Dim totalamnt As Decimal
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(row) Then
+          If Not row.IsNull("check_amt") Then
+            totalamnt += CDec(row("check_amt"))
+          End If
+        End If
+      Next
+      Return totalamnt
+    End Function
+    Private Function GetInterestAmount() As Decimal
+      Dim intamt As Decimal
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(row) Then
+          If Not row.IsNull("check_interest") Then
+            intamt += CDec(row("check_interest"))
+          End If
+        End If
+      Next
+      Return intamt
+    End Function
+    Private Function GetBankChargeAmount() As Decimal
+      Dim bankcharge As Decimal
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(row) Then
+          If Not row.IsNull("check_bankcharge") Then
+            bankcharge += CDec(row("check_bankcharge"))
+          End If
+        End If
+      Next
+      Return bankcharge
+    End Function
+
+    Private Function GetWHTAmount() As Decimal
+      Dim wht As Decimal
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(row) Then
+          If Not row.IsNull("check_wht") Then
+            wht += CDec(row("check_wht"))
+          End If
+        End If
+      Next
+      Return wht
+    End Function
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
       Me.Id = oldid
       Me.m_je.Id = oldje

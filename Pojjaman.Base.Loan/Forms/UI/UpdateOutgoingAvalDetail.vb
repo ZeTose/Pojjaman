@@ -770,7 +770,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csBankName.TextBox.Name = "bank_name"
       ' Check amount ...
       Dim csCheckAmnt As New TreeTextColumn
-      csCheckAmnt.MappingName = "check_amount"
+      csCheckAmnt.MappingName = "check_amt"
       csCheckAmnt.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CheckAmountHeaderText}")
       csCheckAmnt.NullText = ""
       csCheckAmnt.Width = 80
@@ -778,7 +778,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCheckAmnt.DataAlignment = HorizontalAlignment.Right
       csCheckAmnt.ReadOnly = True
       csCheckAmnt.Format = "#,##0.00"
-      csCheckAmnt.TextBox.Name = "check_amount"
+      csCheckAmnt.TextBox.Name = "check_amt"
       ' Interest ...
       Dim csIntAmt As New TreeTextColumn
       csIntAmt.MappingName = "check_Interest"
@@ -795,18 +795,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csBankCharge.MappingName = "check_bankcharge"
       csBankCharge.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.BankChargeHeaderText}")
       csBankCharge.NullText = ""
-      csBankCharge.Width = 60
+      csBankCharge.Width = 80
       csBankCharge.Alignment = HorizontalAlignment.Center
       csBankCharge.DataAlignment = HorizontalAlignment.Right
       csBankCharge.ReadOnly = False
       csBankCharge.Format = "#,##0.00"
       csBankCharge.TextBox.Name = "check_bankcharge"
+
+
       ' Check amount ...
       Dim csWht As New TreeTextColumn
       csWht.MappingName = "check_wht"
       csWht.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.WhtHeaderText}")
       csWht.NullText = ""
-      csWht.Width = 60
+      csWht.Width = 80
       csWht.Alignment = HorizontalAlignment.Center
       csWht.DataAlignment = HorizontalAlignment.Right
       csWht.ReadOnly = False
@@ -1258,26 +1260,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetSummaryText()
       Dim item As Integer = 0
       Dim amount As Decimal = 0
-      Dim intamount As Decimal = 0
+      'Dim intamount As Decimal = 0
       For Each row As TreeRow In Me.m_entity.ItemTable.Rows
         If Not row.IsNull("code") Then
           item += 1
-          If Not row.IsNull("check_amount") Then
-            amount += CDec(row("check_amount"))
+          If Not row.IsNull("check_amt") Then
+            amount += CDec(row("check_amt"))
           End If
-          If Not row.IsNull("check_interest") Then
-            intamount += CDec(row("check_interest"))
-          End If
+          'If Not row.IsNull("check_interest") Then
+          'intamount += CDec(row("check_interest"))
+          'End If
         End If
       Next
 
       txtSumCheck.Text = Configuration.FormatToString(item, DigitConfig.Int)
       TxtSumTotal.Text = Configuration.FormatToString(amount, DigitConfig.Price)
-      txtInterest.Text = Configuration.FormatToString(intamount, DigitConfig.Price)
+      txtInterest.Text = Configuration.FormatToString(Me.m_entity.Interest, DigitConfig.Price)
       txtBankcharge.Text = Configuration.FormatToString(Me.m_entity.BankCharge, DigitConfig.Price)
       txtWht.Text = Configuration.FormatToString(Me.m_entity.WHTAMT, DigitConfig.Price)
 
-      Me.m_entity.Interest = Configuration.Format(intamount, DigitConfig.Price)
       Me.m_entity.TotalAmount = Configuration.Format(amount, DigitConfig.Price)
     End Sub
 #End Region
