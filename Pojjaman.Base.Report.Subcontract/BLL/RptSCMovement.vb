@@ -331,6 +331,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Width = CInt(widths(i))
           cs.NullText = ""
           cs.Alignment = HorizontalAlignment.Left
+          If i >= 4 AndAlso i <= 15 Then
+            cs.DataAlignment = HorizontalAlignment.Right
+          Else
+            cs.DataAlignment = HorizontalAlignment.Left
+          End If
 
           'Select Case i
           '    Case 0, 1
