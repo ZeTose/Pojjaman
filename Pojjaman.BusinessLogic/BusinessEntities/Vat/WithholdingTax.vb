@@ -1971,10 +1971,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			Next
 			'##############################END ITEM###################################
 
-			dpiColl.AddRange(GetGLDocPrintingEntries)
-			dpiColl.AddRange(GetPVRVDocPrintingEntries)
-			Return dpiColl
-		End Function
+      '===============================ตาราง WHT ทั้งหมด==============================
+      If Not Me.RefDoc Is Nothing Then
+        Dim n As Integer = 0
+        For Each w As WitholdingTax In Me.RefDoc.WitholdingTaxCollection
+          'ItemWHT.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ItemWHT.Code"
+          dpi.Value = w.Code
+          dpi.DataType = "System.Int32"
+          dpi.Row = n + 1
+          dpi.Table = "ItemWHT"
+          dpiColl.Add(dpi)
+
+
+          'ItemWHT.DocDate
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ItemWHT.DocDate"
+          dpi.Value = w.DocDate.ToShortDateString
+          dpi.DataType = "System.DateTime"
+          dpi.Row = n + 1
+          dpi.Table = "ItemWHT"
+          dpiColl.Add(dpi)
+
+          'ItemWHT.WHT
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ItemWHT.WHT"
+          dpi.Value = Configuration.FormatToString(w.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "ItemWHT"
+          dpiColl.Add(dpi)
+
+          n += 1
+        Next
+        '===============================ตาราง WHT ทั้งหมด==============================
+
+      End If
+      dpiColl.AddRange(GetGLDocPrintingEntries)
+      dpiColl.AddRange(GetPVRVDocPrintingEntries)
+      Return dpiColl
+    End Function
 		Private Function GetGLDocPrintingEntries() As DocPrintingItemCollection
 			Dim dpiColl As New DocPrintingItemCollection
 			Dim dpi As DocPrintingItem
