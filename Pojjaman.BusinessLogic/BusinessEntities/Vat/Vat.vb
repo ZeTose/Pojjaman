@@ -597,7 +597,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OrElse TypeOf Me.RefDoc Is GoodsSold _
         OrElse TypeOf Me.RefDoc Is PA _
         ) _
-        AndAlso tmpTaxBase > tmpRefTaxBase Then
+        AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
           New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
           , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
