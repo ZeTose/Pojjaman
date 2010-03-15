@@ -4435,6 +4435,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case 10
           Me.txtSupplierName.AutoCompleteSource = AutoCompleteSource.CustomSource
           Me.txtSupplierName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+          a = New AutoCompleteStringCollection
           For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
             a.Add(kv.Value & " [" & kv.Key & "]")
           Next
