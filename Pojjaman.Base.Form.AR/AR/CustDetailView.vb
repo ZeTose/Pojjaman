@@ -1446,6 +1446,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Property
 #End Region
 
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      MyBase.NotifyAfterSave(successful)
+      For Each myView As IViewContent In WorkbenchSingleton.Workbench.ViewContentCollection
+        For Each o As Object In myView.WorkbenchWindow.SubViewContents
+          If TypeOf o Is ICanRefreshAutoComplete Then
+            CType(o, ICanRefreshAutoComplete).RefreshAutoComplete(2)
+          End If
+        Next
+      Next
+    End Sub
     End Class
 
 End Namespace

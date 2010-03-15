@@ -1243,12 +1243,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
     End Function
-    Public Class AfterCommitException
-      Inherits Exception
-      Public Sub New(ByVal m As String, ByVal ex As Exception)
-        MyBase.New(m, ex)
-      End Sub
-    End Class
     Public Shared Sub Import(ByVal dt As DataTable)
       Dim lciArray As New ArrayList
       Dim levelHash As New Hashtable
@@ -1569,5 +1563,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Lci() As LCIItem      Get        Return m_lci      End Get      Set(ByVal Value As LCIItem)        m_lci = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property
 #End Region
 
+  End Class
+  Public Class AfterCommitException
+    Inherits Exception
+    Public Sub New(ByVal m As String, ByVal ex As Exception)
+      MyBase.New(m, ex)
+    End Sub
   End Class
 End Namespace

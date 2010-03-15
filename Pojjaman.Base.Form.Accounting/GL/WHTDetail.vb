@@ -12,7 +12,7 @@ Imports System.Text.RegularExpressions
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class WHTDetail
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab
+    Implements IValidatable, IAuxTab, ICanRefreshAutoComplete
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -1264,7 +1264,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
     End Sub
-
+    Public Sub RefreshAutoComplete(ByVal entityId As Integer) Implements ICanRefreshAutoComplete.RefreshAutoComplete
+      'ย้ายมาไว้ตรงนี้เพื่อให้ Refresh
+      Select Case entityId
+        Case 10, 2
+          Me.txtPrintName.AutoCompleteSource = AutoCompleteSource.CustomSource
+          Me.txtPrintName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+          Dim a As New AutoCompleteStringCollection
+          For Each kv As Generic.KeyValuePair(Of String, String) In Supplier.InfoList
+            a.Add(kv.Value & " [" & kv.Key & "] " & SUPPLIER_TYPE_TEXT)
+          Next
+          For Each kv As Generic.KeyValuePair(Of String, String) In Supplier.InfoList
+            a.Add("[" & kv.Key & "] " & kv.Value & " " & SUPPLIER_TYPE_TEXT)
+          Next
+          For Each kv As Generic.KeyValuePair(Of String, String) In Customer.InfoList
+            a.Add(kv.Value & " [" & kv.Key & "] " & CUSTOMER_TYPE_TEXT)
+          Next
+          For Each kv As Generic.KeyValuePair(Of String, String) In Customer.InfoList
+            a.Add("[" & kv.Key & "] " & kv.Value & " " & CUSTOMER_TYPE_TEXT)
+          Next
+          Me.txtPrintName.AutoCompleteCustomSource = a
+      End Select
+    End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtCode.Validated, AddressOf Me.CodeValidated
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
@@ -1664,23 +1685,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CodeDescription.ListCodeDescriptionInComboBox(Me.cmbType, "wht_type")
       Me.cmbType.SelectedIndex = 0
 
-
-      Me.txtPrintName.AutoCompleteSource = AutoCompleteSource.CustomSource
-      Me.txtPrintName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-      Dim a As New AutoCompleteStringCollection
-      For Each kv As Generic.KeyValuePair(Of String, String) In Supplier.InfoList
-        a.Add(kv.Value & " [" & kv.Key & "] " & SUPPLIER_TYPE_TEXT)
-      Next
-      For Each kv As Generic.KeyValuePair(Of String, String) In Supplier.InfoList
-        a.Add("[" & kv.Key & "] " & kv.Value & " " & SUPPLIER_TYPE_TEXT)
-      Next
-      For Each kv As Generic.KeyValuePair(Of String, String) In Customer.InfoList
-        a.Add(kv.Value & " [" & kv.Key & "] " & CUSTOMER_TYPE_TEXT)
-      Next
-      For Each kv As Generic.KeyValuePair(Of String, String) In Customer.InfoList
-        a.Add("[" & kv.Key & "] " & kv.Value & " " & CUSTOMER_TYPE_TEXT)
-      Next
-      Me.txtPrintName.AutoCompleteCustomSource = a
+      RefreshAutoComplete(10)
 
     End Sub
 

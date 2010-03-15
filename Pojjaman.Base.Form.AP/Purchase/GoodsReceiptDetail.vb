@@ -15,7 +15,7 @@ Imports System.Text.RegularExpressions
 Namespace Longkong.Pojjaman.Gui.Panels
 	Public Class GoodsReceiptDetail
 		Inherits AbstractEntityDetailPanelView
-		Implements IValidatable
+    Implements IValidatable, ICanRefreshAutoComplete
 
 #Region " Windows Form Designer generated code "
 
@@ -3808,28 +3808,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Public Overrides Sub Initialize()
 			SetTaxTypeComboBox()
       ListType()
-
-      Me.txtSupplierName.AutoCompleteSource = AutoCompleteSource.CustomSource
-      Me.txtSupplierName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-      Dim a As New AutoCompleteStringCollection
-      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
-        a.Add(kv.Value & " [" & kv.Key & "]")
-      Next
-      For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
-        a.Add("[" & kv.Key & "] " & kv.Value)
-      Next
-      Me.txtSupplierName.AutoCompleteCustomSource = a
-
-      Me.txtToCostCenterName.AutoCompleteSource = AutoCompleteSource.CustomSource
-      Me.txtToCostCenterName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-      a = New AutoCompleteStringCollection
-      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
-        a.Add(kv.Value & " [" & kv.Key & "]")
-      Next
-      For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
-        a.Add("[" & kv.Key & "] " & kv.Value)
-      Next
-      Me.txtToCostCenterName.AutoCompleteCustomSource = a
+      RefreshAutoComplete(10)
+      RefreshAutoComplete(87)
 		End Sub
 		Private Sub ListType()
 			Dim oldType As New GoodsReceiptToAcctType(-1)
@@ -4448,6 +4428,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			'Me.m_entity.IsEntityDirty = True
 		End Sub
 #End Region
+
+    Public Sub RefreshAutoComplete(ByVal entityId As Integer) Implements ICanRefreshAutoComplete.RefreshAutoComplete
+      Dim a As AutoCompleteStringCollection      
+      Select Case entityId
+        Case 10
+          Me.txtSupplierName.AutoCompleteSource = AutoCompleteSource.CustomSource
+          Me.txtSupplierName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+          For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+            a.Add(kv.Value & " [" & kv.Key & "]")
+          Next
+          For Each kv As KeyValuePair(Of String, String) In Supplier.InfoList
+            a.Add("[" & kv.Key & "] " & kv.Value)
+          Next
+          Me.txtSupplierName.AutoCompleteCustomSource = a
+        Case 87
+          Me.txtToCostCenterName.AutoCompleteSource = AutoCompleteSource.CustomSource
+          Me.txtToCostCenterName.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+          a = New AutoCompleteStringCollection
+          For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+            a.Add(kv.Value & " [" & kv.Key & "]")
+          Next
+          For Each kv As KeyValuePair(Of String, String) In CostCenter.InfoList
+            a.Add("[" & kv.Key & "] " & kv.Value)
+          Next
+          Me.txtToCostCenterName.AutoCompleteCustomSource = a
+      End Select
+    End Sub
 
   End Class
 End Namespace

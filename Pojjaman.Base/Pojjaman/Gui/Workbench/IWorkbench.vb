@@ -1,6 +1,9 @@
 Imports Longkong.Core.AddIns
 Imports Longkong.Pojjaman.Gui.Panels
 Namespace Longkong.Pojjaman.Gui
+  Public Interface ICanRefreshAutoComplete
+    Sub RefreshAutoComplete(ByVal entityId As Integer)
+  End Interface
   Public Delegate Sub ViewContentEventHandler(ByVal sender As Object, ByVal e As ViewContentEventArgs)
   Public Interface IWorkbench
     Inherits IMementoCapable
