@@ -3506,6 +3506,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "RefDocItem"
               dpiColl.Add(dpi)
 
+              'RefDocItem.SignedRealAmount
+              dpi = New DocPrintingItem
+              dpi.Mapping = "RefDocItem.SignedRealAmount"
+              If Not IsDBNull(dr("RealAmount")) Then
+                If stock_type = 46 Then
+                  dpi.Value = Configuration.FormatToString(-CDec(dr("RealAmount")), DigitConfig.UnitPrice)
+                Else
+                  dpi.Value = Configuration.FormatToString(CDec(dr("RealAmount")), DigitConfig.UnitPrice)
+                End If
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "RefDocItem"
+              dpiColl.Add(dpi)
+
               'RefDocItem.UnpaidAmount
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.UnpaidAmount"
