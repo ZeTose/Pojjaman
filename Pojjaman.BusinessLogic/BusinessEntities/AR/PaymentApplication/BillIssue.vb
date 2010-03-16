@@ -864,6 +864,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumMilestoneAmount As Decimal = 0
 
       Dim sumTaxBase As Decimal = 0
+      Dim sumBeforeTax As Decimal = 0
+      Dim sumAfterTax As Decimal = 0
+      Dim sumReceivebleForBillissue As Decimal = 0
       Dim sumVat As Decimal = 0
       For Each item As Milestone In Me.ItemCollection
         If Not tempCC = item.CostCenter.Id Then
@@ -984,8 +987,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 75, 78
               'ผ่าน
               dpi.Value = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
+              sumMilestoneAmount += item.MileStoneAmount
             Case 79 'ลด
               dpi.Value = Configuration.FormatToString(-item.MileStoneAmount, DigitConfig.Price)
+              sumMilestoneAmount -= item.MileStoneAmount
             Case Else
               dpi.Value = ""
           End Select
@@ -1024,8 +1029,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 75, 78
               'ผ่าน
               dpi.Value = Configuration.FormatToString(item.ReceivableForBillIssue, DigitConfig.Price)
+              sumReceivebleForBillissue += item.ReceivableForBillIssue
             Case 79 'ลด
               dpi.Value = Configuration.FormatToString(-item.ReceivableForBillIssue, DigitConfig.Price)
+              sumReceivebleForBillissue -= item.ReceivableForBillIssue
+            Case Else
+              dpi.Value = ""
+          End Select
+        End If
+
+        'Item.AfterTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.AfterTax"
+        If item.ReceivableForBillIssue = 0 Then
+          dpi.Value = ""
+        Else
+          Select Case item.Type.Value
+            Case 75, 78
+              'ผ่าน
+              dpi.Value = Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
+              sumAfterTax += item.AfterTax
+            Case 79 'ลด
+              dpi.Value = Configuration.FormatToString(-item.AfterTax, DigitConfig.Price)
+              sumAfterTax -= item.AfterTax
             Case Else
               dpi.Value = ""
           End Select
@@ -1109,8 +1135,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           If item.Type.Value = 79 Then 'ลดงาน
             dpi.Value = Configuration.FormatToString(-item.BeforeTax, DigitConfig.Price)
+            sumBeforeTax -= item.BeforeTax
           Else
             dpi.Value = Configuration.FormatToString(item.BeforeTax, DigitConfig.Price)
+            sumBeforeTax += item.BeforeTax
           End If
         End If
         dpi.DataType = "System.String"
@@ -1126,20 +1154,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           If item.Type.Value = 79 Then 'ลดงาน
             dpi.Value = Configuration.FormatToString(-item.TaxBase, DigitConfig.Price)
+            sumTaxBase -= item.TaxBase
           Else
             dpi.Value = Configuration.FormatToString(item.TaxBase, DigitConfig.Price)
+            sumTaxBase += item.TaxBase
           End If
         End If
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
-        If IsNumeric(item.TaxBase) Then
-          If item.Type.Value = 79 Then 'ลดงาน
-            sumTaxBase -= CDec(item.TaxBase)
-          Else
-            sumTaxBase += CDec(item.TaxBase)
-          End If
-        End If
         dpiColl.Add(dpi)
 
         'Item.Qty
@@ -1177,11 +1200,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         dpiColl.Add(dpi)
 
-        If item.Type.Value = 79 Then 'ลดงาน
-          sumMilestoneAmount -= item.MileStoneAmount
-        Else
-          sumMilestoneAmount += item.MileStoneAmount
-        End If
 
         sumAdvance += item.Advance
 
@@ -1204,27 +1222,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
         n += 1
       Next
 
-      'MessageBox.Show(m_itemCollection.PaymentApplication.TaxBase)
-      'TaxBase - มูลค่าสินค้า/บริการ
-      dpi = New DocPrintingItem
-      dpi.Mapping = "TaxBase"
-      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
-      dpi.Value = Configuration.FormatToString(sumTaxBase - sumVat, DigitConfig.Price)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
 
       'MileStoneAmount
       dpi = New DocPrintingItem
       dpi.Mapping = "MileStoneAmount"
-      dpi.Value = Configuration.FormatToString(sumMilestoneAmount / ((100 + TaxRate) / 100), DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
       dpi.DataType = "System.String"
       'dpi.Row = n + 1
       'dpi.Table = "Item"
       dpiColl.Add(dpi)
 
+      'befoetax -ก่อนภาษี มูลค่าสินค้า/บริการ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BeforeTax"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumBeforeTax, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
 
+      'TaxBase - มูลค่าสินค้า/บริการ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxBase"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumTaxBase, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
       'For Each item As Milestone In Me.ItemCollection
 
+      'มูลค่าภาษี
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxAmount"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumVat, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
+      'AdvanceAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvanceAmount"
+      dpi.Value = Configuration.FormatToString(sumAdvance, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'RetentionAmount (am เพิ่ม)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RetentionAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetRetentionAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'DiscountAmount (am เพิ่ม)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DiscountAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetDiscountAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'PenaltyAmount (am เพิ่ม)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "PenaltyAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetPenaltyAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'Receiveble for billissue คิดเรื่อง Retention point ให้แล้ว
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ReceivableForBillissue"
+      dpi.Value = Configuration.FormatToString(sumReceivebleForBillissue, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'AfterTax
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AfterTax"
+      dpi.Value = Configuration.FormatToString(sumAfterTax, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
 
       'SummaryMileStoneAmount (am เพิ่ม)
       dpi = New DocPrintingItem
@@ -1253,14 +1338,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'dpi.Table = "Item"
       dpiColl.Add(dpi)
 
-      'AdvanceAmount
-      dpi = New DocPrintingItem
-      dpi.Mapping = "AdvanceAmount"
-      dpi.Value = Configuration.FormatToString(sumAdvance / ((100 + TaxRate) / 100), DigitConfig.Price)
-      dpi.DataType = "System.String"
-      'dpi.Row = n + 1
-      'dpi.Table = "Item"
-      dpiColl.Add(dpi)
 
       'SummaryAdvanceAmount
       dpi = New DocPrintingItem
@@ -1332,36 +1409,107 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '--- Last page -----------
       '-------------------------
-      'LastPageTaxBase - มูลค่าสินค้า/บริการ
-      dpi = New DocPrintingItem
-      dpi.Mapping = "LastPageTaxBase"
-      dpi.Value = Configuration.FormatToString(sumTaxBase - sumVat, DigitConfig.Price)
-      dpi.DataType = "System.string"
-      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-      dpiColl.Add(dpi)
-
-      'LastPageMileStoneAmount
+      'MileStoneAmount
       dpi = New DocPrintingItem
       dpi.Mapping = "LastPageMileStoneAmount"
-      dpi.Value = Configuration.FormatToString(sumMilestoneAmount / ((100 + TaxRate) / 100), DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
       dpiColl.Add(dpi)
 
-      'LastPageSummaryAdvanceAmount
+      'befoetax -ก่อนภาษี มูลค่าสินค้า/บริการ
       dpi = New DocPrintingItem
-      dpi.Mapping = "LastPageSummaryAdvanceAmount"
+      dpi.Mapping = "LastPageBeforeTax"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumBeforeTax, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'TaxBase - มูลค่าสินค้า/บริการ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageTaxBase"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumTaxBase, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'มูลค่าภาษี
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageTaxAmount"
+      'dpi.Value = Configuration.FormatToString(Me.Vat.TaxBase, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(sumVat, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'AdvanceAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageAdvanceAmount"
       dpi.Value = Configuration.FormatToString(sumAdvance, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
       dpiColl.Add(dpi)
 
-      'LastPageAdvanceAmount
+
+      'RetentionAmount (am เพิ่ม)
       dpi = New DocPrintingItem
-      dpi.Mapping = "LastPageAdvanceAmount"
-      dpi.Value = Configuration.FormatToString(sumAdvance / ((100 + TaxRate) / 100), DigitConfig.Price)
+      dpi.Mapping = "LastPageRetentionAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetRetentionAmount, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'DiscountAmount (am เพิ่ม)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageDiscountAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetDiscountAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'PenaltyAmount (am เพิ่ม)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPagePenaltyAmount"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetPenaltyAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'Receiveble for billissue คิดเรื่อง Retention point ให้แล้ว
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageReceivableForBillissue"
+      dpi.Value = Configuration.FormatToString(sumReceivebleForBillissue, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'AfterTax
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageAfterTax"
+      dpi.Value = Configuration.FormatToString(sumAfterTax, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
+      dpiColl.Add(dpi)
+
+      'AdvanceAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "LastPageSummaryAdvanceAmount"
+      dpi.Value = Configuration.FormatToString(sumAdvance, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = n + 1
+      'dpi.Table = "Item"
       dpiColl.Add(dpi)
 
       'LastPageSummaryGoodsReceiptAmount
