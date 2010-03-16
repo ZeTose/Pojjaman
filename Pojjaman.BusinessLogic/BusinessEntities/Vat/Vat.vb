@@ -3797,4 +3797,67 @@ Public Class VatItemCollection
 
     End Class
   End Class
+
+  Public Class VatItemWithCustomNote
+    Implements IPrintableEntity
+    Private m_vitem As VatItem
+    Public Sub New(ByVal vitem As VatItem)
+      m_vitem = vitem
+    End Sub
+
+    Public Property Code As String Implements IIdentifiable.Code
+      Get
+
+      End Get
+      Set(ByVal value As String)
+
+      End Set
+    End Property
+
+    Public Property Id As Integer Implements IIdentifiable.Id
+      Get
+
+      End Get
+      Set(ByVal value As Integer)
+
+      End Set
+    End Property
+
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+
+    End Function
+
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+
+    End Function
+
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim ret As DocPrintingItemCollection = m_vitem.GetDocPrintingEntries
+      If Not m_vitem.Vat Is Nothing AndAlso TypeOf m_vitem.Vat.RefDoc Is IHasCustomNote Then
+        Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
+        If TypeOf m_vitem.Vat.RefDoc Is IHasMainDoc Then
+          If Not (TypeOf (m_vitem.Vat.RefDoc) Is JournalEntry) Then
+            coll = CType(CType(m_vitem.Vat.RefDoc, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
+          Else
+            coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
+          End If
+        Else
+          coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
+        End If
+        For Each note As CustomNote In coll
+          Dim dpi As New DocPrintingItem
+          dpi.Mapping = "Note." & note.NoteName
+          If note.IsDropDown Then
+            dpi.Value = Boolean.Parse(CStr(note.Note))
+            dpi.DataType = "System.Boolean"
+          Else
+            dpi.Value = CStr(note.Note)
+            dpi.DataType = "System.String"
+          End If
+          ret.Add(dpi)
+        Next
+      End If
+      Return ret
+    End Function
+  End Class
 End Namespace

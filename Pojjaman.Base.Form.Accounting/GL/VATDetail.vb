@@ -1365,7 +1365,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 							If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
 								Dim item As VatItem = Me.m_vat.ItemCollection(i)
                 If File.Exists(thePath) Then
-                  Dim df As New DesignerForm(thePath, CType(item, IPrintableEntity))
+                  Dim newItem As New VatItemWithCustomNote(item)
+                  Dim df As New DesignerForm(thePath, newItem)
                   arr.Add(df.PrintDocument)
                 End If
 							End If
