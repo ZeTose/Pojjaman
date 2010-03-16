@@ -3051,7 +3051,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 		Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
 			Get
-				Return False
+        Return Not (Me.Status.Value = 0 OrElse Me.IsClosed)
 			End Get
 		End Property
 
@@ -3063,7 +3063,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			Get
 
 			End Get
-		End Property
+    End Property
+    Public ReadOnly Property IsClosed As Boolean
+      Get
+        Dim ds As DataSet _
+          = SqlHelper.ExecuteDataset(Me.ConnectionString, _
+            CommandType.Text, _
+            "select isnull(po_closed,0) from po where po_id=" & Me.Id)
+        If ds.Tables(0).Rows.Count > 0 Then
+          If CInt(ds.Tables(0).Rows(0)(0)) = 1 OrElse CBool(ds.Tables(0).Rows(0)(0)) Then
+            Return True
+          End If
+        End If
+        Return False
+      End Get
+    End Property
 #End Region
 
 #Region "Delete"

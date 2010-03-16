@@ -1172,7 +1172,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
             '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
             For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
                 ctrl.Enabled = False
               End If
             Next          
@@ -1199,7 +1199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ถ้าใช้การอนุมัติแบบเก่า
           If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
             For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
                 ctrl.Enabled = False
               End If
             Next           
@@ -1228,8 +1228,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'จาก Status ของเอกสารเอง
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 OrElse Me.m_entity.Closed Then
         For Each ctrl As Control In grbDetail.Controls
-          If Not ctrl.Name = "chkClosed" AndAlso Not ctrl.Name = "btnApprove" Then
+          If Not ctrl.Name = "chkClosed" AndAlso Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "chkClosed" Then
             ctrl.Enabled = False
+          ElseIf ctrl.Name = "chkClosed" Then
+            If Me.m_entity.Status.Value = 0 Then
+              chkClosed.Enabled = False
+            End If
           End If
         Next
         tgItem.Enabled = True
@@ -1249,6 +1253,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.ibtnGetFromBOQ.Enabled = True
         End If
       End If
+
+      Me.ibtnCopyMe.Enabled = True
+      Me.btnApprove.Enabled = True
 
     End Sub
     Public Overrides Sub ClearDetail()

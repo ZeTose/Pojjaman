@@ -277,9 +277,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 			Me.btnApprove.Enabled = True
 			'ถ้าเอกสารอนุมัติระดับสูงสุดแล้ว หรือเอกสารนี้มีระดับสูงสุดเป็น 0 หรือระดับของผู้ใช้ปัจจุบันน้อยกว่าหรือเท่ากับระดับที่สูงสุดในตอนนี้
-      If m_refDocIsApproved OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level = 0 _
+      If m_refDocIsApproved _
+       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level = 0 _
        OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level <= ApproveDocColl.MaxLevel _
-       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).MaxAmount < CType(m_entity, IApprovAble).AmountToApprove Then
+       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).MaxAmount < CType(m_entity, IApprovAble).AmountToApprove _
+       OrElse Not CType(m_entity, IApprovAble).ShowUnApproveButton Then
         Me.btnApprove.Enabled = False
       End If
 
