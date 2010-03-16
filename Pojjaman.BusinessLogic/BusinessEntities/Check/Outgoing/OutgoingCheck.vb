@@ -31,6 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_docStatus As OutgoingCheckDocStatus 'สถานะเช็คจ่าย
     Private m_itemTable As TreeTable
 
+    Private m_ACPayeeOnly As Boolean
+    Private m_unbearer As Boolean
 #End Region
 
 #Region "Constructors"
@@ -126,6 +128,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
           .Status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
         End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "check_ACPayeeOnly") AndAlso Not dr.IsNull(aliasPrefix & "check_ACPayeeOnly") Then
+          .m_ACPayeeOnly = CBool(dr(aliasPrefix & "check_ACPayeeOnly"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "check_unbearer") AndAlso Not dr.IsNull(aliasPrefix & "check_unbearer") Then
+          .m_unbearer = CBool(dr(aliasPrefix & "check_unbearer"))
+        End If
       End With
     End Sub
 #End Region
@@ -148,7 +158,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If        If Not ConfigurationSettings.AppSettings.Item("AddInsDirectory") Is Nothing AndAlso ConfigurationSettings.AppSettings.Item("AddInsDirectory").ToLower.EndsWith("_ple\") Then
           RefreshPV()        End If
-      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        Return m_bankacct      End Get      Set(ByVal Value As BankAccount)        m_bankacct = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
+      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        Return m_bankacct      End Get      Set(ByVal Value As BankAccount)        m_bankacct = Value      End Set    End Property    Public Property ACPayeeOnly() As Boolean      Get        Return m_ACPayeeOnly      End Get      Set(ByVal Value As Boolean)        m_ACPayeeOnly = Value      End Set    End Property    Public Property Unbearer() As Boolean      Get        Return m_unbearer      End Get      Set(ByVal Value As Boolean)        m_unbearer = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
         Return m_bankcharge
       End Get
       Set(ByVal Value As Decimal)
@@ -577,6 +587,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
 
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ACPayeeOnly", Me.ACPayeeOnly))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Unbearer", Me.Unbearer))
+
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
       ' สร้าง SqlParameter จาก ArrayList ...
@@ -699,6 +712,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
+
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ACPayeeOnly", Me.ACPayeeOnly))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Unbearer", Me.Unbearer))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -877,6 +893,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = Me.Recipient
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
+
+      If Me.ACPayeeOnly Then
+        'ACPayeeOnly
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ACPayeeOnly"
+        dpi.Value = "OK"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
+      If Me.Unbearer Then
+        'Unbearer
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Unbearer"
+        dpi.Value = "OK"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
       Return dpiColl
     End Function
