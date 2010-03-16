@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptARGoodsSoldByBillisue.vb" />
     <Compile Include="BLL\RptAR.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +164,9 @@
     </Compile>
     <Compile Include="BLL\RptReceiveDue.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptARGoodsSoldByBillissueFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptARAdvanceReceiveFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -197,6 +201,9 @@
     <Compile Include="UI\RptReceiveDueFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptARGoodsSoldByBillissueFilterSubPanel.resx">
+      <DependentUpon>RptARGoodsSoldByBillissueFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptARAdvanceReceiveFilterSubPanel.resx">
       <DependentUpon>RptARAdvanceReceiveFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>

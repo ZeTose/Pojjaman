@@ -3,7 +3,7 @@ Imports longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class RptRptAPGoodsReceiptByBillaFilterSubPanel
+  Public Class RptAPGoodsReceiptByBillaFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
 
@@ -40,7 +40,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtBillStart As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptRptAPGoodsReceiptByBillaFilterSubPanel))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAPGoodsReceiptByBillaFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
@@ -201,9 +201,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBillDocStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBillDocStart.ForeColor = System.Drawing.Color.Black
-      Me.lblBillDocStart.Location = New System.Drawing.Point(32, 40)
+      Me.lblBillDocStart.Location = New System.Drawing.Point(6, 40)
       Me.lblBillDocStart.Name = "lblBillDocStart"
-      Me.lblBillDocStart.Size = New System.Drawing.Size(80, 18)
+      Me.lblBillDocStart.Size = New System.Drawing.Size(106, 18)
       Me.lblBillDocStart.TabIndex = 55
       Me.lblBillDocStart.Text = "ใบรับวางบิล"
       Me.lblBillDocStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -221,11 +221,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'RptRptAPGoodsReceiptByBillaFilterSubPanel
+      'RptAPGoodsReceiptByBillaFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "RptRptAPGoodsReceiptByBillaFilterSubPanel"
+      Me.Name = "RptAPGoodsReceiptByBillaFilterSubPanel"
       Me.Size = New System.Drawing.Size(472, 164)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
@@ -245,10 +245,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
       ' GroupBox
-      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRptAPGoodsReceiptByBillaFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRptAPGoodsReceiptByBillaFilterSubPanel.grbDetail}")
+      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGoodsReceiptByBillaFilterSubPanel.grbMaster}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGoodsReceiptByBillaFilterSubPanel.grbDetail}")
 
-      Me.lblBillDocStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRptAPGoodsReceiptByBillaFilterSubPanel.lblBillDocStart}")
+      Me.lblBillDocStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGoodsReceiptByBillaFilterSubPanel.lblBillDocStart}")
       Me.Validator.SetDisplayName(txtBillStart, lblBillDocStart.Text)
       Me.lblBillDocEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtBillEnd, lblBillDocEnd.Text)
@@ -454,7 +454,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    oldBAEnd = New BillAcceptance(e.Code)
       'End If
     End Sub
-  
+
 #End Region
 
   End Class

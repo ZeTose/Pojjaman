@@ -392,7 +392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetBillAcceptance(ByVal txtCode As TextBox, ByRef oldBA As BillAcceptance) As Boolean
       Dim newBA As New BillAcceptance(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not newBA.Valid Then
-        MessageBox.Show(txtCode.Text & " к")
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
         newBA = oldBA
       End If
       txtCode.Text = newBA.Code

@@ -1,4 +1,4 @@
-Imports Longkong.Pojjaman.DataAccessLayer
+﻿Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
 Imports System.IO
@@ -195,7 +195,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("salebillii_note", GetType(String)))
 
-      '��������ʴ� error ���������������ҷ���ͧ���
+      'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       myDatatable.Columns("Code").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueDetail.CodeHeaderText}")
       myDatatable.Columns("salebillii_amt").Caption = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueDetail.AmountHeaderText}")
@@ -218,7 +218,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
 
-        ' ���ҧ ArrayList �ҡ Item �ͧ  SqlParameter ...
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -248,7 +248,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ���ҧ SqlParameter �ҡ ArrayList ...
+        ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
@@ -399,6 +399,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return Rows
+    End Function
+    Public Shared Function GetBillissue(ByVal txtCode As TextBox, ByRef oldBA As SaleBillIssue) As Boolean
+      Dim newBA As New SaleBillIssue(txtCode.Text)
+      If txtCode.Text.Length <> 0 AndAlso Not newBA.Valid Then
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+        newBA = oldBA
+      End If
+      txtCode.Text = newBA.Code
+      If oldBA Is Nothing OrElse oldBA.Id <> newBA.Id Then
+        oldBA = newBA
+        Return True
+      End If
+      'oldBA = newBA
+      Return False
     End Function
 #End Region
 
@@ -689,7 +703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_receives As ReceiveSelection
     Private m_itemprefix As String
 
-    Private m_billedAmount As Decimal '�ʹ�ҧ���
+    Private m_billedAmount As Decimal 'ยอดวางบิล
 
     Private m_linenumber As Integer
 
@@ -698,7 +712,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_parentType As Integer
 
     Private m_stockid As Integer
-    Private m_ARretention As Decimal  '�ʹ�ѡ Retention
+    Private m_ARretention As Decimal  'ยอดหัก Retention
 
 #End Region
 
@@ -792,7 +806,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_parentType = CInt(dr(aliasPrefix & m_itemprefix & "_parentEntityType"))
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "remain") AndAlso Not dr.IsNull(aliasPrefix & "remain") Then
-        '�Ҩҡ˹�� list �ͧ���� entity (������Ҩҡ list �ͧ��ҧ���)
+        'มาจากหน้า list ของแต่ละ entity (ไม่ได้มาจาก list ของใบวางบิล)
         Select Case m_itemprefix
           Case "receivesi"
             If Not m_receives Is Nothing Then
@@ -1044,7 +1058,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If ds.Tables(0).Rows.Count > 0 Then
             Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
           End If
-        ElseIf Me.m_typeId = 48 Then '������͡����Ŵ˹���١˹��
+        ElseIf Me.m_typeId = 48 Then 'ถ้าเป็นเอกสารใบลดหนี้ลูกหนี้
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                   Me.ConnectionString _
                   , CommandType.StoredProcedure _
@@ -1403,7 +1417,7 @@ Public Class SaleBillIssueItemCollection
         End If
         newRow("Code") = bai.Code
         If ShowDetail Then
-          '�ʴ���������´
+          'แสดงรายละเอียด
           If bai.EntityId = 75 Then
             newRow.State = RowExpandState.Expanded
             Dim item As New Milestone(bai.StockId)

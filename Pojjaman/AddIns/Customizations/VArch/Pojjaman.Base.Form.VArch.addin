@@ -6,21 +6,35 @@
     <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>
 		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>
     <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
+    <Import assembly="../../Reports/AP/Pojjaman.Base.Report.AP.dll"/>
+    <Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">
       <MenuItem id="GoodsReceipt1" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" forceaccessid="327" args="|DocType:1|"/>
       <MenuItem id="GoodsReceipt2" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceipt_v2}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.GoodsReceipt_v2}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" forceaccessid="328" args="|DocType:2|"/>
       <!--<MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:0|"/>-->
-    </MenuItem>
-  
+    </MenuItem>  
   </Extension>
   <Extension path="/Pojjaman/Workbench/MainMenu/Reports">
     <MenuItem id="V-ArchReport" label="${res:MainMenu.ReportMenu.V-ArchReport}" insertafter="AssetReport">
-      <MenuItem id="RptAPGoodsReceiptByBilla" icon="Icons.16x16.Rpt265" label="${res:MainMenu.PurchaseMenu.RptAPGoodsReceiptByBilla.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla"/>
+      <MenuItem id="rptapgoodsreceiptbybilla" icon="Icons.16x16.RptAPGoodsReceiptByBilla" label="${res:MainMenu.PurchaseMenu.RptAPGoodsReceiptByBilla.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla"/>
+      <MenuItem id="rptargoodssoldbybillissue" icon="Icons.16x16.RptARGoodsSoldByBillIssue" label="${res:MainMenu.PurchaseMenu.RptARGoodsSoldByBillIssue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillissue"/>
     </MenuItem>  
   </Extension>  
   <Extension path="/Pojjaman/Workbench/EntityTabs/user">
     <EntityTab id="AccessDetailView2" insertafter="AccessDetailView" view="Longkong.Pojjaman.Gui.Panels.VarchUserDetailView"/>
-  </Extension>  
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+    <EntityFilter id="rptapgoodsreceiptbybilla" entity="rptapgoodsreceiptbybilla" filter="Longkong.Pojjaman.Gui.Panels.RptAPGoodsReceiptByBillaFilterSubPanel"/>
+    <EntityFilter id="rptargoodssoldbybillissue" entity="rptargoodssoldbybillissue" filter="Longkong.Pojjaman.Gui.Panels.RptARGoodsSoldByBillIssueFilterSubPanel"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs">
+    <EntityTab id="rptapgoodsreceiptbybilla">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptargoodssoldbybillissue">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+  </Extension>
 </AddIn>
