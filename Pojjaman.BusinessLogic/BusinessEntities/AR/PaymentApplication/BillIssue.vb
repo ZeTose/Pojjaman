@@ -1124,13 +1124,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.TaxBase = 0 Then
           dpi.Value = ""
         Else
-          dpi.Value = Configuration.FormatToString(item.TaxBase, DigitConfig.Price)
+          If item.Type.Value = 79 Then 'Ŵ�ҹ
+            dpi.Value = Configuration.FormatToString(-item.TaxBase, DigitConfig.Price)
+          Else
+            dpi.Value = Configuration.FormatToString(item.TaxBase, DigitConfig.Price)
+          End If
         End If
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         If IsNumeric(item.TaxBase) Then
-          sumTaxBase += CDec(item.TaxBase)
+          If item.Type.Value = 79 Then 'Ŵ�ҹ
+            sumTaxBase -= CDec(item.TaxBase)
+          Else
+            sumTaxBase += CDec(item.TaxBase)
+          End If
         End If
         dpiColl.Add(dpi)
 
@@ -1155,16 +1163,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.Vat
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Vat"
-        dpi.Value = Configuration.FormatToString(item.Amount - item.BeforeTax, DigitConfig.Price)
+        dpi.Value = Configuration.FormatToString(item.TaxAmount, DigitConfig.Price)
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         If item.TaxType.Value = 1 Then
-          sumVat += (item.Amount - item.BeforeTax)
+          If item.Type.Value = 79 Then
+            sumVat -= item.TaxAmount
+          Else
+            sumVat += item.TaxAmount
+          End If
+          'sumVat += (item.Amount - item.BeforeTax)
         End If
         dpiColl.Add(dpi)
 
-        sumMilestoneAmount += item.MileStoneAmount
+        If item.Type.Value = 79 Then 'Ŵ�ҹ
+          sumMilestoneAmount -= item.MileStoneAmount
+        Else
+          sumMilestoneAmount += item.MileStoneAmount
+        End If
+
         sumAdvance += item.Advance
 
         If Me.ShowDetail Then
