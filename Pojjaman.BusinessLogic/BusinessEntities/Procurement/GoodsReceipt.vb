@@ -4192,6 +4192,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          '#########################################REMAIN#################################################
+          Dim remainQty As Decimal = 0
+          If Not item.POitem Is Nothing Then
+            Dim receiveQty As Decimal = 0
+            'If Me.POitem.ReceivedQty <> Decimal.MinValue Then
+            'receiveQty = Me.POitem.ReceivedQty ' หน่วยตาม PO
+            receiveQty = (item.Qty * item.Conversion) / item.POitem.Conversion
+            'End If
+            If item.POitem.Conversion <> 0 Then
+              If item.Conversion <> 0 Then
+                Select Case item.POitem.ItemType.Value
+                  Case 160, 162
+                  Case Else
+                    remainQty = (((item.POitem.Qty - item.POitem.ReceivedQty) - receiveQty) * item.POitem.Conversion) / item.Conversion
+                End Select
+              End If
+            End If
+          End If
+          '##########################################################################################
+
+          'Item.RemainingQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.RemainingQty"
+          If remainQty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(remainQty, DigitConfig.Price)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.Amount
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
