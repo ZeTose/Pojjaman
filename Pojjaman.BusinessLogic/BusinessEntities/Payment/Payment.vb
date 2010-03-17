@@ -952,7 +952,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   lastCheckCode = Aval.Code
                 End If
                 If Not Aval.Originated Then
-                  Return New SaveErrorException("Check Saving Error")
+                  Return New SaveErrorException("Aval Saving Error")
                 End If
               End If
               dr("paymenti_payment") = Me.Id

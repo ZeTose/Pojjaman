@@ -642,6 +642,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else
           End Select
         End If
+
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOutgoingAvalRef" _
+        , New SqlParameter("@check_id", Me.Id) _
+        , New SqlParameter("@loan_id", Me.Loan.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
         trans.Commit()
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
@@ -712,7 +721,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.DocStatus.Value))
-      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isavl", True))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isaval", True))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -738,6 +747,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ResetID(oldid)
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
+
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOutgoingAvalRef" _
+        , New SqlParameter("@check_id", Me.Id) _
+        , New SqlParameter("@loan_id", Me.Loan.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
         Me.ResetID(oldid)
