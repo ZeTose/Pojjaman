@@ -70,52 +70,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCustomerCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents btnCustomerStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(RptIncomingCheckFilterSubPanel))
-      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.grbBankAcctBook = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtBankAcctNameStart = New System.Windows.Forms.TextBox
-      Me.txtBankAcctCodeEnd = New System.Windows.Forms.TextBox
-      Me.lblBankAcctEnd = New System.Windows.Forms.Label
-      Me.txtBankAcctNameEnd = New System.Windows.Forms.TextBox
-      Me.btnBankAcctEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnBankAcctStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtBankAcctCodeStart = New System.Windows.Forms.TextBox
-      Me.lblBankAcctStart = New System.Windows.Forms.Label
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblSort = New System.Windows.Forms.Label
-      Me.cmbSort = New System.Windows.Forms.ComboBox
-      Me.txtCheckDueDateEnd = New System.Windows.Forms.TextBox
-      Me.lblChkStatus = New System.Windows.Forms.Label
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox
-      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.lblDocDateStart = New System.Windows.Forms.Label
-      Me.lblDocDateEnd = New System.Windows.Forms.Label
-      Me.btnCustomerStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtCustomerCodeStart = New System.Windows.Forms.TextBox
-      Me.lblCustomerStart = New System.Windows.Forms.Label
-      Me.txtCheckDueDateStart = New System.Windows.Forms.TextBox
-      Me.dtpCheckDueDateStart = New System.Windows.Forms.DateTimePicker
-      Me.lblCheckDueDateStart = New System.Windows.Forms.Label
-      Me.lblCheckDueDateEnd = New System.Windows.Forms.Label
-      Me.dtpCheckDueDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.txtCheckPassDateStart = New System.Windows.Forms.TextBox
-      Me.dtpCheckPassDateStart = New System.Windows.Forms.DateTimePicker
-      Me.lblCheckPassDateStart = New System.Windows.Forms.Label
-      Me.lblCheckPassDateEnd = New System.Windows.Forms.Label
-      Me.txtCheckPassDateEnd = New System.Windows.Forms.TextBox
-      Me.cmbChkStatus = New System.Windows.Forms.ComboBox
-      Me.dtpCheckPassDateEnd = New System.Windows.Forms.DateTimePicker
-      Me.txtTemp = New System.Windows.Forms.TextBox
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.btnReset = New System.Windows.Forms.Button
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptIncomingCheckFilterSubPanel))
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbBankAcctBook = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtBankAcctNameStart = New System.Windows.Forms.TextBox()
+      Me.txtBankAcctCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblBankAcctEnd = New System.Windows.Forms.Label()
+      Me.txtBankAcctNameEnd = New System.Windows.Forms.TextBox()
+      Me.btnBankAcctEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnBankAcctStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtBankAcctCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblBankAcctStart = New System.Windows.Forms.Label()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblSort = New System.Windows.Forms.Label()
+      Me.cmbSort = New System.Windows.Forms.ComboBox()
+      Me.txtCheckDueDateEnd = New System.Windows.Forms.TextBox()
+      Me.lblChkStatus = New System.Windows.Forms.Label()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.lblDocDateEnd = New System.Windows.Forms.Label()
+      Me.btnCustomerStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCustomerCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblCustomerStart = New System.Windows.Forms.Label()
+      Me.txtCheckDueDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpCheckDueDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.lblCheckDueDateStart = New System.Windows.Forms.Label()
+      Me.lblCheckDueDateEnd = New System.Windows.Forms.Label()
+      Me.dtpCheckDueDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.txtCheckPassDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpCheckPassDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.lblCheckPassDateStart = New System.Windows.Forms.Label()
+      Me.lblCheckPassDateEnd = New System.Windows.Forms.Label()
+      Me.txtCheckPassDateEnd = New System.Windows.Forms.TextBox()
+      Me.cmbChkStatus = New System.Windows.Forms.ComboBox()
+      Me.dtpCheckPassDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbBankAcctBook.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -163,7 +164,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctNameStart, System.Drawing.Color.Empty)
       Me.txtBankAcctNameStart.Location = New System.Drawing.Point(200, 24)
       Me.txtBankAcctNameStart.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtBankAcctNameStart, "")
       Me.Validator.SetMinValue(Me.txtBankAcctNameStart, "")
       Me.txtBankAcctNameStart.Name = "txtBankAcctNameStart"
       Me.txtBankAcctNameStart.ReadOnly = True
@@ -171,7 +171,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBankAcctNameStart, False)
       Me.txtBankAcctNameStart.Size = New System.Drawing.Size(104, 21)
       Me.txtBankAcctNameStart.TabIndex = 3
-      Me.txtBankAcctNameStart.Text = ""
       '
       'txtBankAcctCodeEnd
       '
@@ -183,14 +182,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctCodeEnd, System.Drawing.Color.Empty)
       Me.txtBankAcctCodeEnd.Location = New System.Drawing.Point(80, 48)
       Me.txtBankAcctCodeEnd.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtBankAcctCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtBankAcctCodeEnd, "")
       Me.txtBankAcctCodeEnd.Name = "txtBankAcctCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtBankAcctCodeEnd, "")
       Me.Validator.SetRequired(Me.txtBankAcctCodeEnd, False)
       Me.txtBankAcctCodeEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtBankAcctCodeEnd.TabIndex = 11
-      Me.txtBankAcctCodeEnd.Text = ""
       '
       'lblBankAcctEnd
       '
@@ -211,7 +208,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctNameEnd, System.Drawing.Color.Empty)
       Me.txtBankAcctNameEnd.Location = New System.Drawing.Point(200, 48)
       Me.txtBankAcctNameEnd.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtBankAcctNameEnd, "")
       Me.Validator.SetMinValue(Me.txtBankAcctNameEnd, "")
       Me.txtBankAcctNameEnd.Name = "txtBankAcctNameEnd"
       Me.txtBankAcctNameEnd.ReadOnly = True
@@ -219,13 +215,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBankAcctNameEnd, False)
       Me.txtBankAcctNameEnd.Size = New System.Drawing.Size(104, 21)
       Me.txtBankAcctNameEnd.TabIndex = 3
-      Me.txtBankAcctNameEnd.Text = ""
       '
       'btnBankAcctEndFind
       '
+      Me.btnBankAcctEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnBankAcctEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnBankAcctEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnBankAcctEndFind.Image = CType(resources.GetObject("btnBankAcctEndFind.Image"), System.Drawing.Image)
       Me.btnBankAcctEndFind.Location = New System.Drawing.Point(176, 48)
       Me.btnBankAcctEndFind.Name = "btnBankAcctEndFind"
       Me.btnBankAcctEndFind.Size = New System.Drawing.Size(24, 22)
@@ -235,9 +230,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnBankAcctStartFind
       '
+      Me.btnBankAcctStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnBankAcctStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnBankAcctStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnBankAcctStartFind.Image = CType(resources.GetObject("btnBankAcctStartFind.Image"), System.Drawing.Image)
       Me.btnBankAcctStartFind.Location = New System.Drawing.Point(176, 24)
       Me.btnBankAcctStartFind.Name = "btnBankAcctStartFind"
       Me.btnBankAcctStartFind.Size = New System.Drawing.Size(24, 22)
@@ -255,14 +250,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctCodeStart, System.Drawing.Color.Empty)
       Me.txtBankAcctCodeStart.Location = New System.Drawing.Point(80, 24)
       Me.txtBankAcctCodeStart.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtBankAcctCodeStart, "")
       Me.Validator.SetMinValue(Me.txtBankAcctCodeStart, "")
       Me.txtBankAcctCodeStart.Name = "txtBankAcctCodeStart"
       Me.Validator.SetRegularExpression(Me.txtBankAcctCodeStart, "")
       Me.Validator.SetRequired(Me.txtBankAcctCodeStart, False)
       Me.txtBankAcctCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtBankAcctCodeStart.TabIndex = 10
-      Me.txtBankAcctCodeStart.Text = ""
       '
       'lblBankAcctStart
       '
@@ -316,7 +309,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSort.ForeColor = System.Drawing.Color.Black
       Me.lblSort.Location = New System.Drawing.Point(8, 120)
       Me.lblSort.Name = "lblSort"
-      Me.lblSort.Size = New System.Drawing.Size(104, 18)
+      Me.lblSort.Size = New System.Drawing.Size(117, 18)
       Me.lblSort.TabIndex = 15
       Me.lblSort.Text = "เรียงข้อมูลตาม"
       Me.lblSort.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -324,8 +317,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbSort
       '
       Me.cmbSort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbSort.Location = New System.Drawing.Point(120, 120)
+      Me.cmbSort.Location = New System.Drawing.Point(126, 120)
       Me.cmbSort.Name = "cmbSort"
+      Me.cmbSort.Size = New System.Drawing.Size(121, 21)
       Me.cmbSort.TabIndex = 8
       '
       'txtCheckDueDateEnd
@@ -337,20 +331,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCheckDueDateEnd, System.Drawing.Color.Empty)
       Me.txtCheckDueDateEnd.Location = New System.Drawing.Point(312, 48)
       Me.txtCheckDueDateEnd.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtCheckDueDateEnd, "")
       Me.Validator.SetMinValue(Me.txtCheckDueDateEnd, "")
       Me.txtCheckDueDateEnd.Name = "txtCheckDueDateEnd"
       Me.Validator.SetRegularExpression(Me.txtCheckDueDateEnd, "")
       Me.Validator.SetRequired(Me.txtCheckDueDateEnd, False)
       Me.txtCheckDueDateEnd.Size = New System.Drawing.Size(99, 21)
       Me.txtCheckDueDateEnd.TabIndex = 3
-      Me.txtCheckDueDateEnd.Text = ""
       '
       'lblChkStatus
       '
       Me.lblChkStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblChkStatus.ForeColor = System.Drawing.Color.Black
-      Me.lblChkStatus.Location = New System.Drawing.Point(248, 96)
+      Me.lblChkStatus.Location = New System.Drawing.Point(255, 96)
       Me.lblChkStatus.Name = "lblChkStatus"
       Me.lblChkStatus.Size = New System.Drawing.Size(56, 18)
       Me.lblChkStatus.TabIndex = 13
@@ -366,14 +358,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(312, 24)
       Me.txtDocDateEnd.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
       Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
       Me.txtDocDateEnd.TabIndex = 1
-      Me.txtDocDateEnd.Text = ""
       '
       'txtDocDateStart
       '
@@ -382,21 +372,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.txtDocDateStart.Location = New System.Drawing.Point(120, 24)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(126, 24)
       Me.txtDocDateStart.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
       Me.txtDocDateStart.Size = New System.Drawing.Size(99, 21)
       Me.txtDocDateStart.TabIndex = 0
-      Me.txtDocDateStart.Text = ""
       '
       'dtpDocDateStart
       '
-      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
-      Me.dtpDocDateStart.Location = New System.Drawing.Point(120, 24)
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(126, 24)
       Me.dtpDocDateStart.Name = "dtpDocDateStart"
       Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
       Me.dtpDocDateStart.TabIndex = 2
@@ -404,7 +392,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDateEnd
       '
-      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateEnd.Location = New System.Drawing.Point(312, 24)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
       Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
@@ -417,7 +405,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
       Me.lblDocDateStart.Location = New System.Drawing.Point(8, 24)
       Me.lblDocDateStart.Name = "lblDocDateStart"
-      Me.lblDocDateStart.Size = New System.Drawing.Size(104, 18)
+      Me.lblDocDateStart.Size = New System.Drawing.Size(117, 18)
       Me.lblDocDateStart.TabIndex = 0
       Me.lblDocDateStart.Text = "ตั้งแต่วันที่เอกสาร"
       Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -426,7 +414,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDateEnd.Location = New System.Drawing.Point(280, 24)
+      Me.lblDocDateEnd.Location = New System.Drawing.Point(287, 24)
       Me.lblDocDateEnd.Name = "lblDocDateEnd"
       Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblDocDateEnd.TabIndex = 3
@@ -435,10 +423,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCustomerStartFind
       '
+      Me.btnCustomerStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCustomerStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCustomerStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCustomerStartFind.Image = CType(resources.GetObject("btnCustomerStartFind.Image"), System.Drawing.Image)
-      Me.btnCustomerStartFind.Location = New System.Drawing.Point(216, 96)
+      Me.btnCustomerStartFind.Location = New System.Drawing.Point(222, 96)
       Me.btnCustomerStartFind.Name = "btnCustomerStartFind"
       Me.btnCustomerStartFind.Size = New System.Drawing.Size(24, 22)
       Me.btnCustomerStartFind.TabIndex = 8
@@ -453,16 +441,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerCodeStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtCustomerCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerCodeStart, System.Drawing.Color.Empty)
-      Me.txtCustomerCodeStart.Location = New System.Drawing.Point(120, 96)
+      Me.txtCustomerCodeStart.Location = New System.Drawing.Point(126, 96)
       Me.txtCustomerCodeStart.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtCustomerCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCustomerCodeStart, "")
       Me.txtCustomerCodeStart.Name = "txtCustomerCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCustomerCodeStart, "")
       Me.Validator.SetRequired(Me.txtCustomerCodeStart, False)
       Me.txtCustomerCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtCustomerCodeStart.TabIndex = 6
-      Me.txtCustomerCodeStart.Text = ""
       '
       'lblCustomerStart
       '
@@ -470,7 +456,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCustomerStart.ForeColor = System.Drawing.Color.Black
       Me.lblCustomerStart.Location = New System.Drawing.Point(8, 96)
       Me.lblCustomerStart.Name = "lblCustomerStart"
-      Me.lblCustomerStart.Size = New System.Drawing.Size(104, 18)
+      Me.lblCustomerStart.Size = New System.Drawing.Size(117, 18)
       Me.lblCustomerStart.TabIndex = 6
       Me.lblCustomerStart.Text = "ผู้ขาย"
       Me.lblCustomerStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -482,21 +468,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCheckDueDateStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtCheckDueDateStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCheckDueDateStart, System.Drawing.Color.Empty)
-      Me.txtCheckDueDateStart.Location = New System.Drawing.Point(120, 48)
+      Me.txtCheckDueDateStart.Location = New System.Drawing.Point(126, 48)
       Me.txtCheckDueDateStart.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtCheckDueDateStart, "")
       Me.Validator.SetMinValue(Me.txtCheckDueDateStart, "")
       Me.txtCheckDueDateStart.Name = "txtCheckDueDateStart"
       Me.Validator.SetRegularExpression(Me.txtCheckDueDateStart, "")
       Me.Validator.SetRequired(Me.txtCheckDueDateStart, False)
       Me.txtCheckDueDateStart.Size = New System.Drawing.Size(99, 21)
       Me.txtCheckDueDateStart.TabIndex = 2
-      Me.txtCheckDueDateStart.Text = ""
       '
       'dtpCheckDueDateStart
       '
-      Me.dtpCheckDueDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
-      Me.dtpCheckDueDateStart.Location = New System.Drawing.Point(120, 48)
+      Me.dtpCheckDueDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpCheckDueDateStart.Location = New System.Drawing.Point(126, 48)
       Me.dtpCheckDueDateStart.Name = "dtpCheckDueDateStart"
       Me.dtpCheckDueDateStart.Size = New System.Drawing.Size(120, 21)
       Me.dtpCheckDueDateStart.TabIndex = 2
@@ -508,7 +492,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCheckDueDateStart.ForeColor = System.Drawing.Color.Black
       Me.lblCheckDueDateStart.Location = New System.Drawing.Point(8, 48)
       Me.lblCheckDueDateStart.Name = "lblCheckDueDateStart"
-      Me.lblCheckDueDateStart.Size = New System.Drawing.Size(104, 18)
+      Me.lblCheckDueDateStart.Size = New System.Drawing.Size(117, 18)
       Me.lblCheckDueDateStart.TabIndex = 0
       Me.lblCheckDueDateStart.Text = "ตั้งแต่วันที่บนเช็ค"
       Me.lblCheckDueDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -517,7 +501,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCheckDueDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCheckDueDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblCheckDueDateEnd.Location = New System.Drawing.Point(280, 48)
+      Me.lblCheckDueDateEnd.Location = New System.Drawing.Point(287, 48)
       Me.lblCheckDueDateEnd.Name = "lblCheckDueDateEnd"
       Me.lblCheckDueDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblCheckDueDateEnd.TabIndex = 3
@@ -526,7 +510,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpCheckDueDateEnd
       '
-      Me.dtpCheckDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpCheckDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpCheckDueDateEnd.Location = New System.Drawing.Point(312, 48)
       Me.dtpCheckDueDateEnd.Name = "dtpCheckDueDateEnd"
       Me.dtpCheckDueDateEnd.Size = New System.Drawing.Size(120, 21)
@@ -540,21 +524,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCheckPassDateStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtCheckPassDateStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCheckPassDateStart, System.Drawing.Color.Empty)
-      Me.txtCheckPassDateStart.Location = New System.Drawing.Point(120, 72)
+      Me.txtCheckPassDateStart.Location = New System.Drawing.Point(126, 72)
       Me.txtCheckPassDateStart.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtCheckPassDateStart, "")
       Me.Validator.SetMinValue(Me.txtCheckPassDateStart, "")
       Me.txtCheckPassDateStart.Name = "txtCheckPassDateStart"
       Me.Validator.SetRegularExpression(Me.txtCheckPassDateStart, "")
       Me.Validator.SetRequired(Me.txtCheckPassDateStart, False)
       Me.txtCheckPassDateStart.Size = New System.Drawing.Size(99, 21)
       Me.txtCheckPassDateStart.TabIndex = 4
-      Me.txtCheckPassDateStart.Text = ""
       '
       'dtpCheckPassDateStart
       '
-      Me.dtpCheckPassDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
-      Me.dtpCheckPassDateStart.Location = New System.Drawing.Point(120, 72)
+      Me.dtpCheckPassDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpCheckPassDateStart.Location = New System.Drawing.Point(126, 72)
       Me.dtpCheckPassDateStart.Name = "dtpCheckPassDateStart"
       Me.dtpCheckPassDateStart.Size = New System.Drawing.Size(120, 21)
       Me.dtpCheckPassDateStart.TabIndex = 2
@@ -566,7 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCheckPassDateStart.ForeColor = System.Drawing.Color.Black
       Me.lblCheckPassDateStart.Location = New System.Drawing.Point(8, 72)
       Me.lblCheckPassDateStart.Name = "lblCheckPassDateStart"
-      Me.lblCheckPassDateStart.Size = New System.Drawing.Size(104, 18)
+      Me.lblCheckPassDateStart.Size = New System.Drawing.Size(117, 18)
       Me.lblCheckPassDateStart.TabIndex = 0
       Me.lblCheckPassDateStart.Text = "ตั้งแต่วันที่เช็คผ่าน"
       Me.lblCheckPassDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -575,7 +557,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCheckPassDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCheckPassDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblCheckPassDateEnd.Location = New System.Drawing.Point(280, 72)
+      Me.lblCheckPassDateEnd.Location = New System.Drawing.Point(287, 72)
       Me.lblCheckPassDateEnd.Name = "lblCheckPassDateEnd"
       Me.lblCheckPassDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblCheckPassDateEnd.TabIndex = 3
@@ -591,25 +573,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCheckPassDateEnd, System.Drawing.Color.Empty)
       Me.txtCheckPassDateEnd.Location = New System.Drawing.Point(312, 72)
       Me.txtCheckPassDateEnd.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtCheckPassDateEnd, "")
       Me.Validator.SetMinValue(Me.txtCheckPassDateEnd, "")
       Me.txtCheckPassDateEnd.Name = "txtCheckPassDateEnd"
       Me.Validator.SetRegularExpression(Me.txtCheckPassDateEnd, "")
       Me.Validator.SetRequired(Me.txtCheckPassDateEnd, False)
       Me.txtCheckPassDateEnd.Size = New System.Drawing.Size(99, 21)
       Me.txtCheckPassDateEnd.TabIndex = 5
-      Me.txtCheckPassDateEnd.Text = ""
       '
       'cmbChkStatus
       '
       Me.cmbChkStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbChkStatus.Location = New System.Drawing.Point(312, 96)
       Me.cmbChkStatus.Name = "cmbChkStatus"
+      Me.cmbChkStatus.Size = New System.Drawing.Size(121, 21)
       Me.cmbChkStatus.TabIndex = 9
       '
       'dtpCheckPassDateEnd
       '
-      Me.dtpCheckPassDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpCheckPassDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpCheckPassDateEnd.Location = New System.Drawing.Point(312, 72)
       Me.dtpCheckPassDateEnd.Name = "dtpCheckPassDateEnd"
       Me.dtpCheckPassDateEnd.Size = New System.Drawing.Size(120, 21)
@@ -624,7 +605,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.txtTemp.Location = New System.Drawing.Point(784, 40)
       Me.txtTemp.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtTemp, "")
       Me.Validator.SetMinValue(Me.txtTemp, "")
       Me.txtTemp.Name = "txtTemp"
       Me.txtTemp.ReadOnly = True
@@ -632,15 +612,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTemp, False)
       Me.txtTemp.Size = New System.Drawing.Size(104, 21)
       Me.txtTemp.TabIndex = 3
-      Me.txtTemp.Text = ""
       Me.txtTemp.Visible = False
       '
       'btnSearch
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(688, 144)
+      Me.btnSearch.Location = New System.Drawing.Point(692, 144)
       Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
       Me.btnSearch.Text = "ค้นหา"
       '
@@ -648,8 +628,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(608, 144)
+      Me.btnReset.Location = New System.Drawing.Point(612, 144)
       Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
@@ -659,9 +640,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
@@ -674,8 +655,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "RptIncomingCheckFilterSubPanel"
       Me.Size = New System.Drawing.Size(792, 192)
       Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
       Me.grbBankAcctBook.ResumeLayout(False)
+      Me.grbBankAcctBook.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub

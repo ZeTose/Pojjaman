@@ -74,7 +74,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.DocDate}") '"วันที่เอกสาร"
       tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CheckDueDate}") '"วันที่บนเช็ค"
-      tr("col2") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CheckPassDate}") '"วันที่เช็คผ่าน"
+      tr("col2") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CheckPassDate}") '"วันที่เปลี่ยนสถานะ"
       tr("col3") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.DocNumber}") '"เลขที่เอกสาร"
       tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CheckNumber}")  '"เลขที่เช็ค"
       tr("col5") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.Customer}") '"ลูกค้า"
@@ -304,7 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       widths.Add(120)
       widths.Add(200)
-      widths.Add(120)
+      widths.Add(150)
       widths.Add(100)
       widths.Add(100)
       widths.Add(200)
