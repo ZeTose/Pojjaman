@@ -131,6 +131,8 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptGLPayReceivebyAcct.vb" />
+    <Compile Include="BLL\RptGLfromPayReceivebyEntity.vb" />
     <Compile Include="BLL\RptGL.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -143,10 +145,16 @@
     <Compile Include="BLL\RptSpecialJournalEntry.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GL\RptGLPayReceivebyAcctFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\Financial Statement\LinkFinancialStatementDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\Financial Statement\RptFinancialStatementFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\RptGLfromPayReceivebyEntityFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\RptGLBalanceSheetFilterSubPanel.vb">
@@ -173,11 +181,17 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="GL\RptGLPayReceivebyAcctFilterSubPanel.resx">
+      <DependentUpon>RptGLPayReceivebyAcctFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\Financial Statement\LinkFinancialStatementDetail.resx">
       <DependentUpon>LinkFinancialStatementDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\Financial Statement\RptFinancialStatementFilterSubPanel.resx">
       <DependentUpon>RptFinancialStatementFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\RptGLfromPayReceivebyEntityFilterSubPanel.resx">
+      <DependentUpon>RptGLfromPayReceivebyEntityFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\RptGLBalanceSheetFilterSubPanel.resx">
       <DependentUpon>RptGLBalanceSheetFilterSubPanel.vb</DependentUpon>

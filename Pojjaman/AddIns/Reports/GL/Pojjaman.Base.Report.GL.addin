@@ -6,7 +6,9 @@
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="Reports" insertafter="CostControlReport" insertbefore="GeneralSetting" label="${res:MainMenu.ReportsMenu}">
 				<MenuItem id="AccountingReport" label="${res:MainMenu.ReportMenu.AccountingReport}" insertafter="ARRepot" insertbefore="BankCheckReport">
-					<MenuItem id="rptgl" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGL"/>
+          <MenuItem id="rptgl" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGL"/>
+          <MenuItem id="rptglpayreceivebyacct" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGLPayReceivebyAcct.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLPayReceivebyAcct"/>
+          <!--<MenuItem id="rptglfrompayreceivebyentity" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGLfromPayReceivebyEntity.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLfromPayReceivebyEntity"/>-->
 					<MenuItem id="rptjournalentry" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptJournalEntry.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntry"/>
 					<MenuItem id="rptjvautomatic" icon="Icons.16x16.RptJVAutomatic" label="${res:MainMenu.PurchaseMenu.RptJVAutomatic.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJVAutomatic"/>
 					<MenuItem id="rptglbalancesheet" icon="Icons.16x16.RptGLBalanceSheet" label="${res:MainMenu.PurchaseMenu.RptGLBalanceSheet.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLBalanceSheet"/>
@@ -17,7 +19,9 @@
 		</Conditional>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<EntityFilter id="rptgl" entity="rptgl" filter="Longkong.Pojjaman.Gui.Panels.RptGLFilterSubPanel"/>
+    <EntityFilter id="rptgl" entity="rptgl" filter="Longkong.Pojjaman.Gui.Panels.RptGLFilterSubPanel"/>
+    <EntityFilter id="rptglpayreceivebyacct" entity="rptglpayreceivebyacct" filter="Longkong.Pojjaman.Gui.Panels.RptGLPayReceivebyAcctFilterSubPanel"/>
+    <!--<EntityFilter id="rptglfrompayreceivebyentity" entity="rptglfrompayreceivebyentity" filter="Longkong.Pojjaman.Gui.Panels.RptGLfromPayReceivebyEntityFilterSubPanel"/>-->
 		<EntityFilter id="rptjournalentry" entity="rptjournalentry" filter="Longkong.Pojjaman.Gui.Panels.RptJournalEntryFilterSubPanel"/>
 		<EntityFilter id="rptglbalancesheet" entity="rptglbalancesheet" filter="Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel"/>
 		<EntityFilter id="rptglstatementbalancesheet" entity="rptglstatementbalancesheet" filter="Longkong.Pojjaman.Gui.Panels.RptGLStatementBalanceSheetFilterSubPanel"/>
@@ -58,6 +62,12 @@
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
     <EntityTab id="rptspecialjournalentry">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <!--<EntityTab id="rptglfrompayreceivebyentity">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>-->
+    <EntityTab id="rptglpayreceivebyacct">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
 	</Extension>
