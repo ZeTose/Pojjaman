@@ -1274,9 +1274,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						End If
 					Next
 
-
-
-					Me.DeleteRef(conn, trans)
+          Me.DeleteRef(conn, trans)
 					SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
 					, New SqlParameter("@po_id", Me.Id))
 					SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
@@ -1287,8 +1285,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						Me.CancelRef(conn, trans)
 					End If
 
-
-					'--------------------------------------------------------------
+          '--------------------------------------------------------------
 					Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
 					If Not IsNumeric(savePRItemsError.Message) Then
 						trans.Rollback()

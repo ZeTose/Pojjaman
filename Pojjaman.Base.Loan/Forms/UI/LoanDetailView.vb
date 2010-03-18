@@ -59,15 +59,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblAccount As System.Windows.Forms.Label
     Friend WithEvents txtAccountCode As System.Windows.Forms.TextBox
     Friend WithEvents txtAccountName As System.Windows.Forms.TextBox
+    Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LoanDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkClosed = New System.Windows.Forms.CheckBox()
+      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblCostCenter = New System.Windows.Forms.Label()
+      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAccount = New System.Windows.Forms.Label()
       Me.txtCCCode = New System.Windows.Forms.TextBox()
+      Me.txtAccountCode = New System.Windows.Forms.TextBox()
       Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAccountName = New System.Windows.Forms.TextBox()
       Me.txtCCName = New System.Windows.Forms.TextBox()
       Me.cmbType = New System.Windows.Forms.ComboBox()
       Me.txtInterest = New Longkong.Pojjaman.Gui.Components.MultiLineTextBox()
@@ -91,11 +99,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblAccount = New System.Windows.Forms.Label()
-      Me.txtAccountCode = New System.Windows.Forms.TextBox()
-      Me.txtAccountName = New System.Windows.Forms.TextBox()
+      Me.lblStatus = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -104,6 +108,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.lblStatus)
+      Me.grbDetail.Controls.Add(Me.chkClosed)
       Me.grbDetail.Controls.Add(Me.btnAccountEdit)
       Me.grbDetail.Controls.Add(Me.lblCostCenter)
       Me.grbDetail.Controls.Add(Me.btnAccountFind)
@@ -139,10 +145,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(627, 235)
+      Me.grbDetail.Size = New System.Drawing.Size(750, 235)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลธนาคาร : "
+      '
+      'chkClosed
+      '
+      Me.chkClosed.Appearance = System.Windows.Forms.Appearance.Button
+      Me.chkClosed.Location = New System.Drawing.Point(504, 21)
+      Me.chkClosed.Name = "chkClosed"
+      Me.chkClosed.Size = New System.Drawing.Size(80, 21)
+      Me.chkClosed.TabIndex = 260
+      Me.chkClosed.Text = "ปิดวงเงินกู้"
+      Me.chkClosed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnAccountEdit
+      '
+      Me.btnAccountEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAccountEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAccountEdit.Location = New System.Drawing.Point(520, 198)
+      Me.btnAccountEdit.Name = "btnAccountEdit"
+      Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
+      Me.btnAccountEdit.TabIndex = 259
+      Me.btnAccountEdit.TabStop = False
+      Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
       '
       'lblCostCenter
       '
@@ -155,6 +182,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCostCenter.Text = "CostCenter:"
       Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'btnAccountFind
+      '
+      Me.btnAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAccountFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAccountFind.Location = New System.Drawing.Point(496, 198)
+      Me.btnAccountFind.Name = "btnAccountFind"
+      Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnAccountFind.TabIndex = 258
+      Me.btnAccountFind.TabStop = False
+      Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
+      '
       'btnCCFind
       '
       Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -166,6 +205,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCFind.TabIndex = 23
       Me.btnCCFind.TabStop = False
       Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'lblAccount
+      '
+      Me.lblAccount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAccount.ForeColor = System.Drawing.Color.Black
+      Me.lblAccount.Location = New System.Drawing.Point(15, 198)
+      Me.lblAccount.Name = "lblAccount"
+      Me.lblAccount.Size = New System.Drawing.Size(129, 18)
+      Me.lblAccount.TabIndex = 257
+      Me.lblAccount.Text = "บัญชี:"
+      Me.lblAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtCCCode
       '
@@ -182,6 +232,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCCCode.Size = New System.Drawing.Size(136, 21)
       Me.txtCCCode.TabIndex = 21
       '
+      'txtAccountCode
+      '
+      Me.Validator.SetDataType(Me.txtAccountCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAccountCode, "")
+      Me.txtAccountCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAccountCode, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
+      Me.txtAccountCode.Location = New System.Drawing.Point(150, 198)
+      Me.txtAccountCode.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtAccountCode, "")
+      Me.txtAccountCode.Name = "txtAccountCode"
+      Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
+      Me.Validator.SetRequired(Me.txtAccountCode, True)
+      Me.txtAccountCode.Size = New System.Drawing.Size(137, 21)
+      Me.txtAccountCode.TabIndex = 255
+      '
       'btnCCEdit
       '
       Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -191,6 +258,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCEdit.TabIndex = 24
       Me.btnCCEdit.TabStop = False
       Me.btnCCEdit.ThemedImage = CType(resources.GetObject("btnCCEdit.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtAccountName
+      '
+      Me.Validator.SetDataType(Me.txtAccountName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAccountName, "")
+      Me.txtAccountName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
+      Me.txtAccountName.Location = New System.Drawing.Point(287, 198)
+      Me.Validator.SetMinValue(Me.txtAccountName, "")
+      Me.txtAccountName.Name = "txtAccountName"
+      Me.txtAccountName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtAccountName, "")
+      Me.Validator.SetRequired(Me.txtAccountName, False)
+      Me.txtAccountName.Size = New System.Drawing.Size(208, 21)
+      Me.txtAccountName.TabIndex = 256
+      Me.txtAccountName.TabStop = False
       '
       'txtCCName
       '
@@ -482,79 +566,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'btnAccountEdit
+      'lblStatus
       '
-      Me.btnAccountEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnAccountEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAccountEdit.Location = New System.Drawing.Point(520, 198)
-      Me.btnAccountEdit.Name = "btnAccountEdit"
-      Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnAccountEdit.TabIndex = 259
-      Me.btnAccountEdit.TabStop = False
-      Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnAccountFind
-      '
-      Me.btnAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAccountFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountFind.Location = New System.Drawing.Point(496, 198)
-      Me.btnAccountFind.Name = "btnAccountFind"
-      Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnAccountFind.TabIndex = 258
-      Me.btnAccountFind.TabStop = False
-      Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblAccount
-      '
-      Me.lblAccount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAccount.ForeColor = System.Drawing.Color.Black
-      Me.lblAccount.Location = New System.Drawing.Point(15, 198)
-      Me.lblAccount.Name = "lblAccount"
-      Me.lblAccount.Size = New System.Drawing.Size(129, 18)
-      Me.lblAccount.TabIndex = 257
-      Me.lblAccount.Text = "บัญชี:"
-      Me.lblAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtAccountCode
-      '
-      Me.Validator.SetDataType(Me.txtAccountCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtAccountCode, "")
-      Me.txtAccountCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtAccountCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
-      Me.txtAccountCode.Location = New System.Drawing.Point(150, 198)
-      Me.txtAccountCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtAccountCode, "")
-      Me.txtAccountCode.Name = "txtAccountCode"
-      Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
-      Me.Validator.SetRequired(Me.txtAccountCode, True)
-      Me.txtAccountCode.Size = New System.Drawing.Size(137, 21)
-      Me.txtAccountCode.TabIndex = 255
-      '
-      'txtAccountName
-      '
-      Me.Validator.SetDataType(Me.txtAccountName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtAccountName, "")
-      Me.txtAccountName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
-      Me.txtAccountName.Location = New System.Drawing.Point(287, 198)
-      Me.Validator.SetMinValue(Me.txtAccountName, "")
-      Me.txtAccountName.Name = "txtAccountName"
-      Me.txtAccountName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtAccountName, "")
-      Me.Validator.SetRequired(Me.txtAccountName, False)
-      Me.txtAccountName.Size = New System.Drawing.Size(208, 21)
-      Me.txtAccountName.TabIndex = 256
-      Me.txtAccountName.TabStop = False
+      Me.lblStatus.Font = New System.Drawing.Font("Arial Rounded MT Bold", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+      Me.lblStatus.ForeColor = System.Drawing.Color.DimGray
+      Me.lblStatus.Location = New System.Drawing.Point(585, 21)
+      Me.lblStatus.Name = "lblStatus"
+      Me.lblStatus.Size = New System.Drawing.Size(159, 21)
+      Me.lblStatus.TabIndex = 261
+      Me.lblStatus.Text = "สถานะเอกสาร"
+      Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'LoanDetailView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "LoanDetailView"
-      Me.Size = New System.Drawing.Size(643, 251)
+      Me.Size = New System.Drawing.Size(766, 251)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.ResumeLayout(False)
@@ -602,6 +629,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
 #End Region
+
 #Region "SetTextLabel"
     Public Overrides Sub SetLabelText()
       If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
@@ -620,11 +648,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtAccountCode, lblAccount.Text)
     End Sub
 #End Region
+
 #Region "IListDetail"
 
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.StatusId = 0 _
+      OrElse Me.m_entity.StatusId >= 3 _
+      Then
+        For Each ctl As Control In Me.grbDetail.Controls
+          If TypeOf ctl Is TextBox Then
+            CType(ctl, TextBox).ReadOnly = True
+          Else
+            ctl.Enabled = False
+          End If
+        Next
+      Else
+        For Each ctl As Control In Me.grbDetail.Controls
+          If TypeOf ctl Is TextBox Then
+            CType(ctl, TextBox).ReadOnly = False
+          Else
+            ctl.Enabled = True
+          End If
+        Next
+      End If
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -669,9 +719,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtAccountCode.Text = Me.m_entity.Account.Code
         Me.txtAccountName.Text = Me.m_entity.Account.Name
       End If
-
       txtInterest.Text = Me.m_entity.Interest
-
+      lblStatus.Text = m_entity.StatusText
       SetLabelText()
       CheckFormEnable()
       m_isInitialized = True
@@ -848,6 +897,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+    Private Sub chkClosed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkClosed.CheckedChanged
+      If Not m_isInitialized Then
+        Return
+      End If
+      Me.m_entity.Closed = Me.chkClosed.Checked
+      If Me.m_entity.Closed Then
+        Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LoanDetailView.chkClosedCancel}")
+        m_entity.StatusId = 5
+      Else
+        Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LoanDetailView.chkClosed}")
+        If m_entity.IsReferenced Then m_entity.StatusId = 3 Else m_entity.StatusId = 2
+      End If
+    End Sub
   End Class
 
 End Namespace

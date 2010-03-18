@@ -1043,7 +1043,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
         Return Me.AutoCodeFormat.GLFormat
       End If
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
                                        , CommandType.StoredProcedure _
                                        , "GetGLFormatForEntity" _
                                        , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
@@ -1057,18 +1057,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As New JournalEntryItem
 
       If Me.TotalAmount > 0 Then
-        ' CR. เช็ครอเรียกเก็บ
+        
+        ' Dr. ตั๋วอาวัล
         ji = New JournalEntryItem
-        ji.Mapping = "H4.1"
+        ji.Mapping = "AVL1"
         ji.Amount = Me.TotalAmount
         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         jiColl.Add(ji)
-        ' Dr. เช็ครับรอนำฝาก
+        ' DR. ดอกเบี้ยจ่าย
         ji = New JournalEntryItem
-        ji.Mapping = "H4.2"
-        ji.Amount = Me.TotalAmount
+        ji.Mapping = "AVL2"
+        ji.Amount = Me.Interest
         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         jiColl.Add(ji)
+        ' DR. ค่าธรรมเนียมธนาคาร
+        ji = New JournalEntryItem
+        ji.Mapping = "AVL3"
+        ji.Amount = Me.BankCharge
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+        ' CR. Bank
+        ji = New JournalEntryItem
+        ji.Mapping = "AVL4"
+        ji.Amount = Me.TotalAmount + Me.Interest + Me.BankCharge - Me.WHTAMT
+        ji.Account = Me.loan.BankAccount.Account
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+        ' CR. WHT
+        ji = New JournalEntryItem
+        ji.Mapping = "AVL5"
+        ji.Amount = Me.WHTAMT
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+
       End If
 
       Return jiColl

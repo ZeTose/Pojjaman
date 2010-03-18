@@ -33,6 +33,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_amount As Decimal
     Private m_costCenter As CostCenter
     Private m_statusId As Integer
+    Private m_statusText As String
+    Private m_closed As Boolean
     Private m_receive As Receive
     Private m_je As JournalEntry
 #End Region
@@ -54,7 +56,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'สร้างเอกสารใหม่
       MyBase.Construct()
       m_docdate = Now.Date
-      m_creditperiod = 0
+      DueDate = m_docdate
+      StatusId = 2
       m_receive = New Receive(Me)
       m_receive.DocDate = Me.m_docdate
       '----------------------------Tab Entities-----------------------------------------
@@ -76,7 +79,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_docdate = deh.GetValue(Of Date)("wl_docdate")
       m_duedate = deh.GetValue(Of Date)("wl_duedate")
       m_amount = deh.GetValue(Of Decimal)("wl_amount")
-      m_statusId = deh.GetValue(Of Integer)("wl_status")
+      StatusId = deh.GetValue(Of Integer)("wl_status")
+      If StatusId = 5 Then m_closed = True Else m_closed = False
       m_receive = New Receive(Me)
       m_je = New JournalEntry(Me)
 
@@ -163,6 +167,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Integer)
         m_statusId = Value
+        Select Case m_statusId
+          Case 0
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Cancle}")
+          Case 1
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.OnHold}")
+          Case 2
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Active}")
+          Case 3
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Reference}")
+          Case 4
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Post}")
+          Case 5
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Close}")
+        End Select
+        Me.Status.Value = Value
+      End Set
+    End Property
+    Public Property StatusText As String
+      Get
+        Return m_StatusText
+      End Get
+      Set(ByVal Value As String)
+        m_StatusText = Value
+      End Set
+    End Property
+    Public Property Closed() As Boolean
+      Get
+        Return m_closed
+      End Get
+      Set(ByVal Value As Boolean)
+        m_closed = Value
       End Set
     End Property
 #End Region
@@ -225,12 +260,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim theTime As Date = Now
       Dim theUser As New User(currentUserId)
       If Me.m_je.Status.Value = 4 Then
-        If Me.Status.Value > 2 Then
-          Me.Status.Value = 3 'Post แล้ว ถือว่าสถานะเอกสารรับเงินกู้ เป็นถูกอ้างอิงเพื่อคงจะเปลี่ยนเป็นปิดได้
+        If Me.StatusId > 2 Then
+          Me.StatusId = 3 'Post แล้ว ถือว่าสถานะเอกสารรับเงินกู้ เป็นถูกอ้างอิงเพื่อคงจะเปลี่ยนเป็นปิดได้
         End If
         Me.m_receive.Status.Value = 4
       End If
-      If Me.Status.Value = 0 Then
+      If Me.StatusId = 0 Then
         Me.m_receive.Status.Value = 0
         Me.m_je.Status.Value = 0
       End If
@@ -249,7 +284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1
             'ตาม entity
             If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
+              Me.Code = m_je.GetNextCode 'Me.Code = Me.GetNextCode
             End If
             Me.m_je.Code = Me.Code
           Case 2
@@ -261,7 +296,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case Else
             'แยก
             If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-              Me.Code = Me.GetNextCode
+              Me.Code = m_je.GetNextCode 'Me.Code = Me.GetNextCode
             End If
             If Me.m_je.AutoGen Then
               Me.m_je.Code = m_je.GetNextCode
@@ -375,6 +410,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else
           End Select
         End If
+        '==============================Reference==========================================
+        Me.DeleteRef(conn, trans)
+        Me.UpdateRef(Me.Loan, conn, trans)
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+        '==============================Reference==========================================
         '==============================AUTOGEN==========================================
         Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
         If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -427,8 +469,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Delete"
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
-        Return Me.Status.Value <= 2
-        Return True
+        If Me.Originated Then
+          Return Me.StatusId <= 2 AndAlso Not Me.IsReferenced
+        Else
+          Return False
+        End If
       End Get
     End Property
     Public Overrides Function Delete() As SaveErrorException
@@ -539,7 +584,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property Payer As IBillablePerson Implements IReceivable.Payer
       Get
-        'ไม่รู้จะ Return อะไรดี
+        Return m_loan.BankAccount
       End Get
     End Property
 
@@ -560,11 +605,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+        Return Me.StatusId > 1 AndAlso Me.IsCancelable
       End Get
     End Property
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
-      Me.Status.Value = 0
+      Me.StatusId = 0
       Return Me.Save(currentUserId)
     End Function
 #End Region

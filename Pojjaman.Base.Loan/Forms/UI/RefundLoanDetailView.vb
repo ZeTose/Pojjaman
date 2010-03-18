@@ -67,6 +67,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtLoanCode As System.Windows.Forms.TextBox
     Friend WithEvents txtLoanName As System.Windows.Forms.TextBox
     Friend WithEvents lblLoan As System.Windows.Forms.Label
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -112,6 +113,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.lblStatus = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
       Me.grbLoan.SuspendLayout()
       Me.SuspendLayout()
@@ -121,6 +123,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.lblStatus)
       Me.grbDetail.Controls.Add(Me.grbLoan)
       Me.grbDetail.Controls.Add(Me.btnWithdrawLoanFind)
       Me.grbDetail.Controls.Add(Me.txtWithdrawLoanCode)
@@ -150,7 +153,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(588, 398)
+      Me.grbDetail.Size = New System.Drawing.Size(665, 398)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลธนาคาร : "
@@ -712,11 +715,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'lblStatus
+      '
+      Me.lblStatus.Font = New System.Drawing.Font("Arial Rounded MT Bold", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+      Me.lblStatus.ForeColor = System.Drawing.Color.DimGray
+      Me.lblStatus.Location = New System.Drawing.Point(499, 20)
+      Me.lblStatus.Name = "lblStatus"
+      Me.lblStatus.Size = New System.Drawing.Size(159, 21)
+      Me.lblStatus.TabIndex = 263
+      Me.lblStatus.Text = "สถานะเอกสาร"
+      Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
       'RefundLoanDetailView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "RefundLoanDetailView"
-      Me.Size = New System.Drawing.Size(611, 414)
+      Me.Size = New System.Drawing.Size(688, 414)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbLoan.ResumeLayout(False)
@@ -802,7 +816,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.StatusId = 0 _
+      OrElse Me.m_entity.StatusId >= 3 _
+      Then
+        For Each ctl As Control In Me.grbDetail.Controls
+          If TypeOf ctl Is TextBox Then
+            CType(ctl, TextBox).ReadOnly = True
+          Else
+            ctl.Enabled = False
+          End If
+        Next
+      Else
+        For Each ctl As Control In Me.grbDetail.Controls
+          If TypeOf ctl Is TextBox Then
+            CType(ctl, TextBox).ReadOnly = False
+          Else
+            ctl.Enabled = True
+          End If
+        Next
+      End If
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -832,9 +867,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtInterest.Text = Configuration.FormatToString(Me.m_entity.Interest, DigitConfig.Price)
       txtOtherCharge.Text = Configuration.FormatToString(Me.m_entity.OtherCharge, DigitConfig.Price)
       txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
-
+      lblStatus.Text = m_entity.StatusText
       UpdateWLInfo()
-
       SetLabelText()
       CheckFormEnable()
       m_isInitialized = True

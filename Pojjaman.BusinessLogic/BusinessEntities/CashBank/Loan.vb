@@ -9,7 +9,7 @@ Imports Longkong.Pojjaman.DataAccessLayer
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Loan
     Inherits SimpleBusinessEntityBase
-    Implements IHasName, IHasBankAccount
+    Implements IHasName, IHasBankAccount, ICancelable
 
 #Region "Members"
     'loan_id	numeric(18, 0)		Unchecked
@@ -33,6 +33,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_typeId As Integer
     Private m_statusId As Integer
     Private m_account As Account
+    Private m_closed As Boolean
+    Private m_statusText As String
 #End Region
 
 #Region "Constructors"
@@ -51,7 +53,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       Me.m_account = New Account
+      StatusId = 2
     End Sub
+
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       Dim deh As New DataRowHelper(dr)
@@ -69,7 +73,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_costCenter = New CostCenter(ccId)
 
       m_typeId = deh.GetValue(Of Integer)("loan_type")
-      m_statusId = deh.GetValue(Of Integer)("loan_status")
+      StatusId = deh.GetValue(Of Integer)("loan_status")
+      If StatusId = 5 Then m_closed = True Else m_closed = False
 
       Dim LoanAcct As Integer = deh.GetValue(Of Integer)("loan_acct")
       Me.m_account = New Account(LoanAcct)
@@ -145,6 +150,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Integer)
         m_statusId = Value
+        Select Case m_statusId
+          Case 0
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Cancle}")
+          Case 1
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.OnHold}")
+          Case 2
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Active}")
+          Case 3
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Reference}")
+          Case 4
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Post}")
+          Case 5
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Close}")
+        End Select
+        Me.Status.Value = Value
+      End Set
+    End Property
+    Public Property StatusText As String
+      Get
+        Return m_StatusText
+      End Get
+      Set(ByVal Value As String)
+        m_StatusText = Value
       End Set
     End Property
     Public Property Account() As Account
@@ -153,6 +181,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Account)
         m_account = Value
+      End Set
+    End Property
+    Public Property Closed() As Boolean
+      Get
+        Return m_closed
+      End Get
+      Set(ByVal Value As Boolean)
+        m_closed = Value
       End Set
     End Property
 #End Region
@@ -282,8 +318,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Delete"
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
-        ' Hack :
-        Return True
+        If Me.Originated Then
+          Return Me.StatusId <= 2 AndAlso Not Me.IsReferenced
+        Else
+          Return False
+        End If
       End Get
     End Property
     Public Overrides Function Delete() As SaveErrorException
@@ -331,6 +370,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
 #End Region
-
+#Region "ICancelable"
+    Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
+      Get
+        Return Me.StatusId > 1 AndAlso Me.IsCancelable
+      End Get
+    End Property
+    Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
+      Me.StatusId = 0
+      Return Me.Save(currentUserId)
+    End Function
+#End Region
   End Class
 End Namespace

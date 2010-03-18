@@ -33,6 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_othercharge As Decimal
     Private m_amount As Decimal
     Private m_statusId As Integer
+    Private m_statusText As String
 
     Private m_bankAccount As BankAccount
     Private m_costCenter As CostCenter
@@ -65,7 +66,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_loan = New Loan
         .m_note = ""
         .m_docdate = Date.Now.Date
-        .m_statusId = -1
+        .StatusId = -1
         '----------------------------Tab Entities-----------------------------------------
         .m_whtcol = New WitholdingTaxCollection(Me)
         .m_whtcol.Direction = New WitholdingTaxDirection(1)
@@ -85,6 +86,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       m_note = deh.GetValue(Of String)("RFL_note")
       m_docdate = deh.GetValue(Of Date)("RFL_docdate")
+      StatusId = deh.GetValue(Of Integer)("RFL_status")
       Dim WLid As Integer = deh.GetValue(Of Integer)("RFL_WL")
       m_WL = New WithdrawLoan(WLid)
 
@@ -100,7 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ccId As Integer = deh.GetValue(Of Integer)("loan_cc")
       m_costCenter = New CostCenter(ccId)
       m_typeId = deh.GetValue(Of Integer)("loan_type")
-      m_statusId = deh.GetValue(Of Integer)("loan_status")
+
 
       Dim LoanAcct As Integer = deh.GetValue(Of Integer)("loan_acct")
       Me.m_account = New Account(LoanAcct)
@@ -228,6 +230,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Integer)
         m_statusId = Value
+        Select Case m_statusId
+          Case -1
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.New}")
+          Case 0
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Cancle}")
+          Case 1
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.OnHold}")
+          Case 2
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Active}")
+          Case 3
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Reference}")
+          Case 4
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Post}")
+          Case 5
+            m_statusText = Me.StringParserService.Parse("${res:Global.DocStatus.Close}")
+        End Select
+        Me.Status.Value = Value
+      End Set
+    End Property
+    Public Property StatusText As String
+      Get
+        Return m_StatusText
+      End Get
+      Set(ByVal Value As String)
+        m_StatusText = Value
       End Set
     End Property
     Public Property Account() As Account
@@ -302,12 +329,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim theUser As New User(currentUserId)
 
       If Me.m_je.Status.Value = 4 Then
-        Me.Status.Value = 4
+        Me.StatusId = 4
         Me.m_payment.Status.Value = 4
         Me.m_whtcol.SetStatus(4)
       End If
-      If Me.Status.Value = -1 Then
-        Me.Status = New AdvancePayStatus(2)
+      If Me.StatusId = 0 Then
+        Me.m_payment.Status.Value = 0
+        Me.m_whtcol.SetStatus(0)
+        Me.m_je.Status.Value = 0
+      End If
+      If StatusId = -1 Then
+        StatusId = 2
       End If
 
       '---- AutoCode Format --------
@@ -477,7 +509,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else
           End Select
         End If
-
+        '==============================Reference==========================================
+        Me.DeleteRef(conn, trans)
+        Me.UpdateRef(Me.WithdrawLoan, conn, trans)
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+        '==============================Reference==========================================
         '==============================AUTOGEN==========================================
         Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
         If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -555,12 +593,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteLoan", New SqlParameter() {New SqlParameter("@Loan_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteRefundLoan", New SqlParameter() {New SqlParameter("@RFL_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePaymentItemEntityStatus", New SqlParameter("@payment_id", Me.Payment.Id))
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1
               trans.Rollback()
-              Return New SaveErrorException("${res:Global.LoanIsReferencedCannotBeDeleted}")
+              Return New SaveErrorException("${res:Global.RefundLoanIsReferencedCannotBeDeleted}")
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
@@ -588,7 +627,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
-      Me.Status.Value = 0
+      Me.StatusId = 0
       Return Me.Save(currentUserId)
     End Function
 #End Region
@@ -760,7 +799,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property Recipient As IBillablePerson Implements IPayable.Recipient
       Get
-        Return Supplier.GetDefaultSupplier(Supplier.DefaultSupplierType.AdvanceMoney)
+        Return Loan.BankAccount
       End Get
     End Property
 
