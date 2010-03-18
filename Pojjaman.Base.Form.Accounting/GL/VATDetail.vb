@@ -957,13 +957,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 								If IsNumeric(row("vati_taxbase")) Then
 									viTaxBase2 += CDec(row("vati_taxbase"))
 								End If
-							Next
-							If (viTaxBase2 - oldvalue + value) > Me.m_vat.VatTaxBase Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.OverTaxBase}", _
-								New String() {Configuration.FormatToString(Me.m_vat.VatTaxBase, DigitConfig.Price)})
-								e.ProposedValue = e.Row(e.Column)
-								Return
-							End If
+              Next
+              Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+              Dim tmpTaxbase As Decimal = (viTaxBase2 - oldvalue + value)
+              If tmpTaxbase > Me.m_vat.VatTaxBase Then
+                If tmpTaxbase - Me.m_vat.VatTaxBase < CDec(obj) Then
+                  If Not msgServ.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.ReceiveSelectionDiffTaxBaseAndVatTaxBase}"), _
+                                         New String() {Configuration.FormatToString(Me.m_vat.VatTaxBase, DigitConfig.Price), _
+                                                       Configuration.FormatToString(tmpTaxbase, DigitConfig.Price)}) Then
+                    Return
+                  End If
+                Else
+                  msgServ.ShowMessageFormatted("${res:Global.Error.OverTaxBase}", _
+                                New String() {Configuration.FormatToString(Me.m_vat.VatTaxBase, DigitConfig.Price)})
+                  e.ProposedValue = e.Row(e.Column)
+                  Return
+                End If
+              End If
 						End If
 
 						doc.TaxBase = value

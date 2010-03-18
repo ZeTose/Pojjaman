@@ -306,13 +306,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.TaxBase <> Vat.TaxBase Then
           Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
           Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          If Me.TaxBase > Vat.TaxBase AndAlso Me.TaxBase - Vat.TaxBase < CInt(obj) Then
+          If Me.TaxBase > Vat.TaxBase AndAlso Me.TaxBase - Vat.TaxBase < CDec(obj) Then
             If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
                                           New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
                                                         Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)}) Then
               Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
             End If
-          ElseIf Me.TaxBase < Vat.TaxBase AndAlso Vat.TaxBase - Me.TaxBase < CInt(obj) Then
+          ElseIf Me.TaxBase < Vat.TaxBase AndAlso Vat.TaxBase - Me.TaxBase < CDec(obj) Then
             If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
                                        New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
                                                      Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)}) Then
