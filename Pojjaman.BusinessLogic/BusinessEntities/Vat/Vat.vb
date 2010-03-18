@@ -598,9 +598,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OrElse TypeOf Me.RefDoc Is PA _
         ) _
         AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
-          New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-          , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+          Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+          Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          If tmpTaxBase > tmpRefTaxBase AndAlso tmpTaxBase - tmpRefTaxBase < CInt(obj) Then
+            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                          New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+                                                        Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            End If
+          ElseIf tmpTaxBase < tmpRefTaxBase AndAlso tmpRefTaxBase - tmpTaxBase < CInt(obj) Then
+            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                       New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+                                                     Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            End If
+          Else
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
+                  New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                  , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+          End If
+      
         ElseIf tmpTaxBase <> tmpRefTaxBase _
         AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _

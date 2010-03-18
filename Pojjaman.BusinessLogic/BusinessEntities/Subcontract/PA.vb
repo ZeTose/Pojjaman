@@ -3680,7 +3680,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property ShowUnApproveButton() As Boolean Implements IApprovAble.ShowUnApproveButton
       Get
-        Return False
+        Return Not Me.Status.Value = 0
       End Get
     End Property
 

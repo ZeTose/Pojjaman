@@ -304,9 +304,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If Me.TaxBase <> Vat.TaxBase Then
-          Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.RefTaxBaseAndVatTaxBase}"), _
-                                        New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
-                                                      Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)})
+          Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+          Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          If Me.TaxBase > Vat.TaxBase AndAlso Me.TaxBase - Vat.TaxBase < CInt(obj) Then
+            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                          New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
+                                                        Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)}) Then
+              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            End If
+          ElseIf Me.TaxBase < Vat.TaxBase AndAlso Vat.TaxBase - Me.TaxBase < CInt(obj) Then
+            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                       New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
+                                                     Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)}) Then
+              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            End If
+          Else
+            Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.RefTaxBaseAndVatTaxBase}"), _
+                                          New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
+                                                        Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)})
+          End If
         End If
 
         'If Me.MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
