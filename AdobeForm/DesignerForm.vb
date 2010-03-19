@@ -508,7 +508,10 @@ Namespace Longkong.AdobeForm
 						data = data.Substring(1, Len(data) - 1)
 					End If
 				End If
-			End If
+      End If
+      data = Replace(data, "í", ",")
+      data = Replace(data, "£", "(")
+      data = Replace(data, "¥", ")")
 			Return data
 		End Function
 		Private Function DoStringVars(ByVal m As Match) As String
@@ -539,7 +542,9 @@ Namespace Longkong.AdobeForm
 					data = ""
 				End If
 			End If
-			data = Replace(data, ",", "")
+      data = Replace(data, ",", "í")
+      data = Replace(data, "(", "£")
+      data = Replace(data, ")", "¥")
 			Return data
 		End Function
 		Private Function DoStringFunc1(ByVal m As Match) As String
