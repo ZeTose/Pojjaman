@@ -144,6 +144,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim deh As New DataRowHelper(dr)
         Me.CanSeeAllDocType1 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType1")
         Me.CanSeeAllDocType2 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType2")
+        Me.CanSeeAllDocType0 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType0")
       End With
     End Sub
     Public Overloads Sub LoadImage(ByVal reader As IDataReader)
@@ -515,6 +516,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@user_name", Me.Name))
         paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", Me.CanSeeAllDocType1))
         paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", Me.CanSeeAllDocType2))
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", Me.CanSeeAllDocType0))
         'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise
 
         ' สร้าง SqlParameter จาก ArrayList ...
