@@ -1919,6 +1919,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(payable, IWitholdingTaxable).WitholdingTaxCollection.RefDoc = payable
                 For Each wht As WitholdingTax In CType(payable, IWitholdingTaxable).WitholdingTaxCollection
                   wht.RefDoc = payable
+                  wht.AutoGen = True
+                  wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(wht.EntityId)
                   Me.m_entity.WitholdingTaxCollection.Add(wht)
                 Next
                 Me.m_entity.RefWHTCollection.Add(CType(payable, IWitholdingTaxable).WitholdingTaxCollection)

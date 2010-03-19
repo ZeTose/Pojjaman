@@ -1242,17 +1242,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()
       If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) _
-      OrElse (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value = 0) _
-      Then
+      OrElse (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value = 0) Then
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
         Next
       Else
         For Each ctrl As Control In grbDetail.Controls
           If Not TypeOf ctrl Is CheckBox Then
             ctrl.Enabled = True
           End If
+          tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = False
+          Next
         Next
+      End If
+      If Not Me.m_whtcol Is Nothing AndAlso _
+        Not Me.m_whtcol.RefDoc Is Nothing AndAlso _
+        TypeOf Me.m_whtcol.RefDoc Is SimpleBusinessEntityBase Then
+        If CType(Me.m_whtcol.RefDoc, SimpleBusinessEntityBase).IsReferenced() Then
+          For Each ctrl As Control In grbDetail.Controls
+            ctrl.Enabled = False
+          Next
+          tgItem.Enabled = True
+          lbWhtList.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+        End If
       End If
     End Sub
 
@@ -1401,15 +1422,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocCode.Text = Me.m_wht.RefDoc.Code
       Me.txtRefDocDate.Text = MinDateToNull(Me.m_wht.RefDoc.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       Me.dtpRefDocDate.Value = MinDateToNow(Me.m_wht.RefDoc.Date)
-      Me.txtRefTaxBase.Text = Configuration.FormatToString(Me.m_wht.RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price)
+      Me.txtRefTaxBase.Text = Configuration.FormatToString(Me.m_whtcol.RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price)
       For Each item As IdValuePair In Me.cmbDirection.Items
         If Me.m_wht.Direction.Value = item.Id Then
           Me.cmbDirection.SelectedItem = item
         End If
       Next
 
-      Me.txtSupplierCode.Text = Me.m_wht.RefDoc.Person.Code
-      Me.txtSupplierName.Text = Me.m_wht.RefDoc.Person.Name
+      Me.txtSupplierCode.Text = Me.m_whtcol.RefDoc.Person.Code
+      Me.txtSupplierName.Text = Me.m_whtcol.RefDoc.Person.Name
       Me.m_wht.UpdateRefDoc()
 
       Me.txtRepresentative.Text = Me.m_wht.RepresentName
@@ -1655,13 +1676,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Next
               m_wht = m_whtcol(0)
             Else
-              m_wht = New WitholdingTax
-              m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
-              m_wht.LastestCode = m_wht.Code
-              m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
-              m_wht.RefDoc = whtRefDoc
-              m_wht.Entity = whtRefDoc.Person
-              m_whtcol.Add(m_wht)
+              If whtRefDoc.WitholdingTaxCollection.Count > 0 AndAlso _
+                 Not whtRefDoc.WitholdingTaxCollection.CanBeDelay Then
+                m_wht = New WitholdingTax
+                m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
+                m_wht.LastestCode = m_wht.Code
+                m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
+                m_wht.RefDoc = whtRefDoc
+                m_wht.Entity = whtRefDoc.Person
+                m_whtcol.Add(m_wht)
+              End If
             End If
 
             m_whtcol.RefDoc = whtRefDoc
@@ -1694,6 +1718,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_whtcol.CreateListBox(lbWhtList)
         If Not m_wht Is Nothing Then
           Me.lbWhtList.SelectedItem = m_wht
+        End If
+        If m_wht Is Nothing AndAlso Not m_whtcol Is Nothing Then
+          If m_whtcol.Count > 0 Then
+            m_wht = m_whtcol(0)
+          End If
         End If
       End If
     End Sub
@@ -1758,7 +1787,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
         m_wht.AutoGen = True
       Else
-        m_wht.Code = Me.m_whtcol.fixCodeWHT
+        m_wht.Code = WitholdingTaxCollection.fixCodeWHT
         m_wht.AutoGen = False
       End If
 
@@ -1918,19 +1947,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim i As Integer = 0
         For Each wht As WitholdingTax In Me.m_whtcol
           If Not wht.Originated Then
-            Me.m_whtcol(i).Code = Me.m_whtcol.fixCodeWHT
+            Me.m_whtcol(i).Code = WitholdingTaxCollection.fixCodeWHT
             Me.m_whtcol(i).AutoGen = False
           End If
           i += 1
         Next
+        For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+
+        Next
         If Not m_wht.Originated Then
-          m_wht.Code = Me.m_whtcol.fixCodeWHT
+          m_wht.Code = WitholdingTaxCollection.fixCodeWHT
           m_wht.AutoGen = False
         End If
         UpdateWitholdingList()
         chkAutorun.Enabled = False
         txtCode.ReadOnly = True
-
       Else
 
         Dim i As Integer = 0

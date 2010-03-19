@@ -674,27 +674,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
-          trans = conn.BeginTransaction()
-          For Each refwhtcoll As WitholdingTaxCollection In m_refWHTCollection
-            For Each refw As WitholdingTax In refwhtcoll
-              refw.AutoGen = False
-            Next
-            Dim saverefWHTError As SaveErrorException = refwhtcoll.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saverefWHTError.Message) Then
-              trans.Rollback()
-              Me.ResetID(oldid, oldpay, oldje, oldVatId)
-              Return saverefWHTError
-            Else
-              Select Case CInt(saverefWHTError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
-                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
-                  Return saverefWHTError
-                Case Else
-              End Select
-            End If
-          Next
-          trans.Commit()
+          'trans = conn.BeginTransaction()
+          'For Each refwhtcoll As WitholdingTaxCollection In m_refWHTCollection
+          '  For Each refw As WitholdingTax In refwhtcoll
+          '    refw.AutoGen = False
+          '  Next
+          '  Dim saverefWHTError As SaveErrorException = refwhtcoll.Save(currentUserId, conn, trans)
+          '  If Not IsNumeric(saverefWHTError.Message) Then
+          '    trans.Rollback()
+          '    Me.ResetID(oldid, oldpay, oldje, oldVatId)
+          '    Return saverefWHTError
+          '  Else
+          '    Select Case CInt(saverefWHTError.Message)
+          '      Case -1, -2, -5
+          '        trans.Rollback()
+          '        Me.ResetID(oldid, oldpay, oldje, oldVatId)
+          '        Return saverefWHTError
+          '      Case Else
+          '    End Select
+          '  End If
+          'Next
+          'trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
@@ -1166,7 +1166,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IWitholdingTaxable"
     Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
-      Return Me.TaxBase
+      Return Me.GetWitholdingTaxBase() 'Me.BeforeTax
     End Function
     Public Property Person() As IBillablePerson Implements IWitholdingTaxable.Person, IVatable.Person
       Get
@@ -1359,6 +1359,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.TaxType.Value <> 0 Then
           amt += item.TaxBase - d
         End If
+      Next
+      Return amt
+    End Function
+    Private Function GetWitholdingTaxBase() As Decimal
+      Dim amt As Decimal
+      Dim itemamt As Decimal
+      For Each item As BillAcceptanceItem In Me.ItemCollection
+
+        If item.TaxType.Value <> 0 Then
+          itemamt = CDec(item.UnpaidAmount / (107 / 100))
+        Else
+          itemamt = item.UnpaidAmount
+        End If
+        amt += itemamt
       Next
       Return amt
     End Function
