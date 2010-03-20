@@ -955,7 +955,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
-
+      Dim pcCC As CostCenter = Nothing
       'If Not Me.Payment Is Nothing Then
       'Dim pmGross As Decimal = Me.Payment.Gross
       'เงินสดย่อย
@@ -965,11 +965,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
         ji.Account = Me.PettyCash.Account
       End If
-      ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      If Me.PettyCash.ToCC IsNot Nothing Then
+        ji.CostCenter = Me.PettyCash.ToCC
+      Else
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
+      pcCC = ji.CostCenter
       jiColl.Add(ji)
       'Payment
       jiColl.AddRange(Me.Payment.GetJournalEntries)
-      'End If
+
+      For i As Integer = 0 To Me.MaxRowIndex
+        ji = New JournalEntryItem
+        ji.Mapping = "G10.1W"
+        If IsNumeric(Me.ItemTable.Childs(i)("RealAmount")) Then
+          ji.Amount = CDec(Me.ItemTable.Childs(i)("RealAmount"))
+        Else
+          ji.Amount = 0
+        End If
+        If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
+          ji.Account = Me.PettyCash.Account
+        End If
+        ji.Note = CStr(Me.ItemTable.Childs(i)("Code")) + ":" + CStr(Me.ItemTable.Childs(i)("DocType"))
+        ji.CostCenter = pcCC
+        jiColl.Add(ji)
+        'Payment
+      Next
       Return jiColl
     End Function
     Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry

@@ -1529,10 +1529,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Account = ptc.Account
                 ji.Mapping = "PM1.7"
                 ji.Amount = item.Amount
-                If Me.CostCenter.Originated Then
-                  ji.CostCenter = Me.CostCenter
+                If ptc.ToCC IsNot Nothing Then
+                  ji.CostCenter = ptc.ToCC
                 Else
-                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  If Me.CostCenter.Originated Then
+                    ji.CostCenter = Me.CostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
                 End If
                 ji.Note = pm17note
                 jiColl.Add(ji)
@@ -1553,10 +1557,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji = New JournalEntryItem
                 ji.Mapping = "PM1.7"
                 ji.Amount = item.Amount
-                If Me.CostCenter.Originated Then
-                  ji.CostCenter = Me.CostCenter
+                If ptc.ToCC IsNot Nothing Then
+                  ji.CostCenter = ptc.ToCC
                 Else
-                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  If Me.CostCenter.Originated Then
+                    ji.CostCenter = Me.CostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
                 End If
                 ji.Note = pm17note
                 jiColl.Add(ji)
@@ -1592,10 +1600,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Account = ptc.Account
               ji.Mapping = "PM1.7W"
               ji.Amount = item.Amount
-              If Me.CostCenter.Originated Then
-                ji.CostCenter = Me.CostCenter
+              If ptc.ToCC IsNot Nothing Then
+                ji.CostCenter = ptc.ToCC
               Else
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
               End If
               ji.Note = ptc.Name & "(" & ptc.Code & ")"
               jiColl.Add(ji)
@@ -1605,10 +1617,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = "PM1.7D"
               ji.Amount = item.Amount
-              If Me.CostCenter.Originated Then
-                ji.CostCenter = Me.CostCenter
+              If ptc.ToCC IsNot Nothing Then
+                ji.CostCenter = ptc.ToCC
               Else
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
               End If
               ji.Note = ptc.Name & "(" & ptc.Code & ")"
               jiColl.Add(ji)
@@ -1616,10 +1632,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = "PM1.7W"
               ji.Amount = item.Amount
-              If Me.CostCenter.Originated Then
-                ji.CostCenter = Me.CostCenter
+              If ptc.ToCC IsNot Nothing Then
+                ji.CostCenter = ptc.ToCC
               Else
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
               End If
               ji.Note = ptc.Name & "(" & ptc.Code & ")"
               jiColl.Add(ji)

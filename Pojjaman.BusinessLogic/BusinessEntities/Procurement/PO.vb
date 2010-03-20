@@ -2102,7 +2102,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 			Dim n As Integer = 0
-			Dim prList As String = ""
+      Dim prList As String = ""
+      Dim prDateList As String = ""
+      Dim prRequestorList As String = ""
 			Dim prArr As New ArrayList
 			Dim msgService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 			Dim noPRText As String = msgService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
@@ -2668,11 +2670,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 			'Ungroup2 ---------------------------------------------------------------------
-			Dim prDocDate As Date = Nothing
+      Dim prDocDate As Date = Nothing
+      Dim curDocDate As Date = Nothing
 			n = 0
 			prList = ""
 			prArr = New ArrayList
-			line = 0
+      line = 0
+      Dim curReq As String = ""
 			For Each item As POItem In Me.ItemCollection
 				Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 				Dim HeaderPRCode As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
@@ -2938,27 +2942,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				n += 1
 
 				'UNDONE
-				Dim prCode As String = ""
+        Dim prCode As String = ""
 				If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
 					prCode = item.Pritem.Pr.Code.ToString
 					If prDocDate = Nothing Then
 						prDocDate = item.Pritem.Pr.DocDate
-					End If
-				End If
-				If Trim(prCode) <> Trim(noPRText) Then
-					If Not prArr.Contains(prCode) Then
-						prArr.Add(prCode)
-						prList += "," & prCode
-					End If
-				End If
-			Next
+          End If
+          If curDocDate <> item.Pritem.Pr.DocDate Then
+            curDocDate = item.Pritem.Pr.DocDate
+            prDateList += "," & curDocDate.ToString("dd/MM/yyyy")
+          End If
+          If curReq <> item.Pritem.Pr.Requestor.ToString Then
+            curReq = item.Pritem.Pr.Requestor.ToString
+            prRequestorList += "," & curReq
+          End If
+        End If
+        If Trim(prCode) <> Trim(noPRText) Then
+          If Not prArr.Contains(prCode) Then
+            prArr.Add(prCode)
+            prList += "," & prCode
+          End If
+        End If
+      Next
 
-			'RefUngroup2PRDocDate
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RefUngroup2PRDocDate"
-			dpi.Value = Me.DocDate.ToShortDateString
-			dpi.DataType = "System.DateTime"
-			dpiColl.Add(dpi)
+      'RefUngroup2PRDocDate
+      If Not prDateList Is Nothing AndAlso prDateList.Length > 0 Then
+        If prDateList.StartsWith(",") Then prDateList = prDateList.Substring(1)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefUngroup2PRDocDate"
+        dpi.Value = prDateList
+        'dpi.Value = Me.DocDate.ToShortDateString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+			
 
 			' RefUngroup2PRCode
 			If Not prList Is Nothing AndAlso prList.Length > 0 Then
@@ -2968,7 +2985,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				dpi.Value = prList
 				dpi.DataType = "System.String"
 				dpiColl.Add(dpi)
-			End If
+      End If
+
+      ' RefUngroup2PRRequestor
+      If Not prRequestorList Is Nothing AndAlso prRequestorList.Length > 0 Then
+        If prRequestorList.StartsWith(",") Then prRequestorList = prRequestorList.Substring(1)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefUngroup2PRRequestor"
+        dpi.Value = prRequestorList
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
 			'Ungroup2 ---------------------------------------------------------------------
 			'Retention
 			dpi = New DocPrintingItem

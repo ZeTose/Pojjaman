@@ -514,13 +514,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "G1.1"
         ji.Account = Me.PettyCash.Account
         ji.Amount = Me.RemainingAmount
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        If Me.PettyCash.ToCC IsNot Nothing Then
+          ji.CostCenter = Me.PettyCash.ToCC
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
         jiColl.Add(ji)
       End If
       ' TODO : Implements GL ...
       If Not Me.Receive Is Nothing Then
         jiColl.AddRange(Me.Receive.GetJournalEntries)
       End If
+      
       Return jiColl
     End Function
 
