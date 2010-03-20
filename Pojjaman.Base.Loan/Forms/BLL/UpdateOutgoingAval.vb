@@ -143,38 +143,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-    'Public Property BankCharge() As Decimal
-    'Get
-    'Return m_bankcharge
-    'End Get
-    'Set(ByVal Value As Decimal)
-    'm_bankcharge = Value
-    'End Set
-    'End Property
-    'Public Property Interest() As Decimal
-    'Get
-    'Return m_intamt
-    'End Get
-    'Set(ByVal Value As Decimal)
-    'm_intamt = Value
-    'End Set
-    'End Property
-    'Public Property WHTAMT() As Decimal
-    'Get
-    'Return m_whtamt
-    'End Get
-    'Set(ByVal Value As Decimal)
-    'm_whtamt = Value
-    'End Set
-    'End Property
-    'Public Property TotalAmount() As Decimal
-    'Get
-    'Return m_totalamount
-    'End Get
-    'Set(ByVal Value As Decimal)
-    'm_totalamount = Value
-    'End Set
-    'End Property
     Public Property TotalAmount() As Decimal
       Get
         m_totalamount = GetTotalAmount()
@@ -1038,7 +1006,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-#Region " IGLAble "
+#Region "IGLAble "
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
       If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
         Return Me.AutoCodeFormat.GLFormat
@@ -1057,7 +1025,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As New JournalEntryItem
 
       If Me.TotalAmount > 0 Then
-        
+
         ' Dr. µÑëÇÍÒÇÑÅ
         ji = New JournalEntryItem
         ji.Mapping = "AVL1"
@@ -1077,12 +1045,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         jiColl.Add(ji)
         ' CR. Bank
-        ji = New JournalEntryItem
-        ji.Mapping = "AVL4"
-        ji.Amount = Me.TotalAmount + Me.Interest + Me.BankCharge - Me.WHTAMT
-        ji.Account = Me.loan.BankAccount.Account
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        jiColl.Add(ji)
+        SetPassCheckOutgoing(jiColl)
         ' CR. WHT
         ji = New JournalEntryItem
         ji.Mapping = "AVL5"
@@ -1091,9 +1054,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.Add(ji)
 
       End If
-
       Return jiColl
     End Function
+    Private Sub SetPassCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
+      ' CR. Bank
+      Dim ji As New JournalEntryItem
+      Dim ht As New Hashtable
+      For Each trow As TreeRow In Me.ItemTable.Childs
+        If ValidateRow(trow) Then
+          Dim loani As New Loan(CInt(trow("bankacct_id")))
+          ht(loani.BankAccount.Account.Id) = loani.BankAccount.Account
+        End If
+      Next
+      For Each acct As Account In ht.Values
+        Dim sumvalue As Decimal = 0
+        For i As Integer = Me.MaxRowIndex To 0 Step -1
+          Dim row As TreeRow = Me.ItemTable.Childs(i)
+          If ValidateRow(row) Then
+            Dim loani As New Loan(CInt(row("bankacct_id")))
+            If loani.BankAccount.Account.Id = acct.Id Then
+              sumvalue += (CDec(row("check_amt")) + CDec(row("check_bankcharge")) + CDec(row("check_interest")) - CDec(row("check_wht")))
+            End If
+          End If
+        Next
+        If sumvalue > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "AVL4"
+          ji.Amount = sumvalue
+          If acct.Originated Then
+            ji.Account = acct
+          End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
+        End If
+      Next
+
+    End Sub
 
     Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get

@@ -875,7 +875,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-
 #Region "IValidatable"
     Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
