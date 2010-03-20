@@ -3448,7 +3448,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					End If
 					m_dateSetting = False
         Case "dtpdeliverydocdate"
-          If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+          'If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+          If Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
             If Not m_dateSetting Then
               If Not Me.m_entity.DeliveryDocDate.Equals(dtpDeliveryDocDate.Value) Then
                 If Not m_dateSetting Then
