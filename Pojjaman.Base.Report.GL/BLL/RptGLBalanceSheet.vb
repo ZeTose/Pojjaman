@@ -154,7 +154,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Else
           'debitString = CStr(IIf(afterdebit > 0, Configuration.FormatToString(afterdebit, DigitConfig.Price), ""))
           'creditString = CStr(IIf(aftercredit > 0, Configuration.FormatToString(aftercredit, DigitConfig.Price), ""))
-          'End If
+          ''End If
           theRow("col6") = debitString
           theRow("col7") = creditString
           theRow.EnsureVisible()
