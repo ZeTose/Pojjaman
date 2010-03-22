@@ -115,16 +115,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim debitString As String = ""
           Dim creditString As String = ""
-          If ComputeDrCr Then
-            If b4debit > b4credit Then
-              debitString = Configuration.FormatToString(b4debit - b4credit, DigitConfig.Price)
-            ElseIf b4credit > b4debit Then
-              creditString = Configuration.FormatToString(b4credit - b4debit, DigitConfig.Price)
-            End If
-          Else
-            debitString = CStr(IIf(b4debit > 0, Configuration.FormatToString(b4debit, DigitConfig.Price), ""))
-            creditString = CStr(IIf(b4credit > 0, Configuration.FormatToString(b4credit, DigitConfig.Price), ""))
+          'If ComputeDrCr Then
+          If b4debit > b4credit Then
+            debitString = Configuration.FormatToString(b4debit - b4credit, DigitConfig.Price)
+          ElseIf b4credit > b4debit Then
+            creditString = Configuration.FormatToString(b4credit - b4debit, DigitConfig.Price)
           End If
+          'Else
+          'debitString = CStr(IIf(b4debit > 0, Configuration.FormatToString(b4debit, DigitConfig.Price), ""))
+          'creditString = CStr(IIf(b4credit > 0, Configuration.FormatToString(b4credit, DigitConfig.Price), ""))
+          'End If
           theRow("col2") = debitString
           theRow("col3") = creditString
 
@@ -145,16 +145,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           debitString = ""
           creditString = ""
-          If ComputeDrCr Then
-            If afterdebit > aftercredit Then
-              debitString = Configuration.FormatToString(afterdebit - aftercredit, DigitConfig.Price)
-            ElseIf aftercredit > afterdebit Then
-              creditString = Configuration.FormatToString(aftercredit - afterdebit, DigitConfig.Price)
-            End If
-          Else
-            debitString = CStr(IIf(afterdebit > 0, Configuration.FormatToString(afterdebit, DigitConfig.Price), ""))
-            creditString = CStr(IIf(aftercredit > 0, Configuration.FormatToString(aftercredit, DigitConfig.Price), ""))
+          'If ComputeDrCr Then
+          If afterdebit > aftercredit Then
+            debitString = Configuration.FormatToString(afterdebit - aftercredit, DigitConfig.Price)
+          ElseIf aftercredit > afterdebit Then
+            creditString = Configuration.FormatToString(aftercredit - afterdebit, DigitConfig.Price)
           End If
+          'Else
+          'debitString = CStr(IIf(afterdebit > 0, Configuration.FormatToString(afterdebit, DigitConfig.Price), ""))
+          'creditString = CStr(IIf(aftercredit > 0, Configuration.FormatToString(aftercredit, DigitConfig.Price), ""))
+          'End If
           theRow("col6") = debitString
           theRow("col7") = creditString
           theRow.EnsureVisible()
