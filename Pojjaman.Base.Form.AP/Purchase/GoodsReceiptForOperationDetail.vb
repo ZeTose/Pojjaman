@@ -1271,17 +1271,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.Qty = value
+            m_entity.OnGlChanged()
           Case "accountcode"
             If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
               e.ProposedValue = ""
             End If
             doc.SetAccountCode(CStr(e.ProposedValue))
+            m_entity.OnGlChanged()
           Case "stocki_entitytype"
             Dim value As ItemType
             If IsNumeric(e.ProposedValue) Then
               value = New ItemType(CInt(e.ProposedValue))
             End If
             doc.ItemType = value
+            m_entity.OnGlChanged()
           Case "stocki_unitprice"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -1630,7 +1633,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
             m_entity.Code = m_entity.AutoCodeFormat.Format
-            'Me.m_entity.OnGlChanged()
+            Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True
         Case "txtnote"
@@ -1643,6 +1646,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim oldSupplier As Supplier = Me.m_entity.Supplier
             If Me.txtSupplierCode.TextLength <> 0 Then
               Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+              Me.m_entity.OnGlChanged()
             Else
               Me.m_entity.Supplier = New Supplier
               txtSupplierName.Text = ""
@@ -1717,7 +1721,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtdeliverydocdate"
           m_dateSetting = True
-          If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+          'If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+          If Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
             Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
             If Not Me.m_entity.DeliveryDocDate.Equals(theDate) Then
               dtpDeliveryDocDate.Value = theDate
@@ -1742,6 +1747,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtpocode"
           If pOCodeChanged Then
             pOCodeChanged = False
+            Me.m_entity.OnGlChanged()
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If Me.txtPOCode.TextLength <> 0 Then
               Dim poNeedsApproval As Boolean = False
@@ -1799,6 +1805,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txttocostcentercode"
           If toCCCodeChanged Then
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            Me.m_entity.OnGlChanged()
             If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
               If Me.txtToCostCenterCode.TextLength <> 0 Then
                 dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
