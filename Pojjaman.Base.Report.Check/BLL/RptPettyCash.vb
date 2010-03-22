@@ -193,7 +193,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         m_grid(currPCIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
                         m_grid(currPCIndex, 9).CellValue = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
                         tmpPCRemainAmt = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
-                        'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
+            pcEndingBalance = tmpPCRemainAmt
+            'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
                         'tmpInitPCAmt = CDec(PCrow("PCAmt"))
                     End If
                     If IsNumeric(PCrow("PayAmt")) Then
@@ -279,7 +280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         tmpPCRemainAmt = tmpPCRemainAmt + m_claimAmt - m_Amt - m_closedAmt
                         tmpPayAmt = pcAmt - tmpPCRemainAmt
-                        pcEndingBalance = tmpPCRemainAmt
+            pcEndingBalance = tmpPCRemainAmt
                         'allPcEndingBalance += pcEndingBalance
 
                         If RefDocRow("RefDocType") = "ปิดวงเงินสดย่อย" Then
