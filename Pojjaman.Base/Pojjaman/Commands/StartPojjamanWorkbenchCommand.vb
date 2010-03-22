@@ -58,7 +58,7 @@ Namespace Longkong.Pojjaman.Commands
       End If
 
       If Not NODBCHECK Then
-        Dim dbVersion As String = SqlHelper.GetVersion
+        Dim dbVersion As String = SqlHelper.GetRealVersion ' SqlHelper.GetVersion
         If dbVersion = "0" Then
           MessageBox.Show(myResourceService.GetString("Global.Error.OldDatabase"))
           Application.ExitThread()
@@ -66,7 +66,8 @@ Namespace Longkong.Pojjaman.Commands
         End If
 
         Dim pjmVersion As Version = [Assembly].GetEntryAssembly.GetName.Version
-        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000")}
+        Dim pjmRealVersion As String = clsAssInfo.RealVersion
+        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000"), ".", pjmRealVersion}
         Dim version As String = String.Concat(pjmVersionArray)
 
         If version = dbVersion Then
