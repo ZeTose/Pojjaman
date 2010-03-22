@@ -1676,16 +1676,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Next
               m_wht = m_whtcol(0)
             Else
-              If whtRefDoc.WitholdingTaxCollection.Count > 0 AndAlso _
-                 Not whtRefDoc.WitholdingTaxCollection.CanBeDelay Then
-                m_wht = New WitholdingTax
-                m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
-                m_wht.LastestCode = m_wht.Code
-                m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
-                m_wht.RefDoc = whtRefDoc
-                m_wht.Entity = whtRefDoc.Person
-                m_whtcol.Add(m_wht)
-              End If
+              'If whtRefDoc.WitholdingTaxCollection.Count > 0 AndAlso _
+              '   Not whtRefDoc.WitholdingTaxCollection.CanBeDelay Then
+              m_wht = New WitholdingTax
+              m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
+              m_wht.LastestCode = m_wht.Code
+              m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
+              m_wht.RefDoc = whtRefDoc
+              m_wht.Entity = whtRefDoc.Person
+              m_whtcol.Add(m_wht)
+              'End If
+            End If
+
+            If whtRefDoc.WitholdingTaxCollection.Count > 0 AndAlso _
+               whtRefDoc.WitholdingTaxCollection.CanBeDelay Then
+
+              Me.m_whtcol = whtRefDoc.WitholdingTaxCollection
             End If
 
             m_whtcol.RefDoc = whtRefDoc
@@ -1693,6 +1699,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         If Not Me.m_wht Is Nothing Then
           Me.m_wht.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        End If
+
+        If Not m_whtcol Is Nothing AndAlso m_whtcol.Contains(m_whtcol(0)) Then
+          m_wht = m_whtcol(0)
         End If
 
         UpdateWitholdingList()

@@ -1917,6 +1917,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf payable Is IWitholdingTaxable Then
               If CType(payable, IWitholdingTaxable).WitholdingTaxCollection.IsBeforePay Then
                 CType(payable, IWitholdingTaxable).WitholdingTaxCollection.RefDoc = payable
+
+                Dim key As Integer
+                Dim delCurrWHT As New Hashtable
+                For Each wht As WitholdingTax In Me.m_entity.WitholdingTaxCollection
+                  key += 1
+
+                  If Not wht.RefDoc Is Nothing AndAlso (TypeOf wht.RefDoc Is PaySelection OrElse TypeOf wht.RefDoc Is ReceiveSelection) Then
+                    delCurrWHT(key) = wht
+                  End If
+                Next
+                For Each wht As WitholdingTax In delCurrWHT.Values
+                  If Me.m_entity.WitholdingTaxCollection.Contains(wht) Then
+                    Me.m_entity.WitholdingTaxCollection.Remove(wht)
+                  End If
+                Next
                 For Each wht As WitholdingTax In CType(payable, IWitholdingTaxable).WitholdingTaxCollection
                   wht.RefDoc = payable
                   wht.AutoGen = True
@@ -1958,7 +1973,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'Dim key As Integer
+      'Dim oldWht As New Hashtable
+      'For Each wht As WitholdingTax In Me.m_entity.WitholdingTaxCollection
+      '  key += 1
+      '  If Not wht.RefDoc Is Nothing AndAlso Object.ReferenceEquals(wht.RefDoc, doc) Then
+      '    oldWht(key) = wht
+      '  End If
+      'Next
+      'For Each wht As WitholdingTax In oldWht.Values
+      '  If oldWht.Contains(wht) Then
+      '    Me.m_entity.WitholdingTaxCollection.Remove(wht)
+      '  End If
+      'Next
       Me.m_entity.ItemCollection.Remove(doc)
+
       RefreshDocs()
       Me.tgItem.CurrentRowIndex = index
     End Sub
