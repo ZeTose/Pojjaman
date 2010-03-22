@@ -50,6 +50,14 @@ Namespace Longkong.AdobeForm
           g.FillRectangle(fillBr, Rect)
           g.DrawString("A/C PAYEE ONLY", CaptionFont, fontBr, Rect, sf)
 
+                    Dim l1 As New Point(Location.X, Location.Y)
+                    Dim r1 As New Point(Location.X + Width, Location.Y)
+
+                    Dim l2 As New Point(Location.X, Location.Y + Height)
+                    Dim r2 As New Point(Location.X + Width, Location.Y + Height)
+
+                    g.DrawLine(p, l1, r1)
+                    g.DrawLine(p, l2, r2)
         End If
       ElseIf Not Me.MapCaption Is Nothing AndAlso Me.MapCaption.ToLower = "=unbearer" Then
         '=unbearer
