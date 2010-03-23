@@ -595,7 +595,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.RefreshTaxBase()
         For Each item As GoodsReceiptItem In arr
           For Each wbsd As WBSDistribute In item.WBSDistributeCollection
-            Me.SetActual(wbsd.WBS, 0, item.BeforeTax * wbsd.Percent / 100, item.ItemType.Value)
+            wbsd.BaseCost = item.Cost
+            wbsd.TransferBaseCost = item.Cost
+            Me.SetActual(wbsd.WBS, 0, item.Cost * wbsd.Percent / 100, item.ItemType.Value)
             'Me.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
           Next
         Next

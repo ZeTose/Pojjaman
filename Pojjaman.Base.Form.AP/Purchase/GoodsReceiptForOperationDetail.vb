@@ -2358,7 +2358,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = flag
 
       RefreshDocs()
-
+      Me.m_entity.OnGlChanged()
       pOCodeChanged = False
     End Sub
     Private Sub ibtnShowToCostCenterDialog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowToCostCenterDialog.Click
@@ -2496,6 +2496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.JournalEntry.GLFormat = Me.m_entity.GetDefaultGLFormat
         End If
         Me.m_entity.JournalEntry.SetGLFormat(Me.m_entity.JournalEntry.GLFormat)
+        Me.m_entity.OnGlChanged()
       End If
     End Sub
   End Class

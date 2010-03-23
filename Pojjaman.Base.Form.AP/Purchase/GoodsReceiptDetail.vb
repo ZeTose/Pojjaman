@@ -4245,7 +4245,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
 			Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
 			Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-			Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+      Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
 			For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
 				vitem.PrintName = Me.m_entity.Supplier.Name
 				vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
@@ -4254,6 +4254,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			m_isInitialized = flag
 
 			RefreshDocs()
+      Me.m_entity.OnGlChanged()
 
 			pOCodeChanged = False
 		End Sub
