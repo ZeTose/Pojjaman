@@ -4217,11 +4217,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.RemainingQty
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.RemainingQty"
-          If remainQty = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(remainQty, DigitConfig.Price)
-          End If
+          dpi.Value = Configuration.FormatToString(remainQty, DigitConfig.Price)
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
