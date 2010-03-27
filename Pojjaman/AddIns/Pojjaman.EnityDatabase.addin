@@ -51,7 +51,10 @@
 
 			<MenuItem id="Purchase" insertafter="Customer" insertbefore="Subcontract" label="${res:MainMenu.PurchaseMenu}">
 				<MenuItem id="EditPR" icon="Icons.16x16.PR" label="${res:MainMenu.PurchaseMenu.PR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PR"/>
-				<MenuItem id="NewPO" icon="Icons.16x16.PO" label="${res:MainMenu.FileMenu.New.Po.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PO"/>
+				<MenuItem id="PO" icon="Icons.16x16.PO" label="${res:MainMenu.FileMenu.New.Po.Description}">
+					<MenuItem id="ListPO" icon="Icons.16x16.PO.list" label="${res:MainMenu.FileMenu.New.Po.List.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PO" />
+					<MenuItem id="NewPO" icon="Icons.16x16.PO.new" label="${res:MainMenu.PurchaseMenu.PO.New.Description}" class="Longkong.Pojjaman.Commands.CreateNewEntityFromMenu" entity="Longkong.Pojjaman.BusinessLogic.PO"/>
+				</MenuItem>
 				<MenuItem id="Separator" label="-"/>
 				<!--<MenuItem id="GoodsReceipt" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt"/>-->
         <MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:45|"/>

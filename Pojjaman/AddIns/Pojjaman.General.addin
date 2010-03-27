@@ -28,7 +28,7 @@
 			</Conditional>
 			<Conditional windowstate="None" nowindowstate="ViewOnly" action="Disable">
 				<MenuItem id="SaveAs" label="${res:MainMenu.FileMenu.SaveAs}" description="${res:MainMenu.FileMenu.SaveAs.Description}" class="Longkong.Pojjaman.Commands.SaveFileAs"/>
-			</Conditional>
+			</Conditional>			
 			<!--<Conditional openwindowstate="Dirty" action="Disable">
 				<MenuItem id="SaveAll" label="${res:MainMenu.FileMenu.SaveAll}" icon="Icons.16x16.SaveAllIcon" shortcut="Control|Shift|S" description="${res:MainMenu.FileMenu.SaveAll.Description}" class="Longkong.Pojjaman.Commands.SaveAllFiles"/>
 			</Conditional>-->

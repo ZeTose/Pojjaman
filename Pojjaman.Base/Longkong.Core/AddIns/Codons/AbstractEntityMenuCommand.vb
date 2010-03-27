@@ -44,7 +44,7 @@ Namespace Longkong.Core.AddIns.Codons
           Dim level As Integer = secSrv.GetAccess(accessID)
           Dim checkString As String = BinaryHelper.DecToBin(level, 5)
           checkString = BinaryHelper.RevertString(checkString)
-          Return CBool(checkString.Substring(0, 1)) And Me.m_isEnabled
+          Return CBool(checkString.Substring(ValidLevel, 1)) And Me.m_isEnabled
         End If
         Return Me.m_isEnabled
       End Get
@@ -59,6 +59,11 @@ Namespace Longkong.Core.AddIns.Codons
       Set(ByVal Value As String)
         m_entity = Value
       End Set
+    End Property
+    Public Overridable ReadOnly Property ValidLevel As Integer
+      Get
+        Return 0
+      End Get
     End Property
 #End Region
 

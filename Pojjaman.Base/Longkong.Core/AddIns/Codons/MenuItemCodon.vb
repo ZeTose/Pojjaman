@@ -160,6 +160,11 @@ Namespace Longkong.Core.AddIns.Codons
                 CType(command1, EditEntity).Label = Me.ForceLabel
                 CType(command1, EditEntity).ForceAccessId = Me.ForceAcessId
               End If
+              If TypeOf command1 Is CreateNewEntityFromMenu Then
+                CType(command1, CreateNewEntityFromMenu).Args = Me.Args
+                CType(command1, CreateNewEntityFromMenu).Label = Me.ForceLabel
+                CType(command1, CreateNewEntityFromMenu).ForceAccessId = Me.ForceAcessId
+              End If
             ElseIf TypeOf o Is IMenuCommand Then
               Dim command1 As IMenuCommand = CType(o, IMenuCommand)
               command1.Owner = owner

@@ -17,7 +17,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ListViewItemSelectionPanelView
     Inherits AbstractEntityPanelViewContent
-    Implements ISimpleListPanel
+    Implements ISimpleListPanel, ICanMove
 
 #Region " Windows Form Designer generated code "
 
@@ -968,6 +968,80 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub chkHilight_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilight.CheckedChanged
       SetStatusColor()
     End Sub
+
+#Region "ICanMove"
+    Public ReadOnly Property CanMoveNext As Boolean Implements ICanMove.CanMoveNext
+      Get
+        Dim itemCount As Integer = Me.lvItem.Items.Count
+        If itemCount > 0 Then
+          'มี Item
+          If Me.lvItem.SelectedItems.Count = 0 Then
+            'ไม่ได้เลือกอะไรเลย
+            Return True
+          End If
+          If Me.lvItem.SelectedIndices(0) < itemCount - 1 Then
+            'ยังไปต่อได้
+            Return True
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property CanMovePrevious As Boolean Implements ICanMove.CanMovePrevious
+      Get
+        Dim itemCount As Integer = Me.lvItem.Items.Count
+        If itemCount > 0 Then
+          'มี Item
+          If Me.lvItem.SelectedItems.Count = 0 Then
+            'ไม่ได้เลือกอะไรเลย
+            Return True
+          End If
+          If Me.lvItem.SelectedIndices(0) > 0 Then
+            'ยังไปต่อได้
+            Return True
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Sub MoveNext() Implements ICanMove.MoveNext
+      Dim selectedIndex As Integer = Me.lvItem.SelectedIndices(0)
+      Me.lvItem.Items(selectedIndex + 1).Selected = True
+      RefreshSelectedEntity() 'UNDONE********************
+      If Not m_selectedEntity Is Nothing Then
+        RemoveHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+        AddHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+      End If
+
+      For i As Integer = 1 To Me.WorkbenchWindow.SubViewContents.Count - 1
+        If TypeOf Me.WorkbenchWindow.SubViewContents(i) Is AbstractEntityDetailPanelView Then
+          Dim myView As AbstractEntityDetailPanelView = CType(Me.WorkbenchWindow.SubViewContents(i), AbstractEntityDetailPanelView)
+          myView.InitProgress()
+          myView.Entity = SelectedEntity
+          myView.EndProgress()
+        End If
+      Next
+    End Sub
+    Public Sub MovePrevious() Implements ICanMove.MovePrevious
+      Dim selectedIndex As Integer = Me.lvItem.SelectedIndices(0)
+      Me.lvItem.Items(selectedIndex - 1).Selected = True
+      RefreshSelectedEntity() 'UNDONE********************
+      If Not m_selectedEntity Is Nothing Then
+        RemoveHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+        AddHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+      End If
+
+      For i As Integer = 1 To Me.WorkbenchWindow.SubViewContents.Count - 1
+        If TypeOf Me.WorkbenchWindow.SubViewContents(i) Is AbstractEntityDetailPanelView Then
+          Dim myView As AbstractEntityDetailPanelView = CType(Me.WorkbenchWindow.SubViewContents(i), AbstractEntityDetailPanelView)
+          myView.InitProgress()
+          myView.Entity = SelectedEntity
+          myView.EndProgress()
+        End If
+      Next
+    End Sub
+#End Region
+    
   End Class
 End Namespace
 

@@ -10,6 +10,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Sub ChangeTitle(ByVal sender As Object, ByVal e As EventArgs)
         Property SelectedEntity() As BusinessLogic.ISimpleEntity
         Event EntitySelected As NamedEntityOperationDelegate
-    End Interface
+  End Interface
+  Public Interface ICanMove
+    ReadOnly Property CanMoveNext As Boolean
+    Sub MoveNext()
+    ReadOnly Property CanMovePrevious As Boolean
+    Sub MovePrevious()
+  End Interface
 End Namespace
 

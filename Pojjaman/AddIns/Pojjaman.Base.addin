@@ -60,9 +60,14 @@
 			<Conditional windowstate="Dirty,Untitled" nowindowstate="ViewOnly" action="Disable">
 				<ToolbarItem id="Save" icon="Icons.16x16.SaveIcon" tooltip="${res:XML.MainMenu.FileMenu.Save.Description}" class="Longkong.Pojjaman.Commands.SaveFile"/>
 			</Conditional>
-			<!--<Conditional openwindowstate="Dirty" action="Disable">
-				<ToolbarItem id="SaveAll" icon="Icons.16x16.SaveAllIcon" tooltip="${res:XML.MainMenu.FileMenu.SaveAll.Description}" class="Longkong.Pojjaman.Commands.SaveAllFiles"/>
-			</Conditional>-->
+			<ToolbarItem id="MoveSep1" tooltip="-"/>
+			<Conditional activewindow="*" action="Disable">
+				<ToolbarItem shortcut="F11" id="MovePrevious" icon="Icons.16x16.MovePrevious" tooltip="${res:XML.MainMenu.FileMenu.MovePrevious.Description}" class="Longkong.Pojjaman.Commands.MoveToPreviousEntity"/>
+			</Conditional>
+			<Conditional activewindow="*" action="Disable">
+				<ToolbarItem shortcut="F12" id="MoveNext" icon="Icons.16x16.MoveNext" tooltip="${res:XML.MainMenu.FileMenu.MoveNext.Description}" class="Longkong.Pojjaman.Commands.MoveToNextEntity"/>
+			</Conditional>
+			<ToolbarItem id="MoveSep2" tooltip="-"/>
 			<Conditional cancelable="True" action="Disable">
 				<ToolbarItem id="CancelEntity" icon="Icons.16x16.DocumentStop" tooltip="${res:XML.MainMenu.FileMenu.CancelEntity.Description}" class="Longkong.Pojjaman.Commands.CancelEntity"/>
 			</Conditional>
