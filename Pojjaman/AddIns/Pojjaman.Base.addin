@@ -60,6 +60,9 @@
 			<Conditional windowstate="Dirty,Untitled" nowindowstate="ViewOnly" action="Disable">
 				<ToolbarItem id="Save" icon="Icons.16x16.SaveIcon" tooltip="${res:XML.MainMenu.FileMenu.Save.Description}" class="Longkong.Pojjaman.Commands.SaveFile"/>
 			</Conditional>
+			<Conditional windowstate="Dirty,Untitled" nowindowstate="ViewOnly" action="Disable">
+				<ToolbarItem shortcut="Control|Shift|S" id="SaveAndContitune" icon="Icons.16x16.SaveAndContituneIcon" tooltip="${res:XML.MainMenu.FileMenu.SaveAndContitune.Description}" class="Longkong.Pojjaman.Commands.SaveAndContitune"/>
+			</Conditional>
 			<ToolbarItem id="MoveSep1" tooltip="-"/>
 			<Conditional activewindow="*" action="Disable">
 				<ToolbarItem shortcut="F11" id="MovePrevious" icon="Icons.16x16.MovePrevious" tooltip="${res:XML.MainMenu.FileMenu.MovePrevious.Description}" class="Longkong.Pojjaman.Commands.MoveToPreviousEntity"/>
