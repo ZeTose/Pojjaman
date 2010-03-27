@@ -49,7 +49,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared ReadOnly Property AllLciitems As Hashtable
       Get
         If m_AllLciitems Is Nothing Then
-          RefreshData()
+          RefreshAllData()
         End If
         Return m_AllLciitems
       End Get
@@ -553,8 +553,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'myDatatable.Columns.Add(New DataColumn("lci_note", GetType(String)))
     'Return myDatatable
     'End Function
-    Public Shared Sub RefreshData(ByVal ParamArray commandParameters() As SqlParameter)
+    Public Shared Sub RefreshAllData()
       LCIItem.m_AllLciitems = New Hashtable
+      Dim key As String = ""
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetLCICollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          key = CStr(drh.GetValue(Of Integer)("lci_id"))
+          LCIItem.m_AllLciitems(key) = row
+        Next
+      End If
+    End Sub
+    Public Shared Sub RefreshData(ByVal ParamArray commandParameters() As SqlParameter)
       Dim key As String = ""
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
@@ -567,7 +582,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(row)
           key = CStr(drh.GetValue(Of Integer)("lci_id"))
-          LCIItem.m_AllLciitems(key) = row
         Next
       End If
     End Sub
