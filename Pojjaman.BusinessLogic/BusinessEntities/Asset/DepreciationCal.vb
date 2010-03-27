@@ -32,6 +32,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_je As JournalEntry
     Private m_blankline As Integer
+    Private m_istransfer As Boolean
+
 #End Region
 
 #Region " Constructors "
@@ -63,6 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docdate
         m_blankline = 0
+        .m_istransfer = False
       End With
       m_itemCollection = New DepreciationCalItemCollection(Me)
     End Sub
@@ -112,6 +115,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") _
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
           Me.Status = New StockStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_istransfer") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_istransfer") Then
+          .m_istransfer = CBool(dr(aliasPrefix & Me.Prefix & "_istransfer"))
         End If
 
         m_itemCollection = New DepreciationCalItemCollection(Me)
@@ -233,6 +241,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ret
       End Get
     End Property
+
+    Public Property IsTransfer As Boolean
+      Get
+        Return m_istransfer
+      End Get
+      Set(ByVal value As Boolean)
+        m_istransfer = value
+      End Set
+    End Property
+
 #End Region
 
 #Region " Overrides "
@@ -1287,7 +1305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Dim oEntity As New Asset(theCode)
       If oEntity.Originated Then
-        If Not oEntity.ValidCostCenter(Me.DepreciationCal.FromCostcenter) Then
+        If Me.DepreciationCal.IsTransfer AndAlso Not oEntity.ValidCostCenter(Me.DepreciationCal.FromCostcenter) Then
           ' เตือนไม่มีใน costcenter
           msgServ.ShowWarningFormatted("${res:Global.Error.NoAssetCostcenter}", Me.DepreciationCal.FromCostcenter.Name)
           Return

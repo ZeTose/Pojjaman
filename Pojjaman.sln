@@ -94,6 +94,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "WinFormsUI\Wi
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.Base.Loan", "Pojjaman.Base.Loan\Pojjaman.Base.Loan.vbproj", "{33F09DAE-05F8-492A-A6CC-42879721AF23}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "AssetModel", "AssetModel\AssetModel.modelproj", "{FF9C38ED-DDD9-4835-B156-DC2C43633A37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BusinessLogic|Any CPU = BusinessLogic|Any CPU
@@ -1050,6 +1052,26 @@ Global
 		{33F09DAE-05F8-492A-A6CC-42879721AF23}.Release|Mixed Platforms.Build.0 = Release|x86
 		{33F09DAE-05F8-492A-A6CC-42879721AF23}.Release|x86.ActiveCfg = Release|x86
 		{33F09DAE-05F8-492A-A6CC-42879721AF23}.Release|x86.Build.0 = Release|x86
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.BusinessLogic|Any CPU.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.BusinessLogic|Any CPU.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.BusinessLogic|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.BusinessLogic|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.BusinessLogic|x86.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Forms-Reports|Any CPU.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Forms-Reports|Any CPU.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Forms-Reports|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Forms-Reports|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Forms-Reports|x86.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF9C38ED-DDD9-4835-B156-DC2C43633A37}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

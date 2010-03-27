@@ -514,6 +514,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_status As AssetStatus
 
     Private m_itemTable As TreeTable
+
+    Private m_Deprebase As Decimal
+    Private m_eqt As EquipmentTool
+
 #End Region
 
 #Region "Constructors"
@@ -704,7 +708,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				.m_cc = New Costcenter
 				.m_project = New Project
 
-				.m_salvage = 1
+        .m_salvage = 1
+        .m_eqt = New EquipmentTool
 			End With
 		End Sub
 		Private m_constructing As Boolean = False
@@ -920,13 +925,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startCalcAmt") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startCalcAmt") Then
 					.m_startCalcAmt = CDec(dr(aliasPrefix & Me.Prefix & "_startCalcAmt"))
-				End If
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_deprebase") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_deprebase") Then
+          .m_Deprebase = CDec(dr(aliasPrefix & Me.Prefix & "_deprebase"))
+        End If
 
 				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_calcType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_calcType") Then
 					.m_calcType = New AssetCalcType(CInt(dr(aliasPrefix & Me.Prefix & "_calcType")))
 				Else
 					.m_calcType = New AssetCalcType(0)
-				End If
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_eqtid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_eqtid") Then
+          .m_eqt = New EquipmentTool(CInt(dr(aliasPrefix & Me.Prefix & "_eqtid")), CInt(dr(aliasPrefix & Me.Prefix & "_eqttype")))
+        End If
 
 				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_age") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_age") Then
 					.m_age = CInt(dr(aliasPrefix & Me.Prefix & "_age"))
@@ -1421,240 +1434,260 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Decimal)
                 m_balance = Value
             End Set
-        End Property
+    End Property
 
-        Public Property StartBalance() As Decimal
-            Get
-                Return m_startBalance
-            End Get
-            Set(ByVal Value As Decimal)
-                m_startBalance = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property DepreBase As Decimal
+      Get
+        Return m_Deprebase
+      End Get
+      Set(ByVal value As Decimal)
+        m_Deprebase = value
+      End Set
+    End Property
 
-        Public Property SaleDate() As Date
-            Get
-                Return m_saleDate
-            End Get
-            Set(ByVal Value As Date)
-                m_saleDate = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public ReadOnly Property DepreAmount As Decimal
+      Get
+        Return m_Deprebase * CalcRate
+      End Get
+    End Property
 
-        Public Property SalePrice() As Decimal
-            Get
-                Return m_salePrice
-            End Get
-            Set(ByVal Value As Decimal)
-                m_salePrice = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public ReadOnly Property Eqt As EquipmentTool
+      Get
+        Return m_eqt
+      End Get
+    End Property
+    Public Property StartBalance() As Decimal
+      Get
+        Return m_startBalance
+      End Get
+      Set(ByVal Value As Decimal)
+        m_startBalance = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property BalanceAtSaleDate() As Decimal
-            Get
-                Return m_balanceAtSaleDate
-            End Get
-            Set(ByVal Value As Decimal)
-                m_balanceAtSaleDate = Value
-            End Set
-        End Property
+    Public Property SaleDate() As Date
+      Get
+        Return m_saleDate
+      End Get
+      Set(ByVal Value As Date)
+        m_saleDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property SaleDocCode() As String
-            Get
-                Return m_saleDocCode
-            End Get
-            Set(ByVal Value As String)
-                m_saleDocCode = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property SalePrice() As Decimal
+      Get
+        Return m_salePrice
+      End Get
+      Set(ByVal Value As Decimal)
+        m_salePrice = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property SaleDocDate() As Date
-            Get
-                Return m_saleDocDate
-            End Get
-            Set(ByVal Value As Date)
-                m_saleDocDate = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property BalanceAtSaleDate() As Decimal
+      Get
+        Return m_balanceAtSaleDate
+      End Get
+      Set(ByVal Value As Decimal)
+        m_balanceAtSaleDate = Value
+      End Set
+    End Property
 
-        Public Property Buyer() As String
-            Get
-                Return m_buyer
-            End Get
-            Set(ByVal Value As String)
-                m_buyer = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property SaleDocCode() As String
+      Get
+        Return m_saleDocCode
+      End Get
+      Set(ByVal Value As String)
+        m_saleDocCode = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property InsuranceCode() As String
-            Get
-                Return m_InsuranceCode
-            End Get
-            Set(ByVal Value As String)
-                m_InsuranceCode = Value
-            End Set
-        End Property
+    Public Property SaleDocDate() As Date
+      Get
+        Return m_saleDocDate
+      End Get
+      Set(ByVal Value As Date)
+        m_saleDocDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property SaftyCode() As String
-            Get
-                Return m_saftyCode
-            End Get
-            Set(ByVal Value As String)
-                m_saftyCode = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property Buyer() As String
+      Get
+        Return m_buyer
+      End Get
+      Set(ByVal Value As String)
+        m_buyer = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property SaftyCompany() As String
-            Get
-                Return m_saftyCompany
-            End Get
-            Set(ByVal Value As String)
-                m_saftyCompany = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property InsuranceCode() As String
+      Get
+        Return m_InsuranceCode
+      End Get
+      Set(ByVal Value As String)
+        m_InsuranceCode = Value
+      End Set
+    End Property
 
-        Public Property InsurancePremium() As Decimal
-            Get
-                Return m_insurancePremium
-            End Get
-            Set(ByVal Value As Decimal)
-                m_insurancePremium = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property SaftyCode() As String
+      Get
+        Return m_saftyCode
+      End Get
+      Set(ByVal Value As String)
+        m_saftyCode = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property InsuranceAge() As Integer
-            Get
-                Return m_insuranceAge
-            End Get
-            Set(ByVal Value As Integer)
-                m_insuranceAge = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property SaftyCompany() As String
+      Get
+        Return m_saftyCompany
+      End Get
+      Set(ByVal Value As String)
+        m_saftyCompany = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property InsuranceStartDate() As Date
-            Get
-                Return m_insuranceStartDate
-            End Get
-            Set(ByVal Value As Date)
-                m_insuranceStartDate = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property InsurancePremium() As Decimal
+      Get
+        Return m_insurancePremium
+      End Get
+      Set(ByVal Value As Decimal)
+        m_insurancePremium = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property InsuranceEndDate() As Date
-            Get
-                Return m_InsuranceEndDate
-            End Get
-            Set(ByVal Value As Date)
-                m_InsuranceEndDate = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property InsuranceAge() As Integer
+      Get
+        Return m_insuranceAge
+      End Get
+      Set(ByVal Value As Integer)
+        m_insuranceAge = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property Note() As String
-            Get
-                Return m_note
-            End Get
-            Set(ByVal Value As String)
-                m_note = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
-        Public Property FirstYearRate() As Decimal
-            Get
-                Return m_firstYearRate
-            End Get
-            Set(ByVal Value As Decimal)
-                m_firstYearRate = Value
-            End Set
-        End Property
-        Public Property Costcenter() As Costcenter
-            Get
-                Return m_cc
-            End Get
-            Set(ByVal Value As Costcenter)
-                m_cc = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property InsuranceStartDate() As Date
+      Get
+        Return m_insuranceStartDate
+      End Get
+      Set(ByVal Value As Date)
+        m_insuranceStartDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property Project() As Project
-            Get
-                Return m_project
-            End Get
-            Set(ByVal Value As Project)
-                m_project = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
-        Public Property LCI() As LCIItem
-            Get
-                Return m_lci
-            End Get
-            Set(ByVal Value As LCIItem)
-                m_lci = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
-        Public Overrides Property Status() As CodeDescription
-            Get
-                Return m_status
-            End Get
-            Set(ByVal Value As CodeDescription)
-                m_status = CType(Value, AssetStatus)
-            End Set
-        End Property
+    Public Property InsuranceEndDate() As Date
+      Get
+        Return m_InsuranceEndDate
+      End Get
+      Set(ByVal Value As Date)
+        m_InsuranceEndDate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "Asset"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.Asset.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.Asset"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.Asset"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.Asset.ListLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property Prefix() As String
-            Get
-                Return "asset"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property TabPageText() As String
-            Get
-                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-                Dim blankSuffix As String = "()"
-                If tpt.EndsWith(blankSuffix) Then
-                    tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
-                End If
-                Return tpt
-            End Get
-        End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property FirstYearRate() As Decimal
+      Get
+        Return m_firstYearRate
+      End Get
+      Set(ByVal Value As Decimal)
+        m_firstYearRate = Value
+      End Set
+    End Property
+    Public Property Costcenter() As CostCenter
+      Get
+        Return m_cc
+      End Get
+      Set(ByVal Value As CostCenter)
+        m_cc = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+
+    Public Property Project() As Project
+      Get
+        Return m_project
+      End Get
+      Set(ByVal Value As Project)
+        m_project = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property LCI() As LCIItem
+      Get
+        Return m_lci
+      End Get
+      Set(ByVal Value As LCIItem)
+        m_lci = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Overrides Property Status() As CodeDescription
+      Get
+        Return m_status
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_status = CType(Value, AssetStatus)
+      End Set
+    End Property
+
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "Asset"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Asset.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.Asset"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.Asset"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Asset.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "asset"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
@@ -1776,7 +1809,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-    Public Function ValidCostCenter(ByVal cc As Costcenter) As Boolean
+    Public Function ValidCostCenter(ByVal cc As CostCenter) As Boolean
       If Not Me.Costcenter Is Nothing AndAlso cc.Id = Me.Costcenter.Id Then
         Return True
       End If
@@ -1877,7 +1910,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Last Date"
     Private m_lastdateYTD As Date
     Private m_lastdateLTD As Date
-    Private m_lastLocation As Costcenter
+    Private m_lastLocation As CostCenter
     Public ReadOnly Property LastdateYTD() As Date
       Get
         Return m_lastdateYTD
@@ -1894,7 +1927,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Not m_lastdateLTD.Equals(Date.MinValue)
       End Get
     End Property
-    Public ReadOnly Property LastLocation() As Costcenter
+    Public ReadOnly Property LastLocation() As CostCenter
       Get
         RefreshLastModified(Nothing)
         If m_lastLocation Is Nothing Then
@@ -1954,7 +1987,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If ds.Tables.Count > 1 Then
         m_lastLocation = Nothing
         If ds.Tables(1).Rows.Count = 1 Then
-          m_lastLocation = New Costcenter(ds.Tables(1).Rows(0), "")
+          m_lastLocation = New CostCenter(ds.Tables(1).Rows(0), "")
         End If
       End If
     End Sub
@@ -2014,7 +2047,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
 
-     
+
       Dim DepreValue As Double = 0
       Dim DepreOpeningValue As Double = 0
       Dim DepreOpeningDayRange As Long = 0
@@ -2329,54 +2362,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_firstYearRate", Me.FirstYearRate))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_project", IIf(Me.Project.Valid, Me.Project.Id, DBNull.Value)))
-			paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
 
-			If Not (Me.LCI Is Nothing) Then
-				paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lci", IIf(Me.LCI.Originated, Me.LCI.Id, DBNull.Value)))
-			End If
+      If Not (Me.LCI Is Nothing) Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lci", IIf(Me.LCI.Originated, Me.LCI.Id, DBNull.Value)))
+      End If
 
-			paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", IIf(Me.Costcenter.Originated, Me.Costcenter.Id, DBNull.Value)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", IIf(Me.Costcenter.Originated, Me.Costcenter.Id, DBNull.Value)))
 
-			SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-			' สร้าง SqlParameter จาก ArrayList ...
-			Dim sqlparams() As SqlParameter
-			sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-			Dim trans As SqlTransaction
-			Dim conn As New SqlConnection(Me.ConnectionString)
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
 
-			If conn.State = ConnectionState.Open Then conn.Close()
-			conn.Open()
-			trans = conn.BeginTransaction
+      If conn.State = ConnectionState.Open Then conn.Close()
+      conn.Open()
+      trans = conn.BeginTransaction
 
-			Dim oldid As Integer = Me.Id
+      Dim oldid As Integer = Me.Id
 
-			Try
-				Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
 
-				' Insert AssetImage ...
-				If Me.Originated Then
-					paramArrayList = New ArrayList
-					paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
-					Me.PrepareImageParams(paramArrayList)
-					sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-					SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
-				End If
-				SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_AssetRef", New SqlParameter() {New SqlParameter("@refto_id", Me.Id)})
-				trans.Commit()
-				Return New SaveErrorException(returnVal.Value.ToString)
-			Catch ex As SqlException
-				trans.Rollback()
-				Me.ResetID(oldid)
-				Return New SaveErrorException(ex.Message)
-			Catch ex As Exception
-				trans.Rollback()
-				Me.ResetID(oldid)
-				Return New SaveErrorException(ex.Message)
-			Finally
-				conn.Close()
-			End Try
+        ' Insert AssetImage ...
+        If Me.Originated Then
+          paramArrayList = New ArrayList
+          paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+          Me.PrepareImageParams(paramArrayList)
+          sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_AssetRef", New SqlParameter() {New SqlParameter("@refto_id", Me.Id)})
+        trans.Commit()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        trans.Rollback()
+        Me.ResetID(oldid)
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Me.ResetID(oldid)
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
     End Function
 
     Public Function GetDrForWithDraw() As DataRow
@@ -2423,6 +2456,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
 #End Region
+
 
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
@@ -2893,11 +2927,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-    Public Property ToCC() As Costcenter Implements IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
         Return Me.Costcenter
       End Get
-      Set(ByVal Value As Costcenter)
+      Set(ByVal Value As CostCenter)
         Me.Costcenter = Value
       End Set
     End Property
@@ -4662,5 +4696,33 @@ Public Class DepreItemCollection
       End Sub
 
     End Class
+  End Class
+  Public Class EquipmentTool
+
+#Region "members"
+    Public EqtId As Integer
+    Public EqtCode As String
+    Public EqtName As String
+    Public EqtType As Integer
+    Public ItemId As Integer
+    Public ItemCode As String
+    Public ItemName As String
+#End Region
+
+#Region "Properties"
+
+#End Region
+
+    Sub New(ByVal pitemId As Integer, ByVal pitemType As Integer)
+      ' TODO: Complete member initialization 
+      ItemId = pitemId
+      EqtType = pitemType
+
+    End Sub
+
+    Sub New()
+      ' TODO: Complete member initialization 
+    End Sub
+
   End Class
 End Namespace

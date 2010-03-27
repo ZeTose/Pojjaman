@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="2fe093e6-b1db-4e5b-934c-b984b1482d33" name="AssetEqTool" linkedPackageId="97878037-cda6-4be1-a8ed-5b64941b1772" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="44c9dd53-c2da-41fd-aa30-55be05d67d55" name="Asset" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ea316703-ed53-4bf4-995b-52b5e181bfd3" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ff5e7077-dfba-430d-8a58-b1d255e29bd0" name="Tool" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="9e997e0d-3553-410d-aab0-56a08c4bc7d6" name="specification" profile="StandardProfileL2">
+            <elementDefinition Id="df25e017-b5a1-4a80-bd7d-1ab3cb4fb81a" />
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="ed058214-be10-4573-bfef-082004c286ef" />
+        <ownedAttributesInternal>
+          <property Id="03c7e480-d731-4cdc-9a30-29bf46b83246" name="RentRate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="88849704-6c3f-4af4-8c8b-6827f451bdfa" />
+          </property>
+          <property Id="97df0a5f-aaa8-48eb-90ad-d15b8bf37c92" name="Name" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="06ab0da1-f50b-4d89-a0f9-1cd55a1b82a3" />
+          </property>
+          <property Id="b68ab8ea-892e-4724-99ab-4805c5bbb787" name="ToolType" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e29c7974-7a74-442a-a8d8-6c384a4bb03b" />
+          </property>
+          <property Id="cedc33b7-14b7-4d7d-bc9a-49cecb2d378a" name="Qty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="55a1b019-1d81-41f0-9e32-412d82ec3b87" />
+          </property>
+          <property Id="e7ecf242-8e71-4e4b-a403-04903f67246f" name="ToollotCollection" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2c900344-574b-4fd4-b3ab-86bfaa9b8b88" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="31d6fcec-530f-422f-a251-57634ba4f473" name="Equipment" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="f5470d3b-2691-483e-aa48-d43e4d91aa16" name="specification" profile="StandardProfileL2">
+            <elementDefinition Id="3af1eba3-b11c-4f3a-ad26-e9275c1bb490" />
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="2cec2531-9e11-421b-9a18-840b4998c4f1" />
+        <ownedAttributesInternal>
+          <property Id="7c77608f-1e1e-4148-a01f-d61ac9755f91" name="Name" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c0ccb0c9-35ce-4720-9e2c-955a86c7e2c5" />
+          </property>
+          <property Id="0fc08e60-cf13-4093-98ed-97ea8b8c70db" name="EqType" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3ae8f7bf-205a-4373-b7d4-ef7c1d32c7ef" />
+          </property>
+          <property Id="ba9abd9d-74ef-4c70-bc67-3fd869a99edb" name="RentRate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="874f8657-9de6-4dfc-b730-5c2a988e6be5" />
+          </property>
+          <property Id="7d1bc150-fc02-49fd-b004-e10881dbfc1c" name="Qty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e360f4af-0383-45e9-8134-3748e98de3d5" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e355eaf7-2fb3-4c18-be85-9dd6fa6d0e80" name="ToolLot" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e41aef65-d87d-4a63-b99e-92534038fd6c" />
+        <targetEnds>
+          <association Id="984828eb-1f97-4613-9772-c227d961af8a" isDerived="false" sourceEndRoleName="ToolLot" targetEndRoleName="Tool" isLeaf="false" isAbstract="false">
+            <classMoniker Id="ff5e7077-dfba-430d-8a58-b1d255e29bd0" LastKnownName="Tool" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c8e22b6a-f832-4644-bd6c-e471303b5f57" name="ToolLot" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="42a022c5-ae3c-4176-9c82-77890e2375a5" name="Lower" value="Many">
+                      <elementDefinition Id="09758406-3582-482c-9311-ac5cb6c0ba0f" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="e420925c-6a4f-44ae-a1d5-dd323609ee55" name="Upper" value="Many">
+                      <elementDefinition Id="ca4eea20-5b2b-4199-97e6-b41563700a37" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="f7765f8c-e9cf-4a96-b8e6-79ecafcd3a22" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d65772f9-31c1-4d29-8f49-91eb452b2050" name="Tool" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4b53610d-7144-43f5-992b-2c1c10b8bac5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4fbbb774-99ad-47af-b4f6-3fcfb06def77" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="6336f0d8-2b44-4749-9a57-adde8fc12996" name="Tool" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="da324ed2-56ec-4681-8741-27d58eba3d9b" />
+          </property>
+          <property Id="87f3e52e-6933-430b-9c03-4ffff5957f58" name="Qty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d89da9a5-2ebe-4f87-a5ae-f05856dfe6ae" />
+          </property>
+          <property Id="838051ab-089e-4879-8d45-8156d2b8c46d" name="RemainQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f4b2f6cc-df2d-4513-ac04-17d174459aa9" />
+          </property>
+          <property Id="6465bbbf-3be7-4193-a287-5ba797401db4" name="RefItem" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d3c667a8-f75b-4619-be34-cd25ebb40e5d" />
+          </property>
+          <property Id="2373ada4-8b52-41c7-8854-a9bf92a505b2" name="RefAsset" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4116e5eb-57d0-4277-8bc2-1b3652079521" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="0f0a1c89-33f4-48cc-bfa7-2c2526d320d5" name="EquipmentItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="5885be49-a8f4-443b-a309-aab819d4d676" />
+        <ownedAttributesInternal>
+          <property Id="ee803e25-53d4-4d3f-929e-b2815b877178" name="ID" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fd796b57-f39a-4d2e-aec0-a24d67598ac4" />
+          </property>
+          <property Id="e925d7d2-3c11-4918-bff2-c69bff43d007" name="License" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cd626774-5fc0-4211-a4ab-e16d51643578" />
+          </property>
+          <property Id="ac99a53a-63a0-4769-b4a7-8a7cc371dfdc" name="Serail" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2c5f0981-950c-41a9-bf90-a9eb893e339e" />
+          </property>
+          <property Id="ae822b65-f65c-4643-b3cc-2ff31c50dee9" name="Equipment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="52813a70-02c6-4d9a-8d9e-67e6baaa71de" />
+          </property>
+          <property Id="494966ec-f4e6-4cc5-8504-77eee207a157" name="Status" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="886983d4-d941-4ddf-be27-568b4f07496f" />
+          </property>
+          <property Id="372b029e-8fbb-4c27-8011-4732c9122037" name="RentRate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cdafe330-5f89-4251-9009-bce3ccbc4df1" />
+          </property>
+          <property Id="de80fb5d-547c-4712-8cd3-1af6f14652a7" name="Description" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2fdab19d-281d-4b34-bd97-280ac7edd076" />
+          </property>
+          <property Id="80d1ff65-367b-4800-8b40-a4ed2d8f46ef" name="RefItem" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="76fb4f95-4f96-4b6a-9b48-06d1a84a75f5" />
+          </property>
+          <property Id="423fbb99-d74d-4f43-9d36-d2ea5ec1baeb" name="RefAsset" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="400003be-6949-4369-85e5-bed73ae72c4e" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="292275a1-c677-427d-abe5-f5e6ef46dc62" name="IcanRental" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a6bad7eb-84d9-4e07-8f77-d232d8f85ea7" />
+        <ownedAttributes>
+          <property Id="4974cb44-8b6a-4e0a-968b-1c349f54bcec" name="RentRate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6c3df066-236e-49df-8c78-56632a42cae7" />
+          </property>
+        </ownedAttributes>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f363c487-f1a2-47dc-ac4a-d9fa79a7a919" name="EqToolItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <description>เอาไว้เป็น Item ตั้งต้นของณItem ที่ไปใช้ในเอกสารด้านนี้</description>
+        <elementDefinition Id="7dc46a0d-e3b0-4b89-8c34-3866a332a092" />
+        <ownedAttributesInternal>
+          <property Id="c9f2335f-2f29-478d-995f-7a66dc9d9968" name="id" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="40421299-1ca7-4478-b918-3d20d8e2bc3d" />
+          </property>
+          <property Id="6852ed74-8594-4f94-bb31-443ea0056cab" name="Name" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3afe882c-33af-45eb-a38f-2e082f0c119a" />
+          </property>
+          <property Id="5fcec222-b82b-40b5-8ba2-206697066d67" name="Itemqty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="319c1183-8173-433e-aa58-f82bbb4a47f8" />
+          </property>
+          <property Id="08bb2d77-3542-47d5-b201-3ce7c7d9fd8e" name="RentRate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="223d52a9-1f8f-4418-aeb8-53be859d33cf" />
+          </property>
+          <property Id="193d4432-92ac-4a5f-b560-885ac5758703" name="isEquipment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9f81c8b2-930f-4382-a067-e95756f2b4e6" />
+          </property>
+          <property Id="489226cf-5af5-443f-8788-5f80fe705f40" name="EqId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0d3f31ea-8b32-4597-945c-c37fc461789b" />
+          </property>
+          <property Id="1daf8d1e-2e0a-4e95-8502-33e9442ad73b" name="RentQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="60192267-2d7e-498d-8d7e-b6d1ccff0df5" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="09bc65b4-6c06-4740-96fe-014919e6a300" name="SetEquipment" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="0678326c-61e7-46f7-b031-d904f79e9311" />
+          </operation>
+          <operation Id="daad86ca-782f-46cf-b9bd-915ab483fa44" name="SetTool" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="3cd09bdb-18b2-4e26-9500-034952832169" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a8109b3a-0a06-4ea3-8f3a-36662fb28f0e" name="EQTWithdraw" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="02cba1f3-6751-479d-aa20-2e295fd9ecff" />
+        <ownedAttributesInternal>
+          <property Id="26b9b0e5-08cd-4e59-b5ac-2e68b7f748d7" name="IhasAllocate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2f47e9ee-3242-4a5b-9a88-7b61dd0f9a7a" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="963ec3fa-ee83-4be4-8266-3e11c773fabf" name="ChangeCC" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="4ee11b1d-fe3e-4320-87f0-0eec39c766f9" />
+          </operation>
+          <operation Id="f03e7282-1aaf-45df-88ca-cc3008e738c0" name="ChangeStatus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="cff7e3d3-7a34-456e-8449-822585efba87" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="6315a1e5-6780-47d8-b6f1-24edf046ee78" name="EQTReturn" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="9bd112db-b713-4e42-9e3d-5c8762031375" />
+        <ownedAttributesInternal>
+          <property Id="716c4e3a-5f27-4791-b710-4d11cc55c6c7" name="IhasAllocate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2571fc6a-d68b-4ffc-90b7-2cdad9c7238e" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="a4549acc-8078-475c-9528-4210c44229e3" name="ChangeCC" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="11132d13-b943-4727-8719-45edaafb9632" />
+          </operation>
+          <operation Id="52bf2f9f-5ba5-4a9c-a0a0-d6ff5873f548" name="ChangeStatus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="631575fa-bfcd-4cfc-97cd-432739bb1fef" />
+          </operation>
+          <operation Id="d6c99cdf-231a-44fb-b2e2-4267fa5880b6" name="CalcInternalCharge" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ccd5e755-a3bb-4a1f-9be1-b9840d75223b" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b6c420d3-ee75-4a27-a8b7-fe6edab38b09" name="EQTChangeStatus" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="46e50d1b-91cd-4fba-8212-74f737a83c58" />
+        <ownedAttributesInternal>
+          <property Id="99a54f42-de85-4be3-bdbf-52398ac5a046" name="IhasAllocate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f70e1827-4791-4bc6-b4a1-1944c980380f" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="9a96c495-28b1-4b44-b424-2eee2d080115" name="ChangeStatus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="cba1ea8b-13d5-4630-aba4-92cf893c00ef" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d6f638fe-0b45-4f6c-bd66-4fe4afd6f08a" name="Write-off Asset" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="f806aa68-fbd0-4f68-803b-1124acdf7af4" />
+        <ownedOperationsInternal>
+          <operation Id="6d4c7416-003c-4787-88ea-0da495a844ea" name="ChangeStatus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="16a074b7-d6a9-4a08-823d-e033e7c3daec" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="20830f48-cefe-4815-a973-b62092e92949" name="CalcDepre" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="afd6880b-fbae-454f-824f-209739b2c26a" />
+        <ownedOperationsInternal>
+          <operation Id="0f54ef1a-2b51-4477-803c-fd5c98f22e69" name="CalcDepre" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="bbe4460e-8b94-4711-bc99-a1e34d73c587" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="7df69680-f2a6-4cc7-b571-e6dabec3158b" name="AddValuetoAsset" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6a018b2f-2b60-40da-b8b3-dfb51d665c59" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="8496694b-e920-48b1-9e4c-e9525dd79ab5" name="EQTRental" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="1c7779bf-4278-41a4-9f93-1f506cff3439" />
+        <ownedOperationsInternal>
+          <operation Id="75a367c6-bfbe-424c-a302-0ba4346a0edf" name="ChangeStatus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="702aa00a-7c3b-412d-9ca2-c84740a76f98" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c8816bd0-6063-41ae-a446-ab9e03bacd30" name="EquipmentTool" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="3995f79f-a2d7-4d9b-a29f-32bc6c4e204a" />
+        <ownedAttributesInternal>
+          <property Id="54cab5d5-5ebf-45e7-9ff8-507c731dcd97" name="m_eqttypeId" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="36ee2396-a661-44ce-a4b9-83fcdf1d93dd" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="63d04f2e-b55d-49b1-88c0-5984cb70eeb6" LastKnownName="Integer" />
+            </type_NamedElement>
+          </property>
+          <property Id="4e568da3-5b5d-4298-856d-59f3eb9e45e8" name="m_itemId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cb4b67ae-7371-4b6c-afcb-ed0f9890d891" />
+          </property>
+          <property Id="badd877c-01a1-4fe3-91c2-28710b784ad9" name="m_Type" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3a4163c1-f8ed-4fdf-b03d-af03a154939b" />
+          </property>
+          <property Id="06194fdf-e21b-4a6f-87a4-492e4fd7e4e6" name="m_eqttypeName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="96b969da-5ac0-4cdf-a9ec-ebb37bb25b63" />
+          </property>
+          <property Id="7ef34f73-45db-469c-ab61-4f5acbeca684" name="m_eqttypecode" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="00b129b9-5481-4bc7-974a-2a317268c4c3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0bf9ab78-fcdc-4553-ae71-72a4590f2b92" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="1a91b0ae-d447-4149-81c9-cb3a569cebd5" name="m_itemcode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e668a19e-ecee-4ba8-a1b2-b50a80a81949" />
+          </property>
+          <property Id="430e2a3f-d65f-45cf-9cf2-95350442e548" name="m_itemname" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ec750b4f-8a96-4105-8478-e43ce4f4dc78" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="0bf9ab78-fcdc-4553-ae71-72a4590f2b92" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="63d04f2e-b55d-49b1-88c0-5984cb70eeb6" name="Integer" isAbstract="false" isLeaf="false" cachedFullName="Integer">
+        <elementDefinition Id="220a3521-e091-4221-bae9-3ef9018e845c" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="97878037-cda6-4be1-a8ed-5b64941b1772" name="AssetModel">
+    <elementDefinition Id="0e5f3d5d-8d2e-4208-9a2a-bb00df263e83" />
+    <profileInstances>
+      <packageHasProfileInstances Id="a6e3d5f8-db7c-4ee0-afba-b9da88a97d64">
+        <profileInstance Id="82f3bee4-85a8-4def-bceb-f3444ab94455" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="38379426-0712-41ec-8545-f0f1344ba424">
+        <profileInstance Id="5e519d89-327b-4dbb-99dd-73aeaa66ad0d" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

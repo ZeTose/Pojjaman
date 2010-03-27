@@ -39,28 +39,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblItem As System.Windows.Forms.Label
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents grbTransIN As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents btnPersonInFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnPersonInEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnCCInFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnCCInEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtCCInName As System.Windows.Forms.TextBox
-    Friend WithEvents txtPersonInName As System.Windows.Forms.TextBox
-    Friend WithEvents txtCCInCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblPersonIn As System.Windows.Forms.Label
-    Friend WithEvents lblCCIn As System.Windows.Forms.Label
-    Friend WithEvents txtPersonInCode As System.Windows.Forms.TextBox
-    Friend WithEvents grbTransOut As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents btnPersonOutFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnPersonOutEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnCCOutFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtCCOutName As System.Windows.Forms.TextBox
-    Friend WithEvents txtPersonOutCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblPersonOut As System.Windows.Forms.Label
-    Friend WithEvents lblCCOut As System.Windows.Forms.Label
-    Friend WithEvents btnCCOutEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtCCOutCode As System.Windows.Forms.TextBox
-    Friend WithEvents txtPersonOutName As System.Windows.Forms.TextBox
     Friend WithEvents txtItemCount As System.Windows.Forms.TextBox
     Friend WithEvents lblItemCount As System.Windows.Forms.Label  '*****************
     Friend WithEvents lblItemCountUnit As System.Windows.Forms.Label
@@ -77,65 +55,46 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblItemCount4 As System.Windows.Forms.Label
     Friend WithEvents txtItemCount4 As System.Windows.Forms.TextBox
     Friend WithEvents lblItemCount5 As System.Windows.Forms.Label
+    Friend WithEvents lblTransferData As System.Windows.Forms.Label
+    Friend WithEvents btnTransferCC As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtItemCount5 As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(DepreciationCalDetail))
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.txtCCInCode = New System.Windows.Forms.TextBox
-      Me.txtPersonInCode = New System.Windows.Forms.TextBox
-      Me.txtPersonOutCode = New System.Windows.Forms.TextBox
-      Me.txtCCOutCode = New System.Windows.Forms.TextBox
-      Me.txtItemCount = New System.Windows.Forms.TextBox
-      Me.txtDepreDate = New System.Windows.Forms.TextBox
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtItemCount2 = New System.Windows.Forms.TextBox
-      Me.txtItemCount3 = New System.Windows.Forms.TextBox
-      Me.txtItemCount4 = New System.Windows.Forms.TextBox
-      Me.txtItemCount5 = New System.Windows.Forms.TextBox
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DepreciationCalDetail))
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.txtItemCount = New System.Windows.Forms.TextBox()
+      Me.txtDepreDate = New System.Windows.Forms.TextBox()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtItemCount2 = New System.Windows.Forms.TextBox()
+      Me.txtItemCount3 = New System.Windows.Forms.TextBox()
+      Me.txtItemCount4 = New System.Windows.Forms.TextBox()
+      Me.txtItemCount5 = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtCCInName = New System.Windows.Forms.TextBox
-      Me.txtPersonInName = New System.Windows.Forms.TextBox
-      Me.txtCCOutName = New System.Windows.Forms.TextBox
-      Me.txtPersonOutName = New System.Windows.Forms.TextBox
-      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.lblItemCountUnit = New System.Windows.Forms.Label
-      Me.grbTransIN = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnPersonInFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnPersonInEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnCCInFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnCCInEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblPersonIn = New System.Windows.Forms.Label
-      Me.lblCCIn = New System.Windows.Forms.Label
-      Me.grbTransOut = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnPersonOutFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnPersonOutEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnCCOutFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblPersonOut = New System.Windows.Forms.Label
-      Me.lblCCOut = New System.Windows.Forms.Label
-      Me.btnCCOutEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.lblDepreDate = New System.Windows.Forms.Label
-      Me.dtpDepreDate = New System.Windows.Forms.DateTimePicker
-      Me.lblItemCount2 = New System.Windows.Forms.Label
-      Me.lblItemCount = New System.Windows.Forms.Label
-      Me.lblItemCount4 = New System.Windows.Forms.Label
-      Me.lblItemCount3 = New System.Windows.Forms.Label
-      Me.lblItemCount5 = New System.Windows.Forms.Label
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblTransferData = New System.Windows.Forms.Label()
+      Me.btnTransferCC = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.lblItemCountUnit = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblDepreDate = New System.Windows.Forms.Label()
+      Me.dtpDepreDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblItemCount2 = New System.Windows.Forms.Label()
+      Me.lblItemCount = New System.Windows.Forms.Label()
+      Me.lblItemCount4 = New System.Windows.Forms.Label()
+      Me.lblItemCount3 = New System.Windows.Forms.Label()
+      Me.lblItemCount5 = New System.Windows.Forms.Label()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbMaster.SuspendLayout()
-      Me.grbTransIN.SuspendLayout()
-      Me.grbTransOut.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
@@ -153,90 +112,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(384, 16)
       Me.txtDocDate.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(120, 20)
-      Me.txtDocDate.TabIndex = 4
-      Me.txtDocDate.Text = ""
-      '
-      'txtCCInCode
-      '
-      Me.txtCCInCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtCCInCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCInCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCCInCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCCInCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCCInCode, System.Drawing.Color.Empty)
-      Me.txtCCInCode.Location = New System.Drawing.Point(136, 16)
-      Me.txtCCInCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtCCInCode, "")
-      Me.Validator.SetMinValue(Me.txtCCInCode, "")
-      Me.txtCCInCode.Name = "txtCCInCode"
-      Me.Validator.SetRegularExpression(Me.txtCCInCode, "")
-      Me.Validator.SetRequired(Me.txtCCInCode, True)
-      Me.txtCCInCode.Size = New System.Drawing.Size(64, 20)
-      Me.txtCCInCode.TabIndex = 12
-      Me.txtCCInCode.Text = ""
-      '
-      'txtPersonInCode
-      '
-      Me.txtPersonInCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtPersonInCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtPersonInCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtPersonInCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtPersonInCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtPersonInCode, System.Drawing.Color.Empty)
-      Me.txtPersonInCode.Location = New System.Drawing.Point(136, 40)
-      Me.txtPersonInCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtPersonInCode, "")
-      Me.Validator.SetMinValue(Me.txtPersonInCode, "")
-      Me.txtPersonInCode.Name = "txtPersonInCode"
-      Me.Validator.SetRegularExpression(Me.txtPersonInCode, "")
-      Me.Validator.SetRequired(Me.txtPersonInCode, False)
-      Me.txtPersonInCode.Size = New System.Drawing.Size(64, 20)
-      Me.txtPersonInCode.TabIndex = 13
-      Me.txtPersonInCode.Text = ""
-      '
-      'txtPersonOutCode
-      '
-      Me.txtPersonOutCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtPersonOutCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtPersonOutCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtPersonOutCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtPersonOutCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtPersonOutCode, System.Drawing.Color.Empty)
-      Me.txtPersonOutCode.Location = New System.Drawing.Point(128, 40)
-      Me.txtPersonOutCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtPersonOutCode, "")
-      Me.Validator.SetMinValue(Me.txtPersonOutCode, "")
-      Me.txtPersonOutCode.Name = "txtPersonOutCode"
-      Me.Validator.SetRegularExpression(Me.txtPersonOutCode, "")
-      Me.Validator.SetRequired(Me.txtPersonOutCode, False)
-      Me.txtPersonOutCode.Size = New System.Drawing.Size(64, 20)
-      Me.txtPersonOutCode.TabIndex = 11
-      Me.txtPersonOutCode.Text = ""
-      '
-      'txtCCOutCode
-      '
-      Me.txtCCOutCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtCCOutCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCOutCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCCOutCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCCOutCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCCOutCode, System.Drawing.Color.Empty)
-      Me.txtCCOutCode.Location = New System.Drawing.Point(128, 16)
-      Me.txtCCOutCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtCCOutCode, "")
-      Me.Validator.SetMinValue(Me.txtCCOutCode, "")
-      Me.txtCCOutCode.Name = "txtCCOutCode"
-      Me.Validator.SetRegularExpression(Me.txtCCOutCode, "")
-      Me.Validator.SetRequired(Me.txtCCOutCode, True)
-      Me.txtCCOutCode.Size = New System.Drawing.Size(64, 20)
-      Me.txtCCOutCode.TabIndex = 10
-      Me.txtCCOutCode.Text = ""
+      Me.txtDocDate.TabIndex = 0
       '
       'txtItemCount
       '
@@ -249,8 +130,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtItemCount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount, System.Drawing.Color.Empty)
-      Me.txtItemCount.Location = New System.Drawing.Point(928, 416)
-      Me.Validator.SetMaxValue(Me.txtItemCount, "")
+      Me.txtItemCount.Location = New System.Drawing.Point(697, 416)
       Me.Validator.SetMinValue(Me.txtItemCount, "")
       Me.txtItemCount.Name = "txtItemCount"
       Me.txtItemCount.ReadOnly = True
@@ -259,7 +139,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount.Size = New System.Drawing.Size(96, 20)
       Me.txtItemCount.TabIndex = 19
       Me.txtItemCount.TabStop = False
-      Me.txtItemCount.Text = ""
       Me.txtItemCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
       '
       'txtDepreDate
@@ -272,14 +151,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDepreDate, System.Drawing.Color.Empty)
       Me.txtDepreDate.Location = New System.Drawing.Point(136, 40)
       Me.txtDepreDate.MaxLength = 10
-      Me.Validator.SetMaxValue(Me.txtDepreDate, "")
       Me.Validator.SetMinValue(Me.txtDepreDate, "")
       Me.txtDepreDate.Name = "txtDepreDate"
       Me.Validator.SetRegularExpression(Me.txtDepreDate, "")
       Me.Validator.SetRequired(Me.txtDepreDate, True)
       Me.txtDepreDate.Size = New System.Drawing.Size(120, 20)
-      Me.txtDepreDate.TabIndex = 8
-      Me.txtDepreDate.Text = ""
+      Me.txtDepreDate.TabIndex = 2
       '
       'txtNote
       '
@@ -289,16 +166,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtNote, -15)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.txtNote.Location = New System.Drawing.Point(136, 144)
+      Me.txtNote.Location = New System.Drawing.Point(136, 67)
       Me.txtNote.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(384, 20)
-      Me.txtNote.TabIndex = 14
-      Me.txtNote.Text = ""
+      Me.txtNote.TabIndex = 6
       '
       'txtCode
       '
@@ -309,14 +184,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(136, 16)
       Me.txtCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(120, 20)
-      Me.txtCode.TabIndex = 1
-      Me.txtCode.Text = ""
+      Me.txtCode.TabIndex = 4
       '
       'txtItemCount2
       '
@@ -329,8 +202,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount2, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtItemCount2, -15)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount2, System.Drawing.Color.Empty)
-      Me.txtItemCount2.Location = New System.Drawing.Point(928, 388)
-      Me.Validator.SetMaxValue(Me.txtItemCount2, "")
+      Me.txtItemCount2.Location = New System.Drawing.Point(697, 388)
       Me.Validator.SetMinValue(Me.txtItemCount2, "")
       Me.txtItemCount2.Name = "txtItemCount2"
       Me.txtItemCount2.ReadOnly = True
@@ -339,7 +211,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount2.Size = New System.Drawing.Size(96, 20)
       Me.txtItemCount2.TabIndex = 19
       Me.txtItemCount2.TabStop = False
-      Me.txtItemCount2.Text = ""
       Me.txtItemCount2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
       '
       'txtItemCount3
@@ -353,8 +224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount3, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtItemCount3, -15)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount3, System.Drawing.Color.Empty)
-      Me.txtItemCount3.Location = New System.Drawing.Point(728, 388)
-      Me.Validator.SetMaxValue(Me.txtItemCount3, "")
+      Me.txtItemCount3.Location = New System.Drawing.Point(497, 388)
       Me.Validator.SetMinValue(Me.txtItemCount3, "")
       Me.txtItemCount3.Name = "txtItemCount3"
       Me.txtItemCount3.ReadOnly = True
@@ -363,7 +233,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount3.Size = New System.Drawing.Size(96, 20)
       Me.txtItemCount3.TabIndex = 19
       Me.txtItemCount3.TabStop = False
-      Me.txtItemCount3.Text = ""
       Me.txtItemCount3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
       '
       'txtItemCount4
@@ -377,8 +246,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount4, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtItemCount4, -15)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount4, System.Drawing.Color.Empty)
-      Me.txtItemCount4.Location = New System.Drawing.Point(576, 388)
-      Me.Validator.SetMaxValue(Me.txtItemCount4, "")
+      Me.txtItemCount4.Location = New System.Drawing.Point(345, 388)
       Me.Validator.SetMinValue(Me.txtItemCount4, "")
       Me.txtItemCount4.Name = "txtItemCount4"
       Me.txtItemCount4.ReadOnly = True
@@ -387,7 +255,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount4.Size = New System.Drawing.Size(96, 20)
       Me.txtItemCount4.TabIndex = 19
       Me.txtItemCount4.TabStop = False
-      Me.txtItemCount4.Text = ""
       Me.txtItemCount4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
       '
       'txtItemCount5
@@ -401,8 +268,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemCount5, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtItemCount5, -15)
       Me.Validator.SetInvalidBackColor(Me.txtItemCount5, System.Drawing.Color.Empty)
-      Me.txtItemCount5.Location = New System.Drawing.Point(368, 388)
-      Me.Validator.SetMaxValue(Me.txtItemCount5, "")
+      Me.txtItemCount5.Location = New System.Drawing.Point(137, 388)
       Me.Validator.SetMinValue(Me.txtItemCount5, "")
       Me.txtItemCount5.Name = "txtItemCount5"
       Me.txtItemCount5.ReadOnly = True
@@ -411,7 +277,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount5.Size = New System.Drawing.Size(96, 20)
       Me.txtItemCount5.TabIndex = 19
       Me.txtItemCount5.TabStop = False
-      Me.txtItemCount5.Text = ""
       Me.txtItemCount5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
       '
       'Validator
@@ -419,99 +284,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-      '
-      'txtCCInName
-      '
-      Me.txtCCInName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtCCInName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCInName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCCInName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCCInName, System.Drawing.Color.Empty)
-      Me.txtCCInName.Location = New System.Drawing.Point(200, 16)
-      Me.Validator.SetMaxValue(Me.txtCCInName, "")
-      Me.Validator.SetMinValue(Me.txtCCInName, "")
-      Me.txtCCInName.Name = "txtCCInName"
-      Me.txtCCInName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCCInName, "")
-      Me.Validator.SetRequired(Me.txtCCInName, False)
-      Me.txtCCInName.Size = New System.Drawing.Size(128, 20)
-      Me.txtCCInName.TabIndex = 2
-      Me.txtCCInName.TabStop = False
-      Me.txtCCInName.Text = ""
-      '
-      'txtPersonInName
-      '
-      Me.txtPersonInName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtPersonInName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtPersonInName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtPersonInName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtPersonInName, System.Drawing.Color.Empty)
-      Me.txtPersonInName.Location = New System.Drawing.Point(200, 40)
-      Me.Validator.SetMaxValue(Me.txtPersonInName, "")
-      Me.Validator.SetMinValue(Me.txtPersonInName, "")
-      Me.txtPersonInName.Name = "txtPersonInName"
-      Me.txtPersonInName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtPersonInName, "")
-      Me.Validator.SetRequired(Me.txtPersonInName, False)
-      Me.txtPersonInName.Size = New System.Drawing.Size(128, 20)
-      Me.txtPersonInName.TabIndex = 7
-      Me.txtPersonInName.TabStop = False
-      Me.txtPersonInName.Text = ""
-      '
-      'txtCCOutName
-      '
-      Me.txtCCOutName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtCCOutName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCOutName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCCOutName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCCOutName, System.Drawing.Color.Empty)
-      Me.txtCCOutName.Location = New System.Drawing.Point(192, 16)
-      Me.Validator.SetMaxValue(Me.txtCCOutName, "")
-      Me.Validator.SetMinValue(Me.txtCCOutName, "")
-      Me.txtCCOutName.Name = "txtCCOutName"
-      Me.txtCCOutName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCCOutName, "")
-      Me.Validator.SetRequired(Me.txtCCOutName, False)
-      Me.txtCCOutName.Size = New System.Drawing.Size(128, 20)
-      Me.txtCCOutName.TabIndex = 2
-      Me.txtCCOutName.TabStop = False
-      Me.txtCCOutName.Text = ""
-      '
-      'txtPersonOutName
-      '
-      Me.txtPersonOutName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtPersonOutName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtPersonOutName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtPersonOutName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtPersonOutName, System.Drawing.Color.Empty)
-      Me.txtPersonOutName.Location = New System.Drawing.Point(192, 40)
-      Me.Validator.SetMaxValue(Me.txtPersonOutName, "")
-      Me.Validator.SetMinValue(Me.txtPersonOutName, "")
-      Me.txtPersonOutName.Name = "txtPersonOutName"
-      Me.txtPersonOutName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtPersonOutName, "")
-      Me.Validator.SetRequired(Me.txtPersonOutName, False)
-      Me.txtPersonOutName.Size = New System.Drawing.Size(128, 20)
-      Me.txtPersonOutName.TabIndex = 7
-      Me.txtPersonOutName.TabStop = False
-      Me.txtPersonOutName.Text = ""
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-         Or System.Windows.Forms.AnchorStyles.Left) _
-         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.lblTransferData)
+      Me.grbMaster.Controls.Add(Me.btnTransferCC)
       Me.grbMaster.Controls.Add(Me.txtItemCount3)
       Me.grbMaster.Controls.Add(Me.ibtnBlank)
       Me.grbMaster.Controls.Add(Me.ibtnDelRow)
       Me.grbMaster.Controls.Add(Me.lblStatus)
       Me.grbMaster.Controls.Add(Me.txtItemCount)
       Me.grbMaster.Controls.Add(Me.lblItemCountUnit)
-      Me.grbMaster.Controls.Add(Me.grbTransIN)
-      Me.grbMaster.Controls.Add(Me.grbTransOut)
       Me.grbMaster.Controls.Add(Me.tgItem)
       Me.grbMaster.Controls.Add(Me.lblItem)
       Me.grbMaster.Controls.Add(Me.chkAutorun)
@@ -536,28 +325,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Location = New System.Drawing.Point(8, 8)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(1088, 448)
+      Me.grbMaster.Size = New System.Drawing.Size(857, 448)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "grbMaster"
       '
+      'lblTransferData
+      '
+      Me.lblTransferData.AutoSize = True
+      Me.lblTransferData.Location = New System.Drawing.Point(240, 99)
+      Me.lblTransferData.Name = "lblTransferData"
+      Me.lblTransferData.Size = New System.Drawing.Size(69, 13)
+      Me.lblTransferData.TabIndex = 23
+      Me.lblTransferData.Text = "ข้อมูลการโอน"
+      Me.lblTransferData.Visible = False
+      '
+      'btnTransferCC
+      '
+      Me.btnTransferCC.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnTransferCC.Location = New System.Drawing.Point(210, 93)
+      Me.btnTransferCC.Margin = New System.Windows.Forms.Padding(0)
+      Me.btnTransferCC.Name = "btnTransferCC"
+      Me.btnTransferCC.Size = New System.Drawing.Size(24, 24)
+      Me.btnTransferCC.TabIndex = 10
+      Me.btnTransferCC.TabStop = False
+      Me.btnTransferCC.ThemedImage = CType(resources.GetObject("btnTransferCC.ThemedImage"), System.Drawing.Bitmap)
+      '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
-      Me.ibtnBlank.Location = New System.Drawing.Point(160, 168)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Location = New System.Drawing.Point(156, 93)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnBlank.TabIndex = 15
+      Me.ibtnBlank.TabIndex = 8
       Me.ibtnBlank.TabStop = False
       Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
-      Me.ibtnDelRow.Location = New System.Drawing.Point(184, 168)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Location = New System.Drawing.Point(180, 93)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelRow.TabIndex = 16
+      Me.ibtnDelRow.TabIndex = 9
       Me.ibtnDelRow.TabStop = False
       Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -567,7 +377,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.AutoSize = True
       Me.lblStatus.Location = New System.Drawing.Point(8, 420)
       Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(21, 16)
+      Me.lblStatus.Size = New System.Drawing.Size(22, 13)
       Me.lblStatus.TabIndex = 21
       Me.lblStatus.Text = "xxx"
       '
@@ -576,202 +386,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCountUnit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCountUnit.AutoSize = True
       Me.lblItemCountUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCountUnit.Location = New System.Drawing.Point(1032, 416)
+      Me.lblItemCountUnit.Location = New System.Drawing.Point(801, 416)
       Me.lblItemCountUnit.Name = "lblItemCountUnit"
-      Me.lblItemCountUnit.Size = New System.Drawing.Size(38, 17)
+      Me.lblItemCountUnit.Size = New System.Drawing.Size(40, 13)
       Me.lblItemCountUnit.TabIndex = 20
       Me.lblItemCountUnit.Text = "รายการ"
       Me.lblItemCountUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'grbTransIN
-      '
-      Me.grbTransIN.Controls.Add(Me.btnPersonInFind)
-      Me.grbTransIN.Controls.Add(Me.btnPersonInEdit)
-      Me.grbTransIN.Controls.Add(Me.btnCCInFind)
-      Me.grbTransIN.Controls.Add(Me.btnCCInEdit)
-      Me.grbTransIN.Controls.Add(Me.txtCCInName)
-      Me.grbTransIN.Controls.Add(Me.txtPersonInName)
-      Me.grbTransIN.Controls.Add(Me.txtCCInCode)
-      Me.grbTransIN.Controls.Add(Me.lblPersonIn)
-      Me.grbTransIN.Controls.Add(Me.lblCCIn)
-      Me.grbTransIN.Controls.Add(Me.txtPersonInCode)
-      Me.grbTransIN.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbTransIN.Location = New System.Drawing.Point(384, 64)
-      Me.grbTransIN.Name = "grbTransIN"
-      Me.grbTransIN.Size = New System.Drawing.Size(384, 71)
-      Me.grbTransIN.TabIndex = 11
-      Me.grbTransIN.TabStop = False
-      Me.grbTransIN.Text = "โอนเข้า"
-      '
-      'btnPersonInFind
-      '
-      Me.btnPersonInFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnPersonInFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnPersonInFind.Image = CType(resources.GetObject("btnPersonInFind.Image"), System.Drawing.Image)
-      Me.btnPersonInFind.Location = New System.Drawing.Point(328, 40)
-      Me.btnPersonInFind.Name = "btnPersonInFind"
-      Me.btnPersonInFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnPersonInFind.TabIndex = 8
-      Me.btnPersonInFind.TabStop = False
-      Me.btnPersonInFind.ThemedImage = CType(resources.GetObject("btnPersonInFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnPersonInEdit
-      '
-      Me.btnPersonInEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnPersonInEdit.Image = CType(resources.GetObject("btnPersonInEdit.Image"), System.Drawing.Image)
-      Me.btnPersonInEdit.Location = New System.Drawing.Point(352, 40)
-      Me.btnPersonInEdit.Name = "btnPersonInEdit"
-      Me.btnPersonInEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnPersonInEdit.TabIndex = 9
-      Me.btnPersonInEdit.TabStop = False
-      Me.btnPersonInEdit.ThemedImage = CType(resources.GetObject("btnPersonInEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnCCInFind
-      '
-      Me.btnCCInFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCInFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCInFind.Image = CType(resources.GetObject("btnCCInFind.Image"), System.Drawing.Image)
-      Me.btnCCInFind.Location = New System.Drawing.Point(328, 16)
-      Me.btnCCInFind.Name = "btnCCInFind"
-      Me.btnCCInFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCInFind.TabIndex = 3
-      Me.btnCCInFind.TabStop = False
-      Me.btnCCInFind.ThemedImage = CType(resources.GetObject("btnCCInFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnCCInEdit
-      '
-      Me.btnCCInEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCInEdit.Image = CType(resources.GetObject("btnCCInEdit.Image"), System.Drawing.Image)
-      Me.btnCCInEdit.Location = New System.Drawing.Point(352, 16)
-      Me.btnCCInEdit.Name = "btnCCInEdit"
-      Me.btnCCInEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCInEdit.TabIndex = 4
-      Me.btnCCInEdit.TabStop = False
-      Me.btnCCInEdit.ThemedImage = CType(resources.GetObject("btnCCInEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblPersonIn
-      '
-      Me.lblPersonIn.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPersonIn.Location = New System.Drawing.Point(8, 40)
-      Me.lblPersonIn.Name = "lblPersonIn"
-      Me.lblPersonIn.Size = New System.Drawing.Size(128, 18)
-      Me.lblPersonIn.TabIndex = 5
-      Me.lblPersonIn.Text = "ผู้รับเข้า"
-      Me.lblPersonIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblCCIn
-      '
-      Me.lblCCIn.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCCIn.Location = New System.Drawing.Point(8, 16)
-      Me.lblCCIn.Name = "lblCCIn"
-      Me.lblCCIn.Size = New System.Drawing.Size(128, 18)
-      Me.lblCCIn.TabIndex = 0
-      Me.lblCCIn.Text = "Cost Center Transfer In"
-      Me.lblCCIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'grbTransOut
-      '
-      Me.grbTransOut.Controls.Add(Me.btnPersonOutFind)
-      Me.grbTransOut.Controls.Add(Me.btnPersonOutEdit)
-      Me.grbTransOut.Controls.Add(Me.btnCCOutFind)
-      Me.grbTransOut.Controls.Add(Me.txtCCOutName)
-      Me.grbTransOut.Controls.Add(Me.txtPersonOutCode)
-      Me.grbTransOut.Controls.Add(Me.lblPersonOut)
-      Me.grbTransOut.Controls.Add(Me.lblCCOut)
-      Me.grbTransOut.Controls.Add(Me.btnCCOutEdit)
-      Me.grbTransOut.Controls.Add(Me.txtCCOutCode)
-      Me.grbTransOut.Controls.Add(Me.txtPersonOutName)
-      Me.grbTransOut.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbTransOut.Location = New System.Drawing.Point(8, 64)
-      Me.grbTransOut.Name = "grbTransOut"
-      Me.grbTransOut.Size = New System.Drawing.Size(376, 71)
-      Me.grbTransOut.TabIndex = 10
-      Me.grbTransOut.TabStop = False
-      Me.grbTransOut.Text = "โอนออก"
-      '
-      'btnPersonOutFind
-      '
-      Me.btnPersonOutFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnPersonOutFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnPersonOutFind.Image = CType(resources.GetObject("btnPersonOutFind.Image"), System.Drawing.Image)
-      Me.btnPersonOutFind.Location = New System.Drawing.Point(320, 40)
-      Me.btnPersonOutFind.Name = "btnPersonOutFind"
-      Me.btnPersonOutFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnPersonOutFind.TabIndex = 8
-      Me.btnPersonOutFind.TabStop = False
-      Me.btnPersonOutFind.ThemedImage = CType(resources.GetObject("btnPersonOutFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnPersonOutEdit
-      '
-      Me.btnPersonOutEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnPersonOutEdit.Image = CType(resources.GetObject("btnPersonOutEdit.Image"), System.Drawing.Image)
-      Me.btnPersonOutEdit.Location = New System.Drawing.Point(344, 40)
-      Me.btnPersonOutEdit.Name = "btnPersonOutEdit"
-      Me.btnPersonOutEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnPersonOutEdit.TabIndex = 9
-      Me.btnPersonOutEdit.TabStop = False
-      Me.btnPersonOutEdit.ThemedImage = CType(resources.GetObject("btnPersonOutEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnCCOutFind
-      '
-      Me.btnCCOutFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCOutFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCOutFind.Image = CType(resources.GetObject("btnCCOutFind.Image"), System.Drawing.Image)
-      Me.btnCCOutFind.Location = New System.Drawing.Point(320, 16)
-      Me.btnCCOutFind.Name = "btnCCOutFind"
-      Me.btnCCOutFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCOutFind.TabIndex = 3
-      Me.btnCCOutFind.TabStop = False
-      Me.btnCCOutFind.ThemedImage = CType(resources.GetObject("btnCCOutFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblPersonOut
-      '
-      Me.lblPersonOut.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPersonOut.Location = New System.Drawing.Point(8, 40)
-      Me.lblPersonOut.Name = "lblPersonOut"
-      Me.lblPersonOut.Size = New System.Drawing.Size(120, 18)
-      Me.lblPersonOut.TabIndex = 5
-      Me.lblPersonOut.Text = "ผู้โอนออก"
-      Me.lblPersonOut.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblCCOut
-      '
-      Me.lblCCOut.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCCOut.Location = New System.Drawing.Point(8, 16)
-      Me.lblCCOut.Name = "lblCCOut"
-      Me.lblCCOut.Size = New System.Drawing.Size(120, 18)
-      Me.lblCCOut.TabIndex = 0
-      Me.lblCCOut.Text = "Cost Center โอนออก"
-      Me.lblCCOut.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'btnCCOutEdit
-      '
-      Me.btnCCOutEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCOutEdit.Image = CType(resources.GetObject("btnCCOutEdit.Image"), System.Drawing.Image)
-      Me.btnCCOutEdit.Location = New System.Drawing.Point(344, 16)
-      Me.btnCCOutEdit.Name = "btnCCOutEdit"
-      Me.btnCCOutEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCOutEdit.TabIndex = 4
-      Me.btnCCOutEdit.TabStop = False
-      Me.btnCCOutEdit.ThemedImage = CType(resources.GetObject("btnCCOutEdit.ThemedImage"), System.Drawing.Bitmap)
       '
       'tgItem
       '
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-         Or System.Windows.Forms.AnchorStyles.Left) _
-         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 192)
+      Me.tgItem.Location = New System.Drawing.Point(8, 123)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(1064, 192)
+      Me.tgItem.Size = New System.Drawing.Size(833, 261)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 15
+      Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
       'lblItem
@@ -779,11 +417,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.AutoSize = True
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(16, 176)
+      Me.lblItem.Location = New System.Drawing.Point(12, 101)
       Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(112, 19)
+      Me.lblItem.Size = New System.Drawing.Size(106, 16)
       Me.lblItem.TabIndex = 14
-      Me.lblItem.Text = "รายการเครื่องจักร"
+      Me.lblItem.Text = "รายการสินทรัพย์"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'chkAutorun
@@ -793,14 +431,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.Location = New System.Drawing.Point(256, 16)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
-      Me.chkAutorun.TabIndex = 2
+      Me.chkAutorun.TabIndex = 5
       Me.chkAutorun.TabStop = False
       '
       'lblNote
       '
       Me.lblNote.BackColor = System.Drawing.Color.Transparent
       Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblNote.Location = New System.Drawing.Point(8, 144)
+      Me.lblNote.Location = New System.Drawing.Point(8, 67)
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(128, 16)
       Me.lblNote.TabIndex = 12
@@ -829,11 +467,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'dtpDocDate
       '
-      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDate.Location = New System.Drawing.Point(384, 16)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(141, 20)
-      Me.dtpDocDate.TabIndex = 5
+      Me.dtpDocDate.TabIndex = 1
       Me.dtpDocDate.TabStop = False
       '
       'lblDepreDate
@@ -843,23 +481,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDepreDate.Name = "lblDepreDate"
       Me.lblDepreDate.Size = New System.Drawing.Size(120, 16)
       Me.lblDepreDate.TabIndex = 7
-      Me.lblDepreDate.Text = "วันที่โอน"
+      Me.lblDepreDate.Text = "วันที่คิดค่าเสื่อม"
       Me.lblDepreDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'dtpDepreDate
       '
-      Me.dtpDepreDate.Format = System.Windows.Forms.DateTimePickerFormat.Short
+      Me.dtpDepreDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDepreDate.Location = New System.Drawing.Point(136, 40)
       Me.dtpDepreDate.Name = "dtpDepreDate"
       Me.dtpDepreDate.Size = New System.Drawing.Size(141, 20)
-      Me.dtpDepreDate.TabIndex = 9
+      Me.dtpDepreDate.TabIndex = 3
       Me.dtpDepreDate.TabStop = False
       '
       'lblItemCount2
       '
       Me.lblItemCount2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCount2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount2.Location = New System.Drawing.Point(824, 388)
+      Me.lblItemCount2.Location = New System.Drawing.Point(593, 388)
       Me.lblItemCount2.Name = "lblItemCount2"
       Me.lblItemCount2.Size = New System.Drawing.Size(104, 18)
       Me.lblItemCount2.TabIndex = 18
@@ -870,7 +508,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItemCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount.Location = New System.Drawing.Point(768, 416)
+      Me.lblItemCount.Location = New System.Drawing.Point(537, 416)
       Me.lblItemCount.Name = "lblItemCount"
       Me.lblItemCount.Size = New System.Drawing.Size(160, 18)
       Me.lblItemCount.TabIndex = 18
@@ -881,7 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItemCount4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCount4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount4.Location = New System.Drawing.Point(464, 388)
+      Me.lblItemCount4.Location = New System.Drawing.Point(233, 388)
       Me.lblItemCount4.Name = "lblItemCount4"
       Me.lblItemCount4.Size = New System.Drawing.Size(112, 18)
       Me.lblItemCount4.TabIndex = 18
@@ -892,7 +530,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItemCount3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCount3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount3.Location = New System.Drawing.Point(656, 388)
+      Me.lblItemCount3.Location = New System.Drawing.Point(425, 388)
       Me.lblItemCount3.Name = "lblItemCount3"
       Me.lblItemCount3.Size = New System.Drawing.Size(72, 18)
       Me.lblItemCount3.TabIndex = 18
@@ -903,7 +541,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItemCount5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblItemCount5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemCount5.Location = New System.Drawing.Point(296, 388)
+      Me.lblItemCount5.Location = New System.Drawing.Point(65, 388)
       Me.lblItemCount5.Name = "lblItemCount5"
       Me.lblItemCount5.Size = New System.Drawing.Size(72, 18)
       Me.lblItemCount5.TabIndex = 18
@@ -914,10 +552,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Name = "DepreciationCalDetail"
-      Me.Size = New System.Drawing.Size(1104, 456)
+      Me.Size = New System.Drawing.Size(873, 456)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbMaster.ResumeLayout(False)
-      Me.grbTransIN.ResumeLayout(False)
-      Me.grbTransOut.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
@@ -938,19 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDepreDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblDepreDate}")
       Me.Validator.SetDisplayName(txtDepreDate, lblDepreDate.Text)
 
-      ' Trans out section
-      Me.lblCCOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblCCOut}")
-      Me.Validator.SetDisplayName(txtCCOutCode, lblCCOut.Text)
-
-      Me.lblPersonOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblPersonOut}")
-      Me.Validator.SetDisplayName(txtPersonOutCode, lblPersonOut.Text)
-
-      'Trans in section
-      Me.lblCCIn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblCCIn}")
-      Me.Validator.SetDisplayName(txtCCInCode, lblCCIn.Text)
-
-      Me.lblPersonIn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblPersonIn}")
-      Me.Validator.SetDisplayName(txtPersonInCode, lblPersonIn.Text)
+      
 
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblNote}")
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
@@ -973,8 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblItem}")
 
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.grbMaster}")
-      Me.grbTransIN.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.grbTransIN}")
-      Me.grbTransOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.grbTransOut}")
+      
 
     End Sub
 #End Region
@@ -987,7 +612,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private m_enableState As Hashtable
     Private m_tableStyleEnable As Hashtable
+
+    Private CCOutText As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblCCOut}")
+    Private CCInText As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblCCIn}")
 #End Region
+
 
 #Region "Properties"
     Private ReadOnly Property CurrentItem() As DepreciationCalItem
@@ -1329,23 +958,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDepreDate.Text = MinDateToNull(Me.m_entity.DepreDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDepreDate.Value = MinDateToNow(Me.m_entity.DepreDate)
       ' Transfer Out
-      If Me.m_entity.FromCostcenter.Originated Then
-        txtCCOutCode.Text = Me.m_entity.FromCostcenter.Code
-        txtCCOutName.Text = Me.m_entity.FromCostcenter.Name
-      End If
-      If Me.m_entity.FromPerson.Originated Then
-        txtPersonOutCode.Text = Me.m_entity.FromPerson.Code
-        txtPersonOutName.Text = Me.m_entity.FromPerson.Name
-      End If
+      'If Me.m_entity.FromCostcenter.Originated Then
+      '  txtCCOutCode.Text = Me.m_entity.FromCostcenter.Code
+      '  txtCCOutName.Text = Me.m_entity.FromCostcenter.Name
+      'End If
+      'If Me.m_entity.FromPerson.Originated Then
+      '  txtPersonOutCode.Text = Me.m_entity.FromPerson.Code
+      '  txtPersonOutName.Text = Me.m_entity.FromPerson.Name
+      'End If
 
-      ' Transfer IN
-      If Me.m_entity.ToCostcenter.Originated Then
-        txtCCInCode.Text = Me.m_entity.ToCostcenter.Code
-        txtCCInName.Text = Me.m_entity.ToCostcenter.Name
-      End If
-      If Me.m_entity.ToPerson.Originated Then
-        txtPersonInCode.Text = Me.m_entity.ToPerson.Code
-        txtPersonInName.Text = Me.m_entity.ToPerson.Name
+      '' Transfer IN
+      'If Me.m_entity.ToCostcenter.Originated Then
+      '  txtCCInCode.Text = Me.m_entity.ToCostcenter.Code
+      '  txtCCInName.Text = Me.m_entity.ToCostcenter.Name
+      'End If
+      'If Me.m_entity.ToPerson.Originated Then
+      '  txtPersonInCode.Text = Me.m_entity.ToPerson.Code
+      '  txtPersonInName.Text = Me.m_entity.ToPerson.Name
+      'End If
+      lblTransferData.Visible = False
+      If m_entity.IsTransfer AndAlso m_entity.FromCostcenter IsNot Nothing AndAlso m_entity.ToCostcenter IsNot Nothing Then
+        lblTransferData.Text = CCOutText + " " + m_entity.FromCostcenter.Code + ":" + m_entity.FromCostcenter.Name + " " + CCInText + " " + m_entity.ToCostcenter.Code + m_entity.ToCostcenter.Name
+        lblTransferData.Visible = True
       End If
 
       RefreshDocs()
@@ -1375,11 +1009,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtCCInCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtPersonInCode.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtCCInCode.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtPersonInCode.Validated, AddressOf Me.ChangeProperty
 
-      AddHandler txtCCOutCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtPersonOutCode.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtCCOutCode.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtPersonOutCode.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
@@ -1419,21 +1053,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.Note = txtNote.Text
           dirtyFlag = True
 
-        Case "txtccincode"
-          dirtyFlag = CostCenter.GetCostCenter(txtCCInCode, txtCCInName, Me.m_entity.ToCostcenter)
+          'Case "txtccincode"
+          '  dirtyFlag = CostCenter.GetCostCenter(txtCCInCode, txtCCInName, Me.m_entity.ToCostcenter)
 
-        Case "txtpersonincode"
-          dirtyFlag = Employee.GetEmployee(txtPersonInCode, txtPersonInName, Me.m_entity.ToPerson)
+          'Case "txtpersonincode"
+          '  dirtyFlag = Employee.GetEmployee(txtPersonInCode, txtPersonInName, Me.m_entity.ToPerson)
 
-        Case "txtccoutcode"
-          dirtyFlag = CostCenter.GetCostCenter(txtCCOutCode, txtCCOutName, Me.m_entity.FromCostcenter)
-          If dirtyFlag Then
-            Me.m_entity.ItemCollection.Clear()
-            RefreshBlankGrid()
-          End If
+          'Case "txtccoutcode"
+          '  dirtyFlag = CostCenter.GetCostCenter(txtCCOutCode, txtCCOutName, Me.m_entity.FromCostcenter)
+          '  If dirtyFlag Then
+          '    Me.m_entity.ItemCollection.Clear()
+          '    RefreshBlankGrid()
+          '  End If
 
-        Case "txtpersonoutcode"
-          dirtyFlag = Employee.GetEmployee(txtPersonOutCode, txtPersonOutName, Me.m_entity.FromPerson)
+          'Case "txtpersonoutcode"
+          '  dirtyFlag = Employee.GetEmployee(txtPersonOutCode, txtPersonOutName, Me.m_entity.FromPerson)
 
         Case "txtdocdate"
           m_dateSetting = True
@@ -1548,26 +1182,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Sub GridButton_Click(ByVal e As ButtonColumnEventArgs)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      ' ต้องการหนดวันที่โอนก่อน ...
+      ' ต้องการหนดวันที่คิดค่าเสื่อมก่อน ...
       If Me.m_entity.DepreDate.Equals(Date.MinValue) OrElse txtDepreDate.TextLength = 0 Then
         msgServ.ShowWarningFormatted("${res:Global.MustDefine}", lblDepreDate.Text)
         txtDepreDate.Focus()
         Return
       End If
-      ' ต้องกำหนด Cost center โอนออกก่อน ...
-      If Not Me.m_entity.FromCostcenter.Originated Then
-        msgServ.ShowWarningFormatted("${res:Global.MustDefine}", lblCCOut.Text)
-        txtCCOutCode.Focus()
-        Return
-      End If
+      'ไม่ต้องใส่ costcenter ก็ได้
+      '' ต้องกำหนด Cost center โอนออกก่อน ...
+      'If Not Me.m_entity.FromCostcenter.Originated Then
+      '  msgServ.ShowWarningFormatted("${res:Global.MustDefine}", lblCCOut.Text)
+      '  txtCCOutCode.Focus()
+      '  Return
+      'End If
       ' ไม่แสดงรายการใน list ของ detail
       Dim arr(1) As Filter
       arr(0) = New Filter("IDList", GenIDListFromDataTable)
-      arr(1) = New Filter("asset_lastdepredate", Me.m_entity.ValidDateOrDBNull(Me.m_entity.DepreDate))
+      arr(1) = New Filter("asset_lastdepredate", DepreciationCal.ValidDateOrDBNull(Me.m_entity.DepreDate))
       ' Filter ของ Entity find view
       Dim entities As New ArrayList
       Dim obj As New Asset
-      obj.Costcenter = Me.m_entity.FromCostcenter
+      If m_entity.IsTransfer Then
+        obj.Costcenter = Me.m_entity.FromCostcenter
+      End If
       entities.Add(obj)
 
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -1580,6 +1217,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'ถ้าเลือกมาแล้วตอนที่ยังไม่ได้ set costcenter ก็ห้ามกดอีก
+        btnTransferCC.Enabled = m_entity.IsTransfer
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
@@ -1651,124 +1290,125 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Event of Button controls "
-    ' Person
-    Private Sub btnPersonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPersonOutEdit.Click, btnPersonInEdit.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Employee)
-    End Sub
-    Private Sub btnPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPersonOutFind.Click, btnPersonInFind.Click
-      Dim myEntityPanelService As IEntityPanelService = _
-            CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Select Case CType(sender, Control).Name.ToLower
-        Case "btnpersonoutfind"
-          myEntityPanelService.OpenListDialog(New Employee, AddressOf SetPersonOutDialog)
-        Case "btnpersoninfind"
-          myEntityPanelService.OpenListDialog(New Employee, AddressOf SetPersonINDialog)
-      End Select
-    End Sub
+    '' Person
+    'Private Sub btnPersonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    '  myEntityPanelService.OpenPanel(New Employee)
+    'End Sub
+    'Private Sub btnPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Dim myEntityPanelService As IEntityPanelService = _
+    '        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    '  Select Case CType(sender, Control).Name.ToLower
+    '    Case "btnpersonoutfind"
+    '      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetPersonOutDialog)
+    '    Case "btnpersoninfind"
+    '      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetPersonINDialog)
+    '  End Select
+    'End Sub
 
-    Private Sub SetPersonINDialog(ByVal e As ISimpleEntity)
-      Me.txtPersonInCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-       Me.WorkbenchWindow.ViewContent.IsDirty _
-       Or Employee.GetEmployee(txtPersonInCode, txtPersonInName, Me.m_entity.ToPerson)
-    End Sub
-    Private Sub SetPersonOutDialog(ByVal e As ISimpleEntity)
-      Me.txtPersonOutCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-       Me.WorkbenchWindow.ViewContent.IsDirty _
-       Or Employee.GetEmployee(txtPersonOutCode, txtPersonOutName, Me.m_entity.FromPerson)
-    End Sub
-    ' Costcenter
-    Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCOutEdit.Click, btnCCInEdit.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New CostCenter)
-    End Sub
-    Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCOutFind.Click, btnCCInFind.Click
-      Dim myEntityPanelService As IEntityPanelService = _
-         CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Select Case CType(sender, Control).Name.ToLower
-        Case "btnccoutfind"
-          myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterOutDialog)
-        Case "btnccinfind"
-          myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterINDialog)
-      End Select
-    End Sub
-    Private Sub SetCostCenterINDialog(ByVal e As ISimpleEntity)
-      Me.txtCCInCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-       Me.WorkbenchWindow.ViewContent.IsDirty _
-       Or CostCenter.GetCostCenter(txtCCInCode, txtCCInName, Me.m_entity.ToCostcenter)
-    End Sub
-    Private Sub SetCostCenterOutDialog(ByVal e As ISimpleEntity)
-      Me.txtCCOutCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-       Me.WorkbenchWindow.ViewContent.IsDirty _
-       Or CostCenter.GetCostCenter(txtCCOutCode, txtCCOutName, Me.m_entity.FromCostcenter)
-    End Sub
+    'Private Sub SetPersonINDialog(ByVal e As ISimpleEntity)
+    '  Me.txtPersonInCode.Text = e.Code
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = _
+    '   Me.WorkbenchWindow.ViewContent.IsDirty _
+    '   Or Employee.GetEmployee(txtPersonInCode, txtPersonInName, Me.m_entity.ToPerson)
+    'End Sub
+    'Private Sub SetPersonOutDialog(ByVal e As ISimpleEntity)
+    '  Me.txtPersonOutCode.Text = e.Code
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = _
+    '   Me.WorkbenchWindow.ViewContent.IsDirty _
+    '   Or Employee.GetEmployee(txtPersonOutCode, txtPersonOutName, Me.m_entity.FromPerson)
+    'End Sub
+    '' Costcenter
+    'Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    '  myEntityPanelService.OpenPanel(New CostCenter)
+    'End Sub
+    'Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Dim myEntityPanelService As IEntityPanelService = _
+    '     CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    '  Select Case CType(sender, Control).Name.ToLower
+    '    Case "btnccoutfind"
+    '      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterOutDialog)
+    '    Case "btnccinfind"
+    '      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterINDialog)
+    '  End Select
+    'End Sub
+    'Private Sub SetCostCenterINDialog(ByVal e As ISimpleEntity)
+    '  Me.txtCCInCode.Text = e.Code
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = _
+    '   Me.WorkbenchWindow.ViewContent.IsDirty _
+    '   Or CostCenter.GetCostCenter(txtCCInCode, txtCCInName, Me.m_entity.ToCostcenter)
+    'End Sub
+    'Private Sub SetCostCenterOutDialog(ByVal e As ISimpleEntity)
+    '  Me.txtCCOutCode.Text = e.Code
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = _
+    '   Me.WorkbenchWindow.ViewContent.IsDirty _
+    '   Or CostCenter.GetCostCenter(txtCCOutCode, txtCCOutName, Me.m_entity.FromCostcenter)
+    'End Sub
 
 
 #End Region
 
-#Region " IClipboardHandler Overrides "
-    Public Overrides ReadOnly Property EnablePaste() As Boolean
-      Get
-        ' Person
-        Dim data As IDataObject = Clipboard.GetDataObject
-        If data.GetDataPresent((New Employee).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtpersonincode", "txtpersoninname"
-                Return True
-              Case "txtpersonoutcode", "txtpersonoutname"
-                Return True
-            End Select
-          End If
-        End If
-        ' Cost center
-        If data.GetDataPresent((New CostCenter).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtccincode", "txtccinname"
-                Return True
-              Case "txtccoutcode", "txtccoutname"
-                Return True
-            End Select
-          End If
-        End If
-        Return False
-      End Get
-    End Property
-    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim data As IDataObject = Clipboard.GetDataObject
-      ' Person
-      If data.GetDataPresent((New Employee).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
-        Dim entity As New Employee(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtpersonincode", "txtpersoninname"
-              Me.SetPersonINDialog(entity)
-            Case "txtpersonoutcode", "txtpersonoutname"
-              Me.SetPersonOutDialog(entity)
-          End Select
-        End If
-      End If
-      ' Cost center
-      If data.GetDataPresent((New CostCenter).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
-        Dim entity As New CostCenter(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtccincode", "txtccinname"
-              Me.SetCostCenterINDialog(entity)
-            Case "txtccoutcode", "txtccoutname"
-              Me.SetCostCenterOutDialog(entity)
-          End Select
-        End If
-      End If
-    End Sub
-#End Region
+    'ไปอยู่ที่ dpretransfer
+    '#Region " IClipboardHandler Overrides "
+    '    Public Overrides ReadOnly Property EnablePaste() As Boolean
+    '      Get
+    '        ' Person
+    '        Dim data As IDataObject = Clipboard.GetDataObject
+    '        If data.GetDataPresent((New Employee).FullClassName) Then
+    '          If Not Me.ActiveControl Is Nothing Then
+    '            Select Case Me.ActiveControl.Name.ToLower
+    '              Case "txtpersonincode", "txtpersoninname"
+    '                Return True
+    '              Case "txtpersonoutcode", "txtpersonoutname"
+    '                Return True
+    '            End Select
+    '          End If
+    '        End If
+    '        ' Cost center
+    '        If data.GetDataPresent((New CostCenter).FullClassName) Then
+    '          If Not Me.ActiveControl Is Nothing Then
+    '            Select Case Me.ActiveControl.Name.ToLower
+    '              Case "txtccincode", "txtccinname"
+    '                Return True
+    '              Case "txtccoutcode", "txtccoutname"
+    '                Return True
+    '            End Select
+    '          End If
+    '        End If
+    '        Return False
+    '      End Get
+    '    End Property
+    '    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+    '      Dim data As IDataObject = Clipboard.GetDataObject
+    '      ' Person
+    '      If data.GetDataPresent((New Employee).FullClassName) Then
+    '        Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
+    '        Dim entity As New Employee(id)
+    '        If Not Me.ActiveControl Is Nothing Then
+    '          Select Case Me.ActiveControl.Name.ToLower
+    '            Case "txtpersonincode", "txtpersoninname"
+    '              Me.SetPersonINDialog(entity)
+    '            Case "txtpersonoutcode", "txtpersonoutname"
+    '              Me.SetPersonOutDialog(entity)
+    '          End Select
+    '        End If
+    '      End If
+    '      ' Cost center
+    '      If data.GetDataPresent((New CostCenter).FullClassName) Then
+    '        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
+    '        Dim entity As New CostCenter(id)
+    '        If Not Me.ActiveControl Is Nothing Then
+    '          Select Case Me.ActiveControl.Name.ToLower
+    '            Case "txtccincode", "txtccinname"
+    '              Me.SetCostCenterINDialog(entity)
+    '            Case "txtccoutcode", "txtccoutname"
+    '              Me.SetCostCenterOutDialog(entity)
+    '          End Select
+    '        End If
+    '      End If
+    '    End Sub
+    '#End Region
 
 #Region " IPrintable "
     'Public Overrides ReadOnly Property PrintDocument() As PrintDocument
@@ -1889,6 +1529,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If tgItem.CurrentRowIndex <> currentY Then
         Me.m_entity.ItemCollection.CurrentItem = Me.CurrentItem
         currentY = tgItem.CurrentRowIndex
+      End If
+    End Sub
+
+    Private Sub btnTransferCC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTransferCC.Click
+      Dim myTransferCCPanel As New Longkong.Pojjaman.Gui.Panels.DepreTransferDetail
+      myTransferCCPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myTransferCCPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+      End If
+      If myDialog.ShowDialog = DialogResult.OK Then
+        If Len(myTransferCCPanel.DepreciationCal.ToCostcenter.Code) > 0 AndAlso Len(myTransferCCPanel.DepreciationCal.FromCostcenter.Code) > 0 Then
+          Me.WorkbenchWindow.ViewContent.IsDirty = True
+          Me.m_entity.IsTransfer = True
+          Me.m_entity.FromCostcenter = myTransferCCPanel.DepreciationCal.FromCostcenter
+          Me.m_entity.ToCostcenter = myTransferCCPanel.DepreciationCal.ToCostcenter
+          Me.m_entity.FromPerson = myTransferCCPanel.DepreciationCal.FromPerson
+          Me.m_entity.ToPerson = myTransferCCPanel.DepreciationCal.ToPerson
+
+          UpdateEntityProperties()
+
+        End If
       End If
     End Sub
   End Class

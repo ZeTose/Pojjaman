@@ -172,6 +172,9 @@
     <Compile Include="Asset\AssetWithdrawDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\DepreTransferDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\DepreciationCalDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -199,7 +202,7 @@
     <Compile Include="Asset\EqMaintenanceForVatDetailFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Asset\InternalCharegDetail.vb">
+    <Compile Include="Asset\InternalChargeDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Asset\InternalChargeForm.vb">
@@ -207,6 +210,11 @@
     </Compile>
     <Compile Include="Asset\WriteOffView.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Asset\AssetAuxDetail.resx">
       <DependentUpon>AssetAuxDetail.vb</DependentUpon>
@@ -228,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\AssetWithdrawDetail.resx">
       <DependentUpon>AssetWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\DepreTransferDetail.resx">
+      <DependentUpon>DepreTransferDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\DepreciationCalDetail.resx">
       <DependentUpon>DepreciationCalDetail.vb</DependentUpon>
@@ -256,8 +267,8 @@
     <EmbeddedResource Include="Asset\GoodsReceiptForVatFilterSubPanel.resx">
       <DependentUpon>EqMaintenanceForVatDetailFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Asset\InternalCharegDetail.resx">
-      <DependentUpon>InternalCharegDetail.vb</DependentUpon>
+    <EmbeddedResource Include="Asset\InternalChargeDetail.resx">
+      <DependentUpon>InternalChargeDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\InternalChargeForm.resx">
       <DependentUpon>InternalChargeForm.vb</DependentUpon>
@@ -265,10 +276,13 @@
     <EmbeddedResource Include="Asset\WriteOffView.resx">
       <DependentUpon>WriteOffView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -299,6 +313,10 @@
     <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
       <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
       <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Longkong.WinFormsUI\Longkong.WinFormsUI.csproj">
+      <Project>{09B9010B-2561-442D-93E5-8B985E674AFB}</Project>
+      <Name>Longkong.WinFormsUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
       <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
