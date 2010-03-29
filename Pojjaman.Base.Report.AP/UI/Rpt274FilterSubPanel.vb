@@ -51,15 +51,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents lblEmployee As System.Windows.Forms.Label
         Friend WithEvents grbDisplay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
         Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+        Friend WithEvents txtPr_CodeEnd As System.Windows.Forms.TextBox
+        Friend WithEvents txtPr_CodeBegin As System.Windows.Forms.TextBox
+        Friend WithEvents Label3 As System.Windows.Forms.Label
+        Friend WithEvents CmbOrderBy As System.Windows.Forms.ComboBox
+        Friend WithEvents Label4 As System.Windows.Forms.Label
         Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Rpt274FilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
       Me.grbDisplay = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.cmbStatus = New System.Windows.Forms.ComboBox()
       Me.Label1 = New System.Windows.Forms.Label()
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.Label4 = New System.Windows.Forms.Label()
+      Me.CmbOrderBy = New System.Windows.Forms.ComboBox()
+      Me.Label2 = New System.Windows.Forms.Label()
+      Me.txtPr_CodeEnd = New System.Windows.Forms.TextBox()
+      Me.txtPr_CodeBegin = New System.Windows.Forms.TextBox()
       Me.txtEmployee = New System.Windows.Forms.TextBox()
       Me.btnEmployee = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtEmployeeName = New System.Windows.Forms.TextBox()
@@ -76,14 +90,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
       Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.Label3 = New System.Windows.Forms.Label()
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
-      Me.btnSearch = New System.Windows.Forms.Button()
-      Me.btnReset = New System.Windows.Forms.Button()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbDisplay.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -100,10 +114,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 0)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(736, 150)
+      Me.grbMaster.Size = New System.Drawing.Size(731, 248)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
+      '
+      'btnSearch
+      '
+      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSearch.Location = New System.Drawing.Point(634, 207)
+      Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+      Me.btnSearch.TabIndex = 2
+      Me.btnSearch.Text = "ค้นหา"
+      '
+      'btnReset
+      '
+      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReset.Location = New System.Drawing.Point(554, 207)
+      Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
+      Me.btnReset.TabIndex = 1
+      Me.btnReset.TabStop = False
+      Me.btnReset.Text = "เคลียร์"
       '
       'grbDisplay
       '
@@ -155,6 +190,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.Label4)
+      Me.grbDetail.Controls.Add(Me.CmbOrderBy)
+      Me.grbDetail.Controls.Add(Me.Label2)
+      Me.grbDetail.Controls.Add(Me.txtPr_CodeEnd)
+      Me.grbDetail.Controls.Add(Me.txtPr_CodeBegin)
       Me.grbDetail.Controls.Add(Me.txtEmployee)
       Me.grbDetail.Controls.Add(Me.btnEmployee)
       Me.grbDetail.Controls.Add(Me.txtEmployeeName)
@@ -171,14 +211,70 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.dtpDocDateStart)
       Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDetail.Controls.Add(Me.lblDocDateStart)
+      Me.grbDetail.Controls.Add(Me.Label3)
       Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(16, 16)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(704, 121)
+      Me.grbDetail.Size = New System.Drawing.Size(704, 178)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
+      '
+      'Label4
+      '
+      Me.Label4.AutoSize = True
+      Me.Label4.Location = New System.Drawing.Point(82, 143)
+      Me.Label4.Name = "Label4"
+      Me.Label4.Size = New System.Drawing.Size(46, 13)
+      Me.Label4.TabIndex = 45
+      Me.Label4.Text = "เรียงตาม"
+      '
+      'CmbOrderBy
+      '
+      Me.CmbOrderBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.CmbOrderBy.FormattingEnabled = True
+      Me.CmbOrderBy.Location = New System.Drawing.Point(136, 140)
+      Me.CmbOrderBy.Name = "CmbOrderBy"
+      Me.CmbOrderBy.Size = New System.Drawing.Size(121, 21)
+      Me.CmbOrderBy.TabIndex = 44
+      '
+      'Label2
+      '
+      Me.Label2.AutoSize = True
+      Me.Label2.Location = New System.Drawing.Point(31, 115)
+      Me.Label2.Name = "Label2"
+      Me.Label2.Size = New System.Drawing.Size(97, 13)
+      Me.Label2.TabIndex = 43
+      Me.Label2.Text = "เลขที่เอกสารขอซื้อ"
+      '
+      'txtPr_CodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtPr_CodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtPr_CodeEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtPr_CodeEnd, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtPr_CodeEnd, System.Drawing.Color.Empty)
+      Me.txtPr_CodeEnd.Location = New System.Drawing.Point(260, 113)
+      Me.Validator.SetMinValue(Me.txtPr_CodeEnd, "")
+      Me.txtPr_CodeEnd.Name = "txtPr_CodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtPr_CodeEnd, "")
+      Me.Validator.SetRequired(Me.txtPr_CodeEnd, False)
+      Me.txtPr_CodeEnd.Size = New System.Drawing.Size(100, 21)
+      Me.txtPr_CodeEnd.TabIndex = 42
+      '
+      'txtPr_CodeBegin
+      '
+      Me.Validator.SetDataType(Me.txtPr_CodeBegin, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtPr_CodeBegin, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtPr_CodeBegin, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtPr_CodeBegin, System.Drawing.Color.Empty)
+      Me.txtPr_CodeBegin.Location = New System.Drawing.Point(136, 113)
+      Me.Validator.SetMinValue(Me.txtPr_CodeBegin, "")
+      Me.txtPr_CodeBegin.Name = "txtPr_CodeBegin"
+      Me.Validator.SetRegularExpression(Me.txtPr_CodeBegin, "")
+      Me.Validator.SetRequired(Me.txtPr_CodeBegin, False)
+      Me.txtPr_CodeBegin.Size = New System.Drawing.Size(100, 21)
+      Me.txtPr_CodeBegin.TabIndex = 42
       '
       'txtEmployee
       '
@@ -199,9 +295,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnEmployee
       '
+      Me.btnEmployee.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnEmployee.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnEmployee.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnEmployee.Image = CType(resources.GetObject("btnEmployee.Image"), System.Drawing.Image)
       Me.btnEmployee.Location = New System.Drawing.Point(232, 88)
       Me.btnEmployee.Name = "btnEmployee"
       Me.btnEmployee.Size = New System.Drawing.Size(24, 22)
@@ -268,9 +364,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCCCodeStart
       '
+      Me.btnCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCCodeStart.Image = CType(resources.GetObject("btnCCCodeStart.Image"), System.Drawing.Image)
       Me.btnCCCodeStart.Location = New System.Drawing.Point(232, 64)
       Me.btnCCCodeStart.Name = "btnCCCodeStart"
       Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
@@ -385,6 +481,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.Text = "ตั้งแต่วันที่"
       Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'Label3
+      '
+      Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label3.ForeColor = System.Drawing.Color.Black
+      Me.Label3.Location = New System.Drawing.Point(235, 117)
+      Me.Label3.Name = "Label3"
+      Me.Label3.Size = New System.Drawing.Size(24, 18)
+      Me.Label3.TabIndex = 3
+      Me.Label3.Text = "ถึง"
+      Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
       'lblDocDateEnd
       '
       Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -395,27 +502,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateEnd.TabIndex = 3
       Me.lblDocDateEnd.Text = "ถึง"
       Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'btnSearch
-      '
-      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(639, 109)
-      Me.btnSearch.Name = "btnSearch"
-      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-      Me.btnSearch.TabIndex = 2
-      Me.btnSearch.Text = "ค้นหา"
-      '
-      'btnReset
-      '
-      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(559, 109)
-      Me.btnReset.Name = "btnReset"
-      Me.btnReset.Size = New System.Drawing.Size(75, 23)
-      Me.btnReset.TabIndex = 1
-      Me.btnReset.TabStop = False
-      Me.btnReset.Text = "เคลียร์"
       '
       'Validator
       '
@@ -435,12 +521,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "Rpt274FilterSubPanel"
-      Me.Size = New System.Drawing.Size(752, 153)
+      Me.Size = New System.Drawing.Size(747, 251)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
       Me.grbDisplay.ResumeLayout(False)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -470,19 +557,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.grbMaster}")
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.grbDetail}")
 
-            Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.lblDocStatus}")
-            Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbAll}")) 'ทั้งหมด
-            Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbCancel}")) 'ยกเลิก
-            Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbSave}")) 'บันทึกแล้ว
-            Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbClose}")) 'ปิดแล้ว
-
+            'Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.lblDocStatus}")
+            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbAll}")) 'ทั้งหมด
+            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbCancel}")) 'ยกเลิก
+            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbSave}")) 'บันทึกแล้ว
+            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cbClose}")) 'ปิดแล้ว
+            
             'สถานะรูปแบบการแสดงผล
             Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.lblStatus}")
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cmbDocAll}")) 'เอกสารขอซื้อทั้งหมด
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cmbDocApprove}")) 'เอกสารขอซื้อที่อนุมัติแล้ว
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.cmbDocNoApprove}")) 'เอกสารขอซื้อที่ยังไม่อนุมัติ
 
+            'การเรียงลำดับ
+            Me.CmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.Pr_Date}")) 'วันที่PR
+            Me.CmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.ApproveDate}")) 'วันที่อนุมัติ
+            Me.CmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.ProjectType}")) 'รูปแบบโครงการ
 
+            Me.CmbOrderBy.SelectedIndex = 0
             Me.cmbDocStatus.SelectedIndex = 0
             Me.cmbStatus.SelectedIndex = 0
 
@@ -505,8 +597,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             MyBase.New()
             InitializeComponent()
             EventWiring()
-            Initialize()
 
+            Initialize()
+            PopulateStatus()
             SetLabelText()
             LoopControl(Me)
         End Sub
@@ -570,22 +663,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpDocDateEnd.Value = Me.DocDateEnd
 
         End Sub
+        Private Sub PopulateStatus()
+            Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+            Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
+            Dim dt1 As DataTable
+
+            CodeDescription.ListCodeDescriptionInComboBox(cmbDocStatus, "pr_status", True)
+            'dt1 = CodeDescription.GetCodeList("pr_status")
+            'For Each row As DataRow In dt1.Rows
+            '    Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+            '    cmbDocStatus.Items.Add(item)
+            'Next
+            dt1 = CodeDescription.GetCodeList("reference_status")
+            For Each row As DataRow In dt1.Rows
+                Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+                cmbDocStatus.Items.Add(item)
+            Next
+            'dt1 = CodeDescription.GetCodeList("approve_status")
+            'For Each row As DataRow In dt1.Rows
+            '    Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+            '    cmbDocStatus.Items.Add(item)
+            'Next
+            dt1 = CodeDescription.GetCodeList("close_status")
+            For Each row As DataRow In dt1.Rows
+                Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+                cmbDocStatus.Items.Add(item)
+            Next
+
+            'dt1 = CodeDescription.GetCodeList("close_status")
+            'For Each row As DataRow In dt1.Rows
+            '    If row.values = 0 Then
+            '        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+            '        cmbDocStatus.Items.Add(item)
+            '    End If
+
+            'Next
+
+        End Sub
         Public Overrides Function GetFilterString() As String
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(9) As Filter
+            Dim arr(12) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("DueDateStart", IIf(Me.DueDateStart.Equals(Date.MinValue), DBNull.Value, Me.DueDateStart))
             arr(3) = New Filter("DueDateEnd", IIf(Me.DueDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DueDateEnd))
             arr(4) = New Filter("cc_id", Me.ValidIdOrDBNull(m_cc))
             arr(5) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
-            arr(6) = New Filter("Docstatus", cmbDocStatus.SelectedIndex) ' IIf(cmbDocStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbDocStatus.SelectedItem, IdValuePair).Id))
+            arr(6) = New Filter("Docstatus", IIf(cmbDocStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbDocStatus.SelectedItem, IdValuePair).Id)) 'cmbDocStatus.SelectedIndex
             arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             arr(8) = New Filter("employee", Me.ValidIdOrDBNull(m_employee))
-            arr(9) = New Filter("Status", Me.cmbStatus.SelectedIndex)
-
+            arr(9) = New Filter("Status", cmbStatus.SelectedIndex)
+            arr(10) = New Filter("Pr_CodeBegin", IIf(txtPr_CodeBegin.TextLength > 0, txtPr_CodeBegin.Text, DBNull.Value))
+            arr(11) = New Filter("Pr_CodeEnd", IIf(txtPr_CodeEnd.TextLength > 0, txtPr_CodeEnd.Text, DBNull.Value))
+            arr(12) = New Filter("OderBy", Me.CmbOrderBy.SelectedIndex)
             Return arr
         End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -834,6 +967,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
-    End Class
+        Private Sub cmbDocStatus_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbDocStatus.SelectedIndexChanged
+
+        End Sub
+
+    Private Sub Rpt274FilterSubPanel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
+  End Class
 End Namespace
 

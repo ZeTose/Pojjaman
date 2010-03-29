@@ -51,44 +51,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents chkOnlyPosted As System.Windows.Forms.CheckBox
         Friend WithEvents ChkShowSummary As System.Windows.Forms.CheckBox
         Friend WithEvents chkShowCancelDoc As System.Windows.Forms.CheckBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents txtRefDocCodePrefix As System.Windows.Forms.TextBox
-    Friend WithEvents txtAcctBookCodeprefix As System.Windows.Forms.TextBox
+        Friend WithEvents Label1 As System.Windows.Forms.Label
+        Friend WithEvents Label2 As System.Windows.Forms.Label
+        Friend WithEvents txtRefDocCodePrefix As System.Windows.Forms.TextBox
+        Friend WithEvents txtRefCodeEnd As System.Windows.Forms.TextBox
+        Friend WithEvents txtCodePrefixEnd As System.Windows.Forms.TextBox
+        Friend WithEvents Label3 As System.Windows.Forms.Label
+        Friend WithEvents Label4 As System.Windows.Forms.Label
+        Friend WithEvents txtAcctBookCodeprefix As System.Windows.Forms.TextBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(RptGLFilterSubPanel))
-            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.txtTemp = New System.Windows.Forms.TextBox
-            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.Label2 = New System.Windows.Forms.Label
-      Me.Label1 = New System.Windows.Forms.Label
-      Me.txtRefDocCodePrefix = New System.Windows.Forms.TextBox
-      Me.txtAcctBookCodeprefix = New System.Windows.Forms.TextBox
-            Me.chkOnlyPosted = New System.Windows.Forms.CheckBox
-            Me.lblOrderBy = New System.Windows.Forms.Label
-            Me.cmbOrderBy = New System.Windows.Forms.ComboBox
-            Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox
-            Me.lblAccountEnd = New System.Windows.Forms.Label
-            Me.btnAccountStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtAccountCodeStart = New System.Windows.Forms.TextBox
-            Me.lblAccountStart = New System.Windows.Forms.Label
-            Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-            Me.txtDocDateStart = New System.Windows.Forms.TextBox
-            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-            Me.lblDocDateStart = New System.Windows.Forms.Label
-            Me.lblDocDateEnd = New System.Windows.Forms.Label
-            Me.ChkShowSummary = New System.Windows.Forms.CheckBox
-      Me.chkShowCancelDoc = New System.Windows.Forms.CheckBox
-            Me.btnSearch = New System.Windows.Forms.Button
-            Me.btnReset = New System.Windows.Forms.Button
-            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-            Me.chkShowCancelDoc = New System.Windows.Forms.CheckBox
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptGLFilterSubPanel))
+            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.txtTemp = New System.Windows.Forms.TextBox()
+            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.Label3 = New System.Windows.Forms.Label()
+            Me.Label4 = New System.Windows.Forms.Label()
+            Me.txtCodePrefixEnd = New System.Windows.Forms.TextBox()
+            Me.txtRefCodeEnd = New System.Windows.Forms.TextBox()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.txtRefDocCodePrefix = New System.Windows.Forms.TextBox()
+            Me.txtAcctBookCodeprefix = New System.Windows.Forms.TextBox()
+            Me.chkOnlyPosted = New System.Windows.Forms.CheckBox()
+            Me.lblOrderBy = New System.Windows.Forms.Label()
+            Me.cmbOrderBy = New System.Windows.Forms.ComboBox()
+            Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
+            Me.lblAccountEnd = New System.Windows.Forms.Label()
+            Me.btnAccountStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtAccountCodeStart = New System.Windows.Forms.TextBox()
+            Me.lblAccountStart = New System.Windows.Forms.Label()
+            Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+            Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+            Me.lblDocDateStart = New System.Windows.Forms.Label()
+            Me.lblDocDateEnd = New System.Windows.Forms.Label()
+            Me.ChkShowSummary = New System.Windows.Forms.CheckBox()
+            Me.chkShowCancelDoc = New System.Windows.Forms.CheckBox()
+            Me.btnSearch = New System.Windows.Forms.Button()
+            Me.btnReset = New System.Windows.Forms.Button()
+            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
             Me.grbMaster.SuspendLayout()
             Me.grbDetail.SuspendLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'grbMaster
@@ -104,7 +111,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.grbMaster.Location = New System.Drawing.Point(8, 8)
             Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(432, 272)
+            Me.grbMaster.Size = New System.Drawing.Size(432, 272)
             Me.grbMaster.TabIndex = 0
             Me.grbMaster.TabStop = False
             Me.grbMaster.Text = "เช็ครับ"
@@ -117,7 +124,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
             Me.txtTemp.Location = New System.Drawing.Point(432, 32)
             Me.txtTemp.MaxLength = 255
-            Me.Validator.SetMaxValue(Me.txtTemp, "")
             Me.Validator.SetMinValue(Me.txtTemp, "")
             Me.txtTemp.Name = "txtTemp"
             Me.txtTemp.ReadOnly = True
@@ -125,15 +131,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtTemp, False)
             Me.txtTemp.Size = New System.Drawing.Size(104, 21)
             Me.txtTemp.TabIndex = 3
-            Me.txtTemp.Text = ""
             Me.txtTemp.Visible = False
             '
             'grbDetail
             '
-      Me.grbDetail.Controls.Add(Me.Label2)
-      Me.grbDetail.Controls.Add(Me.Label1)
-      Me.grbDetail.Controls.Add(Me.txtRefDocCodePrefix)
-      Me.grbDetail.Controls.Add(Me.txtAcctBookCodeprefix)
+            Me.grbDetail.Controls.Add(Me.Label3)
+            Me.grbDetail.Controls.Add(Me.Label4)
+            Me.grbDetail.Controls.Add(Me.txtCodePrefixEnd)
+            Me.grbDetail.Controls.Add(Me.txtRefCodeEnd)
+            Me.grbDetail.Controls.Add(Me.Label2)
+            Me.grbDetail.Controls.Add(Me.Label1)
+            Me.grbDetail.Controls.Add(Me.txtRefDocCodePrefix)
+            Me.grbDetail.Controls.Add(Me.txtAcctBookCodeprefix)
             Me.grbDetail.Controls.Add(Me.chkOnlyPosted)
             Me.grbDetail.Controls.Add(Me.lblOrderBy)
             Me.grbDetail.Controls.Add(Me.cmbOrderBy)
@@ -154,63 +163,109 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(16, 16)
             Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(400, 216)
+            Me.grbDetail.Size = New System.Drawing.Size(400, 216)
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ข้อมูลทั่วไป"
             '
-      'Label2
-      '
-      Me.Label2.Location = New System.Drawing.Point(16, 112)
-      Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(80, 16)
-      Me.Label2.TabIndex = 33
-      Me.Label2.Text = "RefCodePrefix"
-      '
-      'Label1
-      '
-      Me.Label1.Location = New System.Drawing.Point(16, 88)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(72, 16)
-      Me.Label1.TabIndex = 32
-      Me.Label1.Text = "GLCodePrefix"
-      '
-      'txtRefDocCodePrefix
-      '
-      Me.Validator.SetDataType(Me.txtRefDocCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRefDocCodePrefix, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
-      Me.txtRefDocCodePrefix.Location = New System.Drawing.Point(104, 112)
-      Me.Validator.SetMaxValue(Me.txtRefDocCodePrefix, "")
-      Me.Validator.SetMinValue(Me.txtRefDocCodePrefix, "")
-      Me.txtRefDocCodePrefix.Name = "txtRefDocCodePrefix"
-      Me.Validator.SetRegularExpression(Me.txtRefDocCodePrefix, "")
-      Me.Validator.SetRequired(Me.txtRefDocCodePrefix, False)
-      Me.txtRefDocCodePrefix.Size = New System.Drawing.Size(120, 21)
-      Me.txtRefDocCodePrefix.TabIndex = 31
-      Me.txtRefDocCodePrefix.Text = ""
-      '
-      'txtAcctBookCodeprefix
-      '
-      Me.Validator.SetDataType(Me.txtAcctBookCodeprefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtAcctBookCodeprefix, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtAcctBookCodeprefix, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtAcctBookCodeprefix, System.Drawing.Color.Empty)
-      Me.txtAcctBookCodeprefix.Location = New System.Drawing.Point(104, 88)
-      Me.Validator.SetMaxValue(Me.txtAcctBookCodeprefix, "")
-      Me.Validator.SetMinValue(Me.txtAcctBookCodeprefix, "")
-      Me.txtAcctBookCodeprefix.Name = "txtAcctBookCodeprefix"
-      Me.Validator.SetRegularExpression(Me.txtAcctBookCodeprefix, "")
-      Me.Validator.SetRequired(Me.txtAcctBookCodeprefix, False)
-      Me.txtAcctBookCodeprefix.Size = New System.Drawing.Size(120, 21)
-      Me.txtAcctBookCodeprefix.TabIndex = 30
-      Me.txtAcctBookCodeprefix.Text = ""
-      '
+            'Label3
+            '
+            Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label3.ForeColor = System.Drawing.Color.Black
+            Me.Label3.Location = New System.Drawing.Point(223, 115)
+            Me.Label3.Name = "Label3"
+            Me.Label3.Size = New System.Drawing.Size(24, 18)
+            Me.Label3.TabIndex = 38
+            Me.Label3.Text = "ถึง"
+            Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'Label4
+            '
+            Me.Label4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label4.ForeColor = System.Drawing.Color.Black
+            Me.Label4.Location = New System.Drawing.Point(223, 91)
+            Me.Label4.Name = "Label4"
+            Me.Label4.Size = New System.Drawing.Size(24, 18)
+            Me.Label4.TabIndex = 38
+            Me.Label4.Text = "ถึง"
+            Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'txtCodePrefixEnd
+            '
+            Me.Validator.SetDataType(Me.txtCodePrefixEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtCodePrefixEnd, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtCodePrefixEnd, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtCodePrefixEnd, System.Drawing.Color.Empty)
+            Me.txtCodePrefixEnd.Location = New System.Drawing.Point(248, 88)
+            Me.Validator.SetMinValue(Me.txtCodePrefixEnd, "")
+            Me.txtCodePrefixEnd.Name = "txtCodePrefixEnd"
+            Me.Validator.SetRegularExpression(Me.txtCodePrefixEnd, "")
+            Me.Validator.SetRequired(Me.txtCodePrefixEnd, False)
+            Me.txtCodePrefixEnd.Size = New System.Drawing.Size(87, 21)
+            Me.txtCodePrefixEnd.TabIndex = 37
+            '
+            'txtRefCodeEnd
+            '
+            Me.Validator.SetDataType(Me.txtRefCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtRefCodeEnd, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtRefCodeEnd, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtRefCodeEnd, System.Drawing.Color.Empty)
+            Me.txtRefCodeEnd.Location = New System.Drawing.Point(248, 112)
+            Me.Validator.SetMinValue(Me.txtRefCodeEnd, "")
+            Me.txtRefCodeEnd.Name = "txtRefCodeEnd"
+            Me.Validator.SetRegularExpression(Me.txtRefCodeEnd, "")
+            Me.Validator.SetRequired(Me.txtRefCodeEnd, False)
+            Me.txtRefCodeEnd.Size = New System.Drawing.Size(87, 21)
+            Me.txtRefCodeEnd.TabIndex = 35
+            '
+            'Label2
+            '
+            Me.Label2.Location = New System.Drawing.Point(16, 112)
+            Me.Label2.Name = "Label2"
+            Me.Label2.Size = New System.Drawing.Size(80, 16)
+            Me.Label2.TabIndex = 33
+            Me.Label2.Text = "RefCodePrefix"
+            '
+            'Label1
+            '
+            Me.Label1.Location = New System.Drawing.Point(16, 88)
+            Me.Label1.Name = "Label1"
+            Me.Label1.Size = New System.Drawing.Size(72, 16)
+            Me.Label1.TabIndex = 32
+            Me.Label1.Text = "GLCodePrefix"
+            '
+            'txtRefDocCodePrefix
+            '
+            Me.Validator.SetDataType(Me.txtRefDocCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtRefDocCodePrefix, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtRefDocCodePrefix, System.Drawing.Color.Empty)
+            Me.txtRefDocCodePrefix.Location = New System.Drawing.Point(104, 112)
+            Me.Validator.SetMinValue(Me.txtRefDocCodePrefix, "")
+            Me.txtRefDocCodePrefix.Name = "txtRefDocCodePrefix"
+            Me.Validator.SetRegularExpression(Me.txtRefDocCodePrefix, "")
+            Me.Validator.SetRequired(Me.txtRefDocCodePrefix, False)
+            Me.txtRefDocCodePrefix.Size = New System.Drawing.Size(120, 21)
+            Me.txtRefDocCodePrefix.TabIndex = 31
+            '
+            'txtAcctBookCodeprefix
+            '
+            Me.Validator.SetDataType(Me.txtAcctBookCodeprefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtAcctBookCodeprefix, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtAcctBookCodeprefix, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtAcctBookCodeprefix, System.Drawing.Color.Empty)
+            Me.txtAcctBookCodeprefix.Location = New System.Drawing.Point(104, 88)
+            Me.Validator.SetMinValue(Me.txtAcctBookCodeprefix, "")
+            Me.txtAcctBookCodeprefix.Name = "txtAcctBookCodeprefix"
+            Me.Validator.SetRegularExpression(Me.txtAcctBookCodeprefix, "")
+            Me.Validator.SetRequired(Me.txtAcctBookCodeprefix, False)
+            Me.txtAcctBookCodeprefix.Size = New System.Drawing.Size(120, 21)
+            Me.txtAcctBookCodeprefix.TabIndex = 30
+            '
             'chkOnlyPosted
             '
             Me.chkOnlyPosted.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkOnlyPosted.Location = New System.Drawing.Point(104, 136)
+            Me.chkOnlyPosted.Location = New System.Drawing.Point(104, 136)
             Me.chkOnlyPosted.Name = "chkOnlyPosted"
             Me.chkOnlyPosted.Size = New System.Drawing.Size(200, 24)
             Me.chkOnlyPosted.TabIndex = 29
@@ -236,9 +291,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'btnAccountEndFind
             '
+            Me.btnAccountEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnAccountEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnAccountEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAccountEndFind.Image = CType(resources.GetObject("btnAccountEndFind.Image"), System.Drawing.Image)
             Me.btnAccountEndFind.Location = New System.Drawing.Point(360, 40)
             Me.btnAccountEndFind.Name = "btnAccountEndFind"
             Me.btnAccountEndFind.Size = New System.Drawing.Size(24, 22)
@@ -255,14 +310,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeEnd, -15)
             Me.Validator.SetInvalidBackColor(Me.txtAccountCodeEnd, System.Drawing.Color.Empty)
             Me.txtAccountCodeEnd.Location = New System.Drawing.Point(264, 40)
-            Me.Validator.SetMaxValue(Me.txtAccountCodeEnd, "")
             Me.Validator.SetMinValue(Me.txtAccountCodeEnd, "")
             Me.txtAccountCodeEnd.Name = "txtAccountCodeEnd"
             Me.Validator.SetRegularExpression(Me.txtAccountCodeEnd, "")
             Me.Validator.SetRequired(Me.txtAccountCodeEnd, False)
             Me.txtAccountCodeEnd.Size = New System.Drawing.Size(96, 21)
             Me.txtAccountCodeEnd.TabIndex = 10
-            Me.txtAccountCodeEnd.Text = ""
             '
             'lblAccountEnd
             '
@@ -277,9 +330,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'btnAccountStartFind
             '
+            Me.btnAccountStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnAccountStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnAccountStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAccountStartFind.Image = CType(resources.GetObject("btnAccountStartFind.Image"), System.Drawing.Image)
             Me.btnAccountStartFind.Location = New System.Drawing.Point(200, 40)
             Me.btnAccountStartFind.Name = "btnAccountStartFind"
             Me.btnAccountStartFind.Size = New System.Drawing.Size(24, 22)
@@ -296,14 +349,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeStart, -15)
             Me.Validator.SetInvalidBackColor(Me.txtAccountCodeStart, System.Drawing.Color.Empty)
             Me.txtAccountCodeStart.Location = New System.Drawing.Point(104, 40)
-            Me.Validator.SetMaxValue(Me.txtAccountCodeStart, "")
             Me.Validator.SetMinValue(Me.txtAccountCodeStart, "")
             Me.txtAccountCodeStart.Name = "txtAccountCodeStart"
             Me.Validator.SetRegularExpression(Me.txtAccountCodeStart, "")
             Me.Validator.SetRequired(Me.txtAccountCodeStart, False)
             Me.txtAccountCodeStart.Size = New System.Drawing.Size(96, 21)
             Me.txtAccountCodeStart.TabIndex = 7
-            Me.txtAccountCodeStart.Text = ""
             '
             'lblAccountStart
             '
@@ -325,14 +376,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
             Me.txtDocDateEnd.Location = New System.Drawing.Point(264, 16)
             Me.txtDocDateEnd.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
             Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
             Me.txtDocDateEnd.Name = "txtDocDateEnd"
             Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
             Me.Validator.SetRequired(Me.txtDocDateEnd, False)
             Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
             Me.txtDocDateEnd.TabIndex = 4
-            Me.txtDocDateEnd.Text = ""
             '
             'txtDocDateStart
             '
@@ -343,18 +392,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
             Me.txtDocDateStart.Location = New System.Drawing.Point(104, 16)
             Me.txtDocDateStart.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
             Me.Validator.SetMinValue(Me.txtDocDateStart, "")
             Me.txtDocDateStart.Name = "txtDocDateStart"
             Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
             Me.Validator.SetRequired(Me.txtDocDateStart, False)
             Me.txtDocDateStart.Size = New System.Drawing.Size(99, 21)
             Me.txtDocDateStart.TabIndex = 1
-            Me.txtDocDateStart.Text = ""
             '
             'dtpDocDateStart
             '
-            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
+            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
             Me.dtpDocDateStart.Location = New System.Drawing.Point(104, 16)
             Me.dtpDocDateStart.Name = "dtpDocDateStart"
             Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
@@ -363,7 +410,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'dtpDocDateEnd
             '
-            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
+            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
             Me.dtpDocDateEnd.Location = New System.Drawing.Point(264, 16)
             Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
             Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
@@ -395,52 +442,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'ChkShowSummary
             '
             Me.ChkShowSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ChkShowSummary.Location = New System.Drawing.Point(104, 160)
+            Me.ChkShowSummary.Location = New System.Drawing.Point(104, 160)
             Me.ChkShowSummary.Name = "ChkShowSummary"
             Me.ChkShowSummary.Size = New System.Drawing.Size(200, 24)
             Me.ChkShowSummary.TabIndex = 29
             Me.ChkShowSummary.Text = "แสดงผลรวมแต่ละรายการรายวัน"
-            '
-      'chkShowCancelDoc
-      '
-      Me.chkShowCancelDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkShowCancelDoc.Location = New System.Drawing.Point(104, 184)
-      Me.chkShowCancelDoc.Name = "chkShowCancelDoc"
-      Me.chkShowCancelDoc.Size = New System.Drawing.Size(200, 24)
-      Me.chkShowCancelDoc.TabIndex = 29
-      Me.chkShowCancelDoc.Text = "แสดงเอกสารที่ถูกยกเลิก"
-      '
-            'btnSearch
-            '
-            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(344, 240)
-            Me.btnSearch.Name = "btnSearch"
-            Me.btnSearch.TabIndex = 2
-            Me.btnSearch.Text = "ค้นหา"
-            '
-            'btnReset
-            '
-            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(264, 240)
-            Me.btnReset.Name = "btnReset"
-            Me.btnReset.TabIndex = 1
-            Me.btnReset.TabStop = False
-            Me.btnReset.Text = "เคลียร์"
-            '
-            'Validator
-            '
-            Me.Validator.BackcolorChanging = False
-            Me.Validator.DataTable = Nothing
-            Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
-            Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-            '
-            'ErrorProvider1
-            '
-            Me.ErrorProvider1.ContainerControl = Me
             '
             'chkShowCancelDoc
             '
@@ -451,14 +457,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkShowCancelDoc.TabIndex = 29
             Me.chkShowCancelDoc.Text = "แสดงเอกสารที่ถูกยกเลิก"
             '
+            'btnSearch
+            '
+            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSearch.Location = New System.Drawing.Point(344, 240)
+            Me.btnSearch.Name = "btnSearch"
+            Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+            Me.btnSearch.TabIndex = 2
+            Me.btnSearch.Text = "ค้นหา"
+            '
+            'btnReset
+            '
+            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnReset.Location = New System.Drawing.Point(264, 240)
+            Me.btnReset.Name = "btnReset"
+            Me.btnReset.Size = New System.Drawing.Size(75, 23)
+            Me.btnReset.TabIndex = 1
+            Me.btnReset.TabStop = False
+            Me.btnReset.Text = "เคลียร์"
+            '
+            'Validator
+            '
+            Me.Validator.BackcolorChanging = False
+            Me.Validator.DataTable = Nothing
+            Me.Validator.ErrorProvider = Me.ErrorProvider1
+            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.Validator.HasNewRow = False
+            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+            '
+            'ErrorProvider1
+            '
+            Me.ErrorProvider1.ContainerControl = Me
+            '
             'RptGLFilterSubPanel
             '
             Me.Controls.Add(Me.grbMaster)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Name = "RptGLFilterSubPanel"
-      Me.Size = New System.Drawing.Size(448, 288)
+            Me.Size = New System.Drawing.Size(448, 288)
             Me.grbMaster.ResumeLayout(False)
+            Me.grbMaster.PerformLayout()
             Me.grbDetail.ResumeLayout(False)
+            Me.grbDetail.PerformLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -567,7 +610,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(9) As Filter
+            Dim arr(11) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("AcctBookCodeStart", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
@@ -576,8 +619,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(5) = New Filter("OnlyPosted", Me.chkOnlyPosted.Checked)
             arr(6) = New Filter("ShowSummary", Me.ChkShowSummary.Checked)
             arr(7) = New Filter("ShowCanceled", Me.chkShowCancelDoc.Checked)
-      arr(8) = New Filter("AcctBookCodeprefix", IIf(txtAcctBookCodeprefix.TextLength > 0, txtAcctBookCodeprefix.Text, DBNull.Value))
-      arr(9) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
+            arr(8) = New Filter("AcctBookCodeprefix", IIf(txtAcctBookCodeprefix.TextLength > 0, txtAcctBookCodeprefix.Text, DBNull.Value))
+            arr(9) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
+            arr(10) = New Filter("GList_Refcode2", IIf(txtRefCodeEnd.TextLength > 0, txtRefCodeEnd.Text, DBNull.Value))
+            arr(11) = New Filter("GList_AcctBookCodeprefix", IIf(txtCodePrefixEnd.TextLength > 0, txtCodePrefixEnd.Text, DBNull.Value))
             Return arr
         End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -666,7 +711,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dpi.Mapping = "RefDocCodePrefix"
       dpi.Value = Me.txtRefDocCodePrefix.Text
       dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+            dpiColl.Add(dpi)
+
+
+            'refDocCodeEnd
+            ' dpi = New DocPrintingItem
+            'dpi.Mapping = "GList_Refcode2"
+            'dpi.Value = Me.RefCodeEnd.Text
+            'dpi.DataType = "System.String"
+            'dpiColl.Add(dpi)
 
             Return dpiColl
         End Function
@@ -798,6 +851,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
+        Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+
+        End Sub
+
+        Private Sub RptGLFilterSubPanel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        End Sub
+
+        Private Sub grbMaster_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grbMaster.Enter
+
+        End Sub
     End Class
 
     ' เรียงตาม 
