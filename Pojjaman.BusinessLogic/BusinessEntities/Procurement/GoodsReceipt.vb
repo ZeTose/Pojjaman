@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
-   , IUnlockAble, IGLCheckingBeforeRefresh
+   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -402,7 +402,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property Supplier() As Supplier Implements IAdvancePayItemAble.Supplier
+    Public Property Supplier() As Supplier Implements IAdvancePayItemAble.Supplier, IWBSAllocatable.Supplier
       Get
         Return m_supplier
       End Get
@@ -435,7 +435,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_deliveryPerson = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate
+    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, _
+                                                 IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate, IWBSAllocatable.DocDate
       Get
         Return m_docDate
       End Get
@@ -445,7 +446,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Vat.SubmitalDate = Value
       End Set
     End Property
-    Public Property ToCostCenter() As CostCenter
+    Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
       Get
         Return m_toCostCenter
       End Get
@@ -1808,6 +1809,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
+          '==============================STOCKCOST=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================STOCKCOST=========================================
+
           If Not Me.ToCostCenter Is Nothing Then
             Me.m_payment.CCId = Me.ToCostCenter.Id
             Me.m_whtcol.SetCCId(Me.ToCostCenter.Id)
@@ -1925,12 +1933,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
 
           Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef" _
-          , New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
@@ -4730,8 +4735,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+#Region "IWBSAllocatable"
+    Public Property FromCostCenter As CostCenter Implements IWBSAllocatable.FromCostCenter
+      Get
 
+      End Get
+      Set(ByVal value As CostCenter)
+
+      End Set
+    End Property
+
+    Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
+      Dim coll As New WBSAllocatableItemCollection
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As GoodsReceiptItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
+          coll.Add(item)
+        End If
+      Next
+
+      Return coll
+    End Function
+#End Region
   End Class
+
   Public Class GoodsReceiptForApprove
     Inherits GoodsReceipt
     Public Overrides ReadOnly Property CodonName() As String
@@ -4773,6 +4815,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
   End Class
+
   Public Class GoodsReceiptNoItem
     Inherits GoodsReceipt
     Public Overrides ReadOnly Property CodonName() As String

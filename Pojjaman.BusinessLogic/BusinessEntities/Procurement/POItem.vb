@@ -9,9 +9,10 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class POItem
+    Implements IWBSAllocatableItem
 
 #Region "Members"
-    Private m_po As Po
+    Private m_po As PO
     Private m_lineNumber As Integer
 
     Private m_pritem As PRItem
@@ -22,7 +23,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_unit As Unit
     Private m_originQty As Decimal
     Private m_originAmt As Decimal
-		Public m_qty As Decimal
+    Public m_qty As Decimal
     Private m_unitPrice As Decimal
     Private m_note As String
     Private m_receivedQty As Decimal
@@ -50,7 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
 
         If dr.Table.Columns.Contains(aliasPrefix & "pri_entityType") AndAlso Not dr.IsNull("pri_entityType") Then
-          Me.m_pritem = New Pritem(dr, aliasPrefix)
+          Me.m_pritem = New PRItem(dr, aliasPrefix)
           Dim myPR As New PR
 
           If dr.Table.Columns.Contains(aliasPrefix & "pri_pr") AndAlso Not dr.IsNull(aliasPrefix & "pri_pr") Then
@@ -90,22 +91,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             Else
               .m_entity = New Tool(itemId)
-						End If
-					Case 88, 89
-						If itemId > 0 Then
-							If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-								If Not dr.IsNull("lci_id") Then
-									.m_entity = New LCIItem(dr, "")
-								End If
-							Else
-								.m_entity = New LCIItem(itemId)
-							End If
-						Else
-							.m_entity = New BlankItem(.m_entityName)
-						End If
-					Case Else				'0, 28, 88, 89, 160, 162
-							.m_entity = New BlankItem(.m_entityName)
-				End Select
+            End If
+          Case 88, 89
+            If itemId > 0 Then
+              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                If Not dr.IsNull("lci_id") Then
+                  .m_entity = New LCIItem(dr, "")
+                End If
+              Else
+                .m_entity = New LCIItem(itemId)
+              End If
+            Else
+              .m_entity = New BlankItem(.m_entityName)
+            End If
+          Case Else       '0, 28, 88, 89, 160, 162
+            .m_entity = New BlankItem(.m_entityName)
+        End Select
 
         If dr.Table.Columns.Contains(aliasPrefix & "poi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "poi_lineNumber") Then
           .m_lineNumber = CInt(dr(aliasPrefix & "poi_lineNumber"))
@@ -179,7 +180,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection
       Get
         Return m_WBSDistributeCollection
       End Get
@@ -187,7 +188,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_WBSDistributeCollection = Value
       End Set
     End Property
-    Public Property Po() As Po      Get        Return m_po      End Get      Set(ByVal Value As Po)        m_po = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Pritem() As Pritem      Get        Return m_pritem      End Get      Set(ByVal Value As Pritem)        m_pritem = Value      End Set    End Property    Public Property ItemType() As ItemType      Get        Return m_itemType      End Get      Set(ByVal Value As ItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property Po() As PO      Get        Return m_po      End Get      Set(ByVal Value As PO)        m_po = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Pritem() As PRItem      Get        Return m_pritem      End Get      Set(ByVal Value As PRItem)        m_pritem = Value      End Set    End Property    Public Property ItemType() As ItemType      Get        Return m_itemType      End Get      Set(ByVal Value As ItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemType Is Nothing Then
           m_itemType = Value
           Me.Clear()
@@ -252,103 +253,103 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Case 160, 162 'Note
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveCode}")
           Return
-				Case 0		', 88, 89 'Blank
-					msgServ.ShowMessage("${res:Global.Error.BlankItemORLaborOrEQCannotHaveCode}")
-					Return
-				Case 28		 'F/A
-					msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
-					Return
-				Case 19		 'Tool
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
-					End If
-					Dim myTool As New Tool(theCode)
-					If Not myTool.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
-						Return
-					ElseIf myTool.Canceled Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.ToolIsCanceled}", New String() {theCode})
-						Return
-					Else
-						Select Case pricing
-							Case 0
-								unitPrice = myTool.FairPrice
-							Case 1
-								unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-								, New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
-								, New SqlParameter("@poi_entity", myTool.Id) _
-								, New SqlParameter("@poi_entitytype", myTool.EntityId) _
-								)
-							Case 2
-								unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-								, New SqlParameter("@po_supplier", DBNull.Value) _
-								, New SqlParameter("@poi_entity", myTool.Id) _
-								, New SqlParameter("@poi_entitytype", myTool.EntityId) _
-								)
-						End Select
-						Dim myUnit As Unit = myTool.Unit
-						Me.m_unit = myUnit
-						Me.m_entity = myTool
-						If Me.Conversion <> 0 Then
-							unitPrice = unitPrice * Conversion
-						End If
-						Me.UnitPrice = unitPrice
-					End If
-				Case 42, 88, 89		 'LCI
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						If Me.ItemType.Value = 42 Then
-							Return
-						Else
-							Exit Select
-						End If
-					End If
-					Dim lci As New LCIItem(theCode)
-					If Not lci.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
-						Return
-					ElseIf lci.Canceled Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {theCode})
-						Return
-					Else
-						Select Case pricing
-							Case 0
-								unitPrice = lci.FairPrice
-							Case 1
-								unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-								, New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
-								, New SqlParameter("@poi_entity", lci.Id) _
-								, New SqlParameter("@poi_entitytype", lci.EntityId) _
-								)
-							Case 2
-								unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-								, New SqlParameter("@po_supplier", DBNull.Value) _
-								, New SqlParameter("@poi_entity", lci.Id) _
-								, New SqlParameter("@poi_entitytype", lci.EntityId) _
-								)
-						End Select
-						Dim myUnit As Unit = lci.DefaultUnit
-						Me.m_unit = myUnit
-						Me.m_entity = lci
-						If Me.Conversion <> 0 Then
-							unitPrice = unitPrice * Conversion
-						End If
-						Me.UnitPrice = unitPrice
-					End If
+        Case 0    ', 88, 89 'Blank
+          msgServ.ShowMessage("${res:Global.Error.BlankItemORLaborOrEQCannotHaveCode}")
+          Return
+        Case 28    'F/A
+          msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
+          Return
+        Case 19    'Tool
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim myTool As New Tool(theCode)
+          If Not myTool.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+            Return
+          ElseIf myTool.Canceled Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.ToolIsCanceled}", New String() {theCode})
+            Return
+          Else
+            Select Case pricing
+              Case 0
+                unitPrice = myTool.FairPrice
+              Case 1
+                unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+                , New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
+                , New SqlParameter("@poi_entity", myTool.Id) _
+                , New SqlParameter("@poi_entitytype", myTool.EntityId) _
+                )
+              Case 2
+                unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+                , New SqlParameter("@po_supplier", DBNull.Value) _
+                , New SqlParameter("@poi_entity", myTool.Id) _
+                , New SqlParameter("@poi_entitytype", myTool.EntityId) _
+                )
+            End Select
+            Dim myUnit As Unit = myTool.Unit
+            Me.m_unit = myUnit
+            Me.m_entity = myTool
+            If Me.Conversion <> 0 Then
+              unitPrice = unitPrice * Conversion
+            End If
+            Me.UnitPrice = unitPrice
+          End If
+        Case 42, 88, 89    'LCI
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            If Me.ItemType.Value = 42 Then
+              Return
+            Else
+              Exit Select
+            End If
+          End If
+          Dim lci As New LCIItem(theCode)
+          If Not lci.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
+            Return
+          ElseIf lci.Canceled Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {theCode})
+            Return
+          Else
+            Select Case pricing
+              Case 0
+                unitPrice = lci.FairPrice
+              Case 1
+                unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+                , New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
+                , New SqlParameter("@poi_entity", lci.Id) _
+                , New SqlParameter("@poi_entitytype", lci.EntityId) _
+                )
+              Case 2
+                unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+                , New SqlParameter("@po_supplier", DBNull.Value) _
+                , New SqlParameter("@poi_entity", lci.Id) _
+                , New SqlParameter("@poi_entitytype", lci.EntityId) _
+                )
+            End Select
+            Dim myUnit As Unit = lci.DefaultUnit
+            Me.m_unit = myUnit
+            Me.m_entity = lci
+            If Me.Conversion <> 0 Then
+              unitPrice = unitPrice * Conversion
+            End If
+            Me.UnitPrice = unitPrice
+          End If
 
-				Case Else
-					msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-					Return
-			End Select
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+          Return
+      End Select
       Me.Qty = 1
       Me.ReceivedQty = 0 'UNDONE
     End Sub    Public Sub SetItemPrice(ByVal theCode As String)      Dim unitPrice As Decimal = 0
@@ -382,35 +383,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           Me.UnitPrice = unitPrice
 
-				Case 42, 88, 89	 'LCI
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						Return
-					End If
-					Dim lci As New LCIItem(theCode)
+        Case 42, 88, 89  'LCI
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            Return
+          End If
+          Dim lci As New LCIItem(theCode)
 
-					Select Case pricing
-						Case 0
-							unitPrice = lci.FairPrice
-						Case 1
-							unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-							, New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
-							, New SqlParameter("@poi_entity", lci.Id) _
-							, New SqlParameter("@poi_entitytype", lci.EntityId) _
-							)
-						Case 2
-							unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
-							, New SqlParameter("@po_supplier", DBNull.Value) _
-							, New SqlParameter("@poi_entity", lci.Id) _
-							, New SqlParameter("@poi_entitytype", lci.EntityId) _
-							)
-					End Select
-					If Me.Conversion <> 0 Then
-						unitPrice = unitPrice * Conversion
-					End If
-					Me.UnitPrice = unitPrice
-			End Select
-			Me.Qty = 1
-			Me.ReceivedQty = 0		'UNDONE
+          Select Case pricing
+            Case 0
+              unitPrice = lci.FairPrice
+            Case 1
+              unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+              , New SqlParameter("@po_supplier", Po.ValidIdOrDBNull(Po.Supplier)) _
+              , New SqlParameter("@poi_entity", lci.Id) _
+              , New SqlParameter("@poi_entitytype", lci.EntityId) _
+              )
+            Case 2
+              unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+              , New SqlParameter("@po_supplier", DBNull.Value) _
+              , New SqlParameter("@poi_entity", lci.Id) _
+              , New SqlParameter("@poi_entitytype", lci.EntityId) _
+              )
+          End Select
+          If Me.Conversion <> 0 Then
+            unitPrice = unitPrice * Conversion
+          End If
+          Me.UnitPrice = unitPrice
+      End Select
+      Me.Qty = 1
+      Me.ReceivedQty = 0    'UNDONE
     End Sub    Public Property EntityName() As String      Get        Return m_entityName      End Get      Set(ByVal Value As String)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -468,8 +469,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Me.m_unitPrice = (newConversion / oldConversion) * Me.m_unitPrice
             Me.UnitPrice = (Me.UnitPrice / oldConversion) * newConversion
           End If
-					m_unit = Value
-					Me.Conversion = newConversion
+          m_unit = Value
+          Me.Conversion = newConversion
         Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Private Sub UpdateWBS()      If Not Me.Po Is Nothing Then        Me.Po.RefreshTaxBase()
@@ -667,7 +668,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Private m_amount As Decimal
-    Public ReadOnly Property Amount() As Decimal
+    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
         Return amtFormatted - Me.DiscountAmount
@@ -818,7 +819,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End If
     End Sub
-    Public Sub CopyFromPRItem(ByVal prItem As Pritem)
+    Public Sub CopyFromPRItem(ByVal prItem As PRItem)
       Me.m_pritem = prItem
       Me.m_itemType = prItem.ItemType
       Me.m_entity = prItem.Entity
@@ -930,8 +931,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        Dim parent As Po = Me.Po
-        If parent Is Nothing Then parent = New Po
+        Dim parent As PO = Me.Po
+        If parent Is Nothing Then parent = New PO
 
         If Me.Qty <> 0 Then
           row("poi_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
@@ -990,29 +991,150 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
     Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      'If TypeOf sender Is WBSDistribute Then
+      '  Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
+      '  Select Case e.Name.ToLower
+      '    Case "percent"
+      '      If Not Me.m_po Is Nothing Then
+      '        Me.m_po.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+      '      End If
+      '    Case "wbs"
+      '      Dim oldWBS As WBS = CType(e.OldValue, WBS)
+      '      Dim newWBS As WBS = CType(e.Value, WBS)
+      '      Select Case Me.ItemType.Value
+      '        Case 0, 19, 42
+      '          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+      '        Case 88
+      '          wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
+      '        Case 89
+      '          wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
+      '      End Select
+      '      Me.m_po.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
+      '      Me.m_po.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+      '  End Select
+      'End If
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
         Select Case e.Name.ToLower
           Case "percent"
             If Not Me.m_po Is Nothing Then
-              Me.m_po.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+            End If
+          Case "amount"
+            If Not Me.m_po Is Nothing Then
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
             End If
           Case "wbs"
-            Dim oldWBS As WBS = CType(e.OldValue, WBS)
+            'Dim oldWBS As WBS = CType(e.OldValue, WBS)
             Dim newWBS As WBS = CType(e.Value, WBS)
+            Dim theName As String = Me.EntityName
+            If theName Is Nothing Then
+              theName = Me.Entity.Name
+            End If
             Select Case Me.ItemType.Value
-              Case 0, 19, 42
+              Case 289
+                wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+              Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+                'wbsd.BudgetQty = wbsd.BudgetQty - (newWBS.GetActualType0Qty(Me.SC, 6) - Me.SC.GetCurrentTypeQtyForWBS(newWBS, theName, 0))
+              Case 19
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = 0        'ไม่มี budget ให้เครื่องมือแน่ๆ
+              Case 42
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
               Case 88
                 wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
+                wbsd.BudgetQty = newWBS.GetTotalLabQtyFromDB(theName)
               Case 89
                 wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
+                wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
             End Select
-            Me.m_po.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
-            Me.m_po.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+            wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.Po.Id, Me.Po.EntityId, Me.ItemType.Value)
+            wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.Po.Id, Me.Po.EntityId, Me.Entity.Id, _
+                                                                        Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
         End Select
       End If
     End Sub
+
+    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
+
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        If Me.ItemType Is Nothing Then
+          Return "No Item Type"
+        End If
+        Select Case Me.ItemType.Value
+          Case 160, 162
+            Return "${res:Global.Error.NoteCannotHaveWBS}"
+        End Select
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        If Me.Entity.Code.Length = 0 Then
+          Return Trim(Me.EntityName)
+        End If
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        If Me.ItemType Is Nothing Then
+          Return ""
+        End If
+        Dim strType As String = CodeDescription.GetDescription("stocki_enitytype", ItemType.Value)
+        Return strType
+      End Get
+    End Property
+
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
+
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
+
+      End Set
+    End Property
+#End Region
+
 
   End Class
 

@@ -15,8 +15,8 @@
 		<EntityFilter id="matopenningbalance" entity="matopenningbalance" filter="Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceFilterSubPanel"/>
 		<EntityFilter id="toolwithdraw" entity="toolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.ToolWithdrawFilterSubPanel"/>
 		<EntityFilter id="toolreturn" entity="toolreturn" filter="Longkong.Pojjaman.Gui.Panels.ToolReturnFilterSubPanel"/>
-    
     <EntityFilter id="stocksequence" entity="stocksequence" filter="Longkong.Pojjaman.Gui.Panels.StockSequenceFilterSubPanel"/>
+    <EntityFilter id="mattransfer" entity="mattransfer" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
 
   </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -41,14 +41,20 @@
 		<EntityTab id="unit">
 			<!--<EntityTab id="UnitDetailView" view="Longkong.Pojjaman.Gui.Panels.UnitDetailView"/>-->
 		</EntityTab>
-		
 
+    <EntityTab id="mattransfer">
+      <EntityTab id="MatTransferDetailView" view="Longkong.Pojjaman.Gui.Panels.MatTransferDetailView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+    </EntityTab>
 		<EntityTab id="matwithdraw">
 			<EntityTab id="MatWithdrawDetailView" view="Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView"/>
+      <EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
 		</EntityTab>
 		<EntityTab id="matreturn">
 			<EntityTab id="MatReturnDetailView" view="Longkong.Pojjaman.Gui.Panels.MatReturnDetailView"/>
+      <EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
 		</EntityTab>
 		

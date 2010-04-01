@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class GoodsReceiptItem
+    Implements IWBSAllocatableItem
 
 #Region "Members"
     Private m_goodsReceiptId As Integer
@@ -114,22 +115,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             Else
               .m_entity = New Tool(itemId)
-						End If
-					Case 88, 89
-						If itemId > 0 Then
-							If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-								If Not dr.IsNull("lci_id") Then
-									.m_entity = New LCIItem(dr, "")
-								End If
-							Else
-								.m_entity = New LCIItem(itemId)
-							End If
-						Else
-							.m_entity = New BlankItem(.m_entityName)
-						End If
-					Case Else			'0, 28, 88, 89, 160, 162
-						.m_entity = New BlankItem(.m_entityName)
-				End Select
+            End If
+          Case 88, 89
+            If itemId > 0 Then
+              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                If Not dr.IsNull("lci_id") Then
+                  .m_entity = New LCIItem(dr, "")
+                End If
+              Else
+                .m_entity = New LCIItem(itemId)
+              End If
+            Else
+              .m_entity = New BlankItem(.m_entityName)
+            End If
+          Case Else     '0, 28, 88, 89, 160, 162
+            .m_entity = New BlankItem(.m_entityName)
+        End Select
 
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_stock") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stock") Then
           m_goodsReceiptId = CInt(dr(aliasPrefix & "stocki_stock"))
@@ -215,7 +216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection
       Get
         Return m_WBSDistributeCollection
       End Get
@@ -778,7 +779,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
     End Property
-    Public ReadOnly Property Amount() As Decimal
+    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
         Return amtFormatted - Me.DiscountAmount
@@ -1369,29 +1370,149 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
     Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      'If TypeOf sender Is WBSDistribute Then
+      '  Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
+      '  Select Case e.Name.ToLower
+      '    Case "percent"
+      '      If Not Me.m_goodsReceipt Is Nothing Then
+      '        Me.m_goodsReceipt.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+      '      End If
+      '    Case "wbs"
+      '      Dim oldWBS As WBS = CType(e.OldValue, WBS)
+      '      Dim newWBS As WBS = CType(e.Value, WBS)
+      '      Select Case Me.ItemType.Value
+      '        Case 0, 19, 42
+      '          wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+      '        Case 88
+      '          wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
+      '        Case 89
+      '          wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
+      '      End Select
+      '      Me.m_goodsReceipt.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
+      '      Me.m_goodsReceipt.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+      '  End Select
+      'End If
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
         Select Case e.Name.ToLower
           Case "percent"
             If Not Me.m_goodsReceipt Is Nothing Then
-              Me.m_goodsReceipt.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+            End If
+          Case "amount"
+            If Not Me.m_goodsReceipt Is Nothing Then
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
             End If
           Case "wbs"
-            Dim oldWBS As WBS = CType(e.OldValue, WBS)
+            'Dim oldWBS As WBS = CType(e.OldValue, WBS)
             Dim newWBS As WBS = CType(e.Value, WBS)
+            Dim theName As String = Me.EntityName
+            If theName Is Nothing Then
+              theName = Me.Entity.Name
+            End If
             Select Case Me.ItemType.Value
-              Case 0, 19, 42
+              Case 289
+                wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+              Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+                'wbsd.BudgetQty = wbsd.BudgetQty - (newWBS.GetActualType0Qty(Me.SC, 6) - Me.SC.GetCurrentTypeQtyForWBS(newWBS, theName, 0))
+              Case 19
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = 0        'ไม่มี budget ให้เครื่องมือแน่ๆ
+              Case 42
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
               Case 88
                 wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
+                wbsd.BudgetQty = newWBS.GetTotalLabQtyFromDB(theName)
               Case 89
                 wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
+                wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
             End Select
-            Me.m_goodsReceipt.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
-            Me.m_goodsReceipt.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+            wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.GoodsReceipt.Id, Me.GoodsReceipt.EntityId, Me.ItemType.Value)
+            wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.GoodsReceipt.Id, Me.GoodsReceipt.EntityId, Me.Entity.Id, _
+                                                                        Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
         End Select
       End If
     End Sub
+    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
+
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        If Me.ItemType Is Nothing Then
+          Return "No Item Type"
+        End If
+        Select Case Me.ItemType.Value
+          Case 160, 162
+            Return "${res:Global.Error.NoteCannotHaveWBS}"
+        End Select
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Select Case Me.ItemType.Value
+          Case 88
+            Return "lab"
+          Case 89
+            Return "eq"
+          Case Else
+            Return "mat"
+        End Select
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        If Me.Entity.Code.Length = 0 Then
+          Return Trim(Me.EntityName)
+        End If
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        If Me.ItemType Is Nothing Then
+          Return ""
+        End If
+        Dim strType As String = CodeDescription.GetDescription("stocki_enitytype", ItemType.Value)
+        Return strType
+      End Get
+    End Property
+
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
+
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
+
+      End Set
+    End Property
+#End Region
+
 
   End Class
 

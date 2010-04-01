@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PR
     Inherits SimpleBusinessEntityBase
-        Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod
+    Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
 
 #Region "Members"
     Private pr_docDate As Date
@@ -104,14 +104,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_placeOfDelivery = ""
         '.m_attachment = "..............................................................." 'PLE Only
         '.m_specialCondition = "..............................................................." 'PLE Only
-				.m_closed = False
+        .m_closed = False
         .m_closedBefor = False
         .AutoCodeFormat = New AutoCodeFormat(Me)
-			End With
-			MatActualHash = New Hashtable
-			LabActualHash = New Hashtable
-			EQActualHash = New Hashtable
-			m_itemCollection = New PRItemCollection(Me)
+      End With
+      MatActualHash = New Hashtable
+      LabActualHash = New Hashtable
+      EQActualHash = New Hashtable
+      m_itemCollection = New PRItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -195,37 +195,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Closing Status
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_closed") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_closed") Then
-					.m_closed = CBool(dr(aliasPrefix & Me.Prefix & "_closed"))
-					.m_closedBefor = .m_closed
-				Else
-					.m_closed = False
-					.m_closedBefor = .m_closed
-				End If
+          .m_closed = CBool(dr(aliasPrefix & Me.Prefix & "_closed"))
+          .m_closedBefor = .m_closed
+        Else
+          .m_closed = False
+          .m_closedBefor = .m_closed
+        End If
 
-				'Special Condition
-				If dr.Table.Columns.Contains(aliasPrefix & "pr_specialCondition") AndAlso Not dr.IsNull(aliasPrefix & "pr_specialCondition") Then
-					.m_specialCondition = CStr(dr(aliasPrefix & "pr_specialCondition"))
-				End If
-				'Attachment
-				If dr.Table.Columns.Contains(aliasPrefix & "pr_attachment") AndAlso Not dr.IsNull(aliasPrefix & "pr_attachment") Then
-					.m_attachment = CStr(dr(aliasPrefix & "pr_attachment"))
-				End If
+        'Special Condition
+        If dr.Table.Columns.Contains(aliasPrefix & "pr_specialCondition") AndAlso Not dr.IsNull(aliasPrefix & "pr_specialCondition") Then
+          .m_specialCondition = CStr(dr(aliasPrefix & "pr_specialCondition"))
+        End If
+        'Attachment
+        If dr.Table.Columns.Contains(aliasPrefix & "pr_attachment") AndAlso Not dr.IsNull(aliasPrefix & "pr_attachment") Then
+          .m_attachment = CStr(dr(aliasPrefix & "pr_attachment"))
+        End If
 
 
-				'---------------------------DECLARE---------------------------------------
-				If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_id") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_id") Then
-					.pr_declareId = CInt(dr(aliasPrefix & "prdeclare_id"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_code") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_code") Then
-					.pr_declareCode = CStr(dr(aliasPrefix & "prdeclare_code"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_note") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_note") Then
-					.pr_declareNote = CStr(dr(aliasPrefix & "prdeclare_note"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "pr_declarestatus") AndAlso Not dr.IsNull(aliasPrefix & "pr_declarestatus") Then
-					.pr_declareStatusValue = CInt(dr(aliasPrefix & "pr_declarestatus"))
-				End If
-			End With
+        '---------------------------DECLARE---------------------------------------
+        If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_id") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_id") Then
+          .pr_declareId = CInt(dr(aliasPrefix & "prdeclare_id"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_code") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_code") Then
+          .pr_declareCode = CStr(dr(aliasPrefix & "prdeclare_code"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "prdeclare_note") AndAlso Not dr.IsNull(aliasPrefix & "prdeclare_note") Then
+          .pr_declareNote = CStr(dr(aliasPrefix & "prdeclare_note"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "pr_declarestatus") AndAlso Not dr.IsNull(aliasPrefix & "pr_declarestatus") Then
+          .pr_declareStatusValue = CInt(dr(aliasPrefix & "pr_declarestatus"))
+        End If
+      End With
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
@@ -358,8 +358,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.pr_declareNote
       End Get
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return pr_docDate      End Get      Set(ByVal Value As Date)        pr_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ReceivingDate() As Date      Get        Return pr_receivingDate      End Get      Set(ByVal Value As Date)        pr_receivingDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal Implements IApprovAble.AmountToApprove      Get        If Me.ItemCollection Is Nothing OrElse Me.ItemCollection.Count = 0 Then          Return 0
-        End If        Return Me.ItemCollection.Amount      End Get    End Property    Public Property Note() As String      Get        Return pr_note      End Get      Set(ByVal Value As String)        pr_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Requestor() As Employee      Get        Return pr_requestor      End Get      Set(ByVal Value As Employee)        pr_requestor = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property CostCenter() As CostCenter      Get        Return pr_cc      End Get      Set(ByVal Value As CostCenter)        pr_cc = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApprovePerson() As User      Get        Return pr_approvePerson      End Get      Set(ByVal Value As User)        pr_approvePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveDate() As DateTime      Get        Return pr_approveDate      End Get      Set(ByVal Value As DateTime)        pr_approveDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStorePerson() As User      Get        Return pr_approveStorePerson      End Get      Set(ByVal Value As User)        pr_approveStorePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStoreDate() As DateTime      Get        Return pr_approveStoreDate      End Get      Set(ByVal Value As DateTime)        pr_approveStoreDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return pr_docDate      End Get      Set(ByVal Value As Date)        pr_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ReceivingDate() As Date      Get        Return pr_receivingDate      End Get      Set(ByVal Value As Date)        pr_receivingDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal Implements IApprovAble.AmountToApprove      Get        If Me.ItemCollection Is Nothing OrElse Me.ItemCollection.Count = 0 Then          Return 0
+        End If        Return Me.ItemCollection.Amount      End Get    End Property    Public Property Note() As String      Get        Return pr_note      End Get      Set(ByVal Value As String)        pr_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Requestor() As Employee      Get        Return pr_requestor      End Get      Set(ByVal Value As Employee)        pr_requestor = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter      Get        Return pr_cc      End Get      Set(ByVal Value As CostCenter)        pr_cc = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApprovePerson() As User      Get        Return pr_approvePerson      End Get      Set(ByVal Value As User)        pr_approvePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveDate() As DateTime      Get        Return pr_approveDate      End Get      Set(ByVal Value As DateTime)        pr_approveDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStorePerson() As User      Get        Return pr_approveStorePerson      End Get      Set(ByVal Value As User)        pr_approveStorePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStoreDate() As DateTime      Get        Return pr_approveStoreDate      End Get      Set(ByVal Value As DateTime)        pr_approveStoreDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property
     Public Overrides Property Status() As CodeDescription
       Get
         Return pr_status
@@ -424,7 +424,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_closed
       End Get
       Set(ByVal Value As Boolean)
-				'm_closedBefor = m_closed
+        'm_closedBefor = m_closed
         m_closed = Value
       End Set
     End Property
@@ -737,14 +737,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim totalCurrentDiff As Decimal = item.Amount
               Select Case item.ItemType.Value
                 Case 88
-                  totalbudget = rootWBS.GetTotalLabFromDB
-                  totalactual = rootWBS.GetActualLab(Me, 7)
+                  totalBudget = rootWBS.GetTotalLabFromDB
+                  totalActual = rootWBS.GetActualLab(Me, 7)
                 Case 89
-                  totalbudget = rootWBS.GetTotalEQFromDB
-                  totalactual = rootWBS.GetActualEq(Me, 7)
+                  totalBudget = rootWBS.GetTotalEQFromDB
+                  totalActual = rootWBS.GetActualEq(Me, 7)
                 Case Else
-                  totalbudget = rootWBS.GetTotalMatFromDB
-                  totalactual = rootWBS.GetActualMat(Me, 7)
+                  totalBudget = rootWBS.GetTotalMatFromDB
+                  totalActual = rootWBS.GetActualMat(Me, 7)
               End Select
               If totalBudget < (totalActual + totalCurrentDiff) Then
                 Return True
@@ -760,39 +760,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim totalCurrentDiff As Decimal = 0
               Select Case item.ItemType.Value
                 Case 88
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
                 Case 89
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
                 Case Else
-                  totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
+                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
               End Select
-              For Each row As DataRow In rootwbs.GetParentsBudget(Me.EntityId)
+              For Each row As DataRow In rootWBS.GetParentsBudget(Me.EntityId)
                 totalBudget = 0
                 totalActual = 0
                 Select Case item.ItemType.Value
                   Case 88
                     If Not row.IsNull("labbudget") Then
-                      totalbudget = CDec(row("labbudget"))
+                      totalBudget = CDec(row("labbudget"))
                     End If
                     If Not row.IsNull("labactual") Then
-                      totalactual = CDec(row("labactual"))
+                      totalActual = CDec(row("labactual"))
                     End If
                   Case 89
                     If Not row.IsNull("eqbudget") Then
-                      totalbudget = CDec(row("eqbudget"))
+                      totalBudget = CDec(row("eqbudget"))
                     End If
                     If Not row.IsNull("eqactual") Then
-                      totalactual = CDec(row("eqactual"))
+                      totalActual = CDec(row("eqactual"))
                     End If
                   Case Else
                     If Not row.IsNull("matbudget") Then
-                      totalbudget = CDec(row("matbudget"))
+                      totalBudget = CDec(row("matbudget"))
                     End If
                     If Not row.IsNull("matactual") Then
-                      totalactual = CDec(row("matactual"))
+                      totalActual = CDec(row("matactual"))
                     End If
                 End Select
-                If totalbudget < (totalActual + totalCurrentDiff) Then
+                If totalBudget < (totalActual + totalCurrentDiff) Then
                   Return True
                 End If
               Next
@@ -1050,8 +1050,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In ds.Tables("pritem").Rows
           row.Delete()
         Next
-				Dim i As Integer = 0			 'Line Running
-				Dim beforeSaveQty As Decimal
+        Dim i As Integer = 0       'Line Running
+        Dim beforeSaveQty As Decimal
         With ds.Tables("pritem")
           For Each item As PRItem In Me.ItemCollection
             Select Case item.ItemType.Value
@@ -1069,132 +1069,132 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ElseIf myTool.Unit.Id <> item.Unit.Id Then
                   Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
                 End If
-						End Select
-						beforeSaveQty = item.Qty
-						i += 1
-						Dim dr As DataRow = .NewRow
-						If Not m_closedBefor AndAlso Me.Closed Then
-							dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
-							dr("pri_originqty") = item.Qty
-							dr("pri_originamt") = item.Amount
-							item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
-						ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
-							dr("pri_qty") = item.Qty
-							dr("pri_originqty") = item.Qty
-							dr("pri_originamt") = item.Amount
-						ElseIf m_closedBefor AndAlso Not Me.Closed Then
-							dr("pri_qty") = item.OriginQty
-							dr("pri_originqty") = item.OriginQty
-							dr("pri_originamt") = item.OriginAmount
-							item.m_qty = Configuration.Format(item.GetOrderedQty, DigitConfig.Qty)
-						ElseIf m_closedBefor AndAlso Me.Closed Then
-							dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
-							dr("pri_originqty") = item.OriginQty
-							dr("pri_originamt") = item.OriginAmount
-							item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
-						End If
-						dr("pri_pr") = Me.Id
-						dr("pri_linenumber") = i
-						dr("pri_entity") = item.Entity.Id
-						dr("pri_entityType") = item.ItemType.Value
-						dr("pri_itemName") = item.EntityName
-						dr("pri_unit") = item.Unit.Id
-						dr("pri_stockqty") = item.StockQty
-						dr("pri_orderedqty") = item.GetOrderedQty
-						dr("pri_withdrawnqty") = item.GetWithdrawnQty
-						dr("pri_unitprice") = item.UnitPrice
-						dr("pri_amt") = item.Amount
-						dr("pri_note") = item.Note
-						.Rows.Add(dr)
-						If item.ItemType.Value <> 160 _
-						AndAlso item.ItemType.Value <> 162 Then
-							Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-							Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-							Dim currentSum As Decimal = wbsdColl.GetSumPercent
-							For Each wbsd As WBSDistribute In wbsdColl
-								If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-									'ยังไม่เต็ม 100 แต่มีหัวอยู่
-									wbsd.Percent += (100 - currentSum)
-								End If
+            End Select
+            beforeSaveQty = item.Qty
+            i += 1
+            Dim dr As DataRow = .NewRow
+            If Not m_closedBefor AndAlso Me.Closed Then
+              dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
+              dr("pri_originqty") = item.Qty
+              dr("pri_originamt") = item.Amount
+              item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
+            ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
+              dr("pri_qty") = item.Qty
+              dr("pri_originqty") = item.Qty
+              dr("pri_originamt") = item.Amount
+            ElseIf m_closedBefor AndAlso Not Me.Closed Then
+              dr("pri_qty") = item.OriginQty
+              dr("pri_originqty") = item.OriginQty
+              dr("pri_originamt") = item.OriginAmount
+              item.m_qty = Configuration.Format(item.GetOrderedQty, DigitConfig.Qty)
+            ElseIf m_closedBefor AndAlso Me.Closed Then
+              dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
+              dr("pri_originqty") = item.OriginQty
+              dr("pri_originamt") = item.OriginAmount
+              item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
+            End If
+            dr("pri_pr") = Me.Id
+            dr("pri_linenumber") = i
+            dr("pri_entity") = item.Entity.Id
+            dr("pri_entityType") = item.ItemType.Value
+            dr("pri_itemName") = item.EntityName
+            dr("pri_unit") = item.Unit.Id
+            dr("pri_stockqty") = item.StockQty
+            dr("pri_orderedqty") = item.GetOrderedQty
+            dr("pri_withdrawnqty") = item.GetWithdrawnQty
+            dr("pri_unitprice") = item.UnitPrice
+            dr("pri_amt") = item.Amount
+            dr("pri_note") = item.Note
+            .Rows.Add(dr)
+            If item.ItemType.Value <> 160 _
+            AndAlso item.ItemType.Value <> 162 Then
+              Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+              Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
+              Dim currentSum As Decimal = wbsdColl.GetSumPercent
+              For Each wbsd As WBSDistribute In wbsdColl
+                If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                  'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                  wbsd.Percent += (100 - currentSum)
+                End If
 
-								Dim m_currentQty As Decimal = 0
-								If Not m_closedBefor AndAlso Me.Closed Then
-									m_currentQty = item.OrderedQty + item.WithdrawnQty
-								ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
-									m_currentQty = item.Qty
-								ElseIf m_closedBefor AndAlso Not Me.Closed Then
-									m_currentQty = item.OriginQty
-								ElseIf m_closedBefor AndAlso Me.Closed Then
-									m_currentQty = item.OrderedQty + item.WithdrawnQty
-								End If
+                Dim m_currentQty As Decimal = 0
+                If Not m_closedBefor AndAlso Me.Closed Then
+                  m_currentQty = item.OrderedQty + item.WithdrawnQty
+                ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
+                  m_currentQty = item.Qty
+                ElseIf m_closedBefor AndAlso Not Me.Closed Then
+                  m_currentQty = item.OriginQty
+                ElseIf m_closedBefor AndAlso Me.Closed Then
+                  m_currentQty = item.OrderedQty + item.WithdrawnQty
+                End If
 
-								wbsd.BaseCost = item.UnitPrice * m_currentQty
-								wbsd.TransferBaseCost = wbsd.BaseCost
+                wbsd.BaseCost = item.UnitPrice * m_currentQty
+                wbsd.TransferBaseCost = wbsd.BaseCost
 
-								Dim childDr As DataRow = dtWbs.NewRow
-								childDr("priw_wbs") = wbsd.WBS.Id
-								If wbsd.CostCenter Is Nothing Then
-									wbsd.CostCenter = Me.CostCenter
-								End If
-								childDr("priw_cc") = wbsd.CostCenter.Id
-								childDr("priw_percent") = wbsd.Percent
-								childDr("priw_pr") = Me.Id
-								childDr("priw_prilinenumber") = i
-								childDr("priw_ismarkup") = wbsd.IsMarkup
-								childDr("priw_direction") = 0								'in
-								childDr("priw_baseCost") = wbsd.BaseCost
-								childDr("priw_transferbaseCost") = wbsd.TransferBaseCost
-								childDr("priw_transferamt") = wbsd.TransferAmount
-								childDr("priw_amt") = wbsd.Amount
-								childDr("priw_toaccttype") = 3
-								'Add เข้า priwbs
-								dtWbs.Rows.Add(childDr)
-							Next
+                Dim childDr As DataRow = dtWbs.NewRow
+                childDr("priw_wbs") = wbsd.WBS.Id
+                If wbsd.CostCenter Is Nothing Then
+                  wbsd.CostCenter = Me.CostCenter
+                End If
+                childDr("priw_cc") = wbsd.CostCenter.Id
+                childDr("priw_percent") = wbsd.Percent
+                childDr("priw_pr") = Me.Id
+                childDr("priw_prilinenumber") = i
+                childDr("priw_ismarkup") = wbsd.IsMarkup
+                childDr("priw_direction") = 0               'in
+                childDr("priw_baseCost") = wbsd.BaseCost
+                childDr("priw_transferbaseCost") = wbsd.TransferBaseCost
+                childDr("priw_transferamt") = wbsd.TransferAmount
+                childDr("priw_amt") = wbsd.Amount
+                childDr("priw_toaccttype") = 3
+                'Add เข้า priwbs
+                dtWbs.Rows.Add(childDr)
+              Next
 
-							currentSum = wbsdColl.GetSumPercent
-							'ยังไม่เต็ม 100 และยังไม่มี root
-							If currentSum < 100 AndAlso Not rootWBS Is Nothing Then
-								Try
+              currentSum = wbsdColl.GetSumPercent
+              'ยังไม่เต็ม 100 และยังไม่มี root
+              If currentSum < 100 AndAlso Not rootWBS Is Nothing Then
+                Try
 
-									Dim m_currentQty As Decimal = 0
-									If Not m_closedBefor AndAlso Me.Closed Then
-										m_currentQty = item.OrderedQty + item.WithdrawnQty
-									ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
-										m_currentQty = item.Qty
-									ElseIf m_closedBefor AndAlso Not Me.Closed Then
-										m_currentQty = item.OriginQty
-									ElseIf m_closedBefor AndAlso Me.Closed Then
-										m_currentQty = item.OrderedQty + item.WithdrawnQty
-									End If
+                  Dim m_currentQty As Decimal = 0
+                  If Not m_closedBefor AndAlso Me.Closed Then
+                    m_currentQty = item.OrderedQty + item.WithdrawnQty
+                  ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
+                    m_currentQty = item.Qty
+                  ElseIf m_closedBefor AndAlso Not Me.Closed Then
+                    m_currentQty = item.OriginQty
+                  ElseIf m_closedBefor AndAlso Me.Closed Then
+                    m_currentQty = item.OrderedQty + item.WithdrawnQty
+                  End If
 
-									Dim newWbsd As New WBSDistribute
-									newWbsd.WBS = rootWBS
-									newWbsd.CostCenter = item.Pr.CostCenter
-									newWbsd.Percent = 100 - currentSum
-									newWbsd.BaseCost = item.UnitPrice * m_currentQty
-									newWbsd.TransferBaseCost = newWbsd.BaseCost
-									Dim childDr As DataRow = dtWbs.NewRow
-									childDr("priw_wbs") = newWbsd.WBS.Id
-									childDr("priw_cc") = newWbsd.CostCenter.Id
-									childDr("priw_percent") = newWbsd.Percent
-									childDr("priw_pr") = Me.Id
-									childDr("priw_prilinenumber") = i
-									childDr("priw_ismarkup") = False
-									childDr("priw_direction") = 0									'in
-									childDr("priw_baseCost") = newWbsd.BaseCost
-									childDr("priw_transferbaseCost") = newWbsd.TransferBaseCost
-									childDr("priw_transferamt") = newWbsd.TransferAmount
-									childDr("priw_amt") = newWbsd.Amount
-									childDr("priw_toaccttype") = 3
-									'Add เข้า priwbs
-									dtWbs.Rows.Add(childDr)
-								Catch ex As Exception
-									MessageBox.Show(ex.ToString)
-								End Try
-							End If
-						End If
-						item.m_qty = beforeSaveQty
-					Next
+                  Dim newWbsd As New WBSDistribute
+                  newWbsd.WBS = rootWBS
+                  newWbsd.CostCenter = item.Pr.CostCenter
+                  newWbsd.Percent = 100 - currentSum
+                  newWbsd.BaseCost = item.UnitPrice * m_currentQty
+                  newWbsd.TransferBaseCost = newWbsd.BaseCost
+                  Dim childDr As DataRow = dtWbs.NewRow
+                  childDr("priw_wbs") = newWbsd.WBS.Id
+                  childDr("priw_cc") = newWbsd.CostCenter.Id
+                  childDr("priw_percent") = newWbsd.Percent
+                  childDr("priw_pr") = Me.Id
+                  childDr("priw_prilinenumber") = i
+                  childDr("priw_ismarkup") = False
+                  childDr("priw_direction") = 0                 'in
+                  childDr("priw_baseCost") = newWbsd.BaseCost
+                  childDr("priw_transferbaseCost") = newWbsd.TransferBaseCost
+                  childDr("priw_transferamt") = newWbsd.TransferAmount
+                  childDr("priw_amt") = newWbsd.Amount
+                  childDr("priw_toaccttype") = 3
+                  'Add เข้า priwbs
+                  dtWbs.Rows.Add(childDr)
+                Catch ex As Exception
+                  MessageBox.Show(ex.ToString)
+                End Try
+              End If
+            End If
+            item.m_qty = beforeSaveQty
+          Next
         End With
 
         Dim tmpDa As New SqlDataAdapter
@@ -1558,59 +1558,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
-                '--------------------- WBS Section ------------------
-                Dim WBSCostCenter As String = ""
-                Dim WBSCode As String = ""
-                Dim WBSName As String = ""
-                Dim WBSCodePercent As String = ""
-                Dim WBSCodeAmount As String = ""
-                Dim WBSRemainAmount As String = ""
-                Dim WBSRemainQty As String = ""
+        '--------------------- WBS Section ------------------
+        Dim WBSCostCenter As String = ""
+        Dim WBSCode As String = ""
+        Dim WBSName As String = ""
+        Dim WBSCodePercent As String = ""
+        Dim WBSCodeAmount As String = ""
+        Dim WBSRemainAmount As String = ""
+        Dim WBSRemainQty As String = ""
         If item.WBSDistributeCollection.Count > 0 Then
           'Populate ให้คำนวณคงเหลือแบบหลอกๆ
           'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
-                    If item.WBSDistributeCollection.Count = 1 Then
-                        WBSCostCenter = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & _
-                        item.WBSDistributeCollection.Item(0).CostCenter.Name 'Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
-                        WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
-                        WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
-                        WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
-                        WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
-                        WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
-                        WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
-                    Else
-                        Dim j As Integer
-                        For j = 0 To item.WBSDistributeCollection.Count - 1
-                            WBSCostCenter &= item.WBSDistributeCollection.Item(j).CostCenter.Code & ":" & _
-                            item.WBSDistributeCollection.Item(j).CostCenter.Name ' & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
-                            WBSCode &= item.WBSDistributeCollection.Item(j).WBS.Code
-                            WBSName &= item.WBSDistributeCollection.Item(j).WBS.Name
-                            WBSCodePercent &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Percent, DigitConfig.Price)
-                            WBSCodeAmount &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Amount, DigitConfig.Price)
-                            WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).BudgetRemain, DigitConfig.Price)
-                            WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).QtyRemain, DigitConfig.Price)
-                            If j < item.WBSDistributeCollection.Count - 1 Then
-                                WBSCostCenter &= ", "
-                                'WBSCostCentern &= ", "
-                                WBSCode &= ", "
-                                WBSName &= ", "
-                                WBSCodePercent &= ", "
-                                WBSCodeAmount &= ", "
-                                WBSRemainAmount &= ", "
-                                WBSRemainQty &= ", "
-                            End If
-                        Next
-                    End If
-                End If
+          If item.WBSDistributeCollection.Count = 1 Then
+            WBSCostCenter = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & _
+            item.WBSDistributeCollection.Item(0).CostCenter.Name 'Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+            WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
+            WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
+            WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
+            WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
+            WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
+            WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+          Else
+            Dim j As Integer
+            For j = 0 To item.WBSDistributeCollection.Count - 1
+              WBSCostCenter &= item.WBSDistributeCollection.Item(j).CostCenter.Code & ":" & _
+              item.WBSDistributeCollection.Item(j).CostCenter.Name ' & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+              WBSCode &= item.WBSDistributeCollection.Item(j).WBS.Code
+              WBSName &= item.WBSDistributeCollection.Item(j).WBS.Name
+              WBSCodePercent &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Percent, DigitConfig.Price)
+              WBSCodeAmount &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Amount, DigitConfig.Price)
+              WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).BudgetRemain, DigitConfig.Price)
+              WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).QtyRemain, DigitConfig.Price)
+              If j < item.WBSDistributeCollection.Count - 1 Then
+                WBSCostCenter &= ", "
+                'WBSCostCentern &= ", "
+                WBSCode &= ", "
+                WBSName &= ", "
+                WBSCodePercent &= ", "
+                WBSCodeAmount &= ", "
+                WBSRemainAmount &= ", "
+                WBSRemainQty &= ", "
+              End If
+            Next
+          End If
+        End If
 
-                'Item.WBSCostCenter
-                dpi = New DocPrintingItem
-                dpi.Mapping = "Item.WBSCostCenter"
-                dpi.Value = WBSCostCenter
-                dpi.DataType = "System.String"
-                dpi.Row = i + 1
-                dpi.Table = "Item"
-                dpiColl.Add(dpi)
+        'Item.WBSCostCenter
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCostCenter"
+        dpi.Value = WBSCostCenter
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.WBSCode
         dpi = New DocPrintingItem
@@ -1619,16 +1619,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
-                dpiColl.Add(dpi)
+        dpiColl.Add(dpi)
 
-                'Item.WBSName
-                dpi = New DocPrintingItem
-                dpi.Mapping = "Item.WBSName"
-                dpi.Value = WBSName
-                dpi.DataType = "System.String"
-                dpi.Row = i + 1
-                dpi.Table = "Item"
-                dpiColl.Add(dpi)
+        'Item.WBSName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSName"
+        dpi.Value = WBSName
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.WBSCodePercent
         dpi = New DocPrintingItem
@@ -1770,10 +1770,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
       Get
-				If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
-					Return True
-				End If
-				Return False
+        If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
+          Return True
+        End If
+        Return False
       End Get
     End Property
     Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
@@ -1925,18 +1925,66 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = 0
       Me.Code = "Copy of " & Me.Code
       Me.ApproveDate = Date.MinValue
-			Me.ApprovePerson = New User
-			For Each item As PRItem In Me.ItemCollection
-				If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
-					item.OrderedQty = 0
-					item.WithdrawnQty = 0
-				End If
-			Next
-			Return Me
+      Me.ApprovePerson = New User
+      For Each item As PRItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+          item.OrderedQty = 0
+          item.WithdrawnQty = 0
+        End If
+      Next
+      Return Me
     End Function
 #End Region
 
-    End Class
+#Region "IWBSAllocatable"
+    Public Property FromCostCenter As CostCenter Implements IWBSAllocatable.FromCostCenter
+      Get
+
+      End Get
+      Set(ByVal value As CostCenter)
+
+      End Set
+    End Property
+
+    Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
+      Dim coll As New WBSAllocatableItemCollection
+      For Each item As PRItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          item.UpdateWBSQty()
+
+          If Not Me.Originated Then
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              wbsd.ChildAmount = 0
+              wbsd.GetChildIdList()
+              For Each allItem As PRItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                    wbsd.ChildAmount += childWbsd.Amount
+                  End If
+                Next
+              Next
+            Next
+          End If
+
+          coll.Add(item)
+        End If
+      Next
+
+      Return coll
+    End Function
+
+    Public Property Supplier As Supplier Implements IWBSAllocatable.Supplier
+      Get
+
+      End Get
+      Set(ByVal value As Supplier)
+
+      End Set
+    End Property
+#End Region
+
+
+  End Class
     Public Class PRForApprove
         Inherits PR
         Public Overrides ReadOnly Property CodonName() As String

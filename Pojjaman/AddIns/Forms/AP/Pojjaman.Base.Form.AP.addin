@@ -46,19 +46,21 @@
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="po">
 			<EntityTab id="POPanelView" view="Longkong.Pojjaman.Gui.Panels.POPanelView"/>
-		</EntityTab>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+    </EntityTab>
 		<EntityTab id="poforapprove">
 			<EntityTab id="POPanelView" view="Longkong.Pojjaman.Gui.Panels.POPanelView"/>
 		</EntityTab>
 		<EntityTab id="pr">
 			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
-			<!-- <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/> -->
+			<EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/> 
 		</EntityTab>
 		<EntityTab id="prforapprove">
 			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
 		</EntityTab>
 		<EntityTab id="goodsreceipt">
 			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
 			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
 			<EntityTab id="PaymentOut" view="Longkong.Pojjaman.Gui.Panels.PaymentOutDetail"/>
