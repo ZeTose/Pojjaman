@@ -79,6 +79,7 @@ Public Class CashFlowForm
     Dim maxY As Decimal = Decimal.MinValue
     Dim minY As Decimal = Decimal.MaxValue
     Dim headcol As New DataColumn("Type", GetType(String))
+    dt.Columns.Add(headcol)
 
     For Each d As Date In allDays
       Dim col As New DataColumn(d.ToShortDateString, GetType(String))
@@ -169,7 +170,7 @@ Public Class CashFlowForm
       dt.Rows(m)(0) = myDs.SeriesName
       For n As Integer = 0 To allDays.Count - 1
         '===========================================================
-        myDs.ChartValueList.Add(New ChartValueDTO(DateToDouble(allDays(n)), dt.Rows(m)(allDays(n + 1).ToShortDateString)))
+        myDs.ChartValueList.Add(New ChartValueDTO(DateToDouble(allDays(n)), dt.Rows(m)(allDays(n).ToShortDateString)))
         '============================================================================
       Next
       myDC.DataSeries.Add(myDs)
@@ -201,7 +202,7 @@ Public Class CashFlowForm
         csCode.HeaderText = col.ColumnName
         csCode.NullText = ""
         csCode.ReadOnly = True
-        dst.GridColumnStyles.Add(csLineNumber)
+        dst.GridColumnStyles.Add(csCode)
       End If
     Next
 
