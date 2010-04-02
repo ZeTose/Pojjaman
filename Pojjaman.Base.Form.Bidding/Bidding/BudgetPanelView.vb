@@ -84,10 +84,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowEstimatorDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowEstimator = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbDetail.SuspendLayout()
+      CType(Me.picLockUnlock, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -423,6 +426,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(1072, 640)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.picLockUnlock, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -979,5 +985,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_treeManager.SelectedRow("Unit") = unit.Code
     End Sub
 #End Region
+
+#Region "Buttons"
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim newWbs As New WorkBreakdownStructure
+      If m_entity.Childs.Count = 0 Then
+        newWbs.Name = m_entity.Code
+        m_entity.Childs.Add(newWbs)
+        Dim newRow As TreeRow = m_treeManager.Treetable.Childs.Add()
+        newWbs.PopulateRow(newRow, Nothing, 1, False)
+      Else
+        Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+        If theRow Is Nothing Then
+          Return
+        End If
+        Dim parentW As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
+        parentW.Childs.Add(newWbs)
+
+
+        Dim newRow As TreeRow = theRow.Childs.Add()
+        newWbs.PopulateRow(newRow, Nothing, 1, False)
+
+        Me.m_treeManager.Treetable.AcceptChanges()
+        Me.m_treeManager.SelectedRow = newRow
+        Me.tgItem.RefreshHeights()
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+    End Sub
+    Private Sub ibtnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnInsert.Click
+
+    End Sub
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+      Dim currentWBS As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
+      If currentWBS Is Nothing Then
+        Return
+      End If
+      Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+      If theRow Is Nothing Then
+        Return
+      End If
+      If Not currentWBS.Parent Is Nothing Then
+        Dim parWBS As WorkBreakdownStructure = CType(currentWBS.Parent, WorkBreakdownStructure)
+        If parWBS.Childs.Contains(currentWBS) Then
+          parWBS.Childs.Remove(currentWBS)
+        End If
+        parWBS = Nothing
+      End If
+      currentWBS = Nothing
+      theRow.Parent.Childs.Remove(theRow)
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.tgItem.RefreshHeights()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+#End Region
+
   End Class
 End Namespace

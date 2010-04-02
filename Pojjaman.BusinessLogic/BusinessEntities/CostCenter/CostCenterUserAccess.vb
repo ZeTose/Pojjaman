@@ -6,8 +6,121 @@ Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.Services
-Namespace Longkong.Pojjaman.BusinessLogic
+Imports System.Collections.Generic
 
+Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class CCUserRole
+    Public Shared Sub CreateFor(ByVal mycc As CostCenter, ByVal includeHQ As Boolean)
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetUserRolesForCostCenter" _
+      , New SqlParameter("@cc_id", mycc.Id) _
+      , New SqlParameter("@includeHQ", includeHQ))
+      mycc.Roles = New List(Of CCUserRole)
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim ur As New CCUserRole
+        ur.CostCenter = mycc
+        ur.Role = CCRole.GetCCRoleById(CDec(row("Id")))
+        ur.User = New User(CInt(row("user_id")))
+        ur.Id = CDec(row("Id"))
+        If Not row.IsNull("Tier") Then
+          ur.Tier = CInt(row("Tier"))
+        End If
+        ur.StartDate = Now
+        mycc.Roles.Add(ur)
+      Next
+    End Sub
+    Public Property Id As Decimal
+    Public Property User As User
+    Public Property CostCenter As CostCenter
+    Public Property Role As CCRole
+    Public Property StartDate As Date
+    Public Property Tier As Nullable(Of Integer)
+  End Class
+  Public Class CCRole
+
+#Region "Members"
+    Private m_Id As Decimal
+    Private m_Code As String
+    Private m_Name As String
+
+    Private Shared m_RoleDescHashWithId As Hashtable
+    Private Shared m_RoleDescHashWithCode As Hashtable
+#End Region
+
+#Region "Constructors"
+    Shared Sub New()
+      RefreshRoleList()
+    End Sub
+    Private Sub New()
+    End Sub
+    Private Sub New(ByVal dr As DataRow)
+      With Me
+        If Not dr.IsNull("Id") Then
+          Me.m_Id = CDec(dr("Id"))
+        End If
+        If Not dr.IsNull("Code") Then
+          Me.m_Code = CStr(dr("Code"))
+        End If
+        If Not dr.IsNull("Name") Then
+          Me.m_Name = CStr(dr("Name"))
+        End If
+      End With
+    End Sub
+#End Region
+
+#Region "Properties"
+    Public ReadOnly Property Id As Decimal
+      Get
+        Return m_Id
+      End Get
+    End Property
+    Public ReadOnly Property Code As String
+      Get
+        Return m_Code
+      End Get
+    End Property
+    Public ReadOnly Property Name As String
+      Get
+        Return m_Name
+      End Get
+    End Property
+#End Region
+
+#Region "Methods"
+    Public Shared Sub RefreshRoleList()
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select * from Roles order by Code")
+      Dim myTable As DataTable = ds.Tables(0)
+      m_RoleDescHashWithId = New Hashtable
+      m_RoleDescHashWithCode = New Hashtable
+      For Each row As DataRow In myTable.Rows
+        m_RoleDescHashWithId(CDec(row("ID"))) = row
+        m_RoleDescHashWithCode(row("Code").ToString.ToLower) = row
+      Next
+    End Sub
+    Public Shared Function GetCCRoleByCode(ByVal code As String) As CCRole
+      If m_RoleDescHashWithCode.Contains(code.ToLower) Then
+        Return New CCRole(CType(m_RoleDescHashWithCode(code.ToLower), DataRow))
+      End If
+      Return New CCRole
+    End Function
+    Public Shared Function GetCCRoleById(ByVal id As Decimal) As CCRole
+      If m_RoleDescHashWithId.Contains(id) Then
+        Return New CCRole(CType(m_RoleDescHashWithId(id), DataRow))
+      End If
+      Return New CCRole
+    End Function
+#End Region
+
+#Region "Overrides"
+    Public Overrides Function ToString() As String
+      Return Me.Code & ":" & Me.Name
+    End Function
+#End Region
+
+  End Class
   Public Class CostCenterUserAccess
 
 #Region "Members"

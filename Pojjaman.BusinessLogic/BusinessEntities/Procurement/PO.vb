@@ -3229,6 +3229,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "Workflow"
+    Public Overrides ReadOnly Property StatusString As String
+      Get
+        If Not Me.Authorized Then
+          If Me.Status.Value = 0 Then
+            Return "Cancelled"
+          End If
+          Return "Draft"
+        End If
+        Return MyBase.StatusString
+      End Get
+    End Property
+    Public ReadOnly Property CanbeUsed As Boolean
+      Get
+        Return Authorized
+      End Get
+    End Property
+    Public ReadOnly Property Authorized As Boolean
+      Get
+        Try
+          Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
+          If poNeedsApproval Then
+            Dim approveDocColl As New ApproveDocCollection(Me)
+            If Not approveDocColl.IsApproved Then
+              Return False
+            End If
+          Else
+            Return True
+          End If
+        Catch ex As Exception
+        End Try
+        Select Case Me.GetActiveNode.State.Name
+          Case "Authorized"
+            Return True
+        End Select
+        Return False
+      End Get
+    End Property
+#End Region
+
 #Region "IWBSAllocatable"
     Public Property FromCostCenter As CostCenter Implements IWBSAllocatable.FromCostCenter
       Get

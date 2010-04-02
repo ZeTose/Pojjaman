@@ -492,7 +492,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         .Items.Add("สั่งซื้อ")
         .Items.Add("รับของ")
         .Items.Add("เบิกของ")
-        .SelectedIndex = 2
+        .SelectedIndex = 1
       End With
 
     End Sub
@@ -508,7 +508,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         .Add("แสดงรายการ")
         .Add("แสดงรายการวัสดุ")
       End With
-      cmbDetailed.SelectedIndex = 0
+      cmbDetailed.SelectedIndex = 2
     End Sub
     Private Sub ClearCriterias()
       For Each grbCtrl As Control In grbMaster.Controls
@@ -526,12 +526,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.Value = Me.DocDateEnd
       m_cc = New CostCenter
       m_requestor = New Employee
-      If Me.cmbType.Items.Count > 0 Then
-        Me.cmbType.SelectedIndex = 0
-      End If
-      If Me.cmbReportType.Items.Count > 0 Then
-        Me.cmbReportType.SelectedIndex = 0
-      End If
+      Try
+        If Me.cmbType.Items.Count > 0 Then
+          Me.cmbType.SelectedIndex = 1
+        End If
+        If Me.cmbReportType.Items.Count > 0 Then
+          Me.cmbReportType.SelectedIndex = 2
+        End If
+      Catch ex As Exception
+
+      End Try
     End Sub
     Public Overrides Function GetFilterString() As String
 

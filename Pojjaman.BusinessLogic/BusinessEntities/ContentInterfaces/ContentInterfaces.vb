@@ -65,6 +65,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ReadOnly Property ShowUnApproveButton() As Boolean
     ReadOnly Property AmountToApprove() As Decimal
   End Interface
+  Public Interface IHasStatusString
+    ReadOnly Property StatusString As String
+  End Interface
+  Public Interface IApprovableByFlow
+    ReadOnly Property ApprovalAmount As Decimal
+  End Interface
   Public Interface ICancelable
     Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException
     ReadOnly Property CanCancel() As Boolean

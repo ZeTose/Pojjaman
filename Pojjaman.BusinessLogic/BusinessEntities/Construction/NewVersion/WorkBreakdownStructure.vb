@@ -147,7 +147,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Constructors"
     Public Sub New()
-
+      Unit = New Unit
+      CBS = New CBS
+      Me.PlannedStartDate = Now
+      Me.PlannedFinishDate = Now
+      Me.StartDate = Now
+      Me.FinishDate = Now
     End Sub
     Public Sub New(ByVal dr As DataRow)
       Dim dh As New DataRowHelper(dr)
@@ -299,7 +304,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       budget.Childs.AddRange(orphans)
     End Sub
 #End Region
-
     Public Sub CreateOrUpdate(ByVal dtWbs As DataTable, ByVal drBoq As DataRow)
       Dim drWbs As DataRow
       Dim drs As DataRow() = dtWbs.Select("wbs_id=" & Me.Id)
@@ -309,6 +313,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         drWbs = drs(0)
       End If
       drWbs("wbs_boq") = drBoq("boq_id")
+
+      If Not Me.Parent Is Nothing AndAlso Me.Parent.Id <> 0 Then
+        drWbs("wbs_parid") = Me.Parent.Id
+      Else
+        drWbs("wbs_parid") = DBNull.Value
+      End If
+
       drWbs("wbs_level") = Me.Level
       drWbs("wbs_code") = Me.Code
       If Not Me.CBS Is Nothing AndAlso Me.CBS.Id <> 0 Then
@@ -351,6 +362,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If drs.Length = 0 Then
         dtWbs.Rows.Add(drWbs)
         Me.Id = CInt(drWbs("wbs_id"))
+        If Me.Level = 0 OrElse drWbs.IsNull("wbs_parid") Then
+          drWbs("wbs_parid") = DBNull.Value
+        End If
       End If
       For Each child As WorkBreakdownStructure In Me.Childs
         child.CreateOrUpdate(dtWbs, drBoq)

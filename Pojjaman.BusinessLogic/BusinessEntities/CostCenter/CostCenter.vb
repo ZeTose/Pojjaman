@@ -6,6 +6,8 @@ Imports System.Configuration
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Gui.Components
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class CostCenterType
     Inherits CodeDescription
@@ -54,7 +56,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private cc_projectName As String
 
     Private cc_project As Project
-    Private cc_boq As Boq
+    Private cc_boq As BOQ
     Private cc_ccuseraccesscol As CostCenterUserAccessCollection
 
     Private m_rootWBSId As Integer
@@ -68,49 +70,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal myParent As CostCenter)
       MyBase.New(myParent)
-		End Sub
-		Public Sub New(ByVal gid As Integer)
-			MyBase.New(gid)
-		End Sub
-		Public Sub New(ByVal gcode As String)
-			MyBase.New(gcode)
-		End Sub
-		Public Sub New(ByVal gcode As String, ByVal userId As Integer)
-			If gcode Is Nothing OrElse gcode.Length = 0 Then
-				Return
-			End If
+    End Sub
+    Public Sub New(ByVal gid As Integer)
+      MyBase.New(gid)
+    End Sub
+    Public Sub New(ByVal gcode As String)
+      MyBase.New(gcode)
+    End Sub
+    Public Sub New(ByVal gcode As String, ByVal userId As Integer)
+      If gcode Is Nothing OrElse gcode.Length = 0 Then
+        Return
+      End If
 
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString _
-			, CommandType.StoredProcedure _
-			, Me.GetSprocName _
-			, New SqlParameter("@" & Me.Prefix & "_code", gcode) _
-			, New SqlParameter("@" & Me.Prefix & "_userright", IIf(userId = 0, Nothing, userId)) _
-			)
-			If ds.Tables(0).Rows.Count = 1 Then
-				Construct(ds.Tables(0).Rows(0), "")
-			End If
-		End Sub
-		Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-			MyBase.New(dr, aliasPrefix)
-		End Sub
-		Protected Overloads Overrides Sub Construct()
-			MyBase.Construct()
-			With Me
-				.cc_admin = New Employee
-				.cc_manager = New Employee
-				.cc_expenseAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense).Account
-				.cc_wipAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Wip).Account
-				.cc_storeAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.MatInStore).Account
-				.cc_type = New CostCenterType(1)			 'แผนก
-				.cc_cust = New Customer
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString _
+      , CommandType.StoredProcedure _
+      , Me.GetSprocName _
+      , New SqlParameter("@" & Me.Prefix & "_code", gcode) _
+      , New SqlParameter("@" & Me.Prefix & "_userright", IIf(userId = 0, Nothing, userId)) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        Construct(ds.Tables(0).Rows(0), "")
+      End If
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.New(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+      With Me
+        .cc_admin = New Employee
+        .cc_manager = New Employee
+        .cc_expenseAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense).Account
+        .cc_wipAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Wip).Account
+        .cc_storeAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.MatInStore).Account
+        .cc_type = New CostCenterType(1)       'แผนก
+        .cc_cust = New Customer
 
-				.cc_project = New Project
+        .cc_project = New Project
         .cc_boq = New BOQ
         .cc_isactive = True
-			End With
-		End Sub
-		Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-			MyBase.Construct(dr, aliasPrefix)
+      End With
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & "cc_isactive") AndAlso Not dr.IsNull(aliasPrefix & "cc_isactive") Then
           .cc_isactive = CBool(dr(aliasPrefix & "cc_isactive"))
@@ -226,37 +228,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         '*****************************************
+
+        CCUserRole.CreateFor(Me, False)
+
         'Hack เอาออกไปเพื่อความเร็ว ---> อย่าลืมโหลดใน View
         'Me.LoadImage()
       End With
-		End Sub
+    End Sub
 
-		Public Sub LoadImage(ByVal reader As IDataReader)
-			cc_image = Field.GetImage(reader, "cc_image")
-			cc_map = Field.GetImage(reader, "cc_map")
-		End Sub
-		Public Sub LoadImage()
-			If Not Me.Originated Then
-				Return
-			End If
+    Public Sub LoadImage(ByVal reader As IDataReader)
+      cc_image = Field.GetImage(reader, "cc_image")
+      cc_map = Field.GetImage(reader, "cc_map")
+    End Sub
+    Public Sub LoadImage()
+      If Not Me.Originated Then
+        Return
+      End If
 
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-			Dim conn As New SqlConnection(sqlConString)
-			Dim sql As String = "select cc_image,cc_map from costcenterimage where cc_id=" & Me.Id
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select cc_image,cc_map from costcenterimage where cc_id=" & Me.Id
 
-			conn.Open()
+      conn.Open()
 
-			Dim cmd As SqlCommand = conn.CreateCommand
-			cmd.CommandText = sql
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
 
-			Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
-			If reader.Read Then
-				LoadImage(reader)
-			End If
-			conn.Close()
-			reader = Nothing
-			conn = Nothing
-		End Sub
+      Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+      If reader.Read Then
+        LoadImage(reader)
+      End If
+      conn.Close()
+      reader = Nothing
+      conn = Nothing
+    End Sub
+#End Region
+
+#Region "Roles"
+    Public Property Roles As List(Of CCUserRole) = New List(Of CCUserRole)
 #End Region
 
 #Region "Properties"
@@ -268,8 +277,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property Project() As Project      Get        If cc_project.Id <> cc_projectId Then          cc_project.Id = cc_projectId
-        End If        Return cc_project      End Get      Set(ByVal Value As Project)        cc_project = Value        cc_projectId = cc_project.Id        cc_projectCode = cc_project.Code        cc_projectName = cc_project.Name      End Set    End Property    Public Property Boq() As Boq      Get        If cc_boq Is Nothing OrElse cc_boq.Id <> cc_boqId Then          cc_boq = Boq.GetBOQ(cc_boqId)
-        End If        Return cc_boq      End Get      Set(ByVal Value As Boq)        cc_boq = Value        Me.cc_boqId = cc_boq.Id        Me.cc_boqCode = cc_boq.Code      End Set    End Property
+        End If        Return cc_project      End Get      Set(ByVal Value As Project)        cc_project = Value        cc_projectId = cc_project.Id        cc_projectCode = cc_project.Code        cc_projectName = cc_project.Name      End Set    End Property    Public Property Boq() As BOQ      Get        If cc_boq Is Nothing OrElse cc_boq.Id <> cc_boqId Then          cc_boq = Boq.GetBOQ(cc_boqId)
+        End If        Return cc_boq      End Get      Set(ByVal Value As BOQ)        cc_boq = Value        Me.cc_boqId = cc_boq.Id        Me.cc_boqCode = cc_boq.Code      End Set    End Property
     Public Property BoqId() As Integer      Get        Return cc_boqId      End Get      Set(ByVal Value As Integer)        cc_boqId = Value      End Set    End Property
     Public Property BoqCode() As String
       Get
@@ -283,7 +292,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ProjectCode() As String      Get        Return cc_projectCode      End Get      Set(ByVal Value As String)        cc_projectCode = Value      End Set    End Property
     Public Property ProjectName() As String      Get        Return cc_projectName      End Get      Set(ByVal Value As String)        cc_projectName = Value      End Set    End Property
     Public Property Customer() As Customer      Get        Return cc_cust      End Get      Set(ByVal Value As Customer)        cc_cust = Value      End Set    End Property    Public Property Type() As CostCenterType      Get        Return cc_type      End Get      Set(ByVal Value As CostCenterType)        cc_type = Value      End Set    End Property
-    Public Property Address() As String      Get        Return cc_address      End Get      Set(ByVal Value As String)        cc_address = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Phone() As String      Get        Return cc_phone      End Get      Set(ByVal Value As String)        cc_phone = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Fax() As String      Get        Return cc_fax      End Get      Set(ByVal Value As String)        cc_fax = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Image() As Image Implements IHasImage.Image      Get        Return cc_image      End Get      Set(ByVal Value As Image)        cc_image = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Admin() As Employee      Get        Return cc_admin      End Get      Set(ByVal Value As Employee)        cc_admin = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Manager() As Employee      Get        Return cc_manager      End Get      Set(ByVal Value As Employee)        cc_manager = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property WipAccount() As Account      Get        Return cc_wipAccount      End Get      Set(ByVal Value As Account)        cc_wipAccount = Value      End Set    End Property    Public Property StoreAccount() As Account      Get        Return cc_storeAccount      End Get      Set(ByVal Value As Account)        cc_storeAccount = Value      End Set    End Property    Public Property ExpenseAccount() As Account      Get        Return cc_expenseAccount      End Get      Set(ByVal Value As Account)        cc_expenseAccount = Value      End Set    End Property    Public Property CostCenterUserAccessCollection() As CostCenterUserAccessCollection      Get
+    Public Property Address() As String      Get        Return cc_address      End Get      Set(ByVal Value As String)        cc_address = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Phone() As String      Get        Return cc_phone      End Get      Set(ByVal Value As String)        cc_phone = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Fax() As String      Get        Return cc_fax      End Get      Set(ByVal Value As String)        cc_fax = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Image() As Image Implements IHasImage.Image      Get        Return cc_image      End Get      Set(ByVal Value As Image)        cc_image = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Admin() As Employee      Get        Return cc_admin      End Get      Set(ByVal Value As Employee)        cc_admin = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Manager() As Employee      Get        Return cc_manager      End Get      Set(ByVal Value As Employee)        cc_manager = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Function GetUserByRoleCode(ByVal roleCode As String) As User
+      For Each ur As CCUserRole In Me.Roles
+        If ur.Role.Code.ToLower = roleCode.ToLower Then
+          Return ur.User
+        End If
+      Next
+      Return Nothing
+    End Function
+    Public Property WipAccount() As Account      Get        Return cc_wipAccount      End Get      Set(ByVal Value As Account)        cc_wipAccount = Value      End Set    End Property    Public Property StoreAccount() As Account      Get        Return cc_storeAccount      End Get      Set(ByVal Value As Account)        cc_storeAccount = Value      End Set    End Property    Public Property ExpenseAccount() As Account      Get        Return cc_expenseAccount      End Get      Set(ByVal Value As Account)        cc_expenseAccount = Value      End Set    End Property    Public Property CostCenterUserAccessCollection() As CostCenterUserAccessCollection      Get
         Return cc_ccuseraccesscol
       End Get
       Set(ByVal Value As CostCenterUserAccessCollection)
@@ -390,7 +407,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return Nothing
     End Function
-    Public Function GetBOQ() As Boq
+    Public Function GetBOQ() As BOQ
       If Not Me.Originated Then
         Return Nothing
       End If
@@ -930,50 +947,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-        Public Overrides Sub PopulateTree(ByVal tvGroup As System.Windows.Forms.TreeView, ByVal ParamArray filters() As Filter)
-            'Dim dt As DataTable = Me.GetTreeDataSet(filters).Tables(0)
-            Dim ds As DataSet = Me.GetListDataSet("", filters)
-            Dim dt As DataTable = ds.Tables(0)
-            tvGroup.BeginUpdate()
-            tvGroup.Nodes.Clear()
-            'tvGroup.ForeColor = Color.Gray
-            For Each row As DataRow In dt.Rows
-                Dim NodeTag As String = CStr(row(Prefix & "_id")) & "|" & CStr(row(Prefix & "_type"))
-                Dim NodeNme As String = CStr(row(Prefix & "_code")) & " - " & CStr(row(Prefix & "_name"))
-                Dim parentNodes As TreeNodeCollection
-                If IsDBNull(row(Prefix & "_parid")) OrElse CInt(row(Prefix & "_parid")) = CInt(row(Prefix & "_id")) Then
-                    parentNodes = tvGroup.Nodes
-                Else
-                    Dim parnode As TreeNode = TreeViewHelper.SearchTagString(tvGroup, CInt(row(Prefix & "_parid")))
-                    If parnode Is Nothing Then
-                        parentNodes = tvGroup.Nodes
-                    Else
-                        parentNodes = parnode.Nodes
-                    End If
-                End If
-                Dim theNode As TreeNode = parentNodes.Add(NodeNme)
-                Select Case CInt(row(Prefix & "_type"))
-                    Case 0
-                        theNode.ImageIndex = 0
-                        theNode.SelectedImageIndex = 0
-                    Case 1
-                        theNode.ImageIndex = 2
-                        theNode.SelectedImageIndex = 2
-                    Case 2
-                        theNode.ImageIndex = 4
-                        theNode.SelectedImageIndex = 4
-                End Select
+    Public Overrides Sub PopulateTree(ByVal tvGroup As System.Windows.Forms.TreeView, ByVal ParamArray filters() As Filter)
+      'Dim dt As DataTable = Me.GetTreeDataSet(filters).Tables(0)
+      Dim ds As DataSet = Me.GetListDataSet("", filters)
+      Dim dt As DataTable = ds.Tables(0)
+      tvGroup.BeginUpdate()
+      tvGroup.Nodes.Clear()
+      'tvGroup.ForeColor = Color.Gray
+      For Each row As DataRow In dt.Rows
+        Dim NodeTag As String = CStr(row(Prefix & "_id")) & "|" & CStr(row(Prefix & "_type"))
+        Dim NodeNme As String = CStr(row(Prefix & "_code")) & " - " & CStr(row(Prefix & "_name"))
+        Dim parentNodes As TreeNodeCollection
+        If IsDBNull(row(Prefix & "_parid")) OrElse CInt(row(Prefix & "_parid")) = CInt(row(Prefix & "_id")) Then
+          parentNodes = tvGroup.Nodes
+        Else
+          Dim parnode As TreeNode = TreeViewHelper.SearchTagString(tvGroup, CInt(row(Prefix & "_parid")))
+          If parnode Is Nothing Then
+            parentNodes = tvGroup.Nodes
+          Else
+            parentNodes = parnode.Nodes
+          End If
+        End If
+        Dim theNode As TreeNode = parentNodes.Add(NodeNme)
+        Select Case CInt(row(Prefix & "_type"))
+          Case 0
+            theNode.ImageIndex = 0
+            theNode.SelectedImageIndex = 0
+          Case 1
+            theNode.ImageIndex = 2
+            theNode.SelectedImageIndex = 2
+          Case 2
+            theNode.ImageIndex = 4
+            theNode.SelectedImageIndex = 4
+        End Select
 
-                theNode.Tag = NodeTag
-            Next
-            If ds.Tables.Count = 2 Then
-                Dim dt2 As DataTable = ds.Tables(1)
-                For Each row As DataRow In dt2.Rows
-                    Dim node As TreeNode = TreeViewHelper.SearchTagString(tvGroup, CInt(row(Prefix & "_id")))
-                    TreeViewHelper.HilightNode(node, Color.Blue)
-                Next
-            End If
-            tvGroup.EndUpdate()
+        theNode.Tag = NodeTag
+      Next
+      If ds.Tables.Count = 2 Then
+        Dim dt2 As DataTable = ds.Tables(1)
+        For Each row As DataRow In dt2.Rows
+          Dim node As TreeNode = TreeViewHelper.SearchTagString(tvGroup, CInt(row(Prefix & "_id")))
+          TreeViewHelper.HilightNode(node, Color.Blue)
+        Next
+      End If
+      tvGroup.EndUpdate()
     End Sub
 
     Private Shared m_InfoList As Generic.List(Of Generic.KeyValuePair(Of String, String))
@@ -996,5 +1013,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_InfoList
       End Get
     End Property
-    End Class
+
+    Public Function GetCashFlow(ByVal dataDate As Date) As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetCashFlow" _
+      , New SqlParameter("@DataDate", ValidDateOrDBNull(dataDate)) _
+      , New SqlParameter("@cc_id", Me.Id) _
+      )
+      Return ds
+    End Function
+  End Class
 End Namespace

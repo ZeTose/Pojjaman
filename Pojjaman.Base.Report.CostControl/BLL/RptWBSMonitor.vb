@@ -8,6 +8,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Syncfusion.Windows.Forms.Grid
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptWBSMonitor
     Inherits Report
@@ -334,6 +336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Actual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalDiff", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalPercentDiff", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocID", GetType(Integer)))
 
       Return myDatatable
     End Function
@@ -351,16 +354,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid = grid
 
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
       lkg.Cols.FrozenCount = 3
+      m_grid.Model.Cols.Hidden(m_grid.ColCount) = True
       lkg.HilightGroupParentText = True
+      lkg.RefreshHeights()
       lkg.Refresh()
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As Gui.Components.TreeManager)
@@ -383,6 +390,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           nodigit = CBool(Me.Filters(5).Value)
         End If
         PopulateWBSMonitorListing(tm.Treetable, CDate(Me.Filters(1).Value), nodigit)
+      End If
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      If IsNumeric(m_grid(e.RowIndex, m_grid.ColCount).CellValue) Then
+        Dim docId As Integer
+        Dim docType As Integer
+        docType = 6
+        docId = CInt(m_grid(e.RowIndex, m_grid.ColCount).CellValue)
+        If docId <> 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
       End If
     End Sub
     Public Sub PopulateWBSMonitorListing(ByVal dt As TreeTable, ByVal toDate As Date, Optional ByVal noDigit As Boolean = False)
@@ -481,15 +501,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 'แสดงเอกสารแต่ละตัว
+                tr.State = RowExpandState.Collapsed
                 Doctr = tr.Childs.Add
                 Doctr("boqi_itemname") = "(เอกสาร) " & CStr(wbsDoc("DocCode"))
-                Doctr.State = RowExpandState.Expanded
+                Doctr.State = RowExpandState.None
                 myDocId = CStr(wbsDoc("DocId"))
+                Doctr("DocId") = myDocId
               End If
 
               If CInt(Me.Filters(4).Value) > 1 Then
                 'แสดงรายการในแต่ละเอกสาร
                 If Not Doctr Is Nothing Then
+                  Doctr.State = RowExpandState.Collapsed
                   DocItemTr = Doctr.Childs.Add
                   DocItemTr("boqi_itemname") = wbsDoc("itemName")
                   DocItemTr("UnitPrice") = Configuration.FormatToString(CDec(wbsDoc("UnitPrice")), dgt)

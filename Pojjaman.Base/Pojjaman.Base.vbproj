@@ -778,6 +778,18 @@
     <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ActionDialog.Designer.vb">
+      <DependentUpon>ActionDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ActionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ActionHistoryForm.Designer.vb">
+      <DependentUpon>ActionHistoryForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ActionHistoryForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\AttachmentForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1175,6 +1187,39 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\GroupDetail\GroupDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\ActionForm.Designer.vb">
+      <DependentUpon>ActionForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\ActionForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentList.Designer.vb">
+      <DependentUpon>DocumentList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\History.Designer.vb">
+      <DependentUpon>History.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\History.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\Document.Designer.vb">
+      <DependentUpon>Document.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\Document.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentApprovalForm.Designer.vb">
+      <DependentUpon>DocumentApprovalForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentApprovalForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\NewApproveItemPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\CostCenterPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1400,6 +1445,12 @@
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.resx">
       <DependentUpon>AboutPojjamanTabPage.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ActionDialog.resx">
+      <DependentUpon>ActionDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ActionHistoryForm.resx">
+      <DependentUpon>ActionHistoryForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AttachmentForm.resx">
       <DependentUpon>AttachmentForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -1532,6 +1583,24 @@
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\GroupDetail\GroupDetailView.resx">
       <DependentUpon>GroupDetailView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\ActionForm.resx">
+      <DependentUpon>ActionForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentList.resx">
+      <DependentUpon>DocumentList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\History.resx">
+      <DependentUpon>History.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\Document.resx">
+      <DependentUpon>Document.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\Approval\DocumentApprovalForm.resx">
+      <DependentUpon>DocumentApprovalForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\NewApproveItemPanelView.resx">
+      <DependentUpon>NewApproveItemPanelView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\CostCenterPanelView.resx">
       <DependentUpon>CostCenterPanelView.vb</DependentUpon>
     </EmbeddedResource>
@@ -1632,7 +1701,9 @@
       <DependentUpon>SecurityValidator.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

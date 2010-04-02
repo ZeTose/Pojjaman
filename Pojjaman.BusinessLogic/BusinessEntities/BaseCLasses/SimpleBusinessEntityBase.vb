@@ -26,7 +26,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   ''' </history>
   ''' -----------------------------------------------------------------------------
   Public Class SimpleBusinessEntityBase
-    Implements IPropertyChangeable, ISimpleEntity, ICodeGeneratable, IHasCustomNote, IDirtyAble, IDeletableWithLog, IGlChangable
+    Implements IPropertyChangeable, ISimpleEntity, ICodeGeneratable, IHasCustomNote, IDirtyAble _
+      , IDeletableWithLog, IGlChangable _
+      , IHasStatusString, IApprovableByFlow
 
 #Region "Members"
     Private m_htChangedProperties As New Hashtable ' เก็บค่าของ columns ที่มีการเปลี่ยนแปลง
@@ -1295,6 +1297,203 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
+#End Region
+
+#Region "IHasStatusString"
+    Public Overridable ReadOnly Property StatusString As String Implements IHasStatusString.StatusString
+      Get
+        Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "IApprovableByFlow"
+    Public Overridable ReadOnly Property ApprovalAmount As Decimal Implements IApprovableByFlow.ApprovalAmount
+      Get
+        Return 0
+      End Get
+    End Property
+#End Region
+
+#Region "Workflow"
+    Public Overridable Function GetEntityForPrintingOnApproval() As IPrintableEntity
+      If TypeOf Me Is IPrintableEntity Then
+        Return CType(Me, IPrintableEntity)
+      End If
+    End Function
+    Public Function GetActionLogsDTO() As Generic.List(Of LogDTO)
+      Dim ret As New Generic.List(Of LogDTO)
+      Dim tmp As Generic.List(Of ActionLog) = Logs
+      For Each log As ActionLog In tmp
+        ret.Add(New LogDTO(log))
+      Next
+      Return ret
+    End Function
+    Public Sub RefreshActionLogs()
+      m_logs = New Generic.List(Of ActionLog)
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetActionLogsForEntity" _
+        , New SqlParameter("@entitytypeid", Me.EntityId) _
+        , New SqlParameter("@entityid", Me.Id))
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim log As New ActionLog(row)
+        m_logs.Add(log)
+      Next
+    End Sub
+    Private m_logs As Generic.List(Of ActionLog)
+    Public ReadOnly Property Logs() As Generic.List(Of ActionLog)
+      Get
+        If m_logs Is Nothing Then
+          RefreshActionLogs()
+        End If
+        Return m_logs
+      End Get
+    End Property
+    Public Overridable Function GetPossibleActions(ByVal node As FlowNode, ByVal currentUserId As Integer) As Generic.List(Of ActionPath)
+      If Not TypeOf Me Is IHasToCostCenter Then
+        Return Nothing
+      End If
+      Dim cc As CostCenter = CType(Me, IHasToCostCenter).ToCC
+      If cc Is Nothing Then
+        Return Nothing
+      End If
+      CCUserRole.CreateFor(cc, True)
+      Dim rolesFromCC As Generic.List(Of CCUserRole) = cc.Roles
+      Dim ret As Generic.List(Of ActionPath) = New Generic.List(Of ActionPath)
+      For Each atp As ActionPath In node.OutgoingPaths
+        If atp.CanBeVisualized Then
+          If atp.IsValid(node.State, currentUserId, Me) Then
+            ret.Add(atp)
+          End If
+        End If
+      Next
+      Return ret
+    End Function
+    Public Function GetActiveNode() As FlowNode
+      If Logs.Count > 0 Then
+        Dim lastLog As ActionLog = Logs(Logs.Count - 1)
+        Dim nodes As Generic.List(Of FlowNode) = AvailableFlowNodes
+        For Each node As FlowNode In nodes
+          If lastLog.State = node.State.Name Then
+            Return node
+          End If
+        Next
+      End If
+      Dim unknown As New FlowNode
+      unknown.State = New FlowState("Unknown")
+      Return New FlowNode
+    End Function
+    Private Sub RefreshStatesAndNodes()
+      Dim list As New Generic.Dictionary(Of FlowState, FlowNode)
+      m_states = New Generic.List(Of FlowState)
+      m_AvailableFlowNodes = New Generic.List(Of FlowNode)
+      Dim actions As Generic.List(Of ActionPath) = GetAllPossibleActions()
+      For Each atp As ActionPath In actions
+        If atp.StartState.HasValue AndAlso Not m_states.Contains(atp.StartState.Value) Then
+          m_states.Add(atp.StartState.Value)
+        End If
+        If atp.EndState.HasValue AndAlso Not m_states.Contains(atp.EndState.Value) Then
+          m_states.Add(atp.EndState.Value)
+        End If
+        If atp.StartState.HasValue Then
+          If Not list.ContainsKey(atp.StartState.Value) Then
+            list(atp.StartState.Value) = New FlowNode
+            list(atp.StartState.Value).State = atp.StartState.Value
+          End If
+          list(atp.StartState.Value).OutgoingPaths.Add(atp)
+        End If
+        If atp.EndState.HasValue Then
+          If Not list.ContainsKey(atp.EndState.Value) Then
+            list(atp.EndState.Value) = New FlowNode
+            list(atp.EndState.Value).State = atp.EndState.Value
+          End If
+          list(atp.EndState.Value).IncomingPaths.Add(atp)
+        End If
+      Next
+      For Each item As Generic.KeyValuePair(Of FlowState, FlowNode) In list
+        m_AvailableFlowNodes.Add(item.Value)
+      Next
+    End Sub
+    Private m_states As Generic.List(Of FlowState)
+    Protected Overridable Function GetAllPossibleStates() As Generic.List(Of FlowState)
+      If m_states Is Nothing Then
+        RefreshStatesAndNodes()
+      End If
+      Return m_states
+    End Function
+    Private Shared ActionList As Generic.Dictionary(Of Integer, Generic.List(Of ActionPath))
+    Protected Function GetAllPossibleActions() As Generic.List(Of ActionPath)
+      '"GetActionPath"
+      If ActionList Is Nothing Then
+        ActionList = New Generic.Dictionary(Of Integer, Generic.List(Of ActionPath))
+      End If
+      If Not ActionList.ContainsKey(Me.EntityId) Then
+        Dim actions As New Generic.List(Of ActionPath)
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetActionPath" _
+        , New SqlParameter("@EntityTypeId", EntityId) _
+        )
+        For Each row As DataRow In ds.Tables(0).Rows
+          actions.Add(New ActionPath(row))
+        Next
+        ActionList(Me.EntityId) = actions
+      End If
+      Return ActionList(Me.EntityId)
+    End Function
+    Public Overridable Function CreatLog(ByVal atp As ActionPath, ByVal currentUser As User, ByVal logNote As String) As ActionLog
+      If Not TypeOf Me Is IHasToCostCenter Then
+        Return Nothing
+      End If
+      Dim cc As CostCenter = CType(Me, IHasToCostCenter).ToCC
+      If cc Is Nothing Then
+        Return Nothing
+      End If
+      CCUserRole.CreateFor(cc, True)
+      Dim rolesFromCC As Generic.List(Of CCUserRole) = cc.Roles
+      Dim log As New ActionLog
+      log.Action = atp.Action
+      log.EntityId = Me.Id
+      log.EntityTypeId = Me.EntityId
+      log.Note = logNote
+      If atp.EndState.HasValue Then
+        log.State = atp.EndState.Value.Name
+      End If
+      For Each r As CCRole In atp.PossibleRoles
+        For Each ur As CCUserRole In rolesFromCC
+          If ur.User.Id = currentUser.Id Then
+            If r.Id = ur.Role.Id AndAlso _
+              (Not atp.Tier.HasValue OrElse _
+                (ur.Tier.HasValue AndAlso atp.Tier.Value = ur.Tier.Value) _
+                ) _
+              Then
+              log.Role = r
+              log.Tier = atp.Tier
+              Exit For
+            End If
+          End If
+        Next
+      Next
+      log.User = currentUser
+      log.Time = Date.Now
+      log.CostCenterId = cc.Id
+      If TypeOf Me Is IApprovAble Then
+        log.Amount = CType(Me, IApprovAble).AmountToApprove
+      End If
+      Return log
+    End Function
+    Private m_AvailableFlowNodes As Generic.List(Of FlowNode)
+    Public ReadOnly Property AvailableFlowNodes As Generic.List(Of FlowNode)
+      Get
+        If m_AvailableFlowNodes Is Nothing Then
+          RefreshStatesAndNodes()
+        End If
+        Return m_AvailableFlowNodes
+      End Get
+    End Property
 #End Region
    
   End Class

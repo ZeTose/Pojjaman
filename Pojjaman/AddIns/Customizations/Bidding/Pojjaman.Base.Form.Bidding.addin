@@ -1,0 +1,16 @@
+<AddIn name="Pojjaman Bidding Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="../../Forms/Bidding/Pojjaman.Base.Form.Bidding.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu/Bidding">
+		<MenuItem id="Budget" insertafter="boq" label="${res:MainMenu.BiddingMenu.Budget.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Budget"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="budget" entity="budget" filter="Longkong.Pojjaman.Gui.Panels.BOQFilterSubPanel"/>
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/EntityTabs">
+		<EntityTab id="budget">
+			<EntityTab id="BudgetPanelView" view="Longkong.Pojjaman.Gui.Panels.BudgetPanelView"/>
+		</EntityTab>
+	</Extension>
+</AddIn>

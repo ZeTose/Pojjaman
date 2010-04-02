@@ -455,6 +455,7 @@
     <Compile Include="BusinessEntities\ContentInterfaces\Discount.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\ContentInterfaces\IHasAction.vb" />
     <Compile Include="BusinessEntities\ContentInterfaces\IItemCapable.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -536,6 +537,7 @@
     <Compile Include="BusinessEntities\EqToolTransfer\ToolWithdraw.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\General\Action.vb" />
     <Compile Include="BusinessEntities\General\AdvanceFind.vb">
       <SubType>Code</SubType>
     </Compile>

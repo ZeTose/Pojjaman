@@ -576,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
   End Class
   Public Class SuperPrintableEntity
-    Implements IPrintableEntity
+    Implements IPrintableEntity, IHasStatusString
     Private m_entities As List(Of IPrintableEntity)
     Private m_entityNames As Dictionary(Of IPrintableEntity, String)
     Public Sub New()
@@ -595,6 +595,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
               m_entityNames(CType(auxPrintable, IPrintableEntity)) = myview.GetType.Name
             End If
             m_entities.Add(CType(auxPrintable, IPrintableEntity))
+            If String.IsNullOrEmpty(m_StatusString) Then
+              If TypeOf aux Is IHasStatusString Then
+                If Not String.IsNullOrEmpty(CType(aux, IHasStatusString).StatusString) Then
+                  m_StatusString = CType(aux, IHasStatusString).StatusString
+                End If
+              End If
+            End If
           End If
         ElseIf Not TypeOf myview Is AbstractEntityPanelViewContent AndAlso TypeOf myview Is ISimpleEntityPanel Then
           Dim myentity As Object = CType(window.ActiveViewContent, ISimpleEntityPanel).Entity
@@ -604,6 +611,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
               m_entityNames(CType(iprintable, IPrintableEntity)) = myview.GetType.Name
             End If
             m_entities.Add(CType(iprintable, IPrintableEntity))
+            If String.IsNullOrEmpty(m_StatusString) Then
+              If TypeOf myentity Is IHasStatusString Then
+                If Not String.IsNullOrEmpty(CType(myentity, IHasStatusString).StatusString) Then
+                  m_StatusString = CType(myentity, IHasStatusString).StatusString
+                End If
+              End If
+            End If
           End If
         End If
       Next
@@ -689,6 +703,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ret.AddRange(tmpRet)
       Return ret
     End Function
+
+    Private m_StatusString As String
+    Public ReadOnly Property StatusString As String Implements BusinessLogic.IHasStatusString.StatusString
+      Get
+        Return m_StatusString
+      End Get
+    End Property
   End Class
 End Namespace
 

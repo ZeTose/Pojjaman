@@ -426,7 +426,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           theId = CInt(drBoq("boq_id"))
         End If
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
         trans.Commit()
         If Not Me.Originated Then
           Me.Id = CInt(drBoq("boq_id"))
@@ -459,7 +458,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim currentInternalKey As Object = e.Row("wbs_parid")
         e.Row!wbs_boq = e.Row.GetParentRow("boq_wbs")("boq_id", DataRowVersion.Original)
         If Not e.Row.GetParentRow("wbsTree") Is Nothing AndAlso e.Row.GetParentRow("wbsTree").HasVersion(DataRowVersion.Original) Then
-          e.Row!wbs_parid = e.Row.GetParentRow("wbsTree")("wbs_id", DataRowVersion.Original)
+          If IsNumeric(e.Row!wbs_level) AndAlso CInt(e.Row!wbs_level) <> 0 Then
+            e.Row!wbs_parid = e.Row.GetParentRow("wbsTree")("wbs_id", DataRowVersion.Original)
+          End If
         End If
         'If e.Row.IsNull("wbs_parid") Then
         '    e.Row!wbs_parid = e.Row!wbs_id
