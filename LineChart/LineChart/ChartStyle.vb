@@ -1,4 +1,5 @@
-﻿Public Class ChartStyle
+﻿Imports Longkong.Pojjaman.BusinessLogic
+Public Class ChartStyle
   Public Property ChartCanvas As Canvas
   Public Property Xmin As Double
   Public Property Xmax As Double
@@ -126,7 +127,7 @@ Public Class ChartStyleGridLines
         dy = i * yTick
         pt = NormalizePoint(New Point(Xmin, dy))
         tb = New TextBlock()
-        tb.Text = dy.ToString("#,###.##")
+        tb.Text = dy.ToString("N2")
         tb.TextAlignment = TextAlignment.Right
         tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
         size = tb.DesiredSize
@@ -134,7 +135,7 @@ Public Class ChartStyleGridLines
           offset = size.Width
         End If
       Next
-      
+
       If (offset0 > offset) Then
         offset0 -= 0.5
       ElseIf (offset0 < offset) Then
@@ -245,45 +246,45 @@ Public Class ChartStyleGridLines
       End If
     End If
 
-      '==Create horizontal gridlines
-      If IsXGrid Then
-        For i As Integer = yStart To yEnd
-          gridline = New Line()
-          AddLinePattern()
-          dy = i * yTick
-          gridline.X1 = NormalizePoint(New Point(Xmin, dy)).X
-          gridline.Y1 = NormalizePoint(New Point(Xmin, dy)).Y
-          gridline.X2 = NormalizePoint(New Point(Xmax, dy)).X
-          gridline.Y2 = NormalizePoint(New Point(Xmax, dy)).Y
-          ChartCanvas.Children.Add(gridline)
+    '==Create horizontal gridlines
+    If IsXGrid Then
+      For i As Integer = yStart To yEnd
+        gridline = New Line()
+        AddLinePattern()
+        dy = i * yTick
+        gridline.X1 = NormalizePoint(New Point(Xmin, dy)).X
+        gridline.Y1 = NormalizePoint(New Point(Xmin, dy)).Y
+        gridline.X2 = NormalizePoint(New Point(Xmax, dy)).X
+        gridline.Y2 = NormalizePoint(New Point(Xmax, dy)).Y
+        ChartCanvas.Children.Add(gridline)
 
-          pt = NormalizePoint(New Point(Xmin, dy))
-          tick = New Line()
-          tick.Stroke = Brushes.Black
-          tick.X1 = pt.X
-          tick.Y1 = pt.Y
-          tick.X2 = pt.X + 5
-          tick.Y2 = pt.Y
-          ChartCanvas.Children.Add(tick)
+        pt = NormalizePoint(New Point(Xmin, dy))
+        tick = New Line()
+        tick.Stroke = Brushes.Black
+        tick.X1 = pt.X
+        tick.Y1 = pt.Y
+        tick.X2 = pt.X + 5
+        tick.Y2 = pt.Y
+        ChartCanvas.Children.Add(tick)
 
-          tb = New TextBlock()
-          tb.Text = dy.ToString()
-          tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
-          size = tb.DesiredSize
-          TextCanvas.Children.Add(tb)
-          Canvas.SetRight(tb, ChartCanvas.Width + 10)
-          Canvas.SetTop(tb, pt.Y)
-        Next
-      End If
+        tb = New TextBlock()
+        tb.Text = dy.ToString("N2")
+        tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
+        size = tb.DesiredSize
+        TextCanvas.Children.Add(tb)
+        Canvas.SetRight(tb, ChartCanvas.Width + 10)
+        Canvas.SetTop(tb, pt.Y)
+      Next
+    End If
 
 
 
-      ' Add title and labels:
-      tbTitle.Text = Title
-      tbXLabel.Text = XLabel
-      tbYLabel.Text = YLabel
-      tbXLabel.Margin = New Thickness(leftOffset + 2, 2, 2, 2)
-      tbTitle.Margin = New Thickness(leftOffset + 2, 2, 2, 2)
+    ' Add title and labels:
+    tbTitle.Text = Title
+    tbXLabel.Text = XLabel
+    tbYLabel.Text = YLabel
+    tbXLabel.Margin = New Thickness(leftOffset + 2, 2, 2, 2)
+    tbTitle.Margin = New Thickness(leftOffset + 2, 2, 2, 2)
   End Sub
   Public Sub AddLinePattern()
     gridline.Stroke = GridlineColor

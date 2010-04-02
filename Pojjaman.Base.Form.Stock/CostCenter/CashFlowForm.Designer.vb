@@ -75,8 +75,7 @@ Partial Class CashFlowForm
     '
     Me.tgItem.AllowNew = False
     Me.tgItem.AllowSorting = False
-    Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
+    Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
     Me.tgItem.AutoColumnResize = True
     Me.tgItem.CaptionVisible = False

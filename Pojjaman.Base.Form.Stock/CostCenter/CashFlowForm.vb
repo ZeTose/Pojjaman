@@ -1,4 +1,6 @@
-﻿Imports Longkong.Pojjaman.BusinessLogic
+﻿Option Strict On
+
+Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
 Imports System.Collections.Generic
 Imports System.Windows.Forms.Integration
@@ -52,26 +54,21 @@ Public Class CashFlowForm
     Dim dataString As New List(Of String)
     While currentDate <= maxDate
       If currentDate.Day = 1 AndAlso currentDate > minDate Then
-        dataString.Add(currentDate.AddDays(-1))
+        dataString.Add(currentDate.AddDays(-1).ToString)
       End If
       allDays.Add(currentDate)
       currentDate = currentDate.AddDays(1)
     End While
-    Dim dt As New DataTable("CF")
-    Dim exp As DataRow = dt.NewRow
-    dt.Rows.Add(exp)
+    Dim dt As New TreeTable("CF")
+    Dim exp As DataRow = dt.Childs.Add
 
-    Dim accExp As DataRow = dt.NewRow
-    dt.Rows.Add(accExp)
+    Dim accExp As DataRow = dt.Childs.Add
 
-    Dim rev As DataRow = dt.NewRow
-    dt.Rows.Add(rev)
+    Dim rev As DataRow = dt.Childs.Add
 
-    Dim accRev As DataRow = dt.NewRow
-    dt.Rows.Add(accRev)
+    Dim accRev As DataRow = dt.Childs.Add
 
-    Dim cf As DataRow = dt.NewRow
-    dt.Rows.Add(cf)
+    Dim cf As DataRow = dt.Childs.Add
 
     Dim remain As Decimal = 0
     Dim accExpVal As Decimal = 0
@@ -81,6 +78,8 @@ Public Class CashFlowForm
     Dim headcol As New DataColumn("Type", GetType(String))
     dt.Columns.Add(headcol)
 
+    Dim daysToRemove As New List(Of Date)
+    Dim found As Boolean = False
     For Each d As Date In allDays
       Dim col As New DataColumn(d.ToShortDateString, GetType(String))
       dt.Columns.Add(col)
@@ -94,27 +93,27 @@ Public Class CashFlowForm
         End If
       Next
       If d <= dataDate Then
-        exp(col) = datalist(3) + datalist(4)
+        exp(col) = Configuration.FormatToString(datalist(3) + datalist(4), DigitConfig.Price)
         remain = datalist(0) + datalist(1) + datalist(2)
 
-        rev(col) = datalist(5) + datalist(6)
+        rev(col) = Configuration.FormatToString(datalist(5) + datalist(6), DigitConfig.Price)
       ElseIf d = dataDate.AddDays(1) Then
-        exp(col) = remain + datalist(0) + datalist(1) + datalist(2) + datalist(3) + datalist(4)
+        exp(col) = Configuration.FormatToString(remain + datalist(0) + datalist(1) + datalist(2) + datalist(3) + datalist(4), DigitConfig.Price)
 
-        rev(col) = datalist(7)
+        rev(col) = Configuration.FormatToString(datalist(7), DigitConfig.Price)
       Else
-        exp(col) = datalist(0) + datalist(1) + datalist(2)
+        exp(col) = Configuration.FormatToString(datalist(0) + datalist(1) + datalist(2), DigitConfig.Price)
 
-        rev(col) = datalist(7)
+        rev(col) = Configuration.FormatToString(datalist(7), DigitConfig.Price)
       End If
 
-      accExpVal += exp(col)
-      accExp(col) = accExpVal
+      accExpVal += CDec(exp(col))
+      accExp(col) = Configuration.FormatToString(accExpVal, DigitConfig.Price)
 
-      accRevVal += rev(col)
-      accRev(col) = accRevVal
+      accRevVal += CDec(rev(col))
+      accRev(col) = Configuration.FormatToString(accRevVal, DigitConfig.Price)
 
-      cf(col) = accRevVal - accExpVal
+      cf(col) = Configuration.FormatToString(accRevVal - accExpVal, DigitConfig.Price)
 
       If accExpVal > maxY Then
         maxY = accExpVal
@@ -130,28 +129,43 @@ Public Class CashFlowForm
         minY = accRevVal
       End If
 
-      If exp(col) > maxY Then
-        maxY = exp(col)
+      If CDec(exp(col)) > maxY Then
+        maxY = CDec(exp(col))
       End If
-      If rev(col) > maxY Then
-        maxY = rev(col)
-      End If
-
-      If exp(col) < minY Then
-        minY = exp(col)
-      End If
-      If rev(col) < minY Then
-        minY = rev(col)
+      If CDec(rev(col)) > maxY Then
+        maxY = CDec(rev(col))
       End If
 
-      If cf(col) > maxY Then
-        maxY = cf(col)
+      If CDec(exp(col)) < minY Then
+        minY = CDec(exp(col))
       End If
-      If cf(col) < minY Then
-        minY = cf(col)
+      If CDec(rev(col)) < minY Then
+        minY = CDec(rev(col))
       End If
+
+      If CDec(cf(col)) > maxY Then
+        maxY = CDec(cf(col))
+      End If
+      If CDec(cf(col)) < minY Then
+        minY = CDec(cf(col))
+      End If
+
+      If CDec(exp(col)) = 0 _
+      AndAlso CDec(rev(col)) = 0 _
+      AndAlso accExpVal = 0 _
+      AndAlso accRevVal = 0 _
+      AndAlso CDec(cf(col)) = 0 _
+      AndAlso Not found Then
+        daysToRemove.Add(d)
+        dt.Columns.Remove(col)
+      Else
+        found = True
+      End If
+
     Next
-
+    For Each d As Date In daysToRemove
+      allDays.Remove(d)
+    Next
     Dim myDC As New DataCollectionDTO()
     For m As Integer = 0 To 4
       Dim myDs As New DataSeriesDTO
@@ -170,7 +184,7 @@ Public Class CashFlowForm
       dt.Rows(m)(0) = myDs.SeriesName
       For n As Integer = 0 To allDays.Count - 1
         '===========================================================
-        myDs.ChartValueList.Add(New ChartValueDTO(DateToDouble(allDays(n)), dt.Rows(m)(allDays(n).ToShortDateString)))
+        myDs.ChartValueList.Add(New ChartValueDTO(DateToDouble(allDays(n)), CDec(dt.Rows(m)(allDays(n).ToShortDateString))))
         '============================================================================
       Next
       myDC.DataSeries.Add(myDs)
@@ -194,7 +208,6 @@ Public Class CashFlowForm
     csLineNumber.DataAlignment = HorizontalAlignment.Center
     csLineNumber.ReadOnly = True
     dst.GridColumnStyles.Add(csLineNumber)
-
     For Each col As DataColumn In dt.Columns
       If col.ColumnName.ToLower <> "type" Then
         Dim csCode As New TreeTextColumn
@@ -209,7 +222,7 @@ Public Class CashFlowForm
     Dim m_treeManager As New TreeManager(dt, tgItem)
     m_treeManager.SetTableStyle(dst)
     m_treeManager.AllowSorting = False
-    m_treeManager.AllowDelete = False
+    m_treeManager.AllowDelete = False    
 
   End Sub
   Public Function DateToDouble(ByVal dt As Date) As Double
