@@ -790,7 +790,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         dt.Clear()
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
           Dim newRow As TreeRow = dt.Childs.Add()
-          newRow.CustomBackColor = Color.AliceBlue
+          newRow.CustomBackColor = Color.Yellow
+          newRow.CustomFontStyle = FontStyle.Bold
           If ali.AllocationErrorMessage.Length <> 0 Then
             newRow.FixLevel = 0
           Else
