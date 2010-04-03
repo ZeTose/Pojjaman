@@ -38,6 +38,7 @@ Namespace Pojjaman
 #Region "Methods"
     <STAThread()> _
     Public Shared Sub Main(ByVal args As String())
+      Application.EnableVisualStyles()
       PojjamanMain.m_commandLineArgs = args
       Dim noLogo As Boolean = False
       Dim noPassword As Boolean = False
