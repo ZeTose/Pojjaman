@@ -163,26 +163,26 @@ Namespace Longkong.Pojjaman.Gui.Components
 				Return GetVisibleState(Me)
 			End Get
 		End Property
-		Public Property CustomBackColor() As Color			Get
-				Return m_customBackColor
-			End Get
-			Set(ByVal Value As Color)
-				m_customBackColor = Value
-			End Set
-		End Property
+    Public Property CustomBackColor() As Color      Get
+        Return m_customBackColor
+      End Get
+      Set(ByVal Value As Color)
+        m_customBackColor = Value
+      End Set
+    End Property
 		Public Property CustomForeColor() As Color			Get
 				Return m_customForeColor
 			End Get
 			Set(ByVal Value As Color)
 				m_customForeColor = Value
 			End Set
-		End Property		Public Property CustomFontStyle() As FontStyle			Get
-				Return m_customFontStyle
-			End Get
-			Set(ByVal Value As FontStyle)
-				m_customFontStyle = Value
-			End Set
-		End Property#End Region
+		End Property    Public Property CustomFontStyle() As FontStyle      Get
+        Return m_customFontStyle
+      End Get
+      Set(ByVal Value As FontStyle)
+        m_customFontStyle = Value
+      End Set
+    End Property#End Region
 
 #Region "Methods"
 		Public Shared Sub TraverseRow(ByVal r As TreeRow, ByVal ta As TreeRowAction)

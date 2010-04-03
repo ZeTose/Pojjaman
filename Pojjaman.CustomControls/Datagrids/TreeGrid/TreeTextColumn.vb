@@ -155,7 +155,8 @@ Namespace Longkong.Pojjaman.Gui.Components
       Dim dg As DataGrid = Me.DataGridTableStyle.DataGrid
       Dim state As RowExpandState = row.State
       Dim level As Integer = row.Level
-      If source.Position = rowNum OrElse CheckRowSelected(rowNum) Then 'selected
+      Dim selected As Boolean = (source.Position = rowNum OrElse CheckRowSelected(rowNum))
+      If selected Then 'selected
         backBrush = New SolidBrush(dg.SelectionBackColor)
         foreBrush = New SolidBrush(dg.SelectionForeColor)
       ElseIf row.State = RowExpandState.None Then
@@ -193,13 +194,13 @@ Namespace Longkong.Pojjaman.Gui.Components
         myFont = New Font(myFont, FontStyle.Bold)
       End If
 
-      If Not (row.CustomBackColor.IsEmpty) Then
+      If Not (row.CustomBackColor.IsEmpty) AndAlso Not selected Then
         backBrush = New SolidBrush(row.CustomBackColor)
       End If
-      If Not (row.CustomForeColor.IsEmpty) Then
+      If Not (row.CustomForeColor.IsEmpty) AndAlso Not selected Then
         foreBrush = New SolidBrush(row.CustomForeColor)
       End If
-      If Not (row.CustomFontStyle = Nothing) Then
+      If Not (row.CustomFontStyle = Nothing) AndAlso Not selected Then
         myFont = New Font(myFont, row.CustomFontStyle)
       End If
 

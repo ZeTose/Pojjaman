@@ -189,17 +189,18 @@ Namespace Longkong.Pojjaman.Gui.Components
             End If
             RemoveHandler Me.DataGridTableStyle.DataGrid.MouseDown, AddressOf DataGrid_MouseDown
             RemoveHandler Me.DataGridTableStyle.DataGrid.MouseUp, AddressOf DataGrid_MouseUp
-        End Sub
+    End Sub
+    Protected m_grid As TreeGrid
         Protected Overrides Sub SetDataGridInColumn(ByVal value As DataGrid)
             If value Is Nothing OrElse Not TypeOf value Is TreeGrid Then
                 Return
             End If
-            Dim grid As TreeGrid = CType(value, TreeGrid)
-            If grid.ColorList.Count > 0 Then
-                Me.ColorList = grid.ColorList
-            Else
-                Me.ColorList = grid.GetDefaultColorList
-            End If
+      m_grid = CType(value, TreeGrid)
+      If m_grid.ColorList.Count > 0 Then
+        Me.ColorList = m_grid.ColorList
+      Else
+        Me.ColorList = m_grid.GetDefaultColorList
+      End If
             ForeColorList = New ColorCollection            For Each col As Color In ColorList                If CInt(col.R) + CInt(col.G) + CInt(col.B) > 128 * 3 Then
                     ForeColorList.Add(Color.Black)
                 Else
@@ -288,26 +289,36 @@ Namespace Longkong.Pojjaman.Gui.Components
             If drawFocusRectangle Then
                 ControlPaint.DrawFocusRectangle(g, focusRectangle, Color.Red, Control.DefaultBackColor)
             End If
-        End Sub
+    End Sub
+    Private Function CheckRowSelected(ByVal rowNum As Integer) As Boolean
+      If m_grid Is Nothing Then
+        Return False
+      End If
+      If m_grid.IsSelected(rowNum) Then
+        Return True
+      End If
+      Return False
+    End Function
         Protected Sub PrePareRow(ByVal g As Graphics, ByVal rowNum As Integer, ByVal source As CurrencyManager, ByRef backBrush As Brush, ByRef foreBrush As Brush, ByRef myFont As Font)
             Dim row As TreeRow = CType(CType(Me.DataGridTableStyle.DataGrid.DataSource, DataTable).Rows(rowNum), TreeRow)
             Dim table As TreeTable = CType(Me.DataGridTableStyle.DataGrid.DataSource, TreeTable)
             Dim dg As DataGrid = Me.DataGridTableStyle.DataGrid
             Dim state As RowExpandState = row.State
-            Dim level As Integer = row.Level
-            If source.Position = rowNum Then 'selected
-                backBrush = New SolidBrush(dg.SelectionBackColor)
-                foreBrush = New SolidBrush(dg.SelectionForeColor)
-			ElseIf row.State = RowExpandState.None And row.FixLevel >= 0 Then
-				backBrush = New SolidBrush(CType(ColorList((level Mod ColorList.Count)), Color))
-				foreBrush = New SolidBrush(CType(ForeColorList((level Mod ColorList.Count)), Color))
-			ElseIf row.State = RowExpandState.None Then
-				'backBrush = New SolidBrush(dg.BackColor)
-				'foreBrush = New SolidBrush(dg.ForeColor)
-			Else
-				backBrush = New SolidBrush(CType(ColorList((level Mod ColorList.Count)), Color))
-				foreBrush = New SolidBrush(CType(ForeColorList((level Mod ColorList.Count)), Color))
-			End If
+      Dim level As Integer = row.Level
+      Dim selected As Boolean = (source.Position = rowNum OrElse CheckRowSelected(rowNum))
+      If selected Then 'selected
+        backBrush = New SolidBrush(dg.SelectionBackColor)
+        foreBrush = New SolidBrush(dg.SelectionForeColor)
+      ElseIf row.State = RowExpandState.None And row.FixLevel >= 0 Then
+        backBrush = New SolidBrush(CType(ColorList((level Mod ColorList.Count)), Color))
+        foreBrush = New SolidBrush(CType(ForeColorList((level Mod ColorList.Count)), Color))
+      ElseIf row.State = RowExpandState.None Then
+        'backBrush = New SolidBrush(dg.BackColor)
+        'foreBrush = New SolidBrush(dg.ForeColor)
+      Else
+        backBrush = New SolidBrush(CType(ColorList((level Mod ColorList.Count)), Color))
+        foreBrush = New SolidBrush(CType(ForeColorList((level Mod ColorList.Count)), Color))
+      End If
 
 			If row.State <> RowExpandState.None Then
 				myFont = New Font("Tahoma", 8, FontStyle.Bold)
@@ -315,15 +326,15 @@ Namespace Longkong.Pojjaman.Gui.Components
 				myFont = dg.Font
 			End If
 
-			If Not (row.CustomBackColor.IsEmpty) Then
-				backBrush = New SolidBrush(row.CustomBackColor)
-			End If
-			If Not (row.CustomForeColor.IsEmpty) Then
-				foreBrush = New SolidBrush(row.CustomForeColor)
-			End If
-			If Not (row.CustomFontStyle = Nothing) Then
-				myFont = New Font(myFont, row.CustomFontStyle)
-			End If
+      If Not (row.CustomBackColor.IsEmpty) AndAlso Not selected Then
+        backBrush = New SolidBrush(row.CustomBackColor)
+      End If
+      If Not (row.CustomForeColor.IsEmpty) AndAlso Not selected Then
+        foreBrush = New SolidBrush(row.CustomForeColor)
+      End If
+      If Not (row.CustomFontStyle = Nothing) AndAlso Not selected Then
+        myFont = New Font(myFont, row.CustomFontStyle)
+      End If
 
         End Sub
 #End Region

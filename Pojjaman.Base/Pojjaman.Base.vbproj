@@ -1355,6 +1355,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scTransferWBSView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scWBSView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\PanelView.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1693,6 +1699,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.resx">
       <DependentUpon>VatItemSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scTransferWBSView.resx">
+      <DependentUpon>scTransferWBSView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scWBSView.resx">
+      <DependentUpon>scWBSView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\SearchCriteria\AdvancedSearch.resx">
       <DependentUpon>AdvancedSearch.vb</DependentUpon>
