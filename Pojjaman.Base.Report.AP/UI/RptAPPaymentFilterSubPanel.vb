@@ -965,14 +965,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.DocDateStart = dtStart
       Me.txtDocDateStart.Text = MinDateToNull(Me.DocDateStart, "")
       Me.dtpDocDateStart.Value = Me.DocDateStart
+
       Me.txtPayIDateStart.Text = MinDateToNull(Me.PayIDateStart, "")
-      Me.dtpPayIDateStart.Value = Me.PayIDateStart
+      Me.dtpPayIDateStart.Value = MinDateToNow(Me.PayIDateStart)
+
       cmbOrderBy.SelectedIndex = 0
       Me.DocDateEnd = Date.Now
       Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
       Me.dtpDocDateEnd.Value = Me.DocDateEnd
-      Me.txtPayIDateStart.Text = MinDateToNull(Me.PayIDateEnd, "")
-      Me.dtpPayIDateStart.Value = Me.PayIDateEnd
+
+      Me.txtPayIDateEnd.Text = MinDateToNull(Me.PayIDateEnd, "")
+      Me.dtpPayIDateEnd.Value = MinDateToNow(Me.PayIDateEnd)
+
       Me.chkDetail.Checked = False
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
