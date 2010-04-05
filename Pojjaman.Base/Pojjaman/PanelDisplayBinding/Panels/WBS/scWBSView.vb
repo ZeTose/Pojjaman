@@ -777,6 +777,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
       m_isInitialized = True
     End Sub
+    Private Function ItemCBS(ByVal ali As IWBSAllocatableItem) As String
+      Dim myCBS As CBS = Nothing
+
+      Dim isSingleCBS As Boolean = False
+      For Each wbsditem As WBSDistribute In ali.WBSDistributeCollection
+        If myCBS Is Nothing Then
+          myCBS = wbsditem.CBS
+          isSingleCBS = True
+        End If
+        If myCBS.Id <> wbsditem.CBS.Id Then
+          isSingleCBS = False
+        End If
+      Next
+
+      If isSingleCBS Then
+        Return myCBS.Code & ":" & myCBS.Name
+      End If
+
+      Return ""
+
+    End Function
     Private Sub RefreshDocs()
       Dim flag As Boolean = Me.m_isInitialized
       Dim hashWBS As New Hashtable
@@ -790,8 +811,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         dt.Clear()
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
           Dim newRow As TreeRow = dt.Childs.Add()
-          newRow.CustomBackColor = Color.Yellow
-          newRow.CustomFontStyle = FontStyle.Bold
+          newRow.State = RowExpandState.Expanded
           If ali.AllocationErrorMessage.Length <> 0 Then
             newRow.FixLevel = 0
           Else
@@ -802,6 +822,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If ali.ItemAmount <> 0 Then
             newRow("Amount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
           End If
+          newRow("CBS") = Me.ItemCBS(ali)
 
           newRow("CCButton") = "invisible"
           newRow("CBSButton") = "invisible"
@@ -815,10 +836,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
               wbsd.BaseCost = transferAmt
               wbsd.TransferBaseCost = transferAmt
 
-              Dim wbsRow As TreeRow = dt.Childs.Add()
+              Dim wbsRow As TreeRow = newRow.Childs.Add  'dt.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
-              wbsRow("CBS") = ""
+              wbsRow("CBS") = wbsd.CBS.Code & ":" & wbsd.CBS.Name
               wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
               wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
               wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
@@ -1074,6 +1095,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '    End If
     'End Sub
 #End Region
+
 #Region "Event Handlers"
     Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddWBS.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -1173,7 +1195,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1519,22 +1541,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'm_wbsUpdating = False
     End Sub
     Public Sub SetCBSCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      ' If m_wbsUpdating Then
-      '  Return
-      'End If
-      'Dim item As WBSDistribute = Me.CurrentWsbsd
-      'If item Is Nothing Then
+      Dim myString As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim myMsg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
+      If m_wbsUpdating Then
+        Return
+      End If
+      Dim isItem As Boolean = False
+      Dim wbsd As WBSDistribute = Me.CurrentWsbsd
+      Dim item As IWBSAllocatableItem = Me.CurrentItem
+      If wbsd Is Nothing AndAlso item Is Nothing Then
+        Return
+      ElseIf Not item Is Nothing Then
+        isItem = True
+      End If
+
+      'If wbsd Is Nothing Then
       '  Return
       'End If
 
-      'If item.CBS Is Nothing Then
+      'If wbsd.CBS Is Nothing Then
       '  Return
       'End If
 
-      'm_wbsUpdating = True
-      'item.CBS = value
-      'm_wbsUpdating = False
+      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+
+      Dim oldCodeValue As String = CStr(e.Row(e.Column))
+
+      Dim value As String = SplitCodeCBS(CStr(e.ProposedValue))
+      Dim myCBS As CBS = CBS.GetByCode(value)
+
+      If myCBS Is Nothing OrElse myCBS.Id = 0 Then
+        myMsg.ShowMessageFormatted(myString.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.ValidCBS}"), New String() {value})
+        e.ProposedValue = oldCodeValue
+        Return
+      End If
+
+      m_wbsUpdating = True
+      If isItem Then
+        For Each wbsditem As WBSDistribute In item.WBSDistributeCollection
+          wbsditem.CBS = myCBS
+        Next
+      Else
+        wbsd.CBS = myCBS
+      End If
+      m_wbsUpdating = False
     End Sub
+    Private Function SplitCodeCBS(ByVal value As String) As String
+      Dim spCodeName() As String
+      spCodeName = value.Split(CChar(":"))
+      If Not spCodeName Is Nothing AndAlso spCodeName(0).Length > 0 Then
+        Return spCodeName(0)
+      End If
+      Return ""
+    End Function
     Private Sub WBSItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
 
     End Sub

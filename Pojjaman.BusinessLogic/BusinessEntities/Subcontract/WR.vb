@@ -1123,6 +1123,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     wbsd.CostCenter = Me.CostCenter
                   End If
                   childDr("wriw_cc") = wbsd.CostCenter.Id
+                  childDr("wriw_cbs") = wbsd.CBS.Id
                   'Add เข้า wriwbs
                   dtWbs.Rows.Add(childDr)
                 Next
@@ -1149,6 +1150,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     childDr("wriw_amt") = wbsd.Amount
                     'childDr("wriw_toaccttype") = Me.ToAccountType.Value                               
                     childDr("wriw_cc") = wbsd.CostCenter.Id
+                    childDr("wriw_cbs") = wbsd.CBS.Id
 
                     'Add เข้า wriwbs
                     dtWbs.Rows.Add(childDr)

@@ -1584,4 +1584,5 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New(m, ex)
     End Sub
   End Class
+
 End Namespace

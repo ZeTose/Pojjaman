@@ -1272,13 +1272,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'row("wri_unvatable") = Me.Unvatable
 
-        If Me.Level = 0 Then
-          row.FixLevel = 1
-          row.CustomFontStyle = FontStyle.Bold
-        Else
-          row.FixLevel = -1
-        End If
-
         Me.wr.IsInitialized = True
       Catch ex As NoConversionException
         MessageBox.Show("วัสดุ '" & ex.Lci.Code & "' ไม่มีหน่วยนับ '" & ex.Unit.Name & "'")
@@ -2616,6 +2609,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dt.Clear()
       Dim currItem As WRItem
       Dim hsNew As New Hashtable
+      'Dim currRow As TreeRow
 
       For Each wri As WRItem In Me
         If wri.ItemType.Value = 289 Then
@@ -2646,6 +2640,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '-- -- Summary MAT LAB EQ ----------------
 
         Dim newRow As TreeRow = dt.Childs.Add
+        'newRow.State = RowExpandState.Expanded
+        'If wri.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
         wri.CopyToDataRow(newRow)
         wri.ItemValidateRow(newRow)
         newRow.Tag = wri

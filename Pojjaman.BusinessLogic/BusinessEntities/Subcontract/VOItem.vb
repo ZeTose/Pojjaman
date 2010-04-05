@@ -2091,6 +2091,7 @@ Public Class VOItemCollection
 
       Dim chkNoRefItem As Boolean = False
       Dim currItem As VOItem
+      'Dim currRow As TreeRow
 
       For Each voi As VOItem In Me
         'key = voi.Parent.ToString
@@ -2109,7 +2110,7 @@ Public Class VOItemCollection
       For Each voi As VOItem In Me
         Me.CurrentItem = voi
 
-        Dim newRow As TreeRow
+        Dim newRow As TreeRow = dt.Childs.Add
         If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
           chkNoRefItem = True
           newRow = dt.Childs.Add()
@@ -2128,7 +2129,13 @@ Public Class VOItemCollection
           '-- -- Summary MAT LAB EQ ----------------
         End If
 
-        newRow = dt.Childs.Add()
+        'If voi.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
         voi.CopyToDataRow(newRow)
         voi.ItemValidateRow(newRow)
 

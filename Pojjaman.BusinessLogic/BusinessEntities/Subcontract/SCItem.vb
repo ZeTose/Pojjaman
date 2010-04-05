@@ -1797,41 +1797,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.SC.Id, Me.SC.EntityId, Me.ItemType.Value)
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.SC.Id, Me.SC.EntityId, Me.Entity.Id, _
                                                                         Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
-
-            'UpdateWBSQty()
-
-            'wbsd.Amount = CDec(e.Value)
-            'Me.m_sc.SetActual(oldWBS, wbsd.Amount, 0, Me.ItemType.Value)
-            'Me.m_sc.SetActual(newWBS, 0, wbsd.Amount, Me.ItemType.Value)
-
-            'Select Case item.ItemType.Value
-            '  Case 0 'อื่นๆ
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualType0Qty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentTypeQtyForWBS(wbsd.WBS, theName, 0)
-            '  Case 19 'Tool
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualMatQty(item.Pr, View, item.Entity.Id, 19)
-            '    currentQty = item.Pr.GetCurrentTypeQtyForWBS(wbsd.WBS, theName, 19)
-            '  Case 42 'Mat
-            '    actual = wbsd.WBS.GetActualMat(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualMatQty(item.Pr, View, item.Entity.Id, 42)
-            '    currentQty = item.Pr.GetCurrentMatQtyForWBS(wbsd.WBS, item.Entity.Id)
-            '  Case 88 'Lab
-            '    actual = wbsd.WBS.GetActualLab(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualLabQty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentLabQtyForWBS(wbsd.WBS, theName)
-            '  Case 89 'Eq
-            '    actual = wbsd.WBS.GetActualEq(item.Pr, View)
-
-            '    actualQty = wbsd.WBS.GetActualEqQty(item.Pr, View)
-            '    currentQty = item.Pr.GetCurrentEqQtyForWBS(wbsd.WBS, theName)
-            'End Select
-
         End Select
       End If
     End Sub
@@ -2715,6 +2680,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dt.Clear()
       Dim currItem As SCItem
       Dim hsNew As New Hashtable
+      'Dim currRow As TreeRow
 
       For Each sci As SCItem In Me
         If sci.ItemType.Value = 289 Then
@@ -2743,8 +2709,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           sci.SetEq(sci.Childeq)
         End If
         '-- -- Summary MAT LAB EQ ----------------
-
         Dim newRow As TreeRow = dt.Childs.Add
+        'If sci.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
         sci.CopyToDataRow(newRow)
         sci.ItemValidateRow(newRow)
         newRow.Tag = sci

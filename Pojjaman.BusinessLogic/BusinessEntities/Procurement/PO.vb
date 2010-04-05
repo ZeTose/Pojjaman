@@ -1091,6 +1091,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Private Function ValidateItem() As SaveErrorException
+      Dim key As String = ""
+
+      For Each item As POItem In Me.ItemCollection
+
+        Dim newHash As New Hashtable
+        For Each wbitem As WBSDistribute In item.WBSDistributeCollection
+          key = wbitem.WBS.Id.ToString
+          If Not newHash.Contains(key) Then
+            newHash(key) = wbitem
+          Else
+            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+          End If
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+          End If
+        Next
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
@@ -1102,6 +1123,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Me.Supplier.Code})
             End If
           End If
+        End If
+        Dim ValidateError As SaveErrorException = ValidateItem()
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
         End If
         Dim config As Integer = CInt(Configuration.GetConfig("POOverBudget"))
         Select Case config
@@ -1530,6 +1555,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("poiw_transferamt") = wbsd.TransferAmount
                 childDr("poiw_amt") = wbsd.Amount
                 childDr("poiw_toaccttype") = 3
+                childDr("poiw_cbs") = wbsd.CBS.Id
                 'Add เข้า poiwbs
                 dtWbs.Rows.Add(childDr)
               Next
@@ -1563,6 +1589,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   childDr("poiw_transferamt") = newWbsd.TransferAmount
                   childDr("poiw_amt") = newWbsd.Amount
                   childDr("poiw_toaccttype") = 3
+                  childDr("poiw_cbs") = newWbsd.CBS.Id
                   'Add เข้า poiwbs
                   dtWbs.Rows.Add(childDr)
                 Catch ex As Exception

@@ -63,10 +63,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-    Friend WithEvents tgWBS As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents ibtnAddWBS As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnDelWBS As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents lblWBS As System.Windows.Forms.Label
     Friend WithEvents ibtnGetFromBOQ As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtGross As System.Windows.Forms.TextBox
@@ -74,9 +70,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents lblStoreApprove As System.Windows.Forms.Label
-		Friend WithEvents btnApproveStore As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
-		<System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+    Friend WithEvents btnApproveStore As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
+    <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PRPanelView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -89,10 +85,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGross = New System.Windows.Forms.TextBox()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnGetFromBOQ = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.tgWBS = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblWBS = New System.Windows.Forms.Label()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.txtReceivingDate = New System.Windows.Forms.TextBox()
@@ -118,10 +110,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbDetail.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -138,10 +132,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.txtGross)
       Me.grbDetail.Controls.Add(Me.ibtnCopyMe)
       Me.grbDetail.Controls.Add(Me.ibtnGetFromBOQ)
-      Me.grbDetail.Controls.Add(Me.tgWBS)
-      Me.grbDetail.Controls.Add(Me.ibtnAddWBS)
-      Me.grbDetail.Controls.Add(Me.ibtnDelWBS)
-      Me.grbDetail.Controls.Add(Me.lblWBS)
       Me.grbDetail.Controls.Add(Me.chkAutorun)
       Me.grbDetail.Controls.Add(Me.lblStatus)
       Me.grbDetail.Controls.Add(Me.txtReceivingDate)
@@ -238,7 +228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGross.BackColor = System.Drawing.Color.Transparent
       Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblGross.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblGross.Location = New System.Drawing.Point(542, 376)
+      Me.lblGross.Location = New System.Drawing.Point(542, 481)
       Me.lblGross.Name = "lblGross"
       Me.lblGross.Size = New System.Drawing.Size(80, 18)
       Me.lblGross.TabIndex = 329
@@ -253,7 +243,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtGross, "")
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.txtGross.Location = New System.Drawing.Point(624, 376)
+      Me.txtGross.Location = New System.Drawing.Point(624, 481)
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -288,59 +278,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnGetFromBOQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.ibtnGetFromBOQ.ThemedImage = CType(resources.GetObject("ibtnGetFromBOQ.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.ibtnGetFromBOQ, "BOQ")
-      '
-      'tgWBS
-      '
-      Me.tgWBS.AllowNew = False
-      Me.tgWBS.AllowSorting = False
-      Me.tgWBS.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgWBS.AutoColumnResize = True
-      Me.tgWBS.CaptionVisible = False
-      Me.tgWBS.Cellchanged = False
-      Me.tgWBS.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
-      Me.tgWBS.DataMember = ""
-      Me.tgWBS.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgWBS.Location = New System.Drawing.Point(11, 391)
-      Me.tgWBS.Name = "tgWBS"
-      Me.tgWBS.Size = New System.Drawing.Size(333, 112)
-      Me.tgWBS.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgWBS.TabIndex = 321
-      Me.tgWBS.TreeManager = Nothing
-      '
-      'ibtnAddWBS
-      '
-      Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnAddWBS.Location = New System.Drawing.Point(344, 391)
-      Me.ibtnAddWBS.Name = "ibtnAddWBS"
-      Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnAddWBS.TabIndex = 323
-      Me.ibtnAddWBS.TabStop = False
-      Me.ibtnAddWBS.ThemedImage = CType(resources.GetObject("ibtnAddWBS.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnDelWBS
-      '
-      Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelWBS.Location = New System.Drawing.Point(368, 391)
-      Me.ibtnDelWBS.Name = "ibtnDelWBS"
-      Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelWBS.TabIndex = 324
-      Me.ibtnDelWBS.TabStop = False
-      Me.ibtnDelWBS.ThemedImage = CType(resources.GetObject("ibtnDelWBS.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblWBS
-      '
-      Me.lblWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.lblWBS.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWBS.ForeColor = System.Drawing.Color.Black
-      Me.lblWBS.Location = New System.Drawing.Point(24, 374)
-      Me.lblWBS.Name = "lblWBS"
-      Me.lblWBS.Size = New System.Drawing.Size(104, 18)
-      Me.lblWBS.TabIndex = 322
-      Me.lblWBS.Text = "จัดสรร WBS:"
-      Me.lblWBS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'chkAutorun
       '
@@ -494,7 +431,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(217, 222, 236) '   SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -506,7 +443,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(11, 184)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(749, 186)
+      Me.tgItem.Size = New System.Drawing.Size(749, 291)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 6
       Me.tgItem.TreeManager = Nothing
@@ -689,6 +626,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(784, 520)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -723,9 +662,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SaveEnableState()
 
       Dim dt As TreeTable = PR.GetSchemaTable()
-			Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
-			m_treeManager.SetTableStyle(dst)
+      m_treeManager.SetTableStyle(dst)
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
       tgItem.AllowNew = False
@@ -734,17 +673,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
       AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
       AddHandler dt.RowDeleted, AddressOf PRItemDelete
-
-      Dim dt2 As TreeTable = WBSDistribute.GetSchemaTable()
-      Dim dst2 As DataGridTableStyle = Me.CreateTableStyle2()
-      m_treeManager2 = New TreeManager(dt2, tgWBS)
-      m_treeManager2.SetTableStyle(dst2)
-      m_treeManager2.AllowSorting = False
-      m_treeManager2.AllowDelete = False
-
-      AddHandler dt2.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler dt2.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler dt2.RowDeleted, AddressOf ItemDelete
 
       EventWiring()
       SetCCCodeBlankFlag()
@@ -761,230 +689,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
-    Public Function CreateTableStyle2() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "WBS"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-
-      Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "LineNumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.LineNumberHeaderText}")
-      csLineNumber.NullText = ""
-      csLineNumber.Width = 30
-      csLineNumber.DataAlignment = HorizontalAlignment.Center
-      csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "LineNumber"
-
-      Dim csCostCenter As New TreeTextColumn
-      csCostCenter.MappingName = "CostCenter"
-      csCostCenter.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.CCHeaderText}")
-      csCostCenter.NullText = ""
-      csCostCenter.Width = 100
-      csCostCenter.ReadOnly = True
-      csCostCenter.TextBox.Name = "CostCenter"
-
-      Dim csCCButton As New DataGridButtonColumn
-      csCCButton.MappingName = "CCButton"
-      csCCButton.HeaderText = ""
-      csCCButton.NullText = ""
-
-      Dim csWBS As New TreeTextColumn
-      csWBS.MappingName = "WBS"
-      csWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.WBSHeaderText}")
-      csWBS.NullText = ""
-      csWBS.Width = 100
-      csWBS.ReadOnly = True
-      csWBS.TextBox.Name = "WBS"
-
-      Dim csButton As New DataGridButtonColumn
-      csButton.MappingName = "Button"
-      csButton.HeaderText = ""
-      csButton.NullText = ""
-      AddHandler csButton.Click, AddressOf WBStgButtonClicked
-
-      Dim csPercent As New TreeTextColumn
-      csPercent.MappingName = "Percent"
-      csPercent.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.PercentHeaderText}")
-      csPercent.NullText = ""
-      csPercent.DataAlignment = HorizontalAlignment.Right
-      csPercent.Format = "#,###.##"
-      csPercent.Width = 70
-      csPercent.TextBox.Name = "Percent"
-
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AmoluntHeaderText}")
-      csAmount.NullText = ""
-      csAmount.Alignment = HorizontalAlignment.Right
-      csAmount.DataAlignment = HorizontalAlignment.Right
-      csAmount.Format = "#,###.##"
-      csAmount.TextBox.Name = "Amount"
-      'csAmount.ReadOnly = True
-
-      Dim csBudgetRemain As New TreeTextColumn(5, True)
-      csBudgetRemain.MappingName = "BudgetRemain"
-      csBudgetRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.BudgetRemainHeaderText}")
-      csBudgetRemain.NullText = ""
-      csBudgetRemain.Alignment = HorizontalAlignment.Right
-      csBudgetRemain.DataAlignment = HorizontalAlignment.Right
-      csBudgetRemain.Format = "#,###.##"
-      csBudgetRemain.TextBox.Name = "BudgetRemain"
-      csBudgetRemain.ReadOnly = True
-      AddHandler csBudgetRemain.CheckCellHilighted, AddressOf SetHilightValues
-
-      Dim csQtyRemain As New TreeTextColumn(6, True)
-      csQtyRemain.MappingName = "QtyRemain"
-      csQtyRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QtyRemainHeaderText}")
-      csQtyRemain.NullText = ""
-      csQtyRemain.Alignment = HorizontalAlignment.Right
-      csQtyRemain.DataAlignment = HorizontalAlignment.Right
-      csQtyRemain.Format = "#,###.##"
-      csQtyRemain.TextBox.Name = "QtyRemain"
-      csQtyRemain.ReadOnly = True
-      AddHandler csQtyRemain.CheckCellHilighted, AddressOf SetHilightValues
-
-      dst.GridColumnStyles.Add(csLineNumber)
-      dst.GridColumnStyles.Add(csCostCenter)
-      dst.GridColumnStyles.Add(csCCButton)
-      dst.GridColumnStyles.Add(csWBS)
-      dst.GridColumnStyles.Add(csButton)
-      dst.GridColumnStyles.Add(csPercent)
-      dst.GridColumnStyles.Add(csAmount)
-      dst.GridColumnStyles.Add(csBudgetRemain)
-      dst.GridColumnStyles.Add(csQtyRemain)
-
-      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-      Next
-      Return dst
-    End Function
-    Public Sub WBStgButtonClicked(ByVal e As ButtonColumnEventArgs)
-      If e.Column = 4 Then
-        Me.WBSButtonClicked(e)
-      Else
-        Me.CCButtonClicked(e)
-      End If
-    End Sub
-    Public Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-      e.HilightValue = False
-      e.RedText = False
-      Dim i As Integer = 0
-      For Each row As DataRow In Me.m_treeManager2.Treetable.Rows
-        For Each col As DataColumn In Me.m_treeManager2.Treetable.Columns
-          If col.Ordinal > 0 Then
-            If Not row.IsNull(col) AndAlso IsNumeric(row(col)) Then
-              If CDec(row(col)) < 0 Then
-                If e.Column = col.Ordinal And e.Row = i Then
-                  'e.HilightValue = True
-                  e.RedText = True
-                End If
-              End If
-            End If
-          End If
-        Next
-        i += 1
-      Next
-    End Sub
-    Public Sub CCButtonClicked(ByVal e As ButtonColumnEventArgs)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim entity As New CostCenter
-      Dim entities As New ArrayList
-      myEntityPanelService.OpenListDialog(entity, AddressOf SetCostCenter)
-    End Sub
-    Private Sub SetCostCenter(ByVal myEntity As ISimpleEntity)
-      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-      If doc Is Nothing Then
-        Return
-      End If
-      Dim dt As TreeTable = Me.m_treeManager2.Treetable
-      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-      If TypeOf myEntity Is CostCenter Then
-        CType(row.Tag, WBSDistribute).CostCenter = CType(myEntity, CostCenter)
-        CType(row.Tag, WBSDistribute).WBS = New WBS
-      End If
-      Dim view As Integer = 7
-      m_wbsdInitialized = False
-      wsdColl.Populate(dt, doc, view)
-      m_wbsdInitialized = True
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
     Dim m_wbsColl As WBSCollection
     Dim m_mrkColl As MarkupCollection
-    Public Sub WBSButtonClicked(ByVal e As ButtonColumnEventArgs)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim entity As New WBS
-      Dim filters() As Filter
-      Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-      Dim myBOQId As Integer
-      If Not CType(row.Tag, WBSDistribute).CostCenter Is Nothing AndAlso CType(row.Tag, WBSDistribute).CostCenter.BoqId > 0 Then
-        myBOQId = CType(row.Tag, WBSDistribute).CostCenter.BoqId
-      Else
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If Me.m_entity.CostCenter Is Nothing Then
-          msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-          Return
-        End If
-        If Me.m_entity.CostCenter.BoqId = 0 Then
-          msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
-          Return
-        End If
-        myBOQId = Me.m_entity.CostCenter.BoqId
-        CType(row.Tag, WBSDistribute).CostCenter = Me.m_entity.CostCenter
-      End If
-      If m_wbsColl Is Nothing OrElse m_wbsColl.Boq.Id <> myBOQId Then
-        m_wbsColl = New WBSCollection(myBOQId)
-      End If
-      If m_mrkColl Is Nothing OrElse m_mrkColl.Boq.Id <> myBOQId Then
-        m_mrkColl = New MarkupCollection(myBOQId)
-      End If
-      filters = New Filter() {New Filter("mrkColl", m_mrkColl) _
-                              , New Filter("wbsColl", m_wbsColl)}
-      Dim entities As New ArrayList
-      entities.Add(entity)
-      myEntityPanelService.OpenListDialog(entity, AddressOf SetWBS, filters, entities)
-    End Sub
-    Private Sub SetWBS(ByVal myEntity As ISimpleEntity)
-      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-      If doc Is Nothing Then
-        Return
-      End If
-      Dim dt As TreeTable = Me.m_treeManager2.Treetable
-      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-      If TypeOf myEntity Is WBS Then
-        CType(row.Tag, WBSDistribute).WBS = CType(myEntity, WBS)
-        CType(row.Tag, WBSDistribute).IsMarkup = False
-      ElseIf TypeOf myEntity Is Markup Then
-        Dim newWBS As New WBS
-        Dim myMarkup As Markup = CType(myEntity, Markup)
-        newWBS.Id = myMarkup.Id
-        newWBS.Code = myMarkup.Code
-        newWBS.Name = myMarkup.Name
-        CType(row.Tag, WBSDistribute).WBS = newWBS
-        CType(row.Tag, WBSDistribute).IsMarkup = True
-      End If
-      Dim view As Integer = 7
-      m_wbsdInitialized = False
-      wsdColl.Populate(dt, doc, view)
-      m_wbsdInitialized = True
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private ReadOnly Property CurrentWsbsd() As WBSDistribute
-      Get
-        Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-        If row Is Nothing Then
-          Return Nothing
-        End If
-        Return CType(row.Tag, WBSDistribute)
-      End Get
-    End Property
     Public Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
       dst.MappingName = "PR"
@@ -1050,13 +756,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.TextBox.Name = "Qty"
       'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
 
-			Dim csOQty As New TreeTextColumn
-			csOQty.MappingName = "pri_originqty"
-			csOQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.OQtyHeaderText}")
-			csOQty.NullText = ""
-			csOQty.DataAlignment = HorizontalAlignment.Right
-			csOQty.Format = "#,###.##"
-			csOQty.TextBox.Name = "OQty"
+      Dim csOQty As New TreeTextColumn
+      csOQty.MappingName = "pri_originqty"
+      csOQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.OQtyHeaderText}")
+      csOQty.NullText = ""
+      csOQty.DataAlignment = HorizontalAlignment.Right
+      csOQty.Format = "#,###.##"
+      csOQty.TextBox.Name = "OQty"
 
       Dim csOrderedQty As New TreeTextColumn
       csOrderedQty.MappingName = "OrderedQty"
@@ -1089,14 +795,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Format = "#,###.##"
       csAmount.DataAlignment = HorizontalAlignment.Right
 
-			Dim csOAmount As New TreeTextColumn
-			csOAmount.MappingName = "pri_originamt"
-			csOAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.OAmountHeaderText}")
-			csOAmount.NullText = ""
-			csOAmount.TextBox.Name = "OAmount"
-			csOAmount.ReadOnly = True
-			csOAmount.Format = "#,###.##"
-			csOAmount.DataAlignment = HorizontalAlignment.Right
+      Dim csOAmount As New TreeTextColumn
+      csOAmount.MappingName = "pri_originamt"
+      csOAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.OAmountHeaderText}")
+      csOAmount.NullText = ""
+      csOAmount.TextBox.Name = "OAmount"
+      csOAmount.ReadOnly = True
+      csOAmount.Format = "#,###.##"
+      csOAmount.DataAlignment = HorizontalAlignment.Right
 
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csType)
@@ -1105,12 +811,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(cspri_itemName)
       dst.GridColumnStyles.Add(csUnit)
       dst.GridColumnStyles.Add(csUnitButton)
-			dst.GridColumnStyles.Add(csQty)
-			dst.GridColumnStyles.Add(csOQty)
+      dst.GridColumnStyles.Add(csQty)
+      dst.GridColumnStyles.Add(csOQty)
       dst.GridColumnStyles.Add(csOrderedQty)
       dst.GridColumnStyles.Add(csUnitPRice)
-			dst.GridColumnStyles.Add(csAmount)
-			dst.GridColumnStyles.Add(csOAmount)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csOAmount)
       dst.GridColumnStyles.Add(csNote)
 
       m_tableStyleEnable = New Hashtable
@@ -1200,19 +906,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
               End If
             End If
-						doc.Qty = value
-						'doc.OriginQty = doc.Qty
+            doc.Qty = value
+            'doc.OriginQty = doc.Qty
           Case "pri_entitytype"
-              Dim value As ItemType
-              If IsNumeric(e.ProposedValue) Then
-                value = New ItemType(CInt(e.ProposedValue))
-              End If
-              doc.ItemType = value
+            Dim value As ItemType
+            If IsNumeric(e.ProposedValue) Then
+              value = New ItemType(CInt(e.ProposedValue))
+            End If
+            doc.ItemType = value
           Case "pri_unitprice"
-              If IsDBNull(e.ProposedValue) Then
-                e.ProposedValue = ""
-              End If
-              Dim value As Decimal = 0 'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0 'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             If Not e.ProposedValue = "" Then
               If IsNumeric(e.ProposedValue.ToString) Then
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
@@ -1220,10 +926,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.UnitPrice = value
           Case "pri_note"
-              If IsDBNull(e.ProposedValue) Then
-                e.ProposedValue = ""
-              End If
-              doc.Note = e.ProposedValue.ToString
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Note = e.ProposedValue.ToString
         End Select
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
@@ -1233,323 +939,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-#Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_wbsdInitialized Then
-        Return
-      End If
-      Dim index As Integer = Me.m_treeManager2.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        Me.m_treeManager2.Treetable.AcceptChanges()
-      End If
-      RefreshWBS()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_wbsdInitialized Then
-        Return
-      End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "wbs"
-            SetCode(e)
-          Case "percent"
-            SetPercent(e)
-          Case "amount"
-            SetAmount(e)
-        End Select
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
-    End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-      Dim wbs As Object = e.Row("wbs")
-      Dim percent As Object = e.Row("percent")
-
-      Select Case e.Column.ColumnName.ToLower
-        Case "wbs"
-          wbs = e.ProposedValue
-        Case "percent"
-          percent = e.ProposedValue
-        Case Else
-          Return
-      End Select
-
-      Dim isBlankRow As Boolean = False
-      If IsDBNull(wbs) Then
-        isBlankRow = True
-      End If
-
-      If Not isBlankRow Then
-        If IsDBNull(percent) OrElse CDec(percent) <= 0 Then
-          e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
-        Else
-          e.Row.SetColumnError("percent", "")
-        End If
-        If IsDBNull(wbs) OrElse wbs.ToString.Length = 0 Then
-          e.Row.SetColumnError("wbs", Me.StringParserService.Parse("${res:Global.Error.WBSMissing}"))
-        Else
-          e.Row.SetColumnError("wbs", "")
-        End If
-      End If
-
-    End Sub
-    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("WBS") Then
-        Return False
-      End If
-      Return True
-    End Function
-    Private m_updating As Boolean = False
-    Public Sub SetPercent(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As WBSDistribute = Me.CurrentWsbsd
-      If item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      Dim oldvalue As Decimal = 0
-      If Not e.Row.IsNull(e.Column) Then
-        oldvalue = CDec(e.Row(e.Column))
-      End If
-      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-      If doc Is Nothing Then
-        Return
-      End If
-      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      If wsdColl.GetSumPercent - oldvalue + value > 100 Then
-        e.ProposedValue = e.Row(e.Column)
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-        Return
-      End If
-
-      m_updating = True
-      item.Percent = value
-      m_updating = False
-    End Sub
-    Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As WBSDistribute = Me.CurrentWsbsd
-      If item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      Dim oldvalue As Decimal = 0
-      If Not e.Row.IsNull(e.Column) Then
-        oldvalue = CDec(e.Row(e.Column))
-      End If
-      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-      If doc Is Nothing Then
-        Return
-      End If
-      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      Dim Amount As Decimal = wsdColl.GetSumAmount - oldvalue + value
-      If Amount > doc.Amount Then
-        e.ProposedValue = e.Row(e.Column)
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        msgServ.ShowMessageFormatted("${res:Global.Error.AmountOverCostAmount}", New String() {Configuration.FormatToString(Amount, DigitConfig.Price), Configuration.FormatToString(doc.Amount, DigitConfig.Price)})
-        Return
-      End If
-
-      m_updating = True
-      item.Amount = value
-      m_updating = False
-    End Sub
-    'Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
-    '    If e.Row.IsNull("stocki_entityType") Then
-    '        Return False
-    '    End If
-    '    If IsDBNull(e.ProposedValue) Then
-    '        Return False
-    '    End If
-    '    For Each row As TreeRow In Me.ItemTable.Childs
-    '        If Not row Is e.Row Then
-    '            If Not row.IsNull("stocki_entityType") Then
-    '                If CInt(row("stocki_entityType")) = CInt(e.Row("stocki_entityType")) Then
-    '                    If Not row.IsNull("code") Then
-    '                        If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
-    '                            Return True
-    '                        End If
-    '                    End If
-    '                End If
-    '            End If
-    '        End If
-    '    Next
-    '    Return False
-    'End Function
-    Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      'If m_updating Then
-      '    Return
-      'End If
-      'm_updating = True
-      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      'If e.Row.IsNull("stocki_entityType") Then
-      '    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-      '    e.ProposedValue = e.Row(e.Column)
-      '    m_updating = False
-      '    Return
-      'End If
-      'If DupCode(e) Then
-      '    Dim item As New GoodsReceiptItem
-      '    item.CopyFromDataRow(CType(e.Row, TreeRow))
-      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {item.ItemType.Description, e.ProposedValue.ToString})
-      '    e.ProposedValue = e.Row(e.Column)
-      '    m_updating = False
-      '    Return
-      'End If
-      'Select Case CInt(e.Row("stocki_entityType"))
-      '    Case 0 'Blank
-      '        msgServ.ShowMessage("${res:Global.Error.BlankItemCannotHaveCode}")
-      '        e.ProposedValue = e.Row(e.Column)
-      '        m_updating = False
-      '        Return
-      '    Case 28 'F/A
-      '        msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
-      '        e.ProposedValue = e.Row(e.Column)
-      '        m_updating = False
-      '        Return
-      '    Case 19 'Tool
-      '        If e.ProposedValue.ToString.Length = 0 Then
-      '            If e.Row(e.Column).ToString.Length <> 0 Then
-      '                If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {e.Row(e.Column).ToString}) Then
-      '                    ClearRow(e)
-      '                Else
-      '                    e.ProposedValue = e.Row(e.Column)
-      '                End If
-      '            End If
-      '            m_updating = False
-      '            Return
-      '        End If
-      '        Dim myTool As New Tool(e.ProposedValue.ToString)
-      '        If Not myTool.Originated Then
-      '            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {e.ProposedValue.ToString})
-      '            e.ProposedValue = e.Row(e.Column)
-      '            m_updating = False
-      '            Return
-      '        Else
-      '            Dim myUnit As Unit = myTool.Unit
-      '            e.Row("stocki_entity") = myTool.Id
-      '            e.ProposedValue = myTool.Code
-      '            e.Row("stocki_itemName") = myTool.Name
-      '            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-      '                e.Row("stocki_unit") = myUnit.Id
-      '                e.Row("Unit") = myUnit.Name
-      '            Else
-      '                e.Row("stocki_unit") = DBNull.Value
-      '                e.Row("Unit") = DBNull.Value
-      '            End If
-      '            Dim ga As GeneralAccount = GeneralAccount.GetGAForEntity(myTool.EntityId, Me.EntityId)
-      '            If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
-      '                e.Row("stocki_acct") = ga.Account.Id
-      '                e.Row("AccountCode") = ga.Account.Code
-      '                e.Row("Account") = ga.Account.Name & "<" & Me.StringParserService.Parse("${res:Global.Default}") & ">"
-      '            Else
-      '                e.Row("stocki_acct") = DBNull.Value
-      '                e.Row("AccountCode") = DBNull.Value
-      '                e.Row("Account") = DBNull.Value
-      '            End If
-      '        End If
-      '    Case 42 'LCI
-      '        If e.ProposedValue.ToString.Length = 0 Then
-      '            If e.Row(e.Column).ToString.Length <> 0 Then
-      '                If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {e.Row(e.Column).ToString}) Then
-      '                    ClearRow(e)
-      '                Else
-      '                    e.ProposedValue = e.Row(e.Column)
-      '                End If
-      '            End If
-      '            m_updating = False
-      '            Return
-      '        End If
-      '        Dim lci As New LCIItem(e.ProposedValue.ToString)
-      '        If Not lci.Originated Then
-      '            msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {e.ProposedValue.ToString})
-      '            e.ProposedValue = e.Row(e.Column)
-      '            m_updating = False
-      '            Return
-      '        Else
-      '            Dim myUnit As Unit = lci.DefaultUnit
-      '            e.Row("stocki_entity") = lci.Id
-      '            e.ProposedValue = lci.Code
-      '            e.Row("stocki_itemName") = lci.Name
-      '            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-      '                e.Row("stocki_unit") = myUnit.Id
-      '                e.Row("Unit") = myUnit.Name
-      '            Else
-      '                e.Row("stocki_unit") = DBNull.Value
-      '                e.Row("Unit") = DBNull.Value
-      '            End If
-      '            If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
-      '                e.Row("stocki_acct") = lci.Account.Id
-      '                e.Row("AccountCode") = lci.Account.Code
-      '                e.Row("Account") = lci.Account.Name & "<" & Me.StringParserService.Parse("${res:Global.Default}") & ">"
-      '            Else
-      '                e.Row("stocki_acct") = DBNull.Value
-      '                e.Row("AccountCode") = DBNull.Value
-      '                e.Row("Account") = DBNull.Value
-      '            End If
-      '        End If
-      '    Case Else
-      '        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-      '        e.ProposedValue = e.Row(e.Column)
-      '        m_updating = False
-      '        Return
-      'End Select
-      'e.Row("stocki_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
-      'm_updating = False
-    End Sub
-    Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-
-    End Sub
-#End Region
-
 #Region "CheckPJMModule"
     Private m_ApproveDocModule As New PJMModule("approvedoc")
 #End Region
 
 #Region "IListDetail"
-		Private CheckForm As Boolean = False
-		Public Overrides Sub CheckFormEnable()
-			CheckForm = True
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
+    Private CheckForm As Boolean = False
+    Public Overrides Sub CheckFormEnable()
+      CheckForm = True
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
 
-			Me.lblStoreApprove.Visible = False
-			Me.btnApproveStore.Visible = False
+      Me.lblStoreApprove.Visible = False
+      Me.btnApproveStore.Visible = False
 
-			Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnApprove}")
-			Me.btnApprove.Visible = True
+      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnApprove}")
+      Me.btnApprove.Visible = True
 
-			If Me.m_entity.Closed Then
-				Me.chkClosed.Checked = True
-				Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.chkClosedCancel}")
-				m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(8).Width = 100
-				m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(12).Width = 110
-			Else
-				Me.chkClosed.Checked = False
-				Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.chkClosed}")
-				m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(8).Width = 0
-				m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(12).Width = 0
-			End If
+      If Me.m_entity.Closed Then
+        Me.chkClosed.Checked = True
+        Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.chkClosedCancel}")
+        m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(8).Width = 100
+        m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(12).Width = 110
+      Else
+        Me.chkClosed.Checked = False
+        Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.chkClosed}")
+        m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(8).Width = 0
+        m_treeManager.Treegrid.TableStyles(0).GridColumnStyles(12).Width = 0
+      End If
 
-			'จากการอนุมัติเอกสาร
+      'จากการอนุมัติเอกสาร
       If CBool(Configuration.GetConfig("ApprovePR")) Then
         Me.btnApprove.Visible = True
 
@@ -1624,8 +1044,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
 
-			'จาก Status ของเอกสารเอง
-			If Me.m_entity.Status.Value = 0 Or m_entityRefed = 1 Or Me.m_entity.Closed Then			'Or Me.m_entity.Status.Value >= 3 Or Me.m_entity.IsReferenced Then
+      'จาก Status ของเอกสารเอง
+      If Me.m_entity.Status.Value = 0 Or m_entityRefed = 1 Or Me.m_entity.Closed Then     'Or Me.m_entity.Status.Value >= 3 Or Me.m_entity.IsReferenced Then
         For Each ctrl As Control In grbDetail.Controls
           If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
             ctrl.Enabled = False
@@ -1635,227 +1055,227 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           End If
         Next
-				tgItem.Enabled = True
-				For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-					colStyle.ReadOnly = True
-				Next
-			Else
-				For Each ctrl As Control In grbDetail.Controls
-					ctrl.Enabled = CBool(m_enableState(ctrl))
-				Next
-				For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-					colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-				Next
-			End If
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
+      Else
+        For Each ctrl As Control In grbDetail.Controls
+          ctrl.Enabled = CBool(m_enableState(ctrl))
+        Next
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        Next
+      End If
       Me.ibtnCopyMe.Enabled = True
       Me.btnApprove.Enabled = True
 
-			CheckWBSRight()
+      CheckWBSRight()
 FinalLine:
-			CheckForm = False
-		End Sub
+      CheckForm = False
+    End Sub
 
-		Private Sub CheckApproveStore()
-			If Me.m_entity.HasLCIItem() Then
-				If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
-					If Me.m_entity.ApproveStoreDate.Equals(Date.MinValue) Then
-						'storeFlag = True
-						Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-						Dim level As Integer = secSrv.GetAccess(290)						'ตรวจสอบ สิทธิอนุมัติโดยคลัง
-						Dim checkString As String = BinaryHelper.DecToBin(level, 5)						'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
-						checkString = BinaryHelper.RevertString(checkString)
-						If Not CBool(checkString.Substring(0, 1)) Then
-							Me.btnApproveStore.Visible = False
-						Else
-							Me.btnApproveStore.Visible = True
-						End If
-						Me.lblStoreApprove.Visible = False
-					Else
-						Me.btnApproveStore.Visible = False
-						Me.lblStoreApprove.Visible = True
-					End If
-				Else
-					Me.btnApproveStore.Visible = False
-					Me.lblStoreApprove.Visible = False
-				End If
-			Else
-				Me.btnApproveStore.Visible = False
-				Me.lblStoreApprove.Visible = False
-			End If
-		End Sub
+    Private Sub CheckApproveStore()
+      If Me.m_entity.HasLCIItem() Then
+        If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
+          If Me.m_entity.ApproveStoreDate.Equals(Date.MinValue) Then
+            'storeFlag = True
+            Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+            Dim level As Integer = secSrv.GetAccess(290)            'ตรวจสอบ สิทธิอนุมัติโดยคลัง
+            Dim checkString As String = BinaryHelper.DecToBin(level, 5)           'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+            checkString = BinaryHelper.RevertString(checkString)
+            If Not CBool(checkString.Substring(0, 1)) Then
+              Me.btnApproveStore.Visible = False
+            Else
+              Me.btnApproveStore.Visible = True
+            End If
+            Me.lblStoreApprove.Visible = False
+          Else
+            Me.btnApproveStore.Visible = False
+            Me.lblStoreApprove.Visible = True
+          End If
+        Else
+          Me.btnApproveStore.Visible = False
+          Me.lblStoreApprove.Visible = False
+        End If
+      Else
+        Me.btnApproveStore.Visible = False
+        Me.lblStoreApprove.Visible = False
+      End If
+    End Sub
 
-		Private Sub CheckWBSRight()
-			Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-			Dim level As Integer = secSrv.GetAccess(256)
-			Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-			checkString = BinaryHelper.RevertString(checkString)
-			If Not CBool(checkString.Substring(0, 1)) Then
-				'ห้ามเห็น
-				Me.lblWBS.Visible = False
-				Me.tgWBS.Visible = False
-				Me.ibtnAddWBS.Visible = False
-				Me.ibtnDelWBS.Visible = False
-			ElseIf Not CBool(checkString.Substring(1, 1)) Then
-				'ห้ามแก้
-				Me.lblWBS.Visible = True
-				Me.tgWBS.Visible = True
-				Me.ibtnAddWBS.Visible = True
-				Me.ibtnDelWBS.Visible = True
+    Private Sub CheckWBSRight()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(256)
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+      checkString = BinaryHelper.RevertString(checkString)
+      'If Not CBool(checkString.Substring(0, 1)) Then
+      '  'ห้ามเห็น
+      '  Me.lblWBS.Visible = False
+      '  Me.tgWBS.Visible = False
+      '  Me.ibtnAddWBS.Visible = False
+      '  Me.ibtnDelWBS.Visible = False
+      'ElseIf Not CBool(checkString.Substring(1, 1)) Then
+      '  'ห้ามแก้
+      '  Me.lblWBS.Visible = True
+      '  Me.tgWBS.Visible = True
+      '  Me.ibtnAddWBS.Visible = True
+      '  Me.ibtnDelWBS.Visible = True
 
-				Me.tgWBS.Enabled = False
-				Me.ibtnAddWBS.Enabled = False
-				Me.ibtnDelWBS.Enabled = False
-			Else
-				Me.lblWBS.Visible = True
-				Me.tgWBS.Visible = True
-				Me.ibtnAddWBS.Visible = True
-				Me.ibtnDelWBS.Visible = True
+      '  Me.tgWBS.Enabled = False
+      '  Me.ibtnAddWBS.Enabled = False
+      '  Me.ibtnDelWBS.Enabled = False
+      'Else
+      '  Me.lblWBS.Visible = True
+      '  Me.tgWBS.Visible = True
+      '  Me.ibtnAddWBS.Visible = True
+      '  Me.ibtnDelWBS.Visible = True
 
-				Me.tgWBS.Enabled = True
-				Me.ibtnAddWBS.Enabled = True
-				Me.ibtnDelWBS.Enabled = True
-			End If
-		End Sub
-		Public Overrides Sub ClearDetail()
-			lblStatus.Text = ""
-			For Each crlt As Control In grbDetail.Controls
-				If crlt.Name.StartsWith("txt") Then
-					crlt.Text = ""
-				End If
-			Next
-			Me.dtpDocDate.Value = Now
-			Me.dtpReceivingDate.Value = Now
-		End Sub
-		Public Overrides Sub SetLabelText()
-			If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-			Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.grbDetail}")
+      '  Me.tgWBS.Enabled = True
+      '  Me.ibtnAddWBS.Enabled = True
+      '  Me.ibtnDelWBS.Enabled = True
+      'End If
+    End Sub
+    Public Overrides Sub ClearDetail()
+      lblStatus.Text = ""
+      For Each crlt As Control In grbDetail.Controls
+        If crlt.Name.StartsWith("txt") Then
+          crlt.Text = ""
+        End If
+      Next
+      Me.dtpDocDate.Value = Now
+      Me.dtpReceivingDate.Value = Now
+    End Sub
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.grbDetail}")
 
-			Me.lblReceivingDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblReceivingDate}")
-			Me.Validator.SetDisplayName(Me.txtReceivingDate, StringHelper.GetRidOfAtEnd(Me.lblReceivingDate.Text, ":"))
+      Me.lblReceivingDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblReceivingDate}")
+      Me.Validator.SetDisplayName(Me.txtReceivingDate, StringHelper.GetRidOfAtEnd(Me.lblReceivingDate.Text, ":"))
 
-			Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
-			Me.Validator.SetDisplayName(Me.txtDocDate, StringHelper.GetRidOfAtEnd(Me.lblDocDate.Text, ":"))
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
+      Me.Validator.SetDisplayName(Me.txtDocDate, StringHelper.GetRidOfAtEnd(Me.lblDocDate.Text, ":"))
 
-			Me.lblRequestor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblRequestor}")
-			Me.Validator.SetDisplayName(Me.txtRequestorCode, StringHelper.GetRidOfAtEnd(Me.lblRequestor.Text, ":"))
+      Me.lblRequestor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblRequestor}")
+      Me.Validator.SetDisplayName(Me.txtRequestorCode, StringHelper.GetRidOfAtEnd(Me.lblRequestor.Text, ":"))
 
-			Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblCostCenter}")
-			Me.Validator.SetDisplayName(Me.txtCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostCenter.Text, ":"))
+      Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblCostCenter}")
+      Me.Validator.SetDisplayName(Me.txtCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostCenter.Text, ":"))
 
-			Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblNote}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblNote}")
 
-			Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblCode}")
 
-			Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblItem}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblItem}")
 
-			Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnApprove}")
+      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnApprove}")
 
-			Me.btnApproveStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
-			Me.lblStoreApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblStoreApprove}")
-		End Sub
-		Protected Overrides Sub EventWiring()
-			AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      Me.btnApproveStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
+      Me.lblStoreApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblStoreApprove}")
+    End Sub
+    Protected Overrides Sub EventWiring()
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtReceivingDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpReceivingDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtReceivingDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpReceivingDate.ValueChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtRequestorCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtRequestorCode.TextChanged, AddressOf TextHandler
-			AddHandler txtCostCenterCode.TextChanged, AddressOf TextHandler
+      AddHandler txtRequestorCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtRequestorCode.TextChanged, AddressOf TextHandler
+      AddHandler txtCostCenterCode.TextChanged, AddressOf TextHandler
 
-		End Sub
-		Private requestorCodeChanged As Boolean = False
-		Private isCostCenterCodeBlank As Boolean = True
-		Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-			If Me.m_entity Is Nothing Or Not m_isInitialized Then
-				Return
-			End If
-			If Me.txtCostCenterCode.Text.Length = 0 Then
-				isCostCenterCodeBlank = True
-			Else
-				isCostCenterCodeBlank = False
-			End If
-			Select Case CType(sender, Control).Name.ToLower
-				Case "txtrequestorcode"
-					requestorCodeChanged = True
-				Case "txtcostcentercode"
-					toCCCodeChanged = True
-			End Select
-		End Sub
-		' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-		Public Overrides Sub UpdateEntityProperties()
-			m_isInitialized = False
-			ClearDetail()
-			If m_entity Is Nothing Then
-				Return
-			End If
+    End Sub
+    Private requestorCodeChanged As Boolean = False
+    Private isCostCenterCodeBlank As Boolean = True
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      If Me.txtCostCenterCode.Text.Length = 0 Then
+        isCostCenterCodeBlank = True
+      Else
+        isCostCenterCodeBlank = False
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtrequestorcode"
+          requestorCodeChanged = True
+        Case "txtcostcentercode"
+          toCCCodeChanged = True
+      End Select
+    End Sub
+    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
 
       'cmbCode.Items.Clear()
       'cmbCode.DropDownStyle = ComboBoxStyle.Simple
-			cmbCode.Text = m_entity.Code
+      cmbCode.Text = m_entity.Code
       txtNote.Text = m_entity.Note
-			oldCCId = Me.m_entity.CostCenter.Id
-			Me.m_oldCode = Me.m_entity.Code
-			Me.chkAutorun.Checked = Me.m_entity.AutoGen
-			Me.UpdateAutogenStatus()
+      oldCCId = Me.m_entity.CostCenter.Id
+      Me.m_oldCode = Me.m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-			txtCostCenterCode.Text = m_entity.CostCenter.Code
-			txtCostCenterName.Text = m_entity.CostCenter.Name
-			txtRequestorCode.Text = m_entity.Requestor.Code
-			txtRequestorName.Text = m_entity.Requestor.Name
+      txtCostCenterCode.Text = m_entity.CostCenter.Code
+      txtCostCenterName.Text = m_entity.CostCenter.Name
+      txtRequestorCode.Text = m_entity.Requestor.Code
+      txtRequestorName.Text = m_entity.Requestor.Name
 
-			txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-			dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-			txtReceivingDate.Text = MinDateToNull(Me.m_entity.ReceivingDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-			dtpReceivingDate.Value = MinDateToNow(Me.m_entity.ReceivingDate)
+      txtReceivingDate.Text = MinDateToNull(Me.m_entity.ReceivingDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpReceivingDate.Value = MinDateToNow(Me.m_entity.ReceivingDate)
 
-			RefreshDocs()
+      RefreshDocs()
 
-			UpdateAmount()
+      UpdateAmount()
 
-			RefreshWBS()
+      'RefreshWBS()
 
-			SetStatus()
-			SetLabelText()
-			CheckFormEnable()
-			m_isInitialized = True
-		End Sub
-		Private Sub RefreshDocs()
-			Me.m_isInitialized = False
-			Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-			RefreshBlankGrid()
-			ReIndex()
-			Me.m_treeManager.Treetable.AcceptChanges()
-			Me.UpdateAmount()
-			Me.m_isInitialized = True
-		End Sub
-		Private m_dateSetting As Boolean = False
-		Private toCCCodeChanged As Boolean = False
-		Private oldCCId As Integer
-		Private dirtyFlag As Boolean = False
-		Private CCCodeBlankFlag As Boolean = False
-		Private Sub SetCCCodeBlankFlag()
-			If Me.txtCostCenterCode.Text.Length = 0 Then
-				CCCodeBlankFlag = True
-			Else
-				CCCodeBlankFlag = False
-			End If
-		End Sub
-		Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-			If Me.m_entity Is Nothing Or Not m_isInitialized Then
-				Return
-			End If
-			Dim dirtyFlag As Boolean = False
-			Select Case CType(sender, Control).Name.ToLower
-				Case "cmbcode"
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      ReIndex()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.UpdateAmount()
+      Me.m_isInitialized = True
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Private toCCCodeChanged As Boolean = False
+    Private oldCCId As Integer
+    Private dirtyFlag As Boolean = False
+    Private CCCodeBlankFlag As Boolean = False
+    Private Sub SetCCCodeBlankFlag()
+      If Me.txtCostCenterCode.Text.Length = 0 Then
+        CCCodeBlankFlag = True
+      Else
+        CCCodeBlankFlag = False
+      End If
+    End Sub
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "cmbcode"
           If m_entity.AutoGen Then
             'เพิ่ม AutoCode
             If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
@@ -1865,266 +1285,266 @@ FinalLine:
           Else
             Me.m_entity.Code = cmbCode.Text
           End If
-					dirtyFlag = True
-				Case "txtnote"
-					Me.m_entity.Note = txtNote.Text
-					dirtyFlag = True
-				Case "dtpdocdate"
-					If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-						If Not m_dateSetting Then
-							Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-							Me.m_entity.DocDate = dtpDocDate.Value
-						End If
-						dirtyFlag = True
-					End If
-				Case "txtdocdate"
-					m_dateSetting = True
-					If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtDocDate.Text)
-						If Not Me.m_entity.DocDate.Equals(theDate) Then
-							dtpDocDate.Value = theDate
-							Me.m_entity.DocDate = dtpDocDate.Value
-							dirtyFlag = True
-						End If
-					Else
-						Me.m_entity.DocDate = Date.Now
-						Me.m_entity.DocDate = Date.MinValue
-						dirtyFlag = True
-					End If
-					m_dateSetting = False
-				Case "dtpreceivingdate"
-					If Not Me.m_entity.ReceivingDate.Equals(dtpReceivingDate.Value) Then
-						If Not m_dateSetting Then
-							Me.txtReceivingDate.Text = MinDateToNull(dtpReceivingDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-							Me.m_entity.ReceivingDate = dtpReceivingDate.Value
-						End If
-						dirtyFlag = True
-					End If
-				Case "txtreceivingdate"
-					m_dateSetting = True
-					If Not Me.txtReceivingDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtReceivingDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtReceivingDate.Text)
-						If Not Me.m_entity.ReceivingDate.Equals(theDate) Then
-							dtpReceivingDate.Value = theDate
-							Me.m_entity.ReceivingDate = dtpReceivingDate.Value
-							dirtyFlag = True
-						End If
-					Else
-						Me.m_entity.ReceivingDate = Date.Now
-						Me.m_entity.ReceivingDate = Date.MinValue
-						dirtyFlag = True
-					End If
-					m_dateSetting = False
-				Case "txtrequestorcode"
-					If requestorCodeChanged Then
-						If txtRequestorCode.Text.Length > 0 Then
-							dirtyFlag = Employee.GetEmployee(txtRequestorCode, txtRequestorName, Me.m_entity.Requestor)
-						End If
-						requestorCodeChanged = False
-					End If
-				Case "txtcostcentercode"
-					If toCCCodeChanged Then
-						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If Not CCCodeBlankFlag Then
-							If Me.txtCostCenterCode.Text.ToLower <> Me.m_entity.CostCenter.Code.ToLower Then
-								If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
-									If Me.txtCostCenterCode.TextLength <> 0 Then
-										dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-										If dirtyFlag Then
-											UpdateDestAdmin()
-										End If
-									Else
-										Me.m_entity.CostCenter = New CostCenter
-										txtCostCenterName.Text = ""
-									End If
-									Try
-										If oldCCId <> Me.m_entity.CostCenter.Id Then
-											Me.WorkbenchWindow.ViewContent.IsDirty = True
-											oldCCId = Me.m_entity.CostCenter.Id
-											ChangeCC()
-										End If
-									Catch ex As Exception
+          dirtyFlag = True
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.m_entity.DocDate = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtpreceivingdate"
+          If Not Me.m_entity.ReceivingDate.Equals(dtpReceivingDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtReceivingDate.Text = MinDateToNull(dtpReceivingDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.ReceivingDate = dtpReceivingDate.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtreceivingdate"
+          m_dateSetting = True
+          If Not Me.txtReceivingDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtReceivingDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtReceivingDate.Text)
+            If Not Me.m_entity.ReceivingDate.Equals(theDate) Then
+              dtpReceivingDate.Value = theDate
+              Me.m_entity.ReceivingDate = dtpReceivingDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.m_entity.ReceivingDate = Date.Now
+            Me.m_entity.ReceivingDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "txtrequestorcode"
+          If requestorCodeChanged Then
+            If txtRequestorCode.Text.Length > 0 Then
+              dirtyFlag = Employee.GetEmployee(txtRequestorCode, txtRequestorName, Me.m_entity.Requestor)
+            End If
+            requestorCodeChanged = False
+          End If
+        Case "txtcostcentercode"
+          If toCCCodeChanged Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Not CCCodeBlankFlag Then
+              If Me.txtCostCenterCode.Text.ToLower <> Me.m_entity.CostCenter.Code.ToLower Then
+                If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
+                  If Me.txtCostCenterCode.TextLength <> 0 Then
+                    dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+                    If dirtyFlag Then
+                      UpdateDestAdmin()
+                    End If
+                  Else
+                    Me.m_entity.CostCenter = New CostCenter
+                    txtCostCenterName.Text = ""
+                  End If
+                  Try
+                    If oldCCId <> Me.m_entity.CostCenter.Id Then
+                      Me.WorkbenchWindow.ViewContent.IsDirty = True
+                      oldCCId = Me.m_entity.CostCenter.Id
+                      ChangeCC()
+                    End If
+                  Catch ex As Exception
 
-									End Try
-									toCCCodeChanged = False
-								Else
-									Me.txtCostCenterCode.Text = Me.m_entity.CostCenter.Code
-									toCCCodeChanged = False
-								End If
-							End If
-						Else
-							If Me.txtCostCenterCode.TextLength <> 0 Then
-								dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-								If dirtyFlag Then
-									If Me.txtRequestorName.TextLength = 0 Then
-										UpdateDestAdmin()
-									End If
-								End If
-							Else
-								Me.m_entity.CostCenter = New CostCenter
-								txtCostCenterName.Text = ""
-							End If
-							Try
-								If oldCCId <> Me.m_entity.CostCenter.Id Then
-									Me.WorkbenchWindow.ViewContent.IsDirty = True
-									oldCCId = Me.m_entity.CostCenter.Id
-									ChangeCC()
-								End If
-							Catch ex As Exception
+                  End Try
+                  toCCCodeChanged = False
+                Else
+                  Me.txtCostCenterCode.Text = Me.m_entity.CostCenter.Code
+                  toCCCodeChanged = False
+                End If
+              End If
+            Else
+              If Me.txtCostCenterCode.TextLength <> 0 Then
+                dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+                If dirtyFlag Then
+                  If Me.txtRequestorName.TextLength = 0 Then
+                    UpdateDestAdmin()
+                  End If
+                End If
+              Else
+                Me.m_entity.CostCenter = New CostCenter
+                txtCostCenterName.Text = ""
+              End If
+              Try
+                If oldCCId <> Me.m_entity.CostCenter.Id Then
+                  Me.WorkbenchWindow.ViewContent.IsDirty = True
+                  oldCCId = Me.m_entity.CostCenter.Id
+                  ChangeCC()
+                End If
+              Catch ex As Exception
 
-							End Try
-							toCCCodeChanged = False
-						End If
-					End If
-					If toCCCodeChanged Then
-						dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-						If Me.txtRequestorName.TextLength = 0 Then
-							UpdateDestAdmin()
-						End If
-						toCCCodeChanged = False
-					End If
+              End Try
+              toCCCodeChanged = False
+            End If
+          End If
+          If toCCCodeChanged Then
+            dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            If Me.txtRequestorName.TextLength = 0 Then
+              UpdateDestAdmin()
+            End If
+            toCCCodeChanged = False
+          End If
 
-			End Select
-			Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-			CheckFormEnable()
-			SetCCCodeBlankFlag()
-		End Sub
-		Private Sub UpdateAmount()
-			m_isInitialized = False
-			txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
-			m_isInitialized = True
-			RefreshWBS()
-		End Sub
-		Public Sub SetStatus()
-			If m_entity.Canceled Then
-				lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-				" " & m_entity.CancelDate.ToShortTimeString & _
-				"  โดย:" & m_entity.CancelPerson.Name
-			ElseIf m_entity.Edited Then
-				lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-				" " & m_entity.OriginDate.ToShortTimeString & _
-				"  โดย:" & m_entity.Originator.Name
-				lblStatus.Text &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-				" " & m_entity.LastEditDate.ToShortTimeString & _
-				"  โดย:" & m_entity.LastEditor.Name
-			ElseIf m_entity.Originated Then
-				lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-				" " & m_entity.OriginDate.ToShortTimeString & _
-				"  โดย:" & m_entity.Originator.Name
-			Else
-				lblStatus.Text = "ยังไม่บันทึก"
-			End If
-		End Sub
-		Private m_entityRefed As Integer = -1
-		Public Overrides Property Entity() As ISimpleEntity
-			Get
-				Return Me.m_entity
-			End Get
-			Set(ByVal Value As ISimpleEntity)
-				If Not m_entity Is Nothing Then
-					Me.m_entity = Nothing
-				End If
-				Me.m_entity = CType(Value, PR)
-				If Me.m_entity.IsReferenced Then
-					m_entityRefed = 1
-				Else
-					m_entityRefed = 0
-				End If
-				'Hack:
-				Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-				UpdateEntityProperties()
-			End Set
-		End Property
-		'Public Sub ReloadEntity()
-		'	Dim newEntity As PR
-		'	newEntity = New PR(Me.Entity.Id)
-		'	newEntity.Closed = CType(Me.Entity, PR).Closed
-		'	Me.Entity = newEntity
-		'End Sub
-		Public Overrides Sub Initialize()
-			'PopulateRequestor()
-			'PopulateCostCenter()
-		End Sub
+      End Select
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+      SetCCCodeBlankFlag()
+    End Sub
+    Private Sub UpdateAmount()
+      m_isInitialized = False
+      txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+      m_isInitialized = True
+      'RefreshWBS()
+    End Sub
+    Public Sub SetStatus()
+      If m_entity.Canceled Then
+        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf m_entity.Edited Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+        lblStatus.Text &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf m_entity.Originated Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        lblStatus.Text = "ยังไม่บันทึก"
+      End If
+    End Sub
+    Private m_entityRefed As Integer = -1
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        If Not m_entity Is Nothing Then
+          Me.m_entity = Nothing
+        End If
+        Me.m_entity = CType(Value, PR)
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+    'Public Sub ReloadEntity()
+    '	Dim newEntity As PR
+    '	newEntity = New PR(Me.Entity.Id)
+    '	newEntity.Closed = CType(Me.Entity, PR).Closed
+    '	Me.Entity = newEntity
+    'End Sub
+    Public Overrides Sub Initialize()
+      'PopulateRequestor()
+      'PopulateCostCenter()
+    End Sub
 
 
 #End Region
 
 #Region "Event Handlers"
-		Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddWBS.Click
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
-			Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Dim view As Integer = 7
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			If wsdColl.GetSumPercent >= 100 Then
-				msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-			ElseIf doc.ItemType.Value = 160 Or doc.ItemType.Value = 162 Then
-				msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveWBS}")
-			Else
-				Dim wbsd As New WBSDistribute
-				wbsd.CostCenter = Me.m_entity.CostCenter
-				wbsd.Percent = 100 - wsdColl.GetSumPercent
-				wsdColl.Add(wbsd)
-			End If
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelWBS.Click
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			If wsdColl.Count > 0 Then
-				wsdColl.Remove(wsdColl.Count - 1)
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-			Dim view As Integer = 7
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-		End Sub
-		Private currentY As Integer = -1
-		Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-			If tgItem.CurrentRowIndex <> currentY Then
-				Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-				RefreshWBS()
-				currentY = tgItem.CurrentRowIndex
-			End If
-		End Sub
-		Private Sub RefreshWBS()
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-			If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
-				Return
-			End If
-			Dim item As PRItem = Me.m_entity.ItemCollection.CurrentItem
-			Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-			Dim view As Integer = 7
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, item, view)
-			m_wbsdInitialized = True
-		End Sub
-		Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-			UpdateAutogenStatus()
-		End Sub
-		Private m_oldCode As String = ""
-		Private Sub UpdateAutogenStatus()
-			If Me.chkAutorun.Checked Then
-				'Me.Validator.SetRequired(Me.txtCode, False)
-				'Me.ErrorProvider1.SetError(Me.txtCode, "")
+    Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      dt.Clear()
+      Dim view As Integer = 7
+      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
+      If wsdColl.GetSumPercent >= 100 Then
+        msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
+      ElseIf doc.ItemType.Value = 160 Or doc.ItemType.Value = 162 Then
+        msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveWBS}")
+      Else
+        Dim wbsd As New WBSDistribute
+        wbsd.CostCenter = Me.m_entity.CostCenter
+        wbsd.Percent = 100 - wsdColl.GetSumPercent
+        wsdColl.Add(wbsd)
+      End If
+      m_wbsdInitialized = False
+      wsdColl.Populate(dt, doc, view)
+      m_wbsdInitialized = True
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      dt.Clear()
+      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
+      If wsdColl.Count > 0 Then
+        wsdColl.Remove(wsdColl.Count - 1)
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Dim view As Integer = 7
+      m_wbsdInitialized = False
+      wsdColl.Populate(dt, doc, view)
+      m_wbsdInitialized = True
+    End Sub
+    Private currentY As Integer = -1
+    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      If tgItem.CurrentRowIndex <> currentY Then
+        Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
+      End If
+    End Sub
+    'Private Sub RefreshWBS()
+    '  Dim dt As TreeTable = Me.m_treeManager2.Treetable
+    '  dt.Clear()
+    '  Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+    '  If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
+    '    Return
+    '  End If
+    '  Dim item As PRItem = Me.m_entity.ItemCollection.CurrentItem
+    '  Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+    '  Dim view As Integer = 7
+    '  m_wbsdInitialized = False
+    '  wsdColl.Populate(dt, item, view)
+    '  m_wbsdInitialized = True
+    'End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
         Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
@@ -2140,145 +1560,145 @@ FinalLine:
             Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
           End If
         End If
-				m_oldCode = Me.cmbCode.Text
-				Me.m_entity.Code = m_oldCode
-				Me.m_entity.AutoGen = True
-			Else
-				'Me.Validator.SetRequired(Me.txtCode, True)
-				Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
-				Me.cmbCode.Items.Clear()
-				Me.cmbCode.Text = m_oldCode
+        m_oldCode = Me.cmbCode.Text
+        Me.m_entity.Code = m_oldCode
+        Me.m_entity.AutoGen = True
+      Else
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = m_oldCode
         Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = False
-			End If
-		End Sub
-		Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
-			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-			Dim filters(0) As Filter
-			Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				doc = New PRItem
-				doc.ItemType = New ItemType(0)
-				Me.m_entity.ItemCollection.Add(doc)
-				Me.m_entity.ItemCollection.CurrentItem = doc
-			End If
-			Dim includeFilter As Boolean = False
-			If TypeOf doc.Entity Is Tool Then
-				Dim mytool As Tool = CType(doc.Entity, Tool)
-				If Not mytool.Unit Is Nothing AndAlso mytool.Unit.Originated Then
-					filters(0) = New Filter("includedId", mytool.Unit.Id)
-					includeFilter = True
-				End If
-			ElseIf TypeOf doc.Entity Is LCIItem Then
-				Dim idList As String = CType(doc.Entity, LCIItem).GetUnitIdList
-				If idList.Length > 0 Then
-					filters(0) = New Filter("includedId", idList)
-					includeFilter = True
-				End If
-			End If
-			If includeFilter Then
-				myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit, filters)
-			Else
-				myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
-			End If
-		End Sub
-		Private Sub SetUnit(ByVal unit As ISimpleEntity)
-			Me.m_treeManager.SelectedRow("Unit") = unit.Code
-		End Sub
-		Private m_targetType As Integer
-		Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
-			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-			Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-			m_targetType = -1
-			If doc Is Nothing Then
-				doc = New PRItem
-				doc.ItemType = New ItemType(0)
-				Me.m_entity.ItemCollection.Add(doc)
-				Me.m_entity.ItemCollection.CurrentItem = doc
-			End If
-			If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
-				m_targetType = doc.ItemType.Value
-				Dim entities(1) As ISimpleEntity
-				entities(0) = New LCIItem
-				entities(1) = New Tool
-				Dim activeIndex As Integer = -1
-				If Not doc.ItemType Is Nothing Then
-					If doc.ItemType.Value = 19 Then
-						activeIndex = 1
-					ElseIf doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
-						activeIndex = 0
-					End If
-				End If
-				myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
-			End If
-		End Sub
-		Private Sub SetItems(ByVal items As BasketItemCollection)
-			' Comment : สามารถเก็บ Material Level อื่นได้
-			Dim index As Integer = tgItem.CurrentRowIndex
-			Me.m_entity.ItemCollection.SetItems(items, m_targetType)
-			RefreshDocs()
-			tgItem.CurrentRowIndex = index
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-			dirtyFlag = True
-		End Sub
-		Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-			Dim index As Integer = tgItem.CurrentRowIndex
-			If index > Me.m_entity.ItemCollection.Count - 1 Then
-				Return
-			End If
-			Dim newItem As New BlankItem("")
-			Dim prItem As New prItem
-			prItem.Entity = newItem
-			prItem.ItemType = New ItemType(0)
-			prItem.Qty = 0
-			Me.m_entity.ItemCollection.Insert(index, prItem)
-			RefreshDocs()
-			tgItem.CurrentRowIndex = index
-		End Sub
-		Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-			'Dim index As Integer = Me.tgItem.CurrentRowIndex
-			'If index > Me.m_entity.ItemCollection.Count - 1 Then
-			'  Return
-			'End If
-			'Me.m_entity.ItemCollection.Remove(index)
+      End If
+    End Sub
+    Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim filters(0) As Filter
+      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        doc = New PRItem
+        doc.ItemType = New ItemType(0)
+        Me.m_entity.ItemCollection.Add(doc)
+        Me.m_entity.ItemCollection.CurrentItem = doc
+      End If
+      Dim includeFilter As Boolean = False
+      If TypeOf doc.Entity Is Tool Then
+        Dim mytool As Tool = CType(doc.Entity, Tool)
+        If Not mytool.Unit Is Nothing AndAlso mytool.Unit.Originated Then
+          filters(0) = New Filter("includedId", mytool.Unit.Id)
+          includeFilter = True
+        End If
+      ElseIf TypeOf doc.Entity Is LCIItem Then
+        Dim idList As String = CType(doc.Entity, LCIItem).GetUnitIdList
+        If idList.Length > 0 Then
+          filters(0) = New Filter("includedId", idList)
+          includeFilter = True
+        End If
+      End If
+      If includeFilter Then
+        myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit, filters)
+      Else
+        myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
+      End If
+    End Sub
+    Private Sub SetUnit(ByVal unit As ISimpleEntity)
+      Me.m_treeManager.SelectedRow("Unit") = unit.Code
+    End Sub
+    Private m_targetType As Integer
+    Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
+      m_targetType = -1
+      If doc Is Nothing Then
+        doc = New PRItem
+        doc.ItemType = New ItemType(0)
+        Me.m_entity.ItemCollection.Add(doc)
+        Me.m_entity.ItemCollection.CurrentItem = doc
+      End If
+      If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+        m_targetType = doc.ItemType.Value
+        Dim entities(1) As ISimpleEntity
+        entities(0) = New LCIItem
+        entities(1) = New Tool
+        Dim activeIndex As Integer = -1
+        If Not doc.ItemType Is Nothing Then
+          If doc.ItemType.Value = 19 Then
+            activeIndex = 1
+          ElseIf doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+            activeIndex = 0
+          End If
+        End If
+        myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
+      End If
+    End Sub
+    Private Sub SetItems(ByVal items As BasketItemCollection)
+      ' Comment : สามารถเก็บ Material Level อื่นได้
+      Dim index As Integer = tgItem.CurrentRowIndex
+      Me.m_entity.ItemCollection.SetItems(items, m_targetType)
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      dirtyFlag = True
+    End Sub
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim index As Integer = tgItem.CurrentRowIndex
+      If index > Me.m_entity.ItemCollection.Count - 1 Then
+        Return
+      End If
+      Dim newItem As New BlankItem("")
+      Dim prItem As New prItem
+      prItem.Entity = newItem
+      prItem.ItemType = New ItemType(0)
+      prItem.Qty = 0
+      Me.m_entity.ItemCollection.Insert(index, prItem)
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      'If index > Me.m_entity.ItemCollection.Count - 1 Then
+      '  Return
+      'End If
+      'Me.m_entity.ItemCollection.Remove(index)
 
-			''me.tgItem
-			'Me.tgItem.CurrentRowIndex = index
+      ''me.tgItem
+      'Me.tgItem.CurrentRowIndex = index
 
-			Dim rowsCount As Integer = 0
-			For Each Obj As Object In Me.m_treeManager.SelectedRows
-				If Not Obj Is Nothing Then
-					rowsCount += 1
-					Dim row As TreeRow = CType(Obj, TreeRow)
-					If Not row Is Nothing Then
-						If TypeOf row.Tag Is PRItem Then
-							Dim doc As PRItem = CType(row.Tag, PRItem)
-							If Not doc Is Nothing Then
-								Me.m_entity.ItemCollection.Remove(doc)
-							End If
-						End If
-					End If
-				End If
-			Next
+      Dim rowsCount As Integer = 0
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          rowsCount += 1
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            If TypeOf row.Tag Is PRItem Then
+              Dim doc As PRItem = CType(row.Tag, PRItem)
+              If Not doc Is Nothing Then
+                Me.m_entity.ItemCollection.Remove(doc)
+              End If
+            End If
+          End If
+        End If
+      Next
 
-			If rowsCount.Equals(0) Then
-				Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
-				If doc Is Nothing Then
-					Return
-				End If
-				Me.m_entity.ItemCollection.Remove(doc)
-			End If
+      If rowsCount.Equals(0) Then
+        Dim doc As PRItem = Me.m_entity.ItemCollection.CurrentItem
+        If doc Is Nothing Then
+          Return
+        End If
+        Me.m_entity.ItemCollection.Remove(doc)
+      End If
 
-			RefreshDocs()
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		Private Sub ReIndex()
-			Dim i As Integer = 0
-			For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-				row("pri_linenumber") = i + 1
-				i += 1
-			Next
-		End Sub
+      RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ReIndex()
+      Dim i As Integer = 0
+      For Each row As DataRow In Me.m_treeManager.Treetable.Rows
+        row("pri_linenumber") = i + 1
+        i += 1
+      Next
+    End Sub
 #End Region
 
 #Region "IValidatable"
@@ -2397,7 +1817,7 @@ FinalLine:
 			If Not Me.m_entity.CostCenter Is Nothing Then
 			End If
 			RefreshDocs()
-			RefreshWBS()
+      'RefreshWBS()
 		End Sub
 		Private Sub UpdateDestAdmin()
 			If Me.m_entity Is Nothing Then
@@ -2582,7 +2002,7 @@ FinalLine:
 					'm_treeManager.Treegrid.TableStyles(0).GridColumnStyles(8).Width = 0
 					'm_treeManager.Treegrid.TableStyles(0).GridColumnStyles(12).Width = 0
 				End If
-				Me.RefreshWBS()
+        'Me.RefreshWBS()
 				'Me.WorkbenchWindow.ViewContent.Save()
 				Me.WorkbenchWindow.ViewContent.IsDirty = True
 			End If

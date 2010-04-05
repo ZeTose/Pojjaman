@@ -1214,6 +1214,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         wbsd.CostCenter = currentCostCenter
                       End If
                       childDr("driw_cc") = wbsd.CostCenter.Id
+                      childDr("driw_cbs") = wbsd.CBS.Id
                       'Add เข้า sciwbs
                       dtWbs.Rows.Add(childDr)
                     Next
@@ -1244,6 +1245,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       childDr("driw_amt") = wbsd.Amount
                       'childDr("sciw_toaccttype") = Me.ToAccountType.Value                               
                       childDr("driw_cc") = wbsd.CostCenter.Id
+                      childDr("driw_cbs") = wbsd.CBS.Id
 
                       'Add เข้า sciwbs
                       dtWbs.Rows.Add(childDr)
@@ -2006,8 +2008,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In item.FromCCWBSDistributeCollection
               wbsd.ChildAmount = 0
               wbsd.GetChildIdList()
-              For Each allItem As PAItem In Me.ItemCollection
-                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+              For Each allItem As DRItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.FromCCWBSDistributeCollection
                   If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                     wbsd.ChildAmount += childWbsd.Amount
                   End If
@@ -2017,8 +2019,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
               wbsd.ChildAmount = 0
               wbsd.GetChildIdList()
-              For Each allItem As PAItem In Me.ItemCollection
-                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+              For Each allItem As DRItem In Me.ItemCollection
+                For Each childWbsd As WBSDistribute In allItem.ToCCWBSDistributeCollection
                   If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                     wbsd.ChildAmount += childWbsd.Amount
                   End If

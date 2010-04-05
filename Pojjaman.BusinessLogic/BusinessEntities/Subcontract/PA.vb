@@ -1562,6 +1562,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("paiw_baseCost") = wbsd.BaseCost
                 childDr("paiw_amt") = wbsd.Amount
                 childDr("paiw_toaccttype") = 3
+                childDr("paiw_cbs") = wbsd.CBS.Id
                 'Add เข้า paiwbs
                 dtWbs.Rows.Add(childDr)
               Next
@@ -1592,6 +1593,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   childDr("paiw_baseCost") = newWbsd.BaseCost
                   childDr("paiw_amt") = newWbsd.Amount
                   childDr("paiw_toaccttype") = 3
+                  childDr("paiw_cbs") = newWbsd.CBS.Id
                   'Add เข้า paiwbs
                   dtWbs.Rows.Add(childDr)
                 Catch ex As Exception

@@ -106,37 +106,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Friend WithEvents lblDeliveryPerson As System.Windows.Forms.Label
 		Friend WithEvents ibtnShowToCCPerson As Longkong.Pojjaman.Gui.Components.ImageButton
 		Friend WithEvents ibtnShowToCCPersonDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents tgWBS As Longkong.Pojjaman.Gui.Components.TreeGrid
-		Friend WithEvents lblWBS As System.Windows.Forms.Label
-		Friend WithEvents ibtnAddWBS As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents ibtnDelWBS As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents cmbDocType As System.Windows.Forms.ComboBox
-		Friend WithEvents lblDocType As System.Windows.Forms.Label
-		Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
-		Friend WithEvents lblDueDate As System.Windows.Forms.Label
-		Friend WithEvents txtRetention As System.Windows.Forms.TextBox
-		Friend WithEvents lblRetention As System.Windows.Forms.Label
-		Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
-		Friend WithEvents txtRealGross As System.Windows.Forms.TextBox
-		Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents ibtnResetGross As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
-		Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
-		Friend WithEvents lblAdvancePay As System.Windows.Forms.Label
-		Friend WithEvents txtAdvancePayAmount As System.Windows.Forms.TextBox
-		Friend WithEvents ibtnShowAdvancePay As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents txtWHT As System.Windows.Forms.TextBox
-		Friend WithEvents lblWHT As System.Windows.Forms.Label
-		Friend WithEvents ibtnShowEquipment As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents txtEquipmentName As System.Windows.Forms.TextBox
-		Friend WithEvents ibtnShowEquipmentDiaog As Longkong.Pojjaman.Gui.Components.ImageButton
-		Friend WithEvents txtEquipmentCode As System.Windows.Forms.TextBox
-		Friend WithEvents lblEquipment As System.Windows.Forms.Label
-		Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
-		Friend WithEvents ibtUnlocker As Longkong.Pojjaman.Gui.Components.ImageButton
-		<System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+    Friend WithEvents cmbDocType As System.Windows.Forms.ComboBox
+    Friend WithEvents lblDocType As System.Windows.Forms.Label
+    Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblDueDate As System.Windows.Forms.Label
+    Friend WithEvents txtRetention As System.Windows.Forms.TextBox
+    Friend WithEvents lblRetention As System.Windows.Forms.Label
+    Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
+    Friend WithEvents txtRealGross As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnResetGross As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
+    Friend WithEvents lblAdvancePay As System.Windows.Forms.Label
+    Friend WithEvents txtAdvancePayAmount As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowAdvancePay As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtWHT As System.Windows.Forms.TextBox
+    Friend WithEvents lblWHT As System.Windows.Forms.Label
+    Friend WithEvents ibtnShowEquipment As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtEquipmentName As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowEquipmentDiaog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtEquipmentCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblEquipment As System.Windows.Forms.Label
+    Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
+    Friend WithEvents ibtUnlocker As Longkong.Pojjaman.Gui.Components.ImageButton
+    <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GoodsReceiptDetail))
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
@@ -184,8 +180,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDeliveryDocDate = New System.Windows.Forms.Label()
       Me.lblInvoiceCode = New System.Windows.Forms.Label()
       Me.txtInvoiceCode = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtDeliveryDocDate = New System.Windows.Forms.TextBox()
       Me.txtPODate = New System.Windows.Forms.TextBox()
@@ -225,11 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.ibtnEnableVatInput = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.tgWBS = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.lblWBS = New System.Windows.Forms.Label()
-      Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.lblRetention = New System.Windows.Forms.Label()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -240,8 +232,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowAdvancePay = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblWHT = New System.Windows.Forms.Label()
       Me.ibtUnlocker = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbReceive.SuspendLayout()
       Me.grbDelivery.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -319,7 +313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceive.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbReceive.Location = New System.Drawing.Point(400, 54)
       Me.grbReceive.Name = "grbReceive"
-      Me.grbReceive.Size = New System.Drawing.Size(369, 89)
+      Me.grbReceive.Size = New System.Drawing.Size(369, 87)
       Me.grbReceive.TabIndex = 9
       Me.grbReceive.TabStop = False
       Me.grbReceive.Text = "รับของ"
@@ -392,7 +386,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbDocType
       '
       Me.cmbDocType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbDocType.Location = New System.Drawing.Point(104, 64)
+      Me.cmbDocType.Location = New System.Drawing.Point(94, 61)
       Me.cmbDocType.Name = "cmbDocType"
       Me.cmbDocType.Size = New System.Drawing.Size(248, 21)
       Me.cmbDocType.TabIndex = 13
@@ -400,9 +394,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblDocType
       '
       Me.lblDocType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocType.Location = New System.Drawing.Point(8, 64)
+      Me.lblDocType.Location = New System.Drawing.Point(9, 61)
       Me.lblDocType.Name = "lblDocType"
-      Me.lblDocType.Size = New System.Drawing.Size(96, 18)
+      Me.lblDocType.Size = New System.Drawing.Size(82, 18)
       Me.lblDocType.TabIndex = 11
       Me.lblDocType.Text = "ซื้อเพื่อ:"
       Me.lblDocType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -413,13 +407,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCCPersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCCPersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCCPersonName, System.Drawing.Color.Empty)
-      Me.txtToCCPersonName.Location = New System.Drawing.Point(176, 40)
+      Me.txtToCCPersonName.Location = New System.Drawing.Point(167, 37)
       Me.Validator.SetMinValue(Me.txtToCCPersonName, "")
       Me.txtToCCPersonName.Name = "txtToCCPersonName"
       Me.txtToCCPersonName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToCCPersonName, "")
       Me.Validator.SetRequired(Me.txtToCCPersonName, False)
-      Me.txtToCCPersonName.Size = New System.Drawing.Size(128, 20)
+      Me.txtToCCPersonName.Size = New System.Drawing.Size(149, 20)
       Me.txtToCCPersonName.TabIndex = 5
       Me.txtToCCPersonName.TabStop = False
       '
@@ -429,7 +423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCCPersonCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCCPersonCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCCPersonCode, System.Drawing.Color.Empty)
-      Me.txtToCCPersonCode.Location = New System.Drawing.Point(104, 40)
+      Me.txtToCCPersonCode.Location = New System.Drawing.Point(94, 37)
       Me.Validator.SetMinValue(Me.txtToCCPersonCode, "")
       Me.txtToCCPersonCode.Name = "txtToCCPersonCode"
       Me.Validator.SetRegularExpression(Me.txtToCCPersonCode, "")
@@ -441,7 +435,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtShowToCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtShowToCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtShowToCostCenter.Location = New System.Drawing.Point(328, 15)
+      Me.ibtShowToCostCenter.Location = New System.Drawing.Point(339, 12)
       Me.ibtShowToCostCenter.Name = "ibtShowToCostCenter"
       Me.ibtShowToCostCenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtShowToCostCenter.TabIndex = 34
@@ -454,12 +448,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCostCenterName, System.Drawing.Color.Empty)
-      Me.txtToCostCenterName.Location = New System.Drawing.Point(176, 16)
+      Me.txtToCostCenterName.Location = New System.Drawing.Point(167, 13)
       Me.Validator.SetMinValue(Me.txtToCostCenterName, "")
       Me.txtToCostCenterName.Name = "txtToCostCenterName"
       Me.Validator.SetRegularExpression(Me.txtToCostCenterName, "")
       Me.Validator.SetRequired(Me.txtToCostCenterName, False)
-      Me.txtToCostCenterName.Size = New System.Drawing.Size(128, 20)
+      Me.txtToCostCenterName.Size = New System.Drawing.Size(149, 20)
       Me.txtToCostCenterName.TabIndex = 4
       Me.txtToCostCenterName.TabStop = False
       '
@@ -468,7 +462,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowToCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowToCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCostCenterDialog.Location = New System.Drawing.Point(304, 15)
+      Me.ibtnShowToCostCenterDialog.Location = New System.Drawing.Point(315, 12)
       Me.ibtnShowToCostCenterDialog.Name = "ibtnShowToCostCenterDialog"
       Me.ibtnShowToCostCenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowToCostCenterDialog.TabIndex = 33
@@ -481,7 +475,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCostCenterCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCostCenterCode, System.Drawing.Color.Empty)
-      Me.txtToCostCenterCode.Location = New System.Drawing.Point(104, 16)
+      Me.txtToCostCenterCode.Location = New System.Drawing.Point(94, 13)
       Me.Validator.SetMinValue(Me.txtToCostCenterCode, "")
       Me.txtToCostCenterCode.Name = "txtToCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtToCostCenterCode, "")
@@ -492,9 +486,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblToCCPerson
       '
       Me.lblToCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblToCCPerson.Location = New System.Drawing.Point(8, 40)
+      Me.lblToCCPerson.Location = New System.Drawing.Point(9, 37)
       Me.lblToCCPerson.Name = "lblToCCPerson"
-      Me.lblToCCPerson.Size = New System.Drawing.Size(96, 18)
+      Me.lblToCCPerson.Size = New System.Drawing.Size(82, 18)
       Me.lblToCCPerson.TabIndex = 3
       Me.lblToCCPerson.Text = "ผู้รับ:"
       Me.lblToCCPerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -502,9 +496,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblToCostCenter
       '
       Me.lblToCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblToCostCenter.Location = New System.Drawing.Point(8, 16)
+      Me.lblToCostCenter.Location = New System.Drawing.Point(9, 13)
       Me.lblToCostCenter.Name = "lblToCostCenter"
-      Me.lblToCostCenter.Size = New System.Drawing.Size(96, 18)
+      Me.lblToCostCenter.Size = New System.Drawing.Size(82, 18)
       Me.lblToCostCenter.TabIndex = 2
       Me.lblToCostCenter.Text = "คลัง:"
       Me.lblToCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -513,7 +507,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowToCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowToCCPerson.Location = New System.Drawing.Point(328, 39)
+      Me.ibtnShowToCCPerson.Location = New System.Drawing.Point(339, 36)
       Me.ibtnShowToCCPerson.Name = "ibtnShowToCCPerson"
       Me.ibtnShowToCCPerson.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowToCCPerson.TabIndex = 36
@@ -525,7 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowToCCPersonDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowToCCPersonDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowToCCPersonDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCCPersonDialog.Location = New System.Drawing.Point(304, 39)
+      Me.ibtnShowToCCPersonDialog.Location = New System.Drawing.Point(315, 36)
       Me.ibtnShowToCCPersonDialog.Name = "ibtnShowToCCPersonDialog"
       Me.ibtnShowToCCPersonDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowToCCPersonDialog.TabIndex = 35
@@ -550,7 +544,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDelivery.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDelivery.Location = New System.Drawing.Point(8, 54)
       Me.grbDelivery.Name = "grbDelivery"
-      Me.grbDelivery.Size = New System.Drawing.Size(384, 89)
+      Me.grbDelivery.Size = New System.Drawing.Size(388, 87)
       Me.grbDelivery.TabIndex = 7
       Me.grbDelivery.TabStop = False
       Me.grbDelivery.Text = "ส่งของ"
@@ -562,7 +556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDueDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDueDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtDueDate, System.Drawing.Color.Empty)
-      Me.txtDueDate.Location = New System.Drawing.Point(216, 40)
+      Me.txtDueDate.Location = New System.Drawing.Point(216, 37)
       Me.Validator.SetMinValue(Me.txtDueDate, "")
       Me.txtDueDate.Name = "txtDueDate"
       Me.Validator.SetRegularExpression(Me.txtDueDate, "")
@@ -573,7 +567,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpDueDate
       '
       Me.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDueDate.Location = New System.Drawing.Point(216, 40)
+      Me.dtpDueDate.Location = New System.Drawing.Point(216, 37)
       Me.dtpDueDate.Name = "dtpDueDate"
       Me.dtpDueDate.Size = New System.Drawing.Size(104, 20)
       Me.dtpDueDate.TabIndex = 32
@@ -582,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDueDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDueDate.ForeColor = System.Drawing.Color.Black
-      Me.lblDueDate.Location = New System.Drawing.Point(144, 40)
+      Me.lblDueDate.Location = New System.Drawing.Point(144, 37)
       Me.lblDueDate.Name = "lblDueDate"
       Me.lblDueDate.Size = New System.Drawing.Size(72, 18)
       Me.lblDueDate.TabIndex = 16
@@ -593,7 +587,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplier.Location = New System.Drawing.Point(344, 16)
+      Me.ibtnShowSupplier.Location = New System.Drawing.Point(358, 13)
       Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
       Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowSupplier.TabIndex = 31
@@ -606,12 +600,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
-      Me.txtSupplierName.Location = New System.Drawing.Point(152, 16)
+      Me.txtSupplierName.Location = New System.Drawing.Point(176, 13)
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
       Me.Validator.SetRequired(Me.txtSupplierName, False)
-      Me.txtSupplierName.Size = New System.Drawing.Size(168, 20)
+      Me.txtSupplierName.Size = New System.Drawing.Size(158, 20)
       Me.txtSupplierName.TabIndex = 8
       Me.txtSupplierName.TabStop = False
       '
@@ -620,7 +614,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(320, 16)
+      Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(334, 13)
       Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
       Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowSupplierDialog.TabIndex = 30
@@ -630,7 +624,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblSupplier
       '
       Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblSupplier.Location = New System.Drawing.Point(14, 16)
+      Me.lblSupplier.Location = New System.Drawing.Point(14, 13)
       Me.lblSupplier.Name = "lblSupplier"
       Me.lblSupplier.Size = New System.Drawing.Size(80, 18)
       Me.lblSupplier.TabIndex = 3
@@ -643,18 +637,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtSupplierCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
-      Me.txtSupplierCode.Location = New System.Drawing.Point(96, 16)
+      Me.txtSupplierCode.Location = New System.Drawing.Point(96, 13)
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
       Me.Validator.SetRequired(Me.txtSupplierCode, True)
-      Me.txtSupplierCode.Size = New System.Drawing.Size(56, 20)
+      Me.txtSupplierCode.Size = New System.Drawing.Size(79, 20)
       Me.txtSupplierCode.TabIndex = 7
       '
       'lblCreditPrd
       '
       Me.lblCreditPrd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCreditPrd.Location = New System.Drawing.Point(14, 40)
+      Me.lblCreditPrd.Location = New System.Drawing.Point(14, 37)
       Me.lblCreditPrd.Name = "lblCreditPrd"
       Me.lblCreditPrd.Size = New System.Drawing.Size(80, 18)
       Me.lblCreditPrd.TabIndex = 4
@@ -665,7 +659,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDay.AutoSize = True
       Me.lblDay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDay.Location = New System.Drawing.Point(128, 42)
+      Me.lblDay.Location = New System.Drawing.Point(128, 39)
       Me.lblDay.Name = "lblDay"
       Me.lblDay.Size = New System.Drawing.Size(19, 13)
       Me.lblDay.TabIndex = 7
@@ -678,7 +672,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtCreditPrd, "")
       Me.Validator.SetGotFocusBackColor(Me.txtCreditPrd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCreditPrd, System.Drawing.Color.Empty)
-      Me.txtCreditPrd.Location = New System.Drawing.Point(96, 40)
+      Me.txtCreditPrd.Location = New System.Drawing.Point(96, 37)
       Me.Validator.SetMinValue(Me.txtCreditPrd, "0")
       Me.txtCreditPrd.Name = "txtCreditPrd"
       Me.Validator.SetRegularExpression(Me.txtCreditPrd, "")
@@ -692,7 +686,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDeliveryPerson, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDeliveryPerson, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDeliveryPerson, System.Drawing.Color.Empty)
-      Me.txtDeliveryPerson.Location = New System.Drawing.Point(96, 64)
+      Me.txtDeliveryPerson.Location = New System.Drawing.Point(96, 61)
       Me.Validator.SetMinValue(Me.txtDeliveryPerson, "")
       Me.txtDeliveryPerson.Name = "txtDeliveryPerson"
       Me.Validator.SetRegularExpression(Me.txtDeliveryPerson, "")
@@ -703,7 +697,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblDeliveryPerson
       '
       Me.lblDeliveryPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDeliveryPerson.Location = New System.Drawing.Point(6, 64)
+      Me.lblDeliveryPerson.Location = New System.Drawing.Point(6, 61)
       Me.lblDeliveryPerson.Name = "lblDeliveryPerson"
       Me.lblDeliveryPerson.Size = New System.Drawing.Size(88, 18)
       Me.lblDeliveryPerson.TabIndex = 6
@@ -739,7 +733,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtNote, "")
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.txtNote.Location = New System.Drawing.Point(64, 310)
+      Me.txtNote.Location = New System.Drawing.Point(64, 311)
       Me.txtNote.MaxLength = 1000
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
@@ -755,7 +749,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.lblNote.BackColor = System.Drawing.Color.Transparent
       Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblNote.Location = New System.Drawing.Point(8, 310)
+      Me.lblNote.Location = New System.Drawing.Point(8, 311)
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(56, 18)
       Me.lblNote.TabIndex = 32
@@ -1396,59 +1390,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.TabIndex = 23
       Me.ToolTip1.SetToolTip(Me.chkAutorun, "Autorun")
       '
-      'tgWBS
-      '
-      Me.tgWBS.AllowNew = False
-      Me.tgWBS.AllowSorting = False
-      Me.tgWBS.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgWBS.AutoColumnResize = True
-      Me.tgWBS.CaptionVisible = False
-      Me.tgWBS.Cellchanged = False
-      Me.tgWBS.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
-      Me.tgWBS.DataMember = ""
-      Me.tgWBS.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgWBS.Location = New System.Drawing.Point(8, 377)
-      Me.tgWBS.Name = "tgWBS"
-      Me.tgWBS.Size = New System.Drawing.Size(479, 145)
-      Me.tgWBS.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgWBS.TabIndex = 22
-      Me.tgWBS.TreeManager = Nothing
-      '
-      'lblWBS
-      '
-      Me.lblWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.lblWBS.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWBS.ForeColor = System.Drawing.Color.Black
-      Me.lblWBS.Location = New System.Drawing.Point(8, 360)
-      Me.lblWBS.Name = "lblWBS"
-      Me.lblWBS.Size = New System.Drawing.Size(104, 18)
-      Me.lblWBS.TabIndex = 29
-      Me.lblWBS.Text = "จัดสรร WBS:"
-      Me.lblWBS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'ibtnAddWBS
-      '
-      Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnAddWBS.Location = New System.Drawing.Point(485, 377)
-      Me.ibtnAddWBS.Name = "ibtnAddWBS"
-      Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnAddWBS.TabIndex = 41
-      Me.ibtnAddWBS.TabStop = False
-      Me.ibtnAddWBS.ThemedImage = CType(resources.GetObject("ibtnAddWBS.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnDelWBS
-      '
-      Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelWBS.Location = New System.Drawing.Point(509, 377)
-      Me.ibtnDelWBS.Name = "ibtnDelWBS"
-      Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelWBS.TabIndex = 42
-      Me.ibtnDelWBS.TabStop = False
-      Me.ibtnDelWBS.ThemedImage = CType(resources.GetObject("ibtnDelWBS.ThemedImage"), System.Drawing.Bitmap)
-      '
       'lblRetention
       '
       Me.lblRetention.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1613,10 +1554,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblInvoiceDate)
       Me.Controls.Add(Me.dtpInvoiceDate)
       Me.Controls.Add(Me.ibtnEnableVatInput)
-      Me.Controls.Add(Me.tgWBS)
-      Me.Controls.Add(Me.ibtnAddWBS)
-      Me.Controls.Add(Me.ibtnDelWBS)
-      Me.Controls.Add(Me.lblWBS)
       Me.Controls.Add(Me.txtRealGross)
       Me.Controls.Add(Me.ibtnResetGross)
       Me.Controls.Add(Me.txtRealTaxAmount)
@@ -1640,10 +1577,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblInvoiceCode)
       Me.Name = "GoodsReceiptDetail"
       Me.Size = New System.Drawing.Size(869, 528)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbReceive.ResumeLayout(False)
       Me.grbReceive.PerformLayout()
       Me.grbDelivery.ResumeLayout(False)
       Me.grbDelivery.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -1652,1443 +1591,902 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-		Private m_entity As GoodsReceipt
-		Private m_isInitialized As Boolean = False
-		Private m_treeManager As TreeManager
+    Private m_entity As GoodsReceipt
+    Private m_isInitialized As Boolean = False
+    Private m_treeManager As TreeManager
 
-		Private m_tableStyleEnable As Hashtable
+    Private m_tableStyleEnable As Hashtable
 
-		Private m_enableState As Hashtable
+    Private m_enableState As Hashtable
 
-		Private m_treeManager2 As TreeManager
-		Private m_wbsdInitialized As Boolean
-		Private m_Unlock As Boolean = False
+    Private m_treeManager2 As TreeManager
+    Private m_wbsdInitialized As Boolean
+    Private m_Unlock As Boolean = False
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-			MyBase.New()
-			Me.InitializeComponent()
-			Me.SetLabelText()
-			Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-			SaveEnableState()
-			m_tableStyleEnable = New Hashtable
+      SaveEnableState()
+      m_tableStyleEnable = New Hashtable
 
-			Dim dt As TreeTable = GoodsReceipt.GetSchemaTable()
-			Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-			m_treeManager = New TreeManager(dt, tgItem)
-			m_treeManager.SetTableStyle(dst)
-			m_treeManager.AllowSorting = False
-			m_treeManager.AllowDelete = False
-			Me.Validator.DataTable = m_treeManager.Treetable
+      Dim dt As TreeTable = GoodsReceipt.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
+      Me.Validator.DataTable = m_treeManager.Treetable
 
-			AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
-			AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
-			AddHandler dt.RowDeleted, AddressOf GRItemDelete
+      AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
+      AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
+      AddHandler dt.RowDeleted, AddressOf GRItemDelete
 
-			Dim dt2 As TreeTable = WBSDistribute.GetSchemaTable()
-			Dim dst2 As DataGridTableStyle = Me.CreateTableStyle2()
-			m_treeManager2 = New TreeManager(dt2, tgWBS)
-			m_treeManager2.SetTableStyle(dst2)
-			m_treeManager2.AllowSorting = False
-			m_treeManager2.AllowDelete = False
-
-			AddHandler dt2.ColumnChanging, AddressOf Treetable_ColumnChanging
-			AddHandler dt2.ColumnChanged, AddressOf Treetable_ColumnChanged
-			AddHandler dt2.RowDeleted, AddressOf ItemDelete
-
-			EventWiring()
-		End Sub
-		Private Sub SaveEnableState()
-			m_enableState = New Hashtable
-			For Each ctrl As Control In Me.grbDelivery.Controls
-				m_enableState.Add(ctrl, ctrl.Enabled)
-			Next
-			For Each ctrl As Control In Me.grbReceive.Controls
-				m_enableState.Add(ctrl, ctrl.Enabled)
-			Next
-			For Each ctrl As Control In Me.Controls
-				m_enableState.Add(ctrl, ctrl.Enabled)
-			Next
-		End Sub
+      EventWiring()
+    End Sub
+    Private Sub SaveEnableState()
+      m_enableState = New Hashtable
+      For Each ctrl As Control In Me.grbDelivery.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+      Next
+      For Each ctrl As Control In Me.grbReceive.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+      Next
+      For Each ctrl As Control In Me.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+      Next
+    End Sub
 #End Region
 
 #Region "Style"
-		Public Function CreateTableStyle2() As DataGridTableStyle
-			Dim dst As New DataGridTableStyle
-			dst.MappingName = "WBS"
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Dim m_wbsColl As WBSCollection
+    Dim m_mrkColl As MarkupCollection
+    Public Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "GoodsReceipt"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-			Dim csLineNumber As New TreeTextColumn
-			csLineNumber.MappingName = "LineNumber"
-			csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.LineNumberHeaderText}")
-			csLineNumber.NullText = ""
-			csLineNumber.Width = 30
-			csLineNumber.DataAlignment = HorizontalAlignment.Center
-			csLineNumber.ReadOnly = True
-			csLineNumber.TextBox.Name = "LineNumber"
+      Dim csPOItemCode As New TreeTextColumn
+      csPOItemCode.MappingName = "POItemCode"
+      csPOItemCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemCodeHeaderText}")
+      csPOItemCode.NullText = ""
+      csPOItemCode.ReadOnly = True
+      csPOItemCode.TextBox.Name = "POItemCode"
 
-			Dim csCostCenter As New TreeTextColumn
-			csCostCenter.MappingName = "CostCenter"
-			csCostCenter.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.CCHeaderText}")
-			csCostCenter.NullText = ""
-			csCostCenter.Width = 100
-			csCostCenter.ReadOnly = True
-			csCostCenter.TextBox.Name = "CostCenter"
+      Dim csPOItemName As New TreeTextColumn
+      csPOItemName.MappingName = "POItemName"
+      csPOItemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemNameHeaderText}")
+      csPOItemName.NullText = ""
+      csPOItemName.ReadOnly = True
+      csPOItemName.TextBox.Name = "POItemName"
 
-			Dim csCCButton As New DataGridButtonColumn
-			csCCButton.MappingName = "CCButton"
-			csCCButton.HeaderText = ""
-			csCCButton.NullText = ""
+      Dim csPOItemUnit As New TreeTextColumn
+      csPOItemUnit.MappingName = "POItemUnit"
+      csPOItemUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemUnitHeaderText}")
+      csPOItemUnit.NullText = ""
+      csPOItemUnit.ReadOnly = True
+      csPOItemUnit.TextBox.Name = "POItemUnit"
 
-			Dim csWBS As New TreeTextColumn
-			csWBS.MappingName = "WBS"
-			csWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.WBSHeaderText}")
-			csWBS.NullText = ""
-			csWBS.Width = 100
-			csWBS.ReadOnly = True
-			csWBS.TextBox.Name = "WBS"
+      Dim csPOItemQty As New TreeTextColumn
+      csPOItemQty.MappingName = "poi_qty"
+      csPOItemQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemQtyHeaderText}")
+      csPOItemQty.NullText = ""
+      csPOItemQty.DataAlignment = HorizontalAlignment.Right
+      csPOItemQty.ReadOnly = True
+      csPOItemQty.TextBox.Name = "poi_qty"
 
-			Dim csButton As New DataGridButtonColumn
-			csButton.MappingName = "Button"
-			csButton.HeaderText = ""
-			csButton.NullText = ""
-			AddHandler csButton.Click, AddressOf WBStgButtonClicked
+      Dim csPOItemRemainingQty As New TreeTextColumn
+      csPOItemRemainingQty.MappingName = "POItemRemainingQty"
+      csPOItemRemainingQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemRemainingQtyHeaderText}")
+      csPOItemRemainingQty.NullText = ""
+      csPOItemRemainingQty.DataAlignment = HorizontalAlignment.Right
+      csPOItemRemainingQty.Format = "#,###.##"
+      csPOItemRemainingQty.TextBox.Name = "POItemRemainingQty"
+      csPOItemRemainingQty.ReadOnly = True
 
-			Dim csPercent As New TreeTextColumn
-			csPercent.MappingName = "Percent"
-			csPercent.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.PercentHeaderText}")
-			csPercent.NullText = ""
-			csPercent.DataAlignment = HorizontalAlignment.Right
-			csPercent.Format = "#,###.##"
-			csPercent.Width = 70
-			csPercent.TextBox.Name = "Percent"
+      'Stock Items
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "stocki_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "stocki_linenumber"
 
-			Dim csAmount As New TreeTextColumn
-			csAmount.MappingName = "Amount"
-			csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AmoluntHeaderText}")
-			csAmount.NullText = ""
-			csAmount.Alignment = HorizontalAlignment.Right
-			csAmount.DataAlignment = HorizontalAlignment.Right
-			csAmount.Format = "#,###.##"
-			csAmount.TextBox.Name = "Amount"
-			'csAmount.ReadOnly = True
+      Dim csBarrier As New DataGridBarrierColumn
+      csBarrier.MappingName = "Barrier"
+      csBarrier.HeaderText = ""
+      csBarrier.NullText = ""
+      csBarrier.ReadOnly = True
 
-			Dim csBudgetRemain As New TreeTextColumn(5, True)
-			csBudgetRemain.MappingName = "BudgetRemain"
-			csBudgetRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.BudgetRemainHeaderText}")
-			csBudgetRemain.NullText = ""
-			csBudgetRemain.Alignment = HorizontalAlignment.Right
-			csBudgetRemain.DataAlignment = HorizontalAlignment.Right
-			csBudgetRemain.Format = "#,###.##"
-			csBudgetRemain.TextBox.Name = "BudgetRemain"
-			csBudgetRemain.ReadOnly = True
-			AddHandler csBudgetRemain.CheckCellHilighted, AddressOf SetHilightValues
+      Dim csType As DataGridComboColumn
+      csType = New DataGridComboColumn("stocki_entityType" _
+      , CodeDescription.GetCodeList("stocki_enitytype") _
+      , "code_description", "code_value")
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.TypeHeaderText}")
+      csType.NullText = String.Empty
 
-			Dim csQtyRemain As New TreeTextColumn(6, True)
-			csQtyRemain.MappingName = "QtyRemain"
-			csQtyRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QtyRemainHeaderText}")
-			csQtyRemain.NullText = ""
-			csQtyRemain.Alignment = HorizontalAlignment.Right
-			csQtyRemain.DataAlignment = HorizontalAlignment.Right
-			csQtyRemain.Format = "#,###.##"
-			csQtyRemain.TextBox.Name = "QtyRemain"
-			csQtyRemain.ReadOnly = True
-			AddHandler csQtyRemain.CheckCellHilighted, AddressOf SetHilightValues
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 100
+      'csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
 
-			dst.GridColumnStyles.Add(csLineNumber)		'0
-			dst.GridColumnStyles.Add(csCostCenter)
-			dst.GridColumnStyles.Add(csCCButton)
-			dst.GridColumnStyles.Add(csWBS)		'1
-			dst.GridColumnStyles.Add(csButton)		'2
-			dst.GridColumnStyles.Add(csPercent)		'3
-			dst.GridColumnStyles.Add(csAmount)		'4
-			dst.GridColumnStyles.Add(csBudgetRemain)		'5
-			dst.GridColumnStyles.Add(csQtyRemain)		'6
+      Dim csButton As New DataGridButtonColumn
+      csButton.MappingName = "Button"
+      csButton.HeaderText = ""
+      csButton.NullText = ""
 
-			For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-				m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-			Next
-			Return dst
-		End Function
-		Public Sub WBStgButtonClicked(ByVal e As ButtonColumnEventArgs)
-			If e.Column = 4 Then
-				Me.WBSButtonClicked(e)
-			Else
-				Me.CCButtonClicked(e)
-			End If
-		End Sub
-		Public Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-			e.HilightValue = False
-			e.RedText = False
-			Dim i As Integer = 0
-			For Each row As DataRow In Me.m_treeManager2.Treetable.Rows
-				For Each col As DataColumn In Me.m_treeManager2.Treetable.Columns
-					If col.Ordinal > 0 Then
-						If Not row.IsNull(col) AndAlso IsNumeric(row(col)) Then
-							If CDec(row(col)) < 0 Then
-								If e.Column = col.Ordinal And e.Row = i Then
-									'e.HilightValue = True
-									e.RedText = True
-								End If
-							End If
-						End If
-					End If
-				Next
-				i += 1
-			Next
-		End Sub
-		Public Sub CCButtonClicked(ByVal e As ButtonColumnEventArgs)
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
-			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-			Dim entity As New CostCenter
-			Dim entities As New ArrayList
-			myEntityPanelService.OpenListDialog(entity, AddressOf SetCostCenter)
-		End Sub
-		Private Sub SetCostCenter(ByVal myEntity As ISimpleEntity)
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-			If TypeOf myEntity Is CostCenter Then
-				CType(row.Tag, WBSDistribute).CostCenter = CType(myEntity, CostCenter)
-				CType(row.Tag, WBSDistribute).WBS = New WBS
-			End If
-			Dim view As Integer = 45
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		Dim m_wbsColl As WBSCollection
-		Dim m_mrkColl As MarkupCollection
-		Public Sub WBSButtonClicked(ByVal e As ButtonColumnEventArgs)
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
-			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-			Dim entity As New WBS
-			Dim filters() As Filter
-			Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-			Dim myBOQId As Integer
-			If Not CType(row.Tag, WBSDistribute).CostCenter Is Nothing AndAlso CType(row.Tag, WBSDistribute).CostCenter.BoqId > 0 Then
-				myBOQId = CType(row.Tag, WBSDistribute).CostCenter.BoqId
-			Else
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				If Me.m_entity.ToCostCenter Is Nothing Then
-					msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-					Return
-				End If
-				If Me.m_entity.ToCostCenter.BoqId = 0 Then
-					msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
-					Return
-				End If
-				myBOQId = Me.m_entity.ToCostCenter.BoqId
-				CType(row.Tag, WBSDistribute).CostCenter = Me.m_entity.ToCostCenter
-			End If
-			If m_wbsColl Is Nothing OrElse m_wbsColl.Boq.Id <> myBOQId Then
-				m_wbsColl = New WBSCollection(myBOQId)
-			End If
-			If m_mrkColl Is Nothing OrElse m_mrkColl.Boq.Id <> myBOQId Then
-				m_mrkColl = New MarkupCollection(myBOQId)
-			End If
-			filters = New Filter() {New Filter("mrkColl", m_mrkColl) _
-									, New Filter("wbsColl", m_wbsColl)}
-			Dim entities As New ArrayList
-			entities.Add(entity)
-			myEntityPanelService.OpenListDialog(entity, AddressOf SetWBS, filters, entities)
-		End Sub
-		Private Sub SetWBS(ByVal myEntity As ISimpleEntity)
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-			If TypeOf myEntity Is WBS Then
-				CType(row.Tag, WBSDistribute).WBS = CType(myEntity, WBS)
-				CType(row.Tag, WBSDistribute).IsMarkup = False
-			ElseIf TypeOf myEntity Is Markup Then
-				Dim newWBS As New WBS
-				Dim myMarkup As Markup = CType(myEntity, Markup)
-				newWBS.Id = myMarkup.Id
-				newWBS.Code = myMarkup.Code
-				newWBS.Name = myMarkup.Name
-				CType(row.Tag, WBSDistribute).WBS = newWBS
-				CType(row.Tag, WBSDistribute).IsMarkup = True
-			End If
-			Dim view As Integer = 45
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		Private ReadOnly Property CurrentWsbsd() As WBSDistribute
-			Get
-				Dim row As TreeRow = Me.m_treeManager2.SelectedRow
-				If row Is Nothing Then
-					Return Nothing
-				End If
-				Return CType(row.Tag, WBSDistribute)
-			End Get
-		End Property
-		Public Function CreateTableStyle() As DataGridTableStyle
-			Dim dst As New DataGridTableStyle
-			dst.MappingName = "GoodsReceipt"
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "stocki_itemName"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.DescriptionHeaderText}")
+      csName.NullText = ""
+      csName.Width = 200
+      csName.TextBox.Name = "Description"
 
-			Dim csPOItemCode As New TreeTextColumn
-			csPOItemCode.MappingName = "POItemCode"
-			csPOItemCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemCodeHeaderText}")
-			csPOItemCode.NullText = ""
-			csPOItemCode.ReadOnly = True
-			csPOItemCode.TextBox.Name = "POItemCode"
+      Dim csUnit As New TreeTextColumn
+      csUnit.MappingName = "Unit"
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnitHeaderText}")
+      csUnit.NullText = ""
+      csUnit.TextBox.Name = "Unit"
 
-			Dim csPOItemName As New TreeTextColumn
-			csPOItemName.MappingName = "POItemName"
-			csPOItemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemNameHeaderText}")
-			csPOItemName.NullText = ""
-			csPOItemName.ReadOnly = True
-			csPOItemName.TextBox.Name = "POItemName"
+      Dim csUnitButton As New DataGridButtonColumn
+      csUnitButton.MappingName = "UnitButton"
+      csUnitButton.HeaderText = ""
+      csUnitButton.NullText = ""
+      'AddHandler csUnitButton.Click, AddressOf ButtonClicked
 
-			Dim csPOItemUnit As New TreeTextColumn
-			csPOItemUnit.MappingName = "POItemUnit"
-			csPOItemUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemUnitHeaderText}")
-			csPOItemUnit.NullText = ""
-			csPOItemUnit.ReadOnly = True
-			csPOItemUnit.TextBox.Name = "POItemUnit"
+      Dim csQty As New TreeTextColumn
+      csQty.MappingName = "stocki_qty"
+      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QtyHeaderText}")
+      csQty.NullText = ""
+      csQty.DataAlignment = HorizontalAlignment.Right
+      csQty.Format = "#,###.##"
+      csQty.TextBox.Name = "Qty"
 
-			Dim csPOItemQty As New TreeTextColumn
-			csPOItemQty.MappingName = "poi_qty"
-			csPOItemQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemQtyHeaderText}")
-			csPOItemQty.NullText = ""
-			csPOItemQty.DataAlignment = HorizontalAlignment.Right
-			csPOItemQty.ReadOnly = True
-			csPOItemQty.TextBox.Name = "poi_qty"
+      Dim csStockQty As New TreeTextColumn
+      csStockQty.MappingName = "StockQty"
+      csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.StockQtyHeaderText}")
+      csStockQty.NullText = ""
+      csStockQty.DataAlignment = HorizontalAlignment.Right
+      csStockQty.Format = "#,###.##"
+      csStockQty.ReadOnly = True
 
-			Dim csPOItemRemainingQty As New TreeTextColumn
-			csPOItemRemainingQty.MappingName = "POItemRemainingQty"
-			csPOItemRemainingQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.POItemRemainingQtyHeaderText}")
-			csPOItemRemainingQty.NullText = ""
-			csPOItemRemainingQty.DataAlignment = HorizontalAlignment.Right
-			csPOItemRemainingQty.Format = "#,###.##"
-			csPOItemRemainingQty.TextBox.Name = "POItemRemainingQty"
-			csPOItemRemainingQty.ReadOnly = True
+      Dim csUnitPRice As New TreeTextColumn
+      csUnitPRice.MappingName = "stocki_unitprice"
+      csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnitpriceHeaderText}")
+      csUnitPRice.NullText = ""
+      csUnitPRice.TextBox.Name = "stocki_unitprice"
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
 
-			'Stock Items
-			Dim csLineNumber As New TreeTextColumn
-			csLineNumber.MappingName = "stocki_linenumber"
-			csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.LineNumberHeaderText}")
-			csLineNumber.NullText = ""
-			csLineNumber.Width = 30
-			csLineNumber.DataAlignment = HorizontalAlignment.Center
-			csLineNumber.ReadOnly = True
-			csLineNumber.TextBox.Name = "stocki_linenumber"
+      Dim csDiscount As New TreeTextColumn
+      csDiscount.MappingName = "stocki_discrate"
+      csDiscount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.DiscountHeaderText}")
+      csDiscount.NullText = ""
+      csDiscount.TextBox.Name = "stocki_discrate"
+      'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
+      'csDiscount.DataAlignment = HorizontalAlignment.Center
 
-			Dim csBarrier As New DataGridBarrierColumn
-			csBarrier.MappingName = "Barrier"
-			csBarrier.HeaderText = ""
-			csBarrier.NullText = ""
-			csBarrier.ReadOnly = True
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.TextBox.Name = "Amount"
+      csAmount.ReadOnly = True
+      csAmount.Format = "#,###.##"
+      csAmount.DataAlignment = HorizontalAlignment.Right
 
-			Dim csType As DataGridComboColumn
-			csType = New DataGridComboColumn("stocki_entityType" _
-			, CodeDescription.GetCodeList("stocki_enitytype") _
-			, "code_description", "code_value")
-			csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.TypeHeaderText}")
-			csType.NullText = String.Empty
+      Dim csAccountCode As New TreeTextColumn
+      csAccountCode.MappingName = "AccountCode"
+      csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountCodeHeaderText}")
+      csAccountCode.NullText = ""
+      csAccountCode.TextBox.Name = "AccountCode"
 
-			Dim csCode As New TreeTextColumn
-			csCode.MappingName = "Code"
-			csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.CodeHeaderText}")
-			csCode.NullText = ""
-			csCode.Width = 100
-			'csCode.ReadOnly = True
-			csCode.TextBox.Name = "Code"
+      Dim csAccount As New TreeTextColumn
+      csAccount.MappingName = "Account"
+      csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountHeaderText}")
+      csAccount.NullText = ""
+      csAccount.ReadOnly = True
+      csAccount.TextBox.Name = "Account"
 
-			Dim csButton As New DataGridButtonColumn
-			csButton.MappingName = "Button"
-			csButton.HeaderText = ""
-			csButton.NullText = ""
+      Dim csAccountButton As New DataGridButtonColumn
+      csAccountButton.MappingName = "AccountButton"
+      csAccountButton.HeaderText = ""
+      csAccountButton.NullText = ""
+      AddHandler csAccountButton.Click, AddressOf ButtonClicked
 
-			Dim csName As New TreeTextColumn
-			csName.MappingName = "stocki_itemName"
-			csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.DescriptionHeaderText}")
-			csName.NullText = ""
-			csName.Width = 200
-			csName.TextBox.Name = "Description"
+      Dim csVatable As New DataGridCheckBoxColumn
+      csVatable.MappingName = "stocki_unvatable"
+      csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnVatableHeaderText}")
+      csVatable.Width = 100
+      csVatable.InvisibleWhenUnspcified = True
 
-			Dim csUnit As New TreeTextColumn
-			csUnit.MappingName = "Unit"
-			csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnitHeaderText}")
-			csUnit.NullText = ""
-			csUnit.TextBox.Name = "Unit"
+      Dim csQuality As New TreeTextColumn
+      csQuality.MappingName = "stocki_quality"
+      csQuality.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QualityHeaderText}")
+      csQuality.NullText = ""
+      csQuality.Width = 180
+      csQuality.TextBox.Name = "stocki_quality"
 
-			Dim csUnitButton As New DataGridButtonColumn
-			csUnitButton.MappingName = "UnitButton"
-			csUnitButton.HeaderText = ""
-			csUnitButton.NullText = ""
-			'AddHandler csUnitButton.Click, AddressOf ButtonClicked
-
-			Dim csQty As New TreeTextColumn
-			csQty.MappingName = "stocki_qty"
-			csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QtyHeaderText}")
-			csQty.NullText = ""
-			csQty.DataAlignment = HorizontalAlignment.Right
-			csQty.Format = "#,###.##"
-			csQty.TextBox.Name = "Qty"
-
-			Dim csStockQty As New TreeTextColumn
-			csStockQty.MappingName = "StockQty"
-			csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.StockQtyHeaderText}")
-			csStockQty.NullText = ""
-			csStockQty.DataAlignment = HorizontalAlignment.Right
-			csStockQty.Format = "#,###.##"
-			csStockQty.ReadOnly = True
-
-			Dim csUnitPRice As New TreeTextColumn
-			csUnitPRice.MappingName = "stocki_unitprice"
-			csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnitpriceHeaderText}")
-			csUnitPRice.NullText = ""
-			csUnitPRice.TextBox.Name = "stocki_unitprice"
-			csUnitPRice.DataAlignment = HorizontalAlignment.Right
-
-			Dim csDiscount As New TreeTextColumn
-			csDiscount.MappingName = "stocki_discrate"
-			csDiscount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.DiscountHeaderText}")
-			csDiscount.NullText = ""
-			csDiscount.TextBox.Name = "stocki_discrate"
-			'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
-			'csDiscount.DataAlignment = HorizontalAlignment.Center
-
-			Dim csAmount As New TreeTextColumn
-			csAmount.MappingName = "Amount"
-			csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AmountHeaderText}")
-			csAmount.NullText = ""
-			csAmount.TextBox.Name = "Amount"
-			csAmount.ReadOnly = True
-			csAmount.Format = "#,###.##"
-			csAmount.DataAlignment = HorizontalAlignment.Right
-
-			Dim csAccountCode As New TreeTextColumn
-			csAccountCode.MappingName = "AccountCode"
-			csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountCodeHeaderText}")
-			csAccountCode.NullText = ""
-			csAccountCode.TextBox.Name = "AccountCode"
-
-			Dim csAccount As New TreeTextColumn
-			csAccount.MappingName = "Account"
-			csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountHeaderText}")
-			csAccount.NullText = ""
-			csAccount.ReadOnly = True
-			csAccount.TextBox.Name = "Account"
-
-			Dim csAccountButton As New DataGridButtonColumn
-			csAccountButton.MappingName = "AccountButton"
-			csAccountButton.HeaderText = ""
-			csAccountButton.NullText = ""
-			AddHandler csAccountButton.Click, AddressOf ButtonClicked
-
-			Dim csVatable As New DataGridCheckBoxColumn
-			csVatable.MappingName = "stocki_unvatable"
-			csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnVatableHeaderText}")
-			csVatable.Width = 100
-			csVatable.InvisibleWhenUnspcified = True
-
-			Dim csQuality As New TreeTextColumn
-			csQuality.MappingName = "stocki_quality"
-			csQuality.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.QualityHeaderText}")
-			csQuality.NullText = ""
-			csQuality.Width = 180
-			csQuality.TextBox.Name = "stocki_quality"
-
-			Dim csNote As New TreeTextColumn
-			csNote.MappingName = "stocki_note"
-			csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.NoteHeaderText}")
-			csNote.NullText = ""
-			csNote.Width = 180
-			csNote.TextBox.Name = "stocki_note"
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "stocki_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 180
+      csNote.TextBox.Name = "stocki_note"
 
 
 
 
-			dst.GridColumnStyles.Add(csType)
-			dst.GridColumnStyles.Add(csCode)
-			dst.GridColumnStyles.Add(csButton)
-			dst.GridColumnStyles.Add(csName)
-			dst.GridColumnStyles.Add(csUnit)
-			dst.GridColumnStyles.Add(csUnitButton)
-			'dst.GridColumnStyles.Add(csPOItemQty)
-			dst.GridColumnStyles.Add(csPOItemRemainingQty)
-			dst.GridColumnStyles.Add(csQty)
-			'dst.GridColumnStyles.Add(csStockQty)
-			dst.GridColumnStyles.Add(csUnitPRice)
-			dst.GridColumnStyles.Add(csDiscount)
-			dst.GridColumnStyles.Add(csAmount)
-			dst.GridColumnStyles.Add(csAccountCode)
-			dst.GridColumnStyles.Add(csAccountButton)
-			dst.GridColumnStyles.Add(csAccount)
-			dst.GridColumnStyles.Add(csVatable)
-			dst.GridColumnStyles.Add(csQuality)
-			dst.GridColumnStyles.Add(csNote)
+      dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csButton)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csUnit)
+      dst.GridColumnStyles.Add(csUnitButton)
+      'dst.GridColumnStyles.Add(csPOItemQty)
+      dst.GridColumnStyles.Add(csPOItemRemainingQty)
+      dst.GridColumnStyles.Add(csQty)
+      'dst.GridColumnStyles.Add(csStockQty)
+      dst.GridColumnStyles.Add(csUnitPRice)
+      dst.GridColumnStyles.Add(csDiscount)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csAccountCode)
+      dst.GridColumnStyles.Add(csAccountButton)
+      dst.GridColumnStyles.Add(csAccount)
+      dst.GridColumnStyles.Add(csVatable)
+      dst.GridColumnStyles.Add(csQuality)
+      dst.GridColumnStyles.Add(csNote)
 
-			For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-				m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-			Next
-			Return dst
-		End Function
-		Public Sub ButtonClicked(ByVal e As ButtonColumnEventArgs)
-			Dim unitButtonColumn As Boolean
-			Dim itemButtonColumn As Boolean
+      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+      Next
+      Return dst
+    End Function
+    Public Sub ButtonClicked(ByVal e As ButtonColumnEventArgs)
+      Dim unitButtonColumn As Boolean
+      Dim itemButtonColumn As Boolean
 
-			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-				If colStyle.MappingName.ToLower = "button" Then
-					itemButtonColumn = colStyle.ReadOnly
-				End If
-				If colStyle.MappingName.ToLower = "unitbutton" Then
-					unitButtonColumn = colStyle.ReadOnly
-				End If
-			Next
-			If e.Column = 5 Then
-				If Not unitButtonColumn Then
-					Me.UnitButtonClick(e)
-				End If
-			ElseIf e.Column = 2 Then
-				If Not itemButtonColumn Then
-					Me.ItemButtonClick(e)
-				End If
-			Else
-				Me.AcctButtonClick(e)
-			End If
-		End Sub
+      For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        If colStyle.MappingName.ToLower = "button" Then
+          itemButtonColumn = colStyle.ReadOnly
+        End If
+        If colStyle.MappingName.ToLower = "unitbutton" Then
+          unitButtonColumn = colStyle.ReadOnly
+        End If
+      Next
+      If e.Column = 5 Then
+        If Not unitButtonColumn Then
+          Me.UnitButtonClick(e)
+        End If
+      ElseIf e.Column = 2 Then
+        If Not itemButtonColumn Then
+          Me.ItemButtonClick(e)
+        End If
+      Else
+        Me.AcctButtonClick(e)
+      End If
+    End Sub
 #End Region
 
 #Region "Properties"
-		Private ReadOnly Property CurrentTagItem() As GoodsReceiptItem
-			Get
-				Dim row As TreeRow = Me.m_treeManager.SelectedRow
-				If row Is Nothing Then
-					Return Nothing
-				End If
-				If Not TypeOf row.Tag Is GoodsReceiptItem Then
-					Return Nothing
-				End If
-				Return CType(row.Tag, GoodsReceiptItem)
-			End Get
-		End Property
-		Private Property Unlock() As Boolean
-			Get
-				Return m_Unlock
-			End Get
-			Set(ByVal Value As Boolean)
-				m_Unlock = Value
-			End Set
-		End Property
+    Private ReadOnly Property CurrentTagItem() As GoodsReceiptItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        If Not TypeOf row.Tag Is GoodsReceiptItem Then
+          Return Nothing
+        End If
+        Return CType(row.Tag, GoodsReceiptItem)
+      End Get
+    End Property
+    Private Property Unlock() As Boolean
+      Get
+        Return m_Unlock
+      End Get
+      Set(ByVal Value As Boolean)
+        m_Unlock = Value
+      End Set
+    End Property
 #End Region
 
 #Region "ItemTreeTable Handlers"
-		Private Sub ItemTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not m_isInitialized Then
-				Return
-			End If
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-			Dim index As Integer = Me.tgItem.CurrentRowIndex
-			forceUpdateTaxBase = True
-			forceUpdateTaxAmount = True
-			forceUpdateGross = True
-			RefreshDocs()
-			tgItem.CurrentRowIndex = index
-		End Sub
-		Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not m_isInitialized Then
-				Return
-			End If
-			If Me.m_treeManager.SelectedRow Is Nothing Then
-				Return
-			End If
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+    Private Sub ItemTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
 
-			'If tick checkbox that not in the current hilight row
-			If e.Column.ColumnName.ToLower = "stocki_unvatable" Then
-				Me.m_treeManager.SelectedRow = e.Row
-				doc = Me.m_entity.ItemCollection.CurrentItem
-			End If
+      'If tick checkbox that not in the current hilight row
+      If e.Column.ColumnName.ToLower = "stocki_unvatable" Then
+        Me.m_treeManager.SelectedRow = e.Row
+        doc = Me.m_entity.ItemCollection.CurrentItem
+      End If
 
-			If doc Is Nothing Then
-				doc = New GoodsReceiptItem
-				doc.ItemType = New ItemType(0)
-				Me.m_entity.ItemCollection.Add(doc)
-				Me.m_treeManager.SelectedRow.Tag = doc
-			End If
-			Try
-				Select Case e.Column.ColumnName.ToLower
-					Case "code"
-						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
-							e.ProposedValue = ""
-						End If
-						doc.SetItemCode(CStr(e.ProposedValue))
-					Case "stocki_itemname"
-						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
-							e.ProposedValue = ""
-						End If
-						doc.EntityName = CStr(e.ProposedValue)
-					Case "unit"
-						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
-							e.ProposedValue = ""
-						End If
-						Dim myUnit As New Unit(e.ProposedValue.ToString)
-						doc.Unit = myUnit
-					Case "stocki_qty"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = ""
-						End If
-						Dim value As Decimal = 0			 'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-						If Not e.ProposedValue = "" Then
-							If IsNumeric(e.ProposedValue) Then
-								value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-							End If
-						End If
-						If Not doc.POitem Is Nothing Then
-							Try
-								Dim percentDoOverPo As Object = Configuration.GetConfig("PercentDoOverPo")
-								If Not percentDoOverPo Is Nothing Then
-									If CStr(percentDoOverPo).Length > 0 Then
-										Dim percent As Decimal = CDec(TextParser.Evaluate(CStr(percentDoOverPo)))
-										Dim tolerance As Decimal = (percent * doc.POitem.Qty) / 100
-										'MessageBox.Show(String.Format("{0}-({1}-{2}+{3})", value, doc.POitem.Qty, Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty), Math.Min(doc.POitem.ReceivedQty, doc.Qty)))
-										If Configuration.Compare(tolerance, value - (doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty)), DigitConfig.Qty) < 0 Then
-											msgServ.ShowMessageFormatted("${res:Global.Error.PercentDoOverPoExceeded}", New String() {Configuration.FormatToString(value, DigitConfig.Qty), Configuration.FormatToString(doc.POitem.Qty, DigitConfig.Qty), Configuration.FormatToString(percent, 2)})
-											value = Math.Min(value, doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty) + tolerance)
-										End If
-									End If
-								End If
-							Catch ex As Exception
+      If doc Is Nothing Then
+        doc = New GoodsReceiptItem
+        doc.ItemType = New ItemType(0)
+        Me.m_entity.ItemCollection.Add(doc)
+        Me.m_treeManager.SelectedRow.Tag = doc
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          Case "code"
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            doc.SetItemCode(CStr(e.ProposedValue))
+          Case "stocki_itemname"
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            doc.EntityName = CStr(e.ProposedValue)
+          Case "unit"
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            Dim myUnit As New Unit(e.ProposedValue.ToString)
+            doc.Unit = myUnit
+          Case "stocki_qty"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If Not e.ProposedValue = "" Then
+              If IsNumeric(e.ProposedValue) Then
+                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              End If
+            End If
+            If Not doc.POitem Is Nothing Then
+              Try
+                Dim percentDoOverPo As Object = Configuration.GetConfig("PercentDoOverPo")
+                If Not percentDoOverPo Is Nothing Then
+                  If CStr(percentDoOverPo).Length > 0 Then
+                    Dim percent As Decimal = CDec(TextParser.Evaluate(CStr(percentDoOverPo)))
+                    Dim tolerance As Decimal = (percent * doc.POitem.Qty) / 100
+                    'MessageBox.Show(String.Format("{0}-({1}-{2}+{3})", value, doc.POitem.Qty, Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty), Math.Min(doc.POitem.ReceivedQty, doc.Qty)))
+                    If Configuration.Compare(tolerance, value - (doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty)), DigitConfig.Qty) < 0 Then
+                      msgServ.ShowMessageFormatted("${res:Global.Error.PercentDoOverPoExceeded}", New String() {Configuration.FormatToString(value, DigitConfig.Qty), Configuration.FormatToString(doc.POitem.Qty, DigitConfig.Qty), Configuration.FormatToString(percent, 2)})
+                      value = Math.Min(value, doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty) + tolerance)
+                    End If
+                  End If
+                End If
+              Catch ex As Exception
 
-							End Try
-						End If
-						doc.Qty = value
-					Case "accountcode"
-						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
-							e.ProposedValue = ""
-						End If
-						doc.SetAccountCode(CStr(e.ProposedValue))
-					Case "stocki_entitytype"
-						Dim value As ItemType
-						If IsNumeric(e.ProposedValue) Then
-							value = New ItemType(CInt(e.ProposedValue))
-						End If
-						doc.ItemType = value
-					Case "stocki_unitprice"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = ""
-						End If
-						Dim value As Decimal = 0			 'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-						If Not e.ProposedValue = "" Then
-							If IsNumeric(e.ProposedValue) Then
-								value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-							End If
-						End If
-						doc.UnitPrice = value
-					Case "stocki_discrate"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = ""
-						End If
-						doc.Discount = New Discount(e.ProposedValue.ToString)
-					Case "stocki_note"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = ""
-						End If
-						doc.Note = e.ProposedValue.ToString
-					Case "stocki_quality"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = ""
-						End If
-						doc.Quality = e.ProposedValue.ToString
-					Case "stocki_unvatable"
-						If IsDBNull(e.ProposedValue) Then
-							e.ProposedValue = False
-						End If
-						doc.UnVatable = CBool(e.ProposedValue)
-				End Select
-			Catch ex As Exception
-				MessageBox.Show(ex.ToString)
-			End Try
-		End Sub
-		Private Sub GRItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-		End Sub
-#End Region
-
-#Region "TreeTable Handlers"
-		Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not m_wbsdInitialized Then
-				Return
-			End If
-			Dim index As Integer = Me.m_treeManager2.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-			If ValidateRow(CType(e.Row, TreeRow)) Then
-				'UpdateAmount(e)
-				Me.m_treeManager2.Treetable.AcceptChanges()
-			End If
-			RefreshWBS()
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		'Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
-		'  Dim item As WBSDistribute = Me.CurrentWsbsd
-		'  If item Is Nothing Then
-		'    Return
-		'  End If
-		'  Dim view As Integer = 45
-		'  Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-		'  If doc Is Nothing Then
-		'    Return
-		'  End If
-		'  e.Row("Amount") = Configuration.FormatToString(item.Percent * doc.BeforeTax / 100, DigitConfig.Price)
-		'  If Not item.IsMarkup Then
-		'    e.Row("BudgetRemain") = Configuration.FormatToString(item.WBS.GetTotal - item.WBS.GetActualTotal(Me.m_entity, view) + Me.m_entity.GetCurrentAmountForWBS(item.WBS, doc.ItemType), DigitConfig.Price)
-		'    e.Row("QtyRemain") = Configuration.FormatToString(0 - item.WBS.GetActualTotalQty(Me.m_entity, view) - 0, DigitConfig.Price)
-		'  Else
-		'    Dim mk As Markup = Me.m_entity.ToCostCenter.Boq.MarkupCollection.GetMarkupFromId(item.WBS.Id)
-		'    If Not mk Is Nothing Then
-		'      e.Row("BudgetRemain") = Configuration.FormatToString(mk.TotalAmount - mk.GetActualTotal(Me.m_entity, view) - Me.m_entity.GetCurrentAmountForMarkup(mk), DigitConfig.Price)
-		'    End If
-		'  End If
-		'End Sub
-		Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not m_wbsdInitialized Then
-				Return
-			End If
-			Try
-				Select Case e.Column.ColumnName.ToLower
-					Case "wbs"
-						SetCode(e)
-					Case "percent"
-						SetPercent(e)
-					Case "amount"
-						SetAmount(e)
-				End Select
-				ValidateRow(e)
-			Catch ex As Exception
-				MessageBox.Show(ex.ToString)
-			End Try
-		End Sub
-		Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-			Dim wbs As Object = e.Row("wbs")
-			Dim percent As Object = e.Row("percent")
-
-			Select Case e.Column.ColumnName.ToLower
-				Case "wbs"
-					wbs = e.ProposedValue
-				Case "percent"
-					percent = e.ProposedValue
-				Case Else
-					Return
-			End Select
-
-			Dim isBlankRow As Boolean = False
-			If IsDBNull(wbs) Then
-				isBlankRow = True
-			End If
-
-			If Not isBlankRow Then
-				If IsDBNull(percent) OrElse CDec(percent) <= 0 Then
-					e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
-				Else
-					e.Row.SetColumnError("percent", "")
-				End If
-				If IsDBNull(wbs) OrElse wbs.ToString.Length = 0 Then
-					e.Row.SetColumnError("wbs", Me.StringParserService.Parse("${res:Global.Error.WBSMissing}"))
-				Else
-					e.Row.SetColumnError("wbs", "")
-				End If
-			End If
-
-		End Sub
-		Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-			If row.IsNull("WBS") Then
-				Return False
-			End If
-			Return True
-		End Function
-		Private m_updating As Boolean = False
-		Public Sub SetPercent(ByVal e As DataColumnChangeEventArgs)
-			If m_updating Then
-				Return
-			End If
-			Dim item As WBSDistribute = Me.CurrentWsbsd
-			If item Is Nothing Then
-				Return
-			End If
-			If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-				e.ProposedValue = ""
-				Return
-			End If
-			e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-			Dim value As Decimal = CDec(e.ProposedValue)
-			Dim oldvalue As Decimal = 0
-			If Not e.Row.IsNull(e.Column) Then
-				oldvalue = CDec(e.Row(e.Column))
-			End If
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			If wsdColl.GetSumPercent - oldvalue + value > 100 Then
-				e.ProposedValue = e.Row(e.Column)
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-				Return
-			End If
-
-			m_updating = True
-			item.Percent = value
-			m_updating = False
-		End Sub
-		Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
-			If m_updating Then
-				Return
-			End If
-			Dim item As WBSDistribute = Me.CurrentWsbsd
-			If item Is Nothing Then
-				Return
-			End If
-			If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-				e.ProposedValue = ""
-				Return
-			End If
-			e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-			Dim value As Decimal = CDec(e.ProposedValue)
-			Dim oldvalue As Decimal = 0
-			If Not e.Row.IsNull(e.Column) Then
-				oldvalue = CDec(e.Row(e.Column))
-			End If
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			Dim Amount As Decimal = wsdColl.GetSumAmount - oldvalue + value
-			If Amount > doc.Cost Then
-				e.ProposedValue = e.Row(e.Column)
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				msgServ.ShowMessageFormatted("${res:Global.Error.AmountOverCostAmount}", New String() {Configuration.FormatToString(Amount, DigitConfig.Price), Configuration.FormatToString(doc.Cost, DigitConfig.Price)})
-				Return
-			End If
-
-			m_updating = True
-			item.Amount = value
-			m_updating = False
-		End Sub
-		'Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
-		'    If e.Row.IsNull("stocki_entityType") Then
-		'        Return False
-		'    End If
-		'    If IsDBNull(e.ProposedValue) Then
-		'        Return False
-		'    End If
-		'    For Each row As TreeRow In Me.ItemTable.Childs
-		'        If Not row Is e.Row Then
-		'            If Not row.IsNull("stocki_entityType") Then
-		'                If CInt(row("stocki_entityType")) = CInt(e.Row("stocki_entityType")) Then
-		'                    If Not row.IsNull("code") Then
-		'                        If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
-		'                            Return True
-		'                        End If
-		'                    End If
-		'                End If
-		'            End If
-		'        End If
-		'    Next
-		'    Return False
-		'End Function
-		Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-			'If m_updating Then
-			'    Return
-			'End If
-			'm_updating = True
-			'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			'If e.Row.IsNull("stocki_entityType") Then
-			'    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-			'    e.ProposedValue = e.Row(e.Column)
-			'    m_updating = False
-			'    Return
-			'End If
-			'If DupCode(e) Then
-			'    Dim item As New GoodsReceiptItem
-			'    item.CopyFromDataRow(CType(e.Row, TreeRow))
-			'    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {item.ItemType.Description, e.ProposedValue.ToString})
-			'    e.ProposedValue = e.Row(e.Column)
-			'    m_updating = False
-			'    Return
-			'End If
-			'Select Case CInt(e.Row("stocki_entityType"))
-			'    Case 0 'Blank
-			'        msgServ.ShowMessage("${res:Global.Error.BlankItemCannotHaveCode}")
-			'        e.ProposedValue = e.Row(e.Column)
-			'        m_updating = False
-			'        Return
-			'    Case 28 'F/A
-			'        msgServ.ShowMessage("${res:Global.Error.FACannotHaveCode}")
-			'        e.ProposedValue = e.Row(e.Column)
-			'        m_updating = False
-			'        Return
-			'    Case 19 'Tool
-			'        If e.ProposedValue.ToString.Length = 0 Then
-			'            If e.Row(e.Column).ToString.Length <> 0 Then
-			'                If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {e.Row(e.Column).ToString}) Then
-			'                    ClearRow(e)
-			'                Else
-			'                    e.ProposedValue = e.Row(e.Column)
-			'                End If
-			'            End If
-			'            m_updating = False
-			'            Return
-			'        End If
-			'        Dim myTool As New Tool(e.ProposedValue.ToString)
-			'        If Not myTool.Originated Then
-			'            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {e.ProposedValue.ToString})
-			'            e.ProposedValue = e.Row(e.Column)
-			'            m_updating = False
-			'            Return
-			'        Else
-			'            Dim myUnit As Unit = myTool.Unit
-			'            e.Row("stocki_entity") = myTool.Id
-			'            e.ProposedValue = myTool.Code
-			'            e.Row("stocki_itemName") = myTool.Name
-			'            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-			'                e.Row("stocki_unit") = myUnit.Id
-			'                e.Row("Unit") = myUnit.Name
-			'            Else
-			'                e.Row("stocki_unit") = DBNull.Value
-			'                e.Row("Unit") = DBNull.Value
-			'            End If
-			'            Dim ga As GeneralAccount = GeneralAccount.GetGAForEntity(myTool.EntityId, Me.EntityId)
-			'            If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
-			'                e.Row("stocki_acct") = ga.Account.Id
-			'                e.Row("AccountCode") = ga.Account.Code
-			'                e.Row("Account") = ga.Account.Name & "<" & Me.StringParserService.Parse("${res:Global.Default}") & ">"
-			'            Else
-			'                e.Row("stocki_acct") = DBNull.Value
-			'                e.Row("AccountCode") = DBNull.Value
-			'                e.Row("Account") = DBNull.Value
-			'            End If
-			'        End If
-			'    Case 42 'LCI
-			'        If e.ProposedValue.ToString.Length = 0 Then
-			'            If e.Row(e.Column).ToString.Length <> 0 Then
-			'                If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {e.Row(e.Column).ToString}) Then
-			'                    ClearRow(e)
-			'                Else
-			'                    e.ProposedValue = e.Row(e.Column)
-			'                End If
-			'            End If
-			'            m_updating = False
-			'            Return
-			'        End If
-			'        Dim lci As New LCIItem(e.ProposedValue.ToString)
-			'        If Not lci.Originated Then
-			'            msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {e.ProposedValue.ToString})
-			'            e.ProposedValue = e.Row(e.Column)
-			'            m_updating = False
-			'            Return
-			'        Else
-			'            Dim myUnit As Unit = lci.DefaultUnit
-			'            e.Row("stocki_entity") = lci.Id
-			'            e.ProposedValue = lci.Code
-			'            e.Row("stocki_itemName") = lci.Name
-			'            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-			'                e.Row("stocki_unit") = myUnit.Id
-			'                e.Row("Unit") = myUnit.Name
-			'            Else
-			'                e.Row("stocki_unit") = DBNull.Value
-			'                e.Row("Unit") = DBNull.Value
-			'            End If
-			'            If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
-			'                e.Row("stocki_acct") = lci.Account.Id
-			'                e.Row("AccountCode") = lci.Account.Code
-			'                e.Row("Account") = lci.Account.Name & "<" & Me.StringParserService.Parse("${res:Global.Default}") & ">"
-			'            Else
-			'                e.Row("stocki_acct") = DBNull.Value
-			'                e.Row("AccountCode") = DBNull.Value
-			'                e.Row("Account") = DBNull.Value
-			'            End If
-			'        End If
-			'    Case Else
-			'        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-			'        e.ProposedValue = e.Row(e.Column)
-			'        m_updating = False
-			'        Return
-			'End Select
-			'e.Row("stocki_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
-			'm_updating = False
-		End Sub
-		Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-
-		End Sub
+              End Try
+            End If
+            doc.Qty = value
+          Case "accountcode"
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            doc.SetAccountCode(CStr(e.ProposedValue))
+          Case "stocki_entitytype"
+            Dim value As ItemType
+            If IsNumeric(e.ProposedValue) Then
+              value = New ItemType(CInt(e.ProposedValue))
+            End If
+            doc.ItemType = value
+          Case "stocki_unitprice"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If Not e.ProposedValue = "" Then
+              If IsNumeric(e.ProposedValue) Then
+                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              End If
+            End If
+            doc.UnitPrice = value
+          Case "stocki_discrate"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Discount = New Discount(e.ProposedValue.ToString)
+          Case "stocki_note"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Note = e.ProposedValue.ToString
+          Case "stocki_quality"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Quality = e.ProposedValue.ToString
+          Case "stocki_unvatable"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = False
+            End If
+            doc.UnVatable = CBool(e.ProposedValue)
+        End Select
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
+    Private Sub GRItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+    End Sub
 #End Region
 
 #Region "CheckPJMModule"
-		Private m_ApproveDocModule As New PJMModule("approvedoc")
+    Private m_ApproveDocModule As New PJMModule("approvedoc")
 #End Region
 
 #Region "IListDetail"
-		Public Overrides Sub CheckFormEnable()
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
 
-			'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
-			If Not CBool(Configuration.GetConfig("ApproveDO")) Then
-				Me.btnApprove.Visible = False
-			Else
-				Me.btnApprove.Visible = True
-			End If
+      'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
+      If Not CBool(Configuration.GetConfig("ApproveDO")) Then
+        Me.btnApprove.Visible = False
+      Else
+        Me.btnApprove.Visible = True
+      End If
 
-			Me.ibtUnlocker.Visible = False
-			Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-			Dim level As Integer = secSrv.GetAccess(321)			 'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
-			Dim checkString As String = BinaryHelper.DecToBin(level, 5)			 'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
-			checkString = BinaryHelper.RevertString(checkString)
-			If CBool(checkString.Substring(0, 1)) Then
-				Me.ibtUnlocker.Visible = True
-			Else
-				Me.ibtUnlocker.Visible = False
-			End If
+      Me.ibtUnlocker.Visible = False
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(321)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
+      If CBool(checkString.Substring(0, 1)) Then
+        Me.ibtUnlocker.Visible = True
+      Else
+        Me.ibtUnlocker.Visible = False
+      End If
 
-			'จากการอนุมัติเอกสาร
-			If CBool(Configuration.GetConfig("ApproveDO")) Then
+      'จากการอนุมัติเอกสาร
+      If CBool(Configuration.GetConfig("ApproveDO")) Then
 
-				'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
-				If m_ApproveDocModule.Activated Then
-					Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-					'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
+        'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
+        If m_ApproveDocModule.Activated Then
+          Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
 
-					Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)					'ระดับสิทธิที่ได้ทำการ approve
-					If Not Me.Unlock AndAlso ApproveDocColl.MaxLevel > 0 Then					'(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
-						'(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-						For Each ctrl As Control In Me.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "ibtUnlocker" Then
-                ctrl.Enabled = False
-              End If
-            Next
-            Me.ibtUnlocker.Enabled = True
-						tgItem.Enabled = True
-						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-							If colStyle.MappingName.ToLower = "accountcode" _
-							Or colstyle.MappingName.ToLower = "accountbutton" Then
-								colStyle.ReadOnly = False
-							Else
-								colStyle.ReadOnly = True
-							End If
-						Next
-						Me.btnApprove.Enabled = True
-						CheckWBSRight()
-						Return
-					Else
-						For Each ctrl As Control In Me.Controls
-							ctrl.Enabled = CBool(m_enableState(ctrl))
-						Next
-						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-							colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-						Next
-					End If
-				Else
-					'ถ้าใช้การอนุมัติแบบเก่า
-					If Not Me.Unlock AndAlso Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
-						For Each ctrl As Control In Me.Controls
+          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)         'ระดับสิทธิที่ได้ทำการ approve
+          If Not Me.Unlock AndAlso ApproveDocColl.MaxLevel > 0 Then         '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+            For Each ctrl As Control In Me.Controls
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "ibtUnlocker" Then
                 ctrl.Enabled = False
               End If
             Next
             Me.ibtUnlocker.Enabled = True
             tgItem.Enabled = True
-						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-							If colStyle.MappingName.ToLower = "accountcode" _
-							Or colstyle.MappingName.ToLower = "accountbutton" Then
-								colStyle.ReadOnly = False
-							Else
-								colStyle.ReadOnly = True
-							End If
-						Next
-						Me.btnApprove.Enabled = True
-						CheckWBSRight()
-						Return
-					Else
-						For Each ctrl As Control In Me.Controls
-							ctrl.Enabled = CBool(m_enableState(ctrl))
-						Next
-						For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-							colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-						Next
-					End If
-				End If
-			End If
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              If colStyle.MappingName.ToLower = "accountcode" _
+              Or colstyle.MappingName.ToLower = "accountbutton" Then
+                colStyle.ReadOnly = False
+              Else
+                colStyle.ReadOnly = True
+              End If
+            Next
+            Me.btnApprove.Enabled = True
+            CheckWBSRight()
+            Return
+          Else
+            For Each ctrl As Control In Me.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        Else
+          'ถ้าใช้การอนุมัติแบบเก่า
+          If Not Me.Unlock AndAlso Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+            For Each ctrl As Control In Me.Controls
+              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "ibtUnlocker" Then
+                ctrl.Enabled = False
+              End If
+            Next
+            Me.ibtUnlocker.Enabled = True
+            tgItem.Enabled = True
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              If colStyle.MappingName.ToLower = "accountcode" _
+              Or colstyle.MappingName.ToLower = "accountbutton" Then
+                colStyle.ReadOnly = False
+              Else
+                colStyle.ReadOnly = True
+              End If
+            Next
+            Me.btnApprove.Enabled = True
+            CheckWBSRight()
+            Return
+          Else
+            For Each ctrl As Control In Me.Controls
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            Next
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          End If
+        End If
+      End If
 
-			'จาก Status ของเอกสารเอง
-			If Not Me.Unlock AndAlso (Me.m_entity.Status.Value = 0 _
-			OrElse m_entityRefed = 1 _
-			OrElse Me.m_entity.Payment.Status.Value = 0 _
-			OrElse Me.m_entity.Payment.Status.Value >= 3 _
-			) Then
-				For Each ctrl As Control In Me.grbDelivery.Controls
-					ctrl.Enabled = False
-				Next
-				For Each ctrl As Control In Me.grbReceive.Controls
-					ctrl.Enabled = False
-				Next
-				'For Each ctrl As Control In Me.Controls
-				'  If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-				'ctrl.Enabled = False
-				cmbCode.Enabled = False : chkAutorun.Enabled = False
-				txtDocDate.Enabled = False : dtpDocDate.Enabled = False
-				txtPOCode.Enabled = False : ibtnShowPODialog.Enabled = False
-				txtDeliveryCode.Enabled = False : txtDeliveryDocDate.Enabled = False
-				dtpDeliveryDocDate.Enabled = False : txtInvoiceCode.Enabled = False
-				txtPODate.Enabled = False : ibtnEnableVatInput.Enabled = False
-				dtpInvoiceDate.Enabled = False : txtInvoiceDate.Enabled = False
-				'  End If
-				'Next
-				tgItem.Enabled = True
-				For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-					If colStyle.MappingName.ToLower = "accountcode" _
-					Or colstyle.MappingName.ToLower = "accountbutton" Then
-						colStyle.ReadOnly = False
-					Else
-						colStyle.ReadOnly = True
-					End If
-				Next
+      'จาก Status ของเอกสารเอง
+      If Not Me.Unlock AndAlso (Me.m_entity.Status.Value = 0 _
+      OrElse m_entityRefed = 1 _
+      OrElse Me.m_entity.Payment.Status.Value = 0 _
+      OrElse Me.m_entity.Payment.Status.Value >= 3 _
+      ) Then
+        For Each ctrl As Control In Me.grbDelivery.Controls
+          ctrl.Enabled = False
+        Next
+        For Each ctrl As Control In Me.grbReceive.Controls
+          ctrl.Enabled = False
+        Next
+        'For Each ctrl As Control In Me.Controls
+        '  If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+        'ctrl.Enabled = False
+        cmbCode.Enabled = False : chkAutorun.Enabled = False
+        txtDocDate.Enabled = False : dtpDocDate.Enabled = False
+        txtPOCode.Enabled = False : ibtnShowPODialog.Enabled = False
+        txtDeliveryCode.Enabled = False : txtDeliveryDocDate.Enabled = False
+        dtpDeliveryDocDate.Enabled = False : txtInvoiceCode.Enabled = False
+        txtPODate.Enabled = False : ibtnEnableVatInput.Enabled = False
+        dtpInvoiceDate.Enabled = False : txtInvoiceDate.Enabled = False
+        '  End If
+        'Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          If colStyle.MappingName.ToLower = "accountcode" _
+          Or colstyle.MappingName.ToLower = "accountbutton" Then
+            colStyle.ReadOnly = False
+          Else
+            colStyle.ReadOnly = True
+          End If
+        Next
 
-				'Unlock ส่วนท้ายถ้าเอกสารไม่ถูกอ้างอิง ยกเว้น การเบิก
-				If Me.m_entity.IsMathwidthdrawReferenced Then
-					txtRealGross.Enabled = True
-					txtDiscountRate.Enabled = True
-					txtRealTaxBase.Enabled = True
-					cmbTaxType.Enabled = True
-					txtRealTaxAmount.Enabled = True
-					txtRetention.Enabled = True
-					ibtnResetGross.Enabled = True
-					ibtnResetTaxBase.Enabled = True
-					ibtnResetTaxAmount.Enabled = True
-					txtCreditPrd.Enabled = True
-					txtDueDate.Enabled = True
-					dtpDueDate.Enabled = True
+        'Unlock ส่วนท้ายถ้าเอกสารไม่ถูกอ้างอิง ยกเว้น การเบิก
+        If Me.m_entity.IsMathwidthdrawReferenced Then
+          txtRealGross.Enabled = True
+          txtDiscountRate.Enabled = True
+          txtRealTaxBase.Enabled = True
+          cmbTaxType.Enabled = True
+          txtRealTaxAmount.Enabled = True
+          txtRetention.Enabled = True
+          ibtnResetGross.Enabled = True
+          ibtnResetTaxBase.Enabled = True
+          ibtnResetTaxAmount.Enabled = True
+          txtCreditPrd.Enabled = True
+          txtDueDate.Enabled = True
+          dtpDueDate.Enabled = True
 
-				Else
-					txtRealGross.Enabled = False
-					txtDiscountRate.Enabled = False
-					txtRealTaxBase.Enabled = False
-					cmbTaxType.Enabled = False
-					txtRealTaxAmount.Enabled = False
-					txtRetention.Enabled = False
-					ibtnResetGross.Enabled = False
-					ibtnResetTaxBase.Enabled = False
-					ibtnResetTaxAmount.Enabled = False
-				End If
-			Else
-				For Each ctrl As Control In Me.grbDelivery.Controls
-					ctrl.Enabled = CBool(m_enableState(ctrl))
-				Next
-				For Each ctrl As Control In Me.grbReceive.Controls
-					ctrl.Enabled = CBool(m_enableState(ctrl))
-				Next
-				For Each ctrl As Control In Me.Controls
-					ctrl.Enabled = CBool(m_enableState(ctrl))
-				Next
-				For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-					colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-				Next
-			End If
+        Else
+          txtRealGross.Enabled = False
+          txtDiscountRate.Enabled = False
+          txtRealTaxBase.Enabled = False
+          cmbTaxType.Enabled = False
+          txtRealTaxAmount.Enabled = False
+          txtRetention.Enabled = False
+          ibtnResetGross.Enabled = False
+          ibtnResetTaxBase.Enabled = False
+          ibtnResetTaxAmount.Enabled = False
+        End If
+      Else
+        For Each ctrl As Control In Me.grbDelivery.Controls
+          ctrl.Enabled = CBool(m_enableState(ctrl))
+        Next
+        For Each ctrl As Control In Me.grbReceive.Controls
+          ctrl.Enabled = CBool(m_enableState(ctrl))
+        Next
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = CBool(m_enableState(ctrl))
+        Next
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        Next
+      End If
 
-			Me.btnApprove.Enabled = True
+      Me.btnApprove.Enabled = True
 
-			If Me.Unlock Then
-				ibtUnlocker.Enabled = False
-			Else
-				ibtUnlocker.Enabled = True
-			End If
+      If Me.Unlock Then
+        ibtUnlocker.Enabled = False
+      Else
+        ibtUnlocker.Enabled = True
+      End If
 
-			CheckWBSRight()
+      CheckWBSRight()
 
-			'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-			'    If colStyle.MappingName.ToLower = "accountcode" _
-			'    Or colstyle.MappingName.ToLower = "accountbutton" Then
-			'        MessageBox.Show(colstyle.MappingName.ToLower.ToString)
-			'    End If
-			'Next
-		End Sub
-		Private Sub CheckWBSRight()
-			Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-			Dim level As Integer = secSrv.GetAccess(256)
-			Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-			checkString = BinaryHelper.RevertString(checkString)
-			If Not CBool(checkString.Substring(0, 1)) Then
-				'ห้ามเห็น
-				Me.lblWBS.Visible = False
-				Me.tgWBS.Visible = False
-				Me.ibtnAddWBS.Visible = False
-				Me.ibtnDelWBS.Visible = False
-			ElseIf Not CBool(checkString.Substring(1, 1)) Then
-				'ห้ามแก้
-				Me.lblWBS.Visible = True
-				Me.tgWBS.Visible = True
-				Me.ibtnAddWBS.Visible = True
-				Me.ibtnDelWBS.Visible = True
+      'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '    If colStyle.MappingName.ToLower = "accountcode" _
+      '    Or colstyle.MappingName.ToLower = "accountbutton" Then
+      '        MessageBox.Show(colstyle.MappingName.ToLower.ToString)
+      '    End If
+      'Next
+    End Sub
+    Private Sub CheckWBSRight()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(256)
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+      checkString = BinaryHelper.RevertString(checkString)
+      'If Not CBool(checkString.Substring(0, 1)) Then
+      '  'ห้ามเห็น
+      '  Me.lblWBS.Visible = False
+      '  Me.tgWBS.Visible = False
+      '  Me.ibtnAddWBS.Visible = False
+      '  Me.ibtnDelWBS.Visible = False
+      'ElseIf Not CBool(checkString.Substring(1, 1)) Then
+      '  'ห้ามแก้
+      '  Me.lblWBS.Visible = True
+      '  Me.tgWBS.Visible = True
+      '  Me.ibtnAddWBS.Visible = True
+      '  Me.ibtnDelWBS.Visible = True
 
-				Me.tgWBS.Enabled = False
-				Me.ibtnAddWBS.Enabled = False
-				Me.ibtnDelWBS.Enabled = False
-			Else
-				Me.lblWBS.Visible = True
-				Me.tgWBS.Visible = True
-				Me.ibtnAddWBS.Visible = True
-				Me.ibtnDelWBS.Visible = True
+      '  Me.tgWBS.Enabled = False
+      '  Me.ibtnAddWBS.Enabled = False
+      '  Me.ibtnDelWBS.Enabled = False
+      'Else
+      '  Me.lblWBS.Visible = True
+      '  Me.tgWBS.Visible = True
+      '  Me.ibtnAddWBS.Visible = True
+      '  Me.ibtnDelWBS.Visible = True
 
-				Me.tgWBS.Enabled = True
-				Me.ibtnAddWBS.Enabled = True
-				Me.ibtnDelWBS.Enabled = True
-			End If
-		End Sub
-		Public Overrides Sub ClearDetail()
-			Me.StatusBarService.SetMessage("")
-			For Each ctrl As Control In Me.grbDelivery.Controls
-				If ctrl.Name.StartsWith("txt") Then
-					ctrl.Text = ""
-				End If
-			Next
-			For Each ctrl As Control In Me.grbReceive.Controls
-				If ctrl.Name.StartsWith("txt") Then
-					ctrl.Text = ""
-				End If
-			Next
-			For Each ctrl As Control In Me.Controls
-				If ctrl.Name.StartsWith("txt") Then
-					ctrl.Text = ""
-				End If
-			Next
-			Me.dtpDocDate.Value = Now
-			cmbTaxType.SelectedIndex = 1
-		End Sub
-		Public Overrides Sub SetLabelText()
-			If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-			Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblNote}")
-			Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblItem}")
-			Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.grbReceive}")
-			Me.grbDelivery.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.grbDelivery}")
+      '  Me.tgWBS.Enabled = True
+      '  Me.ibtnAddWBS.Enabled = True
+      '  Me.ibtnDelWBS.Enabled = True
+      'End If
+    End Sub
+    Public Overrides Sub ClearDetail()
+      Me.StatusBarService.SetMessage("")
+      For Each ctrl As Control In Me.grbDelivery.Controls
+        If ctrl.Name.StartsWith("txt") Then
+          ctrl.Text = ""
+        End If
+      Next
+      For Each ctrl As Control In Me.grbReceive.Controls
+        If ctrl.Name.StartsWith("txt") Then
+          ctrl.Text = ""
+        End If
+      Next
+      For Each ctrl As Control In Me.Controls
+        If ctrl.Name.StartsWith("txt") Then
+          ctrl.Text = ""
+        End If
+      Next
+      Me.dtpDocDate.Value = Now
+      cmbTaxType.SelectedIndex = 1
+    End Sub
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblNote}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblItem}")
+      Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.grbReceive}")
+      Me.grbDelivery.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.grbDelivery}")
 
-			Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblCode}")
 
-			Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Global.DueDate}")
+      Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Global.DueDate}")
 
-			Me.lblDeliveryCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryCode}")
-			Me.lblDeliveryDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryDocDate}")
+      Me.lblDeliveryCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryCode}")
+      Me.lblDeliveryDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryDocDate}")
 
-			Me.lblInvoiceCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblInvoiceCode}")
-			Me.Validator.SetDisplayName(Me.txtInvoiceCode, StringHelper.GetRidOfAtEnd(Me.lblInvoiceCode.Text, ":"))
-
-
-			Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDocDate}")
-			Me.lblPOCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPOCode}")
-			Me.lblPODate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPODate}")
-
-			Me.lblInvoiceDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblInvoiceDate}")
-			Me.Validator.SetDisplayName(Me.txtInvoiceDate, StringHelper.GetRidOfAtEnd(Me.lblInvoiceDate.Text, ":"))
-
-			Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxAmount}")
-			Me.lblAfterTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblAfterTax}")
-			Me.lblDiscountAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDiscountAmount}")
-			Me.lblAdvancePay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblAdvancePay}")
-			Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblBeforeTax}")
-			Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblGross}")
-			Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxType}")
-			Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxRate}")
-			Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxBase}")
-			Me.lblPercent.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPercent}")
-
-			Me.lblToCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblToCCPerson}")
-			Me.Validator.SetDisplayName(Me.txtToCCPersonCode, StringHelper.GetRidOfAtEnd(Me.lblToCCPerson.Text, ":"))
-
-			Me.lblToCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblToCostCenter}")
-			Me.Validator.SetDisplayName(Me.txtToCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblToCostCenter.Text, ":"))
-
-			Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblSupplier}")
-			Me.Validator.SetDisplayName(Me.txtSupplierCode, StringHelper.GetRidOfAtEnd(Me.lblSupplier.Text, ":"))
-
-			Me.lblEquipment.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblEquipment}")
-			Me.Validator.SetDisplayName(Me.txtEquipmentCode, StringHelper.GetRidOfAtEnd(Me.lblEquipment.Text, ":"))
-
-			Me.lblDeliveryPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryPerson}")
-			Me.lblCreditPrd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblCreditPrd}")
-			Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
-
-			Me.lblDocType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDocType}")
-
-			Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.btnApprove}")
-			Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblWHT}")
-		End Sub
-		Protected Overrides Sub EventWiring()
-			AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
-
-			AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtCreditPrd.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtCreditPrd.TextChanged, AddressOf Me.TextHandler
-
-			AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
-
-			AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtDeliveryCode.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtDeliveryDocDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpDeliveryDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-			AddHandler txtPOCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtPOCode.TextChanged, AddressOf Me.TextHandler
+      Me.lblInvoiceCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblInvoiceCode}")
+      Me.Validator.SetDisplayName(Me.txtInvoiceCode, StringHelper.GetRidOfAtEnd(Me.lblInvoiceCode.Text, ":"))
 
 
-			AddHandler txtInvoiceCode.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
-			AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDocDate}")
+      Me.lblPOCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPOCode}")
+      Me.lblPODate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPODate}")
 
-			AddHandler txtToCCPersonCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtToCostCenterCode.Validated, AddressOf Me.ChangeProperty
-			AddHandler txtToCCPersonCode.TextChanged, AddressOf Me.TextHandler
-			AddHandler txtToCostCenterCode.TextChanged, AddressOf Me.TextHandler
+      Me.lblInvoiceDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblInvoiceDate}")
+      Me.Validator.SetDisplayName(Me.txtInvoiceDate, StringHelper.GetRidOfAtEnd(Me.lblInvoiceDate.Text, ":"))
+
+      Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxAmount}")
+      Me.lblAfterTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblAfterTax}")
+      Me.lblDiscountAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDiscountAmount}")
+      Me.lblAdvancePay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblAdvancePay}")
+      Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblBeforeTax}")
+      Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblGross}")
+      Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxType}")
+      Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxRate}")
+      Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblTaxBase}")
+      Me.lblPercent.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblPercent}")
+
+      Me.lblToCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblToCCPerson}")
+      Me.Validator.SetDisplayName(Me.txtToCCPersonCode, StringHelper.GetRidOfAtEnd(Me.lblToCCPerson.Text, ":"))
+
+      Me.lblToCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblToCostCenter}")
+      Me.Validator.SetDisplayName(Me.txtToCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblToCostCenter.Text, ":"))
+
+      Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblSupplier}")
+      Me.Validator.SetDisplayName(Me.txtSupplierCode, StringHelper.GetRidOfAtEnd(Me.lblSupplier.Text, ":"))
+
+      Me.lblEquipment.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblEquipment}")
+      Me.Validator.SetDisplayName(Me.txtEquipmentCode, StringHelper.GetRidOfAtEnd(Me.lblEquipment.Text, ":"))
+
+      Me.lblDeliveryPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDeliveryPerson}")
+      Me.lblCreditPrd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblCreditPrd}")
+      Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
+
+      Me.lblDocType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblDocType}")
+
+      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.btnApprove}")
+      Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblWHT}")
+    End Sub
+    Protected Overrides Sub EventWiring()
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
+
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtCreditPrd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCreditPrd.TextChanged, AddressOf Me.TextHandler
+
+      AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtDeliveryCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDeliveryDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDeliveryDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtPOCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtPOCode.TextChanged, AddressOf Me.TextHandler
+
+
+      AddHandler txtInvoiceCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtToCCPersonCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtToCostCenterCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtToCCPersonCode.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtToCostCenterCode.TextChanged, AddressOf Me.TextHandler
 
       AddHandler txtToCostCenterName.Validated, AddressOf ChangeProperty
       AddHandler txtSupplierName.Validated, AddressOf ChangeProperty
 
-			AddHandler txtDeliveryPerson.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDeliveryPerson.TextChanged, AddressOf Me.ChangeProperty
 
-			AddHandler cmbDocType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbDocType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtRetention.Validated, AddressOf Me.TextHandler
-			AddHandler txtRetention.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRetention.Validated, AddressOf Me.TextHandler
+      AddHandler txtRetention.TextChanged, AddressOf Me.ChangeProperty
 
-			AddHandler txtRealTaxBase.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtRealTaxBase.Validated, AddressOf Me.TextHandler
+      AddHandler txtRealTaxBase.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxBase.Validated, AddressOf Me.TextHandler
 
-			AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
+      AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
 
-			AddHandler txtRealGross.TextChanged, AddressOf Me.ChangeProperty
-			AddHandler txtRealGross.Validated, AddressOf Me.TextHandler
-		End Sub
-		Private toCCPersonCodeChanged As Boolean = False
-		Private toCCCodeChanged As Boolean = False
-		Private pOCodeChanged As Boolean = False
-		Private supplierCodeChanged As Boolean = False
-		Private txtcreditprdChanged As Boolean = False
-		Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-			If Me.m_entity Is Nothing OrElse Not m_isInitialized Then
-				Return
-			End If
-			Select Case CType(sender, Control).Name.ToLower
-				Case "txttoccpersoncode"
-					toCCPersonCodeChanged = True
-				Case "txttocostcentercode"
-					toCCCodeChanged = True
-				Case "txtpocode"
-					pOCodeChanged = True
-				Case "txtsuppliercode"
-					supplierCodeChanged = True
-				Case "txtcreditprd"
-					txtcreditprdChanged = True
-				Case "txtretention"
-					Dim txt As String = Me.txtRetention.Text
-					txt = txt.Replace(",", "")
-					If txt.Length = 0 Then
-						Me.m_entity.Retention = 0
-					Else
-						Try
-							Me.m_entity.Retention = Math.Min(CDec(TextParser.Evaluate(txt)), Me.m_entity.AfterTax + Me.m_entity.Retention)
-						Catch ex As Exception
-							Me.m_entity.Retention = 0
-						End Try
-					End If
-					Me.txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
-					UpdateAmount()
-				Case "txtrealtaxbase"
-					Dim txt As String = Me.txtRealTaxBase.Text
-					txt = txt.Replace(",", "")
-					If txt.Length = 0 Then
-						Me.m_entity.RealTaxBase = 0
-					Else
-						Try
-							Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
-						Catch ex As Exception
-							Me.m_entity.RealTaxBase = 0
-						End Try
-					End If
-					UpdateAmount()
-				Case "txtrealgross"
-					Dim txt As String = Me.txtRealGross.Text
-					txt = txt.Replace(",", "")
-					If txt.Length = 0 Then
-						Me.m_entity.RealGross = 0
-					Else
-						Try
-							Me.m_entity.RealGross = CDec(TextParser.Evaluate(txt))
-						Catch ex As Exception
-							Me.m_entity.RealGross = 0
-						End Try
-					End If
-					forceUpdateTaxBase = True
-					forceUpdateTaxAmount = True
-					UpdateAmount()
-				Case "txtrealtaxamount"
-					Dim txt As String = Me.txtRealTaxAmount.Text
-					txt = txt.Replace(",", "")
-					If txt.Length = 0 Then
-						Me.m_entity.RealTaxAmount = 0
-					Else
-						Try
-							Me.m_entity.RealTaxAmount = CDec(TextParser.Evaluate(txt))
-						Catch ex As Exception
-							Me.m_entity.RealTaxAmount = 0
-						End Try
-					End If
-					UpdateAmount()
-			End Select
-		End Sub
-		Private m_oldInvoiceCode As String = ""
-		Public Overrides Sub UpdateEntityProperties()
-			m_isInitialized = False
-			ClearDetail()
-			If m_entity Is Nothing Then
-				Return
-			End If
-			Me.Unlock = False
-			Me.m_entity.Unlock = False
-			oldSupId = Me.m_entity.Supplier.Id
-			oldCCId = Me.m_entity.ToCostCenter.Id
+      AddHandler txtRealGross.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRealGross.Validated, AddressOf Me.TextHandler
+    End Sub
+    Private toCCPersonCodeChanged As Boolean = False
+    Private toCCCodeChanged As Boolean = False
+    Private pOCodeChanged As Boolean = False
+    Private supplierCodeChanged As Boolean = False
+    Private txtcreditprdChanged As Boolean = False
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing OrElse Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txttoccpersoncode"
+          toCCPersonCodeChanged = True
+        Case "txttocostcentercode"
+          toCCCodeChanged = True
+        Case "txtpocode"
+          pOCodeChanged = True
+        Case "txtsuppliercode"
+          supplierCodeChanged = True
+        Case "txtcreditprd"
+          txtcreditprdChanged = True
+        Case "txtretention"
+          Dim txt As String = Me.txtRetention.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.Retention = 0
+          Else
+            Try
+              Me.m_entity.Retention = Math.Min(CDec(TextParser.Evaluate(txt)), Me.m_entity.AfterTax + Me.m_entity.Retention)
+            Catch ex As Exception
+              Me.m_entity.Retention = 0
+            End Try
+          End If
+          Me.txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
+          UpdateAmount()
+        Case "txtrealtaxbase"
+          Dim txt As String = Me.txtRealTaxBase.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxBase = 0
+          Else
+            Try
+              Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxBase = 0
+            End Try
+          End If
+          UpdateAmount()
+        Case "txtrealgross"
+          Dim txt As String = Me.txtRealGross.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealGross = 0
+          Else
+            Try
+              Me.m_entity.RealGross = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealGross = 0
+            End Try
+          End If
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount()
+        Case "txtrealtaxamount"
+          Dim txt As String = Me.txtRealTaxAmount.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.RealTaxAmount = 0
+          Else
+            Try
+              Me.m_entity.RealTaxAmount = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.RealTaxAmount = 0
+            End Try
+          End If
+          UpdateAmount()
+      End Select
+    End Sub
+    Private m_oldInvoiceCode As String = ""
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      Me.Unlock = False
+      Me.m_entity.Unlock = False
+      oldSupId = Me.m_entity.Supplier.Id
+      oldCCId = Me.m_entity.ToCostCenter.Id
 
       txtCreditPrd.Text = m_entity.CreditPeriod.ToString
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
-			Me.UpdateAutogenStatus()
+      Me.UpdateAutogenStatus()
 
-			txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-			dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
       Me.txtDeliveryCode.Text = Me.m_entity.DeliveryDocCode
       'If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
@@ -3162,72 +2560,72 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetLabelText()
       CheckFormEnable()
       m_isInitialized = True
-		End Sub
-		Private Sub VatInputEnabled(ByVal enable As Boolean)
-			Me.txtInvoiceCode.Enabled = enable
-			Me.txtInvoiceDate.Enabled = enable
-			Me.dtpInvoiceDate.Enabled = enable
-			If enable Then
-				'Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
-				'Me.Validator.SetRequired(Me.txtInvoiceCode, True)
-				'--------------
-				Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
-				Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-				'---------------
-				If Me.m_isInitialized Then
-					'ไม่ได้มาจาก UpdateEntityProperties
-					SetVatToOneDoc()
-				End If
-			Else
-				Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
-				Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-			End If
-		End Sub
-		Private Sub RefreshDocs()
-			Me.m_isInitialized = False
-			Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-			RefreshBlankGrid()
-			Me.m_treeManager.Treetable.AcceptChanges()
-			Me.UpdateAmount()
-			Me.m_isInitialized = True
-		End Sub
-		Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-			If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
-				If e.Name = "QtyChanged" Then
-					Me.UpdateAmount()
-				End If
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-		End Sub
-		Private m_dateSetting As Boolean = False
-		Private oldSupId As Integer
-		Private oldCCId As Integer
-		Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-			If Me.m_entity Is Nothing Or Not m_isInitialized Then
-				Return
-			End If
-			Dim dirtyFlag As Boolean = False
-			Select Case CType(sender, Control).Name.ToLower
-				Case "txtequipmentcode"
-					dirtyFlag = Asset.GetAsset(txtEquipmentCode, txtEquipmentName, Me.m_entity.Asset)
-					If dirtyFlag Then
-						ChangeEq()
-					End If
-				Case "txtrealtaxbase"
-					dirtyFlag = True
-				Case "txtrealtaxamount"
-					dirtyFlag = True
-				Case "txtrealgross"
+    End Sub
+    Private Sub VatInputEnabled(ByVal enable As Boolean)
+      Me.txtInvoiceCode.Enabled = enable
+      Me.txtInvoiceDate.Enabled = enable
+      Me.dtpInvoiceDate.Enabled = enable
+      If enable Then
+        'Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
+        'Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        '--------------
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+        '---------------
+        If Me.m_isInitialized Then
+          'ไม่ได้มาจาก UpdateEntityProperties
+          SetVatToOneDoc()
+        End If
+      Else
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+      End If
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.UpdateAmount()
+      Me.m_isInitialized = True
+    End Sub
+    Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
+        If e.Name = "QtyChanged" Then
+          Me.UpdateAmount()
+        End If
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Private oldSupId As Integer
+    Private oldCCId As Integer
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtequipmentcode"
+          dirtyFlag = Asset.GetAsset(txtEquipmentCode, txtEquipmentName, Me.m_entity.Asset)
+          If dirtyFlag Then
+            ChangeEq()
+          End If
+        Case "txtrealtaxbase"
+          dirtyFlag = True
+        Case "txtrealtaxamount"
+          dirtyFlag = True
+        Case "txtrealgross"
           If IsNumeric(Me.txtRealGross.Text) Then
             Me.m_entity.RealGross = CDec(Me.txtRealGross.Text)
           Else
             Me.m_entity.RealGross = 0
           End If
-					'forceUpdateTaxBase = False
-					'forceUpdateTaxAmount = False
+          'forceUpdateTaxBase = False
+          'forceUpdateTaxAmount = False
           forceUpdateGross = False
-					dirtyFlag = True
-				Case "cmbcode"
+          dirtyFlag = True
+        Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
@@ -3235,37 +2633,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True
-				Case "txtnote"
-					Me.m_entity.Note = txtNote.Text
-					dirtyFlag = True
-				Case "txtsuppliercode"
-					If supplierCodeChanged Then
-						supplierCodeChanged = False
-						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						Dim oldSupplier As Supplier = Me.m_entity.Supplier
-						If Me.txtSupplierCode.TextLength <> 0 Then
-							Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
-						Else
-							Me.m_entity.Supplier = New Supplier
-							txtSupplierName.Text = ""
-						End If
-						Try
-							If oldSupId <> Me.m_entity.Supplier.Id Then
-								If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeSupplier}") Then
-									oldSupId = Me.m_entity.Supplier.Id
-									dirtyFlag = True
-									ChangeSupplier()
-								Else
-									dirtyFlag = False
-									Me.m_entity.Supplier = oldSupplier
-									Me.txtSupplierCode.Text = oldSupplier.Code
-									Me.txtSupplierName.Text = oldSupplier.Name
-									supplierCodeChanged = False
-								End If
-							End If
-						Catch ex As Exception
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "txtsuppliercode"
+          If supplierCodeChanged Then
+            supplierCodeChanged = False
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            Dim oldSupplier As Supplier = Me.m_entity.Supplier
+            If Me.txtSupplierCode.TextLength <> 0 Then
+              Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+            Else
+              Me.m_entity.Supplier = New Supplier
+              txtSupplierName.Text = ""
+            End If
+            Try
+              If oldSupId <> Me.m_entity.Supplier.Id Then
+                If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeSupplier}") Then
+                  oldSupId = Me.m_entity.Supplier.Id
+                  dirtyFlag = True
+                  ChangeSupplier()
+                Else
+                  dirtyFlag = False
+                  Me.m_entity.Supplier = oldSupplier
+                  Me.txtSupplierCode.Text = oldSupplier.Code
+                  Me.txtSupplierName.Text = oldSupplier.Name
+                  supplierCodeChanged = False
+                End If
+              End If
+            Catch ex As Exception
 
-						End Try
+            End Try
           End If
         Case "txtsuppliername"
           Dim txt As String = txtSupplierName.Text
@@ -3318,15 +2716,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
-				Case "txtdocdate"
-					m_dateSetting = True
-					If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtDocDate.Text)
-						If Not Me.m_entity.DocDate.Equals(theDate) Then
-							dtpDocDate.Value = theDate
-							Me.m_entity.DocDate = dtpDocDate.Value
-							Me.m_entity.Payment.DocDate = dtpDocDate.Value
-							Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              Me.m_entity.Payment.DocDate = dtpDocDate.Value
+              Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
               Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
               If Not Me.m_entity.Originated Then
                 If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
@@ -3339,10 +2737,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 End If
               End If
               dirtyFlag = True
-						End If
-					Else
-						dtpDocDate.Value = Date.Now
-						Me.m_entity.DocDate = Date.MinValue
+            End If
+          Else
+            dtpDocDate.Value = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
             Me.m_entity.Payment.DocDate = Date.MinValue
             If Not Me.m_entity.Originated Then
               If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
@@ -3355,71 +2753,71 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
-					m_dateSetting = False
-				Case "dtpduedate"
-					If Not m_dateSetting Then
-						If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
-							If Not m_dateSetting Then
-								Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-								Me.m_entity.DueDate = dtpDueDate.Value
-								'Me.m_entity.Payment.DocDate = dtpDocDate.Value
-								'Me.dtpDocDate.Value = MaxDtpDate(Me.m_entity.DocDate)
-								Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
-								dirtyFlag = True
-							End If
-						End If
-					End If
-				Case "txtduedate"
-					m_dateSetting = True
-					If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtDueDate.Text)
-						If Not Me.m_entity.DueDate.Equals(theDate) Then
-							dtpDueDate.Value = theDate
-							Me.m_entity.DueDate = dtpDueDate.Value
-							'Me.m_entity.Payment.DocDate = dtpDocDate.Value
-							'Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-							Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
-							dirtyFlag = True
-						End If
-					Else
-						dtpDueDate.Value = Me.m_entity.DueDate
-						'Me.m_entity.DocDate = Date.MinValue
-						'Me.m_entity.Payment.DocDate = Date.MinValue
-					End If
-					m_dateSetting = False
-				Case "txtcreditprd"
-					If txtcreditprdChanged Then
-						txtcreditprdChanged = False
-						Dim txt As String = Me.txtCreditPrd.Text
-						If txt.Length > 0 AndAlso IsNumeric(txt) Then
-							Me.m_entity.CreditPeriod = CInt(txt)
-						Else
-							Me.m_entity.CreditPeriod = 0
-						End If
-						txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-						Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-						Me.dtpDueDate.Value = Me.m_entity.DueDate
-						dirtyFlag = True
-					End If
-				Case "txttaxbase"
-					'Todo
-				Case "txtretention"
-					dirtyFlag = True
-				Case "txtdiscountrate"
-					Me.m_entity.Discount.Rate = txtDiscountRate.Text
-					forceUpdateTaxBase = True
-					forceUpdateTaxAmount = True
-					forceUpdateGross = True
-					UpdateAmount()
-					dirtyFlag = True
-				Case "cmbtaxtype"
-					Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
-					Me.m_entity.TaxType.Value = item.Id
-					forceUpdateTaxBase = True
-					forceUpdateTaxAmount = True
-					UpdateAmount()
-					dirtyFlag = True
-				Case "txtdeliverycode"
+          m_dateSetting = False
+        Case "dtpduedate"
+          If Not m_dateSetting Then
+            If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                Me.m_entity.DueDate = dtpDueDate.Value
+                'Me.m_entity.Payment.DocDate = dtpDocDate.Value
+                'Me.dtpDocDate.Value = MaxDtpDate(Me.m_entity.DocDate)
+                Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
+                dirtyFlag = True
+              End If
+            End If
+          End If
+        Case "txtduedate"
+          m_dateSetting = True
+          If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDueDate.Text)
+            If Not Me.m_entity.DueDate.Equals(theDate) Then
+              dtpDueDate.Value = theDate
+              Me.m_entity.DueDate = dtpDueDate.Value
+              'Me.m_entity.Payment.DocDate = dtpDocDate.Value
+              'Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+              Me.txtCreditPrd.Text = Me.m_entity.CreditPeriod
+              dirtyFlag = True
+            End If
+          Else
+            dtpDueDate.Value = Me.m_entity.DueDate
+            'Me.m_entity.DocDate = Date.MinValue
+            'Me.m_entity.Payment.DocDate = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "txtcreditprd"
+          If txtcreditprdChanged Then
+            txtcreditprdChanged = False
+            Dim txt As String = Me.txtCreditPrd.Text
+            If txt.Length > 0 AndAlso IsNumeric(txt) Then
+              Me.m_entity.CreditPeriod = CInt(txt)
+            Else
+              Me.m_entity.CreditPeriod = 0
+            End If
+            txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+            Me.dtpDueDate.Value = Me.m_entity.DueDate
+            dirtyFlag = True
+          End If
+        Case "txttaxbase"
+          'Todo
+        Case "txtretention"
+          dirtyFlag = True
+        Case "txtdiscountrate"
+          Me.m_entity.Discount.Rate = txtDiscountRate.Text
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          forceUpdateGross = True
+          UpdateAmount()
+          dirtyFlag = True
+        Case "cmbtaxtype"
+          Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
+          Me.m_entity.TaxType.Value = item.Id
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
+          UpdateAmount()
+          dirtyFlag = True
+        Case "txtdeliverycode"
           Me.m_entity.DeliveryDocCode = txtDeliveryCode.Text
           If Not Me.m_entity.Originated Then
             If Me.txtDeliveryCode.Text.Trim.Length > 0 Then
@@ -3433,9 +2831,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           End If
           dirtyFlag = True
-				Case "txtdeliverydocdate"
-					m_dateSetting = True
-					If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+        Case "txtdeliverydocdate"
+          m_dateSetting = True
+          If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
             Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
             dtpDeliveryDocDate.Value = theDate
             Me.m_entity.DeliveryDocDate = dtpDeliveryDocDate.Value
@@ -3445,8 +2843,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Else
             'dtpDeliveryDocDate.Value = Date.Now
             'Me.m_entity.DeliveryDocDate = Date.MinValue
-					End If
-					m_dateSetting = False
+          End If
+          m_dateSetting = False
         Case "dtpdeliverydocdate"
           'If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
           If Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
@@ -3582,333 +2980,333 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case Else
       End Select
-			Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-			CheckFormEnable()
-		End Sub
-		Private Sub ChangeSupplier()
-			oldSupId = Me.m_entity.Supplier.Id
-			For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
-				vitem.PrintName = Me.m_entity.Supplier.Name
-				vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
-			Next
-			If Not Me.m_entity.Po Is Nothing AndAlso Me.m_entity.Po.Originated Then
-				Me.txtPOCode.Text = Me.m_entity.Po.Code
-				Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
-			Else
-				Me.txtPOCode.Text = ""
-				Me.txtPODate.Text = ""
-			End If
-			supplierCodeChanged = False
-			Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-			Me.txtDueDate.Text = MinDateToNow(Me.m_entity.DueDate)
-			Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-			txtcreditprdChanged = False
-			'พอเปลี่ยน Supplier ให้เคลียร์มัดจำที่เคยเลือกไว้ เพื่อให้เลือกใหม่
-			Me.m_entity.AdvancePayItemCollection.Clear()
-			Me.UpdateAmount()
-			Me.RefreshBlankGrid()
-		End Sub
-		Private Sub SetVatToNoDoc()
-			Dim flag As Boolean = Me.m_isInitialized
-			Me.m_isInitialized = False
-			Me.m_entity.Vat.ItemCollection.Clear()
-			Me.txtInvoiceCode.Text = ""
-			Me.txtInvoiceDate.Text = ""
-			Me.dtpInvoiceDate.Value = Now
-			Me.m_isInitialized = flag
-		End Sub
-		Private Sub SetVatToOneDoc()
-			Dim flag As Boolean = Me.m_isInitialized
-			Me.m_isInitialized = False
-			Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
-			, txtInvoiceDate _
-			, dtpInvoiceDate)
-			Me.m_isInitialized = flag
-		End Sub
-		Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
-			If Me.m_entity.RealGross <> Me.m_entity.Gross Then
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-			Me.m_entity.RealGross = Me.m_entity.Gross
-			UpdateAmount()
-		End Sub
-		Private Sub ibtnResetTaxBase_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxBase.Click
-			If Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase Then
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-			Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
-			UpdateAmount()
-		End Sub
-		Private Sub ibtnResetTaxAmount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxAmount.Click
-			If Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount Then
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-			Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
-			UpdateAmount()
-		End Sub
-		Private forceUpdateTaxBase As Boolean = False
-		Private forceUpdateGross As Boolean = False
-		Private forceUpdateTaxAmount As Boolean = False
-		Private Sub UpdateAmount()
-			Dim flag As Boolean = m_isInitialized
-			m_isInitialized = False
-			Me.m_entity.RefreshTaxBase()
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Private Sub ChangeSupplier()
+      oldSupId = Me.m_entity.Supplier.Id
+      For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+        vitem.PrintName = Me.m_entity.Supplier.Name
+        vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+      Next
+      If Not Me.m_entity.Po Is Nothing AndAlso Me.m_entity.Po.Originated Then
+        Me.txtPOCode.Text = Me.m_entity.Po.Code
+        Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
+      Else
+        Me.txtPOCode.Text = ""
+        Me.txtPODate.Text = ""
+      End If
+      supplierCodeChanged = False
+      Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+      Me.txtDueDate.Text = MinDateToNow(Me.m_entity.DueDate)
+      Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+      txtcreditprdChanged = False
+      'พอเปลี่ยน Supplier ให้เคลียร์มัดจำที่เคยเลือกไว้ เพื่อให้เลือกใหม่
+      Me.m_entity.AdvancePayItemCollection.Clear()
+      Me.UpdateAmount()
+      Me.RefreshBlankGrid()
+    End Sub
+    Private Sub SetVatToNoDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Me.m_entity.Vat.ItemCollection.Clear()
+      Me.txtInvoiceCode.Text = ""
+      Me.txtInvoiceDate.Text = ""
+      Me.dtpInvoiceDate.Value = Now
+      Me.m_isInitialized = flag
+    End Sub
+    Private Sub SetVatToOneDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
+      , txtInvoiceDate _
+      , dtpInvoiceDate)
+      Me.m_isInitialized = flag
+    End Sub
+    Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
+      If Me.m_entity.RealGross <> Me.m_entity.Gross Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealGross = Me.m_entity.Gross
+      UpdateAmount()
+    End Sub
+    Private Sub ibtnResetTaxBase_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxBase.Click
+      If Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+      UpdateAmount()
+    End Sub
+    Private Sub ibtnResetTaxAmount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetTaxAmount.Click
+      If Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+      UpdateAmount()
+    End Sub
+    Private forceUpdateTaxBase As Boolean = False
+    Private forceUpdateGross As Boolean = False
+    Private forceUpdateTaxAmount As Boolean = False
+    Private Sub UpdateAmount()
+      Dim flag As Boolean = m_isInitialized
+      m_isInitialized = False
+      Me.m_entity.RefreshTaxBase()
 
-			'HACK: forceUpdateGross ต้องอยู่อันแรกนะจ๊ะ
-			If forceUpdateGross OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
-				Me.m_entity.RealGross = Me.m_entity.Gross
-				forceUpdateGross = False
-			End If
-			If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
-				Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
-				forceUpdateTaxBase = False
-			End If
-			If forceUpdateTaxAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount) Then
-				Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
-				forceUpdateTaxAmount = False
-			End If
+      'HACK: forceUpdateGross ต้องอยู่อันแรกนะจ๊ะ
+      If forceUpdateGross OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealGross = Me.m_entity.Gross
+        forceUpdateGross = False
+      End If
+      If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
+        Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
+        forceUpdateTaxBase = False
+      End If
+      If forceUpdateTaxAmount OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxAmount <> Me.m_entity.TaxAmount) Then
+        Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
+        forceUpdateTaxAmount = False
+      End If
 
-			txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
-			txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
-			If m_entity.TaxType.Value = 0 OrElse m_entity.TaxType.Value = 1 Then
-				txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.Price)
-			Else
-				txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetAmount, DigitConfig.Price)
-			End If
-			txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
-			txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
-			txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
-			'If IsNumeric(Me.m_entity.Discount.Rate) Then
-			'  If Me.m_entity.Discount.Rate.IndexOf(".") > 0 Then
-			'    Dim digit() As String
-			'    Dim digit1 As String = 0
-			'    digit = m_entity.Discount.Rate.Split(".")
-			'    digit1 = digit(0)
-			'    digit = Configuration.FormatToString(CDec("0." & digit(1)), DigitConfig.Price).Split(".")
-			'    If DigitConfig.Price > 0 Then
-			'      txtDiscountRate.Text = digit1 & "." & digit(1)
-			'    Else
-			'      txtDiscountRate.Text = m_entity.Discount.Rate
-			'    End If
-			'  Else
-			'    txtDiscountRate.Text = m_entity.Discount.Rate
-			'  End If
-			'Else
-			'  txtDiscountRate.Text = m_entity.Discount.Rate
-			'End If
-			txtDiscountRate.Text = m_entity.Discount.Rate
+      txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+      txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
+      If m_entity.TaxType.Value = 0 OrElse m_entity.TaxType.Value = 1 Then
+        txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetExcludeVATAmount, DigitConfig.Price)
+      Else
+        txtAdvancePayAmount.Text = Configuration.FormatToString(m_entity.AdvancePayItemCollection.GetAmount, DigitConfig.Price)
+      End If
+      txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
+      txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
+      txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
+      'If IsNumeric(Me.m_entity.Discount.Rate) Then
+      '  If Me.m_entity.Discount.Rate.IndexOf(".") > 0 Then
+      '    Dim digit() As String
+      '    Dim digit1 As String = 0
+      '    digit = m_entity.Discount.Rate.Split(".")
+      '    digit1 = digit(0)
+      '    digit = Configuration.FormatToString(CDec("0." & digit(1)), DigitConfig.Price).Split(".")
+      '    If DigitConfig.Price > 0 Then
+      '      txtDiscountRate.Text = digit1 & "." & digit(1)
+      '    Else
+      '      txtDiscountRate.Text = m_entity.Discount.Rate
+      '    End If
+      '  Else
+      '    txtDiscountRate.Text = m_entity.Discount.Rate
+      '  End If
+      'Else
+      '  txtDiscountRate.Text = m_entity.Discount.Rate
+      'End If
+      txtDiscountRate.Text = m_entity.Discount.Rate
 
-			txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
-			txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
-			CodeDescription.ComboSelect(Me.cmbTaxType, Me.m_entity.TaxType)
+      txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
+      txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
+      CodeDescription.ComboSelect(Me.cmbTaxType, Me.m_entity.TaxType)
 
-			txtRealGross.Text = Configuration.FormatToString(m_entity.RealGross, DigitConfig.Price)
-			txtRealTaxAmount.Text = Configuration.FormatToString(m_entity.RealTaxAmount, DigitConfig.Price)
-			txtRealTaxBase.Text = Configuration.FormatToString(m_entity.RealTaxBase, DigitConfig.Price)
+      txtRealGross.Text = Configuration.FormatToString(m_entity.RealGross, DigitConfig.Price)
+      txtRealTaxAmount.Text = Configuration.FormatToString(m_entity.RealTaxAmount, DigitConfig.Price)
+      txtRealTaxBase.Text = Configuration.FormatToString(m_entity.RealTaxBase, DigitConfig.Price)
 
-			Me.txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
+      Me.txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
 
-			'--------------NOTE-------------------
-			txtNote.Text = m_entity.Note
-			'-------------------------------------
+      '--------------NOTE-------------------
+      txtNote.Text = m_entity.Note
+      '-------------------------------------
 
-			m_isInitialized = flag
-			SetVatInputAfterAmountChange()
-			RefreshWBS()
-		End Sub
-		Private Sub SetVatInputAfterAmountChange()
-			If Me.m_entity.TaxType.Value = 0 Then
-				'ไม่มี Vat
-				SetVatToNoDoc()
-				Me.VatInputEnabled(False)
-				Me.ibtnEnableVatInput.Enabled = False
-				Dim flag As Boolean = m_isInitialized
-				Me.m_isInitialized = False
-				Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-				Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-				Me.dtpInvoiceDate.Value = Now
-				Me.m_isInitialized = flag
-			ElseIf Me.m_entity.Vat.ItemCollection.Count > 1 Then
-				'มี Vatitem มากกว่า 1 ใบ
-				Me.VatInputEnabled(False)
-				Me.ibtnEnableVatInput.Enabled = True
-				Dim flag As Boolean = m_isInitialized
-				Me.m_isInitialized = False
-				Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-				Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-				Me.dtpInvoiceDate.Value = Now
-				Me.m_isInitialized = flag
-			ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-				'ไม่มี Vatitem
-				Dim flag As Boolean = m_isInitialized
-				Me.m_isInitialized = False
-				Me.txtInvoiceCode.Text = ""
-				Me.txtInvoiceDate.Text = ""
-				Me.dtpInvoiceDate.Value = Now
-				Me.m_isInitialized = True
-				Me.VatInputEnabled(True)
-				Me.m_isInitialized = flag
-				Me.ibtnEnableVatInput.Enabled = True
-			Else
-				'มี Vatitem ใบเดียว
-				Dim flag As Boolean = m_isInitialized
-				Me.m_isInitialized = True
-				Me.VatInputEnabled(True)
-				Me.m_isInitialized = flag
-				Me.ibtnEnableVatInput.Enabled = True
-			End If
-		End Sub
-		Public Sub SetStatus()
-			If m_entity.Canceled Then
-				Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-				" " & m_entity.CancelDate.ToShortTimeString & _
-				"  โดย:" & m_entity.CancelPerson.Name)
-			ElseIf m_entity.Edited Then
-				Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-				" " & m_entity.OriginDate.ToShortTimeString & _
-				"  โดย:" & m_entity.Originator.Name & ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-				" " & m_entity.LastEditDate.ToShortTimeString & _
-				"  โดย:" & m_entity.LastEditor.Name)
-			ElseIf Me.m_entity.Originated Then
-				Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-				" " & m_entity.OriginDate.ToShortTimeString & _
-				"  โดย:" & m_entity.Originator.Name)
-			Else
-				Me.StatusBarService.SetMessage("")
-			End If
-		End Sub
-		Private m_entityRefed As Integer = -1
-		Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
-			Get
-				Return Me.m_entity
-			End Get
-			Set(ByVal Value As BusinessLogic.ISimpleEntity)
-				If Not m_entity Is Nothing Then
-					RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-				End If
-				If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-					If Not Me.m_entity Is Nothing Then
-						Me.m_entity.ClearReference()
-					End If
-					Me.m_entity = Nothing
-					Me.m_entity = CType(Value, GoodsReceipt)
-				End If
-				If Not Me.m_entity Is Nothing Then
-					If Me.m_entity.IsReferenced Then
-						m_entityRefed = 1
-					Else
-						m_entityRefed = 0
-					End If
-					'Hack:
-					Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-				Else
-				End If
-				UpdateEntityProperties()
-			End Set
-		End Property
-		Public Overrides Sub Initialize()
-			SetTaxTypeComboBox()
+      m_isInitialized = flag
+      SetVatInputAfterAmountChange()
+      'RefreshWBS()
+    End Sub
+    Private Sub SetVatInputAfterAmountChange()
+      If Me.m_entity.TaxType.Value = 0 Then
+        'ไม่มี Vat
+        SetVatToNoDoc()
+        Me.VatInputEnabled(False)
+        Me.ibtnEnableVatInput.Enabled = False
+        Dim flag As Boolean = m_isInitialized
+        Me.m_isInitialized = False
+        Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+        Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+        Me.dtpInvoiceDate.Value = Now
+        Me.m_isInitialized = flag
+      ElseIf Me.m_entity.Vat.ItemCollection.Count > 1 Then
+        'มี Vatitem มากกว่า 1 ใบ
+        Me.VatInputEnabled(False)
+        Me.ibtnEnableVatInput.Enabled = True
+        Dim flag As Boolean = m_isInitialized
+        Me.m_isInitialized = False
+        Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+        Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+        Me.dtpInvoiceDate.Value = Now
+        Me.m_isInitialized = flag
+      ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
+        'ไม่มี Vatitem
+        Dim flag As Boolean = m_isInitialized
+        Me.m_isInitialized = False
+        Me.txtInvoiceCode.Text = ""
+        Me.txtInvoiceDate.Text = ""
+        Me.dtpInvoiceDate.Value = Now
+        Me.m_isInitialized = True
+        Me.VatInputEnabled(True)
+        Me.m_isInitialized = flag
+        Me.ibtnEnableVatInput.Enabled = True
+      Else
+        'มี Vatitem ใบเดียว
+        Dim flag As Boolean = m_isInitialized
+        Me.m_isInitialized = True
+        Me.VatInputEnabled(True)
+        Me.m_isInitialized = flag
+        Me.ibtnEnableVatInput.Enabled = True
+      End If
+    End Sub
+    Public Sub SetStatus()
+      If m_entity.Canceled Then
+        Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name)
+      ElseIf m_entity.Edited Then
+        Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name & ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name)
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name)
+      Else
+        Me.StatusBarService.SetMessage("")
+      End If
+    End Sub
+    Private m_entityRefed As Integer = -1
+    Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As BusinessLogic.ISimpleEntity)
+        If Not m_entity Is Nothing Then
+          RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+        End If
+        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+          If Not Me.m_entity Is Nothing Then
+            Me.m_entity.ClearReference()
+          End If
+          Me.m_entity = Nothing
+          Me.m_entity = CType(Value, GoodsReceipt)
+        End If
+        If Not Me.m_entity Is Nothing Then
+          If Me.m_entity.IsReferenced Then
+            m_entityRefed = 1
+          Else
+            m_entityRefed = 0
+          End If
+          'Hack:
+          Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        Else
+        End If
+        UpdateEntityProperties()
+      End Set
+    End Property
+    Public Overrides Sub Initialize()
+      SetTaxTypeComboBox()
       ListType()
       RefreshAutoComplete(10)
       RefreshAutoComplete(87)
-		End Sub
-		Private Sub ListType()
-			Dim oldType As New GoodsReceiptToAcctType(-1)
-			If Not Me.m_entity Is Nothing Then
-				oldType = Me.m_entity.ToAccountType
-			End If
-			CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "GoodsReceiptToAcctType")
-			If oldType.Value = -1 Then
-				oldType.Value = 1
-			End If
-			CodeDescription.ComboSelect(Me.cmbDocType, oldType)
-		End Sub
-		Private Sub SetTaxTypeComboBox()
-			CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
-			cmbTaxType.SelectedIndex = 1
-		End Sub
+    End Sub
+    Private Sub ListType()
+      Dim oldType As New GoodsReceiptToAcctType(-1)
+      If Not Me.m_entity Is Nothing Then
+        oldType = Me.m_entity.ToAccountType
+      End If
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "GoodsReceiptToAcctType")
+      If oldType.Value = -1 Then
+        oldType.Value = 1
+      End If
+      CodeDescription.ComboSelect(Me.cmbDocType, oldType)
+    End Sub
+    Private Sub SetTaxTypeComboBox()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
+      cmbTaxType.SelectedIndex = 1
+    End Sub
 #End Region
 
 #Region "Event Handler"
-		Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddWBS.Click
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			If Me.m_entity Is Nothing Then
-				Return
-			End If
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Dim view As Integer = 45
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			If wsdColl.GetSumPercent >= 100 Then
-				msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-			ElseIf doc.ItemType.Value = 160 Or doc.ItemType.Value = 162 Then
-				msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveWBS}")
-			Else
-				Dim wbsd As New WBSDistribute
-				wbsd.CostCenter = Me.m_entity.ToCostCenter
-				wbsd.Percent = 100 - wsdColl.GetSumPercent
-				wsdColl.Add(wbsd)
-			End If
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-			Me.WorkbenchWindow.ViewContent.IsDirty = True
-		End Sub
-		Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelWBS.Click
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			If doc Is Nothing Then
-				Return
-			End If
-			Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-			If wsdColl.Count > 0 Then
-				wsdColl.Remove(wsdColl.Count - 1)
-				Me.WorkbenchWindow.ViewContent.IsDirty = True
-			End If
-			Dim view As Integer = 45
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, doc, view)
-			m_wbsdInitialized = True
-		End Sub
-		Private currentY As Integer = -1
-		Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-			If tgItem.CurrentRowIndex <> currentY Then
-				Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-				RefreshWBS()
-				currentY = tgItem.CurrentRowIndex
-			End If
-		End Sub
-		Private Sub RefreshWBS()
-			Dim dt As TreeTable = Me.m_treeManager2.Treetable
-			dt.Clear()
-			Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-			If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
-				Return
-			End If
-			Dim item As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-			Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-			Dim view As Integer = 45
-			m_wbsdInitialized = False
-			wsdColl.Populate(dt, item, view)
-			m_wbsdInitialized = True
-		End Sub
-		Private Sub ibtnEnableVatInput_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnEnableVatInput.Click
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			If Me.m_entity.Vat.ItemCollection.Count > 1 Then
-				If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.MultipleVatDoc}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.InputTax}") Then
-					Me.VatInputEnabled(True)
-					Me.WorkbenchWindow.ViewContent.IsDirty = True
-				End If
-			End If
-		End Sub
-		Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-			UpdateAutogenStatus()
-		End Sub
+    Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      dt.Clear()
+      Dim view As Integer = 45
+      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
+      If wsdColl.GetSumPercent >= 100 Then
+        msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
+      ElseIf doc.ItemType.Value = 160 Or doc.ItemType.Value = 162 Then
+        msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveWBS}")
+      Else
+        Dim wbsd As New WBSDistribute
+        wbsd.CostCenter = Me.m_entity.ToCostCenter
+        wbsd.Percent = 100 - wsdColl.GetSumPercent
+        wsdColl.Add(wbsd)
+      End If
+      m_wbsdInitialized = False
+      wsdColl.Populate(dt, doc, view)
+      m_wbsdInitialized = True
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      dt.Clear()
+      Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
+      If wsdColl.Count > 0 Then
+        wsdColl.Remove(wsdColl.Count - 1)
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      Dim view As Integer = 45
+      m_wbsdInitialized = False
+      wsdColl.Populate(dt, doc, view)
+      m_wbsdInitialized = True
+    End Sub
+    Private currentY As Integer = -1
+    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      If tgItem.CurrentRowIndex <> currentY Then
+        Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
+      End If
+    End Sub
+    'Private Sub RefreshWBS()
+    '  Dim dt As TreeTable = Me.m_treeManager2.Treetable
+    '  dt.Clear()
+    '  Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+    '  If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
+    '    Return
+    '  End If
+    '  Dim item As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+    '  Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+    '  Dim view As Integer = 45
+    '  m_wbsdInitialized = False
+    '  wsdColl.Populate(dt, item, view)
+    '  m_wbsdInitialized = True
+    'End Sub
+    Private Sub ibtnEnableVatInput_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnEnableVatInput.Click
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity.Vat.ItemCollection.Count > 1 Then
+        If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.MultipleVatDoc}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.InputTax}") Then
+          Me.VatInputEnabled(True)
+          Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End If
+      End If
+    End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
         'Me.Validator.SetRequired(Me.txtCode, False)
@@ -4288,7 +3686,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			'For Each item As GoodsReceiptItem In Me.m_entity.ItemCollection
 			'    item.WBSDistributeCollection.Clear()
 			'Next
-			RefreshWBS()
+      'RefreshWBS()
 		End Sub
 		Private Sub UpdateDestAdmin()
 			If Me.m_entity Is Nothing Then

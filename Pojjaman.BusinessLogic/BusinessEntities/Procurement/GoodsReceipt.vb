@@ -1589,6 +1589,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '        End Try
     '    End With
     'End Function
+    Private Function ValidateItem() As SaveErrorException
+      Dim key As String = ""
+
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+
+        Dim newHash As New Hashtable
+        For Each wbitem As WBSDistribute In item.WBSDistributeCollection
+          key = wbitem.WBS.Id.ToString
+          If Not newHash.Contains(key) Then
+            newHash(key) = wbitem
+          Else
+            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+          End If
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+          End If
+        Next
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Private Sub ResetId(ByVal oldId As Integer, ByVal oldPaymentId As Integer _
     , ByVal oldVatId As Integer, ByVal oldJeId As Integer)
       Me.Id = oldId
@@ -1611,6 +1632,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Supplier.Code})
             End If
           End If
+        End If
+        Dim ValidateError As SaveErrorException = ValidateItem()
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
         End If
         Dim config As Integer = CInt(Configuration.GetConfig("GROverBudget"))
         Select Case config
@@ -2200,6 +2225,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_transferamt") = wbsd.TransferAmount
               childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.ToAccountType.Value
+              childDr("stockiw_cbs") = wbsd.CBS.Id
               'Add เข้า stockiwbs
               dtWbs.Rows.Add(childDr)
             Next
@@ -2226,6 +2252,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("stockiw_transferamt") = newWbsd.TransferAmount
                 childDr("stockiw_amt") = newWbsd.Amount
                 childDr("stockiw_toaccttype") = Me.ToAccountType.Value
+                childDr("stockiw_cbs") = newWbsd.CBS.Id
                 'Add เข้า stockiwbs
                 dtWbs.Rows.Add(childDr)
               Catch ex As Exception

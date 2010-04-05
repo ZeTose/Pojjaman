@@ -1387,6 +1387,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
                   childDr("voiw_direction") = 0        'in
                   childDr("voiw_baseCost") = wbsd.BaseCost
                   childDr("voiw_amt") = wbsd.Amount
+                  childDr("voiw_cbs") = wbsd.CBS.Id
                   'childDr("voiw_toaccttype") = 3
                   'Add เข้า voiwbs
                   dtWbs.Rows.Add(childDr)
@@ -1417,6 +1418,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
                     childDr("voiw_direction") = 0         'in
                     childDr("voiw_baseCost") = newWbsd.BaseCost
                     childDr("voiw_amt") = newWbsd.Amount
+                    childDr("voiw_cbs") = newWbsd.CBS.Id
                     'childDr("voiw_toaccttype") = 3
                     'Add เข้า voiwbs
                     dtWbs.Rows.Add(childDr)

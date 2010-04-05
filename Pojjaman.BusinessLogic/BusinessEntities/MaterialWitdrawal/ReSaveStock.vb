@@ -80,7 +80,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               GR.Save(EditorId)
               count45 += 1
             Case 31
-              Dim MW As New MatWithdraw(entityId)
+              Dim MW As New MatTransfer(entityId)
               MW.LastEditDate = Now
               MW.Save(EditorId)
               count31 += 1

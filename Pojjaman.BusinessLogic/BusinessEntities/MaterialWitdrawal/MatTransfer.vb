@@ -10,28 +10,28 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class MatWithdrawType
-    Inherits CodeDescription
+  '  Public Class MatWithdrawType
+  '    Inherits CodeDescription
 
-#Region "Constructors"
-    Public Sub New()
-      MyBase.New()
-    End Sub
-    Public Sub New(ByVal value As Integer)
-      MyBase.New(value)
-    End Sub
-#End Region
+  '#Region "Constructors"
+  '    Public Sub New()
+  '      MyBase.New()
+  '    End Sub
+  '    Public Sub New(ByVal value As Integer)
+  '      MyBase.New(value)
+  '    End Sub
+  '#End Region
 
-#Region "Properties"
-    Public Overrides ReadOnly Property CodeName() As String
-      Get
-        Return "matwithdraw_type"
-      End Get
-    End Property
-#End Region
+  '#Region "Properties"
+  '    Public Overrides ReadOnly Property CodeName() As String
+  '      Get
+  '        Return "matwithdraw_type"
+  '      End Get
+  '    End Property
+  '#End Region
 
-  End Class
-  Public Class MatWithdraw
+  '  End Class
+  Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
 
@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_grouping As Boolean
 
-    Private m_itemCollection As MatWithdrawItemCollection
+    Private m_itemCollection As MatTransferItemCollection
 
     Public MatActualHashIn As Hashtable
     Public MatActualHashOut As Hashtable
@@ -99,7 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '----------------------------End Tab Entities-----------------------------------------
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
-      m_itemCollection = New MatWithdrawItemCollection(Me, m_grouping)
+      m_itemCollection = New MatTransferItemCollection(Me, m_grouping)
       MatActualHashIn = New Hashtable
       MatActualHashOut = New Hashtable
     End Sub
@@ -191,7 +191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_je = New JournalEntry(Me)
 
-        m_itemCollection = New MatWithdrawItemCollection(Me, m_grouping)
+        m_itemCollection = New MatTransferItemCollection(Me, m_grouping)
         MatActualHashIn = New Hashtable
         MatActualHashOut = New Hashtable
       End With
@@ -200,11 +200,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemCollection() As MatWithdrawItemCollection
+    Public Property ItemCollection() As MatTransferItemCollection
       Get
         Return m_itemCollection
       End Get
-      Set(ByVal Value As MatWithdrawItemCollection)
+      Set(ByVal Value As MatTransferItemCollection)
         m_itemCollection = Value
       End Set
     End Property
@@ -249,6 +249,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_fromCostCenter
       End Get
       Set(ByVal Value As CostCenter)
+        If Not Me.ToCostCenter Is Nothing Then
+          If Value.Id = Me.ToCostCenter.Id Then
+            Dim str As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim msg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
+            msg.ShowMessage(str.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.FromCCAndToCC}"))
+            Return
+          End If
+        End If
         m_fromCostCenter = Value
         ValidateCCandType()
       End Set
@@ -258,6 +266,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_toCostCenter
       End Get
       Set(ByVal Value As CostCenter)
+        If Not Me.FromCostCenter Is Nothing Then
+          If Me.FromCostCenter.Id = Value.Id Then
+            Dim str As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim msg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
+            msg.ShowMessage(str.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.FromCCAndToCC}"))
+            Return
+          End If
+        End If
         m_toCostCenter = Value
         ValidateCCandType()
       End Set
@@ -322,7 +338,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return 0
         End If
         Dim ret As Decimal = 0
-        For Each item As MatWithdrawItem In Me.ItemCollection
+        For Each item As MatTransferItem In Me.ItemCollection
           ret += item.ItemCollectionPrePareCost.CostAmount
         Next
         'If Not Me.Grouping Then
@@ -349,7 +365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return 0
         End If
         Dim ret As Decimal = 0
-        For Each item As MatWithdrawItem In Me.ItemCollection
+        For Each item As MatTransferItem In Me.ItemCollection
           ret += item.TransferAmount
         Next
         Return ret
@@ -357,7 +373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "matwithdraw"
+        Return "mattransfer"
       End Get
     End Property
     Public Overrides ReadOnly Property Prefix() As String
@@ -372,22 +388,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.MatWithdraw"
+        Return "Icons.16x16.MatTransfer"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.MatWithdraw"
+        Return "Icons.16x16.MatTransfer"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -552,7 +568,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal isOut As Boolean) As Decimal
       Dim ret As Decimal = 0
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         Dim coll As WBSDistributeCollection
         Dim view As Integer = 45
         If Not isOut Then
@@ -576,7 +592,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Function GetCurrentAmountForMarkup(ByVal mk As Markup, ByVal isOut As Boolean) As Decimal
       Dim ret As Decimal = 0
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         Dim coll As WBSDistributeCollection
         If Not isOut Then
           coll = item.InWbsdColl
@@ -595,7 +611,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Function GetCurrentQtyForWBS(ByVal myWbs As WBS, ByVal unit As Unit, ByVal isOut As Boolean) As Decimal
       Dim ret As Decimal = 0
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         Dim coll As WBSDistributeCollection
         Dim view As Integer = 45
         If Not isOut Then
@@ -627,7 +643,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         onlyCC = CBool(config)
       End If
       If Not onlyCC Then
-        For Each item As MatWithdrawItem In Me.ItemCollection
+        For Each item As MatTransferItem In Me.ItemCollection
           Dim inwsdColl As WBSDistributeCollection = item.InWbsdColl
           If inwsdColl.Count = 0 Then
             Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
@@ -679,7 +695,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return False
     End Function
     Private Function VerrifyCost() As String
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
         For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
           If item.ItemCollectionPrePareCost(i).Sequence = currCostCollection(i).Sequence AndAlso _
@@ -740,7 +756,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim config As Integer = CInt(Configuration.GetConfig("MWZeroStock"))
         If config < 2 Then
-          For Each item As MatWithdrawItem In Me.ItemCollection
+          For Each item As MatTransferItem In Me.ItemCollection
             If cumWithdraw.Contains(item.Entity.Id) Then
               cumWithdraw(item.Entity.Id) = CDec(cumWithdraw(item.Entity.Id)) + item.StockQty
             Else
@@ -1120,7 +1136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         rowsToDelete = New ArrayList
         For Each dr As DataRow In dt.Rows
           Dim found As Boolean = False
-          For Each testItem As MatWithdrawItem In Me.ItemCollection
+          For Each testItem As MatTransferItem In Me.ItemCollection
             If testItem.Sequence = CInt(dr("stocki_sequence")) Then
               found = True
               Exit For
@@ -1139,7 +1155,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim i As Integer = 0 'Line Running
         Dim seq As Integer = -1
-        For Each item As MatWithdrawItem In Me.ItemCollection
+        For Each item As MatTransferItem In Me.ItemCollection
           i += 1
 
           '------------Checking if we have to add a new row or just update existing--------------------
@@ -1200,90 +1216,90 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '------------End Checking--------------------
 
-          For x As Integer = 0 To 1
-            Dim rootWBS As WBS
-            Dim wbsdColl As WBSDistributeCollection
-            Dim currentSum As Decimal
-            Dim currentCostCenter As CostCenter
+          'For x As Integer = 0 To 1
+          Dim rootWBS As WBS
+          Dim wbsdColl As WBSDistributeCollection
+          Dim currentSum As Decimal
+          Dim currentCostCenter As CostCenter
 
-            If x = 0 Then
-              rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
-              wbsdColl = item.InWbsdColl
-              currentSum = wbsdColl.GetSumPercent
-              currentCostCenter = Me.ToCostCenter
-            Else
-              rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
-              wbsdColl = item.OutWbsdColl
-              currentSum = wbsdColl.GetSumPercent
-              currentCostCenter = Me.FromCostCenter
-            End If
+          'If x = 0 Then
+          '  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
+          '  wbsdColl = item.InWbsdColl
+          '  currentSum = wbsdColl.GetSumPercent
+          '  currentCostCenter = Me.ToCostCenter
+          'Else
+          rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+          wbsdColl = item.OutWbsdColl
+          currentSum = wbsdColl.GetSumPercent
+          currentCostCenter = Me.FromCostCenter
+          'End If
 
-            'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
+          'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
 
+          Try
+            For Each wbsd As WBSDistribute In wbsdColl
+              If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                wbsd.Percent += (100 - currentSum)
+              End If
+              'Dim bfTax As Decimal = 0
+              'bfTax = item.CostAmount
+              'wbsd.BaseCost = bfTax 'item.Amount
+              'wbsd.TransferBaseCost = bfTax 'item.Amount
+              Dim childDr As DataRow = dtWbs.NewRow
+              childDr("stockiw_sequence") = dr("stocki_sequence")
+              childDr("stockiw_wbs") = wbsd.WBS.Id
+              childDr("stockiw_percent") = wbsd.Percent
+              childDr("stockiw_ismarkup") = wbsd.IsMarkup
+              childDr("stockiw_direction") = 1 'x
+              'childDr("stockiw_baseCost") = wbsd.BaseCost
+              'childDr("stockiw_amt") = wbsd.Amount
+              childDr("stockiw_toaccttype") = Me.Type.Value
+              If wbsd.CostCenter Is Nothing Then
+                wbsd.CostCenter = currentCostCenter
+              End If
+              childDr("stockiw_cc") = wbsd.CostCenter.Id
+              'Add เข้า sciwbs
+              dtWbs.Rows.Add(childDr)
+            Next
+          Catch ex As Exception
+            Throw New Exception(ex.Message)
+          End Try
+
+          currentSum = wbsdColl.GetSumPercent
+          'ยังไม่เต็ม 100 และยังไม่มี root
+          If currentSum < 100 Then
             Try
-              For Each wbsd As WBSDistribute In wbsdColl
-                If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-                  'ยังไม่เต็ม 100 แต่มีหัวอยู่
-                  wbsd.Percent += (100 - currentSum)
-                End If
-                'Dim bfTax As Decimal = 0
-                'bfTax = item.CostAmount
-                'wbsd.BaseCost = bfTax 'item.Amount
-                'wbsd.TransferBaseCost = bfTax 'item.Amount
-                Dim childDr As DataRow = dtWbs.NewRow
-                childDr("stockiw_sequence") = dr("stocki_sequence")
-                childDr("stockiw_wbs") = wbsd.WBS.Id
-                childDr("stockiw_percent") = wbsd.Percent
-                childDr("stockiw_ismarkup") = wbsd.IsMarkup
-                childDr("stockiw_direction") = x
-                'childDr("stockiw_baseCost") = wbsd.BaseCost
-                'childDr("stockiw_amt") = wbsd.Amount
-                childDr("stockiw_toaccttype") = Me.Type.Value
-                If wbsd.CostCenter Is Nothing Then
-                  wbsd.CostCenter = currentCostCenter
-                End If
-                childDr("stockiw_cc") = wbsd.CostCenter.Id
-                'Add เข้า sciwbs
-                dtWbs.Rows.Add(childDr)
-              Next
+              Dim wbsd As New WBSDistribute
+              wbsd.WBS = rootWBS
+              wbsd.CostCenter = currentCostCenter
+              wbsd.Percent = 100 - currentSum
+              'Dim bfTax As Decimal = 0
+              'bfTax = item.CostAmount
+              'wbsd.BaseCost = bfTax 'item.Amount
+              'wbsd.TransferBaseCost = bfTax 'item.Amount
+              Dim childDr As DataRow = dtWbs.NewRow
+
+              childDr("stockiw_sequence") = dr("stocki_sequence")
+              childDr("stockiw_wbs") = wbsd.WBS.Id
+              childDr("stockiw_percent") = wbsd.Percent
+              childDr("stockiw_ismarkup") = wbsd.IsMarkup
+              childDr("stockiw_direction") = 1 'x
+              'childDr("stockiw_baseCost") = wbsd.BaseCost
+              'childDr("stockiw_amt") = wbsd.Amount
+              childDr("stockiw_toaccttype") = Me.Type.Value
+              childDr("stockiw_cc") = wbsd.CostCenter.Id
+
+              'Add เข้า sciwbs
+              dtWbs.Rows.Add(childDr)
             Catch ex As Exception
               Throw New Exception(ex.Message)
             End Try
+          End If
 
-            currentSum = wbsdColl.GetSumPercent
-            'ยังไม่เต็ม 100 และยังไม่มี root
-            If currentSum < 100 Then
-              Try
-                Dim wbsd As New WBSDistribute
-                wbsd.WBS = rootWBS
-                wbsd.CostCenter = currentCostCenter
-                wbsd.Percent = 100 - currentSum
-                'Dim bfTax As Decimal = 0
-                'bfTax = item.CostAmount
-                'wbsd.BaseCost = bfTax 'item.Amount
-                'wbsd.TransferBaseCost = bfTax 'item.Amount
-                Dim childDr As DataRow = dtWbs.NewRow
+          'End If '
 
-                childDr("stockiw_sequence") = dr("stocki_sequence")
-                childDr("stockiw_wbs") = wbsd.WBS.Id
-                childDr("stockiw_percent") = wbsd.Percent
-                childDr("stockiw_ismarkup") = wbsd.IsMarkup
-                childDr("stockiw_direction") = x
-                'childDr("stockiw_baseCost") = wbsd.BaseCost
-                'childDr("stockiw_amt") = wbsd.Amount
-                childDr("stockiw_toaccttype") = Me.Type.Value
-                childDr("stockiw_cc") = wbsd.CostCenter.Id
-
-                'Add เข้า sciwbs
-                dtWbs.Rows.Add(childDr)
-              Catch ex As Exception
-                Throw New Exception(ex.Message)
-              End Try
-            End If
-
-            'End If '
-
-          Next
+          'Next
         Next
 
         Dim tmpDa As New SqlDataAdapter
@@ -1511,7 +1527,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private Function GetPritemString() As String
       Dim ret As String = "("
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         If Not item.Pritem Is Nothing Then
           ret &= "'" & item.Pritem.Pr.Id.ToString & "|" & item.Pritem.LineNumber & "',"
         End If
@@ -1555,7 +1571,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
         Return Me.AutoCodeFormat.GLFormat
       End If
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetGLFormatForEntity" _
       , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
@@ -1586,7 +1602,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newRealAccount = Me.ToCostCenter.ExpenseAccount
       End Select
       Dim ji As New JournalEntryItem
-      For Each item As MatWithdrawItem In Me.ItemCollection 'itemColl
+      For Each item As MatTransferItem In Me.ItemCollection 'itemColl
         Dim lciMatched As Boolean = False
         Dim lciNoAcctMatched As Boolean = False
         Dim originMatched As Boolean = False
@@ -1807,7 +1823,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim prList As String = ""
       Dim n As Integer = 0
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -2089,7 +2105,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IWBSAllocatable"
     Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
       Dim coll As New WBSAllocatableItemCollection
-      For Each item As MatWithdrawItem In Me.ItemCollection
+      For Each item As MatTransferItem In Me.ItemCollection
         'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
         item.UpdateWBSQty()
 
@@ -2097,7 +2113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wbsd As WBSDistribute In item.OutWbsdColl
             wbsd.ChildAmount = 0
             wbsd.GetChildIdList()
-            For Each allItem As MatWithdrawItem In Me.ItemCollection
+            For Each allItem As MatTransferItem In Me.ItemCollection
               For Each childWbsd As WBSDistribute In allItem.OutWbsdColl
                 If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                   wbsd.ChildAmount += childWbsd.Amount
@@ -2108,7 +2124,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wbsd As WBSDistribute In item.InWbsdColl
             wbsd.ChildAmount = 0
             wbsd.GetChildIdList()
-            For Each allItem As MatWithdrawItem In Me.ItemCollection
+            For Each allItem As MatTransferItem In Me.ItemCollection
               For Each childWbsd As WBSDistribute In allItem.InWbsdColl
                 If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                   wbsd.ChildAmount += childWbsd.Amount
@@ -2135,43 +2151,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
   End Class
 
+  Public Class MatReceipt
+    Inherits MatTransfer
 
-  Public Class MatWithdrawForOperation
-    Inherits MatWithdraw
-    Public Overrides ReadOnly Property CodonName() As String
+    Public Overrides ReadOnly Property ClassName As String
       Get
-        Return "MatWithdrawForOperation"
+        Return "MatReceipt"
       End Get
     End Property
-
-    Public Overrides ReadOnly Property DetailPanelTitle() As String
+    Public Overloads ReadOnly Property DetailPanelTitle As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.MatReceipt.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.MatWithdrawForOperation"
+        Return "Icons.16x16.MatReceipt"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.MatWithdrawForOperation"
+        Return "Icons.16x16.MatReceipt"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.MatReceipt.ListLabel}"
       End Get
     End Property
+    Public Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      Return New SaveErrorException("0")
+      'Return MyBase.Save(currentUserId)
+    End Function
 
-    Public Overrides Property Grouping() As Boolean
-      Get
-        Return True
-      End Get
-      Set(ByVal Value As Boolean)
-
-      End Set
-    End Property
   End Class
+
+  'Public Class MatWithdrawForOperation
+  '  Inherits MatTransfer
+  '  Public Overrides ReadOnly Property CodonName() As String
+  '    Get
+  '      Return "MatWithdrawForOperation"
+  '    End Get
+  '  End Property
+
+  '  Public Overrides ReadOnly Property DetailPanelTitle() As String
+  '    Get
+  '      Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.DetailLabel}"
+  '    End Get
+  '  End Property
+  '  Public Overrides ReadOnly Property DetailPanelIcon() As String
+  '    Get
+  '      Return "Icons.16x16.MatWithdrawForOperation"
+  '    End Get
+  '  End Property
+  '  Public Overrides ReadOnly Property ListPanelIcon() As String
+  '    Get
+  '      Return "Icons.16x16.MatWithdrawForOperation"
+  '    End Get
+  '  End Property
+  '  Public Overrides ReadOnly Property ListPanelTitle() As String
+  '    Get
+  '      Return "${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.ListLabel}"
+  '    End Get
+  '  End Property
+
+  '  Public Overrides Property Grouping() As Boolean
+  '    Get
+  '      Return True
+  '    End Get
+  '    Set(ByVal Value As Boolean)
+
+  '    End Set
+  '  End Property
+  'End Class
 End Namespace

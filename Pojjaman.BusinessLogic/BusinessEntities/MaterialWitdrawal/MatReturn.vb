@@ -12,8 +12,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatReturn
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod
-
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
 
 #Region "Members"
     Private m_docDate As Date
@@ -158,7 +157,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        'คืนเข้า store เท่านั้น        Return Me.ToCostCenter.StoreAccount      End Get    End Property    Public Overridable Property Grouping() As Boolean      Get
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        'คืนเข้า store เท่านั้น        Return Me.ToCostCenter.StoreAccount      End Get    End Property    Public Overridable Property Grouping() As Boolean      Get
         Return m_grouping
       End Get
       Set(ByVal Value As Boolean)
@@ -312,17 +311,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ret
     End Function
-		Private Function OverBudget() As Boolean
-			If Me.ToCostCenter.Type.Value <> 2 Then
-				Return False
-			End If
-			'GROverBudgetOnlyCC
-			Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
-			Dim onlyCC As Boolean = False
-			If Not config Is Nothing Then
-				onlyCC = CBool(config)
-			End If
-			If Not onlyCC Then
+    Private Function OverBudget() As Boolean
+      If Me.ToCostCenter.Type.Value <> 2 Then
+        Return False
+      End If
+      'GROverBudgetOnlyCC
+      Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
+      Dim onlyCC As Boolean = False
+      If Not config Is Nothing Then
+        onlyCC = CBool(config)
+      End If
+      If Not onlyCC Then
         For Each item As MatReturnItem In Me.ItemCollection
           Dim inwsdColl As WBSDistributeCollection = item.InWbsdColl
           If inwsdColl.Count = 0 Then
@@ -330,8 +329,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
             Dim totalCurrentDiff As Decimal = item.Amount
-            totalbudget = rootWBS.GetTotalMatFromDB
-            totalactual = rootWBS.GetActualMat(Me, 31)
+            totalBudget = rootWBS.GetTotalMatFromDB
+            totalActual = rootWBS.GetActualMat(Me, 31)
             If totalBudget < (totalActual + totalCurrentDiff) Then
               Return True
             End If
@@ -345,17 +344,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
             Dim totalCurrentDiff As Decimal = 0
-            totalcurrentdiff = GetCurrentAmountForWBS(rootWBS, False)
-            For Each row As DataRow In rootwbs.GetParentsBudget(Me.EntityId, wbsd.CostCenter.Id)
+            totalCurrentDiff = GetCurrentAmountForWBS(rootWBS, False)
+            For Each row As DataRow In rootWBS.GetParentsBudget(Me.EntityId, wbsd.CostCenter.Id)
               totalBudget = 0
               totalActual = 0
               If Not row.IsNull("matbudget") Then
-                totalbudget = CDec(row("matbudget"))
+                totalBudget = CDec(row("matbudget"))
               End If
               If Not row.IsNull("matactual") Then
-                totalactual = CDec(row("matactual"))
+                totalActual = CDec(row("matactual"))
               End If
-              If totalbudget < (totalActual + totalCurrentDiff) Then
+              If totalBudget < (totalActual + totalCurrentDiff) Then
                 Return True
               End If
             Next
@@ -363,23 +362,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Next
       Else
-				Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
-				Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-				Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 31) + rootWBS.GetActualLab(Me, 31) + rootWBS.GetActualEq(Me, 31))
-				Dim totalCurrentDiff As Decimal = GetCurrentAmountForWBS(rootWBS, False)
-				If totalBudget < (totalActual + totalCurrentDiff) Then
-					Return True
-				End If
+        Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
+        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 31) + rootWBS.GetActualLab(Me, 31) + rootWBS.GetActualEq(Me, 31))
+        Dim totalCurrentDiff As Decimal = GetCurrentAmountForWBS(rootWBS, False)
+        If totalBudget < (totalActual + totalCurrentDiff) Then
+          Return True
+        End If
 
-			End If
-			Return False
-		End Function
+      End If
+      Return False
+    End Function
 
-		Private Sub ResetId(ByVal oldID As Integer, ByVal oldJeId As Integer)
-			Me.Id = oldID
-			Me.m_je.Id = oldJeId
-		End Sub
-		Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+    Private Sub ResetId(ByVal oldID As Integer, ByVal oldJeId As Integer)
+      Me.Id = oldID
+      Me.m_je.Id = oldJeId
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If Not Me.Grouping Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.Grouping}"))
@@ -528,6 +527,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          '==============================STOCKCOSTFIFO=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+          End If
+          '==============================STOCKCOSTFIFO=========================================
+
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
           , New SqlParameter("@refto_id", Me.Id))
@@ -556,71 +563,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '==============================AUTOGEN==========================================
 
 
+          'trans.Commit()
+          'Try
+          '  trans = conn.BeginTransaction()
+          '  Dim saveWBSError As SaveErrorException = Me.SaveWBSDetail(Me.Id, conn, trans)
+          '  If Not IsNumeric(saveWBSError.Message) Then
+          '    trans.Rollback()
+          '    ResetId(oldId, oldJeId)
+          '    Return saveWBSError
+          '  Else
+          '    Select Case CInt(saveWBSError.Message)
+          '      Case -1, -5
+          '        trans.Rollback()
+          '        ResetId(oldId, oldJeId)
+          '        Return saveWBSError
+          '      Case -2
+          '        'Post ไปแล้ว
+          '        Return saveWBSError
+          '      Case Else
+          '    End Select
+          '  End If
+
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+
+          '  trans.Commit()
+          'Catch ex As Exception
+          '  trans.Rollback()
+          '  ResetId(oldId, oldJeId)
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+          'Try
+          '  trans = conn.BeginTransaction()
+
+
+          If Me.m_je.Status.Value = -1 Then
+            m_je.Status.Value = 3
+          End If
+          '********************************************
+          If Not Me.m_je.ManualFormat Then
+            m_je.SetGLFormat(Me.GetDefaultGLFormat)
+          End If
+          '********************************************
+          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveJeError.Message) Then
+            trans.Rollback()
+            ResetId(oldId, oldJeId)
+            Return saveJeError
+          Else
+            Select Case CInt(saveJeError.Message)
+              Case -1, -5
+                trans.Rollback()
+                ResetId(oldId, oldJeId)
+                Return saveJeError
+              Case -2
+                'Post ไปแล้ว
+                Return saveJeError
+              Case Else
+            End Select
+          End If
+
           trans.Commit()
-          Try
-            trans = conn.BeginTransaction()
-            Dim saveWBSError As SaveErrorException = Me.SaveWBSDetail(Me.Id, conn, trans)
-            If Not IsNumeric(saveWBSError.Message) Then
-              trans.Rollback()
-              ResetId(oldId, oldJeId)
-              Return saveWBSError
-            Else
-              Select Case CInt(saveWBSError.Message)
-                Case -1, -5
-                  trans.Rollback()
-                  ResetId(oldId, oldJeId)
-                  Return saveWBSError
-                Case -2
-                  'Post ไปแล้ว
-                  Return saveWBSError
-                Case Else
-              End Select
-            End If
-
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
-
-            trans.Commit()
-          Catch ex As Exception
-            trans.Rollback()
-            ResetId(oldId, oldJeId)
-            Return New SaveErrorException(ex.ToString)
-          End Try
-          Try
-            trans = conn.BeginTransaction()
-
-
-            If Me.m_je.Status.Value = -1 Then
-              m_je.Status.Value = 3
-            End If
-            '********************************************
-            If Not Me.m_je.ManualFormat Then
-              m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            End If
-            '********************************************
-            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveJeError.Message) Then
-              trans.Rollback()
-              ResetId(oldId, oldJeId)
-              Return saveJeError
-            Else
-              Select Case CInt(saveJeError.Message)
-                Case -1, -5
-                  trans.Rollback()
-                  ResetId(oldId, oldJeId)
-                  Return saveJeError
-                Case -2
-                  'Post ไปแล้ว
-                  Return saveJeError
-                Case Else
-              End Select
-            End If
-            trans.Commit()
-          Catch ex As Exception
-            trans.Rollback()
-            ResetId(oldId, oldJeId)
-            Return New SaveErrorException(ex.ToString)
-          End Try
+          'Catch ex As Exception
+          '  trans.Rollback()
+          '  ResetId(oldId, oldJeId)
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
@@ -634,74 +642,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
           conn.Close()
         End Try
       End With
-		End Function
-		Public Overrides Function GetNextCode() As String
+    End Function
+    Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String
       If Me.AutoCodeFormat.Format.Length > 0 Then
         autoCodeFormat = Me.AutoCodeFormat.Format
       Else
         autoCodeFormat = Me.Code
       End If
-			Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
 
-			pattern = CodeGenerator.GetPattern(pattern)
+      pattern = CodeGenerator.GetPattern(pattern)
 
-			Dim lastCode As String = Me.GetLastCode(pattern)
-			Dim newCode As String = _
-			CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
-			While DuplicateCode(newCode)
-				newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
-			End While
-			Return newCode
-		End Function
-		Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-			Try
+      Dim lastCode As String = Me.GetLastCode(pattern)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
+    End Function
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
 
-				Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
+        Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
 
-				da.SelectCommand.Transaction = trans
+        da.SelectCommand.Transaction = trans
 
         Dim cmdInsert As New SqlCommand("EXEC [InsertFIFOMatReturnItem] @stocki_stock, @stocki_lineNumber, @stocki_cc, @stocki_fromcc, @stocki_tocc, @stocki_wbs, @stocki_toacct, @stocki_fromAcctType, @stocki_toAcctType, @stocki_refSequence, @stocki_entity, @stocki_entityType, @stocki_itemname, @stocki_unit, @stocki_unitcost, @stocki_amt, @stocki_qty, @stocki_stockqty, @stocki_iscancelled, @stocki_note, @stocki_type, @stocki_status,@stocki_transferunitprice", conn)
 
-				cmdInsert.Parameters.Add("@stocki_stock", SqlDbType.Decimal, 18, "stocki_stock")
-				cmdInsert.Parameters.Add("@stocki_lineNumber", SqlDbType.Decimal, 18, "stocki_lineNumber")
-				cmdInsert.Parameters.Add("@stocki_toacct", SqlDbType.Decimal, 18, "stocki_toacct")
-				cmdInsert.Parameters.Add("@stocki_cc", SqlDbType.Decimal, 18, "stocki_cc")
-				cmdInsert.Parameters.Add("@stocki_tocc", SqlDbType.Decimal, 18, "stocki_tocc")
-				cmdInsert.Parameters.Add("@stocki_wbs", SqlDbType.Decimal, 18, "stocki_wbs")
-				cmdInsert.Parameters.Add("@stocki_toaccttype", SqlDbType.Decimal, 18, "stocki_toaccttype")
-				cmdInsert.Parameters.Add("@stocki_refSequence", SqlDbType.Decimal, 18, "stocki_refSequence")
-				cmdInsert.Parameters.Add("@stocki_entity", SqlDbType.Decimal, 18, "stocki_entity")
-				cmdInsert.Parameters.Add("@stocki_entityType", SqlDbType.Decimal, 18, "stocki_entityType")
-				cmdInsert.Parameters.Add("@stocki_itemname", SqlDbType.NVarChar, 1000, "stocki_itemname")
-				cmdInsert.Parameters.Add("@stocki_unit", SqlDbType.Decimal, 18, "stocki_unit")
-				cmdInsert.Parameters.Add("@stocki_unitcost", SqlDbType.Decimal, 18, "stocki_unitcost")
-				cmdInsert.Parameters.Add("@stocki_amt", SqlDbType.Decimal, 18, "stocki_amt")
-				cmdInsert.Parameters.Add("@stocki_qty", SqlDbType.Decimal, 18, "stocki_qty")
-				cmdInsert.Parameters.Add("@stocki_stockqty", SqlDbType.Decimal, 18, "stocki_stockqty")
-				cmdInsert.Parameters.Add("@stocki_iscancelled", SqlDbType.Bit, 4, "stocki_iscancelled")
-				cmdInsert.Parameters.Add("@stocki_note", SqlDbType.NVarChar, 2000, "stocki_note")
-				cmdInsert.Parameters.Add("@stocki_type", SqlDbType.Decimal, 18, "stocki_type")
-				cmdInsert.Parameters.Add("@stocki_status", SqlDbType.Decimal, 18, "stocki_status")
+        cmdInsert.Parameters.Add("@stocki_stock", SqlDbType.Decimal, 18, "stocki_stock")
+        cmdInsert.Parameters.Add("@stocki_lineNumber", SqlDbType.Decimal, 18, "stocki_lineNumber")
+        cmdInsert.Parameters.Add("@stocki_toacct", SqlDbType.Decimal, 18, "stocki_toacct")
+        cmdInsert.Parameters.Add("@stocki_cc", SqlDbType.Decimal, 18, "stocki_cc")
+        cmdInsert.Parameters.Add("@stocki_tocc", SqlDbType.Decimal, 18, "stocki_tocc")
+        cmdInsert.Parameters.Add("@stocki_wbs", SqlDbType.Decimal, 18, "stocki_wbs")
+        cmdInsert.Parameters.Add("@stocki_toaccttype", SqlDbType.Decimal, 18, "stocki_toaccttype")
+        cmdInsert.Parameters.Add("@stocki_refSequence", SqlDbType.Decimal, 18, "stocki_refSequence")
+        cmdInsert.Parameters.Add("@stocki_entity", SqlDbType.Decimal, 18, "stocki_entity")
+        cmdInsert.Parameters.Add("@stocki_entityType", SqlDbType.Decimal, 18, "stocki_entityType")
+        cmdInsert.Parameters.Add("@stocki_itemname", SqlDbType.NVarChar, 1000, "stocki_itemname")
+        cmdInsert.Parameters.Add("@stocki_unit", SqlDbType.Decimal, 18, "stocki_unit")
+        cmdInsert.Parameters.Add("@stocki_unitcost", SqlDbType.Decimal, 18, "stocki_unitcost")
+        cmdInsert.Parameters.Add("@stocki_amt", SqlDbType.Decimal, 18, "stocki_amt")
+        cmdInsert.Parameters.Add("@stocki_qty", SqlDbType.Decimal, 18, "stocki_qty")
+        cmdInsert.Parameters.Add("@stocki_stockqty", SqlDbType.Decimal, 18, "stocki_stockqty")
+        cmdInsert.Parameters.Add("@stocki_iscancelled", SqlDbType.Bit, 4, "stocki_iscancelled")
+        cmdInsert.Parameters.Add("@stocki_note", SqlDbType.NVarChar, 2000, "stocki_note")
+        cmdInsert.Parameters.Add("@stocki_type", SqlDbType.Decimal, 18, "stocki_type")
+        cmdInsert.Parameters.Add("@stocki_status", SqlDbType.Decimal, 18, "stocki_status")
         cmdInsert.Parameters.Add("@stocki_transferunitprice", SqlDbType.Decimal, 18, "stocki_transferunitprice")
-				cmdInsert.Parameters.Add("@stocki_fromcc", Me.ValidIdOrDBNull(Me.FromCostCenter))
-				cmdInsert.Parameters.Add("@stocki_fromaccttype", 1)			 '1=WIP Account --- คืนของได้จาก WIP เท่านั้น
+        cmdInsert.Parameters.Add("@stocki_fromcc", Me.ValidIdOrDBNull(Me.FromCostCenter))
+        cmdInsert.Parameters.Add("@stocki_fromaccttype", 1)      '1=WIP Account --- คืนของได้จาก WIP เท่านั้น
 
-				cmdInsert.Transaction = trans
-				da.InsertCommand = cmdInsert
+        cmdInsert.Transaction = trans
+        da.InsertCommand = cmdInsert
 
-				'Detete
-				SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "DeleteStockItem", _
-				New SqlParameter("@stocki_stock", Me.Id))
+        'Detete
+        SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "DeleteStockItem", _
+        New SqlParameter("@stocki_stock", Me.Id))
 
-				Dim ds As New DataSet
-				da.Fill(ds, "stockitem")
-				Dim i As Integer = 0
-				With ds.Tables("stockitem")
-					For Each item As MatReturnItem In Me.ItemCollection
-						i += 1
-						Dim dr As DataRow = .NewRow
-						dr("stocki_stock") = Me.Id
+        Dim ds As New DataSet
+        da.Fill(ds, "stockitem")
+        Dim i As Integer = 0
+        With ds.Tables("stockitem")
+          For Each item As MatReturnItem In Me.ItemCollection
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("stocki_stock") = Me.Id
             dr("stocki_cc") = DBNull.Value
             If Me.Grouping Then
               dr("stocki_linenumber") = i     'itemRow("stocki_linenumber")
@@ -732,52 +740,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("stocki_status") = Me.Status.Value
             .Rows.Add(dr)
           Next
-				End With
-				Dim dt As DataTable = ds.Tables("stockitem")
-				' First process deletes.
-				da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-				' Next process updates.
-				da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-				' Finally process inserts.
-				da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-				Return New SaveErrorException("1")
-			Catch ex As Exception
-				Return New SaveErrorException(ex.ToString)
-			End Try
+        End With
+        Dim dt As DataTable = ds.Tables("stockitem")
+        ' First process deletes.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
 
-		End Function
-		Private Function SaveWBSDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-			Try
-				Dim da As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
-				Dim cmdBuilder As New SqlCommandBuilder(da)
+    End Function
+    Private Function SaveWBSDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        Dim da As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
+        Dim cmdBuilder As New SqlCommandBuilder(da)
 
-				Dim ds As New DataSet
+        Dim ds As New DataSet
 
-				da.SelectCommand.Transaction = trans
+        da.SelectCommand.Transaction = trans
 
-				'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-				cmdBuilder.GetDeleteCommand.Transaction = trans
-				cmdBuilder.GetInsertCommand.Transaction = trans
-				cmdBuilder.GetUpdateCommand.Transaction = trans
+        'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
 
-				da.Fill(ds, "stockiwbs")
+        da.Fill(ds, "stockiwbs")
 
-				Dim i As Integer = 0
-				Dim dtWbs As DataTable = ds.Tables("stockiwbs")
-				Dim rootWBS As WBS
+        Dim i As Integer = 0
+        Dim dtWbs As DataTable = ds.Tables("stockiwbs")
+        Dim rootWBS As WBS
         Dim currentSum As Decimal
         Dim Cost As Decimal = 0
 
-				With dtWbs
-					For Each row As DataRow In .Rows
-						row.Delete()
-					Next
-					Dim line As Integer = 0
-					For Each item As MatReturnItem In Me.ItemCollection
-						Dim seqArr As New ArrayList
-						line += 1
+        With dtWbs
+          For Each row As DataRow In .Rows
+            row.Delete()
+          Next
+          Dim line As Integer = 0
+          For Each item As MatReturnItem In Me.ItemCollection
+            Dim seqArr As New ArrayList
+            line += 1
 
-						seqArr = StockItem.GetSequenceArray(Me.Id, line)
+            seqArr = StockItem.GetSequenceArray(Me.Id, line)
             For Each row As DataRow In seqArr
 
               If Not row.IsNull("stocki_amt") Then
@@ -874,18 +882,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Next
             Next
           Next
-				End With
-				' First process deletes.
-				da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Deleted))
-				' Next process updates.
-				da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-				' Finally process inserts.
-				da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Added))
-				Return New SaveErrorException("1")
-			Catch ex As Exception
-				Return New SaveErrorException(ex.ToString)
-			End Try
-		End Function
+        End With
+        ' First process deletes.
+        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Added))
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
 #End Region
 
 #Region "IGLAble"
@@ -1277,6 +1285,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.ToCostCenter = Value
       End Set
     End Property
+
+#Region "IWBSAllocatable"
+
+    Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
+      Dim coll As New WBSAllocatableItemCollection
+      For Each item As MatReturnItem In Me.ItemCollection
+        'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+        item.UpdateWBSQty()
+
+        If Not Me.Originated Then
+          For Each wbsd As WBSDistribute In item.OutWbsdColl
+            wbsd.ChildAmount = 0
+            wbsd.GetChildIdList()
+            For Each allItem As MatReturnItem In Me.ItemCollection
+              For Each childWbsd As WBSDistribute In allItem.OutWbsdColl
+                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                  wbsd.ChildAmount += childWbsd.Amount
+                End If
+              Next
+            Next
+          Next
+          For Each wbsd As WBSDistribute In item.InWbsdColl
+            wbsd.ChildAmount = 0
+            wbsd.GetChildIdList()
+            For Each allItem As MatReturnItem In Me.ItemCollection
+              For Each childWbsd As WBSDistribute In allItem.InWbsdColl
+                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                  wbsd.ChildAmount += childWbsd.Amount
+                End If
+              Next
+            Next
+          Next
+        End If
+
+        coll.Add(item)
+        'End If
+      Next
+      Return coll
+    End Function
+
+    Public Property Supplier As Supplier Implements IWBSAllocatable.Supplier
+      Get
+
+      End Get
+      Set(ByVal value As Supplier)
+
+      End Set
+    End Property
+
+#End Region
   End Class
 
   Public Class MatReturnForOperation
@@ -1316,7 +1374,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
   End Class
+
   Public Class MatReturnItem
+    Implements IWBSAllocatableItem, IAllowWBSAllocatableItem
 
 #Region "Members"
     Private m_matReturn As MatReturn
@@ -1446,8 +1506,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property InWbsdColl() As WBSDistributeCollection      Get        Return m_inWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_inWbsdColl = Value      End Set    End Property
-    Public Property OutWbsdColl() As WBSDistributeCollection      Get        Return m_outWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_outWbsdColl = Value      End Set    End Property
+    Public Property InWbsdColl() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_inWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_inWbsdColl = Value      End Set    End Property
+    Public Property OutWbsdColl() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2      Get        Return m_outWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_outWbsdColl = Value      End Set    End Property
     Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
     Public ReadOnly Property MatReturnId() As Integer
       Get
@@ -1536,7 +1596,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.TransferUnitPrice <> 0 AndAlso Me.TransferUnitPrice <> Decimal.MinValue Then
             Me.TransferUnitPrice = (newConversion / oldConversion) * Me.m_transferUnitPrice
           End If
-					m_unit = Value					Me.Conversion = newConversion        Else
+          m_unit = Value          Me.Conversion = newConversion        Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Configuration.Format(Value, DigitConfig.Qty)        m_qty = Value      End Set    End Property    Public Property OldQty() As Decimal 'เทจากตะกร้า      Get
         Return m_oldStockQty
@@ -1567,7 +1627,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_transferUnitPrice = Value
       End Set
-    End Property    Public ReadOnly Property TransferAmount() As Decimal
+    End Property    Public ReadOnly Property TransferAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         'If Me.TransferUnitPrice = Decimal.MinValue Then
         '  Return 0
@@ -1677,6 +1737,79 @@ Namespace Longkong.Pojjaman.BusinessLogic
       row("stocki_note") = Me.Note
       Me.MatReturn.IsInitialized = True
     End Sub
+    Public Sub UpdateWBSQty()
+      For Each wbsd As WBSDistribute In Me.InWbsdColl
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+      For Each wbsd As WBSDistribute In Me.OutWbsdColl
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        If boqConversion = 0 Then
+          wbsd.BaseQty = Me.Qty
+        Else
+          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        End If
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
+#End Region
+
+#Region "IWBSAllocatableItem"
+
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
+      Get
+        Return True
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Return "mat"
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        Dim strType As String = CodeDescription.GetDescription("stocki_enitytype", 42)
+        Return strType
+      End Get
+    End Property
+
 #End Region
 
   End Class

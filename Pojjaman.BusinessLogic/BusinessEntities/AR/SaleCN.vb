@@ -598,6 +598,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
+          '==============================STOCKCOST=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================STOCKCOST=========================================
+
           If Not Me.ToCostCenter Is Nothing Then
             Me.m_payment.CCId = Me.ToCostCenter.Id
             Me.m_whtcol.SetCCId(Me.ToCostCenter.Id)
@@ -696,7 +703,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
           '==============================AUTOGEN==========================================
-
 
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)

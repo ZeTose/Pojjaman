@@ -11,7 +11,8 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class MatWithdrawDetailView
+  Public Class MatTransferDetailView
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -91,8 +92,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
 
     Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MatWithdrawDetailView))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MatTransferDetailView))
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
@@ -104,9 +104,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
       Me.ibtnShowPR = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.grbFromCC = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtFromCostCenterCode = New System.Windows.Forms.TextBox()
       Me.lblFromCCPerson = New System.Windows.Forms.Label()
@@ -146,7 +146,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht = New System.Windows.Forms.Label()
       Me.txtTotalAmount = New System.Windows.Forms.TextBox()
       Me.lblTotalAmount = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -178,11 +178,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.GridLineColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(120, Byte), Integer))
       Me.tgItem.HeaderBackColor = System.Drawing.Color.DarkGoldenrod
       Me.tgItem.HeaderForeColor = System.Drawing.Color.White
-      Me.tgItem.Location = New System.Drawing.Point(8, 222)
+      Me.tgItem.Location = New System.Drawing.Point(8, 219)
       Me.tgItem.Name = "tgItem"
       Me.tgItem.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.SelectionBackColor = System.Drawing.Color.Sienna
-      Me.tgItem.Size = New System.Drawing.Size(764, 228)
+      Me.tgItem.Size = New System.Drawing.Size(764, 233)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 3
       Me.tgItem.TreeManager = Nothing
@@ -199,7 +199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.lblCode)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.grbDetail.Location = New System.Drawing.Point(8, 3)
+      Me.grbDetail.Location = New System.Drawing.Point(8, 1)
       Me.grbDetail.Name = "grbDetail"
       Me.grbDetail.Size = New System.Drawing.Size(658, 72)
       Me.grbDetail.TabIndex = 0
@@ -302,7 +302,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.AutoSize = True
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(24, 199)
+      Me.lblItem.Location = New System.Drawing.Point(24, 196)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(105, 16)
       Me.lblItem.TabIndex = 4
@@ -313,7 +313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowPR.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowPR.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnShowPR.Location = New System.Drawing.Point(136, 195)
+      Me.ibtnShowPR.Location = New System.Drawing.Point(136, 192)
       Me.ibtnShowPR.Name = "ibtnShowPR"
       Me.ibtnShowPR.Size = New System.Drawing.Size(40, 24)
       Me.ibtnShowPR.TabIndex = 43
@@ -341,7 +341,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbFromCC.Controls.Add(Me.ibtnShowFromCCPersonDialog)
       Me.grbFromCC.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbFromCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.grbFromCC.Location = New System.Drawing.Point(8, 75)
+      Me.grbFromCC.Location = New System.Drawing.Point(8, 73)
       Me.grbFromCC.Name = "grbFromCC"
       Me.grbFromCC.Size = New System.Drawing.Size(368, 72)
       Me.grbFromCC.TabIndex = 1
@@ -500,7 +500,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbToCC.Controls.Add(Me.txtAccountCode)
       Me.grbToCC.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbToCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.grbToCC.Location = New System.Drawing.Point(382, 75)
+      Me.grbToCC.Location = New System.Drawing.Point(382, 73)
       Me.grbToCC.Name = "grbToCC"
       Me.grbToCC.Size = New System.Drawing.Size(389, 141)
       Me.grbToCC.TabIndex = 2
@@ -880,7 +880,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(192, 195)
+      Me.ibtnBlank.Location = New System.Drawing.Point(192, 192)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 6
@@ -890,7 +890,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(216, 195)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(216, 192)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 7
@@ -900,7 +900,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkShowCost
       '
       Me.chkShowCost.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkShowCost.Location = New System.Drawing.Point(272, 195)
+      Me.chkShowCost.Location = New System.Drawing.Point(272, 192)
       Me.chkShowCost.Name = "chkShowCost"
       Me.chkShowCost.Size = New System.Drawing.Size(104, 24)
       Me.chkShowCost.TabIndex = 5
@@ -920,7 +920,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnApprove.ThemedImage = Nothing
       '
-      'MatWithdrawDetailView
+      'MatTransferDetailView
       '
       Me.Controls.Add(Me.btnApprove)
       Me.Controls.Add(Me.ibtnShowPR)
@@ -935,7 +935,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbDetail)
       Me.Controls.Add(Me.lblItem)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.Name = "MatWithdrawDetailView"
+      Me.Name = "MatTransferDetailView"
       Me.Size = New System.Drawing.Size(780, 528)
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
@@ -954,7 +954,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_entity As MatWithdraw
+    Private m_entity As MatTransfer
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
 
@@ -977,7 +977,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SaveEnableState()
       m_tableStyleEnable = New Hashtable
 
-      Dim dt As TreeTable = MatWithdraw.GetSchemaTable()
+      Dim dt As TreeTable = MatTransfer.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
@@ -1251,16 +1251,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-    Private ReadOnly Property CurrentItem() As MatWithdrawItem
+    Private ReadOnly Property CurrentItem() As MatTransferItem
       Get
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is MatWithdrawItem Then
+        If Not TypeOf row.Tag Is MatTransferItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, MatWithdrawItem)
+        Return CType(row.Tag, MatTransferItem)
       End Get
     End Property
 
@@ -1300,9 +1300,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      Dim doc As MatWithdrawItem = Me.CurrentItem
+      Dim doc As MatTransferItem = Me.CurrentItem
       If doc Is Nothing Then
-        doc = New MatWithdrawItem
+        doc = New MatTransferItem
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
@@ -1632,7 +1632,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
     End Sub
-    Private Sub StoreApprove(ByVal sender As Object, ByVal e As MatWithdrawItemCollection.StoreApproveEventArgs)
+    Private Sub StoreApprove(ByVal sender As Object, ByVal e As MatTransferItemCollection.StoreApproveEventArgs)
       Dim approvehash As Hashtable = e.ApproveHash
       Dim str As String
       Dim ApprovePr As New StoreApprovePR
@@ -1715,6 +1715,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Me.txtToCostCenterCode.TextLength <> 0 Then
               If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Caption.ChangeCC}") Then
                 dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
+                Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+                Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
                 UpdateDestAdmin()
                 UpdateAccount()
                 Try
@@ -1747,6 +1749,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtfromcostcentercode"
           If fromCCCodeChanged Then
             dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            Me.txtFromCostCenterCode.Text = Me.m_entity.FromCostCenter.Code
+            Me.txtFromCostCenterName.Text = Me.m_entity.FromCostCenter.Name
             UpdateOriginAdmin()
             ListType()
             fromCCCodeChanged = False
@@ -1824,7 +1828,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           RemoveHandler Me.m_entity.ItemCollection.StoreApprove, AddressOf StoreApprove
           Me.m_entity = Nothing
         End If
-        Me.m_entity = CType(Value, MatWithdraw)
+        Me.m_entity = CType(Value, MatTransfer)
         AddHandler Me.m_entity.ItemCollection.StoreApprove, AddressOf StoreApprove
 
         If Me.m_entity.IsReferenced Then
@@ -1907,7 +1911,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If itemEntityLevel = 5 Then
           'If i = items.Count - 1 Then
           If Me.m_entity.ItemCollection.Count = 0 Then
-            Dim doc As New MatWithdrawItem
+            Dim doc As New MatTransferItem
             'doc.Qty = Me.m_entity.GetRemainLCIItem(newItem.Id) / doc.Conversion
             Me.m_entity.ItemCollection.Add(doc)
             If newType = 42 Then
@@ -1916,7 +1920,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.Entity = newItem
           Else
-            Dim doc As New MatWithdrawItem
+            Dim doc As New MatTransferItem
             If Not Me.CurrentItem Is Nothing Then
               doc = Me.CurrentItem
             Else
@@ -1942,9 +1946,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub UnitClicked(ByVal e As ButtonColumnEventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim filters(0) As Filter
-      Dim doc As MatWithdrawItem = Me.CurrentItem
+      Dim doc As MatTransferItem = Me.CurrentItem
       If doc Is Nothing Then
-        doc = New MatWithdrawItem
+        doc = New MatTransferItem
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
@@ -1973,12 +1977,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim doc As MatWithdrawItem = Me.CurrentItem
+      Dim doc As MatTransferItem = Me.CurrentItem
       If doc Is Nothing Then
         Return
       End If
       Dim newItem As New BlankItem("")
-      Dim theItem As New MatWithdrawItem
+      Dim theItem As New MatTransferItem
       theItem.Entity = newItem
       theItem.Qty = 0
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc), theItem)
@@ -1987,7 +1991,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim doc As MatWithdrawItem = Me.CurrentItem
+      Dim doc As MatTransferItem = Me.CurrentItem
       Dim index As Integer = tgItem.CurrentRowIndex
       If doc Is Nothing Then
         Return
@@ -2054,7 +2058,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.Grouping = Not Me.chkShowCost.Checked
-      Me.m_entity.ItemCollection = New MatWithdrawItemCollection(Me.m_entity, Me.m_entity.Grouping)
+      Me.m_entity.ItemCollection = New MatTransferItemCollection(Me.m_entity, Me.m_entity.Grouping)
       Me.ToggleStyle(Me.tgItem.TableStyles(0))
       RefreshDocs()
       'tgItem.Width += 1
@@ -2109,7 +2113,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Function GetPRExcludeList() As String
       Dim ret As String = ""
-      For Each item As MatWithdrawItem In Me.m_entity.ItemCollection
+      For Each item As MatTransferItem In Me.m_entity.ItemCollection
         If Not item.Pritem Is Nothing Then
           ret &= "|" & item.Pritem.Pr.Id.ToString & ":" & item.Pritem.LineNumber.ToString & "|"
         End If
@@ -2234,7 +2238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New MatWithdraw).DetailPanelIcon
+        Return (New MatTransfer).DetailPanelIcon
       End Get
     End Property
 #End Region

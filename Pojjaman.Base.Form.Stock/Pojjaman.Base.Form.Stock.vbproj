@@ -84,6 +84,21 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="syncfusion.core">
+      <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.grid.base">
+      <HintPath>..\Pojjaman\Externals\syncfusion.grid.base.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.grid.windows">
+      <HintPath>..\Pojjaman\Externals\syncfusion.grid.windows.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.base">
+      <HintPath>..\Pojjaman\Externals\syncfusion.shared.base.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.windows">
+      <HintPath>..\Pojjaman\Externals\syncfusion.shared.windows.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -113,6 +128,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApprovalComment\AdvanceStoreApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApprovalComment\ApprovalCommentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -167,6 +188,9 @@
     <Compile Include="Material\MatOpenningBalanceFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Material\MatReceiptDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Material\MatReturnDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -189,6 +213,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Material\MatTransferDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Material\MatTransferDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Material\MatWithdrawDetailView.vb">
@@ -251,6 +278,12 @@
     <Compile Include="Tool\ToolWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="ApprovalComment\AdvanceStoreApprovalCommentForm.resx">
+      <DependentUpon>AdvanceStoreApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
+      <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CostCenter\CashFlowForm.resx">
       <DependentUpon>CashFlowForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -299,6 +332,9 @@
     <EmbeddedResource Include="Material\MatOpenningBalanceFilterSubPanel.resx">
       <DependentUpon>MatOpenningBalanceFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Material\MatReceiptDetailView.resx">
+      <DependentUpon>MatReceiptDetailView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Material\MatReturnDetailView.resx">
       <DependentUpon>MatReturnDetailView.vb</DependentUpon>
     </EmbeddedResource>
@@ -322,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Material\MatTransferDetail.resx">
       <DependentUpon>MatTransferDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\MatTransferDetailView.resx">
+      <DependentUpon>MatTransferDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Material\MatWithdrawDetailView.resx">
       <DependentUpon>MatWithdrawDetailView.vb</DependentUpon>
@@ -385,6 +424,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ApprovalComment\.svn\prop-base\" />
+    <Folder Include="ApprovalComment\.svn\props\" />
+    <Folder Include="ApprovalComment\.svn\tmp\prop-base\" />
+    <Folder Include="ApprovalComment\.svn\tmp\props\" />
+    <Folder Include="ApprovalComment\.svn\tmp\text-base\" />
     <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +486,13 @@
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ApprovalComment\.svn\entries" />
+    <None Include="ApprovalComment\.svn\text-base\AdvanceApprovalCommentForm.resx.svn-base" />
+    <None Include="ApprovalComment\.svn\text-base\AdvanceApprovalCommentForm.vb.svn-base" />
+    <None Include="ApprovalComment\.svn\text-base\ApprovalCommentForm.resx.svn-base" />
+    <None Include="ApprovalComment\.svn\text-base\ApprovalCommentForm.vb.svn-base" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

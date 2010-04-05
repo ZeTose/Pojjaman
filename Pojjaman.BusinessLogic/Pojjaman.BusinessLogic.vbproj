@@ -589,6 +589,7 @@
     <Compile Include="BusinessEntities\Items\Unit.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\ApprovalStoreComment.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatOpenningBalance.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -607,6 +608,8 @@
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatStockCountItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatTransfer.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatTransferItem.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatWithdraw.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -614,6 +617,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessEntities\MaterialWitdrawal\ReSaveStock.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\StockCostItem.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\StockSequence.vb">
       <SubType>Code</SubType>
     </Compile>
