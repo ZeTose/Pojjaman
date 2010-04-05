@@ -195,7 +195,7 @@ Public Class CashFlowForm
     Dim verticalLines As New List(Of Double)
     verticalLines.Add(DateToDouble(dataDate))
 
-    myChart = New LineChart.LineChart(myDC, Math.Min(DateToDouble(allDays(0)) * 1.1, 0), DateToDouble(allDays(allDays.Count - 1)) * 1.1, Math.Min(0, minY * 1.1), maxY * 1.1, xTickStrings, Nothing, Me.CostCenter.Name, "Date", "Amount", verticalLines, Nothing)
+    myChart = New LineChart.LineChart(myDC, DateToDouble(allDays(0).AddDays(-10)), DateToDouble(allDays(allDays.Count - 1).AddDays(10)), minY, maxY * 1.1, xTickStrings, Nothing, Me.CostCenter.Name, "Date", "Amount", verticalLines, Nothing)
     myChart.InitializeComponent()
     ctrlHost.Child = myChart
 
