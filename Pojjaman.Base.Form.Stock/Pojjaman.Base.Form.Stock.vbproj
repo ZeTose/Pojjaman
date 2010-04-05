@@ -424,11 +424,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ApprovalComment\.svn\prop-base\" />
-    <Folder Include="ApprovalComment\.svn\props\" />
-    <Folder Include="ApprovalComment\.svn\tmp\prop-base\" />
-    <Folder Include="ApprovalComment\.svn\tmp\props\" />
-    <Folder Include="ApprovalComment\.svn\tmp\text-base\" />
     <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
@@ -486,13 +481,6 @@
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ApprovalComment\.svn\entries" />
-    <None Include="ApprovalComment\.svn\text-base\AdvanceApprovalCommentForm.resx.svn-base" />
-    <None Include="ApprovalComment\.svn\text-base\AdvanceApprovalCommentForm.vb.svn-base" />
-    <None Include="ApprovalComment\.svn\text-base\ApprovalCommentForm.resx.svn-base" />
-    <None Include="ApprovalComment\.svn\text-base\ApprovalCommentForm.vb.svn-base" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
