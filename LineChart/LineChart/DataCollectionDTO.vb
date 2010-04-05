@@ -14,6 +14,8 @@ Public Class DataSeriesDTO
     ChartValueList = New List(Of ChartValueDTO)
   End Sub
   Property SeriesName As String
+  Property IsStairStep As Boolean = False
+  Property IsStem As Boolean
 
 End Class
 Public Class DataCollectionDTO

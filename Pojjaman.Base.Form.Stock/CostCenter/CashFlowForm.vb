@@ -176,8 +176,10 @@ Public Class CashFlowForm
           myDs.SeriesName = "Cumm Expense"
         Case 2
           myDs.SeriesName = "Total Revenue"
+          myDs.IsStem = True
         Case 3
           myDs.SeriesName = "Cumm Revenue"
+          myDs.IsStairStep = True
         Case 4
           myDs.SeriesName = "Cash Flow"
       End Select

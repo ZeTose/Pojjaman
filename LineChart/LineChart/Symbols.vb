@@ -11,11 +11,11 @@
     FillColor = Brushes.Black
     BorderThickness = 1.0
   End Sub
-  Public Sub AddSymbol(ByVal symCanvas As Canvas, ByVal pt As Point)
+  Public Sub AddSymbol(ByVal symCanvas As Canvas, ByVal pt As Point, ByVal tooltip As Object)
     Dim plg As Polygon = New Polygon()
     plg.Stroke = BorderColor
     plg.StrokeThickness = BorderThickness
-    plg.ToolTip = pt.ToString
+    plg.ToolTip = tooltip
     Dim ellipse As New Ellipse()
     ellipse.Stroke = BorderColor
     ellipse.StrokeThickness = BorderThickness

@@ -208,7 +208,7 @@ Public Class ChartStyleGridLines
 
           tb = New TextBlock()
           Dim myDate As Date = DoubleToDate(dx)
-          tb.Text = myDate.ToString("m")
+          tb.Text = myDate.ToString("dd/MM")
           tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
           size = tb.DesiredSize
           TextCanvas.Children.Add(tb)

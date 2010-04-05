@@ -40,6 +40,9 @@
     chartCanvas.Width = Math.Max(chartGrid.ActualWidth - 20, 0)
     chartCanvas.Height = Math.Max(chartGrid.ActualHeight - 20, 0)
     legendCanvas.Children.Clear()
+    'chartCanvas.Children.Clear()
+    'textCanvas.Children.Clear()
+
     chartCanvas.Children.RemoveRange(1, chartCanvas.Children.Count - 1)
     textCanvas.Children.RemoveRange(1, textCanvas.Children.Count - 1)
 
@@ -80,43 +83,52 @@
     '  chartCanvas.CaptureMouse()
     'End If
   End Sub
-
+  Private Sub chartCanvas_MouseMove(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseEventArgs) Handles chartCanvas.MouseMove
+    'If (chartCanvas.IsMouseCaptured) Then
+    '  endPoint = e.GetPosition(chartCanvas)
+    '  If rubberBand Is Nothing Then
+    '    rubberBand = New Rectangle
+    '    rubberBand.Stroke = Brushes.Red
+    '    chartCanvas.Children.Add(rubberBand)
+    '  End If
+    '  rubberBand.Width = Math.Abs(startPoint.X - endPoint.X)
+    '  rubberBand.Height = Math.Abs(startPoint.Y - endPoint.Y)
+    '  Dim left As Double = Math.Min(startPoint.X, endPoint.X)
+    '  Dim top As Double = Math.Min(startPoint.Y, endPoint.Y)
+    '  Canvas.SetLeft(rubberBand, left)
+    '  Canvas.SetTop(rubberBand, top)
+    'End If
+  End Sub
   Private Sub chartCanvas_MouseLeftButtonUp(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles chartCanvas.MouseLeftButtonUp
-    'Dim dx As Double = 0
-    'Dim dy As Double = 0
     'Dim x0 As Double = 0
     'Dim x1 As Double = 1
     'Dim y0 As Double = 0
     'Dim y1 As Double = 1
     'endPoint = e.GetPosition(chartCanvas)
-    'dx = (cs.Xmax - cs.Xmin) * (endPoint.X - startPoint.X) /
-    'chartCanvas.Width
-    'dy = (cs.Ymax - cs.Ymin) * (endPoint.Y - startPoint.Y) /
-    'chartCanvas.Height
-    'x0 = cs.Xmin + dx
-    'x1 = cs.Xmax + dx
-    'y0 = cs.Ymin + dy
-    'y1 = cs.Ymax + dy
+    'If endPoint.X > startPoint.X Then
+    '  x0 = cs.Xmin + (cs.Xmax - cs.Xmin) * startPoint.X / chartCanvas.Width
+    '  x1 = cs.Xmin + (cs.Xmax - cs.Xmin) * endPoint.X / chartCanvas.Width
+    'ElseIf endPoint.X < startPoint.X Then
+    '  x1 = cs.Xmin + (cs.Xmax - cs.Xmin) * startPoint.X / chartCanvas.Width
+    '  x0 = cs.Xmin + (cs.Xmax - cs.Xmin) * endPoint.X / chartCanvas.Width
+    'End If
 
-    'RefreshChart(x0, x1, y0, y1)
+    'If endPoint.Y < startPoint.Y Then
+    '  y0 = cs.Ymin + (cs.Ymax - cs.Ymin) * (chartCanvas.Height - startPoint.Y) / chartCanvas.Height
+    '  y1 = cs.Ymin + (cs.Ymax - cs.Ymin) * (chartCanvas.Height - endPoint.Y) / chartCanvas.Height
+    'ElseIf endPoint.Y > startPoint.Y Then
+    '  y1 = cs.Ymin + (cs.Ymax - cs.Ymin) * (chartCanvas.Height - startPoint.Y) / chartCanvas.Height
+    '  y0 = cs.Ymin + (cs.Ymax - cs.Ymin) * (chartCanvas.Height - endPoint.Y) / chartCanvas.Height
+    'End If
+    'RefreshChart(x0, x1, y0, y1, cs.DataString, cs.Title, cs.XTick, cs.YTick, cs.VerticalLines)
 
-    'chartCanvas.ReleaseMouseCapture()
-    'chartCanvas.Cursor = Cursors.Arrow
-  End Sub
-
-  Private Sub chartCanvas_MouseMove(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseEventArgs) Handles chartCanvas.MouseMove
-    'If (chartCanvas.IsMouseCaptured) Then
-    '  endPoint = e.GetPosition(chartCanvas)
-    '  Dim tt As New TranslateTransform()
-    '  tt.X = endPoint.X - startPoint.X
-    '  tt.Y = endPoint.Y - startPoint.Y
-    '  For i As Integer = 0 To dc.DataList.Count - 1
-    '    dc.DataList(i).LineSeries.RenderTransform = tt
-    '  Next
+    'If Not rubberBand Is Nothing Then
+    '  rubberBand = Nothing
+    '  chartCanvas.ReleaseMouseCapture()
     'End If
   End Sub
 
   Private Sub chartCanvas_MouseRightButtonDown(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles chartCanvas.MouseRightButtonDown
-    'RefreshChart(xmin0, xmax0, ymin0, ymax0)
+    'RefreshChart(cs.Xmin, cs.Xmax, cs.Ymin, cs.Ymax, cs.DataString, cs.Title, cs.XLabel, cs.YLabel, cs.VerticalLines)
   End Sub
 End Class

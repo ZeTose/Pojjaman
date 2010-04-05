@@ -1,6 +1,8 @@
 ﻿Public Class DataSeries
   Public Const DEFAULT_NAME As String = "Default Name"
   Public Property LineSeries As New Polyline
+  Public Property IsStairstep As Boolean = False
+  Property IsStem As Boolean = False
   Public Property LineColor As Brush
   Public Property LineThickness As Double = -1
   Public Property LinePattern As LinePatternEnum = LinePatternEnum.Solid
@@ -11,7 +13,24 @@
     Symbols = New Symbols
   End Sub
 
+
   Public Sub AddLinePattern()
+    LineSeries.Stroke = LineColor
+    LineSeries.StrokeThickness = LineThickness
+
+    Select Case LinePattern
+      Case LinePatternEnum.Dash
+        LineSeries.StrokeDashArray = New DoubleCollection(New Double() {4, 3})
+      Case LinePatternEnum.Dot
+        LineSeries.StrokeDashArray = New DoubleCollection(New Double() {1, 2})
+      Case LinePatternEnum.DashDot
+        LineSeries.StrokeDashArray = New DoubleCollection(New Double() {4, 2, 1, 2})
+      Case LinePatternEnum.None
+        LineSeries.StrokeDashArray = New DoubleCollection(New Double() {4, 2, 1, 2})
+    End Select
+  End Sub
+
+  Public Sub AddStatirstepLinePattern()
     LineSeries.Stroke = LineColor
     LineSeries.StrokeThickness = LineThickness
 
