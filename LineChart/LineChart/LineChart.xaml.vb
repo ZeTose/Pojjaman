@@ -9,10 +9,13 @@
 
   Private rubberBand As Shape = Nothing
   Private dto As DataCollectionDTO
-  Public Sub New(ByVal myDc As DataCollectionDTO, ByVal xmin As Double, ByVal xmax As Double, ByVal ymin As Double, ByVal ymax As Double, ByVal dataString As List(Of String) _
+  Public Sub New(ByVal myDc As DataCollectionDTO, ByVal xmin As Double, ByVal xmax As Double, ByVal ymin As Double, ByVal ymax As Double _
+                          , ByVal _yTickStrings As List(Of String) _
+                          , ByVal _xTickStrings As List(Of String) _
                           , ByVal title As String _
                           , ByVal xLabel As String, ByVal yLabel As String _
-                          , ByVal verticalLines As List(Of Double))
+                          , ByVal verticalTicks As List(Of Double) _
+                          , ByVal horizontalTicks As List(Of Double))
 
     ' This call is required by the designer.
     InitializeComponent()
@@ -26,16 +29,19 @@
     cs.Xmax = xmax
     cs.Ymin = ymin
     cs.Ymax = ymax
-    cs.DataString = dataString
-    cs.VerticalLines = verticalLines
+    cs.XTickStrings = _yTickStrings
+    cs.YTickStrings = _xTickStrings
+    cs.VerticalLines = verticalTicks
+    cs.HorizontalLines = horizontalTicks
     dto = myDc
   End Sub
-  Public Sub RefreshChart(ByVal xmin As Double, ByVal xmax As Double _
-                          , ByVal ymin As Double, ByVal ymax As Double _
-                          , ByVal dataString As List(Of String) _
+  Public Sub RefreshChart(ByVal xmin As Double, ByVal xmax As Double, ByVal ymin As Double, ByVal ymax As Double _
+                          , ByVal _xTickStrings As List(Of String) _
+                          , ByVal _yTickStrings As List(Of String) _
                           , ByVal title As String _
                           , ByVal xLabel As String, ByVal yLabel As String _
-                          , ByVal verticalLines As List(Of Double))
+                          , ByVal verticalLines As List(Of Double) _
+                          , ByVal horizontalLines As List(Of Double))
     dc = New DataCollection(dto)
     chartCanvas.Width = Math.Max(chartGrid.ActualWidth - 20, 0)
     chartCanvas.Height = Math.Max(chartGrid.ActualHeight - 20, 0)
@@ -54,8 +60,10 @@
     cs.Xmax = xmax
     cs.Ymin = ymin
     cs.Ymax = ymax
-    cs.DataString = dataString
+    cs.XTickStrings = _xTickStrings
+    cs.YTickStrings = _yTickStrings
     cs.VerticalLines = verticalLines
+    cs.HorizontalLines = horizontalLines
 
     lg = New Legend()
     cs.ChartCanvas = chartCanvas
@@ -74,7 +82,7 @@
     lg.AddLegend(cs.ChartCanvas, dc)
   End Sub
   Private Sub chartGrid_SizeChanged(ByVal sender As Object, ByVal e As SizeChangedEventArgs)
-    RefreshChart(cs.Xmin, cs.Xmax, cs.Ymin, cs.Ymax, cs.DataString, cs.Title, cs.XLabel, cs.YLabel, cs.VerticalLines)
+    RefreshChart(cs.Xmin, cs.Xmax, cs.Ymin, cs.Ymax, cs.XTickStrings, cs.YTickStrings, cs.Title, cs.XLabel, cs.YLabel, cs.VerticalLines, cs.HorizontalLines)
   End Sub
 
   Private Sub chartCanvas_MouseLeftButtonDown(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles chartCanvas.MouseLeftButtonDown

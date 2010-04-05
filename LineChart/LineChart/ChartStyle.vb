@@ -70,7 +70,10 @@ Public Class ChartStyleGridLines
   Public Property TextCanvas As Canvas
   Public Property IsXGrid As Boolean = True
   Public Property IsYGrid As Boolean = True
-  Public Property DataString As List(Of String)
+  Public Property XTickStrings As List(Of String)
+  Public Property YTickStrings As List(Of String)
+  Property VerticalLines As List(Of Double)
+  Property HorizontalLines As List(Of Double)
 
   Public Sub New()
     Title = "Title"
@@ -78,7 +81,6 @@ Public Class ChartStyleGridLines
     YLabel = "Y Axis"
   End Sub
 
-  Property VerticalLines As List(Of Double)
 
   Public Sub AddChartStyle(ByVal tbTitle As TextBlock, ByVal tbXLabel As TextBlock, ByVal tbYLabel As TextBlock)
     Dim pt As New Point
@@ -170,6 +172,7 @@ Public Class ChartStyleGridLines
     yStart = CInt(Math.Ceiling(Ymin / yTick))
     yEnd = CInt(Math.Floor(Ymax / yTick))
 
+    'เส้นประตั้ง
     If Not VerticalLines Is Nothing Then
       For Each vline As Double In Me.VerticalLines
         Dim v As New Line()
@@ -184,13 +187,32 @@ Public Class ChartStyleGridLines
       Next
     End If
 
+    'เส้นประนอน
+    If Not HorizontalLines Is Nothing Then
+      For Each hline As Double In Me.HorizontalLines
+        Dim h As New Line()
+        h.Stroke = Brushes.Red
+        h.StrokeThickness = 3
+        h.StrokeDashArray = New DoubleCollection(New Double() {4, 3})
+        h.X1 = NormalizePoint(New Point(hline, Xmin)).X
+        h.Y1 = NormalizePoint(New Point(hline, Xmin)).Y
+        h.X2 = NormalizePoint(New Point(hline, Xmax)).X
+        h.Y2 = NormalizePoint(New Point(hline, Xmax)).Y
+        ChartCanvas.Children.Add(h)
+      Next
+    End If
+
     '==Create vertical gridlines
     If IsYGrid Then
-      If Not DataString Is Nothing Then
-        For Each dt As String In DataString
+      If Not XTickStrings Is Nothing Then
+        For Each dt As String In XTickStrings
           gridline = New Line()
           AddLinePattern()
-          dx = DateToDouble(Date.Parse(dt))
+          If IsDate(dt) Then
+            dx = DateToDouble(Date.Parse(dt))
+          Else
+            dx = CDbl(dt)
+          End If
           gridline.X1 = NormalizePoint(New Point(dx, Ymin)).X
           gridline.Y1 = NormalizePoint(New Point(dx, Ymin)).Y
           gridline.X2 = NormalizePoint(New Point(dx, Ymax)).X
@@ -207,8 +229,12 @@ Public Class ChartStyleGridLines
           ChartCanvas.Children.Add(tick)
 
           tb = New TextBlock()
-          Dim myDate As Date = DoubleToDate(dx)
-          tb.Text = myDate.ToString("dd/MM")
+          If IsDate(dt) Then
+            Dim myDate As Date = DoubleToDate(dx)
+            tb.Text = myDate.ToString("dd/MM")
+          Else
+            tb.Text = dx.ToString("N2")
+          End If
           tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
           size = tb.DesiredSize
           TextCanvas.Children.Add(tb)
@@ -248,36 +274,73 @@ Public Class ChartStyleGridLines
 
     '==Create horizontal gridlines
     If IsXGrid Then
-      For i As Integer = yStart To yEnd
-        gridline = New Line()
-        AddLinePattern()
-        dy = i * yTick
-        gridline.X1 = NormalizePoint(New Point(Xmin, dy)).X
-        gridline.Y1 = NormalizePoint(New Point(Xmin, dy)).Y
-        gridline.X2 = NormalizePoint(New Point(Xmax, dy)).X
-        gridline.Y2 = NormalizePoint(New Point(Xmax, dy)).Y
-        ChartCanvas.Children.Add(gridline)
+      If Not YTickStrings Is Nothing Then
+        For Each dt As String In YTickStrings
+          gridline = New Line()
+          AddLinePattern()
+          If IsDate(dt) Then
+            dy = DateToDouble(Date.Parse(dt))
+          Else
+            dy = CDbl(dt)
+          End If
+          gridline.X1 = NormalizePoint(New Point(Xmin, dy)).X
+          gridline.Y1 = NormalizePoint(New Point(Xmin, dy)).Y
+          gridline.X2 = NormalizePoint(New Point(Xmax, dy)).X
+          gridline.Y2 = NormalizePoint(New Point(Xmax, dy)).Y
+          ChartCanvas.Children.Add(gridline)
 
-        pt = NormalizePoint(New Point(Xmin, dy))
-        tick = New Line()
-        tick.Stroke = Brushes.Black
-        tick.X1 = pt.X
-        tick.Y1 = pt.Y
-        tick.X2 = pt.X + 5
-        tick.Y2 = pt.Y
-        ChartCanvas.Children.Add(tick)
+          pt = NormalizePoint(New Point(Xmin, dy))
+          tick = New Line()
+          tick.Stroke = Brushes.Black
+          tick.X1 = pt.X
+          tick.Y1 = pt.Y
+          tick.X2 = pt.X + 5
+          tick.Y2 = pt.Y
+          ChartCanvas.Children.Add(tick)
 
-        tb = New TextBlock()
-        tb.Text = dy.ToString("N2")
-        tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
-        size = tb.DesiredSize
-        TextCanvas.Children.Add(tb)
-        Canvas.SetRight(tb, ChartCanvas.Width + 10)
-        Canvas.SetTop(tb, pt.Y)
-      Next
+          tb = New TextBlock()
+          If IsDate(dt) Then
+            Dim myDate As Date = DoubleToDate(dy)
+            tb.Text = myDate.ToString("dd/MM")
+          Else
+            tb.Text = dy.ToString("N2")
+          End If
+          tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
+          size = tb.DesiredSize
+          TextCanvas.Children.Add(tb)
+          Canvas.SetRight(tb, ChartCanvas.Width + 10)
+          Canvas.SetTop(tb, pt.Y)
+        Next
+      Else
+        For i As Integer = yStart To yEnd
+          gridline = New Line()
+          AddLinePattern()
+          dy = i * yTick
+          gridline.X1 = NormalizePoint(New Point(Xmin, dy)).X
+          gridline.Y1 = NormalizePoint(New Point(Xmin, dy)).Y
+          gridline.X2 = NormalizePoint(New Point(Xmax, dy)).X
+          gridline.Y2 = NormalizePoint(New Point(Xmax, dy)).Y
+          ChartCanvas.Children.Add(gridline)
+
+          pt = NormalizePoint(New Point(Xmin, dy))
+          tick = New Line()
+          tick.Stroke = Brushes.Black
+          tick.X1 = pt.X
+          tick.Y1 = pt.Y
+          tick.X2 = pt.X + 5
+          tick.Y2 = pt.Y
+          ChartCanvas.Children.Add(tick)
+
+          tb = New TextBlock()
+          tb.Text = dy.ToString("N2")
+          tb.Measure(New Size(Double.PositiveInfinity, Double.PositiveInfinity))
+          size = tb.DesiredSize
+          TextCanvas.Children.Add(tb)
+          Canvas.SetRight(tb, ChartCanvas.Width + 10)
+          Canvas.SetTop(tb, pt.Y)
+        Next
+      End If
     End If
-
-
 
     ' Add title and labels:
     tbTitle.Text = Title

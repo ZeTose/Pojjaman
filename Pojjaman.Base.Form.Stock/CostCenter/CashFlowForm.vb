@@ -51,10 +51,10 @@ Public Class CashFlowForm
     Next
     Dim currentDate As Date = minDate
     Dim allDays As New List(Of Date)
-    Dim dataString As New List(Of String)
+    Dim xTickStrings As New List(Of String)
     While currentDate <= maxDate
       If currentDate.Day = 1 AndAlso currentDate > minDate Then
-        dataString.Add(currentDate.AddDays(-1).ToString)
+        xTickStrings.Add(currentDate.AddDays(-1).ToString)
       End If
       allDays.Add(currentDate)
       currentDate = currentDate.AddDays(1)
@@ -195,7 +195,7 @@ Public Class CashFlowForm
     Dim verticalLines As New List(Of Double)
     verticalLines.Add(DateToDouble(dataDate))
 
-    myChart = New LineChart.LineChart(myDC, DateToDouble(allDays(0)), DateToDouble(allDays(allDays.Count - 1)), minY * 1.1, maxY * 1.1, dataString, Me.CostCenter.Name, "Date", "Amount", verticalLines)
+    myChart = New LineChart.LineChart(myDC, Math.Min(DateToDouble(allDays(0)) * 1.1, 0), DateToDouble(allDays(allDays.Count - 1)) * 1.1, Math.Min(0, minY * 1.1), maxY * 1.1, xTickStrings, Nothing, Me.CostCenter.Name, "Date", "Amount", verticalLines, Nothing)
     myChart.InitializeComponent()
     ctrlHost.Child = myChart
 
