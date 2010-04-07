@@ -375,6 +375,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_istransfer", Me.IsTransfer))
 
       ' กำหนดการบันทึกผู้แก้ไข
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -501,9 +502,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@asset_id", item.Entity.Id) _
           , New SqlParameter("@depre_id", Me.Id))
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetCostCenter" _
+          If Me.IsTransfer Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetCostCenter" _
           , New SqlParameter("@asset_id", item.Entity.Id) _
           , New SqlParameter("@cc_id", ValidIdOrDBNull(Me.ToCostcenter)))
+          End If
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetLastDepreDate" _
           , New SqlParameter("@asset_id", item.Entity.Id) _
@@ -519,6 +522,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("deprei_note") = item.Note
           dr("deprei_status") = Me.Status.Value
           dr("deprei_depreopening") = item.DepreOpeningBalanceamnt
+          dr("deprei_deprebase") = item.Depreamnt
           .Rows.Add(dr)
         Next
       End With
@@ -590,7 +594,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.AddRange(Me.GetItemJournalEntries())
 
 
-        If Not SameCostCenter() Then
+        If IsTransfer AndAlso Not SameCostCenter() Then
           SetGLForCostCenter(jiColl)
         End If
 
@@ -610,7 +614,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Dim totalbuyprice As Decimal
         For Each item As DepreciationCalItem In Me.ItemCollection
-          totalbuyprice += item.Entity.BuyPrice
+          totalbuyprice += item.DepreBase
         Next
         Return totalbuyprice
       End Get
@@ -632,7 +636,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         For Each addedJi As JournalEntryItem In jiColl
           If Not item.Entity Is Nothing Then
-            'I6.2
+            'I6.2  ค่าเสื่อมสะสม
             Dim depreAccount As Account
             If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
               depreAccount = item.Entity.DepreOpeningAccount
@@ -649,7 +653,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             End If
 
-            'I6.1
+            'I6.1 ค่าเสื่อมราคา
             Dim depreOPBAccount As Account
             If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
               depreOPBAccount = item.Entity.DepreAccount
@@ -668,7 +672,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Next
         If Not item.Entity Is Nothing Then
-          'I6.2
+          'I6.2  ค่าเสื่อมสะสม
           Dim depreAccount As Account
           If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
             'ใช้ acct ในรายการ
@@ -680,11 +684,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Mapping = "I6.2"
               ji.Amount += item.Depreamnt
               ji.Account = depreAccount
-              If Me.FromCostcenter.Originated Then
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
                 ji.CostCenter = Me.FromCostcenter
+              ElseIf item.Entity.Costcenter IsNot Nothing Then
+                ji.CostCenter = item.Entity.Costcenter
               Else
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
               jiColl.Add(ji)
             End If
           ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
@@ -692,16 +700,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = "I6.2"
               ji.Amount += item.Depreamnt
-              If Me.FromCostcenter.Originated Then
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
                 ji.CostCenter = Me.FromCostcenter
+              ElseIf item.Entity.Costcenter IsNot Nothing Then
+                ji.CostCenter = item.Entity.Costcenter
               Else
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
               jiColl.Add(ji)
             End If
           End If
 
-          'I6.1
+          If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2D"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
+            'If Not noDepreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2D"
+            ji.Amount += item.Depreamnt
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          End If
+
+          'I6.1  ค่าเสื่อมราคา
           Dim depreOPBAccount As Account
           If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
             'ใช้ acct ในรายการ
@@ -713,11 +762,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Mapping = "I6.1"
               ji.Amount += item.Depreamnt
               ji.Account = depreOPBAccount
-              If Me.FromCostcenter.Originated Then
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
                 ji.CostCenter = Me.FromCostcenter
+              ElseIf item.Entity.Costcenter IsNot Nothing Then
+                ji.CostCenter = item.Entity.Costcenter
               Else
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
               jiColl.Add(ji)
             End If
           ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
@@ -725,13 +778,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = "I6.1"
               ji.Amount += item.Depreamnt
-              If Me.FromCostcenter.Originated Then
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
                 ji.CostCenter = Me.FromCostcenter
+              ElseIf item.Entity.Costcenter IsNot Nothing Then
+                ji.CostCenter = item.Entity.Costcenter
               Else
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
               jiColl.Add(ji)
             End If
+          End If
+          If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1D"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreOPBAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
+            'If Not noDepreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1D"
+            ji.Amount += item.Depreamnt
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
           End If
         End If
 
@@ -745,6 +838,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim toccacct As Account = item.Entity.Account
         If Not toccacct Is Nothing Then
           ht(toccacct.Id) = toccacct
+        End If
+        If item.Entity IsNot Nothing Then
+          ' DR. สินทรัพย์ถาวร        costcenter ใหม่           ji.Mapping = "I6.3"
+          ji = New JournalEntryItem
+          ji.Mapping = "I6.3D"
+          ji.Amount = item.DepreBase
+          ji.Account = item.Entity.Account
+          ji.CostCenter = Me.ToCostcenter
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = item.Entity.EntityId
+          ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+          jiColl.Add(ji)
+
+          ' CR. สินทรัพย์ถาวร        costcenter เดิม           ji.Mapping = "I6.4"
+          ji = New JournalEntryItem
+          ji.Mapping = "I6.4D"
+          ji.Amount = item.DepreBase
+          ji.Account = item.Entity.Account
+          ji.CostCenter = Me.FromCostcenter
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = item.Entity.EntityId
+          ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+          jiColl.Add(ji)
         End If
       Next
       For Each acct As Account In ht.Values
@@ -767,6 +883,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Account = acct
           End If
           ji.CostCenter = Me.ToCostcenter
+          'ji.EntityItem = item.Entity.Id
+          'ji.EntityItemType = item.Entity.EntityId
           jiColl.Add(ji)
 
           ' CR. สินทรัพย์ถาวร        costcenter เดิม           ji.Mapping = "I6.4"
@@ -777,6 +895,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Account = acct
           End If
           ji.CostCenter = Me.FromCostcenter
+          'ji.EntityItem = item.Entity.Id
+          'ji.EntityItemType = item.Entity.EntityId
           jiColl.Add(ji)
         End If
       Next
@@ -1276,11 +1396,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' คำนวณค่า
         'Me.DepreciationCalculation(Me.Entity)
         Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
-
+        m_deprebase = Entity.BuyPrice - m_writeoffamt
         row("deprei_note") = Me.Note
         row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
         row("deprei_depreamnt") = Configuration.FormatToString(Me.Depreamnt, DigitConfig.Price)
-        row("deprei_price") = Configuration.FormatToString(Me.Entity.BuyPrice, DigitConfig.Price)
+        row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
         row("deprei_salvage") = Configuration.FormatToString(Me.Entity.Salvage, DigitConfig.Price)
         row("deprei_age") = Configuration.FormatToString(Me.Entity.Age, DigitConfig.Int)
       End If
@@ -1326,6 +1446,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region " Depreciation Calculation "
 
     Private m_depreamntinprocess As Decimal     ' ค่าเสื่อมถึงวันที่คำนวณ
+
+    Private m_writeoffamt As Decimal              ' มูลค่า write-off ที่หักไปแล้ว
+    Private m_deprebase As Decimal              ' ฐานราคาที่คิดค่าเสื่อม
     Private m_depreopeningamnt As Decimal       ' ค่าเสื่อมสะสมยกมา
     Private m_depreamnt As Decimal              ' ค่าเสื่อมสะสมที่ต้องการ
     Private m_remainingamnt As Decimal          ' ยอดคงเหลือ
@@ -1333,6 +1456,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property DepreamntInProcess() As Decimal
       Get
           Return m_depreamntinprocess
+      End Get
+    End Property
+    Public ReadOnly Property WriteOffAmt() As Decimal
+      Get
+        'If Me.m_entity.Type.DepreAble Then
+        Return m_writeoffamt
+        'End If
+
+        'Return 0
+      End Get
+    End Property
+    Public ReadOnly Property DepreBase() As Decimal
+      Get
+        'If Me.m_entity.Type.DepreAble Then
+        Return m_deprebase
+        'End If
+
+        'Return 0
       End Get
     End Property
     Public ReadOnly Property DepreOpeningBalanceamnt() As Decimal
@@ -1378,6 +1519,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If ds.Tables(0).Rows.Count > 0 Then
           m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
           m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount"))
+          m_writeoffamt = CDec(ds.Tables(0).Rows(0)("writeoffamt"))
+          m_deprebase = CDec(ds.Tables(0).Rows(0)("DepreBase"))
         End If
       Catch ex As Exception
 

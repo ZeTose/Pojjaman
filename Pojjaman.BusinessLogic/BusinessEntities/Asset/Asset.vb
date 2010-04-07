@@ -1369,7 +1369,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
         Public ReadOnly Property CalculatingValueIgnoreStartCalcAmt() As Decimal 'มูลค่าคำนวณค่าเสื่อมแบบไม่สนใจค่าเสื่อมเบื้องต้น
             Get
-                Return Math.Max(Me.BuyPrice - Me.Salvage, 0)
+        Return Math.Max(Me.BuyPrice - Me.Salvage, 0)
             End Get
         End Property
         Public Property Age() As Integer 'อายุสินทรัพย์ (ปี)
@@ -2027,17 +2027,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.StartCalcDate.Equals(Date.MinValue) Or Me.TransferDate.Equals(Date.MinValue) Then
         Return 0
       End If
-
-      If theDate < Me.TransferDate And theDate < Me.StartCalcDate Then
+      'ยอมคิดค่าเสื่อมก่อนวันยกมา
+      'If theDate < Me.TransferDate And theDate < Me.StartCalcDate Then
+      If theDate < Me.StartCalcDate Then
         Return 0
       End If
 
       Dim Interval As Long = DateDiff(DateInterval.DayOfYear, Me.TransferDate, theDate) 'จำนวนวันตั้งแต่วันที่เริ่มคำนวณจนถึงวันคำนวณ
+
       Interval = CLng(IIf(Interval < 0, -1, Interval))
       Interval += 1  'ต้องการนับวันเริ่มต้นด้วย
       Dim TotalDays As Long = DateDiff(DateInterval.DayOfYear, Me.StartCalcDate, DateAdd(DateInterval.Year, Me.Age, Me.StartCalcDate).AddDays(-1))
       TotalDays += 1  'ต้องการนับวันเริ่มต้นด้วย
-
 
 
       Dim OpeningInterval As Long = 0
@@ -2054,10 +2055,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim xdays As Integer = 0
       Dim calcDevideAmt As Decimal = 0
       Dim calcMultiAmt As Decimal = 0
+      Dim deprePerDayTTE As Double = 0 'ค่าเสื่อมสะสมต่อวัน คิดจากวันคิดค่าเสื่อมยกมาจนถึงวันสุท้าย
 
       If Me.Age > 0 Then
+        'หาวันของการยกมา
         DepreOpeningDayRange = DateDiff(DateInterval.DayOfYear, Me.StartCalcDate, Me.TransferDate)
-
         'If DepreOpeningDayRange > 0 Then  'หาจำนวนวันที่ค่าเสื่อมสะสมยกมาอาจจะใช้เกิน
         '  calcDevideAmt = Me.CalculatingValueIgnoreStartCalcAmt / TotalDays
 
@@ -2082,20 +2084,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
             div1 = Me.CalculatingValueIgnoreStartCalcAmt / TotalDays
           End If
           If div1 > 0 Then
+            ' xday น่าจะได้วันที่ ที่น่าจะเป็นของ ค่าเสื่อม
             xdays = CInt((Me.DepreOpening / (div1)) - DepreOpeningDayRange)
           End If
           If DepreOpeningDayRange > 0 Then
             DepreOpeningValue += OpeningInterval / DepreOpeningDayRange * Me.DepreOpening
           End If
+          If TotalDays > DepreOpeningDayRange Then
+            deprePerDayTTE = (Me.CalculatingValueIgnoreStartCalcAmt - Me.DepreOpening) / (TotalDays - DepreOpeningDayRange)
+          Else
+            deprePerDayTTE = 0
+          End If
+        ElseIf DepreOpeningDayRange = 0 Then
+          deprePerDayTTE = Me.CalculatingValueIgnoreStartCalcAmt / TotalDays
+
         End If
 
         If TotalDays > 0 Then
-          DepreValue = Interval / TotalDays * Me.CalculatingValueIgnoreStartCalcAmt 'ค่าเสื่อมตามจำนวนวันที่ต้องการนับจากวันย้ายเข้าสู่ระบบ
+          'DepreValue = Interval / TotalDays * Me.CalculatingValueIgnoreStartCalcAmt 'ค่าเสื่อมตามจำนวนวันที่ต้องการนับจากวันย้ายเข้าสู่ระบบ
+          DepreValue = Interval * deprePerDayTTE
         End If
         '---------------------------------------------
 
         If DepreOpeningDayRange > 0 Then 'ถ้าวันย้ายเข้าระบบกับวันเริ่มคิดค่าซากไม่ตรงกัน ให้บวกค่าซากสะสมเข้าไปด้วย
-          DepreValue += CDec(IIf(DepreOpeningValue > Me.DepreOpening, Me.DepreOpening, DepreOpeningValue))
+          DepreValue += Me.DepreOpening
+          'DepreValue += CDec(IIf(DepreOpeningValue > Me.DepreOpening, Me.DepreOpening, DepreOpeningValue))
+        End If
+
+        If Interval = 0 Then  'แสดงว่า Transfer > thedate
+          If DepreOpeningDayRange <> 0 Then
+            DepreValue = OpeningInterval * (Me.DepreOpening / DepreOpeningDayRange)
+          Else ' ค่า 0 สแดงว่า คิดค่าเสื่อมวันที่โอน และตรงกับวันที่เริ่มด้วย ค่าเป็น 0
+            DepreValue = 0
+          End If
         End If
 
         If Interval + DepreOpeningDayRange + xdays >= TotalDays Or theDate > DateAdd(DateInterval.Year, Me.Age, Me.StartCalcDate).AddDays(-2) Then  'ถ้าจำนวนวันมากกว่าเท่ากับวันทั้งหมด ให้ค่าเสื่อมเป็นราคา-ค่าซาก

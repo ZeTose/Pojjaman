@@ -849,6 +849,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow.Tag = wbsd
       Next
     End Sub
+    Public Sub Populate(ByVal dt As TreeTable, ByVal item As EquipmentToolWithdrawItem, ByVal view As Integer)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each wbsd As WBSDistribute In Me
+        i += 1
+        wbsd.WBS.Boq = item.AssetWithdraw.WithdrawCostcenter.Boq
+        Dim newRow As TreeRow = dt.Childs.Add()
+        newRow("Linenumber") = i
+        If Not wbsd.CostCenter Is Nothing Then
+          newRow("CostCenter") = wbsd.CostCenter.Code & ":" & wbsd.CostCenter.Name
+        Else
+          newRow("CostCenter") = ""
+        End If
+        newRow("WBS") = wbsd.WBS.Code & ":" & wbsd.WBS.Name
+        newRow("Percent") = Configuration.FormatToString(wbsd.Percent, 2)
+        Dim isOut As Boolean = False
+        Dim amt As Decimal = WBSDistribute.GetUsedAmount(wbsd.BaseCost, item.Amount, isOut, view, 3)
+        newRow("Amount") = Configuration.FormatToString(amt * wbsd.Percent / 100, DigitConfig.Price)
+        If Not wbsd.IsMarkup Then
+          Dim actual As Decimal = 0
+          Dim budget As Decimal = 0
+          Dim current As Decimal = 0
+          Dim budgetQty As Decimal = 0
+          Dim actualQty As Decimal = 0
+          Dim currentQty As Decimal = 0
+
+          Dim theName As String = item.Entity.Name
+          actual = wbsd.WBS.GetActualMat(item.AssetWithdraw, view)
+          budget = wbsd.WBS.GetTotalMatFromDB
+          current = item.AssetWithdraw.GetCurrentAmountForWBS(wbsd.WBS, Nothing)
+
+          'MessageBox.Show(String.Format("{0}:{1}:{2}", actual, budget, current))
+          wbsd.BudgetRemain = budget - actual - current
+          newRow("BudgetRemain") = Configuration.FormatToString(wbsd.BudgetRemain, DigitConfig.Price)
+
+          'MessageBox.Show(String.Format("{0}:{1}:{2}", budgetQty, actualQty, currentQty))
+          wbsd.QtyRemain = budgetQty - actualQty - currentQty
+          newRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemain, DigitConfig.Price)
+        Else
+          Dim mk As New Markup(wbsd.WBS.Id)
+          If Not mk Is Nothing Then
+            wbsd.BudgetRemain = mk.StoredTotalAmount - mk.GetActualTotal(item.AssetWithdraw, view) - item.AssetWithdraw.GetCurrentAmountForMarkup(mk)
+            newRow("BudgetRemain") = Configuration.FormatToString(wbsd.BudgetRemain, DigitConfig.Price)
+            'newRow("QtyRemain") = Configuration.FormatToString(wbsd.WBS.GetTotal, DigitConfig.Price)
+          End If
+        End If
+        newRow.Tag = wbsd
+      Next
+    End Sub
     Public Sub Populate(ByVal dt As TreeTable, ByVal item As AssetWithdrawItem, ByVal view As Integer)
       dt.Clear()
       Dim i As Integer = 0

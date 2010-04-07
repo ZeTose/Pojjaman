@@ -4718,10 +4718,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				If Not Me.Entity Is Nothing Then
 					If TypeOf Me.Entity Is OutgoingCheck Then
 						row("code") = CType(Me.Entity, OutgoingCheck).CqCode
-					Else
-						row("code") = Me.Entity.Code
-          End If
-          If TypeOf Me.Entity Is OutgoingAval Then
+					Else If TypeOf Me.Entity Is OutgoingAval Then
             row("code") = CType(Me.Entity, OutgoingAval).CqCode
           Else
             row("code") = Me.Entity.Code

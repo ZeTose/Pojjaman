@@ -1186,7 +1186,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.Vat
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Vat"
-        If item.TaxType.Value = 1 Then
+        If item.TaxType.Value = 0 Then
           If item.Type.Value = 79 Then
             dpi.Value = Configuration.FormatToString(-item.TaxAmount, DigitConfig.Price)
             sumVat -= item.TaxAmount

@@ -492,6 +492,7 @@
     <Compile Include="BusinessEntities\Documents\ReportFormat.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EquipmentToolWithdraw.vb" />
     <Compile Include="BusinessEntities\EqToolTransfer\EquipmentReturn.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -568,6 +569,7 @@
     <Compile Include="BusinessEntities\Items\Equipment.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Items\EquipmentItem.vb" />
     <Compile Include="BusinessEntities\Items\Labor.vb">
       <SubType>Code</SubType>
     </Compile>

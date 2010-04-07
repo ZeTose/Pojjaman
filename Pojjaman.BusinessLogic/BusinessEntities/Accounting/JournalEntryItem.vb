@@ -22,6 +22,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_amount As Decimal
     Private m_isDebit As Boolean
     Private m_note As String
+    Private m_entityitem As Integer
+    Private m_entityitemType As Integer
 
     Private m_mapping As String
 #End Region
@@ -70,7 +72,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_cc = New CostCenter(CInt(dr(aliasPrefix & "gli_cc")))
           End If
         End If
-
+        If dr.Table.Columns.Contains(aliasPrefix & "gli_entity") AndAlso Not dr.IsNull(aliasPrefix & "gli_entity") Then
+          .m_entityitem = CInt(dr(aliasPrefix & "gli_entity"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "gli_entitytype") AndAlso Not dr.IsNull(aliasPrefix & "gli_entitytype") Then
+          .m_entityitemType = CInt(dr(aliasPrefix & "gli_entitytype"))
+        End If
       End With
     End Sub
     Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -96,7 +103,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         msgServ.ShowMessageFormatted("${res:Global.Error.NoCostCenter}", New String() {theCode})
       End If
-    End Sub    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property IsDebit() As Boolean      Get        Return m_isDebit      End Get      Set(ByVal Value As Boolean)        m_isDebit = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Mapping() As String      Get        Return m_mapping      End Get      Set(ByVal Value As String)        m_mapping = Value      End Set    End Property#End Region
+    End Sub    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property IsDebit() As Boolean      Get        Return m_isDebit      End Get      Set(ByVal Value As Boolean)        m_isDebit = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Mapping() As String      Get        Return m_mapping      End Get      Set(ByVal Value As String)        m_mapping = Value      End Set    End Property    Public Property EntityItem() As Integer      Get        Return m_entityitem      End Get      Set(ByVal Value As Integer)        m_entityitem = Value      End Set    End Property    Public Property EntityItemType() As Integer      Get        Return m_entityitemType      End Get      Set(ByVal Value As Integer)        m_entityitemType = Value      End Set    End Property#End Region
 
 #Region "Methods"
     Public Sub ItemValidateRow(ByVal row As DataRow)
@@ -466,6 +473,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             If ji.Note Is Nothing OrElse ji.Note = "" Then
               ji.Note = glfi.Field.Name
+            ElseIf ji.Note.Contains("{glfi.Field.Name}") Then
+              ji.Note = ji.Note.Replace("{glfi.Field.Name}", glfi.Field.Name)
             End If
 
             ret.Add(ji)

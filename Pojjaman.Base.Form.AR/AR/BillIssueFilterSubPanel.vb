@@ -369,7 +369,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtDoc.Text = ""
             Me.m_customer = New Customer
 
-			cmbStatus.SelectedIndex = 1
+      cmbStatus.SelectedIndex = 0
             EntityRefresh()
         End Sub
 		Private Sub PopulateStatus()
