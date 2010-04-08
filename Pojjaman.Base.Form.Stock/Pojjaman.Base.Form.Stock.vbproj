@@ -143,6 +143,9 @@
     <Compile Include="CostCenter\CashFlowForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CostCenter\CostCenterBudgetDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CostCenter\CostCenterDetailFilterSubpanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -286,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CostCenter\CashFlowForm.resx">
       <DependentUpon>CashFlowForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostCenter\CostCenterBudgetDetailView.resx">
+      <DependentUpon>CostCenterBudgetDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CostCenter\CostCenterDetailFilterSubpanel.resx">
       <DependentUpon>CostCenterDetailFilterSubpanel.vb</DependentUpon>

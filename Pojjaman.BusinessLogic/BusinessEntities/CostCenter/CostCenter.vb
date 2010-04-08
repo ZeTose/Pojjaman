@@ -109,6 +109,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .cc_project = New Project
         .cc_boq = New BOQ
         .cc_isactive = True
+        BudgetCollectionForCC = New BudgetCollectionForCC(Me)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -234,6 +235,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Hack เอาออกไปเพื่อความเร็ว ---> อย่าลืมโหลดใน View
         'Me.LoadImage()
       End With
+      BudgetCollectionForCC = New BudgetCollectionForCC(Me)
     End Sub
 
     Public Sub LoadImage(ByVal reader As IDataReader)
@@ -269,6 +271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Property BudgetCollectionForCC As BudgetCollectionForCC
     Public Property RootWBSId() As Integer      Get
         Return m_rootWBSId
       End Get
@@ -558,7 +561,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not Me.cc_ccuseraccesscol Is Nothing AndAlso Me.cc_ccuseraccesscol.Count >= 0 Then
               Me.cc_ccuseraccesscol.Save(Me)
             End If
-
+            If Not Me.BudgetCollectionForCC Is Nothing Then
+              Me.BudgetCollectionForCC.Save()
+            End If
             '--------------------------SAVING EXTENDERS---------------------
             For Each extender As Object In Me.Extenders
               If TypeOf extender Is IExtender Then
@@ -1024,4 +1029,93 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ds
     End Function
   End Class
+
+  Public Class BudgetForCC
+    Property Id As Integer
+    Property Code As String
+    Property Type As String
+    Property CostCenter As CostCenter
+    ReadOnly Property IsControlled As Boolean
+      Get
+        Return CostCenter.BoqId = Me.Id
+      End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+      Return Code & ":" & Type & ":" & IsControlled.ToString
+    End Function
+  End Class
+
+  Public Class BudgetCollectionForCC
+    Property CostCenter As CostCenter
+    Property Budgets As List(Of BudgetForCC)    
+    Public Sub New(ByVal cc As CostCenter)
+      Me.CostCenter = cc
+      Budgets = New List(Of BudgetForCC)
+      If cc.Originated Then
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetBudgetCollectionForCC" _
+        , New SqlParameter("@cc_id", Me.CostCenter.Id) _
+        )
+        For Each dr As DataRow In ds.Tables(0).Rows
+          Dim deh As New DataRowHelper(dr)
+          Dim bg As New BudgetForCC
+          bg.CostCenter = Me.CostCenter
+          bg.Id = deh.GetValue(Of Integer)("boq_id")
+          bg.Code = deh.GetValue(Of String)("boq_code")
+          bg.Type = deh.GetValue(Of String)("budget_type")
+          Budgets.Add(bg)
+        Next
+      End If
+    End Sub
+
+    Public Function Save() As SaveErrorException
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim conn As New SqlConnection(sqlConString)
+        Dim cmd As SqlCommand = conn.CreateCommand
+        cmd.CommandText = "select * from budget where budget_cc=" & Me.CostCenter.Id
+
+
+        Dim m_dataset As New DataSet
+        Dim m_da As New SqlDataAdapter
+        m_da.SelectCommand = cmd
+
+        m_da.Fill(m_dataset, "CCBudget")
+
+        Dim cmdBuilder As New SqlCommandBuilder(m_da)
+
+        Dim dt As DataTable = m_dataset.Tables("CCBudget")
+        Dim dtCCchild As DataTable
+        For Each row As DataRow In dt.Rows
+          row.Delete()
+        Next
+
+        Dim cclist As String = ""
+
+        Dim i As Integer = 1
+        For Each item As BudgetForCC In Me.Budgets
+          Dim dr As DataRow = dt.NewRow
+          dr("budget_boq") = item.Id
+          dr("budget_cc") = Me.CostCenter.Id
+          dr("budget_type") = item.Type
+          dr("budget_linenumber") = i
+          dt.Rows.Add(dr)
+          i += 1
+        Next
+
+        ' First process deletes.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException("Error Saving:" & ex.ToString)
+      End Try
+    End Function
+  End Class
+
 End Namespace

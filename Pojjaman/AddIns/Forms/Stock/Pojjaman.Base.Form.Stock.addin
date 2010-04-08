@@ -28,7 +28,8 @@
 			<EntityTab id="MatEquipmentDetail" view="Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail"/>
 		</EntityTab>
 		<EntityTab id="costcenter">
-			<EntityTab id="CostCenterDetailView" view="Longkong.Pojjaman.Gui.Panels.CostCenterDetailView"/>		
+			<EntityTab id="CostCenterDetailView" view="Longkong.Pojjaman.Gui.Panels.CostCenterDetailView"/>
+			<EntityTab id="CostCenterBudgetDetailView" view="Longkong.Pojjaman.Gui.Panels.CostCenterBudgetDetailView"/>
 		</EntityTab>
 
 		<EntityTab id="labor">
