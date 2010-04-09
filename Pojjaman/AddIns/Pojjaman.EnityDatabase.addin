@@ -106,7 +106,9 @@
 				<MenuItem id="MatOpenningBalance" label="${res:MainMenu.StockMenu.MatOpenningBalance}" icon="Icons.16x16.MatOpenningBalance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOpenningBalance"/>
 				<MenuItem id="ToolOpenningBalance" label="${res:MainMenu.StockMenu.ToolOpenningBalance}" icon="Icons.16x16.ToolOpenningBalance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolOpenningBalance"/>
         <MenuItem id="Separator4" label="-"/>
-        <MenuItem id="stocksequence" label="${res:MainMenu.StockMenu.StockSequence}" icon="Icons.16x16.StockSequence" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.StockSequence"/>                                                                                                             
+        <MenuItem id="stocksequence" label="${res:MainMenu.StockMenu.StockSequence}" icon="Icons.16x16.StockSequence" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.StockSequence"/>
+        <MenuItem id="Separator5" label="-"/>
+        <MenuItem id="EqtWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw"/>
       </MenuItem>
 
 			<MenuItem id="CashBank" insertafter="Stock" insertbefore="Check" label="${res:MainMenu.CashBankMenu}">

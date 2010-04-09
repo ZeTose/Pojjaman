@@ -801,40 +801,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Set(ByVal Value As System.Collections.ArrayList)
                 MyBase.Entities = Value
                 For Each entity As ISimpleEntity In Value
-                    If TypeOf entity Is ToolWithdraw Then
-                        Dim obj As ToolWithdraw = CType(entity, ToolWithdraw)
-                        If obj.Withdrawperson.Originated Then
-                            Me.SetWithdrawPerson(obj.Withdrawperson)
-                            Me.txtWithdrawPersonCode.Enabled = False
-                            Me.txtWithdrawPersonName.Enabled = False
-                            Me.btnWithdrawPersonEdit.Enabled = False
-                            Me.btnWithdrawPersonFind.Enabled = False
-                        End If
+          If TypeOf entity Is EquipmentToolWithdraw Then
+            Dim obj As EquipmentToolWithdraw = CType(entity, EquipmentToolWithdraw)
+            If obj.Withdrawperson.Originated Then
+              Me.SetWithdrawPerson(obj.Withdrawperson)
+              Me.txtWithdrawPersonCode.Enabled = False
+              Me.txtWithdrawPersonName.Enabled = False
+              Me.btnWithdrawPersonEdit.Enabled = False
+              Me.btnWithdrawPersonFind.Enabled = False
+            End If
 
-                        If obj.WithdrawCostcenter.Originated Then
-                            Me.SetWithdrawCC(obj.WithdrawCostcenter)
-                            Me.txtWithdrawCCCode.Enabled = False
-                            Me.txtWithdrawCCName.Enabled = False
-                            Me.btnWithdrawCCEdit.Enabled = False
-                            Me.btnWithdrawCCFind.Enabled = False
-                        End If
+            If obj.WithdrawCostcenter.Originated Then
+              Me.SetWithdrawCC(obj.WithdrawCostcenter)
+              Me.txtWithdrawCCCode.Enabled = False
+              Me.txtWithdrawCCName.Enabled = False
+              Me.btnWithdrawCCEdit.Enabled = False
+              Me.btnWithdrawCCFind.Enabled = False
+            End If
 
-                        If obj.Storeperson.Originated Then
-                            Me.SetStorePerson(obj.Storeperson)
-                            Me.txtStorePersonCode.Enabled = False
-                            Me.txtStorePersonName.Enabled = False
-                            Me.btnStorePersonEdit.Enabled = False
-                            Me.btnStorePersonFind.Enabled = False
-                        End If
+            If obj.Storeperson.Originated Then
+              Me.SetStorePerson(obj.Storeperson)
+              Me.txtStorePersonCode.Enabled = False
+              Me.txtStorePersonName.Enabled = False
+              Me.btnStorePersonEdit.Enabled = False
+              Me.btnStorePersonFind.Enabled = False
+            End If
 
-                        If obj.StoreCostcenter.Originated Then
-                            Me.SetStoreCC(obj.StoreCostcenter)
-                            Me.txtStoreCCCode.Enabled = False
-                            Me.txtStoreCCName.Enabled = False
-                            Me.btnStoreCCEdit.Enabled = False
-                            Me.btnStoreCCFind.Enabled = False
-                        End If
-                    End If
+            If obj.StoreCostcenter.Originated Then
+              Me.SetStoreCC(obj.StoreCostcenter)
+              Me.txtStoreCCCode.Enabled = False
+              Me.txtStoreCCName.Enabled = False
+              Me.btnStoreCCEdit.Enabled = False
+              Me.btnStoreCCFind.Enabled = False
+            End If
+          End If
                 Next
             End Set
         End Property

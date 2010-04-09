@@ -11,7 +11,8 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class EquipmentItem
-
+    Inherits SimpleBusinessEntityBase
+    Implements IHasRentalRate, IEqtItem
 #Region "Members"
     Private m_equipment As Equipment
 
@@ -80,13 +81,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  End If
     'End Sub
     Public Sub New()
-
+      MyBase.New()
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.New(dr, aliasPrefix)
       Me.Construct(dr, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal thecode As String)
+      MyBase.New(thecode)
+
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
@@ -152,7 +162,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_equipment = value
       End Set
     End Property
-    Public Property Id As Integer
+    Public Property Id As Integer Implements IHasName.Id
       Get
         Return m_id
       End Get
@@ -168,7 +178,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_autogen = value
       End Set
     End Property
-    Public Property Code As String
+    Public Property Code As String Implements IHasName.Code
       Get
         Return m_code
       End Get
@@ -176,7 +186,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_code = value
       End Set
     End Property
-    Public Property Name As String
+    Public Property Name As String Implements IHasName.Name
       Get
         Return m_name
       End Get
@@ -216,7 +226,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_buydoc = value
       End Set
     End Property
-   
+
     Public Property Buycost As Decimal
       Get
         Return m_buycost
@@ -290,7 +300,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unit = value
       End Set
     End Property
-    Public Property Rentalrate As Decimal
+    Public Property Rentalrate As Decimal Implements IHasRentalRate.RentalRate
       Get
         Return m_rentalrate
       End Get

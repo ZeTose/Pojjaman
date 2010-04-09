@@ -18,6 +18,7 @@
     <EntityFilter id="stocksequence" entity="stocksequence" filter="Longkong.Pojjaman.Gui.Panels.StockSequenceFilterSubPanel"/>
     <EntityFilter id="mattransfer" entity="mattransfer" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
     <EntityFilter id="matreceipt" entity="matreceipt" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
+    <EntityFilter id="eqtwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>
 
   </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -103,7 +104,11 @@
 		<EntityTab id="toolopenningbalance">
 			<EntityTab id="ToolOpenningBalanceDetail" view="Longkong.Pojjaman.Gui.Panels.ToolOpenningBalanceDetail"/>
 		</EntityTab>
-	
+    
+    <EntityTab id="eqtwithdraw">
+      <EntityTab id="EqtWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.EqtWithdrawDetail"/>
+    </EntityTab>
+    
 		<EntityTab id="eqcost">
 			<EntityTab id="EqCostDetail" view="Longkong.Pojjaman.Gui.Panels.EqCostDetail"/>
 		</EntityTab>

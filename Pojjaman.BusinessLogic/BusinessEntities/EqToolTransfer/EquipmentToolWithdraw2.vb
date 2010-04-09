@@ -215,11 +215,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee
-      Get
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee      Get
         Return m_withdrawperson
-      End Get      Set(ByVal Value As Employee)
-        m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+      End Get      Set(ByVal Value As Employee)        m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -1353,7 +1351,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  m_sequence = CInt(dr(aliasPrefix & "stocki_sequence"))
         'End If
 
-
+        
       End With
     End Sub
     Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -1368,17 +1366,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
     
     Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
-    Public Property RentalPerDay() As Decimal
-      Get        Return m_rentalperday
-      End Get      Set(ByVal value As Decimal)
+    Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
-      End Set
-    End Property
+      End Set    End Property
     
-    Public Property EqtWithdraw() As EquipmentToolWithdraw
-      Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property    
-    Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtWithdraw Is Nothing Then
-        Return False
+    Public Property EqtWithdraw() As EquipmentToolWithdraw      Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property        Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtWithdraw Is Nothing Then        Return False
       End If      If myCode Is Nothing OrElse myCode.Length = 0 Then
         Return False
       End If
@@ -1444,8 +1436,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.Qty = 1
-    End Sub    
-#End Region
+    End Sub    #End Region
 
 #Region "Methods"
     Public Sub Clear()
@@ -1542,10 +1533,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property EqtWithdraw() As EquipmentToolWithdraw
-      Get        Return m_eqtWithdraw
-      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value
-      End Set    End Property    Default Public Property Item(ByVal index As Integer) As EquipmentToolWithdrawItem
+    Public Property EqtWithdraw() As EquipmentToolWithdraw      Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As EquipmentToolWithdrawItem
       Get
         Return CType(MyBase.List.Item(index), EquipmentToolWithdrawItem)
       End Get

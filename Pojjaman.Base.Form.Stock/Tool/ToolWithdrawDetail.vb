@@ -797,481 +797,481 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Members "
-        Private m_entity As ToolWithdraw
+    Private m_entity As ToolWithdraw
 
-        Private m_isInitialized As Boolean = False
-        Private m_treeManager As TreeManager
-        Private m_tableStyleEnable As Hashtable
+    Private m_isInitialized As Boolean = False
+    Private m_treeManager As TreeManager
+    Private m_tableStyleEnable As Hashtable
 #End Region
 
 #Region " Style "
-        Protected Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "StockItem"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Protected Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "StockItem"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "stocki_lineNumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.Alignment = HorizontalAlignment.Center
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "stocki_lineNumber"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "stocki_lineNumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.Alignment = HorizontalAlignment.Center
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "stocki_lineNumber"
 
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "Code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 100
-            csCode.Alignment = HorizontalAlignment.Center
-            csCode.DataAlignment = HorizontalAlignment.Left
-            csCode.ReadOnly = False
-            csCode.TextBox.Name = "Code"
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 100
+      csCode.Alignment = HorizontalAlignment.Center
+      csCode.DataAlignment = HorizontalAlignment.Left
+      csCode.ReadOnly = False
+      csCode.TextBox.Name = "Code"
 
-            Dim csButton As New DataGridButtonColumn
-            csButton.MappingName = "codebutton"
-            csButton.HeaderText = ""
-            csButton.NullText = ""
-            AddHandler csButton.Click, AddressOf GridButton_Clicked
+      Dim csButton As New DataGridButtonColumn
+      csButton.MappingName = "codebutton"
+      csButton.HeaderText = ""
+      csButton.NullText = ""
+      AddHandler csButton.Click, AddressOf GridButton_Clicked
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "Name"
-            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NameHeaderText}")
-            csName.NullText = ""
-            csName.Alignment = HorizontalAlignment.Center
-            csName.DataAlignment = HorizontalAlignment.Left
-            csName.Width = 150
-            csName.ReadOnly = True
-            csName.TextBox.Name = "Name"
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "Name"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NameHeaderText}")
+      csName.NullText = ""
+      csName.Alignment = HorizontalAlignment.Center
+      csName.DataAlignment = HorizontalAlignment.Left
+      csName.Width = 150
+      csName.ReadOnly = True
+      csName.TextBox.Name = "Name"
 
-            Dim csToolg As New TreeTextColumn
-            csToolg.MappingName = "ToolGroup"
-            csToolg.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.GroupHeaderText}")
-            csToolg.NullText = ""
-            csToolg.Alignment = HorizontalAlignment.Center
-            csToolg.DataAlignment = HorizontalAlignment.Left
-            csToolg.Width = 150
-            csToolg.ReadOnly = True
-            csToolg.TextBox.Name = "ToolGroup"
+      Dim csToolg As New TreeTextColumn
+      csToolg.MappingName = "ToolGroup"
+      csToolg.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.GroupHeaderText}")
+      csToolg.NullText = ""
+      csToolg.Alignment = HorizontalAlignment.Center
+      csToolg.DataAlignment = HorizontalAlignment.Left
+      csToolg.Width = 150
+      csToolg.ReadOnly = True
+      csToolg.TextBox.Name = "ToolGroup"
 
-            Dim csUnit As New TreeTextColumn
-            csUnit.MappingName = "UnitName"
-            csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.UnitHeaderText}")
-            csUnit.NullText = ""
-            csUnit.Alignment = HorizontalAlignment.Center
-            csUnit.DataAlignment = HorizontalAlignment.Left
-            csUnit.Width = 100
-            csUnit.ReadOnly = True
-            csUnit.TextBox.Name = "UnitName"
+      Dim csUnit As New TreeTextColumn
+      csUnit.MappingName = "UnitName"
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.UnitHeaderText}")
+      csUnit.NullText = ""
+      csUnit.Alignment = HorizontalAlignment.Center
+      csUnit.DataAlignment = HorizontalAlignment.Left
+      csUnit.Width = 100
+      csUnit.ReadOnly = True
+      csUnit.TextBox.Name = "UnitName"
 
-            'Dim csUnitButton As New DataGridButtonColumn
-            'csUnitButton.MappingName = "UnitButton"
-            'csUnitButton.HeaderText = ""
-            'csUnitButton.NullText = ""
-            'AddHandler csUnitButton.Click, AddressOf UnitClicked
+      'Dim csUnitButton As New DataGridButtonColumn
+      'csUnitButton.MappingName = "UnitButton"
+      'csUnitButton.HeaderText = ""
+      'csUnitButton.NullText = ""
+      'AddHandler csUnitButton.Click, AddressOf UnitClicked
 
-            Dim csQty As New TreeTextColumn
-            csQty.MappingName = "stocki_qty"
-            csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.QtyHeaderText}")
-            csQty.NullText = ""
-            csQty.Alignment = HorizontalAlignment.Center
-            csQty.DataAlignment = HorizontalAlignment.Right
-            csQty.Format = "#,##0.00"
-            csQty.Width = 100
-            csQty.ReadOnly = False
-            csQty.TextBox.Name = "stocki_qty"
+      Dim csQty As New TreeTextColumn
+      csQty.MappingName = "stocki_qty"
+      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.QtyHeaderText}")
+      csQty.NullText = ""
+      csQty.Alignment = HorizontalAlignment.Center
+      csQty.DataAlignment = HorizontalAlignment.Right
+      csQty.Format = "#,##0.00"
+      csQty.Width = 100
+      csQty.ReadOnly = False
+      csQty.TextBox.Name = "stocki_qty"
 
 
-            Dim csNote As New TreeTextColumn
-            csNote.MappingName = "stocki_note"
-            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NoteHeaderText}")
-            csNote.NullText = ""
-            csNote.Alignment = HorizontalAlignment.Center
-            csNote.DataAlignment = HorizontalAlignment.Left
-            csNote.Width = 180
-            csNote.ReadOnly = False
-            csNote.TextBox.Name = "stocki_note"
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "stocki_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Alignment = HorizontalAlignment.Center
+      csNote.DataAlignment = HorizontalAlignment.Left
+      csNote.Width = 180
+      csNote.ReadOnly = False
+      csNote.TextBox.Name = "stocki_note"
 
-            ' Fill Column Style 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csButton)
-            dst.GridColumnStyles.Add(csName)
-            dst.GridColumnStyles.Add(csUnit)
-            dst.GridColumnStyles.Add(csQty)
-            dst.GridColumnStyles.Add(csNote)
+      ' Fill Column Style 
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csButton)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csUnit)
+      dst.GridColumnStyles.Add(csQty)
+      dst.GridColumnStyles.Add(csNote)
 
-            m_tableStyleEnable = New Hashtable
-            For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-                m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-            Next
+      m_tableStyleEnable = New Hashtable
+      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+      Next
 
-            Return dst
-        End Function
-        Protected Sub GridButton_Clicked(ByVal e As ButtonColumnEventArgs)
-            If e.Column = 2 Then
-                EntityButton_Click(e)
-            Else
-                ' กรณีอื่น ๆ ...
-            End If
-        End Sub
+      Return dst
+    End Function
+    Protected Sub GridButton_Clicked(ByVal e As ButtonColumnEventArgs)
+      If e.Column = 2 Then
+        EntityButton_Click(e)
+      Else
+        ' กรณีอื่น ๆ ...
+      End If
+    End Sub
 #End Region
 
 #Region " Constructors "
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-            Dim dt As TreeTable = ToolWithdraw.GetSchemaTable()
-            Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
-            tgItem.AllowNew = False
+      Dim dt As TreeTable = EquipmentToolWithdraw.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
+      tgItem.AllowNew = False
 
-            EventWiring()
-        End Sub
+      EventWiring()
+    End Sub
 #End Region
 
 #Region " IListDetail "
-        ' Check Enable 
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
+    ' Check Enable 
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+
+      If Me.m_entity.Canceled _
+      OrElse Me.m_entity.Status.Value = 0 _
+      OrElse Me.m_entity.Status.Value >= 3 Then
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = False
+        Next
+
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
+      Else
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        Next
+      End If
+    End Sub
+    ' Clear Detail
+    Public Overrides Sub ClearDetail()
+      lblStatus.Text = ""
+      For Each crlt As Control In Me.Controls
+        If TypeOf crlt Is TextBox Then
+          crlt.Text = ""
+        ElseIf TypeOf crlt Is FixedGroupBox Then
+          For Each ingrb As Control In crlt.Controls
+            If TypeOf ingrb Is TextBox Then
+              ingrb.Text = ""
             End If
+          Next
+        End If
+      Next
 
-            If Me.m_entity.Canceled _
-            OrElse Me.m_entity.Status.Value = 0 _
-            OrElse Me.m_entity.Status.Value >= 3 Then
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = False
-                Next
+      Me.dtpDocDate.Value = Date.Now
+    End Sub
+    ' Addhandler events
+    Protected Overrides Sub EventWiring()
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-                tgItem.Enabled = True
-                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-                    colStyle.ReadOnly = True
-                Next
-            Else
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = True
-                Next
-                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-                    colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-                Next
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtWithdrawPersonCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtWithdrawCCCode.Validated, AddressOf Me.ChangeProperty
+
+      AddHandler txtStorepersonCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtStoreCCCode.Validated, AddressOf Me.ChangeProperty
+
+    End Sub
+    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      txtCode.Text = Me.m_entity.Code
+      txtNote.Text = Me.m_entity.Note
+
+      'autogencode
+      m_oldCode = m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
+
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+
+      If Not Me.m_entity.Withdrawperson Is Nothing Then
+        txtWithdrawPersonCode.Text = Me.m_entity.Withdrawperson.Code
+        txtWithdrawPersonName.Text = Me.m_entity.Withdrawperson.Name
+      End If
+
+      If Not Me.m_entity.WithdrawCostcenter Is Nothing Then
+        txtWithdrawCCCode.Text = Me.m_entity.WithdrawCostcenter.Code
+        txtWithdrawCCName.Text = Me.m_entity.WithdrawCostcenter.Name
+      End If
+
+      If Not Me.m_entity.Storeperson Is Nothing Then
+        txtStorepersonCode.Text = Me.m_entity.Storeperson.Code
+        txtStorepersonName.Text = Me.m_entity.Storeperson.Name
+      End If
+
+      If Not Me.m_entity.StoreCostcenter Is Nothing Then
+        txtStoreCCCode.Text = Me.m_entity.StoreCostcenter.Code
+        txtStoreCCName.Text = Me.m_entity.StoreCostcenter.Name
+      End If
+
+      'Load Items**********************************************************
+      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      Me.Validator.DataTable = m_treeManager.Treetable
+      '********************************************************************
+
+      RefreshBlankGrid()
+
+      SetStatus()
+      SetLabelText()
+      SetSummaryText()
+      CheckFormEnable()
+
+      m_isInitialized = True
+    End Sub
+    ' Item Propchanged
+    Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      If e.Name = "ItemChanged" Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+      SetSummaryText()
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          dirtyFlag = True
+          Me.m_entity.Code = txtCode.Text
+
+        Case "txtnote"
+          dirtyFlag = True
+          Me.m_entity.Note = txtNote.Text
+
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              dirtyFlag = True
             End If
-        End Sub
-        ' Clear Detail
-        Public Overrides Sub ClearDetail()
-            lblStatus.Text = ""
-            For Each crlt As Control In Me.Controls
-                If TypeOf crlt Is TextBox Then
-                    crlt.Text = ""
-                ElseIf TypeOf crlt Is FixedGroupBox Then
-                    For Each ingrb As Control In crlt.Controls
-                        If TypeOf ingrb Is TextBox Then
-                            ingrb.Text = ""
-                        End If
-                    Next
-                End If
-            Next
+          Else
+            Me.m_entity.DocDate = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
 
-            Me.dtpDocDate.Value = Date.Now
-        End Sub
-        ' Addhandler events
-        Protected Overrides Sub EventWiring()
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtWithdrawPersonCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtWithdrawCCCode.Validated, AddressOf Me.ChangeProperty
-
-            AddHandler txtStorepersonCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtStoreCCCode.Validated, AddressOf Me.ChangeProperty
-
-        End Sub
-        ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
             End If
-            txtCode.Text = Me.m_entity.Code
-            txtNote.Text = Me.m_entity.Note
+            dirtyFlag = True
+          End If
 
-            'autogencode
-            m_oldCode = m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+        Case "chkwithdraw"
+          dirtyFlag = True
+          WithdrawCheckedChanged(sender)
 
-            txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+        Case "txtwithdrawpersoncode"
+          dirtyFlag = Employee.GetEmployee(txtWithdrawPersonCode, txtWithdrawPersonName, Me.m_entity.Withdrawperson)
 
-            If Not Me.m_entity.Withdrawperson Is Nothing Then
-                txtWithdrawPersonCode.Text = Me.m_entity.Withdrawperson.Code
-                txtWithdrawPersonName.Text = Me.m_entity.Withdrawperson.Name
-            End If
+        Case "txtwithdrawcccode"
+          dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtWithdrawCCCode, txtWithdrawCCName, Me.m_entity.WithdrawCostcenter)
+          WithdrawCheckedChanged(sender)
 
-            If Not Me.m_entity.WithdrawCostcenter Is Nothing Then
-                txtWithdrawCCCode.Text = Me.m_entity.WithdrawCostcenter.Code
-                txtWithdrawCCName.Text = Me.m_entity.WithdrawCostcenter.Name
-            End If
+        Case "txtstorepersoncode"
+          dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
-            If Not Me.m_entity.Storeperson Is Nothing Then
-                txtStorepersonCode.Text = Me.m_entity.Storeperson.Code
-                txtStorepersonName.Text = Me.m_entity.Storeperson.Name
-            End If
+        Case "txtstorecccode"
+          dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          WithdrawCheckedChanged(sender)
+      End Select
 
-            If Not Me.m_entity.StoreCostcenter Is Nothing Then
-                txtStoreCCCode.Text = Me.m_entity.StoreCostcenter.Code
-                txtStoreCCName.Text = Me.m_entity.StoreCostcenter.Name
-            End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
+      SetStatus()
+      SetSummaryText()
+      CheckFormEnable()
+    End Sub
+    Public Sub SetStatus()
+      If m_entity.Canceled Then
+        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf m_entity.Edited Then
+        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf m_entity.Originated Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        lblStatus.Text = "ยังไม่บันทึก"
+      End If
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        If Not m_entity Is Nothing Then
+          RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+          Me.m_entity = Nothing
+        End If
+        Me.m_entity = CType(Value, ToolWithdraw)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
 
-            RefreshBlankGrid()
+    Public Overrides Sub Initialize()
 
-            SetStatus()
-            SetLabelText()
-            SetSummaryText()
-            CheckFormEnable()
-
-            m_isInitialized = True
-        End Sub
-        ' Item Propchanged
-        Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-            If e.Name = "ItemChanged" Then
-                Me.WorkbenchWindow.ViewContent.IsDirty = True
-            End If
-            SetSummaryText()
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcode"
-                    dirtyFlag = True
-                    Me.m_entity.Code = txtCode.Text
-
-                Case "txtnote"
-                    dirtyFlag = True
-                    Me.m_entity.Note = txtNote.Text
-
-                Case "txtdocdate"
-                    m_dateSetting = True
-                    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDate.Text)
-                        If Not Me.m_entity.DocDate.Equals(theDate) Then
-                            dtpDocDate.Value = theDate
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        Me.m_entity.DocDate = Date.Now
-                        Me.m_entity.DocDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-
-                Case "dtpdocdate"
-                    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-
-                Case "chkwithdraw"
-                    dirtyFlag = True
-                    WithdrawCheckedChanged(sender)
-
-                Case "txtwithdrawpersoncode"
-                    dirtyFlag = Employee.GetEmployee(txtWithdrawPersonCode, txtWithdrawPersonName, Me.m_entity.Withdrawperson)
-
-                Case "txtwithdrawcccode"
-                    dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtWithdrawCCCode, txtWithdrawCCName, Me.m_entity.WithdrawCostcenter)
-                    WithdrawCheckedChanged(sender)
-
-                Case "txtstorepersoncode"
-                    dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
-
-                Case "txtstorecccode"
-                    dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-                    WithdrawCheckedChanged(sender)
-            End Select
-
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-
-            SetStatus()
-            SetSummaryText()
-            CheckFormEnable()
-        End Sub
-        Public Sub SetStatus()
-            If m_entity.Canceled Then
-                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name
-            ElseIf m_entity.Edited Then
-                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name
-            ElseIf m_entity.Originated Then
-                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name
-            Else
-                lblStatus.Text = "ยังไม่บันทึก"
-            End If
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                If Not m_entity Is Nothing Then
-                    RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-                    Me.m_entity = Nothing
-                End If
-                Me.m_entity = CType(Value, ToolWithdraw)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
-
-        Public Overrides Sub Initialize()
-
-        End Sub
+    End Sub
 
 
 #End Region
 
 #Region " Event Handlers "
-        Private Function GenIDListFromDataTable() As String
-            Dim idlist As String = ""
-            Me.m_entity.ItemTable.AcceptChanges()
-            For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-                If Me.m_entity.ValidateRow(row) Then
-                    idlist &= CStr(row("stocki_entity")) & ","
-                End If
-            Next
-            Return idlist
-        End Function
-        Public Sub EntityButton_Click(ByVal e As ButtonColumnEventArgs)
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If Me.m_entity.FromCC Is Nothing OrElse Not Me.m_entity.FromCC.Originated Then
-                msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetailView.Message.InputFromCC}")
-                Return
-            End If
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Dim entity As New ToolForSelection
-            entity.CC = Me.m_entity.FromCC
-            entity.FromWip = False
-            myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)
-        End Sub
-        Private Sub SetItems(ByVal items As BasketItemCollection)
-            Dim index As Integer = tgItem.CurrentRowIndex
-            For i As Integer = items.Count - 1 To 0 Step -1
-                Dim item As BasketItem = CType(items(i), BasketItem)
-                Dim newItem As Tool
-                Dim myItem As New StockItem
+    Private Function GenIDListFromDataTable() As String
+      Dim idlist As String = ""
+      Me.m_entity.ItemTable.AcceptChanges()
+      For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+        If Me.m_entity.ValidateRow(row) Then
+          idlist &= CStr(row("stocki_entity")) & ","
+        End If
+      Next
+      Return idlist
+    End Function
+    Public Sub EntityButton_Click(ByVal e As ButtonColumnEventArgs)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity.FromCC Is Nothing OrElse Not Me.m_entity.FromCC.Originated Then
+        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetailView.Message.InputFromCC}")
+        Return
+      End If
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim entity As New ToolForSelection
+      entity.CC = Me.m_entity.FromCC
+      entity.FromWip = False
+      myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)
+    End Sub
+    Private Sub SetItems(ByVal items As BasketItemCollection)
+      Dim index As Integer = tgItem.CurrentRowIndex
+      For i As Integer = items.Count - 1 To 0 Step -1
+        Dim item As BasketItem = CType(items(i), BasketItem)
+        Dim newItem As Tool
+        Dim myItem As New StockItem
 
-                newItem = New Tool(item.Id)
+        newItem = New Tool(item.Id)
 
-                myItem.Entity = newItem
+        myItem.Entity = newItem
 
-                myItem.Unit = CType(newItem, Tool).Unit
-                myItem.CostCenter = Me.m_entity.StoreCostcenter
+        myItem.Unit = CType(newItem, Tool).Unit
+        myItem.CostCenter = Me.m_entity.StoreCostcenter
 
-                myItem.Status = New StockStatus(1)
-                myItem.ItemType = New ItemType(newItem.EntityId)
-                myItem.Type = New StockDocType(Me.m_entity.EntityId)
+        myItem.Status = New StockStatus(1)
+        myItem.ItemType = New ItemType(newItem.EntityId)
+        myItem.Type = New StockDocType(Me.m_entity.EntityId)
 
-                myItem.Qty = 1
+        myItem.Qty = 1
 
-                If i = items.Count - 1 Then
-                    If Me.m_entity.ItemTable.Childs.Count = 0 Then
-                        Me.m_entity.Add(myItem)
-                    Else
-                        myItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("stocki_lineNumber"))
-                        myItem.EntityBase = Me.m_entity
-                        myItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
-                    End If
-                Else
-                    Me.m_entity.Insert(index, myItem)
-                End If
-                Me.m_entity.ItemTable.AcceptChanges()
-            Next
-            tgItem.CurrentRowIndex = index
-            RefreshBlankGrid()
+        If i = items.Count - 1 Then
+          If Me.m_entity.ItemTable.Childs.Count = 0 Then
+            Me.m_entity.Add(myItem)
+          Else
+            myItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("stocki_lineNumber"))
+            myItem.EntityBase = Me.m_entity
+            myItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
+          End If
+        Else
+          Me.m_entity.Insert(index, myItem)
+        End If
+        Me.m_entity.ItemTable.AcceptChanges()
+      Next
+      tgItem.CurrentRowIndex = index
+      RefreshBlankGrid()
 
-        End Sub
-        Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-            Dim index As Integer = tgItem.CurrentRowIndex
-            Dim newItem As New BlankItem("")
-            Dim myItem As New StockItem
-            Dim newtool As New Tool
-            myItem.Entity = CType(newItem, IHasName)
+    End Sub
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim index As Integer = tgItem.CurrentRowIndex
+      Dim newItem As New BlankItem("")
+      Dim myItem As New StockItem
+      Dim newtool As New Tool
+      myItem.Entity = CType(newItem, IHasName)
 
-            myItem.Unit = New Unit
-            myItem.CostCenter = New CostCenter
+      myItem.Unit = New Unit
+      myItem.CostCenter = New CostCenter
 
-            myItem.Status = New StockStatus(1)
-            myItem.Type = New StockDocType(Me.m_entity.EntityId)
-            myItem.ItemType = New ItemType(newtool.EntityId)
+      myItem.Status = New StockStatus(1)
+      myItem.Type = New StockDocType(Me.m_entity.EntityId)
+      myItem.ItemType = New ItemType(newtool.EntityId)
 
-            myItem.Qty = 0
+      myItem.Qty = 0
 
-            Me.m_entity.Insert(index, myItem)
-            Me.m_entity.ItemTable.AcceptChanges()
-            tgItem.CurrentRowIndex = index
-            RefreshBlankGrid()
-        End Sub
-        Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-            Dim index As Integer = Me.tgItem.CurrentRowIndex
-            Me.m_entity.Remove(index)
-            Me.tgItem.CurrentRowIndex = index
-            RefreshBlankGrid()
-        End Sub
+      Me.m_entity.Insert(index, myItem)
+      Me.m_entity.ItemTable.AcceptChanges()
+      tgItem.CurrentRowIndex = index
+      RefreshBlankGrid()
+    End Sub
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      Me.m_entity.Remove(index)
+      Me.tgItem.CurrentRowIndex = index
+      RefreshBlankGrid()
+    End Sub
 #End Region
 
 #Region " IValidatable "
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region " Overrides "
-        Public Overrides Sub NotifyBeforeSave()
+    Public Overrides Sub NotifyBeforeSave()
 
-        End Sub
+    End Sub
 
-        Public Overrides ReadOnly Property TabPageIcon() As String
-            Get
-                Return (New ToolWithdraw).DetailPanelIcon
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return (New EquipmentToolWithdraw).DetailPanelIcon
+      End Get
+    End Property
 #End Region
 
 #Region " Event of Button controls "

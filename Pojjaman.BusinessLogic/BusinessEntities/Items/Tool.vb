@@ -9,14 +9,17 @@ Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class Tool
         Inherits SimpleBusinessEntityBase
-        Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup
+    Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup, IEqtItem
 
 #Region "Members"
         Private tool_name As String
         Private tool_group As ToolGroup
         Private tool_unit As Unit
-        Private tool_fairprice As Decimal
-        Private tool_rentalrate As Decimal
+    Private m_qty As Integer
+    Private tool_fairprice As Decimal
+    Private tool_rentalrate As Decimal
+    Private m_cc As CostCenter
+
         Private m_image As Image
 #End Region
 
@@ -129,7 +132,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Unit)
                 'tool_unit = Value
             End Set
-        End Property
+    End Property
+    Public Property Qty() As Integer
+      Get
+        Return m_qty
+      End Get
+      Set(ByVal Value As Integer)
+        m_qty = Value
+      End Set
+    End Property
+    Public Property Costcenter As CostCenter
+      Get
+        Return m_cc
+      End Get
+      Set(ByVal value As CostCenter)
+        m_cc = value
+      End Set
+    End Property
         Public Property Name() As String Implements IHasName.Name            Get
                 Return tool_name
             End Get
@@ -660,6 +679,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return "ToolForSelection"
             End Get
         End Property
-    End Class
+  End Class
+
 End Namespace
 

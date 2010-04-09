@@ -208,6 +208,12 @@
     <Compile Include="Asset\InternalChargeForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Asset\EqtWithdrawDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqtWithdrawFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\WriteOffView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,6 +279,12 @@
     <EmbeddedResource Include="Asset\InternalChargeForm.resx">
       <DependentUpon>InternalChargeForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtWithdrawDetail.resx">
+      <DependentUpon>EqtWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtWithdrawFilterSubPanel.resx">
+      <DependentUpon>EqtWithdrawFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Asset\WriteOffView.resx">
       <DependentUpon>WriteOffView.vb</DependentUpon>
     </EmbeddedResource>
@@ -333,6 +345,10 @@
     <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
+      <Name>Pojjaman.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
