@@ -795,7 +795,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
       Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "eqtstocki_lineNumber"
+      csLineNumber.MappingName = "Linenumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.LineNumberHeaderText}")
       csLineNumber.NullText = ""
       csLineNumber.Width = 30
@@ -805,7 +805,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "eqtstocki_lineNumber"
 
       Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("eqtstocki_entityType" _
+      csType = New DataGridComboColumn("Type" _
         , CodeDescription.GetCodeList("eqtstocki_entityType") _
         , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentDetail.TypeHeaderText}")
@@ -823,7 +823,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.TextBox.Name = "Code"
 
       Dim csButton As New DataGridButtonColumn
-      csButton.MappingName = "codebutton"
+      csButton.MappingName = "Button"
       csButton.HeaderText = ""
       csButton.NullText = ""
       AddHandler csButton.Click, AddressOf GridButton_Clicked
@@ -865,7 +865,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AddHandler csUnitButton.Click, AddressOf UnitClicked
 
       Dim csQty As New TreeTextColumn
-      csQty.MappingName = "eqtstocki_qty"
+      csQty.MappingName = "Qty"
       csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.QtyHeaderText}")
       csQty.NullText = ""
       csQty.Alignment = HorizontalAlignment.Center
@@ -889,7 +889,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       Dim csNote As New TreeTextColumn
-      csNote.MappingName = "eqtstocki_note"
+      csNote.MappingName = "Note"
       csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NoteHeaderText}")
       csNote.NullText = ""
       csNote.Alignment = HorizontalAlignment.Center
@@ -900,6 +900,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' Fill Column Style 
       dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csName)

@@ -280,8 +280,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Get from StockItem ...
       myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Type", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitName", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
@@ -294,7 +294,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Function ValidateRow(ByVal row As TreeRow) As Boolean
       Dim proposedCode As Object = row("code")
-      Dim proposedQty As Object = row("eqtstocki_qty")
+      Dim proposedQty As Object = row("qty")
 
       If (IsDBNull(proposedCode) OrElse CStr(proposedCode) = "") _
           And (Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
@@ -1340,7 +1340,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
-        Dim deh As DataRowHelper
+        Dim deh As New DataRowHelper(dr)
 
         .m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
 

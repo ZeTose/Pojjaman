@@ -1,7 +1,8 @@
 <AddIn name="Pojjaman Stock Forms" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Form.Stock.dll"/>
-		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+    <Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+    <Import assembly="../Asset/Pojjaman.Base.Form.Asset.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		
@@ -18,7 +19,7 @@
     <EntityFilter id="stocksequence" entity="stocksequence" filter="Longkong.Pojjaman.Gui.Panels.StockSequenceFilterSubPanel"/>
     <EntityFilter id="mattransfer" entity="mattransfer" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
     <EntityFilter id="matreceipt" entity="matreceipt" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
-    <EntityFilter id="eqtwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>
+    <EntityFilter id="equipmenttoolwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>
 
   </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -105,7 +106,7 @@
 			<EntityTab id="ToolOpenningBalanceDetail" view="Longkong.Pojjaman.Gui.Panels.ToolOpenningBalanceDetail"/>
 		</EntityTab>
     
-    <EntityTab id="eqtwithdraw">
+    <EntityTab id="equipmenttoolwithdraw">
       <EntityTab id="EqtWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.EqtWithdrawDetail"/>
     </EntityTab>
     

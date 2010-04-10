@@ -154,6 +154,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "Equipmentitem"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "eqi"
+      End Get
+    End Property
     Public Property Equipment As Equipment
       Get
         Return m_equipment
