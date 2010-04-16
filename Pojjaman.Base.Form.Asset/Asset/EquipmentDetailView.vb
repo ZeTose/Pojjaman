@@ -1283,8 +1283,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtRentalUnitCode.Text = Me.CurrentTagItem.Rentalunit.Code
       txtRentalunit.Text = Me.CurrentTagItem.Rentalunit.Name
 
-      lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด" & " : " & CurrentTagItem.LastEditor & " วันที่แก้ไขล่าสุด : " & CurrentTagItem.LastEditDate
+      'lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด : " + CurrentTagItem.LastEditor.Name + " วันที่แก้ไขล่าสุด : " + CurrentTagItem.LastEditDate
       'txtDescription.Text = Me.CurrentTagItem.Description
+      'Dim lastEdited As String = ""
+      'If Not eqitem.LastEditor Is Nothing Then
+      '  lastEdited = "รหัสผู้แก้ไขล่าสุด : " & eqitem.LastEditor.Name
+      'End If
+      'lastEdited &= " วันที่แก้ไขล่าสุด : " & eqitem.LastEditDate
+      'Me.lblLasteditdate.Text = lastEdited.Trim
+
       SetLabelText()
       CheckFormEnable()
       Me.m_isInitialized = True
@@ -1336,7 +1343,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'dtpBuyDocDate.Value = MinDateToNow(eqitem.Buydate)
         Me.txtRentalRate.Text = eqitem.Rentalrate
         Me.txtDescription.Text = eqitem.Description
-        Me.lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด" & " : " & eqitem.LastEditor & " วันที่แก้ไขล่าสุด : " & eqitem.LastEditDate
+
+        Dim lastEdited As String = ""
+        If Not eqitem.LastEditor Is Nothing Then
+          lastEdited = "รหัสผู้แก้ไขล่าสุด : " & eqitem.LastEditor.Name
+        End If
+        lastEdited &= " วันที่แก้ไขล่าสุด : " & eqitem.LastEditDate
+        Me.lblLasteditdate.Text = lastEdited.Trim
       End If
       Me.m_isInitialized = True
     End Sub

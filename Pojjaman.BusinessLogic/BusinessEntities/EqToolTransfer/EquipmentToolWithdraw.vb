@@ -1470,6 +1470,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("Code") = Me.Entity.Code
           row("Name") = Me.Entity.Name
         End If
+
+        row("Name") = Me.name
+
         row("Button") = ""
 
         row("Note") = Me.Note

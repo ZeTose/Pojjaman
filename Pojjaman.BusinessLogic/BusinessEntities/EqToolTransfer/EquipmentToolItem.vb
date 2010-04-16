@@ -60,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_lineNumber As Integer
     Private m_entity As IHasRentalRate
+    Private m_name As String
     Private m_note As String
     Private m_amount As Decimal
 
@@ -133,6 +134,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .m_entity = New EquipmentItem(itemId)
             End If
         End Select
+
+        If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_name") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_name") Then
+          .m_name = CStr(dr(aliasPrefix & "eqtstocki_name"))
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_qty") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_qty") Then
           .m_qty = CInt(dr(aliasPrefix & "eqtstocki_qty"))
         End If
@@ -190,6 +196,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
+    Public Property Name() As String      Get        Return m_name      End Get      Set(ByVal value As String)
+        m_name = value
+      End Set    End Property
+ 
     Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
     Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value

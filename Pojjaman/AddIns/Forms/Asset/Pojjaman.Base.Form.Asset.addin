@@ -9,7 +9,8 @@
 		<EntityFilter id="assetwithdraw" entity="assetwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqWithdrawFilterSubPanel"/>
 		<EntityFilter id="assetreturn" entity="assetreturn" filter="Longkong.Pojjaman.Gui.Panels.EqReturnDetailFilterSubPanel"/>
 		<EntityFilter id="asset" entity="asset" filter="Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel"/>
-		<EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>
+    <EntityFilter id="equipment" entity="equipment" filter="Longkong.Pojjaman.Gui.Panels.EquipmentDetailFilterSubPanel"/>
+    <EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>
 		<EntityFilter id="eqmaintenanceforvat" entity="eqmaintenanceforvat" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceForVatDetailFilterSubPanel"/>
     <!--<EntityFilter id="eqtwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>-->
 	</Extension>
@@ -21,12 +22,15 @@
 		<EntityTab id="assetreturn">
 			<EntityTab id="AssetReturnDetail" view="Longkong.Pojjaman.Gui.Panels.AssetReturnDetail"/>
 		</EntityTab>
-		
-		<EntityTab id="asset">
-			<EntityTab id="AssetDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetDetailView"/>
-			<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
-			<EntityTab id="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.EqRentalSummary"/>
-		</EntityTab>
+    <EntityTab id="asset">
+      <EntityTab id="AssetDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetDetailView"/>
+      <EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
+      <EntityTab id="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.EqRentalSummary"/>
+    </EntityTab>
+		<EntityTab id="equipment">
+			<EntityTab id="EquipmentCategoryView" view="Longkong.Pojjaman.Gui.Panels.EquipmentCategoryView"/>
+      <EntityTab id="EquipmentDetailView" view="Longkong.Pojjaman.Gui.Panels.EquipmentDetailView"/>
+    </EntityTab>
 		<EntityTab id="assettype">
 			<EntityTab id="AssetTypeDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetTypeDetailView"/>
 		</EntityTab>

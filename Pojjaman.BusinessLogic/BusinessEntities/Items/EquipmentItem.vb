@@ -31,8 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Private m_unitprice As Decimal
 
     'Private m_WBSDistributeCollection As WBSDistributeCollection
-    Private m_id As Integer
-    Private m_code As String
+    'Private m_id As Integer
+    'Private m_code As String
     Private m_name As String
     Private m_cc As CostCenter
     Private m_buydate As DateTime
@@ -118,8 +118,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim eqid As Integer = drh.GetValue(Of Integer)("eqi_id")
         'm_equipment = New Equipment(eqid)
 
-        m_id = drh.GetValue(Of Integer)("eqi_id")
-        m_code = drh.GetValue(Of String)("eqi_code")
+        'm_id = drh.GetValue(Of Integer)("eqi_id")
+        'm_code = drh.GetValue(Of String)("eqi_code")
         m_name = drh.GetValue(Of String)("eqi_name")
 
         Dim ccid As Integer = drh.GetValue(Of Integer)("eqi_cc")
@@ -166,6 +166,110 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
+#Region "Shares"
+    Public Shared Function GetListDatatable(ByVal ParamArray filters() As Filter) As TreeTable
+
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim dt As DataTable
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEquipmentItemsList", params)
+      dt = ds.Tables(0)
+
+      Dim myDatatable As New TreeTable("EqItems")
+      myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("m_eq", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("m_eqi_id", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Entity", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("OrderedQty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
+
+      Dim inValidIds As ArrayList = GetEqIdWithOnlyNoteItem(dt)
+      For Each tableRow As DataRow In dt.Rows
+        If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
+          Dim pri As New PRItem(tableRow, "")
+          Dim row As TreeRow = myDatatable.Childs.Add
+          row("Selected") = False
+          row("Code") = tableRow("pr_code")
+          row("m_eq") = tableRow("pri_pr")
+
+          Dim prId As Integer
+          If Not row.IsNull("m_eq") Then
+            prId = CInt(row("m_eq"))
+          End If
+
+          row("m_eqi_id") = tableRow("eqi_id")
+          row("Date") = tableRow("pr_docdate")
+          row("ReceivingDate") = tableRow("pr_receivingdate")
+
+          Dim entityText As String = ""
+          If Not pri.ItemType Is Nothing Then
+            entityText &= pri.ItemType.Description & ":"
+          End If
+          If Not pri.Entity.Code Is Nothing AndAlso pri.Entity.Code.Length > 0 Then
+            entityText &= pri.Entity.Code & ":"
+          End If
+          If Not pri.Entity.Name Is Nothing AndAlso pri.Entity.Name.Length > 0 Then
+            entityText &= pri.Entity.Name
+          End If
+          row("Entity") = entityText
+          row("Qty") = pri.Qty
+          row("OrderedQty") = pri.OrderedQty
+          row("Requestor") = tableRow("requestorinfo")
+          row("CostCenter") = tableRow("ccinfo")
+          row.State = RowExpandState.None
+
+          pri.Pr = New PR
+          pri.Pr.Id = prId
+          row.Tag = pri
+        End If
+      Next
+      Return myDatatable
+    End Function
+    Private Shared Function GetEqIdWithOnlyNoteItem(ByVal dt As DataTable) As ArrayList
+      Dim arr As New ArrayList
+      Dim tmpId As Integer = 0
+      For Each tableRow As DataRow In dt.Rows
+        If tmpId <> CInt(tableRow("pri_pr")) Then
+          tmpId = CInt(tableRow("pri_pr"))
+          If Not arr.Contains(tmpId) Then
+            arr.Add(tmpId)
+          End If
+        End If
+      Next
+      Dim realArr As New ArrayList
+      For Each id As Integer In arr
+        Dim rows As DataRow() = dt.Select("pri_pr = " & id)
+        Dim found As Boolean = False
+        For Each row As DataRow In rows
+          Dim pri As New PRItem(row, "")
+          If pri.OrderedQty <> 0 Or pri.Qty <> 0 Then
+            found = True
+            Exit For
+          End If
+        Next
+        If Not found Then
+          If Not realArr.Contains(id) Then
+            realArr.Add(id)
+          End If
+        End If
+      Next
+      Return realArr
+    End Function
+#End Region
+
 #Region "Properties"
     Public Overrides ReadOnly Property ClassName() As String
       Get
@@ -185,14 +289,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_equipment = value
       End Set
     End Property
-    Public Property Id As Integer Implements IHasName.Id
-      Get
-        Return m_id
-      End Get
-      Set(ByVal value As Integer)
-        m_id = value
-      End Set
-    End Property
+    'Public Overrides Property Id As Integer Implements IHasName.Id
+    '  Get
+    '    Return m_id
+    '  End Get
+    '  Set(ByVal value As Integer)
+    '    m_id = value
+    '  End Set
+    'End Property
     Public Property Autogen As Boolean
       Get
         Return m_autogen
@@ -201,14 +305,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_autogen = value
       End Set
     End Property
-    Public Property Code As String Implements IHasName.Code
-      Get
-        Return m_code
-      End Get
-      Set(ByVal value As String)
-        m_code = value
-      End Set
-    End Property
+    'Public Overrides Property Code As String Implements IHasName.Code
+    '  Get
+    '    Return m_code
+    '  End Get
+    '  Set(ByVal value As String)
+    '    m_code = value
+    '  End Set
+    'End Property
     Public Property Name As String Implements IHasName.Name
       Get
         Return m_name

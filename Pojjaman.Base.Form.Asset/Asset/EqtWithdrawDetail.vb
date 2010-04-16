@@ -798,7 +798,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.MappingName = "Linenumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.LineNumberHeaderText}")
       csLineNumber.NullText = ""
-      csLineNumber.Width = 30
+      csLineNumber.Width = 20
       csLineNumber.Alignment = HorizontalAlignment.Center
       csLineNumber.DataAlignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
@@ -806,17 +806,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csType As DataGridComboColumn
       csType = New DataGridComboColumn("Type" _
-        , CodeDescription.GetCodeList("eqtstocki_entityType") _
+        , CodeDescription.GetCodeList("eqtstocki_entityType" _
+                                      , "code_value not in (28)") _
         , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentDetail.TypeHeaderText}")
-      csType.Width = 70
+      csType.Width = 40
       csType.NullText = String.Empty
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.CodeHeaderText}")
       csCode.NullText = ""
-      csCode.Width = 100
+      csCode.Width = 80
       csCode.Alignment = HorizontalAlignment.Center
       csCode.DataAlignment = HorizontalAlignment.Left
       csCode.ReadOnly = False
@@ -854,7 +855,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnit.NullText = ""
       csUnit.Alignment = HorizontalAlignment.Center
       csUnit.DataAlignment = HorizontalAlignment.Left
-      csUnit.Width = 100
+      csUnit.Width = 50
       csUnit.ReadOnly = True
       csUnit.TextBox.Name = "UnitName"
 
@@ -871,7 +872,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.Alignment = HorizontalAlignment.Center
       csQty.DataAlignment = HorizontalAlignment.Right
       csQty.Format = "#,##0.00"
-      csQty.Width = 100
+      csQty.Width = 60
       csQty.ReadOnly = False
       csQty.TextBox.Name = "eqtstocki_qty"
       'AddHandler csQty.TextBox.TextChanged,AddressOf 
@@ -917,7 +918,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return dst
     End Function
     Protected Sub GridButton_Clicked(ByVal e As ButtonColumnEventArgs)
-      If e.Column = 2 Then
+      If e.Column = 3 Then
         EntityButton_Click(e)
       Else
         ' กรณีอื่น ๆ ...
@@ -939,6 +940,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
       tgItem.AllowNew = False
+
+      AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
+      AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
 
       EventWiring()
     End Sub
@@ -1073,8 +1077,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
       'AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
       'Me.Validator.DataTable = m_treeManager.Treetable
-      '********************************************************************
 
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      '********************************************************************
+      ReIndex()
       RefreshBlankGrid()
 
       SetStatus()
@@ -1192,8 +1198,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Sub Initialize()
 
     End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      ReIndex()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      'Me.UpdateAmount()
+      Me.m_isInitialized = True
 
-
+    End Sub
+    Private Sub ReIndex()
+      Dim i As Integer = 0
+      For Each row As DataRow In Me.m_treeManager.Treetable.Rows
+        row("Linenumber") = i + 1
+        i += 1
+      Next
+    End Sub
 #End Region
 
 #Region "ItemTreeTable Handlers"
@@ -1207,7 +1228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.WorkbenchWindow.ViewContent.IsDirty = True
       Dim index As Integer = Me.tgItem.CurrentRowIndex
-      'RefreshDocs()
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
@@ -1262,16 +1283,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Event Handlers "
-    'Private Function GenIDListFromDataTable() As String
-    '  Dim idlist As String = ""
-    '  Me.m_entity.ItemTable.AcceptChanges()
-    '  For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-    '    If Me.m_entity.ValidateRow(row) Then
-    '      idlist &= CStr(row("stocki_entity")) & ","
-    '    End If
-    '  Next
-    '  Return idlist
-    'End Function
+    Private Function GenIDListFromDataTable(ByVal entityType As Integer) As String
+      Dim idlist As String = ""
+      Me.m_treeManager.Treetable.AcceptChanges()
+      For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+        If Me.m_entity.ValidateRow(row) Then
+          If entityType = row("eqtstocki_entitytype") Then
+            idlist &= CStr(row("eqtstocki_entity")) & ","
+          End If
+        End If
+      Next
+      Return idlist
+    End Function
     Public Sub EntityButton_Click(ByVal e As ButtonColumnEventArgs)
       If Me.m_entity Is Nothing Then
         Return
@@ -1282,6 +1305,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      
       If Me.CurrentItem Is Nothing Then
         Return
       End If
@@ -1291,19 +1315,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         entity.CC = Me.m_entity.FromCC
         entity.FromWip = False
         entities.Add(entity)
-        Dim filters(1) As Filter
-        filters(0) = New Filter("IDList", 5)
-        filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
-        myEntityPanelService.OpenListDialog(New Tool, AddressOf SetItems, filters, entities)
+        Dim filters(0) As Filter
+        filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
+        'filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
+        myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
         Dim entities As New ArrayList
         Dim eqi As New EquipmentItem
         eqi.Costcenter = Me.m_entity.FromCC
         entities.Add(eqi)
-        Dim filters(1) As Filter
-        filters(0) = New Filter("IDList", 5)
-        filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
-        myEntityPanelService.OpenListDialog(New EquipmentItem, AddressOf SetItems, filters, entities)
+        Dim filters(0) As Filter
+        filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
+        'filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
+        myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
       End If
       
     End Sub

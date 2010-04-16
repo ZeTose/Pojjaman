@@ -26,6 +26,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_unit As Unit
     Private m_rentalrate As Decimal
     Private m_itemCollection As EquipmentItemCollection
+    Private m_equipmentitem As EquipmentItem
+    Private m_buydate As DateTime
+    Private m_CompareUnit1 As Unit
+    Private m_CompareUnit2 As Unit
+
 #End Region
 
 #Region "Constructors"
@@ -181,6 +186,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = value
       End Set
     End Property
+    Public Property EquipmentItem As EquipmentItem
+      Get
+        Return m_equipmentitem
+      End Get
+      Set(ByVal value As EquipmentItem)
+        m_equipmentitem = value
+        If m_equipmentitem.Costcenter Is Nothing Then
+          m_equipmentitem.Costcenter = New CostCenter
+        End If
+        If m_equipmentitem.Unit Is Nothing Then
+          m_equipmentitem.Unit = New Unit
+        End If
+        If m_equipmentitem.Supplier Is Nothing Then
+          m_equipmentitem.Supplier = New Supplier
+        End If
+        If m_equipmentitem.Asset Is Nothing Then
+          m_equipmentitem.Asset = New Asset
+        End If
+
+
+      End Set
+    End Property
+    Public Property Buydate As DateTime
+      Get
+        Return m_buydate
+      End Get
+      Set(ByVal value As DateTime)
+        m_buydate = value
+      End Set
+    End Property
+    Public Property MemoryCompareUnit1() As Unit
+      Get
+        Return Me.m_CompareUnit1
+      End Get
+      Set(ByVal Value As Unit)
+        Me.m_CompareUnit1 = Value
+      End Set
+    End Property
+    Public Property MemoryCompareUnit2() As Unit
+      Get
+        Return Me.m_CompareUnit2
+      End Get
+      Set(ByVal Value As Unit)
+        Me.m_CompareUnit2 = Value
+      End Set
+    End Property
+
 #End Region
 
 #Region "Methods"
@@ -206,7 +258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  End If
           'End If
         End If
-        
+
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
@@ -240,20 +292,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_group", Me.Group))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_group", Me.Group))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Description", Me.Description))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.Unit))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.Unit.Id))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalrate", Me.Rentalrate))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", Me.Originator))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", Me.OriginDate))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditor", Me.LastEditor))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditdate", Me.LastEditDate))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelPerson", Me.CancelPerson))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelDate", Me.CancelDate))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_canceled", Me.Canceled))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", ValidIdOrDBNull(Me.Originator)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", ValidDateOrDBNull(Me.OriginDate)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditor", ValidIdOrDBNull(Me.LastEditor)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditdate", ValidDateOrDBNull(Me.LastEditDate)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelPerson", ValidIdOrDBNull(Me.CancelPerson)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelDate", ValidDateOrDBNull(Me.CancelDate)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_canceled", Me.Canceled))
 
-        
+
 
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -359,7 +411,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Me.CancelRef(conn, trans)
           'End If
 
-          
+
           ''==============================AUTOGEN==========================================
           'Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
           'If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -379,7 +431,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
-          
+
 
 
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -449,7 +501,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.FillSchema(ds, SchemaType.Mapped, "EquipmentItem")
         da.Fill(ds, "EquipmentItem")
 
-       
+
 
         Dim dt As DataTable = ds.Tables("EquipmentItem")
         'Dim dtWbs As DataTable = ds.Tables("poiwbs")
@@ -457,7 +509,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'For Each row As DataRow In ds.Tables("poiwbs").Rows
         '  row.Delete()
         'Next
-        
+
 
         Dim rowsToDelete As ArrayList
         '------------Checking if we have to delete some rows--------------------
@@ -484,11 +536,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim i As Integer = 0
         Dim seq As Integer = -1
         With ds.Tables("EquipmentItem")
-          
+
           For Each item As EquipmentItem In Me.ItemCollection
 
 
-            
+
             '------------Checking if we have to add a new row or just update existing--------------------
             Dim dr As DataRow
             Dim drs As DataRow() = dt.Select("eqi_id=" & item.Id)
@@ -503,7 +555,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '------------End Checking--------------------
 
-            
+
 
             dr("eqi_eq") = Me.Id
             dr("eqi_code") = item.Code
@@ -526,7 +578,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqi_lastEditor") = item.LastEditor
 
 
-            
+
 
             '------------Checking if we have to add a new row or just update existing--------------------
             If drs.Length = 0 Then
@@ -534,10 +586,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '------------End Checking--------------------
 
-            
+
           Next
 
-          
+
         End With
 
         Dim tmpDa As New SqlDataAdapter
@@ -554,13 +606,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicatePO}"), New String() {Me.Code})
         End Try
-        
+
 
         tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
 
         Return New SaveErrorException("1")
 
-      
+
 
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
@@ -614,7 +666,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("status", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("costcenter", GetType(String)))
 
-    
+
       Return myDatatable
     End Function
 #End Region

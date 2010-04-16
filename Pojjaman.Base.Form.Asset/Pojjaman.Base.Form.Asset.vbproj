@@ -199,6 +199,15 @@
     <Compile Include="Asset\EqtWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\EquipmentDetailFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EquipmentDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EquipmentCategoryView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\EqWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -212,6 +221,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Asset\EqtWithdrawDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqiFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqiSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Asset\WriteOffView.vb">
@@ -270,6 +285,15 @@
     <EmbeddedResource Include="Asset\EqtWithdrawFilterSubPanel.resx">
       <DependentUpon>EqtWithdrawFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EquipmentDetailFilterSubPanel.resx">
+      <DependentUpon>EquipmentDetailFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EquipmentDetailView.resx">
+      <DependentUpon>EquipmentDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EquipmentCategoryView.resx">
+      <DependentUpon>EquipmentCategoryView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqWithdrawFilterSubPanel.resx">
       <DependentUpon>EqWithdrawFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -284,6 +308,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqtWithdrawDetail.resx">
       <DependentUpon>EqtWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqiFilterSubPanel.resx">
+      <DependentUpon>EqiFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqiSelectionView.resx">
+      <DependentUpon>EqiSelectionView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\WriteOffView.resx">
       <DependentUpon>WriteOffView.vb</DependentUpon>
