@@ -194,6 +194,401 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ds
     End Function
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      With Me
+        If Me.Originated Then
+          'If Not Me.Supplier Is Nothing Then
+          '  If Me.Supplier.Canceled Then
+          '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Me.Supplier.Code})
+          '  End If
+          'End If
+        End If
+        
+        If Me.ItemCollection.Count = 0 Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
+
+        paramArrayList.Add(returnVal)
+        If Me.Originated Then
+          paramArrayList.Add(New SqlParameter("@eq_id", Me.Id))
+        End If
+
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
+
+
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
+        'Me.RefreshTaxBase()
+
+        If Me.AutoGen Then     'And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        Me.AutoGen = False
+
+
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_group", Me.Group))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Description", Me.Description))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.Unit))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalrate", Me.Rentalrate))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", Me.Originator))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", Me.OriginDate))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditor", Me.LastEditor))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditdate", Me.LastEditDate))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelPerson", Me.CancelPerson))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelDate", Me.CancelDate))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_canceled", Me.Canceled))
+
+        
+
+
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        Dim trans As SqlTransaction
+        Dim conn As New SqlConnection(Me.ConnectionString)
+        conn.Open()
+        trans = conn.BeginTransaction()
+        Dim oldid As Integer = Me.Id
+        Try
+          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          Select Case CInt(returnVal.Value)
+            Case -1, -5
+              trans.Rollback()
+              ResetID(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+          End Select
+
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1, -2, -5
+                trans.Rollback()
+                Me.ResetID(oldid)
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Me.ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+          ''-------------------------------------------------------
+          'Dim pris As String = GetPritemString()
+          'Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
+          '"in (select convert(nvarchar,poi_pr) + '|' +  convert(nvarchar,poi_prilinenumber) from poitem " & _
+          '"where poi_po =" & Me.Id & ") or convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) in " & pris
+
+          'Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+          'RecentCompanies.CurrentCompany.SiteConnectionString _
+          ', CommandType.Text _
+          ', sql _
+          ')
+          'Dim arr As New ArrayList
+          'For Each row As DataRow In ds.Tables(0).Rows
+          '  Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
+          '  arr.Add(o)
+          'Next
+          ''-------------------------------------------------------
+
+          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+          If Not IsNumeric(saveDetailError.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            Return saveDetailError
+          Else
+            Select Case CInt(saveDetailError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                Return saveDetailError
+              Case Else
+            End Select
+          End If
+
+
+
+          ''Save CustomNote จากการ Copy เอกสาร
+          'If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
+          '  If Me.Originated Then
+          '    Me.m_customNoteColl.EntityId = Me.Id
+          '    Me.m_customNoteColl.Save()
+          '  End If
+          'End If
+
+          'For Each extender As Object In Me.Extenders
+          '  If TypeOf extender Is IExtender Then
+          '    Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+          '    If Not IsNumeric(saveDocError.Message) Then
+          '      trans.Rollback()
+          '      Return saveDocError
+          '    Else
+          '      Select Case CInt(saveDocError.Message)
+          '        Case -1, -2, -5
+          '          trans.Rollback()
+          '          Return saveDocError
+          '        Case Else
+          '      End Select
+          '    End If
+          '  End If
+          'Next
+
+          'Me.DeleteRef(conn, trans)
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
+          ', New SqlParameter("@po_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PORef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'If Me.Status.Value = 0 Then
+          '  Me.CancelRef(conn, trans)
+          'End If
+
+          
+          ''==============================AUTOGEN==========================================
+          'Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          'If Not IsNumeric(saveAutoCodeError.Message) Then
+          '  trans.Rollback()
+          '  ResetID(oldid)
+          '  Return saveAutoCodeError
+          'Else
+          '  Select Case CInt(saveAutoCodeError.Message)
+          '    Case -1, -2, -5
+          '      trans.Rollback()
+          '      ResetID(oldid)
+          '      Return saveAutoCodeError
+          '    Case Else
+          '  End Select
+          'End If
+          ''==============================AUTOGEN==========================================
+
+          trans.Commit()
+
+          
+
+
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          conn.Close()
+        End Try
+      End With
+    End Function
+    Public Overrides Function GetNextCode() As String
+      Dim autoCodeFormat As String = Me.Code
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Me.Code
+      End If
+      'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+
+      pattern = CodeGenerator.GetPattern(pattern)
+
+      Dim lastCode As String = Me.GetLastCode(pattern)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
+    End Function
+    'Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    '    If Not Me.Originated Then
+    '        Return
+    '    End If
+    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPRItemStatus", New SqlParameter("@po_id", Me.Id))
+
+    'End Sub
+    'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    '    If Not Me.Originated Then
+    '        Return
+    '    End If
+    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewPRItemStatus", New SqlParameter("@po_id", Me.Id))
+    'End Sub
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Dim currWBS As String
+      Try
+        Dim da As New SqlDataAdapter("Select * from EquipmentItem where eqi_eq=" & Me.Id, conn)
+
+
+        Dim ds As New DataSet
+
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        da.FillSchema(ds, SchemaType.Mapped, "EquipmentItem")
+        da.Fill(ds, "EquipmentItem")
+
+       
+
+        Dim dt As DataTable = ds.Tables("EquipmentItem")
+        'Dim dtWbs As DataTable = ds.Tables("poiwbs")
+
+        'For Each row As DataRow In ds.Tables("poiwbs").Rows
+        '  row.Delete()
+        'Next
+        
+
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As EquipmentItem In Me.ItemCollection
+            If testItem.Id = CInt(dr("eqi_id")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
+
+        Dim i As Integer = 0
+        Dim seq As Integer = -1
+        With ds.Tables("EquipmentItem")
+          
+          For Each item As EquipmentItem In Me.ItemCollection
+
+
+            
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = dt.Select("eqi_id=" & item.Id)
+            If drs.Length = 0 Then
+              dr = dt.NewRow
+              'dt.Rows.Add(dr)
+              seq = seq + (-1)
+              dr("eqi_id") = seq
+
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
+
+            
+
+            dr("eqi_eq") = Me.Id
+            dr("eqi_code") = item.Code
+            dr("eqi_name") = item.Name
+            dr("eqi_cc") = item.Costcenter
+            dr("eqi_buydate") = item.Buydate
+            dr("eqi_buydoc") = item.Buydoc
+            dr("eqi_buycost") = item.Buycost
+            dr("eqi_buysupplier") = item.Supplier
+            dr("eqi_asset") = item.Asset
+            dr("eqi_acctstatus") = item.Acctstatus
+            dr("eqi_serailnumber") = item.Serailnumber
+            dr("eqi_brand") = item.Brand
+            dr("eqi_license") = item.License
+            dr("eqi_description") = item.Description
+            dr("eqi_unit") = item.Unit
+            dr("eqi_rentalrate") = item.Rentalrate
+            dr("eqi_rentalunit") = item.Rentalunit
+            dr("eqi_lastEditDate") = item.LastEditDate
+            dr("eqi_lastEditor") = item.LastEditor
+
+
+            
+
+            '------------Checking if we have to add a new row or just update existing--------------------
+            If drs.Length = 0 Then
+              dt.Rows.Add(dr)
+            End If
+            '------------End Checking--------------------
+
+            
+          Next
+
+          
+        End With
+
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
+
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+
+        tmpDa.Update(GetDeletedRows(dt))
+
+        Try
+          tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        Catch ex As SqlException
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicatePO}"), New String() {Me.Code})
+        End Try
+        
+
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+
+        Return New SaveErrorException("1")
+
+      
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
+    Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
+      Dim Rows() As DataRow
+      If dt Is Nothing Then Return Rows
+      Rows = dt.Select("", "", DataViewRowState.Deleted)
+      If Rows.Length = 0 OrElse Not (Rows(0) Is Nothing) Then Return Rows
+      '
+      ' Workaround:
+      ' With a remoted DataSet, Select returns the array elements
+      ' filled with Nothing/null, instead of DataRow objects.
+      '
+      Dim r As DataRow, I As Integer = 0
+      For Each r In dt.Rows
+        If r.RowState = DataRowState.Deleted Then
+          Rows(I) = r
+          I += 1
+        End If
+      Next
+      Return Rows
+    End Function
 #End Region
 
 #Region "Shared"

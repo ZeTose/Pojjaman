@@ -82,6 +82,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Sub
     Public Sub New()
       MyBase.New()
+      Me.m_cc = New CostCenter
+      Me.m_buydate = Now
+      ' Me.m_buydoc = New ISimpleEntity
+      Me.m_buysupplier = New Supplier
+      Me.m_asset = New Asset
+      Me.m_unit = New Unit
+      Me.m_rentalunit = New Unit
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -96,7 +103,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-
+      Me.m_cc = New CostCenter
+      Me.m_buydate = Now
+      ' Me.m_buydoc = New ISimpleEntity
+      Me.m_buysupplier = New Supplier
+      Me.m_asset = New Asset
+      Me.m_unit = New Unit
+      Me.m_rentalunit = New Unit
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
