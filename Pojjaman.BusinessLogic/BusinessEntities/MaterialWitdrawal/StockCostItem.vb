@@ -21,11 +21,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Sequence = 0
       UnitCost = 0
       StockQty = 0
+      IsNoCost = False
     End Sub
     Public Sub New(ByVal _sequence As Long, ByVal _unitCost As Decimal, ByVal _stockQty As Decimal)
       Sequence = _sequence
       UnitCost = _unitCost
       StockQty = _stockQty
+      IsNoCost = False
     End Sub
     Public Sub New(ByVal row As DataRow, ByVal AliasPrefix As String)
       Dim drh As New DataRowHelper(row)
@@ -40,6 +42,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .Refdoc = drh.GetValue(Of Long)("stockic_refdoc")
         .RefdocType = drh.GetValue(Of Integer)("stockic_refdocType")
         .StockChecked = drh.GetValue(Of Boolean)("stockic_stockchecked")
+
+        If row.IsNull("stockic_unitcost") Then
+          .IsNoCost = True
+        End If
 
         .UnitDefault = New Unit(row, "")
       End With
@@ -59,6 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property RefdocType As Integer
     Public Property StockChecked As Boolean
     Public Property UnitDefault As Unit
+    Public Property IsNoCost As Boolean
 #End Region
 
 #Region "Methods"
@@ -78,7 +85,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
     End Sub
-    Public Sub New(ByVal owner As IHasName, ByVal fromCostCenter As CostCenter, ByVal qty As Decimal)
+    Public Sub New(ByVal owner As IHasName, ByVal fromCostCenter As CostCenter, ByVal qty As Decimal, Optional ByVal stock_id As Integer = 0)
       Me.m_itemEntity = owner
       If Me.m_itemEntity Is Nothing Then
         Return
@@ -88,10 +95,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetStockCostFIFO", _
-                                                   New SqlParameter("@stock_cc", fromCostCenter.Id), _
-                                                   New SqlParameter("@stocki_entity", m_itemEntity.Id), _
-                                                   New SqlParameter("@stocki_stockqty", qty))
+
+      Dim ds As DataSet
+      If stock_id = 0 Then
+        ds = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetStockCostFIFO", _
+                                                     New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                     New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                     New SqlParameter("@stocki_stockqty", qty))
+      Else
+        ds = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetStockCostFIFO", _
+                                                     New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                     New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                     New SqlParameter("@stocki_stockqty", qty), _
+                                                     New SqlParameter("@stock_id", stock_id))
+      End If
+
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)

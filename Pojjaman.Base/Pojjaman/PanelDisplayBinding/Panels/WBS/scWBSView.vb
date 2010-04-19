@@ -15,6 +15,7 @@ Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class scWBSView
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -37,7 +38,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents grbRefDoc As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents txtRefDocCode As System.Windows.Forms.TextBox
@@ -51,25 +51,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnAddWBS As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelWBS As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(scWBSView))
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.tgToCC = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.Label1 = New System.Windows.Forms.Label
-      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtRefDocCode = New System.Windows.Forms.TextBox
-      Me.lblRefDoc = New System.Windows.Forms.Label
-      Me.txtSubContractorName = New System.Windows.Forms.TextBox
-      Me.txtCostCenterName = New System.Windows.Forms.TextBox
-      Me.lblSupplier = New System.Windows.Forms.Label
-      Me.lblCostCenter = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(scWBSView))
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.tgToCC = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtRefDocCode = New System.Windows.Forms.TextBox()
+      Me.lblRefDoc = New System.Windows.Forms.Label()
+      Me.txtSubContractorName = New System.Windows.Forms.TextBox()
+      Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+      Me.lblSupplier = New System.Windows.Forms.Label()
+      Me.lblCostCenter = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbDetail.SuspendLayout()
       CType(Me.tgToCC, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbRefDoc.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -85,17 +85,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbDetail.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.grbDetail.Location = New System.Drawing.Point(8, 8)
+      Me.grbDetail.Location = New System.Drawing.Point(6, 1)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(728, 512)
+      Me.grbDetail.Size = New System.Drawing.Size(732, 512)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "จัดสรร"
       '
       'ibtnAddWBS
       '
-      Me.ibtnAddWBS.Image = CType(resources.GetObject("ibtnAddWBS.Image"), System.Drawing.Image)
-      Me.ibtnAddWBS.Location = New System.Drawing.Point(184, 116)
+      Me.ibtnAddWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnAddWBS.Location = New System.Drawing.Point(93, 108)
       Me.ibtnAddWBS.Name = "ibtnAddWBS"
       Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
       Me.ibtnAddWBS.TabIndex = 30
@@ -104,8 +104,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelWBS
       '
-      Me.ibtnDelWBS.Image = CType(resources.GetObject("ibtnDelWBS.Image"), System.Drawing.Image)
-      Me.ibtnDelWBS.Location = New System.Drawing.Point(208, 116)
+      Me.ibtnDelWBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelWBS.Location = New System.Drawing.Point(117, 108)
       Me.ibtnDelWBS.Name = "ibtnDelWBS"
       Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelWBS.TabIndex = 31
@@ -124,9 +124,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgToCC.Cellchanged = False
       Me.tgToCC.DataMember = ""
       Me.tgToCC.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgToCC.Location = New System.Drawing.Point(16, 144)
+      Me.tgToCC.Location = New System.Drawing.Point(10, 134)
       Me.tgToCC.Name = "tgToCC"
-      Me.tgToCC.Size = New System.Drawing.Size(696, 360)
+      Me.tgToCC.Size = New System.Drawing.Size(713, 372)
       Me.tgToCC.SortingArrowColor = System.Drawing.Color.Red
       Me.tgToCC.TabIndex = 28
       Me.tgToCC.TreeManager = Nothing
@@ -135,7 +135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label1.ForeColor = System.Drawing.Color.Black
-      Me.Label1.Location = New System.Drawing.Point(16, 119)
+      Me.Label1.Location = New System.Drawing.Point(147, 112)
       Me.Label1.Name = "Label1"
       Me.Label1.Size = New System.Drawing.Size(168, 18)
       Me.Label1.TabIndex = 29
@@ -151,9 +151,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRefDoc.Controls.Add(Me.lblSupplier)
       Me.grbRefDoc.Controls.Add(Me.lblCostCenter)
       Me.grbRefDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbRefDoc.Location = New System.Drawing.Point(16, 16)
+      Me.grbRefDoc.Location = New System.Drawing.Point(10, 12)
       Me.grbRefDoc.Name = "grbRefDoc"
-      Me.grbRefDoc.Size = New System.Drawing.Size(696, 96)
+      Me.grbRefDoc.Size = New System.Drawing.Size(713, 93)
       Me.grbRefDoc.TabIndex = 0
       Me.grbRefDoc.TabStop = False
       Me.grbRefDoc.Text = "เอกสารอ้างอิง"
@@ -161,21 +161,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtRefDocCode
       '
       Me.txtRefDocCode.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtRefDocCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRefDocCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRefDocCode, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRefDocCode, System.Drawing.Color.Empty)
       Me.txtRefDocCode.Location = New System.Drawing.Point(134, 16)
-      Me.Validator.SetMaxValue(Me.txtRefDocCode, "")
-      Me.Validator.SetMinValue(Me.txtRefDocCode, "")
       Me.txtRefDocCode.Name = "txtRefDocCode"
       Me.txtRefDocCode.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtRefDocCode, "")
-      Me.Validator.SetRequired(Me.txtRefDocCode, False)
       Me.txtRefDocCode.Size = New System.Drawing.Size(184, 21)
       Me.txtRefDocCode.TabIndex = 1
       Me.txtRefDocCode.TabStop = False
-      Me.txtRefDocCode.Text = ""
       '
       'lblRefDoc
       '
@@ -190,40 +181,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtSubContractorName
       '
       Me.txtSubContractorName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtSubContractorName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtSubContractorName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtSubContractorName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtSubContractorName, System.Drawing.Color.Empty)
       Me.txtSubContractorName.Location = New System.Drawing.Point(134, 40)
-      Me.Validator.SetMaxValue(Me.txtSubContractorName, "")
-      Me.Validator.SetMinValue(Me.txtSubContractorName, "")
       Me.txtSubContractorName.Name = "txtSubContractorName"
       Me.txtSubContractorName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtSubContractorName, "")
-      Me.Validator.SetRequired(Me.txtSubContractorName, False)
       Me.txtSubContractorName.Size = New System.Drawing.Size(368, 21)
       Me.txtSubContractorName.TabIndex = 30
       Me.txtSubContractorName.TabStop = False
-      Me.txtSubContractorName.Text = ""
       '
       'txtCostCenterName
       '
       Me.txtCostCenterName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCostCenterName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(134, 64)
-      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
-      Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
-      Me.Validator.SetRequired(Me.txtCostCenterName, False)
       Me.txtCostCenterName.Size = New System.Drawing.Size(368, 21)
       Me.txtCostCenterName.TabIndex = 31
       Me.txtCostCenterName.TabStop = False
-      Me.txtCostCenterName.Text = ""
       '
       'lblSupplier
       '
@@ -252,15 +225,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'Validator
-      '
-      Me.Validator.BackcolorChanging = False
-      Me.Validator.DataTable = Nothing
-      Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
-      Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-      '
       'scWBSView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -269,6 +233,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ResumeLayout(False)
       CType(Me.tgToCC, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbRefDoc.ResumeLayout(False)
+      Me.grbRefDoc.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -285,6 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_enableState As Hashtable
     Private m_combocodeindex As Integer
     Private m_refDoc As IWBSAllocatable
+    Private m_isAllocateFromCostCenter As Boolean = False
 
     Public MatActualHash As Hashtable
     Public LabActualHash As Hashtable
@@ -756,14 +723,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       If TypeOf Me.m_entity Is IWBSAllocatable Then
+        Dim stringPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+
         m_refDoc = CType(Me.m_entity, IWBSAllocatable)
 
         Me.txtRefDocCode.Text = Me.m_entity.Code
         If Not RefDoc.Supplier Is Nothing Then
           Me.txtSubContractorName.Text = RefDoc.Supplier.Code & " : " & RefDoc.Supplier.Name
         End If
+
+        Me.Label1.Text = stringPars.Parse("${res:Longkong.Pojjaman.Gui.Panel.scWBSView.AllocateToCostCenter}") 'รายการจัดสรรไปยัง Cost Center
         If Not RefDoc.ToCostCenter Is Nothing Then
           Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
+        End If
+
+        If TypeOf Me.m_entity Is IAllowWBSAllocatable Then
+          If CType(Me.m_entity, IAllowWBSAllocatable).AllowWBSAllocateFrom Then
+            Me.Label1.Text = stringPars.Parse("${res:Longkong.Pojjaman.Gui.Panel.scWBSView.AllocateFromCostCenter}") 'รายการจัดสรรออกจาก Cost Center
+            If Not RefDoc.FromCostCenter Is Nothing Then
+              Me.txtCostCenterName.Text = RefDoc.FromCostCenter.Code & " : " & RefDoc.FromCostCenter.Name
+            End If
+          End If
         End If
       End If
 
@@ -807,9 +787,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = False
       If TypeOf m_entity Is IWBSAllocatable Then
         Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
+
         Dim dt As TreeTable = m_wbsTreeManager.Treetable
         dt.Clear()
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
+
           Dim newRow As TreeRow = dt.Childs.Add()
           newRow.State = RowExpandState.Expanded
           If ali.AllocationErrorMessage.Length <> 0 Then
@@ -1043,6 +1025,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not Object.ReferenceEquals(Me.m_entity, Value) Then
           Me.m_entity = Nothing
           Me.m_entity = Value
+
+          m_isAllocateFromCostCenter = False
+          If TypeOf Me.m_entity Is IAllowWBSAllocatable Then
+            If CType(Me.m_entity, IAllowWBSAllocatable).AllowWBSAllocateFrom Then
+              m_isAllocateFromCostCenter = True
+            End If
+          End If
+
         End If
         UpdateEntityProperties()
       End Set
@@ -1102,10 +1092,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.RefDoc.ToCostCenter Is Nothing Then
-        msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-        Return
+
+      Dim myCostCenter As CostCenter
+      If m_isAllocateFromCostCenter Then
+        If Me.RefDoc.FromCostCenter Is Nothing Then
+          msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
+          Return
+        End If
+        myCostCenter = Me.RefDoc.FromCostCenter
+      Else
+        If Me.RefDoc.ToCostCenter Is Nothing Then
+          msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
+          Return
+        End If
+        myCostCenter = Me.RefDoc.ToCostCenter
       End If
+
       'If Me.RefDoc.ToCostCenter.BoqId = 0 Then
       '  msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
       '  Return
@@ -1127,7 +1129,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       Else
         Dim wbsd As New WBSDistribute
-        wbsd.CostCenter = Me.RefDoc.ToCostCenter
+        wbsd.CostCenter = myCostCenter
         wbsd.Percent = 100 - wsdColl.GetSumPercent
         wsdColl.Add(wbsd)
       End If
@@ -1197,7 +1199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IValidatable"
     Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
-        Return Me.Validator
+        Return New PJMTextboxValidator  'Me.Validator
       End Get
     End Property
 #End Region

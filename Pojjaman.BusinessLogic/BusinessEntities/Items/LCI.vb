@@ -1543,6 +1543,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public CC As New CostCenter
     Public FromWip As Boolean = False
     Private m_refEntityId As Integer
+    Public Property IDList As String
+    Public Property StokId As Integer
     Public Property refEntityId() As Integer
       Get
         Return m_refEntityId

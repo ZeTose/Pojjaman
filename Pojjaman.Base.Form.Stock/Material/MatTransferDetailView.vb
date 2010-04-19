@@ -88,7 +88,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnShowEquipmentDiaog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtEquipmentCode As System.Windows.Forms.TextBox
     Friend WithEvents lblEquipment As System.Windows.Forms.Label
-    Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblReceiptStatus As System.Windows.Forms.Label
+    Friend WithEvents txtReceiptStatus As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
 
     Protected Sub InitializeComponent()
@@ -106,6 +108,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip()
       Me.ibtnShowPR = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
       Me.grbFromCC = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtFromCostCenterCode = New System.Windows.Forms.TextBox()
@@ -147,11 +150,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalAmount = New System.Windows.Forms.TextBox()
       Me.lblTotalAmount = New System.Windows.Forms.Label()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.txtReceiptStatus = New System.Windows.Forms.TextBox()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
-      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblReceiptStatus = New System.Windows.Forms.Label()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -201,7 +205,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
       Me.grbDetail.Location = New System.Drawing.Point(8, 1)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(658, 72)
+      Me.grbDetail.Size = New System.Drawing.Size(763, 72)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ทั่วไป"
@@ -302,18 +306,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.AutoSize = True
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(24, 196)
+      Me.lblItem.Location = New System.Drawing.Point(10, 196)
       Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(105, 16)
+      Me.lblItem.Size = New System.Drawing.Size(131, 16)
       Me.lblItem.TabIndex = 4
-      Me.lblItem.Text = "รายการเบิกวัสดุ:"
+      Me.lblItem.Text = "รายการโอนย้ายวัสดุ:"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'ibtnShowPR
       '
       Me.ibtnShowPR.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowPR.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnShowPR.Location = New System.Drawing.Point(136, 192)
+      Me.ibtnShowPR.Location = New System.Drawing.Point(139, 192)
       Me.ibtnShowPR.Name = "ibtnShowPR"
       Me.ibtnShowPR.Size = New System.Drawing.Size(40, 24)
       Me.ibtnShowPR.TabIndex = 43
@@ -322,6 +326,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowPR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.ibtnShowPR.ThemedImage = CType(resources.GetObject("ibtnShowPR.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.ibtnShowPR, "PR")
+      '
+      'ibtnApprove
+      '
+      Me.ibtnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.ibtnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnApprove.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnApprove.Location = New System.Drawing.Point(8, 458)
+      Me.ibtnApprove.Name = "ibtnApprove"
+      Me.ibtnApprove.Size = New System.Drawing.Size(72, 64)
+      Me.ibtnApprove.TabIndex = 334
+      Me.ibtnApprove.TabStop = False
+      Me.ibtnApprove.ThemedImage = CType(resources.GetObject("ibtnApprove.ThemedImage"), System.Drawing.Bitmap)
+      Me.ToolTip1.SetToolTip(Me.ibtnApprove, "อนุมัติโดยคลัง")
       '
       'ErrorProvider1
       '
@@ -866,11 +883,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
+      'txtReceiptStatus
+      '
+      Me.txtReceiptStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtReceiptStatus.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReceiptStatus, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReceiptStatus, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.txtReceiptStatus.Location = New System.Drawing.Point(105, 476)
+      Me.Validator.SetMinValue(Me.txtReceiptStatus, "")
+      Me.txtReceiptStatus.Multiline = True
+      Me.txtReceiptStatus.Name = "txtReceiptStatus"
+      Me.txtReceiptStatus.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReceiptStatus, "")
+      Me.Validator.SetRequired(Me.txtReceiptStatus, False)
+      Me.txtReceiptStatus.Size = New System.Drawing.Size(282, 44)
+      Me.txtReceiptStatus.TabIndex = 2
+      '
       'lblStatus
       '
       Me.lblStatus.AutoSize = True
       Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblStatus.Location = New System.Drawing.Point(16, 160)
+      Me.lblStatus.Location = New System.Drawing.Point(241, 197)
       Me.lblStatus.Name = "lblStatus"
       Me.lblStatus.Size = New System.Drawing.Size(38, 13)
       Me.lblStatus.TabIndex = 8
@@ -880,7 +916,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(192, 192)
+      Me.ibtnBlank.Location = New System.Drawing.Point(187, 192)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 6
@@ -890,7 +926,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(216, 192)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(211, 192)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 7
@@ -900,34 +936,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkShowCost
       '
       Me.chkShowCost.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkShowCost.Location = New System.Drawing.Point(272, 192)
+      Me.chkShowCost.Location = New System.Drawing.Point(273, 192)
       Me.chkShowCost.Name = "chkShowCost"
-      Me.chkShowCost.Size = New System.Drawing.Size(104, 24)
+      Me.chkShowCost.Size = New System.Drawing.Size(103, 24)
       Me.chkShowCost.TabIndex = 5
       Me.chkShowCost.Text = "chkShowCost"
       '
-      'btnApprove
+      'lblReceiptStatus
       '
-      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(668, 9)
-      Me.btnApprove.Name = "btnApprove"
-      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
-      Me.btnApprove.TabIndex = 332
-      Me.btnApprove.Text = "อนุมัติเอกสาร"
-      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApprove.ThemedImage = Nothing
+      Me.lblReceiptStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.lblReceiptStatus.AutoSize = True
+      Me.lblReceiptStatus.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.lblReceiptStatus.Location = New System.Drawing.Point(108, 458)
+      Me.lblReceiptStatus.Name = "lblReceiptStatus"
+      Me.lblReceiptStatus.Size = New System.Drawing.Size(111, 13)
+      Me.lblReceiptStatus.TabIndex = 8
+      Me.lblReceiptStatus.Text = "สถานะการยืนยันรับของ"
+      Me.lblReceiptStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
       'MatTransferDetailView
       '
-      Me.Controls.Add(Me.btnApprove)
+      Me.Controls.Add(Me.ibtnApprove)
       Me.Controls.Add(Me.ibtnShowPR)
       Me.Controls.Add(Me.chkShowCost)
       Me.Controls.Add(Me.ibtnBlank)
       Me.Controls.Add(Me.ibtnDelRow)
+      Me.Controls.Add(Me.lblReceiptStatus)
       Me.Controls.Add(Me.lblStatus)
+      Me.Controls.Add(Me.txtReceiptStatus)
       Me.Controls.Add(Me.grbFromCC)
       Me.Controls.Add(Me.grbToCC)
       Me.Controls.Add(Me.grbSummary)
@@ -1028,26 +1064,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Public Function CreateTableStyle(ByVal group As Boolean) As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "MatWithdraw"
+      dst.MappingName = "MatTransfer"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
       Dim csPRItemCode As New TreeTextColumn
       csPRItemCode.MappingName = "PRItemCode"
-      csPRItemCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.PRItemCodeHeaderText}")
+      csPRItemCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferPanelView.PRItemCodeHeaderText}")
       csPRItemCode.NullText = ""
       csPRItemCode.ReadOnly = True
       csPRItemCode.TextBox.Name = "PRItemCode"
 
       Dim csPRItemName As New TreeTextColumn
       csPRItemName.MappingName = "PRItemName"
-      csPRItemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.PRItemNameHeaderText}")
+      csPRItemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferPanelView.PRItemNameHeaderText}")
       csPRItemName.NullText = ""
       csPRItemName.ReadOnly = True
       csPRItemName.TextBox.Name = "PRItemName"
 
       Dim csPRItemUnit As New TreeTextColumn
       csPRItemUnit.MappingName = "PRItemUnit"
-      csPRItemUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.PRItemUnitHeaderText}")
+      csPRItemUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferPanelView.PRItemUnitHeaderText}")
       csPRItemUnit.NullText = ""
       csPRItemUnit.ReadOnly = True
       csPRItemUnit.Width = 50
@@ -1055,14 +1091,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csPRItemQty As New TreeTextColumn
       csPRItemQty.MappingName = "pri_qty"
-      csPRItemQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.PRItemQtyHeaderText}")
+      csPRItemQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferPanelView.PRItemQtyHeaderText}")
       csPRItemQty.NullText = ""
       csPRItemQty.ReadOnly = True
       csPRItemQty.TextBox.Name = "pri_qty"
 
       Dim csPRItemRemainingQty As New TreeTextColumn
       csPRItemRemainingQty.MappingName = "PRItemRemainingQty"
-      csPRItemRemainingQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.PRItemRemainingQtyHeaderText}")
+      csPRItemRemainingQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferPanelView.PRItemRemainingQtyHeaderText}")
       csPRItemRemainingQty.NullText = ""
       csPRItemRemainingQty.DataAlignment = HorizontalAlignment.Right
       csPRItemRemainingQty.Format = "#,###.##"
@@ -1070,7 +1106,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "stocki_linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.LineNumberHeaderText}")
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.LineNumberHeaderText}")
       csLineNumber.NullText = ""
       csLineNumber.Width = 30
       csLineNumber.DataAlignment = HorizontalAlignment.Center
@@ -1085,7 +1121,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.CodeHeaderText}")
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.CodeHeaderText}")
       csCode.NullText = ""
       csCode.Width = 70
       csCode.ReadOnly = Not group
@@ -1099,7 +1135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csstocki_itemName As New TreeTextColumn
       csstocki_itemName.MappingName = "stocki_itemName"
-      csstocki_itemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.DescriptionHeaderText}")
+      csstocki_itemName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.DescriptionHeaderText}")
       csstocki_itemName.NullText = ""
       csstocki_itemName.Width = 180
       csstocki_itemName.TextBox.Name = "Description"
@@ -1108,7 +1144,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csDefaultUnit As New TreeTextColumn
       csDefaultUnit.MappingName = "DefaultUnit"
-      csDefaultUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.DefaultUnitHeaderText}")
+      csDefaultUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.DefaultUnitHeaderText}")
       csDefaultUnit.NullText = ""
       csDefaultUnit.ReadOnly = True
       If group Then
@@ -1119,7 +1155,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csUnit As New TreeTextColumn
       csUnit.MappingName = "Unit"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.UnitHeaderText}")
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.UnitHeaderText}")
       csUnit.NullText = ""
       csUnit.TextBox.Name = "Unit"
       csUnit.Width = 50
@@ -1133,7 +1169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csQty As New TreeTextColumn
       csQty.MappingName = "stocki_qty"
-      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.QtyHeaderText}")
+      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.QtyHeaderText}")
       csQty.NullText = ""
       csQty.DataAlignment = HorizontalAlignment.Right
       csQty.Format = "#,###.##"
@@ -1143,7 +1179,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csStockQty As New TreeTextColumn
       csStockQty.MappingName = "StockQty"
-      csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.StockQtyHeaderText}")
+      csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.StockQtyHeaderText}")
       csStockQty.NullText = ""
       csStockQty.DataAlignment = HorizontalAlignment.Right
       csStockQty.Format = "#,###.##"
@@ -1156,7 +1192,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csTransferUnitPrice As New TreeTextColumn
       csTransferUnitPrice.MappingName = "stocki_transferunitprice"
-      csTransferUnitPrice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.TransferUnitPriceHeaderText}")
+      csTransferUnitPrice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.TransferUnitPriceHeaderText}")
       csTransferUnitPrice.NullText = ""
       csTransferUnitPrice.DataAlignment = HorizontalAlignment.Right
       csTransferUnitPrice.Format = "#,###.##"
@@ -1168,7 +1204,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csTransferAmount As New TreeTextColumn
       csTransferAmount.MappingName = "stocki_transferamt"
-      csTransferAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.TransferAmountHeaderText}")
+      csTransferAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.TransferAmountHeaderText}")
       csTransferAmount.NullText = ""
       csTransferAmount.DataAlignment = HorizontalAlignment.Right
       csTransferAmount.Format = "#,###.##"
@@ -1177,7 +1213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csUnitCost As New TreeTextColumn
       csUnitCost.MappingName = "stocki_unitcost"
-      csUnitCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.UnitCostHeaderText}")
+      csUnitCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.UnitCostHeaderText}")
       csUnitCost.NullText = ""
       csUnitCost.TextBox.Name = "stocki_unitcost"
       csUnitCost.DataAlignment = HorizontalAlignment.Right
@@ -1190,7 +1226,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "stocki_note"
-      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.NoteHeaderText}")
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.NoteHeaderText}")
       csNote.NullText = ""
       csNote.Width = 150
       csNote.TextBox.Name = "stocki_note"
@@ -1337,7 +1373,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
               If value > (remaining / doc.Conversion) Then
-                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
                   e.ProposedValue = (remaining / doc.Conversion)
                   doc.Qty = e.ProposedValue
                   Return
@@ -1391,10 +1427,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      CheckApproveStore()
+      'CheckApproveStore()
       If Me.m_entity.Canceled _
       OrElse Me.m_entity.Status.Value = 0 _
       OrElse m_entityRefed = 1 _
+      OrElse m_entity.ApprovalCollection.Approved _
       Then
         For Each ctrl As Control In Me.grbDetail.Controls
           ctrl.Enabled = False
@@ -1435,9 +1472,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
 
-        If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
-          Me.btnApprove.Visible = True
-        End If
+        'If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
+        '  Me.btnApprove.Visible = True
+        'End If
       End If
       tgItem.Enabled = True
       If Not Me.m_entity.Grouping Then
@@ -1451,6 +1488,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       ToggleStyle(Me.m_treeManager.GridTableStyle)
       Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      Me.ibtnApprove.Enabled = True
       CheckWBSRight()
     End Sub
     Private Sub CheckWBSRight()
@@ -1474,42 +1512,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Me.dtpDocDate.Value = Now
 
+      If Me.cmbDocType.Items.Count > 0 Then
+        Me.cmbDocType.SelectedIndex = 2 'โอนเข้าคลัง  
+      End If
     End Sub
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.grbDetail}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.grbDetail}")
       Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
       Me.Validator.SetDisplayName(Me.txtDocDate, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblDocDate.Text, ":"))
 
-      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblNote}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblNote}")
 
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblCode}")
       Me.Validator.SetDisplayName(Me.cmbCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
 
-      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItem}")
-      Me.grbFromCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.grbFromCC}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblItem}")
+      Me.grbFromCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.grbFromCC}")
 
-      Me.lblFromCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblFromCCPerson}")
+      Me.lblFromCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblFromCCPerson}")
       Me.Validator.SetDisplayName(Me.txtFromCCPersonCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblFromCCPerson.Text, ":"))
 
-      Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblFromCostCenter}")
+      Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblFromCostCenter}")
       Me.Validator.SetDisplayName(Me.txtFromCostCenterCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblFromCostCenter.Text, ":"))
 
-      Me.grbToCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.grbToCC}")
-      Me.lblToCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblToCCPerson}")
+      Me.grbToCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.grbToCC}")
+      Me.lblToCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblToCCPerson}")
       Me.Validator.SetDisplayName(Me.txtToCCPersonCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblToCCPerson.Text, ":"))
 
-      Me.lbltoCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lbltoCC}")
+      Me.lbltoCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lbltoCC}")
       Me.Validator.SetDisplayName(Me.txtToCostCenterCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lbltoCC.Text, ":"))
 
-      Me.lblDocType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblDocType}")
-      Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblAccount}")
-      Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.grbSummary}")
-      Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItemCount}")
-      Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItemCountUnit}")
+      Me.lblDocType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblDocType}")
+      Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblAccount}")
+      Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.grbSummary}")
+      Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblItemCount}")
+      Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblItemCountUnit}")
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
-      Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblTotalAmount}")
-      Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.chkShowCost}")
+      Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.lblTotalAmount}")
+      Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.chkShowCost}")
 
     End Sub
     Protected Overrides Sub EventWiring()
@@ -1599,9 +1640,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-      CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.Type)
+      If Me.m_entity.Originated Then
+        CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.Type)
+      End If
 
       Me.chkShowCost.Checked = Not Me.m_entity.Grouping
+
+      If Not Me.m_entity.ApprovalCollection Is Nothing Then
+        If Me.m_entity.ApprovalCollection.Count > 0 Then
+          Dim approvalComment As ApprovalStoreComment = Me.m_entity.ApprovalCollection(0)
+          Dim newUser As New User(approvalComment.Originator)
+          Dim approveText As String = ""
+          If approvalComment.Type = ApproveType.approved Then
+            approveText = Me.StringParserService.Parse("${res:Global.Receipt}")
+          ElseIf approvalComment.Type = ApproveType.reject Then
+            approveText = Me.StringParserService.Parse("${res:Global.Reject}")
+          End If
+          txtReceiptStatus.Text = approveText & " : " & approvalComment.Comment & vbCrLf & _
+                                  "(" & approvalComment.LastEditDate.ToShortDateString & " : " & newUser.Name & ")"
+        End If
+      End If
 
       RefreshDocs()
 
@@ -1619,12 +1677,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
+      Dim arr As New ArrayList
+      For Each doc As MatTransferItem In Me.m_entity.ItemCollection
+        If doc.Entity Is Nothing Then
+          arr.Add(doc)
+        End If
+      Next
+      For Each doc As MatTransferItem In arr
+        Me.m_entity.ItemCollection.Remove(doc)
+      Next
       Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
       ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
@@ -1713,7 +1780,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If toCCCodeChanged Then
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If Me.txtToCostCenterCode.TextLength <> 0 Then
-              If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Caption.ChangeCC}") Then
+              If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.Caption.ChangeCC}") Then
                 dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
                 Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
                 Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
@@ -1767,7 +1834,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckFormEnable()
     End Sub
     Private oldCCId As Integer
@@ -1801,21 +1868,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = flag
     End Sub
     Public Sub SetStatus()
+      Dim lblStatus As String = ""
       If m_entity.Canceled Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        lblStatus = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        lblStatus = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf m_entity.Originated Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatus = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus.Text = ""
+        lblStatus = ""
       End If
+      Me.StatusBarService.SetMessage(lblStatus)
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity
@@ -1870,6 +1939,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "Method"
+    Private Function GetItemIDList() As String
+      Dim ret As String = ""
+      For Each item As MatTransferItem In Me.m_entity.ItemCollection
+        If Not item.Entity Is Nothing Then
+          ret &= item.Entity.Id.ToString & ","
+        End If
+      Next
+      If ret.EndsWith(",") Then
+        ret = ret.Substring(0, ret.Length - 1)
+      End If
+      Return ret
+    End Function
+#End Region
+
 #Region "Event Handlers"
     Public Sub LCIClicked(ByVal e As ButtonColumnEventArgs)
       If Me.m_entity Is Nothing Then
@@ -1877,14 +1961,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
-        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
+        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.Message.InputFromCC}")
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+
       entity.CC = Me.m_entity.FromCostCenter
       entity.FromWip = False
       entity.refEntityId = Me.Entity.EntityId
+      entity.IDList = GetItemIDList()
+      entity.StokId = Me.m_entity.Id
+
       myEntityPanelService.OpenListDialog(entity, AddressOf SetLCIItems)
     End Sub
     Private Sub SetLCIItems(ByVal items As BasketItemCollection)
@@ -2066,8 +2154,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = m_entity
     End Sub
     Private Sub ibtnShowPR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowPR.Click
-      If Me.m_entity.ValidIdOrDBNull(Me.m_entity.ToCostCenter) Is DBNull.Value Then     '_
-        'OrElse Me.m_entity.ValidIdOrDBNull(Me.m_entity.FromCostCenter) Is DBNull.Value Then
+      If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated _
+        OrElse Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        Dim myPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        msgServ.ShowMessage(myPars.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.SpecifiCCFromANDCCTOFirst}"))
         Return
       End If
       Dim dlg As New BasketDialog
@@ -2088,7 +2179,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tmp2 = Configuration.GetConfig("MWPRremainPO")
 
       prNeedsApproval = CBool(Configuration.GetConfig("ApprovePR"))
-      'prNeedsStoreApproval = CBool(Configuration.GetConfig("PRNeedStoreApprove"))
+      prNeedsStoreApproval = CBool(Configuration.GetConfig("PRNeedStoreApprove"))
+
       filters(0) = New Filter("excludeList", excludeList)
       filters(1) = New Filter("prNeedsApproval", prNeedsApproval)
       filters(2) = New Filter("excludeCanceled", True)
@@ -2103,10 +2195,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim Entities As New ArrayList
       If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
-        Entities.Add(Me.m_entity.ToCostCenter)
+        Dim requestCostCenter As New RequestCostCenter(Me.m_entity.ToCostCenter.Id)
+        Entities.Add(requestCostCenter)
+      End If
+      If Not Me.m_entity.FromCostCenter Is Nothing AndAlso Me.m_entity.FromCostCenter.Originated Then
+        Dim storeCostCenter As New StoreCostCenter(Me.m_entity.FromCostCenter.Id)
+        Entities.Add(storeCostCenter)
       End If
 
-      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PR, New BasketDialog, filters, Entities)
+      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PRForMatTransfer, New BasketDialog, filters, Entities)
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
@@ -2132,7 +2229,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowToCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCostCenterDialog.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatwithdrawDetail.Caption.ChangeCC}") Then
+      If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.Caption.ChangeCC}") Then
         Dim myEntityPanelService As IEntityPanelService = _
                     CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetToCostCenter, New Filter() {New Filter("checkright", False)})
@@ -2143,6 +2240,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
+      Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+      Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
       ListType()
       UpdateDestAdmin()
       Try
@@ -2154,7 +2253,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End Try
       Me.toCCCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
@@ -2167,7 +2266,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
       toCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenterDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
@@ -2179,11 +2278,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      Me.txtFromCostCenterCode.Text = Me.m_entity.FromCostCenter.Code
+      Me.txtFromCostCenterName.Text = Me.m_entity.FromCostCenter.Name
       ListType()
       UpdateAccount()
       UpdateOriginAdmin()
       fromCCCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowFromCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
@@ -2196,7 +2297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
       fromCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ShowCostCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCostCenter.Click, ibtnShowFromCostCenter.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -2251,27 +2352,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Me.m_entity.ItemCollection.CheckPRForStoreApprove()
     End Sub
 
-    Private Sub CheckApproveStore()
-      If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
-        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-        Dim level As Integer = secSrv.GetAccess(290)
-        Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-        checkString = BinaryHelper.RevertString(checkString)
-        If Not CBool(checkString.Substring(0, 1)) Then
-          'ห้ามเห็น
-          Me.btnApprove.Visible = False
-        Else
-          Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
-          Me.btnApprove.Visible = True
-        End If
-      Else
-        Me.btnApprove.Visible = False
-      End If
-    End Sub
+    'Private Sub CheckApproveStore()
+    '  If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
+    '    Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+    '    Dim level As Integer = secSrv.GetAccess(290)
+    '    Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+    '    checkString = BinaryHelper.RevertString(checkString)
+    '    If Not CBool(checkString.Substring(0, 1)) Then
+    '      'ห้ามเห็น
+    '      Me.btnApprove.Visible = False
+    '    Else
+    '      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
+    '      Me.btnApprove.Visible = True
+    '    End If
+    '  Else
+    '    Me.btnApprove.Visible = False
+    '  End If
+    'End Sub
 
 
 

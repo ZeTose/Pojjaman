@@ -1416,24 +1416,26 @@ FinalLine:
       'RefreshWBS()
     End Sub
     Public Sub SetStatus()
+      Dim lblStatus As String = ""
       If m_entity.Canceled Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        lblStatus = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatus = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
-        lblStatus.Text &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        lblStatus &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf m_entity.Originated Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatus = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus.Text = "ยังไม่บันทึก"
+        lblStatus = ""
       End If
+      Me.StatusBarService.SetMessage(lblStatus)
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity

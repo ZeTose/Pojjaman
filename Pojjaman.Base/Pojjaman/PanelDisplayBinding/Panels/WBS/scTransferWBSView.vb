@@ -972,16 +972,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Nothing
       End Get
     End Property
-    Private ReadOnly Property CurrentAllowFromCCItem() As IAllowWBSAllocatableItem
+    Private ReadOnly Property CurrentAllowFromCCItem() As IAllowWBSAllocatable
       Get
         Dim row As TreeRow = Me.m_wbsFromCCTreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is IAllowWBSAllocatableItem Then
+        If Not TypeOf row.Tag Is IAllowWBSAllocatable Then
           Return Nothing
         End If
-        Return CType(row.Tag, IAllowWBSAllocatableItem)
+        Return CType(row.Tag, IAllowWBSAllocatable)
       End Get
     End Property
     Public Sub WBStgFromCCButtonClicked(ByVal e As ButtonColumnEventArgs)
@@ -1473,7 +1473,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      Dim all As IAllowWBSAllocatableItem = Me.CurrentAllowFromCCItem
+      Dim all As IAllowWBSAllocatable = Me.CurrentAllowFromCCItem
       If Not all Is Nothing AndAlso Not all.AllowWBSAllocateTo Then
         msgServ.ShowMessage("${res:Global.Error.CannotAllocate}")
         Return
@@ -1519,7 +1519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      Dim all As IAllowWBSAllocatableItem = Me.CurrentAllowFromCCItem
+      Dim all As IAllowWBSAllocatable = Me.CurrentAllowFromCCItem
       If Not all Is Nothing AndAlso Not all.AllowWBSAllocateFrom Then
         msgServ.ShowMessage("${res:Global.Error.CannotAllocate}")
         Return

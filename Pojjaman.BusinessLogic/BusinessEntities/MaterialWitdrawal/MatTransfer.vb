@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '  End Class
   Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatable
 
 #Region "Members"
     Private m_docDate As Date
@@ -54,6 +54,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grouping As Boolean
 
     Private m_itemCollection As MatTransferItemCollection
+
+    Private m_approvalCollection As ApprovalStoreCommentCollection
 
     Public MatActualHashIn As Hashtable
     Public MatActualHashOut As Hashtable
@@ -196,10 +198,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MatActualHashOut = New Hashtable
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      Me.ApprovalCollection = New ApprovalStoreCommentCollection(Me, True)
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ApprovalCollection As ApprovalStoreCommentCollection
+      Get
+        Return m_approvalCollection
+      End Get
+      Set(ByVal value As ApprovalStoreCommentCollection)
+        m_approvalCollection = value
+      End Set
+    End Property
     Public Property ItemCollection() As MatTransferItemCollection
       Get
         Return m_itemCollection
@@ -339,7 +351,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim ret As Decimal = 0
         For Each item As MatTransferItem In Me.ItemCollection
-          ret += item.ItemCollectionPrePareCost.CostAmount
+          ret += item.ItemCostCollection.CostAmount
         Next
         'If Not Me.Grouping Then
         '  For Each item As MatWithdrawItem In Me.ItemCollection
@@ -419,7 +431,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Shared"
     Public Shared Function GetSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("MatWithdraw")
+      Dim myDatatable As New TreeTable("MatTransfer")
       myDatatable.Columns.Add(New DataColumn("pri_pr", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("pr_code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("pri_linenumber", GetType(Integer)))
@@ -571,17 +583,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As MatTransferItem In Me.ItemCollection
         Dim coll As WBSDistributeCollection
         Dim view As Integer = 45
-        If Not isOut Then
-          coll = item.InWbsdColl
-          view = 31
-        Else
-          coll = item.OutWbsdColl
-          view = 45
-        End If
+        'If Not isOut Then
+        'coll = item.InWbsdColl
+        'view = 31
+        'Else
+        coll = item.WBSDistributeCollection
+        'view = 45
+        'End If
         For Each grWBSD As WBSDistribute In coll
           If Not grWBSD.IsMarkup Then
             'Dim amt As Decimal = WBSDistribute.GetUsedAmount(item.TransferAmount, item.Amount, isOut, view, Me.Type.Value)
-            Dim amt As Decimal = WBSDistribute.GetUsedAmount(item.ItemCollectionPrePareCost.CostAmount, item.Amount, isOut, view, Me.Type.Value)
+            Dim amt As Decimal = WBSDistribute.GetUsedAmount(item.ItemCostCollection.CostAmount, item.Amount, isOut, view, Me.Type.Value)
             If grWBSD.WBS.IsDescendantOf(myWbs) Then
               ret += (grWBSD.Percent * amt / 100)
             End If
@@ -595,9 +607,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As MatTransferItem In Me.ItemCollection
         Dim coll As WBSDistributeCollection
         If Not isOut Then
-          coll = item.InWbsdColl
+          'coll = item.InWbsdColl
         Else
-          coll = item.OutWbsdColl
+          coll = item.WBSDistributeCollection
         End If
         For Each grWBSD As WBSDistribute In coll
           If grWBSD.IsMarkup Then
@@ -615,10 +627,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim coll As WBSDistributeCollection
         Dim view As Integer = 45
         If Not isOut Then
-          coll = item.InWbsdColl
+          'coll = item.InWbsdColl
           view = 31
         Else
-          coll = item.OutWbsdColl
+          coll = item.WBSDistributeCollection
           view = 45
         End If
         For Each grWBSD As WBSDistribute In coll
@@ -644,12 +656,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If Not onlyCC Then
         For Each item As MatTransferItem In Me.ItemCollection
-          Dim inwsdColl As WBSDistributeCollection = item.InWbsdColl
-          If inwsdColl.Count = 0 Then
+          Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+          If wsdColl.Count = 0 Then
             Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
-            Dim totalCurrentDiff As Decimal = item.ItemCollectionPrePareCost.CostAmount
+            Dim totalCurrentDiff As Decimal = item.ItemCostCollection.CostAmount
             totalBudget = rootWBS.GetTotalMatFromDB
             totalActual = rootWBS.GetActualMat(Me, 31)
             If totalBudget < (totalActual + totalCurrentDiff) Then
@@ -657,7 +669,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          For Each wbsd As WBSDistribute In inwsdColl
+          For Each wbsd As WBSDistribute In wsdColl
             If wbsd.AmountOverBudget Then
               Return True
             End If
@@ -665,7 +677,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
             Dim totalCurrentDiff As Decimal = 0
-            totalCurrentDiff = GetCurrentAmountForWBS(rootWBS, False)
+            totalCurrentDiff = GetCurrentAmountForWBS(rootWBS, True)
             For Each row As DataRow In rootWBS.GetParentsBudget(Me.EntityId, wbsd.CostCenter.Id)
               totalBudget = 0
               totalActual = 0
@@ -694,13 +706,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Private Function ValidateItem() As SaveErrorException
+      Dim key As String = ""
+
+      For Each item As MatTransferItem In Me.ItemCollection
+
+        Dim newHash As New Hashtable
+        For Each wbitem As WBSDistribute In item.WBSDistributeCollection
+          key = wbitem.WBS.Id.ToString
+          If Not newHash.Contains(key) Then
+            newHash(key) = wbitem
+          Else
+            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+          End If
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+          End If
+        Next
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Private Function VerrifyCost() As String
       For Each item As MatTransferItem In Me.ItemCollection
-        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
-        For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
-          If item.ItemCollectionPrePareCost(i).Sequence = currCostCollection(i).Sequence AndAlso _
-             item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
-              item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
+        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty, Me.Id)
+        If item.ItemCostCollection.Count <> currCostCollection.Count Then
+          Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
+                Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange2}") & vbCrLf & _
+                Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange3}")
+        End If
+        For i As Integer = 0 To item.ItemCostCollection.Count - 1
+          If item.ItemCostCollection(i).Sequence = currCostCollection(i).Sequence AndAlso _
+             item.ItemCostCollection(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
+              item.ItemCostCollection(i).StockQty = currCostCollection(i).StockQty Then
             Return ""
           Else
             Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
@@ -725,10 +763,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
 
-        Dim VerrifyCostErrorMessage As String = VerrifyCost()
-        If VerrifyCostErrorMessage.Length > 0 Then
-          If Not msgServ.AskQuestion(VerrifyCostErrorMessage) Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+        Dim ValidateError As SaveErrorException = ValidateItem()
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
+        End If
+
+        'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) ก็เลยไม่ต้อง VerrifyCost แล้วด้วย
+        If Not Me.IsReferenced Then
+          Dim VerrifyCostErrorMessage As String = VerrifyCost()
+          If VerrifyCostErrorMessage.Length > 0 Then
+            If Not msgServ.AskQuestion(VerrifyCostErrorMessage) Then
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+            End If
           End If
         End If
 
@@ -928,9 +974,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '==============================STOCKCOSTFIFO=========================================
 
-          '==============================UPDATE PRITEM=========================================
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-          '==============================UPDATE PRITEM=========================================
+          ''==============================UPDATE PRITEM=========================================
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+          ''==============================UPDATE PRITEM=========================================
 
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
@@ -988,8 +1034,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End If
           '--------------------------------------------------------------
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
 
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
@@ -1229,7 +1275,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  currentCostCenter = Me.ToCostCenter
           'Else
           rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
-          wbsdColl = item.OutWbsdColl
+          wbsdColl = item.WBSDistributeCollection
           currentSum = wbsdColl.GetSumPercent
           currentCostCenter = Me.FromCostCenter
           'End If
@@ -1259,6 +1305,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 wbsd.CostCenter = currentCostCenter
               End If
               childDr("stockiw_cc") = wbsd.CostCenter.Id
+              If Not wbsd.CBS Is Nothing Then
+                childDr("stockiw_cbs") = wbsd.CBS.Id
+              End If
               'Add เข้า sciwbs
               dtWbs.Rows.Add(childDr)
             Next
@@ -2021,7 +2070,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMatWithdraw", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMatTransfer", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1
@@ -2110,28 +2159,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         item.UpdateWBSQty()
 
         If Not Me.Originated Then
-          For Each wbsd As WBSDistribute In item.OutWbsdColl
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
             wbsd.ChildAmount = 0
             wbsd.GetChildIdList()
             For Each allItem As MatTransferItem In Me.ItemCollection
-              For Each childWbsd As WBSDistribute In allItem.OutWbsdColl
+              For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
                 If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                   wbsd.ChildAmount += childWbsd.Amount
                 End If
               Next
             Next
           Next
-          For Each wbsd As WBSDistribute In item.InWbsdColl
-            wbsd.ChildAmount = 0
-            wbsd.GetChildIdList()
-            For Each allItem As MatTransferItem In Me.ItemCollection
-              For Each childWbsd As WBSDistribute In allItem.InWbsdColl
-                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
-                  wbsd.ChildAmount += childWbsd.Amount
-                End If
-              Next
-            Next
-          Next
+          'For Each wbsd As WBSDistribute In item.InWbsdColl
+          '  wbsd.ChildAmount = 0
+          '  wbsd.GetChildIdList()
+          '  For Each allItem As MatTransferItem In Me.ItemCollection
+          '    For Each childWbsd As WBSDistribute In allItem.InWbsdColl
+          '      If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+          '        wbsd.ChildAmount += childWbsd.Amount
+          '      End If
+          '    Next
+          '  Next
+          'Next
         End If
 
         coll.Add(item)
@@ -2149,43 +2198,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
-  End Class
 
-  Public Class MatReceipt
-    Inherits MatTransfer
+#Region "IAllowWBSAllocatableItem"
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return True
+      End Get
+    End Property
 
-    Public Overrides ReadOnly Property ClassName As String
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
       Get
-        Return "MatReceipt"
+        Return False
       End Get
     End Property
-    Public Overloads ReadOnly Property DetailPanelTitle As String
-      Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatReceipt.DetailLabel}"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property DetailPanelIcon() As String
-      Get
-        Return "Icons.16x16.MatReceipt"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property ListPanelIcon() As String
-      Get
-        Return "Icons.16x16.MatReceipt"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property ListPanelTitle() As String
-      Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.MatReceipt.ListLabel}"
-      End Get
-    End Property
-    Public Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      Return New SaveErrorException("0")
-      'Return MyBase.Save(currentUserId)
-    End Function
+#End Region
 
   End Class
-
+  Public Class StoreCostCenter
+    Inherits CostCenter
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal Id As Integer)
+      MyBase.New(Id)
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+    End Sub
+  End Class
+  Public Class RequestCostCenter
+    Inherits CostCenter
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal Id As Integer)
+      MyBase.New(Id)
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+    End Sub
+  End Class
   'Public Class MatWithdrawForOperation
   '  Inherits MatTransfer
   '  Public Overrides ReadOnly Property CodonName() As String

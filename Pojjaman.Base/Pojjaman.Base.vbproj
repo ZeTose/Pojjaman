@@ -1142,6 +1142,9 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\AdvancePaySelection.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRForSelectFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1556,6 +1559,9 @@
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\AdvancePaySelection.resx">
       <DependentUpon>AdvancePaySelection.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRForSelectFilterSubPanel.resx">
+      <DependentUpon>PRForSelectFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AP\PRFilterSubPanel.resx">
       <DependentUpon>PRFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -1738,6 +1744,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

@@ -2012,12 +2012,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
   End Class
-    Public Class PRForApprove
-        Inherits PR
-        Public Overrides ReadOnly Property CodonName() As String
-            Get
-                Return "PRForApprove"
-            End Get
-        End Property
-    End Class
+  Public Class PRForApprove
+    Inherits PR
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "PRForApprove"
+      End Get
+    End Property
+  End Class
+  Public Class PRForMatTransfer
+    Inherits PR
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "PRForMatTransfer"
+      End Get
+    End Property
+  End Class
 End Namespace

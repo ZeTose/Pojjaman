@@ -7,7 +7,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.DataAccessLayer
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class PRSelectionView
+  Public Class PRStockSelectionView
     Inherits AbstractEntityPanelViewContent
     Implements ISimpleListPanel
 
@@ -60,8 +60,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
-      'Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -76,12 +75,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
-      'PRSelectionView
+      'PRStockSelectionView
       '
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.Splitter1)
       Me.Controls.Add(Me.pnlFilter)
-      Me.Name = "PRSelectionView"
+      Me.Name = "PRStockSelectionView"
       Me.Size = New System.Drawing.Size(768, 483)
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
@@ -117,7 +116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PanelName = Me.Name
 
       'Hack
-      m_filterSubPanel = New PRForSelectFilterSubPanel
+      m_filterSubPanel = New PRFilterSubPanel
       m_filterSubPanel.Entities = entities
 
       Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
@@ -202,21 +201,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If TypeOf m_entity Is PRForMatTransfer Then
-        Dim filterdt As DataTable = Nothing
-        filterdt = PRItem.GetListDatatableForMatWithDraw("GetPRForMatTransferList", newfilters)
-        PopDataStyle2(filterdt)
-      Else
-        Dim filterdt As TreeTable = Nothing
-        filterdt = PRItem.GetListDatatable(newfilters)
-        PopDataStyle1(filterdt)
-      End If
+      Dim filterdt As TreeTable = PRItem.GetListDatatable(newfilters)
 
-    End Sub
-    Private Sub PopDataStyle1(ByVal filterdt As TreeTable)
       Dim dt As TreeTable = GetSchemaTable()
       dt.Clear()
-      Dim parRow As TreeRow
+      Dim parRow As TreeRow = Nothing
       Dim currentPR As Integer = -1
       For Each filteredRow As TreeRow In filterdt.Rows
         Dim prId As Integer
@@ -227,7 +216,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not filteredRow.IsNull("Requestor") Then
           prRequestor = CStr(filteredRow("Requestor"))
         End If
-        Dim ccInfo As String
+        Dim ccInfo As String = ""
         If Not filteredRow.IsNull("CostCenter") Then
           ccInfo = CStr(filteredRow("CostCenter"))
         End If
@@ -240,7 +229,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           prReceivingDate = CDate(filteredRow("ReceivingDate"))
         End If
 
-        Dim prCode As String
+        Dim prCode As String = ""
         If Not filteredRow.IsNull("Code") Then
           prCode = CStr(filteredRow("Code"))
         End If
@@ -273,61 +262,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.SetTableStyle(dst)
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
-    End Sub
-    Private Sub PopDataStyle2(ByVal filterdt As DataTable)
-      Dim dt As TreeTable = GetSchemaTable2()
-      dt.Clear()
-      Dim parRow As TreeRow
-      Dim currentPR As Integer = -1
 
-      For Each filteredRow As DataRow In filterdt.Rows
-        Dim drh As New DataRowHelper(filteredRow)
-        Dim prId As Integer = drh.GetValue(Of Integer)("pr_id")
-        Dim prCode As String = drh.GetValue(Of String)("pr_code")
-        Dim Material As String = drh.GetValue(Of String)("lciinfo")
-        Dim Unit As String = drh.GetValue(Of String)("unit_name")
-        Dim PRQty As Decimal = drh.GetValue(Of Decimal)("PRQty")
-        Dim StockQty As Decimal = drh.GetValue(Of Decimal)("StockQty")
-        Dim WithdrawQty As Decimal = drh.GetValue(Of Decimal)("WithdrawQty")
-        Dim RemainingQty As Decimal = drh.GetValue(Of Decimal)("RemainingQty")
-        Dim LineNumber As Integer = drh.GetValue(Of Integer)("pri_linenumber")
-
-        If currentPR <> prId Then
-          parRow = dt.Childs.Add
-          parRow("Selected") = False
-          parRow("Code") = prCode
-          parRow("Material") = prCode
-          parRow("Qty") = ""
-          parRow("StockQty") = ""
-          parRow("WithdrawQty") = ""
-          parRow("RemainingQty") = ""
-          currentPR = prId
-        End If
-        If Not parRow Is Nothing Then
-          Dim childRow As TreeRow = parRow.Childs.Add
-          childRow("Selected") = False
-          childRow("Code") = prCode
-          childRow("Material") = Space(3) & Material
-          childRow("Unit") = Unit
-          childRow("Qty") = Configuration.FormatToString(PRQty, DigitConfig.Price)
-          childRow("StockQty") = Configuration.FormatToString(StockQty, DigitConfig.Price)
-          childRow("WithdrawQty") = Configuration.FormatToString(WithdrawQty, DigitConfig.Price)
-          childRow("RemainingQty") = Configuration.FormatToString(RemainingQty, DigitConfig.Price)
-          childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
-          Dim pritem As New PRItem
-          pritem.Pr = New PR
-          pritem.Pr.Id = prId
-          pritem.LineNumber = LineNumber
-          childRow.Tag = pritem
-        End If
-      Next
-      dt.AcceptChanges()
-
-      Dim dst As DataGridTableStyle = CreateListTableStyle2()
-      m_treeManager = New TreeManager(dt, tgItem)
-      m_treeManager.SetTableStyle(dst)
-      m_treeManager.AllowSorting = False
-      m_treeManager.AllowDelete = False
     End Sub
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("PRItems")
@@ -343,22 +278,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
       Return myDatatable
     End Function
-    Public Shared Function GetSchemaTable2() As TreeTable
-      Dim myDatatable As New TreeTable("PRItems")
-
-      myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
-      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Material", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("StockQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("WithdrawQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("RemainingQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
-      Return myDatatable
-    End Function
 #End Region
+
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -428,71 +349,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csOrderedQty)
       dst.GridColumnStyles.Add(csDate)
       dst.GridColumnStyles.Add(csReceivingDate)
-      Return dst
-    End Function
-    Public Function CreateListTableStyle2() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "PRItems"
-
-      Dim csSelected As New DataGridCheckBoxColumn
-      csSelected.MappingName = "Selected"
-      csSelected.HeaderText = ""
-      AddHandler csSelected.Click, AddressOf RowIcon_Click
-
-      Dim csDescription As New TreeTextColumn
-      csDescription.MappingName = "Material"
-      csDescription.HeaderText = "เลขที่เอกสาร/วัสดุ"
-      csDescription.NullText = ""
-      csDescription.Width = 190
-      csDescription.ReadOnly = True
-
-      Dim csUnit As New TreeTextColumn
-      csUnit.MappingName = "Unit"
-      csUnit.HeaderText = "หน่วยมาตรฐาน"
-      csUnit.NullText = ""
-      csUnit.Width = 70
-      csUnit.DataAlignment = HorizontalAlignment.Center
-      csUnit.ReadOnly = True
-
-      Dim csPRQty As New TreeTextColumn
-      csPRQty.MappingName = "Qty"
-      csPRQty.HeaderText = "ปริมาณ PR"
-      csPRQty.DataAlignment = HorizontalAlignment.Right
-      csPRQty.NullText = ""
-      csPRQty.Width = 90
-      csPRQty.ReadOnly = True
-
-      Dim csStockQty As New TreeTextColumn
-      csStockQty.MappingName = "StockQty"
-      csStockQty.HeaderText = "ปริมาณในคลัง"
-      csStockQty.DataAlignment = HorizontalAlignment.Right
-      csStockQty.NullText = ""
-      csStockQty.Width = 90
-      csStockQty.ReadOnly = True
-
-      Dim csWithdrawQty As New TreeTextColumn
-      csWithdrawQty.MappingName = "WithdrawQty"
-      csWithdrawQty.HeaderText = "เบิกแล้ว"
-      csWithdrawQty.DataAlignment = HorizontalAlignment.Right
-      csWithdrawQty.NullText = ""
-      csWithdrawQty.Width = 90
-      csWithdrawQty.ReadOnly = True
-
-      Dim csRemainingQty As New TreeTextColumn
-      csRemainingQty.MappingName = "RemainingQty"
-      csRemainingQty.HeaderText = "เบิกได้"
-      csRemainingQty.DataAlignment = HorizontalAlignment.Right
-      csRemainingQty.NullText = ""
-      csRemainingQty.Width = 90
-      csRemainingQty.ReadOnly = True
-
-      dst.GridColumnStyles.Add(csSelected)
-      dst.GridColumnStyles.Add(csDescription)
-      dst.GridColumnStyles.Add(csUnit)
-      dst.GridColumnStyles.Add(csPRQty)
-      dst.GridColumnStyles.Add(csStockQty)
-      dst.GridColumnStyles.Add(csWithdrawQty)
-      dst.GridColumnStyles.Add(csRemainingQty)
       Return dst
     End Function
 #End Region
@@ -605,7 +461,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.PRItem"
                 Dim entityName As String = CStr(childRow("Material"))
                 Dim lineNumber As Integer = CInt(childRow("LineNumber"))
-                Dim qty As Decimal = CDec(childRow("RemainingQty"))
+                Dim qty As Decimal = CDec(childRow("Qty"))
                 Dim textInBasket As String = entityName & ":" & qty.ToString
                 If TypeOf childRow.Tag Is PRItem Then
                   Dim pri As PRItem = CType(childRow.Tag, PRItem)

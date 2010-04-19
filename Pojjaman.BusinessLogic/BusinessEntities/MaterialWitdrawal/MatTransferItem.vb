@@ -11,7 +11,7 @@ Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatTransferItem
-    Implements IWBSAllocatableItem ', IAllowWBSAllocatableItem
+    Implements IWBSAllocatableItem, IAllowWBSAllocatable
 
 #Region "Members"
     Private m_matTransfer As MatTransfer
@@ -31,10 +31,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_sequence As Integer
 
-    Private m_inWbsdColl As WBSDistributeCollection
-    Private m_outWbsdColl As WBSDistributeCollection
+    'Private m_inWbsdColl As WBSDistributeCollection
+    Private m_WBSDistributeCollection As WBSDistributeCollection
 
-    Private m_itemCollectionPrePareCost As StockCostItemCollection
+    Private m_itemCostCollection As StockCostItemCollection
 
     Private m_pritem As PRItem
 #End Region
@@ -42,8 +42,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      m_inWbsdColl = New WBSDistributeCollection
-      m_outWbsdColl = New WBSDistributeCollection
+      'm_inWbsdColl = New WBSDistributeCollection
+      m_WBSDistributeCollection = New WBSDistributeCollection
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -61,17 +61,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@stocki_linenumber", line) _
       )
       Me.Construct(ds.Tables(0).Rows(0), "")
-      m_inWbsdColl = New WBSDistributeCollection
-      For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=0")
-        Dim wbsd As New WBSDistribute(wbsRow, "")
-        m_inWbsdColl.Add(wbsd)
-        Me.matTransfer.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
-      Next
-      m_outWbsdColl = New WBSDistributeCollection
+      'm_inWbsdColl = New WBSDistributeCollection
+      'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=0")
+      '  Dim wbsd As New WBSDistribute(wbsRow, "")
+      '  m_inWbsdColl.Add(wbsd)
+      '  Me.matTransfer.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
+      'Next
+      m_WBSDistributeCollection = New WBSDistributeCollection
       For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=1")
         Dim wbsd As New WBSDistribute(wbsRow, "")
-        m_outWbsdColl.Add(wbsd)
-        Me.matTransfer.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
+        m_WBSDistributeCollection.Add(wbsd)
+        Me.MatTransfer.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
       Next
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
@@ -172,21 +172,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemCollectionPrePareCost As StockCostItemCollection
+    Public Property ItemCostCollection As StockCostItemCollection
       Get
-        If m_itemCollectionPrePareCost Is Nothing Then
-          If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then            m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, Me.StockQty)
+        If m_itemCostCollection Is Nothing Then
+          If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then            m_itemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
           End If
         End If
-        Return m_itemCollectionPrePareCost
+        Return m_itemCostCollection
       End Get
       Set(ByVal value As StockCostItemCollection)
-        m_itemCollectionPrePareCost = value
+        m_itemCostCollection = value
         'm_transferAmount = m_itemCollectionPrePareCost.CostAmount
       End Set
     End Property
-    Public Property InWbsdColl() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_inWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_inWbsdColl = Value      End Set    End Property
-    Public Property OutWbsdColl() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2      Get        Return m_outWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_outWbsdColl = Value      End Set    End Property
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+    Public Property WBSDistributeCollection2() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2      Get        'Return m_outWbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        'm_outWbsdColl = Value      End Set    End Property
     Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property
     Public ReadOnly Property MatTransferId() As Integer
       Get
@@ -199,7 +199,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         m_matTransferId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Pritem() As PRItem      Get        Return m_pritem      End Get      Set(ByVal Value As PRItem)        m_pritem = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
-        End If        If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then          Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, Me.StockQty)
+        End If        If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then          Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
         End If      End Set    End Property    'Public ReadOnly Property PrePareCostAmount As Decimal    '  Get
     '    If Me.ItemCollectionPrePareCost Is Nothing OrElse Me.ItemCollectionPrePareCost.Count = 0 Then
     '      If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then    '        Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, Me.StockQty)
@@ -216,17 +216,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetmatTransferQtyStore" _
-                , New SqlParameter("@doc_id", m_matTransfer.Id) _
-                , New SqlParameter("@lci_id", lci_id) _
+                , "GetRemainLCIItemListForCC" _
                 , New SqlParameter("@cc_id", cc) _
+                , New SqlParameter("@FromacctType", 3) _
+                , New SqlParameter("@EntityId", 31) _
+                , New SqlParameter("@lci_id", lci_id) _
+                , New SqlParameter("@stock_id", Me.MatTransfer.Id) _
                 )
-        If ds.Tables(0).Rows(0).IsNull(0) Then
+        If ds.Tables(0).Rows(0).IsNull("remain") Then
           Return 0
         End If
-        Return CDec(ds.Tables(0).Rows(0)(0))
+        Return CDec(ds.Tables(0).Rows(0)("remain"))
       Catch ex As Exception
       End Try
+    End Function    Public Function CheckDupplicateLciCode(ByVal theCode As String) As Boolean      For Each itm As MatTransferItem In Me.MatTransfer.ItemCollection
+        If Not itm.Entity Is Nothing Then
+          If itm.Entity.Code = theCode Then
+            Return True
+          End If
+        End If
+      Next
+      Return False
     End Function    Public Sub SetItemCode(ByVal theCode As String, Optional ByVal cc As Integer = 0)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -238,7 +248,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return
       End If
+
       Dim lci As New LCIItem(theCode)
+      If CheckDupplicateLciCode(theCode) Then
+        msgServ.ShowMessageFormatted("${res:Global.Validate.DupplicateLciCode}", New String() {theCode})
+        Return
+      End If
+
       If Not lci.Originated Then
         msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
         Return
@@ -255,7 +271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.OldQty2 = Me.m_qty
             Me.m_unit = lci.DefaultUnit
             Me.m_entity = lci
-            If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, stockQty)
+            If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
             End If
           Else
             msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
@@ -307,7 +323,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value          Me.Conversion = newConversion        Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If Not (Me.Pritem Is Nothing) Then          Me.Pritem.WithdrawnQty = (Me.Pritem.WithdrawnQty + Configuration.Format(Value, DigitConfig.Qty)) - m_qty
-        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, stockQty)
+        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then            Me.ItemCostCollection.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
           End If
         End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)      End Set    End Property    Public ReadOnly Property StockQty() As Decimal
       Get
@@ -332,8 +348,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Me.TransferUnitPrice = Decimal.MinValue Then
         '  Return 0
         'End If
-        'Return Me.Qty * Me.TransferUnitPrice       
-        Return m_transferAmount
+        'Return Me.Qty * Me.TransferUnitPrice    
+        If Not Me.ItemCostCollection Is Nothing Then
+          Return Me.ItemCostCollection.CostAmount
+        End If
+        Return 0
       End Get
     End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property
     Public Property OldQty() As Decimal 'เทจากตะกร้า
@@ -380,7 +399,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Function
     Public Function AllowWithdrawFromPR() As Decimal
       Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.WithdrawnQty, 0)
-      Dim remainstock As Decimal = Me.matTransfer.GetRemainLCIItem(Me.m_entity.Id)
+      Dim remainstock As Decimal = Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id)
       Dim allowWithdrawn As Decimal = Math.Min(remainstock, qty * Pritem.Conversion)
       Return remainstock
     End Function
@@ -392,7 +411,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim allowWithdrawn As Decimal
       Dim remainstock As Decimal
-      remainstock = Me.matTransfer.GetRemainLCIItem(Me.m_entity.Id)
+      remainstock = Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id)
       allowWithdrawn = Math.Min(remainstock - cumWithdrawn, Me.m_qty * prItem.Conversion)
 
       If allowWithdrawn <= 0 Then
@@ -408,7 +427,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_note = prItem.Note
       If Not prItem.WBSDistributeCollection Is Nothing Then
         'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-        Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
       End If
     End Sub
     Public Sub CopyFromPRItem(ByVal prItem As PRItem)
@@ -416,11 +435,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_entity = prItem.Entity
       Me.m_unit = prItem.Unit
       Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
-      Me.m_qty = Math.Min(Me.matTransfer.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
+      Me.m_qty = Math.Min(Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
       Me.m_note = prItem.Note
       If Not prItem.WBSDistributeCollection Is Nothing Then
         'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-        Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
       End If
     End Sub
     'Public Sub SetTransferAmount(ByVal amt As Decimal)    '  m_transferAmount = amt
@@ -477,7 +496,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If row Is Nothing Then
         Return
       End If
-      Me.matTransfer.IsInitialized = False
+      Me.MatTransfer.IsInitialized = False
 
       If Not Me.Pritem Is Nothing Then
         row("pri_linenumber") = Me.Pritem.LineNumber
@@ -549,25 +568,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("stocki_transferamt") = DBNull.Value
       End If
       row("stocki_note") = Me.Note
-      Me.matTransfer.IsInitialized = True
+      Me.MatTransfer.IsInitialized = True
     End Sub
     Public Sub UpdateWBSQty()
-      For Each wbsd As WBSDistribute In Me.InWbsdColl
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
+      'For Each wbsd As WBSDistribute In Me.InWbsdColl
+      '  'Dim bfTax As Decimal = 0
+      '  'Dim oldVal As Decimal = wbsd.TransferAmount
+      '  'Dim transferAmt As Decimal = Me.Amount
+      '  'wbsd.BaseCost = bfTax
+      '  'wbsd.TransferBaseCost = transferAmt
+      '  Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+      '  If boqConversion = 0 Then
+      '    wbsd.BaseQty = Me.Qty
+      '  Else
+      '    wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+      '  End If
 
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
-      For Each wbsd As WBSDistribute In Me.OutWbsdColl
+      '  'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      'Next
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
         'Dim transferAmt As Decimal = Me.Amount
@@ -585,19 +604,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
+#Region "IAllowWBSAllocatableItem"
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return True
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return False
+      End Get
+    End Property
+#End Region
+
 #Region "IWBSAllocatableItem"
-
-    Public ReadOnly Property AllowWBSAllocateFrom As Boolean 'Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
-      Get
-        Return True
-      End Get
-    End Property
-
-    Public ReadOnly Property AllowWBSAllocateTo As Boolean 'Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
-      Get
-        Return True
-      End Get
-    End Property
 
     Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
       Get
@@ -625,6 +646,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
 #End Region
+
   End Class
 
   <Serializable(), DefaultMember("Item")> _
@@ -694,21 +716,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         item.matTransfer = m_matTransfer
         Me.Add(item)
 
-        Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-        item.InWbsdColl = inWbsdColl
-        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
-          Dim wbsd As New WBSDistribute(wbsRow, "")
-          inWbsdColl.Add(wbsd)
-        Next
+        'Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        'item.InWbsdColl = inWbsdColl
+        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  inWbsdColl.Add(wbsd)
+        'Next
         Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-        item.OutWbsdColl = outWbsdColl
+        item.WBSDistributeCollection = outWbsdColl
         For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
           Dim wbsd As New WBSDistribute(wbsRow, "")
           outWbsdColl.Add(wbsd)
         Next
 
         Dim icCol As StockCostItemCollection = New StockCostItemCollection
-        item.ItemCollectionPrePareCost = icCol
+        item.ItemCostCollection = icCol
         For Each icRow As DataRow In ds.Tables(2).Select("stockic_stockisequence=" & row("stocki_sequence").ToString)
           Dim itmcost As New StockCostItem(icRow, "")
           icCol.Add(itmcost)
@@ -774,7 +796,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim noPRText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}")
+      Dim noPRText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
       Dim prRowHash As New Hashtable
       Dim parRow As TreeRow
 
@@ -811,13 +833,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         mwi.CopyToDataRow(newRow)
         mwi.ItemValidateRow(newRow)
         If Not Me.matTransfer.Grouping Then
-          For Each mwci As StockCostItem In mwi.ItemCollectionPrePareCost
+          For Each mwci As StockCostItem In mwi.ItemCostCollection
             Dim newCost As TreeRow = newRow.Childs.Add
             newCost("stocki_qty") = Configuration.FormatToString(mwci.StockQty / mwi.Conversion, DigitConfig.Qty)
-            newCost("stocki_unitcost") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.Cost)
+            If mwci.IsNoCost Then
+              newCost("stocki_unitcost") = "No Cost"
+              newCost("stocki_transferUnitPrice") = "No Cost"
+              newCost("stocki_transferamt") = "No Cost"
+            Else
+              newCost("stocki_unitcost") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.Cost)
+              newCost("stocki_transferUnitPrice") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.UnitPrice)
+              newCost("stocki_transferamt") = Configuration.FormatToString(mwci.UnitCost * mwci.StockQty, DigitConfig.Price)
+            End If
             newCost("StockQty") = Configuration.FormatToString(mwci.StockQty, DigitConfig.Qty)
-            newCost("stocki_transferUnitPrice") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.UnitPrice)
-            newCost("stocki_transferamt") = Configuration.FormatToString(mwci.UnitCost * mwci.StockQty, DigitConfig.Price)
             If Not mwci.UnitDefault Is Nothing Then
               newCost("defaultunit") = mwci.UnitDefault.Name
             End If
