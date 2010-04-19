@@ -21,7 +21,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property ToCostCenter() As CostCenter
     Property FromCostCenter() As CostCenter
   End Interface
-  Public Interface IAllowWBSAllocatableItem
+  Public Interface IAllowWBSAllocatable
     ReadOnly Property AllowWBSAllocateFrom() As Boolean
     ReadOnly Property AllowWBSAllocateTo() As Boolean
   End Interface

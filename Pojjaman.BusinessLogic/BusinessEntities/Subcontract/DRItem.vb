@@ -27,8 +27,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
   Public Class DRItem
-    Implements IWBSAllocatableItem, IAllowWBSAllocatableItem
-    
+    Implements IWBSAllocatableItem, IAllowWBSAllocatable
+
 #Region "Members"
     Private m_dr As DR
     Private m_sequence As Integer
@@ -333,7 +333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_FromCCWBSDistributeCollection = Value
       End Set
     End Property
-    Public ReadOnly Property AllowWBSAllocateFrom() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
+    Public ReadOnly Property AllowWBSAllocateFrom() As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
       Get
         If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
           Return False
@@ -342,7 +342,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Get
     End Property
-    Public ReadOnly Property AllowWBSAllocateTo() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
+    Public ReadOnly Property AllowWBSAllocateTo() As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
       Get
         If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
           Return False

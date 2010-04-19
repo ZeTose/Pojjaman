@@ -2003,7 +2003,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In item.WBSDistributeCollection
               wbsd.ChildAmount = 0
               wbsd.GetChildIdList()
-              For Each allItem As PAItem In Me.ItemCollection
+              For Each allItem As WRItem In Me.ItemCollection
                 For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
                   If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                     wbsd.ChildAmount += childWbsd.Amount
