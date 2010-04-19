@@ -51,7 +51,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtComment
       '
       Me.txtComment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.txtComment.Location = New System.Drawing.Point(8, 401)
+      Me.txtComment.Location = New System.Drawing.Point(8, 388)
       Me.txtComment.Multiline = True
       Me.txtComment.Name = "txtComment"
       Me.txtComment.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -62,7 +62,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnAdd.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnAdd.Location = New System.Drawing.Point(514, 458)
+      Me.btnAdd.Location = New System.Drawing.Point(578, 445)
       Me.btnAdd.Name = "btnAdd"
       Me.btnAdd.Size = New System.Drawing.Size(96, 23)
       Me.btnAdd.TabIndex = 0
@@ -74,7 +74,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(514, 400)
+      Me.btnApprove.Location = New System.Drawing.Point(578, 387)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(96, 23)
       Me.btnApprove.TabIndex = 7
@@ -115,7 +115,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grdApproval.RowCount = 20
       Me.grdApproval.RowHeightEntries.AddRange(New Syncfusion.Windows.Forms.Grid.GridRowHeight() {New Syncfusion.Windows.Forms.Grid.GridRowHeight(0, 21)})
       Me.grdApproval.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode
-      Me.grdApproval.Size = New System.Drawing.Size(604, 386)
+      Me.grdApproval.Size = New System.Drawing.Size(668, 373)
       Me.grdApproval.SmartSizeBox = False
       Me.grdApproval.TabIndex = 8
       Me.grdApproval.UseRightToLeftCompatibleTextBox = True
@@ -124,7 +124,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReject.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReject.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReject.Location = New System.Drawing.Point(514, 429)
+      Me.btnReject.Location = New System.Drawing.Point(578, 416)
       Me.btnReject.Name = "btnReject"
       Me.btnReject.Size = New System.Drawing.Size(96, 23)
       Me.btnReject.TabIndex = 9
@@ -133,7 +133,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AdvanceStoreApprovalCommentForm
       '
       Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-      Me.ClientSize = New System.Drawing.Size(624, 487)
+      Me.ClientSize = New System.Drawing.Size(688, 474)
       Me.Controls.Add(Me.btnReject)
       Me.Controls.Add(Me.grdApproval)
       Me.Controls.Add(Me.txtComment)
@@ -238,7 +238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Dim myDR As DataRow
-      For Each apvDoc As ApproveDoc In m_itemCollection
+      For Each apvDoc As ApprovalStoreComment In m_itemCollection
         myDR = myDT.NewRow
         myDR.Item(0) = apvDoc.LineNumber
         myDR.Item(1) = apvDoc.Comment
@@ -259,17 +259,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grdApproval.Model.PopulateValues(GridRangeInfo.Cells(1, 0, myDT.Rows.Count, myDT.Columns.Count), myDT)
       Me.grdApproval.Model.RowHeights.ResizeToFit(GridRangeInfo.Rows(0, Me.grdApproval.Model.RowCount), GridResizeToFitOptions.None)
 
-      'For i As Integer = 1 To myDT.Rows.Count
-      '     'If Me.ApproveDocColl(i - 1).Level > 0 Then
-      '     '	Me.grdApproval.RowStyles(i).BackColor = IIf(Me.ApproveDocColl(i - 1).Level > myColor.Count, Color.White, myColor(Me.ApproveDocColl(i - 1).Level))
-      '     'End If
-      '	If Me.ApproveDocColl(i - 1).Originator = mySService.CurrentUser.Id Then
-      '		Me.grdApproval(i, 3).Description = "แก้ไข"
-      '       Me.grdApproval(i, 3).CellType = "PushButton"
-      '		Me.grdApproval(i, 3).CellAppearance = GridCellAppearance.Raised
-      '	End If
-      '	Me.grdApproval.RowStyles(i).Tag = "edit"
-      'Next
+      For i As Integer = 1 To myDT.Rows.Count
+        'If Me.ApproveDocColl(i - 1).Level > 0 Then
+        '	Me.grdApproval.RowStyles(i).BackColor = IIf(Me.ApproveDocColl(i - 1).Level > myColor.Count, Color.White, myColor(Me.ApproveDocColl(i - 1).Level))
+        'End If
+        If Me.ItemCollection(i - 1).Type = ApproveType.approved Then
+          Me.grdApproval.RowStyles(i).BackColor = Color.LightGreen
+        ElseIf Me.ItemCollection(i - 1).Type = ApproveType.reject Then
+          Me.grdApproval.RowStyles(i).BackColor = Color.LightBlue
+        End If
+
+        If Me.ItemCollection(i - 1).Originator = mySService.CurrentUser.Id Then
+          Me.grdApproval(i, 3).Description = "แก้ไข"
+          Me.grdApproval(i, 3).CellType = "PushButton"
+          Me.grdApproval(i, 3).CellAppearance = GridCellAppearance.Raised
+        End If
+        Me.grdApproval.RowStyles(i).Tag = "edit"
+      Next
 
       'ให้ Col1 - 3 เป็น readonly
       Me.grdApproval.ColStyles(1).ReadOnly = True
@@ -294,8 +300,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
-    Private tempComment As ApproveDoc
-    Private CurrentComment As ApproveDoc
+    'Private tempComment As ApproveDoc
+    'Private CurrentComment As ApproveDoc
     Private Sub btnAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAdd.Click
       If Me.txtComment.TextLength <= 0 Then
         Return
@@ -363,7 +369,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.grdApproval(e.RowIndex, e.ColIndex).Description = "แก้ไข"
         Me.grdApproval.RowStyles(e.RowIndex).Tag = "edit"
 
-        'Me.m_approveDoc = Me.m_approveDocColl(e.RowIndex - 1)
+        Me.m_approveDoc = Me.m_itemCollection(e.RowIndex - 1)
         Dim cc As GridCurrentCell = Me.grdApproval.CurrentCell
         If cc.ColIndex = 1 And cc.RowIndex = e.RowIndex Then
           ChangedText = cc.Renderer.ControlText

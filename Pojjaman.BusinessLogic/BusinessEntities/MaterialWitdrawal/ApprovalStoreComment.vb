@@ -91,7 +91,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_entityType = entity.EntityId
       Construct(entity.Id, entity.EntityId)
     End Sub
-    Private Sub Construct(ByVal entityId As Integer, ByVal entityType As Integer)
+    Public Sub New(ByVal entity As ISimpleEntity, ByVal showLastStatusFirst As Boolean)
+      If Not entity.Originated Then
+        Return
+      End If
+      m_entityId = entity.Id
+      m_entityType = entity.EntityId
+      Construct(entity.Id, DBNull.Value)
+    End Sub
+    Private Sub Construct(ByVal entityId As Integer, ByVal entityType As Object, Optional ByVal showLastStatusFirst As Boolean = False)
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
@@ -99,6 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , "GetApprovalStoreComment" _
       , New SqlParameter("@entity_id", entityId) _
       , New SqlParameter("@entity_type", entityType) _
+      , New SqlParameter("@showLastStatusFirst", showLastStatusFirst) _
       )
 
       For Each row As DataRow In ds.Tables(0).Rows
@@ -139,7 +148,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
         Dim conn As New SqlConnection(sqlConString)
         Dim cmd As SqlCommand = conn.CreateCommand
-        cmd.CommandText = "select * from StockiApprovalStoreComment where (@entity_id = " & m_entityId & ")  and (@entity_type = " & m_entityType & ") "
+        cmd.CommandText = "select * from StockiApprovalStoreComment where (apvstore_entityId = " & m_entityId & ")  and (apvstore_entityType = " & m_entityType & ") "
 
         Dim m_dataset As New DataSet
         Dim m_da As New SqlDataAdapter

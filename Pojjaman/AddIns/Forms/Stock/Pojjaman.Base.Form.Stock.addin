@@ -53,7 +53,7 @@
     <EntityTab id="matreceipt">
       <EntityTab id="MatReceiptDetailView" view="Longkong.Pojjaman.Gui.Panels.MatReceiptDetailView"/>
       <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
-      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+      <!--<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>-->
     </EntityTab>
     
 		<EntityTab id="matwithdraw">
