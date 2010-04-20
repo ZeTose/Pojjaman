@@ -280,6 +280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Get from StockItem ...
       myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Type", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("eqtstocki_entity", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
@@ -1467,6 +1468,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("Linenumber") = Me.LineNumber
         row("Type") = Me.ItemType.Value
         If Not Me.Entity Is Nothing Then
+          row("eqtstocki_entity") = Me.Entity.Id
           row("Code") = Me.Entity.Code
           row("Name") = Me.Entity.Name
         End If

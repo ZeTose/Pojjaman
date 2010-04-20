@@ -80,7 +80,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.Splitter1)
       Me.Controls.Add(Me.pnlFilter)
-      Me.Name = "PRSelectionView"
+      Me.Name = "EqiSelectionView"
       Me.Size = New System.Drawing.Size(768, 483)
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
@@ -201,57 +201,66 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      Dim filterdt As TreeTable = EquipmentItem.GetListDatatable(newfilters)
+      Dim filterdt As TreeTable = EqItemForSelection.GetListDatatable(newfilters)
 
       Dim dt As TreeTable = GetSchemaTable()
       dt.Clear()
-      Dim parRow As TreeRow
-      Dim currentPR As Integer = -1
+      Dim parRow As TreeRow = Nothing
+      Dim currentEq As Integer = -1
       For Each filteredRow As TreeRow In filterdt.Rows
-        Dim prId As Integer
-        If Not filteredRow.IsNull("m_pr") Then
-          prId = CInt(filteredRow("m_pr"))
+        Dim eqiId As Integer
+        If Not filteredRow.IsNull("m_eqi_id") Then
+          eqiId = CInt(filteredRow("m_eqi_id"))
         End If
-        Dim prRequestor As String
-        If Not filteredRow.IsNull("Requestor") Then
-          prRequestor = CStr(filteredRow("Requestor"))
+        Dim eqId As Integer
+        If Not filteredRow.IsNull("m_eq") Then
+          eqId = CInt(filteredRow("m_eq"))
         End If
-        Dim ccInfo As String
+        'Dim eqiRequestor As String
+        'If Not filteredRow.IsNull("Requestor") Then
+        '  eqiRequestor = CStr(filteredRow("Requestor"))
+        'End If
+        Dim ccInfo As String = Nothing
         If Not filteredRow.IsNull("CostCenter") Then
           ccInfo = CStr(filteredRow("CostCenter"))
         End If
-        Dim prDate As Date
-        If Not filteredRow.IsNull("Date") Then
-          prDate = CDate(filteredRow("Date"))
-        End If
-        Dim prReceivingDate As Date
-        If Not filteredRow.IsNull("ReceivingDate") Then
-          prReceivingDate = CDate(filteredRow("ReceivingDate"))
-        End If
+        'Dim eqiDate As Date
+        'If Not filteredRow.IsNull("Date") Then
+        '  eqiDate = CDate(filteredRow("Date"))
+        'End If
+        'Dim prReceivingDate As Date
+        'If Not filteredRow.IsNull("ReceivingDate") Then
+        '  prReceivingDate = CDate(filteredRow("ReceivingDate"))
+        'End If
 
-        Dim prCode As String
+        Dim eqiCode As String = Nothing
         If Not filteredRow.IsNull("Code") Then
-          prCode = CStr(filteredRow("Code"))
+          eqiCode = CStr(filteredRow("Code"))
+        End If
+        Dim eqiName As String = Nothing
+        If Not filteredRow.IsNull("Name") Then
+          eqiName = CStr(filteredRow("Name"))
         End If
 
-        If currentPR <> prId Then
+        If currentEq <> eqId Then
           parRow = dt.Childs.Add
           parRow("Selected") = False
-          parRow("Material") = prCode
-          parRow("Qty") = ccInfo
-          parRow("Code") = prCode
-          parRow("Date") = prDate
-          parRow("ReceivingDate") = prReceivingDate
-          currentPR = prId
+          parRow("Name") = eqiName
+          'parRow("Qty") = ccInfo
+          parRow("Code") = filteredRow("EqCode")
+          'parRow("Date") = eqiDate
+          'parRow("ReceivingDate") = prReceivingDate
+          currentEq = eqId
         End If
         If Not parRow Is Nothing Then
           Dim childRow As TreeRow = parRow.Childs.Add
           childRow("Selected") = False
-          childRow("Code") = prCode
-          childRow("Material") = filteredRow("Entity")
+          childRow("Code") = " " + eqiCode
+          childRow("Name") = " " + filteredRow("Entity")
+          childRow("CostCenter") = ccInfo
           childRow("Qty") = filteredRow("Qty")
-          childRow("OrderedQty") = filteredRow("OrderedQty")
-          childRow("Linenumber") = filteredRow("Linenumber")
+          childRow("RentalRate") = filteredRow("RentalRate")
+          'childRow("Linenumber") = filteredRow("Linenumber")
           childRow.Tag = filteredRow.Tag
         End If
       Next
@@ -265,17 +274,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Public Shared Function GetSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("PRItems")
+      Dim myDatatable As New TreeTable("EqItems")
 
       myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Material", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("OrderedQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("RentalRate", GetType(Decimal)))
+      'myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
       Return myDatatable
     End Function
 #End Region
@@ -283,7 +292,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "PRItems"
+      dst.MappingName = "EqItems"
 
       Dim csSelected As New DataGridCheckBoxColumn
       csSelected.MappingName = "Selected"
@@ -291,8 +300,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler csSelected.Click, AddressOf RowIcon_Click
 
       Dim csDescription As New TreeTextColumn
-      csDescription.MappingName = "Material"
-      csDescription.HeaderText = "Material"
+      csDescription.MappingName = "Name"
+      csDescription.HeaderText = "Name"
       csDescription.NullText = ""
       csDescription.Width = 180
       csDescription.ReadOnly = True
@@ -303,37 +312,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.NullText = ""
       csQty.ReadOnly = True
 
-      Dim csOrderedQty As New TreeTextColumn
-      csOrderedQty.MappingName = "OrderedQty"
-      csOrderedQty.HeaderText = "OrderedQty"
-      csOrderedQty.NullText = ""
-      csOrderedQty.ReadOnly = True
+      Dim csRentalRate As New TreeTextColumn
+      csRentalRate.MappingName = "RentalRate"
+      csRentalRate.HeaderText = "RentalRate"
+      csRentalRate.NullText = ""
+      csRentalRate.Format = "#,##0.00"
+      csRentalRate.ReadOnly = True
 
-      Dim csDate As New TreeTextColumn
-      csDate.MappingName = "Date"
-      csDate.HeaderText = "Date"
-      csDate.NullText = ""
-      csDate.DataAlignment = HorizontalAlignment.Center
-      csDate.Width = 100
-      csDate.Format = "d"
-      csDate.ReadOnly = True
+      'Dim csDate As New TreeTextColumn
+      'csDate.MappingName = "Date"
+      'csDate.HeaderText = "Date"
+      'csDate.NullText = ""
+      'csDate.DataAlignment = HorizontalAlignment.Center
+      'csDate.Width = 100
+      'csDate.Format = "d"
+      'csDate.ReadOnly = True
 
-      Dim csReceivingDate As New TreeTextColumn
-      csReceivingDate.MappingName = "ReceivingDate"
-      csReceivingDate.HeaderText = "ReceivingDate"
-      csReceivingDate.NullText = ""
-      csReceivingDate.DataAlignment = HorizontalAlignment.Center
-      csReceivingDate.Width = 100
-      csReceivingDate.Format = "d"
-      csReceivingDate.ReadOnly = True
+      'Dim csReceivingDate As New TreeTextColumn
+      'csReceivingDate.MappingName = "ReceivingDate"
+      'csReceivingDate.HeaderText = "ReceivingDate"
+      'csReceivingDate.NullText = ""
+      'csReceivingDate.DataAlignment = HorizontalAlignment.Center
+      'csReceivingDate.Width = 100
+      'csReceivingDate.Format = "d"
+      'csReceivingDate.ReadOnly = True
 
-      Dim csRequestor As New TreeTextColumn
-      csRequestor.MappingName = "Requestor"
-      csRequestor.HeaderText = "Requestor"
-      csRequestor.NullText = ""
-      csRequestor.DataAlignment = HorizontalAlignment.Center
-      csRequestor.Width = 100
-      csRequestor.ReadOnly = True
+      'Dim csRequestor As New TreeTextColumn
+      'csRequestor.MappingName = "Requestor"
+      'csRequestor.HeaderText = "Requestor"
+      'csRequestor.NullText = ""
+      'csRequestor.DataAlignment = HorizontalAlignment.Center
+      'csRequestor.Width = 100
+      'csRequestor.ReadOnly = True
 
       Dim csCostCenter As New TreeTextColumn
       csCostCenter.MappingName = "CostCenter"
@@ -346,9 +356,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csSelected)
       dst.GridColumnStyles.Add(csDescription)
       dst.GridColumnStyles.Add(csQty)
-      dst.GridColumnStyles.Add(csOrderedQty)
-      dst.GridColumnStyles.Add(csDate)
-      dst.GridColumnStyles.Add(csReceivingDate)
+      dst.GridColumnStyles.Add(csRentalRate)
+      'dst.GridColumnStyles.Add(csDate)
+      'dst.GridColumnStyles.Add(csReceivingDate)
       Return dst
     End Function
 #End Region
@@ -457,20 +467,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not IsDBNull(childRow("Selected")) Then
               If CBool(childRow("Selected")) Then
                 Dim id As Integer
-                Dim stockCode As String = CStr(childRow("Code"))
-                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.PRItem"
-                Dim entityName As String = CStr(childRow("Material"))
-                Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+                Dim EqiCode As String = CStr(childRow("Code"))
+                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.EquipmentItem"
+                Dim entityName As String = CStr(childRow("Name"))
+                'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
                 Dim qty As Decimal = CDec(childRow("Qty"))
                 Dim textInBasket As String = entityName & ":" & qty.ToString
-                If TypeOf childRow.Tag Is PRItem Then
-                  Dim pri As PRItem = CType(childRow.Tag, PRItem)
-                  Dim thePR As PR = pri.Pr
-                  pri = New PRItem(pri.Pr.Id, pri.LineNumber)
-                  pri.Pr = thePR
-                  id = thePR.Id
-                  Dim bi As New StockBasketItem(id, stockCode, fullClassName, textInBasket, lineNumber, qty, entityName)
-                  bi.Tag = pri
+                If TypeOf childRow.Tag Is EquipmentItem Then
+                  Dim eqi As EquipmentItem = CType(childRow.Tag, EquipmentItem)
+                  'Dim thePR As PR = eqi.Pr
+                  'eqi = New EquipmentItem(eqi.Pr.Id, eqi.LineNumber)
+                  'pri.Pr = thePR
+                  id = eqi.Id
+                  Dim bi As New BasketItem(id, EqiCode, fullClassName, textInBasket)
+                  bi.Tag = eqi
                   m_basketItems.Add(bi)
                 End If
               End If

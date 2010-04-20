@@ -12,7 +12,7 @@ Imports Syncfusion.Windows.Forms.Grid
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Interface IHasRentalRate
         Inherits IHasName
-        Property RentalRate() As Decimal
+    Property RentalRate() As Decimal
     End Interface
     Public Class AssetWithdraw
         Inherits SimpleBusinessEntityBase

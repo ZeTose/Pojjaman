@@ -1288,7 +1288,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_treeManager.Treetable.AcceptChanges()
       For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
         If Me.m_entity.ValidateRow(row) Then
-          If entityType = row("eqtstocki_entitytype") Then
+          If entityType = row("Type") Then
             idlist &= CStr(row("eqtstocki_entity")) & ","
           End If
         End If
@@ -1315,19 +1315,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
         entity.CC = Me.m_entity.FromCC
         entity.FromWip = False
         entities.Add(entity)
-        Dim filters(0) As Filter
+        Dim filters(1) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
-        'filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
+        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
         myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
-        Dim entities As New ArrayList
-        Dim eqi As New EquipmentItem
-        eqi.Costcenter = Me.m_entity.FromCC
-        entities.Add(eqi)
-        Dim filters(0) As Filter
+        Dim dlg As New BasketDialog
+        AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+        Dim eqi As New EqItemForSelection
+
+        Dim filters(1) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
-        'filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
-        myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
+        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+
+        Dim entities As New ArrayList
+        eqi.Costcenter = Me.m_entity.FromCC
+        eqi.entityId = Me.m_entity.EntityId
+        eqi.Status = Me.m_entity.FromStatus
+        entities.Add(eqi)
+
+        Dim view As AbstractEntityPanelViewContent = New EqiSelectionView(eqi, New BasketDialog, filters, entities)
+        dlg.Lists.Add(view)
+        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+        myDialog.ShowDialog()
+
+
+        'Dim entities As New ArrayList
+        'Dim eqi As New EqItemForSelection
+        'eqi.Costcenter = Me.m_entity.FromCC
+        'eqi.entityId = Me.m_entity.EntityId
+        'entities.Add(eqi)
+        'Dim filters(1) As Filter
+        'filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
+        'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+        'myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
       End If
       
     End Sub
@@ -1339,7 +1361,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim doc As New EquipmentToolWithdrawItem
         Dim itemType As Integer
         Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.equipment"
+          Case "longkong.pojjaman.businesslogic.equipmentitem"
             newItem = New EquipmentItem(item.Id)
             itemType = 342
           Case "longkong.pojjaman.businesslogic.tool"
@@ -1349,21 +1371,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not itemType = 0 Then
           'Dim doc As New EquipmentToolWithdrawItem
-          If Not Me.CurrentItem Is Nothing Then
-            doc = Me.CurrentItem
-            doc.ItemType.Value = itemType
-            Me.m_treeManager.SelectedRow.Tag = Nothing
-          Else
-            Me.m_entity.ItemCollection.Add(doc)
-            doc.ItemType = New EqtItemType(itemType)
-          End If
+          'If Not Me.CurrentItem Is Nothing Then
+          '  doc = Me.CurrentItem
+          '  doc.ItemType.Value = itemType
+          '  Me.m_treeManager.SelectedRow.Tag = Nothing
+          'Else
+          Me.m_entity.ItemCollection.Add(doc)
+          doc.ItemType = New EqtItemType(itemType)
+          'End If
           doc.Entity = newItem
-          doc.Unit = CType(newItem, Tool).Unit
-          doc.ToStatus = New EqtStatus(1)
+          doc.Unit = CType(newItem, IEqtItem).Unit
+          doc.ToStatus = New EqtStatus(3)
           doc.Qty = 1
         End If
       Next
       tgItem.CurrentRowIndex = index
+      RefreshDocs()
       RefreshBlankGrid()
 
     End Sub

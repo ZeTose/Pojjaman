@@ -122,16 +122,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-        Public Property Unit() As Unit
-            Get
-                If Me.Originated Then
-                    Return (New Tool(Id)).MemoryUnit
-                End If
-                Return tool_unit
-            End Get
-            Set(ByVal Value As Unit)
-                'tool_unit = Value
-            End Set
+    Public Property Unit() As Unit Implements IEqtItem.Unit
+      Get
+        If Me.Originated Then
+          Return (New Tool(Id)).MemoryUnit
+        End If
+        Return tool_unit
+      End Get
+      Set(ByVal Value As Unit)
+        'tool_unit = Value
+      End Set
     End Property
     Public Property Qty() As Integer
       Get

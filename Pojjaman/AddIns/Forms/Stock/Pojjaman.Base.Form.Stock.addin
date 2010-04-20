@@ -119,7 +119,8 @@
 		<EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	
 		<EntityListView id="lciitem" entity="lciitem" view="Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView"/>
 		<EntityListView id="lciforselection" entity="lciforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterMatListDetail"/>
-		<EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>
+    <EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>
+    <EntityListView id="EqitemForSelection" entity="EqitemForSelection" view="Longkong.Pojjaman.Gui.Panels.EqiSelectionView"/>
     
     <EntityListView id="stocksequence" entity="stocksequence" view="Longkong.Pojjaman.Gui.Panels.StockSequenceDetail"/>                                                                                                 
   </Extension>	

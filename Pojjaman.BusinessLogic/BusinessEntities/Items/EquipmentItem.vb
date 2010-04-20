@@ -178,63 +178,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
       Dim dt As DataTable
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEquipmentItemsList", params)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqiForSelectionList", params)
       dt = ds.Tables(0)
 
       Dim myDatatable As New TreeTable("EqItems")
       myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("EqCode", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("m_eq", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("m_eqi_id", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Entity", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("OrderedQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
-      myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RentalRate", GetType(Decimal)))
+      'myDatatable.Columns.Add(New DataColumn("OrderedQty", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
 
-      Dim inValidIds As ArrayList = GetEqIdWithOnlyNoteItem(dt)
+      'Dim inValidIds As ArrayList = GetEqIdWithOnlyNoteItem(dt)
       For Each tableRow As DataRow In dt.Rows
-        If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
-          Dim pri As New PRItem(tableRow, "")
-          Dim row As TreeRow = myDatatable.Childs.Add
-          row("Selected") = False
-          row("Code") = tableRow("pr_code")
-          row("m_eq") = tableRow("pri_pr")
+        'If Not inValidIds.Contains(CInt(tableRow("eqi_id"))) Then
+        Dim eqi As New EquipmentItem(tableRow, "")
+        Dim row As TreeRow = myDatatable.Childs.Add
+        row("Selected") = False
+        row("EqCode") = tableRow("eq_code")
+        row("Code") = tableRow("eqi_code")
+        row("m_eq") = tableRow("eqi_eq")
 
-          Dim prId As Integer
-          If Not row.IsNull("m_eq") Then
-            prId = CInt(row("m_eq"))
-          End If
-
-          row("m_eqi_id") = tableRow("eqi_id")
-          row("Date") = tableRow("pr_docdate")
-          row("ReceivingDate") = tableRow("pr_receivingdate")
-
-          Dim entityText As String = ""
-          If Not pri.ItemType Is Nothing Then
-            entityText &= pri.ItemType.Description & ":"
-          End If
-          If Not pri.Entity.Code Is Nothing AndAlso pri.Entity.Code.Length > 0 Then
-            entityText &= pri.Entity.Code & ":"
-          End If
-          If Not pri.Entity.Name Is Nothing AndAlso pri.Entity.Name.Length > 0 Then
-            entityText &= pri.Entity.Name
-          End If
-          row("Entity") = entityText
-          row("Qty") = pri.Qty
-          row("OrderedQty") = pri.OrderedQty
-          row("Requestor") = tableRow("requestorinfo")
-          row("CostCenter") = tableRow("ccinfo")
-          row.State = RowExpandState.None
-
-          pri.Pr = New PR
-          pri.Pr.Id = prId
-          row.Tag = pri
+        Dim eqId As Integer
+        If Not row.IsNull("m_eq") Then
+          eqId = CInt(row("m_eq"))
         End If
+
+        row("m_eqi_id") = tableRow("eqi_id")
+        row("RentalRate") = tableRow("eqi_rentalrate")
+        row("Name") = tableRow("eq_name")
+        'row("Date") = tableRow("pr_docdate")
+        'row("ReceivingDate") = tableRow("pr_receivingdate")
+
+        'Dim entityText As String = ""
+        'If Not eqi.Name Is Nothing Then
+        '  entityText &= eqi.ItemType.Description & ":"
+        'End If
+        'If Not eqi.Entity.Code Is Nothing AndAlso eqi.Entity.Code.Length > 0 Then
+        '  entityText &= eqi.Entity.Code & ":"
+        'End If
+        'If Not eqi.Entity.Name Is Nothing AndAlso eqi.Entity.Name.Length > 0 Then
+        '  entityText &= eqi.Entity.Name
+        'End If
+        row("Entity") = eqi.Name
+        row("Qty") = 1
+        'row("OrderedQty") = eqi.OrderedQty
+        'row("Requestor") = tableRow("requestorinfo")
+        If Not tableRow.IsNull("ccinfo") Then
+          row("CostCenter") = tableRow("ccinfo")
+        End If
+        row.State = RowExpandState.None
+
+        'eqi.Pr = New PR
+        'eqi.Pr.Id = eqId
+        row.Tag = eqi
+        'End If
       Next
       Return myDatatable
     End Function
@@ -242,8 +250,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim arr As New ArrayList
       Dim tmpId As Integer = 0
       For Each tableRow As DataRow In dt.Rows
-        If tmpId <> CInt(tableRow("pri_pr")) Then
-          tmpId = CInt(tableRow("pri_pr"))
+        If tmpId <> CInt(tableRow("eqi_id")) Then
+          tmpId = CInt(tableRow("eqi_id"))
           If Not arr.Contains(tmpId) Then
             arr.Add(tmpId)
           End If
@@ -251,15 +259,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Dim realArr As New ArrayList
       For Each id As Integer In arr
-        Dim rows As DataRow() = dt.Select("pri_pr = " & id)
+        Dim rows As DataRow() = dt.Select("eqi_id = " & id)
         Dim found As Boolean = False
-        For Each row As DataRow In rows
-          Dim pri As New PRItem(row, "")
-          If pri.OrderedQty <> 0 Or pri.Qty <> 0 Then
-            found = True
-            Exit For
-          End If
-        Next
+        'For Each row As DataRow In rows
+        '  Dim eqi As New EquipmentItem(row, "")
+        '  If eqi.OrderedQty <> 0 Or eqi.Qty <> 0 Then
+        '    found = True
+        '    Exit For
+        '  End If
+        'Next
         If Not found Then
           If Not realArr.Contains(id) Then
             realArr.Add(id)
@@ -419,7 +427,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_description = value
       End Set
     End Property
-    Public Property Unit As Unit
+    Public Property Unit As Unit Implements IEqtItem.Unit
       Get
         Return m_unit
       End Get
@@ -1106,6 +1114,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Class
   End Class
+
+  Public Class EqItemForSelection
+    Inherits EquipmentItem
+    Public CC As New CostCenter
+    Public entityId As Integer
+
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "EqitemForSelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "EqitemForSelection"
+      End Get
+    End Property
+  End Class
+
 
 End Namespace
 
