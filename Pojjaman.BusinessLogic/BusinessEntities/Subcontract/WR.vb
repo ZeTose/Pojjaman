@@ -230,33 +230,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim index As Integer
         Dim childNumber As Integer = 0
         For Each witm As WRItem In Me.ItemCollection
-          If witm.Level = 0 Then
+          If witm.Level = 1 Then
             If (witm.Qty - witm.OrderedQty) > 0 Then
-              coll.Add(witm)
               key = witm.Parent.ToString
-              hash(key) = witm
+              If Not hash.Contains(key) Then
+                hash(key) = key
+
+                For Each ParWitm As WRItem In Me.ItemCollection
+                  If ParWitm.Level = 0 Then
+                    If ParWitm.Sequence.ToString = key Then
+                      coll.Add(ParWitm)
             End If
-          Else
-            key = witm.Parent.ToString
-            If hash.Contains(key) Then
-              'index = coll.IndexOf(witm)
-              'coll.Insert(index + 1, witm)
+                  End If
+                Next
+              End If
+
               coll.Add(witm)
+
+
             End If
           End If
+
+          'If witm.Level = 0 Then
+          '  If (witm.Qty - witm.OrderedQty) > 0 Then
+          '    coll.Add(witm)
+          '    key = witm.Parent.ToString
+          '    hash(key) = witm
+          '  End If
+          'Else
+          '  key = witm.Parent.ToString
+          '  If hash.Contains(key) Then
+          '    'index = coll.IndexOf(witm)
+          '    'coll.Insert(index + 1, witm)
+          '    coll.Add(witm)
+          '  End If
+          'End If
         Next
         'For Each witm As WRItem In Me.ItemCollection
-        'If witm.Level = 1 Then           
-        'key = witm.Parent.ToString
+        '  If witm.Level = 0 Then
+        '    key = witm.Sequence.ToString
         'If hash.Contains(key) Then
-        'index = coll.IndexOf(witm)
-        'coll.Insert(index + childNumber + 1, witm)
-        'childNumber += 1
+        '      coll.Add(witm)
         'End If
-        'Else
-        'childNumber = 0
         'End If
         'Next
+      
         Return coll
       End Get
     End Property
@@ -652,12 +670,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If sitem.Level = 0 Then
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
           If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
-            'If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
-            'Me.RecalculateAmount()
-            'Else
-            'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-            'End If
-            Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCAmountNotEqualAllocateAndReCalUnitPrice}")
+            If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
+              Me.RecalculateAmount()
+            Else
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+            End If
+            'Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCAmountNotEqualAllocateAndReCalUnitPrice}")
             ''New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
           'If sitem.Amount <> sitem.ChildAmount Then

@@ -251,6 +251,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_oldAmount = CDec(dr(aliasPrefix & "wrio_amount"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "wri_parent") AndAlso Not dr.IsNull(aliasPrefix & "wri_parent") Then
+          .m_parent = CDec(dr(aliasPrefix & "wri_parent"))
+        End If
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then

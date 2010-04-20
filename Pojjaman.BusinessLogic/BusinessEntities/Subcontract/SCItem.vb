@@ -450,6 +450,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldConversion As Decimal = Me.Conversion
         Dim newConversion As Decimal = 1
         Dim err As String = ""
+        If Me.ItemType.Value <> 289 Then
+          If Not Me.WRIUnit Is Nothing Then
+            If Me.WRIUnit.Id <> Value.Id Then
+              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCUnitMustSameWRUnit}", New String() {Value.Name, Me.WRIUnit.Name})
+              Return
+            End If
+          End If
+        End If
         If Not Value Is Nothing AndAlso Value.Originated Then
           If TypeOf Me.Entity Is LCIItem Then
             If CType(Me.Entity, LCIItem).Level < 5 Then
@@ -547,6 +555,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
             msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
             Return
+          Case 289
+            'Do nothing
+          Case Else
+            If Me.WRIQty > 0 Then
+              If Me.WRIQty < Value Then
+                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCiQtyMustLessThanOrEqualWRiQty}", _
+                                              New String() {Configuration.FormatToString(Value, DigitConfig.Qty), _
+                                                            Configuration.FormatToString(WRIQty, DigitConfig.Qty)})
+                Return
+              End If
+            End If
         End Select        Dim amt As Decimal = Value * Me.UnitPrice
 
         Select Case Me.ItemType.Value

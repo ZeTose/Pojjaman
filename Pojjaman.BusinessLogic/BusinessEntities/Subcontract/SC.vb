@@ -706,14 +706,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
               sci.WRIUnit = wri.Unit
               sci.Unit = wri.Unit
             End If
+            'If wri.ItemType.Value = 289 Then
+            '  sci.SetWRIQty(wri.Qty - wri.OrderedQty)
+            '  sci.SetWRIOrigingQty(sci.WRIQty)
+            '  sci.SetQty(sci.WRIQty)
+            'Else
+            '  sci.SetWRIQty(wri.Qty)
+            '  sci.SetWRIOrigingQty(wri.Qty)
+            '  sci.SetQty(wri.Qty)
+            'End If
             If wri.ItemType.Value = 289 Then
-              sci.SetWRIQty(wri.Qty - wri.OrderedQty)
-              sci.SetWRIOrigingQty(sci.WRIQty)
-              sci.SetQty(sci.WRIQty)
-            Else
               sci.SetWRIQty(wri.Qty)
               sci.SetWRIOrigingQty(wri.Qty)
               sci.SetQty(wri.Qty)
+            Else
+              sci.SetWRIQty(wri.Qty - wri.OrderedQty)
+              sci.SetWRIOrigingQty(sci.WRIQty)
+              sci.SetQty(sci.WRIQty)
             End If
             sci.UnitPrice = wri.UnitPrice
 
