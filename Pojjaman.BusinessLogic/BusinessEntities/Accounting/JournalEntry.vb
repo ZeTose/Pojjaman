@@ -542,9 +542,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.RefDoc Is Nothing Then
         Return
       End If
-      If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
-        Return
-      End If
+      'ทำให้ต้นทุนไม่มา หน้าขาย และยังไม่รู้ทำทำไม
+      'If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
+      '  Return
+      'End If
 
       '===================Check ว่า GL เปลี่ยนไหม ================================
       If TypeOf Me.RefDoc Is IGLCheckingBeforeRefresh AndAlso TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
