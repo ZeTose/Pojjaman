@@ -445,7 +445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   ' สินทรัพย์
   Public Class Asset
     Inherits SimpleBusinessEntityBase
-    Implements IHasImage, IHasRentalRate, IPrintableEntity, IHasGroup, IHasToCostCenter
+    Implements IHasImage, IHasRentalRate, IPrintableEntity, IHasGroup, IHasToCostCenter, IEqtItem
 
 #Region "Members"
     Private m_refsequence As Integer
@@ -1181,7 +1181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property Unit() As Unit
+    Public Property Unit() As Unit Implements IEqtItem.Unit
       Get
         Return m_unit
       End Get

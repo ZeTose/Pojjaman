@@ -103,15 +103,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-      Me.m_cc = New CostCenter
-      Me.m_buydate = Now
-      ' Me.m_buydoc = New ISimpleEntity
-      Me.m_buysupplier = New Supplier
-      Me.m_asset = New Asset
-      Me.m_unit = New Unit
-      Me.m_rentalunit = New Unit
+      
     End Sub
-    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+    Protected Overloads Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
       With Me
         Dim drh As New DataRowHelper(dr)
 
@@ -160,7 +155,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
     End Sub
-    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    Protected Overloads Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Me.Construct(dr, aliasPrefix)
     End Sub

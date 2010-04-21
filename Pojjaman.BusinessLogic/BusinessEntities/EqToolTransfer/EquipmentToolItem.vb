@@ -59,7 +59,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_lineNumber As Integer
-    Private m_entity As IHasRentalRate
+    Private m_entity As IEqtItem
     Private m_name As String
     Private m_note As String
     Private m_amount As Decimal
@@ -253,7 +253,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.m_qty = 1
-    End Sub    Public Property Entity() As IHasRentalRate      Get        Return m_entity      End Get      Set(ByVal Value As IHasRentalRate)        m_entity = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
+    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entity      End Get      Set(ByVal Value As IEqtItem)        m_entity = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
         End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -281,38 +281,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_qty = 0
       Me.m_note = ""
     End Sub
-    Public Sub ItemValidateRow(ByVal row As DataRow)
+    Public Overridable Sub ItemValidateRow(ByVal row As DataRow)
       Dim code As Object = row("Code")
     End Sub
-    'Public Sub CopyToDataRow(ByVal row As TreeRow)
+    Public Overridable Sub CopyToDataRow(ByVal row As TreeRow)
 
-    '  If row Is Nothing Then
-    '    Return
-    '  End If
-    '  Try
-    '    Me.EqtWithdraw.IsInitialized = False
+      If row Is Nothing Then
+        Return
+      End If
+      Try
+        'Me.EqtWithdraw.IsInitialized = False
 
-    '    row("Linenumber") = Me.LineNumber
-    '    row("Type") = Me.ItemType.Value
-    '    If Not Me.Entity Is Nothing Then
-    '      row("Code") = Me.Entity.Code
-    '      row("Name") = Me.Entity.Name
-    '    End If
-    '    row("Button") = ""
+        row("Linenumber") = Me.LineNumber
+        row("Type") = Me.ItemType.Value
+        If Not Me.Entity Is Nothing Then
+          row("Code") = Me.Entity.Code
+          row("Name") = Me.Entity.Name
+        End If
+        row("Button") = ""
 
-    '    row("Note") = Me.Note
+        row("Note") = Me.Note
 
-    '    If Me.Qty <> 0 Then
-    '      row("QTY") = Configuration.FormatToString(Me.Qty, DigitConfig.Int)
-    '    Else
-    '      row("QTY") = ""
-    '    End If
+        If Me.Qty <> 0 Then
+          row("QTY") = Configuration.FormatToString(Me.Qty, DigitConfig.Int)
+        Else
+          row("QTY") = ""
+        End If
 
-    '    Me.EqtWithdraw.IsInitialized = True
-    '  Catch ex As Exception
-    '    MessageBox.Show(ex.Message & "::" & ex.StackTrace)
-    '  End Try
-    'End Sub
+        'Me.EqtWithdraw.IsInitialized = True
+      Catch ex As Exception
+        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+      End Try
+    End Sub
 #End Region
 
   End Class

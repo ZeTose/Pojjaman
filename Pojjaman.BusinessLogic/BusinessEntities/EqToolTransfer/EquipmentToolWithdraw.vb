@@ -1454,26 +1454,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Qty = 0
       Me.Note = ""
     End Sub
-    Public Sub ItemValidateRow(ByVal row As DataRow)
-      Dim code As Object = row("Code")
+    Public Overrides Sub ItemValidateRow(ByVal row As DataRow)
+      MyBase.ItemValidateRow(row)
+      'Dim code As Object = row("Code")
     End Sub
-    Public Sub CopyToDataRow(ByVal row As TreeRow)
-
+    Public Overrides Sub CopyToDataRow(ByVal row As TreeRow)
+      'MyBase.CopyToDataRow(row)
       If row Is Nothing Then
         Return
       End If
       Try
         Me.EqtWithdraw.IsInitialized = False
-
+        Dim rpd As Decimal = 0
+        Dim rentrate As Decimal = 0
         row("Linenumber") = Me.LineNumber
         row("Type") = Me.ItemType.Value
         If Not Me.Entity Is Nothing Then
           row("eqtstocki_entity") = Me.Entity.Id
           row("Code") = Me.Entity.Code
           row("Name") = Me.Entity.Name
+          If Not Me.Entity.Unit Is Nothing Then
+            Me.Unit = Me.Entity.Unit
+            row("UnitName") = Me.Entity.Unit.Name
+          End If
+          rentrate = Me.Entity.RentalRate
         End If
 
-        row("Name") = Me.name
+        'row("Name") = Me.name
 
         row("Button") = ""
 
@@ -1484,9 +1491,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("QTY") = ""
         End If
-
-        If Me.RentalPerDay <> 0 Then
-          row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
+        rpd = rentrate * Me.Qty
+        If Me.RentalPerDay <> 0 And rpd <> 0 Then
+          If Me.RentalPerDay <> 0 Then
+            row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
+          Else
+            row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
+            Me.RentalPerDay = rpd
+          End If
         Else
           row("RentalPerDay") = ""
         End If

@@ -1371,14 +1371,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not itemType = 0 Then
           'Dim doc As New EquipmentToolWithdrawItem
-          'If Not Me.CurrentItem Is Nothing Then
-          '  doc = Me.CurrentItem
-          '  doc.ItemType.Value = itemType
-          '  Me.m_treeManager.SelectedRow.Tag = Nothing
-          'Else
-          Me.m_entity.ItemCollection.Add(doc)
-          doc.ItemType = New EqtItemType(itemType)
-          'End If
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.ItemType.Value = itemType
+            Me.m_treeManager.SelectedRow.Tag = Nothing
+          Else
+            Me.m_entity.ItemCollection.Add(doc)
+            doc.ItemType = New EqtItemType(itemType)
+          End If
           doc.Entity = newItem
           doc.Unit = CType(newItem, IEqtItem).Unit
           doc.ToStatus = New EqtStatus(3)
