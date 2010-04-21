@@ -296,6 +296,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi.Row = i + 1
                 dpi.Table = "Item"
                 dpiColl.Add(dpi)
+        If IsNumeric(itemRow("aftertax")) Then
+          SumAfterTax += Configuration.Format(CDec(itemRow("aftertax")), DigitConfig.Price)
+        End If
 
                 'Item.runNumber
                 dpi = New DocPrintingItem
@@ -359,6 +362,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.DataType = "System.Decimal"
             dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
             dpiColl.Add(dpi)
+
+      'SumCol6
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SumCol6"
+      dpi.Value = Configuration.FormatToString(SumAfterTax, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
 
             Return dpiColl
         End Function
