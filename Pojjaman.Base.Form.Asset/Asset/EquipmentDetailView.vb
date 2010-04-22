@@ -505,7 +505,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtCostcenterCode, "")
       Me.txtCostcenterCode.Name = "txtCostcenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostcenterCode, "")
-      Me.Validator.SetRequired(Me.txtCostcenterCode, False)
+      Me.Validator.SetRequired(Me.txtCostcenterCode, True)
       Me.txtCostcenterCode.Size = New System.Drawing.Size(86, 21)
       Me.txtCostcenterCode.TabIndex = 7
       '
@@ -602,7 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtRentalUnitCode, "")
       Me.txtRentalUnitCode.Name = "txtRentalUnitCode"
       Me.Validator.SetRegularExpression(Me.txtRentalUnitCode, "")
-      Me.Validator.SetRequired(Me.txtRentalUnitCode, False)
+      Me.Validator.SetRequired(Me.txtRentalUnitCode, True)
       Me.txtRentalUnitCode.Size = New System.Drawing.Size(86, 21)
       Me.txtRentalUnitCode.TabIndex = 12
       '
@@ -1150,6 +1150,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.Validator.SetDisplayName(Me.txtEQIName, StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
       Me.Validator.SetDisplayName(Me.txtRentalRate, StringHelper.GetRidOfAtEnd(Me.lblRentalRate.Text, ":"))
+      Me.Validator.SetDisplayName(Me.txtCostcenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostCentername.Text, ":"))
+      Me.Validator.SetDisplayName(Me.txtRentalUnitCode, StringHelper.GetRidOfAtEnd(Me.lblRentalunit.Text, ":"))
       'Me.lblGl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblGl}")
       'Me.Validator.SetDisplayName(Me.txtGLCode, StringHelper.GetRidOfAtEnd(Me.lblGl.Text, ":"))
 
@@ -1897,15 +1899,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.License = txtlEQIlicense.Text
           dirtyFlag = True
 
-        Case "textstatus"
-          dirtyFlag = True
-          If TextStatus.TextLength > 0 Then
-            doc.CurrentStatus.Value = TextStatus.Text
-          Else
-            doc.CurrentStatus = Nothing
-          End If
-          'doc.CurrentStatus = CDec(TextStatus.Text)
-          'dirtyFlag = True
+          'Case "textstatus"
+          '  dirtyFlag = True
+          '  If TextStatus.TextLength > 0 Then
+          '    doc.CurrentStatus.Value = TextStatus.Text
+          '  Else
+          '    doc.CurrentStatus = Nothing
+          '  End If
+          '  'doc.CurrentStatus = CDec(TextStatus.Text)
+          '  'dirtyFlag = True
         Case "txtcostcenteraddress"
 
           'If TxtCostcenterAddress.TextLength > 0 Then

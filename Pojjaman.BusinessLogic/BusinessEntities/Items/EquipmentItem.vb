@@ -525,6 +525,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
 
+    Public Overrides Function GetNextCode() As String
+      Dim autoCodeFormat As String = Me.Code
+      If Me.AutoCodeFormat.Format.Length > 0 Then
+        autoCodeFormat = Me.AutoCodeFormat.Format
+      Else
+        autoCodeFormat = Me.Code
+      End If
+      'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+
+      pattern = CodeGenerator.GetPattern(pattern)
+
+      Dim lastCode As String
+      lastCode = Me.GetLastCode(pattern)
+        Dim newCode As String = _
+        CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+        While DuplicateCode(newCode)
+          newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+        End While
+        Return newCode
+    End Function
+    Public Overrides Function DuplicateCode(ByVal newCode As String) As Boolean
+      If MyBase.DuplicateCode(newCode) Then
+        Return True
+      End If
+      Return Me.equipment.ItemCollection.DupCodeInCollection(newCode)
+    End Function
   End Class
 
   <Serializable(), DefaultMember("Item")> _
@@ -1135,6 +1162,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
       Next
       Return i
+    End Function
+    Public Function DupCodeInCollection(ByVal newCode As String) As Boolean
+      For Each eqi As EquipmentItem In Me
+        If eqi.Code = newCode Then
+          Return True
+        End If
+      Next
+      Return False
     End Function
 #End Region
 
