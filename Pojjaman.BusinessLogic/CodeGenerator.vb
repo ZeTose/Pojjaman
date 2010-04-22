@@ -68,6 +68,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim scText As String = """SC"""
 
+      Dim parText As String = """PAR"""
+
       Dim ty As Type = o.GetType
       Dim pi As PropertyInfo = ty.GetProperty("DocDate")
       Dim docDate As Date = Date.MinValue
@@ -133,6 +135,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If TypeOf o Is DR Then
         scCode = CType(o, DR).Sc.Code
       End If
+
+      Dim parCode As String
+      If TypeOf o Is IHasParent Then
+        parCode = CType(o, IHasParent).parent.Code
+      End If
+
       Dim myDate As Date = Now
       'HACK by Pla <--- Good!
       If TypeOf o Is Banking Then
@@ -199,6 +207,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End While
       While Regex.IsMatch(pattern, scText)
         pattern = Regex.Replace(pattern, scText, scCode)
+      End While
+      While Regex.IsMatch(pattern, parText)
+        pattern = Regex.Replace(pattern, parText, parCode)
       End While
       While Regex.IsMatch(pattern, accountBookText)
         pattern = Regex.Replace(pattern, accountBookText, accountBookCode)

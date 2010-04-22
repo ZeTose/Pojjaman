@@ -12,7 +12,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class EquipmentItem
     Inherits SimpleBusinessEntityBase
-    Implements IHasRentalRate, IEqtItem
+    Implements IHasRentalRate, IEqtItem, IHasImage, IHasParent
 #Region "Members"
     Private m_equipment As Equipment
 
@@ -38,7 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_buydate As DateTime
     'Private m_buydoc As Decimal
     'Private m_buydoccode As String
-    Private m_buydoc As ISimpleEntity
+    Private m_buydoc As SimpleBusinessEntityBase
     Private m_buycost As Decimal
     Private m_buysupplier As Supplier
     Private m_asset As Asset
@@ -52,7 +52,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_rentalunit As Unit
     Private m_lastEditDate As DateTime
     Private m_autogen As Boolean
-
+    Private m_image As Image
+    Private m_currentstatus As EqtStatus
+    Private m_currentcc As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -83,12 +85,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New()
       MyBase.New()
       Me.m_cc = New CostCenter
-      Me.m_buydate = Now
+      Me.m_buydate = Date.MinValue
       ' Me.m_buydoc = New ISimpleEntity
       Me.m_buysupplier = New Supplier
       Me.m_asset = New Asset
       Me.m_unit = New Unit
       Me.m_rentalunit = New Unit
+      Me.m_currentcc = New CostCenter
+      Me.m_currentstatus = New EqtStatus(2)
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -103,7 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-      
+
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -136,7 +140,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_acctstatus = drh.GetValue(Of Integer)("eqi_acctstatus")
 
-        m_serailnumber = drh.GetValue(Of String)("eqi_serialnumber")
+        m_serailnumber = drh.GetValue(Of String)("eqi_serailnumber")
 
         m_brand = drh.GetValue(Of String)("eqi_brand")
 
@@ -152,6 +156,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim unitid2 As Integer = drh.GetValue(Of Integer)("eqi_rentalunit")
         m_rentalunit = New Unit(unitid2)
 
+        Dim currstatus As Integer = drh.GetValue(Of Integer)("eqi_currentstatus")
+        m_currentstatus = New EqtStatus(currstatus)
+
+        Dim currCCId As Integer = drh.GetValue(Of Integer)("eqi_currentcc")
+        m_currentcc = New CostCenter(currCCId)
 
       End With
     End Sub
@@ -193,6 +202,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
       'myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CurrentStatus", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("CurrentCostCenter", GetType(Decimal)))
 
       'Dim inValidIds As ArrayList = GetEqIdWithOnlyNoteItem(dt)
       For Each tableRow As DataRow In dt.Rows
@@ -203,6 +214,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("EqCode") = tableRow("eq_code")
         row("Code") = tableRow("eqi_code")
         row("m_eq") = tableRow("eqi_eq")
+        row("CurrentStatus") = tableRow("eqi_currentstatus")
+        row("CurrentCostCenter") = tableRow("eqi_currentcc")
+
 
         Dim eqId As Integer
         If Not row.IsNull("m_eq") Then
@@ -284,7 +298,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "eqi"
       End Get
     End Property
-    Public Property Equipment As Equipment
+    Public Property equipment As Equipment
       Get
         Return m_equipment
       End Get
@@ -292,6 +306,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_equipment = value
       End Set
     End Property
+    Public ReadOnly Property parent As SimpleBusinessEntityBase Implements IHasParent.parent
+      Get
+        Return CType(m_equipment, SimpleBusinessEntityBase)
+      End Get
+    End Property
+
     'Public Overrides Property Id As Integer Implements IHasName.Id
     '  Get
     '    Return m_id
@@ -332,27 +352,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_cc = value
       End Set
     End Property
-    Public Property Buydate As DateTime
+
+    Public Property Buydate As Date
       Get
         Return m_buydate
       End Get
-      Set(ByVal value As DateTime)
+      Set(ByVal value As Date)
         m_buydate = value
       End Set
     End Property
-    Public Property LastEditDate As DateTime
+    Public Property LastEditDate As Date
       Get
         Return m_lastEditDate
       End Get
-      Set(ByVal value As DateTime)
+      Set(ByVal value As Date)
         m_lastEditDate = value
       End Set
     End Property
-    Public Property Buydoc As ISimpleEntity
+    Public Property Buydoc As SimpleBusinessEntityBase
       Get
         Return m_buydoc
       End Get
-      Set(ByVal value As ISimpleEntity)
+      Set(ByVal value As SimpleBusinessEntityBase)
         m_buydoc = value
       End Set
     End Property
@@ -446,9 +467,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_rentalunit = value
       End Set
     End Property
+    Public Property Image() As Image Implements IHasImage.Image
+      Get
+        Return m_image
+      End Get
+      Set(ByVal Value As Image)
+        m_image = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property CurrentStatus As EqtStatus
+      Get
+        Return m_currentstatus
+      End Get
+      Set(ByVal value As EqtStatus)
+        m_currentstatus = value
+      End Set
+    End Property
+    Public Property CurrentCostCenter As CostCenter
+      Get
+        Return m_currentcc
+      End Get
+      Set(ByVal value As CostCenter)
+        m_currentcc = value
+      End Set
+    End Property
 
 #End Region
-
+    Public Sub SetCurrentCostCenter(ByVal cc As CostCenter)
+      m_currentcc = cc
+    End Sub
     Public Sub Clear()
       'Me.m_entity = New BlankItem("")
       'Me.m_entityName = ""
@@ -535,6 +583,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As EquipmentItem)
         m_currentItem = Value
       End Set
+    End Property
+
+    Public ReadOnly Property haveEmpty As Boolean
+      Get
+        Dim isemp As Boolean = False
+        For Each eqi As EquipmentItem In Me
+          If eqi.Name.Length = 0 Or eqi.Code.Length = 0 Then
+            isemp = True
+            Exit For
+          End If
+        Next
+        Return isemp
+      End Get
     End Property
 #End Region
 
@@ -1109,6 +1170,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Class
   End Class
+
 
   Public Class EqItemForSelection
     Inherits EquipmentItem

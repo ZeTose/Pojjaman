@@ -15,6 +15,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Property ItemCollection As EquipmentItemCollection
   End Interface
 
+  Public Interface IHasParent
+    ReadOnly Property parent As SimpleBusinessEntityBase
+  End Interface
+
   Public Class Equipment
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IHasToCostCenter, IHasEquipment
@@ -56,9 +60,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
           .m_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_description") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_description") Then
-          .m_Description = CStr(dr(aliasPrefix & Me.Prefix & "_description"))
         End If
         'If dr.Table.Columns.Contains(aliasPrefix & "equipmentgroup_id") Then
         '  If Not dr.IsNull(aliasPrefix & "unit_id") Then
@@ -204,8 +205,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_equipmentitem.Asset Is Nothing Then
           m_equipmentitem.Asset = New Asset
         End If
-
-
+        If m_equipmentitem.CurrentStatus Is Nothing Then
+          m_equipmentitem.CurrentStatus = New EqtStatus(2)
+        End If
+        If m_equipmentitem.CurrentCostCenter Is Nothing Then
+          m_equipmentitem.CurrentCostCenter = New CostCenter
+        End If
       End Set
     End Property
     Public Property Buydate As DateTime
@@ -262,6 +267,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
+
+        If Me.ItemCollection.haveEmpty Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.HaveEmpty}"))
+        End If
+
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
@@ -341,22 +351,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
           ''-------------------------------------------------------
-          'Dim pris As String = GetPritemString()
-          'Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
-          '"in (select convert(nvarchar,poi_pr) + '|' +  convert(nvarchar,poi_prilinenumber) from poitem " & _
-          '"where poi_po =" & Me.Id & ") or convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) in " & pris
 
-          'Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-          'RecentCompanies.CurrentCompany.SiteConnectionString _
-          ', CommandType.Text _
-          ', sql _
-          ')
-          'Dim arr As New ArrayList
-          'For Each row As DataRow In ds.Tables(0).Rows
-          '  Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
-          '  arr.Add(o)
-          'Next
-          ''-------------------------------------------------------
+
 
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
@@ -554,29 +550,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr = drs(0)
             End If
             '------------End Checking--------------------
+            ' Dim thedate As DateTime
+            If item.Autogen Then     'And Me.Code.Length = 0 Then
+              item.Code = item.GetNextCode
+            End If
+            item.Autogen = False
 
-
+            ' thedate = CDate(Me.ValidDateOrDBNull(item.Buydate))
 
             dr("eqi_eq") = Me.Id
             dr("eqi_code") = item.Code
             dr("eqi_name") = item.Name
-            dr("eqi_cc") = item.Costcenter
-            dr("eqi_buydate") = item.Buydate
-            dr("eqi_buydoc") = item.Buydoc
+            dr("eqi_cc") = Me.ValidIdOrDBNull(item.Costcenter)
+            dr("eqi_buydate") = Me.ValidDateOrDBNull(item.Buydate.Date)
+            dr("eqi_buydoc") = Me.ValidIdOrDBNull(item.Buydoc)
             dr("eqi_buycost") = item.Buycost
-            dr("eqi_buysupplier") = item.Supplier
-            dr("eqi_asset") = item.Asset
+            dr("eqi_buysupplier") = Me.ValidIdOrDBNull(item.Supplier)
+            dr("eqi_asset") = Me.ValidIdOrDBNull(item.Asset)
             dr("eqi_acctstatus") = item.Acctstatus
             dr("eqi_serailnumber") = item.Serailnumber
             dr("eqi_brand") = item.Brand
             dr("eqi_license") = item.License
             dr("eqi_description") = item.Description
-            dr("eqi_unit") = item.Unit
+            dr("eqi_unit") = Me.ValidIdOrDBNull(item.Unit)
             dr("eqi_rentalrate") = item.Rentalrate
-            dr("eqi_rentalunit") = item.Rentalunit
-            dr("eqi_lastEditDate") = item.LastEditDate
-            dr("eqi_lastEditor") = item.LastEditor
-
+            dr("eqi_rentalunit") = Me.ValidIdOrDBNull(item.Rentalunit)
+            dr("eqi_lastEditDate") = Me.ValidDateOrDBNull(item.LastEditDate.Date)
+            dr("eqi_lastEditor") = Me.ValidIdOrDBNull(item.LastEditor)
+            dr("eqi_currentstatus") = item.CurrentStatus.Value
+            dr("eqi_currentcc") = Me.ValidIdOrDBNull(item.CurrentCostCenter)
 
 
 
@@ -599,16 +601,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
 
-        tmpDa.Update(GetDeletedRows(dt))
+        'tmpDa.Update(GetDeletedRows(dt))
+        tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
 
         Try
-          tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+          tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
         Catch ex As SqlException
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicatePO}"), New String() {Me.Code})
         End Try
 
 
-        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
 
         Return New SaveErrorException("1")
 

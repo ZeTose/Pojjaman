@@ -6,6 +6,7 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EquipmentCategoryView
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -181,7 +182,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'EquitmentCategoryView
+      'EquipmentCategoryView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "EquipmentCategoryView"

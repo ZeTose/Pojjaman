@@ -82,8 +82,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Pojjaman.ContentInterface, Version=1.0.3657.26792, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Pojjaman.ContentInterface">
       <HintPath>..\Pojjaman.ContentInterface\bin\Pojjaman.ContentInterface.dll</HintPath>
     </Reference>
     <Reference Include="System">

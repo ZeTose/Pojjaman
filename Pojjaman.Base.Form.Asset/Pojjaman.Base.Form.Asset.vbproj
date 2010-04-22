@@ -205,9 +205,6 @@
     <Compile Include="Asset\EquipmentDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Asset\EquipmentCategoryView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Asset\EqWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -290,9 +287,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EquipmentDetailView.resx">
       <DependentUpon>EquipmentDetailView.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Asset\EquipmentCategoryView.resx">
-      <DependentUpon>EquipmentCategoryView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqWithdrawFilterSubPanel.resx">
       <DependentUpon>EqWithdrawFilterSubPanel.vb</DependentUpon>

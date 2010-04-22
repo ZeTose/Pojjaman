@@ -28,7 +28,6 @@
       <EntityTab id="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.EqRentalSummary"/>
     </EntityTab>
 		<EntityTab id="equipment">
-			<EntityTab id="EquipmentCategoryView" view="Longkong.Pojjaman.Gui.Panels.EquipmentCategoryView"/>
       <EntityTab id="EquipmentDetailView" view="Longkong.Pojjaman.Gui.Panels.EquipmentDetailView"/>
     </EntityTab>
 		<EntityTab id="assettype">
