@@ -1767,14 +1767,15 @@ Public Class VOItemCollection
         MyBase.List.Item(index) = value
       End Set
     End Property
-    'Public ReadOnly Property Amount() As Decimal
-    '    Get
-    '        Dim amt As Decimal = 0    '        For Each item As VOItem In Me
-    '            amt += Configuration.Format(item.Amount, DigitConfig.scice)
-    '        Next
-    '        Return amt
-    '    End Get
-    'End Property
+    Public ReadOnly Property Amount() As Decimal
+      Get
+        Dim amt As Decimal = 0
+        For Each item As VOItem In Me
+          amt += item.Amount
+        Next
+        Return amt
+      End Get
+    End Property
     'Public ReadOnly Property SCHASH() As Hashtable
     '  Get
     '    Return m_scHash
@@ -2080,7 +2081,7 @@ Public Class VOItemCollection
       'RefreshBudget()
     End Sub
 
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       'Dim i As Integer = 0
@@ -2091,7 +2092,8 @@ Public Class VOItemCollection
 
       Dim chkNoRefItem As Boolean = False
       Dim currItem As VOItem
-      'Dim currRow As TreeRow
+      Dim parentRow As TreeRow
+      Dim childRow As TreeRow
 
       For Each voi As VOItem In Me
         'key = voi.Parent.ToString
@@ -2110,24 +2112,82 @@ Public Class VOItemCollection
       For Each voi As VOItem In Me
         Me.CurrentItem = voi
 
-        Dim newRow As TreeRow = dt.Childs.Add
+        'Dim newRow As TreeRow = dt.Childs.Add
+        If voi.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
         If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
           chkNoRefItem = True
-          newRow = dt.Childs.Add()
-          newRow.FixLevel = 0
-          newRow.CustomFontStyle = FontStyle.Bold
-          newRow("Button") = "invisible"
-          newRow("UnitButton") = "invisible"
-          newRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
+            parentRow = dt.Childs.Add()
+            parentRow.FixLevel = 0
+            parentRow.CustomFontStyle = FontStyle.Bold
+            parentRow("Button") = "invisible"
+            parentRow("UnitButton") = "invisible"
+            parentRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
+
+            '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
+            If voi.Level = 0 AndAlso voi.IsHasChild Then
+              voi.SetMat(voi.ChildMat)
+              voi.SetLab(voi.ChildLab)
+              voi.SetEq(voi.ChildEq)
+            End If
+            '-- -- Summary MAT LAB EQ ----------------
+          End If
+
+          voi.CopyToDataRow(parentRow)
+          voi.ItemValidateRow(parentRow)
+
+          If chkNoRefItem Then
+            voi.IsNotRefSC = True
+          End If
+          parentRow.Tag = voi
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+            If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
+              chkNoRefItem = True
+              childRow = parentRow.Childs.Add()
+              childRow.FixLevel = 0
+              childRow.CustomFontStyle = FontStyle.Bold
+              childRow("Button") = "invisible"
+              childRow("UnitButton") = "invisible"
+              childRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
 
           '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
           If voi.Level = 0 AndAlso voi.IsHasChild Then
             voi.SetMat(voi.ChildMat)
             voi.SetLab(voi.ChildLab)
-            voi.SetEq(voi.Childeq)
+                voi.SetEq(voi.ChildEq)
           End If
           '-- -- Summary MAT LAB EQ ----------------
         End If
+
+            voi.CopyToDataRow(childRow)
+            voi.ItemValidateRow(childRow)
+            If chkNoRefItem Then
+              voi.IsNotRefSC = True
+            End If
+            childRow.Tag = voi
+          End If
+        End If
+
+        'If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
+        '  chkNoRefItem = True
+        '  newRow = dt.Childs.Add()
+        '  newRow.FixLevel = 0
+        '  newRow.CustomFontStyle = FontStyle.Bold
+        '  newRow("Button") = "invisible"
+        '  newRow("UnitButton") = "invisible"
+        '  newRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
+
+        '  '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
+        '  If voi.Level = 0 AndAlso voi.IsHasChild Then
+        '    voi.SetMat(voi.ChildMat)
+        '    voi.SetLab(voi.ChildLab)
+        '    voi.SetEq(voi.Childeq)
+        '  End If
+        '  '-- -- Summary MAT LAB EQ ----------------
+        'End If
 
         'If voi.Level = 0 Then
         '  newRow = dt.Childs.Add
@@ -2136,17 +2196,35 @@ Public Class VOItemCollection
         'Else
         '  newRow = currRow.Childs.Add
         'End If
-        voi.CopyToDataRow(newRow)
-        voi.ItemValidateRow(newRow)
+        'voi.CopyToDataRow(newRow)
+        'voi.ItemValidateRow(newRow)
 
-        If chkNoRefItem Then
-          voi.IsNotRefSC = True
-        End If
+        'If chkNoRefItem Then
+        '  voi.IsNotRefSC = True
+        'End If
 
-        newRow.Tag = voi
+        'newRow.Tag = voi
       Next
-      Me.CurrentItem = currItem
+
       dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("voi_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
+
+      dt.AcceptChanges()
+
+      Me.CurrentItem = currItem
     End Sub
     Public Shared Function FindRow(ByVal dt As TreeTable, ByVal theSC As SC) As TreeRow
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)

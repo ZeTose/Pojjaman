@@ -2652,8 +2652,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
+      'RefreshBlankGrid()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
@@ -3695,59 +3695,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
-
-      'Dim index As Integer = tgItem.CurrentRowIndex
-      'Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
-      'If doc Is Nothing Then
+      'If Me.tgItem.Height = 0 Then
       '  Return
       'End If
-      ''If Not doc.SCItem Is Nothing Then
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+
+      ''Dim index As Integer = tgItem.CurrentRowIndex
+      ''Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
+      ''If doc Is Nothing Then
       ''    Return
       ''End If
-      ''Dim newItem As New BlankItem("")
-      'Dim theItem As New SCItem
-      ''theItem.Entity = newItem
-      'theItem.Level = 0
-      ''theItem.ItemType = New ItemType(0)
-      'theItem.Qty = 0
-      'Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
-      'RefreshDocs()
-      'tgItem.CurrentRowIndex = index + 1
-      'Me.WorkbenchWindow.ViewContent.IsDirty = True
+      ' ''If Not doc.SCItem Is Nothing Then
+      ' ''    Return
+      ' ''End If
+      ' ''Dim newItem As New BlankItem("")
+      ''Dim theItem As New SCItem
+      ' ''theItem.Entity = newItem
+      ''theItem.Level = 0
+      ' ''theItem.ItemType = New ItemType(0)
+      ''theItem.Qty = 0
+      ''Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
+      ''RefreshDocs()
+      ''tgItem.CurrentRowIndex = index + 1
+      ''Me.WorkbenchWindow.ViewContent.IsDirty = True
 
-      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-        'เพิ่มแถวจนเต็ม
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("pai_level") = 0
-        newRow("Button") = "invisible"
-      Loop
+      'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+      '  'เพิ่มแถวจนเต็ม
+      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("pai_level") = 0
+      '  newRow("Button") = "invisible"
+      'Loop
 
-      If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("pai_level") = 0
-        newRow("Button") = "invisible"
-      End If
+      'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("pai_level") = 0
+      '  newRow("Button") = "invisible"
+      'End If
 
-      'For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
-      '  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
-      '  If n("sci_level") = 0 Then
-      '    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
-      '  End If
-      'Next
+      ''For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
+      ''  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
+      ''  If n("sci_level") = 0 Then
+      ''    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
+      ''  End If
+      ''Next
 
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      'Me.m_treeManager.Treetable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 
 #End Region

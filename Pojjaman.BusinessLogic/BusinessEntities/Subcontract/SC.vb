@@ -743,7 +743,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Function GetUnClosedContract() As String
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetUnClosedContract" _
       , New SqlParameter("@sc_id", Me.Id) _
@@ -921,7 +921,102 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Function ValidateOverBudget() As SaveErrorException
+      Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      If Me.CostCenter.Type.Value <> 2 Then
+        Return New SaveErrorException("-1")
+      End If
+      If Me.CostCenter.Boq Is Nothing OrElse Me.CostCenter.Boq.Id = 0 Then
+        Return New SaveErrorException("-1")
+      End If
+      'PROverBudgetOnlyCC
+      Dim config As Object = Configuration.GetConfig("POOverBudgetOnlyCC")
+      Dim onlyCC As Boolean = False
+      If Not config Is Nothing Then
+        onlyCC = CBool(config)
+      End If
+      '====================
+      WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
+      '====================
+      If Not onlyCC Then
+        For Each item As SCItem In Me.ItemCollection
+          If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
 
+            Dim totalBudget As Decimal = 0
+            Dim totalActual As Decimal = 0
+            Dim totalCurrent As Decimal = 0
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              totalCurrent = (wbsd.Percent / 100) * item.Amount
+
+              'สำหรับ WBS ตัวมันเอง =====>>
+              If wbsd.BudgetRemain - totalCurrent < 0 Then
+                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+              End If
+              'สำหรับ WBS ตัวมันเอง =====<<
+
+              'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
+              For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
+                totalBudget = 0
+                totalActual = 0
+                Select Case item.ItemType.Value
+                  Case 88
+                    If Not row.IsNull("labbudget") Then
+                      totalBudget = CDec(row("labbudget"))
+                    End If
+                    If Not row.IsNull("labactual") Then
+                      totalActual = CDec(row("labactual"))
+                    End If
+                  Case 89
+                    If Not row.IsNull("eqbudget") Then
+                      totalBudget = CDec(row("eqbudget"))
+                    End If
+                    If Not row.IsNull("eqactual") Then
+                      totalActual = CDec(row("eqactual"))
+                    End If
+                  Case Else
+                    If Not row.IsNull("matbudget") Then
+                      totalBudget = CDec(row("matbudget"))
+                    End If
+                    If Not row.IsNull("matactual") Then
+                      totalActual = CDec(row("matactual"))
+                    End If
+                End Select
+                If Me.Originated Then
+                  If item.ItemType.Value = 88 Then
+                    totalActual -= item.OldLab
+                  ElseIf item.ItemType.Value = 89 Then
+                    totalActual -= item.OldEq
+                  Else
+                    totalActual -= item.OldMat
+                  End If
+                End If
+                Trace.WriteLine("")
+                Trace.WriteLine(totalBudget.ToString)
+                Trace.WriteLine(totalActual.ToString)
+                Trace.WriteLine(totalCurrent.ToString)
+                If totalBudget < (totalActual + totalCurrent) Then
+                  Dim myId As Integer = CInt(row("depend_parent"))
+                  Dim myWBS As New WBS(myId)
+                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                End If
+              Next
+              'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
+            Next
+          End If
+        Next
+      Else
+        Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
+        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 6) + rootWBS.GetActualLab(Me, 6) + rootWBS.GetActualEq(Me, 6))
+        Dim totalCurrent As Decimal = Me.ItemCollection.Amount
+
+        If totalBudget < (totalActual + totalCurrent) Then
+          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+        End If
+      End If
+
+      Return New SaveErrorException("0")
+    End Function
     Dim hashAutoChild As Hashtable
     Private Function ValidateItem() As SaveErrorException
       Dim key1 As String = ""
@@ -1045,21 +1140,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCItem.VODRUnClosed}"), New String() {codeList, Me.Code})
           End If
         End If
-        'Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
-        'Select Case config
-        '    Case 0   'Not allow
-        'If PROverBudget() Then
-        '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.PROverBudgetCannotBeSaved}"))
-        'End If
-        'Case 1   'Warn
-        'If PROverBudget() Then
-        '    Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        '    If Not msgServ.AskQuestion("${res:Global.Question.PROverBudgetSaveAnyway}") Then
-        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-        '    End If
-        'End If
-        '    Case 2   'Do Nothing
-        'End Select
+        ''=============== Validate Over Budget ==================>>
+        Dim ValidateOverBudgetError As SaveErrorException
+        Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
+        Select Case config
+          Case 0   'Not allow
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              Return New SaveErrorException(msgString & vbCrLf & msgString2)
+            End If
+          Case 1   'Warn
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              End If
+            End If
+          Case 2   'Do Nothing
+        End Select
+        ''=============== Validate Over Budget ==================<<
         Me.RefreshTaxBase()
         Dim tmpBoq As BOQ = Me.CostCenter.Boq
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter

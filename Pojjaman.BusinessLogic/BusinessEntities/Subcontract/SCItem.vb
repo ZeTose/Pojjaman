@@ -451,7 +451,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim newConversion As Decimal = 1
         Dim err As String = ""
         If Me.ItemType.Value <> 289 Then
-          If Not Me.WRIUnit Is Nothing Then
+          If Not Me.WRIUnit Is Nothing AndAlso Me.WRIUnit.Id > 0 Then
             If Me.WRIUnit.Id <> Value.Id Then
               msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCUnitMustSameWRUnit}", New String() {Value.Name, Me.WRIUnit.Name})
               Return
@@ -2695,11 +2695,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       'RefreshBudget()
     End Sub
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim currItem As SCItem
       Dim hsNew As New Hashtable
-      'Dim currRow As TreeRow
+      Dim parentRow As TreeRow
+      Dim childRow As TreeRow
 
       For Each sci As SCItem In Me
         If sci.ItemType.Value = 289 Then
@@ -2725,22 +2726,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If sci.Level = 0 AndAlso sci.IsHasChild Then
           sci.SetMat(sci.ChildMat)
           sci.SetLab(sci.ChildLab)
-          sci.SetEq(sci.Childeq)
+          sci.SetEq(sci.ChildEq)
         End If
         '-- -- Summary MAT LAB EQ ----------------
-        Dim newRow As TreeRow = dt.Childs.Add
-        'If sci.Level = 0 Then
-        '  newRow = dt.Childs.Add
-        '  newRow.State = RowExpandState.Expanded
-        '  currRow = newRow
-        'Else
-        '  newRow = currRow.Childs.Add
-        'End If
-        sci.CopyToDataRow(newRow)
-        sci.ItemValidateRow(newRow)
-        newRow.Tag = sci
+
+        If sci.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
+
+          sci.CopyToDataRow(parentRow)
+          sci.ItemValidateRow(parentRow)
+          parentRow.Tag = sci
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+
+            sci.CopyToDataRow(childRow)
+            sci.ItemValidateRow(childRow)
+            childRow.Tag = sci
+          End If
+        End If
+
+        'Dim newRow As TreeRow = dt.Childs.Add
+        ''If sci.Level = 0 Then
+        ''  newRow = dt.Childs.Add
+        ''  newRow.State = RowExpandState.Expanded
+        ''  currRow = newRow
+        ''Else
+        ''  newRow = currRow.Childs.Add
+        ''End If
+        'sci.CopyToDataRow(newRow)
+        'sci.ItemValidateRow(newRow)
+        'newRow.Tag = sci
         'End If
       Next
+
+      dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("sci_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
+
+      dt.AcceptChanges()
+
       Me.CurrentItem = currItem
 
     End Sub

@@ -1952,7 +1952,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       'RefreshBudget()
     End Sub
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim i As Integer = 0
       'Dim j As Integer = 0
@@ -1979,6 +1979,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newDrItem As New PAItem
       newDrItem.RefEntity = New RefEntity
       newDrItem.RefEntity.Id = 291
+
+      Dim parentRow As TreeRow
+      Dim childRow As TreeRow
 
       For Each pai As PAItem In Me
         key = pai.Parent.ToString
@@ -2104,22 +2107,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If pai.Level = 0 Then
           If Not newitem Is Nothing Then
             sumRow = dt.Childs.Add()
+            'sumRow.State = RowExpandState.Expanded
+            'currRow = sumRow
             newitem.CopyToParentDataRow(sumRow)
           End If
           newitem = pai
         End If
 
         '===================================
-        newRow = dt.Childs.Add()
-        pai.CopyToDataRow(newRow)
-        pai.ItemValidateRow(newRow)
-        newRow.Tag = pai
+        'If pai.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
+        If pai.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
+          pai.CopyToDataRow(parentRow)
+          pai.ItemValidateRow(parentRow)
+          parentRow.Tag = pai
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+            pai.CopyToDataRow(childRow)
+            pai.ItemValidateRow(childRow)
+            childRow.Tag = pai
+          End If
+        End If
+        'newRow = dt.Childs.Add()
+        'pai.CopyToDataRow(newRow)
+        'pai.ItemValidateRow(newRow)
+        'newRow.Tag = pai
         '===================================
 
         Me.CurrentLastItem = pai
       Next
       If Not newitem Is Nothing Then
         sumRow = dt.Childs.Add()
+        'newRow.State = RowExpandState.Expanded
+        'currRow = newRow
         newitem.CopyToParentDataRow(sumRow)
       End If
 
@@ -2128,10 +2156,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each pai As PAItem In newItemDRRef
 
         '===================================
-        newRow = dt.Childs.Add()
-        pai.CopyToDataRow(newRow)
-        pai.ItemValidateRow(newRow)
-        newRow.Tag = pai
+        'If pai.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
+        If pai.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
+          pai.CopyToDataRow(parentRow)
+          pai.ItemValidateRow(parentRow)
+          parentRow.Tag = pai
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+            pai.CopyToDataRow(childRow)
+            pai.ItemValidateRow(childRow)
+            childRow.Tag = pai
+          End If
+        End If
+        'newRow = dt.Childs.Add()
+        'pai.CopyToDataRow(newRow)
+        'pai.ItemValidateRow(newRow)
+        'newRow.Tag = pai
         '===================================
 
         Me.CurrentLastItem = pai
@@ -2155,16 +2204,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If pai.Level = 0 Then
           If Not newitem Is Nothing Then
             sumRow = dt.Childs.Add()
+            'sumRow.State = RowExpandState.Expanded
+            'currRow = sumRow
             newitem.CopyToParentDataRow(sumRow)
           End If
           newitem = pai
         End If
 
         '===================================
-        newRow = dt.Childs.Add()
-        pai.CopyToDataRow(newRow)
-        pai.ItemValidateRow(newRow)
-        newRow.Tag = pai
+        'If pai.Level = 0 Then
+        '  newRow = dt.Childs.Add
+        '  newRow.State = RowExpandState.Expanded
+        '  currRow = newRow
+        'Else
+        '  newRow = currRow.Childs.Add
+        'End If
+        If pai.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
+          pai.CopyToDataRow(parentRow)
+          pai.ItemValidateRow(parentRow)
+          parentRow.Tag = pai
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+            pai.CopyToDataRow(childRow)
+            pai.ItemValidateRow(childRow)
+            childRow.Tag = pai
+          End If
+        End If
+        'newRow = dt.Childs.Add()
+        'pai.CopyToDataRow(newRow)
+        'pai.ItemValidateRow(newRow)
+        'newRow.Tag = pai
         '===================================
 
         Me.CurrentLastItem = pai
@@ -2173,6 +2245,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         sumRow = dt.Childs.Add()
         newitem.CopyToParentDataRow(sumRow)
       End If
+
+      dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("pai_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
 
       dt.AcceptChanges()
     End Sub

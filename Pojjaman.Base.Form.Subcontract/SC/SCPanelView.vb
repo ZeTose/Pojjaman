@@ -1495,6 +1495,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csWRQty.DataAlignment = HorizontalAlignment.Right
       csWRQty.Format = "#,###.##"
       csWRQty.TextBox.Name = "sci_wriQty"
+      csWRQty.ReadOnly = True
       ''===============================================================================================================
 
       Dim csUnit As New TreeTextColumn
@@ -1844,20 +1845,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.Unvatable = CBool(e.ProposedValue)
           Case "sci_wriqty"
-            If doc.Level = 1 Then
-              msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.CannotChangeWRIQty}")
-              Return
-            End If
-            If IsDBNull(e.ProposedValue) Then
-              e.ProposedValue = ""
-            End If
-            Dim value As Decimal = 0
-            If Not e.ProposedValue = "" Then
-              If IsNumeric(e.ProposedValue) Then
-                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-              End If
-            End If
-            doc.WRIQty = value
+            'If doc.Level = 1 Then
+            '  msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.CannotChangeWRIQty}")
+            '  Return
+            'End If
+            'If IsDBNull(e.ProposedValue) Then
+            '  e.ProposedValue = ""
+            'End If
+            'Dim value As Decimal = 0
+            'If Not e.ProposedValue = "" Then
+            '  If IsNumeric(e.ProposedValue) Then
+            '    value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            '  End If
+            'End If
+            'doc.WRIQty = value
         End Select
         'End If
       Catch ex As Exception
@@ -1890,45 +1891,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'จากการอนุมัติเอกสาร
       If CBool(Configuration.GetConfig("ApproveSC")) Then
-        'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
-        If m_ApproveDocModule.Activated Then
-          'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-          'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
           Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
           If ApproveDocColl.MaxLevel > 0 Then
             '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
             '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
             For Each ctrl As Control In grbDetail.Controls
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+              If TypeOf ctrl Is TextBox Then
+                CType(ctrl, TextBox).ReadOnly = True
+              Else
                 ctrl.Enabled = False
               End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            Me.btnApprove.Enabled = True
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
             End If
-          End If
-        Else
-          'ถ้าใช้การอนุมัติแบบเก่า
-          If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
-                ctrl.Enabled = False
-              End If
             Next
             tgItem.Enabled = True
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
@@ -1938,7 +1912,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = Not CBool(m_enableState(ctrl))
+            Else
               ctrl.Enabled = CBool(m_enableState(ctrl))
+              End If
             Next
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1950,13 +1928,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           End If
         End If
-      End If
 
       'จาก Status ของเอกสารเอง
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 OrElse Me.m_entity.Closed Then
         For Each ctrl As Control In grbDetail.Controls
           If Not ctrl.Name = "chkClosed" AndAlso Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "chkClosed" Then
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = True
+            Else
             ctrl.Enabled = False
+            End If
           ElseIf ctrl.Name = "chkClosed" Then
             If Me.m_entity.Status.Value = 0 Then
               chkClosed.Enabled = False
@@ -1972,7 +1953,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Else
         For Each ctrl As Control In grbDetail.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = Not CBool(m_enableState(ctrl))
+          Else
           ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1984,23 +1969,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
 
-      If Me.m_entity.WR Is Nothing OrElse Me.m_entity.WR.Id = 0 Then
-        Me.txtCostCenterCode.Enabled = True
-        Me.btnCCFind.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          If colStyle.MappingName = "sci_wriQty" Then
-            colStyle.ReadOnly = True
+      'If Me.m_entity.WR Is Nothing OrElse Me.m_entity.WR.Id = 0 Then
+      '  Me.txtCostCenterCode.Enabled = True
+      '  Me.btnCCFind.Enabled = True
+      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '    If colStyle.MappingName = "sci_wriQty" Then
+      '      colStyle.ReadOnly = True
+      '    End If
+      '  Next
+      'Else
+      '  Me.txtCostCenterCode.Enabled = False
+      '  Me.btnCCFind.Enabled = False
+      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '    If colStyle.MappingName = "sci_wriQty" Then
+      '      colStyle.ReadOnly = False
+      '    End If
+      '  Next
+      'End If
+
+
+      Dim CtrlEnble As Boolean = grbCostCenter.Enabled
+      m_isInitialized = CtrlEnble
+      grbCostCenter.Enabled = True
+      grbSubContractor.Enabled = True
+
+      For Each ctrl As Control In grbCostCenter.Controls
+        If TypeOf ctrl Is TextBox Then
+          CType(ctrl, TextBox).ReadOnly = Not CtrlEnble
+        Else
+          ctrl.Enabled = CtrlEnble
           End If
         Next
+
+      For Each ctrl As Control In grbSubContractor.Controls
+        If TypeOf ctrl Is TextBox Then
+          CType(ctrl, TextBox).ReadOnly = Not CtrlEnble
       Else
-        Me.txtCostCenterCode.Enabled = False
-        Me.btnCCFind.Enabled = False
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          If colStyle.MappingName = "sci_wriQty" Then
-            colStyle.ReadOnly = False
+          ctrl.Enabled = CtrlEnble
           End If
         Next
-      End If
 
       Me.ibtnCopyMe.Enabled = True
       Me.btnApprove.Enabled = True
@@ -2259,8 +2266,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
+      'RefreshBlankGrid()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
@@ -2700,10 +2707,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(0) As Filter
       Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
-        doc = New SCItem
-        'doc.ItemType = New ItemType(0)
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
+        Return
+        'doc = New SCItem
+        ''doc.ItemType = New ItemType(0)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_entity.ItemCollection.CurrentItem = doc
       End If
       Dim includeFilter As Boolean = False
       If TypeOf doc.Entity Is Tool Then
@@ -3262,59 +3270,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
-
-      'Dim index As Integer = tgItem.CurrentRowIndex
-      'Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
-      'If doc Is Nothing Then
+      'If Me.tgItem.Height = 0 Then
       '  Return
       'End If
-      ''If Not doc.SCItem Is Nothing Then
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+
+      ''Dim index As Integer = tgItem.CurrentRowIndex
+      ''Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
+      ''If doc Is Nothing Then
       ''    Return
       ''End If
-      ''Dim newItem As New BlankItem("")
-      'Dim theItem As New SCItem
-      ''theItem.Entity = newItem
-      'theItem.Level = 0
-      ''theItem.ItemType = New ItemType(0)
-      'theItem.Qty = 0
-      'Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
-      'RefreshDocs()
-      'tgItem.CurrentRowIndex = index + 1
-      'Me.WorkbenchWindow.ViewContent.IsDirty = True
+      ' ''If Not doc.SCItem Is Nothing Then
+      ' ''    Return
+      ' ''End If
+      ' ''Dim newItem As New BlankItem("")
+      ''Dim theItem As New SCItem
+      ' ''theItem.Entity = newItem
+      ''theItem.Level = 0
+      ' ''theItem.ItemType = New ItemType(0)
+      ''theItem.Qty = 0
+      ''Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
+      ''RefreshDocs()
+      ''tgItem.CurrentRowIndex = index + 1
+      ''Me.WorkbenchWindow.ViewContent.IsDirty = True
 
-      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-        'เพิ่มแถวจนเต็ม
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("sci_level") = 0
-        newRow("Button") = "invisible"
-      Loop
+      'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+      '  'เพิ่มแถวจนเต็ม
+      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("sci_level") = 0
+      '  newRow("Button") = "invisible"
+      'Loop
 
-      If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("sci_level") = 0
-        newRow("Button") = "invisible"
-      End If
+      'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("sci_level") = 0
+      '  newRow("Button") = "invisible"
+      'End If
 
-      'For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
-      '  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
-      '  If n("sci_level") = 0 Then
-      '    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
-      '  End If
-      'Next
+      ''For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
+      ''  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
+      ''  If n("sci_level") = 0 Then
+      ''    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
+      ''  End If
+      ''Next
 
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      'Me.m_treeManager.Treetable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 #End Region
 
@@ -3326,7 +3334,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub chkClosed_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkClosed.CheckedChanged
-      If Not m_isInitialized Then
+      'If Not m_isInitialized Then
+      '  Return
+      'End If
+      If Me.m_entity Is Nothing Then
         Return
       End If
       Me.m_entity.Closing = Me.chkClosed.Checked

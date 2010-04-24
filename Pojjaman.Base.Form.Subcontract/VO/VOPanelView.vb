@@ -2049,8 +2049,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
+      'RefreshBlankGrid()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount(True)
       Me.m_isInitialized = True
@@ -2908,40 +2908,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
-
-      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-        'เพิ่มแถวจนเต็ม
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("voi_level") = 0
-        newRow("Button") = "invisible"
-      Loop
-
-      If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-        'Me.m_treeManager.Treetable.Childs.Add()
-        Dim newRow As TreeRow
-        newRow = Me.m_treeManager.Treetable.Childs.Add()
-        newRow("voi_level") = 0
-        newRow("Button") = "invisible"
-      End If
-
-      'For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
-      '  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
-      '  If n("sci_level") = 0 Then
-      '    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
-      '  End If
-      'Next
-
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
       'If Me.tgItem.Height = 0 Then
       '  Return
       'End If
@@ -2950,17 +2916,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
       '  'เพิ่มแถวจนเต็ม
-      '  Me.m_treeManager.Treetable.Childs.Add()
+      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("voi_level") = 0
+      '  newRow("Button") = "invisible"
       'Loop
 
-      ''If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-      ''    'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
       ''    Me.m_treeManager.Treetable.Childs.Add()
+      '  Dim newRow As TreeRow
+      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow("voi_level") = 0
+      '  newRow("Button") = "invisible"
+      'End If
+
+      ''For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
+      ''  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
+      ''  If n("sci_level") = 0 Then
+      ''    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
       ''End If
+      ''Next
 
       'Me.m_treeManager.Treetable.AcceptChanges()
       'tgItem.CurrentRowIndex = Math.Max(0, index)
       'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      ''If Me.tgItem.Height = 0 Then
+      ''  Return
+      ''End If
+      ''Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      ''Dim index As Integer = tgItem.CurrentRowIndex
+
+      ''Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+      ''  'เพิ่มแถวจนเต็ม
+      ''  Me.m_treeManager.Treetable.Childs.Add()
+      ''Loop
+
+      ' ''If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      ' ''    'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      ' ''    Me.m_treeManager.Treetable.Childs.Add()
+      ' ''End If
+
+      ''Me.m_treeManager.Treetable.AcceptChanges()
+      ''tgItem.CurrentRowIndex = Math.Max(0, index)
+      ''Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 #End Region
 

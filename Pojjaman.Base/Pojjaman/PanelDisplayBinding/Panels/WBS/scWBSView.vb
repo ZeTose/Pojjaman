@@ -524,10 +524,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
           Return
         End If
-        If newCC.BoqId = 0 Then
-          msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
-          Return
-        End If
+        'If newCC.BoqId = 0 Then
+        '  msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
+        '  Return
+        'End If
 
         CType(row.Tag, WBSDistribute).CostCenter = CType(myEntity, CostCenter)
         CType(row.Tag, WBSDistribute).WBS = New WBS
@@ -541,6 +541,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Public Sub WBSButtonClicked(ByVal e As ButtonColumnEventArgs)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity Is Nothing Then
         Return
       End If
@@ -556,6 +557,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Return
       'End If
       If doc.CostCenter.BoqId = 0 Then
+        msgServ.ShowMessageFormatted("${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -716,6 +718,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()
+      Dim stringPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       m_isInitialized = False
       ClearDetail()
       If m_entity Is Nothing Then
@@ -723,8 +726,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       If TypeOf Me.m_entity Is IWBSAllocatable Then
-        Dim stringPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-
         m_refDoc = CType(Me.m_entity, IWBSAllocatable)
 
         Me.txtRefDocCode.Text = Me.m_entity.Code

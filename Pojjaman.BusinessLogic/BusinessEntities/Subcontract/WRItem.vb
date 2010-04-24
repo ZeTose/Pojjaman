@@ -2608,11 +2608,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       'RefreshBudget()
     End Sub
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim currItem As WRItem
       Dim hsNew As New Hashtable
-      'Dim currRow As TreeRow
+      Dim parentRow As TreeRow
+      Dim childRow As TreeRow
 
       For Each wri As WRItem In Me
         If wri.ItemType.Value = 289 Then
@@ -2642,7 +2643,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '-- -- Summary MAT LAB EQ ----------------
 
-        Dim newRow As TreeRow = dt.Childs.Add
+        If wri.Level = 0 Then
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
+
+          wri.CopyToDataRow(parentRow)
+          wri.ItemValidateRow(parentRow)
+          parentRow.Tag = wri
+        Else
+          If Not parentRow Is Nothing Then
+            childRow = parentRow.Childs.Add
+
+            wri.CopyToDataRow(childRow)
+            wri.ItemValidateRow(childRow)
+            childRow.Tag = wri
+          End If
+        End If
+
+        'Dim newRow As TreeRow = dt.Childs.Add
+
         'newRow.State = RowExpandState.Expanded
         'If wri.Level = 0 Then
         '  newRow = dt.Childs.Add
@@ -2651,11 +2670,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Else
         '  newRow = currRow.Childs.Add
         'End If
-        wri.CopyToDataRow(newRow)
-        wri.ItemValidateRow(newRow)
-        newRow.Tag = wri
+
+        'wri.CopyToDataRow(newRow)
+        'wri.ItemValidateRow(newRow)
+        'newRow.Tag = wri
         'End If
       Next
+
+      'Dim newRow As TreeRow
+      'newRow = Me.m_treeManager.Treetable.Childs.Add()
+      'newRow("wri_level") = 0
+      'newRow("Button") = "invisible"
+
+      dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("wri_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
+
+      dt.AcceptChanges()
+
       Me.CurrentItem = currItem
 
     End Sub
