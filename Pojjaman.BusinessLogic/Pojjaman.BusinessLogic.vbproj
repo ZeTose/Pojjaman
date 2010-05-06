@@ -564,6 +564,7 @@
     <Compile Include="BusinessEntities\General\Province.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Items\ToolLot.vb" />
     <Compile Include="BusinessEntities\Items\EqCost.vb">
       <SubType>Code</SubType>
     </Compile>

@@ -39,6 +39,7 @@
 		</EntityTab>
 		<EntityTab id="tool">
 			<EntityTab id="ToolDetailView" view="Longkong.Pojjaman.Gui.Panels.ToolDetailView"/>
+      <EntityTab id="ToolLotDetailView" view="Longkong.Pojjaman.Gui.Panels.ToolLotDetailView"/>
 		</EntityTab>
 
 		<EntityTab id="unit">

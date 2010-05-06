@@ -62,13 +62,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblSCTo As System.Windows.Forms.Label
     Friend WithEvents txtSCEnd As System.Windows.Forms.TextBox
     Friend WithEvents btnFindSCEnd As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents chkIsSum As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptSCMovementFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.chkIsSum = New System.Windows.Forms.CheckBox()
       Me.chkIncludeChildSupplierGroup = New System.Windows.Forms.CheckBox()
       Me.btnSpgCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtSpgCodeStart = New System.Windows.Forms.TextBox()
@@ -101,10 +99,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
       Me.txtTemp = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -127,7 +126,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
-      Me.grbDetail.Controls.Add(Me.chkIsSum)
       Me.grbDetail.Controls.Add(Me.chkIncludeChildSupplierGroup)
       Me.grbDetail.Controls.Add(Me.btnSpgCodeStart)
       Me.grbDetail.Controls.Add(Me.txtSpgCodeStart)
@@ -164,15 +162,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 1
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
-      '
-      'chkIsSum
-      '
-      Me.chkIsSum.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIsSum.Location = New System.Drawing.Point(120, 165)
-      Me.chkIsSum.Name = "chkIsSum"
-      Me.chkIsSum.Size = New System.Drawing.Size(281, 24)
-      Me.chkIsSum.TabIndex = 39
-      Me.chkIsSum.Text = "แสดงยอดรวมท้าย SC"
       '
       'chkIncludeChildSupplierGroup
       '
@@ -611,6 +600,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -632,7 +622,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.chkIncludeChildSupplierGroup}")
       Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblSuppliStart}")
       Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.chkIsSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.chkIsSum}")
+      'Me.chkIsSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.chkIsSum}")
 
       'Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
@@ -1022,7 +1012,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtSuppliCodeEnd.Validated, AddressOf Me.ChangeProperty
 
       'AddHandler cmbDocStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
-      AddHandler chkIsSum.CheckedChanged, AddressOf Me.ChangeProperty
+      'AddHandler chkIsSum.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkIncludeChildSupplierGroup.CheckedChanged, AddressOf Me.ChangeProperty
 
       'AddHandler btnCCCodeStart.Click, AddressOf Me.btnCostcenterFind_Click
@@ -1052,6 +1042,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.DocDateStart = Date.MinValue
           End If
           m_dateSetting = False
+        Case "dtpdocdatestart"
+          If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          End If
         Case "dtpdocdateend"
           If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
             If Not m_dateSetting Then
@@ -1095,12 +1092,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'If Not Me.cmbDocStatus.SelectedItem Is Nothing Then
           'Me.Status = CType(cmbDocStatus.SelectedItem, IdValuePair).Id
           'End If
-        Case "chkissum"
-          If Me.chkIsSum.Checked Then
-            Me.IsPreveiewSummary = True
-          Else
-            Me.IsPreveiewSummary = False
-          End If
+          'Case "chkissum"
+          '  If Me.chkIsSum.Checked Then
+          '    Me.IsPreveiewSummary = True
+          '  Else
+          '    Me.IsPreveiewSummary = False
+          '  End If
         Case "chkincludechildsuppliergroup"
           If Me.chkIncludeChildSupplierGroup.Checked Then
             Me.IsIncludeChildSupplierGroup = True

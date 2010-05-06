@@ -248,6 +248,9 @@
     <Compile Include="Tool\CostCenterToolListDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Tool\ToolLotDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Tool\ToolDetailFilterSubpanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -394,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tool\CostCenterToolListDetail.resx">
       <DependentUpon>CostCenterToolListDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tool\ToolLotDetailView.resx">
+      <DependentUpon>ToolLotDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tool\ToolDetailFilterSubpanel.resx">
       <DependentUpon>ToolDetailFilterSubpanel.vb</DependentUpon>

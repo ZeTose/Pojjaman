@@ -19,106 +19,126 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private tool_fairprice As Decimal
     Private tool_rentalrate As Decimal
     Private m_cc As CostCenter
+    'Private m_Itemcollection As EquipmentItemCollection
+    Private m_Toollotcollection As ToolLotCollection
+    Private m_image As Image
+    Private m_toollot As ToolLot
+    Private m_equipmentitem As EquipmentItem
 
-        Private m_image As Image
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            Me.tool_group = New ToolGroup
-            Me.tool_unit = New Unit
-        End Sub
-        Public Sub New(ByVal toolCode As String)
-            MyBase.New(toolCode)
-        End Sub
-        Public Sub New(ByVal toolId As Integer)
-            MyBase.New(toolId)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            MyBase.New(dr, aliasPrefix)
-        End Sub
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Construct(dr, aliasPrefix)
+    Public Sub New()
+      MyBase.New()
+      Me.tool_group = New ToolGroup
+      Me.tool_unit = New Unit
+      Me.m_cc = New CostCenter
+      Me.m_Toollotcollection = New ToolLotCollection(Me)
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+    End Sub
+    Public Sub New(ByVal Id As Integer)
+      MyBase.New(Id)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.New(dr, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    'Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    '  Dim dr As DataRow = ds.Tables(0).Rows(0)
+    '  Construct(dr, aliasPrefix)
+    '  With Me
+    '    .m_Toollotcollection = New ToolLotCollection(Me)
+    '    .tool_group = New ToolGroup
+    '    .tool_unit = New Unit
+    '  End With
+    'End Sub
 
-        End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
 
-        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            MyBase.Construct(dr, aliasPrefix)
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
+          .tool_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
+        End If
 
-            With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "toolg_id") _
+        AndAlso Not dr.IsNull(aliasPrefix & "toolg_id") Then
+          .tool_group = New ToolGroup(dr, "")
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
+            .tool_group = New ToolGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
+          End If
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
-                    .tool_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "tool_costcenter") _
+               AndAlso Not dr.IsNull(aliasPrefix & "tool_costcenter") Then
+          .m_cc = New CostCenter(dr, "")
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_costcenter") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_costcenter") Then
+            .m_cc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_costcenter")))
+          End If
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "toolg_id") _
-                AndAlso Not dr.IsNull(aliasPrefix & "toolg_id") Then
-                    .tool_group = New ToolGroup(dr, "")
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
-                        .tool_group = New ToolGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
-                    End If
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "unit_id") _
+        AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
+          .tool_unit = New Unit(dr, "")
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
+            .tool_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
+          End If
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "unit_id") _
-                AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
-                    .tool_unit = New Unit(dr, "")
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
-                        .tool_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
-                    End If
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fairprice") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_fairprice") Then
+          .tool_fairprice = CDec(dr(aliasPrefix & Me.Prefix & "_fairprice"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fairprice") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_fairprice") Then
-                    .tool_fairprice = CDec(dr(aliasPrefix & Me.Prefix & "_fairprice"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_rentalrate") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_rentalrate") Then
+          .tool_rentalrate = CDec(dr(aliasPrefix & Me.Prefix & "_rentalrate"))
+        End If
+        Me.ItemCollection = New ToolLotCollection(Me)
+      End With
+      LoadImage()
+    End Sub
+    Public Sub LoadImage()
+      If Id <= 0 Then
+        Return
+      End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_rentalrate") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_rentalrate") Then
-                    .tool_rentalrate = CDec(dr(aliasPrefix & Me.Prefix & "_rentalrate"))
-                End If
-            End With
-            LoadImage()
-        End Sub
-        Public Sub LoadImage()
-            If Id <= 0 Then
-                Return
-            End If
+      Dim sqlConString As String = Me.RealConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select tool_image from toolimage where tool_id = " & Me.Id
 
-            Dim sqlConString As String = Me.RealConnectionString
-            Dim conn As New SqlConnection(sqlConString)
-            Dim sql As String = "select tool_image from toolimage where tool_id = " & Me.Id
+      conn.Open()
 
-            conn.Open()
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
 
-            Dim cmd As SqlCommand = conn.CreateCommand
-            cmd.CommandText = sql
+      Dim custReader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+      If custReader.Read Then
+        LoadImage(custReader)
+      End If
+    End Sub
+    Public Sub LoadImage(ByVal reader As IDataReader)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      m_image = Field.GetImage(reader, "tool_image")
+      Try
+        If Image Is Nothing Then
+          m_image = Image.FromFile(myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Entity.BlankImage}"))
+        End If
+      Catch ex As Exception
 
-            Dim custReader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
-            If custReader.Read Then
-                LoadImage(custReader)
-            End If
-        End Sub
-        Public Sub LoadImage(ByVal reader As IDataReader)
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-            m_image = Field.GetImage(reader, "tool_image")
-            Try
-                If Image Is Nothing Then
-                    m_image = Image.FromFile(myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Entity.BlankImage}"))
-                End If
-            Catch ex As Exception
-
-            End Try
-        End Sub
+      End Try
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -149,98 +169,134 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_cc = value
       End Set
     End Property
-        Public Property Name() As String Implements IHasName.Name            Get
-                Return tool_name
-            End Get
-            Set(ByVal Value As String)
-                tool_name = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
-        Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
-            Get
-                Return tool_rentalrate
-            End Get
-            Set(ByVal Value As Decimal)
-                tool_rentalrate = Value
-            End Set
-        End Property
-        Public Property Group() As ToolGroup
-            Get
-                Return tool_group
-            End Get
-            Set(ByVal Value As ToolGroup)
-                tool_group = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
+    Public Property Name() As String Implements IHasName.Name      Get
+        Return tool_name
+      End Get
+      Set(ByVal Value As String)
+        tool_name = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
+      Get
+        Return tool_rentalrate
+      End Get
+      Set(ByVal Value As Decimal)
+        tool_rentalrate = Value
+      End Set
+    End Property
+    Public Property Group() As ToolGroup
+      Get
+        Return tool_group
+      End Get
+      Set(ByVal Value As ToolGroup)
+        tool_group = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
 
-        Public Property FairPrice() As Decimal
-            Get
-                Return tool_fairprice
-            End Get
-            Set(ByVal Value As Decimal)
-                tool_fairprice = Value
-            End Set
-        End Property
+    Public Property FairPrice() As Decimal
+      Get
+        Return tool_fairprice
+      End Get
+      Set(ByVal Value As Decimal)
+        tool_fairprice = Value
+      End Set
+    End Property
 
-        Public Property Image() As System.Drawing.Image Implements IHasImage.Image
-            Get
-                Return m_image
-            End Get
-            Set(ByVal Value As System.Drawing.Image)
-                m_image = Value
-            End Set
-        End Property
+    Public Property Image() As System.Drawing.Image Implements IHasImage.Image
+      Get
+        Return m_image
+      End Get
+      Set(ByVal Value As System.Drawing.Image)
+        m_image = Value
+      End Set
+    End Property
+    Public Property ItemCollection As ToolLotCollection
+      Get
+        Return m_Toollotcollection
+      End Get
+      Set(ByVal value As ToolLotCollection)
+        m_Toollotcollection = value
+      End Set
+    End Property
+    Public Property ToolLot As ToolLot
+      Get
+        Return m_toollot
+      End Get
+      Set(ByVal value As ToolLot)
+        m_toollot = value
+        If m_toollot.Costcenter Is Nothing Then
+          m_toollot.Costcenter = New CostCenter
+        End If
+        If m_toollot.Unit Is Nothing Then
+          m_toollot.Unit = New Unit
+        End If
+        If m_toollot.Supplier Is Nothing Then
+          m_toollot.Supplier = New Supplier
+        End If
+        If m_toollot.Asset Is Nothing Then
+          m_toollot.Asset = New Asset
+        End If
+        'If m_toollot.CurrentStatus Is Nothing Then
+        '  m_toollot.CurrentStatus = New EqtStatus(2)
+        'End If
+        'If m_toollot.CurrentCostCenter Is Nothing Then
+        '  m_toollot.CurrentCostCenter = New CostCenter
+        'End If
+      End Set
+    End Property
 
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "Tool"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.Tool.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.Tool"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.Tool"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property Prefix() As String
-            Get
-                Return "tool"
-            End Get
-        End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "Tool"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Tool.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.Tool"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.Tool"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "tool"
+      End Get
+    End Property
 
-        Public Overrides ReadOnly Property TabPageText() As String
-            Get
-                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-                Dim blankSuffix As String = "()"
-                If tpt.EndsWith(blankSuffix) Then
-                    tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
-                End If
-                Return tpt
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.Tool.ListLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property UseSiteConnString() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Tool.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property UseSiteConnString() As Boolean
+      Get
+        Return True
+      End Get
+    End Property
 #End Region
-
+    'Public Sub SetCurrentCostCenter(ByVal cc As CostCenter)
+    '  m_cc = cc
+    'End Sub
 #Region "Shared"
         Public Shared Function GetTool(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldTool As Tool) As Boolean
             Dim myTool As New Tool(txtCode.Text)
@@ -311,7 +367,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Function
         Public Overrides Function ToString() As String
             Return tool_name
-        End Function
+    End Function
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
 
 
         Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
@@ -358,31 +417,240 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             If conn.State = ConnectionState.Open Then conn.Close()
             conn.Open()
-            trans = conn.BeginTransaction
+      trans = conn.BeginTransaction
+      Dim oldid As Integer = Me.Id
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        Select Case CInt(returnVal.Value)
+          Case -1, -5
+            trans.Rollback()
+            ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+        End Select
 
-            Try
-                Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-                ' Save Image process 
-                'If Not Me.Image Is Nothing Then
-                SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
-                , New SqlParameter("@tool_id", Me.Id) _
-                , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
-                'End If
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1, -2, -5
+              trans.Rollback()
+              Me.ResetID(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+        If Not IsNumeric(saveDetailError.Message) Then
+          trans.Rollback()
+          ResetID(oldid)
+          Return saveDetailError
+        Else
+          Select Case CInt(saveDetailError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              ResetID(oldid)
+              Return saveDetailError
+            Case Else
+          End Select
+        End If
 
-                trans.Commit()
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Catch ex As SqlException
-                trans.Rollback()
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Catch ex As Exception
-                trans.Rollback()
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Finally
-                conn.Close()
-            End Try
-        End Function
+
+
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        ' Save Image process 
+        'If Not Me.Image Is Nothing Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
+        , New SqlParameter("@tool_id", Me.Id) _
+        , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+        'End If
+
+
+
+        trans.Commit()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
 
 #End Region
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Dim currWBS As String
+      Try
+        Dim da As New SqlDataAdapter("Select * from ToolLot where toollot_tool =" & Me.Id, conn)
+
+
+        Dim ds As New DataSet
+
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        da.FillSchema(ds, SchemaType.Mapped, "ToolLot")
+        da.Fill(ds, "ToolLot")
+
+
+
+        Dim dt As DataTable = ds.Tables("ToolLot")
+        'Dim dtWbs As DataTable = ds.Tables("poiwbs")
+
+        'For Each row As DataRow In ds.Tables("poiwbs").Rows
+        '  row.Delete()
+        'Next
+
+
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As ToolLot In Me.ItemCollection
+            If testItem.Id = CInt(dr("toollot_id")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
+
+        Dim i As Integer = 0
+        Dim seq As Integer = -1
+        With ds.Tables("ToolLot")
+
+          For Each item As ToolLot In Me.ItemCollection
+
+
+
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = dt.Select("toollot_id=" & item.Id)
+            If drs.Length = 0 Then
+              dr = dt.NewRow
+              'dt.Rows.Add(dr)
+              seq = seq + (-1)
+              dr("toollot_id") = seq
+
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
+            ' Dim thedate As DateTime
+            If item.Autogen Then     'And Me.Code.Length = 0 Then
+              item.Code = item.GetNextCode
+            End If
+            item.Autogen = False
+
+            ' thedate = CDate(Me.ValidDateOrDBNull(item.Buydate))
+
+            dr("toollot_tool") = Me.Id
+            dr("toollot_code") = item.Code
+            'dr("eqi_name") = item.Name
+            dr("toollot_cc") = Me.ValidIdOrDBNull(item.Costcenter)
+            dr("toollot_buydate") = Me.ValidDateOrDBNull(item.Buydate.Date)
+            dr("toollot_buydoc") = Me.ValidIdOrDBNull(item.Buydoc)
+            dr("toollot_buycost") = item.Buycost
+            dr("toollot_buysupplier") = Me.ValidIdOrDBNull(item.Supplier)
+            dr("toollot_asset") = Me.ValidIdOrDBNull(item.Asset)
+            'dr("eqi_acctstatus") = item.Acctstatus
+            'dr("eqi_serailnumber") = item.Serailnumber
+            dr("toollot_brand") = item.Brand
+            'dr("eqi_license") = item.License
+            dr("toollot_decription") = item.Description
+            dr("toollot_unit") = Me.ValidIdOrDBNull(item.Unit)
+            dr("toollot_rentrate") = item.Rentalrate
+            'dr("eqi_rentalunit") = Me.ValidIdOrDBNull(item.Rentalunit)
+            dr("toollot_lastEditDate") = Me.ValidDateOrDBNull(item.LastEditDate.Date)
+            dr("toollot_lastEditor") = Me.ValidIdOrDBNull(item.LastEditor)
+            'dr("eqi_currentstatus") = item.CurrentStatus.Value
+            'dr("eqi_currentcc") = Me.ValidIdOrDBNull(item.CurrentCostCenter)
+            dr("toollot_unitcost") = item.UnitCost
+            dr("toollot_buyqty") = item.Buyqty
+            dr("toollot_remainqty") = item.RemainQTY
+
+
+            '------------Checking if we have to add a new row or just update existing--------------------
+            If drs.Length = 0 Then
+              dt.Rows.Add(dr)
+            End If
+            '------------End Checking--------------------
+
+
+          Next
+
+
+        End With
+
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
+
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+
+        'tmpDa.Update(GetDeletedRows(dt))
+        tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+
+        Try
+          tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        Catch ex As SqlException
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicatePO}"), New String() {Me.Code})
+        End Try
+
+
+        tmpDa.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+        Return New SaveErrorException("1")
+
+
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
+    Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
+      Dim Rows() As DataRow
+      If dt Is Nothing Then Return Rows
+      Rows = dt.Select("", "", DataViewRowState.Deleted)
+      If Rows.Length = 0 OrElse Not (Rows(0) Is Nothing) Then Return Rows
+      '
+      ' Workaround:
+      ' With a remoted DataSet, Select returns the array elements
+      ' filled with Nothing/null, instead of DataRow objects.
+      '
+      Dim r As DataRow, I As Integer = 0
+      For Each r In dt.Rows
+        If r.RowState = DataRowState.Deleted Then
+          Rows(I) = r
+          I += 1
+        End If
+      Next
+      Return Rows
+    End Function
 
 #Region "IHasUnit"
         Public Property DefaultUnit() As Unit Implements IHasUnit.DefaultUnit
@@ -400,7 +668,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Unit)
                 Me.tool_unit = Value
             End Set
-        End Property
+    End Property
+
+    'Public Property Costcenter() As CostCenter Implements 
+    '  Get
+    '    Return Me.tool_unit
+    '  End Get
+    '  Set(ByVal Value As Unit)
+    '    Me.tool_unit = Value
+    '  End Set
+    'End Property
+
 #End Region
 
 #Region "IHasPrice"
@@ -525,7 +803,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Overrides ReadOnly Property ListPanelTitle() As String
             Get
                 Return "${res:Longkong.Pojjaman.BusinessLogic.ToolGroup.ListLabel}"
-            End Get
+      End Get
+
         End Property
 #End Region
 
