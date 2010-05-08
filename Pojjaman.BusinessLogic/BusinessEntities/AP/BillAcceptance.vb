@@ -1045,6 +1045,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.RealAmount = payable.AmountToPay
       Me.Date = payable.Date
       Me.BilledAmount = Me.RealAmount
+      'Me.Retention =
       Me.CreditPeriod = CInt(DateDiff(DateInterval.Day, payable.Date, payable.DueDate))
       If Not m_billAcceptance Is Nothing AndAlso m_billAcceptance.Originated Then
         Me.UnpaidAmount = payable.GetRemainingAmountWithBillAcceptance(m_billAcceptance.Id)
@@ -1318,6 +1319,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_taxBase = Value
       End Set
     End Property
+    Public ReadOnly Property TaxAmount As Decimal
+      Get
+        Return (Amount / UnpaidAmount) * (AfterTax - BeforeTax)
+      End Get
+    End Property
+    Public ReadOnly Property TaxAmountDeducted As Decimal
+      Get
+        If TaxBaseDeducted <> 0 AndAlso TaxBase <> 0 Then
+          Return ((TaxBase - TaxBaseDeducted) / TaxBase) * (AfterTax - BeforeTax)
+        End If
+        Return (AfterTax - BeforeTax)
+      End Get
+    End Property
+    Public ReadOnly Property itemType As String
+      Get
+        Select Case m_typeId
+          Case 45
+            Return "รับของ"
+          Case 15
+            Return "ซื้อยกมา"
+          Case 59
+            Return "มัดจำจ่าย"
+          Case 46
+            Return "ลดหนี้"
+          Case Else
+            Return Nothing
+
+        End Select
+      End Get
+    End Property
+      
     Private m_taxBaseDeducted As Decimal = Decimal.MinValue
     Public Property TaxBaseDeducted() As Decimal
       Get
@@ -2076,6 +2108,9 @@ Public Class BillAcceptanceItemCollection
         newRow("DueDate") = bai.DueDate
         If bai.Amount <> 0 Then
           newRow("Amount") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+        End If
+        If bai.UnpaidAmount <> 0 Then
+          newRow("RemainAmount") = Configuration.FormatToString(bai.UnpaidAmount, DigitConfig.Price)
         End If
         newRow(Me.m_prefix & "_note") = bai.Note
         newRow.Tag = bai

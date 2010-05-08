@@ -1174,6 +1174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAvp As Decimal = 0
       Dim ji As JournalEntryItem
       Dim pm15note As String = ""
+      Dim pm15Dnote As String = ""
       Dim pm110note As String = ""
 
       For Each item As PaymentItem In Me.ItemCollection
@@ -1182,16 +1183,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sumCheck += item.Amount
             If pm15note = "" Then
               pm15note = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              pm15Dnote = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
             Else
               pm15note = pm15note & " " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              pm15Dnote = CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
             End If
+            'If item.Amount > 0 Then
+            '  ji = New JournalEntryItem
+            '  ji.Mapping = "PM1.5D"
+            '  ji.Amount = item.Amount
+            '  If Me.CostCenter.Originated Then
+            '    ji.CostCenter = Me.CostCenter
+            '  Else
+            '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            '  End If
+            '  ji.EntityItem = item.Entity.Id
+            '  ji.EntityItemType = 22
+            '  ji.Note = pm15Dnote
+            '  jiColl.Add(ji)
+            'End If
           Case 336       'Aval
             sumAval += item.Amount
             If pm15note = "" Then
               pm15note = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยตั๋วอาวัล " & CType(item.Entity, OutgoingAval).CqCode & "/" & CType(item.Entity, OutgoingAval).Loan.Name
+              pm15Dnote = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
             Else
               pm15note = pm15note & " " & CType(item.Entity, OutgoingAval).CqCode & "/" & CType(item.Entity, OutgoingAval).Loan.Name
+              pm15Dnote = CType(item.Entity, OutgoingAval).CqCode & "/" & CType(item.Entity, OutgoingAval).Loan.Name
             End If
+            'If item.Amount > 0 Then
+            '  ji = New JournalEntryItem
+            '  ji.Mapping = "PM1.5D"
+            '  ji.Amount = item.Amount
+            '  If Me.CostCenter.Originated Then
+            '    ji.CostCenter = Me.CostCenter
+            '  Else
+            '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            '  End If
+            '  ji.EntityItem = item.Entity.Id
+            '  ji.EntityItemType = 336
+            '  ji.Note = pm15Dnote
+            '  jiColl.Add(ji)
+            'End If
           Case 0          'Cash
             sumCash += item.Amount
           Case 59         'AdvancePayment
@@ -1276,6 +1309,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             & " " & CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString _
             & " " & CType(item.Entity, OutgoingCheck).Bankacct.Code _
             & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 22
             jiColl.Add(ji)
 
             ji = New JournalEntryItem
@@ -1304,6 +1339,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             & " " & CType(item.Entity, OutgoingAval).DueDate.ToShortDateString _
             & " " & CType(item.Entity, OutgoingAval).Loan.Code _
             & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 336
             jiColl.Add(ji)
 
             ji = New JournalEntryItem
@@ -1455,6 +1492,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
               ji.Note = advm.Name & "(" & advm.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
               jiColl.Add(ji)
 
               ji = New JournalEntryItem
@@ -1480,6 +1519,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               End If
               ji.Note = advm.Name & "(" & advm.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
               jiColl.Add(ji)
 
               ji = New JournalEntryItem
@@ -1610,6 +1651,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
               ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
               jiColl.Add(ji)
 
             Else
@@ -1627,6 +1670,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
               ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
               jiColl.Add(ji)
 
               ji = New JournalEntryItem
@@ -1723,6 +1768,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             End If
             ji.Note = bto.DocDate.ToShortDateString & " " & bto.BankAccount.BankBranch.Bank.Name & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = bto.BankAccount.Id
+            ji.EntityItemType = bto.BankAccount.EntityId
             jiColl.Add(ji)
           End If
         End If

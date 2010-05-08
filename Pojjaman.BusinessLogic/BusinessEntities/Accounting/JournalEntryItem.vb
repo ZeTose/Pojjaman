@@ -354,6 +354,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               If item.Note Is Nothing OrElse item.Note = "" Then
                 item.Note = glfi.Field.Name
+              ElseIf item.Note.Contains("{glfi.Field.Name}") Then
+                item.Note = item.Note.Replace("{glfi.Field.Name}", glfi.Field.Name)
               End If
               ret.Add(item)
             End If

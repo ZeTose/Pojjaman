@@ -911,24 +911,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					Case "vati_runnumber"
 						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
 							e.ProposedValue = ""
-						End If
+            End If
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						doc.Runnumber = CStr(e.ProposedValue)
 					Case "vati_code"
 						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
 							e.ProposedValue = ""
-						End If
+            End If
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						doc.Code = CStr(e.ProposedValue)
 					Case "vati_printname"
 						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
 							e.ProposedValue = ""
-						End If
+            End If
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						doc.PrintName = CStr(e.ProposedValue)
 					Case "vati_docdate"
 						If IsDate(e.ProposedValue) Then
 							doc.DocDate = CDate(e.ProposedValue)
 						Else
 							doc.DocDate = Date.MinValue
-						End If
+            End If
 					Case "vati_printaddress"
 						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
 							e.ProposedValue = ""
@@ -939,7 +948,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 							e.ProposedValue = ""
 							Return
 						End If
-
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						Dim value As Decimal = 0
 						If IsNumeric(e.ProposedValue) Then
 							value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
@@ -981,12 +992,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						If IsDBNull(e.ProposedValue) Then
 							e.ProposedValue = ""
 						End If
-						Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						doc.TaxRate = value
 					Case "amount"
 						If IsDBNull(e.ProposedValue) Then
 							e.ProposedValue = ""
-						End If
+            End If
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+            End If
 						Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
 						doc.Amount = value
 					Case "vati_note"

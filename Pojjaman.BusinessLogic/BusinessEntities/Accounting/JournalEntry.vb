@@ -986,10 +986,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                   End If
               End Select
+            Else
+              dr("gli_entity") = item.EntityItem
+              dr("gli_entitytype") = item.EntityItemType
             End If
 
           End If
-
+          dr("gli_entity") = item.EntityItem
+          dr("gli_entitytype") = item.EntityItemType
           .Rows.Add(dr)
         Next
       End With

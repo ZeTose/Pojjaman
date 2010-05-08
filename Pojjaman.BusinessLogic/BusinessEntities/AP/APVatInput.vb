@@ -258,6 +258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dateCol.DefaultValue = Date.MinValue
       myDatatable.Columns.Add(dateCol)
 
+      myDatatable.Columns.Add(New DataColumn("RemainAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paysi_note", GetType(String)))
 
@@ -672,8 +673,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "B8.5"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
         ji.CostCenter = myCC
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Me.EntityId
         jiColl.Add(ji)
       End If
+      '----แยกรายละเอียด
+      For Each vati As VatItem In Vat.ItemCollection
+        If vati.Amount > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "B8.4D"
+          ji.Amount = Configuration.Format(vati.Amount, DigitConfig.Price)
+          ji.CostCenter = myCC
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Me.EntityId
+          ji.Note = vati.Code & ":" & vati.Runnumber & ":" & vati.PrintName
+          jiColl.Add(ji)
+        End If
+      Next
+
+      For Each apvi As BillAcceptanceItem In Me.ItemCollection
+        If apvi.Amount > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "B8.5D"
+          ji.Amount = Configuration.Format(apvi.TaxAmount, DigitConfig.Price)
+          ji.CostCenter = myCC
+          ji.EntityItem = apvi.Id
+          ji.EntityItemType = apvi.EntityId
+          ji.Note = apvi.Code & ":" & apvi.itemType & "/" & Me.Supplier.Name
+          jiColl.Add(ji)
+        End If
+      Next
+
       Return jiColl
     End Function
     Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry

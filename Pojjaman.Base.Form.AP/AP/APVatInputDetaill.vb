@@ -442,6 +442,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDueDate.NullText = ""
       csDueDate.ReadOnly = True
 
+      Dim csRemAmount As New TreeTextColumn
+      csRemAmount.MappingName = "RemainAmount"
+      csRemAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainHeaderText}")
+      csRemAmount.NullText = ""
+      csRemAmount.Alignment = HorizontalAlignment.Left
+      csRemAmount.DataAlignment = HorizontalAlignment.Right
+      csRemAmount.Width = 100
+      csRemAmount.ReadOnly = True
+
       Dim csAmount As New TreeTextColumn
       csAmount.MappingName = "Amount"
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainHeaderText}")
@@ -464,6 +473,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csDocDate)
       dst.GridColumnStyles.Add(csDueDate)
+      dst.GridColumnStyles.Add(csRemAmount)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csNote)
 
@@ -631,7 +641,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                                    Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)})
         Return
       End If
-
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
       doc.Amount = amt
       m_updating = False
     End Sub
@@ -934,9 +946,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_updating = False
           Return
       End Select
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
       m_updating = False
     End Sub
     Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
     End Sub
 #End Region
 
@@ -1138,6 +1156,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtCreditPeriodChanged = False
     End Sub
     Private Sub UpdateAmount()
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
       m_isInitialized = False
       m_isInitialized = True
     End Sub

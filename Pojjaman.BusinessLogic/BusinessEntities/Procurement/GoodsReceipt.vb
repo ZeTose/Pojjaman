@@ -750,11 +750,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
-            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount
+            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount - Me.Retention
           Case 1 '"แยก"
-            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount
+            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount - Me.Retention
           Case 2 '"รวม"
-            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount 'Me.AfterTax - Me.RealTaxAmount
+            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount - Me.Retention 'Me.AfterTax - Me.RealTaxAmount
         End Select
       End Get
     End Property
@@ -1697,7 +1697,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsReceiptStatus(2)
         End If
         '---- AutoCode Format --------
-        Me.m_je.RefreshGLFormat()
+        Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
         If Not AutoCodeFormat Is Nothing Then
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
@@ -2453,6 +2453,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Me.EntityId
         ji.Note = Me.Recipient.Name
         jiColl.Add(ji)
         For Each vi As VatItem In Me.Vat.ItemCollection
@@ -2464,6 +2466,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Me.EntityId
           ji.Note = vi.Code & "/" & vi.PrintName
           jiColl.Add(ji)
 
@@ -2475,6 +2479,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Me.EntityId
           ji.Note = vi.Code & "/" & vi.PrintName
           jiColl.Add(ji)
 
@@ -2527,6 +2533,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Me.EntityId
+        ji.Note = Me.Code & ":รับสินค้า:" & Me.Supplier.Name
         jiColl.Add(ji)
 
         ji = New JournalEntryItem

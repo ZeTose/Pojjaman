@@ -901,6 +901,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.Add(ji)
       End If
 
+      For Each vi As VatItem In Me.Vat.ItemCollection
+        If vi.Amount > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "B4.2D"
+          ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+          If Me.CostCenter.Originated Then
+            ji.CostCenter = Me.CostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = vi.Code & "/" & vi.PrintName
+          jiColl.Add(ji)
+        End If
+      Next
+
       'ภาษีซื้อไม่ถึงกำหนด
       If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
@@ -911,6 +926,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.Note = Me.Code & ":มัดจำจ่าย:" & Me.Supplier.Name
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Me.EntityId
         jiColl.Add(ji)
       End If
 
