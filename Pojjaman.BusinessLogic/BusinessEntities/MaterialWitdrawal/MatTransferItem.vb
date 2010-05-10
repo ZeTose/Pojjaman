@@ -11,7 +11,7 @@ Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatTransferItem
-    Implements IWBSAllocatableItem, IAllowWBSAllocatable
+    Implements IWBSAllocatableItem, IAllowWBSAllocatableItem
 
 #Region "Members"
     Private m_matTransfer As MatTransfer
@@ -605,13 +605,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IAllowWBSAllocatableItem"
-    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
       Get
         Return True
       End Get
     End Property
 
-    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
       Get
         Return False
       End Get

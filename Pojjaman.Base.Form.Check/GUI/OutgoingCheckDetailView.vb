@@ -68,7 +68,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblTotal As System.Windows.Forms.Label
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents chkACPayeeOnly As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCheckHandler As System.Windows.Forms.CheckBox
     Friend WithEvents lblItem As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -115,7 +115,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.chkACPayeeOnly = New System.Windows.Forms.CheckBox()
-      Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+      Me.chkCheckHandler = New System.Windows.Forms.CheckBox()
       Me.grbOutgoingCheck.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,7 +127,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbOutgoingCheck.Controls.Add(Me.chkACPayeeOnly)
-      Me.grbOutgoingCheck.Controls.Add(Me.CheckBox2)
+      Me.grbOutgoingCheck.Controls.Add(Me.chkCheckHandler)
       Me.grbOutgoingCheck.Controls.Add(Me.txtTotal)
       Me.grbOutgoingCheck.Controls.Add(Me.lblBaht3)
       Me.grbOutgoingCheck.Controls.Add(Me.lblTotal)
@@ -702,12 +702,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'CheckBox2
       '
-      Me.CheckBox2.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.CheckBox2.Location = New System.Drawing.Point(325, 192)
-      Me.CheckBox2.Name = "CheckBox2"
-      Me.CheckBox2.Size = New System.Drawing.Size(136, 24)
-      Me.CheckBox2.TabIndex = 204
-      Me.CheckBox2.Text = "¢’¥§√ËÕ¡ºŸÈ∂◊Õ"
+      Me.chkCheckHandler.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkCheckHandler.Location = New System.Drawing.Point(325, 192)
+      Me.chkCheckHandler.Name = "chkCheckHandler"
+      Me.chkCheckHandler.Size = New System.Drawing.Size(136, 24)
+      Me.chkCheckHandler.TabIndex = 204
+      Me.chkCheckHandler.Text = "¢’¥§√ËÕ¡ºŸÈ∂◊Õ"
       '
       'OutgoingCheckDetailView
       '
@@ -836,7 +836,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler cmbStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
       AddHandler chkACPayeeOnly.CheckedChanged, AddressOf Me.ChangeProperty
-      AddHandler CheckBox2.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkCheckHandler.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
     ' µ√«® Õ∫ ∂“π–¢ÕßøÕ√Ï¡
     Public Overrides Sub CheckFormEnable()
@@ -869,6 +869,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						txtCqCode.Enabled = True
 						txtDueDate.Enabled = True
 						dtpDueDate.Enabled = True
+            chkACPayeeOnly.Enabled = True
+            chkCheckHandler.Enabled = True
 						'txtBankAccountCode.Enabled = True
 						'btnBankAccountFind.Enabled = True
 						'btnBankAccountEdit.Enabled = True
@@ -899,10 +901,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           txtBankAccountCode.Enabled = True
           btnBankAccountFind.Enabled = True
           btnBankAccountEdit.Enabled = True
+          chkACPayeeOnly.Enabled = True
+          chkCheckHandler.Enabled = True
         End If
       End If
       If txtrecipient.Text.Length = 0 Then
         txtrecipient.Enabled = True
+        chkACPayeeOnly.Enabled = True
+        chkCheckHandler.Enabled = True
       End If
       Me.cmbStatus.Enabled = False
     End Sub
@@ -977,7 +983,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           cmbStatus.SelectedIndex = cmbStatus.FindStringExact(desc)
         End If
 
-        .CheckBox2.Checked = .m_entity.Unbearer
+        .chkCheckHandler.Checked = .m_entity.Unbearer
         .chkACPayeeOnly.Checked = .m_entity.ACPayeeOnly
       End With
 
@@ -1032,7 +1038,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.ACPayeeOnly = Me.chkACPayeeOnly.Checked
           dirtyFlag = True
         Case "checkbox2"
-          Me.m_entity.Unbearer = Me.CheckBox2.Checked
+          Me.m_entity.Unbearer = Me.chkCheckHandler.Checked
           dirtyFlag = True
         Case "txtcode"
           Me.m_entity.Code = Me.txtCode.Text

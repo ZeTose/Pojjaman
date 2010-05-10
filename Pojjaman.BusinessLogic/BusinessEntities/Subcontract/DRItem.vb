@@ -27,8 +27,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
   Public Class DRItem
-    Implements IWBSAllocatableItem, IAllowWBSAllocatable
-
+    Implements IWBSAllocatableItem ', IAllowWBSAllocatableItem
+    
 #Region "Members"
     Private m_dr As DR
     Private m_sequence As Integer
@@ -69,16 +69,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_oldEq As Decimal
     Private m_oldQty As Decimal
 
-    Private m_ToCCWBSDistributeCollection As WBSDistributeCollection
+    'Private m_ToCCWBSDistributeCollection As WBSDistributeCollection
     Private m_FromCCWBSDistributeCollection As WBSDistributeCollection
 #End Region
 
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      m_ToCCWBSDistributeCollection = New WBSDistributeCollection
+      'm_ToCCWBSDistributeCollection = New WBSDistributeCollection
       m_FromCCWBSDistributeCollection = New WBSDistributeCollection
-      AddHandler m_ToCCWBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
+      'AddHandler m_ToCCWBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
       AddHandler m_FromCCWBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
     End Sub
     Public Sub New(ByVal id As Integer, ByVal line As Integer)
@@ -91,17 +91,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       )
       Me.Construct(ds.Tables(0).Rows(0), "")
 
-      Dim wbsdToCCColl As WBSDistributeCollection = New WBSDistributeCollection
+      'Dim wbsdToCCColl As WBSDistributeCollection = New WBSDistributeCollection
       Dim wbsdFromCCColl As WBSDistributeCollection = New WBSDistributeCollection
-      AddHandler wbsdToCCColl.PropertyChanged, AddressOf Me.WBSChangedHandler
+      'AddHandler wbsdToCCColl.PropertyChanged, AddressOf Me.WBSChangedHandler
       AddHandler wbsdFromCCColl.PropertyChanged, AddressOf Me.WBSChangedHandler
-      m_ToCCWBSDistributeCollection = wbsdToCCColl
+      'm_ToCCWBSDistributeCollection = wbsdToCCColl
       m_FromCCWBSDistributeCollection = wbsdFromCCColl
       If ds.Tables.Count > 1 Then
-        For Each wbsRow As DataRow In ds.Tables(1).Select("driw_sequence=" & Me.Sequence)
-          Dim wbsd As New WBSDistribute(wbsRow, "")
-          wbsdToCCColl.Add(wbsd)
-        Next
+        'For Each wbsRow As DataRow In ds.Tables(1).Select("driw_sequence=" & Me.Sequence)
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  wbsdToCCColl.Add(wbsd)
+        'Next
         For Each wbsRow As DataRow In ds.Tables(2).Select("driw_sequence=" & Me.Sequence)
           Dim wbsd As New WBSDistribute(wbsRow, "")
           wbsdFromCCColl.Add(wbsd)
@@ -317,15 +317,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return indent & Me.Entity.Code & " : " & Trim(Me.Entity.Name)  '  Me.EntityName
       End Get
     End Property
-    Public Property ToCCWBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection
-      Get
-        Return m_ToCCWBSDistributeCollection
-      End Get
-      Set(ByVal Value As WBSDistributeCollection)
-        m_ToCCWBSDistributeCollection = Value
-      End Set
-    End Property
-    Public Property FromCCWBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection
       Get
         Return m_FromCCWBSDistributeCollection
       End Get
@@ -333,24 +325,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_FromCCWBSDistributeCollection = Value
       End Set
     End Property
-    Public ReadOnly Property AllowWBSAllocateFrom() As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+    Public Property WBSDistributeCollection2() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
       Get
-        If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
-          Return False
-        Else
-          Return True
-        End If
+        'Return m_FromCCWBSDistributeCollection
       End Get
+      Set(ByVal Value As WBSDistributeCollection)
+        'm_FromCCWBSDistributeCollection = Value
+      End Set
     End Property
-    Public ReadOnly Property AllowWBSAllocateTo() As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
-      Get
-        If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
-          Return False
-        Else
-          Return True
-        End If
-      End Get
-    End Property
+    'Public ReadOnly Property AllowWBSAllocateFrom() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
+    '  Get
+    '    'If Me.ItemType.Value = 291 Then
+    '    '  Return False
+    '    'Else
+    '    Return True
+    '    'End If
+    '  End Get
+    'End Property
+    'Public ReadOnly Property AllowWBSAllocateTo() As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
+    '  Get
+    '    'If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
+    '    Return False
+    '    'Else
+    '    'Return True
+    '    'End If
+    '  End Get
+    'End Property
     Public ReadOnly Property Sequence() As Integer
       Get
         Return m_sequence
@@ -376,7 +376,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ItemType.Description
       End Get
     End Property
-    Public Property Dr() As DR      Get        Return m_dr      End Get      Set(ByVal Value As DR)        m_dr = Value      End Set    End Property
+    Public Property Dr() As DR
+      Get
+        Return m_dr
+      End Get
+      Set(ByVal Value As DR)
+        m_dr = Value
+      End Set
+    End Property
     Public Property Linenumber() As Integer
       Get
         Return m_lineNumber
@@ -393,7 +400,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_drdescription = Value
       End Set
     End Property
-    Public Property ItemType() As DRIItemType      Get        Return m_itemType      End Get      Set(ByVal Value As DRIItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property ItemType() As DRIItemType
+      Get
+        Return m_itemType
+      End Get
+      Set(ByVal Value As DRIItemType)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemType Is Nothing Then
           m_itemType = Value
           Me.Clear()
@@ -425,10 +437,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '    'Me.m_dr.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
         'Next
         Me.Clear()
-        'End If      End Set    End Property
-    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
+        'End If
+      End Set
+    End Property
+    Public Property Entity() As IHasName
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As IHasName)
+        m_entity = Value
+        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
-        End If      End Set    End Property
+        End If
+      End Set
+    End Property
     Public Property ItemName() As String
       Get
         Return m_entityName
@@ -437,7 +459,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_entityName = Value
       End Set
     End Property
-    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property UnitPrice() As Decimal
+      Get
+        Return m_unitPrice
+      End Get
+      Set(ByVal Value As Decimal)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -447,8 +474,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 160, 162
             msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
             Return
-        End Select        Dim amt As Decimal = Value * Me.Qty
-        Select Case Me.ItemType.Value
+        End Select
+        Dim amt As Decimal = Value * Me.Qty
+
+        Select Case Me.ItemType.Value
           Case 0, 19, 28, 42
             Me.m_mat = amt
             Me.m_lab = 0
@@ -470,8 +499,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
               m_lab = (amt - amt2) + Me.Lab
             End If
-        End Select        m_unitPrice = Value      End Set    End Property
-    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End Select
+        m_unitPrice = Value
+
+      End Set
+    End Property
+    Public Property Qty() As Decimal
+      Get
+        Return m_qty
+      End Get
+      Set(ByVal Value As Decimal)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -482,8 +520,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
             msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
             Return
-        End Select        Dim amt As Decimal = Value * Me.UnitPrice
-        Select Case Me.ItemType.Value
+        End Select
+
+        Dim amt As Decimal = Value * Me.UnitPrice
+
+        Select Case Me.ItemType.Value
           Case 0, 19, 28, 42
             Me.m_mat = amt
             Me.m_lab = 0
@@ -505,11 +546,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
               m_lab = (amt - amt2) + Me.Lab
             End If
-        End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
+        End Select
+        If IsNumeric(Value) Then
+          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        UpdateFromWBSQty()        UpdateToWBSQty()      End Set    End Property
-    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If
+        UpdateFromWBSQty()
+        'UpdateToWBSQty()
+      End Set
+    End Property
+    Public Property Unit() As Unit
+      Get
+        Return m_unit
+      End Get
+      Set(ByVal Value As Unit)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -553,7 +605,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property
+        End If
+      End Set
+    End Property
     Public Property Mat() As Decimal
       Get
         Return m_mat
@@ -637,7 +691,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Set
     End Property
-    Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property
+    Public ReadOnly Property StockQty() As Decimal
+      Get
+        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)
+      End Get
+    End Property
     Public ReadOnly Property Amount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount
       Get
         Return Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
@@ -770,8 +828,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_receivedQty = Value
       End Set
     End Property
-    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.Dr Is Nothing Then        Return False
-      End If      If Me.ItemType Is Nothing Then
+    Public Function DupCode(ByVal myCode As String) As Boolean
+      If Me.Dr Is Nothing Then
+        Return False
+      End If
+      If Me.ItemType Is Nothing Then
         Return False
       End If
       If Me.ItemType.Value = 42 Then
@@ -798,7 +859,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return False
     End Function
-    'Public Property dritem() As DRItem    '    Get    '        Return m_dritem    '    End Get    '    Set(ByVal Value As dritem)    '        m_dritem = Value    '    End Set    'End Property    'Public Property ItemType() As ItemType    '    Get    '        Return m_itemType    '    End Get    '    Set(ByVal Value As ItemType)    '        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+    'Public Property dritem() As DRItem
+    '    Get
+    '        Return m_dritem
+    '    End Get
+    '    Set(ByVal Value As dritem)
+    '        m_dritem = Value
+    '    End Set
+    'End Property
+    'Public Property ItemType() As ItemType
+    '    Get
+    '        Return m_itemType
+    '    End Get
+    '    Set(ByVal Value As ItemType)
+    '        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
     '        If m_itemType Is Nothing Then
     '            m_itemType = Value
     '            Me.Clear()
@@ -811,7 +886,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '        If msgServ.AskQuestion("${res:Global.Question.ChangePOEntityType}") Then
     '            Dim oldType As Integer = m_itemType.Value
     '            m_itemType = Value
-    '            For Each wbsd As WBSDistribute In Me.WBSDistributeCollection    '                Dim bfTax As Decimal = 0
+    '            For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+    '                Dim bfTax As Decimal = 0
     '                If Not Me.Po Is Nothing Then 'AndAlso item.Po.Originated
     '                    If Me.Po.Closed Then
     '                        bfTax = Me.ReceivedBeforeTax
@@ -821,7 +897,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '                End If
     '                Dim transferAmt As Decimal = bfTax
     '                wbsd.BaseCost = bfTax
-    '                wbsd.TransferBaseCost = transferAmt    '                Select Case Me.ItemType.Value
+    '                wbsd.TransferBaseCost = transferAmt
+    '                Select Case Me.ItemType.Value
     '                    Case 0, 19, 42
     '                        wbsd.BudgetAmount = wbsd.WBS.GetTotalMatFromDB
     '                    Case 88
@@ -830,9 +907,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '                        wbsd.BudgetAmount = wbsd.WBS.GetTotalEQFromDB
     '                End Select
     '                Me.m_po.SetActual(wbsd.WBS, wbsd.TransferAmount, 0, oldType)
-    '                Me.m_po.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)    '            Next
+    '                Me.m_po.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
+    '            Next
     '            'Me.Clear()
-    '        End If    '    End Set    'End Property    Private Function GetAmountFromSproc(ByVal sproc As String, ByVal ParamArray filters() As SqlParameter) As Decimal
+    '        End If
+    '    End Set
+    'End Property
+
+    Private Function GetAmountFromSproc(ByVal sproc As String, ByVal ParamArray filters() As SqlParameter) As Decimal
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
@@ -846,8 +928,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       Catch ex As Exception
       End Try
-    End Function    Public Sub SetItemCode(ByVal theCode As String)      Dim unitPrice As Decimal = 0
-      'Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyPOPricing"))      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Function
+    Public Sub SetItemCode(ByVal theCode As String)
+      Dim unitPrice As Decimal = 0
+      'Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyPOPricing"))
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -946,8 +1031,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Select
       Me.Qty = 1
       'Me.ReceivedQty = 0 'UNDONE
-    End Sub    Public Sub SetItemPrice(ByVal theCode As String)      Dim unitPrice As Decimal = 0
-      Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyDRPricing"))      Select Case Me.ItemType.Value
+    End Sub
+    Public Sub SetItemPrice(ByVal theCode As String)
+      Dim unitPrice As Decimal = 0
+      Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyDRPricing"))
+      Select Case Me.ItemType.Value
         Case 19 'Tool
           If theCode Is Nothing OrElse theCode.Length = 0 Then
             Return
@@ -993,7 +1081,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Select
       Me.Qty = 1
       Me.ReceivedQty = 0  'UNDONE
-    End Sub    Public Property EntityName() As String      Get        Return m_entityName      End Get      Set(ByVal Value As String)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Sub
+    Public Property EntityName() As String
+      Get
+        Return m_entityName
+      End Get
+      Set(ByVal Value As String)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -1009,7 +1103,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case Else '0, 28, 88, 89, 160, 162
             Me.m_entityName = Value
-        End Select      End Set    End Property    Public ReadOnly Property ItemDescription() As String      Get
+        End Select
+      End Set
+    End Property
+    Public ReadOnly Property ItemDescription() As String
+      Get
         If Me.ItemType.Value = 19 OrElse Me.ItemType.Value = 42 OrElse _
            Me.ItemType.Value = 88 OrElse Me.ItemType.Value = 89 Then
           If Me.EntityName.Length > 0 Then
@@ -1020,17 +1118,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return Me.EntityName
         End If
       End Get
-    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property ReceivedQty() As Decimal 'หน่วยตาม QTY ไม่ใช่ STOCKQTY    '  Get    '    Return m_receivedQty    '  End Get    '  Set(ByVal Value As Decimal)    '    m_receivedQty = Value    '  End Set    'End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Private Function CalcTaxAmount(ByVal amt As Decimal) As Decimal
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    'Public Property ReceivedQty() As Decimal 'หน่วยตาม QTY ไม่ใช่ STOCKQTY
+    '  Get
+    '    Return m_receivedQty
+    '  End Get
+    '  Set(ByVal Value As Decimal)
+    '    m_receivedQty = Value
+    '  End Set
+    'End Property
+    Public Property Conversion() As Decimal
+      Get
+        Return m_conversion
+      End Get
+      Set(ByVal Value As Decimal)
+        m_conversion = Value
+      End Set
+    End Property
+    Private Function CalcTaxAmount(ByVal amt As Decimal) As Decimal
       If Me.Dr Is Nothing Then
         Return 0
-      End If      Return (Me.Dr.TaxRate * amt) / 100
+      End If
+      Return (Me.Dr.TaxRate * amt) / 100
     End Function
-    Public ReadOnly Property TaxAmount() As Decimal      Get        'Return Me.CalcTaxAmount(Me.TaxBase)      End Get    End Property    Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
+    Public ReadOnly Property TaxAmount() As Decimal
+      Get
+        'Return Me.CalcTaxAmount(Me.TaxBase)
+      End Get
+    End Property
+    Public Property UnVatable() As Boolean
+      Get
+        Return m_unvatable
+      End Get
+      Set(ByVal Value As Boolean)
+        m_unvatable = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
     Public Sub UpdateWBSQty()
-      For Each wbsd As WBSDistribute In Me.ToCCWBSDistributeCollection
+      If (Me.ItemType.Value = 160 OrElse
+      Me.ItemType.Value = 162 OrElse
+      Me.ItemType.Value = 88 OrElse
+      Me.ItemType.Value = 89) Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          wbsd.BaseQty = 0
+          wbsd.QtyRemain = 0
+        Next
+        Return
+      End If
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
         'Dim transferAmt As Decimal = Me.Amount
@@ -1045,21 +1191,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
       Next
-      For Each wbsd As WBSDistribute In Me.FromCCWBSDistributeCollection
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
+      'For Each wbsd As WBSDistribute In Me.FromCCWBSDistributeCollection
+      '  'Dim bfTax As Decimal = 0
+      '  'Dim oldVal As Decimal = wbsd.TransferAmount
+      '  'Dim transferAmt As Decimal = Me.Amount
+      '  'wbsd.BaseCost = bfTax
+      '  'wbsd.TransferBaseCost = transferAmt
+      '  Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+      '  If boqConversion = 0 Then
+      '    wbsd.BaseQty = Me.Qty
+      '  Else
+      '    wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+      '  End If
 
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
+      '  'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      'Next
     End Sub
     Public Sub ItemValidateRow(ByVal row As DataRow)
       Dim unit As Object = row("unit")
@@ -1353,7 +1499,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Sub
     Public Sub UpdateFromWBSQty()
-      For Each wbsd As WBSDistribute In Me.FromCCWBSDistributeCollection
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
         'Dim transferAmt As Decimal = Me.Amount
@@ -1369,23 +1515,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
       Next
     End Sub
-    Public Sub UpdateToWBSQty()
-      For Each wbsd As WBSDistribute In Me.ToCCWBSDistributeCollection
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
+    'Public Sub UpdateToWBSQty()
+    '  For Each wbsd As WBSDistribute In Me.ToCCWBSDistributeCollection
+    '    'Dim bfTax As Decimal = 0
+    '    'Dim oldVal As Decimal = wbsd.TransferAmount
+    '    'Dim transferAmt As Decimal = Me.Amount
+    '    'wbsd.BaseCost = bfTax
+    '    'wbsd.TransferBaseCost = transferAmt
+    '    Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+    '    If boqConversion = 0 Then
+    '      wbsd.BaseQty = Me.Qty
+    '    Else
+    '      wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+    '    End If
 
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
-    End Sub
+    '    'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+    '  Next
+    'End Sub
     Public Sub SetMat(ByVal value As Decimal)
       m_mat = value
     End Sub
@@ -1580,19 +1726,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'RefreshBudget()
         Me.Add(item)
-        Dim wbsdToCCColl As WBSDistributeCollection = New WBSDistributeCollection
+        'Dim wbsdToCCColl As WBSDistributeCollection = New WBSDistributeCollection
         Dim wbsdFromCCColl As WBSDistributeCollection = New WBSDistributeCollection
-        AddHandler wbsdToCCColl.PropertyChanged, AddressOf item.WBSChangedHandler
+        'AddHandler wbsdToCCColl.PropertyChanged, AddressOf item.WBSChangedHandler
         AddHandler wbsdFromCCColl.PropertyChanged, AddressOf item.WBSChangedHandler
-        item.ToCCWBSDistributeCollection = wbsdToCCColl
-        item.FromCCWBSDistributeCollection = wbsdFromCCColl
+        'item.ToCCWBSDistributeCollection = wbsdToCCColl
+        item.WBSDistributeCollection = wbsdFromCCColl
         If ds.Tables.Count > 1 Then
+          'For Each wbsRow As DataRow In ds.Tables(1).Select("driw_sequence=" & item.Sequence)
+          '  Dim wbsd As New WBSDistribute(wbsRow, "")
+          '  wbsd.IsOutWard = False 'ฝั่งรับเข้า
+          '  wbsdToCCColl.Add(wbsd)
+          'Next
           For Each wbsRow As DataRow In ds.Tables(1).Select("driw_sequence=" & item.Sequence)
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            wbsd.IsOutWard = False 'ฝั่งรับเข้า
-            wbsdToCCColl.Add(wbsd)
-          Next
-          For Each wbsRow As DataRow In ds.Tables(2).Select("driw_sequence=" & item.Sequence)
             Dim wbsd As New WBSDistribute(wbsRow, "")
             wbsd.IsOutWard = True 'ผั่งจ่ายออก
             wbsdFromCCColl.Add(wbsd)
@@ -1727,7 +1873,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property Amount() As Decimal
       Get
-        Dim amt As Decimal = 0        For Each item As DRItem In Me
+        Dim amt As Decimal = 0
+        For Each item As DRItem In Me
           amt += Configuration.Format(item.Amount, DigitConfig.Price)
         Next
         Return amt
@@ -1742,7 +1889,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_currentItem = Value
       End Set
     End Property
-    Public Property Dr() As Dr      Get        Return m_dr      End Get      Set(ByVal Value As Dr)        m_dr = Value      End Set    End Property
+    Public Property Dr() As Dr
+      Get
+        Return m_dr
+      End Get
+      Set(ByVal Value As Dr)
+        m_dr = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Shared"
@@ -2195,19 +2349,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.List.Insert(index, value)
     End Sub
     Public Sub Remove(ByVal value As DRItem)
-      For Each wbsd As WBSDistribute In value.ToCCWBSDistributeCollection
-        value.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
-      Next
-      For Each wbsd As WBSDistribute In value.FromCCWBSDistributeCollection
+      'For Each wbsd As WBSDistribute In value.ToCCWBSDistributeCollection
+      '  value.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
+      'Next
+      For Each wbsd As WBSDistribute In value.WBSDistributeCollection
         value.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
       Next
       MyBase.List.Remove(value)
     End Sub
     Public Sub Remove(ByVal index As Integer)
-      For Each wbsd As WBSDistribute In Me(index).ToCCWBSDistributeCollection
-        Me(index).WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
-      Next
-      For Each wbsd As WBSDistribute In Me(index).FromCCWBSDistributeCollection
+      'For Each wbsd As WBSDistribute In Me(index).ToCCWBSDistributeCollection
+      '  Me(index).WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
+      'Next
+      For Each wbsd As WBSDistribute In Me(index).WBSDistributeCollection
         Me(index).WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
       Next
       MyBase.List.RemoveAt(index)

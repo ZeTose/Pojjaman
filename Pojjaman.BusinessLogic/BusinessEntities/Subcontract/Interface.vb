@@ -20,8 +20,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property Supplier() As Supplier
     Property ToCostCenter() As CostCenter
     Property FromCostCenter() As CostCenter
+    ReadOnly Property AllowWBSAllocateFrom() As Boolean
+    ReadOnly Property AllowWBSAllocateTo() As Boolean
   End Interface
-  Public Interface IAllowWBSAllocatable
+  Public Interface IAllowWBSAllocatableItem
     ReadOnly Property AllowWBSAllocateFrom() As Boolean
     ReadOnly Property AllowWBSAllocateTo() As Boolean
   End Interface
@@ -34,6 +36,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property WBSDistributeCollection2() As WBSDistributeCollection
     ReadOnly Property AllocationType As String
   End Interface
+  Public Enum AllocationType
+    Non
+    AllocationFromOnly
+    AllocationToOnly
+    AllocationFromAndTo
+  End Enum
 
   <Serializable(), DefaultMember("Item")> _
 Public Class WBSAllocatableItemCollection

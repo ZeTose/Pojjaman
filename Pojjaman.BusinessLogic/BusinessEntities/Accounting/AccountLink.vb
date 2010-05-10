@@ -515,6 +515,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       DiffFromDecimalPlace = 55 'ส่วนเกิน(ส่วนต่ำ)จากการปัดทศนิยม
       ' TradeDiscount = 56 'ส่วนลดการค้า (หมวด 5)
       'TradeDiscount4 = 57 'ส่วนลดการค้า (หมวด 4)
+      SCPenalty = 60 'ค่าปรับผู้รับเหมาจากหน้า หัก DR
     End Enum
 #End Region
 

@@ -2786,7 +2786,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.UnitPrice (am เพิ่ม)
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.UnitPrice"
+          dpi.Value = ""
+          If Not itemRow.IsNull("stocki_unitprice") Then
+            If IsNumeric(itemRow("stocki_unitprice")) AndAlso CDec(itemRow("stocki_unitprice")) > 0 Then
           dpi.Value = Configuration.FormatToString(CDec(itemRow("stocki_unitprice")), DigitConfig.Price)
+            End If
+          End If
           dpi.DataType = "System.Decimal"
           dpi.Row = n + 1
           dpi.Table = "Item"
@@ -2795,8 +2800,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.Qty (am เพิ่ม)
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Qty"
-          'dpi.Value = Configuration.FormatToString(CDec(itemRow("StockQty")), DigitConfig.Price)
+          dpi.Value = ""
+          If Not itemRow.IsNull("stocki_qty") Then
+            If IsNumeric(itemRow("stocki_qty")) AndAlso CDec(itemRow("stocki_qty")) > 0 Then
           dpi.Value = Configuration.FormatToString(CDec(itemRow("stocki_qty")), DigitConfig.Price)
+            End If
+          End If
           dpi.DataType = "System.Int32"
           dpi.Row = n + 1
           dpi.Table = "Item"
@@ -2805,10 +2814,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.DiscountRate (am เพิ่ม)
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.DiscountRate"
-          If IsNumeric(itemRow("stocki_discrate")) Then
+          dpi.Value = ""
+          If Not itemRow.IsNull("stocki_discrate") Then
+            If IsNumeric(itemRow("stocki_discrate")) AndAlso CDec(itemRow("stocki_discrate")) > 0 Then
             dpi.Value = Configuration.FormatToString(CDec(itemRow("stocki_discrate")), DigitConfig.Price)
-          Else
-            dpi.Value = itemRow("stocki_discrate")
+            End If
           End If
           dpi.DataType = "System.Decimal"
           dpi.Row = n + 1
@@ -2818,7 +2828,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.Amount (am เพิ่ม)
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Amount"
+          dpi.Value = ""
+          If Not itemRow.IsNull("Amount") Then
+            If IsNumeric(itemRow("Amount")) AndAlso CDec(itemRow("Amount")) > 0 Then
           dpi.Value = Configuration.FormatToString(CDec(itemRow("Amount")), DigitConfig.Price)
+            End If
+          End If
           dpi.DataType = "System.Decimal"
           dpi.Row = n + 1
           dpi.Table = "Item"

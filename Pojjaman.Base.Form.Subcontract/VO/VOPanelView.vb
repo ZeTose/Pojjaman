@@ -968,6 +968,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_enableState As Hashtable
+    Private m_readOnlyState As Hashtable
     Private m_tableStyleEnable As Hashtable
 #End Region
 
@@ -1000,11 +1001,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
+      m_readOnlyState = New Hashtable
       For Each ctrl As Control In Me.grbDetail.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
       For Each ctrl As Control In Me.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
     End Sub
 #End Region
@@ -1036,7 +1044,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim voEntity As DataGridComboColumn
       voEntity = New DataGridComboColumn("voi_entityType" _
-      , CodeDescription.GetCodeList("sci_entitytype") _
+      , CodeDescription.GetCodeList("sci_entitytype", "code_value not in (19)") _
       , "code_description", "code_value")
       voEntity.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.VoTypeHeaderText}")   '"ประเภท"
       voEntity.Width = 100
@@ -1729,7 +1737,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
             For Each ctrl As Control In grbDetail.Controls
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
-                ctrl.Enabled = False
+                If TypeOf ctrl Is TextBox Then
+                  CType(ctrl, TextBox).ReadOnly = True
+                Else
+                  ctrl.Enabled = False
+                End If
               End If
             Next
             tgItem.Enabled = True
@@ -1740,7 +1752,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
+              If TypeOf ctrl Is TextBox Then
+                CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+              Else
+                ctrl.Enabled = CBool(m_enableState(ctrl))
+              End If
             Next
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1751,7 +1767,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
             For Each ctrl As Control In grbDetail.Controls
               If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
-                ctrl.Enabled = False
+                If TypeOf ctrl Is TextBox Then
+                  CType(ctrl, TextBox).ReadOnly = True
+                Else
+                  ctrl.Enabled = False
+                End If
               End If
             Next
             tgItem.Enabled = True
@@ -1762,7 +1782,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
+              If TypeOf ctrl Is TextBox Then
+                CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+              Else
+                ctrl.Enabled = CBool(m_enableState(ctrl))
+              End If
             Next
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1788,7 +1812,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Else
         For Each ctrl As Control In grbDetail.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -2444,10 +2472,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(0) As Filter
       Dim doc As VOItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
-        doc = New VOItem
-        doc.ItemType = New SCIItemType(0)
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
+        Return
+        'doc = New VOItem
+        'doc.ItemType = New SCIItemType(0)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_entity.ItemCollection.CurrentItem = doc
       End If
       Dim includeFilter As Boolean = False
       If TypeOf doc.Entity Is Tool Then
@@ -2478,10 +2507,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As VOItem = Me.m_entity.ItemCollection.CurrentItem
       m_targetType = -1
       If doc Is Nothing Then
-        doc = New VOItem
-        doc.ItemType = New SCIItemType(0)
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
+        Return
+        'doc = New VOItem
+        'doc.ItemType = New SCIItemType(0)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_entity.ItemCollection.CurrentItem = doc
       End If
       If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
         m_targetType = doc.ItemType.Value
@@ -2565,66 +2595,98 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      If Not Me.m_entity.ItemCollection.Contains(doc) Then
-        Return
-      End If
+      'If Not Me.m_entity.ItemCollection.Contains(doc) Then
+      '  Return
+      'End If
 
-      'Me.m_entity.ItemCollection.Remove(doc)
-
+      Dim arrList As New ArrayList
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim isSetIndex As Boolean = False
-
-      Dim hashParent As New Hashtable
-
-      Dim rowIndex As Integer = 0
-      Dim key As String = ""
 
       For Each Obj As Object In Me.m_treeManager.SelectedRows
         If Not Obj Is Nothing Then
           Dim row As TreeRow = CType(Obj, TreeRow)
           If Not row Is Nothing Then
-            If Not isSetIndex Then
-              index = row.Index
-              isSetIndex = True
-            End If
-            Dim sitem As VOItem = CType(row.Tag, VOItem)
-            If sitem.Level = 0 Then
-              rowIndex += 1
-              key = rowIndex.ToString
-              hashParent.Add(key, sitem)
-
-              Dim startIndex As Integer = row.Index
-              Dim lastIndex As Integer = row.Index
-              For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-                If i > startIndex Then
-                  Dim sitem2 As VOItem = Me.m_entity.ItemCollection(i)
-                  If sitem2.Level = 0 Then
-                    Exit For
-                  End If
-                  rowIndex += 1
-                  key = rowIndex.ToString
-                  hashParent.Add(key, sitem2)
-                End If
-              Next
-            Else
-              rowIndex += 1
-              key = rowIndex.ToString
-              hashParent.Add(key, sitem)
+            index = row.Index
+            For Each childRow As TreeRow In row.Childs
+              If Not arrList.Contains(childRow) Then
+                arrList.Add(childRow)
+              End If
+            Next
+            If Not arrList.Contains(row) Then
+              arrList.Add(row)
             End If
           End If
         End If
       Next
 
-      For i As Integer = 1 To hashParent.Count
-        key = CStr(i)
-        Dim sitem As VOItem = CType(hashParent(key), VOItem)
-        If Not sitem Is Nothing Then
-          If Me.m_entity.ItemCollection.Contains(sitem) Then
-            Me.m_entity.ItemCollection.Remove(sitem)
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
+      For Each row As TreeRow In arrList
+        If Not row Is Nothing AndAlso TypeOf row.Tag Is VOItem Then
+          Dim itm As VOItem = CType(row.Tag, VOItem)
+          If Not itm Is Nothing Then
+            If Me.m_entity.ItemCollection.Contains(itm) Then
+              Me.m_entity.ItemCollection.Remove(itm)
+              Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
           End If
         End If
       Next
+
+      ''Me.m_entity.ItemCollection.Remove(doc)
+
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim isSetIndex As Boolean = False
+
+      'Dim hashParent As New Hashtable
+
+      'Dim rowIndex As Integer = 0
+      'Dim key As String = ""
+
+      'For Each Obj As Object In Me.m_treeManager.SelectedRows
+      '  If Not Obj Is Nothing Then
+      '    Dim row As TreeRow = CType(Obj, TreeRow)
+      '    If Not row Is Nothing Then
+      '      If Not isSetIndex Then
+      '        index = row.Index
+      '        isSetIndex = True
+      '      End If
+      '      Dim sitem As VOItem = CType(row.Tag, VOItem)
+      '      If sitem.Level = 0 Then
+      '        rowIndex += 1
+      '        key = rowIndex.ToString
+      '        hashParent.Add(key, sitem)
+
+      '        Dim startIndex As Integer = row.Index
+      '        Dim lastIndex As Integer = row.Index
+      '        For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
+      '          If i > startIndex Then
+      '            Dim sitem2 As VOItem = Me.m_entity.ItemCollection(i)
+      '            If sitem2.Level = 0 Then
+      '              Exit For
+      '            End If
+      '            rowIndex += 1
+      '            key = rowIndex.ToString
+      '            hashParent.Add(key, sitem2)
+      '          End If
+      '        Next
+      '      Else
+      '        rowIndex += 1
+      '        key = rowIndex.ToString
+      '        hashParent.Add(key, sitem)
+      '      End If
+      '    End If
+      '  End If
+      'Next
+
+      'For i As Integer = 1 To hashParent.Count
+      '  key = CStr(i)
+      '  Dim sitem As VOItem = CType(hashParent(key), VOItem)
+      '  If Not sitem Is Nothing Then
+      '    If Me.m_entity.ItemCollection.Contains(sitem) Then
+      '      Me.m_entity.ItemCollection.Remove(sitem)
+      '      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      '    End If
+      '  End If
+      'Next
 
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
@@ -2633,10 +2695,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       If index > 0 Then
-        If index > Me.m_entity.ItemCollection.Count Then
-          tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+        If Me.m_entity.ItemCollection.Count = 0 Then
+          tgItem.CurrentRowIndex = 0
         Else
-          tgItem.CurrentRowIndex = index - 1
+          If index > Me.m_entity.ItemCollection.Count Then
+            tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+          Else
+            tgItem.CurrentRowIndex = index - 1
+          End If
         End If
       Else
         tgItem.CurrentRowIndex = 0
@@ -2925,7 +2991,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
       '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-      ''    Me.m_treeManager.Treetable.Childs.Add()
+      '  'Me.m_treeManager.Treetable.Childs.Add()
       '  Dim newRow As TreeRow
       '  newRow = Me.m_treeManager.Treetable.Childs.Add()
       '  newRow("voi_level") = 0
@@ -2936,7 +3002,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
       ''  If n("sci_level") = 0 Then
       ''    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
-      ''End If
+      ''  End If
       ''Next
 
       'Me.m_treeManager.Treetable.AcceptChanges()

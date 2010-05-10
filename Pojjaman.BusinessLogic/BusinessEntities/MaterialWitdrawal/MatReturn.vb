@@ -1335,6 +1335,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
 #End Region
+
+#Region "AllowWBSAllocateFrom"
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+#End Region
+
+
   End Class
 
   Public Class MatReturnForOperation
@@ -1376,7 +1392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public Class MatReturnItem
-    Implements IWBSAllocatableItem, IAllowWBSAllocatable
+    Implements IWBSAllocatableItem, IAllowWBSAllocatableItem
 
 #Region "Members"
     Private m_matReturn As MatReturn
@@ -1773,13 +1789,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IWBSAllocatableItem"
 
-    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom
       Get
         Return True
       End Get
     End Property
 
-    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo
       Get
         Return True
       End Get

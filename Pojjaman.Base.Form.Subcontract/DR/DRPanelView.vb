@@ -565,7 +565,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtFromCostCenterCode
       '
-      Me.txtFromCostCenterCode.BackColor = System.Drawing.SystemColors.Window
       Me.Validator.SetDataType(Me.txtFromCostCenterCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtFromCostCenterCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterCode, System.Drawing.Color.Empty)
@@ -580,7 +579,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtFromCCPersonCode
       '
-      Me.txtFromCCPersonCode.BackColor = System.Drawing.SystemColors.Window
       Me.Validator.SetDataType(Me.txtFromCCPersonCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtFromCCPersonCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCCPersonCode, System.Drawing.Color.Empty)
@@ -1005,6 +1003,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'Private m_wbsdInitialized As Boolean
 
     Private m_enableState As Hashtable
+    Private m_readOnlyState As Hashtable
     Private m_tableStyleEnable As Hashtable
 #End Region
 
@@ -1037,11 +1036,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
+      m_readOnlyState = New Hashtable
       For Each ctrl As Control In Me.grbDetail.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
       For Each ctrl As Control In Me.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
     End Sub
 #End Region
@@ -1678,7 +1684,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
+      'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
       If Not CBool(Configuration.GetConfig("ApproveDR")) Then
         Me.btnApprove.Visible = False
       Else
@@ -1688,63 +1694,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'จากการอนุมัติเอกสาร
       If CBool(Configuration.GetConfig("ApproveDR")) Then
         'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
-        If m_ApproveDocModule.Activated Then
-          'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-          'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
-          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
-          If ApproveDocColl.MaxLevel > 0 Then
-            '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
-            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+        'If m_ApproveDocModule.Activated Then
+        'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        'Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser) 'ระดับสิทธิแต่ละผู้ใช้
+        Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
+        If ApproveDocColl.MaxLevel > 0 Then
+          '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+          '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+          For Each ctrl As Control In grbDetail.Controls
+            If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+              If TypeOf ctrl Is TextBox Then
+                CType(ctrl, TextBox).ReadOnly = True
+              Else
                 ctrl.Enabled = False
               End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            Me.btnApprove.Enabled = True
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-          End If
+            End If
+          Next
+          tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+          Me.btnApprove.Enabled = True
+          Return
         Else
-          'ถ้าใช้การอนุมัติแบบเก่า
-          If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
-                ctrl.Enabled = False
-              End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            Me.btnApprove.Enabled = True
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
+          For Each ctrl As Control In grbDetail.Controls
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+            Else
               ctrl.Enabled = CBool(m_enableState(ctrl))
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-          End If
+            End If
+          Next
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          Next
         End If
       End If
-
 
       'จาก Status ของเอกสารเอง
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 OrElse Me.m_entity.Closed Then
         For Each ctrl As Control In grbDetail.Controls
           If Not ctrl.Name = "chkClosed" Then
-            ctrl.Enabled = False
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = True
+            Else
+              ctrl.Enabled = False
+            End If
           ElseIf ctrl.Name = "chkClosed" Then
             If Me.m_entity.Status.Value = 0 Then
               chkClosed.Enabled = False
@@ -1757,7 +1751,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Else
         For Each ctrl As Control In grbDetail.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1903,6 +1901,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private subContractorChanged As Boolean = False
     Private directorCodeChanged As Boolean = False
+    Private txtfromcostcentercodeChanged As Boolean = False
+    Private txtfromccpersoncodeChanged As Boolean = False
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
@@ -1915,7 +1915,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtsccode"
           scChanged = True
         Case "txtfromcostcentercode"
-          ccCodeChanged = True
+          txtfromcostcentercodeChanged = True
+        Case "txtfromccpersoncode"
+          txtfromccpersoncodeChanged = True
           '                Case "txtretention"
           '                    Dim txt As String = Me.txtRetention.Text
           '                    txt = txt.Replace(",", "")
@@ -2096,6 +2098,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.Sc = New SC
             End If
             dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.Sc)
+
             Me.txtSubContractorCode.Text = Me.m_entity.Sc.SubContractor.Code
             Me.txtSubContractorName.Text = Me.m_entity.Sc.SubContractor.Name
             Me.txtToCostCenterCode.Text = Me.m_entity.Sc.CostCenter.Code
@@ -2181,13 +2184,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
           UpdateAmount(True)
           dirtyFlag = True
         Case "txtfromcostcentercode"
+          If txtfromcostcentercodeChanged Then
+            If txtfromcostcentercodeChanged Then
+              dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+              txtfromcostcentercodeChanged = False
+            End If
+          End If
+        Case "txtfromccpersoncode"
+          If txtfromccpersoncodeChanged Then
+            dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromEmployee)
+            txtfromccpersoncodeChanged = False
+          End If
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()
       SetCCCodeBlankFlag()
     End Sub
     'Private Sub ibtnResetGross_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnResetGross.Click
-    '    If Me.m_entity.RealGross <> Me.m_entity.Gross Then
+    '    If Me.m_entity.RealGross <> Me.m_entity.Gross Thenf 
     '        Me.WorkbenchWindow.ViewContent.IsDirty = True
     '    End If
     '    Me.m_entity.RealGross = Me.m_entity.Gross
@@ -2433,10 +2447,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(0) As Filter
       Dim doc As DRItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
-        doc = New DRItem
-        doc.ItemType = New DRIItemType(0)
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
+        Return
+        'doc = New DRItem
+        'doc.ItemType = New DRIItemType(0)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_entity.ItemCollection.CurrentItem = doc
       End If
       Dim includeFilter As Boolean = False
       If TypeOf doc.Entity Is Tool Then
@@ -2467,10 +2482,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As DRItem = Me.m_entity.ItemCollection.CurrentItem
       m_targetType = -1
       If doc Is Nothing Then
-        doc = New DRItem
-        doc.ItemType = New DRIItemType(0)
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
+        Return
+        'doc = New DRItem
+        'doc.ItemType = New DRIItemType(0)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_entity.ItemCollection.CurrentItem = doc
       End If
       If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
         m_targetType = doc.ItemType.Value
@@ -2657,12 +2673,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       scCodeChanged = False
     End Sub
+
+    Private Sub ibtnShowFromCostCenter_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenter.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New CostCenter)
+    End Sub
+
+    Private Sub ibtnShowFromCCPerson_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowFromCCPerson.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Employee)
+    End Sub
     ' From Costcenter
     Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenterDialog.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim myEntityPanelService As IEntityPanelService = _
             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenTreeDialog(dummyCC, AddressOf SetCostCenterDialog)
+      myEntityPanelService.OpenTreeDialog(Me.m_entity.FromCostCenter, AddressOf SetCostCenterDialog)
     End Sub
     ' To Costcenter
     Private Sub ibtnShowToCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

@@ -532,7 +532,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '"ประเภท"
       Dim csType As DataGridComboColumn
       csType = New DataGridComboColumn("pai_entityType" _
-      , CodeDescription.GetCodeList("sci_entitytype") _
+      , CodeDescription.GetCodeList("pai_entitytype") _
       , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
       csType.NullText = String.Empty
@@ -1399,7 +1399,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             item.CopyToDataRow(tr)
             Dim acct As Account
             Select Case item.ItemType.Value
-              Case 88
+              Case 88, 291
                 acct = item.LabAccount
               Case 89
                 acct = item.EqAccount
@@ -1556,7 +1556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
         doc = New PAItem
-        doc.ItemType = New SCIItemType(289)
+        doc.ItemType = New PAIItemType(289)
         doc.RefEntity = New RefEntity
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_entity.ItemCollection.CurrentItem = doc
@@ -1614,7 +1614,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_targetType = -1
         If doc Is Nothing Then
           doc = New PAItem
-          doc.ItemType = New SCIItemType(0)
+          doc.ItemType = New PAIItemType(0)
           Me.m_entity.ItemCollection.Add(doc)
           Me.m_entity.ItemCollection.CurrentItem = doc
         End If
@@ -1687,7 +1687,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       theItem.Entity = newItem
       theItem.RefEntity = New RefEntity
       theItem.Level = 0
-      theItem.ItemType = New SCIItemType(289)
+      theItem.ItemType = New PAIItemType(289)
       theItem.Qty = 0
       'Dim index As Integer = Me.m_entity.ItemCollection.IndexOf(doc)
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
@@ -1712,7 +1712,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       theItem.Level = 1
       theItem.Entity = newItem
       theItem.RefEntity = New RefEntity
-      theItem.ItemType = New SCIItemType(0)
+      theItem.ItemType = New PAIItemType(0)
       theItem.Qty = 0
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
       RefreshDocs()

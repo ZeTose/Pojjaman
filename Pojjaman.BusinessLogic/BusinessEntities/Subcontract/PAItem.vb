@@ -8,14 +8,32 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class PAIItemType
+    Inherits CodeDescription
+
+#Region "Constructors"
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
+#End Region
+
+#Region "Properties"
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "pai_entityType"
+      End Get
+    End Property
+#End Region
+
+  End Class
   Public Class PAItem
     Implements IWBSAllocatableItem
 
 #Region "Members"
-    Private m_pa As Pa
+    Private m_pa As PA
     Private m_sc As SC
     Private m_lineNumber As Integer
-    Private m_itemType As SCIItemType
+    Private m_itemType As PAIItemType
     Private m_entity As IHasName
     Private m_entityName As String
     Private m_unit As Unit
@@ -82,7 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_refEntity.Name = CStr(dr(aliasPrefix & "pai_refDocTypeName"))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "pai_pa") AndAlso Not dr.IsNull("pai_pa") Then
-          Me.m_pa = New Pa(CInt(dr("pai_pa")))
+          Me.m_pa = New PA(CInt(dr("pai_pa")))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "pai_sc") AndAlso Not dr.IsNull("pai_sc") Then
           Me.m_sc = New SC(CInt(dr("pai_sc")))
@@ -117,7 +135,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "pai_entityType") AndAlso Not dr.IsNull(aliasPrefix & "pai_entityType") Then
-          .m_itemType = New SCIItemType(CInt(dr(aliasPrefix & "pai_entityType")))
+          .m_itemType = New PAIItemType(CInt(dr(aliasPrefix & "pai_entityType")))
 
           Select Case .m_itemType.Value
             Case 42     '"lci"
@@ -148,7 +166,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 .m_entity = New BlankItem(.m_entityName)
               End If
-            Case Else     '0, 28, 88, 89, 160, 162
+            Case Else     '0, 28, 88, 89, 160, 162, 291
               .m_entity = New BlankItem(.m_entityName)
           End Select
         End If
@@ -282,19 +300,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property MatAccount() As Account      Get
+        If Me.Sequence = 0 Then
         If TypeOf Me.Entity Is LCIItem Then
           Dim lci As LCIItem = CType(Me.Entity, LCIItem)
           Me.m_account = lci.Account
         ElseIf TypeOf Me.Entity Is Tool Then
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
           Me.m_account = ga.Account
+            'ElseIf TypeOf Me.Entity Is BlankItem AndAlso Me.ItemType.Value = 0 Then
+            '  Return Me.m_account
         Else
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
           Me.m_account = ga.Account
         End If
+        End If
+
         Return Me.m_account
       End Get
       Set(ByVal Value As Account)
+        Me.Pa.OnGlChanged()
         m_account = Value
       End Set
     End Property
@@ -304,9 +328,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SalaryWage)
           m_labaccount = ga.Account
         End If
+        If Me.ItemType.Value = 291 Then
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SCPenalty)
+          m_labaccount = ga.Account
+        End If
         Return m_labaccount
       End Get
       Set(ByVal Value As Account)
+        Me.Pa.OnGlChanged()
         m_labaccount = Value
       End Set
     End Property
@@ -319,6 +348,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_eqaccount
       End Get
       Set(ByVal Value As Account)
+        Me.Pa.OnGlChanged()
         m_eqaccount = Value
       End Set
     End Property
@@ -383,7 +413,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)        m_refDocType = Value      End Set
     End Property 'm_refDocType
-    Public Property Pa() As Pa      Get        Return m_pa      End Get      Set(ByVal Value As Pa)        m_pa = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Level() As Integer      Get        Return m_level      End Get      Set(ByVal Value As Integer)        m_level = Value      End Set    End Property    'Public Property Description() As String    '  Get    '    Return m_description    '  End Get    '  Set(ByVal Value As String)    '    m_description = Value    '  End Set    'End Property    'Public Property SCitem() As SCitem    '  Get    '    Return m_scItem    '  End Get    '  Set(ByVal Value As SCitem)    '    m_scItem = Value    '  End Set    'End Property    'Public Property VOitem() As VOitem    '  Get    '    Return m_voItem    '  End Get    '  Set(ByVal Value As VOitem)    '    m_voItem = Value    '  End Set    'End Property    'Public Property DRitem() As DRitem    '  Get    '    Return m_dritem    '  End Get    '  Set(ByVal Value As DRitem)    '    m_dritem = Value    '  End Set    'End Property    Public Property ItemType() As SCIItemType      Get        Return m_itemType      End Get      Set(ByVal Value As SCIItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property Pa() As PA
+      Get        Return m_pa      End Get      Set(ByVal Value As PA)
+        m_pa = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Level() As Integer      Get        Return m_level      End Get      Set(ByVal Value As Integer)        m_level = Value      End Set    End Property    'Public Property Description() As String    '  Get    '    Return m_description    '  End Get    '  Set(ByVal Value As String)    '    m_description = Value    '  End Set    'End Property    'Public Property SCitem() As SCitem    '  Get    '    Return m_scItem    '  End Get    '  Set(ByVal Value As SCitem)    '    m_scItem = Value    '  End Set    'End Property    'Public Property VOitem() As VOitem    '  Get    '    Return m_voItem    '  End Get    '  Set(ByVal Value As VOitem)    '    m_voItem = Value    '  End Set    'End Property    'Public Property DRitem() As DRitem    '  Get    '    Return m_dritem    '  End Get    '  Set(ByVal Value As DRitem)    '    m_dritem = Value    '  End Set    'End Property    Public Property ItemType() As PAIItemType
+      Get        Return m_itemType      End Get      Set(ByVal Value As PAIItemType)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemType Is Nothing Then
           m_itemType = Value
           Me.Clear()
@@ -402,6 +436,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'If msgServ.AskQuestion("${res:Global.Question.ChangePREntityType}") Then
         'Dim oldType As Integer = m_itemType.Value
+
+        Me.Pa.OnGlChanged()
         m_itemType = Value
         'For Each wbsd As WBSDistribute In Me.WBSDistributeCollection        '	Dim bfTax As Decimal = 0
         '	'If Not Me.Pa Is Nothing Then 'AndAlso item.Po.Originated
@@ -424,7 +460,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '	Me.m_pa.SetActual(wbsd.WBS, wbsd.TransferAmount, 0, oldType)
         '	Me.m_pa.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)        'Next
         Me.Clear()
-        'End If      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
+        'End If      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        If Me.Pa Is Nothing Then
+          Me.Pa = New PA
+        End If
+        Me.Pa.OnGlChanged()
+        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
         End If      End Set    End Property    Private Function GetAmountFromSproc(ByVal sproc As String, ByVal ParamArray filters() As SqlParameter) As Decimal
       Try
@@ -747,7 +787,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_lab = amt
           Case 89
             Me.m_eq = amt
-        End Select        m_unitPrice = Value      End Set    End Property    Public Property Mat() As Decimal
+        End Select        m_unitPrice = Value        m_receiveAmount = amt
+      End Set    End Property    Public Property Mat() As Decimal
       Get
         Return m_mat
       End Get
@@ -876,40 +917,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.ReceiveAmount
       End Get
     End Property
-    Public Property ReceiveAmount() As Decimal
-      Get
-        Return m_receiveAmount
-      End Get
-      Set(ByVal Value As Decimal)
+    Private Function ValidateReceiveAmount(ByVal Value As Decimal) As Boolean
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If Value = m_receiveAmount Then
-          Return
-        End If
-        If Me.RefEntity.Id > 0 Then          If Me.HashSCChild Then            'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน            msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
-            Return
-          End If          If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then            If Me.ContractCostAmount < 0 AndAlso Value >= 0 Then              'มูลค่ารับงานต้องน้อยกว่าศูนย์เสมอ              msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
-              Return
-            End If            If Me.ContractCostAmount < 0 AndAlso Me.RemainingCost > Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
-                          New String() {Configuration.FormatToString(Math.Abs(Value), DigitConfig.Price), _
-                                        Configuration.FormatToString(Math.Abs(Me.ContractCostAmount), DigitConfig.Price)})
-              Return
+      If Not Me.RefEntity Is Nothing AndAlso Me.RefEntity.Id > 0 Then
+          If Me.HashSCChild Then            'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน            msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
+          Return False
+          End If          If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then          If Me.ContractCostAmount > 0 AndAlso (Value <= 0 OrElse Me.RemainingCost < Value) Then
+            'สำหรับ VO+ มูลค่ารับงานต้องมากกว่าศูนย์เสมอ และห้ามมากกว่ามูลค่าค้างรับคงเหลือ
+            If Value <= 0 Then
+              msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
+              Return False
+            End If
+            msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+                      New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+                                    Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+            Return False
+          End If
+          If Me.ContractCostAmount < 0 AndAlso (Value > 0 OrElse Me.RemainingCost > Value) Then
+            'สำหรับ DR- VO- มูลค่ารับงานต้องน้อยกว่าศูนย์เสมอ และห้ามน้อยเกินมูลค่าค้างรับคงเหลือ
+            If Value >= 0 Then
+              msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
+              Return False
+            End If              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+                        New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+                                      Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+            Return False
             End If
           Else
+          If Value <= 0 Then
+            msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
+            Return False
+          End If
             If Me.RemainingCost < Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
-                          New String() {Configuration.FormatToString(Math.Abs(Value), DigitConfig.Price), _
-                                        Configuration.FormatToString(Math.Abs(Me.ContractCostAmount), DigitConfig.Price)})
-              Return
-            End If
+                        New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+                                      Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+            Return False
           End If
         End If
+      Else 'ถ้าเป็นรายการรับงานเองที่ไม่ได้ดึงมาจาก SC
 
-        m_receiveAmount = Value
-
-        If m_unitPrice <> 0 Then
-          m_qty = m_receiveAmount / m_unitPrice
-        Else
-          m_qty = 0
         End If
+
+      Return True
+    End Function
+    Private Sub RecalculateReceiveAmount()
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         Select Case Me.ItemType.Value
           Case 160, 162
             'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
@@ -921,7 +973,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_mat = m_receiveAmount
             Me.m_lab = 0
             Me.m_eq = 0
-          Case 88
+        Case 88, 291
             Me.m_mat = 0
             Me.m_lab = m_receiveAmount
             Me.m_eq = 0
@@ -933,6 +985,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
             Me.m_lab = (m_receiveAmount - amt2) + Me.Lab
         End Select
+    End Sub
+    Public Property ReceiveAmount() As Decimal
+      Get
+        Return m_receiveAmount
+      End Get
+      Set(ByVal Value As Decimal)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Value = m_receiveAmount Then
+          Return
+        End If
+        If Not Me.ValidateReceiveAmount(Value) Then
+          Return
+        End If
+        'If Me.RefEntity.Id > 0 Then
+        '  If Me.HashSCChild Then
+        '    'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน
+        '    msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
+        '    Return
+        '  End If
+        '  If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then
+        '    If Me.ContractCostAmount > 0 AndAlso (Value <= 0 OrElse Me.RemainingCost < Value) Then
+        '      'สำหรับ VO+ มูลค่ารับงานต้องมากกว่าศูนย์เสมอ และห้ามมากกว่ามูลค่าค้างรับคงเหลือ
+        '      If Value <= 0 Then
+        '        msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
+        '        Return
+        '      End If
+        '      msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+        '                New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+        '                              Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+        '      Return
+        '    End If
+        '    If Me.ContractCostAmount < 0 AndAlso (Value > 0 OrElse Me.RemainingCost > Value) Then
+        '      'สำหรับ DR- VO- มูลค่ารับงานต้องน้อยกว่าศูนย์เสมอ และห้ามน้อยเกินมูลค่าค้างรับคงเหลือ
+        '      If Value >= 0 Then
+        '        msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
+        '        Return
+        '      End If
+        '      msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+        '                  New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+        '                                Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+        '      Return
+        '    End If
+        '  Else
+        '    If Value <= 0 Then
+        '      msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
+        '      Return
+        '    End If
+        '    If Me.RemainingCost < Value Then
+        '      'มูลค่ารับงานเกินมูลค่าตามสัญญา
+        '      msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+        '                  New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+        '                                Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+        '      Return
+        '    End If
+        '  End If
+        'Else
+
+
+        'End If
+
+        m_receiveAmount = Value
+
+        If m_unitPrice <> 0 Then
+          m_qty = m_receiveAmount / m_unitPrice
+        Else
+          m_qty = 0
+        End If
+
+        Me.RecalculateReceiveAmount()
+
+        'Select Case Me.ItemType.Value
+        '  Case 160, 162
+        '    'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+        '    msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
+        '    Return
+        'End Select
+
+        'Select Case Me.ItemType.Value
+        '  Case 0, 19, 28, 42
+        '    Me.m_mat = m_receiveAmount
+        '    Me.m_lab = 0
+        '    Me.m_eq = 0
+        '  Case 88
+        '    Me.m_mat = 0
+        '    Me.m_lab = m_receiveAmount
+        '    Me.m_eq = 0
+        '  Case 89
+        '    Me.m_mat = 0
+        '    Me.m_lab = 0
+        '    Me.m_eq = m_receiveAmount
+        '  Case 289
+        '    Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+        '    Me.m_lab = (m_receiveAmount - amt2) + Me.Lab
+        'End Select
       End Set
     End Property
     Public ReadOnly Property AmountWithoutFormat() As Decimal
@@ -1033,6 +1179,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Sub UpdateWBSQty()
+      If (Me.ItemType.Value = 160 OrElse
+          Me.ItemType.Value = 162 OrElse
+          Me.ItemType.Value = 88 OrElse
+          Me.ItemType.Value = 89 OrElse
+          Me.ItemType.Value = 291) Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          wbsd.BaseQty = 0
+          wbsd.QtyRemain = 0
+        Next
+        Return
+      End If
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
@@ -1075,7 +1232,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             row.SetColumnError("pai_unitprice", "")
             row.SetColumnError("pai_itemname", "")
             row.SetColumnError("cade", "")
-          Case 0, 88, 89   'blank item /ค่าแรง/เครื่องจักร
+          Case 0, 88, 89, 291   'blank item /ค่าแรง/เครื่องจักร
             If IsDBNull(pai_itemName) OrElse pai_itemName.ToString.Length = 0 Then
               row.SetColumnError("pai_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
             Else
@@ -1177,6 +1334,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End If
     End Sub
+    Public Sub SetQty(ByVal qty As Decimal)
+      Dim Value As Decimal = 0
+      Value = qty * Me.UnitPrice
+
+      If Not Me.ValidateReceiveAmount(Value) Then
+        Return
+      End If
+
+      m_qty = qty
+      m_receiveAmount = Value
+
+      Me.RecalculateReceiveAmount()
+    End Sub
     Public Sub SetReceiveAmount(ByVal receiveAmt As Decimal)
       m_receiveAmount = receiveAmt
     End Sub
@@ -1188,6 +1358,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub SetReceiveEq(ByVal receiveAmt As Decimal)
       m_eq = receiveAmt
+    End Sub
+    Public Sub SetUnitPrice(ByVal unitPrice As Decimal)
+      m_unitPrice = unitPrice
+    End Sub
+    Public Sub SetUnit(ByVal newUnit As Unit)
+      m_unit = newUnit
     End Sub
     Public Sub Clear()
       'Me.m_scItem = Nothing
@@ -1467,6 +1643,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return m_childAmount
     End Function
+    Public Function IsHasChild(ByVal CurrentItem As PAItem) As Boolean
+      Dim doc As PAItem = Nothing
+      If Not CurrentItem Is Nothing Then
+        doc = CurrentItem
+      Else
+        doc = Me
+      End If
+      If doc Is Nothing Then
+        Return False
+      End If
+      If doc.Level = 1 Then
+        Return False
+      End If
+
+      Dim lastIndex As Integer = Me.Pa.ItemCollection.IndexOf(doc)
+      Dim startIndex As Integer = lastIndex
+
+      For i As Integer = startIndex To Me.Pa.ItemCollection.Count - 1
+        'If Not Me.SC.ItemCollection(i).NewChild Then
+        If i > startIndex Then
+          If Me.Pa.ItemCollection(i).Level = 0 Then
+            Exit For
+          End If
+          lastIndex = i
+        End If
+        'End If
+      Next
+
+      If startIndex < lastIndex Then
+        Return True
+      End If
+
+      Return False
+
+    End Function
     Public Function GetChildAmount() As Decimal
       Dim doc As PAItem = Me
       Dim m_childAmount As Decimal = 0
@@ -1711,15 +1922,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return 0
           Case 1 '"แยก"
             If Not Me.UnVatable Then
-              Return (Me.AmountWithoutFormat - _
-              ( _
-              (Me.AmountWithoutFormat / myGross) * myDiscount) _
-              )
+              'Return (Me.AmountWithoutFormat - _
+              '( _
+              '(Me.AmountWithoutFormat / myGross) * myDiscount) _
+              ')
+              Return ((myGross - myDiscount) / myGross) * Me.AmountWithoutFormat
             End If
           Case 2 '"รวม"
             If Not Me.UnVatable Then
               Return Vat.GetExcludedVatAmountWithoutRound(Me.Amount, Me.Pa.TaxRate)
-              'Return Vat.GetExcludedVatAmountWithoutRound(Me.AmountWithoutFormat - ((Me.AmountWithoutFormat / myGross) * myDiscount), Me.GoodsReceipt.TaxRate)
+              'Return Vat.GetExcludedVatAmountWithoutRound(Me.AmountWithoutFormat - ((Me.AmountWithoutFormat / myGross) * myDiscount), Me.Pa.TaxRate)
             End If
         End Select
       End Get
@@ -1944,7 +2156,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.CurrentItem = Nothing
           Else
             Me.Add(doc)
-            doc.ItemType = New SCIItemType(newType)
+            doc.ItemType = New PAIItemType(newType)
           End If
           'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
           doc.SetItemCode(newItem.Code)
@@ -2041,6 +2253,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
           End If
+          'If pai.RefDocType = 290 AndAlso Not pai.IsReferenceSC Then
+          '  newitem.TotalBudget += pai.ContractCostAmount
+          '  newitem.TotalReceived += pai.ReceivedAmount
+          '  newitem.TotalProgressReceive += pai.Amount
+          'End If
         End If
       Next
 
@@ -2071,7 +2288,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           CurrentParent = pai.EntityName & "-" & pai.Unit.Code & "-" & pai.UnitPrice.ToString
           HashSCItem(CurrentParent) = pai
           newitem = CType(HashSCItem(CurrentParent), PAItem)
-          If pai.HasChild Then
+          If pai.IsHasChild(Nothing) Then
 
             newitem.TotalBudget = 0
             newitem.TotalReceived = 0
@@ -2196,6 +2413,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newitem.RefEntity = New RefEntity
         newitem.RefEntity.Id = 0
         sumRow = dt.Childs.Add
+        sumRow.State = RowExpandState.Expanded
         newitem.CopyToParentDataRow(sumRow, , True)
       End If
 

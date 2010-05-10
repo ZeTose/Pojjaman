@@ -1089,7 +1089,7 @@ Public Class LevelPropertyAttribute
           Case 6
             tb = "po"
           Case 45
-            If TypeOf stock Is MatTransfer OrElse TypeOf stock Is MatReturn Then
+            If TypeOf stock Is MatWithdraw OrElse TypeOf stock Is MatReturn Then
               'Return GetAmountFromSproc("GetMatAmountForWbsWithoutThisStock", Me.Id, False, view, stock.Id, requestor)
               tb = "mat"
             End If

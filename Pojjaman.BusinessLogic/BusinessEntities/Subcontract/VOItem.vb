@@ -399,6 +399,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Public Sub UpdateWBSQty()
+      If (Me.ItemType.Value = 160 OrElse
+          Me.ItemType.Value = 162 OrElse
+          Me.ItemType.Value = 88 OrElse
+          Me.ItemType.Value = 89) Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          wbsd.BaseQty = 0
+          wbsd.QtyRemain = 0
+        Next
+        Return
+      End If
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
@@ -2114,12 +2124,12 @@ Public Class VOItemCollection
 
         'Dim newRow As TreeRow = dt.Childs.Add
         If voi.Level = 0 Then
-          parentRow = dt.Childs.Add
-          parentRow.State = RowExpandState.Expanded
+
         If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
           chkNoRefItem = True
             parentRow = dt.Childs.Add()
-            parentRow.FixLevel = 0
+            parentRow.State = RowExpandState.Expanded
+            'parentRow.FixLevel = 0
             parentRow.CustomFontStyle = FontStyle.Bold
             parentRow("Button") = "invisible"
             parentRow("UnitButton") = "invisible"
@@ -2134,6 +2144,8 @@ Public Class VOItemCollection
             '-- -- Summary MAT LAB EQ ----------------
           End If
 
+          parentRow = dt.Childs.Add
+          parentRow.State = RowExpandState.Expanded
           voi.CopyToDataRow(parentRow)
           voi.ItemValidateRow(parentRow)
 
@@ -2144,23 +2156,23 @@ Public Class VOItemCollection
         Else
           If Not parentRow Is Nothing Then
             childRow = parentRow.Childs.Add
-            If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
-              chkNoRefItem = True
-              childRow = parentRow.Childs.Add()
-              childRow.FixLevel = 0
-              childRow.CustomFontStyle = FontStyle.Bold
-              childRow("Button") = "invisible"
-              childRow("UnitButton") = "invisible"
-              childRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
+            'If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
+            '  chkNoRefItem = True
+            '  childRow = parentRow.Childs.Add()
+            '  childRow.FixLevel = 0
+            '  childRow.CustomFontStyle = FontStyle.Bold
+            '  childRow("Button") = "invisible"
+            '  childRow("UnitButton") = "invisible"
+            '  childRow("voi_itemName") = myStringParserService.Parse("${res:Global.Error.ItemNotRefSC}")
 
-          '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
-          If voi.Level = 0 AndAlso voi.IsHasChild Then
-            voi.SetMat(voi.ChildMat)
-            voi.SetLab(voi.ChildLab)
-                voi.SetEq(voi.ChildEq)
-          End If
-          '-- -- Summary MAT LAB EQ ----------------
-        End If
+            '  '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
+            '  If voi.Level = 0 AndAlso voi.IsHasChild Then
+            '    voi.SetMat(voi.ChildMat)
+            '    voi.SetLab(voi.ChildLab)
+            '    voi.SetEq(voi.ChildEq)
+            '  End If
+            '  '-- -- Summary MAT LAB EQ ----------------
+            'End If
 
             voi.CopyToDataRow(childRow)
             voi.ItemValidateRow(childRow)

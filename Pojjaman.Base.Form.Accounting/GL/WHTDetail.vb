@@ -1701,8 +1701,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_wht.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
 
+        If m_whtcol.Count > 0 Then
         If Not m_whtcol Is Nothing AndAlso m_whtcol.Contains(m_whtcol(0)) Then
           m_wht = m_whtcol(0)
+        End If
+        Else
+          If TypeOf m_entity Is IWitholdingTaxable Then
+            Dim whtRefDoc As IWitholdingTaxable = CType(m_entity, IWitholdingTaxable)
+            Me.m_whtcol = whtRefDoc.WitholdingTaxCollection
+
+            m_wht = New WitholdingTax
+            m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
+            m_wht.LastestCode = m_wht.Code
+            m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
+            m_wht.RefDoc = whtRefDoc
+            m_wht.Entity = whtRefDoc.Person
+            m_whtcol.Add(m_wht)
+          End If
         End If
 
         UpdateWitholdingList()

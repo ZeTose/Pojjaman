@@ -1351,6 +1351,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_treeManager As TreeManager
 
     Private m_enableState As Hashtable
+    Private m_readOnlyState As Hashtable
     Private m_tableStyleEnable As Hashtable
 
 #End Region
@@ -1382,11 +1383,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
+      m_readOnlyState = New Hashtable
       For Each ctrl As Control In Me.grbDetail.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
       For Each ctrl As Control In Me.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
+      Next
+      For Each ctrl As Control In grbCostCenter.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
+      Next
+
+      For Each ctrl As Control In grbSubContractor.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
     End Sub
 #End Region
@@ -1454,7 +1475,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csType As DataGridComboColumn
       csType = New DataGridComboColumn("sci_entityType" _
-      , CodeDescription.GetCodeList("sci_entitytype") _
+      , CodeDescription.GetCodeList("sci_entitytype", "code_value not in (19)") _
       , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
       csType.NullText = String.Empty
@@ -1495,7 +1516,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csWRQty.DataAlignment = HorizontalAlignment.Right
       csWRQty.Format = "#,###.##"
       csWRQty.TextBox.Name = "sci_wriQty"
-      csWRQty.ReadOnly = True
+      'csWRQty.ReadOnly = True
       ''===============================================================================================================
 
       Dim csUnit As New TreeTextColumn
@@ -1746,11 +1767,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  doc = Me.m_entity.ItemCollection.CurrentItem
       'End If
       If doc Is Nothing Then
+        If Not e.Column.ColumnName.ToLower = "sci_entitytype" Then
+          Return
+        End If
+        Dim obj As Object = e.ProposedValue
+        If Not IsNumeric(obj) Then
+          Return
+        End If
+        'If CInt(obj) <> 289 AndAlso Me.m_entity.ItemCollection.IsFirstRowNotRefWR(Me.m_treeManager.Treetable) Then
+        '  doc = New SCItem
+        '  doc.Level = 1
+        '  doc.ItemType = New SCIItemType(CInt(obj))
+        '  Me.m_entity.ItemCollection.Add(doc)
+        '  Me.m_entity.ItemCollection.CurrentItem = doc
+        'Else
         doc = New SCItem
-        doc.Level = 0
-        doc.ItemType = New SCIItemType(289)
+        If CInt(obj) = 289 Then
+          doc.Level = 0
+          doc.ItemType = New SCIItemType(289)
+        Else
+          doc.Level = 1
+          doc.ItemType = New SCIItemType(CInt(obj))
+        End If
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_entity.ItemCollection.CurrentItem = doc
+        'End If
+
+        'Return
       End If
       'If doc.ItemType Is Nothing Then
       '  doc.ItemType = New SCIItemType(289)
@@ -1845,20 +1888,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.Unvatable = CBool(e.ProposedValue)
           Case "sci_wriqty"
-            'If doc.Level = 1 Then
-            '  msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.CannotChangeWRIQty}")
-            '  Return
-            'End If
-            'If IsDBNull(e.ProposedValue) Then
-            '  e.ProposedValue = ""
-            'End If
-            'Dim value As Decimal = 0
-            'If Not e.ProposedValue = "" Then
-            '  If IsNumeric(e.ProposedValue) Then
-            '    value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-            '  End If
-            'End If
-            'doc.WRIQty = value
+            If doc.Level = 0 Then
+              msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.CannotChangeWRIQty}")
+              Return
+            End If
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0
+            If Not e.ProposedValue = "" Then
+              If IsNumeric(e.ProposedValue) Then
+                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              End If
+            End If
+            doc.WRIQty = value
         End Select
         'End If
       Catch ex As Exception
@@ -1891,43 +1934,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'จากการอนุมัติเอกสาร
       If CBool(Configuration.GetConfig("ApproveSC")) Then
-          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
-          If ApproveDocColl.MaxLevel > 0 Then
-            '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
-            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
+        Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity) 'ระดับสิทธิที่ได้ทำการ approve
+        If ApproveDocColl.MaxLevel > 0 Then
+          '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+          '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+          For Each ctrl As Control In grbDetail.Controls
+            If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" AndAlso Not ctrl.Name = "chkClosed" Then
               If TypeOf ctrl Is TextBox Then
                 CType(ctrl, TextBox).ReadOnly = True
               Else
-                ctrl.Enabled = False
+                If Not TypeOf ctrl Is GroupBox Then
+                  ctrl.Enabled = False
+                End If
               End If
             End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            Me.btnApprove.Enabled = True
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
+          Next
+          tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+          'Me.btnApprove.Enabled = True
+          Me.SetEnalbleGroupBox(True)
+          Return
+        Else
+          For Each ctrl As Control In grbDetail.Controls
             If TypeOf ctrl Is TextBox Then
-              CType(ctrl, TextBox).ReadOnly = Not CBool(m_enableState(ctrl))
+              CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
             Else
-              ctrl.Enabled = CBool(m_enableState(ctrl))
+              If Not TypeOf ctrl Is GroupBox Then
+                ctrl.Enabled = CBool(m_enableState(ctrl))
               End If
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-            If Not Me.m_entity.CostCenter.Originated Then
-              Me.ibtnGetFromBOQ.Enabled = False
-            Else
-              Me.ibtnGetFromBOQ.Enabled = True
             End If
+          Next
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          Next
+          If Not Me.m_entity.CostCenter.Originated Then
+            Me.ibtnGetFromBOQ.Enabled = False
+          Else
+            Me.ibtnGetFromBOQ.Enabled = True
           End If
+          Me.SetEnalbleGroupBox()
         End If
+      End If
 
       'จาก Status ของเอกสารเอง
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 OrElse Me.m_entity.Closed Then
@@ -1936,7 +1985,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf ctrl Is TextBox Then
               CType(ctrl, TextBox).ReadOnly = True
             Else
-            ctrl.Enabled = False
+              If Not TypeOf ctrl Is GroupBox Then
+                ctrl.Enabled = False
+              End If
             End If
           ElseIf ctrl.Name = "chkClosed" Then
             If Me.m_entity.Status.Value = 0 Then
@@ -1951,12 +2002,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
+        Me.SetEnalbleGroupBox(True)
       Else
         For Each ctrl As Control In grbDetail.Controls
           If TypeOf ctrl Is TextBox Then
-            CType(ctrl, TextBox).ReadOnly = Not CBool(m_enableState(ctrl))
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
           Else
-          ctrl.Enabled = CBool(m_enableState(ctrl))
+            If Not TypeOf ctrl Is GroupBox Then
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            End If
           End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
@@ -1967,51 +2021,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Else
           Me.ibtnGetFromBOQ.Enabled = True
         End If
+        Me.SetEnalbleGroupBox()
       End If
-
-      'If Me.m_entity.WR Is Nothing OrElse Me.m_entity.WR.Id = 0 Then
-      '  Me.txtCostCenterCode.Enabled = True
-      '  Me.btnCCFind.Enabled = True
-      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '    If colStyle.MappingName = "sci_wriQty" Then
-      '      colStyle.ReadOnly = True
-      '    End If
-      '  Next
-      'Else
-      '  Me.txtCostCenterCode.Enabled = False
-      '  Me.btnCCFind.Enabled = False
-      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '    If colStyle.MappingName = "sci_wriQty" Then
-      '      colStyle.ReadOnly = False
-      '    End If
-      '  Next
-      'End If
-
-
-      Dim CtrlEnble As Boolean = grbCostCenter.Enabled
-      m_isInitialized = CtrlEnble
-      grbCostCenter.Enabled = True
-      grbSubContractor.Enabled = True
-
-      For Each ctrl As Control In grbCostCenter.Controls
-        If TypeOf ctrl Is TextBox Then
-          CType(ctrl, TextBox).ReadOnly = Not CtrlEnble
-        Else
-          ctrl.Enabled = CtrlEnble
-          End If
-        Next
-
-      For Each ctrl As Control In grbSubContractor.Controls
-        If TypeOf ctrl Is TextBox Then
-          CType(ctrl, TextBox).ReadOnly = Not CtrlEnble
-      Else
-          ctrl.Enabled = CtrlEnble
-          End If
-        Next
 
       Me.ibtnCopyMe.Enabled = True
       Me.btnApprove.Enabled = True
 
+    End Sub
+    Private Sub SetEnalbleGroupBox(Optional ByVal SetReadOnly As Boolean = False)
+      'Dim CtrlEnble As Boolean = grbCostCenter.Enabled
+      'Dim initFlag As Boolean = m_isInitialized
+      'grbCostCenter.Enabled = True
+      'grbSubContractor.Enabled = True
+
+      If Not SetReadOnly Then
+        For Each ctrl As Control In grbCostCenter.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
+        Next
+
+        For Each ctrl As Control In grbSubContractor.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
+        Next
+      Else
+        For Each ctrl As Control In grbCostCenter.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = True
+          Else
+            ctrl.Enabled = False
+          End If
+        Next
+
+        For Each ctrl As Control In grbSubContractor.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = True
+          Else
+            ctrl.Enabled = False
+          End If
+        Next
+      End If
+
+      m_isInitialized = True
+      Me.ibtnCopyMe.Enabled = True
+      Me.btnApprove.Enabled = True
     End Sub
     Public Overrides Sub ClearDetail()
       lblStatus.Text = ""
@@ -2097,6 +2156,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtCredit.Validated, AddressOf Me.ChangeProperty
       AddHandler txtCredit.TextChanged, AddressOf Me.TextHandler
+      'AddHandler txtCredit.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtStartDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpStartDate.ValueChanged, AddressOf Me.ChangeProperty
@@ -2113,8 +2173,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDirectorCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtDirectorCode.TextChanged, AddressOf Me.TextHandler
 
-      AddHandler txtRetention.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtRetention.TextChanged, AddressOf Me.TextHandler
+      'AddHandler txtRetention.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtRetention.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtRetention.Validated, AddressOf Me.TextHandler
 
       'AddHandler txtWitholdingTax.Validated, AddressOf Me.ChangeProperty
       'AddHandler txtWitholdingTax.TextChanged, AddressOf Me.TextHandler
@@ -2122,8 +2183,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtWRCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtWRCode.TextChanged, AddressOf Me.TextHandler
 
-      AddHandler txtAdvancePay.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAdvancePay.TextChanged, AddressOf Me.TextHandler
+      'AddHandler txtAdvancePay.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtAdvancePay.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtAdvancePay.Validated, AddressOf Me.TextHandler
 
       AddHandler cmbContact.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
@@ -2185,6 +2247,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
           txtcreditprdChanged = True
         Case "txtwrcode"
           txtWRCodeChanged = True
+        Case "txtdirectorcode"
+          directorCodeChanged = True
+        Case "txtretention"
+          If IsNumeric(txtRetention.Text) Then
+            dirtyFlag = True
+            m_entity.Retention = txtRetention.Text
+            txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+          Else
+            txtRetention.Text = Configuration.FormatToString(0, DigitConfig.Price)
+          End If
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+        Case "txtadvancepay"
+          If IsNumeric(txtAdvancePay.Text) Then
+            dirtyFlag = True
+            m_entity.AdvancePay = txtAdvancePay.Text
+            txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
+          Else
+            txtAdvancePay.Text = Configuration.FormatToString(0, DigitConfig.Price)
+          End If
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       End Select
     End Sub
     Public Overrides Sub UpdateEntityProperties()
@@ -2289,7 +2371,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+      If Me.m_entity Is Nothing Or Not m_isInitialized Or Not Me.cmbCode.Enabled Then
         Return
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -2496,14 +2578,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If Me.m_entity.ItemCollection.Count > 0 Then
               If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeWRCode}") Then
-                dirtyFlag = WR.Getwr(txtWRCode, Me.m_entity.WR)
+                dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR)
                 SetWRToNothing(wrCode)
               Else
                 Me.txtWRCode.Text = Me.m_entity.WR.Code
                 SetWRToNothing(wrCode)
               End If
             Else
-              dirtyFlag = WR.Getwr(txtWRCode, Me.m_entity.WR)
+              dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR)
               SetWRToNothing(wrCode)
             End If
             txtWRCodeChanged = False
@@ -2547,6 +2629,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private forceUpdateTaxAmount As Boolean = False
     Private Sub UpdateAmount()
       'มูลค่ารวมของเอกสาร
+
+      'Dim initFlag As Boolean = m_isInitialized
       m_isInitialized = False
       Me.m_entity.RefreshTaxBase()
 
@@ -2585,8 +2669,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub InitialCombo()
       If Not m_entity.SubContractor Is Nothing Then
         Me.cmbContact.Items.Clear()
-
-        Me.cmbContact.Items.Add(Me.m_entity.SubContractor.Contact)
+        If Not Me.m_entity.SubContractor.Contact Is Nothing Then
+          Me.cmbContact.Items.Add(Me.m_entity.SubContractor.Contact)
+        End If
         For Each citem As SupplierContact In Me.m_entity.SubContractor.ContactCollection
           Me.cmbContact.Items.Add(citem.Name)
         Next
@@ -2835,62 +2920,95 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      'Me.m_entity.ItemCollection.Remove(doc)
-
+      Dim arrList As New ArrayList
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim isSetIndex As Boolean = False
-
-      Dim hashParent As New Hashtable
-
-      Dim rowIndex As Integer = 0
-      Dim key As String = ""
 
       For Each Obj As Object In Me.m_treeManager.SelectedRows
         If Not Obj Is Nothing Then
           Dim row As TreeRow = CType(Obj, TreeRow)
           If Not row Is Nothing Then
-            If Not isSetIndex Then
-              index = row.Index
-              isSetIndex = True
-            End If
-            Dim sitem As SCItem = CType(row.Tag, SCItem)
-            If sitem.Level = 0 Then
-              rowIndex += 1
-              key = rowIndex.ToString
-              hashParent.Add(key, sitem)
-
-              Dim startIndex As Integer = row.Index
-              Dim lastIndex As Integer = row.Index
-              For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-                If i > startIndex Then
-                  Dim sitem2 As SCItem = Me.m_entity.ItemCollection(i)
-                  If sitem2.Level = 0 Then
-                    Exit For
-                  End If
-                  rowIndex += 1
-                  key = rowIndex.ToString
-                  hashParent.Add(key, sitem2)
-                End If
-              Next
-            Else
-              rowIndex += 1
-              key = rowIndex.ToString
-              hashParent.Add(key, sitem)
+            index = row.Index
+            For Each childRow As TreeRow In row.Childs
+              If Not arrList.Contains(childRow) Then
+                arrList.Add(childRow)
+              End If
+            Next
+            If Not arrList.Contains(row) Then
+              arrList.Add(row)
             End If
           End If
         End If
       Next
 
-      For i As Integer = 1 To hashParent.Count
-        key = CStr(i)
-        Dim sitem As SCItem = CType(hashParent(key), SCItem)
-        If Not sitem Is Nothing Then
-          If Me.m_entity.ItemCollection.Contains(sitem) Then
-            Me.m_entity.ItemCollection.Remove(sitem)
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
+      For Each row As TreeRow In arrList
+        If Not row Is Nothing AndAlso TypeOf row.Tag Is SCItem Then
+
+          Dim itm As SCItem = CType(row.Tag, SCItem)
+          If Not itm Is Nothing Then
+            If Me.m_entity.ItemCollection.Contains(itm) Then
+              Me.m_entity.ItemCollection.Remove(itm)
+              Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
           End If
         End If
       Next
+
+      'Me.m_entity.ItemCollection.Remove(doc)
+
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim isSetIndex As Boolean = False
+
+      'Dim hashParent As New Hashtable
+
+      'Dim rowIndex As Integer = 0
+      'Dim key As String = ""
+
+      'For Each Obj As Object In Me.m_treeManager.SelectedRows
+      '  If Not Obj Is Nothing Then
+      '    Dim row As TreeRow = CType(Obj, TreeRow)
+      '    If Not row Is Nothing Then
+      '      If Not isSetIndex Then
+      '        index = row.Index
+      '        isSetIndex = True
+      '      End If
+      '      Dim sitem As SCItem = CType(row.Tag, SCItem)
+      '      If sitem.Level = 0 Then
+      '        rowIndex += 1
+      '        key = rowIndex.ToString
+      '        hashParent.Add(key, sitem)
+
+      '        Dim startIndex As Integer = row.Index
+      '        Dim lastIndex As Integer = row.Index
+      '        For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
+      '          If i > startIndex Then
+      '            Dim sitem2 As SCItem = Me.m_entity.ItemCollection(i)
+      '            If sitem2.Level = 0 Then
+      '              Exit For
+      '            End If
+      '            rowIndex += 1
+      '            key = rowIndex.ToString
+      '            hashParent.Add(key, sitem2)
+      '          End If
+      '        Next
+      '      Else
+      '        rowIndex += 1
+      '        key = rowIndex.ToString
+      '        hashParent.Add(key, sitem)
+      '      End If
+      '    End If
+      '  End If
+      'Next
+
+      'For i As Integer = 1 To hashParent.Count
+      '  key = CStr(i)
+      '  Dim sitem As SCItem = CType(hashParent(key), SCItem)
+      '  If Not sitem Is Nothing Then
+      '    If Me.m_entity.ItemCollection.Contains(sitem) Then
+      '      Me.m_entity.ItemCollection.Remove(sitem)
+      '      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      '    End If
+      '  End If
+      'Next
 
       'Dim row As TreeRow = Me.m_treeManager.SelectedRow
 
@@ -2958,10 +3076,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       If index > 0 Then
-        If index > Me.m_entity.ItemCollection.Count Then
-          tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+        If Me.m_entity.ItemCollection.Count = 0 Then
+          tgItem.CurrentRowIndex = 0
         Else
-          tgItem.CurrentRowIndex = index - 1
+          If index > Me.m_entity.ItemCollection.Count Then
+            tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+          Else
+            tgItem.CurrentRowIndex = index - 1
+          End If
         End If
       Else
         tgItem.CurrentRowIndex = 0
@@ -3008,6 +3130,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' WR
     Private Sub btnWRFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWRFind.Click
+      Dim initFlag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim myEntityPanelService As IEntityPanelService = _
                   CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -3033,6 +3157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         myEntityPanelService.OpenListDialog(New WRForSC, AddressOf SetWRDialog, filters, FilterEntities)
       End If
+      Me.m_isInitialized = initFlag
     End Sub
     Private Sub SetWRDialog(ByVal e As ISimpleEntity)
       Me.txtWRCode.Text = e.Code
@@ -3185,10 +3310,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor, True)
-      m_isInitialized = False
+      'm_isInitialized = False
       Me.txtCredit.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
       Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-      m_isInitialized = True
+      'm_isInitialized = True
       InitialCombo()
     End Sub
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
@@ -3279,7 +3404,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''Dim index As Integer = tgItem.CurrentRowIndex
       ''Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
       ''If doc Is Nothing Then
-      ''    Return
+      ''  Return
       ''End If
       ' ''If Not doc.SCItem Is Nothing Then
       ' ''    Return

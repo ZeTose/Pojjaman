@@ -206,7 +206,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wr_id") Then
           If Not dr.IsNull("wr_id") Then
-            .m_wr = New WR(dr, "")
+            .m_wr = New WR(dr, "", False)
           End If
         End If
         If dr.Table.Columns.Contains("employee_id") Then
@@ -612,7 +612,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If txtCode.Text.Length <> 0 AndAlso Not scNew.Valid Then
           MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
           scNew = oldSC
-          txtCode.Text = ""
+          txtCode.Text = oldSC.Code
           Return False
         End If
         txtCode.Text = scNew.Code
@@ -1225,8 +1225,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discamt", Me.DiscountAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.RealTaxAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_wr", ValidIdOrDBNull(Me.WR)))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...
@@ -2470,46 +2470,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           coll.Add(item)
         End If
       Next
-
-      'Me.ItemCollection.CurrentItem = item
-
-      'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
-      '  If item.ItemType.Value = 289 AndAlso Not item.IsHasChild Then
-      '    If item.Mat > 0 Then
-      '      Dim matItem As New SCItem
-      '      matItem.IsNewAllocate = True
-      '      matItem.Level = 0
-      '      matItem.ItemType = New SCIItemType(289)
-      '      matItem.ItemName = item.EntityName & " (Mat)"
-      '      matItem.AllocateCostAmount = (item.Mat / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'matItem.AllocateDescription = item.EntityName & " (Mat)"
-      '      coll.Add(matItem)
-      '    End If
-      '    If item.Lab > 0 Then
-      '      Dim labItem As New SCItem
-      '      labItem.IsNewAllocate = True
-      '      labItem.Level = 0
-      '      labItem.ItemType = New SCIItemType(289)
-      '      labItem.ItemName = item.EntityName & " (Lab)"
-      '      labItem.AllocateCostAmount = (item.Lab / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'labItem.AllocateDescription = item.EntityName & " (Lab)"
-      '      coll.Add(labItem)
-      '    End If
-      '    If item.Eq > 0 Then
-      '      Dim eqItem As New SCItem
-      '      eqItem.IsNewAllocate = True
-      '      eqItem.Level = 0
-      '      eqItem.ItemType = New SCIItemType(289)
-      '      eqItem.ItemName = item.EntityName & " (Eq)"
-      '      eqItem.AllocateCostAmount = (item.Eq / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'eqItem.AllocateDescription = item.EntityName & " (Eq)"
-      '      coll.Add(eqItem)
-      '    End If
-      '  Else
-      'coll.Add(item)
-      ''End If
-      ''End If
-      'Next
       Return coll
     End Function
     Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter
@@ -2520,6 +2480,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+
 #End Region
 
   End Class

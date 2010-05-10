@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '  End Class
   Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatable
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatableItem
 
 #Region "Members"
     Private m_docDate As Date
@@ -2200,13 +2200,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IAllowWBSAllocatableItem"
-    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateFrom
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateFrom, IWBSAllocatable.AllowWBSAllocateFrom
       Get
         Return True
       End Get
     End Property
 
-    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatable.AllowWBSAllocateTo
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IAllowWBSAllocatableItem.AllowWBSAllocateTo, IWBSAllocatable.AllowWBSAllocateTo
       Get
         Return False
       End Get

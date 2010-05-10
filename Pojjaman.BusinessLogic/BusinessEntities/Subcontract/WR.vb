@@ -73,6 +73,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Construct(dr, aliasPrefix)
     End Sub
+    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String, ByVal ConstructItemCollection As Boolean)
+      Me.Construct(dr, aliasPrefix, ConstructItemCollection)
+    End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
@@ -93,6 +96,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_itemCollection = New wrItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix, True)
+    End Sub
+    Public Overloads Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String, ByVal ConstructItemCollection As Boolean)
       MyBase.Construct(dr, aliasPrefix)
       With Me
         If dr.Table.Columns.Contains("wr_docdate") Then
@@ -173,8 +179,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_approvePerson = New User(dr, "approvePerson.")
           End If
         End If
-        m_itemCollection = New wrItemCollection(Me)
+
         Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+        If ConstructItemCollection Then
+          m_itemCollection = New wrItemCollection(Me)
+        End If
+
       End With
     End Sub
 #End Region
@@ -922,6 +933,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", willClose))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_director", ValidIdOrDBNull(Me.Director)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...
@@ -2132,46 +2145,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           coll.Add(item)
         End If
       Next
-
-      'Me.ItemCollection.CurrentItem = item
-
-      'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
-      '  If item.ItemType.Value = 289 AndAlso Not item.IsHasChild Then
-      '    If item.Mat > 0 Then
-      '      Dim matItem As New SCItem
-      '      matItem.IsNewAllocate = True
-      '      matItem.Level = 0
-      '      matItem.ItemType = New SCIItemType(289)
-      '      matItem.ItemName = item.EntityName & " (Mat)"
-      '      matItem.AllocateCostAmount = (item.Mat / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'matItem.AllocateDescription = item.EntityName & " (Mat)"
-      '      coll.Add(matItem)
-      '    End If
-      '    If item.Lab > 0 Then
-      '      Dim labItem As New SCItem
-      '      labItem.IsNewAllocate = True
-      '      labItem.Level = 0
-      '      labItem.ItemType = New SCIItemType(289)
-      '      labItem.ItemName = item.EntityName & " (Lab)"
-      '      labItem.AllocateCostAmount = (item.Lab / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'labItem.AllocateDescription = item.EntityName & " (Lab)"
-      '      coll.Add(labItem)
-      '    End If
-      '    If item.Eq > 0 Then
-      '      Dim eqItem As New SCItem
-      '      eqItem.IsNewAllocate = True
-      '      eqItem.Level = 0
-      '      eqItem.ItemType = New SCIItemType(289)
-      '      eqItem.ItemName = item.EntityName & " (Eq)"
-      '      eqItem.AllocateCostAmount = (item.Eq / item.Amount) * (item.UnitCost * item.StockQty)
-      '      'eqItem.AllocateDescription = item.EntityName & " (Eq)"
-      '      coll.Add(eqItem)
-      '    End If
-      '  Else
-      'coll.Add(item)
-      ''End If
-      ''End If
-      'Next
       Return coll
     End Function
     Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter
@@ -2181,6 +2154,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As CostCenter)
 
       End Set
+    End Property
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
     End Property
 #End Region
 

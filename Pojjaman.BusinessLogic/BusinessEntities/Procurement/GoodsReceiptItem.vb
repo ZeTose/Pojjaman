@@ -949,7 +949,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.StockQty = 0 OrElse tmpRealGrossNoVat = 0 Then
           Return 0
         Else
-          tmpCost = Me.AmountWithDefaultUnit
+          tmpCost = Me.Amount 'Me.AmountWithDefaultUnit
 
           tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.GoodsReceipt.Discount.Amount)
 

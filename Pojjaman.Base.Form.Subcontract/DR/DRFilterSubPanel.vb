@@ -808,9 +808,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCostCenterName.Text = ""
       Me.txtFromCCPersonCode.Text = ""
       Me.txtFromCCPersonName.Text = ""
+      Me.txtSCCode.Text = ""
+      Me.txtApprovePerson.Text = ""
+      Me.txtApprovePersonName.Text = ""
+
       Me.m_fromCC = New CostCenter
       Me.m_toCC = New CostCenter
       Me.m_employee = New Employee
+      Me.m_sc = New SC
+      Me.m_user = New User
 
       Dim drDocDateStartBeforeToday As Long = Configuration.GetConfig("DRDocDateStartBeforeToday")
       Dim drDocDateEndAfterToday As Long = Configuration.GetConfig("DRDocDateEndAfterToday")
@@ -827,13 +833,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cmbStatus.SelectedIndex = 0
       Me.cmbApproveLevel.SelectedIndex = 0
 
-      Me.txtApprovePerson.Text = ""
-      Me.txtApprovePersonName.Text = ""
-      Me.m_user = New User
     End Sub
     Private Sub PopulateStatus()
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      'Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
       Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
       Dim dt1 As DataTable
 
@@ -856,9 +860,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbApproveLevel.Items.Clear()
       cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
-      For i As Integer = 0 To User.MaxLevel
-        Dim item As New IdValuePair(i, lvString & Space(1) & i.ToString)
-        cmbApproveLevel.Items.Add(item)
+      For i As Integer = 1 To User.MaxLevel
+        Dim witem As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
+        cmbApproveLevel.Items.Add(witem)
       Next
     End Sub
     Public Sub SetLabelText()
@@ -883,9 +887,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POFilterSubPanel.lblApproveLevel}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(10) As Filter
+      Dim arr(11) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
-      'arr(1) = New Filter("sc_code", IIf(Me.m_sc.Valid, Me.m_sc.Id, DBNull.Value))
       arr(1) = New Filter("subcontractor", IIf(Me.m_supcontractor.Valid, Me.m_supcontractor.Id, DBNull.Value))
       arr(2) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
       arr(3) = New Filter("docdateend", ValidDateOrDBNull(docDateEnd))
@@ -896,6 +899,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(8) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       arr(9) = New Filter("ApprovePerson", ValidIdOrDBNull(m_user))
       arr(10) = New Filter("ApproveLevel", IIf(cmbApproveLevel.SelectedItem Is Nothing, DBNull.Value, CType(cmbApproveLevel.SelectedItem, IdValuePair).Id))
+      arr(11) = New Filter("sc_code", IIf(Me.m_sc.Valid, Me.m_sc.Code, DBNull.Value))
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -961,7 +965,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenListDialog(New User, AddressOf SetUser)
     End Sub
-
+    Private Sub ibtnShowSCDialog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowSCDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New SC, AddressOf SetSC)
+    End Sub
+    Private Sub SetSC(ByVal e As ISimpleEntity)
+      Me.txtSCCode.Text = e.Code
+      SC.GetSC(txtSCCode, Me.m_sc)
+    End Sub
     'ibtnShowFromCCPersonDialog
 #End Region
 

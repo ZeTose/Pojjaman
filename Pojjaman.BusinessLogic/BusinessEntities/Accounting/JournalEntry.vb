@@ -605,7 +605,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '-------------------------------ปัดเศษ--------------------------------
       'การปัดเศษ เดิมใช้ไม่เกิน 1 แต่ปรากฏว่าเกิน จึงใช้ 1*จำนวนด้าน debit (ยังไม่รู้ทำไงต่อไป)
       Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
-      If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < 1 * entriesFromDoc.debitCount Then
+      If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < entriesFromDoc.Count Then
         Dim ji As New JournalEntryItem
         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         ji.IsDebit = (diff < 0)

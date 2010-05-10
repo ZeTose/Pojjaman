@@ -4807,7 +4807,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return coll
     End Function
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
 #End Region
+
   End Class
 
   Public Class GoodsReceiptForApprove

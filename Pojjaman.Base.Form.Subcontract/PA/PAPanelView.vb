@@ -108,8 +108,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblStatus = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
       Me.txtRetention = New System.Windows.Forms.TextBox()
@@ -136,6 +136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtPADocDate = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.gbCostCenter = New System.Windows.Forms.GroupBox()
       Me.btnDirectorEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblCostCenter = New System.Windows.Forms.Label()
@@ -176,8 +177,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpPADocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblPADocDate = New System.Windows.Forms.Label()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.gbCostCenter.SuspendLayout()
       Me.gbSubContract.SuspendLayout()
@@ -815,6 +817,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
       '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(662, 181)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 335
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
+      '
       'gbCostCenter
       '
       Me.gbCostCenter.Controls.Add(Me.txtDirectorName)
@@ -962,28 +978,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlankSubItem
       '
       Me.ibtnBlankSubItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlankSubItem.Location = New System.Drawing.Point(124, 180)
+      Me.ibtnBlankSubItem.Location = New System.Drawing.Point(148, 179)
       Me.ibtnBlankSubItem.Name = "ibtnBlankSubItem"
       Me.ibtnBlankSubItem.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlankSubItem.TabIndex = 372
       Me.ibtnBlankSubItem.TabStop = False
       Me.ibtnBlankSubItem.ThemedImage = CType(resources.GetObject("ibtnBlankSubItem.ThemedImage"), System.Drawing.Bitmap)
+      Me.ibtnBlankSubItem.Visible = False
       '
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(100, 180)
+      Me.ibtnBlank.Location = New System.Drawing.Point(124, 179)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 370
       Me.ibtnBlank.TabStop = False
       Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.ibtnBlank, "Blank")
+      Me.ibtnBlank.Visible = False
       '
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(148, 180)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(100, 179)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 371
@@ -1271,26 +1289,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
       Me.ibtnCopyMe.Visible = False
       '
-      'btnApprove
-      '
-      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(662, 181)
-      Me.btnApprove.Name = "btnApprove"
-      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
-      Me.btnApprove.TabIndex = 335
-      Me.btnApprove.Text = "อนุมัติเอกสาร"
-      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
-      '
       'PAPanelView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "PAPanelView"
       Me.Size = New System.Drawing.Size(784, 552)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.gbCostCenter.ResumeLayout(False)
@@ -1326,6 +1332,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'Private m_wbsdInitialized As Boolean
 
     Private m_enableState As Hashtable
+    Private m_readOnlyState As Hashtable
     Private m_tableStyleEnable As Hashtable
 #End Region
 
@@ -1357,11 +1364,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
+      m_readOnlyState = New Hashtable
       For Each ctrl As Control In Me.grbDetail.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
       For Each ctrl As Control In Me.Controls
         m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
+      Next
+      For Each ctrl As Control In gbCostCenter.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
+      Next
+
+      For Each ctrl As Control In gbSubContract.Controls
+        m_enableState.Add(ctrl, ctrl.Enabled)
+        If TypeOf ctrl Is TextBox Then
+          m_readOnlyState.Add(CType(ctrl, TextBox), CType(ctrl, TextBox).ReadOnly)
+        End If
       Next
     End Sub
 #End Region
@@ -1448,6 +1475,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csPADesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.DescriptionHeaderText}")
       csPADesc.NullText = ""
       csPADesc.Width = 175
+      csPADesc.ReadOnly = True
       csPADesc.TextBox.Name = "pai_paDesc"
 
       '"อ้างอิง"
@@ -1465,6 +1493,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       , CodeDescription.GetCodeList("pai_entitytype") _
       , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
+      csType.ReadOnly = True
       csType.NullText = String.Empty
 
       '"รหัส"
@@ -1472,7 +1501,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CodeHeaderText}")
       csCode.NullText = ""
-      'csCode.ReadOnly = True
+      csCode.ReadOnly = True
       csCode.TextBox.Name = "Code"
 
       Dim csButton As New DataGridButtonColumn
@@ -1486,6 +1515,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.DescriptionHeaderText}")
       csName.NullText = ""
       csName.Width = 210
+      csName.ReadOnly = True
       csName.TextBox.Name = "pai_itemName"
       'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
       'csDescription.ReadOnly = True
@@ -1495,6 +1525,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.UnitHeaderText}")
       csUnit.NullText = ""
       csUnit.Width = 60
+      csUnit.ReadOnly = True
       csUnit.TextBox.Name = "Unit"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -1575,7 +1606,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.NullText = ""
       csQty.DataAlignment = HorizontalAlignment.Right
       csQty.Format = "#,###.##"
-      csQty.ReadOnly = True
+      'csQty.ReadOnly = True
       csQty.TextBox.Name = "pai_qty"
       'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
 
@@ -1616,7 +1647,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csMat.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.MatHeaderText}")
       csMat.NullText = ""
       csMat.DataAlignment = HorizontalAlignment.Right
-      'csMat.ReadOnly = True
+      csMat.ReadOnly = True
       csMat.TextBox.Name = "pai_mat"
       csMat.Width = 100
       csMat.Format = "#,###.##"
@@ -1628,7 +1659,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLab.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.LABHeaderText}")
       csLab.NullText = ""
       csLab.DataAlignment = HorizontalAlignment.Right
-      'csLab.ReadOnly = True
+      csLab.ReadOnly = True
       csLab.TextBox.Name = "pai_lab"
       csLab.Width = 100
       csLab.Format = "#,###.##"
@@ -1640,7 +1671,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csEq.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.EQHeaderText}")
       csEq.NullText = ""
       csEq.DataAlignment = HorizontalAlignment.Right
-      'csEq.ReadOnly = True
+      csEq.ReadOnly = True
       csEq.TextBox.Name = "pai_eq"
       csEq.Width = 100
       csEq.Format = "#,###.##"
@@ -1688,10 +1719,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csRefCode)
       dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csCode)
-      dst.GridColumnStyles.Add(csButton)
+      'dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csName)
       dst.GridColumnStyles.Add(csUnit)
-      dst.GridColumnStyles.Add(csUnitButton)
+      'dst.GridColumnStyles.Add(csUnitButton)
       dst.GridColumnStyles.Add(csSCQty)
       dst.GridColumnStyles.Add(csSCCost)
       dst.GridColumnStyles.Add(csBarrier1)
@@ -1800,19 +1831,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
 
       '    ''If tick checkbox that not in the current hilight row
-
-      If e.Column.ColumnName.ToLower = "pai_unvatable" Then
-        Me.m_treeManager.SelectedRow = e.Row
-        doc = Me.m_entity.ItemCollection.CurrentItem
-      End If
       If doc Is Nothing Then
-        doc = New PAItem
-        doc.ItemType = New SCIItemType(289)
-        doc.RefEntity = New RefEntity
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_entity.ItemCollection.CurrentItem = doc
-
+        Return
       End If
+      'If e.Column.ColumnName.ToLower = "pai_unvatable" Then
+      '  Me.m_treeManager.SelectedRow = e.Row
+      '  doc = Me.m_entity.ItemCollection.CurrentItem
+      'End If
+      'If doc Is Nothing Then
+      '  doc = New PAItem
+      '  doc.ItemType = New PAIItemType(289)
+      '  doc.RefEntity = New RefEntity
+      '  Me.m_entity.ItemCollection.Add(doc)
+      '  Me.m_entity.ItemCollection.CurrentItem = doc
+
+      'End If
       Select Case e.Column.ColumnName.ToLower
 
         Case "unit", "pai_qty", "amount", "pai_note", "pai_mat", "pai_lab", "pai_eq", "accountcode", "account", "pai_unvatable"
@@ -1852,7 +1885,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
               End If
             End If
-            doc.Qty = value
+            'doc.Qty = value
+            doc.SetQty(value)
+            UpdateAmount()
           Case "amount"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -1864,10 +1899,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
             doc.ReceiveAmount = value
+            UpdateAmount()
           Case "pai_entitytype"
-            Dim value As SCIItemType
+            Dim value As PAIItemType
             If IsNumeric(e.ProposedValue) Then
-              value = New SCIItemType(CInt(e.ProposedValue))
+              value = New PAIItemType(CInt(e.ProposedValue))
             End If
             doc.ItemType = value
           Case "pai_unitprice"
@@ -1881,6 +1917,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
             doc.UnitPrice = value
+            UpdateAmount()
           Case "accountcode"
             If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
               e.ProposedValue = ""
@@ -2261,57 +2298,75 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'จากการอนุมัติเอกสาร()
       If CBool(Configuration.GetConfig("ApprovePa")) Then
         'ถ้าใช้การอนุมัติแบบใหม่(PJMModule)
-        If m_ApproveDocModule.Activated Then
-          Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-          Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser)      'ระดับสิทธิแต่ละผู้ใช้
-          Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)     'ระดับสิทธิที่ได้ทำการ approve
-          If ApproveDocColl.MaxLevel > 0 Then
-            '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
-            '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-                ctrl.Enabled = False
+        'If m_ApproveDocModule.Activated Then
+        Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        Dim ApprovalDocLevelColl As New ApprovalDocLevelCollection(mySService.CurrentUser)      'ระดับสิทธิแต่ละผู้ใช้
+        Dim ApproveDocColl As New ApproveDocCollection(Me.m_entity)     'ระดับสิทธิที่ได้ทำการ approve
+        If ApproveDocColl.MaxLevel > 0 Then
+          '(ApprovalDocLevelColl.GetItem(m_entity.EntityId).Level < ApproveDocColl.MaxLevel) OrElse _
+          '(Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
+          For Each ctrl As Control In grbDetail.Controls
+            If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+              If TypeOf ctrl Is TextBox Then
+                CType(ctrl, TextBox).ReadOnly = True
+              Else
+                If Not TypeOf ctrl Is GroupBox Then
+                  ctrl.Enabled = False
+                End If
               End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            Me.btnApprove.Enabled = True
-            CheckWBSRight()
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-          End If
+            End If
+          Next
+          tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+          Me.btnApprove.Enabled = True
+          CheckWBSRight()
+          Me.SetEnalbleGroupBox(True)
+          Return
         Else
-          'ถ้าใช้การอนุมัติแบบเก่า()
-          If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
-            For Each ctrl As Control In grbDetail.Controls
-              If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-                ctrl.Enabled = False
+          For Each ctrl As Control In grbDetail.Controls
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+            Else
+              If Not TypeOf ctrl Is GroupBox Then
+                ctrl.Enabled = CBool(m_enableState(ctrl))
               End If
-            Next
-            tgItem.Enabled = True
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = True
-            Next
-            'Me.btnApprove.Enabled = True
-            CheckWBSRight()
-            Return
-          Else
-            For Each ctrl As Control In grbDetail.Controls
-              ctrl.Enabled = CBool(m_enableState(ctrl))
-            Next
-            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-            Next
-          End If
+            End If
+          Next
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          Next
         End If
+        Me.SetEnalbleGroupBox()
+        'Else
+        '  'ถ้าใช้การอนุมัติแบบเก่า()
+        '  If Not Me.m_entity.ApproveDate.Equals(Date.MinValue) AndAlso Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+        '    For Each ctrl As Control In grbDetail.Controls
+        '      If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+        '        If TypeOf ctrl Is TextBox Then
+        '          CType(ctrl, TextBox).ReadOnly = True
+        '        Else
+        '          ctrl.Enabled = False
+        '        End If
+        '      End If
+        '    Next
+        '    tgItem.Enabled = True
+        '    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '      colStyle.ReadOnly = True
+        '    Next
+        '    'Me.btnApprove.Enabled = True
+        '    CheckWBSRight()
+        '    Return
+        '  Else
+        '    For Each ctrl As Control In grbDetail.Controls
+        '      ctrl.Enabled = CBool(m_enableState(ctrl))
+        '    Next
+        '    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '      colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        '    Next
+        '  End If
+        'End If
       End If
 
 
@@ -2319,20 +2374,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.Status.Value = 0 OrElse m_entityRefed = 1 Then
         For Each ctrl As Control In grbDetail.Controls
           If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-            ctrl.Enabled = False
+            If TypeOf ctrl Is TextBox Then
+              CType(ctrl, TextBox).ReadOnly = True
+            Else
+              If Not TypeOf ctrl Is GroupBox Then
+                ctrl.Enabled = False
+              End If
+            End If
           End If
         Next
         tgItem.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
+        Me.SetEnalbleGroupBox(True)
       Else
         For Each ctrl As Control In grbDetail.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            If Not TypeOf ctrl Is GroupBox Then
+              ctrl.Enabled = CBool(m_enableState(ctrl))
+            End If
+          End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
+        Me.SetEnalbleGroupBox()
       End If
 
       'Me.chkClosed.Enabled = True
@@ -2340,6 +2409,50 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Me.btnApprove.Enabled = True
       'CheckWBSRight()
+    End Sub
+    Private Sub SetEnalbleGroupBox(Optional ByVal SetReadOnly As Boolean = False)
+      'Dim CtrlEnble As Boolean = grbCostCenter.Enabled
+      'Dim initFlag As Boolean = m_isInitialized
+      'grbCostCenter.Enabled = True
+      'grbSubContractor.Enabled = True
+
+      If Not SetReadOnly Then
+        For Each ctrl As Control In gbCostCenter.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
+        Next
+
+        For Each ctrl As Control In gbSubContract.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = CBool(m_readOnlyState(ctrl))
+          Else
+            ctrl.Enabled = CBool(m_enableState(ctrl))
+          End If
+        Next
+      Else
+        For Each ctrl As Control In gbCostCenter.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = True
+          Else
+            ctrl.Enabled = False
+          End If
+        Next
+
+        For Each ctrl As Control In gbSubContract.Controls
+          If TypeOf ctrl Is TextBox Then
+            CType(ctrl, TextBox).ReadOnly = True
+          Else
+            ctrl.Enabled = False
+          End If
+        Next
+      End If
+
+      m_isInitialized = True
+      Me.ibtnCopyMe.Enabled = True
+      Me.btnApprove.Enabled = True
     End Sub
     Private Sub CheckWBSRight()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2482,8 +2595,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtRetention.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler txtRetention.Validated, AddressOf Me.TextHandler
+      AddHandler txtRetention.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtRetention.TextChanged, AddressOf Me.TextHandler
 
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.TextHandler
@@ -2539,7 +2652,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.Retention = 0
             End Try
           End If
-          UpdateAmount()
           'Me.txtRetention.Text = Configuration.FormatToString(Me.m_entity.Retention, DigitConfig.Price)
           'retensionChanged = True
         Case "txtrealtaxbase"
@@ -2674,7 +2786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+      If Me.m_entity Is Nothing OrElse Not m_isInitialized OrElse Not Me.cmbCode.Enabled Then
         Return
       End If
       Dim dirtyFlag As Boolean = False
@@ -2789,6 +2901,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           UpdateAmount()
           dirtyFlag = True
         Case "txtretention"
+          UpdateAmount()
           dirtyFlag = True
         Case "txtdiscountrate"
           Me.m_entity.Discount.Rate = txtDiscountRate.Text
@@ -3034,7 +3147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
         doc = New PAItem
-        doc.ItemType = New SCIItemType(289)
+        doc.ItemType = New PAIItemType(289)
         doc.RefEntity = New RefEntity
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_entity.ItemCollection.CurrentItem = doc
@@ -3075,7 +3188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
       If doc Is Nothing Then
         doc = New PAItem
-        doc.ItemType = New SCIItemType(289)
+        doc.ItemType = New PAIItemType(289)
         doc.RefEntity = New RefEntity
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
@@ -3103,7 +3216,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_targetType = -1
         If doc Is Nothing Then
           doc = New PAItem
-          doc.ItemType = New SCIItemType(0)
+          doc.ItemType = New PAIItemType(0)
           Me.m_entity.ItemCollection.Add(doc)
           Me.m_entity.ItemCollection.CurrentItem = doc
         End If
@@ -3176,7 +3289,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       theItem.Entity = newItem
       theItem.RefEntity = New RefEntity
       theItem.Level = 0
-      theItem.ItemType = New SCIItemType(289)
+      theItem.ItemType = New PAIItemType(289)
       theItem.Qty = 0
       'Dim index As Integer = Me.m_entity.ItemCollection.IndexOf(doc)
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
@@ -3201,7 +3314,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       theItem.Level = 1
       theItem.Entity = newItem
       theItem.RefEntity = New RefEntity
-      theItem.ItemType = New SCIItemType(0)
+      theItem.ItemType = New PAIItemType(0)
       theItem.Qty = 0
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
       RefreshDocs()
@@ -3209,71 +3322,103 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      'Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
-      'If doc Is Nothing Then
-      '  Return
-      'End If
-      'If Not Me.m_entity.ItemCollection.Contains(doc) Then
-      '  Return
-      'End If
+      Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      If Not Me.m_entity.ItemCollection.Contains(doc) Then
+        Return
+      End If
+
+      Dim arrList As New ArrayList
+      Dim index As Integer = tgItem.CurrentRowIndex
+
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            index = row.Index
+            For Each childRow As TreeRow In row.Childs
+              If Not arrList.Contains(childRow) Then
+                arrList.Add(childRow)
+              End If
+            Next
+            If Not arrList.Contains(row) Then
+              arrList.Add(row)
+            End If
+          End If
+        End If
+      Next
+
+      For Each row As TreeRow In arrList
+        If Not row Is Nothing AndAlso TypeOf row.Tag Is PAItem Then
+          Dim itm As PAItem = CType(row.Tag, PAItem)
+          If Not itm Is Nothing Then
+            If Me.m_entity.ItemCollection.Contains(itm) Then
+              Me.m_entity.ItemCollection.Remove(itm)
+              Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+          End If
+        End If
+      Next
 
       'Me.m_entity.ItemCollection.Remove(doc)
 
-      Dim index As Integer = tgItem.CurrentRowIndex
-      Dim isSetIndex As Boolean = False
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim isSetIndex As Boolean = False
 
-      Dim hashParent As New Hashtable
-      Dim hashChild As New Hashtable
+      'Dim hashParent As New Hashtable
+      'Dim hashChild As New Hashtable
 
-      Dim key As String = ""
-      Dim parent As String = ""
-      Dim child As String = ""
+      'Dim key As String = ""
+      'Dim parent As String = ""
+      'Dim child As String = ""
 
-      For Each Obj As Object In Me.m_treeManager.SelectedRows
-        If Not Obj Is Nothing AndAlso TypeOf Obj Is TreeRow Then
-          Dim row As TreeRow = CType(Obj, TreeRow)
-          If Not row Is Nothing AndAlso TypeOf row.Tag Is PAItem Then
+      'For Each Obj As Object In Me.m_treeManager.SelectedRows
+      '  If Not Obj Is Nothing AndAlso TypeOf Obj Is TreeRow Then
+      '    Dim row As TreeRow = CType(Obj, TreeRow)
+      '    If Not row Is Nothing AndAlso TypeOf row.Tag Is PAItem Then
 
-            Dim sitem As PAItem = CType(row.Tag, PAItem)
-            key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
-            If sitem.Level = 0 Then
-              If Not hashParent.Contains(key) Then
-                hashParent(key) = sitem
-              End If
-            Else
-              If Not hashChild.Contains(key) Then
-                hashChild(key) = sitem
-              End If
-            End If
+      '      Dim sitem As PAItem = CType(row.Tag, PAItem)
+      '      key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
+      '      If sitem.Level = 0 Then
+      '        If Not hashParent.Contains(key) Then
+      '          hashParent(key) = sitem
+      '        End If
+      '      Else
+      '        If Not hashChild.Contains(key) Then
+      '          hashChild(key) = sitem
+      '        End If
+      '      End If
 
-          End If
-        End If
-      Next
+      '    End If
+      '  End If
+      'Next
 
-      For Each sitem As PAItem In Me.m_entity.ItemCollection 'หาลูกทั้งหมด
-        For Each pitem As PAItem In hashParent.Values
-          If sitem.Parent = pitem.Parent AndAlso sitem.Level = 1 Then
-            key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
-            If Not hashChild.Contains(key) Then
-              hashChild(key) = sitem
-            End If
-          End If
-        Next
-      Next
+      'For Each sitem As PAItem In Me.m_entity.ItemCollection 'หาลูกทั้งหมด
+      '  For Each pitem As PAItem In hashParent.Values
+      '    If sitem.Parent = pitem.Parent AndAlso sitem.Level = 1 Then
+      '      key = sitem.RefDocType.ToString & ":" & sitem.RefSequence.ToString
+      '      If Not hashChild.Contains(key) Then
+      '        hashChild(key) = sitem
+      '      End If
+      '    End If
+      '  Next
+      'Next
 
-      For Each pitm As PAItem In hashChild.Values
-        If Me.m_entity.ItemCollection.Contains(pitm) Then
-          Me.m_entity.ItemCollection.Remove(pitm)
-          Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End If
-      Next
+      'For Each pitm As PAItem In hashChild.Values
+      '  If Me.m_entity.ItemCollection.Contains(pitm) Then
+      '    Me.m_entity.ItemCollection.Remove(pitm)
+      '    Me.WorkbenchWindow.ViewContent.IsDirty = True
+      '  End If
+      'Next
 
-      For Each pitm As PAItem In hashParent.Values
-        If Me.m_entity.ItemCollection.Contains(pitm) Then
-          Me.m_entity.ItemCollection.Remove(pitm)
-          Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End If
-      Next
+      'For Each pitm As PAItem In hashParent.Values
+      '  If Me.m_entity.ItemCollection.Contains(pitm) Then
+      '    Me.m_entity.ItemCollection.Remove(pitm)
+      '    Me.WorkbenchWindow.ViewContent.IsDirty = True
+      '  End If
+      'Next
 
 
 
@@ -3325,15 +3470,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateGross = True
       RefreshDocs()
 
-      If Me.m_entity.ItemCollection.Count = 0 Then
-        tgItem.CurrentRowIndex = -1
-        Return
-      End If
       If index > 0 Then
-        If index > Me.m_entity.ItemCollection.Count Then
-          tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+        If Me.m_entity.ItemCollection.Count = 0 Then
+          tgItem.CurrentRowIndex = 0
         Else
-          tgItem.CurrentRowIndex = index - 1
+          If index > Me.m_entity.ItemCollection.Count Then
+            tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+          Else
+            tgItem.CurrentRowIndex = index - 1
+          End If
         End If
       Else
         tgItem.CurrentRowIndex = 0
@@ -3402,9 +3547,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Dim scNeedsApproval As Boolean = False
         scNeedsApproval = CBool(Configuration.GetConfig("ApproveSC"))
-        Dim filters(0) As Filter
+        Dim filters(1) As Filter
         filters(0) = New Filter("scNeedsApproval", scNeedsApproval)
-
+        filters(1) = New Filter("excludedepleted", True)
         myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, filters)
       End If
     End Sub
@@ -3704,7 +3849,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''Dim index As Integer = tgItem.CurrentRowIndex
       ''Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
       ''If doc Is Nothing Then
-      ''    Return
+      ''  Return
       ''End If
       ' ''If Not doc.SCItem Is Nothing Then
       ' ''    Return

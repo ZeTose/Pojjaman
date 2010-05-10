@@ -297,6 +297,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim theTime As Date = Now
             Dim theUser As New User(currentUserId)
 
+      If Me.AutoGen And Me.Code.Length = 0 Then
+        Me.Code = Me.GetNextCode
+      End If
       Me.AutoGen = False
 
             If Me.Status.Value = -1 Then
@@ -337,7 +340,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
             Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(Me.ConnectionString)
+      Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
 
             If conn.State = ConnectionState.Open Then conn.Close()
             conn.Open()

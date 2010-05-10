@@ -159,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       m_itemCollection = New PAItemCollection(Me)
+      OnGlChanged()
     End Sub
     '------------------------------------------ GetPAList------------------------------------------
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -333,7 +334,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Sc() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
           Return
-        End If        m_sc = Value        Me.TaxRate = m_sc.TaxRate
+        End If        OnGlChanged()
+        m_sc = Value        Me.TaxRate = m_sc.TaxRate
         Me.TaxType = New TaxType(m_sc.TaxType.Value)        ChangeSC()      End Set    End Property
     Public Property SubContractor() As Supplier Implements IAdvancePayItemAble.Supplier, IWBSAllocatable.Supplier
       Get
@@ -443,6 +445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_taxRate
       End Get
       Set(ByVal Value As Decimal)
+        OnGlChanged()
         m_taxRate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
@@ -461,7 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 0     '"ไม่มี"
             Return 0
           Case 2     'รวม VAT
-            Return Me.TaxGross - Me.DiscountWithVat - Me.RealTaxBase
+            Return Me.TaxGross - Me.DiscountWithVat - Me.RealTaxBase - Me.AdvancePay
           Case Else     '1 แยก
             Return Configuration.Format((Me.TaxRate * Me.RealTaxBase) / 100, DigitConfig.Price)
         End Select
@@ -503,6 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_retentionRemaining
       End Get
       Set(ByVal Value As Decimal)
+        OnGlChanged()
         m_retentionRemaining = Value
       End Set
     End Property
@@ -511,6 +515,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_retentionToDoc
       End Get
       Set(ByVal Value As Decimal)
+        OnGlChanged()
         m_retentionToDoc = Value
       End Set
     End Property
@@ -527,6 +532,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.PA.MissingRetention}", New String() {Configuration.FormatToString(Me.RetentionRemaining, DigitConfig.Price)})
         '  Return
         'End If
+        OnGlChanged()
         m_retention = Value
       End Set
     End Property
@@ -535,6 +541,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_advancePayToDoc
       End Get
       Set(ByVal Value As Decimal)
+        OnGlChanged()
         m_advancePayToDoc = Value
       End Set
     End Property
@@ -604,6 +611,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_discount
       End Get
       Set(ByVal Value As Discount)
+        OnGlChanged()
         m_discount = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
@@ -638,6 +646,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return
           End If
         End If
+        OnGlChanged()
         m_taxType = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
@@ -648,6 +657,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_realTaxBase = Value
+        OnGlChanged()
       End Set
     End Property
     Public Property RealGross() As Decimal
@@ -669,6 +679,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_realTaxAmount = Value
+        OnGlChanged()
       End Set
     End Property    '--------------------REAL-------------------------
 
@@ -1000,8 +1011,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return New SaveErrorException("0")
     End Function
+    Dim hashAutoChild As Hashtable
     Private Function ValidateItem() As SaveErrorException
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim key As String = ""
+      ''== validate parent has no child =============================================>>>
+      Dim key1 As String = ""
+      Dim j As Integer = 0
+      hashAutoChild = New Hashtable
+      For Each pitem As PAItem In Me.ItemCollection
+        If pitem.RefEntity.Id = 0 Then
+          If pitem.Level = 0 Then
+            If Not pitem.IsHasChild(Nothing) Then
+              j += 1
+              key1 = j.ToString
+              hashAutoChild(key1) = pitem
+            End If
+          End If
+        End If
+      Next
+      If hashAutoChild.Count > 0 Then
+        If msgServ.AskQuestion("${res:Global.Question.NotChildItemAndWantToAutoCreateChild}") Then
+          Return New SaveErrorException("2")
+        Else
+          Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        End If
+      End If
+      ''== validate parent has no child =============================================<<<
       For Each pitem As PAItem In Me.ItemCollection
         If pitem.Level = 0 Then
           If pitem.RefEntity.Id = 0 Then
@@ -1033,7 +1069,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
           End If
-          If wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0 Then
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.Boq Is Nothing AndAlso wbitem.CostCenter.Boq.Id > 0 Then
             Return New SaveErrorException("${res:Global.Error.WBSMissing}")
           End If
         Next
@@ -1073,6 +1109,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ValidateError = ValidateItem()
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
+        Else
+          If CInt(ValidateError.Message) = 2 Then
+            For Each sitem As PAItem In hashAutoChild.Values
+              Dim nsitem As New PAItem
+              nsitem.ItemType = New PAIItemType(88)
+              nsitem.Entity = New BlankItem("")
+              nsitem.Level = 1
+              nsitem.EntityName = sitem.EntityName
+              nsitem.SetUnit(sitem.Unit)
+              nsitem.SetQty(sitem.Qty)
+              nsitem.SetUnitPrice(sitem.UnitPrice)
+              'nsitem.SetMat(sitem.Mat)
+              nsitem.SetReceiveLab(sitem.Lab)
+              nsitem.RefEntity = New RefEntity
+              'nsitem.SetEq(sitem.Eq)
+              nsitem.WBSDistributeCollection = sitem.WBSDistributeCollection
+              AddHandler nsitem.WBSDistributeCollection.PropertyChanged, AddressOf nsitem.WBSChangedHandler
+
+              Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(sitem) + 1, nsitem)
+            Next
+          End If
         End If
 
         ''=============== Validate Over Budget ==================>>
@@ -1130,7 +1187,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.Code = Me.GetNextCode
         'End If
         '---- AutoCode Format --------
-        Me.m_je.RefreshGLFormat()
+        If Me.m_je.AccountBook.AutoCodeFormat Is Nothing Then
+          Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
+
+        End If
         If Not AutoCodeFormat Is Nothing Then
 
 
@@ -3533,15 +3593,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itemRemainAmount = item.TaxBase
           End If
 
+          Dim discountRate As Decimal = 1
+
           If Me.TaxType.Value = 2 Then
-            itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+            itemRemainAmount -= Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate)
+            'itemRemainAmount -= (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+          ElseIf Me.Gross <> 0 Then
+            discountRate = (Me.Gross - Me.DiscountAmount) / Me.Gross
           End If
 
           Dim itemAmount As Decimal = item.Amount
 
-          Dim itemMat As Decimal = item.Mat
-          Dim itemLab As Decimal = item.Lab
-          Dim itemEQ As Decimal = item.Eq
+
+
+          Dim itemMat As Decimal = item.Mat * discountRate
+          Dim itemLab As Decimal = item.Lab * discountRate
+          Dim itemEQ As Decimal = item.Eq * discountRate
 
           Dim itemRemainMat As Decimal = 0
           Dim itemRemainLab As Decimal = 0
@@ -3553,6 +3620,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itemRemainEQ = itemEQ * (itemRemainAmount / itemAmount)
           End If
 
+          Dim note As String = ""
           Dim realAccount As Account
           Dim realAmount As Decimal
           If Not item.ItemType Is Nothing Then
@@ -3568,7 +3636,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
 
                 '==========================LAB==============================================================
                 realAccount = Nothing
@@ -3581,8 +3656,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainLab
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
 
+                Next
                 '==========================EQ==============================================================
                 realAccount = Nothing
                 If Not item.EqAccount Is Nothing AndAlso item.EqAccount.Originated Then
@@ -3594,7 +3675,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainEQ
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
+              Case 291
+
+
+                '==========================Penalty==============================================================
+                realAccount = Nothing
+                If Not item.LabAccount Is Nothing AndAlso item.LabAccount.Originated Then
+                  'ใช้ acct ในรายการ
+                  realAccount = item.LabAccount
+                End If
+                If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                  realAmount = itemLab
+                Else
+                  realAmount = itemRemainLab
+                End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
+                SetJournalEntryItem(jiColl, realAccount, -realAmount, Me.CostCenter, "E4.9")
+                SetJournalEntryItem(jiColl, realAccount, -realAmount, Me.CostCenter, "E4.9D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, -realAmount, wbsd.CostCenter, "E4.9W", note)
+
+                Next
 
               Case 0  'Blank  
                 If Not item.MatAccount Is Nothing AndAlso item.MatAccount.Originated Then
@@ -3606,7 +3716,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
               Case 88 'lab 
                 realAccount = Nothing
                 If Not item.LabAccount Is Nothing AndAlso item.LabAccount.Originated Then
@@ -3618,7 +3735,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainLab
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
               Case 89    ' eq
                 realAccount = Nothing
                 If Not item.EqAccount Is Nothing AndAlso item.EqAccount.Originated Then
@@ -3630,7 +3754,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainEQ
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4D", note)
+
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
               Case 42 ' LCI
                 If Not item.MatAccount Is Nothing AndAlso item.MatAccount.Originated Then
                   'ใช้ acct ในรายการ
@@ -3641,7 +3773,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.1")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.1D", note)
+
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
               Case 19 'Tool
                 If Not item.MatAccount Is Nothing AndAlso item.MatAccount.Originated Then
                   'ใช้ acct ในรายการ
@@ -3652,7 +3792,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   realAmount = itemRemainMat
                 End If
+                note = item.ItemDescription & ":" & item.ItemType.Description
                 SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.2")
+                SetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.2D", note)
+
+                For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+                  realAmount = wbsd.Amount
+                  SetJournalEntryItem(jiColl, realAccount, realAmount, wbsd.CostCenter, "E3.4W", note)
+
+                Next
             End Select
           End If
         End If '----------------------ไม่มีลูก
@@ -3664,11 +3812,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return jiColl
     End Function
-    Private Sub SetJournalEntryItem(ByRef jiColl As JournalEntryItemCollection, ByRef realAccount As Account, ByVal realAmount As Decimal, ByRef jiCoscenter As CostCenter, ByVal map As String)
+    Private Sub SetJournalEntryItem(ByRef jiColl As JournalEntryItemCollection, ByRef realAccount As Account, ByVal realAmount As Decimal, ByRef jiCoscenter As CostCenter, ByVal map As String, Optional ByVal note As String = "")
       Dim ji As New JournalEntryItem
       ji.Mapping = map
       ji.Amount = realAmount
       ji.Account = realAccount
+      If note.Length > 0 Then
+        ji.Note = note
+      End If
       If jiCoscenter.Originated Then
         ji.CostCenter = jiCoscenter
       Else
@@ -3691,7 +3842,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
       Dim coll As New WBSAllocatableItemCollection
       For Each item As PAItem In Me.ItemCollection
-        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 291 Then
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.RefDocType <> 291 Then
           'If Not item.IsHasChild Then
           item.UpdateWBSQty()
 
@@ -3724,8 +3875,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
-#End Region
 
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+#End Region
 
 #Region " IApprovAble "
     Public Function ApproveData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements IApprovAble.ApproveData
@@ -3801,6 +3962,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
+
   End Class
 
   Public Class PAForApprove

@@ -638,8 +638,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub PopulateStatus()
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      'Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
+      'Dim lvApproved As String = Me.StringParserService.Parse("${res:Global.MaxLevelApproved}")
       Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
+      '('Global.WaitForOtherLevelApprove', 'Global.MaxLevelApproved')
       Dim dt1 As DataTable
 
       CodeDescription.ListCodeDescriptionInComboBox(cmbStatus, "sc_status", True)
@@ -661,10 +664,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbApproveLevel.Items.Clear()
       cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
-      For i As Integer = 0 To User.MaxLevel
-        Dim item As New IdValuePair(i, lvString & Space(1) & i.ToString)
-        cmbApproveLevel.Items.Add(item)
+      For i As Integer = 1 To User.MaxLevel
+        Dim witem As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
+        cmbApproveLevel.Items.Add(witem)
       Next
+      'Dim aitem As New IdValuePair(User.MaxLevel, String.Format(lvApproved, User.MaxLevel))
+      'cmbApproveLevel.Items.Add(aitem)
     End Sub
     Public Sub SetLabelText()
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.grbDetail}")
@@ -698,7 +703,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       arr(5) = New Filter("ApprovePerson", ValidIdOrDBNull(m_user))
       arr(6) = New Filter("ApproveLevel", IIf(cmbApproveLevel.SelectedItem Is Nothing, DBNull.Value, CType(cmbApproveLevel.SelectedItem, IdValuePair).Id))
-
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -877,13 +881,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Me.btnSupplierPanel.Enabled = False
           End If
           If TypeOf entity Is SC Then
-            If entity.Status.Value <> -1 Then
-              'CodeDescription.ComboSelect(Me.cmbStatus, entity.Status)
-              If cmbStatus.Items.Count > 0 Then
-                cmbStatus.SelectedIndex = 0
-              End If
+            'If entity.Status.Value <> -1 Then
+            'CodeDescription.ComboSelect(Me.cmbStatus, entity.Status)
+            If cmbStatus.Items.Count > 0 Then
+              cmbStatus.SelectedIndex = 0
+              For Each item As IdValuePair In Me.cmbStatus.Items
+                If item.Id = 201 Then
+                  Me.cmbStatus.SelectedItem = item
+                End If
+              Next
             End If
+            If cmbApproveLevel.Items.Count > 0 Then
+              cmbApproveLevel.SelectedIndex = 0
+            End If
+            'End If
             Me.cmbStatus.Enabled = False
+            Me.cmbApproveLevel.Enabled = False
           End If
           If TypeOf entity Is CostCenter Then
             Me.SetCostCenter(CType(entity, CostCenter))

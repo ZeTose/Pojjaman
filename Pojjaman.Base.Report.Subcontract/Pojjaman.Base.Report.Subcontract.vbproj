@@ -131,6 +131,8 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptContractSummary.vb" />
+    <Compile Include="BLL\RptWR.vb" />
     <Compile Include="BLL\RptDR.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -157,6 +159,12 @@
     </Compile>
     <Compile Include="BLL\RptVO.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptContractSummaryFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\RptWRFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptDRFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -185,6 +193,12 @@
     <Compile Include="UI\RptVOFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptContractSummaryFilterSubPanel.resx">
+      <DependentUpon>RptContractSummaryFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptWRFilterSubPanel.resx">
+      <DependentUpon>RptWRFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptDRFilterSubPanel.resx">
       <DependentUpon>RptDRFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>

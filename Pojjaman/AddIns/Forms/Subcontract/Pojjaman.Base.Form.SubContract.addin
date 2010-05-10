@@ -28,7 +28,8 @@
         </EntityTab>
         <EntityTab id="dr">
           <EntityTab id="DRPanelView" view="Longkong.Pojjaman.Gui.Panels.DRPanelView"/>
-  		  <EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
+          <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+          <!--<EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>-->
         </EntityTab>
         <EntityTab id="pa">
           <EntityTab id="PAPanelView" view="Longkong.Pojjaman.Gui.Panels.PAPanelView"/>

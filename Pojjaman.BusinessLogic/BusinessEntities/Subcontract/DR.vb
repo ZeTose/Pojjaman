@@ -32,7 +32,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
 
-
 #Region "Members"
 
     Private m_docDate As Date
@@ -328,7 +327,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As CostCenter)
         If m_fromcc.Id <> Value.Id Then
           For Each itm As DRItem In Me.ItemCollection
-            itm.FromCCWBSDistributeCollection.Clear()
+            itm.WBSDistributeCollection.Clear()
           Next
         End If
 
@@ -724,23 +723,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Next
     '    Return ret
     'End Function
-    Public Function GetCurrentToCCAmountForMarkup(ByVal mk As Markup) As Decimal
-      Dim ret As Decimal = 0
-      For Each item As DRItem In Me.ItemCollection
-        For Each grWBSD As WBSDistribute In item.ToCCWBSDistributeCollection
-          If grWBSD.IsMarkup Then
-            If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
-              ret += (grWBSD.Percent * item.Amount / 100)
-            End If
-          End If
-        Next
-      Next
-      Return ret
-    End Function
+    'Public Function GetCurrentToCCAmountForMarkup(ByVal mk As Markup) As Decimal
+    '  Dim ret As Decimal = 0
+    '  For Each item As DRItem In Me.ItemCollection
+    '    For Each grWBSD As WBSDistribute In item.ToCCWBSDistributeCollection
+    '      If grWBSD.IsMarkup Then
+    '        If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
+    '          ret += (grWBSD.Percent * item.Amount / 100)
+    '        End If
+    '      End If
+    '    Next
+    '  Next
+    '  Return ret
+    'End Function
     Public Function GetCurrentFromCCAmountForMarkup(ByVal mk As Markup) As Decimal
       Dim ret As Decimal = 0
       For Each item As DRItem In Me.ItemCollection
-        For Each grWBSD As WBSDistribute In item.FromCCWBSDistributeCollection
+        For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
           If grWBSD.IsMarkup Then
             If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
               ret += (grWBSD.Percent * item.Amount / 100)
@@ -750,99 +749,99 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ret
     End Function
-    Private Function ValidateOverBudget() As SaveErrorException
-      Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      If Me.ToCostCenter.Type.Value <> 2 Then
-        Return New SaveErrorException("-1")
-      End If
-      If Me.ToCostCenter.Boq Is Nothing OrElse Me.ToCostCenter.Boq.Id = 0 Then
-        Return New SaveErrorException("-1")
-      End If
-      'PROverBudgetOnlyCC
-      Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
-      Dim onlyCC As Boolean = False
-      If Not config Is Nothing Then
-        onlyCC = CBool(config)
-      End If
-      '====================
-      WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
-      '====================
-      If Not onlyCC Then
-        For Each item As DRItem In Me.ItemCollection
-          If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
+    'Private Function ValidateOverBudget() As SaveErrorException
+    '  Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    '  If Me.ToCostCenter.Type.Value <> 2 Then
+    '    Return New SaveErrorException("-1")
+    '  End If
+    '  If Me.ToCostCenter.Boq Is Nothing OrElse Me.ToCostCenter.Boq.Id = 0 Then
+    '    Return New SaveErrorException("-1")
+    '  End If
+    '  'PROverBudgetOnlyCC
+    '  Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
+    '  Dim onlyCC As Boolean = False
+    '  If Not config Is Nothing Then
+    '    onlyCC = CBool(config)
+    '  End If
+    '  '====================
+    '  WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
+    '  '====================
+    '  If Not onlyCC Then
+    '    For Each item As DRItem In Me.ItemCollection
+    '      If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
 
-            Dim totalBudget As Decimal = 0
-            Dim totalActual As Decimal = 0
-            Dim totalCurrent As Decimal = 0
-            For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
-              totalCurrent = (wbsd.Percent / 100) * item.Amount
+    '        Dim totalBudget As Decimal = 0
+    '        Dim totalActual As Decimal = 0
+    '        Dim totalCurrent As Decimal = 0
+    '        For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
+    '          totalCurrent = (wbsd.Percent / 100) * item.Amount
 
-              'สำหรับ WBS ตัวมันเอง =====>>
-              If wbsd.BudgetRemain - totalCurrent < 0 Then
-                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
-              End If
-              'สำหรับ WBS ตัวมันเอง =====<<
+    '          'สำหรับ WBS ตัวมันเอง =====>>
+    '          If wbsd.BudgetRemain - totalCurrent < 0 Then
+    '            Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+    '          End If
+    '          'สำหรับ WBS ตัวมันเอง =====<<
 
-              'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
-              For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
-                totalBudget = 0
-                totalActual = 0
-                Select Case item.ItemType.Value
-                  Case 88
-                    If Not row.IsNull("labbudget") Then
-                      totalBudget = CDec(row("labbudget"))
-                    End If
-                    If Not row.IsNull("labactual") Then
-                      totalActual = CDec(row("labactual"))
-                    End If
-                  Case 89
-                    If Not row.IsNull("eqbudget") Then
-                      totalBudget = CDec(row("eqbudget"))
-                    End If
-                    If Not row.IsNull("eqactual") Then
-                      totalActual = CDec(row("eqactual"))
-                    End If
-                  Case Else
-                    If Not row.IsNull("matbudget") Then
-                      totalBudget = CDec(row("matbudget"))
-                    End If
-                    If Not row.IsNull("matactual") Then
-                      totalActual = CDec(row("matactual"))
-                    End If
-                End Select
-                If Me.Originated Then
-                  If item.ItemType.Value = 88 Then
-                    totalActual -= item.OldLab
-                  ElseIf item.ItemType.Value = 89 Then
-                    totalActual -= item.OldEq
-                  Else
-                    totalActual -= item.OldMat
-                  End If
-                End If
+    '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
+    '          For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
+    '            totalBudget = 0
+    '            totalActual = 0
+    '            Select Case item.ItemType.Value
+    '              Case 88
+    '                If Not row.IsNull("labbudget") Then
+    '                  totalBudget = CDec(row("labbudget"))
+    '                End If
+    '                If Not row.IsNull("labactual") Then
+    '                  totalActual = CDec(row("labactual"))
+    '                End If
+    '              Case 89
+    '                If Not row.IsNull("eqbudget") Then
+    '                  totalBudget = CDec(row("eqbudget"))
+    '                End If
+    '                If Not row.IsNull("eqactual") Then
+    '                  totalActual = CDec(row("eqactual"))
+    '                End If
+    '              Case Else
+    '                If Not row.IsNull("matbudget") Then
+    '                  totalBudget = CDec(row("matbudget"))
+    '                End If
+    '                If Not row.IsNull("matactual") Then
+    '                  totalActual = CDec(row("matactual"))
+    '                End If
+    '            End Select
+    '            If Me.Originated Then
+    '              If item.ItemType.Value = 88 Then
+    '                totalActual -= item.OldLab
+    '              ElseIf item.ItemType.Value = 89 Then
+    '                totalActual -= item.OldEq
+    '              Else
+    '                totalActual -= item.OldMat
+    '              End If
+    '            End If
 
-                If totalBudget < (totalActual + totalCurrent) Then
-                  Dim myId As Integer = CInt(row("depend_parent"))
-                  Dim myWBS As New WBS(myId)
-                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
-                End If
-              Next
-              'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
-            Next
-          End If
-        Next
-      Else
-        Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
-        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
-        Dim totalCurrent As Decimal = Me.ItemCollection.Amount
+    '            If totalBudget < (totalActual + totalCurrent) Then
+    '              Dim myId As Integer = CInt(row("depend_parent"))
+    '              Dim myWBS As New WBS(myId)
+    '              Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+    '            End If
+    '          Next
+    '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
+    '        Next
+    '      End If
+    '    Next
+    '  Else
+    '    Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
+    '    Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+    '    Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+    '    Dim totalCurrent As Decimal = Me.ItemCollection.Amount
 
-        If totalBudget < (totalActual + totalCurrent) Then
-          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
-        End If
-      End If
+    '    If totalBudget < (totalActual + totalCurrent) Then
+    '      Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+    '    End If
+    '  End If
 
-      Return New SaveErrorException("0")
-    End Function
+    '  Return New SaveErrorException("0")
+    'End Function
     Private Function ValidateItem() As SaveErrorException
       Dim key As String = ""
       For Each ditem As DRItem In Me.ItemCollection
@@ -852,7 +851,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           New String() {ditem.ItemDescription, Configuration.FormatToString(ditem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
         End If
         Dim newHash As New Hashtable
-        For Each wbitem As WBSDistribute In ditem.ToCCWBSDistributeCollection
+        For Each wbitem As WBSDistribute In ditem.WBSDistributeCollection
           key = wbitem.WBS.Id.ToString
           If Not newHash.Contains(key) Then
             newHash(key) = wbitem
@@ -863,18 +862,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException("${res:Global.Error.WBSMissing}")
           End If
         Next
-        Dim newHash2 As New Hashtable
-        For Each wbitem As WBSDistribute In ditem.FromCCWBSDistributeCollection
-          key = wbitem.WBS.Id.ToString
-          If Not newHash2.Contains(key) Then
-            newHash2(key) = wbitem
-          Else
-            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
-          End If
-          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
-            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
-          End If
-        Next
+        'Dim newHash2 As New Hashtable
+        'For Each wbitem As WBSDistribute In ditem.FromCCWBSDistributeCollection
+        '  key = wbitem.WBS.Id.ToString
+        '  If Not newHash2.Contains(key) Then
+        '    newHash2(key) = wbitem
+        '  Else
+        '    Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+        '  End If
+        '  If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+        '    Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+        '  End If
+        'Next
       Next
       Return New SaveErrorException("0")
     End Function
@@ -901,30 +900,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         ''=============== Validate Over Budget ==================>>
-        Dim ValidateOverBudgetError As SaveErrorException
-        Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
-        Select Case config
-          Case 0   'Not allow
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              Return New SaveErrorException(msgString & vbCrLf & msgString2)
-            End If
-          Case 1   'Warn
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-              End If
-            End If
-          Case 2   'Do Nothing
-        End Select
+        'Dim ValidateOverBudgetError As SaveErrorException
+        'Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
+        'Select Case config
+        '  Case 0   'Not allow
+        '    ValidateOverBudgetError = Me.ValidateOverBudget
+        '    If Not IsNumeric(ValidateOverBudgetError.Message) Then
+        '      Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+        '      Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+        '      msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+        '      Return New SaveErrorException(msgString & vbCrLf & msgString2)
+        '    End If
+        '  Case 1   'Warn
+        '    ValidateOverBudgetError = Me.ValidateOverBudget
+        '    If Not IsNumeric(ValidateOverBudgetError.Message) Then
+        '      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        '      Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+        '      Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+        '      msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+        '      If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+        '      End If
+        '    End If
+        '  Case 2   'Do Nothing
+        'End Select
         ''=============== Validate Over Budget ==================<<
 
         '    Dim tmpBoq As BOQ = Me.CostCenter.Boq
@@ -1088,7 +1087,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           trans.Commit()
@@ -1277,25 +1276,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
 
-              For x As Integer = 0 To 1
+              'For x As Integer = 0 To 1
                 Dim rootWBS As WBS
                 Dim wbsdColl As WBSDistributeCollection
                 Dim currentSum As Decimal
                 Dim currentCostCenter As CostCenter
 
-                If x = 0 Then
-                  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
-                  wbsdColl = item.ToCCWBSDistributeCollection
-                  currentSum = wbsdColl.GetSumPercent
-                  currentCostCenter = Me.ToCostCenter
-                Else
+              'If x = 0 Then
+              '  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
+              '  wbsdColl = item.ToCCWBSDistributeCollection
+              '  currentSum = wbsdColl.GetSumPercent
+              '  currentCostCenter = Me.ToCostCenter
+              'Else
                   rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
-                  wbsdColl = item.FromCCWBSDistributeCollection
+              wbsdColl = item.WBSDistributeCollection
                   currentSum = wbsdColl.GetSumPercent
                   currentCostCenter = Me.FromCostCenter
-                End If
+              'End If
 
-                If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
+              'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
 
                   Try
                     For Each wbsd As WBSDistribute In wbsdColl
@@ -1304,7 +1303,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         wbsd.Percent += (100 - currentSum)
                       End If
                       Dim bfTax As Decimal = 0
-                      bfTax = item.CostAmount
+                  bfTax = Math.Abs(item.CostAmount)
                       wbsd.BaseCost = bfTax 'item.Amount
                       wbsd.TransferBaseCost = bfTax 'item.Amount
                       Dim childDr As DataRow = dtWbs.NewRow
@@ -1312,7 +1311,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       childDr("driw_wbs") = wbsd.WBS.Id
                       childDr("driw_percent") = wbsd.Percent
                       childDr("driw_ismarkup") = wbsd.IsMarkup
-                      childDr("driw_direction") = x
+                  childDr("driw_direction") = 1 'x
                       childDr("driw_baseCost") = wbsd.BaseCost
                       childDr("driw_amt") = wbsd.Amount
                       'childDr("sciw_toaccttype") = Me.ToAccountType.Value
@@ -1346,7 +1345,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       childDr("driw_wbs") = wbsd.WBS.Id
                       childDr("driw_percent") = wbsd.Percent
                       childDr("driw_ismarkup") = wbsd.IsMarkup
-                      childDr("driw_direction") = x
+                  childDr("driw_direction") = 1 'x
                       childDr("driw_baseCost") = wbsd.BaseCost
                       childDr("driw_amt") = wbsd.Amount
                       'childDr("sciw_toaccttype") = Me.ToAccountType.Value                               
@@ -1360,9 +1359,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End Try
                   End If
 
-                End If
+              'End If
 
-              Next
+              'Next
 
             End If
 
@@ -2104,6 +2103,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IWBSAllocatable"
     Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
       Dim coll As New WBSAllocatableItemCollection
       For Each item As DRItem In Me.ItemCollection
@@ -2111,28 +2111,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
           item.UpdateWBSQty()
 
           If Not Me.Originated Then
-            For Each wbsd As WBSDistribute In item.FromCCWBSDistributeCollection
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
               wbsd.ChildAmount = 0
               wbsd.GetChildIdList()
               For Each allItem As DRItem In Me.ItemCollection
-                For Each childWbsd As WBSDistribute In allItem.FromCCWBSDistributeCollection
+                For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
                   If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
                     wbsd.ChildAmount += childWbsd.Amount
                   End If
                 Next
               Next
             Next
-            For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
-              wbsd.ChildAmount = 0
-              wbsd.GetChildIdList()
-              For Each allItem As DRItem In Me.ItemCollection
-                For Each childWbsd As WBSDistribute In allItem.ToCCWBSDistributeCollection
-                  If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
-                    wbsd.ChildAmount += childWbsd.Amount
-                  End If
-                Next
-              Next
-            Next
+            'For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
+            '  wbsd.ChildAmount = 0
+            '  wbsd.GetChildIdList()
+            '  For Each allItem As DRItem In Me.ItemCollection
+            '    For Each childWbsd As WBSDistribute In allItem.ToCCWBSDistributeCollection
+            '      If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+            '        wbsd.ChildAmount += childWbsd.Amount
+            '      End If
+            '    Next
+            '  Next
+            'Next
           End If
 
           coll.Add(item)
@@ -2140,6 +2140,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return coll
     End Function
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return True
+      End Get
+    End Property
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return False
+      End Get
+    End Property
+#End Region
+
+
 
   
   End Class

@@ -182,6 +182,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_amt") + drh1.GetValue(Of Decimal)("taxamt"), DigitConfig.Price)
         Next
 
+        If Not drh1 Is Nothing Then
         m_grid.RowCount += 1
         GRIndex = m_grid.RowCount
         m_grid.RowStyles(GRIndex).Font.Bold = True
@@ -201,7 +202,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeduct") + drh1.GetValue(Of Decimal)("GrossWithDeductTaxAmt"), DigitConfig.Price)
         m_grid(GRIndex, 12).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("billai_amt"), DigitConfig.Price)
         m_grid(GRIndex, 1).Tag = "Font.Bold"
-
+        End If
       Next
 
       'm_grid.RowCount += 1

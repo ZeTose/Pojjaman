@@ -972,16 +972,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Nothing
       End Get
     End Property
-    Private ReadOnly Property CurrentAllowFromCCItem() As IAllowWBSAllocatable
+    Private ReadOnly Property CurrentAllowFromCCItem() As IAllowWBSAllocatableItem
       Get
         Dim row As TreeRow = Me.m_wbsFromCCTreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is IAllowWBSAllocatable Then
+        If Not TypeOf row.Tag Is IAllowWBSAllocatableItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, IAllowWBSAllocatable)
+        Return CType(row.Tag, IAllowWBSAllocatableItem)
       End Get
     End Property
     Public Sub WBStgFromCCButtonClicked(ByVal e As ButtonColumnEventArgs)
@@ -1198,6 +1198,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim key As String = ""
       Dim itemKey As String = ""
       Me.m_isInitialized = False
+      Dim newRow As TreeRow = Nothing
+      Dim currRow As TreeRow = Nothing
+      Dim newRow2 As TreeRow = Nothing
+      Dim currRow2 As TreeRow = Nothing
 
       If TypeOf m_entity Is IWBSAllocatable Then
         Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
@@ -1209,11 +1213,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '------- in ------------------------------------------------------------------------------------------------
         ''-----------------------------------------------------------------------------------------------------------
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
-          Dim newRow As TreeRow = dt.Childs.Add()
+          'Dim newRow As TreeRow = dt.Childs.Add()
           If ali.AllocationErrorMessage.Length <> 0 Then
+            newRow = dt.Childs.Add
             newRow.FixLevel = 0
+            currRow = newRow
+            newRow.State = RowExpandState.Expanded
           Else
+            If Not currRow Is Nothing Then
+              newRow = currRow.Childs.Add
+          Else
+              newRow = dt.Childs.Add
+            End If
             newRow.FixLevel = 1
+            currRow = newRow
+            newRow.State = RowExpandState.Expanded
           End If
           newRow("ItemType") = ali.Type
           newRow("Description") = ali.Description
@@ -1268,7 +1282,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '------- out ------------------------------------------------------------------------------------------------
         ''-----------------------------------------------------------------------------------------------------------
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
-          Dim newRow2 As TreeRow = dt2.Childs.Add()
+          'Dim newRow2 As TreeRow = dt2.Childs.Add()
+          newRow2 = dt2.Childs.Add()
           If ali.AllocationErrorMessage.Length <> 0 Then
             newRow2.FixLevel = 0
           Else
@@ -1473,7 +1488,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      Dim all As IAllowWBSAllocatable = Me.CurrentAllowFromCCItem
+      Dim all As IAllowWBSAllocatableItem = Me.CurrentAllowFromCCItem
       If Not all Is Nothing AndAlso Not all.AllowWBSAllocateTo Then
         msgServ.ShowMessage("${res:Global.Error.CannotAllocate}")
         Return
@@ -1519,7 +1534,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      Dim all As IAllowWBSAllocatable = Me.CurrentAllowFromCCItem
+      Dim all As IAllowWBSAllocatableItem = Me.CurrentAllowFromCCItem
       If Not all Is Nothing AndAlso Not all.AllowWBSAllocateFrom Then
         msgServ.ShowMessage("${res:Global.Error.CannotAllocate}")
         Return

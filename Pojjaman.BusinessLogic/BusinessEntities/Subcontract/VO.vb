@@ -556,7 +556,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.Level = 0 AndAlso item.IsNotRefSC Then
           newUnitPrice = 0
           If item.Qty = 0 Then
-            item.SetUnitPrice(0)
+            item.SetQty(1)
+            item.SetUnitPrice((item.Mat + item.Lab + item.Eq))
           Else
             item.SetUnitPrice((item.Mat + item.Lab + item.Eq) / item.Qty)
           End If
@@ -2309,6 +2310,16 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Next
       Return coll
     End Function
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
 #End Region
 
   End Class

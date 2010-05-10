@@ -734,7 +734,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub PopulateStatus()
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      'Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
       Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
       Dim dt1 As DataTable
 
@@ -757,10 +758,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbApproveLevel.Items.Clear()
       cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
-      For i As Integer = 0 To User.MaxLevel
-        Dim item As New IdValuePair(i, lvString & Space(1) & i.ToString)
-        cmbApproveLevel.Items.Add(item)
+      For i As Integer = 1 To User.MaxLevel
+        Dim witem As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
+        cmbApproveLevel.Items.Add(witem)
       Next
+      'Dim aitem As New IdValuePair(User.MaxLevel, String.Format(lvApproved, User.MaxLevel))
+      'cmbApproveLevel.Items.Add(aitem)
     End Sub
     Public Sub SetLabelText()
       '            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POFilterSubPanel.grbDetail}")

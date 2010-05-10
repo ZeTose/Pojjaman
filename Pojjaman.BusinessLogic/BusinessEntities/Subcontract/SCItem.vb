@@ -114,6 +114,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal sc As SC)
+      Me.SC = sc
+      Me.Construct(dr, "")
+    End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
 
@@ -256,6 +260,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_oldAmount = CDec(dr(aliasPrefix & "scio_amount"))
         End If
 
+        If Not Me.SC.WR Is Nothing Then
+          If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
+            If CInt(dr.IsNull(aliasPrefix & "sci_wr")) > 0 Then
+              .m_wr = Me.SC.WR
+            Else
+              .m_wr = New WR
+            End If
+          End If
+        Else
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
           .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
         Else
@@ -263,6 +276,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_wr = .m_sc.WR
           End If
         End If
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrsequence") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrsequence") Then
           .m_wriSequence = CLng(dr(aliasPrefix & "sci_wrsequence"))
         End If
@@ -508,6 +523,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property WRIQty As Decimal      Get        Return m_wriQty
       End Get
       Set(ByVal value As Decimal)
+        If Me.WR.Originated Then
         If (m_wriorginQty < value) Then
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
@@ -516,6 +532,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
         End If
         m_wriQty = value
+        End If
       End Set
     End Property    Public ReadOnly Property WRIOriginQty As Decimal
       Get
@@ -530,6 +547,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 
     Public Sub UpdateWBSQty()
+      If (Me.ItemType.Value = 160 OrElse
+          Me.ItemType.Value = 162 OrElse
+          Me.ItemType.Value = 88 OrElse
+          Me.ItemType.Value = 89) Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          wbsd.BaseQty = 0
+          wbsd.QtyRemain = 0
+        Next
+        Return
+      End If
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
         'Dim oldVal As Decimal = wbsd.TransferAmount
@@ -559,12 +586,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Do nothing
           Case Else
             If Me.WRIQty > 0 Then
-              If Me.WRIQty < Value Then
-                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCiQtyMustLessThanOrEqualWRiQty}", _
-                                              New String() {Configuration.FormatToString(Value, DigitConfig.Qty), _
-                                                            Configuration.FormatToString(WRIQty, DigitConfig.Qty)})
-                Return
+              ''If Me.Unit.Equals(Me.WRIUnit) Then ' AndAlso Me.WRIOriginQty < Value Then  '????? WRIOriginQty คือจำนวนคงเหลือตอนทำเอกสารรึเป่า
+              ''  msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.SCiQtyMustLessThanOrEqualWRiQty}", _
+              ''                                New String() {Configuration.FormatToString(Value, DigitConfig.Qty), _
+              ''                                              Configuration.FormatToString(WRIOriginQty, DigitConfig.Qty)})
+              ''  Return
+              ''ElseIf Me.Unit.Equals(Me.WRIUnit) Then
+              If Value < WRIQty Then
+                SetWRIQty(Value)
               End If
+              ''End If
             End If
         End Select        Dim amt As Decimal = Value * Me.UnitPrice
 
@@ -1128,12 +1159,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ItemWRValidateRow(ByVal row As DataRow)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim sci_wriqty As Object = row("sci_wriqty")
+      If Me.WR.Originated Then
       If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
         If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 Then
           row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
         Else
           row.SetColumnError("sci_wriqty", "")
         End If
+      Else
+        row.SetColumnError("sci_wriqty", "")
+      End If
       Else
         row.SetColumnError("sci_wriqty", "")
       End If
@@ -1914,7 +1949,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       )
 
       For Each row As DataRow In ds.Tables(0).Rows
-        Dim item As New SCItem(row, "")
+        Dim item As New SCItem(row, m_sc)
         item.SC = m_sc
         Me.Add(item)
         m_hashWBSItems(item.WBSId) = item
@@ -2485,222 +2520,113 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          If bitem.TotalCost = 0 Then
-            Return
-          End If
+          'If bitem.TotalCost = 0 Then
+          '  Return
+          'End If
 
           If bitem.ItemType.Value = 18 Then     'ค่าแรง
             bitem.ItemType.Value = 88
             bitem.Entity.Id = 0
-          End If
-          If bitem.ItemType.Value = 20 Then     'ค่าเครื่องจักร
+          ElseIf bitem.ItemType.Value = 20 Then     'ค่าเครื่องจักร
             bitem.ItemType.Value = 89
             bitem.Entity.Id = 0
           End If
 
-          Dim matWbsd As New WBSDistribute
-          Dim labWbsd As New WBSDistribute
-          Dim eqWbsd As New WBSDistribute
-
-          Dim matDoc As scitem
-          Dim labDoc As scitem
-          Dim eqDoc As scitem
-          Dim itemType As Integer
-          itemType = bitem.ItemType.Value
-          Select Case bitem.ItemType.Value
-            Case 42, 0
-              If bitem.UMC <> 0 Then       'mat
-                matDoc = New scitem
-                Dim item As scitem = GetCurrentItems(bitem)
-                Dim lastboqitem As scitem = GetCurrentLastItems(bitem)
-                If Not item Is Nothing Then
-                  matDoc = Item
-                  matDoc.WBSId = bitem.WBS.Id
-                Else
-                  matDoc.WBSId = bitem.WBS.Id
-                  Me.Insert(Me.IndexOf(lastboqitem) + 1, matDoc)
+          '>>>>==== SetNewItems ================>>>
+          Dim tempUnitPrice As Decimal
+          If bitem.ItemType.Value = 88 Then
+            tempUnitPrice = bitem.ULC
+            Me.SetNewItems(bitem, tempUnitPrice)
                 End If
-                matDoc.ItemType = New SCIItemType(bitem.ItemType.Value)
-                If bitem.ItemType.Value = 0 Then
-                  matDoc.EntityName = bitem.EntityName
-                Else
-                  matDoc.Entity = bitem.Entity
+          If bitem.ItemType.Value = 89 Then
+            tempUnitPrice = bitem.UEC
+            Me.SetNewItems(bitem, tempUnitPrice)
                 End If
-                matDoc.Unit = bitem.Unit
-                matDoc.Qty = bitem.Qty
-                matDoc.UnitPrice = bitem.UMC
-
-                If Not bitem.WBS Is Nothing Then
-                  matWbsd.IsMarkup = False
-                  matWbsd.CostCenter = Me.m_sc.CostCenter
-                  matWbsd.WBS = bitem.WBS
-                  matWbsd.Percent = 100
-                  'matWbsd.BaseCost = bitem.TotalMaterialCost
-                  'matWbsd.TransferBaseCost = bitem.TotalMaterialCost
-                  matWbsd.IsOutWard = False
-                  matWbsd.Toaccttype = 3
+          If bitem.ItemType.Value <> 88 AndAlso bitem.ItemType.Value <> 89 Then
+            If bitem.UMC > 0 Then
+              tempUnitPrice = bitem.UMC
+              Me.SetNewItems(bitem, tempUnitPrice)
                 End If
+            If bitem.ULC > 0 Then
+              tempUnitPrice = bitem.ULC
+              bitem.ItemType.Value = 88
+              Me.SetNewItems(bitem, tempUnitPrice)
               End If
-              If bitem.ULC <> 0 Then       '88 -> Lab
-                bitem.ItemType.Value = 88  'Hack
-                labDoc = New SCItem
+            If bitem.UEC > 0 Then
+              tempUnitPrice = bitem.UEC
+              bitem.ItemType.Value = 89
+              Me.SetNewItems(bitem, tempUnitPrice)
+                End If
+            If bitem.TotalCost = 0 Then
+              tempUnitPrice = 0
+              Me.SetNewItems(bitem, tempUnitPrice)
+                End If
+                End If
+          '>>>>==== SetNewItems ================>>>
+
+              End If
+      Next
+      'RefreshBudget()
+    End Sub
+    Private Sub SetNewItems(ByVal bitem As BoqItem, ByVal unitPrice As Decimal)
                 Dim item As SCItem = GetCurrentItems(bitem)
                 Dim lastboqitem As SCItem = GetCurrentLastItems(bitem)
-                If Not item Is Nothing Then
-                  labDoc = item
-                  labDoc.WBSId = bitem.WBS.Id
-                Else
-                  labDoc.WBSId = bitem.WBS.Id
-                  Me.Insert(Me.IndexOf(lastboqitem) + 1, labDoc)
-                End If
-                labDoc.ItemType = New SCIItemType(88)
-                If itemType = 42 Then
-                  labDoc.Entity = bitem.Entity
-                  labDoc.EntityName = bitem.Entity.Name
-                Else
-                  labDoc.EntityName = bitem.Entity.Name
-                End If
-                labDoc.Unit = bitem.Unit
-                labDoc.Qty = bitem.Qty
-                labDoc.UnitPrice = bitem.ULC
-                If Not bitem.WBS Is Nothing Then
-                  labWbsd.IsMarkup = False
-                  labWbsd.CostCenter = Me.m_sc.CostCenter
-                  labWbsd.WBS = bitem.WBS
-                  labWbsd.Percent = 100
-                  'labWbsd.BaseCost = bitem.TotalLaborCost
-                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
-                  labWbsd.IsOutWard = False
-                  labWbsd.Toaccttype = 3
-                End If
-              End If
-              If bitem.UEC <> 0 Then       '89 -> EQ
-                bitem.ItemType.Value = 89  'Hack
-                eqDoc = New SCItem
-                Dim item As SCItem = GetCurrentItems(bitem)
-                Dim lastboqitem As SCItem = GetCurrentLastItems(bitem)
-                If Not item Is Nothing Then
-                  eqDoc = item
-                  eqDoc.WBSId = bitem.WBS.Id
-                Else
-                  eqDoc.WBSId = bitem.WBS.Id
-                  Me.Insert(Me.IndexOf(lastboqitem) + 1, eqDoc)
-                End If
-                eqDoc.ItemType = New SCIItemType(89)
-                If itemType = 42 Then
-                  eqDoc.Entity = bitem.Entity
-                  eqDoc.EntityName = bitem.Entity.Name
-                Else
-                  eqDoc.EntityName = bitem.Entity.Name
-                End If
-                eqDoc.Unit = bitem.Unit
-                eqDoc.Qty = bitem.Qty
-                eqDoc.UnitPrice = bitem.UEC
-                If Not bitem.WBS Is Nothing Then
-                  eqWbsd.IsMarkup = False
-                  eqWbsd.CostCenter = Me.m_sc.CostCenter
-                  eqWbsd.WBS = bitem.WBS
-                  eqWbsd.Percent = 100
-                  'eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
-                  eqWbsd.IsOutWard = False
-                  eqWbsd.Toaccttype = 3
-                End If
-              End If
-            Case 88, 89
-              Dim item As scitem = GetCurrentItems(bitem)
-              Dim lastboqitem As scitem = GetCurrentLastItems(bitem)
-              Dim doc As New scitem
-              Dim tempUnitPrice As Decimal
+      Dim doc As New SCItem
+      'Dim tempUnitPrice As Decimal
 
-              If bitem.ItemType.Value = 88 Then
                 If Not item Is Nothing Then
-                  doc = Item
+        doc = item
                   doc.WBSId = bitem.WBS.Id
                 Else
                   doc.WBSId = bitem.WBS.Id
                   Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
                 End If
-                tempUnitPrice = bitem.ULC
 
-              ElseIf bitem.ItemType.Value = 89 Then
-                If Not item Is Nothing Then
-                  doc = Item
-                  doc.WBSId = bitem.WBS.Id
-                Else
-                  doc.WBSId = bitem.WBS.Id
-                  Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
-                End If
-                tempUnitPrice = bitem.UEC
-              End If
+      'If bitem.ItemType.Value = 88 Then
+      '  tempUnitPrice = bitem.ULC
+      'End If
+      'If bitem.ItemType.Value = 89 Then
+      '  tempUnitPrice = bitem.UEC
+      'End If
+      'If bitem.ItemType.Value <> 88 AndAlso bitem.ItemType.Value <> 89 Then
+      '  tempUnitPrice = bitem.UMC
+      'End If
+
               doc.ItemType = New SCIItemType(bitem.ItemType.Value)
               doc.Entity = bitem.Entity
               doc.EntityName = bitem.Entity.Name
               doc.Unit = bitem.Unit
               doc.Qty = bitem.Qty
-              doc.UnitPrice = tempUnitPrice
-              If bitem.ItemType.Value = 88 Then
+      doc.UnitPrice = unitPrice
+
+      Dim wbsd As New WBSDistribute
                 If Not bitem.WBS Is Nothing Then
-                  labWbsd.IsMarkup = False
-                  labWbsd.CostCenter = Me.m_sc.CostCenter
-                  labWbsd.WBS = bitem.WBS
-                  labWbsd.Percent = 100
+        wbsd.IsMarkup = False
+        wbsd.CostCenter = Me.m_sc.CostCenter
+        wbsd.WBS = bitem.WBS
+        wbsd.Percent = 100
                   'labWbsd.BaseCost = bitem.TotalLaborCost
                   'labWbsd.TransferBaseCost = bitem.TotalLaborCost
-                  labWbsd.IsOutWard = False
-                  labWbsd.Toaccttype = 3
-                End If
-              End If
-              If bitem.ItemType.Value = 89 Then
-                If Not bitem.WBS Is Nothing Then
-                  eqWbsd.IsMarkup = False
-                  eqWbsd.CostCenter = Me.m_sc.CostCenter
-                  eqWbsd.WBS = bitem.WBS
-                  eqWbsd.Percent = 100
-                  'eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
-                  eqWbsd.IsOutWard = False
-                  eqWbsd.Toaccttype = 3
-                End If
-              End If
-          End Select
+        wbsd.IsOutWard = False
+        wbsd.Toaccttype = 3
 
-          If matWbsd.Percent = 100 Then
-            If Not matDoc Is Nothing Then
-              matDoc.WBSDistributeCollection.Add(matWbsd)
+        If Not doc Is Nothing Then
+          SetBudgetRemain(wbsd, doc)
               'm_WBSDistributeCollection = New WBSDistributeCollection
-              AddHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
-              SetBudgetRemain(matWbsd, matDoc)
+          AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
               'matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
+          doc.WBSDistributeCollection.Add(wbsd)
             End If
           End If
-          If labWbsd.Percent = 100 Then
-            If Not labDoc Is Nothing Then
-              labDoc.WBSDistributeCollection.Add(labWbsd)
-              AddHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
-              SetBudgetRemain(labWbsd, labDoc)
-              'labDoc.SC.SetActual(labWbsd.WBS, 0, labDoc.Amount, labDoc.ItemType.Value)
-            End If
-          End If
-          If eqWbsd.Percent = 100 Then
-            If Not eqDoc Is Nothing Then
-              eqDoc.WBSDistributeCollection.Add(eqWbsd)
-              AddHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
-              SetBudgetRemain(eqWbsd, eqDoc)
-              'eqDoc.SC.SetActual(eqWbsd.WBS, 0, eqDoc.Amount, eqDoc.ItemType.Value)
-            End If
-          End If
-
-        End If
-      Next
-      'RefreshBudget()
     End Sub
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       dt.Clear()
       Dim currItem As SCItem
       Dim hsNew As New Hashtable
       Dim parentRow As TreeRow
       Dim childRow As TreeRow
+      Dim chkNoRefItem As Boolean = False
 
       For Each sci As SCItem In Me
         If sci.ItemType.Value = 289 Then
@@ -2731,6 +2657,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '-- -- Summary MAT LAB EQ ----------------
 
         If sci.Level = 0 Then
+          'If (sci.WR Is Nothing OrElse sci.WR.Id = 0) AndAlso Not chkNoRefItem Then
+          '  chkNoRefItem = True
+          '  parentRow = dt.Childs.Add()
+          '  parentRow.State = RowExpandState.Expanded
+          '  'parentRow.FixLevel = 0
+          '  parentRow.CustomFontStyle = FontStyle.Bold
+          '  parentRow("Button") = "invisible"
+          '  parentRow("UnitButton") = "invisible"
+          '  parentRow("sci_itemName") = myStringParserService.Parse("${res:Global.Error.NotRefWR}")
+          '  parentRow.Tag = "hasnotrefwr" 'ห้ามเปลี่ยนคำนี้ ปุ้ย
+          'End If
+
           parentRow = dt.Childs.Add
           parentRow.State = RowExpandState.Expanded
 
@@ -2867,6 +2805,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
     End Function
+    'Public Function IsFirstRowNotRefWR(ByVal dt As TreeTable) As Boolean
+    '  For Each row As TreeRow In dt.Rows
+    '    If TypeOf row.Tag Is String Then
+    '      If CType(row.Tag, String) = "hasnotrefwr" Then
+    '        Return True
+    '      End If
+    '    End If
+    '  Next
+    '  Return False
+    'End Function
 #End Region
 
 #Region "Collection Methods"
