@@ -9,17 +9,16 @@ Imports Longkong.Core.Properties
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.PanelDisplayBinding
 Namespace Longkong.Pojjaman.Commands
-    Public Class CreateNewEntity
-        Inherits AbstractEntityAccessCommand
+  Public Class CreateNewEntity
+    Inherits AbstractEntityAccessCommand
 
 #Region "Constructors"
-        Public Sub New()
-        End Sub
+    Public Sub New()
+    End Sub
 #End Region
 
 #Region "Methods"
     Public Overrides Sub Run()
-      MsgBox("ตรงนี้แหละมั้ง")
       If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty Then
         Dim resourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
         Dim dr As DialogResult = MessageBox.Show(resourceService.GetString("MainWindow.SaveChangesMessage"), resourceService.GetString("MainWindow.SaveChangesMessageHeader") + " " + WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.TitleName + " ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
@@ -36,38 +35,38 @@ Namespace Longkong.Pojjaman.Commands
       Dim panel As ISimpleListPanel = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel)
       panel.AddNew()
     End Sub
-        Public Overrides Property IsEnabled() As Boolean
-            Get
-                If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow Is Nothing Then
-                    Return MyBase.IsEnabled
-                End If
-                If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent Is Nothing Then
-                    Return MyBase.IsEnabled
-                End If
-                'If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SubViewContents Is Nothing OrElse WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SubViewContents.Count = 1 Then
-                '    Return False
-                'End If
-                If Not TypeOf WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent Is ISimpleListPanel Then
-                    Return MyBase.IsEnabled
-                Else
-                    Dim panel As ISimpleListPanel = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel)
-                    If TypeOf panel.Entity Is Report Then
-                        Return False
-                    End If
-                End If
-                Return MyBase.IsEnabledWithChecking
-            End Get
-            Set(ByVal Value As Boolean)
-                MyBase.IsEnabled = Value
-            End Set
-        End Property
-        Public Overrides ReadOnly Property ValidLevel() As Integer
-            Get
-                Return 2
-            End Get
-        End Property
+    Public Overrides Property IsEnabled() As Boolean
+      Get
+        If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow Is Nothing Then
+          Return MyBase.IsEnabled
+        End If
+        If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent Is Nothing Then
+          Return MyBase.IsEnabled
+        End If
+        'If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SubViewContents Is Nothing OrElse WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SubViewContents.Count = 1 Then
+        '    Return False
+        'End If
+        If Not TypeOf WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent Is ISimpleListPanel Then
+          Return MyBase.IsEnabled
+        Else
+          Dim panel As ISimpleListPanel = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent, ISimpleListPanel)
+          If TypeOf panel.Entity Is Report Then
+            Return False
+          End If
+        End If
+        Return MyBase.IsEnabledWithChecking
+      End Get
+      Set(ByVal Value As Boolean)
+        MyBase.IsEnabled = Value
+      End Set
+    End Property
+    Public Overrides ReadOnly Property ValidLevel() As Integer
+      Get
+        Return 2
+      End Get
+    End Property
 #End Region
 
 
-    End Class
+  End Class
 End Namespace

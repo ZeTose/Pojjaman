@@ -406,7 +406,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csPercent.Width = 50
       csPercent.TextBox.Name = "Percent"
 
-      Dim csAmount As New TreeTextColumn
+      Dim csAmount As New TreeTextColumn(10, True)
       csAmount.MappingName = "Amount"
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.ACAmountHeaderText}") 'จำนวนเงิน/มูลค่าจัดสรร
       csAmount.NullText = ""
@@ -415,8 +415,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Format = "#,###.##"
       csAmount.Width = 100
       csAmount.TextBox.Name = "Amount"
+      AddHandler csAmount.CheckCellHilighted, AddressOf SetHilightValues
 
-      Dim csBudgetRemain As New TreeTextColumn(5, True)
+      Dim csBudgetRemain As New TreeTextColumn(11, True)
       csBudgetRemain.MappingName = "BudgetRemain"
       csBudgetRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.BudgetRemainHeaderText}") 'งบประมาณคงเหลือ
       csBudgetRemain.NullText = ""
@@ -426,9 +427,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csBudgetRemain.Width = 100
       csBudgetRemain.TextBox.Name = "BudgetRemain"
       csBudgetRemain.ReadOnly = True
-      'AddHandler csBudgetRemain.CheckCellHilighted, AddressOf SetHilightValues
+      AddHandler csBudgetRemain.CheckCellHilighted, AddressOf SetHilightValues
 
-      Dim csQtyRemain As New TreeTextColumn(6, True)
+      Dim csQtyRemain As New TreeTextColumn(12, True)
       csQtyRemain.MappingName = "QtyRemain"
       csQtyRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.QtyRemainHeaderText}") 'ปริมาณคงเหลือ
       csQtyRemain.NullText = ""
@@ -438,7 +439,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQtyRemain.Width = 100
       csQtyRemain.TextBox.Name = "QtyRemain"
       csQtyRemain.ReadOnly = True
-      'AddHandler csQtyRemain.CheckCellHilighted, AddressOf SetHilightValues
+      AddHandler csQtyRemain.CheckCellHilighted, AddressOf SetHilightValues
       '------------------------WBS----------------------------------
 
       dst.GridColumnStyles.Add(csType)
@@ -801,9 +802,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not RefDoc.Supplier Is Nothing Then
           Me.txtSubContractorName.Text = RefDoc.Supplier.Code & " : " & RefDoc.Supplier.Name
         End If
-        If Not RefDoc.ToCostCenter Is Nothing Then
-          Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
-        End If
+        'If Not RefDoc.ToCostCenter Is Nothing Then
+        '  Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
+        'End If
 
         If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
           Dim itemLebel As String = Me.StringParserService.Parse("${res:Global.AllocateFromCC}")
@@ -813,6 +814,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             itemLebel = String.Format(itemLebel, "")
             End If
           lblItem.Text = itemLebel
+          If Not RefDoc.FromCostCenter Is Nothing Then
+            Me.txtCostCenterName.Text = RefDoc.FromCostCenter.Code & " : " & RefDoc.FromCostCenter.Name
+          End If
         ElseIf Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
           Dim itemLebel As String = Me.StringParserService.Parse("${res:Global.AllocateToCC}")
           If Not RefDoc.ToCostCenter Is Nothing Then
@@ -821,6 +825,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             itemLebel = String.Format(itemLebel, "")
           End If
           lblItem.Text = itemLebel
+          If Not RefDoc.ToCostCenter Is Nothing Then
+            Me.txtCostCenterName.Text = RefDoc.ToCostCenter.Code & " : " & RefDoc.ToCostCenter.Name
+          End If
+        Else
+          'จัดสรรทั้งสองด้าน
+
         End If
       End If
 
@@ -868,19 +878,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
         Dim dt As TreeTable = m_wbsTreeManager.Treetable
         dt.Clear()
+        Dim newRow As TreeRow = Nothing
+        Dim currRow As TreeRow = Nothing
         For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
-
-          Dim newRow As TreeRow = dt.Childs.Add()
-          newRow.State = RowExpandState.Expanded
+          'Dim newRow As TreeRow = dt.Childs.Add()
           If ali.AllocationErrorMessage.Length <> 0 Then
+            newRow = dt.Childs.Add
             newRow.FixLevel = 0
+            currRow = newRow
+            newRow.State = RowExpandState.Expanded
           Else
+            If Not currRow Is Nothing Then
+              newRow = currRow.Childs.Add
+            Else
+              newRow = dt.Childs.Add
+            End If
             newRow.FixLevel = 1
+            currRow = newRow
+            newRow.State = RowExpandState.Expanded
           End If
           newRow("ItemType") = ali.Type
           newRow("Description") = ali.Description
-          If ali.ItemAmount <> 0 Then
-            newRow("Amount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
+
+          If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
+            transferAmt = ali.ItemAmount * (-1)
+          ElseIf Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
+            transferAmt = ali.ItemAmount * (1)
+          ElseIf Me.RefDocAllocationType = AllocationType.AllocationFromAndTo Then
+
+          End If
+
+          If transferAmt <> 0 Then
+            newRow("Amount") = Configuration.FormatToString(transferAmt, DigitConfig.Price)
           End If
           newRow("CBS") = Me.ItemCBS(ali)
 
@@ -891,12 +920,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newRow.Tag = ali
           If ali.AllocationErrorMessage.Length = 0 Then
             For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
-              transferAmt = ali.ItemAmount
+              'transferAmt = ali.ItemAmount
 
               wbsd.BaseCost = transferAmt
               wbsd.TransferBaseCost = transferAmt
 
-              Dim wbsRow As TreeRow = newRow.Childs.Add  'dt.Childs.Add()
+              'Dim wbsRow As TreeRow = dt.Childs.Add()
+              Dim wbsRow As TreeRow = currRow.Childs.Add
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
               wbsRow("CBS") = wbsd.CBS.Code & ":" & wbsd.CBS.Name
