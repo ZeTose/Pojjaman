@@ -1048,6 +1048,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
               Me.RecalculateAmount()
+              Me.RefreshTaxBase()
+              Me.RealTaxBase = Me.TaxBase
+              Me.RealTaxAmount = Me.TaxAmount
             Else
               Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
             End If

@@ -1010,6 +1010,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If vitem.RefSequence = 0 Then
               If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
                 Me.RecalculateAmount()
+                Me.RefreshTaxBase()
+                Me.RealTaxBase = Me.TaxBase
+                Me.RealTaxAmount = Me.TaxAmount
               Else
                 Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
               End If
