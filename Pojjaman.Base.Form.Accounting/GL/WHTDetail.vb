@@ -1260,13 +1260,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
             colStyle.ReadOnly = False
           Next
         Next
+        cmbType.Enabled = True
       End If
       If Not Me.m_whtcol Is Nothing AndAlso _
         Not Me.m_whtcol.RefDoc Is Nothing AndAlso _
         TypeOf Me.m_whtcol.RefDoc Is SimpleBusinessEntityBase Then
         If CType(Me.m_whtcol.RefDoc, SimpleBusinessEntityBase).IsReferenced() Then
-          For Each ctrl As Control In grbDetail.Controls
-            ctrl.Enabled = False
+          'For Each ctrl As Control In grbDetail.Controls
+          '  If Not ctrl.Name.ToLower = "fixedgroupbox1" Then
+          '    ctrl.Enabled = False
+          '  End If
+          'Next
+          FixedGroupBox1.Enabled = True
+          Me.ibtnAddWht.Enabled = False
+          Me.ibtnDelWht.Enabled = False
+          Me.ibtnBlank.Enabled = False
+          Me.ibtnDelRow.Enabled = False
+          For Each ctrl As Control In FixedGroupBox1.Controls
+            If ctrl.Name.ToLower = "cmbtype" Then
+              ctrl.Enabled = False
+            Else
+              ctrl.Enabled = True
+            End If
           Next
           tgItem.Enabled = True
           lbWhtList.Enabled = True
