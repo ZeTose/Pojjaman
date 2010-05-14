@@ -196,7 +196,16 @@
     <Compile Include="Asset\EqReturnDetailFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Asset\EqtWithdrawFilterSubPanel.vb">
+    <Compile Include="Asset\EqtReturn\EqtReturnDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqtReturn\EqtReturnFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqtWithdraw\EqtWithdrawDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\EqtWithdraw\EqtWithdrawFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Asset\EquipmentDetailFilterSubPanel.vb">
@@ -216,9 +225,6 @@
     </Compile>
     <Compile Include="Asset\InternalChargeForm.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Asset\EqtWithdrawDetail.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Asset\EqiFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -279,7 +285,16 @@
     <EmbeddedResource Include="Asset\EqReturnDetailFilterSubPanel.resx">
       <DependentUpon>EqReturnDetailFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Asset\EqtWithdrawFilterSubPanel.resx">
+    <EmbeddedResource Include="Asset\EqtReturn\EqtReturnDetail.resx">
+      <DependentUpon>EqtReturnDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtReturn\EqtReturnFilterSubPanel.resx">
+      <DependentUpon>EqtReturnFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtWithdraw\EqtWithdrawDetail.resx">
+      <DependentUpon>EqtWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtWithdraw\EqtWithdrawFilterSubPanel.resx">
       <DependentUpon>EqtWithdrawFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EquipmentDetailFilterSubPanel.resx">
@@ -299,9 +314,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\InternalChargeForm.resx">
       <DependentUpon>InternalChargeForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Asset\EqtWithdrawDetail.resx">
-      <DependentUpon>EqtWithdrawDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqiFilterSubPanel.resx">
       <DependentUpon>EqiFilterSubPanel.vb</DependentUpon>

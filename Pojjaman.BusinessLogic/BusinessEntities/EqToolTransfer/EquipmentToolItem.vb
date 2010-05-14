@@ -59,10 +59,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_lineNumber As Integer
-    Private m_entity As IEqtItem
+    Private m_entityitem As IEqtItem
     Private m_name As String
     Private m_note As String
-    Private m_amount As Decimal
+    'Private m_amount As Decimal
 
     Private m_sequence As Integer
 
@@ -89,7 +89,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
     End Sub
-    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+    Protected Overridable Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
         ' Line number ...
         If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_lineNumber") Then
@@ -112,26 +112,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 19 '"tool"
             If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
               If Not dr.IsNull("tool_id") Then
-                .m_entity = New Tool(dr, "")
+                .m_entityitem = New Tool(dr, "")
               End If
             Else
-              .m_entity = New Tool(itemId)
+              .m_entityitem = New Tool(itemId)
             End If
           Case 28
             If dr.Table.Columns.Contains("asset_id") AndAlso Not dr.IsNull("asset_id") Then
               If Not dr.IsNull("asset_id") Then
-                .m_entity = New Asset(dr, "")
+                .m_entityitem = New Asset(dr, "")
               End If
             Else
-              .m_entity = New Asset(itemId)
+              .m_entityitem = New Asset(itemId)
             End If
           Case 342
             If dr.Table.Columns.Contains("eqi_id") AndAlso Not dr.IsNull("eqi_id") Then
               If Not dr.IsNull("eqi_id") Then
-                .m_entity = New EquipmentItem(dr, "")
+                .m_entityitem = New EquipmentItem(dr, "")
               End If
             Else
-              .m_entity = New EquipmentItem(itemId)
+              .m_entityitem = New EquipmentItem(itemId)
             End If
         End Select
 
@@ -151,12 +151,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_sequence = CInt(dr(aliasPrefix & "eqtstocki_sequence"))
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_amt") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_amt") Then
-          m_amount = CDec(dr(aliasPrefix & "eqtstocki_amt"))
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_amt") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_amt") Then
+        '  m_amount = CDec(dr(aliasPrefix & "eqtstocki_amt"))
+        'End If
       End With
     End Sub
-    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    Protected Overridable Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Me.Construct(dr, aliasPrefix)
     End Sub
@@ -199,12 +199,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Name() As String      Get        Return m_name      End Get      Set(ByVal value As String)
         m_name = value
       End Set    End Property
- 
+
     Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
-    Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
-        m_rentalperday = value
-      End Set    End Property
-    Public ReadOnly Property Amount() As Decimal      Get        Return m_amount      End Get    End Property
+    'Public Property RentalPerDay() As Decimal    '  Get    '    Return m_rentalperday    '  End Get    '  Set(ByVal value As Decimal)
+    '    m_rentalperday = value
+    '    m_amount = m_rentalperday * m_rentalqty
+    '  End Set    'End Property
+    'Public Property Amount() As Decimal    '  Get    '    Return m_amount    '  End Get    '  Set(ByVal value As Decimal)
+    '    m_amount = value
+    '    If m_rentalqty > 0 Then
+    '      m_rentalperday = m_amount / m_rentalqty
+
+    '    End If
+    '  End Set    'End Property
     Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
@@ -230,7 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
             Return
           Else
-            Me.m_entity = myEquipment
+            Me.m_entityitem = myEquipment
           End If
         Case 19 'Tool
           If theCode Is Nothing OrElse theCode.Length = 0 Then
@@ -246,14 +253,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
             Return
           Else
-            Me.m_entity = myTool
+            Me.m_entityitem = myTool
           End If
         Case Else
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
           Return
       End Select
       Me.m_qty = 1
-    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entity      End Get      Set(ByVal Value As IEqtItem)        m_entity = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
+    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
         End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -277,7 +284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Sub Clear()
-      Me.m_entity = New Asset
+      Me.m_entityitem = New Asset
       Me.m_qty = 0
       Me.m_note = ""
     End Sub

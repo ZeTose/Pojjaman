@@ -926,7 +926,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
 
-      Dim dt As TreeTable = EquipmentToolWithdraw.GetSchemaTable()
+      Dim dt As TreeTable = ToolWithdraw.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
@@ -1269,7 +1269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New EquipmentToolWithdraw).DetailPanelIcon
+        Return (New ToolWithdraw).DetailPanelIcon
       End Get
     End Property
 #End Region

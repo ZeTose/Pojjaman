@@ -321,7 +321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
                 Next
             End If
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetRemainToolListForCC", params)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetNewRemainToolListForCC", params)
             Return ds.Tables(0)
         End Function
 #End Region
@@ -951,7 +951,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Class ToolForSelection
         Inherits Tool
         Public CC As New CostCenter
-        Public FromWip As Boolean = False
+    Public FromWip As Boolean = False
+    Public EqtClass As String
+
+#Region "Shared"
+    Public Shared Function GetQtyOfToolsInCC(ByVal filters As Filter(), ByVal classname As String) As DataTable
+      'GetRemainToolListForCC
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = Nothing 'SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetNewRemainToolListForCC", params)
+      Select Case classname.ToLower
+        Case "equipmenttoolwithdraw"
+          ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetAvaliableToolInCC", params)
+      End Select
+      If ds IsNot Nothing Then
+        Return ds.Tables(0)
+      End If
+      Return Nothing
+    End Function
+#End Region
 
         Public Overrides ReadOnly Property CodonName() As String
             Get

@@ -42,12 +42,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_childIdList As ArrayList
     Private m_childAmount As Decimal
-        Private m_cbs As CBS
+    Private m_cbs As CBS
 #End Region
 
 #Region "Constructors"
     Public Sub New()
-            m_wbs = New WBS
+      m_wbs = New WBS
       m_cbs = New CBS
       m_childIdList = New ArrayList
     End Sub
@@ -56,7 +56,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
-                m_wbs = New WBS
+        m_wbs = New WBS
         m_cbs = New CBS
         m_cc = New CostCenter
         m_childIdList = New ArrayList
@@ -93,19 +93,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-                'CBS
-                If dr.Table.Columns.Contains(aliasPrefix & "cbs_id") AndAlso Not dr.IsNull(aliasPrefix & "cbs_id") Then
-                    m_wbs.Id = CInt(dr(aliasPrefix & "cbs_id"))
-                    If dr.Table.Columns.Contains(aliasPrefix & "cbs_code") AndAlso Not dr.IsNull(aliasPrefix & "cbs_code") Then
-                        m_cbs.Code = CStr(dr(aliasPrefix & "cbs_code"))
-                    End If
-                    If dr.Table.Columns.Contains(aliasPrefix & "wbs_name") AndAlso Not dr.IsNull(aliasPrefix & "cbs_name") Then
-                        m_cbs.Name = CStr(dr(aliasPrefix & "cbs_name"))
-                    End If
-                    'If dr.Table.Columns.Contains(aliasPrefix & "cbs_noqtycontrol") AndAlso Not dr.IsNull(aliasPrefix & "cbs_noqtycontrol") Then
-                    '    m_cbs.NoQtyControl = CBool(dr(aliasPrefix & "cbs_noqtycontrol"))
-                    'End If
-                End If
+        'CBS
+        If dr.Table.Columns.Contains(aliasPrefix & "cbs_id") AndAlso Not dr.IsNull(aliasPrefix & "cbs_id") Then
+          m_wbs.Id = CInt(dr(aliasPrefix & "cbs_id"))
+          If dr.Table.Columns.Contains(aliasPrefix & "cbs_code") AndAlso Not dr.IsNull(aliasPrefix & "cbs_code") Then
+            m_cbs.Code = CStr(dr(aliasPrefix & "cbs_code"))
+          End If
+          If dr.Table.Columns.Contains(aliasPrefix & "wbs_name") AndAlso Not dr.IsNull(aliasPrefix & "cbs_name") Then
+            m_cbs.Name = CStr(dr(aliasPrefix & "cbs_name"))
+          End If
+          'If dr.Table.Columns.Contains(aliasPrefix & "cbs_noqtycontrol") AndAlso Not dr.IsNull(aliasPrefix & "cbs_noqtycontrol") Then
+          '    m_cbs.NoQtyControl = CBool(dr(aliasPrefix & "cbs_noqtycontrol"))
+          'End If
+        End If
 
         'CC
         If dr.Table.Columns.Contains(aliasPrefix & "cc_id") AndAlso Not dr.IsNull(aliasPrefix & "cc_id") Then
@@ -297,14 +297,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property BaseCost() As Decimal      Get        Return m_baseCost      End Get      Set(ByVal Value As Decimal)        m_baseCost = Value        m_amount = m_baseCost * m_percent / 100      End Set    End Property    Public Property TransferBaseCost() As Decimal      Get        Return m_transferBaseCost      End Get      Set(ByVal Value As Decimal)        m_transferBaseCost = Value      End Set    End Property    'Public ReadOnly Property Amount() As Decimal    '  Get    '    Return m_baseCost * m_percent / 100    '  End Get    'End Property    Public Property Amount() As Decimal      Get        'Return m_baseCost * m_percent / 100        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value
         m_percent = (Value / m_baseCost) * 100
       End Set    End Property    Public ReadOnly Property TransferAmount() As Decimal      Get        Return m_transferBaseCost * m_percent / 100      End Get    End Property    Public Property Toaccttype() As Integer      Get        Return m_toaccttype      End Get      Set(ByVal Value As Integer)        m_toaccttype = Value      End Set    End Property
-    Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        Dim oldVal As WBS = m_wbs        m_wbs = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs("WBS", m_wbs, oldVal))      End Set    End Property        Public Property CBS As CBS
-            Get
-                Return m_cbs
-            End Get
-            Set(ByVal value As CBS)
-                m_cbs = value
-            End Set
-        End Property
+    Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        Dim oldVal As WBS = m_wbs        m_wbs = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs("WBS", m_wbs, oldVal))      End Set    End Property    Public Property CBS As CBS
+      Get
+        Return m_cbs
+      End Get
+      Set(ByVal value As CBS)
+        m_cbs = value
+      End Set
+    End Property
     Public Property CostCenter() As CostCenter      Get        Return m_cc      End Get      Set(ByVal Value As CostCenter)        m_cc = Value      End Set    End Property    Public Property Percent() As Decimal      Get        Return m_percent      End Get      Set(ByVal Value As Decimal)        Dim oldVal As Decimal = TransferAmount        m_percent = Value        m_amount = m_baseCost * m_percent / 100        OnPropertyChanged(Me, New PropertyChangedEventArgs("Percent", TransferAmount, oldVal))      End Set    End Property
     Public Property IsMarkup() As Boolean      Get        Return m_isMarkup      End Get      Set(ByVal Value As Boolean)        m_isMarkup = Value      End Set    End Property
     Public Property IsOutWard() As Boolean
@@ -343,7 +343,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' งบประมาณ & ปริมาณ คงเหลือ
       myDatatable.Columns.Add(New DataColumn("BudgetRemain", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("QtyRemain", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("CBS", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CBS", GetType(String)))
       Return myDatatable
     End Function
     Public Shared Function GetUsedAmount(ByVal transferAmount As Decimal, ByVal fifoAmount As Decimal, ByVal isOut As Boolean, ByVal view As Integer, ByVal toAcctType As Integer) As Decimal
@@ -430,7 +430,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       newWbsd.IsOutWard = Me.IsOutWard
       newWbsd.BudgetAmount = Me.BudgetAmount
       newWbsd.BudgetQty = Me.BudgetQty
-            newWbsd.CBS = Me.CBS
+      newWbsd.CBS = Me.CBS
       Return newWbsd
     End Function
     Public Sub GetChildIdList()

@@ -262,8 +262,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private m_oldBasket As BasketItemCollection
         Private m_entity As Tool
         Private m_mode As Mode
-        Private m_cc As CostCenter
-        Private m_fromWip As Boolean = False
+    Private m_cc As CostCenter
+    Private m_eqtclass As String
+    Private m_fromWip As Boolean = False
+    Private m_filters As Filter()
 #End Region
 
 #Region "Constructor"
@@ -288,8 +290,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_basketItems = New BasketItemCollection
             m_proposedBasketItems = New BasketItemCollection
             m_oldBasket = New BasketItemCollection
-
-            m_entity = New Tool
+      m_eqtclass = CType(entity, ToolForSelection).EqtClass
+      m_entity = New Tool
+      m_filters = filters
             CreateColumn()
             If m_mode = Mode.MultiSelect Then
                 Me.lvItem.CheckBoxes = True
@@ -313,28 +316,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
         End Sub
         Private Sub CreateColumn()
-            For Each col As Column In m_entity.Columns
-                lvItem.Columns.Add(col.Alias, col.Width, col.Alignment)
-            Next
-            Dim spar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      'For Each col As Column In m_entity.Columns
+      '    lvItem.Columns.Add(col.Alias, col.Width, col.Alignment)
+      'Next
+      lvItem.Columns.Add("toolCode", 80, HorizontalAlignment.Center)
+      lvItem.Columns.Add("toolname", 80, HorizontalAlignment.Center)
+      lvItem.Columns.Add("toolrentrate", 80, HorizontalAlignment.Center)
+      lvItem.Columns.Add("toolrentunit", 80, HorizontalAlignment.Center)
+
+
+      Dim spar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
             Dim remainText As String = spar.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail.Remain}")
             lvItem.Columns.Add(remainText, 100, HorizontalAlignment.Right)
         End Sub
 #End Region
 
 #Region "Methods"
-        Private Function GetFilterArray() As Filter()
-            Dim arr(3) As Filter
-            arr(0) = New Filter("tool_code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
-            arr(1) = New Filter("tool_name", IIf(Me.txtName.Text.Length = 0, DBNull.Value, Me.txtName.Text))
-            arr(2) = New Filter("cc_id", IIf(m_cc.Originated, m_cc.Id, DBNull.Value))
-            Dim accType As Integer = 3
-            If m_fromWip Then
-                accType = 1
-            End If
-            arr(3) = New Filter("FromacctType", accType)
-            Return arr
-        End Function
+    Private Function GetFilterArray() As Filter()
+      Dim i As Integer = 0
+      Dim arr(3 + m_filters.Length) As Filter
+      arr(0) = New Filter("tool_code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
+      arr(1) = New Filter("tool_name", IIf(Me.txtName.Text.Length = 0, DBNull.Value, Me.txtName.Text))
+      arr(2) = New Filter("cc_id", IIf(m_cc.Originated, m_cc.Id, DBNull.Value))
+      Dim accType As Integer = 3
+      If m_fromWip Then
+        accType = 1
+      End If
+      arr(3) = New Filter("FromacctType", accType)
+      For Each f As Filter In m_filters
+        i += 1
+        arr(3 + i) = m_filters(i - 1)
+      Next
+      Return arr
+    End Function
 #End Region
 
 #Region "IBasketCollectable"
@@ -349,7 +363,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 For Each item As ListViewItem In Me.lvItem.CheckedItems
                     Dim id As Integer = CInt(item.Tag)
                     Dim entity As ISimpleEntity = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName, id)
-                    Dim basketitem As New basketitem(id, entity.Code, entity.FullClassName, entity.Code)
+          Dim basketitem As New BasketItem(id, entity.Code, entity.FullClassName, entity.Code)
                     m_basketItems.Add(basketitem)
                 Next
                 Return m_basketItems
@@ -382,16 +396,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
             lvItem.Items.Clear()
             Dim comparer As IComparer = lvItem.ListViewItemSorter
             lvItem.ListViewItemSorter = Nothing
-            Dim filters As Filter() = Me.GetFilterArray
-            Dim dt As DataTable = Tool.GetAvailabilityInCC(filters)
-            For Each row As DataRow In dt.Rows
-                Dim litem As ListViewItem = Me.lvItem.Items.Add(row(m_entity.Columns(0).Name).ToString)
-                litem.Tag = row(Me.m_entity.Prefix & "_id")
-                For i As Integer = 1 To m_entity.Columns.Count - 1
-                    litem.SubItems.Add(row(m_entity.Columns(i).Name).ToString)
-                Next
-                litem.SubItems.Add(row("remain").ToString)
-            Next
+      Dim filters As Filter() = Me.GetFilterArray
+      Dim dt As DataTable = ToolForSelection.GetQtyOfToolsInCC(filters, m_eqtclass) 'Tool.GetAvailabilityInCC(filters)
+      If dt IsNot Nothing Then
+        For Each row As DataRow In dt.Rows
+          Dim litem As ListViewItem = Me.lvItem.Items.Add(row(m_entity.Columns(0).Name).ToString)
+          litem.Tag = row(Me.m_entity.Prefix & "_id")
+          'For i As Integer = 1 To m_entity.Columns.Count - 1
+          litem.SubItems.Add(row("tool_name").ToString)
+          litem.SubItems.Add(row("tool_rentalrate").ToString)
+          litem.SubItems.Add(row("tool_rentalunit").ToString)
+          'Next
+          litem.SubItems.Add(row("remain").ToString)
+        Next
+      End If
+            
             lvItem.ListViewItemSorter = comparer
             If Not lvItem.ListViewItemSorter Is Nothing Then
                 lvItem.Sort()

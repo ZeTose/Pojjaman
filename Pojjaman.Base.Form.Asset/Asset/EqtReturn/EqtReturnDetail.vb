@@ -11,7 +11,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class EqtWithdrawDetail
+  Public Class EqtReturnDetail
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -26,7 +26,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ImageButton4 As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-    Friend WithEvents lblRequestPerson As System.Windows.Forms.Label
+    Friend WithEvents lblReceivePerson As System.Windows.Forms.Label
     Friend WithEvents grbRequest As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents txtWithdrawPersonName As System.Windows.Forms.TextBox
@@ -38,7 +38,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblStoreCC As System.Windows.Forms.Label
     Friend WithEvents txtStorepersonCode As System.Windows.Forms.TextBox
     Friend WithEvents txtWithdrawCCName As System.Windows.Forms.TextBox
-    Friend WithEvents lblWithdrawCC As System.Windows.Forms.Label
+    Friend WithEvents lblReturnCC As System.Windows.Forms.Label
     Friend WithEvents txtWithdrawCCCode As System.Windows.Forms.TextBox
     Friend WithEvents btnStoreCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnStorepersonFind As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -59,10 +59,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblCode As System.Windows.Forms.Label
     Friend WithEvents txtNote As System.Windows.Forms.TextBox
     Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtRentalAmt As System.Windows.Forms.TextBox
+    Friend WithEvents lblRentalAmt As System.Windows.Forms.Label
+    Friend WithEvents lblCurrency As System.Windows.Forms.Label
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EqtWithdrawDetail))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EqtReturnDetail))
       Me.txtItemCount = New System.Windows.Forms.TextBox()
       Me.lblItemCount = New System.Windows.Forms.Label()
       Me.lblItemCountUnit = New System.Windows.Forms.Label()
@@ -89,8 +92,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWithdrawCCName = New System.Windows.Forms.TextBox()
       Me.txtWithdrawPersonName = New System.Windows.Forms.TextBox()
       Me.txtWithdrawPersonCode = New System.Windows.Forms.TextBox()
-      Me.lblRequestPerson = New System.Windows.Forms.Label()
-      Me.lblWithdrawCC = New System.Windows.Forms.Label()
+      Me.lblReceivePerson = New System.Windows.Forms.Label()
+      Me.lblReturnCC = New System.Windows.Forms.Label()
       Me.txtWithdrawCCCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
@@ -107,6 +110,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.txtRentalAmt = New System.Windows.Forms.TextBox()
+      Me.lblRentalAmt = New System.Windows.Forms.Label()
+      Me.lblCurrency = New System.Windows.Forms.Label()
       Me.grbSummary.SuspendLayout()
       Me.grbReceive.SuspendLayout()
       Me.grbRequest.SuspendLayout()
@@ -142,7 +148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCount.Name = "lblItemCount"
       Me.lblItemCount.Size = New System.Drawing.Size(104, 18)
       Me.lblItemCount.TabIndex = 0
-      Me.lblItemCount.Text = "จำนวนรายการเบิก"
+      Me.lblItemCount.Text = "จำนวนรายการคืน"
       Me.lblItemCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblItemCountUnit
@@ -163,24 +169,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.Location = New System.Drawing.Point(16, 164)
       Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(81, 16)
+      Me.lblItem.Size = New System.Drawing.Size(77, 16)
       Me.lblItem.TabIndex = 3
-      Me.lblItem.Text = "รายการเบิก:"
+      Me.lblItem.Text = "รายการคืน:"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'grbSummary
       '
       Me.grbSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbSummary.Controls.Add(Me.txtRentalAmt)
+      Me.grbSummary.Controls.Add(Me.lblRentalAmt)
+      Me.grbSummary.Controls.Add(Me.lblCurrency)
       Me.grbSummary.Controls.Add(Me.txtItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCountUnit)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSummary.Location = New System.Drawing.Point(472, 352)
+      Me.grbSummary.Location = New System.Drawing.Point(245, 352)
       Me.grbSummary.Name = "grbSummary"
-      Me.grbSummary.Size = New System.Drawing.Size(256, 48)
+      Me.grbSummary.Size = New System.Drawing.Size(483, 48)
       Me.grbSummary.TabIndex = 8
       Me.grbSummary.TabStop = False
-      Me.grbSummary.Text = "สรุปยอดเบิก"
+      Me.grbSummary.Text = "สรุปยอดคืน"
       '
       'grbReceive
       '
@@ -200,7 +209,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceive.Size = New System.Drawing.Size(352, 72)
       Me.grbReceive.TabIndex = 1
       Me.grbReceive.TabStop = False
-      Me.grbReceive.Text = "ผู้ให้เบิก"
+      Me.grbReceive.Text = "ผู้คืน"
       '
       'btnStoreCCFind
       '
@@ -306,7 +315,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreperson.Name = "lblStoreperson"
       Me.lblStoreperson.Size = New System.Drawing.Size(96, 18)
       Me.lblStoreperson.TabIndex = 5
-      Me.lblStoreperson.Text = "ผู้ให้เบิก:"
+      Me.lblStoreperson.Text = "ผู้คืน:"
       Me.lblStoreperson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblStoreCC
@@ -347,8 +356,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.Controls.Add(Me.txtWithdrawCCName)
       Me.grbRequest.Controls.Add(Me.txtWithdrawPersonName)
       Me.grbRequest.Controls.Add(Me.txtWithdrawPersonCode)
-      Me.grbRequest.Controls.Add(Me.lblRequestPerson)
-      Me.grbRequest.Controls.Add(Me.lblWithdrawCC)
+      Me.grbRequest.Controls.Add(Me.lblReceivePerson)
+      Me.grbRequest.Controls.Add(Me.lblReturnCC)
       Me.grbRequest.Controls.Add(Me.txtWithdrawCCCode)
       Me.grbRequest.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbRequest.Location = New System.Drawing.Point(368, 80)
@@ -356,7 +365,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.Size = New System.Drawing.Size(360, 72)
       Me.grbRequest.TabIndex = 2
       Me.grbRequest.TabStop = False
-      Me.grbRequest.Text = "ผู้ขอเบิก"
+      Me.grbRequest.Text = "ผู้รับคืน"
       '
       'btnWithdrawCCFind
       '
@@ -479,25 +488,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWithdrawPersonCode.Size = New System.Drawing.Size(64, 21)
       Me.txtWithdrawPersonCode.TabIndex = 11
       '
-      'lblRequestPerson
+      'lblReceivePerson
       '
-      Me.lblRequestPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRequestPerson.Location = New System.Drawing.Point(8, 40)
-      Me.lblRequestPerson.Name = "lblRequestPerson"
-      Me.lblRequestPerson.Size = New System.Drawing.Size(104, 18)
-      Me.lblRequestPerson.TabIndex = 5
-      Me.lblRequestPerson.Text = "ผู้เบิก:"
-      Me.lblRequestPerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblReceivePerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblReceivePerson.Location = New System.Drawing.Point(8, 40)
+      Me.lblReceivePerson.Name = "lblReceivePerson"
+      Me.lblReceivePerson.Size = New System.Drawing.Size(104, 18)
+      Me.lblReceivePerson.TabIndex = 5
+      Me.lblReceivePerson.Text = "ผู้รับคืน:"
+      Me.lblReceivePerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblWithdrawCC
+      'lblReturnCC
       '
-      Me.lblWithdrawCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWithdrawCC.Location = New System.Drawing.Point(8, 16)
-      Me.lblWithdrawCC.Name = "lblWithdrawCC"
-      Me.lblWithdrawCC.Size = New System.Drawing.Size(104, 18)
-      Me.lblWithdrawCC.TabIndex = 0
-      Me.lblWithdrawCC.Text = "เบิกเข้า Cost Center:"
-      Me.lblWithdrawCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblReturnCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblReturnCC.Location = New System.Drawing.Point(8, 16)
+      Me.lblReturnCC.Name = "lblReturnCC"
+      Me.lblReturnCC.Size = New System.Drawing.Size(104, 18)
+      Me.lblReturnCC.TabIndex = 0
+      Me.lblReturnCC.Text = "คืนเข้า Cost Center:"
+      Me.lblReturnCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtWithdrawCCCode
       '
@@ -621,7 +630,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.Size = New System.Drawing.Size(720, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
-      Me.grbGeneral.Text = "ผู้ให้เบิก"
+      Me.grbGeneral.Text = "เอกสารคืนเครื่องมือเครื่องจักร"
       '
       'lblNote
       '
@@ -700,7 +709,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
-      'EqtWithdrawDetail
+      'txtRentalAmt
+      '
+      Me.txtRentalAmt.BackColor = System.Drawing.SystemColors.Control
+      Me.txtRentalAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+      Me.Validator.SetDataType(Me.txtRentalAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
+      Me.Validator.SetDisplayName(Me.txtRentalAmt, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtRentalAmt, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
+      Me.txtRentalAmt.Location = New System.Drawing.Point(341, 17)
+      Me.Validator.SetMinValue(Me.txtRentalAmt, "")
+      Me.txtRentalAmt.Name = "txtRentalAmt"
+      Me.txtRentalAmt.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtRentalAmt, "")
+      Me.Validator.SetRequired(Me.txtRentalAmt, False)
+      Me.txtRentalAmt.Size = New System.Drawing.Size(64, 21)
+      Me.txtRentalAmt.TabIndex = 4
+      Me.txtRentalAmt.TabStop = False
+      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      '
+      'lblRentalAmt
+      '
+      Me.lblRentalAmt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRentalAmt.Location = New System.Drawing.Point(229, 17)
+      Me.lblRentalAmt.Name = "lblRentalAmt"
+      Me.lblRentalAmt.Size = New System.Drawing.Size(104, 18)
+      Me.lblRentalAmt.TabIndex = 3
+      Me.lblRentalAmt.Text = "มูลค่าค่าเช่า"
+      Me.lblRentalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblCurrency
+      '
+      Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCurrency.Location = New System.Drawing.Point(413, 17)
+      Me.lblCurrency.Name = "lblCurrency"
+      Me.lblCurrency.Size = New System.Drawing.Size(40, 18)
+      Me.lblCurrency.TabIndex = 5
+      Me.lblCurrency.Text = "บาท"
+      Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'EqtReturnDetail
       '
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.grbGeneral)
@@ -712,7 +761,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbRequest)
       Me.Controls.Add(Me.lblItem)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "EqtWithdrawDetail"
+      Me.Name = "EqtReturnDetail"
       Me.Size = New System.Drawing.Size(752, 408)
       Me.grbSummary.ResumeLayout(False)
       Me.grbSummary.PerformLayout()
@@ -761,8 +810,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblNote}")
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-      Me.lblRequestPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblRequestPerson}")
-      Me.Validator.SetDisplayName(txtWithdrawPersonCode, lblRequestPerson.Text)
+      Me.lblReceivePerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblRequestPerson}")
+      Me.Validator.SetDisplayName(txtWithdrawPersonCode, lblReceivePerson.Text)
 
       Me.lblStoreperson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblStoreperson}")
       Me.Validator.SetDisplayName(txtStorepersonCode, lblStoreperson.Text)
@@ -770,8 +819,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblStoreCC}")
       Me.Validator.SetDisplayName(txtStoreCCCode, lblStoreCC.Text)
 
-      Me.lblWithdrawCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblWithdrawCC}")
-      Me.Validator.SetDisplayName(txtWithdrawCCCode, lblWithdrawCC.Text)
+      Me.lblReturnCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblWithdrawCC}")
+      Me.Validator.SetDisplayName(txtWithdrawCCCode, lblReturnCC.Text)
 
       Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbSummary}")
       Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbReceive}")
@@ -781,7 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Members "
-    Private m_entity As EquipmentToolWithdraw
+    Private m_entity As EquipmentToolReturn
 
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
@@ -872,22 +921,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.Alignment = HorizontalAlignment.Center
       csQty.DataAlignment = HorizontalAlignment.Right
       csQty.Format = "#,##0.00"
-      csQty.Width = 60
+      csQty.Width = 40
       csQty.ReadOnly = False
       csQty.TextBox.Name = "eqtstocki_qty"
       'AddHandler csQty.TextBox.TextChanged,AddressOf 
 
       Dim csRentalPerDay As New TreeTextColumn
       csRentalPerDay.MappingName = "RentalPerDay"
-      csRentalPerDay.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.QtyHeaderText}")
+      csRentalPerDay.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.Rentalperday}")
       csRentalPerDay.NullText = ""
       csRentalPerDay.Alignment = HorizontalAlignment.Center
       csRentalPerDay.DataAlignment = HorizontalAlignment.Right
       csRentalPerDay.Format = "#,##0.00"
       csRentalPerDay.Width = 100
-      csRentalPerDay.ReadOnly = True
+      csRentalPerDay.ReadOnly = False
       csRentalPerDay.TextBox.Name = "RentalPerDay"
 
+      Dim csRentalQty As New TreeTextColumn
+      csRentalQty.MappingName = "RentalQty"
+      csRentalQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.RentalQty}")
+      csRentalQty.NullText = ""
+      csRentalQty.Alignment = HorizontalAlignment.Center
+      csRentalQty.DataAlignment = HorizontalAlignment.Right
+      csRentalQty.Format = "#,##0"
+      csRentalQty.Width = 40
+      csRentalQty.ReadOnly = False
+      csRentalQty.TextBox.Name = "RentalQty"
+
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "RentalAmount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.RentalAmount}")
+      csAmount.NullText = ""
+      csAmount.Alignment = HorizontalAlignment.Center
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.Format = "#,##0.00"
+      csAmount.Width = 100
+      csAmount.ReadOnly = False
+      csAmount.TextBox.Name = "RentalAmount"
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "Note"
@@ -908,6 +978,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csUnit)
       dst.GridColumnStyles.Add(csQty)
       dst.GridColumnStyles.Add(csRentalPerDay)
+      dst.GridColumnStyles.Add(csRentalQty)
+      dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csNote)
 
       m_tableStyleEnable = New Hashtable
@@ -950,16 +1022,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
 #Region "Properties"
-    Private ReadOnly Property CurrentItem() As EquipmentToolWithdrawItem
+    Private ReadOnly Property CurrentItem() As EquipmentToolReturnItem
       Get
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is EquipmentToolWithdrawItem Then
+        If Not TypeOf row.Tag Is EquipmentToolReturnItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, EquipmentToolWithdrawItem)
+        Return CType(row.Tag, EquipmentToolReturnItem)
       End Get
     End Property
     'Private Property ComboCodeIndex() As Integer
@@ -1188,7 +1260,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
           Me.m_entity = Nothing
         End If
-        Me.m_entity = CType(Value, EquipmentToolWithdraw)
+        Me.m_entity = CType(Value, EquipmentToolReturn)
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
@@ -1204,7 +1276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
       ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
-      'Me.UpdateAmount()
+      Me.UpdateAmount()
       Me.m_isInitialized = True
 
     End Sub
@@ -1222,7 +1294,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_isInitialized OrElse e.Column.ColumnName.ToLower = "selected" Then
         Return
       End If
-      Dim doc As EquipmentToolWithdrawItem = Me.CurrentItem
+      Dim doc As EquipmentToolReturnItem = Me.CurrentItem
       If Not doc Is Nothing Then
         doc.ItemValidateRow(e.Row)
       End If
@@ -1242,9 +1314,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      Dim doc As EquipmentToolWithdrawItem = Me.CurrentItem
+      Dim doc As EquipmentToolReturnItem = Me.CurrentItem
       If doc Is Nothing Then
-        doc = New EquipmentToolWithdrawItem
+        doc = New EquipmentToolReturnItem
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
@@ -1260,15 +1332,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "qty"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
+            ElseIf doc.ItemType.Value = 342 Then
+              e.ProposedValue = "1"
             End If
             Dim value As Integer = CInt(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.Qty = value
-          Case "RentalPerDay"
+          Case "rentalperday"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
             Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.RentalPerDay = value
+          Case "rentalqty"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            doc.RentalQty = value
+          Case "rentalamount"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            doc.Amount = value
           Case "Note"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -1280,6 +1366,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Try
     End Sub
 
+    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      'If tgItem.CurrentRowIndex <> currentY Then
+      Me.m_entity.ItemCollection.CurrentItem = Me.CurrentItem
+      'RefreshWBS()
+      'currentY = tgItem.CurrentRowIndex
+      'End If
+    End Sub
 #End Region
 
 #Region " Event Handlers "
@@ -1305,7 +1398,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      
+
       If Me.CurrentItem Is Nothing Then
         Return
       End If
@@ -1314,10 +1407,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entity As New ToolForSelection
         entity.CC = Me.m_entity.FromCC
         entity.FromWip = False
+        entity.EqtClass = Me.m_entity.ClassName
         entities.Add(entity)
-        Dim filters(1) As Filter
+        Dim filters(2) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+        filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
         myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
         Dim dlg As New BasketDialog
@@ -1328,6 +1423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim filters(1) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+        'filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
 
         Dim entities As New ArrayList
         eqi.Costcenter = Me.m_entity.FromCC
@@ -1351,14 +1447,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
         'myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
       End If
-      
+
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
       For i As Integer = items.Count - 1 To 0 Step -1
         Dim item As BasketItem = CType(items(i), BasketItem)
         Dim newItem As IEqtItem
-        Dim doc As New EquipmentToolWithdrawItem
+        Dim doc As New EquipmentToolReturnItem
         Dim itemType As Integer
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.equipmentitem"
@@ -1370,7 +1466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Select
 
         If Not itemType = 0 Then
-          'Dim doc As New EquipmentToolWithdrawItem
+          'Dim doc As New EquipmentToolReturnItem
           If Not Me.CurrentItem Is Nothing Then
             doc = Me.CurrentItem
             doc.ItemType.Value = itemType
@@ -1382,7 +1478,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.Entity = newItem
           doc.Unit = CType(newItem, IEqtItem).Unit
           doc.ToStatus = New EqtStatus(3)
-          doc.Qty = 1
+          If itemType = 19 Then
+            doc.Qty = 1
+            doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
+          Else
+            doc.Qty = 1
+            doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate
+          End If
         End If
       Next
       tgItem.CurrentRowIndex = index
@@ -1393,7 +1495,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
       Dim newItem As New BlankItem("")
-      Dim myItem As New EquipmentToolWithdrawItem
+      Dim myItem As New EquipmentToolReturnItem
       'myItem.Entity = newItem
 
       myItem.Unit = New Unit
@@ -1412,15 +1514,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Me.m_treeManager.Treetable.Childs.Remove(Me.tgItem.TreeManager.Treetable.Rows(index))
-      Me.tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      'Me.m_treeManager.Treetable.Childs.Remove(Me.tgItem.TreeManager.Treetable.Rows(index))
+      'Me.tgItem.CurrentRowIndex = index
+
+      Dim rowsCount As Integer = 0
+      Dim firstRowSelected As Integer = 0
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          rowsCount += 1
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            If firstRowSelected = 0 Then
+              firstRowSelected = row.Index
+            End If
+            If TypeOf row.Tag Is EquipmentToolReturnItem Then
+              Dim doc As EquipmentToolReturnItem = CType(row.Tag, EquipmentToolReturnItem)
+              If Not doc Is Nothing AndAlso Me.m_entity.ItemCollection.Contains(doc) Then
+                Me.m_entity.ItemCollection.Remove(doc)
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      If rowsCount.Equals(0) Then
+        Dim doc As EquipmentToolReturnItem = Me.m_entity.ItemCollection.CurrentItem
+        If doc Is Nothing Then
+          Return
+        End If
+        Me.m_entity.ItemCollection.Remove(doc)
+      End If
+
+      Me.RefreshDocs()
+      'RefreshBlankGrid()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+
     End Sub
 #End Region
 
 #Region " IValidatable "
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1612,6 +1746,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
       txtItemCount.Text = i.ToString("#,###")
+    End Sub
+    Private Sub UpdateAmount()
+      m_isInitialized = False
+      txtRentalAmt.Text = Configuration.FormatToString(m_entity.ItemCollection.Gross, DigitConfig.Price)
+      m_isInitialized = True
     End Sub
 
     Private Sub WithdrawCheckedChanged(ByVal sender As System.Object)

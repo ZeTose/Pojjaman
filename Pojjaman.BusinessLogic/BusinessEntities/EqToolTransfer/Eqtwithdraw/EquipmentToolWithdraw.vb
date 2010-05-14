@@ -421,15 +421,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
-          SaveDetail(Me.Id, conn, trans)
+          Dim errstr As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+          If IsNumeric(errstr.Message) Then
+            Select Case CInt(errstr.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetId(oldid)
+                Return New SaveErrorException(errstr.Message)
+              Case Else
+            End Select
+          ElseIf IsDBNull(errstr.Message) OrElse Not IsNumeric(errstr.Message) Then
+            trans.Rollback()
+            ResetId(oldid)
+            Return New SaveErrorException(errstr.Message)
+          End If
 
           Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
@@ -462,285 +475,102 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ret
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
 
-      Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
-      Dim daOldRef As New SqlDataAdapter("Select * from asset where asset_id in (select eqtstocki_entity from eqtstockitem where eqtstocki_eqtstock =" & Me.Id & ")", conn)
-      'Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select eqtstocki_sequence from eqtstockitem where eqtstocki_eqtstock=" & Me.Id & ")", conn)
-      'Dim daItc As New SqlDataAdapter("Select * from internalchargeitem where itci_refsequence in (select eqtstocki_sequence from stockitem where eqtstocki_eqtstock=" & Me.Id & ")", conn)
 
-      Dim daNewRef As SqlDataAdapter
-      Dim refIds As String = Me.GetRefIdString
-      If refIds.Length > 0 Then
-        daNewRef = New SqlDataAdapter("Select * from asset where asset_id in (" & refIds & ")", conn)
-      End If
+        Dim ds As New DataSet
 
-      Dim ds As New DataSet
-
-      Dim cmdBuilder As New SqlCommandBuilder(da)
-      da.SelectCommand.Transaction = trans
-      da.DeleteCommand = cmdBuilder.GetDeleteCommand
-      da.DeleteCommand.Transaction = trans
-      da.InsertCommand = cmdBuilder.GetInsertCommand
-      da.InsertCommand.Transaction = trans
-      da.UpdateCommand = cmdBuilder.GetUpdateCommand
-      da.UpdateCommand.Transaction = trans
-      da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
-      da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-      cmdBuilder = Nothing
-      da.FillSchema(ds, SchemaType.Mapped, "stockitem")
-      da.Fill(ds, "stockitem")
-
-      'cmdBuilder = New SqlCommandBuilder(daWbs)
-      'daWbs.SelectCommand.Transaction = trans
-      'cmdBuilder.GetDeleteCommand.Transaction = trans
-      'cmdBuilder.GetInsertCommand.Transaction = trans
-      'cmdBuilder.GetUpdateCommand.Transaction = trans
-      'cmdBuilder = Nothing
-      'daWbs.FillSchema(ds, SchemaType.Mapped, "stockiwbs")
-      'daWbs.Fill(ds, "stockiwbs")
-      'ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
-
-      'cmdBuilder = New SqlCommandBuilder(daItc)
-      'daItc.SelectCommand.Transaction = trans
-      'cmdBuilder.GetDeleteCommand.Transaction = trans
-      'cmdBuilder.GetInsertCommand.Transaction = trans
-      'cmdBuilder.GetUpdateCommand.Transaction = trans
-      'cmdBuilder = Nothing
-      'daItc.FillSchema(ds, SchemaType.Mapped, "internalchargeitem")
-      'daItc.Fill(ds, "internalchargeitem")
-      'ds.Relations.Add("sequence_2", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!internalchargeitem.Columns!itci_refsequence)
-
-      cmdBuilder = New SqlCommandBuilder(daOldRef)
-      daOldRef.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-      cmdBuilder = Nothing
-      daOldRef.FillSchema(ds, SchemaType.Mapped, "oldAsset")
-      daOldRef.Fill(ds, "oldAsset")
-
-      Dim dtNewRef As DataTable
-      If Not daNewRef Is Nothing Then
-        cmdBuilder = New SqlCommandBuilder(daNewRef)
-        daNewRef.SelectCommand.Transaction = trans
-        cmdBuilder.GetDeleteCommand.Transaction = trans
-        cmdBuilder.GetInsertCommand.Transaction = trans
-        cmdBuilder.GetUpdateCommand.Transaction = trans
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        'da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
+        'da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
         cmdBuilder = Nothing
-        daNewRef.FillSchema(ds, SchemaType.Mapped, "newAsset")
-        daNewRef.Fill(ds, "newAsset")
-        dtNewRef = ds.Tables("newAsset")
-        For Each row As DataRow In dtNewRef.Rows
-          If Not row.IsNull("asset_status") AndAlso IsNumeric(row("asset_status")) Then
-            If CInt(row("asset_status")) = 1 Then 'ว่าง
-              row("asset_status") = 2 'เบิกใช้
+        da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
+        da.Fill(ds, "Eqtstockitem")
+
+
+
+        Dim dt As DataTable = ds.Tables("Eqtstockitem")
+
+        Dim EqtDt As DataTable = GetEqiLastSequence()
+
+
+        Dim i As Integer = 0 'Line Running
+        With ds.Tables("Eqtstockitem")
+          For Each row As DataRow In .Rows
+            row.Delete()
+          Next
+          For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
+            Dim dr As DataRow = .NewRow
+            Dim row() As DataRow = EqtDt.Select("eqtstocki_id =" & item.Entity.Id.ToString)
+            i += 1
+            dr("eqtstocki_eqtstock") = Me.Id
+            dr("eqtstocki_linenumber") = i
+
+            dr("eqtstocki_fromstatus") = Me.FromStatus.Value
+            dr("eqtstocki_tostatus") = Me.ToStatus.Value
+
+            dr("eqtstocki_entity") = item.Entity.Id
+            dr("eqtstocki_entityType") = item.ItemType.Value
+            dr("eqtstocki_Name") = item.Entity.Name
+
+            dr("eqtstocki_qty") = item.Qty
+            dr("eqtstocki_unit") = item.Unit.Id
+
+            dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
+            'dr("eqtstocki_rentalqty") = item.
+
+            If row.Length > 0 Then
+              dr("eqtstocki_refid") = row(0)("id")
+
             End If
-          End If
-        Next
-      End If
+            dr("eqtstocki_note") = item.Note
 
-      Dim dt As DataTable = ds.Tables("stockitem")
-      Dim dc As DataColumn = dt.Columns!stocki_sequence
-      dc.AutoIncrement = True
-      dc.AutoIncrementSeed = -1
-      dc.AutoIncrementStep = -1
-
-      Dim dtWbs As DataTable = ds.Tables("stockiwbs")
-      Dim dtItc As DataTable = ds.Tables("internalchargeitem")
-
-      Dim dtOldRef As DataTable = ds.Tables("oldAsset")
+            .Rows.Add(dr)
 
 
-      For Each row As DataRow In dtOldRef.Rows
-        Dim found As Boolean = False
-        For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
-          If item.Entity.Id = CInt(row("asset_id")) Then
-            'เจอแล้ว --> 
-            found = True
-            Exit For
-          End If
-        Next
-        If Not found Then
-          'ไม่เจอ
-          If Not row.IsNull("asset_status") AndAlso IsNumeric(row("asset_status")) Then
-            If CInt(row("asset_status")) = 2 Then 'เบิก
-              row("asset_status") = 1 'ว่าง
-            End If
-          End If
-        End If
-      Next
+          Next
+        End With
 
-      For Each row As DataRow In ds.Tables("stockiwbs").Rows
-        row.Delete()
-      Next
-      For Each row As DataRow In dtItc.Rows
-        row.Delete()
-      Next
+        da.Update(dt.Select("", "", DataViewRowState.Added))
 
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
-          New SqlParameter("@stocki_stock", Me.Id))
+        ds.EnforceConstraints = False
 
-      Dim i As Integer = 0 'Line Running
-      With ds.Tables("stockitem")
-        For Each row As DataRow In .Rows
-          row.Delete()
-        Next
-        For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
-          Dim dr As DataRow = .NewRow
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
 
-          dr("stocki_stock") = Me.Id
-          dr("stocki_linenumber") = i
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
 
-          dr("stocki_cc") = DBNull.Value
-          dr("stocki_fromcc") = Me.ValidIdOrDBNull(Me.StoreCostcenter)
 
-          dr("stocki_refsequence") = 0
+        tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
 
-          dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.WithdrawCostcenter)
-          'If Me.IsExternal Then
-          '  dr("stocki_tocust") = Me.Customer.Id
-          'Else
-          '  dr("stocki_tocust") = DBNull.Value
-          'End If
-          dr("stocki_toacct") = DBNull.Value
-          dr("stocki_toAcctType") = 3
+        ds.EnforceConstraints = True
+        Return New SaveErrorException("0")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString + vbCrLf + ex.InnerException.ToString)
+      End Try
+      
 
-          dr("stocki_entity") = item.Entity.Id
-          dr("stocki_entityType") = item.ItemType.Value
-          dr("stocki_itemName") = item.Entity.Name
-          dr("stocki_qty") = item.Qty
-          dr("stocki_stockqty") = item.Qty
+    End Function
+    Private Function GetEqiLastSequence() As DataTable
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
-          dr("stocki_note") = item.Note
-          dr("stocki_type") = Me.EntityId
-          dr("stocki_status") = Me.Status.Value
-          .Rows.Add(dr)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetEqiLastSequence" _
+      , New SqlParameter("@IDlist", Me.ItemCollection.EqIdList) _
+      )
 
-          Dim itcLine As Integer = 0
-          'For Each itc As InternalCharge In item.InternalChargeCollection
-          '  itcLine += 1
-          '  Dim childDr As DataRow = dtItc.NewRow
-          '  childDr("itci_linenumber") = itcLine 'itc.Linenumber
-          '  childDr("itci_refsequence") = dr("stocki_sequence")
-          '  childDr("itci_ispercent") = itc.Ispercent
-          '  childDr("itci_isfixed") = itc.IsFixed
-          '  childDr("itci_rate") = itc.Rate
-          '  childDr("itci_startdate") = itc.StartDate
-          '  childDr("itci_enddate") = itc.EndDate
-          '  childDr("itci_name") = itc.Name
-          '  childDr("itci_note") = itc.Note
-          '  childDr("itci_type") = CInt(itc.Type)
-          '  dtItc.Rows.Add(childDr)
-          'Next
-
-          If Not Me.WithdrawCostcenter.Boq Is Nothing AndAlso Me.WithdrawCostcenter.Boq.Originated Then
-            Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-            Dim rootWBS As New WBS(Me.WithdrawCostcenter.RootWBSId)
-            Dim currentSum As Decimal = wbsdColl.GetSumPercent
-            For Each wbsd As WBSDistribute In wbsdColl
-              If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-                'ยังไม่เต็ม 100 แต่มีหัวอยู่
-                wbsd.Percent += (100 - currentSum)
-              End If
-              wbsd.BaseCost = item.Amount
-              wbsd.TransferBaseCost = item.Amount
-              Dim childDr As DataRow = dtWbs.NewRow
-              childDr("stockiw_wbs") = wbsd.WBS.Id
-              If wbsd.CostCenter Is Nothing Then
-                wbsd.CostCenter = Me.WithdrawCostcenter
-              End If
-              childDr("stockiw_cc") = wbsd.CostCenter.Id
-              childDr("stockiw_percent") = wbsd.Percent
-              childDr("stockiw_sequence") = dr("stocki_sequence")
-              childDr("stockiw_ismarkup") = wbsd.IsMarkup
-              childDr("stockiw_direction") = 0 'in
-              'childDr("stockiw_baseCost") = wbsd.BaseCost
-              'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
-              'childDr("stockiw_transferamt") = wbsd.TransferAmount
-              'childDr("stockiw_amt") = wbsd.Amount
-              childDr("stockiw_toaccttype") = 3
-              'Add เข้า stockiwbs
-              dtWbs.Rows.Add(childDr)
-            Next
-
-            currentSum = wbsdColl.GetSumPercent
-            'ยังไม่เต็ม 100 และยังไม่มี root
-            If currentSum < 100 Then
-              Try
-                Dim newWbsd As New WBSDistribute
-                newWbsd.WBS = rootWBS
-                newWbsd.CostCenter = item.EqtWithdraw.WithdrawCostcenter
-                newWbsd.Percent = 100 - currentSum
-                newWbsd.BaseCost = item.Amount
-                newWbsd.TransferBaseCost = item.Amount
-                Dim childDr As DataRow = dtWbs.NewRow
-                childDr("stockiw_wbs") = newWbsd.WBS.Id
-                childDr("stockiw_cc") = newWbsd.CostCenter.Id
-                childDr("stockiw_percent") = newWbsd.Percent
-                childDr("stockiw_sequence") = dr("stocki_sequence")
-                childDr("stockiw_ismarkup") = False
-                childDr("stockiw_direction") = 0 'in
-                'childDr("stockiw_baseCost") = newWbsd.BaseCost
-                'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
-                'childDr("stockiw_transferamt") = newWbsd.TransferAmount
-                'childDr("stockiw_amt") = newWbsd.Amount
-                childDr("stockiw_toaccttype") = 3
-                'Add เข้า stockiwbs
-                dtWbs.Rows.Add(childDr)
-              Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-              End Try
-            End If
-          End If
-          'Dim childDr As DataRow = dtitc.NewRow
-          'childDr("itc_refsequence") = dr("stocki_sequence")
-          'childDr("itc_linenumber") = 1
-          'childDr("itc_rate") = item.Asset.RentalRate
-          'childDr("itc_startdate") = Me.DocDate
-          'childDr("itc_type") = 1 '1=ปกติ 2=หยุด 3=ลดราคา
-          'dtitc.Rows.Add(childDr)
-        Next
-      End With
-
-      Dim tmpDa As New SqlDataAdapter
-      tmpDa.DeleteCommand = da.DeleteCommand
-      tmpDa.InsertCommand = da.InsertCommand
-      tmpDa.UpdateCommand = da.UpdateCommand
-
-      AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
-      AddHandler daOldRef.RowUpdated, AddressOf tmpDa_MyRowUpdated
-      If Not daNewRef Is Nothing Then
-        AddHandler daNewRef.RowUpdated, AddressOf tmpDa_MyRowUpdated
-      End If
-      'AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
-      'AddHandler daItc.RowUpdated, AddressOf daItc_MyRowUpdated
-
-      'daItc.Update(GetDeletedRows(dtItc))
-      'daWbs.Update(GetDeletedRows(dtWbs))
-      daOldRef.Update(GetDeletedRows(dtOldRef))
-      tmpDa.Update(GetDeletedRows(dt))
-      If Not daNewRef Is Nothing Then
-        daNewRef.Update(GetDeletedRows(dtNewRef))
-      End If
-
-      tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
-      daOldRef.Update(dtOldRef.Select("", "", DataViewRowState.ModifiedCurrent))
-      If Not daNewRef Is Nothing Then
-        daNewRef.Update(dtNewRef.Select("", "", DataViewRowState.ModifiedCurrent))
-      End If
-      'daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
-      'daItc.Update(dtItc.Select("", "", DataViewRowState.ModifiedCurrent))
-
-      tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
-      daOldRef.Update(dtOldRef.Select("", "", DataViewRowState.Added))
-      If Not daNewRef Is Nothing Then
-        da.Update(dtNewRef.Select("", "", DataViewRowState.Added))
-      End If
-      ds.EnforceConstraints = False
-      'daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
-      'daItc.Update(dtItc.Select("", "", DataViewRowState.Added))
-      ds.EnforceConstraints = True
-
+      Return ds.Tables(0)
     End Function
     Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
       If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
@@ -878,7 +708,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteAssetWithdraw", New SqlParameter() {New SqlParameter("@stock_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtWithdraw", New SqlParameter() {New SqlParameter("@eqtstock_id", Me.Id), returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1
@@ -1322,6 +1152,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_rentalqty As Integer
     Private m_rentalperday As Decimal
+    Private m_amount As Decimal
+
 
     Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
@@ -1338,7 +1170,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
     End Sub
-    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+    Protected Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
         Dim deh As New DataRowHelper(dr)
@@ -1357,27 +1189,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
     End Sub
-    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    Protected Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Me.Construct(dr, aliasPrefix)
     End Sub
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+    'Public Property WBSDistributeCollection() As WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
     'Public Property InternalChargeCollection() As InternalChargeCollection    '  Get    '    If m_internalChargeCollection Is Nothing Then    '      m_internalChargeCollection = New InternalChargeCollection(Me)
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
-    
-    Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
+
+    'Public ReadOnly Property Sequence() As Integer    '  Get    '    Return m_sequence    '  End Get    'End Property
     Public Property RentalPerDay() As Decimal
       Get        Return m_rentalperday
       End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
       End Set
     End Property
-    
+
+    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal value As Decimal)
+        m_amount = value
+        If m_rentalqty > 0 Then
+          m_rentalperday = m_amount / m_rentalqty
+        End If
+      End Set    End Property
+
     Public Property EqtWithdraw() As EquipmentToolWithdraw
-      Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property    
+      Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property
     Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtWithdraw Is Nothing Then
         Return False
       End If      If myCode Is Nothing OrElse myCode.Length = 0 Then
@@ -1445,7 +1284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.Qty = 1
-    End Sub    
+    End Sub
 #End Region
 
 #Region "Methods"
@@ -1570,6 +1409,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MyBase.List.Item(index) = value
       End Set
     End Property
+    Public Property CurrentItem() As EquipmentToolWithdrawItem
+    '  Get
+    '    Return m_currentItem
+    '  End Get
+    '  Set(ByVal Value As EqtItem)
+    '    m_currentItem = Value
+    '  End Set
+    'End Property
     Public ReadOnly Property Gross As Decimal
       Get
         Dim ret As Decimal = 0
@@ -1673,6 +1520,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_baseEnumerator.Reset()
       End Sub
     End Class
+
+    Function EqIdList() As Object
+      Dim list As New Generic.List(Of String)
+      For Each i As EquipmentToolWithdrawItem In Me
+        If TypeOf i.Entity Is EquipmentItem Then
+          list.Add(i.Entity.Id.ToString)
+        End If
+      Next
+      Return String.Join(",", list)
+    
+    End Function
+
   End Class
 
   '  Public Class InternalCharge

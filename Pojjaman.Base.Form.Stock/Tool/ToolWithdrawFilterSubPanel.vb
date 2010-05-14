@@ -801,8 +801,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Set(ByVal Value As System.Collections.ArrayList)
                 MyBase.Entities = Value
                 For Each entity As ISimpleEntity In Value
-          If TypeOf entity Is EquipmentToolWithdraw Then
-            Dim obj As EquipmentToolWithdraw = CType(entity, EquipmentToolWithdraw)
+          If TypeOf entity Is ToolWithdraw Then
+            Dim obj As ToolWithdraw = CType(entity, ToolWithdraw)
             If obj.Withdrawperson.Originated Then
               Me.SetWithdrawPerson(obj.Withdrawperson)
               Me.txtWithdrawPersonCode.Enabled = False
