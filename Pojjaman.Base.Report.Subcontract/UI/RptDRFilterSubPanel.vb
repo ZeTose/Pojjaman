@@ -1116,7 +1116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtFromCostCenterCode.Text = e.Code
             CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, m_tocc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
         End Sub
-        ' From Persone
+    ' From Person
         Private Sub btnfromCCPersoneStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
             Select Case CType(sender, Control).Name.ToLower

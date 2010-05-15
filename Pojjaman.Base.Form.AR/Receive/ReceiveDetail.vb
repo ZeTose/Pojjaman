@@ -1160,7 +1160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRealAmount.DataAlignment = HorizontalAlignment.Right
       csRealAmount.Format = "#,###.##"
       csRealAmount.TextBox.Name = "RealAmount"
-      csRealAmount.Width = 60
+            csRealAmount.Width = 120
 
       Dim csAmount As New TreeTextColumn
       csAmount.MappingName = "receivei_amt"
@@ -1169,7 +1169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Format = "#,###.##"
       csAmount.TextBox.Name = "receivei_amt"
-      csAmount.Width = 60
+            csAmount.Width = 120
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "receivei_note"

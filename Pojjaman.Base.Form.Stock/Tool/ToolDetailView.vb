@@ -6,9 +6,9 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
     Public Class ToolDetailView
-    'Inherits UserControl
-    Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+        'Inherits UserControl
+        Inherits AbstractEntityDetailPanelView
+        Implements IValidatable
 
 #Region " Windows Form Designer generated code "
 
@@ -114,9 +114,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbDetail.Controls.Add(Me.tgItem)
       Me.grbDetail.Controls.Add(Me.lblCostCentername)
-      Me.grbDetail.Controls.Add(Me.txtCostcenterCode)
+            Me.grbDetail.Controls.Add(Me.txtCostcenterCode)
       Me.grbDetail.Controls.Add(Me.lblPicSize)
-      Me.grbDetail.Controls.Add(Me.txtCostCenterName)
+            Me.grbDetail.Controls.Add(Me.txtCostCenterName)
       Me.grbDetail.Controls.Add(Me.btnLoadImage)
       Me.grbDetail.Controls.Add(Me.ibtnShowcostcenter)
       Me.grbDetail.Controls.Add(Me.btnClearImage)
@@ -834,7 +834,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtunitcode"
           dirtyFlag = Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.MemoryUnit)
         Case "txtcostcentercode"
-          dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.m_entity.Costcenter) 'doc.Costcenter
+                    dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.m_entity.Costcenter)
+                    'doc.Costcenter
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
