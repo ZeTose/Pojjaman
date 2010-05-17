@@ -619,7 +619,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '==============================STOCKCOSTFIFO=========================================
           'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
           If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                        New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
           End If
           '==============================STOCKCOSTFIFO=========================================
 

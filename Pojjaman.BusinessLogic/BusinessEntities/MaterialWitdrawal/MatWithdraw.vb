@@ -682,9 +682,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As MatWithdrawItem In Me.ItemCollection
         Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
         For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
-          If item.ItemCollectionPrePareCost(i).Sequence = currCostCollection(i).Sequence AndAlso _
-             item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
-              item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
+          If item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
+             item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
             Return ""
           Else
             Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
@@ -908,7 +907,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '==============================STOCKCOSTFIFO=========================================
           'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
           If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                  New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
           End If
           '==============================STOCKCOSTFIFO=========================================
 
