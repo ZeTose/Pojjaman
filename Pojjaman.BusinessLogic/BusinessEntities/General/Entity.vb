@@ -221,7 +221,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return arr
     End Function
-    Private Shared Function GetNewAutoCodeFormats(ByVal entityId As Integer, ByVal userId As Integer) As ArrayList
+    Public Shared Function GetNewAutoCodeFormats(ByVal entityId As Integer, ByVal userId As Integer) As ArrayList
       Dim arr As New ArrayList
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
