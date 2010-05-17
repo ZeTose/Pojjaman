@@ -1325,6 +1325,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
+    Dim rval As Decimal = 0
+    Dim remaining As Decimal = 0
+    Dim doc As MatTransferItem
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -1333,10 +1336,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
       If Me.m_entity Is Nothing Then
         Return
       End If
-      Dim doc As MatTransferItem = Me.CurrentItem
+      doc = Me.CurrentItem
       If doc Is Nothing Then
         doc = New MatTransferItem
         Me.m_entity.ItemCollection.Add(doc)
@@ -1360,19 +1364,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
               e.ProposedValue = ""
             End If
             If IsNumeric(e.ProposedValue.ToString) Then
-              Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-              Dim remaining As Decimal = 0
-
+              rval = CDec(e.ProposedValue.ToString)
               If Not (doc.Pritem Is Nothing) Then
                 remaining = doc.AllowWithdrawFromPR
               Else
                 remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
               End If
 
-              Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
+              Dim xCompare As String = Configuration.FormatToString(rval, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
-              If value > (remaining / doc.Conversion) Then
+              If rval > (remaining / doc.Conversion) Then
                 If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
                   e.ProposedValue = (remaining / doc.Conversion)
                   doc.Qty = e.ProposedValue
@@ -1397,7 +1399,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               'doc.Qty = value
               'End If
               'Else
-              doc.Qty = value
+              doc.Qty = rval
               'End If
             End If
           Case "stocki_transferunitprice"
@@ -1427,12 +1429,65 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      'CheckApproveStore()
+
+      'If m_entity.ApprovalCollection.IsApproved Then
+      '  For Each ctrl As Control In Me.grbDetail.Controls
+      '    ctrl.Enabled = False
+      '  Next
+      '  For Each ctrl As Control In Me.grbFromCC.Controls
+      '    ctrl.Enabled = False
+      '  Next
+      '  For Each ctrl As Control In Me.grbSummary.Controls
+      '    ctrl.Enabled = False
+      '  Next
+      '  For Each ctrl As Control In Me.grbToCC.Controls
+      '    ctrl.Enabled = False
+      '  Next
+      '  For Each ctrl As Control In Me.Controls
+      '    ctrl.Enabled = False
+      '  Next
+      '  tgItem.Enabled = True
+      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '    colStyle.ReadOnly = True
+      '  Next
+      'Else
+      '  For Each ctrl As Control In Me.grbDetail.Controls
+      '    ctrl.Enabled = True
+      '  Next
+      '  For Each ctrl As Control In Me.grbFromCC.Controls
+      '    ctrl.Enabled = True
+      '  Next
+      '  For Each ctrl As Control In Me.grbSummary.Controls
+      '    ctrl.Enabled = True
+      '  Next
+      '  For Each ctrl As Control In Me.grbToCC.Controls
+      '    ctrl.Enabled = True
+      '  Next
+      '  For Each ctrl As Control In Me.Controls
+      '    ctrl.Enabled = True
+      '  Next
+      '  tgItem.Enabled = True
+      '  For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '    colStyle.ReadOnly = False
+      '  Next
+      'End If
+
+      tgItem.Enabled = True
+      If Not Me.m_entity.Grouping Then
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
+      Else
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
+        Next
+      End If
+      ToggleStyle(Me.m_treeManager.GridTableStyle)
+
       If Me.m_entity.Canceled _
       OrElse Me.m_entity.Status.Value = 0 _
       OrElse m_entityRefed = 1 _
-      OrElse m_entity.ApprovalCollection.Approved _
-      Then
+      OrElse m_entity.ApprovalCollection.IsApproved Then
         For Each ctrl As Control In Me.grbDetail.Controls
           ctrl.Enabled = False
         Next
@@ -1476,18 +1531,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '  Me.btnApprove.Visible = True
         'End If
       End If
-      tgItem.Enabled = True
-      If Not Me.m_entity.Grouping Then
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
+      If Me.m_entity.ApprovalCollection.Count > 0 Then
+        Me.chkShowCost.Enabled = True
       Else
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = False
-        Next
+        Me.chkShowCost.Enabled = False
       End If
-      ToggleStyle(Me.m_treeManager.GridTableStyle)
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'ToggleStyle(Me.m_treeManager.GridTableStyle)
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = True
       Me.ibtnApprove.Enabled = True
       CheckWBSRight()
     End Sub
@@ -1512,8 +1563,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Me.dtpDocDate.Value = Now
 
-      If Me.cmbDocType.Items.Count > 0 Then
-        Me.cmbDocType.SelectedIndex = 2 'โอนเข้าคลัง  
+      If Me.cmbDocType.Items.Count > 2 Then
+        Me.cmbDocType.SelectedIndex = 1 'โอนเข้าคลัง  
       End If
     End Sub
     Public Overrides Sub SetLabelText()
@@ -1644,11 +1695,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.Type)
       End If
 
+      'For Each item As IdValuePair In Me.cmbDocType.Items
+      '  If Me.m_entity.Type.Value = item.Id Then
+      '    Me.cmbDocType.SelectedItem = item
+      '  End If
+      'Next
+
       Me.chkShowCost.Checked = Not Me.m_entity.Grouping
 
       If Not Me.m_entity.ApprovalCollection Is Nothing Then
         If Me.m_entity.ApprovalCollection.Count > 0 Then
-          Dim approvalComment As ApprovalStoreComment = Me.m_entity.ApprovalCollection(0)
+          Dim approvalComment As ApprovalStoreComment = Me.m_entity.ApprovalCollection(Me.m_entity.ApprovalCollection.Count - 1)
           Dim newUser As New User(approvalComment.Originator)
           Dim approveText As String = ""
           If approvalComment.Type = ApproveType.approved Then
@@ -1658,6 +1715,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           txtReceiptStatus.Text = approveText & " : " & approvalComment.Comment & vbCrLf & _
                                   "(" & approvalComment.LastEditDate.ToShortDateString & " : " & newUser.Name & ")"
+        Else
+          txtReceiptStatus.Text = Me.StringParserService.Parse("${res:Global.NotConfirm}")
         End If
       End If
 
@@ -1691,6 +1750,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
+      If Me.m_entity.ApprovalCollection.Count > 0 Then
+        Me.chkShowCost.Enabled = True
+      Else
+        Me.chkShowCost.Enabled = False
+      End If
+
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
@@ -1819,7 +1884,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtFromCostCenterCode.Text = Me.m_entity.FromCostCenter.Code
             Me.txtFromCostCenterName.Text = Me.m_entity.FromCostCenter.Name
             UpdateOriginAdmin()
-            ListType()
+            'ListType()
             fromCCCodeChanged = False
           End If
         Case "cmbdoctype"
@@ -1911,32 +1976,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Set
     End Property
     Public Overrides Sub Initialize()
-      ListType()
-    End Sub
-    Private Sub ListType()
-      Dim oldType As New MatWithdrawType(-1)
-      If Not Me.m_entity Is Nothing Then
-        oldType = Me.m_entity.Type()
-        If Me.m_entity.ToCostCenter.Originated Then
-          If Me.m_entity.FromCostCenter.Originated Then
-            If Me.m_entity.ToCostCenter.Id = Me.m_entity.FromCostCenter.Id Then
-              'CostCenter เดียวกัน เป็นได้เฉพาะเบิกเข้า WIP หรือเป็น Expense
-              CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "matwithdraw_type", "code_value <> 3")
-              If oldType.Value = 3 Then
-                oldType.Value = 1
-              End If
-              CodeDescription.ComboSelect(Me.cmbDocType, oldType)
-              Return
-            End If
-          End If
-        End If
+      'ListType()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "mattransfer_type")
+      If cmbDocType.Items.Count > 1 Then
+        cmbDocType.SelectedIndex = 1
       End If
-      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "matwithdraw_type")
-      If oldType.Value = -1 Then
-        oldType.Value = 1
-      End If
-      CodeDescription.ComboSelect(Me.cmbDocType, oldType)
     End Sub
+    'Private Sub ListType()
+    '  Dim oldType As New MatWithdrawType(-1)
+    '  If Not Me.m_entity Is Nothing Then
+    '    oldType = Me.m_entity.Type()
+    '    If Me.m_entity.ToCostCenter.Originated Then
+    '      If Me.m_entity.FromCostCenter.Originated Then
+    '        If Me.m_entity.ToCostCenter.Id = Me.m_entity.FromCostCenter.Id Then
+    '          'CostCenter เดียวกัน เป็นได้เฉพาะเบิกเข้า WIP หรือเป็น Expense
+    '          CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "matwithdraw_type", "code_value <> 3")
+    '          If oldType.Value = 3 Then
+    '            oldType.Value = 1
+    '          End If
+    '          CodeDescription.ComboSelect(Me.cmbDocType, oldType)
+    '          Return
+    '        End If
+    '      End If
+    '    End If
+    '  End If
+    '  CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDocType, "matwithdraw_type")
+    '  If oldType.Value = -1 Then
+    '    oldType.Value = 1
+    '  End If
+    '  CodeDescription.ComboSelect(Me.cmbDocType, oldType)
+    'End Sub
 #End Region
 
 #Region "Method"
@@ -2242,7 +2311,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Or CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
       Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
       Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
-      ListType()
+      'ListType()
       UpdateDestAdmin()
       Try
         If oldCCId <> Me.m_entity.ToCostCenter.Id Then
@@ -2280,7 +2349,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Or CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       Me.txtFromCostCenterCode.Text = Me.m_entity.FromCostCenter.Code
       Me.txtFromCostCenterName.Text = Me.m_entity.FromCostCenter.Name
-      ListType()
+      'ListType()
       UpdateAccount()
       UpdateOriginAdmin()
       fromCCCodeChanged = False

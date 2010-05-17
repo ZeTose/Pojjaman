@@ -10,27 +10,27 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-  '  Public Class MatWithdrawType
-  '    Inherits CodeDescription
+  Public Class MatTransferType
+    Inherits CodeDescription
 
-  '#Region "Constructors"
-  '    Public Sub New()
-  '      MyBase.New()
-  '    End Sub
-  '    Public Sub New(ByVal value As Integer)
-  '      MyBase.New(value)
-  '    End Sub
-  '#End Region
+#Region "Constructors"
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
+#End Region
 
-  '#Region "Properties"
-  '    Public Overrides ReadOnly Property CodeName() As String
-  '      Get
-  '        Return "matwithdraw_type"
-  '      End Get
-  '    End Property
-  '#End Region
+#Region "Properties"
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "mattransfer_type"
+      End Get
+    End Property
+#End Region
 
-  '  End Class
+  End Class
   Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatableItem
@@ -45,7 +45,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_fromCostCenterPerson As Employee
     Private m_toCostCenterPerson As Employee
     Private m_asset As Asset
-    Private m_type As MatWithdrawType
+    Private m_type As MatTransferType
     Private m_diffAmountFIFO As Decimal
     Private m_isinitialized As Boolean
 
@@ -88,7 +88,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_toCostCenter = New CostCenter
         .m_toCostCenterPerson = New Employee
         .m_asset = New Asset
-        .m_type = New MatWithdrawType(1)
+        .m_type = New MatTransferType(3)
         .Status = New StockStatus(-1)
         .m_note = ""
         .m_grouping = True
@@ -206,6 +206,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property ApprovalCollection As ApprovalStoreCommentCollection
       Get
+        If m_approvalCollection Is Nothing Then
+          m_approvalCollection = New ApprovalStoreCommentCollection(Me)
+        End If
         Return m_approvalCollection
       End Get
       Set(ByVal value As ApprovalStoreCommentCollection)
@@ -230,13 +233,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property Type() As MatWithdrawType
+    Public Property Type() As MatTransferType
       Get
         Return m_type
       End Get
-      Set(ByVal Value As MatWithdrawType)
+      Set(ByVal Value As MatTransferType)
         m_type = Value
-        ValidateCCandType()
+        'ValidateCCandType()
       End Set
     End Property
     Public Property Note() As String Implements IGLAble.Note
@@ -249,12 +252,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Sub ValidateCCandType()
-      If m_fromCostCenter.Id = m_toCostCenter.Id Then
-        Me.Type.Value = 1 'WIP
-        Me.Type.Locked = True
-      Else
-        Me.Type.Locked = False
-      End If
+      'If m_fromCostCenter.Id = m_toCostCenter.Id Then
+      '  Me.Type.Value = 1 'WIP
+      '  Me.Type.Locked = True
+      'Else
+      '  Me.Type.Locked = False
+      'End If
     End Sub
     Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter
       Get
@@ -270,7 +273,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         m_fromCostCenter = Value
-        ValidateCCandType()
+        'ValidateCCandType()
       End Set
     End Property
     Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
@@ -287,7 +290,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         m_toCostCenter = Value
-        ValidateCCandType()
+        'ValidateCCandType()
       End Set
     End Property
     Public Property FromCostCenterPerson() As Employee
@@ -736,8 +739,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange3}")
         End If
         For i As Integer = 0 To item.ItemCostCollection.Count - 1
-          If item.ItemCostCollection(i).Sequence = currCostCollection(i).Sequence AndAlso _
-             item.ItemCostCollection(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
+          If item.ItemCostCollection(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
               item.ItemCostCollection(i).StockQty = currCostCollection(i).StockQty Then
             Return ""
           Else
@@ -768,31 +770,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return ValidateError
         End If
 
-        'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) ก็เลยไม่ต้อง VerrifyCost แล้วด้วย
-        If Not Me.IsReferenced Then
-          Dim VerrifyCostErrorMessage As String = VerrifyCost()
-          If VerrifyCostErrorMessage.Length > 0 Then
-            If Not msgServ.AskQuestion(VerrifyCostErrorMessage) Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-            End If
-          End If
-        End If
+        ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) ก็เลยไม่ต้อง VerrifyCost แล้วด้วย
+        'If Not Me.IsReferenced OrElse Not Me.ApprovalCollection.IsApproved Then
+        '  Dim VerrifyCostErrorMessage As String = VerrifyCost()
+        '  If VerrifyCostErrorMessage.Length > 0 Then
+        '    If Not msgServ.AskQuestion(VerrifyCostErrorMessage) Then
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+        '    End If
+        '  End If
+        'End If
 
-        'check over budget
-        Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
-        Select Case overbudgetconfig
-          Case 0 'Not allow
-            If OverBudget() Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.GROverBudgetCannotBeSaved}"))
-            End If
-          Case 1 'Warn
-            If OverBudget() Then
-              If Not msgServ.AskQuestion("${res:Global.Question.GROverBudgetSaveAnyway}") Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-              End If
-            End If
-          Case 2 'Do Nothing
-        End Select
+        'ไม่ต้องเช็ค OverBudget เพราะว่าเป็นการจัดสรร ออกจาก Cost Center อย่างเดียว
+        ''check over budget
+        'Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
+        'Select Case overbudgetconfig
+        '  Case 0 'Not allow
+        '    If OverBudget() Then
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.GROverBudgetCannotBeSaved}"))
+        '    End If
+        '  Case 1 'Warn
+        '    If OverBudget() Then
+        '      If Not msgServ.AskQuestion("${res:Global.Question.GROverBudgetSaveAnyway}") Then
+        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+        '      End If
+        '    End If
+        '  Case 2 'Do Nothing
+        'End Select
 
         '---------------------------
         Dim cumWithdraw As New Hashtable
@@ -865,53 +868,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New StockStatus(2)
         End If
 
-        '---- AutoCode Format --------
-        Me.m_je.RefreshGLFormat()
-        If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
-
-
-          Select Case Me.AutoCodeFormat.CodeConfig.Value
-            Case 0
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
-              Me.m_je.DontSave = True
-              Me.m_je.Code = ""
-              Me.m_je.DocDate = Me.DocDate
-            Case 1
-              'ตาม entity
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
-              Me.m_je.Code = Me.Code
-            Case 2
-              'ตาม gl
-              If Me.m_je.AutoGen Then
-                Me.m_je.Code = m_je.GetNextCode
-              End If
-              Me.Code = Me.m_je.Code
-            Case Else
-              'แยก
-              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-              End If
-              If Me.m_je.AutoGen Then
-                Me.m_je.Code = m_je.GetNextCode
-              End If
-          End Select
-        Else
-          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-            Me.Code = Me.GetNextCode
-          End If
-          If Me.m_je.AutoGen Then
-            Me.m_je.Code = m_je.GetNextCode
-          End If
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
         End If
-        Me.m_je.DocDate = Me.DocDate
-        Me.AutoGen = False
-        Me.m_je.AutoGen = False
+
+        ''---- AutoCode Format --------
+        'Me.m_je.RefreshGLFormat()
+        'If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
+
+
+        '  Select Case Me.AutoCodeFormat.CodeConfig.Value
+        '    Case 0
+        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+        '        Me.Code = Me.GetNextCode
+        '      End If
+        '      Me.m_je.DontSave = True
+        '      Me.m_je.Code = ""
+        '      Me.m_je.DocDate = Me.DocDate
+        '    Case 1
+        '      'ตาม entity
+        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+        '        Me.Code = Me.GetNextCode
+        '      End If
+        '      Me.m_je.Code = Me.Code
+        '    Case 2
+        '      'ตาม gl
+        '      If Me.m_je.AutoGen Then
+        '        Me.m_je.Code = m_je.GetNextCode
+        '      End If
+        '      Me.Code = Me.m_je.Code
+        '    Case Else
+        '      'แยก
+        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+        '        Me.Code = Me.GetNextCode
+        '      End If
+        '      If Me.m_je.AutoGen Then
+        '        Me.m_je.Code = m_je.GetNextCode
+        '      End If
+        '  End Select
+        'Else
+        '  If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+        '    Me.Code = Me.GetNextCode
+        '  End If
+        '  If Me.m_je.AutoGen Then
+        '    Me.m_je.Code = m_je.GetNextCode
+        '  End If
+        'End If
+        'Me.m_je.DocDate = Me.DocDate
+        'Me.AutoGen = False
+        'Me.m_je.AutoGen = False
         paramArrayList.Add(New SqlParameter("@stock_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@stock_code", Me.Code))
+
+        'paramArrayList.Add(New SqlParameter("@stock_otherDocCode", Me.AutoCodeFormat.Format)) ''เก็บ AutoCode Format ไว้สำหรับ เอกสารรับของ
+        paramArrayList.Add(New SqlParameter("@stock_entity", Me.AutoCodeFormat.Id)) ''เก็บ AutoCode Format ไว้สำหรับ เอกสารรับของ
+
         paramArrayList.Add(New SqlParameter("@stock_toAcct", IIf(Me.ToAccount.Originated, Me.ToAccount.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@stock_tocc", IIf(Me.ToCostCenter.Originated, Me.ToCostCenter.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@stock_toccperson", IIf(Me.ToCostCenterPerson.Originated, Me.ToCostCenterPerson.Id, DBNull.Value)))
@@ -968,10 +979,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           '==============================STOCKCOSTFIFO=========================================
-          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
-          End If
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          'If Not Me.IsReferenced Then
+          '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+          '                                                                                        New SqlParameter("@stock_cc", Me.FromCostCenter.Id), _
+          '                                                                                        New SqlParameter("@stock_type", Me.EntityId))
+          'End If
           '==============================STOCKCOSTFIFO=========================================
 
           ''==============================UPDATE PRITEM=========================================
@@ -980,7 +993,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
+          , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
           , New SqlParameter("@refto_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
@@ -1066,31 +1079,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Try
           '    trans = conn.BeginTransaction()
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          '********************************************
-          If Not Me.m_je.ManualFormat Then
-            m_je.SetGLFormat(Me.GetDefaultGLFormat)
-          End If
-          '********************************************
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
+          'If Me.m_je.Status.Value = -1 Then
+          '  m_je.Status.Value = 3
+          'End If
+          ''********************************************
+          'If Not Me.m_je.ManualFormat Then
+          '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+          'End If
+          ''********************************************
+          'Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          'If Not IsNumeric(saveJeError.Message) Then
+          '  trans.Rollback()
+          '  ResetId(oldid, oldjeid)
+          '  Return saveJeError
+          'Else
+          '  Select Case CInt(saveJeError.Message)
+          '    Case -1, -5
+          '      trans.Rollback()
+          '      ResetId(oldid, oldjeid)
+          '      Return saveJeError
+          '    Case -2
+          '      'Post ไปแล้ว
+          '      Return saveJeError
+          '    Case Else
+          '  End Select
+          'End If
 
           trans.Commit()
           'Catch ex As Exception
@@ -1141,7 +1154,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Cost As Decimal = 0
 
         Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
-        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
+        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in " & _
+                                        "(select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") " & _
+                                        "and stockiw_direction=1", conn)
 
         Dim ds As New DataSet
 
@@ -2043,6 +2058,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteMatWithdraw}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      If Me.ApprovalCollection.IsApproved Then
+        Return New SaveErrorException("${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.ReceiptConfirm}")
+      End If
       '  '-------------------------------------------------------
       '  Dim pris As String = GetPritemString()
       '  Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
@@ -2076,6 +2095,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case -1
               trans.Rollback()
               Return New SaveErrorException("${res:Global.MatWithdrawIsReferencedCannotBeDeleted}")
+            Case -2
+              trans.Rollback()
+              Return New SaveErrorException("${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.ReceiptConfirm}")
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
@@ -2124,7 +2146,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso Not Me.ApprovalCollection.IsApproved
       End Get
     End Property
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity

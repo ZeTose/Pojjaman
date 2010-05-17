@@ -70,6 +70,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCode As System.Windows.Forms.TextBox
     Friend WithEvents txtDocType As System.Windows.Forms.TextBox
+    Friend WithEvents lblReceiptStatus As System.Windows.Forms.Label
+    Friend WithEvents txtReceiptStatus As System.Windows.Forms.TextBox
     Friend WithEvents lblDocType As System.Windows.Forms.Label
 
     Protected Sub InitializeComponent()
@@ -115,6 +117,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTotalAmount = New System.Windows.Forms.Label()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
+      Me.lblReceiptStatus = New System.Windows.Forms.Label()
+      Me.txtReceiptStatus = New System.Windows.Forms.TextBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -267,7 +271,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnApprove.TabIndex = 333
       Me.ibtnApprove.TabStop = False
       Me.ibtnApprove.ThemedImage = CType(resources.GetObject("ibtnApprove.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnApprove, "ยืนยันการรับของ")
+      Me.ToolTip1.SetToolTip(Me.ibtnApprove, "ยืนยันการรับของ และบันทึกการจัดสรร")
       '
       'ErrorProvider1
       '
@@ -663,8 +667,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkShowCost.TabIndex = 5
       Me.chkShowCost.Text = "chkShowCost"
       '
+      'lblReceiptStatus
+      '
+      Me.lblReceiptStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.lblReceiptStatus.AutoSize = True
+      Me.lblReceiptStatus.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.lblReceiptStatus.Location = New System.Drawing.Point(108, 459)
+      Me.lblReceiptStatus.Name = "lblReceiptStatus"
+      Me.lblReceiptStatus.Size = New System.Drawing.Size(111, 13)
+      Me.lblReceiptStatus.TabIndex = 335
+      Me.lblReceiptStatus.Text = "สถานะการยืนยันรับของ"
+      Me.lblReceiptStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtReceiptStatus
+      '
+      Me.txtReceiptStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtReceiptStatus.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReceiptStatus, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReceiptStatus, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.txtReceiptStatus.Location = New System.Drawing.Point(105, 477)
+      Me.Validator.SetMinValue(Me.txtReceiptStatus, "")
+      Me.txtReceiptStatus.Multiline = True
+      Me.txtReceiptStatus.Name = "txtReceiptStatus"
+      Me.txtReceiptStatus.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReceiptStatus, "")
+      Me.Validator.SetRequired(Me.txtReceiptStatus, False)
+      Me.txtReceiptStatus.Size = New System.Drawing.Size(282, 44)
+      Me.txtReceiptStatus.TabIndex = 334
+      '
       'MatReceiptDetailView
       '
+      Me.Controls.Add(Me.lblReceiptStatus)
+      Me.Controls.Add(Me.txtReceiptStatus)
       Me.Controls.Add(Me.ibtnApprove)
       Me.Controls.Add(Me.chkShowCost)
       Me.Controls.Add(Me.grbFromCC)
@@ -1190,9 +1227,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ibtnApprove.Enabled = True
       'chkShowCost.Enabled = True
+      If Me.m_entity.ApprovalCollection.Count > 0 Then
+        Me.chkShowCost.Enabled = True
+      Else
+        Me.chkShowCost.Enabled = False
+      End If
 
       ToggleStyle(Me.m_treeManager.GridTableStyle)
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckWBSRight()
     End Sub
     Private Sub CheckWBSRight()
@@ -1314,7 +1356,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
       m_oldCode = m_entity.Code
       'UpdateAutogen ทำแทนแล้ว
-      'Me.UpdateAutogenStatus()
+      Me.UpdateAutogenStatus()
 
       txtNote.Text = Me.m_entity.Note
 
@@ -1338,6 +1380,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.chkShowCost.Checked = Not Me.m_entity.Grouping
 
+      If Not Me.m_entity.ApprovalCollection Is Nothing Then
+        If Me.m_entity.ApprovalCollection.Count > 0 Then
+          Dim approvalComment As ApprovalStoreComment = Me.m_entity.ApprovalCollection(Me.m_entity.ApprovalCollection.Count - 1)
+          Dim newUser As New User(approvalComment.Originator)
+          Dim approveText As String = ""
+          If approvalComment.Type = ApproveType.approved Then
+            approveText = Me.StringParserService.Parse("${res:Global.Receipt}")
+          ElseIf approvalComment.Type = ApproveType.reject Then
+            approveText = Me.StringParserService.Parse("${res:Global.Reject}")
+          End If
+          txtReceiptStatus.Text = approveText & " : " & approvalComment.Comment & vbCrLf & _
+                                  "(" & approvalComment.LastEditDate.ToShortDateString & " : " & newUser.Name & ")"
+        Else
+          txtReceiptStatus.Text = Me.StringParserService.Parse("${res:Global.NotConfirm}")
+        End If
+      End If
+
       RefreshDocs()
 
       SetStatus()
@@ -1345,6 +1404,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
       m_isInitialized = True
     End Sub
+    'Private Sub RefreshApprove()
+    '  If Not Me.m_entity.ApprovalCollection Is Nothing Then
+    '    If Me.m_entity.ApprovalCollection.Count > 0 Then
+    '      Dim approvalComment As ApprovalStoreComment = Me.m_entity.ApprovalCollection(Me.m_entity.ApprovalCollection.Count - 1)
+    '      Dim newUser As New User(approvalComment.Originator)
+    '      Dim approveText As String = ""
+    '      If approvalComment.Type = ApproveType.approved Then
+    '        approveText = Me.StringParserService.Parse("${res:Global.Receipt}")
+    '      ElseIf approvalComment.Type = ApproveType.reject Then
+    '        approveText = Me.StringParserService.Parse("${res:Global.Reject}")
+    '      End If
+    '      txtReceiptStatus.Text = approveText & " : " & approvalComment.Comment & vbCrLf & _
+    '                              "(" & approvalComment.LastEditDate.ToShortDateString & " : " & newUser.Name & ")"
+    '    Else
+    '      txtReceiptStatus.Text = Me.StringParserService.Parse("${res:Global.NotConfirm}")
+    '    End If
+    '  End If
+    'End Sub
     Private Sub UpdateAccount()
       If m_entity.ToAccount Is Nothing Then
         Return
@@ -1359,7 +1436,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      If Me.m_entity.ApprovalCollection.Count > 0 Then
+        Me.chkShowCost.Enabled = True
+      Else
+        Me.chkShowCost.Enabled = False
+      End If
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
@@ -1744,40 +1826,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  UpdateAutogenStatus()
     'End Sub
     Private m_oldCode As String = ""
-    'Private Sub UpdateAutogenStatus()
-    '  If Me.chkAutorun.Checked Then
-    '    'Me.Validator.SetRequired(Me.txtCode, False)
-    '    'Me.ErrorProvider1.SetError(Me.txtCode, "")
-    '    'Me.txtCode.ReadOnly = True
-    '    Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
-    '    Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
-    '    BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
-    '    If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
-    '      If Me.cmbCode.Items.Count > 0 Then
-    '        Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
-    '        Me.cmbCode.SelectedIndex = 0
-    '        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
-    '      End If
-    '    Else
-    '      Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
-    '      If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
-    '        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
-    '      End If
-    '    End If
-    '    m_oldCode = Me.cmbCode.Text
-    '    'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-    '    'Hack: set Code เป็น "" เอง
-    '    'Me.m_entity.Code = ""
-    '    Me.m_entity.Code = m_oldCode
-    '    Me.m_entity.AutoGen = True
-    '  Else
-    '    ' Me.Validator.SetRequired(Me.txtCode, True)
-    '    Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
-    '    Me.cmbCode.Text = m_oldCode
-    '    'Me.txtCode.ReadOnly = False
-    '    Me.m_entity.AutoGen = False
-    '  End If
-    'End Sub
+    Private Sub UpdateAutogenStatus()
+      '  If Me.chkAutorun.Checked Then
+      '    'Me.Validator.SetRequired(Me.txtCode, False)
+      '    'Me.ErrorProvider1.SetError(Me.txtCode, "")
+      '    'Me.txtCode.ReadOnly = True
+      '    Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
+      Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+      Me.m_entity.SetAutoCodeFormat(currentUserId)
+      '    BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+      '    If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+      '      If Me.cmbCode.Items.Count > 0 Then
+      '        Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+      '        Me.cmbCode.SelectedIndex = 0
+      '        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+      '      End If
+      '    Else
+      '      Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+      '      If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+      '        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+      '      End If
+      '    End If
+      '    m_oldCode = Me.cmbCode.Text
+      '    'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+      '    'Hack: set Code เป็น "" เอง
+      '    'Me.m_entity.Code = ""
+      '    Me.m_entity.Code = m_oldCode
+      '    Me.m_entity.AutoGen = True
+      '  Else
+      '    ' Me.Validator.SetRequired(Me.txtCode, True)
+      '    Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+      '    Me.cmbCode.Text = m_oldCode
+      '    'Me.txtCode.ReadOnly = False
+      '    Me.m_entity.AutoGen = False
+      '  End If
+    End Sub
     Private Sub chkShowCost_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowCost.CheckedChanged
       If Me.m_entity Is Nothing Then
         Return
@@ -1882,7 +1965,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End Try
       Me.toCCCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = _
@@ -1895,7 +1978,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
       toCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = _
@@ -1911,7 +1994,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateAccount()
       UpdateOriginAdmin()
       fromCCCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowFromCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = _
@@ -1924,7 +2007,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
       fromCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ShowCostCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -2001,6 +2084,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  End If
     'End Sub
 
+    'Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+    '  MyBase.NotifyAfterSave(successful)
+    'End Sub
+
     Private Sub ibtnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnApprove.Click
       If Me.m_entity Is Nothing OrElse Me.m_entity.Id = 0 Then
         Return
@@ -2008,12 +2095,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Try
         Dim x As New AdvanceStoreApprovalCommentForm(Me.Entity)
         x.ShowDialog()
-        Me.m_entity.Save(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        If Not x.ApproveDoc Is Nothing Then
+          Dim aprvType As ApproveType = x.ApproveDoc.Type
+          Select Case aprvType
+            Case ApproveType.approved
+              'Me.m_entity.Save(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+              'Me.m_entity.RefreshApproveCommentList()
+              Me.NotifyAfterSave(True)
+              UpdateEntityProperties()
+            Case ApproveType.reject
+              'Me.m_entity.Delete()
+              'Me.m_entity.RefreshApproveCommentList()
+              Me.NotifyAfterSave(True)
+              UpdateEntityProperties()
+          End Select
+        End If
       Catch ex As Exception
         MessageBox.Show(ex.Message & vbCrLf & ex.InnerException.ToString)
       End Try
 
-      UpdateEntityProperties()
+      'UpdateEntityProperties()
       'CheckFormEnable()
     End Sub
   End Class

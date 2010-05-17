@@ -1236,6 +1236,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return newColl
     End Function
+    Public Function Clone(ByVal item As MatReceiptItem) As WBSDistributeCollection
+      Dim newColl As New WBSDistributeCollection
+      For Each oldItem As WBSDistribute In Me
+        Dim newItem As WBSDistribute = oldItem.Clone
+        newItem.BaseCost = item.Amount
+        newItem.TransferBaseCost = item.Amount
+        newColl.Add(newItem)
+      Next
+      Return newColl
+    End Function
 #End Region
 
 #Region "Collection Methods"

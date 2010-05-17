@@ -330,7 +330,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.AllowDelete = False
     End Sub
     Public Shared Function GetSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("PRItems")
+      Dim myDatatable As New TreeTable("PRItems1")
 
       myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
@@ -344,7 +344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return myDatatable
     End Function
     Public Shared Function GetSchemaTable2() As TreeTable
-      Dim myDatatable As New TreeTable("PRItems")
+      Dim myDatatable As New TreeTable("PRItems2")
 
       myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
@@ -362,7 +362,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "PRItems"
+      dst.MappingName = "PRItems1"
 
       Dim csSelected As New DataGridCheckBoxColumn
       csSelected.MappingName = "Selected"
@@ -432,7 +432,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Public Function CreateListTableStyle2() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "PRItems"
+      dst.MappingName = "PRItems2"
 
       Dim csSelected As New DataGridCheckBoxColumn
       csSelected.MappingName = "Selected"
@@ -605,7 +605,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.PRItem"
                 Dim entityName As String = CStr(childRow("Material"))
                 Dim lineNumber As Integer = CInt(childRow("LineNumber"))
-                Dim qty As Decimal = CDec(childRow("RemainingQty"))
+
+                Dim qty As Decimal = 0
+                If myTable.TableName.ToLower = "pritems2" Then
+                  qty = CDec(childRow("RemainingQty"))
+                Else
+                  qty = CDec(childRow("Qty"))
+                End If
+
                 Dim textInBasket As String = entityName & ":" & qty.ToString
                 If TypeOf childRow.Tag Is PRItem Then
                   Dim pri As PRItem = CType(childRow.Tag, PRItem)

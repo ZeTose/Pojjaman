@@ -175,8 +175,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ItemCostCollection As StockCostItemCollection
       Get
         If m_itemCostCollection Is Nothing Then
-          If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then            m_itemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
-          End If
+          m_itemCostCollection = New StockCostItemCollection
+          'เอกสารโอนจะยังไม่เกิด Cost จนกว่าจะรับของ
+          'If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then          '  m_itemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
+          'End If
         End If
         Return m_itemCostCollection
       End Get
@@ -199,7 +201,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         m_matTransferId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Pritem() As PRItem      Get        Return m_pritem      End Get      Set(ByVal Value As PRItem)        m_pritem = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
-        End If        If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then          Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
+        End If        If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then          Me.ItemCostCollection = New StockCostItemCollection
+          'เอกสารโอนจะยังไม่เกิด Cost จนกว่าจะรับของ
+          'Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, Me.StockQty)
         End If      End Set    End Property    'Public ReadOnly Property PrePareCostAmount As Decimal    '  Get
     '    If Me.ItemCollectionPrePareCost Is Nothing OrElse Me.ItemCollectionPrePareCost.Count = 0 Then
     '      If Not Me.matTransfer Is Nothing AndAlso Not Me.matTransfer.FromCostCenter Is Nothing Then    '        Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.matTransfer.FromCostCenter, Me.StockQty)
@@ -271,7 +275,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.OldQty2 = Me.m_qty
             Me.m_unit = lci.DefaultUnit
             Me.m_entity = lci
-            If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
+            If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCostCollection = New StockCostItemCollection
+              'เอกสารโอนจะยังไม่เกิด Cost จนกว่าจะรับของ
+              'Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
             End If
           Else
             msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
@@ -323,7 +329,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value          Me.Conversion = newConversion        Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If Not (Me.Pritem Is Nothing) Then          Me.Pritem.WithdrawnQty = (Me.Pritem.WithdrawnQty + Configuration.Format(Value, DigitConfig.Qty)) - m_qty
-        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then            Me.ItemCostCollection.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
+        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatTransfer Is Nothing AndAlso Not Me.MatTransfer.FromCostCenter Is Nothing Then            Me.ItemCostCollection.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            'เอกสารโอนจะยังไม่เกิด Cost จนกว่าจะรับของ            Me.ItemCostCollection = New StockCostItemCollection
+            'Me.ItemCostCollection = New StockCostItemCollection(m_entity, Me.MatTransfer.FromCostCenter, stockQty)
           End If
         End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)      End Set    End Property    Public ReadOnly Property StockQty() As Decimal
       Get
@@ -398,16 +405,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Return 0
     'End Function
     Public Function AllowWithdrawFromPR() As Decimal
-      Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.WithdrawnQty, 0)
+      Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.GetWithdrawnQty, 0)
       Dim remainstock As Decimal = Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id)
       Dim allowWithdrawn As Decimal = Math.Min(remainstock, qty * Pritem.Conversion)
-      Return remainstock
+      Return allowWithdrawn
     End Function
     Public Sub CopyFromPRItem(ByVal prItem As PRItem, ByVal cumWithdrawn As Decimal)
       Me.m_pritem = prItem
       Me.m_entity = prItem.Entity
       Me.m_unit = prItem.Unit
-      Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
+      Me.m_qty = Math.Max(prItem.Qty - prItem.GetWithdrawnQty, 0)
 
       Dim allowWithdrawn As Decimal
       Dim remainstock As Decimal
@@ -425,10 +432,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Me.m_note = prItem.Note
-      If Not prItem.WBSDistributeCollection Is Nothing Then
-        'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
-      End If
+      'If Not prItem.WBSDistributeCollection Is Nothing Then
+      '  'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+      '  Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
+      'End If
     End Sub
     Public Sub CopyFromPRItem(ByVal prItem As PRItem)
       Me.m_pritem = prItem
@@ -437,10 +444,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
       Me.m_qty = Math.Min(Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
       Me.m_note = prItem.Note
-      If Not prItem.WBSDistributeCollection Is Nothing Then
-        'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
-      End If
+      'If Not prItem.WBSDistributeCollection Is Nothing Then
+      '  'Me.OutWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+      '  Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
+      'End If
     End Sub
     'Public Sub SetTransferAmount(ByVal amt As Decimal)    '  m_transferAmount = amt
     'End Sub

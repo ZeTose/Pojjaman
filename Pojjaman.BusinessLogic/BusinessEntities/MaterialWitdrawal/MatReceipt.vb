@@ -33,11 +33,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '  End Class
   Public Class MatReceipt
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IExtender
 
 #Region "Members"
     Private m_docDate As Date
     Private m_note As String
+    Private m_otherDocCode As String
 
     Private m_costCenter As CostCenter
     Private m_fromCostCenter As CostCenter
@@ -45,7 +46,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_fromCostCenterPerson As Employee
     Private m_toCostCenterPerson As Employee
     Private m_asset As Asset
-    Private m_type As MatWithdrawType
+    Private m_type As MatTransferType
     Private m_diffAmountFIFO As Decimal
     Private m_isinitialized As Boolean
 
@@ -88,7 +89,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_toCostCenter = New CostCenter
         .m_toCostCenterPerson = New Employee
         .m_asset = New Asset
-        .m_type = New MatWithdrawType(1)
+        .m_type = New MatTransferType(-1)
         .Status = New StockStatus(-1)
         .m_note = ""
         .m_grouping = True
@@ -190,6 +191,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("stock_diffAmt") AndAlso Not dr.IsNull(aliasPrefix & "stock_diffAmt") Then
           .m_diffAmountFIFO = CDec(dr(aliasPrefix & "stock_diffAmt"))
         End If
+        If dr.Table.Columns.Contains("stock_entity") AndAlso Not dr.IsNull(aliasPrefix & "stock_entity") Then
+          .StockEntity = CInt(dr(aliasPrefix & "stock_entity"))
+        End If
+        'm_otherDocCode
 
         m_je = New JournalEntry(Me)
 
@@ -229,11 +234,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property Type() As MatWithdrawType
+    Public Property StockEntity As Integer
+    'Public Overrides AutoCodeFormat As AutoCodeFormat
+
+    Public Property Type() As MatTransferType
       Get
         Return m_type
       End Get
-      Set(ByVal Value As MatWithdrawType)
+      Set(ByVal Value As MatTransferType)
         m_type = Value
         ValidateCCandType()
       End Set
@@ -485,6 +493,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  End Try
     '  Return 0
     'End Function
+    'Public Sub RefreshApproveCommentList()
+    '  Me.ApprovalCollection = New ApprovalStoreCommentCollection(Me)
+    'End Sub
+    Public Sub SetAutoCodeFormat(ByVal CurrentUserId As Integer)
+      If Me.StockEntity > 0 Then
+        Dim arr As ArrayList = BusinessLogic.Entity.GetNewAutoCodeFormats(343, CurrentUserId)
+        For Each autoCode As AutoCodeFormat In arr
+          If autoCode.Id = Me.StockEntity Then
+            Me.AutoCodeFormat = autoCode
+          End If
+        Next
+      End If
+    End Sub
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal isOut As Boolean)
       If Not isOut Then
         myWbs = New WBS(myWbs.Id)
@@ -709,9 +730,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As MatReceiptItem In Me.ItemCollection
         Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
         For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
-          If item.ItemCollectionPrePareCost(i).Sequence = currCostCollection(i).Sequence AndAlso _
-             item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
-              item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
+          If item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
+             item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
             Return ""
           Else
             Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
@@ -728,20 +748,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Function
+    'Public Property AutoCodeFormat As String
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       With Me
-        'If Not Me.Grouping Then
-        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation.Grouping}"))
-        'End If
-        'If Me.ItemCollection.Count = 0 Then
-        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        'End If
-
-        'Dim VerrifyCostErrorMessage As String = VerrifyCost()
-        'If VerrifyCostErrorMessage.Length > 0 Then
-        '  If Not msgServ.AskQuestion(VerrifyCostErrorMessage) Then
-        '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-        '  End If
-        'End If
 
         'check over budget
         Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
@@ -759,144 +770,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 2 'Do Nothing
         End Select
 
-        '---------------------------
-        'Dim cumWithdraw As New Hashtable
-        'Dim cumCode As New Hashtable
-        'Dim exCode As String
+        '---- AutoCode Format --------
+        Me.m_je.RefreshGLFormat()
+        If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
 
-
-        'Dim config As Integer = CInt(Configuration.GetConfig("MWZeroStock"))
-        'If config < 2 Then
-        '  For Each item As MatReceiptItem In Me.ItemCollection
-        '    If cumWithdraw.Contains(item.Entity.Id) Then
-        '      cumWithdraw(item.Entity.Id) = CDec(cumWithdraw(item.Entity.Id)) + item.StockQty
-        '    Else
-        '      cumWithdraw(item.Entity.Id) = item.StockQty
-        '      cumCode(item.Entity.Id) = item.Entity.Code
-        '    End If
-        '  Next
-        '  exCode = ""
-        '  For Each o As Object In cumWithdraw.Keys
-        '    If GetRemainLCIItem(CInt(o)) < CDec(cumWithdraw(o)) Then
-        '      If exCode.Length > 0 Then
-        '        exCode = exCode & vbNewLine & CStr(cumCode(CInt(o)))
-        '      Else
-        '        exCode = vbNewLine & CStr(cumCode(CInt(o)))
-        '      End If
-        '    End If
-        '  Next
-        'End If
-
-        'Select Case config
-        '  Case 0 'Not allow
-        '    If exCode.Length > 0 Then
-        '      exCode = exCode & vbNewLine
-        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceedStock}"), exCode)
-        '    End If
-        '  Case 1 'Warn
-        '    If exCode.Length > 0 Then
-        '      exCode = exCode & vbNewLine
-        '      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        '      msgServ.ShowMessageFormatted("${res:Global.Error.ExceedStock}", New String() {exCode})
-        '      If Not msgServ.AskQuestion("${res:Global.Question.MWExceedStockSaveAnyway}") Then
-        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-        '      End If
-        '    End If
-        '  Case 2 'Do Nothing
-
-        'End Select
-        '---------------------------
-        'Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        'returnVal.ParameterName = "RETURN_VALUE"
-        'returnVal.DbType = DbType.Int32
-        'returnVal.Direction = ParameterDirection.ReturnValue
-        'returnVal.SourceVersion = DataRowVersion.Current
-
-        '' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-        'Dim paramArrayList As New ArrayList
-
-        'paramArrayList.Add(returnVal)
-        'If Me.Originated Then
-        '  paramArrayList.Add(New SqlParameter("@stock_id", Me.Id))
-        'End If
-
-        'Dim theTime As Date = Now
-        'Dim theUser As New User(currentUserId)
-
-        'If Me.m_je.Status.Value = 4 Then
-        '  Me.Status.Value = 4
-        'End If
-        'If Me.Status.Value = -1 Then
-        '  Me.Status = New StockStatus(2)
-        'End If
-
-        ''---- AutoCode Format --------
-        'Me.m_je.RefreshGLFormat()
-        'If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
-
-
-        '  Select Case Me.AutoCodeFormat.CodeConfig.Value
-        '    Case 0
-        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-        '        Me.Code = Me.GetNextCode
-        '      End If
-        '      Me.m_je.DontSave = True
-        '      Me.m_je.Code = ""
-        '      Me.m_je.DocDate = Me.DocDate
-        '    Case 1
-        '      'ตาม entity
-        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-        '        Me.Code = Me.GetNextCode
-        '      End If
-        '      Me.m_je.Code = Me.Code
-        '    Case 2
-        '      'ตาม gl
-        '      If Me.m_je.AutoGen Then
-        '        Me.m_je.Code = m_je.GetNextCode
-        '      End If
-        '      Me.Code = Me.m_je.Code
-        '    Case Else
-        '      'แยก
-        '      If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-        '        Me.Code = Me.GetNextCode
-        '      End If
-        '      If Me.m_je.AutoGen Then
-        '        Me.m_je.Code = m_je.GetNextCode
-        '      End If
-        '  End Select
-        'Else
-        '  If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-        '    Me.Code = Me.GetNextCode
-        '  End If
-        '  If Me.m_je.AutoGen Then
-        '    Me.m_je.Code = m_je.GetNextCode
-        '  End If
-        'End If
-        'Me.m_je.DocDate = Me.DocDate
-        'Me.AutoGen = False
-        'Me.m_je.AutoGen = False
-        'paramArrayList.Add(New SqlParameter("@stock_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
-        'paramArrayList.Add(New SqlParameter("@stock_code", Me.Code))
-        'paramArrayList.Add(New SqlParameter("@stock_toAcct", IIf(Me.ToAccount.Originated, Me.ToAccount.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_tocc", IIf(Me.ToCostCenter.Originated, Me.ToCostCenter.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_toccperson", IIf(Me.ToCostCenterPerson.Originated, Me.ToCostCenterPerson.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_fromcc", IIf(Me.FromCostCenter.Originated, Me.FromCostCenter.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_fromccperson", IIf(Me.FromCostCenterPerson.Originated, Me.FromCostCenterPerson.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_cc", IIf(Me.CostCenter.Originated, Me.CostCenter.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_note", Me.Note))
-        'paramArrayList.Add(New SqlParameter("@stock_status", Me.Status.Value))
-        'paramArrayList.Add(New SqlParameter("@stock_type", Me.EntityId))
-        'paramArrayList.Add(New SqlParameter("@stock_tag", Me.Type.Value))
-        'paramArrayList.Add(New SqlParameter("@stock_asset", IIf(Me.Asset.Originated, Me.Asset.Id, DBNull.Value)))
-        'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              '  Me.Code = Me.GetNextCode
+              'End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              '  Me.Code = Me.GetNextCode
+              'End If
+              Me.m_je.Code = AutoCodeFormat.Format
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              'Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              '  Me.Code = Me.GetNextCode
+              'End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+          '  Me.Code = Me.GetNextCode
+          'End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
+        Me.m_je.DocDate = Me.DocDate
 
         ' สร้าง SqlParameter จาก ArrayList ...
         'Dim sqlparams() As SqlParameter
         'sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-        Dim trans As SqlTransaction
-        Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
-        conn.Open()
-        trans = conn.BeginTransaction()
+        'Dim trans As SqlTransaction
+        'Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
+        'conn.Open()
+        'trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
         Dim oldjeid As Integer = Me.m_je.Id
@@ -919,165 +842,90 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
+            'trans.Rollback()
             ResetId(oldid, oldjeid)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
-                trans.Rollback()
+                'trans.Rollback()
                 ResetId(oldid, oldjeid)
                 Return saveDetailError
               Case Else
             End Select
           End If
 
-          ''==============================STOCKCOSTFIFO=========================================
-          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          'If Not Me.IsReferenced Then
-          '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
-          'End If
-          ''==============================STOCKCOSTFIFO=========================================
+          '==============================STOCKCOSTFIFO=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                        New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+          End If
+          '==============================STOCKCOSTFIFO=========================================
+
+          '==============================Journal Entries=======================================
+          Me.ItemCollection = New MatReceiptItemCollection(Me, True, conn, trans)
+          If Me.m_je.Status.Value = -1 Then
+            m_je.Status.Value = 3
+          End If
+          '********************************************
+          If Not Me.m_je.ManualFormat Then
+            m_je.SetGLFormat(Me.GetDefaultGLFormat)
+          End If
+          '********************************************
+          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveJeError.Message) Then
+            trans.Rollback()
+            ResetId(oldid, oldjeid)
+            Return saveJeError
+          Else
+            Select Case CInt(saveJeError.Message)
+              Case -1, -5
+                trans.Rollback()
+                ResetId(oldid, oldjeid)
+                Return saveJeError
+              Case -2
+                'Post ไปแล้ว
+                Return saveJeError
+              Case Else
+            End Select
+          End If
+          '==============================Journal Entries=======================================
 
           '==============================UPDATE PRITEM=========================================
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
           '==============================UPDATE PRITEM=========================================
 
-          Me.DeleteRef(conn, trans)
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
+          'Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
+          , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
           ', New SqlParameter("@refto_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
           , New SqlParameter("@refto_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
           , New SqlParameter("@refto_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
+          'If Me.Status.Value = 0 Then
+          '  Me.CancelRef(conn, trans)
+          'End If
           'trans.Commit()
 
-          'Try
-          'trans = conn.BeginTransaction()
-          'Dim saveWBSError As SaveErrorException = Me.SaveWBSDetail(Me.Id, conn, trans)
-          'If Not IsNumeric(saveWBSError.Message) Then
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return saveWBSError
-          'Else
-          '    Select Case CInt(saveWBSError.Message)
-          '        Case -1, -5
-          '            trans.Rollback()
-          '            ResetId(oldid, oldjeid)
-          '            Return saveWBSError
-          '        Case -2
-          '            'Post ไปแล้ว
-          '            Return saveWBSError
-          '        Case Else
-          '    End Select
-          'End If
-
-
-          ''--------------------------------------------------------------
-          'Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
-          'If Not IsNumeric(savePRItemsError.Message) Then
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return savePRItemsError
-          'Else
-          '    Select Case CInt(savePRItemsError.Message)
-          '        Case -1, -5
-          '            trans.Rollback()
-          '            ResetId(oldid, oldjeid)
-          '            Return savePRItemsError
-          '        Case -2
-          '            'Post ไปแล้ว
-          '            Return savePRItemsError
-          '        Case Else
-          '    End Select
-          'End If
-          '--------------------------------------------------------------
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
-
-          ''==============================AUTOGEN==========================================
-          'Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          'If Not IsNumeric(saveAutoCodeError.Message) Then
-          '  trans.Rollback()
-          '  ResetId(oldid, oldjeid)
-          '  Return saveAutoCodeError
-          'Else
-          '  Select Case CInt(saveAutoCodeError.Message)
-          '    Case -1, -2, -5
-          '      trans.Rollback()
-          '      ResetId(oldid, oldjeid)
-          '      Return saveAutoCodeError
-          '    Case Else
-          '  End Select
-          'End If
-          ''==============================AUTOGEN==========================================
-
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           'trans.Commit()
-          'Catch ex As Exception
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return New SaveErrorException(ex.ToString)
-          'End Try
 
-          '-------------------------------GL----------------------------------------------------
-          'Try
-          '    trans = conn.BeginTransaction()
-
-          'If Me.m_je.Status.Value = -1 Then
-          '  m_je.Status.Value = 3
-          'End If
-          ''********************************************
-          'If Not Me.m_je.ManualFormat Then
-          '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
-          'End If
-          ''********************************************
-          'Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          'If Not IsNumeric(saveJeError.Message) Then
-          '  trans.Rollback()
-          '  ResetId(oldid, oldjeid)
-          '  Return saveJeError
-          'Else
-          '  Select Case CInt(saveJeError.Message)
-          '    Case -1, -5
-          '      trans.Rollback()
-          '      ResetId(oldid, oldjeid)
-          '      Return saveJeError
-          '    Case -2
-          '      'Post ไปแล้ว
-          '      Return saveJeError
-          '    Case Else
-          '  End Select
-          'End If
-
-          trans.Commit()
-          'Catch ex As Exception
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return New SaveErrorException(ex.ToString)
-          'End Try
-          '-------------------------------END GL----------------------------------------------------
-
-          'Me.ItemCollection.CheckPRForStoreApprove()
-
-          'Return New SaveErrorException(returnVal.Value.ToString)
           Return New SaveErrorException("1")
         Catch ex As SqlException
-          trans.Rollback()
+          'trans.Rollback()
           ResetId(oldid, oldjeid)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
+          'trans.Rollback()
           ResetId(oldid, oldjeid)
           Return New SaveErrorException(ex.ToString)
         Finally
-          conn.Close()
+          'conn.Close()
         End Try
       End With
     End Function
@@ -1106,7 +954,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Cost As Decimal = 0
 
         'Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
-        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
+        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in " & _
+                                        "(select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") " & _
+                                        "and stockiw_direction=0", conn)
 
         Dim ds As New DataSet
 
@@ -1133,7 +983,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmdBuilder = Nothing
         daWbs.FillSchema(ds, SchemaType.Mapped, "stockiwbs")
         daWbs.Fill(ds, "stockiwbs")
-        ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
+        'ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
 
         'Dim dt As DataTable = ds.Tables("stockitem")
 
@@ -1235,15 +1085,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim currentCostCenter As CostCenter
 
           'If x = 0 Then
-          '  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
-          '  wbsdColl = item.InWbsdColl
-          '  currentSum = wbsdColl.GetSumPercent
-          '  currentCostCenter = Me.ToCostCenter
-          'Else
-          rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+          rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
           wbsdColl = item.WBSDistributeCollection
           currentSum = wbsdColl.GetSumPercent
-          currentCostCenter = Me.FromCostCenter
+          currentCostCenter = Me.ToCostCenter
+          'Else
+          'rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+          'wbsdColl = item.WBSDistributeCollection
+          'currentSum = wbsdColl.GetSumPercent
+          'currentCostCenter = Me.FromCostCenter
           'End If
 
           'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
@@ -1254,23 +1104,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'ยังไม่เต็ม 100 แต่มีหัวอยู่
                 wbsd.Percent += (100 - currentSum)
               End If
-              'Dim bfTax As Decimal = 0
-              'bfTax = item.CostAmount
-              'wbsd.BaseCost = bfTax 'item.Amount
-              'wbsd.TransferBaseCost = bfTax 'item.Amount
+              Dim bfTax As Decimal = 0
+              bfTax = item.UnitCost
+              wbsd.BaseCost = bfTax 'item.Amount
+              wbsd.TransferBaseCost = bfTax 'item.Amount
               Dim childDr As DataRow = dtWbs.NewRow
               childDr("stockiw_sequence") = item.Sequence ' dr("stocki_sequence")
               childDr("stockiw_wbs") = wbsd.WBS.Id
               childDr("stockiw_percent") = wbsd.Percent
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
               childDr("stockiw_direction") = 0 'x
-              'childDr("stockiw_baseCost") = wbsd.BaseCost
-              'childDr("stockiw_amt") = wbsd.Amount
+              childDr("stockiw_baseCost") = wbsd.BaseCost
+              childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.Type.Value
               If wbsd.CostCenter Is Nothing Then
                 wbsd.CostCenter = currentCostCenter
               End If
               childDr("stockiw_cc") = wbsd.CostCenter.Id
+              childDr("stockiw_cbs") = wbsd.CBS.Id
               'Add เข้า sciwbs
               dtWbs.Rows.Add(childDr)
             Next
@@ -1286,10 +1137,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wbsd.WBS = rootWBS
               wbsd.CostCenter = currentCostCenter
               wbsd.Percent = 100 - currentSum
-              'Dim bfTax As Decimal = 0
-              'bfTax = item.CostAmount
-              'wbsd.BaseCost = bfTax 'item.Amount
-              'wbsd.TransferBaseCost = bfTax 'item.Amount
+              Dim bfTax As Decimal = 0
+              bfTax = item.UnitCost
+              wbsd.BaseCost = bfTax 'item.Amount
+              wbsd.TransferBaseCost = bfTax 'item.Amount
               Dim childDr As DataRow = dtWbs.NewRow
 
               childDr("stockiw_sequence") = item.Sequence  ' dr("stocki_sequence")
@@ -1297,10 +1148,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_percent") = wbsd.Percent
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
               childDr("stockiw_direction") = 0 'x
-              'childDr("stockiw_baseCost") = wbsd.BaseCost
-              'childDr("stockiw_amt") = wbsd.Amount
+              childDr("stockiw_baseCost") = wbsd.BaseCost
+              childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.Type.Value
               childDr("stockiw_cc") = wbsd.CostCenter.Id
+              childDr("stockiw_cbs") = wbsd.CBS.Id
 
               'Add เข้า sciwbs
               dtWbs.Rows.Add(childDr)
@@ -1355,14 +1207,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         e.Status = UpdateStatus.SkipCurrentRow
         ' Get the Current actual primary key value, so you can plug it back
         ' in after you get the correct original value that was generated for the child row.
-        Dim currentkey As Integer = CInt(e.Row("stockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
-        ' This is where you get a correct original value key stored to the child row. You yank
-        ' the original pseudo key value from the parent, plug it in as the child row's primary key
-        ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
-        e.Row!stockiw_sequence = e.Row.GetParentRow("sequence")("stocki_sequence", DataRowVersion.Original)
-        e.Row.AcceptChanges()
-        ' Now store the actual primary key value back into the foreign key column of the child row.
-        e.Row!stockiw_sequence = currentkey
+        'Dim currentkey As Integer = CInt(e.Row("stockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
+        '' This is where you get a correct original value key stored to the child row. You yank
+        '' the original pseudo key value from the parent, plug it in as the child row's primary key
+        '' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
+        'e.Row!stockiw_sequence = e.Row.GetParentRow("sequence")("stocki_sequence", DataRowVersion.Original)
+        'e.Row.AcceptChanges()
+        '' Now store the actual primary key value back into the foreign key column of the child row.
+        'e.Row!stockiw_sequence = currentkey
       End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
     End Sub
@@ -1597,7 +1449,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function GetItemJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
-      'Dim itemColl As New MatWithdrawItemCollection(Me, False)
+      'Dim itemColl As New MatReceiptItemCollection(Me, True)
       'If itemColl Is Nothing Then
       '  Return jiColl
       'End If
@@ -1996,91 +1848,120 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Get
     End Property
-    Public Overrides Function Delete() As SaveErrorException
+    Public Function DeleteExtender(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException Implements IExtender.Delete
       If Not Me.Originated Then
         Return New SaveErrorException("${res:Global.Error.NoIdError}")
       End If
       Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Dim format(0) As String
-      format(0) = Me.Code
-      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteMatWithdraw}", format) Then
-        Return New SaveErrorException("${res:Global.CencelDelete}")
-      End If
-      '  '-------------------------------------------------------
-      '  Dim pris As String = GetPritemString()
-      '  Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
-      '  "in (select convert(nvarchar,stocki_refdoc) + '|' +  convert(nvarchar,stocki_refdoclinenumber) from stockitem " & _
-      '  "where stocki_stock=" & Me.Id & ") or convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) in " & pris
-
-      '  Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-      'RecentCompanies.CurrentCompany.SiteConnectionString _
-      ', CommandType.Text _
-      ', sql _
-      ')
-      '  Dim arr As New ArrayList
-      '  For Each row As DataRow In ds.Tables(0).Rows
-      '    Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
-      '    arr.Add(o)
-      '  Next
-      '-------------------------------------------------------
-      Dim trans As SqlTransaction
-      Dim conn As New SqlConnection(Me.ConnectionString)
-      conn.Open()
-      trans = conn.BeginTransaction()
       Try
-        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        returnVal.ParameterName = "RETURN_VALUE"
-        returnVal.DbType = DbType.Int32
-        returnVal.Direction = ParameterDirection.ReturnValue
-        returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMatWithdraw", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
-        If IsNumeric(returnVal.Value) Then
-          Select Case CInt(returnVal.Value)
-            Case -1
-              trans.Rollback()
-              Return New SaveErrorException("${res:Global.MatWithdrawIsReferencedCannotBeDeleted}")
-            Case Else
-          End Select
-        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-          trans.Rollback()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        End If
-        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMatReceipt", _
+                                  New SqlParameter("@stock_id", Me.Id), _
+                                  New SqlParameter("@stock_type", Me.EntityId))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, "delete from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock =" & Me.Id & ") and stockiw_direction=0")
 
+        '==============================UPDATE PRITEM=========================================
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+        '==============================UPDATE PRITEM=========================================
 
-        ''--------------------------------------------------------------
-        'Dim oldid As Integer = Me.Id
-        'Dim oldjeid As Integer = Me.m_je.Id
-        'Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
-        'If Not IsNumeric(savePRItemsError.Message) Then
-        '  trans.Rollback()
-        '  ResetId(oldid, oldjeid)
-        '  Return savePRItemsError
-        'Else
-        '  Select Case CInt(savePRItemsError.Message)
-        '    Case -1, -5
-        '      trans.Rollback()
-        '      ResetId(oldid, oldjeid)
-        '      Return savePRItemsError
-        '    Case -2
-        '      'Post ไปแล้ว
-        '      Return savePRItemsError
-        '    Case Else
-        '  End Select
-        'End If
-        ''--------------------------------------------------------------
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
-        trans.Commit()
-        Return New SaveErrorException("1")
+        Return New SaveErrorException("2")
       Catch ex As SqlException
-        trans.Rollback()
+
         Return New SaveErrorException(ex.Message)
       Catch ex As Exception
-        trans.Rollback()
+
         Return New SaveErrorException(ex.Message)
       Finally
-        conn.Close()
+
       End Try
+    End Function
+    Public Overrides Function Delete() As SaveErrorException
+      'If Not Me.Originated Then
+      '  Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      'End If
+      'Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      ''Dim format(0) As String
+      ''format(0) = Me.Code
+      ''If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteMatWithdraw}", format) Then
+      ''  Return New SaveErrorException("${res:Global.CencelDelete}")
+      ''End If
+      ''  '-------------------------------------------------------
+      ''  Dim pris As String = GetPritemString()
+      ''  Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
+      ''  "in (select convert(nvarchar,stocki_refdoc) + '|' +  convert(nvarchar,stocki_refdoclinenumber) from stockitem " & _
+      ''  "where stocki_stock=" & Me.Id & ") or convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) in " & pris
+
+      ''  Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+      ''RecentCompanies.CurrentCompany.SiteConnectionString _
+      '', CommandType.Text _
+      '', sql _
+      '')
+      ''  Dim arr As New ArrayList
+      ''  For Each row As DataRow In ds.Tables(0).Rows
+      ''    Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
+      ''    arr.Add(o)
+      ''  Next
+      ''-------------------------------------------------------
+      'Dim trans As SqlTransaction
+      'Dim conn As New SqlConnection(Me.ConnectionString)
+      'conn.Open()
+      'trans = conn.BeginTransaction()
+      'Try
+      '  'Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      '  'returnVal.ParameterName = "RETURN_VALUE"
+      '  'returnVal.DbType = DbType.Int32
+      '  'returnVal.Direction = ParameterDirection.ReturnValue
+      '  'returnVal.SourceVersion = DataRowVersion.Current
+      '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, "delete from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock =" & Me.Id & ") and stockiw_direction=0")
+      '  'If IsNumeric(returnVal.Value) Then
+      '  '  Select Case CInt(returnVal.Value)
+      '  '    Case -1
+      '  '      trans.Rollback()
+      '  '      Return New SaveErrorException("${res:Global.MatWithdrawIsReferencedCannotBeDeleted}")
+      '  '    Case Else
+      '  '  End Select
+      '  'ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+      '  '  trans.Rollback()
+      '  '  Return New SaveErrorException(returnVal.Value.ToString)
+      '  'End If
+      '  'Me.DeleteRef(conn, trans)
+
+
+      '  ''--------------------------------------------------------------
+      '  'Dim oldid As Integer = Me.Id
+      '  'Dim oldjeid As Integer = Me.m_je.Id
+      '  'Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
+      '  'If Not IsNumeric(savePRItemsError.Message) Then
+      '  '  trans.Rollback()
+      '  '  ResetId(oldid, oldjeid)
+      '  '  Return savePRItemsError
+      '  'Else
+      '  '  Select Case CInt(savePRItemsError.Message)
+      '  '    Case -1, -5
+      '  '      trans.Rollback()
+      '  '      ResetId(oldid, oldjeid)
+      '  '      Return savePRItemsError
+      '  '    Case -2
+      '  '      'Post ไปแล้ว
+      '  '      Return savePRItemsError
+      '  '    Case Else
+      '  '  End Select
+      '  'End If
+      '  ''--------------------------------------------------------------
+
+      '  trans.Commit()
+      '  Return New SaveErrorException("2")
+      'Catch ex As SqlException
+      '  trans.Rollback()
+      '  Return New SaveErrorException(ex.Message)
+      'Catch ex As Exception
+      '  trans.Rollback()
+      '  Return New SaveErrorException(ex.Message)
+      'Finally
+      '  conn.Close()
+      'End Try
     End Function
 #End Region
 
@@ -2174,6 +2055,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End Get
     End Property
+#End Region
+
+#Region "IExtender"
+    Public Function Save1(ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException Implements IExtender.Save
+
+    End Function
 #End Region
 
   End Class

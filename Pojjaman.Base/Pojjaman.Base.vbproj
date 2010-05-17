@@ -1458,6 +1458,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ActionHistoryForm.resx">
       <DependentUpon>ActionHistoryForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AttachmentForm.resx">
       <DependentUpon>AttachmentForm.vb</DependentUpon>
@@ -1614,6 +1615,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\CostCenterPanelView.resx">
       <DependentUpon>CostCenterPanelView.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\DefaultFilterSubPanel.resx">
       <DependentUpon>DefaultFilterSubPanel.vb</DependentUpon>
@@ -1629,6 +1631,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\GroupPanelView.resx">
       <DependentUpon>GroupPanelView.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ItemSelectionPanel.resx">
       <DependentUpon>ItemSelectionPanel.vb</DependentUpon>

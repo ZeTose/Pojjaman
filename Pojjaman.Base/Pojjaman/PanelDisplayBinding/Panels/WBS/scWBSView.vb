@@ -565,8 +565,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.RefDoc.ToCostCenter Is Nothing Then
-        Return
+
+      If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
+        If Me.RefDoc.FromCostCenter Is Nothing Then
+          Return
+        End If
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
+        If Me.RefDoc.ToCostCenter Is Nothing Then
+          Return
+        End If
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationFromAndTo Then
+
       End If
       'If Me.RefDoc.ToCostCenter.BoqId = 0 Then
       '  Return
@@ -619,8 +628,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       '-----------------------------------------------------------*****
-      If Me.RefDoc.ToCostCenter Is Nothing Then
-        Return
+      Dim myCostCenter As CostCenter = Nothing
+      If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
+        If Me.RefDoc.FromCostCenter Is Nothing Then
+          Return
+        End If
+        myCostCenter = Me.RefDoc.FromCostCenter
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
+        If Me.RefDoc.ToCostCenter Is Nothing Then
+          Return
+        End If
+        myCostCenter = Me.RefDoc.ToCostCenter
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationFromAndTo Then
+
       End If
       'If Me.RefDoc.ToCostCenter.BoqId = 0 Then
       '  Return
@@ -642,8 +662,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         myBOQId = doc.CostCenter.BoqId
         'MessageBox.Show("1" & myBOQId.ToString)
       Else
-        myBOQId = Me.RefDoc.ToCostCenter.BoqId
-        doc.CostCenter = Me.RefDoc.ToCostCenter
+        myBOQId = myCostCenter.BoqId
+        doc.CostCenter = myCostCenter
         'MessageBox.Show("2 " & myBOQId.ToString)
       End If
       If m_wbsColl Is Nothing OrElse m_wbsColl.Boq.Id <> myBOQId Then
@@ -1191,10 +1211,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
+
+
+      Dim myCostCenter As CostCenter = Nothing
+      If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
+        If Me.RefDoc.FromCostCenter Is Nothing Then
+          msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
+          Return
+        End If
+        myCostCenter = Me.RefDoc.FromCostCenter
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
         If Me.RefDoc.ToCostCenter Is Nothing Then
           msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
           Return
         End If
+        myCostCenter = Me.RefDoc.ToCostCenter
+      ElseIf Me.RefDocAllocationType = AllocationType.AllocationFromAndTo Then
+
+      End If
       'If Me.RefDoc.ToCostCenter.BoqId = 0 Then
       '  msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
       '  Return
@@ -1216,7 +1250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       Else
         Dim wbsd As New WBSDistribute
-        wbsd.CostCenter = Me.RefDoc.ToCostCenter
+        wbsd.CostCenter = myCostCenter 'Me.RefDoc.ToCostCenter
         wbsd.Percent = 100 - wsdColl.GetSumPercent
         wsdColl.Add(wbsd)
       End If

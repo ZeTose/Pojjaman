@@ -314,10 +314,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.Qty * Me.Conversion
       End Get
     End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
-        If Me.UnitCost = Decimal.MinValue Then
-          Return 0
-        End If
-        Return (Me.Qty * Me.Conversion) * Me.UnitCost
+        'If Me.UnitCost = Decimal.MinValue Then
+        '  Return 0
+        'End If
+        'Return (Me.Qty * Me.Conversion) * Me.UnitCost
+        Return m_transferAmount
       End Get
     End Property    Public Property TransferUnitPrice() As Decimal
       Get
@@ -683,6 +684,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetMatReceiptItems" _
+      , New SqlParameter("@stock_id", Me.m_matReceipt.Id) _
+      , New SqlParameter("@grouping", group) _
+      )
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New MatReceiptItem(row, "")
+        item.MatReceipt = m_matReceipt
+        Me.Add(item)
+
+        Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        item.WBSDistributeCollection = inWbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          inWbsdColl.Add(wbsd)
+        Next
+        If item.WBSDistributeCollection.Count = 0 Then
+          Dim myPr As New PR
+          myPr.Id = item.Pritem.Pr.Id
+          Dim prColl As New PRItemCollection(myPr)
+          For Each pitem As PRItem In prColl
+            If item.Pritem.LineNumber = pitem.LineNumber Then
+              item.WBSDistributeCollection = pitem.WBSDistributeCollection.Clone(item)
+            End If
+          Next
+        End If
+        'Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        'item.OutWbsdColl = outWbsdColl
+        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  outWbsdColl.Add(wbsd)
+        'Next
+
+        Dim icCol As StockCostItemCollection = New StockCostItemCollection
+        item.ItemCollectionPrePareCost = icCol
+        For Each icRow As DataRow In ds.Tables(2).Select("stockic_stockisequence=" & row("stocki_sequence").ToString)
+          Dim itmcost As New StockCostItem(icRow, "")
+          icCol.Add(itmcost)
+        Next
+
+      Next
+    End Sub
+    Public Sub New(ByVal owner As MatReceipt, ByVal group As Boolean, ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      Me.m_matReceipt = owner
+      If Not Me.m_matReceipt.Originated Then
+        Return
+      End If
+
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans _
       , CommandType.StoredProcedure _
       , "GetMatReceiptItems" _
       , New SqlParameter("@stock_id", Me.m_matReceipt.Id) _

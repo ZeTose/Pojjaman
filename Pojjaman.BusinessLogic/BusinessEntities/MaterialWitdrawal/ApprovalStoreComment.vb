@@ -71,6 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     comment
     approved
     reject
+    onhold
   End Enum
 
   <Serializable(), DefaultMember("Item")> _
@@ -80,6 +81,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_entityId As Integer
     Private m_entityType As Integer
+    Private m_entity As ISimpleEntity
 #End Region
 
 #Region "Constructors"
@@ -87,6 +89,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not entity.Originated Then
         Return
       End If
+      m_entity = entity
       m_entityId = entity.Id
       m_entityType = entity.EntityId
       Construct(entity.Id, entity.EntityId)
@@ -99,7 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_entityType = entity.EntityId
       Construct(entity.Id, DBNull.Value)
     End Sub
-    Private Sub Construct(ByVal entityId As Integer, ByVal entityType As Object, Optional ByVal showLastStatusFirst As Boolean = False)
+    Private Sub Construct(ByVal entityId As Integer, ByVal entityType As Object)
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
@@ -107,7 +110,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , "GetApprovalStoreComment" _
       , New SqlParameter("@entity_id", entityId) _
       , New SqlParameter("@entity_type", entityType) _
-      , New SqlParameter("@showLastStatusFirst", showLastStatusFirst) _
       )
 
       For Each row As DataRow In ds.Tables(0).Rows
@@ -132,6 +134,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return appType
       End Get
     End Property
+    Public ReadOnly Property IsApproved As Boolean
+      Get
+        Dim apv As ApprovalStoreComment
+        If Me.Count > 0 Then
+          apv = Me.Item(Me.Count - 1)
+          Return apv.Type = ApproveType.approved
+        End If
+        Return False
+      End Get
+    End Property
     Default Public Property Item(ByVal index As Integer) As ApprovalStoreComment
       Get
         Return CType(MyBase.List.Item(index), ApprovalStoreComment)
@@ -140,19 +152,136 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MyBase.List.Item(index) = value
       End Set
     End Property
+    Public ReadOnly Property Entity As ISimpleEntity
+      Get
+        Return m_entity
+      End Get
+    End Property
 #End Region
 
 #Region "Class Methods"
-    Public Function Save() As SaveErrorException
-      Try
+    Public Function Delete() As SaveErrorException
+      Dim saveMRError As SaveErrorException
+      If Not m_entity Is Nothing Then
         Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
         Dim conn As New SqlConnection(sqlConString)
+        Dim trans As SqlTransaction
+
+        Try
+          conn.Open()
+          trans = conn.BeginTransaction()
+
+          If TypeOf Me.m_entity Is IExtender Then
+            saveMRError = CType(Me.m_entity, IExtender).Delete(conn, trans)
+            If IsNumeric(saveMRError.Message) AndAlso CInt(saveMRError.Message) = 2 Then
+              SaveApproveComment(conn, trans)
+            End If
+          End If
+          trans.Commit()
+        Catch ex As Exception
+          trans.Rollback()
+          Return New SaveApproveException(ex.InnerException.ToString)
+        Finally
+          conn.Close()
+        End Try
+
+        Return New SaveApproveException(saveMRError.Message)
+      End If
+    End Function
+    Public Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim trans As SqlTransaction
+
+      Try
+        conn.Open()
+        trans = conn.BeginTransaction()
+
+        If Not m_entity Is Nothing Then
+          Dim saveMRError As SaveErrorException = Me.m_entity.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveMRError.Message) Then
+            trans.Rollback()
+            'ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
+            Return New SaveApproveException(saveMRError.Message)
+          Else
+            Select Case CInt(saveMRError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                'ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
+                Return New SaveApproveException(saveMRError.Message)
+              Case Else
+            End Select
+          End If
+        End If
+
+        SaveApproveComment(conn, trans)
+
+        'Dim cmd As SqlCommand = conn.CreateCommand
+        'cmd.CommandText = "select * from StockiApprovalStoreComment where (apvstore_entityId = " & m_entityId & ")  and (apvstore_entityType = " & m_entityType & ") "
+
+        'Dim m_dataset As New DataSet
+        'Dim m_da As New SqlDataAdapter
+        'm_da.SelectCommand = cmd
+        'm_da.SelectCommand.Transaction = trans
+
+        ''m_da.DeleteCommand = cmd.GetDeleteCommand
+        ''m_da.DeleteCommand.Transaction = trans
+        ''m_da.InsertCommand = cmd.GetInsertCommand
+        ''m_da.InsertCommand.Transaction = trans
+        ''m_da.UpdateCommand = cmd.GetUpdateCommand
+        ''m_da.UpdateCommand.Transaction = trans
+
+        'm_da.Fill(m_dataset)
+        'Dim cmdBuilder As New SqlCommandBuilder(m_da)
+
+        'Dim dt As DataTable = m_dataset.Tables(0)
+        'For Each dr As DataRow In dt.Rows
+        '  dr.Delete()
+        'Next
+        'For Each myCom As ApprovalStoreComment In Me
+        '  Dim drNew As DataRow = dt.NewRow
+        '  drNew("apvstore_entityId") = m_entityId
+        '  drNew("apvstore_entitytype") = m_entityType
+        '  drNew("apvstore_lineNumber") = myCom.LineNumber 'i   'file.LineNumber
+        '  drNew("apvstore_comment") = myCom.Comment
+        '  drNew("apvstore_approveType") = myCom.Type
+        '  drNew("apvstore_originator") = myCom.Originator
+        '  drNew("apvstore_originDate") = myCom.OriginDate
+        '  drNew("apvstore_lastEditor") = myCom.LastEditor
+        '  drNew("apvstore_lastEditDate") = IIf(myCom.LastEditDate.Equals(Date.MinValue), DBNull.Value, myCom.LastEditDate)
+        '  dt.Rows.Add(drNew)
+        'Next
+        '' First process deletes.
+        'm_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        '' Next process updates.
+        'm_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        '' Finally process inserts.
+        'm_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+
+        trans.Commit()
+        Return New SaveApproveException("1", Me)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveApproveException(ex.InnerException.ToString)
+      End Try
+    End Function
+    Private Function SaveApproveComment(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
         Dim cmd As SqlCommand = conn.CreateCommand
         cmd.CommandText = "select * from StockiApprovalStoreComment where (apvstore_entityId = " & m_entityId & ")  and (apvstore_entityType = " & m_entityType & ") "
 
         Dim m_dataset As New DataSet
         Dim m_da As New SqlDataAdapter
         m_da.SelectCommand = cmd
+        m_da.SelectCommand.Transaction = trans
+
+        'm_da.DeleteCommand = cmd.GetDeleteCommand
+        'm_da.DeleteCommand.Transaction = trans
+        'm_da.InsertCommand = cmd.GetInsertCommand
+        'm_da.InsertCommand.Transaction = trans
+        'm_da.UpdateCommand = cmd.GetUpdateCommand
+        'm_da.UpdateCommand.Transaction = trans
 
         m_da.Fill(m_dataset)
         Dim cmdBuilder As New SqlCommandBuilder(m_da)
@@ -180,10 +309,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
         ' Finally process inserts.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-
-        Return New SaveErrorException("1")
       Catch ex As Exception
-        MessageBox.Show("Error Saving:" & ex.ToString)
+
       End Try
     End Function
     'Public Function IsApproved() As Boolean
@@ -269,5 +396,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_baseEnumerator.Reset()
       End Sub
     End Class
+  End Class
+  Public Class SaveApproveException
+    Inherits SaveErrorException
+    Public Sub New(ByVal message As String, Optional ByVal apvDoc As ApprovalStoreCommentCollection = Nothing)
+      MyBase.New("")
+
+      Dim docCode As String = ""
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      If Not apvDoc.Entity Is Nothing Then
+        docCode = apvDoc.Entity.Code
+      End If
+
+      If Not IsNumeric(message) Then  'Todo        
+        msgServ.ShowMessage(message)
+      ElseIf CInt(message) = -1 Then
+        msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasThisCode}", New String() {docCode})
+      ElseIf CInt(message) = -2 Then
+        msgServ.ShowMessageFormatted("${res:Global.Error.InvalidStatus}", New String() {docCode})
+      ElseIf CInt(message) = -5 Then
+        'ปิดงวดไปแล้ว
+        'msgServ.ShowMessageFormatted("${res:Global.Error.CannotSavePeriodIsClosed}", New String() {"ใช้เวลา: " & Now.Subtract().Seconds.ToString & " วินาที " & docCode})
+      ElseIf CInt(message) = 1 Then
+        'msgServ.ShowMessageFormatted("${res:Global.Info.DataSavedWithCode}", New String() {docCode})
+      ElseIf CInt(message) = 2 Then
+        'msgServ.ShowMessageFormatted("${res:Global.Info.DataSavedWithCode}", New String() {docCode})
+      Else
+        'msgServ.ShowMessageFormatted("${res:Global.Info.DataSavedWithCode}", New String() {docCode})
+      End If
+    End Sub
   End Class
 End Namespace

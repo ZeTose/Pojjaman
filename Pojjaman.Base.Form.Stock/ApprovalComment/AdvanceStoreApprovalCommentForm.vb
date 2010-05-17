@@ -170,6 +170,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Dim StringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
     Public Sub SetLabelText()
       Me.btnAdd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AdvanceApprovalCommentForm.btnAdd}")
+      Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AdvanceApprovalCommentForm.btnApprove}")
+      Me.btnReject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AdvanceApprovalCommentForm.btnReject}")
     End Sub
 #End Region
 
@@ -344,12 +346,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Add to Collection
         m_itemCollection.Add(m_approveDoc)
 
-        m_itemCollection.Save()
+        Me.Save(commentType)
       Catch ex As Exception
         Dim msg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
         msg.ShowError(ex.Message.ToString & vbCrLf & ex.InnerException.ToString)
       End Try
     End Sub
+    Private Function Save(ByVal commentType As ApproveType) As SaveErrorException
+      Try
+        If commentType = ApproveType.approved Then
+          Dim currentUserId As Integer = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id
+          m_itemCollection.Save(currentUserId)
+        ElseIf commentType = ApproveType.reject Then
+          m_itemCollection.Delete()
+        End If
+      Catch ex As Exception
+
+      End Try
+    End Function
 
     Private ChangedText As String
     Private Editing As Boolean = False
@@ -380,7 +394,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_approveDoc.LastEditor = Me.m_approveDoc.Originator
         Me.m_approveDoc.LastEditDate = Now
 
-        m_itemCollection.Save()
+        Me.Save(Me.m_approveDoc.Type)
         Populate()
 
         Me.grdApproval.ColStyles(1).ReadOnly = True
@@ -395,6 +409,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public ReadOnly Property ItemCollection() As ApprovalStoreCommentCollection
       Get
         Return m_itemCollection
+      End Get
+    End Property
+    Public ReadOnly Property ApproveDoc As ApprovalStoreComment
+      Get
+        If Me.m_approveDoc Is Nothing Then
+          If Me.ItemCollection.Count > 0 Then
+            Me.m_approveDoc = Me.ItemCollection(Me.ItemCollection.Count - 1)
+          Else
+            Return Nothing
+          End If
+        Else
+          Return Me.m_approveDoc
+        End If
       End Get
     End Property
 #End Region
