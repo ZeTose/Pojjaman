@@ -1286,7 +1286,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           tgItem.Enabled = True
           lbWhtList.Enabled = True
           For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = True
+            If colStyle.MappingName = "whti_note" Then
+              colStyle.ReadOnly = False
+            Else
+              colStyle.ReadOnly = True
+            End If
           Next
         End If
       End If
