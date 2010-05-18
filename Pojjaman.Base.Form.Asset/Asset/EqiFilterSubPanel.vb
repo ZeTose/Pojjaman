@@ -496,7 +496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblApproveLevel}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(2) As Filter
+      Dim arr(1) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       'arr(1) = New Filter("requestor", IIf(Me.m_requestor.Valid, Me.m_requestor.Id, DBNull.Value))
       arr(1) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
@@ -504,7 +504,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'arr(4) = New Filter("docdateend", ValidDateOrDBNull(docDateEnd))
       'arr(5) = New Filter("receivingdatestart", ValidDateOrDBNull(receivingDateStart))
       'arr(6) = New Filter("receivingdateend", ValidDateOrDBNull(receivingDateEnd))
-      arr(2) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
+      'arr(2) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       'arr(8) = New Filter("lci_id", IIf(Me.m_lci.Valid, Me.m_lci.Id, DBNull.Value))
       'arr(9) = New Filter("tool_id", IIf(Me.m_tool.Valid, Me.m_tool.Id, DBNull.Value))
       'arr(10) = New Filter("pri_itemName", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))

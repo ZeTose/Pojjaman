@@ -21,8 +21,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
-    Private m_withdrawperson As Employee
-    Private m_withdrawcc As CostCenter
+    Private m_Returnperson As Employee
+    Private m_Returncc As CostCenter
     Private m_storeperson As Employee
     Private m_storecc As CostCenter
     Private m_note As String
@@ -53,8 +53,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .m_docDate = Now.Date
         .m_note = ""
-        .m_withdrawperson = New Employee
-        .m_withdrawcc = New CostCenter
+        .m_Returnperson = New Employee
+        .m_Returncc = New CostCenter
 
         .m_storeperson = New Employee
         .m_storecc = New CostCenter
@@ -76,7 +76,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
           .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
         End If
-        ' WithDraw Person
+        ' Return Person
 
         'If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_isexternal") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_isexternal") Then
         '  .m_isExternal = CBool(dr(aliasPrefix & Me.Prefix & "_isexternal"))
@@ -84,43 +84,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'If .m_isExternal Then
         '    ' Customer ...
-        '    If dr.Table.Columns.Contains(aliasPrefix & "withdrawCustomer.cust_id") Then
-        '        If Not dr.IsNull("withdrawCustomer.cust_id") Then
-        '            .m_withdrawperson = New Customer(dr, "withdrawCustomer.")
+        '    If dr.Table.Columns.Contains(aliasPrefix & "ReturnCustomer.cust_id") Then
+        '        If Not dr.IsNull("ReturnCustomer.cust_id") Then
+        '            .m_Returnperson = New Customer(dr, "ReturnCustomer.")
         '        End If
         '    Else
         '        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_toCCPerson") Then
         '            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_toCCPerson") Then
-        '                .m_withdrawperson = New Customer(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
+        '                .m_Returnperson = New Customer(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
         '            End If
         '        End If
         '    End If
 
         'Else
         ' Employee ...
-        If dr.Table.Columns.Contains(aliasPrefix & "withdrawEmployee.employee_id") Then
-          If Not dr.IsNull("withdrawEmployee.employee_id") Then
-            .m_withdrawperson = New Employee(dr, "withdrawEmployee.")
+        If dr.Table.Columns.Contains(aliasPrefix & "ReturnEmployee.employee_id") Then
+          If Not dr.IsNull("ReturnEmployee.employee_id") Then
+            .m_Returnperson = New Employee(dr, "ReturnEmployee.")
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_toCCPerson") Then
             If Not dr.IsNull(aliasPrefix & Me.Prefix & "_toCCPerson") Then
-              .m_withdrawperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
+              .m_Returnperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
             End If
           End If
         End If
         'End If
 
 
-        ' WithDraw Costcenter
-        If dr.Table.Columns.Contains(aliasPrefix & "withdrawcostcenter.cc_id") Then
-          If Not dr.IsNull("withdrawcostcenter.cc_id") Then
-            .m_withdrawcc = New CostCenter(dr, "withdrawcostcenter.")
+        ' Return Costcenter
+        If dr.Table.Columns.Contains(aliasPrefix & "Returncostcenter.cc_id") Then
+          If Not dr.IsNull("Returncostcenter.cc_id") Then
+            .m_Returncc = New CostCenter(dr, "Returncostcenter.")
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_tocc") Then
             If Not dr.IsNull(aliasPrefix & Me.Prefix & "_tocc") Then
-              .m_withdrawcc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_tocc")))
+              .m_Returncc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_tocc")))
             End If
           End If
         End If
@@ -215,11 +215,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property ReturnPerson() As Employee
       Get
-        Return m_withdrawperson
+        Return m_Returnperson
       End Get      Set(ByVal Value As Employee)
-        m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -244,22 +244,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.AssetWithdraw.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.EqtReturn.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.AssetWithdraw"
+        Return "Icons.16x16.AssetReturn"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.AssetWithdraw"
+        Return "Icons.16x16.AssetReturn"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.AssetWithdraw.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.EqtReturn.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -287,6 +287,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("UnitName", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RentalPerDay", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RentalQty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RentalAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Note", GetType(String)))
       Return myDatatable
     End Function
@@ -375,11 +377,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromcc", Me.ValidIdOrDBNull(Me.StoreCostcenter)))
 
         Dim person As SimpleBusinessEntityBase
-        If TypeOf Me.Withdrawperson Is SimpleBusinessEntityBase Then
-          person = CType(Me.Withdrawperson, SimpleBusinessEntityBase)
+        If TypeOf Me.ReturnPerson Is SimpleBusinessEntityBase Then
+          person = CType(Me.ReturnPerson, SimpleBusinessEntityBase)
         End If
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_toCCPerson", Me.ValidIdOrDBNull(person)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tocc", Me.ValidIdOrDBNull(Me.WithdrawCostcenter)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tocc", Me.ValidIdOrDBNull(Me.ReturnCostcenter)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.Status.Value))
@@ -642,10 +644,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IHasToCostCenter"
     Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
-        Return Me.m_withdrawcc
+        Return Me.m_Returncc
       End Get
       Set(ByVal Value As CostCenter)
-        m_withdrawcc = Value
+        m_Returncc = Value
       End Set
     End Property
 #End Region
@@ -708,12 +710,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtWithdraw", New SqlParameter() {New SqlParameter("@eqtstock_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtReturn", New SqlParameter() {New SqlParameter("@eqtstock_id", Me.Id), returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1
               trans.Rollback()
-              Return New SaveErrorException("${res:Global.AssetWithdrawIsReferencedCannotBeDeleted}")
+              Return New SaveErrorException("${res:Global.AssetReturnIsReferencedCannotBeDeleted}")
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
@@ -772,76 +774,76 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
-      If Not Me.Withdrawperson Is Nothing Then
+      If Not Me.ReturnPerson Is Nothing Then
         'ToPerson
         dpi = New DocPrintingItem
         dpi.Mapping = "ToPerson"
-        dpi.Value = Me.Withdrawperson.Code & ":" & Me.Withdrawperson.Name
+        dpi.Value = Me.ReturnPerson.Code & ":" & Me.ReturnPerson.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToPersonInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "ToPersonInfo"
-        dpi.Value = Me.Withdrawperson.Code & ":" & Me.Withdrawperson.Name
+        dpi.Value = Me.ReturnPerson.Code & ":" & Me.ReturnPerson.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToPersonName
         dpi = New DocPrintingItem
         dpi.Mapping = "ToPersonName"
-        dpi.Value = Me.Withdrawperson.Name
+        dpi.Value = Me.ReturnPerson.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToPersonCode
         dpi = New DocPrintingItem
         dpi.Mapping = "ToPersonCode"
-        dpi.Value = Me.Withdrawperson.Code
+        dpi.Value = Me.ReturnPerson.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
 
-      If Not Me.WithdrawCostcenter Is Nothing AndAlso Me.WithdrawCostcenter.Originated Then
+      If Not Me.ReturnCostcenter Is Nothing AndAlso Me.ReturnCostcenter.Originated Then
         'ToCostCenter
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenter"
-        dpi.Value = Me.WithdrawCostcenter.Code & ":" & Me.WithdrawCostcenter.Name
+        dpi.Value = Me.ReturnCostcenter.Code & ":" & Me.ReturnCostcenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToCostCenterInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenterInfo"
-        dpi.Value = Me.WithdrawCostcenter.Code & ":" & Me.WithdrawCostcenter.Name
+        dpi.Value = Me.ReturnCostcenter.Code & ":" & Me.ReturnCostcenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToCostCenterCode
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenterCode"
-        dpi.Value = Me.WithdrawCostcenter.Code
+        dpi.Value = Me.ReturnCostcenter.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToCostCenterName
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenterName"
-        dpi.Value = Me.WithdrawCostcenter.Name
+        dpi.Value = Me.ReturnCostcenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToCostCenterPhone
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenterPhone"
-        dpi.Value = Me.WithdrawCostcenter.Phone
+        dpi.Value = Me.ReturnCostcenter.Phone
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'ToCostCenterFax
         dpi = New DocPrintingItem
         dpi.Mapping = "ToCostCenterFax"
-        dpi.Value = Me.WithdrawCostcenter.Fax
+        dpi.Value = Me.ReturnCostcenter.Fax
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1401,7 +1403,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property EqtWithdraw() As EquipmentToolReturn
+    Public Property EqtReturn() As EquipmentToolReturn
       Get        Return m_eqtReturn
       End Get      Set(ByVal Value As EquipmentToolReturn)        m_eqtReturn = Value
       End Set    End Property    Default Public Property Item(ByVal index As Integer) As EquipmentToolReturnItem

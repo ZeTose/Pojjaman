@@ -29,25 +29,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblReceivePerson As System.Windows.Forms.Label
     Friend WithEvents grbRequest As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents lblStatus As System.Windows.Forms.Label
-    Friend WithEvents txtWithdrawPersonName As System.Windows.Forms.TextBox
-    Friend WithEvents txtWithdrawPersonCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtReturnPersonName As System.Windows.Forms.TextBox
+    Friend WithEvents txtReturnPersonCode As System.Windows.Forms.TextBox
     Friend WithEvents txtStorepersonName As System.Windows.Forms.TextBox
     Friend WithEvents txtStoreCCName As System.Windows.Forms.TextBox
     Friend WithEvents txtStoreCCCode As System.Windows.Forms.TextBox
     Friend WithEvents lblStoreperson As System.Windows.Forms.Label
     Friend WithEvents lblStoreCC As System.Windows.Forms.Label
     Friend WithEvents txtStorepersonCode As System.Windows.Forms.TextBox
-    Friend WithEvents txtWithdrawCCName As System.Windows.Forms.TextBox
+    Friend WithEvents txtReturnCCName As System.Windows.Forms.TextBox
     Friend WithEvents lblReturnCC As System.Windows.Forms.Label
-    Friend WithEvents txtWithdrawCCCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtReturnCCCode As System.Windows.Forms.TextBox
     Friend WithEvents btnStoreCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnStorepersonFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnStoreCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnStorepersonEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnWithdrawCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnWithdrawPersonFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnWithdrawCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnWithdrawPersonEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnReturnCCFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnReturnPersonFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnReturnCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnReturnPersonEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents grbGeneral As Longkong.Pojjaman.Gui.Components.FixedGroupBox
@@ -83,18 +83,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreCC = New System.Windows.Forms.Label()
       Me.txtStorepersonCode = New System.Windows.Forms.TextBox()
       Me.grbRequest = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.btnWithdrawCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnWithdrawPersonFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnWithdrawCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnWithdrawPersonEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnReturnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnReturnPersonFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnReturnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnReturnPersonEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ImageButton3 = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ImageButton4 = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.txtWithdrawCCName = New System.Windows.Forms.TextBox()
-      Me.txtWithdrawPersonName = New System.Windows.Forms.TextBox()
-      Me.txtWithdrawPersonCode = New System.Windows.Forms.TextBox()
+      Me.txtReturnCCName = New System.Windows.Forms.TextBox()
+      Me.txtReturnPersonName = New System.Windows.Forms.TextBox()
+      Me.txtReturnPersonCode = New System.Windows.Forms.TextBox()
       Me.lblReceivePerson = New System.Windows.Forms.Label()
       Me.lblReturnCC = New System.Windows.Forms.Label()
-      Me.txtWithdrawCCCode = New System.Windows.Forms.TextBox()
+      Me.txtReturnCCCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtCode = New System.Windows.Forms.TextBox()
@@ -347,18 +347,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbRequest
       '
-      Me.grbRequest.Controls.Add(Me.btnWithdrawCCFind)
-      Me.grbRequest.Controls.Add(Me.btnWithdrawPersonFind)
-      Me.grbRequest.Controls.Add(Me.btnWithdrawCCEdit)
-      Me.grbRequest.Controls.Add(Me.btnWithdrawPersonEdit)
+      Me.grbRequest.Controls.Add(Me.btnReturnCCFind)
+      Me.grbRequest.Controls.Add(Me.btnReturnPersonFind)
+      Me.grbRequest.Controls.Add(Me.btnReturnCCEdit)
+      Me.grbRequest.Controls.Add(Me.btnReturnPersonEdit)
       Me.grbRequest.Controls.Add(Me.ImageButton3)
       Me.grbRequest.Controls.Add(Me.ImageButton4)
-      Me.grbRequest.Controls.Add(Me.txtWithdrawCCName)
-      Me.grbRequest.Controls.Add(Me.txtWithdrawPersonName)
-      Me.grbRequest.Controls.Add(Me.txtWithdrawPersonCode)
+      Me.grbRequest.Controls.Add(Me.txtReturnCCName)
+      Me.grbRequest.Controls.Add(Me.txtReturnPersonName)
+      Me.grbRequest.Controls.Add(Me.txtReturnPersonCode)
       Me.grbRequest.Controls.Add(Me.lblReceivePerson)
       Me.grbRequest.Controls.Add(Me.lblReturnCC)
-      Me.grbRequest.Controls.Add(Me.txtWithdrawCCCode)
+      Me.grbRequest.Controls.Add(Me.txtReturnCCCode)
       Me.grbRequest.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbRequest.Location = New System.Drawing.Point(368, 80)
       Me.grbRequest.Name = "grbRequest"
@@ -367,51 +367,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.TabStop = False
       Me.grbRequest.Text = "ผู้รับคืน"
       '
-      'btnWithdrawCCFind
+      'btnReturnCCFind
       '
-      Me.btnWithdrawCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnWithdrawCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnWithdrawCCFind.Location = New System.Drawing.Point(304, 16)
-      Me.btnWithdrawCCFind.Name = "btnWithdrawCCFind"
-      Me.btnWithdrawCCFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnWithdrawCCFind.TabIndex = 3
-      Me.btnWithdrawCCFind.TabStop = False
-      Me.btnWithdrawCCFind.ThemedImage = CType(resources.GetObject("btnWithdrawCCFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReturnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnReturnCCFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnReturnCCFind.Location = New System.Drawing.Point(304, 16)
+      Me.btnReturnCCFind.Name = "btnReturnCCFind"
+      Me.btnReturnCCFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnReturnCCFind.TabIndex = 3
+      Me.btnReturnCCFind.TabStop = False
+      Me.btnReturnCCFind.ThemedImage = CType(resources.GetObject("btnReturnCCFind.ThemedImage"), System.Drawing.Bitmap)
       '
-      'btnWithdrawPersonFind
+      'btnReturnPersonFind
       '
-      Me.btnWithdrawPersonFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnWithdrawPersonFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawPersonFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnWithdrawPersonFind.Location = New System.Drawing.Point(304, 40)
-      Me.btnWithdrawPersonFind.Name = "btnWithdrawPersonFind"
-      Me.btnWithdrawPersonFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnWithdrawPersonFind.TabIndex = 8
-      Me.btnWithdrawPersonFind.TabStop = False
-      Me.btnWithdrawPersonFind.ThemedImage = CType(resources.GetObject("btnWithdrawPersonFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnPersonFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReturnPersonFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnReturnPersonFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnReturnPersonFind.Location = New System.Drawing.Point(304, 40)
+      Me.btnReturnPersonFind.Name = "btnReturnPersonFind"
+      Me.btnReturnPersonFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnReturnPersonFind.TabIndex = 8
+      Me.btnReturnPersonFind.TabStop = False
+      Me.btnReturnPersonFind.ThemedImage = CType(resources.GetObject("btnReturnPersonFind.ThemedImage"), System.Drawing.Bitmap)
       '
-      'btnWithdrawCCEdit
+      'btnReturnCCEdit
       '
-      Me.btnWithdrawCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnWithdrawCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawCCEdit.Location = New System.Drawing.Point(328, 16)
-      Me.btnWithdrawCCEdit.Name = "btnWithdrawCCEdit"
-      Me.btnWithdrawCCEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnWithdrawCCEdit.TabIndex = 4
-      Me.btnWithdrawCCEdit.TabStop = False
-      Me.btnWithdrawCCEdit.ThemedImage = CType(resources.GetObject("btnWithdrawCCEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReturnCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnReturnCCEdit.Location = New System.Drawing.Point(328, 16)
+      Me.btnReturnCCEdit.Name = "btnReturnCCEdit"
+      Me.btnReturnCCEdit.Size = New System.Drawing.Size(24, 23)
+      Me.btnReturnCCEdit.TabIndex = 4
+      Me.btnReturnCCEdit.TabStop = False
+      Me.btnReturnCCEdit.ThemedImage = CType(resources.GetObject("btnReturnCCEdit.ThemedImage"), System.Drawing.Bitmap)
       '
-      'btnWithdrawPersonEdit
+      'btnReturnPersonEdit
       '
-      Me.btnWithdrawPersonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnWithdrawPersonEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawPersonEdit.Location = New System.Drawing.Point(328, 40)
-      Me.btnWithdrawPersonEdit.Name = "btnWithdrawPersonEdit"
-      Me.btnWithdrawPersonEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnWithdrawPersonEdit.TabIndex = 9
-      Me.btnWithdrawPersonEdit.TabStop = False
-      Me.btnWithdrawPersonEdit.ThemedImage = CType(resources.GetObject("btnWithdrawPersonEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnPersonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReturnPersonEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnReturnPersonEdit.Location = New System.Drawing.Point(328, 40)
+      Me.btnReturnPersonEdit.Name = "btnReturnPersonEdit"
+      Me.btnReturnPersonEdit.Size = New System.Drawing.Size(24, 23)
+      Me.btnReturnPersonEdit.TabIndex = 9
+      Me.btnReturnPersonEdit.TabStop = False
+      Me.btnReturnPersonEdit.ThemedImage = CType(resources.GetObject("btnReturnPersonEdit.ThemedImage"), System.Drawing.Bitmap)
       '
       'ImageButton3
       '
@@ -437,56 +437,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ImageButton4.TabStop = False
       Me.ImageButton4.ThemedImage = CType(resources.GetObject("ImageButton4.ThemedImage"), System.Drawing.Bitmap)
       '
-      'txtWithdrawCCName
+      'txtReturnCCName
       '
-      Me.txtWithdrawCCName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtWithdrawCCName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtWithdrawCCName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtWithdrawCCName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtWithdrawCCName, System.Drawing.Color.Empty)
-      Me.txtWithdrawCCName.Location = New System.Drawing.Point(184, 16)
-      Me.Validator.SetMinValue(Me.txtWithdrawCCName, "")
-      Me.txtWithdrawCCName.Name = "txtWithdrawCCName"
-      Me.txtWithdrawCCName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtWithdrawCCName, "")
-      Me.Validator.SetRequired(Me.txtWithdrawCCName, False)
-      Me.txtWithdrawCCName.Size = New System.Drawing.Size(120, 21)
-      Me.txtWithdrawCCName.TabIndex = 2
-      Me.txtWithdrawCCName.TabStop = False
+      Me.txtReturnCCName.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtReturnCCName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReturnCCName, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReturnCCName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReturnCCName, System.Drawing.Color.Empty)
+      Me.txtReturnCCName.Location = New System.Drawing.Point(184, 16)
+      Me.Validator.SetMinValue(Me.txtReturnCCName, "")
+      Me.txtReturnCCName.Name = "txtReturnCCName"
+      Me.txtReturnCCName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReturnCCName, "")
+      Me.Validator.SetRequired(Me.txtReturnCCName, False)
+      Me.txtReturnCCName.Size = New System.Drawing.Size(120, 21)
+      Me.txtReturnCCName.TabIndex = 2
+      Me.txtReturnCCName.TabStop = False
       '
-      'txtWithdrawPersonName
+      'txtReturnPersonName
       '
-      Me.txtWithdrawPersonName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtWithdrawPersonName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtWithdrawPersonName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtWithdrawPersonName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtWithdrawPersonName, System.Drawing.Color.Empty)
-      Me.txtWithdrawPersonName.Location = New System.Drawing.Point(184, 40)
-      Me.Validator.SetMinValue(Me.txtWithdrawPersonName, "")
-      Me.txtWithdrawPersonName.Name = "txtWithdrawPersonName"
-      Me.txtWithdrawPersonName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtWithdrawPersonName, "")
-      Me.Validator.SetRequired(Me.txtWithdrawPersonName, False)
-      Me.txtWithdrawPersonName.Size = New System.Drawing.Size(120, 21)
-      Me.txtWithdrawPersonName.TabIndex = 7
-      Me.txtWithdrawPersonName.TabStop = False
+      Me.txtReturnPersonName.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtReturnPersonName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReturnPersonName, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReturnPersonName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReturnPersonName, System.Drawing.Color.Empty)
+      Me.txtReturnPersonName.Location = New System.Drawing.Point(184, 40)
+      Me.Validator.SetMinValue(Me.txtReturnPersonName, "")
+      Me.txtReturnPersonName.Name = "txtReturnPersonName"
+      Me.txtReturnPersonName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReturnPersonName, "")
+      Me.Validator.SetRequired(Me.txtReturnPersonName, False)
+      Me.txtReturnPersonName.Size = New System.Drawing.Size(120, 21)
+      Me.txtReturnPersonName.TabIndex = 7
+      Me.txtReturnPersonName.TabStop = False
       '
-      'txtWithdrawPersonCode
+      'txtReturnPersonCode
       '
-      Me.txtWithdrawPersonCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtWithdrawPersonCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtWithdrawPersonCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtWithdrawPersonCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtWithdrawPersonCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtWithdrawPersonCode, System.Drawing.Color.Empty)
-      Me.txtWithdrawPersonCode.Location = New System.Drawing.Point(120, 40)
-      Me.txtWithdrawPersonCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtWithdrawPersonCode, "")
-      Me.txtWithdrawPersonCode.Name = "txtWithdrawPersonCode"
-      Me.Validator.SetRegularExpression(Me.txtWithdrawPersonCode, "")
-      Me.Validator.SetRequired(Me.txtWithdrawPersonCode, True)
-      Me.txtWithdrawPersonCode.Size = New System.Drawing.Size(64, 21)
-      Me.txtWithdrawPersonCode.TabIndex = 11
+      Me.txtReturnPersonCode.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReturnPersonCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReturnPersonCode, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReturnPersonCode, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtReturnPersonCode, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtReturnPersonCode, System.Drawing.Color.Empty)
+      Me.txtReturnPersonCode.Location = New System.Drawing.Point(120, 40)
+      Me.txtReturnPersonCode.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtReturnPersonCode, "")
+      Me.txtReturnPersonCode.Name = "txtReturnPersonCode"
+      Me.Validator.SetRegularExpression(Me.txtReturnPersonCode, "")
+      Me.Validator.SetRequired(Me.txtReturnPersonCode, True)
+      Me.txtReturnPersonCode.Size = New System.Drawing.Size(64, 21)
+      Me.txtReturnPersonCode.TabIndex = 11
       '
       'lblReceivePerson
       '
@@ -508,22 +508,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReturnCC.Text = "คืนเข้า Cost Center:"
       Me.lblReturnCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'txtWithdrawCCCode
+      'txtReturnCCCode
       '
-      Me.txtWithdrawCCCode.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtWithdrawCCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtWithdrawCCCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtWithdrawCCCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtWithdrawCCCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtWithdrawCCCode, System.Drawing.Color.Empty)
-      Me.txtWithdrawCCCode.Location = New System.Drawing.Point(120, 16)
-      Me.txtWithdrawCCCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtWithdrawCCCode, "")
-      Me.txtWithdrawCCCode.Name = "txtWithdrawCCCode"
-      Me.Validator.SetRegularExpression(Me.txtWithdrawCCCode, "")
-      Me.Validator.SetRequired(Me.txtWithdrawCCCode, False)
-      Me.txtWithdrawCCCode.Size = New System.Drawing.Size(64, 21)
-      Me.txtWithdrawCCCode.TabIndex = 10
+      Me.txtReturnCCCode.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReturnCCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReturnCCCode, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReturnCCCode, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtReturnCCCode, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtReturnCCCode, System.Drawing.Color.Empty)
+      Me.txtReturnCCCode.Location = New System.Drawing.Point(120, 16)
+      Me.txtReturnCCCode.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtReturnCCCode, "")
+      Me.txtReturnCCCode.Name = "txtReturnCCCode"
+      Me.Validator.SetRegularExpression(Me.txtReturnCCCode, "")
+      Me.Validator.SetRequired(Me.txtReturnCCCode, False)
+      Me.txtReturnCCCode.Size = New System.Drawing.Size(64, 21)
+      Me.txtReturnCCCode.TabIndex = 10
       '
       'ErrorProvider1
       '
@@ -794,38 +794,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblCode}")
       Me.Validator.SetDisplayName(txtCode, lblCode.Text)
 
-      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblDocDate}")
+      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblDocDate}")
       Me.Validator.SetDisplayName(txtDocDate, lblDocDate.Text)
 
-      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblItem}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblItem}")
 
-      Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblItemCount}")
+      Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblItemCount}")
       Me.Validator.SetDisplayName(txtItemCount, lblItemCount.Text)
 
-      Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblItemCountUnit}")
+      Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblItemCountUnit}")
 
-      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblNote}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblNote}")
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-      Me.lblReceivePerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblRequestPerson}")
-      Me.Validator.SetDisplayName(txtWithdrawPersonCode, lblReceivePerson.Text)
+      Me.lblReceivePerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblRequestPerson}")
+      Me.Validator.SetDisplayName(txtReturnPersonCode, lblReceivePerson.Text)
 
-      Me.lblStoreperson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblStoreperson}")
+      Me.lblStoreperson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblStoreperson}")
       Me.Validator.SetDisplayName(txtStorepersonCode, lblStoreperson.Text)
 
-      Me.lblStoreCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblStoreCC}")
+      Me.lblStoreCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblStoreCC}")
       Me.Validator.SetDisplayName(txtStoreCCCode, lblStoreCC.Text)
 
-      Me.lblReturnCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.lblWithdrawCC}")
-      Me.Validator.SetDisplayName(txtWithdrawCCCode, lblReturnCC.Text)
+      Me.lblReturnCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblReturnCC}")
+      Me.Validator.SetDisplayName(txtReturnCCCode, lblReturnCC.Text)
 
-      Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbSummary}")
-      Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbReceive}")
-      Me.grbRequest.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbRequest}")
-      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.grbGeneral}")
+      Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbSummary}")
+      Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolReturnDetail.grbReceive}")
+      Me.grbRequest.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbRequest}")
+      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolReturnDetail.grbGeneral}")
     End Sub
 #End Region
 
@@ -845,7 +845,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "Linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.LineNumberHeaderText}")
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.LineNumberHeaderText}")
       csLineNumber.NullText = ""
       csLineNumber.Width = 20
       csLineNumber.Alignment = HorizontalAlignment.Center
@@ -864,7 +864,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.CodeHeaderText}")
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.CodeHeaderText}")
       csCode.NullText = ""
       csCode.Width = 80
       csCode.Alignment = HorizontalAlignment.Center
@@ -875,12 +875,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim csButton As New DataGridButtonColumn
       csButton.MappingName = "Button"
       csButton.HeaderText = ""
+      csButton.Width = 15
       csButton.NullText = ""
       AddHandler csButton.Click, AddressOf GridButton_Clicked
 
       Dim csName As New TreeTextColumn
       csName.MappingName = "Name"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NameHeaderText}")
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.NameHeaderText}")
       csName.NullText = ""
       csName.Alignment = HorizontalAlignment.Center
       csName.DataAlignment = HorizontalAlignment.Left
@@ -890,7 +891,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csToolg As New TreeTextColumn
       csToolg.MappingName = "ToolGroup"
-      csToolg.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.GroupHeaderText}")
+      csToolg.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolReturnDetail.GroupHeaderText}")
       csToolg.NullText = ""
       csToolg.Alignment = HorizontalAlignment.Center
       csToolg.DataAlignment = HorizontalAlignment.Left
@@ -900,7 +901,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csUnit As New TreeTextColumn
       csUnit.MappingName = "UnitName"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.UnitHeaderText}")
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.UnitHeaderText}")
       csUnit.NullText = ""
       csUnit.Alignment = HorizontalAlignment.Center
       csUnit.DataAlignment = HorizontalAlignment.Left
@@ -916,7 +917,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csQty As New TreeTextColumn
       csQty.MappingName = "Qty"
-      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.QtyHeaderText}")
+      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.QtyHeaderText}")
       csQty.NullText = ""
       csQty.Alignment = HorizontalAlignment.Center
       csQty.DataAlignment = HorizontalAlignment.Right
@@ -928,7 +929,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csRentalPerDay As New TreeTextColumn
       csRentalPerDay.MappingName = "RentalPerDay"
-      csRentalPerDay.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.Rentalperday}")
+      csRentalPerDay.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.Rentalperday}")
       csRentalPerDay.NullText = ""
       csRentalPerDay.Alignment = HorizontalAlignment.Center
       csRentalPerDay.DataAlignment = HorizontalAlignment.Right
@@ -939,7 +940,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csRentalQty As New TreeTextColumn
       csRentalQty.MappingName = "RentalQty"
-      csRentalQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.RentalQty}")
+      csRentalQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.RentalQty}")
       csRentalQty.NullText = ""
       csRentalQty.Alignment = HorizontalAlignment.Center
       csRentalQty.DataAlignment = HorizontalAlignment.Right
@@ -950,7 +951,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csAmount As New TreeTextColumn
       csAmount.MappingName = "RentalAmount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.RentalAmount}")
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.RentalAmount}")
       csAmount.NullText = ""
       csAmount.Alignment = HorizontalAlignment.Center
       csAmount.DataAlignment = HorizontalAlignment.Right
@@ -961,7 +962,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "Note"
-      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.NoteHeaderText}")
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.NoteHeaderText}")
       csNote.NullText = ""
       csNote.Alignment = HorizontalAlignment.Center
       csNote.DataAlignment = HorizontalAlignment.Left
@@ -1005,7 +1006,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
 
-      Dim dt As TreeTable = EquipmentToolWithdraw.GetSchemaTable()
+      Dim dt As TreeTable = EquipmentToolReturn.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
@@ -1100,8 +1101,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtWithdrawPersonCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtWithdrawCCCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtReturnPersonCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtReturnCCCode.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtStorepersonCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtStoreCCCode.Validated, AddressOf Me.ChangeProperty
@@ -1125,14 +1126,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-      If Not Me.m_entity.Withdrawperson Is Nothing Then
-        txtWithdrawPersonCode.Text = Me.m_entity.Withdrawperson.Code
-        txtWithdrawPersonName.Text = Me.m_entity.Withdrawperson.Name
+      If Not Me.m_entity.ReturnPerson Is Nothing Then
+        txtReturnPersonCode.Text = Me.m_entity.ReturnPerson.Code
+        txtReturnPersonName.Text = Me.m_entity.ReturnPerson.Name
       End If
 
-      If Not Me.m_entity.WithdrawCostcenter Is Nothing Then
-        txtWithdrawCCCode.Text = Me.m_entity.WithdrawCostcenter.Code
-        txtWithdrawCCName.Text = Me.m_entity.WithdrawCostcenter.Name
+      If Not Me.m_entity.ReturnCostcenter Is Nothing Then
+        txtReturnCCCode.Text = Me.m_entity.ReturnCostcenter.Code
+        txtReturnCCName.Text = Me.m_entity.ReturnCostcenter.Name
       End If
 
       If Not Me.m_entity.Storeperson Is Nothing Then
@@ -1209,23 +1210,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
 
-        Case "chkwithdraw"
+        Case "chkReturn"
           dirtyFlag = True
-          WithdrawCheckedChanged(sender)
+          ReturnCheckedChanged(sender)
 
-        Case "txtwithdrawpersoncode"
-          dirtyFlag = Employee.GetEmployee(txtWithdrawPersonCode, txtWithdrawPersonName, Me.m_entity.Withdrawperson)
+        Case "txtReturnpersoncode"
+          dirtyFlag = Employee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
 
-        Case "txtwithdrawcccode"
-          dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtWithdrawCCCode, txtWithdrawCCName, Me.m_entity.WithdrawCostcenter)
-          WithdrawCheckedChanged(sender)
+        Case "txtReturncccode"
+          dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
+          ReturnCheckedChanged(sender)
 
         Case "txtstorepersoncode"
           dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
         Case "txtstorecccode"
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          WithdrawCheckedChanged(sender)
+          ReturnCheckedChanged(sender)
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
@@ -1394,7 +1395,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity.FromCC Is Nothing OrElse Not Me.m_entity.FromCC.Originated Then
-        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetailView.Message.InputFromCC}")
+        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.InputStoreCC}")
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -1412,7 +1413,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim filters(2) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
+        filters(2) = New Filter("eqtstatus", 3)  'ต้องการสถานะว่าง
         myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
         Dim dlg As New BasketDialog
@@ -1501,7 +1502,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myItem.Unit = New Unit
       'myItem. = New CostCenter
 
-      myItem.ToStatus = New EqtStatus(1)
+      myItem.ToStatus = New EqtStatus(2)
       'myItem.ItemType = New EqtItemType(Me.m_entity.EntityId)
       'myItem.ItemType.value = 
 
@@ -1568,45 +1569,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New EquipmentToolWithdraw).DetailPanelIcon
+        Return (New EquipmentToolReturn).DetailPanelIcon
       End Get
     End Property
 #End Region
 
 #Region " Event of Button controls "
-    ' Withdraw Person
-    Private Sub btnWithdrawPersonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWithdrawPersonEdit.Click
+    ' Return Person
+    Private Sub btnReturnPersonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReturnPersonEdit.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenPanel(New Employee)
     End Sub
-    Private Sub btnWithdrawPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWithdrawPersonFind.Click
+    Private Sub btnReturnPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReturnPersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetWithdrawPersonDialog)
+      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetReturnPersonDialog)
     End Sub
 
-    Private Sub SetWithdrawPersonDialog(ByVal e As ISimpleEntity)
-      Me.txtWithdrawPersonCode.Text = e.Code
+    Private Sub SetReturnPersonDialog(ByVal e As ISimpleEntity)
+      Me.txtReturnPersonCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or Employee.GetEmployee(txtWithdrawPersonCode, txtWithdrawPersonName, Me.m_entity.Withdrawperson)
+          Or Employee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
     End Sub
-    ' Withdraw Costcenter
-    Private Sub btnWithdrawCCEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWithdrawCCEdit.Click
+    ' Return Costcenter
+    Private Sub btnReturnCCEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReturnCCEdit.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenPanel(New CostCenter)
     End Sub
-    Private Sub btnWithdrawCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWithdrawCCFind.Click
+    Private Sub btnReturnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReturnCCFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
                    CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetWithdrawCostCenterDialog, New Filter() {New Filter("checkright", False)})
+      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetReturnCostCenterDialog, New Filter() {New Filter("checkright", False)})
     End Sub
-    Private Sub SetWithdrawCostCenterDialog(ByVal e As ISimpleEntity)
-      Me.txtWithdrawCCCode.Text = e.Code
+    Private Sub SetReturnCostCenterDialog(ByVal e As ISimpleEntity)
+      Me.txtReturnCCCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or CostCenter.GetCostCenterWithoutRight(txtWithdrawCCCode, txtWithdrawCCName, Me.m_entity.WithdrawCostcenter)
-      WithdrawCheckedChanged(txtWithdrawCCCode)
+          Or CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
+      ReturnCheckedChanged(txtReturnCCCode)
     End Sub
 
     ' Store Person
@@ -1640,7 +1641,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      WithdrawCheckedChanged(txtStoreCCCode)
+      ReturnCheckedChanged(txtStoreCCCode)
     End Sub
 #End Region
 
@@ -1652,7 +1653,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New Employee).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtwithdrawpersoncode", "txtwithdrawpersonname"
+              Case "txtReturnpersoncode", "txtReturnpersonname"
                 Return True
               Case "txtstorepersoncode", "txtstorepersonname"
                 Return True
@@ -1663,7 +1664,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New CostCenter).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtwithdrawcccode", "txtwithdrawccname"
+              Case "txtReturncccode", "txtReturnccname"
                 Return True
               Case "txtstorecccode", "txtstoreccname"
                 Return True
@@ -1681,8 +1682,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entity As New Employee(id)
         If Not Me.ActiveControl Is Nothing Then
           Select Case Me.ActiveControl.Name.ToLower
-            Case "txtwithdrawpersoncode", "txtwithdrawpersonname"
-              Me.SetWithdrawPersonDialog(entity)
+            Case "txtReturnpersoncode", "txtReturnpersonname"
+              Me.SetReturnPersonDialog(entity)
             Case "txtstorepersoncode", "txtstorepersonname"
               Me.SetStorePersonDialog(entity)
           End Select
@@ -1694,8 +1695,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entity As New CostCenter(id)
         If Not Me.ActiveControl Is Nothing Then
           Select Case Me.ActiveControl.Name.ToLower
-            Case "txtwithdrawcccode", "txtwithdrawccname"
-              Me.SetWithdrawCostCenterDialog(entity)
+            Case "txtReturncccode", "txtReturnccname"
+              Me.SetReturnCostCenterDialog(entity)
             Case "txtstorecccode", "txtstoreccname"
               Me.SetStoreCostCenterDialog(entity)
           End Select
@@ -1753,12 +1754,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = True
     End Sub
 
-    Private Sub WithdrawCheckedChanged(ByVal sender As System.Object)
+    Private Sub ReturnCheckedChanged(ByVal sender As System.Object)
       If TypeOf sender Is CheckBox Then
-        If CType(sender, CheckBox).Checked AndAlso Not txtWithdrawCCCode.Text = txtStoreCCCode.Text Then
-          txtWithdrawCCCode.Text = txtStoreCCCode.Text
-          txtWithdrawCCName.Text = txtStoreCCName.Text
-          Me.m_entity.WithdrawCostcenter = Me.m_entity.StoreCostcenter
+        If CType(sender, CheckBox).Checked AndAlso Not txtReturnCCCode.Text = txtStoreCCCode.Text Then
+          txtReturnCCCode.Text = txtStoreCCCode.Text
+          txtReturnCCName.Text = txtStoreCCName.Text
+          Me.m_entity.ReturnCostcenter = Me.m_entity.StoreCostcenter
         End If
       ElseIf TypeOf sender Is TextBox Then
 

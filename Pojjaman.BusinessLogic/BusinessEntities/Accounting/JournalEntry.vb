@@ -1565,9 +1565,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim CCCode As String = ""
       Dim AllCCCode As String = ""
       For Each item As JournalEntryItem In Me.ItemCollection
+        If item.Account IsNot Nothing Then
         If Not CCCode.Equals(item.CostCenter.Code) Then
           CCCode = item.CostCenter.Code
           AllCCCode &= ", " & item.CostCenter.Code & ":" & item.CostCenter.Name
+        End If
         End If
       Next
       'CustomerName
@@ -1584,6 +1586,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Integer = 0
       For Each item As JournalEntryItem In Me.ItemCollection
+        If item.Account IsNot Nothing Then
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -1672,6 +1676,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+        End If
 
         n += 1
       Next

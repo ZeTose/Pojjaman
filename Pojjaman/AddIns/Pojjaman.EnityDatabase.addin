@@ -110,6 +110,7 @@
         <MenuItem id="stocksequence" label="${res:MainMenu.StockMenu.StockSequence}" icon="Icons.16x16.StockSequence" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.StockSequence"/>
         <MenuItem id="Separator5" label="-"/>
         <MenuItem id="EqtWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw"/>
+        <MenuItem id="EqtReturn" label="${res:MainMenu.StockMenu.EqtReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolReturn"/>
 
       </MenuItem>
 
