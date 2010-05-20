@@ -48,6 +48,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If row.Table.Columns.Contains("entityauto_id") AndAlso Not row.IsNull("entityauto_id") Then
           Me.Id = CInt(row("entityauto_id"))
         End If
+      Else
+        ds = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
+      "select * from gl  where gl_refid='" & entity.Id & "' and gl_refdoctype = '" & entity.EntityId & "'" _
+      )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Dim row As DataRow = ds.Tables(0).Rows(0)
+          If row.Table.Columns.Contains("gl_glformat") AndAlso Not row.IsNull("gl_glformat") Then
+            Me.GLFormat = New GLFormat(CInt(row("gl_glformat")))
+          End If
+        End If
       End If
     End Sub
     Private m_id As Integer

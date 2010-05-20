@@ -284,7 +284,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property GLFormat() As GLFormat      Get        Return m_glFormat      End Get      Set(ByVal Value As GLFormat)        m_glFormat = Value      End Set    End Property
+    Public Property GLFormat() As GLFormat      Get        Return m_glFormat      End Get      Set(ByVal Value As GLFormat)        If Not Me.Originated Then          m_glFormat = Value        ElseIf m_glFormat Is Nothing Then
+          m_glFormat = Value        End If      End Set    End Property
     Public Property ManualFormat() As Boolean      Get        Return m_manualFormat      End Get      Set(ByVal Value As Boolean)        m_manualFormat = Value      End Set    End Property
     Public ReadOnly Property DebitAmount() As Decimal
       Get
