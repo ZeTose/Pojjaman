@@ -2738,19 +2738,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       '################################ITEM#######################'
-
+            Dim c As Integer = 0
       For n As Integer = 0 To Me.MaxRowIndex
         Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
         If ValidateRow(itemRow) Then
 
           'If Not itemRow.IsNull("stocki_entity") Then
-          'itemRow("whti_type") = 0
+                    'itemRow("whti_type") = 0
 
+                    If Not itemRow.IsNull("stocki_entitytype") Then
+                        If CDec(itemRow("stocki_entitytype")) = 160 Or CDec(itemRow("stocki_entitytype")) = 162 Then
+                            c = c + 1
+                        End If
+                    End If
 
           'Item.LineNumber (am เพิ่ม)
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.LineNumber"
-          dpi.Value = n + 1
+                    dpi.Value = n + 1 - c
           dpi.DataType = "System.Int32"
           dpi.Row = n + 1
           dpi.Table = "Item"
