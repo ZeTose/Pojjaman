@@ -211,10 +211,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Case 0		 '"ไม่มี"
 						Return 0
 					Case 1		 '"แยก"
-            Return Me.ContractAmount - DiscountAmount
+            Return Me.TotalAmount - DiscountAmount
+            'Return Me.ContractAmount - DiscountAmount   'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount
 					Case 2		 '"รวม"
-            Return (Me.ContractAmount - DiscountAmount) * (100 / (Me.TaxRate + 100))
+            Return (Me.TotalAmount - DiscountAmount) * (100 / (Me.TaxRate + 100))
+            'Return (Me.ContractAmount - DiscountAmount) * (100 / (Me.TaxRate + 100)) 'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount * (100 / (Me.TaxRate + 100))
 				End Select
       End Get
