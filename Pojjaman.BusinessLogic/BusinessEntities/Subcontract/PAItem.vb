@@ -995,9 +995,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Value = m_receiveAmount Then
           Return
         End If
-        If Not Me.ValidateReceiveAmount(Value) Then
-          Return
+        If Value <> 0 Then
+          If Not Me.ValidateReceiveAmount(Value) Then
+            Return
+          End If
         End If
+
         'If Me.RefEntity.Id > 0 Then
         '  If Me.HashSCChild Then
         '    'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน
@@ -1231,7 +1234,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             row.SetColumnError("pai_qty", "")
             row.SetColumnError("pai_unitprice", "")
             row.SetColumnError("pai_itemname", "")
-            row.SetColumnError("cade", "")
+            row.SetColumnError("code", "")
           Case 0, 88, 89, 291   'blank item /ค่าแรง/เครื่องจักร
             If IsDBNull(pai_itemName) OrElse pai_itemName.ToString.Length = 0 Then
               row.SetColumnError("pai_itemName", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
@@ -1239,12 +1242,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("pai_itemName", "")
             End If
             If Not IsNumeric(amount) Then    'OrElse CDec(poi_qty) <= 0 Then
-              'If isClosed Then
-              '  row.SetColumnError("pai_qty", "")
-              'Else
-              row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
-              'End If
+              If CStr(amount).Length = 0 Then
+                row.SetColumnError("amount", "")
+              Else
+                row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
+              End If
             Else
+              If CDec(amount) = 0 Then
+                row.SetColumnError("amount", "")
+              End If
               row.SetColumnError("pai_qty", "")
             End If
             If Not IsNumeric(pai_unitprice) Then    'OrElse CDec(pai_unitprice) <= 0 Then
@@ -1267,12 +1273,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("pai_itemName", "")
             End If
             If Not IsNumeric(amount) Then    'OrElse CDec(poi_qty) <= 0 Then
-              'If isClosed Then
-              '  row.SetColumnError("pai_qty", "")
-              'Else
-              row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
-              'End If
+              If CStr(amount).Length = 0 Then
+                row.SetColumnError("amount", "")
+              Else
+                row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
+              End If
             Else
+              If CDec(amount) = 0 Then
+                row.SetColumnError("amount", "")
+              End If
               row.SetColumnError("pai_qty", "")
             End If
             'If Not IsNumeric(pai_unitprice) Then 'OrElse CDec(pai_unitprice) <= 0 Then
@@ -1288,12 +1297,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("pai_itemName", "")
             End If
             If Not IsNumeric(amount) Then    'OrElse CDec(poi_qty) <= 0 Then
-              'If isClosed Then
-              '  row.SetColumnError("pai_qty", "")
-              'Else
-              row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
-              'End If
+              If CStr(amount).Length = 0 Then
+                row.SetColumnError("amount", "")
+              Else
+                row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
+              End If
             Else
+              If CDec(amount) = 0 Then
+                row.SetColumnError("amount", "")
+              End If
               row.SetColumnError("pai_qty", "")
             End If
             'If Not IsNumeric(pai_unitprice) Then 'OrElse CDec(pai_unitprice) <= 0 Then
@@ -1315,12 +1327,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("pai_itemName", "")
             End If
             If Not IsNumeric(amount) Then    'OrElse CDec(poi_qty) <= 0 Then
-              'If isClosed Then
-              '  row.SetColumnError("pai_qty", "")
-              'Else
-              row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
-              'End If
+              If CStr(amount).Length = 0 Then
+                row.SetColumnError("amount", "")
+              Else
+                row.SetColumnError("amount", myStringParserService.Parse("${res:Global.Error.ItemPAAmountMissing}"))
+              End If
             Else
+              If CDec(amount) = 0 Then
+                row.SetColumnError("amount", "")
+              End If
               row.SetColumnError("pai_qty", "")
             End If
             'If Not IsNumeric(pai_unitprice) Then ' OrElse CDec(pai_unitprice) <= 0 Then

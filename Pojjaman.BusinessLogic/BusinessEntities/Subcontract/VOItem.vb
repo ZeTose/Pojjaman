@@ -747,7 +747,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For i As Integer = startIndex To Me.VO.ItemCollection.Count - 1
         If i > startIndex Then
           Dim voi As VOItem = Me.VO.ItemCollection(i)
-          If voi.Level = 0 OrElse voi.ItemType.Value = 160 OrElse voi.ItemType.Value = 162 Then
+          If voi.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -963,7 +963,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.vo.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim voi As VOItem = Me.VO.ItemCollection(i)
-          If voi.Level = 0 OrElse voi.ItemType.Value = 160 OrElse voi.ItemType.Value = 162 Then
+          If voi.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -989,7 +989,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.vo.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim voi As VOItem = Me.VO.ItemCollection(i)
-          If voi.Level = 0 OrElse voi.ItemType.Value = 160 OrElse voi.ItemType.Value = 162 Then
+          If voi.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1015,7 +1015,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.vo.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim voi As VOItem = Me.VO.ItemCollection(i)
-          If voi.Level = 0 OrElse voi.ItemType.Value = 160 OrElse voi.ItemType.Value = 162 Then
+          If voi.Level = 0 Then
             Exit For
           End If
           lastIndex = i

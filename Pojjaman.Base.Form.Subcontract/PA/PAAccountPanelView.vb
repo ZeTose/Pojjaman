@@ -1392,29 +1392,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
 
       For Each item As PAItem In coll
-        Dim parentRow As TreeRow = CType(parentRowHash(item.Parent), TreeRow)
-        If Not parentRow Is Nothing Then
-          If Not parentRow.Tag Is item Then
-            Dim tr As TreeRow = parentRow.Childs.Add()
-            item.CopyToDataRow(tr)
-            Dim acct As Account
-            Select Case item.ItemType.Value
-              Case 88, 291
-                acct = item.LabAccount
-              Case 89
-                acct = item.EqAccount
-              Case Else
-                acct = item.MatAccount
-            End Select
-            If Not acct Is Nothing Then
-              tr("AccountCode") = acct.Code
-              tr("Account") = acct.Name
-            End If
+        If item.Amount <> 0 AndAlso item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
 
-            tr.Tag = item
+          Dim parentRow As TreeRow = CType(parentRowHash(item.Parent), TreeRow)
+          If Not parentRow Is Nothing Then
+            If Not parentRow.Tag Is item Then
+              Dim tr As TreeRow = parentRow.Childs.Add()
+              item.CopyToDataRow(tr)
+              Dim acct As Account
+              Select Case item.ItemType.Value
+                Case 88, 291
+                  acct = item.LabAccount
+                Case 89
+                  acct = item.EqAccount
+                Case Else
+                  acct = item.MatAccount
+              End Select
+              If Not acct Is Nothing Then
+                tr("AccountCode") = acct.Code
+                tr("Account") = acct.Name
+              End If
+
+              tr.Tag = item
+            End If
+          Else
+            'TODO: กำพร้าแม่
           End If
-        Else
-          'TODO: กำพร้าแม่
         End If
       Next
 

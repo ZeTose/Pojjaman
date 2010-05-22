@@ -242,7 +242,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim childNumber As Integer = 0
         For Each witm As WRItem In Me.ItemCollection
           If witm.Level = 1 Then
-            If (witm.Qty - witm.OrderedQty) > 0 Then
+            If witm.ItemType.Value = 160 OrElse witm.ItemType.Value = 162 Then
+
               key = witm.Parent.ToString
               If Not hash.Contains(key) Then
                 hash(key) = key
@@ -251,15 +252,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   If ParWitm.Level = 0 Then
                     If ParWitm.Sequence.ToString = key Then
                       coll.Add(ParWitm)
-            End If
+                    End If
                   End If
                 Next
               End If
 
               coll.Add(witm)
 
+            Else
+              If (witm.Qty - witm.OrderedQty) > 0 Then
+                key = witm.Parent.ToString
+                If Not hash.Contains(key) Then
+                  hash(key) = key
 
+                  For Each ParWitm As WRItem In Me.ItemCollection
+                    If ParWitm.Level = 0 Then
+                      If ParWitm.Sequence.ToString = key Then
+                        coll.Add(ParWitm)
+                      End If
+                    End If
+                  Next
+                End If
+
+                coll.Add(witm)
+
+              End If
             End If
+
           End If
 
           'If witm.Level = 0 Then
@@ -285,7 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         'End If
         'Next
-      
+
         Return coll
       End Get
     End Property

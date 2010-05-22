@@ -702,31 +702,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sci.Level = wri.Level
             sci.WR = Me.WR
             sci.ItemName = wri.ItemName
-            If Not wri.Unit Is Nothing Then
-              sci.WRIUnit = wri.Unit
-              sci.Unit = wri.Unit
-            End If
-            'If wri.ItemType.Value = 289 Then
-            '  sci.SetWRIQty(wri.Qty - wri.OrderedQty)
-            '  sci.SetWRIOrigingQty(sci.WRIQty)
-            '  sci.SetQty(sci.WRIQty)
-            'Else
-            '  sci.SetWRIQty(wri.Qty)
-            '  sci.SetWRIOrigingQty(wri.Qty)
-            '  sci.SetQty(wri.Qty)
-            'End If
-            If wri.ItemType.Value = 289 Then
-              sci.SetWRIQty(wri.Qty)
-              sci.SetWRIOrigingQty(wri.Qty)
-              sci.SetQty(wri.Qty)
-            Else
-              sci.SetWRIQty(wri.Qty - wri.OrderedQty)
-              sci.SetWRIOrigingQty(sci.WRIQty)
-              sci.SetQty(sci.WRIQty)
-            End If
-            sci.UnitPrice = wri.UnitPrice
 
-            sci.Note = wri.Note
+            If wri.ItemType.Value <> 160 AndAlso wri.ItemType.Value <> 162 Then
+              If Not wri.Unit Is Nothing Then
+                sci.WRIUnit = wri.Unit
+                sci.Unit = wri.Unit
+              End If
+              'If wri.ItemType.Value = 289 Then
+              '  sci.SetWRIQty(wri.Qty - wri.OrderedQty)
+              '  sci.SetWRIOrigingQty(sci.WRIQty)
+              '  sci.SetQty(sci.WRIQty)
+              'Else
+              '  sci.SetWRIQty(wri.Qty)
+              '  sci.SetWRIOrigingQty(wri.Qty)
+              '  sci.SetQty(wri.Qty)
+              'End If
+              If wri.ItemType.Value = 289 Then
+                sci.SetWRIQty(wri.Qty)
+                sci.SetWRIOrigingQty(wri.Qty)
+                sci.SetQty(wri.Qty)
+              Else
+                sci.SetWRIQty(wri.Qty - wri.OrderedQty)
+                sci.SetWRIOrigingQty(sci.WRIQty)
+                sci.SetQty(sci.WRIQty)
+              End If
+              sci.UnitPrice = wri.UnitPrice
+
+              sci.Note = wri.Note
+            End If
 
             sci.WBSDistributeCollection = New WBSDistributeCollection
             AddHandler sci.WBSDistributeCollection.PropertyChanged, AddressOf sci.WBSChangedHandler
@@ -738,6 +741,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In sci.WBSDistributeCollection
               Me.ItemCollection.SetBudgetRemain(wbsd, sci)
             Next
+
           Next
         End If
       End If

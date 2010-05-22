@@ -1492,7 +1492,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1518,7 +1518,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1544,7 +1544,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1570,7 +1570,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1622,7 +1622,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1648,7 +1648,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1674,7 +1674,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 OrElse sci.ItemType.Value = 160 OrElse sci.ItemType.Value = 162 Then
+          If sci.Level = 0 Then
             Exit For
           End If
           lastIndex = i

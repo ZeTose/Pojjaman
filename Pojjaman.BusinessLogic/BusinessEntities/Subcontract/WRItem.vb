@@ -1393,7 +1393,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1419,7 +1419,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1445,7 +1445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1497,7 +1497,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1523,7 +1523,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
@@ -1549,7 +1549,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not Me.wr.ItemCollection(i).NewChild Then
         If i > startIndex Then
           Dim wri As WRItem = Me.wr.ItemCollection(i)
-          If wri.Level = 0 OrElse wri.ItemType.Value = 160 OrElse wri.ItemType.Value = 162 Then
+          If wri.Level = 0 Then
             Exit For
           End If
           lastIndex = i
