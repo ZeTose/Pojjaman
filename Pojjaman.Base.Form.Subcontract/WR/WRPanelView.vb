@@ -939,51 +939,61 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Private ReadOnly Property CurrentRealTagItem() As WRItem
       Get
-        'Return CType(childRow.Tag, wrItem)
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If Not TypeOf row.Tag Is WRItem Then
+          Return Nothing
+        End If
+
+        Dim parentRow As TreeRow = Nothing
+
+        If Not row Is Nothing Then
+          If CType(row.Tag, WRItem).Level = 0 Then
+            parentRow = row
+          Else
+            parentRow = row.Parent
+          End If
+        End If
 
         Try
-          Dim lastIndex As Integer = row.Index
-          Dim startIndex As Integer = row.Index
-
-          For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-            If i > startIndex Then
-              If CType(Me.m_treeManager.Treetable.Childs(i).Tag, WRItem).Level = 0 Then
-                Exit For
-              End If
-              lastIndex = i
-            End If
-          Next
-
-          Dim parentRow As TreeRow = Me.m_treeManager.Treetable.Childs(lastIndex)
+          If parentRow Is Nothing Then
+            Return CType(row.Tag, WRItem)
+          End If
 
           Return CType(parentRow.Tag, WRItem)
+
         Catch ex As Exception
           Return Nothing
         End Try
 
-        'Dim childRow As TreeRow = row.LastChild 'ลูกที่เลือกแถวสุดท้าย ถ้าเลือกแม่อยู่
-        'Dim lastChild As TreeRow = row.Parent.LastChild 'ลูกที่แลือกแถวสุดท้าย ถ้าเลือกลูกอยู่แล้ว
+      End Get
+    End Property
+    Private ReadOnly Property LastChildTagItem As WRItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
 
-        '''เลือกลูก ๆ อยู่แล้ว หรือ ที่เลือกอยู่ไม่มีลูก ๆ (อาจเป็นแม่ ที่ไม่มีลูก หรือ ลูกก็ได้)
-        'If Not lastChild Is Nothing And childRow Is Nothing Then
-        '  If TypeOf lastChild.Tag Is SCItem Then
-        '    If CType(lastChild.Tag, SCItem).Level = 0 Then
-        '      Return CType(row.Tag, SCItem)
-        '    End If
-        '    Return CType(lastChild.Tag, SCItem)
-        '  End If
-        'End If
+        Dim parentRow As TreeRow = Nothing
 
-        '''เลือกแม่ที่มีลูก ๆ อยู่
-        'If Not childRow Is Nothing Then
-        '  If TypeOf childRow.Tag Is SCItem Then
-        '    Return CType(childRow.Tag, SCItem)
-        '  End If
-        'End If
+        Try
+          If Not row Is Nothing Then
+            If CType(row.Tag, WRItem).Level = 0 Then
+              parentRow = row
+            Else
+              parentRow = row.Parent
+            End If
+          End If
 
+          If parentRow Is Nothing Then
+            Return CType(row.Tag, WRItem)
+          End If
+          If parentRow.LastChild Is Nothing Then
+            Return CType(row.Tag, WRItem)
+          End If
 
+          Return CType(parentRow.LastChild.Tag, WRItem)
 
+        Catch ex As Exception
+          Return Nothing
+        End Try
       End Get
     End Property
 #End Region
@@ -1987,10 +1997,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       'Dim index As Integer = tgItem.CurrentRowIndex
-      Dim doc As WRItem = Me.m_entity.ItemCollection.CurrentRealItem
+      Dim doc As WRItem = Me.LastChildTagItem
       If doc Is Nothing Then
         Return
       End If
+
+
+      'Dim row As TreeRow = Me.m_treeManager.SelectedRow
+      'Dim childRow As TreeRow = Nothing
+      'Dim lastChildItem As WRItem = Nothing
+      'If Not row Is Nothing Then
+      '  childRow = row.LastChild
+      '  lastChildItem = CType(childRow.Tag, WRItem)
+      'End If
       'If Not doc.SCItem Is Nothing Then
       '    Return
       'End If
@@ -2000,8 +2019,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       theItem.Level = 0
       theItem.ItemType = New SCIItemType(289)
       theItem.Qty = 0
-      Dim index As Integer = Me.m_entity.ItemCollection.IndexOf(doc)
-      Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
+
+      Dim index As Integer
+      'If lastChildItem Is Nothing Then
+      index = Me.m_entity.ItemCollection.IndexOf(doc)
+      Me.m_entity.ItemCollection.Insert(index + 1, theItem)
+      'Else
+      'index = Me.m_entity.ItemCollection.IndexOf(lastChildItem)
+      'Me.m_entity.ItemCollection.Insert(index + 1, theItem)
+      'End If
+
       RefreshDocs()
       tgItem.CurrentRowIndex = index + 1
       Me.WorkbenchWindow.ViewContent.IsDirty = True

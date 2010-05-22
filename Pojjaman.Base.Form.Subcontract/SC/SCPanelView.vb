@@ -1669,51 +1669,61 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Private ReadOnly Property CurrentRealTagItem() As SCItem
       Get
-        'Return CType(childRow.Tag, SCItem)
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If Not TypeOf row.Tag Is SCItem Then
+          Return Nothing
+        End If
+
+        Dim parentRow As TreeRow = Nothing
+
+        If Not row Is Nothing Then
+          If CType(row.Tag, SCItem).Level = 0 Then
+            parentRow = row
+          Else
+            parentRow = row.Parent
+          End If
+        End If
 
         Try
-          Dim lastIndex As Integer = row.Index
-          Dim startIndex As Integer = row.Index
-
-          For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-            If i > startIndex Then
-              If CType(Me.m_treeManager.Treetable.Childs(i).Tag, SCItem).Level = 0 Then
-                Exit For
-              End If
-              lastIndex = i
-            End If
-          Next
-
-          Dim parentRow As TreeRow = Me.m_treeManager.Treetable.Childs(lastIndex)
+          If parentRow Is Nothing Then
+            Return CType(row.Tag, SCItem)
+          End If
 
           Return CType(parentRow.Tag, SCItem)
+
         Catch ex As Exception
           Return Nothing
         End Try
 
-        'Dim childRow As TreeRow = row.LastChild 'ลูกที่เลือกแถวสุดท้าย ถ้าเลือกแม่อยู่
-        'Dim lastChild As TreeRow = row.Parent.LastChild 'ลูกที่แลือกแถวสุดท้าย ถ้าเลือกลูกอยู่แล้ว
+      End Get
+    End Property
+    Private ReadOnly Property LastChildTagItem As SCItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
 
-        '''เลือกลูก ๆ อยู่แล้ว หรือ ที่เลือกอยู่ไม่มีลูก ๆ (อาจเป็นแม่ ที่ไม่มีลูก หรือ ลูกก็ได้)
-        'If Not lastChild Is Nothing And childRow Is Nothing Then
-        '  If TypeOf lastChild.Tag Is SCItem Then
-        '    If CType(lastChild.Tag, SCItem).Level = 0 Then
-        '      Return CType(row.Tag, SCItem)
-        '    End If
-        '    Return CType(lastChild.Tag, SCItem)
-        '  End If
-        'End If
+        Dim parentRow As TreeRow = Nothing
 
-        '''เลือกแม่ที่มีลูก ๆ อยู่
-        'If Not childRow Is Nothing Then
-        '  If TypeOf childRow.Tag Is SCItem Then
-        '    Return CType(childRow.Tag, SCItem)
-        '  End If
-        'End If
+        Try
+          If Not row Is Nothing Then
+            If CType(row.Tag, SCItem).Level = 0 Then
+              parentRow = row
+            Else
+              parentRow = row.Parent
+            End If
+          End If
 
+          If parentRow Is Nothing Then
+            Return CType(row.Tag, SCItem)
+          End If
+          If parentRow.LastChild Is Nothing Then
+            Return CType(row.Tag, SCItem)
+          End If
 
+          Return CType(parentRow.LastChild.Tag, SCItem)
 
+        Catch ex As Exception
+          Return Nothing
+        End Try
       End Get
     End Property
 #End Region
@@ -2871,22 +2881,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dirtyFlag = True
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      'Dim index As Integer = tgItem.CurrentRowIndex
-      Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentRealItem
+      Dim doc As SCItem = Me.LastChildTagItem
       If doc Is Nothing Then
         Return
       End If
-      'If Not doc.SCItem Is Nothing Then
-      '    Return
-      'End If
-      'Dim newItem As New BlankItem("")
+
       Dim theItem As New SCItem
-      'theItem.Entity = newItem
       theItem.Level = 0
       theItem.ItemType = New SCIItemType(289)
       theItem.Qty = 0
-      Dim index As Integer = Me.m_entity.ItemCollection.IndexOf(doc)
-      Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc) + 1, theItem)
+
+      Dim index As Integer
+      index = Me.m_entity.ItemCollection.IndexOf(doc)
+      Me.m_entity.ItemCollection.Insert(index + 1, theItem)
+
       RefreshDocs()
       tgItem.CurrentRowIndex = index + 1
       Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -2952,122 +2960,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
       Next
-
-      'Me.m_entity.ItemCollection.Remove(doc)
-
-      'Dim index As Integer = tgItem.CurrentRowIndex
-      'Dim isSetIndex As Boolean = False
-
-      'Dim hashParent As New Hashtable
-
-      'Dim rowIndex As Integer = 0
-      'Dim key As String = ""
-
-      'For Each Obj As Object In Me.m_treeManager.SelectedRows
-      '  If Not Obj Is Nothing Then
-      '    Dim row As TreeRow = CType(Obj, TreeRow)
-      '    If Not row Is Nothing Then
-      '      If Not isSetIndex Then
-      '        index = row.Index
-      '        isSetIndex = True
-      '      End If
-      '      Dim sitem As SCItem = CType(row.Tag, SCItem)
-      '      If sitem.Level = 0 Then
-      '        rowIndex += 1
-      '        key = rowIndex.ToString
-      '        hashParent.Add(key, sitem)
-
-      '        Dim startIndex As Integer = row.Index
-      '        Dim lastIndex As Integer = row.Index
-      '        For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-      '          If i > startIndex Then
-      '            Dim sitem2 As SCItem = Me.m_entity.ItemCollection(i)
-      '            If sitem2.Level = 0 Then
-      '              Exit For
-      '            End If
-      '            rowIndex += 1
-      '            key = rowIndex.ToString
-      '            hashParent.Add(key, sitem2)
-      '          End If
-      '        Next
-      '      Else
-      '        rowIndex += 1
-      '        key = rowIndex.ToString
-      '        hashParent.Add(key, sitem)
-      '      End If
-      '    End If
-      '  End If
-      'Next
-
-      'For i As Integer = 1 To hashParent.Count
-      '  key = CStr(i)
-      '  Dim sitem As SCItem = CType(hashParent(key), SCItem)
-      '  If Not sitem Is Nothing Then
-      '    If Me.m_entity.ItemCollection.Contains(sitem) Then
-      '      Me.m_entity.ItemCollection.Remove(sitem)
-      '      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      '    End If
-      '  End If
-      'Next
-
-      'Dim row As TreeRow = Me.m_treeManager.SelectedRow
-
-      'Dim lastIndex As Integer = row.Index
-      'Dim startIndex As Integer = row.Index
-
-      'For i As Integer = startIndex To Me.m_entity.ItemCollection.Count - 1
-      '  If i > startIndex Then
-      '    If CType(Me.m_treeManager.Treetable.Childs(i).Tag, SCItem).Level = 0 Then
-      '      Exit For
-      '    End If
-      '    lastIndex = i
-      '  End If
-      'Next
-
-      'If lastIndex = startIndex Then
-      '  Me.m_entity.ItemCollection.Remove(doc)
-      'Else
-      '  For i As Integer = startIndex To lastIndex
-      '    Me.m_entity.ItemCollection.Remove(i)
-      '  Next
-      'End If
-
-      'Dim rowsCount As Integer = 0
-      'For Each Obj As Object In Me.m_treeManager.SelectedRows
-      '  If Not Obj Is Nothing Then
-      '    rowsCount += 1
-      '    Dim row As TreeRow = CType(Obj, TreeRow)
-      '    If row.Childs.Count > 0 Then
-      '      For Each childRow As TreeRow In row.Childs
-      '        If Not childRow Is Nothing Then
-      '          Dim doc As SCItem = CType(childRow.Tag, SCItem)
-      '          If Not doc Is Nothing Then
-      '            Me.m_entity.ItemCollection.Remove(doc) 'ลบลูก ๆ
-      '          End If
-      '        End If
-      '      Next
-      '    End If
-      '    If Not row Is Nothing Then
-      '      If TypeOf row.Tag Is SCItem Then
-      '        Dim doc As SCItem = CType(row.Tag, SCItem)
-      '        If Not doc Is Nothing Then
-      '          If Me.m_entity.ItemCollection.Contains(doc) Then
-      '            Me.m_entity.ItemCollection.Remove(doc) 'ลบแม่ ๆ
-      '          End If
-      '        End If
-      '      End If
-      '    End If
-      '  End If
-      'Next
-
-      'If rowsCount.Equals(0) Then
-      '  Dim doc As SCItem = Me.m_entity.ItemCollection.CurrentItem
-      '  If doc Is Nothing Then
-      '    Return
-      '  End If
-      '  Me.m_entity.ItemCollection.Remove(doc)
-      'End If
-
 
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True

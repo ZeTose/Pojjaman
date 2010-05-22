@@ -1463,10 +1463,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For i As Integer = startIndex To Me.SC.ItemCollection.Count - 1
         'If Not Me.SC.ItemCollection(i).NewChild Then
         If i > startIndex Then
-          If Me.SC.ItemCollection(i).Level = 0 Then
+          Dim currItem As SCItem = Me.SC.ItemCollection(i)
+          If currItem.Level = 0 Then
             Exit For
           End If
-          lastIndex = i
+          If currItem.ItemType.Value <> 160 AndAlso currItem.ItemType.Value <> 162 Then
+            lastIndex = i
+          End If
         End If
         'End If
       Next
