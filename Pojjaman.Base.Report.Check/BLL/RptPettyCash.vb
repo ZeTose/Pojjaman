@@ -192,7 +192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     If IsNumeric(PCrow("PcRemain")) Then
                         m_grid(currPCIndex, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
                         m_grid(currPCIndex, 9).CellValue = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
-                        tmpPCRemainAmt = Configuration.FormatToString(CDec(PCrow("PcRemain")), DigitConfig.Price)
+                        tmpPCRemainAmt = CDec(PCrow("PcRemain"))
             pcEndingBalance = tmpPCRemainAmt
             'tmpPCRemainAmt = CDec(PCrow("PCAmt"))
                         'tmpInitPCAmt = CDec(PCrow("PCAmt"))
