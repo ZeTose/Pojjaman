@@ -2915,8 +2915,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fnBold
           dpi.DataType = "System.Decimal"
           dpi.Table = "Item"
-          dpi.Font = fn
-          dpi.Row = RowNumber
+                    dpi.Row = RowNumber
           dpiColl.Add(dpi)
 
         End If
