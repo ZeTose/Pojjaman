@@ -905,6 +905,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(ProjectDir)..\Pojjaman\Release.txt $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)..\Pojjaman\Release.txt $(ProjectDir)..\Pojjaman\bin
+copy $(ProjectDir)..\Pojjaman\Externals\*.dll $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
   </PropertyGroup>
 </Project>
