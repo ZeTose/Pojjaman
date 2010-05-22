@@ -2754,9 +2754,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'Item.LineNumber (am เพิ่ม)
           dpi = New DocPrintingItem
-          dpi.Mapping = "Item.LineNumber"
-                    dpi.Value = n + 1 - c
-          dpi.DataType = "System.Int32"
+                    dpi.Mapping = "Item.LineNumber"
+                    If Not itemRow.IsNull("stocki_entitytype") Then
+                        If CDec(itemRow("stocki_entitytype")) = 160 Or CDec(itemRow("stocki_entitytype")) = 162 Then
+                            dpi.Value = ""
+                        Else
+                            dpi.Value = n + 1 - c
+                        End If
+                    End If
+                    dpi.DataType = "System.Int32"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
