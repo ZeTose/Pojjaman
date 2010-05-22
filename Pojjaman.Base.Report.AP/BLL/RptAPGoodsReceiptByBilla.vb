@@ -41,7 +41,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
-      m_grid.ColCount = 13
+      m_grid.ColCount = 14
 
       m_grid.ColWidths(1) = 90
       m_grid.ColWidths(2) = 100
@@ -55,7 +55,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(10) = 100
       m_grid.ColWidths(11) = 100
       m_grid.ColWidths(12) = 100
-      m_grid.ColWidths(13) = 200
+      m_grid.ColWidths(13) = 100
+      m_grid.ColWidths(14) = 200
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -69,7 +70,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 1
       m_grid.Rows.FrozenCount = 1
@@ -82,8 +84,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.SupplierName}")   '"ชื่อผู้ขาย"
       m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.CreditDay}")   '"เครดิต(วัน)"
       m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceDueDate}")   '"กำหนดชำระ"
-      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceCost}")   '"ยอดวางบิล"
-      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Note}")   '"หมายเหตุ"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceCost}")   '"ยอดวางบิล"
+      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Note}")   '"หมายเหตุ"
 
       m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.DocDate}")   '"วันที่เอกสาร"
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.DocCode}")   '"เลขที่ใบส่งสินค้า"
@@ -93,9 +95,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Qty}")   '"จำนวน"
       m_grid(1, 7).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.UnitName}")   '"หน่วย"
       m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.UnitPrice}")   '"ราคา/หน่วย"
-      m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Amount}")   '"จำนวนเงิน"
-      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TaxAmount}")   '"ภาษีมูลค่าเพิ่ม"
-      m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TotalAmount}")   '"รวมเงิน"
+      m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Penalty}")   '"ส่วนลด"
+      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Amount}")   '"จำนวนเงิน"
+      m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TaxAmount}")   '"ภาษีมูลค่าเพิ่ม"
+      m_grid(1, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TotalAmount}")   '"รวมเงิน"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -110,6 +113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -120,10 +124,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
@@ -154,7 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(billaIndex, 5).CellValue = drh.GetValue(Of String)("supplier_name")
           m_grid(billaIndex, 6).CellValue = Configuration.FormatToString(drh.GetValue(Of Integer)("billa_creditPeriod"), DigitConfig.Int)
           m_grid(billaIndex, 7).CellValue = drh.GetValue(Of DateTime)("duedate").ToShortDateString
-          m_grid(billaIndex, 12).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("billa_gross"), DigitConfig.Price)
+          m_grid(billaIndex, 13).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("billa_gross"), DigitConfig.Price)
           m_grid(billaIndex, 1).Tag = "Font.Bold"
           'm_grid.ColStyles(12).ReadOnly = False
 
@@ -177,31 +182,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(GRIndex, 6).CellValue = Configuration.FormatToString(drh1.GetValue(Of Integer)("stocki_qty"), DigitConfig.Qty)
           m_grid(GRIndex, 7).CellValue = indent & drh1.GetValue(Of String)("unit_name")
           m_grid(GRIndex, 8).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_unitPrice"), DigitConfig.Price)
-          m_grid(GRIndex, 9).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_amt"), DigitConfig.Price)
-          m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("taxamt"), DigitConfig.Price)
-          m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_amt") + drh1.GetValue(Of Decimal)("taxamt"), DigitConfig.Price)
+          m_grid(GRIndex, 9).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_discamt"), DigitConfig.Price)
+          m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_amt"), DigitConfig.Price)
+          m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("taxamt"), DigitConfig.Price)
+          m_grid(GRIndex, 12).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stocki_amt") + drh1.GetValue(Of Decimal)("taxamt"), DigitConfig.Price)
         Next
 
         If Not drh1 Is Nothing Then
-        m_grid.RowCount += 1
-        GRIndex = m_grid.RowCount
-        m_grid.RowStyles(GRIndex).Font.Bold = True
-        m_grid(GRIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Total}") ' "รวม"
-        m_grid(GRIndex, 9).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stock_gross"), DigitConfig.Price)
-        m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("grosstaxamt"), DigitConfig.Price)
-        m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stock_gross") + drh1.GetValue(Of Decimal)("grosstaxamt"), DigitConfig.Price)
-        m_grid(GRIndex, 1).Tag = "Font.Bold"
+          m_grid.RowCount += 1
+          GRIndex = m_grid.RowCount
+          m_grid.RowStyles(GRIndex).Font.Bold = True
+          m_grid(GRIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.Total}") ' "รวม"
+          m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stock_gross"), DigitConfig.Price)
+          m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("grosstaxamt"), DigitConfig.Price)
+          m_grid(GRIndex, 12).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("stock_gross") + drh1.GetValue(Of Decimal)("grosstaxamt"), DigitConfig.Price)
+          m_grid(GRIndex, 1).Tag = "Font.Bold"
 
-        m_grid.RowCount += 1
-        GRIndex = m_grid.RowCount
-        m_grid.RowStyles(GRIndex).Font.Bold = True
-        m_grid(GRIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TotalWithDeduct}") & " " & _
-                                       Configuration.FormatToString(drh1.GetValue(Of Decimal)("descreaseAmt"), DigitConfig.Price) '"รวมหัก (ส่วนลด, มัดจำ, Retention) "
-        m_grid(GRIndex, 9).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeduct"), DigitConfig.Price)
-        m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeductTaxAmt"), DigitConfig.Price)
-        m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeduct") + drh1.GetValue(Of Decimal)("GrossWithDeductTaxAmt"), DigitConfig.Price)
-        m_grid(GRIndex, 12).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("billai_amt"), DigitConfig.Price)
-        m_grid(GRIndex, 1).Tag = "Font.Bold"
+          m_grid.RowCount += 1
+          GRIndex = m_grid.RowCount
+          m_grid.RowStyles(GRIndex).Font.Bold = True
+          m_grid(GRIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.TotalWithDeduct}") & " " & _
+                                         Configuration.FormatToString(drh1.GetValue(Of Decimal)("descreaseAmt"), DigitConfig.Price) '"รวมหัก (ส่วนลด, มัดจำ, Retention) "
+          m_grid(GRIndex, 10).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeduct"), DigitConfig.Price)
+          m_grid(GRIndex, 11).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeductTaxAmt"), DigitConfig.Price)
+          m_grid(GRIndex, 12).CellValue = Configuration.FormatToString(drh1.GetValue(Of Decimal)("GrossWithDeduct") + drh1.GetValue(Of Decimal)("GrossWithDeductTaxAmt"), DigitConfig.Price)
+          m_grid(GRIndex, 13).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("billai_amt"), DigitConfig.Price)
+          m_grid(GRIndex, 1).Tag = "Font.Bold"
         End If
       Next
 
@@ -216,7 +222,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For i As Integer = 1 To m_grid.ColCount - 1
         m_grid.ColStyles(i).ReadOnly = True
       Next
-      
+
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
