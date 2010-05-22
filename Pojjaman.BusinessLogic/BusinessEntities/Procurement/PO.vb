@@ -2396,7 +2396,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefPRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-        If prList.StartsWith(",") Then prList = prList.Substring(1)
+                'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefPRCode"
         dpi.Value = prList
@@ -2657,6 +2657,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'UNDONE
         Dim prCode As String = ""
+
         If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
           prCode = item.Pritem.Pr.Code.ToString
         End If
@@ -2664,8 +2665,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not prArr.Contains(prCode) Then
             prArr.Add(prCode)
             prList += "," & prCode
+                        If prList.StartsWith(",") Then
+                            prList = prList.Substring(1)
           End If
         End If
+                End If
       Next
 
       'TotalItem
@@ -2684,7 +2688,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefUngroupPRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-        If prList.StartsWith(",") Then prList = prList.Substring(1)
+                'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefUngroupPRCode"
         dpi.Value = prList
@@ -2987,8 +2991,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not prArr.Contains(prCode) Then
             prArr.Add(prCode)
             prList += "," & prCode
+                        If prList.StartsWith(",") Then
+                            prList = prList.Substring(1)
           End If
         End If
+                End If
       Next
 
       'RefUngroup2PRDocDate
@@ -3005,7 +3012,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefUngroup2PRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-        If prList.StartsWith(",") Then prList = prList.Substring(1)
+                'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefUngroup2PRCode"
         dpi.Value = prList
