@@ -1187,9 +1187,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.Code = Me.GetNextCode
         'End If
         '---- AutoCode Format --------
-        If Me.m_je.AccountBook.AutoCodeFormat Is Nothing Then
+        If Me.m_je.AccountBook Is Nothing OrElse m_je.AccountBook.CodePrefix Is Nothing Then
           Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
-
         End If
         If Not AutoCodeFormat Is Nothing Then
 
