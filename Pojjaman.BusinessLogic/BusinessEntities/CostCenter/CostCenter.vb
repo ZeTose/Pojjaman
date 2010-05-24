@@ -862,6 +862,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       HQ
 
     End Enum
+    Public Shared Function GetCostCenter(ByVal dr As DataRow, ByVal viewType As ViewType) As CostCenter
+      Dim cc As New CostCenter
+      Select Case viewType
+        Case viewType.JournalEntryItem
+          SetMinimumCC(cc, dr)
+
+      End Select
+      Return cc
+    End Function
+    Public Shared Function GetCostCenter(ByVal id As Integer, ByVal viewType As ViewType) As CostCenter
+      Dim cc As New CostCenter
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+          , CommandType.StoredProcedure _
+          , "GetMinCostCenter" _
+        , New SqlParameter("@cc_id", id) _
+          )
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Select Case viewType
+        Case viewType.JournalEntryItem
+          SetMinimumCC(cc, dr)
+
+      End Select
+      Return cc
+    End Function
+    Private Shared Sub SetMinimumCC(ByVal cc As CostCenter, ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+      cc.Id = drh.GetValue(Of Integer)("cc_id")
+      cc.Code = drh.GetValue(Of String)("cc_code")
+      cc.Name = drh.GetValue(Of String)("cc_name")
+    End Sub
 #End Region
 
 #Region "Delete"
@@ -1045,7 +1075,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Code & ":" & Type & ":" & IsControlled.ToString
     End Function
   End Class
-
+  Public Enum ViewType
+    JournalEntryItem
+    GoodsReceiptItem
+  End Enum
   Public Class BudgetCollectionForCC
     Property CostCenter As CostCenter
     Property Budgets As List(Of BudgetForCC)    

@@ -1808,7 +1808,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not value.POitem Is Nothing Then
         If Not value.POitem.Po Is Nothing AndAlso value.POitem.Po.Originated Then
           If Not m_poHash.Contains(value.POitem.Po.Id) Then
-            m_poHash(value.POitem.Po.Id) = New PO(value.POitem.Po.Id)
+            m_poHash(value.POitem.Po.Id) = PO.GetPO(value.POitem.Po.Id, ViewType.GoodsReceiptItem)
+            'm_poHash(value.POitem.Po.Id) = New PO(value.POitem.Po.Id)
           End If
           value.POitem.Po = CType(m_poHash(value.POitem.Po.Id), PO)
         End If

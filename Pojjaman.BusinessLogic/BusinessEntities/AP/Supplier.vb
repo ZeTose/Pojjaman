@@ -583,6 +583,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Public Shared Function GetSupplier(ByVal dr As DataRow) As Supplier
+      Dim sup As New Supplier
+      SetMinimumSup(sup, dr)
+      Return sup
+    End Function
+    Public Shared Sub SetMinimumSup(ByVal sup As Supplier, ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+      sup.Id = drh.GetValue(Of Integer)("supplier_id")
+      sup.Code = drh.GetValue(Of String)("supplier_code")
+      sup.Name = drh.GetValue(Of String)("supplier_name")
+    End Sub
     Public Enum DefaultSupplierType
       PettyCash
       AdvanceMoney

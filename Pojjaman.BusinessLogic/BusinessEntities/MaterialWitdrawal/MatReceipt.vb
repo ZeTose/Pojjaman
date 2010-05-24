@@ -1526,12 +1526,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
         End If
+        If Not originMatched Then
+          'ฝั่งต้นทาง
+          ji = New JournalEntryItem
+          ji.Mapping = "F1.4D"
+          ji.Amount += item.Amount
+          ji.Account = realAccount
+          ji.Note = item.Entity.Code & "/" & item.Entity.Name
+          ji.CostCenter = Me.FromCostCenter
+          jiColl.Add(ji)
+        End If
         If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
           If Not lciMatched Then
             ji = New JournalEntryItem
             ji.Mapping = map
             ji.Amount += item.Amount
             ji.Account = newRealAccount
+            ji.CostCenter = Me.ToCostCenter
+            jiColl.Add(ji)
+          End If
+          If Not lciMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = map & "D"
+            ji.Amount += item.Amount
+            ji.Account = newRealAccount
+            ji.Note = item.Entity.Code & "/" & item.Entity.Name
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
           End If
@@ -1542,6 +1561,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Amount += item.Amount
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = map & "D"
+            ji.Amount += item.Amount
+            ji.Note = item.Entity.Code & "/" & item.Entity.Name
+            ji.CostCenter = Me.ToCostCenter
+            jiColl.Add(ji)
+
           End If
         End If
       Next

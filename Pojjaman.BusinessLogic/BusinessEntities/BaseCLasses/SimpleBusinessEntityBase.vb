@@ -537,61 +537,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@refto_id", Me.Id) _
       , New SqlParameter("@refto_type", Me.EntityId))
     End Function
-    Public Overridable Function IsReferenced() As Boolean
+    Public Sub RefreshRefCancelDelete()
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetIsReferenced" _
+                , "GetRefCancelDeleteStatus" _
                 , New SqlParameter("@entity_id", Me.Id) _
                 , New SqlParameter("@entity_type", Me.EntityId) _
                 )
         If ds.Tables(0).Rows.Count > 0 Then
-          If ds.Tables(0).Rows(0).IsNull(0) Then
-            Return False
+          If Not ds.Tables(0).Rows(0).IsNull("Cancelable") Then
+            m_IsCancelable = CBool(ds.Tables(0).Rows(0)("Cancelable"))
           End If
-          Return CBool(ds.Tables(0).Rows(0)(0))
+          If Not ds.Tables(0).Rows(0).IsNull("IsReferenced") Then
+            m_IsReferenced = CBool(ds.Tables(0).Rows(0)("IsReferenced"))
+          End If
+          If Not ds.Tables(0).Rows(0).IsNull("IsReferedFrom") Then
+            m_IsReferedFrom = CBool(ds.Tables(0).Rows(0)("IsReferedFrom"))
+          End If
         End If
       Catch ex As Exception
       End Try
+    End Sub
+    Private m_IsReferenced As Nullable(Of Boolean)
+    Private m_IsReferedFrom As Nullable(Of Boolean)
+    Private m_IsCancelable As Nullable(Of Boolean)
+    Public Overridable Function IsReferenced() As Boolean
+      If Not m_IsReferenced.HasValue Then
+        RefreshRefCancelDelete()
+      End If
+      If m_IsReferenced.HasValue Then
+        Return m_IsReferenced.Value
+      End If
       Return False
     End Function
     Public Overridable Function IsReferedFrom() As Boolean
-      Try
-        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                Me.ConnectionString _
-                , CommandType.StoredProcedure _
-                , "GetIsReferedFrom" _
-                , New SqlParameter("@refto_id", Me.Id) _
-                , New SqlParameter("@refto_type", Me.EntityId) _
-                )
-        If ds.Tables(0).Rows.Count > 0 Then
-          If ds.Tables(0).Rows(0).IsNull(0) Then
-            Return False
-          End If
-          Return CBool(ds.Tables(0).Rows(0)(0))
-        End If
-      Catch ex As Exception
-      End Try
+      If Not m_IsReferedFrom.HasValue Then
+        RefreshRefCancelDelete()
+      End If
+      If m_IsReferedFrom.HasValue Then
+        Return m_IsReferedFrom.Value
+      End If
       Return False
     End Function
     Public Overridable Function IsCancelable() As Boolean
-      Try
-        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                Me.ConnectionString _
-                , CommandType.StoredProcedure _
-                , "GetIsCancelable" _
-                , New SqlParameter("@entity_id", Me.Id) _
-                , New SqlParameter("@entity_type", Me.EntityId) _
-                )
-        If ds.Tables(0).Rows.Count > 0 Then
-          If ds.Tables(0).Rows(0).IsNull(0) Then
-            Return False
-          End If
-          Return CBool(ds.Tables(0).Rows(0)(0))
-        End If
-      Catch ex As Exception
-      End Try
+      If Not m_IsCancelable.HasValue Then
+        RefreshRefCancelDelete()
+      End If
+      If m_IsCancelable.HasValue Then
+        Return m_IsCancelable.Value
+      End If
       Return False
     End Function
     Public Function GetReferenceDocs() As DataSet

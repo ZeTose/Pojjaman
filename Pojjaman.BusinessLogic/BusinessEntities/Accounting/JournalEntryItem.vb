@@ -65,11 +65,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "cc_id") AndAlso Not dr.IsNull(aliasPrefix & "cc_id") Then
           If Not dr.IsNull("cc_id") Then
-            .m_cc = New CostCenter(dr, "")
+            '.m_cc = New CostCenter(dr, "")
+            .m_cc = CostCenter.GetCostCenter(dr, ViewType.JournalEntryItem)
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "gli_cc") AndAlso Not dr.IsNull(aliasPrefix & "gli_cc") Then
-            .m_cc = New CostCenter(CInt(dr(aliasPrefix & "gli_cc")))
+            '.m_cc = New CostCenter(CInt(dr(aliasPrefix & "gli_cc")))
+            .m_cc = CostCenter.GetCostCenter(CInt(dr(aliasPrefix & "gli_cc")), ViewType.JournalEntryItem)
           End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "gli_entity") AndAlso Not dr.IsNull(aliasPrefix & "gli_entity") Then

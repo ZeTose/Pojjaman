@@ -752,6 +752,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("poi_unvatable", GetType(Boolean)))
       Return myDatatable
     End Function
+    Public Shared Function GetPO(ByVal id As Integer, ByVal viewtype As ViewType) As PO
+      Dim po As New PO
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+          , CommandType.StoredProcedure _
+          , "GetMinPO" _
+        , New SqlParameter("@po_id", id) _
+          )
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Select Case viewtype
+        Case viewtype.GoodsReceiptItem
+          SetMinimumPO(po, dr)
+      End Select
+      Return po
+    End Function
+    Private Shared Sub SetMinimumPO(ByVal po As PO, ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+      po.Id = drh.GetValue(Of Integer)("po_id")
+      po.Code = drh.GetValue(Of String)("po_code")
+      po.DocDate = drh.GetValue(Of DateTime)("po_docdate")
+      po.Supplier = Supplier.GetSupplier(dr)
+    End Sub
 #End Region
 
 #Region "Methods"
