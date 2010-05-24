@@ -1254,17 +1254,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             'Stock Items
             Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "stocki_linenumber"
+      csLineNumber.MappingName = "eqtstocki_linenumber"
             csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.LineNumberHeaderText}")
             csLineNumber.NullText = ""
             csLineNumber.Width = 30
             csLineNumber.DataAlignment = HorizontalAlignment.Center
             csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "stocki_linenumber"
+      csLineNumber.TextBox.Name = "eqtstocki_linenumber"
 
 
             Dim csCode As New TreeTextColumn
-            csCode.MappingName = "Code"
+      csCode.MappingName = "Code"
             csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.CodeHeaderText}")
             csCode.NullText = ""
             csCode.Width = 80
@@ -1278,7 +1278,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler csButton.Click, AddressOf ButtonClick
 
             Dim csName As New TreeTextColumn
-            csName.MappingName = "stocki_itemName"
+      csName.MappingName = "eqtstocki_itemName"
             csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
             csName.NullText = ""
             csName.Width = 180
@@ -1295,7 +1295,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             csUnit.DataAlignment = HorizontalAlignment.Center
 
             Dim csQty As New TreeTextColumn
-            csQty.MappingName = "stocki_qty"
+      csQty.MappingName = "eqtstocki_qty"
             csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
             csQty.NullText = ""
             csQty.Format = "#,###.##"
@@ -1541,22 +1541,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     Me.cmbTaxType.SelectedItem = item
                 End If
             Next
+      RefreshDocs()
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
 
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
+      'UpdateAmount(True)
 
-            UpdateAmount(True)
-
-            RefreshBlankGrid()
+      'RefreshBlankGrid()
 
             SetStatus()
             SetLabelText()
             CheckFormEnable()
             m_isInitialized = True
-        End Sub
+    End Sub
+
         Private Sub VatInputEnabled(ByVal enable As Boolean)
             Me.txtInvoiceCode.Enabled = enable
             Me.txtInvoiceDate.Enabled = enable
@@ -1712,7 +1713,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
             , dtpInvoiceDate _
             , AddressOf UpdateVatAutogenStatus)
             Me.m_isInitialized = flag
-        End Sub
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      ReIndex()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.UpdateAmount(True)
+      Me.m_isInitialized = True
+
+    End Sub
+    Private Sub ReIndex()
+      Dim i As Integer = 0
+      For Each row As DataRow In Me.m_treeManager.Treetable.Rows
+        row("Linenumber") = i + 1
+        i += 1
+      Next
+    End Sub
         Private Sub UpdateAmount(ByVal refresh As Boolean)
             m_isInitialized = False
             If refresh Then

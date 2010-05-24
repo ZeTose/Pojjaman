@@ -1697,7 +1697,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsReceiptStatus(2)
         End If
         '---- AutoCode Format --------
-        Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
+        If Me.m_je.AccountBook Is Nothing OrElse m_je.AccountBook.CodePrefix Is Nothing Then
+          Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
+        End If
         If Not AutoCodeFormat Is Nothing Then
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0

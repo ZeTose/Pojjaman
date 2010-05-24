@@ -38,6 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxType As TaxType
 
     Private m_itemTable As TreeTable
+    Private m_itemcollection As AssetSoldItemCollection
 
 #End Region
 
@@ -197,6 +198,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
+    Public Property ItemCollection() As AssetSoldItemCollection      Get        Return m_itemcollection      End Get      Set(ByVal Value As AssetSoldItemCollection)        m_itemcollection = Value      End Set    End Property
     Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        Dim oldPerson As IBillablePerson = m_customer
         If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
             For Each wht As WitholdingTax In m_whtcol
@@ -1150,7 +1152,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim item As New AssetSoldItem
         item.CopyFromDataRow(CType(e.Row, TreeRow))
         If Not item.Entity Is Nothing AndAlso item.Entity.Id <> 0 Then
-          Dim myAsset As Asset = item.Entity
+          Dim myAsset As IEqtItem = item.Entity
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherIncome)
           If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
             e.Row("stocki_acct") = ga.Account.Id
@@ -2176,4 +2178,218 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
   End Class
+
+  '  Public Class AssetSoldItem
+  '    Inherits EqtItem
+  '#Region "Members"
+  '    Private m_AssetSold As AssetSold
+  '    Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
+
+  '    Private m_sequence As Integer
+
+
+  '    Private m_rentalqty As Integer
+  '    Private m_rentalperday As Decimal
+  '    Private m_rentalAmt As Decimal
+  '    'Private m_WBSDistributeCollection As WBSDistributeCollection
+  '    'Private m_internalChargeCollection As InternalChargeCollection
+  '#End Region
+
+  '#Region "Constructors"
+  '    Public Sub New()
+  '      MyBase.New()
+  '      'm_WBSDistributeCollection = New WBSDistributeCollection
+  '    End Sub
+  '    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+  '      Me.Construct(ds, aliasPrefix)
+  '    End Sub
+  '    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+  '      Me.Construct(dr, aliasPrefix)
+  '    End Sub
+  '    Protected Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+  '      MyBase.Construct(dr, aliasPrefix)
+  '      With Me
+  '        Dim deh As New DataRowHelper(dr)
+
+  '        .m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
+  '        .m_rentalqty = deh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_rentalqty")
+  '        .m_rentalAmt = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount")
+
+  '        '' Sequence Refed to ...
+  '        'If dr.Table.Columns.Contains(aliasPrefix & "refto") AndAlso Not dr.IsNull(aliasPrefix & "refto") Then
+  '        '  .m_sequenceRefedto = CInt(dr(aliasPrefix & "refto"))
+  '        'End If
+
+  '        'If dr.Table.Columns.Contains(aliasPrefix & "stocki_sequence") AndAlso Not dr.IsNull(aliasPrefix & "stocki_sequence") Then
+  '        '  m_sequence = CInt(dr(aliasPrefix & "stocki_sequence"))
+  '        'End If
+
+
+  '      End With
+  '    End Sub
+  '    Protected Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+  '      Dim dr As DataRow = ds.Tables(0).Rows(0)
+  '      Me.Construct(dr, aliasPrefix)
+  '    End Sub
+  '#End Region
+
+  '#Region "Properties"
+  '    'Public Property WBSDistributeCollection() As WBSDistributeCollection  '    '  Get  '    '    Return m_WBSDistributeCollection  '    '  End Get  '    '  Set(ByVal Value As WBSDistributeCollection)  '    '    m_WBSDistributeCollection = Value  '    '  End Set  '    'End Property
+  '    'Public Property InternalChargeCollection() As InternalChargeCollection  '    '  Get  '    '    If m_internalChargeCollection Is Nothing Then  '    '      m_internalChargeCollection = New InternalChargeCollection(Me)
+  '    '    End If  '    '    Return m_internalChargeCollection  '    '  End Get  '    '  Set(ByVal Value As InternalChargeCollection)  '    '    m_internalChargeCollection = Value  '    '  End Set  '    'End Property
+
+  '    'Public ReadOnly Property Sequence() As Integer  '    '  Get  '    '    Return m_sequence  '    '  End Get  '    'End Property
+  '    Public Property RentalPerDay() As Decimal  '      Get  '        Return m_rentalperday  '      End Get  '      Set(ByVal value As Decimal)
+  '        m_rentalperday = value
+  '        m_rentalAmt = m_rentalperday * m_rentalqty
+  '      End Set  '    End Property
+  '    Public Property RentalQty() As Integer
+  '      Get  '        Return m_rentalqty
+  '      End Get  '      Set(ByVal value As Integer)
+  '        m_rentalqty = value
+  '      End Set
+  '    End Property
+  '    Public Property Amount() As Decimal  '      Get  '        Return m_rentalAmt  '      End Get  '      Set(ByVal value As Decimal)
+  '        m_rentalAmt = value
+  '        If m_rentalqty > 0 Then
+  '          m_rentalperday = m_rentalAmt / m_rentalqty
+
+  '        End If
+  '      End Set  '    End Property
+  '    Public Property AssetSold() As AssetSold
+  '      Get  '        Return m_AssetSold  '      End Get  '      Set(ByVal Value As AssetSold)  '        m_AssetSold = Value  '      End Set  '    End Property
+  '    Public Property SequenceRefedto() As Integer  '      Get  '        Return m_sequenceRefedto  '      End Get  '      Set(ByVal Value As Integer)  '        m_sequenceRefedto = Value  '      End Set  '    End Property  '    Public Function DupCode(ByVal myCode As String) As Boolean  '      If Me.AssetSold Is Nothing Then
+  '        Return False
+  '      End If  '      If myCode Is Nothing OrElse myCode.Length = 0 Then
+  '        Return False
+  '      End If
+  '      For Each item As AssetSoldItem In Me.AssetSold.ItemCollection
+  '        If Not item Is Me Then
+  '          Dim theCode As String = ""
+  '          If Not item.Entity Is Nothing Then
+  '            theCode = item.Entity.Code
+  '          End If
+  '          If Not theCode Is Nothing AndAlso theCode.Length > 0 Then
+  '            If myCode.ToLower = theCode.ToLower Then
+  '              Return True
+  '            End If
+  '          End If
+  '        End If
+  '      Next
+  '      Return False
+  '    End Function  '    'Public Sub SetItemCode(ByVal theCode As String)  '    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+  '    '  If Me.ItemType Is Nothing Then
+  '    '    'ไม่มี Type
+  '    '    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+  '    '    Return
+  '    '  End If
+  '    '  'If DupCode(theCode) Then
+  '    '  '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
+  '    '  '    Return
+  '    '  'End If
+  '    '  Select Case Me.ItemType.Value
+  '    '    Case 342 'F/A
+  '    '      If theCode Is Nothing OrElse theCode.Length = 0 Then
+  '    '        If Me.Entity.Code.Length <> 0 Then
+  '    '          If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+  '    '            Me.Clear()
+  '    '          End If
+  '    '        End If
+  '    '        Return
+  '    '      End If
+  '    '      Dim myEquipment As New EquipmentItem(theCode)
+  '    '      If Not myEquipment.Originated Then
+  '    '        msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
+  '    '        Return
+  '    '      Else
+  '    '        Me.Entity = myEquipment
+  '    '      End If
+  '    '    Case 19 'Tool
+  '    '      If theCode Is Nothing OrElse theCode.Length = 0 Then
+  '    '        If Me.Entity.Code.Length <> 0 Then
+  '    '          If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+  '    '            Me.Clear()
+  '    '          End If
+  '    '        End If
+  '    '        Return
+  '    '      End If
+  '    '      Dim myTool As New Tool(theCode)
+  '    '      If Not myTool.Originated Then
+  '    '        msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+  '    '        Return
+  '    '      Else
+  '    '        Me.Entity = myTool
+  '    '      End If
+  '    '    Case Else
+  '    '      msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+  '    '      Return
+  '    '  End Select
+  '    '  Me.Qty = 1
+  '    'End Sub
+  '#End Region
+
+  '#Region "Methods"
+  '    'Public Sub Clear()
+  '    '  'Me.Entity = New AssetSoldItem
+  '    '  Me.Qty = 0
+  '    '  Me.Note = ""
+  '    'End Sub
+  '    Public Overrides Sub ItemValidateRow(ByVal row As DataRow)
+  '      MyBase.ItemValidateRow(row)
+  '      'Dim code As Object = row("Code")
+  '    End Sub
+  '    Public Overrides Sub CopyToDataRow(ByVal row As TreeRow)
+  '      'MyBase.CopyToDataRow(row)
+  '      If row Is Nothing Then
+  '        Return
+  '      End If
+  '      Try
+  '        Me.AssetSold.IsInitialized = False
+  '        Dim rpd As Decimal = 0
+  '        Dim rentrate As Decimal = 0
+  '        row("Linenumber") = Me.LineNumber
+  '        row("Type") = Me.ItemType.Value
+  '        If Not Me.Entity Is Nothing Then
+  '          row("eqtstocki_entity") = Me.Entity.Id
+  '          row("Code") = Me.Entity.Code
+  '          row("Name") = Me.Entity.Name
+  '          If Not Me.Entity.Unit Is Nothing Then
+  '            Me.Unit = Me.Entity.Unit
+  '            row("UnitName") = Me.Entity.Unit.Name
+  '          End If
+  '          rentrate = Me.Entity.RentalRate
+  '        End If
+
+  '        'row("Name") = Me.name
+
+  '        row("Button") = ""
+
+  '        row("Note") = Me.Note
+
+  '        If Me.Qty <> 0 Then
+  '          row("QTY") = Configuration.FormatToString(Me.Qty, DigitConfig.Int)
+  '        Else
+  '          row("QTY") = ""
+  '        End If
+  '        rpd = rentrate * Me.Qty
+  '        If Me.RentalPerDay <> 0 And rpd <> 0 Then
+  '          If Me.RentalPerDay <> 0 Then
+  '            row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
+  '          Else
+  '            row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
+  '            Me.RentalPerDay = rpd
+  '          End If
+  '        Else
+  '          row("RentalPerDay") = ""
+  '        End If
+
+  '        Me.AssetSold.IsInitialized = True
+  '      Catch ex As Exception
+  '        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+  '      End Try
+  '    End Sub
+  '#End Region
+  '  End Class
+
+ 
 End Namespace

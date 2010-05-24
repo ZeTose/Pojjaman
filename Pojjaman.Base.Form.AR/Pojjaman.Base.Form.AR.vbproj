@@ -186,6 +186,9 @@
     <Compile Include="Sales\AssetSoldFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Sales\AssetAccountSoldDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Sales\GoodsSoldDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -278,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales\AssetSoldFilterSubPanel.resx">
       <DependentUpon>AssetSoldFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales\AssetAccountSoldDetail.resx">
+      <DependentUpon>AssetAccountSoldDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales\GoodsSoldDetail.resx">
       <DependentUpon>GoodsSoldDetail.vb</DependentUpon>

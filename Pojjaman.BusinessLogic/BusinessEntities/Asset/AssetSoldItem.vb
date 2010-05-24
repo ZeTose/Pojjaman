@@ -10,7 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class AssetSoldItem
-
+    Inherits EqtItem
 #Region "Members"
         Private m_assetSold As AssetSold
         Private m_lineNumber As Integer
@@ -137,7 +137,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-        Public Property AssetSold() As AssetSold            Get                Return m_assetSold            End Get            Set(ByVal Value As AssetSold)                m_assetSold = Value            End Set        End Property        Public Property LineNumber() As Integer            Get                Return m_lineNumber            End Get            Set(ByVal Value As Integer)                m_lineNumber = Value            End Set        End Property        Public Property ItemType() As Integer            Get                Return m_itemType            End Get            Set(ByVal Value As Integer)                m_itemType = Value            End Set        End Property        Public Property Entity() As Asset            Get                Return m_entity            End Get            Set(ByVal Value As Asset)                m_entity = Value            End Set        End Property        Public Property EntityName() As String            Get                Return m_entityName            End Get            Set(ByVal Value As String)                m_entityName = Value            End Set        End Property        Public Property Unit() As Unit            Get                Return m_unit            End Get            Set(ByVal Value As Unit)                m_unit = Value            End Set        End Property        Public Property Qty() As Decimal            Get                Return m_qty            End Get            Set(ByVal Value As Decimal)                m_qty = Value            End Set        End Property        Public Property UnitPrice() As Decimal            Get                Return m_unitPrice            End Get            Set(ByVal Value As Decimal)                m_unitPrice = Value            End Set        End Property        Public Property UnitCost() As Decimal            Get                Return m_unitCost            End Get            Set(ByVal Value As Decimal)                m_unitCost = Value            End Set        End Property        Public Property Note() As String            Get                Return m_note            End Get            Set(ByVal Value As String)                m_note = Value            End Set        End Property        Public Property Account() As Account            Get
+        Public Property AssetSold() As AssetSold            Get                Return m_assetSold            End Get            Set(ByVal Value As AssetSold)                m_assetSold = Value            End Set        End Property        Public Property LineNumber() As Integer            Get                Return m_lineNumber            End Get            Set(ByVal Value As Integer)                m_lineNumber = Value            End Set        End Property        Public Property ItemType() As Integer            Get                Return m_itemType            End Get            Set(ByVal Value As Integer)                m_itemType = Value            End Set        End Property    'Public Property Entity() As Asset    '    Get    '        Return m_entity    '    End Get    '    Set(ByVal Value As Asset)    '        m_entity = Value    '    End Set    'End Property        Public Property EntityName() As String            Get                Return m_entityName            End Get            Set(ByVal Value As String)                m_entityName = Value            End Set        End Property        Public Property Unit() As Unit            Get                Return m_unit            End Get            Set(ByVal Value As Unit)                m_unit = Value            End Set        End Property        Public Property Qty() As Decimal            Get                Return m_qty            End Get            Set(ByVal Value As Decimal)                m_qty = Value            End Set        End Property        Public Property UnitPrice() As Decimal            Get                Return m_unitPrice            End Get            Set(ByVal Value As Decimal)                m_unitPrice = Value            End Set        End Property        Public Property UnitCost() As Decimal            Get                Return m_unitCost            End Get            Set(ByVal Value As Decimal)                m_unitCost = Value            End Set        End Property        Public Property Note() As String            Get                Return m_note            End Get            Set(ByVal Value As String)                m_note = Value            End Set        End Property        Public Property Account() As Account            Get
                 Return Me.m_account
             End Get
             Set(ByVal Value As Account)
@@ -353,6 +353,189 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
     End Class
+
+  <Serializable(), Reflection.DefaultMember("Item")> _
+  Public Class AssetSoldItemCollection
+    Inherits CollectionBase
+
+#Region "Members"
+    Private m_AssetSold As AssetSold
+#End Region
+
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+    Public Sub New(ByVal owner As AssetSold)
+      Me.m_AssetSold = owner
+      If Not Me.m_AssetSold.Originated Then
+        Return
+      End If
+
+      Dim sqlConString As String = Services.RecentCompanies.CurrentCompany.ConnectionString
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetAssetSoldItems" _
+      , New SqlParameter("@eqtstock_id", Me.m_AssetSold.Id) _
+      )
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New AssetSoldItem(row, "")
+        item.AssetSold = m_AssetSold
+        Me.Add(item)
+        'Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        'item.WBSDistributeCollection = wbsdColl
+        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  wbsdColl.Add(wbsd)
+        'Next
+
+        'Dim itcColl As New InternalChargeCollection(item)
+        'item.InternalChargeCollection = itcColl
+        'For Each itcRow As DataRow In ds.Tables(2).Select("itci_refsequence=" & item.Sequence)
+        '  Dim itc As New InternalCharge(itcRow, "")
+        '  itcColl.Add(itc)
+        'Next
+      Next
+    End Sub
+#End Region
+
+#Region "Properties"
+    Public Property AssetSold() As AssetSold
+      Get        Return m_AssetSold
+      End Get      Set(ByVal Value As AssetSold)        m_AssetSold = Value
+      End Set    End Property    Default Public Property Item(ByVal index As Integer) As AssetSoldItem
+      Get
+        Return CType(MyBase.List.Item(index), AssetSoldItem)
+      End Get
+      Set(ByVal value As AssetSoldItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
+    Public Property CurrentItem() As AssetSoldItem
+    '  Get
+    '    Return m_currentItem
+    '  End Get
+    '  Set(ByVal Value As EqtItem)
+    '    m_currentItem = Value
+    '  End Set
+    'End Property
+    Public ReadOnly Property Gross As Decimal
+      Get
+        Dim ret As Decimal = 0
+        For Each Item As AssetSoldItem In Me
+          ret += Item.Amount
+        Next
+        Return ret
+      End Get
+    End Property
+#End Region
+
+#Region "Class Methods"
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each gri As AssetSoldItem In Me
+        i += 1
+        Dim newRow As TreeRow = dt.Childs.Add()
+        gri.CopyToDataRow(newRow)
+        gri.ItemValidateRow(newRow)
+        newRow.Tag = gri
+      Next
+      dt.AcceptChanges()
+    End Sub
+#End Region
+
+#Region "Collection Methods"
+    Public Overridable Function Add(ByVal value As AssetSoldItem) As Integer
+      If Not m_AssetSold Is Nothing Then
+        value.AssetSold = m_AssetSold
+      End If
+      Return MyBase.List.Add(value)
+    End Function
+    Public Sub AddRange(ByVal value As AssetSoldItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As AssetSoldItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As AssetSoldItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As AssetSoldItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Shadows Function GetEnumerator() As AssetSoldItemEnumerator
+      Return New AssetSoldItemEnumerator(Me)
+    End Function
+    Public Function IndexOf(ByVal value As AssetSoldItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Overridable Sub Insert(ByVal index As Integer, ByVal value As AssetSoldItem)
+      If Not m_AssetSold Is Nothing Then
+        value.AssetSold = m_AssetSold
+      End If
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As AssetSoldItem)
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As AssetSoldItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
+#End Region
+
+    Public Class AssetSoldItemEnumerator
+      Implements IEnumerator
+
+#Region "Members"
+      Private m_baseEnumerator As IEnumerator
+      Private m_temp As IEnumerable
+#End Region
+
+#Region "Construtor"
+      Public Sub New(ByVal mappings As AssetSoldItemCollection)
+        Me.m_temp = mappings
+        Me.m_baseEnumerator = Me.m_temp.GetEnumerator
+      End Sub
+#End Region
+
+      Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
+        Get
+          Return CType(Me.m_baseEnumerator.Current, AssetSoldItem)
+        End Get
+      End Property
+
+      Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
+        Return Me.m_baseEnumerator.MoveNext
+      End Function
+
+      Public Sub Reset() Implements System.Collections.IEnumerator.Reset
+        Me.m_baseEnumerator.Reset()
+      End Sub
+    End Class
+
+    Function EqIdList() As Object
+      Dim list As New Generic.List(Of String)
+      For Each i As AssetSoldItem In Me
+        If TypeOf i.Entity Is EquipmentItem Then
+          list.Add(i.Entity.Id.ToString)
+        End If
+      Next
+      Return String.Join(",", list)
+
+    End Function
+
+  End Class
 
 End Namespace
 
