@@ -19,6 +19,8 @@
     <EntityFilter id="stocksequence" entity="stocksequence" filter="Longkong.Pojjaman.Gui.Panels.StockSequenceFilterSubPanel"/>
     <EntityFilter id="mattransfer" entity="mattransfer" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
     <EntityFilter id="matreceipt" entity="matreceipt" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
+    <EntityFilter id="matoperationwithdraw" entity="matoperationwithdraw" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
+    <EntityFilter id="matoperationreturn" entity="matoperationreturn" filter="Longkong.Pojjaman.Gui.Panels.MaterialTransferFilterSubPanel"/>
     <EntityFilter id="equipmenttoolwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>
     <EntityFilter id="equipmenttoolreturn" entity="equipmenttoolreturn" filter="Longkong.Pojjaman.Gui.Panels.EqtReturnFilterSubPanel"/>
     <EntityFilter id="equipmenttoolchangestatus" entity="equipmenttoolchangestatus" filter="Longkong.Pojjaman.Gui.Panels.EqtChangeStatusFilterSubPanel"/>
@@ -47,6 +49,17 @@
 		<EntityTab id="unit">
 			<!--<EntityTab id="UnitDetailView" view="Longkong.Pojjaman.Gui.Panels.UnitDetailView"/>-->
 		</EntityTab>
+
+    <EntityTab id="matoperationwithdraw">
+      <EntityTab id="MatOperationWithdrawDetailView" view="Longkong.Pojjaman.Gui.Panels.MatOperationWithdrawDetailView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+    </EntityTab>
+    <EntityTab id="matoperationreturn">
+      <EntityTab id="MatOperationReturnDetailView" view="Longkong.Pojjaman.Gui.Panels.MatOperationReturnDetailView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+    </EntityTab>
 
     <EntityTab id="mattransfer">
       <EntityTab id="MatTransferDetailView" view="Longkong.Pojjaman.Gui.Panels.MatTransferDetailView"/>

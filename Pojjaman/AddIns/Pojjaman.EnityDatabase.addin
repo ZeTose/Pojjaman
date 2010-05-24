@@ -84,7 +84,11 @@
 				<MenuItem id="LaborSeparator" label="-"/>
 				<MenuItem id="Labor" icon="Icons.16x16.Labor" label="${res:MainMenu.ItemMenu.LaborList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Labor"/>
 				<MenuItem id="LaborGroup" label="${res:MainMenu.ItemMenu.LaborGroup}" icon="Icons.16x16.LaborGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LaborGroup"/>
+
         <MenuItem id="EqSeparator" label="-"/>
+        <MenuItem id="MatOperationWithdraw" icon="Icons.16x16.MatOperationWithdraw" label="${res:MainMenu.StockMenu.MatOperationWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationWithdraw"/>
+        <MenuItem id="MatOperationReturn" icon="Icons.16x16.MatOperationReturn" label="${res:MainMenu.StockMenu.MatOperationReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationReturn"/>
+               
         <MenuItem id="MatTransfer" icon="Icons.16x16.MatTransfer" label="${res:MainMenu.StockMenu.MatTransfer}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatTransfer"/>
         <MenuItem id="MatReceipt" icon="Icons.16x16.MatReceipt" label="${res:MainMenu.StockMenu.MatReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReceipt"/>
         <MenuItem id="MatTransferSeparator" label="-"/>			

@@ -164,6 +164,12 @@
     <Compile Include="Labor\LaborDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Material\MatOperationReturnDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Material\MatOperationWithdrawDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Material\CostCenterMatListDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +241,11 @@
     </Compile>
     <Compile Include="Material\UnitListView.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StockSequence\ReSaveStockDetail.vb">
       <SubType>UserControl</SubType>
@@ -314,6 +325,12 @@
     <EmbeddedResource Include="Labor\LaborDetailView.resx">
       <DependentUpon>LaborDetailView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Material\MatOperationReturnDetailView.resx">
+      <DependentUpon>MatOperationReturnDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\MatOperationWithdrawDetailView.resx">
+      <DependentUpon>MatOperationWithdrawDetailView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Material\CostCenterMatListDetail.resx">
       <DependentUpon>CostCenterMatListDetail.vb</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +403,11 @@
     <EmbeddedResource Include="Material\UnitListView.resx">
       <DependentUpon>UnitListView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="StockSequence\ReSaveStockDetail.resx">
       <DependentUpon>ReSaveStockDetail.vb</DependentUpon>
     </EmbeddedResource>
@@ -435,9 +457,7 @@
       <DependentUpon>ToolWithdrawFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

@@ -596,6 +596,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessEntities\MaterialWitdrawal\ApprovalStoreComment.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationWithdrawItem.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationReturn.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationWithdraw.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatReceiptItem.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatOpenningBalance.vb">
       <SubType>Code</SubType>
