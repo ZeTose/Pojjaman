@@ -672,28 +672,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             lciToCompare = Me
           ElseIf theLevel = Me.Level - 1 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
-            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
           ElseIf theLevel = Me.Level - 2 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(Me.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 3 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(Me.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 4 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(Me.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
           End If
           If Not row.IsNull("unit_id") Then
             Dim refUnit As New Unit(CInt(row("unit_id")))
@@ -875,7 +875,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return False
     End Function
+    Public Shared Function GetLciItemById(ByVal id As Integer) As LCIItem
+      Dim key As String = id.ToString
+      Dim row As DataRow = CType(LCIItem.AllLciitems(key), DataRow)
+      Dim lci As New LCIItem(row, "") 'Pui
+      Return lci
+    End Function
+    Public Shared Function GetLciConversionByIdUnitId(ByVal id As Integer, ByVal unitId As Integer) As Decimal
+      Dim newLci As LCIItem = LCIItem.GetLciItemById(id)
+      Select Case unitId
+        Case newLci.DefaultUnit.Id
+          Return 1
+        Case newLci.CompareUnit1.Id
+          Return newLci.ConversionUnit1
+        Case newLci.CompareUnit2.Id
+          Return newLci.ConversionUnit2
+        Case newLci.CompareUnit3.Id
+          Return newLci.ConversionUnit3
+      End Select
+      Return 0
+    End Function
     Public Function GetConversion(ByVal unit As Unit) As Decimal
+
+      Dim conversion As Decimal = LCIItem.GetLciConversionByIdUnitId(Me.Id, unit.Id)
+      If conversion <> 0 Then
+        Return conversion
+      End If
+    
       Try
         If SqlHelper.GetVersion >= "1.01.0003" OrElse SqlHelper.CheckObjectExist("GetLCIConversion") Then
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -1087,7 +1113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           parID = Me.Id
         Else
           parID = DBNull.Value
-        End If        
+        End If
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32

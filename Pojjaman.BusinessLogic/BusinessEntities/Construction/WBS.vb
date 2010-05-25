@@ -876,7 +876,10 @@ Public Class LevelPropertyAttribute
       Return 0
     End Function
 
-    Public Function GetBoqItemConversion(ByVal lci_id As Integer, ByVal unit_id As Integer) As Decimal      Try
+    Public Function GetBoqItemConversion(ByVal lci_id As Integer, ByVal unit_id As Integer) As Decimal      Dim conversion As Decimal = LCIItem.GetLciConversionByIdUnitId(lci_id, unit_id)
+      If conversion <> 0 Then
+        Return conversion
+      End If      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
                 , CommandType.StoredProcedure _

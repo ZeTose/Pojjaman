@@ -78,11 +78,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Select Case .m_itemType.Value
           Case 42 '"lci"
             If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-              If Not dr.IsNull("lci_id") Then
-                .m_entity = New LCIItem(dr, "")
-              End If
-            Else
-              .m_entity = New LCIItem(itemId)
+              .m_entity = LCIItem.GetLciItemById(itemId)
+              '  If Not dr.IsNull("lci_id") Then
+              '    .m_entity = New LCIItem(dr, "")
+              '  End If
+              'Else
+              '  .m_entity = New LCIItem(itemId)
             End If
           Case 19 '"tool"
             If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
@@ -95,11 +96,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 88, 89
             If itemId > 0 Then
               If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                If Not dr.IsNull("lci_id") Then
-                  .m_entity = New LCIItem(dr, "")
-                End If
-              Else
-                .m_entity = New LCIItem(itemId)
+                .m_entity = LCIItem.GetLciItemById(itemId)
+                '  If Not dr.IsNull("lci_id") Then
+                '    .m_entity = New LCIItem(dr, "")
+                '  End If
+                'Else
+                '  .m_entity = New LCIItem(itemId)
               End If
             Else
               .m_entity = New BlankItem(.m_entityName)
@@ -145,9 +147,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then
-            Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+            'Dim lci As LCIItem = CType(Me.Entity, LCIItem)
             Try
-              Me.Conversion = lci.GetConversion(Me.Unit)
+              Me.Conversion = CType(Me.Entity, LCIItem).GetConversion(Me.Unit)
             Catch ex As NoConversionException
               Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
               If Not msgServ Is Nothing Then
