@@ -1816,7 +1816,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
-
+    Dim doc As PAItem = Nothing
+    Dim value As Decimal = 0
+    Dim paType As PAIItemType = Nothing
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -1828,7 +1830,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      Dim doc As PAItem = Me.m_entity.ItemCollection.CurrentItem
+      doc = Me.m_entity.ItemCollection.CurrentItem
+      'doc = CType(Me.m_treeManager.SelectedRow.Tag, PAItem)
 
       '    ''If tick checkbox that not in the current hilight row
       If doc Is Nothing Then
@@ -1879,7 +1882,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
-            Dim value As Decimal = 0    'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             If Not e.ProposedValue = "" Then
               If IsNumeric(e.ProposedValue) Then
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
@@ -1892,7 +1894,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
-            Dim value As Decimal = 0    'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             If Not e.ProposedValue = "" Then
               If IsNumeric(e.ProposedValue) Then
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
@@ -1901,16 +1902,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             doc.ReceiveAmount = value
             UpdateAmount()
           Case "pai_entitytype"
-            Dim value As PAIItemType
             If IsNumeric(e.ProposedValue) Then
-              value = New PAIItemType(CInt(e.ProposedValue))
+              paType = New PAIItemType(CInt(e.ProposedValue))
             End If
-            doc.ItemType = value
+            doc.ItemType = paType
           Case "pai_unitprice"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
-            Dim value As Decimal = 0    'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             If Not e.ProposedValue = "" Then
               If IsNumeric(e.ProposedValue) Then
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
@@ -3089,11 +3088,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handler"
-    'Private currentY As Integer = -1
+    Private currentY As Integer = -1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
       'If tgItem.CurrentRowIndex <> currentY Then
       Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-      Me.m_entity.ItemCollection.CurrentRealItem = Me.CurrentRealTagItem
+      'Me.m_entity.ItemCollection.CurrentRealItem = Me.CurrentRealTagItem
       'RefreshWBS()
       'currentY = tgItem.CurrentRowIndex
       'End If

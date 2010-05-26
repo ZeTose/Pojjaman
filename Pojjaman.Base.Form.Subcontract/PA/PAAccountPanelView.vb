@@ -754,7 +754,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
-
+    Dim doc As PAItem
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -769,7 +769,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If tag Is Nothing Then
         Return
       End If
-      Dim doc As PAItem
+
       Dim accType As String = "mataccount"
       If TypeOf tag Is PAItem Then
         doc = CType(tag, PAItem)
@@ -2233,6 +2233,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 
+#End Region
+
+#Region "After the main entity has been saved"
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      If Not successful Then
+        Return
+      End If
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+    Public Overrides Sub NotifyBeforeSave()
+      MyBase.NotifyBeforeSave()
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
 #End Region
 
     Private Sub ibtnCopyMe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
