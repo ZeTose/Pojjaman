@@ -463,8 +463,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Dim m_AdvisReference As Nullable(Of Boolean)
     Public Overrides Function IsReferenced() As Boolean
       Try
+        If m_AdvisReference.HasValue Then
+          Return m_AdvisReference.Value
+        End If
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
                 , CommandType.StoredProcedure _
@@ -473,9 +477,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 )
         If ds.Tables(0).Rows.Count > 0 Then
           If ds.Tables(0).Rows(0).IsNull(0) Then
+            m_AdvisReference = False
             Return False
           End If
-          Return CBool(ds.Tables(0).Rows(0)(0))
+          m_AdvisReference = CBool(ds.Tables(0).Rows(0)(0))
+          Return m_AdvisReference.Value
         End If
       Catch ex As Exception
       End Try
@@ -1329,7 +1335,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
         ' Hack :
-        Return Me.IsReferenced() 'True
+        Return Not Me.IsReferenced() 'True
       End Get
     End Property
     Public Overrides Function Delete() As SaveErrorException
