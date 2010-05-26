@@ -110,6 +110,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .cc_boq = New BOQ
         .cc_isactive = True
         BudgetCollectionForCC = New BudgetCollectionForCC(Me)
+        CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -236,6 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.LoadImage()
       End With
       BudgetCollectionForCC = New BudgetCollectionForCC(Me)
+      CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
     End Sub
 
     Public Sub LoadImage(ByVal reader As IDataReader)
@@ -556,10 +558,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
             Me.PrepareImageParams(paramArrayList)
             sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-            SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
 
             If Not Me.cc_ccuseraccesscol Is Nothing AndAlso Me.cc_ccuseraccesscol.Count >= 0 Then
-              Me.cc_ccuseraccesscol.Save(Me)
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, "delete from usercostcenter where usercc_cc=" & Me.Id)
+
+              Me.cc_ccuseraccesscol.Save(Me, conn, trans)
+
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUserCostCenterFromParentCC", New SqlParameter("@cc_id", Me.Id))
             End If
             If Not Me.BudgetCollectionForCC Is Nothing Then
               Me.BudgetCollectionForCC.Save()

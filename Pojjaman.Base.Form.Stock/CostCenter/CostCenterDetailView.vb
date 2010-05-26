@@ -1148,7 +1148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
 
-      Dim dt As TreeTable = Me.GetSchemaTable
+      Dim dt As TreeTable = CostCenterDetailView.GetSchemaTable
       Dim dst As DataGridTableStyle = Me.CreateTableStyle
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
@@ -1384,7 +1384,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Set(ByVal Value As ISimpleEntity)
         Me.m_entity = CType(Value, CostCenter)
 
-        Me.m_entity.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_entity)
+        'Me.m_entity.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_entity)
 
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
@@ -1713,6 +1713,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity.CostCenterUserAccessCollection.Add(doc)
         'End If
       Next
+      'Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click

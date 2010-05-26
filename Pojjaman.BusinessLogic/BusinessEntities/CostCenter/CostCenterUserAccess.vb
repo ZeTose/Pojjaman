@@ -360,27 +360,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row.Delete()
         Next
 
-        Dim userList As String
+        'Dim userList As String
+        'Dim hashParentUser As Hashtable = Me.getParrentUserHash
+
         For Each item As CostCenterUserAccess In Me
           Dim dr As DataRow = dt.NewRow
           dr("usercc_user") = item.UserId
-          userList = userList + "," + item.UserId.ToString
+          'userList = userList + "," + item.UserId.ToString
           dr("usercc_cc") = cc.Id
           dr("usercc_value") = item.AccessValue
           dt.Rows.Add(dr)
         Next
 
-        userList = LTrim(userList)
+        'userList = LTrim(userList)
 
-        Dim dtParentUser As DataTable = getParrentUser(cc.Parent.Path, userList)
+        'Dim dtParentUser As DataTable = getParrentUser(cc.Parent.Path, userList)
 
-        For Each drChilds As DataRow In dtParentUser.Rows
-          Dim dr As DataRow = dt.NewRow
-          dr("usercc_user") = drChilds("usercc_user")
-          dr("usercc_cc") = cc.Id
-          dr("usercc_value") = 1
-          dt.Rows.Add(dr)
-        Next
+        'For Each drChilds As DataRow In dtParentUser.Rows
+        '  Dim dr As DataRow = dt.NewRow
+        '  dr("usercc_user") = drChilds("usercc_user")
+        '  dr("usercc_cc") = cc.Id
+        '  dr("usercc_value") = 1
+        '  dt.Rows.Add(dr)
+        'Next
 
         ' First process deletes.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -392,6 +394,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
         Return New SaveErrorException("Error Saving:" & ex.ToString)
       End Try
+    End Function
+    Public Function Save(ByVal cc As CostCenter, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Dim hashParentUser As Hashtable = Me.getParrentUserHash(cc)
+
+      'Dim userList As String
+      For Each item As CostCenterUserAccess In Me
+        If Not hashParentUser.Contains(item.UserId) Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, "INSERT INTO usercostcenter VALUES (" & item.UserId & "," & cc.Id & ",1)")
+        End If
+      Next
+
+      Return New SaveErrorException("1")
+
+      'Try
+      '  Dim cmd As SqlCommand = conn.CreateCommand
+      '  cmd.Transaction = trans
+      '  cmd.CommandText = "select * from usercostcenter where usercc_cc=" & cc.Id
+
+      '  Dim m_dataset As New DataSet
+      '  Dim m_da As New SqlDataAdapter
+      '  m_da.SelectCommand = cmd
+
+      '  m_da.Fill(m_dataset, "UserCostCenter")
+
+      '  Dim cmdBuilder As New SqlCommandBuilder(m_da)
+
+      '  Dim dt As DataTable = m_dataset.Tables("UserCostCenter")
+      '  For Each row As DataRow In dt.Rows
+      '    row.Delete()
+      '  Next
+
+      '  'Dim hashParentUser As Hashtable = Me.getParrentUserHash(cc)
+
+      '  'Dim userList As String
+      '  For Each item As CostCenterUserAccess In Me
+      '    'If Not hashParentUser.Contains(item.UserId) Then
+      '    Dim dr As DataRow = dt.NewRow
+      '    dr("usercc_user") = item.UserId
+      '    'userList = userList + "," + item.UserId.ToString
+      '    dr("usercc_cc") = cc.Id
+      '    dr("usercc_value") = item.AccessValue
+      '    dt.Rows.Add(dr)
+      '    'End If
+      '  Next
+
+      '  ' First process deletes.
+      '  m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      '  ' Next process updates.
+      '  m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      '  ' Finally process inserts.
+      '  m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+      '  Return New SaveErrorException("1")
+      'Catch ex As Exception
+      '  Return New SaveErrorException("Error Saving:" & ex.ToString)
+      'End Try
+
     End Function
     Public Function Save(ByVal user As User) As SaveErrorException
       Try
@@ -514,17 +572,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return Nothing
     End Function
-    Private Function getParrentUser(ByVal path As String, ByVal userList As String) As DataTable
+    Private Function getParrentUserHash(ByVal cc As CostCenter) As Hashtable
+      Dim myHashUser As New Hashtable
       Dim ds As DataSet = SqlHelper.ExecuteDataset(RecentCompanies.CurrentCompany.ConnectionString _
-, CommandType.StoredProcedure _
-, "getParrentUserforCC" _
-, New SqlParameter("@path", path) _
-, New SqlParameter("@userList", userList) _
-)
-      If ds.Tables(0).Rows.Count > 0 Then
-        Return ds.Tables(0)
-      End If
-      Return Nothing
+      , CommandType.StoredProcedure, "getParrentUserforCC", New SqlParameter("@cc_id", cc.Id))
+      For Each row As DataRow In ds.Tables(0).Rows
+        If Not row.IsNull("user_id") AndAlso IsNumeric(row("user_Id")) Then
+          myHashUser(CInt(row("user_Id"))) = CInt(row("user_id"))
+        End If
+      Next
+      Return myHashUser
     End Function
 #End Region
 

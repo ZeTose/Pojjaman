@@ -411,7 +411,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Set(ByVal Value As ISimpleEntity)
         Me.m_entity = CType(Value, CostCenter)
 
-        Me.m_entity.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_entity)
+        'Me.m_entity.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_entity)
 
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
@@ -674,6 +674,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End Select
         End If
       End If
+    End Sub
+#End Region
+
+#Region "After the main entity has been saved"
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      If Not successful Then
+        Return
+      End If
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+    Public Overrides Sub NotifyBeforeSave()
+      MyBase.NotifyBeforeSave()
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
     End Sub
 #End Region
 
