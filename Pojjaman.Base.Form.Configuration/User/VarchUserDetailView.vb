@@ -267,6 +267,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+#Region "After the main entity has been saved"
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      If Not successful Then
+        Return
+      End If
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+    Public Overrides Sub NotifyBeforeSave()
+      MyBase.NotifyBeforeSave()
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+#End Region
+
     Private Sub chkDocType1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDocType1.CheckedChanged
       If Not m_isInitialized Then
         Return
@@ -290,19 +303,5 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.CanSeeAllDocType0 = chkDocType0.Checked
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
-
-#Region "After the main entity has been saved"
-    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
-      If Not successful Then
-        Return
-      End If
-      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
-    End Sub
-    Public Overrides Sub NotifyBeforeSave()
-      MyBase.NotifyBeforeSave()
-      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
-    End Sub
-#End Region
-
   End Class
 End Namespace

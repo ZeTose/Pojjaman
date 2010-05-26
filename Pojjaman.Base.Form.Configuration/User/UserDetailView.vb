@@ -5,68 +5,68 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class UserDetailView
+  Public Class UserDetailView
     'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IHelperCapable, IValidatable
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtGroup As System.Windows.Forms.TextBox
-        Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
-        Friend WithEvents lblPassword As System.Windows.Forms.Label
-        Friend WithEvents txtPassword As System.Windows.Forms.TextBox
-        Friend WithEvents lblGroup As System.Windows.Forms.Label
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents btnResetPassword As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents picImage As System.Windows.Forms.PictureBox
-        Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents lblItem As System.Windows.Forms.Label
-        Friend WithEvents chkAllCC As System.Windows.Forms.CheckBox
-        Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblPicSize As System.Windows.Forms.Label
-        Friend WithEvents lblPR As System.Windows.Forms.Label
-        Friend WithEvents lblPO As System.Windows.Forms.Label
-        Friend WithEvents lblDO As System.Windows.Forms.Label
-        Friend WithEvents grbApproveLevel As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblLevelPR As System.Windows.Forms.Label
-        Friend WithEvents lblLevelPO As System.Windows.Forms.Label
-        Friend WithEvents lblLevelDO As System.Windows.Forms.Label
-        Friend WithEvents nudLevelApprovePR As System.Windows.Forms.NumericUpDown
-        Friend WithEvents nudLevelApprovePO As System.Windows.Forms.NumericUpDown
-        Friend WithEvents nudLevelApproveDO As System.Windows.Forms.NumericUpDown
-        Friend WithEvents lblMaxAmtPR As System.Windows.Forms.Label
-        Friend WithEvents lblMaxAmtPO As System.Windows.Forms.Label
-        Friend WithEvents lblMaxAmtDO As System.Windows.Forms.Label
-        Friend WithEvents lblBaht1 As System.Windows.Forms.Label
-        Friend WithEvents lblBaht2 As System.Windows.Forms.Label
-        Friend WithEvents lblBaht3 As System.Windows.Forms.Label
-        Friend WithEvents txtMaxAmtPR As System.Windows.Forms.TextBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtGroup As System.Windows.Forms.TextBox
+    Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
+    Friend WithEvents lblPassword As System.Windows.Forms.Label
+    Friend WithEvents txtPassword As System.Windows.Forms.TextBox
+    Friend WithEvents lblGroup As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents btnResetPassword As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents picImage As System.Windows.Forms.PictureBox
+    Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents chkAllCC As System.Windows.Forms.CheckBox
+    Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblPicSize As System.Windows.Forms.Label
+    Friend WithEvents lblPR As System.Windows.Forms.Label
+    Friend WithEvents lblPO As System.Windows.Forms.Label
+    Friend WithEvents lblDO As System.Windows.Forms.Label
+    Friend WithEvents grbApproveLevel As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblLevelPR As System.Windows.Forms.Label
+    Friend WithEvents lblLevelPO As System.Windows.Forms.Label
+    Friend WithEvents lblLevelDO As System.Windows.Forms.Label
+    Friend WithEvents nudLevelApprovePR As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudLevelApprovePO As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudLevelApproveDO As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMaxAmtPR As System.Windows.Forms.Label
+    Friend WithEvents lblMaxAmtPO As System.Windows.Forms.Label
+    Friend WithEvents lblMaxAmtDO As System.Windows.Forms.Label
+    Friend WithEvents lblBaht1 As System.Windows.Forms.Label
+    Friend WithEvents lblBaht2 As System.Windows.Forms.Label
+    Friend WithEvents lblBaht3 As System.Windows.Forms.Label
+    Friend WithEvents txtMaxAmtPR As System.Windows.Forms.TextBox
     Friend WithEvents txtMaxAmtPO As System.Windows.Forms.TextBox
     Friend WithEvents nudLevelApprovePA As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblPA As System.Windows.Forms.Label
@@ -953,10 +953,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Member"
-        Private m_User As User
-        Private m_isInitialized As Boolean = False
-        Private m_helpers As HelperCollection
-        Private m_treeManager As TreeManager
+    Private m_User As User
+    Private m_isInitialized As Boolean = False
+    Private m_helpers As HelperCollection
+    Private m_treeManager As TreeManager
 #End Region
 
 #Region "Property"
@@ -964,40 +964,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructor"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-            'Check Module
-            CheckModuleActivation()
+      'Check Module
+      CheckModuleActivation()
 
-            Dim dt As TreeTable = Me.GetSchemaTable
-            Dim dst As DataGridTableStyle = Me.CreateTableStyle
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
+      Dim dt As TreeTable = Me.GetSchemaTable
+      Dim dst As DataGridTableStyle = Me.CreateTableStyle
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
 
-            EventWiring()
-            Me.m_helpers = New HelperCollection(Me)
-            Me.LoadHelpers()
-        End Sub
+      EventWiring()
+      Me.m_helpers = New HelperCollection(Me)
+      Me.LoadHelpers()
+    End Sub
 #End Region
 
 #Region "CheckPJMModule"
-        Private m_ApproveDocModule As New PJMModule("approvedoc")
-        ReadOnly Property Activated() As Boolean
-            Get
-                Return m_ApproveDocModule.Activated
-            End Get
-        End Property
-        Public Sub CheckModuleActivation()
-            If Not Me.Activated Then
-                Me.grbApproveLevel.Visible = False
-            End If
-        End Sub
+    Private m_ApproveDocModule As New PJMModule("approvedoc")
+    ReadOnly Property Activated() As Boolean
+      Get
+        Return m_ApproveDocModule.Activated
+      End Get
+    End Property
+    Public Sub CheckModuleActivation()
+      If Not Me.Activated Then
+        Me.grbApproveLevel.Visible = False
+      End If
+    End Sub
 #End Region
 
 #Region "Method"
@@ -1005,54 +1005,54 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-        ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
-            Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-            Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(secSrv.CurrentUser.FullClassName)
-            If accessID = 0 Then
-                Me.btnResetPassword.Enabled = False
-                Return
-            End If
-            Dim level As Integer = secSrv.GetAccess(accessID)
-            Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-            checkString = BinaryHelper.RevertString(checkString)
-            Me.btnResetPassword.Enabled = CBool(checkString.Substring(1, 1))
-        End Sub
+    ' ตรวจสอบสถานะของฟอร์ม
+    Public Overrides Sub CheckFormEnable()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim accessID As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(secSrv.CurrentUser.FullClassName)
+      If accessID = 0 Then
+        Me.btnResetPassword.Enabled = False
+        Return
+      End If
+      Dim level As Integer = secSrv.GetAccess(accessID)
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+      checkString = BinaryHelper.RevertString(checkString)
+      Me.btnResetPassword.Enabled = CBool(checkString.Substring(1, 1))
+    End Sub
 
-        ' เคลียร์ข้อมูลใน control
-        Public Overrides Sub ClearDetail()
-            txtCode.Text = ""
-            txtName.Text = ""
-            txtGroup.Text = ""
-            txtGroupName.Text = ""
-            txtPassword.Text = ""
-            'Hack:
-            txtPassword.Enabled = True
+    ' เคลียร์ข้อมูลใน control
+    Public Overrides Sub ClearDetail()
+      txtCode.Text = ""
+      txtName.Text = ""
+      txtGroup.Text = ""
+      txtGroupName.Text = ""
+      txtPassword.Text = ""
+      'Hack:
+      txtPassword.Enabled = True
 
-            'กำหนด Maximum ให้กับระดับ Level
-            nudLevelApprovePR.Maximum = Configuration.GetConfig("MaxLevelApprovePR")
+      'กำหนด Maximum ให้กับระดับ Level
+      nudLevelApprovePR.Maximum = Configuration.GetConfig("MaxLevelApprovePR")
       nudLevelApproveWR.Maximum = Configuration.GetConfig("MaxLevelApproveWR")
       nudLevelApprovePO.Maximum = Configuration.GetConfig("MaxLevelApprovePO")
       nudLevelApproveSC.Maximum = Configuration.GetConfig("MaxLevelApproveSC")
       nudLevelApproveDR.Maximum = Configuration.GetConfig("MaxLevelApproveDR")
       nudLevelApproveDO.Maximum = Configuration.GetConfig("MaxLevelApproveDO")
       nudLevelApprovePA.Maximum = Configuration.GetConfig("MaxLevelApprovePA")
-            Me.m_treeManager.Treetable.Clear()
+      Me.m_treeManager.Treetable.Clear()
 
-            'ให้ save แล้วไป focus อยู่นู่น จะได้ไม่ dirty
-            Me.txtCode.Focus()
-        End Sub
-        Public Overrides Sub SetLabelText()
-            If Not Me.m_User Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_User.TabPageText)
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblCode}")
-            Me.Validator.SetDisplayName(Me.txtCode, Me.lblCode.Text.TrimEnd(":".ToCharArray))
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblName}")
-            Me.Validator.SetDisplayName(Me.txtName, Me.lblName.Text.TrimEnd(":".ToCharArray))
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.grbDetail}")
-            Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblGroup}")
-            Me.lblPassword.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPassword}")
+      'ให้ save แล้วไป focus อยู่นู่น จะได้ไม่ dirty
+      Me.txtCode.Focus()
+    End Sub
+    Public Overrides Sub SetLabelText()
+      If Not Me.m_User Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_User.TabPageText)
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblCode}")
+      Me.Validator.SetDisplayName(Me.txtCode, Me.lblCode.Text.TrimEnd(":".ToCharArray))
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblName}")
+      Me.Validator.SetDisplayName(Me.txtName, Me.lblName.Text.TrimEnd(":".ToCharArray))
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.grbDetail}")
+      Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblGroup}")
+      Me.lblPassword.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPassword}")
 
-            Me.lblPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPR}")
+      Me.lblPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPR}")
       Me.lblWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblWR}")
       Me.lblPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPO}")
       Me.lblSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblSC}")
@@ -1060,7 +1060,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblDO}")
       Me.lblPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPA}")
 
-            Me.lblLevelPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPR}")
+      Me.lblLevelPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPR}")
       Me.lblLevelWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPR}")
       Me.lblLevelPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPO}")
       Me.lblLevelSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPR}")
@@ -1068,7 +1068,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelDO}")
       Me.lblLevelPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblLevelPR}")
 
-            Me.lblMaxAmtPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPR}")
+      Me.lblMaxAmtPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPR}")
       Me.lblMaxAmtWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPR}")
       Me.lblMaxAmtPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPO}")
       Me.lblMaxAmtSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPR}")
@@ -1076,27 +1076,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxAmtDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtDO}")
       Me.lblMaxAmtPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblMaxAmtPR}")
 
-            Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
-            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
-            Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+      Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+      Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+      Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht4.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht5.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht6.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht7.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
     End Sub
 
-        Protected Overrides Sub EventWiring()
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtGroup.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtPassword.TextChanged, AddressOf Me.ChangeProperty
+    Protected Overrides Sub EventWiring()
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtGroup.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPassword.TextChanged, AddressOf Me.ChangeProperty
 
 
-            AddHandler nudLevelApprovePR.TextChanged, AddressOf Me.TextHandler
-            AddHandler nudLevelApprovePR.Click, AddressOf Me.ChangeProperty
-            AddHandler nudLevelApprovePR.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtMaxAmtPR.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtMaxAmtPR.Validated, AddressOf Me.ChangeProperty
+      AddHandler nudLevelApprovePR.TextChanged, AddressOf Me.TextHandler
+      AddHandler nudLevelApprovePR.Click, AddressOf Me.ChangeProperty
+      AddHandler nudLevelApprovePR.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtMaxAmtPR.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtMaxAmtPR.Validated, AddressOf Me.ChangeProperty
 
       AddHandler nudLevelApproveWR.TextChanged, AddressOf Me.TextHandler
       AddHandler nudLevelApproveWR.Click, AddressOf Me.ChangeProperty
@@ -1104,11 +1104,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtMaxAmtWR.TextChanged, AddressOf Me.TextHandler
       AddHandler txtMaxAmtWR.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler nudLevelApprovePO.TextChanged, AddressOf Me.TextHandler
-            AddHandler nudLevelApprovePO.Click, AddressOf Me.ChangeProperty
-            AddHandler nudLevelApprovePO.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtMaxAmtPO.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtMaxAmtPO.Validated, AddressOf Me.ChangeProperty
+      AddHandler nudLevelApprovePO.TextChanged, AddressOf Me.TextHandler
+      AddHandler nudLevelApprovePO.Click, AddressOf Me.ChangeProperty
+      AddHandler nudLevelApprovePO.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtMaxAmtPO.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtMaxAmtPO.Validated, AddressOf Me.ChangeProperty
 
       AddHandler nudLevelApproveSC.TextChanged, AddressOf Me.TextHandler
       AddHandler nudLevelApproveSC.Click, AddressOf Me.ChangeProperty
@@ -1122,10 +1122,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtMaxAmtDR.TextChanged, AddressOf Me.TextHandler
       AddHandler txtMaxAmtDR.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler nudLevelApproveDO.TextChanged, AddressOf Me.TextHandler
-            AddHandler nudLevelApproveDO.Click, AddressOf Me.ChangeProperty
-            AddHandler nudLevelApproveDO.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtMaxAmtDO.TextChanged, AddressOf Me.TextHandler
+      AddHandler nudLevelApproveDO.TextChanged, AddressOf Me.TextHandler
+      AddHandler nudLevelApproveDO.Click, AddressOf Me.ChangeProperty
+      AddHandler nudLevelApproveDO.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtMaxAmtDO.TextChanged, AddressOf Me.TextHandler
       AddHandler txtMaxAmtDO.Validated, AddressOf Me.ChangeProperty
 
       AddHandler nudLevelApprovePA.TextChanged, AddressOf Me.TextHandler
@@ -1134,8 +1134,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtMaxAmtPA.TextChanged, AddressOf Me.TextHandler
       AddHandler txtMaxAmtPA.Validated, AddressOf Me.ChangeProperty
 
-        End Sub
-        Private nudLevelApprovePRChanged As Boolean = False
+    End Sub
+    Private nudLevelApprovePRChanged As Boolean = False
     Private nudLevelApproveWRChanged As Boolean = False
     Private nudLevelApprovePOChanged As Boolean = False
     Private nudLevelApproveSCChanged As Boolean = False
@@ -1226,28 +1226,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
           txtMaxAmtPAChanged = True
       End Select
     End Sub
-        Private isDirty As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_User Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcode"
-                    Me.m_User.Code = txtCode.Text
-                    isDirty = True
-                Case "txtname"
-                    Me.m_User.Name = txtName.Text
-                    isDirty = True
-                Case "txtpassword"
-                    Me.m_User.Password = Me.m_User.GeneratePassword(txtPassword.Text)
-                    isDirty = True
+    Private isDirty As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_User Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          Me.m_User.Code = txtCode.Text
+          isDirty = True
+        Case "txtname"
+          Me.m_User.Name = txtName.Text
+          isDirty = True
+        Case "txtpassword"
+          Me.m_User.Password = User.GeneratePassword(txtPassword.Text)
+          isDirty = True
 
 
-                Case "nudlevelapprovepr"
-                    If nudLevelApprovePRChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(7).Level = nudLevelApprovePR.Text
-                        isDirty = True
-                        nudLevelApprovePRChanged = False
+        Case "nudlevelapprovepr"
+          If nudLevelApprovePRChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(7).Level = nudLevelApprovePR.Text
+            isDirty = True
+            nudLevelApprovePRChanged = False
           End If
         Case "nudlevelapprovewr"
           If nudLevelApproveWRChanged Then
@@ -1255,11 +1255,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             isDirty = True
             nudLevelApproveWRChanged = False
           End If
-                Case "nudlevelapprovepo"
-                    If nudLevelApprovePOChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(6).Level = nudLevelApprovePO.Text
-                        isDirty = True
-                        nudLevelApprovePOChanged = False
+        Case "nudlevelapprovepo"
+          If nudLevelApprovePOChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(6).Level = nudLevelApprovePO.Text
+            isDirty = True
+            nudLevelApprovePOChanged = False
           End If
         Case "nudlevelapprovesc"
           If nudLevelApproveSCChanged Then
@@ -1273,11 +1273,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             isDirty = True
             nudLevelApproveDRChanged = False
           End If
-                Case "nudlevelapprovedo"
-                    If nudLevelApproveDOChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(45).Level = nudLevelApproveDO.Text
-                        isDirty = True
-                        nudLevelApproveDOChanged = False
+        Case "nudlevelapprovedo"
+          If nudLevelApproveDOChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(45).Level = nudLevelApproveDO.Text
+            isDirty = True
+            nudLevelApproveDOChanged = False
           End If
         Case "nudlevelapprovepa"
           If nudLevelApprovePAChanged Then
@@ -1285,12 +1285,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             isDirty = True
             nudLevelApprovePAChanged = False
           End If
-                Case "txtmaxamtpr"
-                    If txtMaxAmtPRChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(7).MaxAmount = StringToDec(txtMaxAmtPR.Text)
-                        txtMaxAmtPR.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(7).MaxAmount, DigitConfig.Price)
-                        isDirty = True
-                        txtMaxAmtPRChanged = False
+        Case "txtmaxamtpr"
+          If txtMaxAmtPRChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(7).MaxAmount = StringToDec(txtMaxAmtPR.Text)
+            txtMaxAmtPR.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(7).MaxAmount, DigitConfig.Price)
+            isDirty = True
+            txtMaxAmtPRChanged = False
           End If
         Case "txtmaxamtwr"
           If txtMaxAmtWRChanged Then
@@ -1299,12 +1299,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             isDirty = True
             txtMaxAmtWRChanged = False
           End If
-                Case "txtmaxamtpo"
-                    If txtMaxAmtPOChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(6).MaxAmount = StringToDec(txtMaxAmtPO.Text)
-                        txtMaxAmtPO.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(6).MaxAmount, DigitConfig.Price)
-                        isDirty = True
-                        txtMaxAmtPOChanged = False
+        Case "txtmaxamtpo"
+          If txtMaxAmtPOChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(6).MaxAmount = StringToDec(txtMaxAmtPO.Text)
+            txtMaxAmtPO.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(6).MaxAmount, DigitConfig.Price)
+            isDirty = True
+            txtMaxAmtPOChanged = False
           End If
         Case "txtmaxamtsc"
           If txtMaxAmtSCChanged Then
@@ -1320,12 +1320,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             isDirty = True
             txtMaxAmtDRChanged = False
           End If
-                Case "txtmaxamtdo"
-                    If txtMaxAmtDOChanged Then
-                        Me.m_User.ApprovalDocLevelCollection.GetItem(45).MaxAmount = StringToDec(txtMaxAmtDO.Text)
-                        txtMaxAmtDO.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(45).MaxAmount, DigitConfig.Price)
-                        isDirty = True
-                        txtMaxAmtDOChanged = False
+        Case "txtmaxamtdo"
+          If txtMaxAmtDOChanged Then
+            Me.m_User.ApprovalDocLevelCollection.GetItem(45).MaxAmount = StringToDec(txtMaxAmtDO.Text)
+            txtMaxAmtDO.Text = Configuration.FormatToString(Me.m_User.ApprovalDocLevelCollection.GetItem(45).MaxAmount, DigitConfig.Price)
+            isDirty = True
+            txtMaxAmtDOChanged = False
           End If
         Case "txtmaxamtpa"
           If txtMaxAmtPAChanged Then
@@ -1335,47 +1335,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
             txtMaxAmtPAChanged = False
           End If
       End Select
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty OrElse isDirty
-            isDirty = False
-            CheckFormEnable()
-        End Sub
-        Private Function StringToDec(ByVal inVal As String) As Decimal
-            Dim temp As Decimal
-            inVal = inVal.Replace(",", "")
-            Try
-                temp = CDec(TextParser.Evaluate(inVal))
-            Catch ex As Exception
-                temp = 0
-            End Try
-            Return temp
-        End Function
-        ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_User Is Nothing Then
-                Return
-            End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty OrElse isDirty
+      isDirty = False
+      CheckFormEnable()
+    End Sub
+    Private Function StringToDec(ByVal inVal As String) As Decimal
+      Dim temp As Decimal
+      inVal = inVal.Replace(",", "")
+      Try
+        temp = CDec(TextParser.Evaluate(inVal))
+      Catch ex As Exception
+        temp = 0
+      End Try
+      Return temp
+    End Function
+    ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_User Is Nothing Then
+        Return
+      End If
 
-            m_User.LoadImage()
+      m_User.LoadImage()
 
-            txtCode.Text = m_User.Code
-            txtName.Text = m_User.Name
+      txtCode.Text = m_User.Code
+      txtName.Text = m_User.Name
 
-            If m_User.Originated Then
-                txtPassword.Text = "**********"
-                txtPassword.Enabled = False
-            End If
+      If m_User.Originated Then
+        txtPassword.Text = "**********"
+        txtPassword.Enabled = False
+      End If
 
-            picImage.Image = m_User.Signature
-            CheckLabelImgSize()
+      picImage.Image = m_User.Signature
+      CheckLabelImgSize()
 
-            Me.RefreshUserAccess(0)
+      Me.RefreshUserAccess(0)
 
-            'ApprovalDoc
-            If Not m_User.ApprovalDocLevelCollection Is Nothing Then
-                Dim temp As ApprovalDocLevelCollection = m_User.ApprovalDocLevelCollection
-                Me.nudLevelApprovePR.Text = temp.GetItem(7).Level
+      'ApprovalDoc
+      If Not m_User.ApprovalDocLevelCollection Is Nothing Then
+        Dim temp As ApprovalDocLevelCollection = m_User.ApprovalDocLevelCollection
+        Me.nudLevelApprovePR.Text = temp.GetItem(7).Level
         Me.txtMaxAmtPR.Text = Configuration.FormatToString(temp.GetItem(7).MaxAmount, DigitConfig.Price)
         Me.nudLevelApproveWR.Text = temp.GetItem(324).Level
         Me.txtMaxAmtWR.Text = Configuration.FormatToString(temp.GetItem(324).MaxAmount, DigitConfig.Price)
@@ -1385,232 +1385,232 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtMaxAmtSC.Text = Configuration.FormatToString(temp.GetItem(289).MaxAmount, DigitConfig.Price)
         Me.nudLevelApproveDR.Text = temp.GetItem(291).Level
         Me.txtMaxAmtDR.Text = Configuration.FormatToString(temp.GetItem(291).MaxAmount, DigitConfig.Price)
-                Me.nudLevelApproveDO.Text = temp.GetItem(45).Level
+        Me.nudLevelApproveDO.Text = temp.GetItem(45).Level
         Me.txtMaxAmtDO.Text = Configuration.FormatToString(temp.GetItem(45).MaxAmount, DigitConfig.Price)
         Me.nudLevelApprovePA.Text = temp.GetItem(292).Level
         Me.txtMaxAmtPA.Text = Configuration.FormatToString(temp.GetItem(292).MaxAmount, DigitConfig.Price)
-            End If
+      End If
 
-            SetLabelText()
-            'SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
+      SetLabelText()
+      'SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
 
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_User
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_User = Nothing
-                Me.m_User = CType(Value, User)
-                'Hack:
-                Me.m_User.OnTabPageTextChanged(m_User, EventArgs.Empty)
-                Me.m_User.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_User)
-                Me.m_User.ApprovalDocLevelCollection = New ApprovalDocLevelCollection(Me.m_User)
-                UpdateEntityProperties()
-            End Set
-        End Property
-        Public Overrides Sub Initialize()
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_User
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_User = Nothing
+        Me.m_User = CType(Value, User)
+        'Hack:
+        Me.m_User.OnTabPageTextChanged(m_User, EventArgs.Empty)
+        'Me.m_User.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_User)
+        'Me.m_User.ApprovalDocLevelCollection = New ApprovalDocLevelCollection(Me.m_User)
+        UpdateEntityProperties()
+      End Set
+    End Property
+    Public Overrides Sub Initialize()
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "CostCenterUserAccess"
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("CostCenterUserAccess")
-            myDatatable.Columns.Add(New DataColumn("ccua_linenumber", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
-            Return myDatatable
-        End Function
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("CostCenterUserAccess")
+      myDatatable.Columns.Add(New DataColumn("ccua_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
+      Return myDatatable
+    End Function
 
-        Public Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "CostCenterUserAccess"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Public Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "CostCenterUserAccess"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "ccua_linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 50
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "ccua_linenumber"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "ccua_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 50
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "ccua_linenumber"
 
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "Code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 100
-            csCode.ReadOnly = True
-            csCode.TextBox.Name = "Code"
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 100
+      csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "Name"
-            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.NameHeaderText}")
-            csName.NullText = ""
-            csName.Width = 250
-            csName.TextBox.Name = "Name"
-            csName.ReadOnly = True
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "Name"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.NameHeaderText}")
+      csName.NullText = ""
+      csName.Width = 250
+      csName.TextBox.Name = "Name"
+      csName.ReadOnly = True
 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csName)
-            Return dst
-        End Function
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csName)
+      Return dst
+    End Function
 
-        Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-            Dim index As Integer = tgItem.CurrentRowIndex
-            If index < 0 Then
-                index = 0
-            End If
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim index As Integer = tgItem.CurrentRowIndex
+      If index < 0 Then
+        index = 0
+      End If
 
-            Dim filters() As Filter
-            filters = New Filter() {New Filter("IDList", GetItemIDList())}
+      Dim filters() As Filter
+      filters = New Filter() {New Filter("IDList", GetItemIDList())}
 
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetItems, filters)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetItems, filters)
 
-            Me.RefreshUserAccess(index)
-        End Sub
-        Private Function GetItemIDList() As String
-            Dim ret As String = ""
-            For Each item As CostCenterUserAccess In Me.m_User.CostCenterUserAccessCollection
-                ret &= item.CostCenterId.ToString & ","
-            Next
-            If ret.EndsWith(",") Then
-                ret = ret.Substring(0, ret.Length - 1)
-            End If
-            Return ret
-        End Function
-        Private Sub RefreshUserAccess(ByVal index As Integer)
-            If Not Me.m_User.CostCenterUserAccessCollection Is Nothing Then
-                Me.m_User.CostCenterUserAccessCollection.PopulateCostCenter4User(m_treeManager.Treetable)
-                Me.chkAllCC.Checked = Me.m_User.CostCenterUserAccessCollection.IsSuperMod
-            End If
-            tgItem.CurrentRowIndex = index
-        End Sub
-        Private Sub SetItems(ByVal items As BasketItemCollection)
-            If tgItem.CurrentRowIndex = 0 Then
-                'Hack
-                tgItem.CurrentRowIndex = 1
-            End If
-            Dim index As Integer = tgItem.CurrentRowIndex
-            For i As Integer = items.Count - 1 To 0 Step -1
-                Dim item As BasketItem = CType(items(i), BasketItem)
+      Me.RefreshUserAccess(index)
+    End Sub
+    Private Function GetItemIDList() As String
+      Dim ret As String = ""
+      For Each item As CostCenterUserAccess In Me.m_User.CostCenterUserAccessCollection
+        ret &= item.CostCenterId.ToString & ","
+      Next
+      If ret.EndsWith(",") Then
+        ret = ret.Substring(0, ret.Length - 1)
+      End If
+      Return ret
+    End Function
+    Private Sub RefreshUserAccess(ByVal index As Integer)
+      If Not Me.m_User.CostCenterUserAccessCollection Is Nothing Then
+        Me.m_User.CostCenterUserAccessCollection.PopulateCostCenter4User(m_treeManager.Treetable)
+        Me.chkAllCC.Checked = Me.m_User.CostCenterUserAccessCollection.IsSuperMod
+      End If
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub SetItems(ByVal items As BasketItemCollection)
+      If tgItem.CurrentRowIndex = 0 Then
+        'Hack
+        tgItem.CurrentRowIndex = 1
+      End If
+      Dim index As Integer = tgItem.CurrentRowIndex
+      For i As Integer = items.Count - 1 To 0 Step -1
+        Dim item As BasketItem = CType(items(i), BasketItem)
 
-                Dim doc As New CostCenterUserAccess
-                Dim mycc As New CostCenter(item.Id)
-                doc.CostCenterId = mycc.Id
-                doc.CostCenterCode = mycc.Code
-                doc.CostCenterName = mycc.Name
-                doc.UserId = Me.m_User.Id
-                doc.UserCode = Me.m_User.Code
-                doc.UserName = Me.m_User.Name
-                doc.AccessValue = 1
+        Dim doc As New CostCenterUserAccess
+        Dim mycc As New CostCenter(item.Id)
+        doc.CostCenterId = mycc.Id
+        doc.CostCenterCode = mycc.Code
+        doc.CostCenterName = mycc.Name
+        doc.UserId = Me.m_User.Id
+        doc.UserCode = Me.m_User.Code
+        doc.UserName = Me.m_User.Name
+        doc.AccessValue = 1
 
-                'If Me.m_entity.CostCenterUserAccessCollection.Count > 0 Then
-                '    Me.m_entity.CostCenterUserAccessCollection.Insert(index, doc)
-                'Else
-                Me.m_User.CostCenterUserAccessCollection.Add(doc)
-                'End If
-            Next
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
-        Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-            If Me.m_User.CostCenterUserAccessCollection.Count <= 0 Then
-                Return
-            End If
-            Dim index As Integer = Me.tgItem.CurrentRowIndex
-            Me.m_User.CostCenterUserAccessCollection.Remove(index)
-            Me.RefreshUserAccess(index)
+        'If Me.m_entity.CostCenterUserAccessCollection.Count > 0 Then
+        '    Me.m_entity.CostCenterUserAccessCollection.Insert(index, doc)
+        'Else
+        Me.m_User.CostCenterUserAccessCollection.Add(doc)
+        'End If
+      Next
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+      If Me.m_User.CostCenterUserAccessCollection.Count <= 0 Then
+        Return
+      End If
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      Me.m_User.CostCenterUserAccessCollection.Remove(index)
+      Me.RefreshUserAccess(index)
 
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
-        Private Sub chkAllCC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllCC.Click
-            If Not Me.m_User.CostCenterUserAccessCollection.IsSuperMod Then
-                Me.m_User.CostCenterUserAccessCollection.IsSuperMod = True
-            Else
-                Me.m_User.CostCenterUserAccessCollection.IsSuperMod = False
-            End If
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub chkAllCC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllCC.Click
+      If Not Me.m_User.CostCenterUserAccessCollection.IsSuperMod Then
+        Me.m_User.CostCenterUserAccessCollection.IsSuperMod = True
+      Else
+        Me.m_User.CostCenterUserAccessCollection.IsSuperMod = False
+      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
 #End Region
 
 #Region "IHelperCapable"
-        Public ReadOnly Property Helpers() As HelperCollection Implements IHelperCapable.Helpers
-            Get
+    Public ReadOnly Property Helpers() As HelperCollection Implements IHelperCapable.Helpers
+      Get
 
-            End Get
-        End Property
+      End Get
+    End Property
 
-        Public Sub LoadHelpers() Implements IHelperCapable.LoadHelpers
+    Public Sub LoadHelpers() Implements IHelperCapable.LoadHelpers
 
-        End Sub
+    End Sub
 
-        Public Sub UpdateValue(ByVal value As BusinessLogic.BusinessEntity) Implements IHelperCapable.UpdateValue
+    Public Sub UpdateValue(ByVal value As BusinessLogic.BusinessEntity) Implements IHelperCapable.UpdateValue
 
-        End Sub
+    End Sub
 
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Event handlers"
-        Private Sub btnResetPassword_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetPassword.Click
-            If Me.m_User Is Nothing OrElse Not Me.m_User.Originated Then
-                Return
-            End If
-            Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.ResetPasswordDialog(m_User)
-            dlg.ShowDialog()
-        End Sub
+    Private Sub btnResetPassword_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetPassword.Click
+      If Me.m_User Is Nothing OrElse Not Me.m_User.Originated Then
+        Return
+      End If
+      Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.ResetPasswordDialog(m_User)
+      dlg.ShowDialog()
+    End Sub
 #End Region
 
 #Region " Load Image "
-        Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
-            Dim dlg As New OpenFileDialog
-            Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
-            dlg.Filter = String.Join("|", fileFilters)
-            If dlg.ShowDialog = DialogResult.OK Then
-                Dim img As Image = Image.FromFile(dlg.FileName)
-                If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
-                    Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
-                    img = ImageHelper.Resize(img, percent)
-                End If
-                Me.picImage.Image = img
-                m_User.Signature = img
-                'Hack
-                Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-                myContent.IsDirty = True
-                CheckLabelImgSize()
-            End If
-        End Sub
+    Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
+      Dim dlg As New OpenFileDialog
+      Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
+      dlg.Filter = String.Join("|", fileFilters)
+      If dlg.ShowDialog = DialogResult.OK Then
+        Dim img As Image = Image.FromFile(dlg.FileName)
+        If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
+          Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
+          img = ImageHelper.Resize(img, percent)
+        End If
+        Me.picImage.Image = img
+        m_User.Signature = img
+        'Hack
+        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        myContent.IsDirty = True
+        CheckLabelImgSize()
+      End If
+    End Sub
 #End Region
 
-        Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
-            m_User.Signature = Nothing
-            Me.picImage.Image = Nothing
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            myContent.IsDirty = True
-            CheckLabelImgSize()
-        End Sub
-        Private Sub CheckLabelImgSize()
-            Me.lblPicSize.Text = "160 X 88 pixel"
-            If Me.m_User.Signature Is Nothing Then
-                Me.lblPicSize.Visible = True
-            Else
-                Me.lblPicSize.Visible = False
-            End If
-        End Sub
-    End Class
+    Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
+      m_User.Signature = Nothing
+      Me.picImage.Image = Nothing
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      myContent.IsDirty = True
+      CheckLabelImgSize()
+    End Sub
+    Private Sub CheckLabelImgSize()
+      Me.lblPicSize.Text = "160 X 88 pixel"
+      If Me.m_User.Signature Is Nothing Then
+        Me.lblPicSize.Visible = True
+      Else
+        Me.lblPicSize.Visible = False
+      End If
+    End Sub
+  End Class
 
 End Namespace

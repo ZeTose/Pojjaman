@@ -431,7 +431,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Set(ByVal Value As ISimpleEntity)
                 Me.m_entity = Value
                 UpdateEntityProperties()
-                EventWiring()
+        'EventWiring()
             End Set
         End Property
         Public Overrides Sub Initialize()

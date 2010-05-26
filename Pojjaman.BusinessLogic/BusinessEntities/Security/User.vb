@@ -146,6 +146,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.CanSeeAllDocType2 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType2")
         Me.CanSeeAllDocType0 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType0")
       End With
+      'Me.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
+      'Me.ApprovalDocLevelCollection = New ApprovalDocLevelCollection(Me)
     End Sub
     Public Overloads Sub LoadImage(ByVal reader As IDataReader)
       m_signature = Field.GetImage(reader, "user_signature")
@@ -188,6 +190,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property CostCenterUserAccessCollection() As CostCenterUserAccessCollection
       Get
+        If m_costCenterUserAccessCollection Is Nothing Then
+          m_costCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
+        End If
         Return m_costCenterUserAccessCollection
       End Get
       Set(ByVal Value As CostCenterUserAccessCollection)
@@ -196,6 +201,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property ApprovalDocLevelCollection() As ApprovalDocLevelCollection
       Get
+        If m_approvalDocLevelCollection Is Nothing Then
+          m_approvalDocLevelCollection = New ApprovalDocLevelCollection(Me)
+        End If
         Return m_approvalDocLevelCollection
       End Get
       Set(ByVal Value As ApprovalDocLevelCollection)
