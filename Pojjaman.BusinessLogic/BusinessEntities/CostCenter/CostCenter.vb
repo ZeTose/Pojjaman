@@ -109,8 +109,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .cc_project = New Project
         .cc_boq = New BOQ
         .cc_isactive = True
-        BudgetCollectionForCC = New BudgetCollectionForCC(Me)
-        CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
+        'BudgetCollectionForCC = New BudgetCollectionForCC(Me)
+        'CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -273,7 +273,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Dim m_budgetCollectionForCC As BudgetCollectionForCC
     Property BudgetCollectionForCC As BudgetCollectionForCC
+      Get
+        If m_budgetCollectionForCC Is Nothing Then
+          m_budgetCollectionForCC = New BudgetCollectionForCC(Me)
+        End If
+      End Get
+      Set(ByVal value As BudgetCollectionForCC)
+        m_budgetCollectionForCC = value
+      End Set
+    End Property
     Public Property RootWBSId() As Integer      Get
         Return m_rootWBSId
       End Get
@@ -306,6 +316,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Nothing
     End Function
     Public Property WipAccount() As Account      Get        Return cc_wipAccount      End Get      Set(ByVal Value As Account)        cc_wipAccount = Value      End Set    End Property    Public Property StoreAccount() As Account      Get        Return cc_storeAccount      End Get      Set(ByVal Value As Account)        cc_storeAccount = Value      End Set    End Property    Public Property ExpenseAccount() As Account      Get        Return cc_expenseAccount      End Get      Set(ByVal Value As Account)        cc_expenseAccount = Value      End Set    End Property    Public Property CostCenterUserAccessCollection() As CostCenterUserAccessCollection      Get
+        If cc_ccuseraccesscol Is Nothing Then
+          cc_ccuseraccesscol = New CostCenterUserAccessCollection(Me)
+        End If
         Return cc_ccuseraccesscol
       End Get
       Set(ByVal Value As CostCenterUserAccessCollection)

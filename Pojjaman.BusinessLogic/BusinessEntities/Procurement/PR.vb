@@ -111,7 +111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New PRItemCollection(Me)
+      'm_itemCollection = New PRItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -229,7 +229,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New PRItemCollection(Me)
+      'm_itemCollection = New PRItemCollection(Me)
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
@@ -277,6 +277,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property ItemCollection() As PRItemCollection
       Get
+        If m_itemCollection Is Nothing Then
+          m_itemCollection = New PRItemCollection(Me)
+        End If
         Return m_itemCollection
       End Get
       Set(ByVal Value As PRItemCollection)

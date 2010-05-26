@@ -49,7 +49,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
-
         If dr.Table.Columns.Contains(aliasPrefix & "pri_entityType") AndAlso Not dr.IsNull("pri_entityType") Then
           Me.m_pritem = New PRItem(dr, aliasPrefix)
           Dim myPR As New PR
@@ -141,7 +140,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  End If
         'Else
         If dr.Table.Columns.Contains(aliasPrefix & "poi_unit") AndAlso Not dr.IsNull(aliasPrefix & "poi_unit") Then
-          .m_unit = New Unit(CInt(dr(aliasPrefix & "poi_unit")))
+          '.m_unit = New Unit(CInt(dr(aliasPrefix & "poi_unit")))
+          Dim unitId As Nullable(Of Integer) = CInt(dr(aliasPrefix & "poi_unit"))
+          If unitId.HasValue AndAlso unitId.Value > 0 Then
+            .m_unit = Unit.GetUnitById(unitId.Value)
+          End If
         End If
         'End If
 

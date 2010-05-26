@@ -28,14 +28,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Private Shared m_unitTable As DataTable
-    Public Shared ReadOnly Property UnitTable As DataTable
-      Get
-        If m_unitTable Is Nothing Then
-          'RefreshData()
-        End If
-        Return m_unitTable
-      End Get
-    End Property
 #End Region
 
 #Region "Constructors"
@@ -140,7 +132,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Shared Function GetUnitById(ByVal id As Integer) As Unit
-
+      Dim key As String = id.ToString
+      Dim row As DataRow = CType(AllUnits(key), DataRow)
+      Dim unit As New Unit(row, "") 'Pui
+      Return unit
     End Function
     Public Shared Function CanDeleteThisId(ByVal id As Integer) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "CountUnitRef", _
@@ -192,6 +187,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         trans.Commit()
+
+        '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
+        Unit.m_AllUnits = Nothing
+        '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
+
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
         trans.Rollback()

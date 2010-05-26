@@ -120,8 +120,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New POItemCollection(Me)
-      m_itemCollection.RefreshBudget()
+      'm_itemCollection = New POItemCollection(Me)
+      'm_itemCollection.RefreshBudget()
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -311,8 +311,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New POItemCollection(Me)
-      m_itemCollection.RefreshBudget()
+      'm_itemCollection = New POItemCollection(Me)
+      'm_itemCollection.RefreshBudget()
     End Sub
 #End Region
 
@@ -429,6 +429,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property ItemCollection() As POItemCollection
       Get
+        If m_itemCollection Is Nothing Then
+          m_itemCollection = New POItemCollection(Me)
+        End If
         Return m_itemCollection
       End Get
       Set(ByVal Value As POItemCollection)

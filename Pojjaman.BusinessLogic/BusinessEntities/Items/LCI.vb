@@ -112,10 +112,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_unvatable = False
       LoadCostLink()
     End Sub
-
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
+        Dim drh As New DataRowHelper(dr)
+
         '================================
         Dim key As String = Me.Id.ToString
         Me.AllLciitems(key) = dr
@@ -175,45 +176,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         ' กำหนดค่าของหน่วยนับ LCIitem
-        If dr.Table.Columns.Contains(aliasPrefix & "unit_id") Then
-          If Not dr.IsNull(aliasPrefix & "unit_id") Then
-            .m_defaultUnit = New Unit(dr, aliasPrefix)
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_defaultUnit") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_defaultUnit") Then
-            .m_defaultUnit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_defaultUnit")))
-          End If
+        Dim defaultUnitId As Nullable(Of Integer) = drh.GetValue(Of Integer)("lci_defaultUnit")
+        Dim compareUnitId1 As Nullable(Of Integer) = drh.GetValue(Of Integer)("lci_compareUnit1")
+        Dim compareUnitId2 As Nullable(Of Integer) = drh.GetValue(Of Integer)("lci_compareUnit2")
+        Dim compareUnitId3 As Nullable(Of Integer) = drh.GetValue(Of Integer)("lci_compareUnit3")
+        If defaultUnitId.HasValue AndAlso defaultUnitId.Value > 0 Then
+          .m_defaultUnit = Unit.GetUnitById(defaultUnitId.Value)
+        End If
+        If compareUnitId1.HasValue AndAlso compareUnitId1.Value > 0 Then
+          .m_CompareUnit1 = Unit.GetUnitById(compareUnitId1.Value)
+        End If
+        If compareUnitId2.HasValue AndAlso compareUnitId2.Value > 0 Then
+          .m_CompareUnit2 = Unit.GetUnitById(compareUnitId2.Value)
+        End If
+        If compareUnitId3.HasValue AndAlso compareUnitId3.Value > 0 Then
+          .m_CompareUnit3 = Unit.GetUnitById(compareUnitId3.Value)
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "compareUnit1.unit_id") Then
-          If Not dr.IsNull(aliasPrefix & "compareUnit1.unit_id") Then
-            .m_CompareUnit1 = New Unit(dr, aliasPrefix & "compareUnit1.")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit1") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit1") Then
-            .m_CompareUnit1 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit1")))
-          End If
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "unit_id") Then
+        '  If Not dr.IsNull(aliasPrefix & "unit_id") Then
+        '    .m_defaultUnit = New Unit(dr, aliasPrefix)
+        '  End If
+        'Else
+        '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_defaultUnit") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_defaultUnit") Then
+        '    .m_defaultUnit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_defaultUnit")))
+        '  End If
+        'End If
 
-        If dr.Table.Columns.Contains("compareUnit2.unit_id") Then
-          If Not dr.IsNull("compareUnit2.unit_id") Then
-            .m_CompareUnit2 = New Unit(dr, "compareUnit2.")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit2") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit2") Then
-            .m_CompareUnit2 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit2")))
-          End If
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "compareUnit1.unit_id") Then
+        '  If Not dr.IsNull(aliasPrefix & "compareUnit1.unit_id") Then
+        '    .m_CompareUnit1 = New Unit(dr, aliasPrefix & "compareUnit1.")
+        '  End If
+        'Else
+        '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit1") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit1") Then
+        '    .m_CompareUnit1 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit1")))
+        '  End If
+        'End If
 
-        If dr.Table.Columns.Contains("compareUnit3.unit_id") Then
-          If Not dr.IsNull("compareUnit3.unit_id") Then
-            .m_CompareUnit3 = New Unit(dr, "compareUnit3.")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit3") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit3") Then
-            .m_CompareUnit3 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit3")))
-          End If
-        End If
+        'If dr.Table.Columns.Contains("compareUnit2.unit_id") Then
+        '  If Not dr.IsNull("compareUnit2.unit_id") Then
+        '    .m_CompareUnit2 = New Unit(dr, "compareUnit2.")
+        '  End If
+        'Else
+        '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit2") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit2") Then
+        '    .m_CompareUnit2 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit2")))
+        '  End If
+        'End If
+
+        'If dr.Table.Columns.Contains("compareUnit3.unit_id") Then
+        '  If Not dr.IsNull("compareUnit3.unit_id") Then
+        '    .m_CompareUnit3 = New Unit(dr, "compareUnit3.")
+        '  End If
+        'Else
+        '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_compareUnit3") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_compareUnit3") Then
+        '    .m_CompareUnit3 = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_compareUnit3")))
+        '  End If
+        'End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_shelfLife") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_shelfLife") Then
           .m_shelfLife = CInt(dr(aliasPrefix & Me.Prefix & "_shelfLife"))
@@ -1218,6 +1236,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
+          '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
+          m_AllLciitems = Nothing
+          m_LciitemTable = Nothing
+          '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
+
           Try
             SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure _
           , "InsertLciitemDepend" _
@@ -1544,6 +1567,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         trans.Commit()
+        '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
+        m_AllLciitems = Nothing
+        m_LciitemTable = Nothing
+        '== ทำลาย Member นี้ทิ้งเสมอ เมื่อมีการแก้ไข ============
         Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
