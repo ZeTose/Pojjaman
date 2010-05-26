@@ -264,7 +264,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property CostCenter() As CostCenter
       Get
-        Return New CostCenter(payment_ccId)
+        Return CostCenter.GetCostCenter(payment_ccId, ViewType.Payment)
+        'Return New CostCenter(payment_ccId)
       End Get
     End Property
     Public Property DocDate() As Date

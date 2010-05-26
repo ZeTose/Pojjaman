@@ -81,7 +81,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "supplier_id") Then
           If Not dr.IsNull(aliasPrefix & "supplier_id") Then
-            .m_supplier = New Supplier(dr, aliasPrefix)
+            .m_supplier = Supplier.GetSupplier(dr)
+            '.m_supplier = New Supplier(dr, aliasPrefix)
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "check_supplier") AndAlso Not dr.IsNull(aliasPrefix & "check_supplier") Then

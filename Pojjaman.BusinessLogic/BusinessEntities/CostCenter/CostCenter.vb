@@ -880,9 +880,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           )
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Select Case viewType
-        Case viewType.JournalEntryItem
+        Case viewType.JournalEntryItem, viewType.Payment, viewType.PaySelection
           SetMinimumCC(cc, dr)
-
       End Select
       Return cc
     End Function
@@ -1078,6 +1077,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Enum ViewType
     JournalEntryItem
     GoodsReceiptItem
+    Payment
+    PaySelection
   End Enum
   Public Class BudgetCollectionForCC
     Property CostCenter As CostCenter

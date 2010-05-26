@@ -371,23 +371,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-		Public Shared Function GetTaxBaseDeductedWithoutThisRefDoc(ByVal vati_refdoc As Integer _
-		, ByVal vati_refdoctype As Integer, ByVal vat_refdoc As Integer, ByVal vat_refdoctype As Integer) As Decimal
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
-			, CommandType.StoredProcedure _
-			, "GetTaxBaseDeductedWithoutThisRefDoc" _
-			, New SqlParameter("@vati_refdoc", vati_refdoc) _
-			, New SqlParameter("@vati_refdoctype", vati_refdoctype) _
-			, New SqlParameter("@vat_refdoc", vat_refdoc) _
-			, New SqlParameter("@vat_refdoctype", vat_refdoctype) _
-			)
-			If ds.Tables(0).Rows.Count = 1 Then
-				If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
-					Return CDec(ds.Tables(0).Rows(0)(0))
-				End If
-			End If
-			Return 0
-		End Function
+    Public Shared Function GetTaxBaseDeductedWithoutThisRefDoc(ByVal vati_refdoc As Integer _
+  , ByVal vati_refdoctype As Integer, ByVal vat_refdoc As Integer, ByVal vat_refdoctype As Integer) As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetTaxBaseDeductedWithoutThisRefDoc" _
+      , New SqlParameter("@vati_refdoc", vati_refdoc) _
+      , New SqlParameter("@vati_refdoctype", vati_refdoctype) _
+      , New SqlParameter("@vat_refdoc", vat_refdoc) _
+      , New SqlParameter("@vat_refdoctype", vat_refdoctype) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
 		Public Shared Function GetSchemaTable() As TreeTable
 			Dim myDatatable As New TreeTable("Vat")
 			myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))

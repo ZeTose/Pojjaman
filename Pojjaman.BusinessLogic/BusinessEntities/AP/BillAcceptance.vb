@@ -988,6 +988,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_beforeTax As Decimal
     Private m_afterTax As Decimal
     Private m_taxBase As Decimal
+
+    Private m_deducttaxBase As Nullable(Of Decimal)
+    Private m_Remained As Nullable(Of Decimal)
+
     Private m_taxRate As Decimal
     Private m_taxPoint As New TaxPoint(0)
     Private m_taxType As New TaxType(2)
@@ -1007,6 +1011,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_linenumber As Integer
 
     Private m_ccId As Integer
+    Private m_cc As CostCenter
 
     Private m_parentId As Integer
     Private m_parentCode As String
@@ -1142,6 +1147,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_tocc") AndAlso Not dr.IsNull(aliasPrefix & "stock_tocc") Then
         Me.m_ccId = CInt(dr(aliasPrefix & "stock_tocc"))
       End If
+      '******************************
+      If dr.Table.Columns.Contains(aliasPrefix & "TaxbaseDeducted") AndAlso Not dr.IsNull(aliasPrefix & "TaxbaseDeducted") Then
+        Me.m_deducttaxBase = CDec(dr(aliasPrefix & "TaxbaseDeducted"))
+      End If
+
+      If dr.Table.Columns.Contains(aliasPrefix & "Remained") AndAlso Not dr.IsNull(aliasPrefix & "Remained") Then
+        Me.m_Remained = CDec(dr(aliasPrefix & "Remained"))
+      End If
       '********************************************************
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_parentEntityCode") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_parentEntityCode") Then
         Me.m_parentCode = CStr(dr(aliasPrefix & m_itemprefix & "_parentEntityCode"))
@@ -1259,6 +1272,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_remainningBalance = value
       End Set
     End Property
+    Public Property Remained As Decimal
+      Get
+        Return Me.m_Remained.Value
+      End Get
+      Set(ByVal value As Decimal)
+        m_Remained = value
+      End Set
+    End Property
     Public Property CreditPeriod() As Long
       Get
         Return m_creditPeriod
@@ -1319,6 +1340,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_taxBase = Value
       End Set
     End Property
+    Public Property DeductTaxBase() As Decimal
+      Get
+        If m_deducttaxBase.HasValue Then
+          Return m_deducttaxBase.Value
+        End If
+        If Not Me.PaySelection Is Nothing Then
+          Return Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+        ElseIf Not Me.m_apvi Is Nothing Then
+          Return Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+        Else
+          Return 0
+        End If
+      End Get
+      Set(ByVal Value As Decimal)
+        m_deducttaxBase = Value
+      End Set
+    End Property
     Public ReadOnly Property TaxAmount As Decimal
       Get
         Return (Amount / UnpaidAmount) * (AfterTax - BeforeTax)
@@ -1326,8 +1364,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property TaxAmountDeducted As Decimal
       Get
-        If TaxBaseDeducted <> 0 AndAlso TaxBase <> 0 Then
-          Return ((TaxBase - TaxBaseDeducted) / TaxBase) * (AfterTax - BeforeTax)
+        If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
+          Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
         End If
         Return (AfterTax - BeforeTax)
       End Get
@@ -1350,15 +1388,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
       
-    Private m_taxBaseDeducted As Decimal = Decimal.MinValue
-    Public Property TaxBaseDeducted() As Decimal
-      Get
-        Return m_taxBaseDeducted
-      End Get
-      Set(ByVal Value As Decimal)
-        m_taxBaseDeducted = Value
-      End Set
-    End Property
+    'Private m_taxBaseDeducted As Decimal = Decimal.MinValue
+    'Public Property TaxBaseDeducted() As Decimal
+    '  Get
+    '    Return m_taxBaseDeducted
+    '  End Get
+    '  Set(ByVal Value As Decimal)
+    '    m_taxBaseDeducted = Value
+    '  End Set
+    'End Property
     Public Property RealAmount() As Decimal
       Get
         Return m_realAmount
@@ -1563,6 +1601,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sproc = "GetUnpaidPurchaseCNAmount"
           Else
             sproc = "GetUnpaidStockAmount"
+            If m_Remained.HasValue Then
+              Return m_Remained.Value
+            End If
           End If
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                   Me.ConnectionString _
@@ -1601,6 +1642,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           sproc = "GetUnpaidPurchaseCNAmount"
         Else
           sproc = "GetUnpaidStockAmount"
+          If m_Remained.HasValue Then
+            Return m_Remained.Value
+          End If
         End If
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
@@ -1664,6 +1708,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'sproc = "GetUnpaidPAAmount"
         Else
           sproc = "GetUnpaidStockAmount"
+          If m_Remained.HasValue Then
+            Return m_Remained.Value
+          End If
         End If
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _

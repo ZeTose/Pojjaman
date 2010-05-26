@@ -115,9 +115,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct(dr, aliasPrefix)
       With Me
 
-        If dr.Table.Columns.Contains("supplier.supplier_id") Then
-          If Not dr.IsNull("supplier.supplier_id") Then
-            .m_supplier = New Supplier(dr, "supplier.")
+        If dr.Table.Columns.Contains("supplier_id") Then
+          If Not dr.IsNull("supplier_id") Then
+            '.m_supplier = New Supplier(dr, "supplier.")
+            .m_supplier = Supplier.GetSupplier(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "pays_supplier") Then
@@ -835,7 +836,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If docType = 199 Then
           docType = item.RetentionType
         End If
-        Dim thisCC As CostCenter = GetCCFromDocTypeAndId(docType, item.Id)
+        'Dim thisCC As CostCenter = GetCCFromDocTypeAndId(docType, item.Id)
+        If item.CostCenterId = 0 Then
+          Return Nothing
+        End If
+        Dim thisCC As CostCenter = CostCenter.GetCostCenter(item.CostCenterId, ViewType.PaySelection)
         If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
           Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -962,7 +967,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If docType = 199 Then
           docType = doc.RetentionType
         End If
-        Dim itemCC As CostCenter = GetCCFromDocTypeAndId(docType, doc.Id)
+        'Dim itemCC As CostCenter = GetCCFromDocTypeAndId(docType, doc.Id)
+        Dim itemCC As CostCenter = CostCenter.GetCostCenter(doc.CostCenterId, ViewType.PaySelection)
         Dim itemCode As String = doc.Code.ToString
         Dim itemType As String = GetTypeNameFromDocType(doc.EntityId)
         If itemCC Is Nothing Then
@@ -1368,7 +1374,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           vitem.DocDate = Me.DocDate
           vitem.PrintName = Me.Supplier.Name
           vitem.PrintAddress = Me.Supplier.BillingAddress
-          vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          vitem.TaxBase = item.TaxBase - item.DeductTaxBase
+          'vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
           vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
           vitem.CcId = item.CostCenterId
           vitem.Refdoc = item.Id
@@ -1412,13 +1419,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetTaxBase() As Decimal
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
-        Dim d As Decimal '= item.TaxBaseDeducted
-        'If d = Decimal.MinValue Then
-        d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-        item.TaxBaseDeducted = d
+        'Dim d As Decimal '= item.TaxBaseDeducted
+        ''If d = Decimal.MinValue Then
+        'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+        ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+        'item.TaxBaseDeducted = d
         'End If
         If item.TaxType.Value <> 0 Then
-          amt += item.TaxBase - d
+          amt += item.TaxBase - item.DeductTaxBase
         End If
       Next
       Return amt

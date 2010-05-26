@@ -844,7 +844,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           vitem.DocDate = Me.DocDate
           vitem.PrintName = Me.Supplier.Name
           vitem.PrintAddress = Me.Supplier.BillingAddress
-          vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          vitem.TaxBase = item.TaxBase - item.DeductTaxBase
+          'vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
           vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
           vitem.CcId = item.CostCenterId
           vitem.Refdoc = item.Id
