@@ -997,7 +997,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           docType = doc.RetentionType
         End If
         'Dim itemCC As CostCenter = GetCCFromDocTypeAndId(docType, doc.Id)
-        Dim itemCC As CostCenter = CostCenter.GetCostCenter(doc.CostCenterId, ViewType.PaySelection)
+        'Dim itemCC As CostCenter = CostCenter.GetCostCenter(doc.CostCenterId, ViewType.PaySelection)
+        Dim itemCC As CostCenter = CostCenter.GetCCMinData(doc.CostCenterId)
         Dim itemCode As String = doc.Code.ToString
         Dim itemType As String = GetTypeNameFromDocType(doc.EntityId)
         If itemCC Is Nothing Then

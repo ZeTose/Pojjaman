@@ -1276,7 +1276,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
     End Function
+    Private Shared m_typenameandid As Hashtable
+    Public Shared ReadOnly Property AlltypeName As Hashtable
+      Get
+        If m_typenameandid Is Nothing Then
+          RefreshAllTypename()
+        End If
+        Return m_typenameandid
+      End Get
+    End Property
+    Public Shared Sub RefreshAllTypename()
+      SimpleBusinessEntityBase.m_typenameandid = New Hashtable
+      Dim key As String = ""
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetTypeName" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          key = CStr(drh.GetValue(Of Integer)("entity_id"))
+          SimpleBusinessEntityBase.m_typenameandid(key) = row
+        Next
+      End If
+    End Sub
     Public Shared Function GetTypeNameFromDocType(ByVal docType As Integer) As String
+      Dim key As String = docType.ToString
+      Dim row As DataRow = CType(AlltypeName(key), DataRow)
+      Return CStr(row("entity_description"))
+
       Dim ds As DataSet
       If Not Connection Is Nothing AndAlso Not Transaction Is Nothing Then
         ds = SqlHelper.ExecuteDataset(Connection, Transaction _
@@ -1289,7 +1318,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         , New SqlParameter("@docType", docType))
       End If
       If ds.Tables.Count > 0 _
-      AndAlso ds.Tables(0).Rows.Count = 1  Then
+      AndAlso ds.Tables(0).Rows.Count = 1 Then
         Return ds.Tables(0).Rows(0)(0).ToString
       End If
       Return ""

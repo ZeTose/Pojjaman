@@ -64,6 +64,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
+#Region "Shared Ready CC"
+    Private Shared m_AllCCMinData As Hashtable
+    Public Shared ReadOnly Property AllCCMinData As Hashtable
+      Get
+        If m_AllCCMinData Is Nothing Then
+          RefreshAllMinData()
+        End If
+        Return m_AllCCMinData
+      End Get
+    End Property
+    Public Shared Sub RefreshAllMinData()
+      CostCenter.m_AllCCMinData = New Hashtable
+      Dim key As String = ""
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetCostcenterMinDataCollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          key = CStr(drh.GetValue(Of Integer)("cc_id"))
+          CostCenter.m_AllCCMinData(key) = row
+        Next
+      End If
+    End Sub
+    Public Shared Function GetCCMinData(ByVal Id As Integer) As CostCenter
+      Dim key As String = Id.ToString
+      Dim row As DataRow = CType(AllCCMinData(key), DataRow)
+      Dim cc As New CostCenter
+      cc = GetCostCenter(row, ViewType.PaySelection) 'teeraboon
+      Return cc
+    End Function
+
+    Private Shared m_AllCCUsedData As Hashtable
+    Public Shared ReadOnly Property AllCCUsedData(ByVal key As Integer) As Hashtable
+      Get
+        If m_AllCCUsedData Is Nothing Then
+          m_AllCCUsedData = New Hashtable
+        End If
+        If Not m_AllCCUsedData.Contains(key) Then
+          m_AllCCUsedData(key) = New CostCenter(key)
+        End If
+        Return m_AllCCUsedData
+      End Get
+    End Property
+    
+#End Region
+
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -435,7 +484,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@" & Me.Prefix & "_id", Id) _
       )
       If ds.Tables(0).Rows.Count = 1 Then
-        Dim myBoq As New Boq(ds.Tables(0).Rows(0), "")
+        Dim myBoq As New BOQ(ds.Tables(0).Rows(0), "")
         Return myBoq
       End If
       Return Nothing
