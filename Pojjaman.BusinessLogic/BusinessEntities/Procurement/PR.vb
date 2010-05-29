@@ -839,8 +839,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
-
+    Private Sub ResetCode(ByVal oldcode As String)
+      Me.Code = oldcode
+      Me.AutoGen = True
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      Dim oldcode As String
       With Me
         If Me.ItemCollection.Count = 0 Then   '.ItemTable.Childs.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
@@ -883,6 +887,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
 
+        oldcode = Me.Code
         If Me.AutoGen Then   'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
@@ -929,24 +934,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid)
+                Me.ResetCode(oldcode)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case Else
             End Select
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid)
+            Me.ResetCode(oldcode)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             ResetID(oldid)
+            Me.ResetCode(oldcode)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid)
+                Me.ResetCode(oldcode)
                 Return saveDetailError
               Case Else
             End Select
@@ -993,12 +1002,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveAutoCodeError.Message) Then
             trans.Rollback()
             ResetID(oldid)
+            Me.ResetCode(oldcode)
             Return saveAutoCodeError
           Else
             Select Case CInt(saveAutoCodeError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid)
+                Me.ResetCode(oldcode)
                 Return saveAutoCodeError
               Case Else
             End Select
@@ -1010,10 +1021,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid)
+          Me.ResetCode(oldcode)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid)
+          Me.ResetCode(oldcode)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()

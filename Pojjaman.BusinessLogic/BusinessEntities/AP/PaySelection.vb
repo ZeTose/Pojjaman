@@ -400,9 +400,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.WitholdingTaxCollection.ResetId()
       End If
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldJecode As String)
+      Me.Code = oldCode
+      Me.AutoGen = True
+      Me.m_payment.Code = oldJecode
+      Me.m_payment.AutoGen = True
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = True
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
-
+        Dim oldcode As String
+        Dim oldjecode As String
         'Hack by pui ใช้แล้วไปเปลี่ยนตอน save vat, wht ให้ดึง Me.RealTaxBase แทน ไม่งั้นมัน Lock =============
         Me.RealTaxBase = Me.GetTaxBase
         'Hack by pui =========================================================================
@@ -457,6 +466,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         '---- AutoCode Format --------
         Me.m_je.RefreshGLFormat()
+
+        oldcode = Me.Code
+        oldjecode = Me.m_je.Code
         If Not AutoCodeFormat Is Nothing Then
 
 
@@ -544,12 +556,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                ResetCode(oldcode, oldjecode)
+
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case Else
             End Select
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            ResetCode(oldcode, oldjecode)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
@@ -571,12 +586,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(savePaymentError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            ResetCode(oldcode, oldjecode)
             Return savePaymentError
           Else
             Select Case CInt(savePaymentError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                ResetCode(oldcode, oldjecode)
                 Return savePaymentError
               Case Else
             End Select
@@ -587,12 +604,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveVatError.Message) Then
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje, oldVatId)
+              ResetCode(oldcode, oldjecode)
               Return saveVatError
             Else
               Select Case CInt(saveVatError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                  ResetCode(oldcode, oldjecode)
                   Return saveVatError
                 Case Else
               End Select
@@ -604,12 +623,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveWhtError.Message) Then
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje, oldVatId)
+              ResetCode(oldcode, oldjecode)
               Return saveWhtError
             Else
               Select Case CInt(saveWhtError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                  ResetCode(oldcode, oldjecode)
                   Return saveWhtError
                 Case Else
               End Select
@@ -623,12 +644,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            ResetCode(oldcode, oldjecode)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                ResetCode(oldcode, oldjecode)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
@@ -661,12 +684,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveAutoCodeError.Message) Then
             trans.Rollback()
             ResetID(oldid, oldpay, oldVatId, oldje)
+            ResetCode(oldcode, oldjecode)
             Return saveAutoCodeError
           Else
             Select Case CInt(saveAutoCodeError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid, oldpay, oldVatId, oldje)
+                ResetCode(oldcode, oldjecode)
                 Return saveAutoCodeError
               Case Else
             End Select
@@ -700,10 +725,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje, oldVatId)
+          ResetCode(oldcode, oldjecode)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje, oldVatId)
+          ResetCode(oldcode, oldjecode)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
@@ -840,7 +867,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.CostCenterId = 0 Then
           Return Nothing
         End If
-        Dim thisCC As CostCenter = CostCenter.GetCostCenter(item.CostCenterId, ViewType.PaySelection)
+        'Dim thisCC As CostCenter = CostCenter.GetCostCenter(item.CostCenterId, ViewType.PaySelection)
+        Dim thisCC As CostCenter = CostCenter.GetCCMinData(item.CostCenterId)
         If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
           Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -860,7 +888,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             )
         If dsr.Tables(0).Rows.Count > 0 Then
           If Not dsr.Tables(0).Rows(0).IsNull("cc_id") Then
-            Return New CostCenter(dsr.Tables(0).Rows(0), "")
+            'Return New CostCenter(dsr.Tables(0).Rows(0), "")
+            Return CostCenter.GetCostCenter(dsr.Tables(0).Rows(0), ViewType.PaySelection)
           End If
         End If
         Return New CostCenter

@@ -409,8 +409,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetCode(ByVal oldcode As String)
+      Me.Code = oldcode
+      Me.AutoGen = True
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+        Dim oldcode As String
 
         If Originated Then
           If Not Supplier Is Nothing Then
@@ -444,6 +449,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status.Value = 2
         End If
 
+        oldcode = Me.Code
         If Me.AutoGen And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
@@ -479,16 +485,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid)
+                Me.ResetCode(oldcode)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case -69 'ใบวางบิลซ้ำ
                 trans.Rollback()
                 ResetID(oldid)
+                Me.ResetCode(oldcode)
                 Return New SaveErrorException("${res:Global.Error.BillIssueCodeDuplicated}", Me.BillIssueCode)
               Case Else
             End Select
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid)
+            Me.ResetCode(oldcode)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
           SaveDetail(Me.Id, conn, trans)
@@ -513,10 +522,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid)
+          Me.ResetCode(oldcode)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid)
+          Me.ResetCode(oldcode)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
@@ -1570,7 +1581,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             )
         If dsr.Tables(0).Rows.Count > 0 Then
           If Not dsr.Tables(0).Rows(0).IsNull("cc_id") Then
-            Return New CostCenter(dsr.Tables(0).Rows(0), "")
+            Return CostCenter.GetCostCenter(dsr.Tables(0).Rows(0), ViewType.PaySelection)
           End If
         End If
         Return New CostCenter
