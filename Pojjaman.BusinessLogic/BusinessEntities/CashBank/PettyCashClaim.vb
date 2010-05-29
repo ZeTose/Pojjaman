@@ -965,7 +965,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
         ji.Account = Me.PettyCash.Account
       End If
-      If Me.PettyCash.ToCC IsNot Nothing Then
+      If Me.PettyCash.ToCC IsNot Nothing AndAlso Me.PettyCash.ToCC.Id > 0 Then
         ji.CostCenter = Me.PettyCash.ToCC
       Else
         ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -986,7 +986,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not Me.PettyCash Is Nothing AndAlso Not Me.PettyCash.Account Is Nothing AndAlso Me.PettyCash.Account.Originated Then
           ji.Account = Me.PettyCash.Account
         End If
-        ji.Note = CStr(Me.ItemTable.Childs(i)("Code")) + ":" + CStr(Me.ItemTable.Childs(i)("DocType"))
+        Dim note As String = ""
+        If Not Me.ItemTable.Childs(i).IsNull("Code") Then
+          note = CStr(Me.ItemTable.Childs(i).IsNull("Code"))
+        End If
+        If Not Me.ItemTable.Childs(i).IsNull("DocType") Then
+          note &= CStr(Me.ItemTable.Childs(i).IsNull("DocType"))
+        End If
+
+        ji.Note = note 'CStr(Me.ItemTable.Childs(i)("Code")) + ":" + CStr(Me.ItemTable.Childs(i)("DocType"))
+
         ji.CostCenter = pcCC
         jiColl.Add(ji)
         'Payment
