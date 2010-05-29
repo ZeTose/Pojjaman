@@ -3388,7 +3388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Get
         Try
           Dim approveDocColl As New ApproveDocCollection(m_entity)
-          Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
+          Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("SCApproveBeforePrint"))
           If poNeedsApproval Then
             If Not approveDocColl.IsApproved Then
               Return False
