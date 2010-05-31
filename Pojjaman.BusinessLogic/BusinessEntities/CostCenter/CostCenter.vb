@@ -285,8 +285,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Hack เอาออกไปเพื่อความเร็ว ---> อย่าลืมโหลดใน View
         'Me.LoadImage()
       End With
-      BudgetCollectionForCC = New BudgetCollectionForCC(Me)
-      CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
+      'BudgetCollectionForCC = New BudgetCollectionForCC(Me)
+      'CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me)
     End Sub
 
     Public Sub LoadImage(ByVal reader As IDataReader)
@@ -946,11 +946,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , "GetMinCostCenter" _
         , New SqlParameter("@cc_id", id) _
           )
-      Dim dr As DataRow = ds.Tables(0).Rows(0)
-      Select Case viewType
-        Case viewType.JournalEntryItem, viewType.Payment, viewType.PaySelection
-          SetMinimumCC(cc, dr)
-      End Select
+      If ds.Tables(0).Rows.Count > 0 Then
+        Dim dr As DataRow = ds.Tables(0).Rows(0)
+
+        Select Case viewType
+          Case viewType.JournalEntryItem, viewType.Payment, viewType.PaySelection
+            SetMinimumCC(cc, dr)
+        End Select
+      End If
+
       Return cc
     End Function
     Private Shared Sub SetMinimumCC(ByVal cc As CostCenter, ByVal dr As DataRow)

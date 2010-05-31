@@ -1239,7 +1239,7 @@ FinalLine:
 
       RefreshDocs()
 
-      UpdateAmount()
+      'UpdateAmount()
 
       'RefreshWBS()
 

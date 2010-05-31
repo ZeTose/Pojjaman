@@ -1134,7 +1134,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Next
 				End If
 			Next
-			RefreshBudget()
+      'RefreshBudget()
 		End Sub
 		Private Sub RefreshBudget()
 			For Each item As PRItem In Me

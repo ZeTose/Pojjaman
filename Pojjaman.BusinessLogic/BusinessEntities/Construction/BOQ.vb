@@ -4029,7 +4029,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           theId = CInt(drBoq("boq_id"))
         End If
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
+
+        ''=== Insert Update Budget and Actual ======================================================
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", theId)})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", theId)})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        ''=== Insert Update Budget and Actual ======================================================
+
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
         trans.Commit()
         If Not Me.Originated Then
           Me.Id = CInt(drBoq("boq_id"))

@@ -146,10 +146,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbRetention = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.lblRetention = New System.Windows.Forms.Label()
       Me.lblRetentionNote = New System.Windows.Forms.Label()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnRequestorEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnRequestorFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblRequestor = New System.Windows.Forms.Label()
@@ -824,6 +824,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.txtSupplierName)
       Me.grbDetail.Controls.Add(Me.tgItem)
       Me.grbDetail.Controls.Add(Me.cmbCode)
+      Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.txtRealGross)
       Me.grbDetail.Controls.Add(Me.ibtnResetGross)
       Me.grbDetail.Controls.Add(Me.txtRealTaxAmount)
@@ -933,27 +934,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnResetTaxBase.TabStop = False
       Me.ibtnResetTaxBase.ThemedImage = CType(resources.GetObject("ibtnResetTaxBase.ThemedImage"), System.Drawing.Bitmap)
       '
-      'btnApprove
-      '
-      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(106, -2)
-      Me.btnApprove.Name = "btnApprove"
-      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
-      Me.btnApprove.TabIndex = 332
-      Me.btnApprove.Text = "อนุมัติเอกสาร"
-      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
-      '
       'grbRetention
       '
       Me.grbRetention.Controls.Add(Me.txtRetention)
       Me.grbRetention.Controls.Add(Me.lblRetention)
       Me.grbRetention.Controls.Add(Me.txtRetentionNote)
       Me.grbRetention.Controls.Add(Me.lblRetentionNote)
-      Me.grbRetention.Controls.Add(Me.btnApprove)
       Me.grbRetention.Location = New System.Drawing.Point(560, 16)
       Me.grbRetention.Name = "grbRetention"
       Me.grbRetention.Size = New System.Drawing.Size(208, 152)
@@ -984,6 +970,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRetentionNote.TabIndex = 22
       Me.lblRetentionNote.Text = "หมายเหตุ:"
       Me.lblRetentionNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(666, 15)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 332
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
       '
       'btnRequestorEdit
       '
@@ -2966,11 +2966,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides ReadOnly Property CanPrint() As Boolean
       Get
         Try
-          Dim approveDocColl As New ApproveDocCollection(m_entity)
-          Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
-          If poNeedsApproval Then
-            If Not approveDocColl.IsApproved Then
+          If Me.m_entity.Originated Then
+            If Not Me.m_entity.IsApproved Then
               Return False
+            End If
+
+          Else
+
+            Dim approveDocColl As New ApproveDocCollection(m_entity)
+            Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
+            If poNeedsApproval Then
+              If Not approveDocColl.IsApproved Then
+                Return False
+              End If
             End If
           End If
         Catch ex As Exception

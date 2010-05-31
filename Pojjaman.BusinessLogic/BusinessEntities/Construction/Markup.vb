@@ -171,29 +171,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      m_conditionItems = New MarkupConditionItemCollection(Me)
-      m_distributedItems = New DistributedItemCollection(Me)
+      'm_conditionItems = New MarkupConditionItemCollection(Me)
+      'm_distributedItems = New DistributedItemCollection(Me)
     End Sub
     Public Sub New(ByVal code As String)
       MyBase.New(code)
-      m_conditionItems = New MarkupConditionItemCollection(Me)
-      m_distributedItems = New DistributedItemCollection(Me)
+      'm_conditionItems = New MarkupConditionItemCollection(Me)
+      'm_distributedItems = New DistributedItemCollection(Me)
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-      m_conditionItems = New MarkupConditionItemCollection(Me)
-      m_distributedItems = New DistributedItemCollection(Me)
+      'm_conditionItems = New MarkupConditionItemCollection(Me)
+      'm_distributedItems = New DistributedItemCollection(Me)
     End Sub
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
-      m_conditionItems = New MarkupConditionItemCollection(Me)
-      m_distributedItems = New DistributedItemCollection(Me)
+      'm_conditionItems = New MarkupConditionItemCollection(Me)
+      'm_distributedItems = New DistributedItemCollection(Me)
     End Sub
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String, ByVal boq As Boq)
       Me.Construct(dr, aliasPrefix)
       Me.m_boq = boq
-      m_conditionItems = New MarkupConditionItemCollection(Me)
-      m_distributedItems = New DistributedItemCollection(Me)
+      'm_conditionItems = New MarkupConditionItemCollection(Me)
+      'm_distributedItems = New DistributedItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
@@ -303,7 +303,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-#Region "Properties"    Public Property DistributedItems() As DistributedItemCollection      Get        Return m_distributedItems      End Get      Set(ByVal Value As DistributedItemCollection)        m_distributedItems = Value      End Set    End Property    Public Property ConditionItems() As MarkupConditionItemCollection      Get        Return m_conditionItems      End Get      Set(ByVal Value As MarkupConditionItemCollection)        m_conditionItems = Value      End Set    End Property    Public Property Boq() As Boq      Get        Return m_boq      End Get      Set(ByVal Value As Boq)        m_boq = Value      End Set    End Property    Public Property Name() As String      Get        Return m_name      End Get      Set(ByVal Value As String)        m_name = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Condition() As MarkupCondition      Get        Return m_condition      End Get      Set(ByVal Value As MarkupCondition)        m_condition = Value      End Set    End Property    Public Property Type() As MarkupType      Get        Return m_type      End Get      Set(ByVal Value As MarkupType)        m_type = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Unit() As CurrencyOrPercent      Get        Return m_unit      End Get      Set(ByVal Value As CurrencyOrPercent)        m_unit = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription
+#Region "Properties"    Public Property DistributedItems() As DistributedItemCollection      Get        If m_distributedItems Is Nothing Then
+          m_distributedItems = New DistributedItemCollection(Me)
+        End If        Return m_distributedItems      End Get      Set(ByVal Value As DistributedItemCollection)        m_distributedItems = Value      End Set    End Property    Public Property ConditionItems() As MarkupConditionItemCollection      Get        If m_conditionItems Is Nothing Then          m_conditionItems = New MarkupConditionItemCollection(Me)
+        End If        Return m_conditionItems      End Get      Set(ByVal Value As MarkupConditionItemCollection)        m_conditionItems = Value      End Set    End Property    Public Property Boq() As Boq      Get        Return m_boq      End Get      Set(ByVal Value As Boq)        m_boq = Value      End Set    End Property    Public Property Name() As String      Get        Return m_name      End Get      Set(ByVal Value As String)        m_name = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Condition() As MarkupCondition      Get        Return m_condition      End Get      Set(ByVal Value As MarkupCondition)        m_condition = Value      End Set    End Property    Public Property Type() As MarkupType      Get        Return m_type      End Get      Set(ByVal Value As MarkupType)        m_type = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Unit() As CurrencyOrPercent      Get        Return m_unit      End Get      Set(ByVal Value As CurrencyOrPercent)        m_unit = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription
       Get
         Return Me.m_status
       End Get

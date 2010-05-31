@@ -391,8 +391,9 @@ Public Class LevelPropertyAttribute
     Private m_qty As Decimal 'ปริมาณ
 
     Private m_unit As Unit
-    Private m_listNumber As String
+    Private m_ListNumber As String
     Private m_direction As Byte
+    Private m_referenced As Boolean
 #End Region
 
 #Region "Constructors"
@@ -466,8 +467,11 @@ Public Class LevelPropertyAttribute
           m_unit = New Unit(CInt(dr(aliasPrefix & "wbs_unit")))
         End If
       End If
-      If dr.Table.Columns.Contains(aliasPrefix & "wbsList_number") AndAlso Not dr.IsNull(aliasPrefix & "wbsList_number") Then
-        m_listNumber = dr(aliasPrefix & "wbsList_number").ToString
+      If dr.Table.Columns.Contains(aliasPrefix & "wbs_number") AndAlso Not dr.IsNull(aliasPrefix & "wbs_number") Then
+        m_ListNumber = dr(aliasPrefix & "wbs_number").ToString
+      End If
+      If dr.Table.Columns.Contains("isReference") AndAlso Not dr.IsNull("isReference") Then
+        m_referenced = CBool(dr("isReference").ToString)
       End If
 
       m_dr = dr
@@ -538,10 +542,10 @@ Public Class LevelPropertyAttribute
         Return True
       End Get
     End Property    Public Property ListNumber() As String      Get
-        Return m_listNumber
+        Return m_ListNumber
       End Get
       Set(ByVal Value As String)
-        m_listNumber = Value
+        m_ListNumber = Value
       End Set
     End Property    Public Property Direction() As Byte
       Get
@@ -549,6 +553,12 @@ Public Class LevelPropertyAttribute
       End Get
       Set(ByVal Value As Byte)
         m_direction = Value
+      End Set
+    End Property    Public Property Referenced As Boolean      Get
+        Return m_referenced
+      End Get
+      Set(ByVal value As Boolean)
+        m_referenced = value
       End Set
     End Property#Region "Cost Control"    Public Shared WBSReportType As Boq.WBSReportType = WBSReportType.GoodsReceipt    Public Shared Function GetAmountFromSproc(ByVal sproc As String, ByVal toDate As Date, ByVal id As Integer, ByVal isMarkup As Boolean, ByVal view As Integer, ByVal requestor As Integer) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -1591,7 +1601,7 @@ Public Class LevelPropertyAttribute
       If Not Me.Note Is Nothing AndAlso Me.Note.Length > 0 Then
         nodeNote = " (" & Me.Note & ")"
       End If
-      If Me.IsReferenced Then
+      If Me.Referenced Then
         nodeNote &= " <Ref>"
       End If
       Return Me.Code & " - " & Me.Name & nodeNote
