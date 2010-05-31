@@ -925,7 +925,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel1.Items.Clear()
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
-      'Me.m_treeManager.Treetable.Rows.Clear()
+      If coll.Count = 0 Then
+        'Me.m_treeManager.Treetable.Rows.Clear()
+        For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+          row.Delete()
+        Next
+        RefreshDocs()
+      End If
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel1.BeginUpdate()
       Dim i As Integer = 0
@@ -1017,7 +1023,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(2, CType(lvLevel1.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
-      Me.m_treeManager.Treetable.Clear()
+      If coll.Count = 0 Then
+        Me.m_treeManager.Treetable.Rows.Clear()
+        RefreshDocs()
+      End If
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel2.BeginUpdate()
@@ -1046,7 +1055,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim t As Date = Now
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(3, CType(lvLevel2.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel3.Items.Clear()
-      Me.m_treeManager.Treetable.Clear()
+      If coll.Count = 0 Then
+        Me.m_treeManager.Treetable.Rows.Clear()
+        RefreshDocs()
+      End If
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel3.BeginUpdate()
