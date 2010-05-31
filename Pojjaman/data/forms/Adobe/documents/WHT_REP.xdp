@@ -1,0 +1,3057 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2006-06-26T10:29:06Z" uuid="6b2c2248-12b7-4293-a831-4db6783d7cd4">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
+   <subform name="form1" layout="tb" locale="th_TH">
+      <pageSet>
+         <pageArea name="Page1" id="Page1">
+            <contentArea x="0.25in" y="0.25in" w="222.7581mm" h="309.6262mm"/>
+            <medium stock="a4Extra" short="235.458mm" long="322.326mm"/>
+         </pageArea>
+      </pageSet>
+      <subform w="201.2378mm" h="291.15mm">
+         <draw name="T89" x="170.1499mm" y="106.4373mm" w="0.921in" h="0.224903in">
+            <value>
+               <text>และนำส่งไว้</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" hAlign="center"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 66312 16193 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00C200A800B3009C00CE 1 13788 11990 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 32377 11990 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 24 00AD006E008A00C500AA006F 1 35784 11990 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T88" x="175.0775mm" y="102.1499mm" w="0.534in" h="0.236222in">
+            <value>
+               <text>ภาษีที่หัก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" hAlign="center"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 38448 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 40 00A300B500AC00B8009A00B800C900AE00B40084 1 4518 12397 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="Rectangle2" y="63.65mm" x="3.6498mm" w="192.5002mm" h="38.3798mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="Rectangle1" y="39.6498mm" x="3.6498mm" w="192.5002mm" h="24.2196mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T380" x="135.1159mm" y="51.3483mm" w="2.308972in" h="0.194444in">
+            <value>
+               <text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+         </draw>
+         <draw name="T37" x="97.6911mm" y="40.5063mm" w="27.4066mm" h="5.8674mm">
+            <value>
+               <text>เลขประจำตัวประชาชน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 77688 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 40 009800B400AA009E00A600B3008D00B5008D009C 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T36" x="107.2161mm" y="46.2213mm" w="33.7058mm" h="5.8674mm">
+            <value>
+               <text>เลขประจำตัวผู้เสียภาษีอากร</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 95544 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 72 009800B400AA009F00BC006F00C100AD00B800A500A300B500AC00B800B000B5008400A6 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="R35" x="186.7471mm" y="40.5007mm" w="4.2404mm" h="4.2404mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R35" x="175.6522mm" y="40.2009mm" w="8.6325mm" h="4.7696mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L34" x="184.3905mm" y="42.7055mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R32" x="152.3689mm" y="40.1127mm" w="21.3325mm" h="5.0341mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L31" x="150.3545mm" y="42.7055mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L27" x="130.9235mm" y="42.7479mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L27" x="173.5955mm" y="42.7903mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R26" x="126.7749mm" y="40.2361mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R21" x="133.1249mm" y="40.2361mm" w="16.9404mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L20" x="184.6445mm" y="48.5053mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R19" x="186.7824mm" y="45.8805mm" w="4.2404mm" h="4.9636mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L18" x="146.3329mm" y="48.6323mm" w="2.2437mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R17" x="142.3324mm" y="45.9335mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L13" x="165.5099mm" y="48.6323mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R12" x="148.6824mm" y="45.9335mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R8" x="167.7324mm" y="45.9335mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T6" x="14.9125mm" y="55.2168mm" w="6.888in" h="0.206in">
+            <value>
+               <text>......................................................................................................................................................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 495936 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 1048 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T4" x="12.8043mm" y="46.7801mm" w="94.2594mm" h="5.2324mm">
+            <value>
+               <text>...........................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 267192 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 556 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T2" x="35.15mm" y="39.9567mm" w="5.842mm" h="7.0358mm">
+            <value>
+               <text>:-</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 16560 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 001D0010 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T38" x="142.6502mm" y="9.6501mm" h="6mm" w="8mm">
+            <value>
+               <text>เล่มที่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 22677 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 28 00C100A8006E00A4009A00B800C9 1 0 12339 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T39" x="150.6501mm" y="9.6501mm" w="0.744in" h="6mm">
+            <value>
+               <text>...........................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 53568 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 108 001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 12263 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T40" x="169.6503mm" y="9.6503mm" w="0.28in" h="0.236222in">
+            <value>
+               <text>เลขที่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 20160 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00C100A80085009A00B800C9 1 0 12339 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T42" x="176.6505mm" y="9.6503mm" w="0.765in" h="6mm">
+            <value>
+               <text>..............................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 55080 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 120 001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 12263 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T43" x="3.6498mm" y="7.6501mm" w="2.409in" h="8mm">
+            <value>
+               <text>หนังสือรับรองการหักภาษี ณ ที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="18pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 173448 22677 0 0 0 0 0 0?>
+            <?renderCache.textRun 132 00AE009C00B4008A00AD00BA00B000A600B4009D00A600B0008A008400B500A600AE00B4008400A300B500AC00B8000300960003009A00B800C9008B006E00B500A5 1 0 17178 0 0 0 "AngsanaUPC" 1 0 18000 UTF-16?></draw>
+         <draw name="T44" x="64.65mm" y="8.6501mm" w="2.283458in" h="6.9998mm">
+            <value>
+               <text>ตามมาตรา 50 ทวิ แห่งประมวลรัษฎากร</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 164409 19842 0 0 0 0 0 0?>
+            <?renderCache.textRun 132 009800B500A400A400B5009800A600B50003001800130003009A00AA00B7000300C200AE006E008A009E00A600B300A400AA00A800A600B400AC009100B5008400A6 1 0 14395 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="T47" x="1.6608mm" y="0.6502mm" w="10.7188mm" h="6.0198mm">
+            <value>
+               <text>ฉบับที่ 1</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 30384 17064 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 008C009D00B4009D009A00B800C900030014 1 0 12425 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T49" x="14.1069mm" y="0.6502mm" w="3.979389in" h="0.198694in">
+            <value>
+               <text>(สำหรับผู้ถูกหักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T51" x="115.65mm" y="0.65mm" w="0.420833in" h="0.237in">
+            <value>
+               <text>ฉบับที่ 2</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 30300 17064 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 008C009D00B4009D009A00B800C900030015 1 0 12425 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T54" x="128.2931mm" y="0.65mm" w="2.249319in" h="0.226in">
+            <value>
+               <text>(สำหรับผู้ถูกหักภาษี ณ ที่จ่าย เก็บไว้เป็นหลักฐาน)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="R85" x="24.7594mm" y="91.0298mm" w="17.8647mm" h="4.9999mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.96pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T87" x="38.2114mm" y="103.8546mm" w="42.3418mm" h="7.0358mm">
+            <value>
+               <text>ประเภทเงินได้พึงประเมินที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 120024 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 120 009E00A600B300C100A3009A00C1008A00B7009C00C50097006F00A100B9008A009E00A600B300C100A400B7009C009A00B800C9008B006E00B500A5 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T88" x="117.7135mm" y="101.65mm" w="0.534in" h="6mm">
+            <value>
+               <text>วัน เดือน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 38448 17008 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 00AA00B4009C000300C1009700BA00B0009C 1 0 12397 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T89" x="112.7859mm" y="105.9374mm" w="0.921in" h="5.7125mm">
+            <value>
+               <text>หรือปีภาษี ที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 66312 16193 0 0 0 0 0 0?>
+            <?renderCache.textRun 72 00AE00A600BA00B0009E006500A300B500AC00B80003009A00B800C9008B006E00B500A5 1 0 11990 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T90" x="141.5894mm" y="103.8038mm" w="22.7838mm" h="7.0358mm">
+            <value>
+               <text>จำนวนเงินที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 64584 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008B00CE 1 0 13865 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 4559 13865 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 56 009C00AA009C00C1008A00B7009C009A00B800C9008B006E00B500A5 1 7966 13865 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T91" x="9.3824mm" y="112.5922mm" w="1.651mm" h="6.35mm">
+            <value>
+               <text>1</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 4680 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 4 0014 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T92" x="11.0842mm" y="112.5922mm" w="0.8128mm" h="6.35mm">
+            <value>
+               <text>.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 2304 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 4 0011 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T93" x="13.3449mm" y="112.5922mm" w="2.078681in" h="0.25in">
+            <value>
+               <text>เงินเดือน ค่าจ้าง เบี้ยเลี้ยง โบนัส ฯลฯ ตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 149665 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 172 00C1008A00B7009C00C1009700BA00B0009C00030087006E00B5008B006F00B5008A000300C1009D00B800CA00A500C100A800B800CA00A5008A000300C3009D009C00B400AD000300B200A800B20003009800B500A4 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T94" x="66.3426mm" y="112.5922mm" w="0.607528in" h="0.257in">
+            <value>
+               <text>มาตรา 40(1)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 43742 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 00A400B5009800A600B5000300170013000B0014000C 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T98" x="9.3824mm" y="117.8754mm" w="3.8354mm" h="6.35mm">
+            <value>
+               <text>2.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 10872 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00150011 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T99" x="13.3448mm" y="117.8754mm" w="46.2788mm" h="6.35mm">
+            <value>
+               <text>ค่าธรรมเนียม ค่านายหน้า ฯลฯ ตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 131184 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 124 0087006E00B5009B00A600A600A400C1009C00B800A500A400030087006E00B5009C00B500A500AE009C006F00B5000300B200A800B20003009800B500A4 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T100" x="58.4044mm" y="117.8754mm" w="0.637333in" h="0.257in">
+            <value>
+               <text>มาตรา 40(2)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 45888 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 00A400B5009800A600B5000300170013000B0015000C 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T102" x="9.3824mm" y="123.184mm" w="3.8354mm" h="6.35mm">
+            <value>
+               <text>3.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 10872 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00160011 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T103" x="13.3448mm" y="123.184mm" w="31.8008mm" h="6.35mm">
+            <value>
+               <text>ค่าแห่งลิขสิทธิ์ ฯลฯ ตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 90144 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 96 0087006E00B500C200AE006E008A00A800B7008500AD00B7009A009B00B700CD000300B200A800B20003009800B500A4 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T104" x="43.9264mm" y="123.184mm" w="0.637333in" h="0.257in">
+            <value>
+               <text>มาตรา 40(3)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 45888 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 00A400B5009800A600B5000300170013000B0016000C 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T106" x="9.3824mm" y="128.4672mm" w="0.282611in" h="0.25in">
+            <value>
+               <text>4. (ก)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 20348 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 001700110003000B0084000C 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T109" x="18.3994mm" y="128.4672mm" w="24.6126mm" h="6.35mm">
+            <value>
+               <text>ดอกเบี้ย ฯลฯ ตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 69768 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 64 009700B0008400C1009D00B800CA00A5000300B200A800B20003009800B500A4 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T110" x="41.7675mm" y="128.4672mm" w="0.862569in" h="0.257in">
+            <value>
+               <text> มาตรา 40 (4) (ก)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 62105 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 68 000300A400B5009800A600B50003001700130003000B0017000C0003000B0084000C 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T114" x="12.8249mm" y="133.7504mm" w="0.155056in" h="0.25in">
+            <value>
+               <text>(ข)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 11164 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 12 000B0085000C 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T117" x="18.2724mm" y="133.7504mm" w="1.901in" h="0.25in">
+            <value>
+               <text>เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ ตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 136872 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 96 00C1008A00B7009C009E007B009C009F00A8000300C1008A00B7009C00AD006E00AA009C00C2009D006E008A008400CE 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 84119 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 40 00C500A6000300B200A800B20003009800B500A4 1 88629 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T118" x="65.2878mm" y="133.7504mm" w="0.821417in" h="0.257in">
+            <value>
+               <exData maxLength="0" contentType="text/html">
+                  <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="text-decoration:none">มาตรา<span style="xfa-spacerun:yes"> </span><span style="text-decoration:none">40 (4) (ข)</span></p></body>
+               </exData>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 59142 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 64 00A400B5009800A600B50003001700130003000B0017000C0003000B0085000C 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T122" x="18.3487mm" y="139.059mm" w="0.173542in" h="0.25in">
+            <value>
+               <text>(1)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 12495 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 12 000B0014000C 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T125" x="24.3176mm" y="139.059mm" w="27.813mm" h="6.35mm">
+            <value>
+               <text>กรณีผู้ได้รับเงินปันผล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 78840 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 88 008400A6009600B8009F00BC006F00C50097006F00A600B4009D00C1008A00B7009C009E007B009C009F00A8 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T126" x="50.9114mm" y="139.059mm" w="21.4376mm" h="6.5278mm">
+            <value>
+               <text>ได้รับเครดิตภาษ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 60768 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 60 00C50097006F00A600B4009D00C1008700A6009700B7009800A300B500AC 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T127" x="71.1044mm" y="139.059mm" w="18.8214mm" h="6.35mm">
+            <value>
+               <text>ี โดยจ่ายจาก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 53352 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 000300C3009700A5008B006E00B500A5008B00B50084 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T128" x="24.8764mm" y="144.3422mm" w="78.0542mm" h="6.35mm">
+            <value>
+               <text>กำไรสุทธิของกิจการที่ต้องเสียภาษีเงินได้นิติบุคคลในอัตราดังนี้</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 221256 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008400CE 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 5199 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 240 00C500A600AD00BB009A009B00B7008500B0008A008400B7008B008400B500A6009A00B800C90098006F00B0008A00C100AD00B800A500A300B500AC00B800C1008A00B7009C00C50097006F009C00B7009800B7009D00BB0087008700A800C4009C00B000B4009800A600B5009700B4008A009C00B800CA 1 9709 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T129" x="24.8764mm" y="149.981mm" w="0.224611in" h="0.231in">
+            <value>
+               <text>(1.1)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 16172 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001400110014000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T134" x="32.6996mm" y="149.981mm" w="0.292in" h="0.231in">
+            <value>
+               <text>อัตรา</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 21024 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00B000B4009800A600B5 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T135" x="39.9118mm" y="149.981mm" w="0.443444in" h="0.237in">
+            <value>
+               <text>ร้อยละ 30</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 31928 17064 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 00A6006F00B000A500A800B3000300160013 1 0 12425 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T137" x="52.6386mm" y="149.981mm" w="16.4592mm" h="5.8674mm">
+            <value>
+               <text>ของกำไรสุทธิ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 46656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 008500B0008A008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 17795 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 28 00C500A600AD00BB009A009B00B7 1 21958 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T138" x="24.8765mm" y="155.2896mm" w="0.228875in" h="0.231in">
+            <value>
+               <text>(1.2)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 16479 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001400110015000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T141" x="32.6996mm" y="155.2896mm" w="7.4168mm" h="5.8674mm">
+            <value>
+               <text>อัตรา</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 21024 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00B000B4009800A600B5 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T144" x="52.6386mm" y="155.2896mm" w="16.4592mm" h="5.8674mm">
+            <value>
+               <text>ของกำไรสุทธิ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 46656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 008500B0008A008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 17795 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 28 00C500A600AD00BB009A009B00B7 1 21958 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T145" x="24.8765mm" y="160.5728mm" w="0.235972in" h="0.231in">
+            <value>
+               <text>(1.3)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 16990 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001400110016000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T148" x="32.6996mm" y="160.5728mm" w="0.292in" h="0.231in">
+            <value>
+               <text>อัตรา</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 21024 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00B000B4009800A600B5 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T149" x="39.9118mm" y="160.5728mm" w="0.443444in" h="0.237in">
+            <value>
+               <text>ร้อยละ 20</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 31928 17064 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 00A6006F00B000A500A800B3000300150013 1 0 12425 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T151" x="52.6386mm" y="160.5728mm" w="16.4592mm" h="5.8674mm">
+            <value>
+               <text>ของกำไรสุทธิ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 46656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 008500B0008A008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 17795 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 28 00C500A600AD00BB009A009B00B7 1 21958 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T152" x="24.8765mm" y="165.856mm" w="0.235972in" h="0.231in">
+            <value>
+               <text>(1.4)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 16990 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001400110017000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T155" x="32.7505mm" y="165.856mm" w="12.9328mm" h="5.8674mm">
+            <value>
+               <text>อัตราอื่น ๆ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 36660 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 00B000B4009800A600B500B000BA00C9009C000300C7 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T156" x="46.2379mm" y="165.856mm" w="0.257083in" h="0.226in">
+            <value>
+               <exData maxLength="0" contentType="text/html">
+                  <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-style:normal">(ระบุ)</p></body>
+               </exData>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 18510 16272 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 000B00A600B3009D00BB000C 1 0 11971 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T159" x="53.6218mm" y="166.2116mm" w="15.5448mm" h="5.2324mm">
+            <value>
+               <text>......................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 44064 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 88 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T160" x="69.5596mm" y="165.856mm" w="16.5862mm" h="5.8674mm">
+            <value>
+               <text>ของกำไรสุทธิ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 47016 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 008500B0008A008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 17795 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 28 00C500A600AD00BB009A009B00B7 1 21958 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T161" x="18.3486mm" y="170.809mm" w="4.9276mm" h="6.35mm">
+            <value>
+               <text>(2)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 13968 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 12 000B0015000C 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T162" x="24.3684mm" y="170.809mm" w="1.094in" h="0.25in">
+            <value>
+               <text>กรณีผู้ได้รับเงินปันผล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 78768 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 88 008400A6009600B8009F00BC006F00C50097006F00A600B4009D00C1008A00B7009C009E007B009C009F00A8 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T163" x="51.9514mm" y="170.809mm" w="0.975in" h="0.257in">
+            <value>
+               <text>ไม่ได้รับเครดิตภาษี</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 70200 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 76 00C500A4006E00C50097006F00A600B4009D00C1008700A6009700B7009800A300B500AC00B8 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T165" x="24.8764mm" y="176.4478mm" w="4.4704mm" h="5.8674mm">
+            <value>
+               <text>(2.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 12672 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 12 000B00150011 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T166" x="28.0768mm" y="176.4478mm" w="1.524mm" h="5.8674mm">
+            <value>
+               <text>1</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 4320 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 4 0014 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T167" x="29.6008mm" y="176.4478mm" w="0.9144mm" h="5.8674mm">
+            <value>
+               <text>)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 2592 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 4 000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T168" x="32.3694mm" y="176.4478mm" w="62.2554mm" h="5.8674mm">
+            <value>
+               <text>กำไรสุทธิของกิจการที่ได้รับยกเว้นภาษีเงินได้นิติบุคคล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 176472 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 4799 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 204 00C500A600AD00BB009A009B00B7008500B0008A008400B7008B008400B500A6009A00B800C900C50097006F00A600B4009D00A5008400C100AA006F009C00A300B500AC00B800C1008A00B7009C00C50097006F009C00B7009800B7009D00BB0087008700A8 1 8962 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T169" x="24.8764mm" y="181.731mm" w="6.9342mm" h="5.8674mm">
+            <value>
+               <text>(2.2)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 19656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001500110015000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T170" x="32.3694mm" y="181.731mm" w="75.1332mm" h="11.176mm">
+            <value>
+               <text>เงินปันผลหรือเงินส่วนแบ่งของกำไรที่ได้รับยกเว้นไม่ต้องนำมารวม
+คำนวณเป็นรายได้เพื่อเสียภาษีเงินได้นิติบุคคล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 212976 31680 0 0 0 0 0 0?>
+            <?renderCache.textRun 120 00C1008A00B7009C009E007B009C009F00A800AE00A600BA00B000C1008A00B7009C00AD006E00AA009C00C2009D006E008A008500B0008A008400CE 1 0 11593 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 101947 11593 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 104 00C500A6009A00B800C900C50097006F00A600B4009D00A5008400C100AA006F009C00C500A4006E0098006F00B0008A009C00CE 1 106110 11593 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 183375 11593 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 24 00A400B500A600AA00A40003 1 187538 11593 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 8 008700CE 1 0 27757 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 5004 27757 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 168 009C00AA009600C1009E007D009C00A600B500A500C50097006F00C100A100BA00C900B000C100AD00B800A500A300B500AC00B800C1008A00B7009C00C50097006F009C00B7009800B7009D00BB0087008700A8 1 9167 27757 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T171" x="24.8764mm" y="192.3228mm" w="6.9342mm" h="5.8674mm">
+            <value>
+               <text>(2.3)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 19656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001500110016000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T172" x="32.3695mm" y="192.3228mm" w="2.364583in" h="0.231in">
+            <value>
+               <text>กำไรสุทธิส่วนที่ได้หักผลขาดทุนสุทธิยกมาไม่เกิน 5 ปี</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 170250 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 4799 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 196 00C500A600AD00BB009A009B00B700AD006E00AA009C009A00B800C900C50097006F00AE00B40084009F00A8008500B50097009A00BB009C00AD00BB009A009B00B700A5008400A400B500C500A4006E00C1008400B7009C000300180003009E0065 1 8962 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T175" x="32.3694mm" y="197.606mm" w="39.2938mm" h="5.8674mm">
+            <value>
+               <text>ก่อนรอบระยะเวลาบัญชีปีปัจจุบัน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 111384 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 120 0084006E00B0009C00A600B0009D00A600B300A500B300C100AA00A800B5009D00B40090008D00B8009E0065009E007B008B008B00BB009D00B4009C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T176" x="24.8764mm" y="202.9146mm" w="6.9342mm" h="5.8674mm">
+            <value>
+               <text>(2.4)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 19656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001500110017000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T177" x="32.3694mm" y="202.9146mm" w="42.9768mm" h="5.8674mm">
+            <value>
+               <text>กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 121824 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008400CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 4799 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 148 00C500A6009A00B800C900A600B4009D00A600BC006F009A00B5008A009D00B40090008D00B800C3009700A500AA00B7009B00B800AD006E00AA009C00C50097006F00C100AD00B800A5 1 8962 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T178" x="75.1176mm" y="202.9146mm" w="21.0058mm" h="5.8674mm">
+            <value>
+               <text>(equity method)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 59544 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 60 000B004800540058004C0057005C0003005000480057004B00520047000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T179" x="24.8764mm" y="208.1978mm" w="6.9342mm" h="5.8674mm">
+            <value>
+               <text>(2.5)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 19656 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 000B001500110018000C 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T180" x="32.3695mm" y="208.1978mm" w="6.2604mm" h="5.8674mm">
+            <value>
+               <text>อื่น ๆ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 17746 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00B000BA00C9009C000300C7 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T181" x="38.9555mm" y="208.1978mm" w="0.257083in" h="0.226in">
+            <value>
+               <text>(ระบุ)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T184" x="46.099mm" y="208.5534mm" w="61.8183mm" h="0.206in">
+            <value>
+               <text>............................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 175233 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 368 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T185" x="9.3824mm" y="213.1254mm" w="3.8862mm" h="6.35mm">
+            <value>
+               <text>5.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 11016 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00180011 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T186" x="13.193mm" y="213.1254mm" w="95.4782mm" h="0.25in">
+            <value>
+               <text>การจ่ายเงินได้ที่ต้องหักภาษี ณ ที่จ่าย ตามคำสั่งกรมสรรพากรที่ออกตาม</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="13pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 270647 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 176 008400B500A6008B006E00B500A500C1008A00B7009C00C50097006F009A00B800C90098006F00B0008A00AE00B4008400A300B500AC00B8000300960003009A00B800C9008B006E00B500A50003009800B500A4008700CE 1 0 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 152991 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?>
+            <?renderCache.textRun 92 00AD00B400C9008A008400A600A400AD00A600A600A100B5008400A6009A00B800C900B000B00084009800B500A4 1 157501 13154 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T187" x="13.3448mm" y="218.434mm" w="0.684542in" h="0.257in">
+            <value>
+               <text>มาตรา 3 เตรส</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 49287 18504 0 0 0 0 0 0?>
+            <?renderCache.textRun 48 00A400B5009800A600B500030016000300C1009800A600AD 1 0 13470 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T190" x="32.4336mm" y="218.434mm" w="0.278514in" h="0.245in">
+            <value>
+               <exData maxLength="0" contentType="text/html">
+                  <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.4.5277.0"><p style="font-style:normal">(ระบุ)</p></body>
+               </exData>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font posture="italic" size="13pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 20053 17640 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 000B00A600B3009D00BB000C 1 0 12974 0 0 0 "CordiaUPC" 0 0 13000 UTF-16?></draw>
+         <draw name="T193" x="40.2689mm" y="219.1452mm" w="68.381mm" h="5.2324mm">
+            <value>
+               <text>.......................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 193836 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 412 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T195" x="13.5554mm" y="223.7172mm" w="1.893in" h="0.245in">
+            <value>
+               <text>(เช่น รางวัล ส่วนลดหรือประโยชน์ใด ๆ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T196" x="62.57mm" y="223.7172mm" w="1.794in" h="0.245in">
+            <value>
+               <text>เนื่องจากการส่งเสริมการขาย รางวัล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="13pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T197" x="13.3449mm" y="229.0004mm" w="95.305mm" h="0.454in">
+            <value>
+               <text>ในการประกวด การแข่งขัน การชิงโชค ค่าแสดงของนักแสดงสาธารณะ ค่าจ้าง
+ทำของ ค่าโฆษณา ค่าเช่า ค่าขนส่ง ค่าบริการ ค่าเบี้ยประกันวินาศภัย ฯลฯ )</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T199" x="9.3824mm" y="239.5922mm" w="0.151in" h="0.25in">
+            <value>
+               <text>6.</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 10872 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00190011 1 0 12835 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T200" x="13.0655mm" y="239.5922mm" w="0.284167in" h="0.25in">
+            <value>
+               <text>อื่น ๆ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 20460 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00B000BA00C9009C000300C7 1 0 12835 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T202" x="20.497mm" y="239.5922mm" w="0.278514in" h="0.245in">
+            <value>
+               <text>(ระบุ)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font posture="italic" size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
+         </draw>
+         <draw name="T204" x="28.3055mm" y="240.3034mm" w="80.3444mm" h="0.206in">
+            <value>
+               <text>.........................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 227748 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 484 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="L208" x="137.9361mm" y="253.1502mm" w="57.8556mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T209" x="94.1501mm" y="246.6502mm" w="42.6212mm" h="5.9972mm">
+            <value>
+               <text>รวมเงินที่จ่ายและภาษีที่หักนำส่ง</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 120816 17000 0 0 0 0 0 0?>
+            <?renderCache.textRun 116 00A600AA00A400C1008A00B7009C009A00B800C9008B006E00B500A500C200A800B300A300B500AC00B8009A00B800C900AE00B40084009C00CE 1 0 12718 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 98582 12718 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?>
+            <?renderCache.textRun 12 00AD006E008A 1 102273 12718 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="T210" x="56.6501mm" y="254.1503mm" w="138.4998mm" h="0.257in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="13pt" typeface="AngsanaUPC"/>
+            <border>
+               <edge presence="hidden"/>
+               <fill>
+                  <color value="192,192,192"/>
+               </fill>
+            </border>
+            <?renderCache.bounds 392598 18504 0 0 0 0 0 0?></draw>
+         <draw name="T214" x="8.0666mm" y="65.0298mm" w="1.156in" h="0.277in">
+            <value>
+               <text>ผู้ถูกหักภาษี ณ ที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 83232 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 92 009F00BC006F009900BC008400AE00B3008400A300B500AC00B8000300960003009A00B800C9008B006E00B500A5 1 0 14302 0 0 0 "AngsanaUPC" 1 1 12000 UTF-16?></draw>
+         <draw name="T215" x="36.0666mm" y="65.0298mm" w="0.233in" h="0.277in">
+            <value>
+               <text>:-</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 16776 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 001D0010 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T216" x="8.0666mm" y="71.5074mm" w="0.207in" h="0.277in">
+            <value>
+               <text>ชื่อ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 14904 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 16 008D00BA00C900B0 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T217" x="13.8074mm" y="72.5742mm" w="92.2274mm" h="5.2324mm">
+            <value>
+               <text>........................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 261432 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 544 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T218" x="8.2698mm" y="80.65mm" w="0.291in" h="0.277in">
+            <value>
+               <text>ที่อยู่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 20952 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 28 009A00B800C900B000A500BC006E 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T219" x="15.3702mm" y="82.15mm" w="174.9044mm" h="5.2324mm">
+            <value>
+               <text>.......................................................................................................................................................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 495792 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 1052 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T220" x="8.0667mm" y="91.0298mm" w="10.3752mm" h="4.9999mm">
+            <value>
+               <text>ลำดับที่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 29410 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00A800CE 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 4597 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 24 009700B4009D009A00B800C9 1 8004 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="45.1973mm" y="91.0298mm" w="0.402in" h="4.9999mm">
+            <value>
+               <text>ในแบบ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 28944 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00C4009C00C2009D009D 1 0 10921 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="R223" x="68.0664mm" y="91.0298mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R234" x="95.5654mm" y="91.0298mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R244" x="133.5773mm" y="91.0298mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R252" x="160.7764mm" y="91.0298mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R260" x="68.0664mm" y="96.6504mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R269" x="95.5654mm" y="96.6502mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R278" x="133.5773mm" y="96.6502mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T286" x="109.65mm" y="113.1002mm" w="3.385819in" h="0.831in">
+            <value>
+               <text>.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 243779 59832 0 0 0 0 0 0?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 11201 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 26184 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 41167 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 56150 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T287" x="109.65mm" y="150.1334mm" h="0.831in" w="3.403944in">
+            <value>
+               <text>.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................
+.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245084 59832 0 0 0 0 0 0?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 11201 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 26184 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 536 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110003 1 0 41167 0 0 0 "Angsana New" 0 0 11000 UTF-16?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 56150 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T288" x="109.65mm" y="176.6002mm" w="3.411806in" h="0.206in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245650 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T289" x="109.65mm" y="187.1666mm" w="3.403944in" h="0.206in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245084 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T290" x="109.65mm" y="197.7584mm" w="3.403944in" h="0.206in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245084 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T291" x="109.65mm" y="208.3502mm" w="3.403944in" h="0.206in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245084 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T292" x="109.6927mm" y="218.9166mm" w="3.403944in" h="0.206in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 245084 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T293" x="109.6927mm" y="240.1002mm" w="3.384139in" h="0.208097in">
+            <value>
+               <text>.....................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="Angsana New"/>
+            <?renderCache.bounds 243658 14983 0 0 0 0 0 0?>
+            <?renderCache.textRun 532 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11251 0 0 0 "Angsana New" 0 0 11000 UTF-16?></draw>
+         <draw name="T296" x="8.6092mm" y="96.03mm" w="1.893in" h="3.6198mm">
+            <value>
+               <text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="8pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T297" x="8.8259mm" y="99.15mm" w="1.747528in" h="2.8804mm">
+            <value>
+               <text>หนังสือรับรองฯ กับแบบยื่นรายการภาษีหักที่จ่าย)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="8pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T300" x="107.1224mm" y="71.5328mm" w="1.327in" h="0.231in">
+            <value>
+               <text>เลขประจำตัวผู้เสียภาษีอากร</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 95544 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 72 009800B400AA009F00BC006F00C100AD00B800A500A300B500AC00B800B000B5008400A6 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T301" x="97.5974mm" y="64.8526mm" w="27.432mm" h="5.8674mm">
+            <value>
+               <text>เลขประจำตัวประชาชน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 77760 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 40 009800B400AA009E00A600B3008D00B5008D009C 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="R302" x="167.4263mm" y="71.271mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R306" x="148.3763mm" y="71.271mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L307" x="165.2214mm" y="73.9522mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R311" x="142.0263mm" y="71.271mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L312" x="146.0444mm" y="73.9522mm" w="2.2437mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R313" x="186.4763mm" y="71.2182mm" w="4.2404mm" h="4.9636mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L314" x="184.3138mm" y="73.8676mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R315" x="132.8188mm" y="64.5684mm" w="16.9404mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R320" x="126.4688mm" y="64.5684mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L321" x="173.3071mm" y="67.0942mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L321" x="130.6351mm" y="67.0942mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L325" x="150.0238mm" y="67.0096mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R326" x="152.0628mm" y="64.4448mm" w="21.3325mm" h="5.0341mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L328" x="184.0598mm" y="67.0096mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R329" x="175.3462mm" y="64.533mm" w="8.6325mm" h="4.7696mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R329" x="186.441mm" y="64.533mm" w="4.2404mm" h="4.8048mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T332" x="5.1498mm" y="262.1502mm" w="11.0003mm" h="0.222222in">
+            <value>
+               <text>ผู้จ่ายเงิน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 31182 16000 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 009F00BC006F008B006E00B500A500C1008A00B7009C 1 0 11893 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="R333" x="16.1501mm" y="263.1503mm" w="4mm" h="4mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T337" x="20.6499mm" y="262.1502mm" w="14mm" h="0.234778in">
+            <value>
+               <text>(1) หัก ณ ที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 39685 16904 0 0 0 0 0 0?>
+            <?renderCache.textRun 68 000B0014000C000300AE00B40084000300960003009A00B800C9008B006E00B500A5 1 0 11328 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="R338" x="35.65mm" y="263.1503mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T339" x="40.15mm" y="262.6504mm" w="17mm" h="0.233722in">
+            <value>
+               <text>(2)ออกให้ตลอดไป</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 48189 16828 0 0 0 0 0 0?>
+            <?renderCache.textRun 60 000B0015000C00B000B0008400C400AE006F009800A800B0009700C5009E 1 0 11290 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="R341" x="57.65mm" y="263.6503mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T342" x="62.1499mm" y="262.6504mm" w="17mm" h="0.233722in">
+            <value>
+               <text>(3)ออกให้ครั้งเดียว</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 48189 16828 0 0 0 0 0 0?>
+            <?renderCache.textRun 76 000B0016000C00B000B0008400C400AE006F008700A600B400CA008A00C1009700B800A500AA 1 0 11290 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="R344" x="79.65mm" y="263.6502mm" w="4.0464mm" h="4.0464mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T345" x="84.15mm" y="263.1504mm" h="0.233722in" w="0.748042in">
+            <value>
+               <text>(4)อื่น ๆ(ระบุ)...........</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 53859 16828 0 0 0 0 0 0?>
+            <?renderCache.textRun 104 000B0017000C00B000BA00C9009C000300C7000B00A600B3009D00BB000C00110011001100110011001100110011001100110011 1 0 11290 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="L378" x="137.9361mm" y="252.65mm" w="58.214mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge thickness="0.96pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T383" x="132.7733mm" y="76.1742mm" w="2.308972in" h="0.194444in">
+            <value>
+               <text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+         </draw>
+         <draw name="T352" x="4.6501mm" y="270.3962mm" w="0.402in" h="0.208333in">
+            <value>
+               <text>คำเตือน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font weight="bold" typeface="AngsanaUPC" baselineShift="0pt" size="9pt"/>
+            <?renderCache.bounds 28944 15000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008700CE 1 0 10420 0 0 0 "AngsanaUPC" 1 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 3636 10420 0 0 0 "AngsanaUPC" 1 0 9000 UTF-16?>
+            <?renderCache.textRun 20 00C1009800BA00B0009C 1 6192 10420 0 0 0 "AngsanaUPC" 1 0 9000 UTF-16?></draw>
+         <draw name="T360" x="105.15mm" y="261.6503mm" w="85.9959mm" h="5.4998mm">
+            <value>
+               <text>ขอรับรองว่าข้อความและตัวเลขดังกล่าวข้างต้นถูกต้องตรงกับความจริงทุกประการ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font size="11pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 243768 15590 0 0 0 0 0 0?>
+            <?renderCache.textRun 288 008500B000A600B4009D00A600B0008A00AA006E00B50085006F00B0008700AA00B500A400C200A800B3009800B400AA00C100A80085009700B4008A008400A8006E00B500AA0085006F00B5008A0098006F009C009900BC00840098006F00B0008A009800A6008A008400B4009D008700AA00B500A4008B00A600B7008A009A00BB0084009E00A600B3008400B500A6 1 0 11311 0 0 0 "CordiaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T361" x="107.1499mm" y="268.6502mm" w="0.327in" h="0.25in">
+            <value>
+               <text>ลงชื่อ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 23544 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00A8008A008D00BA00C900B0 1 0 12835 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T362" x="114.2111mm" y="269.3614mm" w="55.4387mm" h="4.7886mm">
+            <value>
+               <text>....................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 157149 13574 0 0 0 0 0 0?>
+            <?renderCache.textRun 336 001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 10546 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T363" x="170.0403mm" y="268.6502mm" w="11.6096mm" h="0.25in">
+            <value>
+               <text>ผู้จ่ายเงิน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 32909 18000 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 009F00BC006F008B006E00B500A500C1008A00B7009C 1 0 12835 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T364" x="114.1497mm" y="273.65mm" w="2.249681in" h="4.5mm">
+            <value>
+               <text>........................./................................/..............................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 161977 12756 0 0 0 0 0 0?>
+            <?renderCache.textRun 356 00110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110012001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110012001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 10151 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T372" x="184.146mm" y="271.2785mm" w="10.7696mm" h="4.3942mm">
+            <value>
+               <text>ประทับตรา</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 30528 12456 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 009E00A600B3009A00B4009D009800A600B5 1 0 9104 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="T373" x="184.9588mm" y="274.4535mm" w="9.1694mm" h="4.3942mm">
+            <value>
+               <text>นิติบุคคล</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="9pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 25992 12456 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 009C00B7009800B7009D00BB0087008700A8 1 0 9104 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="T374" x="186.2796mm" y="277.6285mm" w="0.6858mm" h="4.2926mm">
+            <value>
+               <text>(</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="9pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T375" x="186.9908mm" y="277.6285mm" w="5.1562mm" h="4.2926mm">
+            <value>
+               <text>ถ้ามี</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="9pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="T376" x="190.877mm" y="277.6285mm" w="0.6858mm" h="4.2926mm">
+            <value>
+               <text>)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font posture="italic" size="9pt" typeface="CordiaUPC"/>
+         </draw>
+         <draw name="C377" x="182.1502mm" y="270.15mm" w="13.2486mm" h="12.766mm">
+            <value>
+               <arc>
+                  <edge thickness="0.48pt"/>
+               </arc>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Rectangle3" y="102.15mm" x="3.15mm" w="193.0001mm" h="159.0001mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="T222" x="74.0666mm" y="96.6502mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(5) ภ.ง.ด.2ก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 48 000B0018000C000300A30011008A00110097001100150084 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="101.4728mm" y="91.0298mm" w="0.963181in" h="4.9999mm">
+            <value>
+               <text>(2) ภ.ง.ด.1ก พิเศษ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 69349 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 72 000B0015000C000300A30011008A00110097001100140084000300A100B700C100AB00AC 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="101.4729mm" y="96.6502mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(3) ภ.ง.ด.3ก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 48 000B0016000C000300A30011008A00110097001100160084 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="139.4967mm" y="91.0298mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(3) ภ.ง.ด.2</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 000B0016000C000300A30011008A0011009700110015 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="139.99mm" y="96.6502mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(7) ภ.ง.ด.53</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 48 000B001A000C000300A30011008A00110097001100180016 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="T222" x="166.6466mm" y="91.0298mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(4) ภ.ง.ด.3</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 000B0017000C000300A30011008A0011009700110016 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="Line1" y="111.65mm" x="4.2333mm" w="191.9168mm" h="0in">
+            <value>
+               <line slope="/">
+               </line>
+            </value>
+         </draw>
+         <draw name="T222" x="74.0665mm" y="91.0298mm" w="0.658486in" h="4.9999mm">
+            <value>
+               <text>(1) ภ.ง.ด.1ก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font size="12pt" typeface="AngsanaUPC" weight="bold" baselineShift="0pt"/>
+            <?renderCache.bounds 47411 14173 0 0 0 0 0 0?>
+            <?renderCache.textRun 48 000B0014000C000300A30011008A00110097001100140084 1 0 10980 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="Rectangle4" y="6.65mm" x="1.6503mm" w="196.0499mm" h="283.0001mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="Rectangle5" y="261.1501mm" x="3.15mm" w="101.0003mm" h="8mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="Rectangle6" y="269.15mm" x="3.15mm" w="101.0003mm" h="15.5mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="Rectangle6" y="261.15mm" x="104.1499mm" w="92.0002mm" h="23.4999mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T135" x="39.9118mm" y="155.2896mm" w="0.443444in" h="0.237in">
+            <value>
+               <text>ร้อยละ 25</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="12pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 31928 17064 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 00A6006F00B000A500A800B3000300150018 1 0 12425 0 0 0 "AngsanaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="L205" x="137.65mm" y="102.2234mm" w="0.3535mm" h="150.9268mm">
+            <value>
+               <line slope="/">
+                  <edge thickness="0.96pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L205" x="167.6499mm" y="102.15mm" w="0.0001mm" h="151.0002mm">
+            <value>
+               <line slope="/">
+                  <edge thickness="0.96pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L205" x="163.1499mm" y="111.6498mm" w="0in" h="141mm">
+            <value>
+               <line slope="/">
+                  <edge thickness="0.96pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line2" y="246.15mm" x="3.1501mm" w="192.5002mm" h="0in">
+            <value>
+               <line slope="/">
+               </line>
+            </value>
+         </draw>
+         <draw name="T160" x="77.0832mm" y="171.19mm" w="0.787444in" h="0.231in">
+            <value>
+               <text>เนื่องจากจ่ายจาก</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 56696 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 64 00C1009C00BA00C900B0008A008B00B50084008B006E00B500A5008B00B50084 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="L205" x="109.65mm" y="101.6428mm" w="0in" h="143.891mm">
+            <value>
+               <line>
+                  <edge thickness="0.96pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T5" x="8.5667mm" y="54.15mm" w="0.292in" h="0.277in">
+            <value>
+               <text>ที่อยู่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 21024 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 28 009A00B800C900B000A500BC006E 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T3" x="8.5667mm" y="45.7133mm" w="5.2578mm" h="7.0358mm">
+            <value>
+               <text>ชื่อ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 14904 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 16 008D00BA00C900B0 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T1" x="8.5668mm" y="39.9221mm" w="26.5832mm" h="0.277in">
+            <value>
+               <text>กระทำการแทนโดย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 75354 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 008400A600B3009A00CE 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 21410 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?>
+            <?renderCache.textRun 36 008400B500A600C2009A009C00C3009700A5 1 25385 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T1" x="8.65mm" y="15.922mm" w="35.814mm" h="7.0358mm">
+            <value>
+               <text>ผู้มีหน้าที่หักภาษี ณ ที่จ่าย</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 101520 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 116 009F00BC006F00A400B800AE009C006F00B5009A00B800C900AE00B4008400A300B500AC00B8000300960003009A00B800C9008B006E00B500A5 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T2" x="43.6498mm" y="15.9566mm" w="5.842mm" h="7.0358mm">
+            <value>
+               <text>:-</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 16560 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 001D0010 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T4" x="12.8876mm" y="22.78mm" w="94.2594mm" h="5.2324mm">
+            <value>
+               <text>...........................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 267192 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 556 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T6" x="14.9958mm" y="31.217mm" w="6.888in" h="0.206in">
+            <value>
+               <text>......................................................................................................................................................................................................................................................................</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="11pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 495936 14832 0 0 0 0 0 0?>
+            <?renderCache.textRun 1048 0011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011 1 0 11175 0 0 0 "AngsanaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="R8" x="167.8157mm" y="21.9334mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R12" x="148.7657mm" y="21.9334mm" w="16.9051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L13" x="165.5932mm" y="24.6322mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R17" x="142.4157mm" y="21.9334mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L18" x="146.4162mm" y="24.6322mm" w="2.2437mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R19" x="186.8657mm" y="21.8804mm" w="4.2404mm" h="4.9636mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L20" x="184.7278mm" y="24.5052mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R21" x="133.2082mm" y="16.236mm" w="16.9404mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R26" x="126.8582mm" y="16.236mm" w="4.2051mm" h="4.9283mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L27" x="173.6788mm" y="18.7902mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L27" x="131.0068mm" y="18.7478mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L31" x="150.4378mm" y="18.7054mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R32" x="152.4522mm" y="16.1126mm" w="21.3325mm" h="5.0341mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="L34" x="184.4738mm" y="18.7054mm" w="2.1167mm" h="0in">
+            <value>
+               <line>
+                  <edge thickness="0.48pt" cap="butt"/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R35" x="175.7355mm" y="16.2008mm" w="8.6325mm" h="4.7696mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="R35" x="186.8304mm" y="16.5006mm" w="4.2404mm" h="4.2404mm">
+            <value>
+               <rectangle>
+                  <edge thickness="0.48pt"/>
+               </rectangle>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="T36" x="107.2994mm" y="22.2212mm" w="33.7058mm" h="5.8674mm">
+            <value>
+               <text>เลขประจำตัวผู้เสียภาษีอากร</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 95544 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 72 009800B400AA009F00BC006F00C100AD00B800A500A300B500AC00B800B000B5008400A6 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T37" x="97.7744mm" y="16.5062mm" w="27.4066mm" h="5.8674mm">
+            <value>
+               <text>เลขประจำตัวประชาชน</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <?renderCache.bounds 77688 16632 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00C100A80085009E00A600B3008B00CE 1 0 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 29651 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?>
+            <?renderCache.textRun 40 009800B400AA009E00A600B3008D00B5008D009C 1 33814 12151 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="T380" x="135.1992mm" y="27.3482mm" w="2.308972in" h="0.194444in">
+            <value>
+               <text>(กรอกเฉพาะกรณีเป็นผู้ไม่มีเลขประจำตัวประชาชน)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+         </draw>
+         <draw name="Rectangle1" y="15.6499mm" x="3.6495mm" w="192.5006mm" h="24.2196mm">
+            <value>
+               <rectangle>
+                  <edge/>
+               </rectangle>
+            </value>
+         </draw>
+         <draw name="T3" x="8.65mm" y="21.7132mm" w="5.2578mm" h="7.0358mm">
+            <value>
+               <text>ชื่อ</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 14904 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 16 008D00BA00C900B0 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="T5" x="8.65mm" y="30.1502mm" w="0.292in" h="0.277in">
+            <value>
+               <text>ที่อยู่</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle"/>
+            <font weight="bold" size="14pt" typeface="AngsanaUPC"/>
+            <?renderCache.bounds 21024 19944 0 0 0 0 0 0?>
+            <?renderCache.textRun 28 009A00B800C900B000A500BC006E 1 0 14515 0 0 0 "AngsanaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText1" y="26.6499mm" x="19.15mm" w="76.5002mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+         </draw>
+         <draw name="StaticText1" y="35.1501mm" x="19.1498mm" w="3.563in" h="3.9998mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 253702 8504 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 308 000B00C400AE006F00A600B3009D00BB0003008D00BA00C900B000B000B5008700B500A6001200AE00A400BC006E009D006F00B5009C000300AE006F00B0008A00C100A80085009A00B800C90003008D00B400CA009C009A00B800C9000300C100A80085009A00B800C90003009800A600B000840012008E00B000A5000300AE00A400BC006E009A00B800C900030099009C009C0003009800CE 1 1417 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 175783 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 40 009D00A8001200C2008500AA008A000300B000CE 1 178906 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 206097 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 64 00C100A300B0001200C1008500980003008B00B4008A00AE00AA00B40097000C 1 209219 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="StaticText2" y="254.1503mm" x="13.1502mm" w="42.9997mm" h="6.6202mm">
+            <ui>
+               <textEdit>
+               </textEdit>
+            </ui>
+            <value>
+               <text>รวมเงินภาษีที่หักนำส่ง(ตัวอักษร)</text>
+            </value>
+            <font size="13pt" typeface="AngsanaUPC" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <?renderCache.bounds 119055 15932 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 76 00A600AA00A400C1008A00B7009C00A300B500AC00B8009A00B800C900AE00B40084009C00CE 1 1417 12963 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 66588 12963 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?>
+            <?renderCache.textRun 52 00AD006E008A000B009800B400AA00B000B4008400AC00A6000C 1 70280 12963 0 0 0 "AngsanaUPC" 1 0 13000 UTF-16?></draw>
+         <draw name="StaticText1" y="50.6502mm" x="18.1502mm" w="3.011819in" h="0.196847in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+         </draw>
+         <draw name="StaticText1" y="59.1499mm" x="18.15mm" w="3.563in" h="3.9998mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 253702 8504 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 308 000B00C400AE006F00A600B3009D00BB0003008D00BA00C900B000B000B5008700B500A6001200AE00A400BC006E009D006F00B5009C000300AE006F00B0008A00C100A80085009A00B800C90003008D00B400CA009C009A00B800C9000300C100A80085009A00B800C90003009800A600B000840012008E00B000A5000300AE00A400BC006E009A00B800C900030099009C009C0003009800CE 1 1417 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 175783 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 40 009D00A8001200C2008500AA008A000300B000CE 1 178906 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 206097 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 64 00C100A300B0001200C1008500980003008B00B4008A00AE00AA00B40097000C 1 209219 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="StaticText1" y="86.1501mm" x="18.1501mm" w="3.563in" h="4.5mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 253702 9922 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 308 000B00C400AE006F00A600B3009D00BB0003008D00BA00C900B000B000B5008700B500A6001200AE00A400BC006E009D006F00B5009C000300AE006F00B0008A00C100A80085009A00B800C90003008D00B400CA009C009A00B800C9000300C100A80085009A00B800C90003009800A600B000840012008E00B000A5000300AE00A400BC006E009A00B800C900030099009C009C0003009800CE 1 1417 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 175783 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 40 009D00A8001200C2008500AA008A000300B000CE 1 178906 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 206097 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?>
+            <?renderCache.textRun 64 00C100A300B0001200C1008500980003008B00B4008A00AE00AA00B40097000C 1 209219 9455 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="StaticText1" y="76.65mm" x="18.1502mm" w="3.011819in" h="0.196847in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</text>
+            </value>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt" posture="italic"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+         </draw>
+         <draw name="T89" x="115.15mm" y="278.15mm" w="48mm" h="0.224903in">
+            <value>
+               <text>(วัน เดือน ปี ที่ออกหนังสือรับรองฯ)</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font size="11pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 136063 16193 0 0 0 0 0 0?>
+            <?renderCache.textRun 140 000B00AA00B4009C000300C1009700BA00B0009C0003009E00650003009A00B800C900B000B0008400AE009C00B4008A00AD00BA00B000A600B4009D00A600B0008A00B2000C 1 16619 11612 0 0 0 "CordiaUPC" 0 0 11000 UTF-16?></draw>
+         <draw name="T89" x="15.15mm" y="270.1498mm" w="3.346458in" h="0.224903in">
+            <value>
+               <text>ในผู้มีหน้าที่ออกหนังสือรับรองการหักภาษี ณ ที่จ่ายฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ </text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 240945 16193 0 0 0 0 0 0?>
+            <?renderCache.textRun 328 00C4009C009F00BC006F00A400B800AE009C006F00B5009A00B800C900B000B0008400AE009C00B4008A00AD00BA00B000A600B4009D00A600B0008A008400B500A600AE00B4008400A300B500AC00B8000300960003009A00B800C9008B006E00B500A500A0006900B500A00067009C00C500A4006E009E009200B7009D00B4009800B7009800B500A400A400B5009800A600B50003001800130003009A00AA00B70003 1 0 10973 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+         <draw name="T89" x="15.15mm" y="275.65mm" w="3.346458in" h="0.224903in">
+            <value>
+               <text>แห่งประมวลรัษฎากร  ต้องรับโทษทางอาญาตามมาตรา  35 แห่งประมวลรัษฎากร</text>
+            </value>
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <font size="9pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <?renderCache.bounds 240945 16193 0 0 0 0 0 0?>
+            <?renderCache.textRun 264 00C200AE006E008A009E00A600B300A400AA00A800A600B400AC009100B5008400A6000300030098006F00B0008A00A600B4009D00C3009A00AC009A00B5008A00B000B5009000B5009800B500A400A400B5009800A600B50003000300160018000300C200AE006E008A009E00A600B300A400AA00A800A600B400AC009100B5008400A6 1 0 10973 0 0 0 "CordiaUPC" 0 0 9000 UTF-16?></draw>
+      </subform>
+      <proto/>
+      <?renderCache.subset "Adobe Thai" 0 0 UTF-16 2 140 000100020005000800160018001A001C001D001E0023002400260028002A002C002D002E003000330034003500370038003A003B003E0041004500460047004B005E00880089?>
+      <?renderCache.subset "Adobe Thai" 1 0 UTF-16 2 92 000200080018001A001C002300240026002A002C002D002E00300034003500370038003E0046004B005E00880089?>
+      <?renderCache.subset "Angsana New" 0 0 UTF-16 2 8 00030011?>
+      <?renderCache.subset "AngsanaUPC" 0 0 UTF-16 2 100 000B000C00110012006E0084008A0098009A009C00A300A400A600AA00AC00AD00AE00B000B400B500B700B800C100C900CE?>
+      <?renderCache.subset "AngsanaUPC" 1 0 UTF-16 2 232 0003000B000C00100011001300140015001600170018001A001D0065006E006F008400850087008A008B008C008D009600970098009A009C009D009E009F00A100A300A400A500A600A800AA00AB00AC00AD00AE00B000B200B300B400B500B700B800B900BA00BC00C100C200C300C500C900CE?>
+      <?renderCache.subset "AngsanaUPC" 1 1 UTF-16 2 72 0003006E006F0084008B00960099009A009F00A300A500AC00AE00B300B500B800BC00C9?>
+      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 348 0003000B000C001100120013001400150016001700180019003700470048004B004C00500052005400570058005B005C006500670069006E006F007B007D0084008500870089008A008B008C008D008E00900091009200930096009700980099009A009B009C009D009E009F00A000A100A300A400A500A600A800AA00AB00AC00AD00AE00B000B200B300B400B500B700B800BA00BB00BC00C100C200C300C400C500C700C800C900CA00CD00CE?>
+      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 88 0003000B000C00650084008A0097009A009C009D009E00A600AA00AD00AE00B000B200B400B800BA00C100C9?>
+      <?renderCache.subset "CordiaUPC" 1 1 UTF-16 2 116 0003000B000C006E006F007D008700960098009A009C009D009E00A400A600A800AA00AC00AD00AE00B000B300B400B500B700BA00BB00C100C4?>
+      <?renderCache.subset "Myriad Pro" 0 0 ISO-8859-1 4 16 4 0035004600550059Tetx?>
+      <?renderCache.subset "Myriad Pro" 0 0 UTF-16 2 28 00010009000A0035004600550059?></subform>
+   <?templateDesigner DefaultLanguage FormCalc?>
+   <?templateDesigner DefaultRunAt client?>
+   <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?>
+   <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(12500,12500)?>
+   <?templateDesigner Zoom 150?></template>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
+   <agent name="designer">
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo/>
+      </pdf>
+   </agent>
+   <present>
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo>
+         </fontInfo>
+      </pdf>
+      <xdp>
+         <packets>*</packets>
+      </xdp>
+   </present>
+   <psMap>
+      <font typeface="AngsanaUPC" psName="AngsanaUPC" weight="normal" posture="normal"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Italic" weight="normal" posture="italic"/>
+      <font typeface="CordiaUPC" psName="CordiaUPC" weight="normal" posture="normal"/>
+      <font typeface="AngsanaUPC" psName="AngsanaUPC-Bold" weight="bold" posture="normal"/>
+      <font typeface="Angsana New" psName="AngsanaNew" weight="normal" posture="normal"/>
+      <font typeface="CordiaUPC" psName="CordiaUPC-Bold" weight="bold" posture="normal"/>
+      <font typeface="CordiaUPC" psName="CordiaUPC-BoldItalic" weight="bold" posture="italic"/>
+      <font typeface="AngsanaUPC" psName="AngsanaUPC-BoldItalic" weight="bold" posture="italic"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Bold" weight="bold" posture="normal"/>
+      <font typeface="Kozuka Mincho Pro-VI R" psName="KozMinProVI-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Arabic" psName="AdobeArabic-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Hebrew" psName="AdobeHebrew-Regular" weight="normal" posture="normal"/>
+   </psMap>
+</config>
+<localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.1/">
+   <locale name="th_TH" desc="Thai">
+      <calendarSymbols name="gregorian">
+         <monthNames>
+            <month>มกราคม</month>
+            <month>กุมภาพันธ์</month>
+            <month>มีนาคม</month>
+            <month>เมษายน</month>
+            <month>พฤษภาคม</month>
+            <month>มิถุนายน</month>
+            <month>กรกฎาคม</month>
+            <month>สิงหาคม</month>
+            <month>กันยายน</month>
+            <month>ตุลาคม</month>
+            <month>พฤศจิกายน</month>
+            <month>ธันวาคม</month>
+         </monthNames>
+         <monthNames abbr="1">
+            <month>ม.ค.</month>
+            <month>ก.พ.</month>
+            <month>มี.ค.</month>
+            <month>เม.ย.</month>
+            <month>พ.ค.</month>
+            <month>มิ.ย.</month>
+            <month>ก.ค.</month>
+            <month>ส.ค.</month>
+            <month>ก.ย.</month>
+            <month>ต.ค.</month>
+            <month>พ.ย.</month>
+            <month>ธ.ค.</month>
+         </monthNames>
+         <dayNames>
+            <day>วันอาทิตย์</day>
+            <day>วันจันทร์</day>
+            <day>วันอังคาร</day>
+            <day>วันพุธ</day>
+            <day>วันพฤหัสบดี</day>
+            <day>วันศุกร์</day>
+            <day>วันเสาร์</day>
+         </dayNames>
+         <dayNames abbr="1">
+            <day>อา.</day>
+            <day>จ.</day>
+            <day>อ.</day>
+            <day>พ.</day>
+            <day>พฤ.</day>
+            <day>ศ.</day>
+            <day>ส.</day>
+         </dayNames>
+         <meridiemNames>
+            <meridiem>ก่อนเที่ยง</meridiem>
+            <meridiem>หลังเที่ยง</meridiem>
+         </meridiemNames>
+         <eraNames>
+            <era>ปีก่อนคริสต์กาลที่</era>
+            <era>ค.ศ.</era>
+         </eraNames>
+      </calendarSymbols>
+      <datePatterns>
+         <datePattern name="full">EEEE'ที่ 'D MMMM G YYYY</datePattern>
+         <datePattern name="long">D MMMM YYYY</datePattern>
+         <datePattern name="med">D MMM YYYY</datePattern>
+         <datePattern name="short">D/M/YYYY</datePattern>
+      </datePatterns>
+      <timePatterns>
+         <timePattern name="full">H' นาฬิกา 'M' นาที 'SS' วินาที'</timePattern>
+         <timePattern name="long">H' นาฬิกา 'M' นาที'</timePattern>
+         <timePattern name="med">H:MM:SS</timePattern>
+         <timePattern name="short">H:MM</timePattern>
+      </timePatterns>
+      <dateTimeSymbols>GanjkHmsSEDFwWxhKzZ</dateTimeSymbols>
+      <numberPatterns>
+         <numberPattern name="numeric">sz,zz9.zzz</numberPattern>
+         <numberPattern name="currency">$sz,zz9.99</numberPattern>
+         <numberPattern name="percent">z,zz9%</numberPattern>
+      </numberPatterns>
+      <numberSymbols>
+         <numberSymbol name="decimal">.</numberSymbol>
+         <numberSymbol name="grouping">,</numberSymbol>
+         <numberSymbol name="percent">%</numberSymbol>
+         <numberSymbol name="minus">-</numberSymbol>
+         <numberSymbol name="zero">0</numberSymbol>
+      </numberSymbols>
+      <currencySymbols>
+         <currencySymbol name="symbol">฿</currencySymbol>
+         <currencySymbol name="isoname">THB</currencySymbol>
+         <currencySymbol name="decimal">.</currencySymbol>
+      </currencySymbols>
+   </locale>
+</localeSet>
+<PDFSecurity xmlns="http://ns.adobe.com/xtd/" print="1" printHighQuality="1" change="1" modifyAnnots="1" formFieldFilling="1" documentAssembly="1" contentCopy="1" accessibleContent="1" metadata="1"/></xdp:xdp>

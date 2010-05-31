@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xfa generator="AdobeLiveCycleDesigner_V8.0" APIVersion="2.5.6290.0"?>
-<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2008-11-07T11:47:31Z" uuid="2a4b128c-460d-452b-9f9e-5ad213be0acd">
-<template xmlns="http://www.xfa.org/schema/xfa-template/2.5/">
+<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2006-10-06T03:12:45Z" uuid="2a4b128c-460d-452b-9f9e-5ad213be0acd">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
    <subform name="form1" layout="tb" locale="th_TH">
       <pageSet>
          <pageArea name="Page1" id="Page1">
             <contentArea x="0.25in" y="0.25in" w="266.7mm" h="203.2mm"/>
             <medium stock="letter" short="215.9mm" long="279.4mm" orientation="landscape"/>
-            <?templateDesigner expand 1?></pageArea>
-         <?templateDesigner expand 1?></pageSet>
+         </pageArea>
+      </pageSet>
       <subform w="266.9501mm" h="203.2mm">
-         <draw name="StaticImage1" w="25mm" h="30mm" x="6.6499mm" y="1.6499mm">
+         <draw name="StaticImage1" w="25mm" h="30mm" x="6.6499mm" y="3.6498mm">
             <value>
                <image href="=Logo" aspect="none"/>
             </value>
@@ -32,7 +32,7 @@
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" vAlign="middle"/>
             <?renderCache.bounds 240166 24166 0 0 1417 1417 0 0?>
             <?renderCache.textRun 40 00C4009D008700BA009C00AA00B400AD009700BB 1 94373 18646 0 0 0 "CordiaUPC" 1 0 18000 UTF-16?></draw>
-         <draw name="StaticText18" y="66.6501mm" x="5.65mm" w="0.5in" h="10mm">
+         <draw name="StaticText18" y="73.4998mm" x="5.65mm" w="0.5in" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -41,7 +41,7 @@
             <value>
                <text>ลำดับ</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -54,11 +54,11 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 36000 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 8 00A800CE 1 5818 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?>
-            <?renderCache.textRun 4 00B5 1 12036 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?>
-            <?renderCache.textRun 12 009700B4009D 1 16951 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="StaticText18" y="66.6501mm" x="47.65mm" w="120mm" h="10mm">
+            <?renderCache.bounds 36000 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 00A800CE 1 7559 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 12888 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 12 009700B4009D 1 17101 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="StaticText18" y="73.4998mm" x="47.65mm" w="147.9998mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -67,7 +67,7 @@
             <value>
                <text>รายการ</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -80,8 +80,41 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 340157 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 153985 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+            <?renderCache.bounds 419527 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 195969 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <field name="txtDeliverToCity" y="177.6498mm" x="195.6499mm" w="36.9997mm" h="6.35mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font typeface="CordiaUPC" size="12pt"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle" hAlign="right"/>
+            <caption reserve="13.49mm">
+               <font typeface="CordiaUPC" baselineShift="0pt" size="12pt" weight="bold"/>
+               <value>
+                  <text>รวมที่คืน</text>
+               </value>
+               <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="right"/>
+            </caption>
+            <border>
+               <edge presence="hidden"/>
+               <corner presence="hidden"/>
+            </border>
+            <value>
+               <text>=Total</text>
+            </value>
+         </field>
          <field name="txtDeliverToCity" x="41.5751mm" w="149.225mm" h="6.35mm" y="1.6499mm">
             <ui>
                <textEdit>
@@ -192,16 +225,16 @@
                <text>CompanyFax</text>
             </value>
          </field>
-         <draw name="StaticText18" y="66.6501mm" x="167.65mm" w="0.98425in" h="0.393694in">
+         <draw name="StaticText18" y="73.4998mm" x="211.6499mm" w="0.787403in" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
                </textEdit>
             </ui>
             <value>
-               <text>ปริมาณ</text>
+               <text>จำนวน</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -214,9 +247,11 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 70866 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 24 009E00A600B700A400B50096 1 19353 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="StaticText18" y="66.6501mm" x="217.6502mm" w="1.850389in" h="0.393694in">
+            <?renderCache.bounds 56693 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 8 008B00CE 1 15693 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 20721 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
+            <?renderCache.textRun 12 009C00AA009C 1 24933 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="StaticText18" y="73.4998mm" x="231.65mm" w="31.2748mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -225,7 +260,7 @@
             <value>
                <text>หมายเหตุ</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -238,9 +273,9 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 133228 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 32 00AE00A400B500A500C100AE009800BB 1 46147 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="StaticText18" y="66.65mm" x="192.6498mm" w="25.0003mm" h="10mm">
+            <?renderCache.bounds 88653 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 32 00AE00A400B500A500C100AE009800BB 1 26784 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <draw name="StaticText18" y="73.4998mm" x="195.6499mm" w="0.629931in" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -249,7 +284,7 @@
             <value>
                <text>หน่วย</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -262,9 +297,42 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 70867 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 20 00AE009C006E00AA00A5 1 23052 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="StaticText18" y="66.6501mm" x="18.3498mm" w="29.125mm" h="10mm">
+            <?renderCache.bounds 45355 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00AE009C006E00AA00A5 1 12065 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <field name="txtDeliverToCity" y="177.65mm" x="10.65mm" w="175.0004mm" h="7.3494mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font typeface="CordiaUPC" size="12pt"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="17.28mm">
+               <font typeface="CordiaUPC" baselineShift="0pt" size="12pt" weight="bold"/>
+               <value>
+                  <text>หมายเหตุ-</text>
+               </value>
+               <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            </caption>
+            <border>
+               <edge presence="hidden"/>
+               <corner presence="hidden"/>
+            </border>
+            <value>
+               <text>=Note</text>
+            </value>
+         </field>
+         <draw name="StaticText18" y="73.4998mm" x="18.3498mm" w="29.125mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -273,7 +341,7 @@
             <value>
                <text>รหัส</text>
             </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <edge/>
@@ -286,9 +354,9 @@
                <corner thickness="0.006in" presence="hidden"/>
                <fill/>
             </border>
-            <?renderCache.bounds 82559 28346 0 0 0 0 0 0?>
-            <?renderCache.textRun 16 00A600AE00B400AD 1 32249 18175 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <subform name="Table1" layout="table" columnWidths="12.7mm 29.28mm 120mm 25mm 25mm 47mm" x="5.65mm" y="76.6502mm">
+            <?renderCache.bounds 82559 36000 0 0 0 0 0 0?>
+            <?renderCache.textRun 16 00A600AE00B400AD 1 33539 21430 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
+         <subform name="Table1" layout="table" columnWidths="12.7mm 28.9333mm 148.3769mm 15.3925mm 20mm 31.1729mm" x="5.65mm" y="86.1998mm">
             <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
             <border>
                <edge/>
@@ -302,8 +370,8 @@
             </border>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -319,8 +387,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -336,8 +404,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -353,25 +421,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
-                  <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-                  <value>
-                     <text>Item.Qty</text>
-                  </value>
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-               </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -387,8 +438,25 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
+                  <para vAlign="middle" hAlign="right" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                  </border>
+                  <value>
+                     <text>Item.Qty</text>
+                  </value>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -404,11 +472,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -421,8 +489,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -435,8 +503,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -449,8 +517,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -463,8 +531,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -477,8 +545,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -491,11 +559,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -508,8 +576,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -522,8 +590,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -536,8 +604,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -550,8 +618,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -564,8 +632,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -578,11 +646,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -595,8 +663,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -609,8 +677,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -623,8 +691,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -637,8 +705,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -651,8 +719,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -665,11 +733,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -682,8 +750,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -696,8 +764,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -710,8 +778,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -724,8 +792,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -738,8 +806,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -752,11 +820,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -769,8 +837,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -783,8 +851,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -797,8 +865,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -811,8 +879,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -825,8 +893,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -839,11 +907,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -856,8 +924,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -870,8 +938,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -884,8 +952,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -898,8 +966,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -912,8 +980,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -926,11 +994,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -943,8 +1011,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -957,8 +1025,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -971,8 +1039,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -985,8 +1053,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -999,8 +1067,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1013,11 +1081,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1030,8 +1098,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1044,8 +1112,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1058,8 +1126,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1072,8 +1140,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1086,8 +1154,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1100,11 +1168,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1117,8 +1185,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1131,8 +1199,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1145,8 +1213,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1159,8 +1227,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1173,8 +1241,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1187,11 +1255,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1204,8 +1272,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1218,8 +1286,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1232,8 +1300,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1246,8 +1314,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1260,8 +1328,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1274,11 +1342,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1291,8 +1359,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1305,8 +1373,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1319,8 +1387,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1333,8 +1401,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1347,8 +1415,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1361,11 +1429,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1378,8 +1446,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1392,8 +1460,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1406,8 +1474,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1420,8 +1488,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1434,8 +1502,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1448,11 +1516,11 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
-               <draw name="Cell1" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1465,8 +1533,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell2" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1479,8 +1547,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell3" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1493,8 +1561,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell4" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1507,8 +1575,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell5" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1521,8 +1589,8 @@
                      </textEdit>
                   </ui>
                </draw>
-               <draw name="Cell6" w="30mm" h="6mm">
-                  <font typeface="Myriad Pro" size="14pt"/>
+               <draw name="Cell6" w="30mm" h="6.35mm">
+                  <font typeface="Myriad Pro"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1535,96 +1603,26 @@
                      </textEdit>
                   </ui>
                </draw>
-               <?templateDesigner expand 1?></subform>
-            <?templateDesigner expand 1?>
-            <subform layout="row" name="Row1">
-               <assist role="TR"/>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <draw w="30mm" h="6mm">
-                  <ui>
-                     <textEdit>
-                        <margin/>
-                     </textEdit>
-                  </ui>
-                  <font typeface="Myriad Pro" size="14pt"/>
-                  <para vAlign="middle"/>
-                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner thickness="0.1778mm" presence="hidden"/>
-                  </border>
-               </draw>
-               <?templateDesigner expand 1?></subform>
+            </subform>
          </subform>
+         <draw name="StaticText21" y="178.6498mm" x="232.65mm" w="29.2753mm" h="7.3498mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>รายการ</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="12pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <edge presence="hidden"/>
+               <corner presence="hidden"/>
+            </border>
+            <?renderCache.bounds 80151 18000 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 27698 11413 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
          <field name="txtDeliverToCity" x="41.5751mm" w="101.0042mm" h="6mm" y="22.6502mm">
             <ui>
                <textEdit>
@@ -1664,7 +1662,79 @@
                <defaultUi/>
             </ui>
          </draw>
-         <field name="txtDocCode" y="49.6498mm" x="8.65mm" w="106.886mm" h="7mm">
+         <draw name="Line1" y="193.6498mm" x="53.65mm" w="51.0032mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line1" y="193.6498mm" x="117.404mm" w="51.0032mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line1" y="193.6498mm" x="181.158mm" w="51.0032mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="StaticText21" y="195.6496mm" x="71.6498mm" w="0.578153in" h="0.227597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้รับคืน</text>
+            </value>
+            <font size="12pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 38793 13553 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 36 009F00BC006F00A600B4009D008700BA009C 1 8389 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="StaticText21" y="195.6496mm" x="135.4038mm" w="0.578153in" h="0.227597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้ส่งคืน</text>
+            </value>
+            <font size="12pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 38793 13553 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 36 009F00BC006F00AD006E008A008700BA009C 1 8737 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="StaticText21" y="195.6496mm" x="193.8698mm" w="1.012153in" h="0.227597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>Cost Center ส่งคืน</text>
+            </value>
+            <font size="12pt" typeface="BrowalliaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 70041 13553 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 72 00260052005600570003002600480051005700480055000300AD006E008A008700BA009C 1 4451 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         <field name="txtDocCode" y="40.6498mm" x="29.6544mm" w="106.886mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1692,7 +1762,7 @@
                <text>=FromCCPersonName</text>
             </value>
          </field>
-         <field name="txtDocCode" y="56.65mm" x="8.65mm" w="106.8864mm" h="7mm">
+         <field name="txtDocCode" y="47.65mm" x="29.654mm" w="106.8864mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1720,7 +1790,7 @@
                <text>=FromCCName</text>
             </value>
          </field>
-         <field name="txtDocCode" y="49.6499mm" x="128.6502mm" w="106.886mm" h="7mm">
+         <field name="txtDocCode" y="54.6498mm" x="29.6544mm" w="106.886mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1748,7 +1818,7 @@
                <text>=ToCCPersonName</text>
             </value>
          </field>
-         <field name="txtDocCode" y="56.6497mm" x="128.6498mm" w="106.8864mm" h="7mm">
+         <field name="txtDocCode" y="61.6496mm" x="29.654mm" w="106.8864mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1776,7 +1846,7 @@
                <text>=ToCCName</text>
             </value>
          </field>
-         <field name="txtDocCode" y="33.6501mm" x="187.6499mm" w="74.9995mm" h="6.35mm">
+         <field name="txtDocCode" y="40.6499mm" x="146.65mm" w="74.9995mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1804,7 +1874,7 @@
                <text>=Code</text>
             </value>
          </field>
-         <field name="txtDocCode" y="40.6502mm" x="187.6499mm" w="74.9998mm" h="6.35mm">
+         <field name="txtDocCode" y="47.65mm" x="146.65mm" w="74.9998mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
@@ -1832,274 +1902,28 @@
                <text>=DocDate</text>
             </value>
          </field>
-         <?templateDesigner expand 1?>
-         <field name="txtDeliverToCity" y="171.6509mm" x="6.6503mm" w="136.9995mm" h="7.0002mm">
-            <ui>
-               <textEdit>
-                  <border>
-                     <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
-                     <corner presence="hidden"/>
-                     <corner/>
-                  </border>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <font typeface="CordiaUPC" size="14pt" weight="bold"/>
-            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
-            <para marginLeft="0pt" vAlign="middle"/>
-            <caption reserve="17.28mm">
-               <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
-               <value>
-                  <text>หมายเหตุ-</text>
-               </value>
-               <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            </caption>
-            <border>
-               <edge presence="hidden"/>
-               <corner presence="hidden"/>
-            </border>
-            <value>
-               <text>=Note</text>
-            </value>
-         </field>
-         <draw name="StaticText21" y="171.6509mm" x="192.6498mm" w="25mm" h="7mm">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>รายการ</text>
-            </value>
-            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge presence="hidden"/>
-               <corner presence="hidden"/>
-            </border>
-            <?renderCache.bounds 68032 17009 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 19339 13079 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="Line1" y="189.6505mm" x="6.65mm" w="51.0032mm" h="0in">
-            <value>
-               <line slope="/">
-                  <edge/>
-               </line>
-            </value>
-            <ui>
-               <defaultUi/>
-            </ui>
-         </draw>
-         <draw name="StaticText21" y="190.0963mm" x="22.6498mm" w="0.578153in" h="0.262389in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>ผู้อนุมัติ</text>
-            </value>
-            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 38793 16058 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 40 009F00BC006F00B0009C00BB00A400B4009800B7 1 6260 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
-         <draw name="StaticText21" y="195.6503mm" x="16.6499mm" w="0.980361in" h="0.230528in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>........../........./..........</text>
-            </value>
-            <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 67752 13764 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 124 0011001100110011001100110011001100110011001200110011001100110011001100110011001100120011001100110011001100110011001100110011 1 1417 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
-         <draw name="Line1" y="189.6505mm" x="77.6501mm" w="51.0032mm" h="0in">
-            <value>
-               <line slope="/">
-                  <edge/>
-               </line>
-            </value>
-            <ui>
-               <defaultUi/>
-            </ui>
-         </draw>
-         <draw name="StaticText21" y="190.0963mm" x="90.6499mm" w="20mm" h="6mm">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>ผู้ตรวจสอบ</text>
-            </value>
-            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 53859 14174 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 40 009F00BC006F009800A600AA008B00AD00B0009D 1 6666 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
-         <draw name="StaticText21" y="195.6505mm" x="87.65mm" w="0.980361in" h="0.230528in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>........../........./..........</text>
-            </value>
-            <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 67752 13764 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 124 0011001100110011001100110011001100110011001200110011001100110011001100110011001100120011001100110011001100110011001100110011 1 1417 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
-         <draw name="Line1" y="189.6501mm" x="147.65mm" w="51.0032mm" h="0in">
-            <value>
-               <line slope="/">
-                  <edge/>
-               </line>
-            </value>
-            <ui>
-               <defaultUi/>
-            </ui>
-         </draw>
-         <draw name="StaticText21" y="190.0959mm" x="163.6498mm" w="0.578153in" h="0.262389in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>ผู้ส่งคืน</text>
-            </value>
-            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 38793 16058 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 36 009F00BC006F00AD006E008A008700BA009C 1 7031 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
-         <draw name="StaticText21" y="195.6501mm" x="157.6499mm" w="0.980361in" h="0.230528in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>........../........./..........</text>
-            </value>
-            <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 67752 13764 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 124 0011001100110011001100110011001100110011001200110011001100110011001100110011001100120011001100110011001100110011001100110011 1 1417 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
-         <draw name="Line1" y="189.6501mm" x="213.6498mm" w="51.0032mm" h="0in">
-            <value>
-               <line slope="/">
-                  <edge/>
-               </line>
-            </value>
-            <ui>
-               <defaultUi/>
-            </ui>
-         </draw>
-         <draw name="StaticText21" y="190.0959mm" x="229.6496mm" w="0.578153in" h="0.262389in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>ผู้รับคืน</text>
-            </value>
-            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 38793 16058 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 36 009F00BC006F00A600B4009D008700BA009C 1 6827 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
-         <draw name="StaticText21" y="195.6501mm" x="223.6497mm" w="0.980361in" h="0.230528in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>........../........./..........</text>
-            </value>
-            <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 67752 13764 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 124 0011001100110011001100110011001100110011001200110011001100110011001100110011001100120011001100110011001100110011001100110011 1 1417 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
-         <draw name="StaticText21" y="170.6502mm" x="168.65mm" w="23.9998mm" h="0.275597in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>=Total</text>
-            </value>
-            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt" weight="bold"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge presence="hidden">
-               </edge>
-               <edge presence="hidden">
-               </edge>
-               <edge/>
-               <edge presence="hidden"/>
-               <corner/>
-            </border>
-            <?renderCache.bounds 65197 17009 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 24 00200037005200570044004F 1 21140 13079 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
-         <draw name="StaticText18" y="171.6509mm" x="148.65mm" w="0.787403in" h="0.275597in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <value>
-               <text>รวมที่รับคืน</text>
-            </value>
-            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
-            <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge presence="hidden"/>
-               <corner thickness="0.006in" presence="hidden"/>
-            </border>
-            <?renderCache.bounds 56693 19843 0 0 0 0 0 0?>
-            <?renderCache.textRun 48 00A600AA00A4009A00B800C900A600B4009D008700BA009C 1 4023 13924 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
       </subform>
       <proto/>
-      <?templateDesigner expand 1?>
       <?renderCache.subset "BrowalliaUPC" 0 0 UTF-16 2 132 000300110026002C002F0031003400380044004500470048004C0050005100520055005600570058005C006E006F0087008A009C009D009F00A600AD00B400BA00BC?>
-      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 256 000300110012002000240026002700290031003300370044004600470048004B004F0050005100520053005500560057005B005C006E006F0072008400850087008A008B008E00970098009A009C009D009F00A100A200A400A500A600A800AA00AB00AD00AE00B000B400B500B700B800BA00BB00BC00C100C200C300C900CE?>
-      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 228 0010002000240026002C003100360037004400470048004F005000510052005300570058005B005C006E006F008400850087008A008B009600970098009A009C009D009E009F00A300A400A500A600A800AA00AC00AD00AE00B300B400B500B700B800BA00BB00BC00C100C400C900CA00CE?></subform>
+      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 212 0003002000240026002700290031003300370044004600470048004B004F0050005100520053005500560057005B005C006E006F008400850087008A008E009A009C009D009F00A100A200A600A800AA00AB00AD00B000B400B500B800BA00BC00C100C200C300C900CD?>
+      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 188 00100026002C003100370044004700480050005100520053005B005C006E006F008400850087008B00970098009A009C009D009E009F00A300A400A500A600A800AA00AC00AD00AE00B300B400B500B800BA00BB00BC00C100C400C900CE?></subform>
    <?templateDesigner DefaultLanguage FormCalc?>
    <?templateDesigner DefaultRunAt client?>
    <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(25000,25000)?>
-   <?templateDesigner Zoom 75?>
-   <?originalXFAVersion http://www.xfa.org/schema/xfa-template/2.4/?>
    <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?>
-   <?templateDesigner Guidelines h:1400000;?></template>
-<config xmlns="http://www.xfa.org/schema/xci/1.0/">
+   <?templateDesigner Zoom 100?></template>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
    <agent name="designer">
+      <!--  [0..n]  -->
       <destination>pdf</destination>
       <pdf>
          <!--  [0..n]  -->
          <fontInfo/>
       </pdf>
    </agent>
-   <trace>
-      <area name="font" level="1"/>
-   </trace>
    <present>
       <!--  [0..n]  -->
       <destination>pdf</destination>

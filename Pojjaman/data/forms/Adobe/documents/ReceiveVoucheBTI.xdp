@@ -1,0 +1,2353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2007-03-14T06:00:53Z" uuid="48c35fec-1352-4dee-a164-18142fff66c0">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
+   <subform name="form1" layout="tb" locale="th_TH">
+      <pageSet>
+         <pageArea name="Page1" id="Page1">
+            <contentArea x="0.25in" y="0.25in" w="197.3mm" h="284.3mm"/>
+            <medium stock="a4" short="210mm" long="297mm"/>
+         </pageArea>
+      </pageSet>
+      <subform w="197.6501mm" h="284.3001mm">
+         <subform name="Test" layout="table" columnWidths="35.0002mm 27.1mm 32.0001mm 29.9999mm 23mm 22.9mm 23mm" x="2.65mm" y="204.65mm">
+            <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
+            <?templateDesigner expand 1?>
+            <border>
+               <edge>
+               </edge>
+               <corner>
+               </corner>
+               <edge>
+               </edge>
+               <edge presence="hidden"/>
+               <edge/>
+               <corner>
+               </corner>
+               <corner presence="hidden"/>
+               <corner/>
+            </border>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell2" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell3" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell4" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell5" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell7" w="30mm" h="2.4998mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner thickness="0.1778mm" presence="hidden"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <corner thickness="0.1778mm"/>
+                     <edge/>
+                     <edge presence="hidden"/>
+                     <edge/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+            </subform>
+         </subform>
+         <draw name="StaticText18" y="81.65mm" x="176.3005mm" w="0.826764in" h="0.354333in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>Cost Center</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+            <?renderCache.bounds 59527 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 00260052005600570003002600480051005700480055 1 4993 16758 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText18" y="81.65mm" x="26.65mm" w="3.937in" h="0.354333in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ชื่อบัญชี</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+            <?renderCache.bounds 283464 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 008D00BA00C900B0009D00B40090008D00B8 1 124707 16758 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText18" y="81.65mm" x="1.65mm" w="1.023625in" h="0.354333in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>รหัสบัญชี</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+            <?renderCache.bounds 73701 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 36 00A600AE00B400AD009D00B40090008D00B8 1 16990 16758 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText18" y="81.6502mm" x="126.65mm" w="0.98425in" h="0.354333in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>เดบิต</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+            <?renderCache.bounds 70866 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 20 00C10097009D00B70098 1 23882 16758 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText18" y="81.65mm" x="151.65mm" w="0.98425in" h="0.354333in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>เครดิต</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+            <?renderCache.bounds 70866 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 24 00C1008700A6009700B70098 1 21594 16758 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <subform name="Item" layout="table" columnWidths="26mm 99.2mm 25mm 25mm 20.8mm" x="1.65mm" y="90.65mm">
+            <border>
+               <edge/>
+            </border>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw w="30mm" h="6.35mm" name="Cell1">
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <value>
+                     <text>Item.AccountCode</text>
+                  </value>
+               </draw>
+               <draw w="30mm" h="6.35mm" name="Cell2">
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <font typeface="CordiaUPC" size="12pt" baselineShift="0pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <value>
+                     <text>Item.AccountName</text>
+                  </value>
+               </draw>
+               <draw w="30mm" h="6.35mm" name="Cell3">
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <para vAlign="middle" hAlign="right"/>
+                  <value>
+                     <text>Item.Debit</text>
+                  </value>
+               </draw>
+               <draw w="30mm" h="6.35mm" name="Cell4">
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <para vAlign="middle" hAlign="right"/>
+                  <value>
+                     <text>Item.Credit</text>
+                  </value>
+               </draw>
+               <draw w="30mm" h="6.35mm" name="Cell5">
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <value>
+                     <text>Item.CostCenter</text>
+                  </value>
+               </draw>
+               <border>
+                  <edge presence="hidden"/>
+               </border>
+            </subform>
+            <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell2" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell3" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell4" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+               <draw name="Cell5" w="30mm" h="6.35mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+               </draw>
+            </subform>
+            <?templateDesigner expand 1?></subform>
+         <draw name="Line1" y="262.6502mm" x="6.6801mm" w="40mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="StaticText21" y="265.1958mm" x="12.1803mm" w="1.141736in" h="0.275597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้จัดทำ</text>
+            </value>
+            <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 79371 17009 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 32 009F00BC006F008B00B40097009A00CE 1 27003 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 50526 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText21" y="264.6499mm" x="163.65mm" w="29mm" h="7mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้อนุมัติ</text>
+            </value>
+            <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 79371 17009 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 40 009F00BC006F00B0009C00BB00A400B4009800B7 1 26221 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText21" y="264.6499mm" x="111.6501mm" w="1.141736in" h="0.275597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้รับเงิน</text>
+            </value>
+            <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 79371 17009 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 40 009F00BC006F00A600B4009D00C1008A00B7009C 1 25708 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="Line1" y="262.65mm" x="55.6801mm" w="40mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line1" y="262.65mm" x="106.6801mm" w="40mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line1" y="262.65mm" x="156.1901mm" w="40mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="StaticText21" y="265.65mm" x="59.6502mm" w="1.141736in" h="0.275597in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ผู้จ่ายเงิน</text>
+            </value>
+            <font typeface="BrowalliaUPC" baselineShift="0pt" size="14pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 79371 17009 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 44 009F00BC006F008B006E00B500A500C1008A00B7009C 1 23356 13182 0 0 0 "BrowalliaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText18" y="39.6501mm" x="1.65mm" w="195.6502mm" h="42mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font typeface="BrowalliaUPc" weight="bold" baselineShift="0pt" size="12pt"/>
+            <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <fill/>
+               <edge/>
+               <corner thickness="0.006in"/>
+            </border>
+         </draw>
+         <field name="txtDeliverToCity" y="40.6499mm" x="2.65mm" w="104.0871mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="25mm">
+               <font size="14pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>เลขที่เอกสาร</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=Code</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" y="46.65mm" x="2.6507mm" w="104.0871mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="25mm">
+               <font size="14pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>วันที่เอกสาร</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=DocDate</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" y="75.65mm" x="2.6501mm" w="192mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="25mm">
+               <font size="14pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>หน่วยงาน</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=CostCenterinfo</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" y="46.65mm" x="109.6501mm" w="85.7402mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="29mm">
+               <font size="14pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>วันที่เอกสารอ้างอิง</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=RefDocDate</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" y="40.65mm" x="109.6501mm" w="85.8912mm" h="4.9999mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="29mm">
+               <font size="14pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>เลขที่เอกสารอ้างอิง</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=RefCode</text>
+            </value>
+         </field>
+         <draw name="StaticText22" y="59.6501mm" x="27.65mm" w="6.567292in" h="14mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <value>
+               <text>=CustomerAddress</text>
+            </value>
+            <?renderCache.bounds 470011 36851 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 64 0020002600580056005700520050004800550024004700470055004800560056 1 1417 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="59.6502mm" x="2.65mm" w="0.943153in" h="0.262389in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <value>
+               <text>ที่อยู่</text>
+            </value>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 65073 16058 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 28 009A00B800C900B000A500BC006E 1 1417 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="52.6502mm" x="27.6499mm" w="6.570403in" h="0.262389in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <value>
+               <text>=Customer</text>
+            </value>
+            <?renderCache.bounds 470235 16058 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 36 002000260058005600570052005000480055 1 1417 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="52.6502mm" x="2.65mm" w="0.943153in" h="0.262389in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="14pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <value>
+               <text>จ่ายให้แก่</text>
+            </value>
+            <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 65073 16058 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 40 008B006E00B500A500C400AE006F00C20084006E 1 1417 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
+         <draw name="Line4" y="52.6498mm" x="1.6198mm" w="195.6802mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line4" y="74.6498mm" x="1.6198mm" w="195.6802mm" h="0in">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line5" y="39.578mm" x="27.45mm" w="0in" h="42mm">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line5" y="39.6502mm" x="108.6801mm" w="0.0002mm" h="12.9999mm">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line5" y="39.6502mm" x="138.6799mm" w="0.0002mm" h="12.9999mm">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="StaticText18" y="28.65mm" x="28.6502mm" w="6.608444in" h="0.393694in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>                                ใบสำคัญรับ</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="22pt"/>
+            <para vAlign="bottom" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <edge thickness="0.5292mm"/>
+               <corner thickness="0.5292mm"/>
+               <corner thickness="0.006in" presence="hidden"/>
+               <corner thickness="0.006in" presence="hidden"/>
+               <corner thickness="0.006in" presence="hidden"/>
+               <edge presence="hidden"/>
+               <edge presence="hidden"/>
+               <edge presence="hidden"/>
+            </border>
+            <?renderCache.bounds 475808 28346 0 0 0 0 0 0?>
+            <?renderCache.textRun 144 0003000300030003000300030003000300030003000300030003000300030003000300030003000300030003000300030003000300030003000300030003000300C4009D00AD00CE 1 0 22599 0 0 0 "CordiaUPC" 1 0 22000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 185265 22599 0 0 0 "CordiaUPC" 1 0 22000 UTF-16?>
+            <?renderCache.textRun 24 008700B4009000A600B4009D 1 192989 22599 0 0 0 "CordiaUPC" 1 0 22000 UTF-16?></draw>
+         <draw name="StaticImage1" w="25mm" h="30mm" x="2.6799mm" y="6.9998mm">
+            <value>
+               <image href="=Logo" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <field name="txtDeliverToCity" x="30.6484mm" w="161.4414mm" h="6mm" y="9.9999mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="0in">
+               <font size="12pt" typeface="CordiaUPC"/>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyAddress</text>
+            </value>
+         </field>
+         <draw name="StaticText18" y="4.6501mm" x="30.8925mm" w="6.346361in" h="0.219417in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>CompanyName</text>
+            </value>
+            <font typeface="CordiaUPC" weight="bold" baselineShift="0pt" size="14pt"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <border>
+               <edge presence="hidden"/>
+               <corner thickness="0.006in" presence="hidden"/>
+            </border>
+            <?renderCache.bounds 456938 15798 0 0 0 0 0 0?>
+            <?renderCache.textRun 44 002600520050005300440051005C0031004400500048 1 0 11901 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <field name="txtDeliverToCity" x="82.868mm" w="51.4516mm" h="6mm" y="14.9999mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="10.32mm">
+               <font size="12pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>แฟกซ์</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyFax</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="30.9405mm" w="51.2438mm" h="6mm" y="14.9999mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="CordiaUPC"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="13.49mm">
+               <font size="12pt" typeface="CordiaUPC"/>
+               <value>
+                  <text>โทรศัพท์</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>CompanyPhone</text>
+            </value>
+         </field>
+         <field name="txtDeliverToCity" x="30.9359mm" w="103.2461mm" h="6mm" y="20.4999mm">
+            <ui>
+               <textEdit>
+                  <border>
+                     <edge presence="hidden"/>
+                     <corner>
+                     </corner>
+                     <corner>
+                     </corner>
+                     <corner presence="hidden"/>
+                     <corner/>
+                  </border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="CordiaUPC" weight="bold"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="32.28mm">
+               <font size="12pt" typeface="CordiaUPC" weight="bold"/>
+               <para vAlign="middle"/>
+               <value>
+                  <text>เลขประจำตัวผู้เสียภาษี</text>
+               </value>
+            </caption>
+            <value>
+               <text>CompanyTaxId</text>
+            </value>
+         </field>
+         <draw name="StaticText22" y="196.6503mm" x="2.68mm" w="1.377958in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ชื่อบัญชี</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 96379 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 36 008D00BA00C900B0009D00B40090008D00B8 1 32582 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6503mm" x="37.6801mm" w="1.066931in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>ธนาคาร</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 73985 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 24 009B009C00B5008700B500A6 1 21491 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6499mm" x="64.6799mm" w="1.259847in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>สาขา</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 87875 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 16 00AD00B5008500B5 1 34299 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6503mm" x="96.68mm" w="1.181097in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>เลขที่สมุดเงินฝาก</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 82205 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 68 00C100A80085009A00B800C900AD00A400BB009700C1008A00B7009C00A000B50084 1 5593 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6503mm" x="149.68mm" w="0.905514in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>วันที่บนเช็ค</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 62363 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 48 00AA00B4009C009A00B800C9009D009C00C1008D00C80087 1 8512 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6503mm" x="172.6804mm" w="0.905514in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>จำนวนเงิน</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 62363 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 8 008B00CE 1 10395 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?>
+            <?renderCache.textRun 4 00B5 1 16261 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?>
+            <?renderCache.textRun 28 009C00AA009C00C1008A00B7009C 1 21176 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <draw name="StaticText22" y="196.6503mm" x="126.6799mm" w="0.905514in" h="7.9079mm">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>เลขที่เช็ค</text>
+            </value>
+            <font typeface="CordiaUPC" baselineShift="0pt" size="14pt" weight="bold"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt" hAlign="center"/>
+            <border>
+               <edge/>
+               <corner/>
+            </border>
+            <?renderCache.bounds 62363 19582 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 40 00C100A80085009A00B800C900C1008D00C80087 1 13424 15210 0 0 0 "CordiaUPC" 1 0 14000 UTF-16?></draw>
+         <subform name="ReceiveItem" layout="table" columnWidths="35.0002mm 27.1mm 32.0001mm 29.9999mm 23mm 22.9mm 23mm" x="2.6802mm" y="206.65mm">
+            <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
+            <?templateDesigner expand 1?>
+            <border>
+               <edge presence="hidden"/>
+               <corner presence="hidden"/>
+               <edge/>
+               <edge/>
+               <edge/>
+               <corner/>
+               <corner/>
+               <corner/>
+            </border>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.BankAccount</text>
+                  </value>
+               </draw>
+               <draw name="Cell2" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.Bank</text>
+                  </value>
+               </draw>
+               <draw name="Cell3" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.Bankbranch</text>
+                  </value>
+               </draw>
+               <draw name="Cell4" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.BankAccountCode</text>
+                  </value>
+               </draw>
+               <draw name="Cell5" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.CqCode</text>
+                  </value>
+               </draw>
+               <draw name="Cell6" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="center"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.DueDate</text>
+                  </value>
+               </draw>
+               <draw name="Cell7" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle" hAlign="right"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+                  <value>
+                     <text>ReceiveItemBti.Amount</text>
+                  </value>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell2" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell3" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell4" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell5" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell7" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell2" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell3" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell4" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell5" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell7" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell2" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell3" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell4" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell5" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell7" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+            </subform>
+            <subform layout="row" name="Row1">
+               <assist role="TR"/>
+               <draw name="Cell1" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell2" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell3" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell4" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell5" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell6" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+               <draw name="Cell7" w="30mm" h="8.5mm">
+                  <font typeface="CordiaUPC" size="12pt"/>
+                  <para vAlign="middle"/>
+                  <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+                  <border>
+                     <edge/>
+                     <corner thickness="0.1778mm"/>
+                  </border>
+                  <ui>
+                     <textEdit>
+                        <margin/>
+                     </textEdit>
+                  </ui>
+               </draw>
+            </subform>
+         </subform>
+         <field name="txtDeliverToCity" y="186.6501mm" x="3.6802mm" w="192.9998mm" h="6.35mm">
+            <ui>
+               <textEdit>
+                  <border presence="hidden">
+                     <?templateDesigner StyleID aped0?>
+                     <?templateDesigner StyleID aped0?></border>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <font size="12pt" typeface="CordiaUPC" weight="bold"/>
+            <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
+            <para marginLeft="0pt" vAlign="middle"/>
+            <caption reserve="13.968mm">
+               <font size="12pt" typeface="CordiaUPC" weight="bold"/>
+               <value>
+                  <text>หมายเหตุ</text>
+               </value>
+               <para vAlign="middle"/>
+            </caption>
+            <value>
+               <text>=Note</text>
+            </value>
+         </field>
+      </subform>
+      <proto/>
+      <?renderCache.subset "BrowalliaUPC" 0 0 UTF-16 2 84 006E006F008A008B00970098009A009C009D009F00A400A500A600B000B400B500B700BB00BC00C100CE?>
+      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 248 0011002000240025002600270029002C003100330035004400450046004700480049004B004C004E0050005100520053005400550056005700580059005B005C006E006F00840085008A008B008E009A009C00A100A200A500A600A800AA00AB00AD00AE00B000B400B500B700B800BC00C100C200C300C400C900CD?>
+      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 232 000300200026002C003100370044004700480050005100520053005500560057005B005C006F008400850087008A008B008D009000970098009A009B009C009D009E009F00A000A300A400A500A600A800AA00AC00AD00AE00B000B300B400B500B700B800BA00BB00BC00C100C400C800C900CE?></subform>
+   <?templateDesigner DefaultLanguage FormCalc?>
+   <?templateDesigner DefaultRunAt client?>
+   <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(25000,25000)?>
+   <?templateDesigner Zoom 88?>
+   <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
+   <agent name="designer">
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo/>
+      </pdf>
+   </agent>
+   <present>
+      <!--  [0..n]  -->
+      <destination>pdf</destination>
+      <pdf>
+         <!--  [0..n]  -->
+         <fontInfo>
+         </fontInfo>
+      </pdf>
+      <xdp>
+         <packets>*</packets>
+      </xdp>
+   </present>
+   <psMap>
+      <font typeface="BrowalliaUPC" psName="BrowalliaUPC" weight="normal" posture="normal"/>
+      <font typeface="Kozuka Mincho Pro-VI R" psName="KozMinProVI-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Arabic" psName="AdobeArabic-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Hebrew" psName="AdobeHebrew-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Regular" weight="normal" posture="normal"/>
+      <font typeface="Adobe Thai" psName="AdobeThai-Bold" weight="bold" posture="normal"/>
+      <font typeface="BrowalliaUPC" psName="BrowalliaUPC-Bold" weight="bold" posture="normal"/>
+      <font typeface="CordiaUPC" psName="CordiaUPC" weight="normal" posture="normal"/>
+      <font typeface="CordiaUPC" psName="CordiaUPC-Bold" weight="bold" posture="normal"/>
+   </psMap>
+</config>
+<localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.1/">
+   <locale name="th_TH" desc="Thai">
+      <calendarSymbols name="gregorian">
+         <monthNames>
+            <month>มกราคม</month>
+            <month>กุมภาพันธ์</month>
+            <month>มีนาคม</month>
+            <month>เมษายน</month>
+            <month>พฤษภาคม</month>
+            <month>มิถุนายน</month>
+            <month>กรกฎาคม</month>
+            <month>สิงหาคม</month>
+            <month>กันยายน</month>
+            <month>ตุลาคม</month>
+            <month>พฤศจิกายน</month>
+            <month>ธันวาคม</month>
+         </monthNames>
+         <monthNames abbr="1">
+            <month>ม.ค.</month>
+            <month>ก.พ.</month>
+            <month>มี.ค.</month>
+            <month>เม.ย.</month>
+            <month>พ.ค.</month>
+            <month>มิ.ย.</month>
+            <month>ก.ค.</month>
+            <month>ส.ค.</month>
+            <month>ก.ย.</month>
+            <month>ต.ค.</month>
+            <month>พ.ย.</month>
+            <month>ธ.ค.</month>
+         </monthNames>
+         <dayNames>
+            <day>วันอาทิตย์</day>
+            <day>วันจันทร์</day>
+            <day>วันอังคาร</day>
+            <day>วันพุธ</day>
+            <day>วันพฤหัสบดี</day>
+            <day>วันศุกร์</day>
+            <day>วันเสาร์</day>
+         </dayNames>
+         <dayNames abbr="1">
+            <day>อา.</day>
+            <day>จ.</day>
+            <day>อ.</day>
+            <day>พ.</day>
+            <day>พฤ.</day>
+            <day>ศ.</day>
+            <day>ส.</day>
+         </dayNames>
+         <meridiemNames>
+            <meridiem>ก่อนเที่ยง</meridiem>
+            <meridiem>หลังเที่ยง</meridiem>
+         </meridiemNames>
+         <eraNames>
+            <era>ปีก่อนคริสต์กาลที่</era>
+            <era>ค.ศ.</era>
+         </eraNames>
+      </calendarSymbols>
+      <datePatterns>
+         <datePattern name="full">EEEE'ที่ 'D MMMM G YYYY</datePattern>
+         <datePattern name="long">D MMMM YYYY</datePattern>
+         <datePattern name="med">D MMM YYYY</datePattern>
+         <datePattern name="short">D/M/YYYY</datePattern>
+      </datePatterns>
+      <timePatterns>
+         <timePattern name="full">H' นาฬิกา 'M' นาที 'SS' วินาที'</timePattern>
+         <timePattern name="long">H' นาฬิกา 'M' นาที'</timePattern>
+         <timePattern name="med">H:MM:SS</timePattern>
+         <timePattern name="short">H:MM</timePattern>
+      </timePatterns>
+      <dateTimeSymbols>GanjkHmsSEDFwWxhKzZ</dateTimeSymbols>
+      <numberPatterns>
+         <numberPattern name="numeric">sz,zz9.zzz</numberPattern>
+         <numberPattern name="currency">$sz,zz9.99</numberPattern>
+         <numberPattern name="percent">z,zz9%</numberPattern>
+      </numberPatterns>
+      <numberSymbols>
+         <numberSymbol name="decimal">.</numberSymbol>
+         <numberSymbol name="grouping">,</numberSymbol>
+         <numberSymbol name="percent">%</numberSymbol>
+         <numberSymbol name="minus">-</numberSymbol>
+         <numberSymbol name="zero">0</numberSymbol>
+      </numberSymbols>
+      <currencySymbols>
+         <currencySymbol name="symbol">฿</currencySymbol>
+         <currencySymbol name="isoname">THB</currencySymbol>
+         <currencySymbol name="decimal">.</currencySymbol>
+      </currencySymbols>
+   </locale>
+</localeSet>
+<PDFSecurity xmlns="http://ns.adobe.com/xtd/" print="1" printHighQuality="1" change="1" modifyAnnots="1" formFieldFilling="1" documentAssembly="1" contentCopy="1" accessibleContent="1" metadata="1"/></xdp:xdp>

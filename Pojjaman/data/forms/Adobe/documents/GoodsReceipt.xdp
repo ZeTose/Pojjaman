@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xfa generator="AdobeLiveCycleDesigner_V8.0" APIVersion="2.5.6290.0"?>
-<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2007-08-03T09:45:06Z" uuid="361f7b49-37a9-4b62-b057-110a306b0d4b">
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2009-05-29T04:16:58Z" uuid="361f7b49-37a9-4b62-b057-110a306b0d4b">
 <template xmlns="http://www.xfa.org/schema/xfa-template/2.5/">
    <subform name="form1" layout="tb" locale="th_TH">
       <pageSet>
@@ -10,7 +10,7 @@
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
       <subform w="196.6503mm" h="282.635mm">
-         <field name="txtDeliverToCity" y="33.8114mm" x="140.6099mm" w="55.5537mm" h="6.7183mm">
+         <field name="txtDeliverToCity" y="38.8116mm" x="140.6099mm" w="55.5537mm" h="6.7183mm">
             <ui>
                <textEdit>
                   <border>
@@ -38,14 +38,14 @@
                <text>=DocDate</text>
             </value>
          </field>
-         <draw name="Rectangle1" y="42.65mm" x="4.65mm" w="192mm" h="36.9997mm">
+         <draw name="Rectangle1" y="45.65mm" x="4.65mm" w="192mm" h="36.9997mm">
             <value>
                <rectangle>
                   <edge/>
                </rectangle>
             </value>
          </draw>
-         <field name="txtDeliverToCity" y="52.65mm" x="109.65mm" w="50.8mm" h="6mm">
+         <field name="txtDeliverToCity" y="55.65mm" x="109.65mm" w="50.8mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -67,7 +67,7 @@
                <text>=DeliveryDocCode</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="52.65mm" x="5.6501mm" w="65.9998mm" h="6mm">
+         <field name="txtDeliverToCity" y="55.65mm" x="5.6501mm" w="65.9998mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -89,7 +89,7 @@
                <text>=POCode</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="43.6498mm" x="5.6502mm" w="104mm" h="6.0202mm">
+         <field name="txtDeliverToCity" y="46.6498mm" x="5.6502mm" w="104mm" h="6.0202mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -111,7 +111,7 @@
                <text>=CostCenterName</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="43.65mm" x="109.65mm" w="85mm" h="6mm">
+         <field name="txtDeliverToCity" y="46.65mm" x="109.65mm" w="85mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -133,7 +133,7 @@
                <text>=ReceivePersonName</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="52.6499mm" x="161.6502mm" w="32.9999mm" h="6mm">
+         <field name="txtDeliverToCity" y="55.6499mm" x="161.6502mm" w="32.9999mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -155,7 +155,7 @@
                <text>=DeliveryDocDate</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="52.6499mm" x="74.65mm" w="32.9999mm" h="6mm">
+         <field name="txtDeliverToCity" y="55.6499mm" x="74.65mm" w="32.9999mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -177,7 +177,7 @@
                <text>=PODocDate</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="60.6499mm" x="5.6501mm" w="102mm" h="6.0046mm">
+         <field name="txtDeliverToCity" y="63.6499mm" x="5.6501mm" w="102mm" h="6.0046mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -199,7 +199,7 @@
                <text>=SupplierName</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="68.65mm" x="5.6501mm" w="189.98mm" h="11.0049mm">
+         <field name="txtDeliverToCity" y="71.65mm" x="5.6501mm" w="189.98mm" h="11.0049mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -293,7 +293,7 @@
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <?renderCache.bounds 38793 18125 0 0 1417 1417 0 0?>
             <?renderCache.textRun 36 009F00BC006F00AD006E008A008500B0008A 1 5371 13920 0 0 0 "CordiaUPC" 0 0 14000 UTF-16?></draw>
-         <draw name="StaticText20" y="26.6498mm" x="60.2791mm" w="78mm" h="9.3599mm">
+         <draw name="StaticText20" y="31.65mm" x="60.2791mm" w="78mm" h="9.3599mm">
             <ui>
                <textEdit>
                   <margin/>
@@ -307,7 +307,7 @@
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <?renderCache.bounds 218268 23698 0 0 1417 1417 0 0?>
             <?renderCache.textRun 32 00C4009D00A600B4009D008500B0008A 1 81828 18077 0 0 0 "CordiaUPC" 1 0 20000 UTF-16?></draw>
-         <field name="txtDeliverToCompanyName" y="26.65mm" x="140.6099mm" w="55.4348mm" h="6.7183mm">
+         <field name="txtDeliverToCompanyName" y="31.6502mm" x="140.6099mm" w="55.4348mm" h="6.7183mm">
             <ui>
                <textEdit>
                   <border>
@@ -335,7 +335,7 @@
                <text>=Code</text>
             </value>
          </field>
-         <draw name="StaticImage1" w="25mm" h="30mm" x="4.7568mm" y="1mm">
+         <draw name="StaticImage1" w="25mm" h="30mm" x="4.6499mm" y="7.6498mm">
             <value>
                <image href="=Logo" aspect="none"/>
             </value>
@@ -343,7 +343,7 @@
                <imageEdit/>
             </ui>
          </draw>
-         <field name="txtDeliverToCity" x="32.2662mm" w="157.9354mm" h="6mm" y="9.9998mm">
+         <field name="txtDeliverToCity" x="32.2662mm" w="157.9354mm" h="6mm" y="12.9998mm">
             <ui>
                <textEdit>
                   <border>
@@ -369,7 +369,7 @@
                <text>CompanyAddress</text>
             </value>
          </field>
-         <draw name="StaticText18" y="4.6498mm" x="32.5048mm" minW="6.208542in" minH="0.219417in">
+         <draw name="StaticText18" y="7.6499mm" x="32.5048mm" minW="6.208542in" minH="0.219417in">
             <ui>
                <textEdit>
                   <margin/>
@@ -385,7 +385,7 @@
                <corner thickness="0.006in" presence="hidden"/>
             </border>
          </draw>
-         <field name="txtDeliverToCity" x="83.3518mm" w="50.3343mm" h="6mm" y="14.9998mm">
+         <field name="txtDeliverToCity" x="83.3518mm" w="50.3343mm" h="6mm" y="17.9998mm">
             <ui>
                <textEdit>
                   <border>
@@ -414,7 +414,7 @@
                <text>CompanyFax</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="32.5518mm" w="50.1311mm" h="6mm" y="14.9998mm">
+         <field name="txtDeliverToCity" x="32.5518mm" w="50.1311mm" h="6mm" y="17.9998mm">
             <ui>
                <textEdit>
                   <border>
@@ -443,7 +443,7 @@
                <text>CompanyPhone</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="32.5478mm" w="101.0042mm" h="6mm" y="20.4998mm">
+         <field name="txtDeliverToCity" x="32.5478mm" w="101.0042mm" h="6mm" y="23.4998mm">
             <ui>
                <textEdit>
                   <border>
@@ -472,7 +472,7 @@
                <text>CompanyTaxId</text>
             </value>
          </field>
-         <draw name="Line2" y="26.4996mm" x="31.5514mm" w="163.9997mm" h="0.0001mm">
+         <draw name="Line2" y="30.65mm" x="31.5514mm" w="163.9997mm" h="0.0001mm">
             <value>
                <line slope="/">
                   <edge thickness="0.7056mm"/>
@@ -482,7 +482,7 @@
                <defaultUi/>
             </ui>
          </draw>
-         <field name="txtDeliverToCity" y="228.65mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="231.65mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -515,7 +515,7 @@
                <text>=BeforeTax</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="235.6498mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="238.6498mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -548,7 +548,7 @@
                <text>=TaxAmount</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="214.6498mm" x="138.6502mm" w="57.9949mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="217.6498mm" x="138.6502mm" w="57.9949mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -581,7 +581,7 @@
                <text>=DiscountRate</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="221.6498mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="224.6498mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -614,7 +614,7 @@
                <text>=DiscountAmount</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" y="242.65mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="245.65mm" x="138.6498mm" w="57.9949mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -647,7 +647,7 @@
                <text>=AfterTax</text>
             </value>
          </field>
-         <subform name="Table1" layout="table" columnWidths="11mm 23mm 65.9998mm 14.9998mm 19.0002mm 16.0002mm 14mm 28mm" x="4.65mm" y="88.6501mm">
+         <subform name="Table1" layout="table" columnWidths="11mm 23mm 65.9998mm 14.9998mm 19.0002mm 16.0002mm 14mm 28mm" x="4.65mm" y="91.6501mm">
             <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
             <border>
                <edge/>
@@ -2635,7 +2635,7 @@
                </border>
                <?templateDesigner expand 1?></subform>
             <?templateDesigner expand 1?></subform>
-         <draw name="StaticText18" y="79.6501mm" x="138.65mm" w="0.629931in" h="0.354333in">
+         <draw name="StaticText18" y="82.6501mm" x="138.65mm" w="0.629931in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2654,7 +2654,7 @@
             <?renderCache.textRun 8 008B00CE 1 10024 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 4 00B5 1 15052 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 12 009C00AA009C 1 19264 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6503mm" x="38.65mm" h="0.354333in" w="65.9998mm">
+         <draw name="StaticText18" y="82.6503mm" x="38.65mm" h="0.354333in" w="65.9998mm">
             <ui>
                <textEdit>
                   <margin/>
@@ -2671,7 +2671,7 @@
             </border>
             <?renderCache.bounds 187086 25512 0 0 0 0 0 0?>
             <?renderCache.textRun 24 00A600B500A5008400B500A6 1 79749 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6501mm" x="119.6496mm" w="0.748042in" h="0.354333in">
+         <draw name="StaticText18" y="82.6501mm" x="119.6496mm" w="0.748042in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2688,7 +2688,7 @@
             </border>
             <?renderCache.bounds 53859 25512 0 0 0 0 0 0?>
             <?renderCache.textRun 48 00A600B5008700B50098006E00B000AE009C006E00AA00A5 1 1766 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6501mm" x="168.6502mm" w="1.102361in" h="0.354333in">
+         <draw name="StaticText18" y="82.6501mm" x="168.6502mm" w="1.102361in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2707,7 +2707,7 @@
             <?renderCache.textRun 8 008B00CE 1 20654 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 4 00B5 1 25681 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 28 009C00AA009C00C1008A00B7009C 1 29894 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6501mm" x="104.65mm" h="0.354333in" w="0.590542in">
+         <draw name="StaticText18" y="82.6501mm" x="104.65mm" h="0.354333in" w="0.590542in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2724,7 +2724,7 @@
             </border>
             <?renderCache.bounds 42519 25512 0 0 0 0 0 0?>
             <?renderCache.textRun 20 00AE009C006E00AA00A5 1 10647 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6501mm" x="154.65mm" w="0.551181in" h="0.354333in">
+         <draw name="StaticText18" y="82.6501mm" x="154.65mm" w="0.551181in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2741,7 +2741,7 @@
             </border>
             <?renderCache.bounds 39685 25512 0 0 0 0 0 0?>
             <?renderCache.textRun 24 00AD006E00AA009C00A80097 1 6630 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <draw name="StaticText18" y="79.6503mm" x="15.55mm" w="0.905514in" h="0.354333in">
+         <draw name="StaticText18" y="82.6503mm" x="15.55mm" w="0.905514in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2758,7 +2758,7 @@
             </border>
             <?renderCache.bounds 65197 25512 0 0 0 0 0 0?>
             <?renderCache.textRun 16 00A600AE00B400AD 1 24858 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <field name="txtComments" y="207.6504mm" x="4.6502mm" w="133.9998mm" h="27.9996mm">
+         <field name="txtComments" y="210.6504mm" x="4.6502mm" w="133.9998mm" h="27.9996mm">
             <ui>
                <textEdit multiLine="1">
                   <border>
@@ -2788,7 +2788,7 @@
                <text>=Note</text>
             </value>
          </field>
-         <field name="txtComments" y="235.65mm" x="4.6502mm" w="133.9998mm" h="14mm">
+         <field name="txtComments" y="238.65mm" x="4.6502mm" w="133.9998mm" h="14mm">
             <ui>
                <textEdit multiLine="1">
                   <border>
@@ -2818,7 +2818,7 @@
                <text>=CText(AfterTax)</text>
             </value>
          </field>
-         <draw name="StaticText18" y="79.6501mm" x="4.6502mm" w="0.433069in" h="0.354333in">
+         <draw name="StaticText18" y="82.6501mm" x="4.6502mm" w="0.433069in" h="0.354333in">
             <ui>
                <textEdit>
                   <margin/>
@@ -2837,7 +2837,7 @@
             <?renderCache.textRun 8 00A800CE 1 2252 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 4 00B5 1 7581 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?>
             <?renderCache.textRun 24 009700B4009D009A00B800C9 1 11794 16186 0 0 0 "CordiaUPC" 1 0 12000 UTF-16?></draw>
-         <field name="txtDeliverToCity" y="207.65mm" x="138.65mm" w="58.0002mm" h="7.0002mm">
+         <field name="txtDeliverToCity" y="210.65mm" x="138.65mm" w="58.0002mm" h="7.0002mm">
             <ui>
                <textEdit>
                   <border>
@@ -2870,7 +2870,7 @@
                <text>=Gross</text>
             </value>
          </field>
-         <draw name="Line6" y="207.65mm" x="168.65mm" w="0in" h="42mm">
+         <draw name="Line6" y="210.65mm" x="168.65mm" w="0in" h="42mm">
             <value>
                <line slope="/">
                   <edge/>
@@ -2880,29 +2880,19 @@
                <defaultUi/>
             </ui>
          </draw>
-         <draw name="Line7" y="42.5968mm" x="27.6501mm" w="0.0004mm" h="37.0533mm">
+         <draw name="Line7" y="45.5968mm" x="27.6501mm" w="0.0004mm" h="37.0533mm">
             <value>
                <line slope="/">
                </line>
             </value>
          </draw>
-         <draw name="Line8" y="51.15mm" x="4.65mm" w="192mm" h="0.0004mm">
+         <draw name="Line8" y="54.15mm" x="4.65mm" w="192mm" h="0.0004mm">
             <value>
                <line slope="/">
                </line>
             </value>
          </draw>
-         <draw name="Line8" y="59.1501mm" x="4.65mm" w="192mm" h="0.0004mm">
-            <value>
-               <line slope="/">
-                  <edge/>
-               </line>
-            </value>
-            <ui>
-               <defaultUi/>
-            </ui>
-         </draw>
-         <draw name="Line8" y="67.65mm" x="4.65mm" w="192mm" h="0.0004mm">
+         <draw name="Line8" y="62.1501mm" x="4.65mm" w="192mm" h="0.0004mm">
             <value>
                <line slope="/">
                   <edge/>
@@ -2912,7 +2902,7 @@
                <defaultUi/>
             </ui>
          </draw>
-         <draw name="Line7" y="42.6501mm" x="108.65mm" w="0in" h="25mm">
+         <draw name="Line8" y="70.65mm" x="4.65mm" w="192mm" h="0.0004mm">
             <value>
                <line slope="/">
                   <edge/>
@@ -2922,7 +2912,17 @@
                <defaultUi/>
             </ui>
          </draw>
-         <field name="TextField1" y="60.65mm" x="109.65mm" w="85mm" h="6mm">
+         <draw name="Line7" y="45.6501mm" x="108.65mm" w="0in" h="25mm">
+            <value>
+               <line slope="/">
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <field name="TextField1" y="63.65mm" x="109.65mm" w="85mm" h="6mm">
             <ui>
                <textEdit>
                   <border presence="hidden">
@@ -2944,7 +2944,7 @@
                <text>=ToAccountType</text>
             </value>
          </field>
-         <draw name="Line7" y="42.6501mm" x="130.65mm" w="0in" h="25mm">
+         <draw name="Line7" y="45.6501mm" x="130.65mm" w="0in" h="25mm">
             <value>
                <line slope="/">
                   <edge/>
@@ -2964,7 +2964,7 @@
    <?templateDesigner DefaultPreviewType print?>
    <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(25000,25000)?>
    <?originalXFAVersion http://www.xfa.org/schema/xfa-template/2.4/?>
-   <?templateDesigner Zoom 88?>
+   <?templateDesigner Zoom 117?>
    <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
 <config xmlns="http://www.xfa.org/schema/xci/1.0/">
    <agent name="designer">

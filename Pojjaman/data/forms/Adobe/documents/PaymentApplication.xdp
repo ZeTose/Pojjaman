@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
-<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2008-08-11T04:24:36Z" uuid="3adc259b-759a-4755-b5af-65ec31893f29">
-<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
+<?xfa generator="AdobeLiveCycleDesigner_V8.0" APIVersion="2.5.6290.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2009-06-19T04:32:45Z" uuid="3adc259b-759a-4755-b5af-65ec31893f29">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.5/">
    <subform name="form1" layout="tb" locale="th_TH">
       <pageSet>
          <pageArea name="Page1" id="Page1">
@@ -4015,7 +4015,7 @@
                <para vAlign="middle" hAlign="right"/>
             </caption>
             <value>
-               <text>=AllAmount</text>
+               <text>=TotalFinal</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="28.6498mm" x="196.6502mm" w="70mm" h="6mm">
@@ -4188,7 +4188,6 @@
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <?renderCache.bounds 22678 14174 0 0 1417 1417 0 0?>
             <?renderCache.textRun 12 009D00B5009A 1 5424 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
-         <?templateDesigner expand 1?>
          <draw name="StaticText22" y="34.6501mm" x="266.6499mm" w="9.0001mm" h="0.236222in">
             <ui>
                <textEdit>
@@ -4231,30 +4230,29 @@
                <text>=BilledCount</text>
             </value>
          </field>
-      </subform>
+         <?templateDesigner expand 1?></subform>
       <proto/>
       <?templateDesigner expand 1?>
-      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 344 00030011002000240025002600270029002B002C002F0031003200330034003500360037004400450046004700480049004A004B004C004F005000510052005300550056005700580059005B005C006E006F008400850087008A008B008D008E00900096009700980099009A009C009D009E00A100A200A300A400A500A600A800AA00AB00AC00AD00AE00B000B300B400B500B700B800B900BB00BC00C100C200C300C800C900CA00CD00CE?>
+      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 344 00030011002000240025002600270029002B002C002F0031003200330034003500360037004400450046004700480049004A004B004C004F005000510052005300550056005700580059005B005C006E006F0072008400850087008A008B008D008E00900096009700980099009A009C009D009E00A100A200A300A400A500A600A800AA00AB00AC00AD00AE00B000B300B400B500B700B800B900BB00BC00C100C200C300C800C900CA00CE?>
       <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 192 0003001D00260031003500440048004C00500051005200530057005C006E006F008400850087008A008B00970099009A009C009D009E00A300A400A500A600A800AA00AD00AE00B000B300B400B500B700B800BB00BC00C100C300C500C900CE?></subform>
    <?templateDesigner DefaultLanguage FormCalc?>
    <?templateDesigner DefaultRunAt client?>
    <?templateDesigner DefaultPreviewType print?>
    <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(25000,25000)?>
    <?originalXFAVersion http://www.xfa.org/schema/xfa-template/2.4/?>
-   <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?>
-   <?templateDesigner Zoom 100?></template>
-<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
-   <trace>
-      <area name="font" level="1"/>
-   </trace>
+   <?templateDesigner Zoom 100?>
+   <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/">
    <agent name="designer">
-      <!--  [0..n]  -->
       <destination>pdf</destination>
       <pdf>
          <!--  [0..n]  -->
          <fontInfo/>
       </pdf>
    </agent>
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
    <present>
       <!--  [0..n]  -->
       <destination>pdf</destination>

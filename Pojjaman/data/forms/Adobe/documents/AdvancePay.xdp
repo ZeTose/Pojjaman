@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xfa generator="AdobeDesigner_V7.1" APIVersion="2.4.5277.0"?>
-<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2006-09-06T07:52:43Z" uuid="0649101b-3107-4091-b2b8-32e243b54db7">
-<template xmlns="http://www.xfa.org/schema/xfa-template/2.4/">
+<?xfa generator="AdobeLiveCycleDesigner_V8.0" APIVersion="2.5.6290.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2009-04-01T01:27:17Z" uuid="0649101b-3107-4091-b2b8-32e243b54db7">
+<template xmlns="http://www.xfa.org/schema/xfa-template/2.5/">
    <subform name="form1" layout="tb" locale="th_TH">
       <pageSet>
          <pageArea name="Page1" id="Page1">
             <contentArea x="0.25in" y="0.25in" w="8in" h="10.5in"/>
             <medium stock="letter" short="8.5in" long="11in"/>
-         </pageArea>
-      </pageSet>
+            <?templateDesigner expand 1?></pageArea>
+         <?templateDesigner expand 1?></pageSet>
       <subform w="8in" h="10.5in">
-         <draw name="StaticImage1" w="28.575mm" h="25.4mm" x="9.525mm">
+         <draw name="StaticImage1" w="28.575mm" h="25.4mm" x="9.525mm" y="3.175mm">
             <value>
                <image href="=Logo" aspect="none"/>
             </value>
@@ -18,7 +18,7 @@
                <imageEdit/>
             </ui>
          </draw>
-         <draw name="StaticText20" y="25.3999mm" x="61.9125mm" minW="3.375in" minH="0.375in">
+         <draw name="StaticText20" y="28.575mm" x="63.5mm" minH="0.375in" w="79.375mm">
             <ui>
                <textEdit>
                   <margin/>
@@ -84,7 +84,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=SupplierName</text>
             </value>
          </field>
          <draw name="StaticText18" y="142.875mm" x="12.7mm" w="0.5in" h="0.5in">
@@ -96,7 +96,7 @@
             <value>
                <text>ลำดับ</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -106,7 +106,7 @@
                <corner thickness="0.006in"/>
             </border>
          </draw>
-         <draw name="StaticText18" y="142.875mm" x="47.625mm" w="50.8mm" h="0.5in">
+         <draw name="StaticText18" y="142.875mm" x="47.625mm" w="41.275mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -115,7 +115,7 @@
             <value>
                <text>เอกสารอ้างอิง</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -150,7 +150,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=CostCenterName</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="44.45mm" x="120.65mm" w="72.39mm" h="7.62mm">
@@ -178,7 +178,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=RefDoc</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="53.34mm" x="120.65mm" w="66.675mm" h="7.62mm">
@@ -206,7 +206,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=RefDate</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="53.34mm" x="12.7mm" w="72.39mm" h="7.62mm">
@@ -237,7 +237,7 @@
                <text>=DocDate</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="44.45mm" w="149.225mm" h="6.35mm">
+         <field name="txtDeliverToCity" x="44.45mm" w="149.225mm" h="6.35mm" y="3.175mm">
             <ui>
                <textEdit>
                   <border>
@@ -252,18 +252,18 @@
                   <margin/>
                </textEdit>
             </ui>
-            <font size="12pt" typeface="CORDIAupc"/>
+            <font size="14pt" typeface="CordiaUPC"/>
             <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
             <para marginLeft="0pt" vAlign="middle"/>
             <caption reserve="0in">
-               <font size="12pt" typeface="CORDIAupc"/>
+               <font size="14pt" typeface="CordiaUPC"/>
                <para vAlign="middle"/>
             </caption>
             <value>
                <text>CompanyName</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="44.45mm" w="149.225mm" h="6.35mm" y="7.874mm">
+         <field name="txtDeliverToCity" x="44.45mm" w="149.225mm" h="6.35mm" y="11.049mm">
             <ui>
                <textEdit>
                   <border>
@@ -278,11 +278,11 @@
                   <margin/>
                </textEdit>
             </ui>
-            <font size="12pt" typeface="CORDIAupc"/>
+            <font size="14pt" typeface="CordiaUPC"/>
             <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
             <para marginLeft="0pt" vAlign="middle"/>
             <caption reserve="10.5866mm">
-               <font size="12pt" typeface="CORDIAupc"/>
+               <font size="14pt" typeface="CordiaUPC"/>
                <value>
                   <text>ที่อยู่</text>
                </value>
@@ -292,7 +292,7 @@
                <text>CompanyAddress</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="44.45mm" w="49.3889mm" h="6.35mm" y="15.24mm">
+         <field name="txtDeliverToCity" x="44.45mm" w="49.3889mm" h="6.35mm" y="18.415mm">
             <ui>
                <textEdit>
                   <border>
@@ -307,11 +307,11 @@
                   <margin/>
                </textEdit>
             </ui>
-            <font size="12pt" typeface="CORDIAupc"/>
+            <font size="14pt" typeface="CordiaUPC"/>
             <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
             <para marginLeft="0pt" vAlign="middle"/>
             <caption reserve="16.7363mm">
-               <font size="12pt" typeface="CORDIAupc"/>
+               <font size="14pt" typeface="CordiaUPC"/>
                <value>
                   <text>โทรศัพท์</text>
                </value>
@@ -321,7 +321,7 @@
                <text>CompanyPhone</text>
             </value>
          </field>
-         <field name="txtDeliverToCity" x="98.8314mm" w="49.3889mm" h="6.35mm" y="15.24mm">
+         <field name="txtDeliverToCity" x="98.8314mm" w="49.3889mm" h="6.35mm" y="18.415mm">
             <ui>
                <textEdit>
                   <border>
@@ -336,18 +336,21 @@
                   <margin/>
                </textEdit>
             </ui>
-            <font size="12pt" typeface="Bc-0001"/>
+            <font size="14pt" typeface="CordiaUPC"/>
             <margin topInset="0mm" bottomInset="0mm" leftInset="0mm" rightInset="0mm"/>
             <para marginLeft="0pt" vAlign="middle"/>
             <caption reserve="12.3399mm">
-               <font size="12pt" typeface="Bc-0001"/>
+               <font size="14pt" typeface="CordiaUPC"/>
                <value>
                   <text>แฟกซ์</text>
                </value>
                <para vAlign="middle"/>
             </caption>
+            <value>
+               <text>CompanyFax</text>
+            </value>
          </field>
-         <draw name="StaticText18" y="142.875mm" x="127mm" w="34.925mm" h="0.5in">
+         <draw name="StaticText18" y="142.875mm" x="127mm" w="38.1mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -356,7 +359,7 @@
             <value>
                <text>ยอดมันจำคงเหลือ</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -366,7 +369,7 @@
                <corner thickness="0.006in"/>
             </border>
          </draw>
-         <draw name="StaticText18" y="142.875mm" x="161.925mm" w="1.375in" h="0.5in">
+         <draw name="StaticText18" y="142.875mm" x="165.1mm" w="31.75mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -375,7 +378,7 @@
             <value>
                <text>หมายเหตุ</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -385,7 +388,7 @@
                <corner thickness="0.006in"/>
             </border>
          </draw>
-         <draw name="StaticText18" y="142.875mm" x="98.425mm" w="28.575mm" h="0.5in">
+         <draw name="StaticText18" y="142.875mm" x="88.9mm" w="38.1mm" h="0.5in">
             <ui>
                <textEdit>
                   <margin/>
@@ -394,7 +397,7 @@
             <value>
                <text>ยอดตัดจ่าย</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -413,7 +416,7 @@
             <value>
                <text>วันที่</text>
             </value>
-            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt"/>
+            <font typeface="cordiaUPC" weight="bold" baselineShift="0pt" size="12pt"/>
             <para hAlign="center" vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
             <border>
                <fill>
@@ -423,7 +426,7 @@
                <corner thickness="0.006in"/>
             </border>
          </draw>
-         <subform name="Table1" layout="table" columnWidths="12.7mm 22.225mm 50.8mm 28.702mm 34.4932mm 35.179mm" x="12.7mm" y="155.575mm">
+         <subform name="Table1" layout="table" columnWidths="12.7mm 22.225mm 41.2401mm 38.0861mm 38.1032mm 31.5733mm" x="12.7mm" y="155.575mm">
             <?templateDesigner rowpattern first:1, next:1, firstcolor:f0f0f0, nextcolor:ffffff, apply:0?>
             <border>
                <edge/>
@@ -431,7 +434,7 @@
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -448,15 +451,15 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
-                  <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
+                  <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
                      <edge/>
                      <corner thickness="0.1778mm"/>
                   </border>
                   <value>
-                     <text>Item.Code</text>
+                     <text>Item.DocDate</text>
                   </value>
                   <ui>
                      <textEdit>
@@ -465,15 +468,15 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
-                  <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
+                  <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
                      <edge/>
                      <corner thickness="0.1778mm"/>
                   </border>
                   <value>
-                     <text>Item.Name</text>
+                     <text>Item.DocCode</text>
                   </value>
                   <ui>
                      <textEdit>
@@ -482,15 +485,15 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
-                  <para vAlign="middle" hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
+                  <para vAlign="middle" hAlign="right" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
                      <edge/>
                      <corner thickness="0.1778mm"/>
                   </border>
                   <value>
-                     <text>Item.Unit</text>
+                     <text>Item.Amount</text>
                   </value>
                   <ui>
                      <textEdit>
@@ -499,7 +502,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
                   <para vAlign="middle" hAlign="right" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -507,7 +510,7 @@
                      <corner thickness="0.1778mm"/>
                   </border>
                   <value>
-                     <text>Item.Qty</text>
+                     <text>Item.RemainingAmount</text>
                   </value>
                   <ui>
                      <textEdit>
@@ -516,8 +519,8 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.4999mm">
-                  <font typeface="cordiaUPC" baselineShift="0pt"/>
-                  <para vAlign="middle" hAlign="right" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+                  <font typeface="cordiaUPC" baselineShift="0pt" size="12pt"/>
+                  <para vAlign="middle" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
                      <edge/>
@@ -532,11 +535,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -550,7 +553,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -564,7 +567,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -578,7 +581,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -592,7 +595,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -606,7 +609,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -619,11 +622,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -637,7 +640,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -651,7 +654,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -665,7 +668,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -679,7 +682,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -693,7 +696,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -706,11 +709,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -724,7 +727,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -738,7 +741,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -752,7 +755,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -766,7 +769,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -780,7 +783,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -793,11 +796,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -811,7 +814,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -825,7 +828,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -839,7 +842,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -853,7 +856,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -867,7 +870,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -880,11 +883,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -898,7 +901,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -912,7 +915,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -926,7 +929,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -940,7 +943,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -954,7 +957,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -967,11 +970,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -985,7 +988,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -999,7 +1002,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1013,7 +1016,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1027,7 +1030,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1041,7 +1044,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1054,11 +1057,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1072,7 +1075,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1086,7 +1089,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1100,7 +1103,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1114,7 +1117,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1128,7 +1131,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1141,11 +1144,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1159,7 +1162,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1173,7 +1176,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1187,7 +1190,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1201,7 +1204,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1215,7 +1218,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1228,11 +1231,11 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
+               <?templateDesigner expand 1?></subform>
             <subform layout="row" name="Row1">
                <assist role="TR"/>
                <draw name="Cell1" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1246,7 +1249,7 @@
                   </ui>
                </draw>
                <draw name="Cell2" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1260,7 +1263,7 @@
                   </ui>
                </draw>
                <draw name="Cell3" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1274,7 +1277,7 @@
                   </ui>
                </draw>
                <draw name="Cell4" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1288,7 +1291,7 @@
                   </ui>
                </draw>
                <draw name="Cell5" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1302,7 +1305,7 @@
                   </ui>
                </draw>
                <draw name="Cell6" w="30mm" h="6.35mm">
-                  <font typeface="cordiaUPC"/>
+                  <font typeface="cordiaUPC" size="12pt"/>
                   <para vAlign="middle"/>
                   <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
                   <border>
@@ -1315,22 +1318,8 @@
                      </textEdit>
                   </ui>
                </draw>
-            </subform>
-         </subform>
-         <draw name="StaticText21" y="219.075mm" x="12.7mm" w="3.375in" h="0.25in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <font typeface="Tahoma" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge/>
-               <corner/>
-            </border>
-            <?renderCache.bounds 240166 15166 0 0 1417 1417 0 0?></draw>
+               <?templateDesigner expand 1?></subform>
+            <?templateDesigner expand 1?></subform>
          <field name="txtDeliverToCity" y="80.01mm" x="120.65mm" w="72.39mm" h="7.62mm">
             <ui>
                <textEdit>
@@ -1356,7 +1345,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=DueDate</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="80.01mm" x="12.7mm" w="72.39mm" h="7.62mm">
@@ -1384,7 +1373,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=CreditPeriod</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="88.9mm" x="12.7mm" w="72.39mm" h="6.35mm">
@@ -1412,7 +1401,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=Note</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="106.68mm" x="120.65mm" w="72.39mm" h="7.62mm">
@@ -1440,7 +1429,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=AfterTax</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="97.79mm" x="12.7mm" w="50.8mm" h="7.62mm">
@@ -1468,7 +1457,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=TaxType</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="97.79mm" x="76.2mm" w="31.75mm" h="7.62mm">
@@ -1496,7 +1485,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=TaxRate</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="97.79mm" x="120.65mm" w="72.39mm" h="7.62mm">
@@ -1524,7 +1513,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=TaxAmount</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="88.9mm" x="120.65mm" w="72.39mm" h="7.62mm">
@@ -1552,7 +1541,7 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=BeforeTax</text>
             </value>
          </field>
          <field name="txtDeliverToCity" y="127mm" x="12.7mm" w="76.2mm" h="7.62mm">
@@ -1580,27 +1569,95 @@
                <para vAlign="middle"/>
             </caption>
             <value>
-               <text>=</text>
+               <text>=Amount</text>
             </value>
          </field>
-         <draw name="StaticText21" y="219.075mm" x="98.425mm" minH="0.25in" minW="28.702mm">
+         <draw name="StaticText21" y="222.25mm" x="88.9mm" w="38.1mm" h="0.230528in">
             <ui>
                <textEdit>
-                  <margin/>
                </textEdit>
             </ui>
             <value>
-               <text>รวมยอด</text>
+               <text>=Item.TotalAmount</text>
+               <exData contentType="text/html">
+                  <body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="2.5.6290.0">
+                     <p style="text-decoration:none">=<span style="text-decoration:none"/>
+                     </p>
+                  </body>
+               </exData>
             </value>
-            <font typeface="Tahoma" baselineShift="0pt"/>
+            <font size="12pt" typeface="CordiaUPC"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge/>
-               <corner/>
-            </border>
+            <para hAlign="right"/>
+            <?renderCache.bounds 105166 13764 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 68 0020002C00570048005000110037005200570044004F002400500052005800510057 1 39760 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="Line1" y="228.6mm" x="12.7mm" w="184.15mm" h="0in">
+            <value>
+               <line slope="/">
+               </line>
+            </value>
          </draw>
-         <draw name="StaticText21" y="219.075mm" x="127mm" w="1.358in" h="0.25in">
+         <draw name="Line2" y="219.075mm" x="196.85mm" w="0in" h="9.525mm">
+            <value>
+               <line>
+               </line>
+            </value>
+         </draw>
+         <draw name="Line2" y="219.075mm" x="165.1mm" w="0in" h="9.525mm">
+            <value>
+               <line>
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line2" y="219.075mm" x="127mm" w="0in" h="9.525mm">
+            <value>
+               <line>
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line2" y="219.075mm" x="88.9mm" w="0in" h="9.525mm">
+            <value>
+               <line>
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="Line2" y="219.075mm" x="12.7mm" w="0in" h="9.525mm">
+            <value>
+               <line>
+                  <edge/>
+               </line>
+            </value>
+            <ui>
+               <defaultUi/>
+            </ui>
+         </draw>
+         <draw name="StaticText21" y="222.25mm" x="127mm" w="1.489444in" h="0.230528in">
+            <ui>
+               <textEdit>
+                  <margin/>
+               </textEdit>
+            </ui>
+            <value>
+               <text>=Item.TotalRemainingAmount</text>
+            </value>
+            <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
+            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
+            <para hAlign="right" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
+            <?renderCache.bounds 104406 13764 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 104 0020002C00570048005000110037005200570044004F0035004800500044004C0051004C0051004A002400500052005800510057 1 1418 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <draw name="StaticText21" y="222.25mm" x="50.8mm" w="38.1mm" h="0.230528in">
             <ui>
                <textEdit>
                   <margin/>
@@ -1609,54 +1666,35 @@
             <value>
                <text>รวมยอด</text>
             </value>
-            <font typeface="Tahoma" baselineShift="0pt"/>
+            <font size="12pt" typeface="CordiaUPC"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge/>
-               <corner/>
-            </border>
-            <?renderCache.bounds 94942 15166 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 24 0456045A0454045504600447 1 32374 9352 0 0 0 "Tahoma" 0 0 10000 UTF-16?></draw>
-         <draw name="StaticText21" y="219.075mm" x="161.925mm" w="1.385in" h="0.25in">
-            <ui>
-               <textEdit>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <font typeface="Tahoma" baselineShift="0pt"/>
-            <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
-            <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <border>
-               <edge/>
-               <corner/>
-            </border>
-            <?renderCache.bounds 96886 15166 0 0 1417 1417 0 0?></draw>
-      </subform>
+            <para hAlign="right"/>
+            <?renderCache.bounds 105166 13764 0 0 1417 1417 0 0?>
+            <?renderCache.textRun 24 00A600AA00A400A500B00097 1 79067 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         <?templateDesigner expand 1?></subform>
       <proto/>
-      <?renderCache.subset "Adobe Thai" 0 0 UTF-16 2 252 000100020003000500080009000C00170018001A001C001D001E001F0021002200230024002500260028002A002B002C002D002E003000330034003500370038003A003B003C003E003F0040004100460047004A004B005E009A009C009D00A700A900D700D900DA00DB00DE00E300E400E500E600E800E900EA00EF015F?>
-      <?renderCache.subset "Adobe Thai" 1 0 UTF-16 2 112 000200050008000900170018001A001C001D0024002500260028002A002D002E00300034003500370038003A003B003E00460047004B005E?>
-      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 272 000300110020002400260027002C002F003100330034003800440045004600470048004B004C00500051005200530055005600570058005C006E006F008400850087008A008B00970098009A009C009D009E009F00A100A300A400A500A600A800AA00AB00AC00AD00AE00B000B300B400B500B700B800BA00BB00BC00C100C300C400C900CD00CE?>
-      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 112 006E006F00840087008A008B00970098009A009C009D00A400A500A600A800AA00AD00AE00B000B400B500B700B800BA00BB00C100C900CE?>
-      <?renderCache.subset "Tahoma" 0 0 UTF-16 2 100 00110026002C002F0031003400380044004500470048004C005000510052005500570058005C0447045404550456045A0460?>
-      <?renderCache.subset "Tahoma" 1 0 UTF-16 2 32 043B04470454045504640465047C0495?></subform>
+      <?templateDesigner expand 1?>
+      <?renderCache.subset "Adobe Thai" 0 0 UTF-16 2 20 0002000C0022003F004A?>
+      <?renderCache.subset "Adobe Thai" 1 0 UTF-16 2 20 0002000C0022003F004A?>
+      <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 312 00030011002000240025002600270029002C002F00310033003500360037004400450046004700480049004A004B004C004F00500051005200530055005600570058005B005C006E006F0072008400850087008A008B008E00970098009A009C009D009E009F00A100A200A300A400A500A600A800AA00AB00AC00AD00AE00B000B300B400B500B700B800BA00BB00BC00C100C200C300C400C900CE?>
+      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 112 006E006F00840087008A008B00970098009A009C009D00A400A500A600A800AA00AD00AE00B000B400B500B700B800BA00BB00C100C900CE?></subform>
    <?templateDesigner DefaultLanguage FormCalc?>
    <?templateDesigner DefaultRunAt client?>
    <?templateDesigner Grid show:1, snap:1, units:0, color:ff8080, origin:(0,0), interval:(125000,125000)?>
-   <?templateDesigner Zoom 85?>
+   <?originalXFAVersion http://www.xfa.org/schema/xfa-template/2.4/?>
+   <?templateDesigner Zoom 150?>
    <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
-<config xmlns="http://www.xfa.org/schema/xci/1.0/" xmlns:xfa="http://www.xfa.org/schema/xci/1.0/">
-   <trace>
-      <area name="font" level="1"/>
-   </trace>
+<config xmlns="http://www.xfa.org/schema/xci/1.0/">
    <agent name="designer">
-      <!--  [0..n]  -->
       <destination>pdf</destination>
       <pdf>
          <!--  [0..n]  -->
          <fontInfo/>
       </pdf>
    </agent>
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
    <present>
       <!--  [0..n]  -->
       <destination>pdf</destination>
@@ -1768,4 +1806,5 @@
          <currencySymbol name="decimal">.</currencySymbol>
       </currencySymbols>
    </locale>
-</localeSet></xdp:xdp>
+</localeSet>
+<PDFSecurity print="1" printHighQuality="1" change="1" modifyAnnots="1" formFieldFilling="1" documentAssembly="1" contentCopy="1" accessibleContent="1" metadata="1" xmlns="http://ns.adobe.com/xtd/"/></xdp:xdp>

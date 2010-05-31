@@ -4015,7 +4015,7 @@
 					<para vAlign="middle" hAlign="right"/>
 				</caption>
 				<value>
-					<text>=AllAmount</text>
+					<text>=TotalFinal</text>
 				</value>
 			</field>
 			<field name="txtDeliverToCity" y="28.6498mm" x="196.6502mm" w="70mm" h="6mm">
@@ -4177,7 +4177,6 @@
 				<margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
 				<para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
 			</draw>
-			<?templateDesigner expand 1?>
 			<draw name="StaticText22" y="34.6501mm" x="266.6499mm" w="9.0001mm" h="0.236222in">
 				<ui>
 					<textEdit>
@@ -4219,6 +4218,7 @@
 					<text>=BilledCount</text>
 				</value>
 			</field>
+			<?templateDesigner expand 1?>
 		</subform>
 		<proto/>
 		<?templateDesigner expand 1?>
