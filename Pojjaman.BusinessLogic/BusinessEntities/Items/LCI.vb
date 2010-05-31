@@ -594,14 +594,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     , CommandType.StoredProcedure _
     , "GetLCICollection" _
     , commandParameters)
-      If ds.Tables(0).Rows.Count >= 1 Then
-        LCIItem.m_LciitemTable = ds.Tables(0)
+      'If ds.Tables(0).Rows.Count >= 1 Then
+      LCIItem.m_LciitemTable = ds.Tables(0)
 
-        For Each row As DataRow In ds.Tables(0).Rows
-          Dim drh As New DataRowHelper(row)
-          key = CStr(drh.GetValue(Of Integer)("lci_id"))
-        Next
-      End If
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        key = CStr(drh.GetValue(Of Integer)("lci_id"))
+      Next
+      'End If
     End Sub
     Public Function GetLciitemFilter(ByVal level As Integer, ByVal parentId As Integer) As DataRow()
       Dim drs As DataRow()
