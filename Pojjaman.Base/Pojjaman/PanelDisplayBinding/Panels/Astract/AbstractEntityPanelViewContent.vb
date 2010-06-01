@@ -427,10 +427,10 @@ Namespace Longkong.Pojjaman.Gui
       If TypeOf Me Is ISimpleListPanel Then
         Dim simpleList As ISimpleListPanel = CType(Me, ISimpleListPanel)
         If TypeOf Me Is IGroupPanel Then
-          CType(Me, IGroupPanel).RefreshData(CType(CType(Me, IGroupPanel).SelectedEntity, TreeBaseEntity))
+          'CType(Me, IGroupPanel).RefreshData(CType(CType(Me, IGroupPanel).SelectedEntity, TreeBaseEntity))
 
         ElseIf Not simpleList.SelectedEntity Is Nothing Then
-          simpleList.RefreshData(simpleList.SelectedEntity.Id.ToString)
+          'simpleList.RefreshData(simpleList.SelectedEntity.Id.ToString)
         End If
         Me.TitleName = Me.StringParserService.Parse(simpleList.Entity.ListPanelTitle)
         If Not Me.WorkbenchWindow Is Nothing Then
