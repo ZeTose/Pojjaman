@@ -15,6 +15,7 @@ Imports System.Text
 Imports System.Runtime.InteropServices
 Imports System.Security
 Imports System.ComponentModel
+Imports System.IO
 
 Namespace Longkong.Pojjaman.Commands
   Public Class Print
@@ -93,6 +94,12 @@ Namespace Longkong.Pojjaman.Commands
             dialog.PrinterSettings.DefaultPageSettings.PaperSize = thePaper
           End Try
           If (dialog.ShowDialog = DialogResult.OK) Then
+            If dialog.PrinterSettings.PrinterName.ToUpper.Contains("XPS") Then
+              Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+              Dim xpsDIR As String = myPropertyService.GetProperty("XPSDIR", "C:\")
+              dialog.PrinterSettings.PrintToFile = True
+              dialog.PrinterSettings.PrintFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & ".xps"
+            End If
             document.Print()
           End If
         End If
