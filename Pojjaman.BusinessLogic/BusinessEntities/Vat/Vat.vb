@@ -757,12 +757,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				For Each item As VatItem In Me.ItemCollection
 					i += 1
 					Dim dr As DataRow = .NewRow
-					If (Me.AutoGen AndAlso item.Code.Length = 0) OrElse (item.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
-						'item.Code = item.GetNextCode
-						Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
-						item.Code = newCode
-						lastCode = newCode
-					End If
+          If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
+            'item.Code = item.GetNextCode
+            Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
+            item.Code = newCode
+            lastCode = newCode
+          End If
 					If item.Runnumber Is Nothing Or Trim(item.Runnumber) = "" Then
 						dr("vati_runnumber") = Me.RefDoc.Code & "-" & i.ToString.PadLeft(2, "0"c)
 					Else
