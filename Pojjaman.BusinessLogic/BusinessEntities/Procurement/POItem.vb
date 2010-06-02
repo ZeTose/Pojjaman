@@ -99,8 +99,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 '  If Not dr.IsNull("lci_id") Then
                 '    .m_entity = New LCIItem(dr, "")
                 '  End If
-                'Else
-                '  .m_entity = New LCIItem(itemId)
+              Else
+                .m_entity = New BlankItem(.m_entityName)
               End If
             Else
               .m_entity = New BlankItem(.m_entityName)
@@ -139,7 +139,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '    .m_unit = New Unit(dr, "")
         '  End If
         'Else
+
         If dr.Table.Columns.Contains(aliasPrefix & "poi_unit") AndAlso Not dr.IsNull(aliasPrefix & "poi_unit") Then
+          m_unit = New Unit
           '.m_unit = New Unit(CInt(dr(aliasPrefix & "poi_unit")))
           Dim unitId As Nullable(Of Integer) = CInt(dr(aliasPrefix & "poi_unit"))
           If unitId.HasValue AndAlso unitId.Value > 0 Then
