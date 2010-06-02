@@ -119,8 +119,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim stockId As Integer = CInt(row("stock_id"))
             If IsNumeric(row("stock_type")) Then
               Dim stockType As Integer = CInt(row("stock_type"))
-              Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(stockType), stockId)
-              m_grid.RowStyles(currItemIndex).Tag = en
+              'Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(stockType), stockId)
+              'm_grid.RowStyles(currItemIndex).Tag = en
             End If
           End If
         End If
