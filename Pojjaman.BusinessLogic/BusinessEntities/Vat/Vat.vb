@@ -830,7 +830,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         vi = Me.ItemCollection(0)
         vi.Code = newCode
-
+        OnGlChanged()
         '--------------------------------------------------
         vi.DocDate = Me.RefDoc.Date
         vi.PrintName = Me.RefDoc.Person.Name

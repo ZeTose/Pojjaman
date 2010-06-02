@@ -1908,6 +1908,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+      Me.m_entity.SetRealGross()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
