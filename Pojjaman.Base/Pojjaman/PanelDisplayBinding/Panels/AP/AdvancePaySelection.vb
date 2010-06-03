@@ -464,9 +464,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				OrElse CType(Me.m_entity, GoodsReceipt).Payment.Status.Value >= 3) Then
 					tgItem.Enabled = False : ibtnBlank1.Enabled = False
 					ibtnDelRow1.Enabled = False
-				End If
-			End If
-		End Sub
+        End If
+        tgItem.Enabled = True
+      ElseIf TypeOf (Me.m_entity) Is PA Then
+        If (Not CType(m_entity, PA).IsMeLastedPADoc OrElse
+            CType(m_entity, PA).Status.Value = 0 OrElse
+            CType(m_entity, PA).IsReferenced OrElse
+            CType(m_entity, PA).Payment.Status.Value = 0 OrElse
+            CType(m_entity, PA).Payment.Status.Value >= 3) Then
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+          tgItem.Enabled = False
+          ibtnBlank1.Enabled = False
+          ibtnDelRow1.Enabled = False
+        Else
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = False
+          Next
+        End If
+
+
+      End If
+    End Sub
 
 		Public Overrides Sub ClearDetail()
 			For Each crlt As Control In grbDetail.Controls

@@ -809,18 +809,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Public Function GetMaxPADocDate() As DateTime
+    Public Function IsMeLastedPADoc() As Boolean
+      If Not Me.Originated Then
+        Return True
+      End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
-      , "GetMaxPADocDate" _
+      , "GetMaxPADoc" _
       , New SqlParameter("@sc_id", Me.Sc.Id) _
       )
-      If ds.Tables(0).Rows.Count <> 0 Then
-        If IsDate(ds.Tables(0).Rows(0)(0)) Then
-          Return CDate(ds.Tables(0).Rows(0)(0))
+      If ds.Tables(0).Rows.Count <> 0 AndAlso Not ds.Tables(0).Rows(0).IsNull(0) Then
+        If Me.Id < CInt(ds.Tables(0).Rows(0)(0)) Then
+          Return False
         End If
       End If
-      Return Now.MinValue
+      Return True
     End Function
     Public Function GetSCRetentionRemaining() As Decimal
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
@@ -909,15 +912,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return 0
     End Function
 
-    Private Function Validate() As SaveErrorException
-      ''ถ้าวันที่เอกสารน้อยกว่าวันที่เอกสารรับงานล่าสุดไม่ให้บันทึก
-      Dim LastDate As DateTime = GetMaxPADocDate()
-      If LastDate > Me.DocDate Then
-        Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverDate}", New String() {Me.Sc.Code, LastDate.ToShortDateString})
-      Else
-        Return New SaveErrorException("0")
-      End If
-    End Function
+    'Private Function Validate() As SaveErrorException
+    '  ''ถ้าวันที่เอกสารน้อยกว่าวันที่เอกสารรับงานล่าสุดไม่ให้บันทึก
+    '  Dim LastDate As DateTime = GetMaxPADocDate()
+    '  If LastDate > Me.DocDate Then
+    '    Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverDate}", New String() {Me.Sc.Code, LastDate.ToShortDateString})
+    '  Else
+    '    Return New SaveErrorException("0")
+    '  End If
+    'End Function
     Private Function ValidateOverBudget() As SaveErrorException
       Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       If Me.CostCenter.Type.Value <> 2 Then
@@ -1102,10 +1105,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
         Dim ValidateError As SaveErrorException
-        ValidateError = Validate()
-        If Not IsNumeric(ValidateError.Message) Then
-          Return ValidateError
-        End If
+        'ValidateError = Validate()
+        'If Not IsNumeric(ValidateError.Message) Then
+        '  Return ValidateError
+        'End If
         ValidateError = ValidateItem()
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
@@ -2501,7 +2504,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ParentLineNumber += 1
             ChildLineNumber = 0
           Else
+            If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
             ChildLineNumber += 1
+          End If
           End If
 
           'LineNumber
@@ -2510,7 +2515,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.ItemType.Value = 289 Then
             dpi.Value = ParentLineNumber
           Else
+            If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
             dpi.Value = ParentLineNumber.ToString & "." & ChildLineNumber.ToString
+            Else
+              dpi.Value = ""
+            End If
           End If
           dpi.Font = fn
           dpi.DataType = "System.String"

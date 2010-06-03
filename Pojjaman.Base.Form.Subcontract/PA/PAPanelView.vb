@@ -2333,9 +2333,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           Next
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-          Next
+          If Me.m_entity.IsMeLastedPADoc Then
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+            Next
+          Else
+            For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+              colStyle.ReadOnly = True
+            Next
+            Me.ibtnDelRow.Enabled = False
+            Me.ibtnResetGross.Enabled = False
+            Me.txtRealGross.ReadOnly = True
+            Me.txtDiscountRate.ReadOnly = True
+            Me.ibtnResetTaxBase.Enabled = False
+            Me.txtRealTaxBase.ReadOnly = True
+            Me.cmbTaxType.Enabled = False
+            Me.ibtnResetTaxAmount.Enabled = False
+            Me.txtRealTaxAmount.ReadOnly = True
+            Me.txtRetention.ReadOnly = True
+          End If
         End If
         Me.SetEnalbleGroupBox()
         'Else
@@ -2397,9 +2413,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           End If
         Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-        Next
+        'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '  colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        'Next
+        If Me.m_entity.IsMeLastedPADoc Then
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          Next
+        Else
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+          Me.ibtnDelRow.Enabled = False
+          Me.ibtnResetGross.Enabled = False
+          Me.txtRealGross.ReadOnly = True
+          Me.txtDiscountRate.ReadOnly = True
+          Me.ibtnResetTaxBase.Enabled = False
+          Me.txtRealTaxBase.ReadOnly = True
+          Me.cmbTaxType.Enabled = False
+          Me.ibtnResetTaxAmount.Enabled = False
+          Me.txtRealTaxAmount.ReadOnly = True
+          Me.txtRetention.ReadOnly = True
+        End If
         Me.SetEnalbleGroupBox()
       End If
 
