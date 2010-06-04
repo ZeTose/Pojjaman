@@ -651,7 +651,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_entity As MatReturn
+    Private m_entity As MatOperationReturn
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
 
@@ -674,7 +674,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SaveEnableState()
       m_tableStyleEnable = New Hashtable
 
-      Dim dt As TreeTable = MatReturn.GetSchemaTable()
+      Dim dt As TreeTable = MatOperationReturn.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
@@ -953,7 +953,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Public Function CreateTableStyle(ByVal group As Boolean) As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "MatReturn"
+      dst.MappingName = "MatOperationReturn"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
       Dim csLineNumber As New TreeTextColumn
@@ -1106,16 +1106,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-    Private ReadOnly Property CurrentItem() As MatReturnItem
+    Private ReadOnly Property CurrentItem() As MatOperationReturnItem
       Get
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is MatReturnItem Then
+        If Not TypeOf row.Tag Is MatOperationReturnItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, MatReturnItem)
+        Return CType(row.Tag, MatOperationReturnItem)
       End Get
     End Property
 
@@ -1155,9 +1155,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      Dim doc As MatReturnItem = Me.CurrentItem
+      Dim doc As MatOperationReturnItem = Me.CurrentItem
       If doc Is Nothing Then
-        doc = New MatReturnItem
+        doc = New MatOperationReturnItem
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
@@ -1716,8 +1716,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
-      txtToCostCenterCode.Text = m_entity.ToCostCenter.Code
-      txtToCostCenterName.Text = m_entity.ToCostCenter.Name
+      txtToCostCenterCode.Text = m_entity.CostCenter.Code
+      txtToCostCenterName.Text = m_entity.CostCenter.Name
       txtToCCPersonCode.Text = m_entity.ToCostCenterPerson.Code
       txtToCCPersonName.Text = m_entity.ToCostCenterPerson.Name
 
@@ -1743,7 +1743,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'HACK
       If Me.m_entity.ItemCollection Is Nothing Then
-        Me.m_entity.ItemCollection = New MatReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
+        Me.m_entity.ItemCollection = New MatOperationReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
       End If
       'END HACK
 
@@ -1825,7 +1825,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Case "txttocostcentercode"
           If toCCCodeChanged Then
-            dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             UpdateDestAdmin()
             toCCCodeChanged = False
           End If
@@ -1851,7 +1851,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim flag As Boolean = Me.m_isInitialized
       Me.m_isInitialized = False
-      Me.m_entity.ToCostCenterPerson = Me.m_entity.ToCostCenter.Admin
+      Me.m_entity.ToCostCenterPerson = Me.m_entity.CostCenter.Admin
       txtToCCPersonCode.Text = m_entity.ToCostCenterPerson.Code
       txtToCCPersonName.Text = m_entity.ToCostCenterPerson.Name
       Me.m_isInitialized = flag
@@ -1862,7 +1862,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim flag As Boolean = Me.m_isInitialized
       Me.m_isInitialized = False
-      Me.m_entity.FromCostCenterPerson = Me.m_entity.FromCostCenter.Admin
+      Me.m_entity.FromCostCenterPerson = Me.m_entity.CostCenter.Admin
       txtFromCCPersonCode.Text = m_entity.FromCostCenterPerson.Code
       txtFromCCPersonName.Text = m_entity.FromCostCenterPerson.Name
       Me.m_isInitialized = flag
@@ -1894,7 +1894,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
           Me.m_entity = Nothing
         End If
-        Me.m_entity = CType(Value, MatReturn)
+        Me.m_entity = CType(Value, MatOperationReturn)
         If Me.m_entity.IsReferenced Then
           m_entityRefed = 1
         Else
@@ -2031,13 +2031,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+      If Me.m_entity.CostCenter Is Nothing OrElse Not Me.m_entity.CostCenter.Originated Then
         msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatReturnDetailView.Message.InputFromCC}")
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
-      entity.CC = Me.m_entity.FromCostCenter
+      entity.CC = Me.m_entity.CostCenter
       entity.FromWip = True
       entity.refEntityId = Me.Entity.EntityId
       myEntityPanelService.OpenListDialog(entity, AddressOf SetLCIItems)
@@ -2062,7 +2062,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim newType As Integer = -1
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.lciitem"
-            newItem = New LCIItem(item.Id)
+            newItem = LCIItem.GetLciitem(item.Id)
             newType = 42
             itemEntityLevel = CType(newItem, LCIItem).Level
           Case "longkong.pojjaman.businesslogic.tool"
@@ -2073,7 +2073,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If itemEntityLevel = 5 Then
           If i = items.Count - 1 Then
             If Me.m_entity.ItemCollection.Count = 0 Then
-              Dim doc As New MatReturnItem
+              Dim doc As New MatOperationReturnItem
               Me.m_entity.ItemCollection.Add(doc)
               If newType = 42 Then
                 doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
@@ -2081,7 +2081,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
               doc.Entity = newItem
             Else
-              Dim doc As New MatReturnItem
+              Dim doc As New MatOperationReturnItem
               If Not Me.CurrentItem Is Nothing Then
                 doc = Me.CurrentItem
               Else
@@ -2095,7 +2095,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               doc.Entity = newItem
             End If
           Else
-            Dim doc As New MatReturnItem
+            Dim doc As New MatOperationReturnItem
             Me.m_entity.ItemCollection.Insert(index, doc)
             If newType = 42 Then
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
@@ -2111,9 +2111,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub UnitClicked(ByVal e As ButtonColumnEventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim filters(0) As Filter
-      Dim doc As MatReturnItem = Me.CurrentItem
+      Dim doc As MatOperationReturnItem = Me.CurrentItem
       If doc Is Nothing Then
-        doc = New MatReturnItem
+        doc = New MatOperationReturnItem
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
@@ -2142,12 +2142,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim doc As MatReturnItem = Me.CurrentItem
+      Dim doc As MatOperationReturnItem = Me.CurrentItem
       If doc Is Nothing Then
         Return
       End If
       Dim newItem As New BlankItem("")
-      Dim theItem As New MatReturnItem
+      Dim theItem As New MatOperationReturnItem
       theItem.Entity = newItem
       theItem.Qty = 0
       Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc), theItem)
@@ -2156,7 +2156,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim doc As MatReturnItem = Me.CurrentItem
+      Dim doc As MatOperationReturnItem = Me.CurrentItem
       If doc Is Nothing Then
         Return
       End If
@@ -2221,7 +2221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.Grouping = Not Me.chkShowCost.Checked
-      Me.m_entity.ItemCollection = New MatReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
+      Me.m_entity.ItemCollection = New MatOperationReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
       Me.ToggleStyle(Me.tgItem.TableStyles(0))
       RefreshDocs()
       'tgItem.Width += 1
@@ -2238,7 +2238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCostCenterCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          Or CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       UpdateDestAdmin()
       toCCCodeChanged = False
       Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty

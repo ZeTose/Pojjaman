@@ -99,7 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_entity = New LCIItem(dr, "")
           End If
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "stocki_entity") AndAlso Not dr.IsNull(aliasPrefix & "stocki_entity") Then
-          .m_entity = New LCIItem(CInt(dr(aliasPrefix & "stocki_entity")))
+          .m_entity = LCIItem.GetLciitem(CInt(dr(aliasPrefix & "stocki_entity")))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_stock") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stock") Then

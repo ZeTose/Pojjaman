@@ -627,9 +627,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     'Return drs
     'End Function
-    Public Function GetLciitem(ByVal Id As Integer) As LCIItem
+    Public Shared Function GetLciitem(ByVal Id As Integer) As LCIItem
       Dim key As String = Id.ToString
-      Dim row As DataRow = CType(Me.AllLciitems(key), DataRow)
+      Dim row As DataRow = CType(AllLciitems(key), DataRow)
       Dim lci As New LCIItem(row, "") 'Pui
       Return lci
     End Function

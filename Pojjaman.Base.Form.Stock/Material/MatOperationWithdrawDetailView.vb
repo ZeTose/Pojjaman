@@ -1795,7 +1795,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim newType As Integer = -1
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.lciitem"
-            newItem = New LCIItem(item.Id)
+            newItem = LCIItem.GetLciitem(item.Id)
             newType = 42
             itemEntityLevel = CType(newItem, LCIItem).Level
           Case "longkong.pojjaman.businesslogic.tool"
