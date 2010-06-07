@@ -7,6 +7,86 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class LCIForList
+    Inherits SimpleBusinessEntityBase
+
+#Region "Constructors"
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+    Public Sub New(ByVal code As String, ByVal ParamArray filters() As Filter)
+      MyBase.New(code, filters)
+    End Sub
+    Public Sub New(ByVal id As Integer, ByVal ParamArray filters() As Filter)
+      MyBase.New(id, filters)
+    End Sub
+    Public Sub New(ByVal code As String)
+      MyBase.New(code)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Construct(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      Dim deh As New DataRowHelper(dr)
+    End Sub
+#End Region
+#Region "Properties"
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "LCIForList"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.LCIForList.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.LCIItem"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.LCIItem"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.LCIForList.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "lci"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        If tpt.EndsWith("()") Then
+          tpt.TrimEnd("()".ToCharArray)
+        End If
+        Return tpt
+      End Get
+    End Property
+    Public Overrides ReadOnly Property GetSprocName() As String
+      Get
+        Return "GetLCIItem"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property UseSiteConnString() As Boolean
+      Get
+        Return True
+      End Get
+    End Property
+#End Region
+
+  End Class
   Public Class LCIItem
     Inherits TreeBaseEntity
     Implements IHasImage, IPJMUpdatable, IHasAccount, IHasUnit, IHasPrice, IHasNote
@@ -361,8 +441,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property ShelfLife() As Integer      Get        Return m_shelfLife      End Get      Set(ByVal Value As Integer)        m_shelfLife = Value      End Set    End Property    Public Property Note() As String Implements IHasNote.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property
     Public Property DefaultUnit() As Unit Implements IHasUnit.DefaultUnit      Get        If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryUnit)  
-            Return Me.GetLciitem(Me.Id).MemoryUnit
-          End If        Return m_defaultUnit      End Get      Set(ByVal Value As Unit)        'm_defaultUnit = Value      End Set    End Property    Public Property MemoryUnit() As Unit Implements IHasUnit.MemoryUnit
+          Return Me.GetLciitem(Me.Id).MemoryUnit
+        End If        Return m_defaultUnit      End Get      Set(ByVal Value As Unit)        'm_defaultUnit = Value      End Set    End Property    Public Property MemoryUnit() As Unit Implements IHasUnit.MemoryUnit
       Get
         Return Me.m_defaultUnit
       End Get
@@ -373,7 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryCompareUnit1)
-            Return Me.GetLciitem(Me.Id).MemoryCompareUnit1
+          Return Me.GetLciitem(Me.Id).MemoryCompareUnit1
         End If
         Return m_CompareUnit1
       End Get
@@ -393,7 +473,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryCompareUnit2)
-            Return Me.GetLciitem(Me.Id).MemoryCompareUnit2
+          Return Me.GetLciitem(Me.Id).MemoryCompareUnit2
         End If
         Return m_CompareUnit2
       End Get
@@ -413,7 +493,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryCompareUnit3)
-            Return Me.GetLciitem(Me.Id).MemoryCompareUnit3
+          Return Me.GetLciitem(Me.Id).MemoryCompareUnit3
         End If
         Return m_CompareUnit3
       End Get
@@ -433,7 +513,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryConversionUnit1)
-            Return Me.GetLciitem(Me.Id).MemoryConversionUnit1
+          Return Me.GetLciitem(Me.Id).MemoryConversionUnit1
         End If
         Return m_conversionUnit1
       End Get
@@ -453,7 +533,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryConversionUnit2)
-            Return Me.GetLciitem(Me.Id).MemoryConversionUnit2
+          Return Me.GetLciitem(Me.Id).MemoryConversionUnit2
         End If
         Return m_conversionUnit2
       End Get
@@ -473,7 +553,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           'Return (New LCIItem(Me.Id).MemoryConversionUnit3)
-            Return Me.GetLciitem(Me.Id).MemoryConversionUnit3
+          Return Me.GetLciitem(Me.Id).MemoryConversionUnit3
         End If
         Return m_conversionUnit3
       End Get
@@ -537,7 +617,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End Get
     End Property
-  #End Region
+#End Region
 
 #Region "Methods"
     'Public Shared Function GetSchemaTable() As DataTable
@@ -690,28 +770,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             lciToCompare = Me
           ElseIf theLevel = Me.Level - 1 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
-            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
           ElseIf theLevel = Me.Level - 2 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 3 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           ElseIf theLevel = Me.Level - 4 Then
             'lciToCompare = New LCIItem(Me.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
             'lciToCompare = New LCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(Me.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
-            lciToCompare = Me.GetLCIItem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(Me.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
+            lciToCompare = Me.GetLciitem(lciToCompare.Parent.Id)
           End If
           If Not row.IsNull("unit_id") Then
             Dim refUnit As New Unit(CInt(row("unit_id")))
@@ -919,7 +999,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If conversion <> 0 Then
         Return conversion
       End If
-    
+
       Try
         If SqlHelper.GetVersion >= "1.01.0003" OrElse SqlHelper.CheckObjectExist("GetLCIConversion") Then
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _

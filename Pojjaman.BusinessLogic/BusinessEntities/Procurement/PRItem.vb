@@ -1412,13 +1412,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Dim newItem As IHasName
 					Dim newType As Integer = -1
 					Select Case item.FullClassName.ToLower
-						Case "longkong.pojjaman.businesslogic.lciitem"
-							newItem = New LCIItem(item.Id)
-							If targetType > -1 Then
-								newType = targetType
-							Else
-								newType = 42
-							End If
+            Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
+              newItem = New LCIItem(item.Id)
+              If targetType > -1 Then
+                newType = targetType
+              Else
+                newType = 42
+              End If
 
 						Case "longkong.pojjaman.businesslogic.tool"
 							newItem = New Tool(item.Id)

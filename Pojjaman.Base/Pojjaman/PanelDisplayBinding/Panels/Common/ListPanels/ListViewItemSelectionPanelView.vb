@@ -317,7 +317,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.pnlFilter3.Height = 0
       End If
 
-      Me.RefreshData("")
+      If Not TypeOf Me.m_entity Is LCIForList Then
+        Me.RefreshData("")
+      End If
     End Sub
 #End Region
 
@@ -391,7 +393,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private cancelHash As Hashtable
     Private refHash As Hashtable
-    Public Sub SearchData(ByVal order As String)
+    Private Sub SearchData(ByVal order As String)
       Dim t As Date = Now
       lvItem.BeginUpdate()
       lvItem.Items.Clear()
