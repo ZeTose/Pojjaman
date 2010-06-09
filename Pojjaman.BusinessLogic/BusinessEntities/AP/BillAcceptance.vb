@@ -2293,6 +2293,7 @@ Public Class BillAcceptanceItemCollection
         newRow("Code") = bai.Code
         newRow("DocDate") = bai.Date
         newRow("DueDate") = bai.DueDate
+        newRow("paysi_retentionType") = bai.RetentionType
 
         bai.RemainningBalance = remain
         'If refresh Then

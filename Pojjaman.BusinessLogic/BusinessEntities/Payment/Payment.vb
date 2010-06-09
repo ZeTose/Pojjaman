@@ -3400,6 +3400,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim dh As New DataRowHelper(dr)
               Dim stock_id As Integer = dh.GetValue(Of Integer)("paysi_entity")
               Dim stock_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
+              Dim retention_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
+              Trace.WriteLine(retention_type.ToString)
               Dim s As Stock = ps.FindStock(stock_id, stock_type)
               If s IsNot Nothing Then
                 'RefDocItem.Glnote
@@ -3504,7 +3506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "RefDocItem"
               dpiColl.Add(dpi)
 
-              refRetention = ps.GetRetentionItem(stock_id, stock_type)
+              refRetention = ps.GetRetentionItem(stock_id, stock_type, retention_type)
               refDocRetention += refRetention
               'RefDocItem.Retention
               dpi = New DocPrintingItem
@@ -3557,7 +3559,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'RefDocItem.CostCenterCode
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.CostCenterCode"
-              dpi.Value = ps.GetCostCenterFromRefDoc(stock_id, stock_type).Code
+              Trace.WriteLine("stock_type=" & stock_type.ToString)
+              dpi.Value = ps.GetCostCenterFromRefDoc(stock_id, stock_type, retention_type).Code
               dpi.DataType = "System.String"
               dpi.Row = n + 1
               dpi.Table = "RefDocItem"

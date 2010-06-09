@@ -1044,7 +1044,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each pitem As PAItem In Me.ItemCollection
         If pitem.Level = 0 Then
           If pitem.RefEntity.Id = 0 Then
-            If pitem.Amount <> pitem.ChildAmount Then
+            If Configuration.Format(pitem.Amount, DigitConfig.Price) <> Configuration.Format(pitem.ChildAmount, DigitConfig.Price) Then
               Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
               New String() {Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(pitem.ChildAmount, DigitConfig.Price)})
             End If
@@ -1053,13 +1053,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.HasChild}", New String() {pitem.EntityName})
           End If
           Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
-          If pitem.Amount <> m_value Then
+          If Configuration.Format(pitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
              New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
         Else
           Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
-          If pitem.Amount <> m_value Then
+          If Configuration.Format(pitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
              New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If
@@ -1180,7 +1180,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
 
-
+        If Me.m_je.Status.Value = 4 Then
+          Me.Status.Value = 4
+          Me.m_payment.Status.Value = 4
+          Me.m_whtcol.SetStatus(4)
+          Me.m_vat.Status.Value = 4
+        End If
+        If Me.Status.Value = 0 Then
+          Me.m_payment.Status.Value = 0
+          Me.m_whtcol.SetStatus(0)
+          Me.m_vat.Status.Value = 0
+          Me.m_je.Status.Value = 0
+        End If
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If

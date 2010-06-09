@@ -381,6 +381,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Retention", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("PlusRetention", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainningBalance", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("paysi_retentionType", GetType(Integer)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -877,7 +878,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return dummyCC
     End Function
 
-    Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer) As CostCenter
+    Public Function GetCostCenterFromRefDoc(ByVal stock_id As Integer, ByVal stock_type As Integer, ByVal retention_type As Integer) As CostCenter
       Try
         Dim dsr As DataSet = SqlHelper.ExecuteDataset( _
             Me.ConnectionString _
@@ -885,6 +886,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             , "GetCCForBillAccaptance" _
             , New SqlParameter("@stock_id", stock_id) _
             , New SqlParameter("@stock_type", stock_type) _
+            , New SqlParameter("@retention_type", retention_type) _
             )
         If dsr.Tables(0).Rows.Count > 0 Then
           If Not dsr.Tables(0).Rows(0).IsNull("cc_id") Then
@@ -897,9 +899,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message)
       End Try
     End Function
-    Public Function GetRetentionItem(ByVal entityid As Integer, ByVal entityType As Integer) As Decimal
+    Public Function GetRetentionItem(ByVal entityid As Integer, ByVal entityType As Integer, ByVal retention_type As Integer) As Decimal
       Dim ds As DataSet
-      If entityType = 45 Then
+      If retention_type = 45 Then
         ds = SqlHelper.ExecuteDataset(ConnectionString _
         , CommandType.Text _
         , "SELECT isnull(stock_retention,0) [stock_retention] FROM stock " & _
@@ -910,7 +912,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return CDec(ds.Tables(0).Rows(0)(0))
           End If
         End If
-      Else
+      ElseIf retention_type = 292 Then
         ds = SqlHelper.ExecuteDataset(ConnectionString _
         , CommandType.Text _
         , "SELECT isnull(pa_retention,0) [stock_retention] FROM pa " & _

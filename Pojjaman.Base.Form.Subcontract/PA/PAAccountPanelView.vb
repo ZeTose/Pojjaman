@@ -1232,9 +1232,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Next
         tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
+        'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '  colStyle.ReadOnly = True
+        'Next
       Else
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = CBool(m_enableState(ctrl))
