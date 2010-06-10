@@ -1247,12 +1247,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(3) As ArrayList
-      For i As Integer = 0 To 3
+      Dim filterEntities(4) As ArrayList
+      For i As Integer = 0 To 4
         filterEntities(i) = New ArrayList
         filterEntities(i).Add(Me.m_entity.Supplier)
       Next
-      Dim filters(3)() As Filter
+      Dim filters(4)() As Filter
       'Dim grNeedsApproval As Boolean = False
       'grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45))} _
@@ -1268,8 +1268,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       filters(3) = New Filter() {New Filter("IDList", GetItemIDList(59))}
 
-      'filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46)), _
-      'New Filter("pays_id", Me.m_entity.Id)}
+      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(292))}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
       'New Filter("nocancel", True) _
@@ -1277,7 +1276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
 
-      Dim entities(3) As ISimpleEntity
+      Dim entities(4) As ISimpleEntity
       'entities(0) = New GoodsReceipt
       'entities(1) = New APOpeningBalance
       'entities(2) = New EqMaintenance
@@ -1286,6 +1285,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       entities(1) = New APOpeningBalanceForVat
       entities(2) = New EqMaintenanceForVat
       entities(3) = New AdvancePayForVat
+      entities(4) = New PAForVat
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
