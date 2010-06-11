@@ -804,6 +804,12 @@
     <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ContactForm.Designer.vb">
+      <DependentUpon>ContactForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\ContactForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\CurrentPanelPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1471,6 +1477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.resx">
       <DependentUpon>ColorPickerDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ContactForm.resx">
+      <DependentUpon>ContactForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\CustomNoteForm.resx">
       <DependentUpon>CustomNoteForm.vb</DependentUpon>

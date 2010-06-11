@@ -121,6 +121,8 @@
 			<MenuItem id="Flow" label="${res:MainMenu.HelpMenu.Flow}" description="${res:MainMenu.HelpMenu.Flow.Description}" class="Longkong.Pojjaman.Commands.ShowFlow"/>
 			<MenuItem id="TipOfTheDay" label="${res:MainMenu.HelpMenu.Tips}" icon="Icons.16x16.TipOfTheDay" description="${res:MainMenu.HelpMenu.Tips.Description}" class="Longkong.Pojjaman.Commands.ViewTipOfTheDay"/>
 			<MenuItem id="Separator3" label="-"/>
+			ContactUs
+			<MenuItem id="ContactUs" label="Contact Us" icon="Icons.16x16.ContactIcon" description="Contact Us" class="Longkong.Pojjaman.Commands.ContactUs"/>
 			<MenuItem id="About" label="${res:MainMenu.HelpMenu.About}" icon="Icons.16x16.AboutIcon" description="${res:MainMenu.HelpMenu.About.Description}" class="Longkong.Pojjaman.Commands.AboutPojjaman"/>
 			<MenuItem id="LKWeb" label="${res:MainMenu.HelpMenu.LKWeb}" icon="Icons.16x16.LKIcon" description="${res:MainMenu.HelpMenu.LKWeb.Description}" link="www.longkongstudio.com"/>
 		</MenuItem>

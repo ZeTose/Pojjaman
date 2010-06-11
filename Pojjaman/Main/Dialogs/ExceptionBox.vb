@@ -45,25 +45,14 @@ Namespace Pojjaman
         Dim r As New MailAddress("bugreport@longkongstudio.com")
         Dim message As New MailMessage(s, r)
         message.Body = getClipboardString()
-        message.Subject = "Pojjaman Error Report"
-        message.SubjectEncoding = System.Text.Encoding.UTF8
-        AddHandler client.SendCompleted, AddressOf SendCompletedCallback
-        Dim userState As String = "Sending"
-        client.SendAsync(message, userState)
+        message.Subject = "[Pojjaman Error Report]"
+        message.SubjectEncoding = System.Text.Encoding.UTF8        
+        client.Send(message)
+        MessageBox.Show("ส่ง Error เรียบร้อยค่ะ")
+        Me.Close()
       Catch ex As Exception
         Console.WriteLine(ex.ToString)
       End Try
-    End Sub
-    Private Sub SendCompletedCallback(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
-      Dim token As String = e.UserState.ToString
-      If (e.Cancelled) Then
-
-      End If
-      If e.Error IsNot Nothing Then
-        MessageBox.Show("ส่ง Error ไม่สำเร็จ ขออภัยค่ะ กรุณาติดต่อเราที่ bugreport@longkongstudio.com")
-      Else
-        MessageBox.Show("ส่ง error เรียบร้อยค่ะ")
-      End If
     End Sub
     Private Sub continueButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles continueButton.Click
       MyBase.DialogResult = DialogResult.Ignore

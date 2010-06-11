@@ -8,6 +8,22 @@ Imports System.IO
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Commands
+  Public Class ContactUs
+    Inherits AbstractMenuCommand
+
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+#End Region
+
+#Region "Methods"
+    Public Overrides Sub Run()
+      Dim f As New ContactForm
+      f.ShowDialog()
+    End Sub
+#End Region
+
+  End Class
   Public Class ErrorTest
     Inherits AbstractMenuCommand
 
