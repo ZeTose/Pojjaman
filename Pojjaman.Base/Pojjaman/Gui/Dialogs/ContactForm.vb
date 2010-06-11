@@ -1,6 +1,9 @@
 ﻿Imports System.Net.Mail
 Imports System.Net
 Imports System.Reflection
+Imports Longkong.Pojjaman.Services
+Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Gui
 
 Public Class ContactForm
   Private ex As String
@@ -25,16 +28,28 @@ Public Class ContactForm
   End Sub
 
   Private Function getClipboardString() As String
+    Dim secServ As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+    Dim config As Object = Longkong.Pojjaman.BusinessLogic.Configuration.GetConfig("CompanyName")
+    Dim company As String = ""
+    If Not config Is Nothing Then
+      company = config.ToString
+    End If
+    Dim pjmVersion As Version = [Assembly].GetEntryAssembly.GetName.Version
+    Dim pjmRealVersion As String = clsAssInfo.RealVersion
+    Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", _
+                                                    pjmVersion.Minor.ToString("00"), ".", _
+                                                    pjmVersion.Build.ToString("0000"), ".", _
+                                                    pjmRealVersion}
     Dim str As String = ""
-    str = "Name         : " & txtName.Text & Environment.NewLine
-    str &= "Company         : " & txtCompany.Text & Environment.NewLine
+    str = "Name         : " & secServ.CurrentUser.Name & Environment.NewLine
+    str &= "Company         : " & company & Environment.NewLine
     str &= "Email         : " & txtEmail.Text & Environment.NewLine
     str &= ".NET Version         : " & Environment.Version.ToString & Environment.NewLine
     str &= "OS Version           : " & Environment.OSVersion.ToString & Environment.NewLine
     str &= "Boot Mode            : " & SystemInformation.BootMode & Environment.NewLine
     str &= "Working Set Memory   : " & (Environment.WorkingSet / CType(1024, Long)) & "kb" & Environment.NewLine & Environment.NewLine
-    Dim v As Version = [Assembly].GetEntryAssembly.GetName.Version
-    str &= "PJM Version : " & v.Major & "." & v.Minor & "." & v.Revision & "." & v.Build & Environment.NewLine
+    str &= "PJM Version : " & String.Concat(pjmVersionArray) & Environment.NewLine
+    str &= "DB Version : " & Longkong.Pojjaman.DataAccessLayer.SqlHelper.GetRealVersion & Environment.NewLine
     If Not String.IsNullOrEmpty(ex) Then
       str = (str & "Error: " & Environment.NewLine)
       str = (str & Me.ex & Environment.NewLine)
@@ -55,6 +70,8 @@ Public Class ContactForm
         message.Subject = Me.txtSubject.Text & "[Pojjaman Contact]"
       ElseIf Me.txtSubject.TextLength = 0 OrElse Not Me.txtSubject.Text.Contains("[Pojjaman Error]") Then
         message.Subject = Me.txtSubject.Text & "[Pojjaman Error]"
+      Else
+        message.Subject = Me.txtSubject.Text
       End If
       message.SubjectEncoding = System.Text.Encoding.UTF8
       client.Send(message)

@@ -26,10 +26,6 @@ Partial Class ContactForm
     Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
     Me.txtSubject = New System.Windows.Forms.TextBox()
     Me.Label1 = New System.Windows.Forms.Label()
-    Me.Label2 = New System.Windows.Forms.Label()
-    Me.txtCompany = New System.Windows.Forms.TextBox()
-    Me.Label3 = New System.Windows.Forms.Label()
-    Me.txtName = New System.Windows.Forms.TextBox()
     Me.btnSend = New System.Windows.Forms.Button()
     Me.btnCancel = New System.Windows.Forms.Button()
     Me.Label4 = New System.Windows.Forms.Label()
@@ -39,16 +35,16 @@ Partial Class ContactForm
     '
     'RichTextBox1
     '
-    Me.RichTextBox1.Location = New System.Drawing.Point(13, 118)
+    Me.RichTextBox1.Location = New System.Drawing.Point(13, 64)
     Me.RichTextBox1.Name = "RichTextBox1"
-    Me.RichTextBox1.Size = New System.Drawing.Size(488, 182)
+    Me.RichTextBox1.Size = New System.Drawing.Size(488, 236)
     Me.RichTextBox1.TabIndex = 8
     Me.RichTextBox1.Text = ""
     Me.ToolTip1.SetToolTip(Me.RichTextBox1, "กรอกรายละเอียด เช่น งานที่กำลังทำขณะเกิด Error หรือข้อความที่ต้องการติชม")
     '
     'txtSubject
     '
-    Me.txtSubject.Location = New System.Drawing.Point(87, 86)
+    Me.txtSubject.Location = New System.Drawing.Point(87, 38)
     Me.txtSubject.Name = "txtSubject"
     Me.txtSubject.Size = New System.Drawing.Size(414, 20)
     Me.txtSubject.TabIndex = 7
@@ -56,46 +52,12 @@ Partial Class ContactForm
     'Label1
     '
     Me.Label1.AutoSize = True
-    Me.Label1.Location = New System.Drawing.Point(27, 89)
+    Me.Label1.Location = New System.Drawing.Point(27, 41)
     Me.Label1.Name = "Label1"
     Me.Label1.Size = New System.Drawing.Size(46, 13)
     Me.Label1.TabIndex = 6
     Me.Label1.Text = "Subject:"
     Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-    '
-    'Label2
-    '
-    Me.Label2.AutoSize = True
-    Me.Label2.Location = New System.Drawing.Point(19, 63)
-    Me.Label2.Name = "Label2"
-    Me.Label2.Size = New System.Drawing.Size(54, 13)
-    Me.Label2.TabIndex = 4
-    Me.Label2.Text = "Company:"
-    Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-    '
-    'txtCompany
-    '
-    Me.txtCompany.Location = New System.Drawing.Point(87, 60)
-    Me.txtCompany.Name = "txtCompany"
-    Me.txtCompany.Size = New System.Drawing.Size(414, 20)
-    Me.txtCompany.TabIndex = 5
-    '
-    'Label3
-    '
-    Me.Label3.AutoSize = True
-    Me.Label3.Location = New System.Drawing.Point(35, 15)
-    Me.Label3.Name = "Label3"
-    Me.Label3.Size = New System.Drawing.Size(38, 13)
-    Me.Label3.TabIndex = 0
-    Me.Label3.Text = "Name:"
-    Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-    '
-    'txtName
-    '
-    Me.txtName.Location = New System.Drawing.Point(87, 12)
-    Me.txtName.Name = "txtName"
-    Me.txtName.Size = New System.Drawing.Size(414, 20)
-    Me.txtName.TabIndex = 1
     '
     'btnSend
     '
@@ -118,7 +80,7 @@ Partial Class ContactForm
     'Label4
     '
     Me.Label4.AutoSize = True
-    Me.Label4.Location = New System.Drawing.Point(35, 39)
+    Me.Label4.Location = New System.Drawing.Point(35, 15)
     Me.Label4.Name = "Label4"
     Me.Label4.Size = New System.Drawing.Size(35, 13)
     Me.Label4.TabIndex = 2
@@ -127,7 +89,7 @@ Partial Class ContactForm
     '
     'txtEmail
     '
-    Me.txtEmail.Location = New System.Drawing.Point(87, 36)
+    Me.txtEmail.Location = New System.Drawing.Point(87, 12)
     Me.txtEmail.Name = "txtEmail"
     Me.txtEmail.Size = New System.Drawing.Size(414, 20)
     Me.txtEmail.TabIndex = 3
@@ -141,10 +103,6 @@ Partial Class ContactForm
     Me.Controls.Add(Me.txtEmail)
     Me.Controls.Add(Me.btnCancel)
     Me.Controls.Add(Me.btnSend)
-    Me.Controls.Add(Me.Label3)
-    Me.Controls.Add(Me.txtName)
-    Me.Controls.Add(Me.Label2)
-    Me.Controls.Add(Me.txtCompany)
     Me.Controls.Add(Me.Label1)
     Me.Controls.Add(Me.txtSubject)
     Me.Controls.Add(Me.RichTextBox1)
@@ -161,10 +119,6 @@ Partial Class ContactForm
   Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
   Friend WithEvents txtSubject As System.Windows.Forms.TextBox
   Friend WithEvents Label1 As System.Windows.Forms.Label
-  Friend WithEvents Label2 As System.Windows.Forms.Label
-  Friend WithEvents txtCompany As System.Windows.Forms.TextBox
-  Friend WithEvents Label3 As System.Windows.Forms.Label
-  Friend WithEvents txtName As System.Windows.Forms.TextBox
   Friend WithEvents btnSend As System.Windows.Forms.Button
   Friend WithEvents btnCancel As System.Windows.Forms.Button
   Friend WithEvents Label4 As System.Windows.Forms.Label
