@@ -22,6 +22,7 @@
 						<MenuItem id="Test" label="Test" class="Longkong.Pojjaman.Commands.Test"/>
 						<MenuItem id="FormTester" label="FormTester" class="Longkong.Pojjaman.Commands.FormTester"/>
 						<MenuItem id="DatabaseSelection" label="DatabaseSelection" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
+						<MenuItem id="ErrorTest" label="Test Error" class="Longkong.Pojjaman.Commands.ErrorTest"/>
 				</MenuItem>
 		</Extension>
 </AddIn>

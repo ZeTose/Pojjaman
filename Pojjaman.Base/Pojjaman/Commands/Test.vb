@@ -8,42 +8,57 @@ Imports System.IO
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Commands
-    Public Class Test
-        Inherits AbstractMenuCommand
+  Public Class ErrorTest
+    Inherits AbstractMenuCommand
 
 #Region "Constructors"
-        Public Sub New()
-        End Sub
+    Public Sub New()
+    End Sub
 #End Region
 
 #Region "Methods"
-        Public Overrides Sub Run()
-            'Dim dlg As New BasketDialog
-            ''AddHandler View.EmptyBasket, handler
-            'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(New PRItemSelectionView(New PR, New BasketDialog), dlg)
-            'myDialog.ShowDialog()
-
-
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(New ResourceVerifier)
-            myDialog.ShowDialog()
-        End Sub
+    Public Overrides Sub Run()
+      Throw New InvalidExpressionException("Error ครับท่าน")
+    End Sub
 #End Region
 
-    End Class
-    Public Class FormTester
-        Inherits AbstractMenuCommand
+  End Class
+  Public Class Test
+    Inherits AbstractMenuCommand
 
 #Region "Constructors"
-        Public Sub New()
-        End Sub
+    Public Sub New()
+    End Sub
 #End Region
 
 #Region "Methods"
-        Public Overrides Sub Run()
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(New ReportTestPreviewPanel)
-            myDialog.ShowDialog()
-        End Sub
+    Public Overrides Sub Run()
+      'Dim dlg As New BasketDialog
+      ''AddHandler View.EmptyBasket, handler
+      'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(New PRItemSelectionView(New PR, New BasketDialog), dlg)
+      'myDialog.ShowDialog()
+
+
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(New ResourceVerifier)
+      myDialog.ShowDialog()
+    End Sub
 #End Region
 
-    End Class
+  End Class
+  Public Class FormTester
+    Inherits AbstractMenuCommand
+
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+#End Region
+
+#Region "Methods"
+    Public Overrides Sub Run()
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(New ReportTestPreviewPanel)
+      myDialog.ShowDialog()
+    End Sub
+#End Region
+
+  End Class
 End Namespace
