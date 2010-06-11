@@ -122,7 +122,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       EQActualHash = New Hashtable
       m_itemCollection = New POItemCollection(Me)
       'm_itemCollection.RefreshBudget()
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+      'Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)

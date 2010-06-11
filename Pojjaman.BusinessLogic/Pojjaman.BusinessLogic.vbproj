@@ -554,9 +554,7 @@
     <Compile Include="BusinessEntities\General\CodeDescriptionsEventArgs.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BusinessEntities\General\Entity.vb">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="BusinessEntities\General\Entity.vb" />
     <Compile Include="BusinessEntities\General\ICodeDescription.vb">
       <SubType>Code</SubType>
     </Compile>

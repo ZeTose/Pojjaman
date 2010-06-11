@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   '  Public Class MatWithdrawType
   '    Inherits CodeDescription
@@ -498,7 +500,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Sub
     Public Sub SetAutoCodeFormat(ByVal CurrentUserId As Integer)
       If Me.StockEntity > 0 Then
-        Dim arr As ArrayList = BusinessLogic.Entity.GetNewAutoCodeFormats(343, CurrentUserId)
+        Dim arr As List(Of AutoCodeFormat) = BusinessLogic.Entity.GetNewAutoCodeFormats(343, CurrentUserId)
         For Each autoCode As AutoCodeFormat In arr
           If autoCode.Id = Me.StockEntity Then
             Me.AutoCodeFormat = autoCode

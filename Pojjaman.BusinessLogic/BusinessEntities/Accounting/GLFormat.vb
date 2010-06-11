@@ -31,7 +31,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Sub New(ByVal lgl As LinkGL)
             MyBase.New()
             Me.LinkGL = lgl
-            m_itemCollection = New GLFormatItemCollection(Me)
         End Sub
         Public Sub New(ByVal id As Integer)
             MyBase.New(id)
@@ -46,7 +45,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			MyBase.Construct()
 			m_LinkGL = New LinkGL
 			Me.m_accountBook = New AccountBook
-			m_itemCollection = New GLFormatItemCollection(Me)
 		End Sub
 		Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
 			MyBase.Construct(dr, aliasPrefix)
@@ -79,15 +77,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					.m_isDefault = CBool(dr(aliasPrefix & Me.Prefix & "_isdefault"))
 				End If
 			End With
-			m_itemCollection = New GLFormatItemCollection(Me)
 		End Sub
 #End Region
 
 #Region "Properties"
         Public Property ItemCollection() As GLFormatItemCollection
-            Get
-                Return m_itemCollection
-            End Get
+      Get
+        '----เพื่อความเร็ว ---
+        If m_itemCollection Is Nothing Then
+          m_itemCollection = New GLFormatItemCollection(Me)
+        End If
+        Return m_itemCollection
+      End Get
             Set(ByVal Value As GLFormatItemCollection)
                 m_itemCollection = Value
             End Set

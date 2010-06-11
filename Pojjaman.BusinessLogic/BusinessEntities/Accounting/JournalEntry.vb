@@ -568,7 +568,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
-      '-------------------------------Basic--------------------------------
+     
+
+      '-------------------------------Basic-------------------------------
       For Each glfi As GLFormatItem In glf.ItemCollection
         If glfi.Mapping.ToLower.IndexOf("sumdebit") < 0 AndAlso glfi.Mapping.ToLower.IndexOf("sumcredit") < 0 Then
           Dim matchItems As JournalEntryItemCollection = entriesFromDoc.GetMappingItems(glfi)

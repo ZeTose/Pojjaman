@@ -8,6 +8,8 @@ Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class AutoCodeConfig
     Inherits CodeDescription
@@ -31,31 +33,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal entity As SimpleBusinessEntityBase)
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
+      If entity.Originated Then
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
       "select entityautogen.* from entityautogen inner join entityautocode on entity_autocode = entityauto_id  where entityautocode.entity_id='" & entity.Id & "' and entity_type = '" & entity.EntityId & "'" _
-      )
-      If ds.Tables(0).Rows.Count > 0 Then
-        Dim row As DataRow = ds.Tables(0).Rows(0)
-        If row.Table.Columns.Contains("entity_autocodeformat") AndAlso Not row.IsNull("entity_autocodeformat") Then
-          Me.Format = (CStr(row("entity_autocodeformat")))
-        End If
-        If row.Table.Columns.Contains("entityauto_config") AndAlso Not row.IsNull("entityauto_config") Then
-          Me.CodeConfig = New AutoCodeConfig(CInt(row("entityauto_config")))
-        End If
-        If row.Table.Columns.Contains("entityauto_glf") AndAlso Not row.IsNull("entityauto_glf") Then
-          Me.GLFormat = New GLFormat(CInt(row("entityauto_glf")))
-        End If
-        If row.Table.Columns.Contains("entityauto_id") AndAlso Not row.IsNull("entityauto_id") Then
-          Me.Id = CInt(row("entityauto_id"))
-        End If
-      Else
-        ds = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
-      "select * from gl  where gl_refid='" & entity.Id & "' and gl_refdoctype = '" & entity.EntityId & "'" _
       )
         If ds.Tables(0).Rows.Count > 0 Then
           Dim row As DataRow = ds.Tables(0).Rows(0)
-          If row.Table.Columns.Contains("gl_glformat") AndAlso Not row.IsNull("gl_glformat") Then
-            Me.GLFormat = New GLFormat(CInt(row("gl_glformat")))
+          If row.Table.Columns.Contains("entity_autocodeformat") AndAlso Not row.IsNull("entity_autocodeformat") Then
+            Me.Format = (CStr(row("entity_autocodeformat")))
+          End If
+          If row.Table.Columns.Contains("entity_id") AndAlso Not row.IsNull("entity_id") Then
+            Me.EntityId = (CInt(row("entity_id")))
+          End If
+          If row.Table.Columns.Contains("entityauto_config") AndAlso Not row.IsNull("entityauto_config") Then
+            Me.CodeConfig = New AutoCodeConfig(CInt(row("entityauto_config")))
+          End If
+          If row.Table.Columns.Contains("entityauto_glf") AndAlso Not row.IsNull("entityauto_glf") Then
+            Me.GLFormat = New GLFormat(CInt(row("entityauto_glf")))
+          End If
+          If row.Table.Columns.Contains("entityauto_id") AndAlso Not row.IsNull("entityauto_id") Then
+            Me.Id = CInt(row("entityauto_id"))
+          End If
+        Else
+          ds = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
+        "select * from gl  where gl_refid='" & entity.Id & "' and gl_refdoctype = '" & entity.EntityId & "'" _
+        )
+          If ds.Tables(0).Rows.Count > 0 Then
+            Dim row As DataRow = ds.Tables(0).Rows(0)
+            If row.Table.Columns.Contains("gl_glformat") AndAlso Not row.IsNull("gl_glformat") Then
+              Me.GLFormat = New GLFormat(CInt(row("gl_glformat")))
+            End If
           End If
         End If
       End If
@@ -67,6 +74,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Integer)
         m_id = Value
+      End Set
+    End Property
+    Private m_entityid As Integer
+    Public Property EntityId() As Integer
+      Get
+        Return m_entityid
+      End Get
+      Set(ByVal Value As Integer)
+        m_entityid = Value
       End Set
     End Property
     Private m_format As String
@@ -112,6 +128,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Function ToString() As String
       Return Me.Format
     End Function
+  End Class
+  Public Class AutoCodeFormatCollection
+    Private m_curruserid As Integer
+    Private Shared _allAutoCodeFormat As Object
+
+    Public Sub New()
+    End Sub
+    Private Shared m_AutoCodeFormatTable As DataTable
+    Public Shared ReadOnly Property AllAutoCodeFormat(ByVal userid As Integer) As DataTable
+      Get
+        If m_AutoCodeFormatTable Is Nothing Then
+          RefreshData(userid)
+        End If
+        Return m_AutoCodeFormatTable
+      End Get
+    End Property
+
+
+
+    'Shared Function GetAutoCodeFormat(ByVal userid As Integer, ByVal entityId As Integer) As ArrayList
+    '  Dim dt As DataTable = AllAutoCodeFormat(userid)
+    '  Dim row() As DataRow = dt.Select("entity_id =" & entityId.ToString)
+    '  Dim arr As New List
+    '  For Each ar As
+    '    Return row()
+    'End Function
+
+    Private Shared Sub RefreshData(ByVal userid As Integer, ByVal ParamArray commandParameters() As SqlParameter)
+      Dim key As String = ""
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetAutoCodeFormatCollection" _
+    , commandParameters)
+      'If ds.Tables(0).Rows.Count >= 1 Then
+      AutoCodeFormatCollection.m_AutoCodeFormatTable = ds.Tables(0)
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        key = CStr(drh.GetValue(Of Integer)("lci_id"))
+      Next
+      'End If
+    End Sub
+
   End Class
   Public Class Entity
 
@@ -217,6 +276,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select * from [entity] order by entity_id")
       m_entityTable = ds.Tables(0)
     End Sub
+    Public Shared m_codelist As ArrayList
     Public Shared Function GetAutoCodeFormats(ByVal entityId As Integer) As ArrayList
       Dim arr As New ArrayList
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
@@ -231,12 +291,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return arr
     End Function
-    Public Shared Function GetNewAutoCodeFormats(ByVal entityId As Integer, ByVal userId As Integer) As ArrayList
-      Dim arr As New ArrayList
+
+    Public Shared m_AutoCodeFormatList As List(Of AutoCodeFormat)
+    Public Shared Sub NewAutoCodeFormats(ByVal entityId As Integer, ByVal userId As Integer)
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, _
       "select * from entityautogen " & _
       "left join userautogen on entityauto_id = userauto_entityauto " & _
+      "left join glformat on [entityauto_glf] = glf_id " & _
+      "left join [LinkGL] on [GLFormat].[glf_linkgl] = [LinkGL].[linkgl_id] " & _
+      "left join [accountbook] on [glf_accountbook] = [accountbook_id] " & _
       "where entity_id ='" & entityId & "' " & _
       "and " & _
       "userauto_user ='" & userId & "' " & _
@@ -251,19 +315,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If row.Table.Columns.Contains("entityauto_config") AndAlso Not row.IsNull("entityauto_config") Then
             acf.CodeConfig = New AutoCodeConfig(CInt(row("entityauto_config")))
           End If
-          If row.Table.Columns.Contains("entityauto_glf") AndAlso Not row.IsNull("entityauto_glf") Then
-            acf.GLFormat = New GLFormat(CInt(row("entityauto_glf")))
+          If row.Table.Columns.Contains("glf_id") AndAlso Not row.IsNull("glf_id") Then
+            'acf.GLFormat = New GLFormat(CInt(row("entityauto_glf")))
+            acf.GLFormat = New GLFormat(row, "")
           End If
           If row.Table.Columns.Contains("entityauto_id") AndAlso Not row.IsNull("entityauto_id") Then
             acf.Id = CInt(row("entityauto_id"))
           End If
-          arr.Add(acf)
+          If row.Table.Columns.Contains("entity_id") AndAlso Not row.IsNull("entity_id") Then
+            acf.EntityId = CInt(row("entity_id"))
+          End If
+          m_AutoCodeFormatList.Add(acf)
         Next
       End If
-      Return arr
+    End Sub
+    Public Shared Function GetNewAutoCodeFormats(ByVal entityId As Integer, ByVal userId As Integer) As List(Of AutoCodeFormat)
+      Dim autocodelist As New List(Of AutoCodeFormat)
+      If m_AutoCodeFormatList IsNot Nothing Then
+        Dim HasEntity As Boolean = False
+        For Each acf1 As AutoCodeFormat In m_AutoCodeFormatList
+          If acf1.EntityId = entityId Then
+            HasEntity = True
+          End If
+        Next
+        If Not HasEntity Then
+          NewAutoCodeFormats(entityId, userId)
+        End If
+            For Each acf2 As AutoCodeFormat In m_AutoCodeFormatList
+              If acf2.EntityId = entityId Then
+                autocodelist.Add(acf2)
+              End If
+            Next
+            Return autocodelist
+      End If
+      m_AutoCodeFormatList = New List(Of AutoCodeFormat)
+      NewAutoCodeFormats(entityId, userId)
+      Return m_AutoCodeFormatList
     End Function
     Public Shared Sub NewPopulateCodeCombo(ByVal cmb As ComboBox, ByVal entityId As Integer, ByVal userId As Integer)
-      Dim arr As ArrayList = GetNewAutoCodeFormats(entityId, userId)
+      Dim arr As List(Of AutoCodeFormat) = GetNewAutoCodeFormats(entityId, userId)
       cmb.Items.Clear()
       For Each item As AutoCodeFormat In arr
         cmb.Items.Add(item)
@@ -362,7 +452,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
   <Serializable(), DefaultMember("Item")> _
-Public Class FormEntityCollection
+  Public Class FormEntityCollection
     Inherits CollectionBase
 
 #Region "Constructors"
