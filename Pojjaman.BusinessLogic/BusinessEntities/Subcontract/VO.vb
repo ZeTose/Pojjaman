@@ -1324,7 +1324,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Try
         Dim da As New SqlDataAdapter("Select * from voitem where voi_vo=" & Me.Id, conn)
         Dim daWbs As New SqlDataAdapter("Select * from voiwbs where voiw_sequence in (select voi_sequence from voitem where voi_vo=" & Me.Id & ")", conn)
-        Dim daOld As New SqlDataAdapter("Select * from voolditem where voio_sequence in (select voi_sequence from voitem where voi_sc=" & Me.Id & ")", conn)
+        Dim daOld As New SqlDataAdapter("Select * from voolditem where voio_sequence in (select voi_sequence from voitem where voi_vo=" & Me.Id & ")", conn)
 
         Dim ds As New DataSet
 

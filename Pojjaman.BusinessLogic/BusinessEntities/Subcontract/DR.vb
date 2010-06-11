@@ -1125,7 +1125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Dim da As New SqlDataAdapter("Select * from dritem where dri_dr=" & Me.Id, conn)
         Dim daWbs As New SqlDataAdapter("Select * from driwbs where driw_sequence in (select dri_sequence from dritem where dri_dr=" & Me.Id & ")", conn)
-        Dim daOld As New SqlDataAdapter("Select * from drolditem where drio_sequence in (select dri_sequence from dritem where dri_sc=" & Me.Id & ")", conn)
+        Dim daOld As New SqlDataAdapter("Select * from drolditem where drio_sequence in (select dri_sequence from dritem where dri_dr=" & Me.Id & ")", conn)
 
         Dim ds As New DataSet
 
