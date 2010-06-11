@@ -613,7 +613,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldid As Integer = Me.Id
         Try
           Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
-
+          m_RefreshCCList = True
           ' Update CostcenterImage ...
           If Me.Originated Then
             paramArrayList = New ArrayList
@@ -1052,11 +1052,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
-
+    Private Shared m_dsCCList As DataSet
+    Private Shared m_RefreshCCList As Boolean = False
+    Private Shared Property dsCClist As DataSet
+      Get
+        Return m_dsCCList
+      End Get
+      Set(ByVal value As DataSet)
+        m_dsCCList = value
+      End Set
+    End Property
     Public Overrides Sub PopulateTree(ByVal tvGroup As System.Windows.Forms.TreeView, ByVal ParamArray filters() As Filter)
       'Dim dt As DataTable = Me.GetTreeDataSet(filters).Tables(0)
-      Dim ds As DataSet = Me.GetListDataSet("", filters)
-      Dim dt As DataTable = ds.Tables(0)
+      If m_dsCCList Is Nothing OrElse m_RefreshCCList Then
+        dsCClist = Me.GetListDataSet("", filters)
+        m_RefreshCCList = False
+      End If
+      Dim ds As DataSet = dsCClist
+      Dim dt As DataTable = dsCClist.Tables(0)
       tvGroup.BeginUpdate()
       tvGroup.Nodes.Clear()
       'tvGroup.ForeColor = Color.Gray

@@ -361,7 +361,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Next
             End If
 
-            Me.m_entity.PopulateTree(tvGroup, newfilters)
+      CType(Me.m_entity, CostCenter).PopulateTree(tvGroup, newfilters)
             TreeViewHelper.Search(Me.tvGroup, "")
             'If TypeOf Me.m_entity Is CostCenter Then
             '   m_level = 2

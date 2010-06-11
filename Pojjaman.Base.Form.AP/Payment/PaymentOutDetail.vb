@@ -1442,6 +1442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cmbCode.Items.Clear()
       cmbCode.DropDownStyle = ComboBoxStyle.Simple
       cmbCode.Text = m_payment.Code
+
       BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_payment.EntityId)
 
       m_oldCode = m_payment.Code
