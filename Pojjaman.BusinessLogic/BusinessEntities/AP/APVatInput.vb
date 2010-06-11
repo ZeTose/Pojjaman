@@ -963,5 +963,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
   End Class
+  Public Class PAForVat
+    Inherits PA
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PAForVat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix As String
+      Get
+        Return "stock"
+      End Get
+    End Property
+  End Class
 End Namespace
 
