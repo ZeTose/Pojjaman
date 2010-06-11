@@ -77,8 +77,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.Rows.FrozenCount = 1
 
       Dim indent As String = Space(3)
-      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.BillAcceptanceDate}")   '"วันที่ใบรับวางบิล"
-      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.BillAcceptanceID}")   '"รหัสใบรับวางบิล"
+      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.BillAcceptanceDate}")   '"วันที่ใบรับวางบิล"
+      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.BillAcceptanceID}")   '"รหัสใบรับวางบิล"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.SupplierID}")  '"รหัสผู้ขาย"
       m_grid(0, 4).Text = ""
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillIssue.SupplierName}")   '"ชื่อผู้ขาย"

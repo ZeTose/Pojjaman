@@ -77,8 +77,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.Rows.FrozenCount = 1
 
       Dim indent As String = Space(3)
-      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceDate}")   '"วันที่ใบรับวางบิล"
-      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceID}")   '"รหัสใบรับวางบิล"
+      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceDate}")   '"วันที่ใบรับวางบิล"
+      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.BillAcceptanceID}")   '"รหัสใบรับวางบิล"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.SupplierID}")  '"รหัสผู้ขาย"
       m_grid(0, 4).Text = ""
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla.SupplierName}")   '"ชื่อผู้ขาย"
@@ -167,8 +167,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         For Each row1 As DataRow In dt1.Select("stock_id=" & drh.GetValue(Of String)("billai_stockid") & _
-                                               " and stock_type=" & drh.GetValue(Of String)("billai_stocktype") & _
-                                               " and stock_retentiontype=" & drh.GetValue(Of String)("billai_stockretentiontype"))
+                                               " and stock_type=" & drh.GetValue(Of String)("billai_stocktype"))
+          ' " and stock_retentiontype=" & drh.GetValue(Of Integer)("billai_stockretentiontype"))
           drh1 = New DataRowHelper(row1)
           m_grid.RowCount += 1
           GRIndex = m_grid.RowCount
