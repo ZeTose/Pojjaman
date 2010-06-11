@@ -50,11 +50,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim year2D As String = """YY"""
       Dim year4D As String = """YYYY"""
+
+      Dim year2DBE As String = """BE"""
+      Dim year4DBE As String = """BEBE"""
+      Dim year2DCE As String = """CE"""
+      Dim year4DCE As String = """CECE"""
+
       Dim month2D As String = """MM"""
       Dim day2D As String = """DD"""
 
       Dim dueYear2D As String = """yy"""
       Dim dueYear4D As String = """yyyy"""
+
+      Dim dueYear2DBE As String = """be"""
+      Dim dueYear4DBE As String = """bebe"""
+      Dim dueYear2DCE As String = """ce"""
+      Dim dueYear4DCE As String = """cece"""
+
       Dim dueMonth2D As String = """mm"""
       Dim dueDay2D As String = """dd"""
 
@@ -154,12 +166,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim month As String = myDate.Month.ToString("00")
       Dim year As String = CStr(DatePart(DateInterval.Year, myDate))
 
+
       While Regex.IsMatch(pattern, year4D)
         pattern = Regex.Replace(pattern, year4D, year)
       End While
       While Regex.IsMatch(pattern, year2D)
         pattern = Regex.Replace(pattern, year2D, year.Substring(2, 2))
       End While
+
+      '========================BE==========================================
+      Dim yearBE As String = GetYearString(myDate, "th-TH")
+      While Regex.IsMatch(pattern, year4DBE)
+        pattern = Regex.Replace(pattern, year4DBE, yearBE)
+      End While
+      While Regex.IsMatch(pattern, year2DBE)
+        pattern = Regex.Replace(pattern, year2DBE, yearBE.Substring(2, 2))
+      End While
+      '========================BE==========================================
+      '========================CE==========================================
+      Dim yearCE As String = GetYearString(myDate, "en-US")
+      While Regex.IsMatch(pattern, year4DCE)
+        pattern = Regex.Replace(pattern, year4DCE, yearCE)
+      End While
+      While Regex.IsMatch(pattern, year2DCE)
+        pattern = Regex.Replace(pattern, year2DCE, yearCE.Substring(2, 2))
+      End While
+      '========================CE==========================================
+
       While Regex.IsMatch(pattern, month2D)
         pattern = Regex.Replace(pattern, month2D, month)
       End While
@@ -180,6 +213,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       While Regex.IsMatch(pattern, dueYear2D)
         pattern = Regex.Replace(pattern, dueYear2D, year.Substring(2, 2))
       End While
+
+      '========================BE==========================================
+      Dim dueYearBE As String = GetYearString(myDate, "th-TH")
+      While Regex.IsMatch(pattern, dueYear4DBE)
+        pattern = Regex.Replace(pattern, dueYear4DBE, dueYearBE)
+      End While
+      While Regex.IsMatch(pattern, dueYear2DBE)
+        pattern = Regex.Replace(pattern, dueYear2DBE, dueYearBE.Substring(2, 2))
+      End While
+      '========================BE==========================================
+      '========================CE==========================================
+      Dim dueYearCE As String = GetYearString(myDate, "en-US")
+      While Regex.IsMatch(pattern, dueYear4DCE)
+        pattern = Regex.Replace(pattern, dueYear4DCE, dueYearCE)
+      End While
+      While Regex.IsMatch(pattern, dueYear2DCE)
+        pattern = Regex.Replace(pattern, dueYear2DCE, dueYearCE.Substring(2, 2))
+      End While
+      '========================CE==========================================
+
       While Regex.IsMatch(pattern, dueMonth2D)
         pattern = Regex.Replace(pattern, dueMonth2D, month)
       End While
@@ -215,6 +268,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         pattern = Regex.Replace(pattern, accountBookText, accountBookCode)
       End While
       Return pattern
+    End Function
+    Public Shared Function GetYearString(ByVal d As Date, ByVal culture As String) As String
+      Dim yearBE As String = "XXXX"
+      Dim oldCI As System.Globalization.CultureInfo = _
+      System.Threading.Thread.CurrentThread.CurrentCulture
+      Try
+        System.Threading.Thread.CurrentThread.CurrentCulture = _
+        New System.Globalization.CultureInfo(culture)
+        yearBE = d.ToString("yyyy")
+      Catch ex As Exception
+
+      End Try
+      System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
+      Return yearBE
     End Function
     'Public Shared Function GetPattern(ByVal pattern As String _
     ', ByVal docDate As Date _
