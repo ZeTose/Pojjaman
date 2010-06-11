@@ -206,7 +206,11 @@ Namespace Longkong.Pojjaman.Gui.Components
 
     End Sub
     Protected Overrides Sub SetColumnValueAtRow(ByVal source As System.Windows.Forms.CurrencyManager, ByVal rowNum As Integer, ByVal value As Object)
-      MyBase.SetColumnValueAtRow(source, rowNum, value)
+      Try
+        MyBase.SetColumnValueAtRow(source, rowNum, value)
+      Catch ex As Exception
+        Console.WriteLine(ex.ToString)
+      End Try
     End Sub
 #End Region
 
