@@ -22,6 +22,7 @@ Partial Class ContactForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+    Me.components = New System.ComponentModel.Container()
     Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
     Me.txtSubject = New System.Windows.Forms.TextBox()
     Me.Label1 = New System.Windows.Forms.Label()
@@ -31,49 +32,53 @@ Partial Class ContactForm
     Me.txtName = New System.Windows.Forms.TextBox()
     Me.btnSend = New System.Windows.Forms.Button()
     Me.btnCancel = New System.Windows.Forms.Button()
+    Me.Label4 = New System.Windows.Forms.Label()
+    Me.txtEmail = New System.Windows.Forms.TextBox()
+    Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
     Me.SuspendLayout()
     '
     'RichTextBox1
     '
-    Me.RichTextBox1.Location = New System.Drawing.Point(13, 90)
+    Me.RichTextBox1.Location = New System.Drawing.Point(13, 118)
     Me.RichTextBox1.Name = "RichTextBox1"
-    Me.RichTextBox1.Size = New System.Drawing.Size(488, 210)
-    Me.RichTextBox1.TabIndex = 6
+    Me.RichTextBox1.Size = New System.Drawing.Size(488, 182)
+    Me.RichTextBox1.TabIndex = 8
     Me.RichTextBox1.Text = ""
+    Me.ToolTip1.SetToolTip(Me.RichTextBox1, "กรอกรายละเอียด เช่น งานที่กำลังทำขณะเกิด Error หรือข้อความที่ต้องการติชม")
     '
     'txtSubject
     '
-    Me.txtSubject.Location = New System.Drawing.Point(87, 64)
+    Me.txtSubject.Location = New System.Drawing.Point(87, 86)
     Me.txtSubject.Name = "txtSubject"
     Me.txtSubject.Size = New System.Drawing.Size(414, 20)
-    Me.txtSubject.TabIndex = 5
+    Me.txtSubject.TabIndex = 7
     '
     'Label1
     '
     Me.Label1.AutoSize = True
-    Me.Label1.Location = New System.Drawing.Point(27, 67)
+    Me.Label1.Location = New System.Drawing.Point(27, 89)
     Me.Label1.Name = "Label1"
     Me.Label1.Size = New System.Drawing.Size(46, 13)
-    Me.Label1.TabIndex = 4
+    Me.Label1.TabIndex = 6
     Me.Label1.Text = "Subject:"
     Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
     '
     'Label2
     '
     Me.Label2.AutoSize = True
-    Me.Label2.Location = New System.Drawing.Point(19, 41)
+    Me.Label2.Location = New System.Drawing.Point(19, 63)
     Me.Label2.Name = "Label2"
     Me.Label2.Size = New System.Drawing.Size(54, 13)
-    Me.Label2.TabIndex = 2
+    Me.Label2.TabIndex = 4
     Me.Label2.Text = "Company:"
     Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
     '
     'txtCompany
     '
-    Me.txtCompany.Location = New System.Drawing.Point(87, 38)
+    Me.txtCompany.Location = New System.Drawing.Point(87, 60)
     Me.txtCompany.Name = "txtCompany"
     Me.txtCompany.Size = New System.Drawing.Size(414, 20)
-    Me.txtCompany.TabIndex = 3
+    Me.txtCompany.TabIndex = 5
     '
     'Label3
     '
@@ -97,7 +102,7 @@ Partial Class ContactForm
     Me.btnSend.Location = New System.Drawing.Point(345, 306)
     Me.btnSend.Name = "btnSend"
     Me.btnSend.Size = New System.Drawing.Size(75, 23)
-    Me.btnSend.TabIndex = 7
+    Me.btnSend.TabIndex = 9
     Me.btnSend.Text = "Send"
     Me.btnSend.UseVisualStyleBackColor = True
     '
@@ -106,15 +111,34 @@ Partial Class ContactForm
     Me.btnCancel.Location = New System.Drawing.Point(426, 306)
     Me.btnCancel.Name = "btnCancel"
     Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-    Me.btnCancel.TabIndex = 8
+    Me.btnCancel.TabIndex = 10
     Me.btnCancel.Text = "Cancel"
     Me.btnCancel.UseVisualStyleBackColor = True
+    '
+    'Label4
+    '
+    Me.Label4.AutoSize = True
+    Me.Label4.Location = New System.Drawing.Point(35, 39)
+    Me.Label4.Name = "Label4"
+    Me.Label4.Size = New System.Drawing.Size(35, 13)
+    Me.Label4.TabIndex = 2
+    Me.Label4.Text = "Email:"
+    Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtEmail
+    '
+    Me.txtEmail.Location = New System.Drawing.Point(87, 36)
+    Me.txtEmail.Name = "txtEmail"
+    Me.txtEmail.Size = New System.Drawing.Size(414, 20)
+    Me.txtEmail.TabIndex = 3
     '
     'ContactForm
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(513, 333)
+    Me.Controls.Add(Me.Label4)
+    Me.Controls.Add(Me.txtEmail)
     Me.Controls.Add(Me.btnCancel)
     Me.Controls.Add(Me.btnSend)
     Me.Controls.Add(Me.Label3)
@@ -143,4 +167,7 @@ Partial Class ContactForm
   Friend WithEvents txtName As System.Windows.Forms.TextBox
   Friend WithEvents btnSend As System.Windows.Forms.Button
   Friend WithEvents btnCancel As System.Windows.Forms.Button
+  Friend WithEvents Label4 As System.Windows.Forms.Label
+  Friend WithEvents txtEmail As System.Windows.Forms.TextBox
+  Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class
