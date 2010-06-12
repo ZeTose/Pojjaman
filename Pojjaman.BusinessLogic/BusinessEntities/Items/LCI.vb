@@ -976,8 +976,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetLciItemById(ByVal id As Integer) As LCIItem
       Dim key As String = id.ToString
       Dim row As DataRow = CType(LCIItem.AllLciitems(key), DataRow)
-      Dim lci As New LCIItem(row, "") 'Pui
-      Return lci
+      Try
+        Dim lci As New LCIItem(row, "") 'Pui
+        Return lci
+      Catch ex As Exception
+        Throw New Exception(ex.InnerException.ToString)
+      End Try
     End Function
     Public Shared Function GetLciConversionByIdUnitId(ByVal id As Integer, ByVal unitId As Integer) As Decimal
       Dim newLci As LCIItem = LCIItem.GetLciItemById(id)

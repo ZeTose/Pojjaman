@@ -1182,7 +1182,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, Me.ItemType.Value)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else
@@ -1505,7 +1505,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, ItemType.Value)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else

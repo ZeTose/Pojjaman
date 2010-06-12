@@ -886,8 +886,9 @@ Public Class LevelPropertyAttribute
       Return 0
     End Function
 
-    Public Function GetBoqItemConversion(ByVal lci_id As Integer, ByVal unit_id As Integer) As Decimal      If lci_id = 0 OrElse unit_id = 0 Then        Return 0
-      End If      Dim conversion As Decimal = LCIItem.GetLciConversionByIdUnitId(lci_id, unit_id)
+    Public Function GetBoqItemConversion(ByVal lci_id As Integer, ByVal unit_id As Integer, ByVal entityType As Integer) As Decimal      If lci_id = 0 OrElse unit_id = 0 Then        Return 0
+      End If      If entityType <> 42 Then        Return 1
+      End If      Dim conversion As Decimal = LCIItem.GetLciConversionByIdUnitId(lci_id, unit_id)
       If conversion <> 0 Then
         Return conversion
       End If      Try
