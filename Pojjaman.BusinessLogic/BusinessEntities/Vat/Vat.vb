@@ -131,7 +131,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "vat_entity") AndAlso Not dr.IsNull(aliasPrefix & "vat_entity") Then
           entityId = CInt(dr(aliasPrefix & "vat_entity"))
         End If
-        .vat_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
+        If entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
+          .vat_entity = CType(Supplier.GetSupplier(dr), IBillablePerson)
+        Else
+          .vat_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
+        End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "vat_entityAddress") AndAlso Not dr.IsNull(aliasPrefix & "vat_entityAddress") Then
           .vat_entityAddress = CStr(dr(aliasPrefix & "vat_entityAddress"))

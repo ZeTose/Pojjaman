@@ -1119,7 +1119,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_InfoList = New Generic.List(Of Generic.KeyValuePair(Of String, String))
           Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
           , CommandType.StoredProcedure _
-          , "GetCostCenterList" _
+          , "GetMinCostCenterList" _
           )
           For Each row As DataRow In ds.Tables(0).Rows
             Dim deh As New DataRowHelper(row)

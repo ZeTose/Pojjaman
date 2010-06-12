@@ -292,7 +292,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "wht_entity") AndAlso Not dr.IsNull(aliasPrefix & "wht_entity") Then
           entityId = CInt(dr(aliasPrefix & "wht_entity"))
         End If
-        .wht_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
+        If entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
+          .wht_entity = CType(Supplier.GetSupplier(dr), IBillablePerson)
+        Else
+          .wht_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
+        End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "wht_entityAddress") AndAlso Not dr.IsNull(aliasPrefix & "wht_entityAddress") Then
           .wht_entityAddress = CStr(dr(aliasPrefix & "wht_entityAddress"))
