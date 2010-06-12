@@ -504,7 +504,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Public Property WR As WR      Get        Return m_wr
+        End If      End Set    End Property    Public Property WR As WR      Get        If m_wr Is Nothing Then          m_wr = New WR
+        End If        Return m_wr
       End Get
       Set(ByVal value As WR)
         m_wr = value
@@ -1160,15 +1161,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim sci_wriqty As Object = row("sci_wriqty")
       If Me.WR.Originated Then
-      If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-        If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 Then
-          row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+        If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
+          If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 Then
+            row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+          Else
+            row.SetColumnError("sci_wriqty", "")
+          End If
         Else
           row.SetColumnError("sci_wriqty", "")
         End If
-      Else
-        row.SetColumnError("sci_wriqty", "")
-      End If
       Else
         row.SetColumnError("sci_wriqty", "")
       End If
