@@ -317,7 +317,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      AddNewComment(1)
+      AddNewComment(ApproveType.approved)
       Populate()
     End Sub
     Private Sub btnReject_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReject.Click
@@ -325,7 +325,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      AddNewComment(-1)
+      AddNewComment(ApproveType.reject)
       Populate()
     End Sub
 
@@ -337,10 +337,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_approveDoc.EntityId = m_entity.Id
           m_approveDoc.EntityType = m_entity.EntityId
         End If
-
+        Dim isapprove As Integer = 0
+        If commentType = ApproveType.approved Then
+          isapprove = 1
+        ElseIf commentType = ApproveType.reject Then
+          isapprove = -1
+        End If
         m_approveDoc.LineNumber = Me.m_itemCollection.Count + 1
         m_approveDoc.Comment = Me.txtComment.Text.Trim
-        m_approveDoc.Type = commentType
+        m_approveDoc.Type = isapprove
         m_approveDoc.Originator = mySService.CurrentUser.Id
         m_approveDoc.OriginDate = Now
         'Add to Collection
