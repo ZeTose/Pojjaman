@@ -581,7 +581,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 						Return New SaveErrorException(returnVal.Value.ToString)
 					End If
 
-					SaveDoc(Me.Id, conn, trans)
+          SaveDoc(Me.Id, conn, trans)
+
+          '==============================DeleteSTOCKCOST=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================DeleteSTOCKCOST=========================================
 
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then

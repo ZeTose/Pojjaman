@@ -116,7 +116,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_tocc") AndAlso Not dr.IsNull(aliasPrefix & "stock_tocc") Then
-            .m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
+            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_tocc")))
+            '.m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
           End If
         End If
 
@@ -329,6 +330,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           'SaveDetail(Me.Id, conn, trans)
+          '==============================DeleteSTOCKCOST=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================DeleteSTOCKCOST=========================================
 
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
@@ -1092,10 +1099,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
           If Not dr.IsNull("lci_id") Then
-            .m_entity = New LCIItem(dr, "")
+            .m_entity = LCIItem.GetLciitem(itemId)
           End If
         Else
-          .m_entity = New LCIItem(itemId)
+          .m_entity = LCIItem.GetLciitem(itemId)
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "stocki_lineNumber") Then

@@ -513,6 +513,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetId(oldId, oldJeId)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
+          '==============================DeleteSTOCKCOST=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================DeleteSTOCKCOST=========================================
+
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
@@ -1761,7 +1769,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else
@@ -1776,7 +1784,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else

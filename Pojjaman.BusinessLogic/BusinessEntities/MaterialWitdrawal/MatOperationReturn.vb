@@ -537,7 +537,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '==============================STOCKCOSTFIFO=========================================
           'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
           If Me.Originated AndAlso Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostReturnFIFO", New SqlParameter("@stock_id", Me.Id), _
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
                                                                                                   New SqlParameter("@stock_cc", Me.CostCenter.Id))
           End If
           '==============================STOCKCOSTFIFO=========================================
@@ -1618,7 +1618,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
           If Not dr.IsNull("lci_id") Then
-            .m_entity = New LCIItem(dr, "")
+            .m_entity = LCIItem.GetLciitem(CInt(dr(aliasPrefix & "stocki_entity")))
           End If
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "stocki_entity") AndAlso Not dr.IsNull(aliasPrefix & "stocki_entity") Then
           '.m_entity = New LCIItem(CInt(dr(aliasPrefix & "stocki_entity")))
@@ -1951,7 +1951,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else
@@ -1966,7 +1966,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim transferAmt As Decimal = Me.Amount
         'wbsd.BaseCost = bfTax
         'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
         If boqConversion = 0 Then
           wbsd.BaseQty = Me.Qty
         Else

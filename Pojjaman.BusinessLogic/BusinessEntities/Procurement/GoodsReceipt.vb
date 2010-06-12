@@ -231,11 +231,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "cc_id") Then
           If Not dr.IsNull(aliasPrefix & "cc_id") Then
-            .m_toCostCenter = New CostCenter(dr, "")
+            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "cc_id")))
+            '.m_toCostCenter = New CostCenter(dr, "")
           End If
         Else
           If dr.Table.Columns.Contains("stock_tocc") AndAlso Not dr.IsNull(aliasPrefix & "stock_tocc") Then
-            .m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
+            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_tocc")))
+            '.m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
           End If
         End If
 
@@ -1621,19 +1623,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.m_vat.SetRefDocToItem(Me.Id, Me.EntityId)
     End Sub
-    Private Sub ResetCode(ByVal oldCode As String, ByVal oldJecode As String)
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
       Me.Code = oldCode
-      Me.AutoGen = True
+      Me.AutoGen = oldautogen
       Me.m_payment.Code = oldJecode
-      Me.m_payment.AutoGen = True
+      Me.m_payment.AutoGen = oldjeautogen
       Me.m_je.Code = oldJecode
-      Me.m_je.AutoGen = True
+      Me.m_je.AutoGen = oldjeautogen
     End Sub
     'Public NoItem As Boolean = False
     'Public OnlyPayment As Boolean = False
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      Dim oldcode As String
-      Dim oldjecode As String
+      
       With Me
 
         If Originated Then
@@ -1707,11 +1708,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status = New GoodsReceiptStatus(2)
         End If
         '---- AutoCode Format --------
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        Dim oldjecode As String
+        Dim oldjeautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+        oldjecode = Me.m_je.Code
+        oldjeautogen = Me.m_je.AutoGen
+
         If Me.m_je.AccountBook Is Nothing OrElse m_je.AccountBook.CodePrefix Is Nothing Then
           Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
         End If
-        oldcode = Me.Code
-        oldjecode = Me.m_je.Code
+        
 
         If Not AutoCodeFormat Is Nothing Then
           Select Case Me.AutoCodeFormat.CodeConfig.Value
@@ -1813,20 +1823,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case -2 'เอกสารถูกอ้างอิงแล้ว
                 If Me.IsDirty Then 'ถ้าเอกสารถูกแก้ไข --> ไม่ให้ save
                   trans.Rollback()
                   ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                  ResetCode(oldcode, oldjecode)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return New SaveErrorException(returnVal.Value.ToString)
                 End If
               Case -69 'ใบส่งของซ้ำ
                 If Me.IsDirty Then 'ถ้าเอกสารถูกแก้ไข --> ไม่ให้ save
                   trans.Rollback()
                   ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                  ResetCode(oldcode, oldjecode)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return New SaveErrorException("${res:Global.Error.DeliveryDocCodeDuplicated}", Me.DeliveryDocCode)
                 End If
               Case Else
@@ -1834,7 +1844,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
@@ -1842,14 +1852,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveDetailError
               Case Else
             End Select
@@ -1873,14 +1883,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_payment.Id = oldPaymentId
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return savePaymentError
           Else
             Select Case CInt(savePaymentError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return savePaymentError
               Case Else
             End Select
@@ -1897,14 +1907,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveAdvancePayError.Message) Then
               trans.Rollback()
               ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-              ResetCode(oldcode, oldjecode)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveAdvancePayError
             Else
               Select Case CInt(saveAdvancePayError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                  ResetCode(oldcode, oldjecode)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return saveAdvancePayError
                 Case Else
               End Select
@@ -1915,14 +1925,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveVatError
           Else
             Select Case CInt(saveVatError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveVatError
               Case Else
             End Select
@@ -1933,14 +1943,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveWhtError.Message) Then
               trans.Rollback()
               ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-              ResetCode(oldcode, oldjecode)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveWhtError
             Else
               Select Case CInt(saveWhtError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                  ResetCode(oldcode, oldjecode)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return saveWhtError
                 Case Else
               End Select
@@ -1954,19 +1964,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case Else
             End Select
@@ -2005,14 +2015,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveAutoCodeError.Message) Then
             trans.Rollback()
             ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldjecode)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveAutoCodeError
           Else
             Select Case CInt(saveAutoCodeError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldjecode)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveAutoCodeError
               Case Else
             End Select
@@ -2027,12 +2037,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-          ResetCode(oldcode, oldjecode)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
-          ResetCode(oldcode, oldjecode)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
