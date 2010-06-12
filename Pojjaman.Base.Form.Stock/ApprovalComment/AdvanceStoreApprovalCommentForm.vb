@@ -317,7 +317,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      AddNewComment(ApproveType.approved)
+      AddNewComment(1)
       Populate()
     End Sub
     Private Sub btnReject_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReject.Click
@@ -325,7 +325,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      AddNewComment(ApproveType.reject)
+      AddNewComment(-1)
       Populate()
     End Sub
 

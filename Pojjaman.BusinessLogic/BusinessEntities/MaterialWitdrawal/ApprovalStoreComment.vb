@@ -39,7 +39,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_comment = CStr(dr("apvstore_comment"))
       End If
       If dr.Table.Columns.Contains("apvstore_approveType") AndAlso Not dr.IsNull("apvstore_approveType") Then
-        m_approveType = CInt(dr("apvstore_approveType"))
+        Dim app As Integer = CInt(dr("apvstore_approveType"))
+        If app = 1 Then
+          m_approveType = ApproveType.approved
+        ElseIf app = -1 Then
+          m_approveType = ApproveType.reject
+        End If
       End If
       If dr.Table.Columns.Contains("apvstore_originator") AndAlso Not dr.IsNull("apvstore_originator") Then
         m_originator = CInt(dr("apvstore_originator"))
