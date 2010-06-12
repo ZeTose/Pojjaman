@@ -667,7 +667,6 @@ Public Class AccessCollection
             Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
                 Return Me.m_baseEnumerator.MoveNext
             End Function
-
             Public Sub Reset() Implements System.Collections.IEnumerator.Reset
                 Me.m_baseEnumerator.Reset()
             End Sub

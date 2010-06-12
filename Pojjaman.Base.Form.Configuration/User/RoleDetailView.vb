@@ -33,15 +33,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
         Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
         <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.txtName = New System.Windows.Forms.TextBox
-            Me.lblName = New System.Windows.Forms.Label
-            Me.lblCode = New System.Windows.Forms.Label
-            Me.txtCode = New System.Windows.Forms.TextBox
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+            Me.components = New System.ComponentModel.Container()
+            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.txtName = New System.Windows.Forms.TextBox()
+            Me.lblName = New System.Windows.Forms.Label()
+            Me.lblCode = New System.Windows.Forms.Label()
+            Me.txtCode = New System.Windows.Forms.TextBox()
+            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
             Me.grbDetail.SuspendLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'grbDetail
@@ -71,14 +72,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
             Me.txtName.Location = New System.Drawing.Point(88, 45)
-            Me.Validator.SetMaxValue(Me.txtName, "")
             Me.Validator.SetMinValue(Me.txtName, "")
             Me.txtName.Name = "txtName"
             Me.Validator.SetRegularExpression(Me.txtName, "")
             Me.Validator.SetRequired(Me.txtName, True)
             Me.txtName.Size = New System.Drawing.Size(288, 21)
             Me.txtName.TabIndex = 1
-            Me.txtName.Text = ""
             '
             'lblName
             '
@@ -110,14 +109,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
             Me.txtCode.Location = New System.Drawing.Point(88, 24)
-            Me.Validator.SetMaxValue(Me.txtCode, "")
             Me.Validator.SetMinValue(Me.txtCode, "")
             Me.txtCode.Name = "txtCode"
             Me.Validator.SetRegularExpression(Me.txtCode, "")
             Me.Validator.SetRequired(Me.txtCode, True)
             Me.txtCode.Size = New System.Drawing.Size(96, 21)
             Me.txtCode.TabIndex = 0
-            Me.txtCode.Text = ""
             '
             'ErrorProvider1
             '
@@ -139,6 +136,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Name = "RoleDetailView"
             Me.Size = New System.Drawing.Size(408, 96)
             Me.grbDetail.ResumeLayout(False)
+            Me.grbDetail.PerformLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -249,6 +248,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Property
 #End Region
 
+        Private Sub RoleDetailView_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        End Sub
     End Class
 
 End Namespace

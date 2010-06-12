@@ -6,7 +6,7 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
     Public Class ToolDetailView
-        'Inherits UserControl
+        ' Inherits UserControl
         Inherits AbstractEntityDetailPanelView
         Implements IValidatable
 
