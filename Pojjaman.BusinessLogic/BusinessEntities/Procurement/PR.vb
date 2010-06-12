@@ -486,6 +486,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Public Shared Function GetRemainingQtyForTransfer(ByVal stockId As Integer, ByVal storeCC As Integer, ByVal arrKeyList As ArrayList, Optional ByVal includeMatTransferWithNotReceipt As Boolean = False) As DataTable
+      Dim keyList As String = ""
+      keyList = String.Join(",", arrKeyList.ToArray)
+      If keyList.Length > 4000 Then
+        Throw New Exception("PR Line number over flow") 'ถ้าปล่อยไปเดี๋ยว จะไป loop ใน procedure
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetPRRemainingForMatTransferList" _
+    , New SqlParameter("@idList", keyList) _
+    , New SqlParameter("@fromCC_id", storeCC) _
+    , New SqlParameter("@stock_id", stockId)
+    )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return ds.Tables(0)
+      End If
+
+      Return Nothing
+    End Function
+    Public Shared Function GetRemainingQtyForWithTransfer(ByVal stockId As Integer, ByVal storeCC As Integer, ByVal prId As Integer, ByVal prLinenumber As Integer) As Decimal
+      Dim key As String = prId.ToString & ":" & prLinenumber.ToString
+      Dim arrPritem As New ArrayList
+      arrPritem.Add(key)
+      Dim itemQty As Decimal = 0
+      Dim prTable As DataTable = PR.GetRemainingQtyForTransfer(stockId, storeCC, arrPritem, True)
+      If Not prTable Is Nothing Then
+        Dim dr() As DataRow = prTable.Select("keyid='" & key & "'")
+        Dim drh As New DataRowHelper(dr(0))
+        itemQty = drh.GetValue(Of Decimal)("RemainingQty")
+      End If
+
+      Return itemQty
+    End Function
+    Public Shared Function GetRemainingQtyForOperationWithdraw(ByVal stockId As Integer, ByVal storeCC As Integer, ByVal arrKeyList As ArrayList, Optional ByVal includeMatTransferWithNotReceipt As Boolean = False) As DataTable
+      Dim keyList As String = ""
+      keyList = String.Join(",", arrKeyList.ToArray)
+      If keyList.Length > 4000 Then
+        Throw New Exception("PR Line number over flow") 'ถ้าปล่อยไปเดี๋ยว จะไป loop ใน procedure
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetPRRemainingForMatOperationWithdrawList" _
+    , New SqlParameter("@idList", keyList) _
+    , New SqlParameter("@fromCC_id", storeCC) _
+    , New SqlParameter("@stock_id", stockId)
+    )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return ds.Tables(0)
+      End If
+
+      Return Nothing
+    End Function
+    Public Shared Function GetRemainingQtyForOperationWithdraw(ByVal stockId As Integer, ByVal storeCC As Integer, ByVal prId As Integer, ByVal prLinenumber As Integer) As Decimal
+      Dim key As String = prId.ToString & ":" & prLinenumber.ToString
+      Dim arrPritem As New ArrayList
+      arrPritem.Add(key)
+      Dim itemQty As Decimal = 0
+      Dim prTable As DataTable = PR.GetRemainingQtyForTransfer(stockId, storeCC, arrPritem, True)
+      If Not prTable Is Nothing Then
+        Dim dr() As DataRow = prTable.Select("keyid='" & key & "'")
+        Dim drh As New DataRowHelper(dr(0))
+        itemQty = drh.GetValue(Of Decimal)("RemainingQty")
+      End If
+
+      Return itemQty
+    End Function
 #End Region
 
 #Region "Methods"
@@ -2434,6 +2500,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatTransfer"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PRForMatTransfer"
+      End Get
+    End Property
+  End Class
+  Public Class PRForMatOperationWithdraw
+    Inherits PR
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "PRForMatOperationWithdraw"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PRForMatOperationWithdraw"
       End Get
     End Property
   End Class

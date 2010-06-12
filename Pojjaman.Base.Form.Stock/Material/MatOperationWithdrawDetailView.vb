@@ -111,7 +111,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblToCCPerson = New System.Windows.Forms.Label()
       Me.txtToCCPersonName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowFromCostCenter = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowFromCCPerson = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowFromCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowFromCCPersonDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtFromCostCenterName = New System.Windows.Forms.TextBox()
@@ -136,8 +138,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowFromCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowFromCostCenter = New Longkong.Pojjaman.Gui.Components.ImageButton()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -502,6 +502,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCCPersonName.TabIndex = 11
       Me.txtToCCPersonName.TabStop = False
       '
+      'ibtnShowFromCostCenter
+      '
+      Me.ibtnShowFromCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(441, 41)
+      Me.ibtnShowFromCostCenter.Name = "ibtnShowFromCostCenter"
+      Me.ibtnShowFromCostCenter.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowFromCostCenter.TabIndex = 6
+      Me.ibtnShowFromCostCenter.TabStop = False
+      Me.ibtnShowFromCostCenter.ThemedImage = CType(resources.GetObject("ibtnShowFromCostCenter.ThemedImage"), System.Drawing.Bitmap)
+      '
       'ibtnShowFromCCPerson
       '
       Me.ibtnShowFromCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -512,6 +523,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowFromCCPerson.TabIndex = 6
       Me.ibtnShowFromCCPerson.TabStop = False
       Me.ibtnShowFromCCPerson.ThemedImage = CType(resources.GetObject("ibtnShowFromCCPerson.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnShowFromCostCenterDialog
+      '
+      Me.ibtnShowFromCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowFromCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowFromCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(417, 41)
+      Me.ibtnShowFromCostCenterDialog.Name = "ibtnShowFromCostCenterDialog"
+      Me.ibtnShowFromCostCenterDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowFromCostCenterDialog.TabIndex = 5
+      Me.ibtnShowFromCostCenterDialog.TabStop = False
+      Me.ibtnShowFromCostCenterDialog.ThemedImage = CType(resources.GetObject("ibtnShowFromCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowFromCCPersonDialog
       '
@@ -783,36 +806,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(668, 9)
+      Me.btnApprove.Location = New System.Drawing.Point(668, 7)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(104, 23)
       Me.btnApprove.TabIndex = 332
       Me.btnApprove.Text = "อนุมัติเอกสาร"
       Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnApprove.ThemedImage = Nothing
-      '
-      'ibtnShowFromCostCenterDialog
-      '
-      Me.ibtnShowFromCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowFromCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowFromCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(417, 41)
-      Me.ibtnShowFromCostCenterDialog.Name = "ibtnShowFromCostCenterDialog"
-      Me.ibtnShowFromCostCenterDialog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowFromCostCenterDialog.TabIndex = 5
-      Me.ibtnShowFromCostCenterDialog.TabStop = False
-      Me.ibtnShowFromCostCenterDialog.ThemedImage = CType(resources.GetObject("ibtnShowFromCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowFromCostCenter
-      '
-      Me.ibtnShowFromCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(441, 41)
-      Me.ibtnShowFromCostCenter.Name = "ibtnShowFromCostCenter"
-      Me.ibtnShowFromCostCenter.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowFromCostCenter.TabIndex = 6
-      Me.ibtnShowFromCostCenter.TabStop = False
-      Me.ibtnShowFromCostCenter.ThemedImage = CType(resources.GetObject("ibtnShowFromCostCenter.ThemedImage"), System.Drawing.Bitmap)
       '
       'MatOperationWithdrawDetailView
       '
@@ -1205,7 +1205,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
               e.ProposedValue = ""
             End If
-            doc.SetItemCode(CStr(e.ProposedValue), Me.m_entity.FromCostCenter.Id)
+            doc.SetItemCode(CStr(e.ProposedValue), Me.m_entity.CostCenter.Id)
           Case "unit"
             If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
               e.ProposedValue = ""
@@ -1219,14 +1219,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If IsNumeric(e.ProposedValue.ToString) Then
               value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
 
-              If Not (doc.Pritem Is Nothing) Then
-                remaining = doc.AllowWithdrawFromPR
-              Else
-                remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCostCenter.Id)
-              End If
+              'If Not (doc.Pritem Is Nothing) Then
+              remaining = doc.AllowWithdrawFromPR(value)
+              'Else
+              '  remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.CostCenter.Id)
+              'End If
 
-              'เผื่อว่าในรายการอาจมาจาก PR หลาย ๆ ใบแล้วเป็น Lci เดียวกัน
-              remaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+              ''เผื่อว่าในรายการอาจมาจาก PR หลาย ๆ ใบแล้วเป็น Lci เดียวกัน
+              'remaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
 
               Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
@@ -1482,10 +1482,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtToCCPersonCode.Text = m_entity.ToCostCenterPerson.Code
       txtToCCPersonName.Text = m_entity.ToCostCenterPerson.Name
 
-      txtFromCostCenterCode.Text = m_entity.FromCostCenter.Code
-      txtFromCostCenterName.Text = m_entity.FromCostCenter.Name
-      txtFromCCPersonCode.Text = m_entity.FromCostCenterPerson.Code
-      txtFromCCPersonName.Text = m_entity.FromCostCenterPerson.Name
+      txtFromCostCenterCode.Text = m_entity.CostCenter.Code
+      txtFromCostCenterName.Text = m_entity.CostCenter.Name
+      txtFromCCPersonCode.Text = m_entity.CostCenterPerson.Code
+      txtFromCCPersonName.Text = m_entity.CostCenterPerson.Name
       'Me.chkShowCost.Checked = Me.m_entity.Grouping
       txtEquipmentCode.Text = m_entity.Asset.Code
       txtEquipmentName.Text = m_entity.Asset.Name
@@ -1640,12 +1640,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  End If
         Case "txtfromccpersoncode"
           If fromCCPersonCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
+            dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.CostCenterPerson)
             fromCCPersonCodeChanged = False
           End If
         Case "txtfromcostcentercode"
           If fromCCCodeChanged Then
-            dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             UpdateOriginAdmin()
             ListType()
             fromCCCodeChanged = False
@@ -1667,7 +1667,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private oldCCId As Integer
     Private Sub ChangeCC()
-      oldCCId = Me.m_entity.FromCostCenter.Id
+      oldCCId = Me.m_entity.CostCenter.Id
     End Sub
     Private Sub UpdateDestAdmin()
       'If Me.m_entity Is Nothing Then
@@ -1686,13 +1686,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim flag As Boolean = Me.m_isInitialized
       Me.m_isInitialized = False
-      If Me.m_entity.FromCostCenterPerson.Originated Then
+      If Me.m_entity.CostCenterPerson.Originated Then
         Me.m_isInitialized = flag
         Return
       End If
-      Me.m_entity.FromCostCenterPerson = Me.m_entity.FromCostCenter.Admin
-      txtFromCCPersonCode.Text = m_entity.FromCostCenterPerson.Code
-      txtFromCCPersonName.Text = m_entity.FromCostCenterPerson.Name
+      Me.m_entity.CostCenterPerson = Me.m_entity.CostCenter.Admin
+      txtFromCCPersonCode.Text = m_entity.CostCenterPerson.Code
+      txtFromCCPersonName.Text = m_entity.CostCenterPerson.Name
       Me.m_isInitialized = flag
     End Sub
     Public Sub SetStatus()
@@ -1771,13 +1771,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+      If Me.m_entity.CostCenter Is Nothing OrElse Not Me.m_entity.CostCenter.Originated Then
         msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
-      entity.CC = Me.m_entity.FromCostCenter
+      entity.CC = Me.m_entity.CostCenter
       entity.FromWip = False
       entity.refEntityId = Me.Entity.EntityId
       myEntityPanelService.OpenListDialog(entity, AddressOf SetLCIItems)
@@ -1810,7 +1810,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'doc.Qty = Me.m_entity.GetRemainLCIItem(newItem.Id) / doc.Conversion
             Me.m_entity.ItemCollection.Add(doc)
             If newType = 42 Then
-              doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCostCenter.Id)
+              doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.CostCenter.Id)
               doc.OldQty = doc.Qty
             End If
             doc.Entity = newItem
@@ -1824,7 +1824,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             doc.Entity = newItem
             If newType = 42 Then
-              doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCostCenter.Id)
+              doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.CostCenter.Id)
               'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
               doc.Qty = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
               doc.OldQty = doc.Qty
@@ -2015,14 +2015,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = m_entity
     End Sub
     Private Sub ibtnShowPR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowPR.Click
-      If SimpleBusinessEntityBase.ValidIdOrDBNull(Me.m_entity.FromCostCenter) Is DBNull.Value Then     '_
+      If SimpleBusinessEntityBase.ValidIdOrDBNull(Me.m_entity.CostCenter) Is DBNull.Value Then     '_
         'OrElse Me.m_entity.ValidIdOrDBNull(Me.m_entity.FromCostCenter) Is DBNull.Value Then
         Return
       End If
       Dim dlg As New BasketDialog
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-      Dim filters(5) As Filter
+      Dim filters(6) As Filter
       Dim excludeList As Object = ""
       excludeList = GetPRExcludeList()
       If excludeList.ToString.Length = 0 Then
@@ -2050,20 +2050,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         filters(5) = New Filter("MWPRMode", 0)
       End If
+      filters(6) = New Filter("stock_id", Me.m_entity.Id)
       Dim Entities As New ArrayList
-      If Not Me.m_entity.FromCostCenter Is Nothing AndAlso Me.m_entity.FromCostCenter.Originated Then
-        Dim requestCostCenter As New RequestCostCenter(Me.m_entity.FromCostCenter.Id)
+      If Not Me.m_entity.CostCenter Is Nothing AndAlso Me.m_entity.CostCenter.Originated Then
+        Dim requestCostCenter As New RequestCostCenter(Me.m_entity.CostCenter.Id)
         Entities.Add(requestCostCenter)
       End If
-      If Not Me.m_entity.FromCostCenter Is Nothing AndAlso Me.m_entity.FromCostCenter.Originated Then
-        Dim storeCostCenter As New StoreCostCenter(Me.m_entity.FromCostCenter.Id)
+      If Not Me.m_entity.CostCenter Is Nothing AndAlso Me.m_entity.CostCenter.Originated Then
+        Dim storeCostCenter As New StoreCostCenter(Me.m_entity.CostCenter.Id)
         Entities.Add(storeCostCenter)
       End If
       'If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
       '  Entities.Add(Me.m_entity.ToCostCenter)
       'End If
 
-      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PRForMatTransfer, New BasketDialog, filters, Entities)
+      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PRForMatOperationWithdraw, New BasketDialog, filters, Entities)
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
@@ -2135,7 +2136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCostCenterCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          Or CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       'ListType()
       UpdateAccount()
       UpdateOriginAdmin()
@@ -2151,7 +2152,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCCPersonCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
+          Or Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.CostCenterPerson)
       fromCCPersonCodeChanged = False
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
@@ -2185,8 +2186,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim flag As Boolean = Me.m_isInitialized
       Me.m_isInitialized = False
-      txtFromCostCenterCode.Text = m_entity.FromCostCenter.Code
-      txtFromCostCenterName.Text = m_entity.FromCostCenter.Name
+      txtFromCostCenterCode.Text = m_entity.CostCenter.Code
+      txtFromCostCenterName.Text = m_entity.CostCenter.Name
       Me.m_isInitialized = flag
     End Sub
 
@@ -2209,7 +2210,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
-      Me.m_entity.ItemCollection.CheckPRForStoreApprove()
+      If Me.m_entity.Originated Then
+        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
+        Me.CheckFormEnable()
+      End If
+      'Me.m_entity.ItemCollection.CheckPRForStoreApprove()
     End Sub
 
     Private Sub CheckApproveStore()

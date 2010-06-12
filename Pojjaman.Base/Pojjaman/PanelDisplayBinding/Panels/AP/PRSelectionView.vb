@@ -202,9 +202,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If TypeOf m_entity Is PRForMatTransfer Then
+      If TypeOf m_entity Is PRForMatTransfer OrElse TypeOf m_entity Is PRForMatOperationWithdraw Then
         Dim filterdt As DataTable = Nothing
-        filterdt = PRItem.GetListDatatableForMatWithDraw("GetPRForMatTransferList", newfilters)
+        Dim procName As String = "Get" & m_entity.ClassName & "List"
+        filterdt = PRItem.GetListDatatableForMatWithDraw(procName, newfilters)
         PopDataStyle2(filterdt)
       Else
         Dim filterdt As TreeTable = Nothing

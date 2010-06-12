@@ -701,16 +701,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim wbsd As New WBSDistribute(wbsRow, "")
           inWbsdColl.Add(wbsd)
         Next
-        If item.WBSDistributeCollection.Count = 0 Then
-          Dim myPr As New PR
-          myPr.Id = item.Pritem.Pr.Id
-          Dim prColl As New PRItemCollection(myPr)
-          For Each pitem As PRItem In prColl
-            If item.Pritem.LineNumber = pitem.LineNumber Then
-              item.WBSDistributeCollection = pitem.WBSDistributeCollection.Clone(item)
-            End If
-          Next
-        End If
+        'If item.WBSDistributeCollection.Count = 0 Then
+        '  Dim myPr As New PR
+        '  myPr.Id = item.Pritem.Pr.Id
+        '  Dim prColl As New PRItemCollection(myPr)
+        '  For Each pitem As PRItem In prColl
+        '    If item.Pritem.LineNumber = pitem.LineNumber Then
+        '      item.WBSDistributeCollection = pitem.WBSDistributeCollection.Clone(item)
+        '    End If
+        '  Next
+        'End If
         'Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
         'item.OutWbsdColl = outWbsdColl
         'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")

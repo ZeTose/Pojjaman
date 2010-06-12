@@ -730,7 +730,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function VerrifyCost() As String
       For Each item As MatReceiptItem In Me.ItemCollection
-        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
+        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty, Me.Id)
+        If item.ItemCollectionPrePareCost.Count <> currCostCollection.Count Then
+          Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
+               Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange2}") & vbCrLf & _
+               Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange3}")
+        End If
         For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
           If item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
              item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then

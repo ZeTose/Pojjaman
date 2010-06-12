@@ -151,9 +151,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then
-            Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+            'Dim lci As LCIItem = CType(Me.Entity, LCIItem)
             Try
-              Me.Conversion = lci.GetConversion(Me.Unit)
+              'Me.Conversion = lci.GetConversion(Me.Unit)
+              Me.Conversion = CType(Me.Entity, LCIItem).GetConversion(Me.Unit)
             Catch ex As NoConversionException
               Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
               msgServ.ShowErrorFormatted("วัสดุ {0} ไม่มีหน่วยนับ {1} ระบุไว้", New String() {ex.Lci.Code, ex.Unit.Name})
@@ -175,7 +176,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ItemCollectionPrePareCost As StockCostItemCollection
       Get
         If m_itemCollectionPrePareCost Is Nothing Then
-          If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.FromCostCenter Is Nothing Then            m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.FromCostCenter, Me.StockQty)
+          If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.CostCenter Is Nothing Then            m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.CostCenter, Me.StockQty)
           End If
         End If
         Return m_itemCollectionPrePareCost
@@ -199,7 +200,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         m_matwithdrawId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Pritem() As PRItem      Get        Return m_pritem      End Get      Set(ByVal Value As PRItem)        m_pritem = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
-        End If        If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.FromCostCenter Is Nothing Then          Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.FromCostCenter, Me.StockQty)
+        End If        If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.CostCenter Is Nothing Then          Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.CostCenter, Me.StockQty)
         End If      End Set    End Property    'Public ReadOnly Property PrePareCostAmount As Decimal    '  Get
     '    If Me.ItemCollectionPrePareCost Is Nothing OrElse Me.ItemCollectionPrePareCost.Count = 0 Then
     '      If Not Me.Matwithdraw Is Nothing AndAlso Not Me.Matwithdraw.FromCostCenter Is Nothing Then    '        Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.Matwithdraw.FromCostCenter, Me.StockQty)
@@ -216,15 +217,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetMatWithdrawQtyStore" _
-                , New SqlParameter("@doc_id", m_matWithdraw.Id) _
-                , New SqlParameter("@lci_id", lci_id) _
+                , "GetRemainLCIItemListForCC" _
                 , New SqlParameter("@cc_id", cc) _
+                , New SqlParameter("@FromacctType", 3) _
+                , New SqlParameter("@EntityId", 31) _
+                , New SqlParameter("@lci_id", lci_id) _
+                , New SqlParameter("@stock_id", Me.MatOperationWithdraw.Id) _
                 )
-        If ds.Tables(0).Rows(0).IsNull(0) Then
+        If ds.Tables(0).Rows(0).IsNull("remain") Then
           Return 0
         End If
-        Return CDec(ds.Tables(0).Rows(0)(0))
+        Return CDec(ds.Tables(0).Rows(0)("remain"))
       Catch ex As Exception
       End Try
     End Function    Public Sub SetItemCode(ByVal theCode As String, Optional ByVal cc As Integer = 0)
@@ -255,7 +258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.OldQty2 = Me.m_qty
             Me.m_unit = lci.DefaultUnit
             Me.m_entity = lci
-            If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.FromCostCenter, stockQty)
+            If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.CostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.CostCenter, stockQty)
             End If
           Else
             msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
@@ -307,7 +310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value          Me.Conversion = newConversion        Else
           msgServ.ShowMessage(err)
         End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If Not (Me.Pritem Is Nothing) Then          Me.Pritem.WithdrawnQty = (Me.Pritem.WithdrawnQty + Configuration.Format(Value, DigitConfig.Qty)) - m_qty
-        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.FromCostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.FromCostCenter, stockQty)
+        End If        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatOperationWithdraw Is Nothing AndAlso Not Me.MatOperationWithdraw.CostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatOperationWithdraw.CostCenter, stockQty)
           End If
         End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)      End Set    End Property    Public ReadOnly Property StockQty() As Decimal
       Get
@@ -381,11 +384,75 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  End Try
     '  Return 0
     'End Function
-    Public Function AllowWithdrawFromPR() As Decimal
-      Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.WithdrawnQty, 0)
-      Dim remainstock As Decimal = Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id)
-      Dim allowWithdrawn As Decimal = Math.Min(remainstock, qty * Pritem.Conversion)
-      Return remainstock
+    Public Function AllowWithdrawFromPR(ByVal rval As Decimal) As Decimal
+      Dim remainning As Decimal = 0
+      If Not Me.Pritem Is Nothing Then
+        'เพื่อความเร็วถ้ามีรายการเบิก เยอะ ๆ..
+        Dim arrPRwithLineNumberList As New ArrayList
+        Dim key As String = ""
+        'Dim key1 As String = ""
+        'Dim priRemainingStockQty As Decimal = 0
+        'Dim matStockQty As Decimal = 0
+        Dim currentPriRemainning As Decimal = 0
+
+        'Dim hashCurrentQty As New Hashtable
+        'Dim hashItemRemaining As New Hashtable
+
+        For Each mitem As MatOperationWithdrawItem In Me.MatOperationWithdraw.ItemCollection
+          If mitem.Entity.Id = Me.Entity.Id Then 'เฉพาะวัสดุ Code เดียวกันเท่านั้น
+            key = mitem.Pritem.Pr.Id.ToString & ":" & mitem.Pritem.LineNumber.ToString
+            arrPRwithLineNumberList.Add(key)
+            'key1 = mitem.Entity.Id.ToString
+            'If Me.MatOperationWithdraw.ItemCollection.IndexOf(Me) <> Me.MatOperationWithdraw.ItemCollection.IndexOf(mitem) Then 'ไม่รวมรายการมันเอง
+            '  'If hashCurrentQty.Contains(key1) Then
+            '  matStockQty += mitem.StockQty
+            '  'Else
+            '  '  hashCurrentQty(key1) = key1
+            '  '  matStockQty = mitem.StockQty
+            '  'End If
+            'End If
+          End If
+        Next
+
+        key = Me.Pritem.Pr.Id.ToString & ":" & Me.Pritem.LineNumber.ToString
+
+        Dim prTable As DataTable = PR.GetRemainingQtyForOperationWithdraw(Me.MatOperationWithdraw.Id, Me.MatOperationWithdraw.CostCenter.Id, arrPRwithLineNumberList, True)
+        If Not prTable Is Nothing Then
+          For Each row As DataRow In prTable.Rows
+            Dim drh As New DataRowHelper(row)
+            'priRemainingStockQty += drh.GetValue(Of Decimal)("RemainingQty")
+            If drh.GetValue(Of String)("keyid") = key Then
+              currentPriRemainning = drh.GetValue(Of Decimal)("RemainingQty") 'ปริมาณ PR Remaining ตัวที่แก้ปัจจุบัน
+              'priRemainingStockQty += drh.GetValue(Of Decimal)("RemainingQty")
+            End If
+          Next
+        End If
+
+        'Trace.WriteLine("priRemainingStockQty=" & priRemainingStockQty.ToString)
+        'Trace.WriteLine("currentPriRemainning=" & currentPriRemainning.ToString)
+        rval = rval * Me.Conversion
+
+        remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatOperationWithdraw.CostCenter.Id) - Me.MatOperationWithdraw.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+        remainning = Math.Min(remainning, currentPriRemainning)
+        remainning = Math.Min(remainning, rval)
+        If remainning < 0 Then
+          Return 0
+        End If
+
+        Return remainning
+      Else
+
+        remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatOperationWithdraw.CostCenter.Id)
+        remainning = remainning - Me.MatOperationWithdraw.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+        rval = rval * Me.Conversion
+        remainning = Math.Min(rval, remainning)
+
+        Return remainning
+      End If
+      'Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.WithdrawnQty, 0)
+      'Dim remainstock As Decimal = Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id)
+      'Dim allowWithdrawn As Decimal = Math.Min(remainstock, qty * Pritem.Conversion)
+      'Return remainstock
     End Function
     Public Sub CopyFromPRItem(ByVal prItem As PRItem, ByVal cumWithdrawn As Decimal)
       Me.m_pritem = prItem
@@ -418,13 +485,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_pritem = prItem
       Me.m_entity = prItem.Entity
       Me.m_unit = prItem.Unit
-      Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
-      Me.m_qty = Math.Min(Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
+      'Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
+      'Me.m_qty = Math.Min(Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
       Me.m_note = prItem.Note
-      If Not prItem.WBSDistributeCollection Is Nothing Then
-        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
-        'Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-      End If
+      'If Not prItem.WBSDistributeCollection Is Nothing Then
+      '  Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
+      '  'Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+      'End If
     End Sub
     'Public Sub SetTransferAmount(ByVal amt As Decimal)    '  m_transferAmount = amt
     'End Sub
@@ -764,7 +831,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property MatWithdraw() As MatOperationWithdraw      Get        Return m_MatWithdraw      End Get      Set(ByVal Value As MatOperationWithdraw)        m_MatWithdraw = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As MatOperationWithdrawItem
+    Public Property MatOperationWithdraw() As MatOperationWithdraw      Get        Return m_MatWithdraw      End Get      Set(ByVal Value As MatOperationWithdraw)        m_MatWithdraw = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As MatOperationWithdrawItem
       Get
         Return CType(MyBase.List.Item(index), MatOperationWithdrawItem)
       End Get
@@ -782,52 +849,113 @@ Namespace Longkong.Pojjaman.BusinessLogic
           summarryQty += Item.Qty
         End If
       Next
-      If doc.Qty - summarryQty > 0 Then
-        Return doc.Qty - summarryQty
-      End If
-      Return 0
+
+      Return summarryQty
+     
     End Function
-    Public Sub CheckPRForStoreApprove()
-      Dim approveHash As New Hashtable
-      For Each item As MatOperationWithdrawItem In Me
-        If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
-          'MessageBox.Show(String.Format("Qty:{0}, PRQty:{1}, Qty:{2}", item.Qty, item.Pritem.Qty, item.Pritem.WithdrawnQty))
-          'If item.Qty > 0 AndAlso (item.Pritem.Qty - item.Pritem.WithdrawnQty) > 0 AndAlso IsDBNull(item.Pritem.Pr.ApproveStoreDate) Then
-          If item.Pritem.Pr.ApproveStorePerson Is Nothing OrElse item.Pritem.Pr.ApproveStorePerson.Code = "" Then
-            'If Not (approveHash.Contains(item.Pritem.Pr.Id)) Then
-            approveHash(item.Pritem.Pr.Id) = item.Pritem.Pr
-            'End If
-          End If
-        End If
-      Next
-      RaiseEvent StoreApprove(Me.m_MatWithdraw, New StoreApproveEventArgs(approveHash))
-    End Sub
+    'Public Sub CheckPRForStoreApprove()
+    '  Dim approveHash As New Hashtable
+    '  For Each item As MatOperationWithdrawItem In Me
+    '    If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
+    '      'MessageBox.Show(String.Format("Qty:{0}, PRQty:{1}, Qty:{2}", item.Qty, item.Pritem.Qty, item.Pritem.WithdrawnQty))
+    '      'If item.Qty > 0 AndAlso (item.Pritem.Qty - item.Pritem.WithdrawnQty) > 0 AndAlso IsDBNull(item.Pritem.Pr.ApproveStoreDate) Then
+    '      If item.Pritem.Pr.ApproveStorePerson Is Nothing OrElse item.Pritem.Pr.ApproveStorePerson.Code = "" Then
+    '        'If Not (approveHash.Contains(item.Pritem.Pr.Id)) Then
+    '        approveHash(item.Pritem.Pr.Id) = item.Pritem.Pr
+    '        'End If
+    '      End If
+    '    End If
+    '  Next
+    '  RaiseEvent StoreApprove(Me.m_MatWithdraw, New StoreApproveEventArgs(approveHash))
+    'End Sub
+    Dim key As String = ""
+    Dim itemQty As Decimal = 0
     Public Sub SetItems(ByVal items As BasketItemCollection)
-      Dim cumWithdrawn As New Hashtable
+      'เพื่อความเร็วถ้ามีรายการเบิก เยอะ ๆ..
+      Dim arrPRList As New ArrayList
+      Dim arrPRwithLineNumberList As New ArrayList
+      Dim lineNumber As Integer = 0
+      'Dim priRemainingStockQty As Decimal = 0
+      'Dim currentPriRemainning As Decimal = 0
+
       For i As Integer = 0 To items.Count - 1
         If TypeOf items(i) Is StockBasketItem Then
           Dim item As StockBasketItem = CType(items(i), StockBasketItem)
-          'If Not TypeOf item.Tag Is BoqItem Then
           Dim pri As PRItem = CType(item.Tag, PRItem)
-          If pri.ItemType.Value = 42 Then
-            Dim p As New PR
-            p.Id = item.Id
-            p.Code = item.StockCode
-            pri.Pr = p
-            Dim mwi As New MatOperationWithdrawItem
-            Me.Add(mwi)
-            If Not (cumWithdrawn.Contains(pri.Entity.Id)) Then
-              cumWithdrawn(pri.Entity.Id) = 0
-            End If
-            mwi.CopyFromPRItem(pri, CType(cumWithdrawn(pri.Entity.Id), Decimal))
-            'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
-            mwi.Qty = Me.GetThisEnittyRemainingQtyFromCollection(mwi)
-            cumWithdrawn(pri.Entity.Id) = CType(cumWithdrawn(pri.Entity.Id), Decimal) + (pri.Qty * pri.Conversion)
+          pri.Pr.Id = item.Id
+          pri.Pr.Code = item.StockCode
+          arrPRList.Add(pri)
 
-          End If
-          'End If
+          key = pri.Pr.Id.ToString & ":" & pri.LineNumber.ToString
+          arrPRwithLineNumberList.Add(key)
         End If
       Next
+
+      Dim prTable As DataTable = PR.GetRemainingQtyForOperationWithdraw(Me.MatOperationWithdraw.Id, Me.MatOperationWithdraw.CostCenter.Id, arrPRwithLineNumberList, True)
+      'If Not prTable Is Nothing Then
+      '  For Each row As DataRow In prTable.Rows
+      '    Dim drh As New DataRowHelper(row)
+      '    priRemainingStockQty += drh.GetValue(Of Decimal)("RemainingQty")
+      '    'If drh.GetValue(Of String)("keyid") = key Then
+      '    '  currentPriRemainning = drh.GetValue(Of Decimal)("RemainingQty")
+      '    'End If
+      '  Next
+      'End If
+
+      For Each pri As PRItem In arrPRList
+        If pri.ItemType.Value = 42 Then
+          key = pri.Pr.Id.ToString & ":" & pri.LineNumber.ToString
+
+          If Not prTable Is Nothing Then
+            Dim dr() As DataRow = prTable.Select("keyid='" & key & "'")
+            Dim drh As New DataRowHelper(dr(0))
+            itemQty = drh.GetValue(Of Decimal)("RemainingQty")
+          End If
+
+          'pri.Qty = itemQty
+
+          Dim mwi As New MatOperationWithdrawItem
+          Me.Add(mwi)
+          mwi.CopyFromPRItem(pri) ', CType(cumWithdrawn(pri.Entity.Id), Decimal))
+
+          'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
+          'mwi.Qty = (priRemainingStockQty / mwi.Conversion) - Me.GetThisEnittyRemainingQtyFromCollection(mwi)
+          itemQty = Math.Min(mwi.GetAmountFromSproc(mwi.Entity.Id, Me.MatOperationWithdraw.CostCenter.Id) - Me.GetThisEnittyRemainingQtyFromCollection(mwi), itemQty)
+          'mwi.Qty = mwi.Qty - Me.GetThisEnittyRemainingQtyFromCollection(mwi)
+          If itemQty < 0 Then
+            itemQty = 0
+          End If
+
+          mwi.Qty = itemQty
+
+        End If
+      Next
+
+      'Dim cumWithdrawn As New Hashtable
+      'For i As Integer = 0 To items.Count - 1
+      '  If TypeOf items(i) Is StockBasketItem Then
+      '    Dim item As StockBasketItem = CType(items(i), StockBasketItem)
+      '    'If Not TypeOf item.Tag Is BoqItem Then
+      '    Dim pri As PRItem = CType(item.Tag, PRItem)
+      '    If pri.ItemType.Value = 42 Then
+      '      Dim p As New PR
+      '      p.Id = item.Id
+      '      p.Code = item.StockCode
+      '      pri.Pr = p
+      '      Dim mwi As New MatOperationWithdrawItem
+      '      Me.Add(mwi)
+      '      If Not (cumWithdrawn.Contains(pri.Entity.Id)) Then
+      '        cumWithdrawn(pri.Entity.Id) = 0
+      '      End If
+      '      mwi.CopyFromPRItem(pri, CType(cumWithdrawn(pri.Entity.Id), Decimal))
+      '      'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
+      '      mwi.Qty = Me.GetThisEnittyRemainingQtyFromCollection(mwi)
+      '      cumWithdrawn(pri.Entity.Id) = CType(cumWithdrawn(pri.Entity.Id), Decimal) + (pri.Qty * pri.Conversion)
+
+      '    End If
+      '    'End If
+      '  End If
+      'Next
     End Sub
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
@@ -836,7 +964,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim prRowHash As New Hashtable
       Dim parRow As TreeRow
 
-      Dim isgroupping As Boolean = Me.MatWithdraw.Grouping
+      Dim isgroupping As Boolean = Me.MatOperationWithdraw.Grouping
       For Each mwi As MatOperationWithdrawItem In Me
         parRow = Nothing
         If Not mwi.Pritem Is Nothing _
@@ -868,7 +996,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim newRow As TreeRow = parRow.Childs.Add()
         mwi.CopyToDataRow(newRow)
         mwi.ItemValidateRow(newRow)
-        If Not Me.MatWithdraw.Grouping Then
+        If Not Me.MatOperationWithdraw.Grouping Then
           For Each mwci As StockCostItem In mwi.ItemCollectionPrePareCost
             Dim newCost As TreeRow = newRow.Childs.Add
             newCost("stocki_qty") = Configuration.FormatToString(mwci.StockQty / mwi.Conversion, DigitConfig.Qty)

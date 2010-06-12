@@ -461,7 +461,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="AddIns\Forms\Check\Pojjaman.Base.Form.Check.Autorun.addin" />
-    <None Include="AddIns\Forms\Configuration\Pojjaman.Base.Form.Configuration.addin" />
+    <None Include="AddIns\Forms\Configuration\Pojjaman.Base.Form.Configuration.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Forms\FFormat\Pojjaman.Base.Form.FFormat.addin" />
     <None Include="AddIns\Forms\Stock\Pojjaman.Base.Form.Stock.addin">
       <SubType>Designer</SubType>

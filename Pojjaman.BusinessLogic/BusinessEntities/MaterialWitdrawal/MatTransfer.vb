@@ -470,25 +470,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    'Public Function GetDiffConversion() As Decimal
-    '  Try
-    '    Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-    '            Me.ConnectionString _
-    '            , CommandType.StoredProcedure _
-    '            , "GetMatwithdrawDiffConversion" _
-    '            , New SqlParameter("@stock_id", Me.Id) _
-    '            )
-    '    If ds.Tables(0).Rows.Count > 0 Then
-    '      If ds.Tables(0).Rows(0).IsNull(0) Then
-    '        Return 0
-    '      End If
-    '      Return CDec(ds.Tables(0).Rows(0)(0))
-    '    End If
-    '  Catch ex As Exception
-    '    MessageBox.Show(ex.ToString)
-    '  End Try
-    '  Return 0
-    'End Function
+    Public Sub ApproveStore(ByVal UserId As Integer)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim prCodeList As String = Me.GetPrCodeListFromCollection
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "MatOperationWithdrawApproveStore", _
+                                  New SqlParameter("@stock_id", Me.Id), _
+                                  New SqlParameter("@userId", UserId))
+        trans.Commit()
+
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.ApprovePR}", prCodeList)
+      Catch ex As Exception
+        trans.Rollback()
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CannotApprove}", prCodeList)
+      End Try
+    End Sub
+    Public Function GetPrCodeListFromCollection() As String
+      Dim prCodeList As New ArrayList
+      For Each itm As MatTransferItem In Me.ItemCollection
+        If (Not itm.Pritem Is Nothing AndAlso
+            Not itm.Pritem.Pr Is Nothing AndAlso
+            Not prCodeList.Contains(itm.Pritem.Pr.Code)) Then
+          prCodeList.Add(itm.Pritem.Pr.Code)
+        End If
+      Next
+      Return String.Join(",", prCodeList.ToArray)
+    End Function
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal isOut As Boolean)
       If Not isOut Then
         myWbs = New WBS(myWbs.Id)
@@ -963,6 +975,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
+          ''==============================DELETE STOCKCOST=========================================
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          'If Me.Originated AndAlso Not Me.IsReferenced Then
+          '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          'End If
+          ''==============================DELETE STOCKCOST=========================================
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()

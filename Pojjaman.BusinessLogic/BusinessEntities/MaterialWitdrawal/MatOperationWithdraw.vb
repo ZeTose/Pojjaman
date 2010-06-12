@@ -40,9 +40,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_note As String
 
     'Private m_costCenter As CostCenter
-    Private m_fromCostCenter As CostCenter
+    Private m_CostCenter As CostCenter
     'Private m_toCostCenter As CostCenter
-    Private m_fromCostCenterPerson As Employee
+    Private m_CostCenterPerson As Employee
     Private m_toCostCenterPerson As Employee
     Private m_asset As Asset
     Private m_type As MatOperationWithdrawType
@@ -81,8 +81,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .m_docDate = Now.Date
         '.m_costCenter = New CostCenter
-        .m_fromCostCenter = New CostCenter
-        .m_fromCostCenterPerson = New Employee
+        .m_CostCenter = New CostCenter
+        .m_CostCenterPerson = New Employee
         '.m_toCostCenter = New CostCenter
         .m_toCostCenterPerson = New Employee
         .m_asset = New Asset
@@ -129,21 +129,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "fromcostcenter.cc_id") Then
           If Not dr.IsNull(aliasPrefix & "fromcostcenter.cc_id") Then
-            .m_fromCostCenter = New CostCenter(dr, "fromcostcenter.")
+            .m_CostCenter = New CostCenter(dr, "fromcostcenter.")
           End If
         Else
           If dr.Table.Columns.Contains("stock_fromcc") AndAlso Not dr.IsNull(aliasPrefix & "stock_fromcc") Then
-            .m_fromCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_fromcc")))
+            .m_CostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_fromcc")))
           End If
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "fromcostcenterperson.employee_id") Then
           If Not dr.IsNull(aliasPrefix & "fromcostcenterperson.employee_id") Then
-            .m_fromCostCenterPerson = New Employee(dr, "fromcostcenterperson.")
+            .m_CostCenterPerson = New Employee(dr, "fromcostcenterperson.")
           End If
         Else
           If dr.Table.Columns.Contains("stock_fromccperson") AndAlso Not dr.IsNull(aliasPrefix & "stock_fromccperson") Then
-            .m_fromCostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_fromccperson")))
+            .m_CostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_fromccperson")))
           End If
         End If
 
@@ -244,16 +244,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Me.Type.Locked = False
     '  End If
     'End Sub
-    Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter, IHasFromCostCenter.FromCC
+    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter, IHasFromCostCenter.FromCC
       Get
-        Return m_fromCostCenter 'สำหรับการจัดสรร
+        Return m_CostCenter 'สำหรับการจัดสรร
       End Get
       Set(ByVal Value As CostCenter)
-        m_fromCostCenter = Value
+        m_CostCenter = Value
         'ValidateCCandType()
       End Set
     End Property
-    Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
       Get
         'Return m_toCostCenter
       End Get
@@ -262,12 +262,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'ValidateCCandType()
       End Set
     End Property
-    Public Property FromCostCenterPerson() As Employee
+    Public Property CostCenterPerson() As Employee
       Get
-        Return m_fromCostCenterPerson
+        Return m_CostCenterPerson
       End Get
       Set(ByVal Value As Employee)
-        m_fromCostCenterPerson = Value
+        m_CostCenterPerson = Value
       End Set
     End Property
     Public Property ToCostCenterPerson() As Employee
@@ -292,11 +292,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Select Case Me.Type.Value
           Case 1 'WIP
-            Return Me.FromCostCenter.WipAccount
+            Return Me.CostCenter.WipAccount
           Case 2 'EXP
-            Return Me.FromCostCenter.ExpenseAccount
+            Return Me.CostCenter.ExpenseAccount
           Case 3 'Store
-            Return Me.FromCostCenter.StoreAccount
+            Return Me.CostCenter.StoreAccount
         End Select
       End Get
     End Property
@@ -439,6 +439,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub ApproveStore(ByVal UserId As Integer)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim prCodeList As String = Me.GetPrCodeListFromCollection
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "MatOperationWithdrawApproveStore", _
+                                  New SqlParameter("@stock_id", Me.Id), _
+                                  New SqlParameter("@userId", UserId))
+        trans.Commit()
+
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.ApprovePR}", prCodeList)
+      Catch ex As Exception
+        trans.Rollback()
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CannotApprove}", prCodeList)
+      End Try
+    End Sub
+    Public Function GetPrCodeListFromCollection() As String
+      Dim prCodeList As New ArrayList
+      For Each itm As MatOperationWithdrawItem In Me.ItemCollection
+        If (Not itm.Pritem Is Nothing AndAlso
+            Not itm.Pritem.Pr Is Nothing AndAlso
+            Not prCodeList.Contains(itm.Pritem.Pr.Code)) Then
+          prCodeList.Add(itm.Pritem.Pr.Code)
+        End If
+      Next
+      Return String.Join(",", prCodeList.ToArray)
+    End Function
     'Public Function GetDiffConversion() As Decimal
     '  Try
     '    Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -533,7 +564,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , CommandType.StoredProcedure _
                 , "GetRemainLCIItemForCC" _
                 , New SqlParameter("@lci_id", lci_id) _
-                , New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.FromCostCenter)) _
+                , New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.CostCenter)) _
                 , New SqlParameter("@doc_id", Me.Id) _
                 )
         Dim tableIndex As Integer = 0
@@ -617,7 +648,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ret
     End Function
     Private Function OverBudget() As Boolean
-      If Me.FromCostCenter.Type.Value <> 2 Then
+      If Me.CostCenter.Type.Value <> 2 Then
         Return False
       End If
       'GROverBudgetOnlyCC
@@ -630,7 +661,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each item As MatOperationWithdrawItem In Me.ItemCollection
           Dim inwsdColl As WBSDistributeCollection = item.WBSDistributeCollection
           If inwsdColl.Count = 0 Then
-            Dim rootWBS As New WBS(Me.FromCostCenter.RootWBSId)
+            Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
             Dim totalCurrentDiff As Decimal = item.ItemCollectionPrePareCost.CostAmount
@@ -667,7 +698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Next
       Else
-        Dim rootWBS As New WBS(Me.FromCostCenter.RootWBSId)
+        Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
         Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
         Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 31) + rootWBS.GetActualLab(Me, 31) + rootWBS.GetActualEq(Me, 31))
         Dim totalCurrentDiff As Decimal = GetCurrentAmountForWBS(rootWBS, False)
@@ -680,7 +711,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function VerrifyCost() As String
       For Each item As MatOperationWithdrawItem In Me.ItemCollection
-        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.FromCostCenter, item.StockQty)
+        Dim currCostCollection As New StockCostItemCollection(item.Entity, Me.CostCenter, item.StockQty, Me.Id)
+        If item.ItemCollectionPrePareCost.Count <> currCostCollection.Count Then
+          Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange}") & vbCrLf & _
+               Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange2}") & vbCrLf & _
+               Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CostChange3}")
+        End If
         For i As Integer = 0 To item.ItemCollectionPrePareCost.Count - 1
           If item.ItemCollectionPrePareCost(i).UnitCost = currCostCollection(i).UnitCost AndAlso _
              item.ItemCollectionPrePareCost(i).StockQty = currCostCollection(i).StockQty Then
@@ -732,51 +768,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End Select
 
         '---------------------------
-        Dim cumWithdraw As New Hashtable
-        Dim cumCode As New Hashtable
-        Dim exCode As String
+        'Dim cumWithdraw As New Hashtable
+        'Dim cumCode As New Hashtable
+        'Dim exCode As String
 
 
-        Dim config As Integer = CInt(Configuration.GetConfig("MWZeroStock"))
-        If config < 2 Then
-          For Each item As MatOperationWithdrawItem In Me.ItemCollection
-            If cumWithdraw.Contains(item.Entity.Id) Then
-              cumWithdraw(item.Entity.Id) = CDec(cumWithdraw(item.Entity.Id)) + item.StockQty
-            Else
-              cumWithdraw(item.Entity.Id) = item.StockQty
-              cumCode(item.Entity.Id) = item.Entity.Code
-            End If
-          Next
-          exCode = ""
-          For Each o As Object In cumWithdraw.Keys
-            If GetRemainLCIItem(CInt(o)) < CDec(cumWithdraw(o)) Then
-              If exCode.Length > 0 Then
-                exCode = exCode & vbNewLine & CStr(cumCode(CInt(o)))
-              Else
-                exCode = vbNewLine & CStr(cumCode(CInt(o)))
-              End If
-            End If
-          Next
-        End If
+        'Dim config As Integer = CInt(Configuration.GetConfig("MWZeroStock"))
+        'If config < 2 Then
+        '  For Each item As MatOperationWithdrawItem In Me.ItemCollection
+        '    If cumWithdraw.Contains(item.Entity.Id) Then
+        '      cumWithdraw(item.Entity.Id) = CDec(cumWithdraw(item.Entity.Id)) + item.StockQty
+        '    Else
+        '      cumWithdraw(item.Entity.Id) = item.StockQty
+        '      cumCode(item.Entity.Id) = item.Entity.Code
+        '    End If
+        '  Next
+        '  exCode = ""
+        '  For Each o As Object In cumWithdraw.Keys
+        '    If GetRemainLCIItem(CInt(o)) < CDec(cumWithdraw(o)) Then
+        '      If exCode.Length > 0 Then
+        '        exCode = exCode & vbNewLine & CStr(cumCode(CInt(o)))
+        '      Else
+        '        exCode = vbNewLine & CStr(cumCode(CInt(o)))
+        '      End If
+        '    End If
+        '  Next
+        'End If
 
-        Select Case config
-          Case 0 'Not allow
-            If exCode.Length > 0 Then
-              exCode = exCode & vbNewLine
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceedStock}"), exCode)
-            End If
-          Case 1 'Warn
-            If exCode.Length > 0 Then
-              exCode = exCode & vbNewLine
-              'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              msgServ.ShowMessageFormatted("${res:Global.Error.ExceedStock}", New String() {exCode})
-              If Not msgServ.AskQuestion("${res:Global.Question.MWExceedStockSaveAnyway}") Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-              End If
-            End If
-          Case 2 'Do Nothing
+        'Select Case config
+        '  Case 0 'Not allow
+        '    If exCode.Length > 0 Then
+        '      exCode = exCode & vbNewLine
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.ExceedStock}"), exCode)
+        '    End If
+        '  Case 1 'Warn
+        '    If exCode.Length > 0 Then
+        '      exCode = exCode & vbNewLine
+        '      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        '      msgServ.ShowMessageFormatted("${res:Global.Error.ExceedStock}", New String() {exCode})
+        '      If Not msgServ.AskQuestion("${res:Global.Question.MWExceedStockSaveAnyway}") Then
+        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+        '      End If
+        '    End If
+        '  Case 2 'Do Nothing
 
-        End Select
+        'End Select
         '---------------------------
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
@@ -850,11 +886,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@stock_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@stock_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@stock_toAcct", IIf(Me.ToAccount.Originated, Me.ToAccount.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@stock_tocc", IIf(Me.FromCostCenter.Originated, Me.FromCostCenter.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@stock_tocc", IIf(Me.CostCenter.Originated, Me.CostCenter.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@stock_toccperson", IIf(Me.ToCostCenterPerson.Originated, Me.ToCostCenterPerson.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_fromcc", IIf(Me.FromCostCenter.Originated, Me.FromCostCenter.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@stock_fromccperson", IIf(Me.FromCostCenterPerson.Originated, Me.FromCostCenterPerson.Id, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@stock_cc", IIf(Me.CostCenter.Originated, Me.CostCenter.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@stock_fromcc", IIf(Me.CostCenter.Originated, Me.CostCenter.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@stock_fromccperson", IIf(Me.CostCenterPerson.Originated, Me.CostCenterPerson.Id, DBNull.Value)))
+        'paramArrayList.Add(New SqlParameter("@stock_fromcc", IIf(Me.CostCenter.Originated, Me.CostCenter.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@stock_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@stock_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@stock_type", Me.EntityId))
@@ -889,6 +925,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
+          ''==============================DELETE STOCKCOST=========================================
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          ''==============================DELETE STOCKCOST=========================================
+          '==============================UPDATE Old PRITEM=========================================
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+          '==============================UPDATE Old PRITEM=========================================
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
@@ -904,16 +949,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
+          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+          Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+
           '==============================STOCKCOSTFIFO=========================================
           'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
           If Not Me.IsReferenced Then
             SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-                                                                                                  New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+                                                                                                  New SqlParameter("@stock_cc", Me.CostCenter.Id))
           End If
           '==============================STOCKCOSTFIFO=========================================
 
           '==============================UPDATE PRITEM=========================================
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
           '==============================UPDATE PRITEM=========================================
 
           Me.DeleteRef(conn, trans)
@@ -1003,7 +1052,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '-------------------------------GL----------------------------------------------------
           'Try
           '    trans = conn.BeginTransaction()
-          Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+          'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
           If Me.m_je.Status.Value = -1 Then
             m_je.Status.Value = 3
           End If
@@ -1184,7 +1233,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stocki_note") = item.Note
           dr("stocki_type") = Me.EntityId
           'dr("stocki_fromcc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.FromCostCenter)
-          dr("stocki_tocc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.FromCostCenter)
+          dr("stocki_tocc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.CostCenter)
           dr("stocki_status") = Me.Status.Value
           dr("stocki_refsequence") = 0  '0 ไปก่อนเดี๋ยวมี Query Update RefSequence ให้ตามหลัง
           If item.TransferUnitPrice = Decimal.MinValue Then
@@ -1212,10 +1261,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'currentSum = wbsdColl.GetSumPercent
           'currentCostCenter = Me.ToCostCenter
           'Else
-          rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+          rootWBS = New WBS(Me.CostCenter.RootWBSId)
           wbsdColl = item.WBSDistributeCollection
           currentSum = wbsdColl.GetSumPercent
-          currentCostCenter = Me.FromCostCenter
+          currentCostCenter = Me.CostCenter
           'End If
 
           'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
@@ -1582,10 +1631,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           map = "F1.1"
         Case 1 'WIP
           map = "F1.3"
-          newRealAccount = Me.FromCostCenter.WipAccount
+          newRealAccount = Me.CostCenter.WipAccount
         Case 2 'Exp
           map = "F1.2"
-          newRealAccount = Me.FromCostCenter.ExpenseAccount
+          newRealAccount = Me.CostCenter.ExpenseAccount
       End Select
       Dim ji As New JournalEntryItem
       For Each item As MatOperationWithdrawItem In Me.ItemCollection 'itemColl
@@ -1645,7 +1694,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "F1.4"
           ji.Amount += item.Amount
           ji.Account = realAccount
-          ji.CostCenter = Me.FromCostCenter
+          ji.CostCenter = Me.CostCenter
           jiColl.Add(ji)
         End If
         If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
@@ -1654,7 +1703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = map
             ji.Amount += item.Amount
             ji.Account = newRealAccount
-            ji.CostCenter = Me.FromCostCenter
+            ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
           End If
         ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
@@ -1662,7 +1711,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji = New JournalEntryItem
             ji.Mapping = map
             ji.Amount += item.Amount
-            ji.CostCenter = Me.FromCostCenter
+            ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
           End If
         End If
@@ -1758,44 +1807,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  dpiColl.Add(dpi)
       'End If
 
-      If Not Me.FromCostCenterPerson Is Nothing AndAlso Me.FromCostCenterPerson.Originated Then
+      If Not Me.CostCenterPerson Is Nothing AndAlso Me.CostCenterPerson.Originated Then
         'FromCCPersonInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCPersonInfo"
-        dpi.Value = Me.FromCostCenterPerson.Code & ":" & Me.FromCostCenterPerson.Name
+        dpi.Value = Me.CostCenterPerson.Code & ":" & Me.CostCenterPerson.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCPersonCode"
-        dpi.Value = Me.FromCostCenterPerson.Code
+        dpi.Value = Me.CostCenterPerson.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCPersonName"
-        dpi.Value = Me.FromCostCenterPerson.Name
+        dpi.Value = Me.CostCenterPerson.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
 
-      If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then
+      If Not Me.CostCenter Is Nothing AndAlso Me.CostCenter.Originated Then
         'FromCCInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCInfo"
-        dpi.Value = Me.FromCostCenter.Code & ":" & Me.FromCostCenter.Name
+        dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCCode"
-        dpi.Value = Me.FromCostCenter.Code
+        dpi.Value = Me.CostCenter.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
         dpi.Mapping = "FromCCName"
-        dpi.Value = Me.FromCostCenter.Name
+        dpi.Value = Me.CostCenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If

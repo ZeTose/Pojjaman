@@ -138,6 +138,10 @@
 			<EntityTab id="EqCostDetail" view="Longkong.Pojjaman.Gui.Panels.EqCostDetail"/>
 		</EntityTab>
 
+    <!--<EntityTab id="stockresequencelog">
+      <EntityTab id="StockReSequenceLogDetail" view="Longkong.Pojjaman.Gui.Panels.StockReSequenceLogDetail" />
+    </EntityTab>-->
+
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityListViews">
 		<EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	

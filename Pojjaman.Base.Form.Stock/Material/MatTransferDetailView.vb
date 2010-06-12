@@ -91,9 +91,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblReceiptStatus As System.Windows.Forms.Label
     Friend WithEvents txtReceiptStatus As System.Windows.Forms.TextBox
     Friend WithEvents ibtnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
 
     Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MatTransferDetailView))
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -106,10 +108,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.ibtnShowPR = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbFromCC = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtFromCostCenterCode = New System.Windows.Forms.TextBox()
       Me.lblFromCCPerson = New System.Windows.Forms.Label()
@@ -149,13 +151,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht = New System.Windows.Forms.Label()
       Me.txtTotalAmount = New System.Windows.Forms.TextBox()
       Me.lblTotalAmount = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.txtReceiptStatus = New System.Windows.Forms.TextBox()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
       Me.lblReceiptStatus = New System.Windows.Forms.Label()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,7 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
       Me.grbDetail.Location = New System.Drawing.Point(8, 1)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(763, 72)
+      Me.grbDetail.Size = New System.Drawing.Size(566, 72)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ทั่วไป"
@@ -278,7 +281,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
-      Me.txtNote.Size = New System.Drawing.Size(555, 21)
+      Me.txtNote.Size = New System.Drawing.Size(462, 21)
       Me.txtNote.TabIndex = 2
       '
       'lblNote
@@ -339,6 +342,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnApprove.TabStop = False
       Me.ibtnApprove.ThemedImage = CType(resources.GetObject("ibtnApprove.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.ibtnApprove, "อนุมัติโดยคลัง")
+      Me.ibtnApprove.Visible = False
       '
       'ErrorProvider1
       '
@@ -954,8 +958,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReceiptStatus.Text = "สถานะการยืนยันรับของ"
       Me.lblReceiptStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(669, 6)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 335
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = Nothing
+      '
       'MatTransferDetailView
       '
+      Me.Controls.Add(Me.btnApprove)
       Me.Controls.Add(Me.ibtnApprove)
       Me.Controls.Add(Me.ibtnShowPR)
       Me.Controls.Add(Me.chkShowCost)
@@ -1327,7 +1346,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Dim rval As Decimal = 0
     Dim remaining As Decimal = 0
+    Dim entityAmtRemaining As Decimal = 0
     Dim doc As MatTransferItem
+
+    Dim a As Decimal = 0
+    Dim b As Decimal = 0
+    Dim c As Decimal = 0
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -1365,14 +1389,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If IsNumeric(e.ProposedValue.ToString) Then
               rval = CDec(e.ProposedValue.ToString)
-              If Not (doc.Pritem Is Nothing) Then
-                remaining = doc.AllowWithdrawFromPR
-              Else
-                remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
-              End If
+
+              remaining = doc.AllowWithdrawFromPR(rval)
+
+              'If Not (doc.Pritem Is Nothing) Then
+              '  remaining = doc.AllowWithdrawFromPR
+              'Else
+              '  remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCostCenter.Id)
+              'End If
+
+              'remaining = Math.Min(remaining, rval)
+              'entityAmtRemaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
 
               'เผื่อว่าในรายการอาจมาจาก PR หลาย ๆ ใบแล้วเป็น Lci เดียวกัน
-              remaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+
+
+              'remaining = Math.Min(entityAmtRemaining, rval)
+              'remaining = remaining - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+
 
               Dim xCompare As String = Configuration.FormatToString(rval, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
@@ -1432,7 +1466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-
+      'CheckApproveStore()
       'If m_entity.ApprovalCollection.IsApproved Then
       '  For Each ctrl As Control In Me.grbDetail.Controls
       '    ctrl.Enabled = False
@@ -2091,7 +2125,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If newType = 42 Then
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
               'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
-              doc.Qty = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+              doc.Qty = doc.Qty - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+              If doc.Qty < 0 Then
+                doc.Qty = 0
+              End If
               doc.OldQty = doc.Qty
             End If
 
@@ -2156,14 +2193,65 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
       Dim doc As MatTransferItem = Me.CurrentItem
-      Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim index As Integer = tgItem.CurrentRowIndex
       If doc Is Nothing Then
         Return
       End If
-      Me.m_entity.ItemCollection.Remove(doc)
+
+      Dim arrList As New ArrayList
+      Dim index As Integer = tgItem.CurrentRowIndex
+
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            index = row.Index
+            For Each childRow As TreeRow In row.Childs
+              If Not arrList.Contains(childRow) Then
+                arrList.Add(childRow)
+              End If
+            Next
+            If Not arrList.Contains(row) Then
+              arrList.Add(row)
+            End If
+          End If
+        End If
+      Next
+
+      For Each row As TreeRow In arrList
+        If Not row Is Nothing AndAlso TypeOf row.Tag Is MatTransferItem Then
+
+          Dim itm As MatTransferItem = CType(row.Tag, MatTransferItem)
+          If Not itm Is Nothing Then
+            If Me.m_entity.ItemCollection.Contains(itm) Then
+              Me.m_entity.ItemCollection.Remove(itm)
+              Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+          End If
+        End If
+      Next
+
       RefreshDocs()
-      tgItem.CurrentRowIndex = index - 1
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+      If index > 0 Then
+        If Me.m_entity.ItemCollection.Count = 0 Then
+          tgItem.CurrentRowIndex = 0
+        Else
+          If index > Me.m_entity.ItemCollection.Count Then
+            tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+          Else
+            tgItem.CurrentRowIndex = index - 1
+          End If
+        End If
+      Else
+        tgItem.CurrentRowIndex = 0
+      End If
+
+
+      'Me.m_entity.ItemCollection.Remove(doc)
+      'RefreshDocs()
+      'tgItem.CurrentRowIndex = index - 1
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
 #End Region
 
@@ -2240,7 +2328,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dlg As New BasketDialog
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-      Dim filters(5) As Filter
+      Dim filters(6) As Filter
       Dim excludeList As Object = ""
       excludeList = GetPRExcludeList()
       If excludeList.ToString.Length = 0 Then
@@ -2269,6 +2357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         filters(5) = New Filter("MWPRMode", 0)
       End If
+      filters(6) = New Filter("stock_id", Me.m_entity.Id)
       Dim Entities As New ArrayList
       If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
         Dim requestCostCenter As New RequestCostCenter(Me.m_entity.ToCostCenter.Id)
@@ -2428,10 +2517,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      Me.m_entity.ItemCollection.CheckPRForStoreApprove()
-    End Sub
-
     'Private Sub CheckApproveStore()
     '  If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
     '    Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2450,7 +2535,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  End If
     'End Sub
 
+    Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+      If Me.m_entity.Originated Then
+        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
+        Me.CheckFormEnable()
+      End If
+      'Me.m_entity.ItemCollection.CheckPRForStoreApprove()
+    End Sub
 
+    Private Sub CheckApproveStore()
+      If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
+        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        Dim level As Integer = secSrv.GetAccess(290)
+        Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+        checkString = BinaryHelper.RevertString(checkString)
+        If Not CBool(checkString.Substring(0, 1)) Then
+          'ห้ามเห็น
+          Me.btnApprove.Visible = False
+        Else
+          Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
+          Me.btnApprove.Visible = True
+        End If
+      Else
+        Me.btnApprove.Visible = False
+      End If
+    End Sub
 
   End Class
 
