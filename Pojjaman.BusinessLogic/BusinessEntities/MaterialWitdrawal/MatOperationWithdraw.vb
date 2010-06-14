@@ -1725,6 +1725,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Account = realAccount
           ji.CostCenter = Me.CostCenter
           jiColl.Add(ji)
+
+          'ฝั่งต้นทาง
+          ji = New JournalEntryItem
+          ji.Mapping = "F1.4D"
+          ji.Amount += item.Amount
+          ji.Account = realAccount
+          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = 42
+          ji.CostCenter = Me.CostCenter
+          jiColl.Add(ji)
         End If
         If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
           If Not lciMatched Then
@@ -1735,11 +1746,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
           End If
+          If Not lciMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = map & "D"
+            ji.Amount += item.Amount
+            ji.Account = newRealAccount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
+            ji.CostCenter = Me.CostCenter
+            jiColl.Add(ji)
+          End If
         ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
           If Not lciNoAcctMatched Then
             ji = New JournalEntryItem
             ji.Mapping = map
             ji.Amount += item.Amount
+            ji.CostCenter = Me.CostCenter
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = map & "D"
+            ji.Amount += item.Amount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
             ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
           End If

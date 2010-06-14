@@ -1566,7 +1566,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "F1.4D"
           ji.Amount += item.Amount
           ji.Account = realAccount
-          ji.Note = item.Entity.Code & "/" & item.Entity.Name
+          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = 42
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
         End If
@@ -1584,7 +1586,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = map & "D"
             ji.Amount += item.Amount
             ji.Account = newRealAccount
-            ji.Note = item.Entity.Code & "/" & item.Entity.Name
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
           End If
@@ -1599,7 +1603,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji = New JournalEntryItem
             ji.Mapping = map & "D"
             ji.Amount += item.Amount
-            ji.Note = item.Entity.Code & "/" & item.Entity.Name
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
 

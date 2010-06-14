@@ -1211,6 +1211,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Account = Me.CostCenter.WipAccount
           ji.CostCenter = Me.CostCenter
           jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "F2.2D"
+          ji.Amount += item.Amount
+          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = 42
+          ji.Account = Me.CostCenter.WipAccount
+          ji.CostCenter = Me.CostCenter
+          jiColl.Add(ji)
         End If
         If Not realAccount Is Nothing AndAlso realAccount.Originated Then
           If Not lciMatched Then
@@ -1220,12 +1230,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Account = realAccount
             ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "F2.1"
+            ji.Amount += item.Amount
+            ji.Account = realAccount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
+            ji.CostCenter = Me.CostCenter
+            jiColl.Add(ji)
           End If
         ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
           If Not lciNoAcctMatched Then
             ji = New JournalEntryItem
             ji.Mapping = "F2.1"
             ji.Amount += item.Amount
+            ji.CostCenter = Me.CostCenter
+            jiColl.Add(ji)
+
+            ji = New JournalEntryItem
+            ji.Mapping = "F2.1D"
+            ji.Amount = item.Amount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
             ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
           End If
@@ -1591,6 +1620,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_lineNumber As Integer
     Private m_entity As IHasName
     Private m_unit As Unit
+    Private m_defaultUnit As Unit
+
     Private m_qty As Decimal
     Private m_unitCost As Decimal
     Private m_note As String
@@ -1687,6 +1718,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '.m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
           End If
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "stockic_unitdefault") AndAlso Not dr.IsNull(aliasPrefix & "stockic_unitdefault") Then
+          .m_defaultUnit = Unit.GetUnitById(CInt(dr(aliasPrefix & "stockic_unitdefault")))
+          '.m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
+        End If
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_stockqty") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stockqty") Then
           Me.m_stockqty = CDec(dr(aliasPrefix & "stocki_stockqty"))
         End If
@@ -1749,6 +1784,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         m_matreturnId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
+          Me.m_defaultUnit = CType(m_entity, IHasUnit).DefaultUnit
         End If      End Set    End Property    Public Function GetAmountFromSproc(ByVal lci_id As Integer, ByVal cc As Integer) As Decimal
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -1827,7 +1863,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           m_unit = Value          Me.Conversion = newConversion        Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatReturn Is Nothing AndAlso Not Me.MatReturn.CostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatReturn.CostCenter, stockQty)
+        End If      End Set    End Property    Public Property DefaultUnit As Unit
+      Get
+        Return m_defaultUnit
+      End Get
+      Set(ByVal value As Unit)
+        m_defaultUnit = value
+      End Set
+    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatReturn Is Nothing AndAlso Not Me.MatReturn.CostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatReturn.CostCenter, stockQty)
           End If
         End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)        'm_qty = Value      End Set    End Property    Public Property OldQty() As Decimal 'เทจากตะกร้า      Get
         Return m_oldStockQty
