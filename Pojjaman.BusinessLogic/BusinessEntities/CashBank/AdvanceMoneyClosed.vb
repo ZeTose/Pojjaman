@@ -192,6 +192,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_receive.Id = oldreceive
       Me.m_je.Id = oldje
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Return New SaveErrorException("Not Yet Implemented")
       'MessageBox.Show(String.Format("{0}:{1}", Me.Amount, Me.Receive.Amount))
@@ -292,6 +298,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim oldid As Integer = Me.Id
       Dim oldreceive As Integer = m_receive.Id
       Dim oldje As Integer = m_je.Id
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      Dim oldjecode As String
+      Dim oldjeautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+      oldjecode = Me.m_je.Code
+      oldjeautogen = Me.m_je.AutoGen
 
       Try
         UpdateAdvanceMoneyStatus(False)
@@ -302,12 +317,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case -1, -2, -5
               trans.Rollback()
               Me.ResetID(oldid, oldreceive, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
 
@@ -320,12 +337,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(saveReceiveError.Message) Then
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return saveReceiveError
         Else
           Select Case CInt(saveReceiveError.Message)
             Case -1, -2
               trans.Rollback()
               Me.ResetID(oldid, oldreceive, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveReceiveError
             Case Else
           End Select
@@ -343,12 +362,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(saveJeError.Message) Then
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return saveJeError
         Else
           Select Case CInt(saveJeError.Message)
             Case -1, -5
               trans.Rollback()
               Me.ResetID(oldid, oldreceive, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveJeError
             Case -2
               'Post ไปแล้ว
@@ -362,12 +383,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(saveAutoCodeError.Message) Then
           trans.Rollback()
           ResetID(oldid, oldreceive, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return saveAutoCodeError
         Else
           Select Case CInt(saveAutoCodeError.Message)
             Case -1, -2, -5
               trans.Rollback()
               ResetID(oldid, oldreceive, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveAutoCodeError
             Case Else
           End Select
@@ -382,10 +405,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As SqlException
         trans.Rollback()
         Me.ResetID(oldid, oldreceive, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
         Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
         Me.ResetID(oldid, oldreceive, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()

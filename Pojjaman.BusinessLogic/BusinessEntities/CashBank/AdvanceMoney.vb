@@ -451,6 +451,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_payment.Id = oldpay
       Me.m_je.Id = oldje
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_payment.Code = oldJecode
+      Me.m_payment.AutoGen = oldjeautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Return New SaveErrorException("Not Yet Implemented")
 
@@ -556,6 +564,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim oldid As Integer = Me.Id
       Dim oldpay As Integer = Me.m_payment.Id
       Dim oldje As Integer = Me.m_je.Id
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      Dim oldjecode As String
+      Dim oldjeautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+      oldjecode = Me.m_je.Code
+      oldjeautogen = Me.m_je.AutoGen
 
       Try
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
@@ -564,28 +581,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case -1, -2, -5
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
         If Not IsNumeric(savePaymentError.Message) Then
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return savePaymentError
         Else
           Select Case CInt(savePaymentError.Message)
             Case -1, -5
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return savePaymentError
             Case -2
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return savePaymentError
             Case Else
           End Select
@@ -595,12 +617,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(saveAutoCodeError.Message) Then
           trans.Rollback()
           ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return saveAutoCodeError
         Else
           Select Case CInt(saveAutoCodeError.Message)
             Case -1, -2, -5
               trans.Rollback()
               ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveAutoCodeError
             Case Else
           End Select
@@ -614,12 +638,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(saveJeError.Message) Then
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return saveJeError
         Else
           Select Case CInt(saveJeError.Message)
             Case -1, -5
               trans.Rollback()
               Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveJeError
             Case -2
               'Post ไปแล้ว
@@ -632,10 +658,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As SqlException
         trans.Rollback()
         Me.ResetID(oldid, oldpay, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
         Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
         Me.ResetID(oldid, oldpay, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()
