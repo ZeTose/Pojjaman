@@ -310,6 +310,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       ' กำหนด SqlParameter เพื่อ return ค่าการ Execute procedure ...
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -402,7 +406,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans = conn.BeginTransaction
 
       Dim oldid As Integer = Me.Id
+      Dim oldcode As String
+      Dim oldautogen As Boolean
 
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
       Try
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         If IsNumeric(returnVal.Value) Then
@@ -410,24 +418,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case -1, -2, -5
               trans.Rollback()
               Me.ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
           trans.Rollback()
           Me.ResetID(oldid)
+          ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Dim saveContactError As SaveErrorException = SaveContact(Me.Id, conn, trans)
         If Not IsNumeric(saveContactError.Message) Then
           trans.Rollback()
           ResetID(oldid)
+          ResetCode(oldcode, oldautogen)
           Return saveContactError
         Else
           Select Case CInt(saveContactError.Message)
             Case -1, -2, -5
               trans.Rollback()
               ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
               Return saveContactError
             Case Else
           End Select
@@ -456,10 +468,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
       Catch ex As SqlException
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()

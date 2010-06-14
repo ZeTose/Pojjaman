@@ -269,7 +269,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Function
         Private Sub ResetID(ByVal oldid As Integer)
             Me.Id = oldid
-        End Sub
+    End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+    End Sub
         Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
             Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -349,6 +353,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim oldid As Integer = Me.Id
 
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      Dim oldjecode As String
+      Dim oldjeautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+
       Try
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         ' Update CostcenterImage ...
@@ -370,10 +382,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
       Catch ex As SqlException
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()

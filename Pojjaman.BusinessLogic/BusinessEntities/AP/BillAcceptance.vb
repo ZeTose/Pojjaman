@@ -409,9 +409,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
-    Private Sub ResetCode(ByVal oldcode As String)
-      Me.Code = oldcode
-      Me.AutoGen = True
+    Private Sub ResetCode(ByVal oldCode As String)
+      Me.Code = oldCode
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
@@ -469,6 +468,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' ҧ SqlParameter ҡ ArrayList ...
+
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
@@ -477,7 +477,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
-
         Try
           Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then

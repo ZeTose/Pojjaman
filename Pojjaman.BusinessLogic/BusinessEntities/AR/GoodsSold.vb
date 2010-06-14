@@ -413,6 +413,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.WitholdingTaxCollection.ResetId()
       End If
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Me.RefreshTaxBase()
@@ -476,8 +482,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         '---- AutoCode Format --------
-        If Not AutoCodeFormat Is Nothing Then
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        Dim oldjecode As String
+        Dim oldjeautogen As Boolean
 
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+        oldjecode = Me.m_je.Code
+        oldjeautogen = Me.m_je.AutoGen
+
+        If Not AutoCodeFormat Is Nothing Then
 
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
@@ -581,11 +596,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case -2 'เอกสารถูกอ้างอิงแล้ว
                 If Me.IsDirty Then 'ถ้าเอกสารถูกแก้ไข --> ไม่ให้ save
                   trans.Rollback()
                   Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return New SaveErrorException(returnVal.Value.ToString)
                 End If
               Case Else
@@ -593,6 +610,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
@@ -600,12 +618,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveDetailError
               Case Else
             End Select
@@ -628,12 +648,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(savePaymentError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return savePaymentError
           Else
             Select Case CInt(savePaymentError.Message)
               Case -1, -2
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return savePaymentError
               Case Else
             End Select
@@ -655,12 +677,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveVatError
           Else
             Select Case CInt(saveVatError.Message)
               Case -1, -2
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveVatError
               Case Else
             End Select
@@ -671,12 +695,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveWhtError.Message) Then
               trans.Rollback()
               Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveWhtError
             Else
               Select Case CInt(saveWhtError.Message)
                 Case -1, -2
                   trans.Rollback()
                   Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return saveWhtError
                 Case Else
               End Select
@@ -690,12 +716,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveAdrError.Message) Then
               trans.Rollback()
               Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveAdrError
             Else
               Select Case CInt(saveAdrError.Message)
                 Case -1, -2
                   trans.Rollback()
                   Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return saveAdrError
                 Case Else
               End Select
@@ -715,12 +743,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveAutoCodeError.Message) Then
             trans.Rollback()
             ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveAutoCodeError
           Else
             Select Case CInt(saveAutoCodeError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveAutoCodeError
               Case Else
             End Select
@@ -749,12 +779,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
@@ -778,10 +810,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldvat, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldvat, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
