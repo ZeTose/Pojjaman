@@ -964,6 +964,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cc.Id = drh.GetValue(Of Integer)("cc_id")
       cc.Code = drh.GetValue(Of String)("cc_code")
       cc.Name = drh.GetValue(Of String)("cc_name")
+
+      cc.WipAccount.Id = drh.GetValue(Of Integer)("cc_wipAcct")
+      cc.WipAccount.Code = drh.GetValue(Of String)("wipAcctCode")
+      cc.WipAccount.Name = drh.GetValue(Of String)("wipAcctName")
+
+      cc.ExpenseAccount.Id = drh.GetValue(Of Integer)("cc_expenseAcct")
+      cc.ExpenseAccount.Code = drh.GetValue(Of String)("expAcctCode")
+      cc.ExpenseAccount.Name = drh.GetValue(Of String)("expAcctName")
+
+      cc.StoreAccount.Id = drh.GetValue(Of Integer)("cc_storeAcct")
+      cc.StoreAccount.Code = drh.GetValue(Of String)("storeAcctCode")
+      cc.StoreAccount.Name = drh.GetValue(Of String)("storeAcctName")
     End Sub
     Public Shared Sub DestroyCachCC()
       m_AllCCMinData = Nothing

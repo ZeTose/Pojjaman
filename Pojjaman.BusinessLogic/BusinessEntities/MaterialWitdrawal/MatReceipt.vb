@@ -1559,8 +1559,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Account = realAccount
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
-        End If
-        If Not originMatched Then
+        
           'ฝั่งต้นทาง
           ji = New JournalEntryItem
           ji.Mapping = "F1.4D"
@@ -1571,6 +1570,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.EntityItemType = 42
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
+
+          If item.WBSDistributeCollection Is Nothing Then
+            'ฝั่งต้นทาง
+            ji = New JournalEntryItem
+            ji.Mapping = "F1.4W"
+            ji.Amount += item.Amount
+            ji.Account = realAccount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
+            ji.CostCenter = Me.FromCostCenter
+            jiColl.Add(ji)
+          Else
+            For Each iwbs As WBSDistribute In item.WBSDistributeCollection
+              ji = New JournalEntryItem
+              ji.Mapping = "F1.4W"
+              ji.Amount += iwbs.Amount
+              ji.Account = realAccount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+              'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = 42
+              ji.CostCenter = Me.CostCenter
+              jiColl.Add(ji)
+            Next
+          End If
+          
         End If
         If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
           If Not lciMatched Then
@@ -1580,8 +1606,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Account = newRealAccount
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
-          End If
-          If Not lciMatched Then
+         
             ji = New JournalEntryItem
             ji.Mapping = map & "D"
             ji.Amount += item.Amount
@@ -1591,26 +1616,75 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.EntityItemType = 42
             ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
+
+            If item.WBSDistributeCollection2 Is Nothing Then
+              ji = New JournalEntryItem
+              ji.Mapping = map & "W"
+              ji.Amount += item.Amount
+              ji.Account = newRealAccount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = 42
+              ji.CostCenter = Me.ToCostCenter
+              jiColl.Add(ji)
+            Else
+              For Each iwbs As WBSDistribute In item.WBSDistributeCollection2
+                ji = New JournalEntryItem
+                ji.Mapping = map & "W"
+                ji.Amount += iwbs.Amount
+                ji.Account = newRealAccount
+                ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+                ji.EntityItem = item.Entity.Id
+                ji.EntityItemType = 42
+                ji.CostCenter = Me.CostCenter
+                jiColl.Add(ji)
+              Next
+            End If
           End If
-        ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
-          If Not lciNoAcctMatched Then
-            ji = New JournalEntryItem
-            ji.Mapping = map
-            ji.Amount += item.Amount
-            ji.CostCenter = Me.ToCostCenter
+          ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
+            If Not lciNoAcctMatched Then
+              ji = New JournalEntryItem
+              ji.Mapping = map
+              ji.Amount += item.Amount
+              ji.CostCenter = Me.ToCostCenter
+              jiColl.Add(ji)
+
+              ji = New JournalEntryItem
+              ji.Mapping = map & "D"
+              ji.Amount += item.Amount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = 42
+              ji.CostCenter = Me.ToCostCenter
             jiColl.Add(ji)
 
-            ji = New JournalEntryItem
-            ji.Mapping = map & "D"
-            ji.Amount += item.Amount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
-            ji.EntityItem = item.Entity.Id
-            ji.EntityItemType = 42
-            ji.CostCenter = Me.ToCostCenter
-            jiColl.Add(ji)
+            If item.WBSDistributeCollection2 Is Nothing Then
+              ji = New JournalEntryItem
+              ji.Mapping = map & "W"
+              ji.Amount += item.Amount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = 42
+              ji.CostCenter = Me.ToCostCenter
+              jiColl.Add(ji)
+            Else
+
+              For Each iwbs As WBSDistribute In item.WBSDistributeCollection2
+                ji = New JournalEntryItem
+                ji.Mapping = map & "W"
+                ji.Amount += iwbs.Amount
+                ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+                ji.EntityItem = item.Entity.Id
+                ji.EntityItemType = 42
+                ji.CostCenter = Me.CostCenter
+                jiColl.Add(ji)
+              Next
+            End If
 
           End If
-        End If
+          End If
       Next
 
       'Dim diffConversion As Decimal = 0
