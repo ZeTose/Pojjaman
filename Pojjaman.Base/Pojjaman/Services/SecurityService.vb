@@ -101,6 +101,11 @@ Namespace Longkong.Pojjaman.Services
           CostCenter.RefreshDefaultCC()
           CBS.RefreshTree()
           AdvanceFindField.RefreshCodeList()
+
+          Unit.DestroyCachUnit()
+          CostCenter.DestroyCachCC()
+          Employee.DestroyEmployee()
+          LCIItem.DestroyLCI()
           '========================================SETUP===========================================
         End If
       End If

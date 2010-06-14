@@ -965,6 +965,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cc.Code = drh.GetValue(Of String)("cc_code")
       cc.Name = drh.GetValue(Of String)("cc_name")
     End Sub
+    Public Shared Sub DestroyCachCC()
+      m_AllCCMinData = Nothing
+      m_AllCCUsedData = Nothing
+    End Sub
 #End Region
 
 #Region "Delete"

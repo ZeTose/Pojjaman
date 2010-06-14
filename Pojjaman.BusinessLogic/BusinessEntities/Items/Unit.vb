@@ -137,6 +137,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim unit As New Unit(row, "") 'Pui
       Return unit
     End Function
+    Public Shared Sub DestroyCachUnit()
+      m_AllUnits = Nothing
+    End Sub
     Public Shared Function CanDeleteThisId(ByVal id As Integer) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "CountUnitRef", _
       New SqlParameter("@unit_id", id))

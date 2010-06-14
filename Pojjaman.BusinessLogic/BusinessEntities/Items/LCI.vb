@@ -983,6 +983,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Throw New Exception(ex.InnerException.ToString)
       End Try
     End Function
+    Public Shared Sub DestroyLCI()
+      m_AllLciitems = Nothing
+    End Sub
     Public Shared Function GetLciConversionByIdUnitId(ByVal id As Integer, ByVal unitId As Integer) As Decimal
       Dim newLci As LCIItem = LCIItem.GetLciItemById(id)
       Select Case unitId

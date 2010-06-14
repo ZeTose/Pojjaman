@@ -223,6 +223,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
+    Public Shared Sub DestroyEmployee()
+      m_allemployee = Nothing
+    End Sub
 #End Region
 
 #Region "Delete"
