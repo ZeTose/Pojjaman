@@ -134,6 +134,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetUnitById(ByVal id As Integer) As Unit
       Dim key As String = id.ToString
       Dim row As DataRow = CType(AllUnits(key), DataRow)
+      If row Is Nothing Then
+        Dim blankunit As New Unit
+        blankunit.Id = 0
+        blankunit.Code = ""
+        blankunit.Name = ""
+        Return blankunit
+      End If
       Dim unit As New Unit(row, "") 'Pui
       Return unit
     End Function

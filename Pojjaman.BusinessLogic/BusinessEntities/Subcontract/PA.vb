@@ -1080,6 +1080,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return New SaveErrorException("0")
     End Function
+    Private Function haveAdvancePay() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+               Me.ConnectionString _
+               , CommandType.StoredProcedure _
+               , "GethaveAdvancepayFromSupandEntity" _
+               , New SqlParameter("@supplier_id", Me.SubContractor.Id) _
+               , New SqlParameter("@entity_type", Me.EntityId) _
+               )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
     Private Sub ResetId(ByVal oldId As Integer, ByVal oldPaymentId As Integer _
 , ByVal oldVatId As Integer, ByVal oldJeId As Integer)
       Me.Id = oldId
@@ -1169,6 +1182,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 2   'Do Nothing
         End Select
         ''=============== Validate Over Budget ==================<<
+
+        ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
+        If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
+          If haveAdvancePay Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+            End If
+          End If
+        End If
+        '------------------
 
         '--------------คำสั่ง Insert
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter

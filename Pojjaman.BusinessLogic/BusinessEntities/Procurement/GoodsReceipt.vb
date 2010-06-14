@@ -1664,6 +1664,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case 2 'Do Nothing
         End Select
+
+        ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
+        If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
+          If haveAdvancePay Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+            End If
+          End If
+        End If
+        '------------------
+
         'If NoItem Then
         '    Return Me.SaveNoItem(currentUserId)
         'ElseIf OnlyPayment Then
@@ -4877,6 +4889,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
+
+    Private Function haveAdvancePay() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+               Me.ConnectionString _
+               , CommandType.StoredProcedure _
+               , "GethaveAdvancepayFromSupandEntity" _
+               , New SqlParameter("@supplier_id", Me.Supplier.Id) _
+               , New SqlParameter("@entity_type", Me.EntityId) _
+               )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
 
   End Class
 
