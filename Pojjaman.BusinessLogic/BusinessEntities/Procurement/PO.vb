@@ -167,6 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("supplier.supplier_id") Then
           If Not dr.IsNull("supplier.supplier_id") Then
             .m_supplier = New Supplier(CInt(dr("supplier.supplier_id")))
+            '.m_supplier = New Supplier(CInt(dr("supplier.supplier_id")))
             '.m_supplier = New Supplier(dr, "supplier.")
           End If
         Else
@@ -181,7 +182,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "po_cc") Then
-            .m_cc = New CostCenter(CInt(dr(aliasPrefix & "po_cc")))
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "po_cc")))
+            '.m_cc = New CostCenter(CInt(dr(aliasPrefix & "po_cc")))
           End If
         End If
 
@@ -193,7 +195,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "po_employee") AndAlso _
           Not dr.IsNull(aliasPrefix & "po_employee") Then
-            .m_requestor = New Employee(CInt(dr(aliasPrefix & "po_employee")))
+            .m_requestor = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "po_employee")))
+            '.m_requestor = New Employee(CInt(dr(aliasPrefix & "po_employee")))
           End If
         End If
 

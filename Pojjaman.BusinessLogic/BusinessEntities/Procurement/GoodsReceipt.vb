@@ -225,7 +225,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_toccperson") AndAlso Not dr.IsNull(aliasPrefix & "stock_toccperson") Then
-            .m_toCostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_toccperson")))
+            .m_toCostCenterPerson = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "stock_toccperson")))
+            '.m_toCostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_toccperson")))
           End If
         End If
 

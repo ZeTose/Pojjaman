@@ -131,7 +131,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "pr_cc") Then
-            .pr_cc = New CostCenter(CInt(dr(aliasPrefix & "pr_cc")))
+            .pr_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "pr_cc")))
+            '.pr_cc = New CostCenter(CInt(dr(aliasPrefix & "pr_cc")))
           End If
         End If
 
@@ -159,7 +160,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "pr_requestor") Then
-            .pr_requestor = New Employee(CInt(dr(aliasPrefix & "pr_requestor")))
+            .pr_requestor = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "pr_requestor")))
+            '.pr_requestor = New Employee(CInt(dr(aliasPrefix & "pr_requestor")))
           End If
         End If
         If Not dr.IsNull(aliasPrefix & "pr_approveDate") Then

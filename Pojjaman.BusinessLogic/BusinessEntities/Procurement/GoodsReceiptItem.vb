@@ -162,7 +162,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_unit = New Unit(dr, "stock.")
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "stocki_unit") AndAlso Not dr.IsNull(aliasPrefix & "stocki_unit") Then
-            .m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
+            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "stocki_unit")))
+            '.m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
           End If
         End If
 
