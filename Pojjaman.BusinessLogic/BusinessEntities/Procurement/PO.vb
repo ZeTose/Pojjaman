@@ -1136,9 +1136,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
-    Private Sub ResetCode(ByVal oldcode As String)
-      Me.Code = oldcode
-      Me.AutoGen = True
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
     End Sub
     Dim oldcode As String
 
@@ -1246,13 +1246,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Open()
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
+
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           Select Case CInt(returnVal.Value)
             Case -1, -5
               trans.Rollback()
               ResetID(oldid)
-              ResetCode(oldcode)
+              ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
           End Select
           '-------------------------------------------------------
@@ -1277,13 +1283,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid)
-                ResetCode(oldcode)
+                ResetCode(oldcode, oldautogen)
                 Return saveDetailError
               Case Else
             End Select
@@ -1294,13 +1301,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid)
-                ResetCode(oldcode)
+                ResetCode(oldcode, oldautogen)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case Else
             End Select
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
@@ -1345,13 +1353,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(savePRItemsError.Message) Then
             trans.Rollback()
             ResetID(oldid)
-            ResetCode(oldcode)
+            ResetCode(oldcode, oldautogen)
             Return savePRItemsError
           Else
             Select Case CInt(savePRItemsError.Message)
               Case -1, -5
                 trans.Rollback()
-                ResetCode(oldcode)
+                ResetCode(oldcode, oldautogen)
                 ResetID(oldid)
                 Return savePRItemsError
               Case -2
@@ -1369,14 +1377,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveAutoCodeError.Message) Then
             trans.Rollback()
             ResetID(oldid)
-            ResetCode(oldcode)
+            ResetCode(oldcode, oldautogen)
             Return saveAutoCodeError
           Else
             Select Case CInt(saveAutoCodeError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid)
-                ResetCode(oldcode)
+                ResetCode(oldcode, oldautogen)
                 Return saveAutoCodeError
               Case Else
             End Select
@@ -1402,12 +1410,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid)
-          ResetCode(oldcode)
+          ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid)
-          ResetCode(oldcode)
+          ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
