@@ -1046,6 +1046,10 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If Me.Originated Then
@@ -1162,12 +1166,18 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         conn.Open()
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           Select Case CInt(returnVal.Value)
             Case -1, -5
               trans.Rollback()
               ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
           End Select
         
@@ -1175,12 +1185,14 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 trans.Rollback()
                 ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
                 Return saveDetailError
               Case Else
             End Select
@@ -1191,12 +1203,14 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
               Case -1, -2, -5
                 trans.Rollback()
                 Me.ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case Else
             End Select
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 

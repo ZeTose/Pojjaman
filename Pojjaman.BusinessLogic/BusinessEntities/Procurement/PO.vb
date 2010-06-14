@@ -1140,7 +1140,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Code = oldCode
       Me.AutoGen = oldautogen
     End Sub
-    Dim oldcode As String
+
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
@@ -1192,7 +1192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
-
+        Dim oldcode As String
 
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
@@ -1246,10 +1246,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Open()
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
-
-        Dim oldcode As String
         Dim oldautogen As Boolean
-
         oldcode = Me.Code
         oldautogen = Me.AutoGen
         Try
