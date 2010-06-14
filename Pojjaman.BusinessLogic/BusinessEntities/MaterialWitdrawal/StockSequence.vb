@@ -332,6 +332,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmd.Parameters.Add("@DateStart", Me.DateStart)
         cmd.Parameters.Add("@DateEnd", Me.DateEnd)
         cmd.Parameters.Add("@recalUnitCost", Me.IsRecalUnitCost)
+        cmd.Parameters.Add("@requestor", currentUserId)
 
         'cmd.ExecuteReader()
 
