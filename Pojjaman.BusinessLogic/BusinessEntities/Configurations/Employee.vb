@@ -184,7 +184,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return True
             End If
             Return False
-        End Function
+    End Function
+    Private Shared m_allemployee As Hashtable
+    Private Shared Property AllEmployee As Hashtable
+      Get
+        If m_allemployee Is Nothing Then
+          RefreshEmployee()
+        End If
+        Return m_allemployee
+      End Get
+      Set(ByVal value As Hashtable)
+        m_allemployee = value
+      End Set
+    End Property
+    Public Shared Function GetEmployeeById(ByVal empId As Integer) As Employee
+      Dim key As String = empId.ToString
+      Dim row As DataRow = CType(AllEmployee(key), DataRow)
+      Try
+        Dim emp As New Employee(row, "")
+        Return emp
+      Catch ex As Exception
+        Throw New Exception(ex.InnerException.ToString)
+      End Try
+    End Function
+    Private Shared Sub RefreshEmployee()
+      Employee.m_allemployee = New Hashtable
+      Dim key As String = ""
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetEmployeeCollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          key = CStr(drh.GetValue(Of Integer)("employee_id"))
+          Employee.m_allemployee(key) = row
+        Next
+      End If
+    End Sub
 #End Region
 
 #Region "Delete"
@@ -374,5 +412,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             End Set
         End Property
-    End Class
+
+    
+
+  End Class
 End Namespace

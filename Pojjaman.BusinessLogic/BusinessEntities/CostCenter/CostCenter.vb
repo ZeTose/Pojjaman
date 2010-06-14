@@ -90,11 +90,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
-    Public Shared Function GetCCMinData(ByVal Id As Integer) As CostCenter
+    Public Shared Function GetCCMinDataById(ByVal Id As Integer) As CostCenter
       Dim key As String = Id.ToString
       Dim row As DataRow = CType(AllCCMinData(key), DataRow)
       Dim cc As New CostCenter
-      cc = GetCostCenter(row, ViewType.PaySelection) 'teeraboon
+      'cc = GetCostCenter(row, ViewType.PaySelection) 'teeraboon
+      SetMinimumCC(cc, row)
       Return cc
     End Function
 
@@ -935,6 +936,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Select Case viewType
         Case viewType.JournalEntryItem
           SetMinimumCC(cc, dr)
+
 
       End Select
       Return cc

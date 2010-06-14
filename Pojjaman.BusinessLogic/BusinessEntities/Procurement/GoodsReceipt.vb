@@ -231,12 +231,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "cc_id") Then
           If Not dr.IsNull(aliasPrefix & "cc_id") Then
-            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "cc_id")))
+            .m_toCostCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "cc_id")))
             '.m_toCostCenter = New CostCenter(dr, "")
           End If
         Else
           If dr.Table.Columns.Contains("stock_tocc") AndAlso Not dr.IsNull(aliasPrefix & "stock_tocc") Then
-            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_tocc")))
+            .m_toCostCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stock_tocc")))
             '.m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
           End If
         End If

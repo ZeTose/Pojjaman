@@ -113,7 +113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "stock_cc") Then
-            .m_costCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_cc")))
+            .m_costCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stock_cc")))
             '.m_costCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_cc")))
           End If
         End If
@@ -124,7 +124,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_tocc") AndAlso Not dr.IsNull(aliasPrefix & "stock_tocc") Then
-            .m_toCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_tocc")))
+            .m_toCostCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stock_tocc")))
             '.m_toCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_tocc")))
           End If
         End If
@@ -135,7 +135,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_fromcc") AndAlso Not dr.IsNull(aliasPrefix & "stock_fromcc") Then
-            .m_fromCostCenter = CostCenter.GetCCMinData(CInt(dr(aliasPrefix & "stock_fromcc")))
+            .m_fromCostCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stock_fromcc")))
             '.m_fromCostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_fromcc")))
           End If
         End If

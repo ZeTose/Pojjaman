@@ -876,7 +876,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return Nothing
         End If
         'Dim thisCC As CostCenter = CostCenter.GetCostCenter(item.CostCenterId, ViewType.PaySelection)
-        Dim thisCC As CostCenter = CostCenter.GetCCMinData(item.CostCenterId)
+        Dim thisCC As CostCenter = CostCenter.GetCCMinDataById(item.CostCenterId)
         If dummyCC IsNot Nothing AndAlso dummyCC.Id <> thisCC.Id Then
           Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -982,7 +982,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
       Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
       Return glf
-    End Function    
+    End Function
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
@@ -1007,7 +1007,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         'Dim itemCC As CostCenter = GetCCFromDocTypeAndId(docType, doc.Id)
         'Dim itemCC As CostCenter = CostCenter.GetCostCenter(doc.CostCenterId, ViewType.PaySelection)
-        Dim itemCC As CostCenter = CostCenter.GetCCMinData(doc.CostCenterId)
+        Dim itemCC As CostCenter = CostCenter.GetCCMinDataById(doc.CostCenterId)
         Dim itemCode As String = doc.Code.ToString
         Dim itemType As String = GetTypeNameFromDocType(doc.EntityId)
         If itemCC Is Nothing Then
@@ -1188,7 +1188,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
-      
+
 
       'ภาษีหัก ณ ที่จ่าย
       If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then

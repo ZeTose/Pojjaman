@@ -133,7 +133,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_fromcc") AndAlso Not dr.IsNull(aliasPrefix & "stock_fromcc") Then
-            .m_CostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_fromcc")))
+            .m_CostCenter = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stock_fromcc")))
+            '.m_CostCenter = New CostCenter(CInt(dr(aliasPrefix & "stock_fromcc")))
           End If
         End If
 
@@ -143,7 +144,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_fromccperson") AndAlso Not dr.IsNull(aliasPrefix & "stock_fromccperson") Then
-            .m_CostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_fromccperson")))
+            .m_CostCenterPerson = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "stock_fromccperson")))
+            '.m_CostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_fromccperson")))
           End If
         End If
 
@@ -153,7 +155,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains("stock_toccperson") AndAlso Not dr.IsNull(aliasPrefix & "stock_toccperson") Then
-            .m_toCostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_toccperson")))
+            .m_toCostCenterPerson = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "stock_toccperson")))
+            '.m_toCostCenterPerson = New Employee(CInt(dr(aliasPrefix & "stock_toccperson")))
           End If
         End If
 
