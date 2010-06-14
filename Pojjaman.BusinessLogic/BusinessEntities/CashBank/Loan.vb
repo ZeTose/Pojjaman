@@ -230,6 +230,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+    End Sub
     Public Overrides Function ToString() As String
       Return Me.Name
     End Function
@@ -279,6 +283,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       conn.Open()
       trans = conn.BeginTransaction
       Dim oldid As Integer = Me.Id
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
       Try
         ' Save Processing ...
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
@@ -287,10 +296,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As SqlException
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As Exception
         trans.Rollback()
         Me.ResetID(oldid)
+        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(returnVal.Value.ToString)
       Finally
         conn.Close()
