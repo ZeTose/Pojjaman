@@ -753,6 +753,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = oldid
       Me.m_je.Id = oldjeid
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
     End Function
@@ -778,6 +784,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
 
         '---- AutoCode Format --------
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        Dim oldjecode As String
+        Dim oldjeautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+        oldjecode = Me.m_je.Code
+        oldjeautogen = Me.m_je.AutoGen
+
         Me.m_je.RefreshGLFormat()
         If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
 
@@ -851,12 +867,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveDetailError.Message) Then
             'trans.Rollback()
             ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveDetailError
           Else
             Select Case CInt(saveDetailError.Message)
               Case -1, -2, -5
                 'trans.Rollback()
                 ResetId(oldid, oldjeid)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveDetailError
               Case Else
             End Select
@@ -884,12 +902,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1, -5
                 trans.Rollback()
                 ResetId(oldid, oldjeid)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
@@ -926,10 +946,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           'trans.Rollback()
           ResetId(oldid, oldjeid)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           'trans.Rollback()
           ResetId(oldid, oldjeid)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           'conn.Close()

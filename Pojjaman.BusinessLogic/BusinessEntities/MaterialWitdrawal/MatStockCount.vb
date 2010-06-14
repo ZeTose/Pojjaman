@@ -199,7 +199,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Private Sub ResetId(ByVal oldid As Integer)
             Me.Id = oldid
-        End Sub
+    End Sub
+    Private Sub ResetCode(ByVal oldCode As String)
+      Me.Code = oldCode
+    End Sub
         Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
             With Me
                 If Me.MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
@@ -250,7 +253,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 conn.Open()
                 trans = conn.BeginTransaction()
 
-                Dim oldid As Integer = Me.Id
+        Dim oldid As Integer = Me.Id
+
+        Dim oldcode As String
+        oldcode = Me.Code
 
                 Try
                     Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
@@ -259,13 +265,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             Case -1, -2, -5
                                 trans.Rollback()
                                 ResetId(oldid)
-                                Return New SaveErrorException(returnVal.Value.ToString)
+                ResetCode(oldcode)
+                Return New SaveErrorException(returnVal.Value.ToString)
                             Case Else
                         End Select
                     ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
                         trans.Rollback()
                         ResetId(oldid)
-                        Return New SaveErrorException(returnVal.Value.ToString)
+            ResetCode(oldcode)
+            Return New SaveErrorException(returnVal.Value.ToString)
                     End If
 
                     SaveDetail(Me.Id, conn, trans)
@@ -275,11 +283,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Catch ex As SqlException
                     trans.Rollback()
                     ResetId(oldid)
-                    Return New SaveErrorException(ex.ToString)
+          ResetCode(oldcode)
+          Return New SaveErrorException(ex.ToString)
                 Catch ex As Exception
                     trans.Rollback()
                     ResetId(oldid)
-                    Return New SaveErrorException(ex.ToString)
+          ResetCode(oldcode)
+          Return New SaveErrorException(ex.ToString)
                 Finally
                     conn.Close()
                 End Try
