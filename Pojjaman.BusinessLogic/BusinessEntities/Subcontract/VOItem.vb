@@ -613,6 +613,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property
     Public ReadOnly Property Amount() As Decimal
       Get
+        If Me.VO.Closing Then
+          Return Me.ReceivedAmount
+        End If
         Return Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
       End Get
     End Property    Public ReadOnly Property UnitCost() As Decimal

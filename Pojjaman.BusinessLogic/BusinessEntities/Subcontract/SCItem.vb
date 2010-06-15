@@ -746,6 +746,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property
     Public ReadOnly Property Amount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount
       Get
+        If Me.SC.Closing Then
+          Return Me.ReceiptAmount
+        End If
         Return Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
       End Get
     End Property
