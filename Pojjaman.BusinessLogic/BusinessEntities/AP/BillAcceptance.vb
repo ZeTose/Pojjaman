@@ -1205,6 +1205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_billedAmount = CDec(dr(aliasPrefix & m_itemprefix & "_billedamt"))
       End If
       '*********************************************************
+      m_deducttaxBase = Nothing
     End Sub
 #End Region
 
@@ -1355,11 +1356,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_deducttaxBase.HasValue Then
           Return m_deducttaxBase.Value
         End If
+        If Me.EntityId = 46 Then
+          m_deducttaxBase = 0
+          Return 0
+        End If
         If Not Me.PaySelection Is Nothing Then
-          Return Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+          m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+          Return m_deducttaxBase.Value
         ElseIf Not Me.m_apvi Is Nothing Then
-          Return Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+          m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+          Return m_deducttaxBase.Value
         Else
+          m_deducttaxBase = 0
           Return 0
         End If
       End Get
@@ -1375,7 +1383,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property TaxAmountDeducted As Decimal
       Get
         If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
-          Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
+          If UnpaidAmount = Amount Then
+            Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
+          End If
+          Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
+        End If
+        If UnpaidAmount <> Amount Then
+          Return (AfterTax - BeforeTax) * Amount / UnpaidAmount
         End If
         Return (AfterTax - BeforeTax)
       End Get

@@ -561,7 +561,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '================Checking for duplicate Vat Code (Sales Tax) =============
 
-				'Me.RefreshVatTaxBase()
+        'Me.RefreshVatTaxBase()
+        'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
+        'tmpRefTaxBase คือ Taxbase ของเอกสารอ้างอิงที่ออกได้ทั้งหมด
 				Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
 				If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
 					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
@@ -572,37 +574,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim pays As PaySelection = CType(Me.RefDoc, PaySelection)
           tmpRefTaxBase = Configuration.Format(pays.RealTaxBase, DigitConfig.Price)
           'ถ้าใบจ่ายชำระนี้เป็นการแบ่งจ่ายชำระแล้ว จะไม่อนุญาติให้ออกใบกำกับภาษีมูลค่าเพิ่มที่เมนูจ่ายชำระแล้ว
-          If tmpTaxBase > 0 AndAlso pays.Gross <> pays.ItemCollection.GetPlusRetention Then
+          If tmpTaxBase > 0 AndAlso (Not pays.Gross = pays.ItemCollection.GetPlusRetention And Not pays.Gross = pays.ItemCollection.Amount) Then
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
           End If
         Else
           tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
         End If
 
-				If Me.Direction.Value = 0 AndAlso _
-				tmpTaxBase - tmpRefTaxBase = -0.01 Then			'ยอดในใบกำกับน้อยกว่า
-					If Me.ItemCollection.Count > 0 Then
-						Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-						item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
-					End If
-				ElseIf Me.Direction.Value = 0 AndAlso _
-				tmpTaxBase - tmpRefTaxBase = 0.01 Then			'ยอดในใบกำกับมากกว่า
-					If Me.ItemCollection.Count > 0 Then
-						Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-						item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
-					End If
+        Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+        If Me.Direction.Value = 0 AndAlso _
+        tmpTaxBase - tmpRefTaxBase = -0.01 Then     'ยอดในใบกำกับน้อยกว่า
+          If Me.ItemCollection.Count > 0 Then
+            Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+            item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
+          End If
+        ElseIf Me.Direction.Value = 0 AndAlso _
+        tmpTaxBase - tmpRefTaxBase = 0.01 Then      'ยอดในใบกำกับมากกว่า
+          If Me.ItemCollection.Count > 0 Then
+            Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+            item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
+          End If
         ElseIf _
         ( _
         TypeOf Me.RefDoc Is BillAcceptance _
         OrElse TypeOf Me.RefDoc Is GoodsReceipt _
-        OrElse TypeOf Me.RefDoc Is PaySelection _
         OrElse TypeOf Me.RefDoc Is APOpeningBalance _
         OrElse TypeOf Me.RefDoc Is EqMaintenance _
         OrElse TypeOf Me.RefDoc Is GoodsSold _
         OrElse TypeOf Me.RefDoc Is PA _
         ) _
         AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
-          Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
           Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           If tmpTaxBase > tmpRefTaxBase AndAlso tmpTaxBase - tmpRefTaxBase < CInt(obj) Then
             If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
@@ -621,7 +622,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
                   , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
           End If
-      
+
         ElseIf tmpTaxBase <> tmpRefTaxBase _
         AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
@@ -635,9 +636,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AndAlso Not TypeOf Me.RefDoc Is PA _
           Then
           If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-                   New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-                   , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+            'ในกรณี payselection ยอมรับ 2 case คือ Full Taxbase กับ Full Partial Pays
+            'tmpRefTaxbase คือ Full TaxBase  ที่ยังเหลืออยู่ 
+            'ต้องหา Full partial pays มากขึ้น
+            Dim ptb As Decimal = CType(Me.RefDoc, PaySelection).paysTaxbase
+            'Case ออก Vat มากกว่าที่ออกได้ ไม่ได้แน่ๆ
+            If tmpTaxBase > tmpRefTaxBase Then
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                     New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                     , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+            End If
+            If tmpTaxBase < tmpRefTaxBase Then
+              If (tmpTaxBase - ptb) > CDec(obj) Then
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                     New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                     , Configuration.FormatToString(ptb, DigitConfig.Price)})
+              End If
+            End If
           ElseIf Not TypeOf Me.RefDoc Is PaySelection Then
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
                 New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _

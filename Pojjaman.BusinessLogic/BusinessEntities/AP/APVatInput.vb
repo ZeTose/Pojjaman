@@ -314,11 +314,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
           Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           If Me.TaxBase > Vat.TaxBase AndAlso Me.TaxBase - Vat.TaxBase < CDec(obj) Then
-            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+            If Me.TaxBase - Vat.TaxBase > 0.01 Then
+              If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
                                           New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
                                                         Configuration.FormatToString(Vat.TaxBase, DigitConfig.Price)}) Then
-              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+                Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+              End If
             End If
+
           ElseIf Me.TaxBase < Vat.TaxBase AndAlso Vat.TaxBase - Me.TaxBase < CDec(obj) Then
             If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
                                        New String() {Configuration.FormatToString(Me.TaxBase, DigitConfig.Price), _
@@ -721,7 +724,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If apvi.Amount > 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "B8.5D"
-          ji.Amount = Configuration.Format(apvi.TaxAmount, DigitConfig.Price)
+          ji.Amount = Configuration.Format(apvi.TaxAmountDeducted, DigitConfig.Price)
           ji.CostCenter = myCC
           ji.EntityItem = apvi.Id
           ji.EntityItemType = apvi.EntityId

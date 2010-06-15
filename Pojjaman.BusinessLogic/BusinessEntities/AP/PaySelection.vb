@@ -1157,13 +1157,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Note = vi.Code & "/" & vi.PrintName
         jiColl.Add(ji)
 
-        ji = New JournalEntryItem
-        ji.Mapping = "B8.4W"
-        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        ji.Note = vi.Code & "/" & vi.PrintName
-        jiColl.Add(ji)
-
       Next
 
       'ภาษีซื้อไม่ถึงกำหนด
@@ -1177,15 +1170,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'ภาษีซื้อไม่ถึงกำหนด
       For Each pi As BillAcceptanceItem In Me.ItemCollection
-        If pi.Amount <> 0 Then
-          ji = New JournalEntryItem
-          ji.Mapping = "B8.5D"
-          ji.Amount = Configuration.Format(pi.TaxAmountDeducted, DigitConfig.Price)
-          ji.CostCenter = myCC
-          ji.EntityItem = pi.Id
-          ji.EntityItemType = pi.EntityId
-          ji.Note = pi.Code & "/" & pi.itemType
-          jiColl.Add(ji)
+        If pi.EntityId <> 46 Then
+          If pi.Amount <> 0 Then
+            ji = New JournalEntryItem
+            ji.Mapping = "B8.5D"
+            ji.Amount = Configuration.Format(pi.TaxAmountDeducted, DigitConfig.Price)
+            ji.CostCenter = myCC
+            ji.EntityItem = pi.Id
+            ji.EntityItemType = pi.EntityId
+            ji.Note = pi.Code & "/" & pi.itemType
+            jiColl.Add(ji)
+          End If
         End If
       Next
 
@@ -1455,6 +1450,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    Public ReadOnly Property paysTaxbase As Decimal
+      Get
+        Dim ptb As Decimal
+        For Each item As BillAcceptanceItem In Me.ItemCollection
+          If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 Then
+            ptb += (item.Amount / item.BilledAmount) * (item.TaxBase - item.DeductTaxBase)
+          End If
+        Next
+        Return ptb
+      End Get
+    End Property
     Private Function GetTaxBase() As Decimal
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
@@ -1464,7 +1470,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         'item.TaxBaseDeducted = d
         'End If
-        If item.TaxType.Value <> 0 Then
+        If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 Then
           amt += item.TaxBase - item.DeductTaxBase
         End If
       Next
