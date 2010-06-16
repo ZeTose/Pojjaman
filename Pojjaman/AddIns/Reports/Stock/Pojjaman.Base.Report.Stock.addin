@@ -6,8 +6,11 @@
 	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="MatStockReport" label="${res:MainMenu.ReportMenu.MatStockReport}" insertafter="PurchaseRepot" insertbefore="APReport">
-				<MenuItem id="rptmatreturn" icon="Icons.16x16.RptMatReturn" label="${res:MainMenu.PurchaseMenu.RptMatReturn.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatReturn"/>			
-				<MenuItem id="rptmatwithdraw" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdraw"/>
+				<MenuItem id="rptmatreturn" icon="Icons.16x16.RptMatReturn" label="${res:MainMenu.PurchaseMenu.RptMatReturn.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatReturn"/>
+        <MenuItem id="rptmatwithdraw" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdraw"/>
+        <MenuItem id="rptmattransfer" icon="Icons.16x16.RptMatWithdraw" label="${res:
+                  
+                  }" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatTransfer"/>
 				<MenuItem id="RptAuditMatWithdraw" icon="Icons.16x16.RptAuditMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptAuditMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAuditMatWithdraw"/>		
 				<MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
 				<!--<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountResult"/>-->			
@@ -22,7 +25,8 @@
 		</Conditional>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<EntityFilter id="rptmatwithdraw" entity="rptmatwithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptMatWithdrawFilterSubPanel"/>
+    <EntityFilter id="rptmatwithdraw" entity="rptmatwithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptMatWithdrawFilterSubPanel"/>
+    <EntityFilter id="rptmattransfer" entity="rptmattransfer" filter="Longkong.Pojjaman.Gui.Panels.RptMatTransferFilterSubPanel"/>
 		<EntityFilter id="rptmatreturn" entity="rptmatreturn" filter="Longkong.Pojjaman.Gui.Panels.RptMatReturnFilterSubPanel"/>
 		<EntityFilter id="rptmatcount" entity="rptmatcount" filter="Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel"/>
 		<EntityFilter id="rptstockcardmat" entity="rptstockcardmat" filter="Longkong.Pojjaman.Gui.Panels.RptStockCardMatFilterSubPanel"/>
@@ -47,6 +51,9 @@
 		<EntityTab id="rptmatwithdraw">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
+    <EntityTab id="rptmattransfer">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
 		<EntityTab id="rptmatcount">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
