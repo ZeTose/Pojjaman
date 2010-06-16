@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PettyCashClosedStatus
@@ -198,6 +199,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+    Private Function GetLastClaimDate() As Date
+      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+          , CommandType.StoredProcedure _
+          , "GetLastPettyCashClaimDate" _
+          , New SqlParameter("@pc_id", Me.PettyCash.Id)
+          )
+      If ds.Tables(0).Rows.Count = 0 Then
+        Return Date.MinValue
+      End If
+      Return CDate(ds.Tables(0).Rows(0)(0))
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Return New SaveErrorException("Not Yet Implemented")
       'MessageBox.Show(String.Format("{0}:{1}", Me.Amount, Me.Receive.Amount))
@@ -213,7 +226,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       returnVal.Direction = ParameterDirection.ReturnValue
       returnVal.SourceVersion = DataRowVersion.Current
       Dim paramArrayList As New ArrayList
-
+      ''' ตรวจวันที่เอกสารเคลม กันปิด
+      Dim lastclaimdate As Date = GetLastClaimDate()
+      If Me.DocDate.Date < lastclaimdate.Date Then
+        Return New SaveErrorException(Me.StringParserService.Parse("${res:วันที่เอกสารปิดวงเงินสดย่อยก่อนหน้าวันเคลมล่าสุด }") & lastclaimdate.ToString)
+      End If
       paramArrayList.Add(returnVal)
       If Me.Originated Then
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
@@ -552,7 +569,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Receive Is Nothing Then
         jiColl.AddRange(Me.Receive.GetJournalEntries)
       End If
-      
+
       Return jiColl
     End Function
 
