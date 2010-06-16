@@ -284,7 +284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property GLFormat() As GLFormat      Get        Return m_glFormat      End Get      Set(ByVal Value As GLFormat)        If Not Me.Originated Then          m_glFormat = Value        ElseIf m_glFormat Is Nothing Then
+    Public Property GLFormat() As GLFormat      Get        Return m_glFormat      End Get      Set(ByVal Value As GLFormat)        m_glFormat = Value        If Not Me.Originated Then          m_glFormat = Value        ElseIf m_glFormat Is Nothing Then
           m_glFormat = Value        End If      End Set    End Property
     Public Property ManualFormat() As Boolean      Get        Return m_manualFormat      End Get      Set(ByVal Value As Boolean)        m_manualFormat = Value      End Set    End Property
     Public ReadOnly Property DebitAmount() As Decimal
@@ -524,11 +524,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub RefreshGLFormat()
       If Not Me.ManualFormat Then
-        If Not TypeOf Me.RefDoc Is GoodsSold _
-        AndAlso Not TypeOf Me.RefDoc Is PurchaseCN Then
-          Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
-          Me.SetGLFormat(Me.GLFormat)
-        End If
+        'If Not TypeOf Me.RefDoc Is GoodsSold _
+        'AndAlso Not TypeOf Me.RefDoc Is PurchaseCN Then
+        Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
+        Me.SetGLFormat(Me.GLFormat)
+        'End If
       End If
     End Sub
     Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date) As DataTable
