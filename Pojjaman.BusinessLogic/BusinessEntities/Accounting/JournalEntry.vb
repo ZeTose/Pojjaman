@@ -1587,6 +1587,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+     
+
       Dim n As Integer = 0
       For Each item As JournalEntryItem In Me.ItemCollection
         If item.Account IsNot Nothing Then
@@ -1683,6 +1685,79 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         n += 1
       Next
+
+      Dim groups As New Dictionary(Of Integer, JournalEntryItem)
+      Dim sumAmt As Decimal = 0
+      n = 0
+      For Each item As JournalEntryItem In Me.ItemCollection
+        If item.Account IsNot Nothing Then
+          Dim ji As JournalEntryItem
+          If Not groups.ContainsKey(item.Account.Id) Then
+            Dim newJi As New JournalEntryItem
+            newJi.Account = item.Account
+            newJi.IsDebit = item.IsDebit
+            groups(item.Account.Id) = newJi
+          End If
+          ji = groups(item.Account.Id)
+          ji.Amount += item.Amount
+        End If
+      Next
+      For Each item As JournalEntryItem In groups.Values
+
+        'Item.LineNumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LineNumber"
+        dpi.Value = n + 1
+        dpi.DataType = "System.Int32"
+        dpi.Row = n + 1
+        dpi.Table = "GroupItem"
+        dpiColl.Add(dpi)
+
+        Dim space As String = ""
+        If Not item.IsDebit Then
+          space = "   "
+        End If
+
+        'Item.AccountCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.AccountCode"
+        dpi.Value = space & item.Account.Code
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "GroupItem"
+        dpiColl.Add(dpi)
+
+        'Item.Account
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Account"
+        dpi.Value = space & item.Account.Name
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "GroupItem"
+        dpiColl.Add(dpi)
+
+        If item.IsDebit Then
+          'Item.Debit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Debit"
+          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "GroupItem"
+          dpiColl.Add(dpi)
+        Else
+          ' Item.Credit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Credit"
+          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "GroupItem"
+          dpiColl.Add(dpi)
+        End If
+        n += 1
+      Next
+
       Return dpiColl
     End Function
 #End Region

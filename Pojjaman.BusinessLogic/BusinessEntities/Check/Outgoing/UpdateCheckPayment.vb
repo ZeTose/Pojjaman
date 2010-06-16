@@ -842,9 +842,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
-      If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
-        Return Me.AutoCodeFormat.GLFormat
+      ''Hack เอา Bug #859 เมนูปรับปรุงสถานะเช็คจ่าย หากเป็นเช็คยกเลิก การบันทึกบัญชีไม่ลงตามการเชื่อมบัญชี 
+      '' เพราะ เป็นเอกสารที่มีสอง autorun อยู่แล้ว ถ้าต้องแก้จริงๆ คือ 1 Autorun ให้มีผลต่อ สถานะเช็คไปด้วยเลยก็จะยากขึ้น
+      If Me.UpdatedStatus.Value <> 0 Then
+        If Not Me.AutoCodeFormat.GLFormat Is Nothing AndAlso Me.AutoCodeFormat.GLFormat.Originated Then
+          Return Me.AutoCodeFormat.GLFormat
+        End If
       End If
+
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
                   , CommandType.StoredProcedure _
                   , "GetGLFormatForEntity" _
