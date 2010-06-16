@@ -1394,6 +1394,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
 
     End Function
+
+
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
@@ -1543,6 +1545,92 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = Me.Note
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
+
+      'Mapping การอนุมัติ #917
+      Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
+      If appTable.Rows.Count > 0 Then
+        For Each row As DataRow In appTable.Rows
+          Dim deh As New DataRowHelper(row)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_name")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonCodeLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_code")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_name") & ":" & deh.GetValue(Of String)("user_code")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+        Next
+        
+      End If
+      
+
+      'Mapping User #907
+      If Me.Originator IsNot Nothing Then
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CreatorName"
+        dpi.Value = Me.Originator.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CreatorCode"
+        dpi.Value = Me.Originator.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CreatorInfo"
+        dpi.Value = Me.Originator.Code & ":" & Originator.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CreateDate"
+        dpi.Value = OriginDate.ToShortDateString
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      End If
+
+      If Me.LastEditor IsNot Nothing Then
+        dpi = New DocPrintingItem
+        dpi.Mapping = "LastEditorName"
+        dpi.Value = Me.LastEditor.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "LastEditorCode"
+        dpi.Value = Me.LastEditor.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "LastEditorInfo"
+        dpi.Value = Me.LastEditor.Code & ":" & LastEditor.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "LastEditDate"
+        dpi.Value = LastEditDate.ToShortDateString
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      End If
 
       Dim line As Integer = 0
       Dim counter As Integer = 0
