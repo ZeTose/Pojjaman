@@ -762,12 +762,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove
-      Get
+      Get   'ยอด before tax มันเอา Retention ออกแล้ว
         Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
-            Return Me.BeforeTax - Me.Retention
+            Return Me.BeforeTax '- Me.Retention
           Case 1 '"แยก"
-            Return Me.BeforeTax + Me.RealTaxAmount - Me.Retention
+            Return Me.BeforeTax + Me.RealTaxAmount '- Me.Retention
           Case 2 '"รวม"
             Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount - Me.Retention
         End Select
