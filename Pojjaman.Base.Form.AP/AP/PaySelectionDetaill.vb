@@ -1585,16 +1585,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, False)
               Try
                 If oldSupId <> Me.m_entity.Supplier.Id Then
-                  If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Caption.ChangeSupplier}") Then
+                  If oldSupId = 0 Then
                     oldSupId = Me.m_entity.Supplier.Id
                     dirtyFlag = True
                     ChangeSupplier()
                   Else
-                    dirtyFlag = False
-                    Me.m_entity.Supplier = oldSupplier
-                    Me.txtSupplierCode.Text = oldSupplier.Code
-                    Me.txtSupplierName.Text = oldSupplier.Name
-                    supplierCodeChanged = False
+                    If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Caption.ChangeSupplier}") Then
+                      oldSupId = Me.m_entity.Supplier.Id
+                      dirtyFlag = True
+                      ChangeSupplier()
+                    Else
+                      dirtyFlag = False
+                      Me.m_entity.Supplier = oldSupplier
+                      Me.txtSupplierCode.Text = oldSupplier.Code
+                      Me.txtSupplierName.Text = oldSupplier.Name
+                      supplierCodeChanged = False
+                    End If
                   End If
                 End If
               Catch ex As Exception

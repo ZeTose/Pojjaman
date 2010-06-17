@@ -30,7 +30,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PA
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
-        , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh
+        , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh, IHasToCostCenter
 
 
 
@@ -724,7 +724,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
-    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
+    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
       Get
         Return Me.Sc.CostCenter
       End Get
