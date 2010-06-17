@@ -698,7 +698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property Amount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount
       Get
-        If Me.Dr.Closing Then
+        If Not Me.Dr Is Nothing AndAlso Me.Dr.Closing Then
           Return Me.ReceivedAmount
         End If
         Return Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
