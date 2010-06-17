@@ -3613,31 +3613,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				If Me.m_entity.ToCostCenter.Originated Then
 					entities.Add(Me.m_entity.ToCostCenter)
 				End If
-				Dim poNeedsApproval As Boolean = False
-				poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
-				Dim filters(3) As Filter
-				filters(0) = New Filter("poNeedsApproval", poNeedsApproval)
-				filters(1) = New Filter("excludeCanceled", True)
-				filters(2) = New Filter("excludedepleted", True)
-				filters(3) = New Filter("excludeclosed", True)
-				myEntityPanelService.OpenListDialog(New PO, AddressOf SetPO, filters, entities)
+        Dim poNeedsApproval As Boolean = False
+        Dim poExcluded As Object = DBNull.Value
+        poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
+        If Not Me.m_entity.Po Is Nothing AndAlso Me.m_entity.Po.Originated Then
+          poExcluded = Me.m_entity.Po.Id
+        End If
+        Dim filters(1) As Filter
+        filters(0) = New Filter("poNeedsApproval", poNeedsApproval)
+        filters(1) = New Filter("poExcluded", poExcluded)
+        'filters(1) = New Filter("excludeCanceled", True)
+        'filters(2) = New Filter("excludedepleted", True)
+        'filters(3) = New Filter("excludeclosed", True)
+        myEntityPanelService.OpenListDialog(New POForGoodsReceipt, AddressOf SetPO, filters, entities)
 			End If
 		End Sub
 		Private Sub SetPO(ByVal e As ISimpleEntity)
 			Dim poNeedsApproval As Boolean = False
 			poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
-			Dim newPo As PO = CType(e, PO)
+      Dim newPo As PO = CType(e, PO)
 			If poNeedsApproval AndAlso newPo.ApproveDate.Equals(Date.MinValue) Then
 				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 				msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsNotApproved}", New String() {newPo.Code})
 				Return
 			End If
 			Me.txtPOCode.Text = e.Code
-			Me.WorkbenchWindow.ViewContent.IsDirty = _
-				Me.WorkbenchWindow.ViewContent.IsDirty _
-				Or PO.GetPO(txtPOCode, Me.m_entity.Po)
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+       Me.WorkbenchWindow.ViewContent.IsDirty _
+       Or PO.GetPO(txtPOCode, Me.m_entity.Po)
 
-			Dim flag As Boolean = m_isInitialized
+      Dim flag As Boolean = m_isInitialized
 			m_isInitialized = False
 			Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
 			Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code

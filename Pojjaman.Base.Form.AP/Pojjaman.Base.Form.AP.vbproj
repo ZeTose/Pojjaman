@@ -200,6 +200,9 @@
     <Compile Include="Payment\PaymentOutDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="PO\POForGoodsReceiptFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PO\POFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -304,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Payment\PaymentOutDetail.resx">
       <DependentUpon>PaymentOutDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PO\POForGoodsReceiptFilterSubPanel.resx">
+      <DependentUpon>POForGoodsReceiptFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PO\POFilterSubPanel.resx">
       <DependentUpon>POFilterSubPanel.vb</DependentUpon>

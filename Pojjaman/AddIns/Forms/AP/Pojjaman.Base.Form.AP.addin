@@ -9,7 +9,8 @@
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="supplier" entity="supplier" filter="Longkong.Pojjaman.Gui.Panels.SupplierFilterSubPanel"/>
 		<EntityFilter id="pr" entity="pr" filter="Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel"/>
-		<EntityFilter id="po" entity="po" filter="Longkong.Pojjaman.Gui.Panels.POFilterSubPanel"/>
+    <EntityFilter id="po" entity="po" filter="Longkong.Pojjaman.Gui.Panels.POFilterSubPanel"/>
+    <EntityFilter id="poforgoodsreceipt" entity="poforgoodsreceipt" filter="Longkong.Pojjaman.Gui.Panels.POForGoodsReceiptFilterSubPanel"/>
 		<EntityFilter id="apopeningbalance" entity="apopeningbalance" filter="Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel"/>
 		<EntityFilter id="goodsreceipt" entity="goodsreceipt" filter="Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel"/>
 	

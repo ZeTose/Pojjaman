@@ -3828,5 +3828,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Return "POForApprove"
 			End Get
 		End Property
-	End Class
+  End Class
+  Public Class POForGoodsReceipt
+    Inherits PO
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "POForGoodsReceipt"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "POForGoodsReceipt"
+      End Get
+    End Property
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal code As String)
+      MyBase.New(code)
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct()
+      With Me
+        Dim drh As New DataRowHelper(dr)
+
+        .Id = drh.GetValue(Of Integer)("po_id")
+        .Code = drh.GetValue(Of String)("po_code")
+        .DocDate = drh.GetValue(Of Date)("po_docDate")
+        .ApproveDate = drh.GetValue(Of Date)("po_approveDate")
+
+      End With
+    End Sub
+  End Class
 End Namespace
