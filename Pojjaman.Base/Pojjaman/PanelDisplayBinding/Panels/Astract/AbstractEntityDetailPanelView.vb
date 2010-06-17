@@ -700,7 +700,93 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '==============================END CUSTOM NOTES=============================================
 
       Next
+
+      Dim myDpiColl As New DocPrintingItemCollection
+      Dim myDpi As DocPrintingItem
+      For Each entity As IPrintableEntity In m_entities
+        If TypeOf entity Is ISimpleEntity Then
+          Dim myEntity As ISimpleEntity = CType(entity, ISimpleEntity)
+
+          'ชื่อผู้สร้างเอกสาร
+          If myEntity.Originator IsNot Nothing Then
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "CreatorName"
+            myDpi.Value = myEntity.Originator.Name
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "CreatorCode"
+            myDpi.Value = myEntity.Originator.Code
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "CreatorInfo"
+            myDpi.Value = myEntity.Originator.Code & ":" & myEntity.Originator.Name
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+          End If
+
+          'วันที่สร้างเอกสาร
+          If myEntity.OriginDate <> Date.MinValue Then
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "CreateDate"
+            myDpi.Value = myEntity.OriginDate.ToShortDateString
+            myDpi.DataType = "System.DateTime"
+            myDpiColl.Add(myDpi)
+          End If
+
+          'ผู้แก้ไขล่าสุด
+          If myEntity.LastEditor IsNot Nothing Then
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "LastEditorName"
+            myDpi.Value = myEntity.LastEditor.Name
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "LastEditorCode"
+            myDpi.Value = myEntity.LastEditor.Code
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "LastEditorInfo"
+            myDpi.Value = myEntity.LastEditor.Code & ":" & myEntity.LastEditor.Name
+            myDpi.DataType = "System.String"
+            myDpiColl.Add(myDpi)
+          End If
+
+          'วันที่แก้ไขล่าสุด
+          If myEntity.LastEditDate <> Date.MinValue Then
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "LastEditDate"
+            myDpi.Value = myEntity.LastEditDate.ToShortDateString
+            myDpi.DataType = "System.DateTime"
+            myDpiColl.Add(myDpi)
+          End If
+
+          'ผู้ที่ Print
+          Dim mySecurity As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          myDpi = New DocPrintingItem
+          myDpi.Mapping = "PrintBy"
+          myDpi.Value = mySecurity.CurrentUser.Name
+          myDpi.DataType = "System.String"
+          myDpiColl.Add(myDpi)
+
+          'วันที่ Print
+          myDpi = New DocPrintingItem
+          myDpi.Mapping = "PrintDate"
+          myDpi.Value = Date.Now.ToString("dd/MM/yyyy hh:mm:ss")
+          myDpi.DataType = "System.Datetime"
+          myDpiColl.Add(myDpi)
+
+        End If
+      Next
+
       ret.AddRange(tmpRet)
+      ret.AddRange(myDpiColl)
       Return ret
     End Function
 
