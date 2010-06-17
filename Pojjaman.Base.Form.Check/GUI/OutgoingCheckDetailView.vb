@@ -864,7 +864,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					dtpIssueDate.Enabled = False
 					txtBankAccountCode.Enabled = False
 					btnBankAccountFind.Enabled = False
-					btnBankAccountEdit.Enabled = False
+          btnBankAccountEdit.Enabled = False
+          If m_entity.Status.Value = 3 Then
+            txtNote.Enabled = True
+            txtrecipient.Enabled = True
+          End If
 					If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
 						txtCqCode.Enabled = True
 						txtDueDate.Enabled = True
