@@ -1895,6 +1895,39 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       dpi.Value = Configuration.FormatToString(Me.TaxRate, DigitConfig.Int)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
+
+
+      'Mapping การอนุมัติ #917
+      Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
+      If appTable.Rows.Count > 0 Then
+        For Each row As DataRow In appTable.Rows
+          Dim deh As New DataRowHelper(row)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_name")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonCodeLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_code")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("user_name") & ":" & deh.GetValue(Of String)("user_code")
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
+          dpi.DataType = "System.DateTime"
+          dpiColl.Add(dpi)
+        Next
+
+      End If
       '------------------ท้ายเอกสาร------------------------------
       Dim line As Integer = 0
       Dim counter As Integer = 0

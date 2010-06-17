@@ -1577,60 +1577,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         
       End If
-      
 
-      'Mapping User #907
-      If Me.Originator IsNot Nothing Then
-        dpi = New DocPrintingItem
-        dpi.Mapping = "CreatorName"
-        dpi.Value = Me.Originator.Name
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "CreatorCode"
-        dpi.Value = Me.Originator.Code
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "CreatorInfo"
-        dpi.Value = Me.Originator.Code & ":" & Originator.Name
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "CreateDate"
-        dpi.Value = OriginDate.ToShortDateString
-        dpi.DataType = "System.DateTime"
-        dpiColl.Add(dpi)
-      End If
-
-      If Me.LastEditor IsNot Nothing Then
-        dpi = New DocPrintingItem
-        dpi.Mapping = "LastEditorName"
-        dpi.Value = Me.LastEditor.Name
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "LastEditorCode"
-        dpi.Value = Me.LastEditor.Code
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "LastEditorInfo"
-        dpi.Value = Me.LastEditor.Code & ":" & LastEditor.Name
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
-        dpi = New DocPrintingItem
-        dpi.Mapping = "LastEditDate"
-        dpi.Value = LastEditDate.ToShortDateString
-        dpi.DataType = "System.DateTime"
-        dpiColl.Add(dpi)
-      End If
 
       Dim line As Integer = 0
       Dim counter As Integer = 0
