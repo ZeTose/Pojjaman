@@ -1038,8 +1038,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub PopulateStatus()
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      'Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
+      Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
       Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
+      Dim maxGRApproveLevel As Integer = CType(Configuration.GetConfig("MaxLevelApprovePR"), Integer)
+
       Dim dt1 As DataTable
 
       CodeDescription.ListCodeDescriptionInComboBox(cmbStatus, "pr_status", True)
@@ -1048,11 +1051,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
         cmbStatus.Items.Add(item)
       Next
+
       dt1 = CodeDescription.GetCodeList("approve_status")
+      Dim itemApprove1 As IdValuePair = Nothing
+      Dim itemApprove2 As IdValuePair = Nothing
+      Dim itemApprove3 As IdValuePair = Nothing
+
       For Each row As DataRow In dt1.Rows
-        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
-        cmbStatus.Items.Add(item)
+        If Not row.IsNull("code_value") Then
+          If CInt(row("code_value")) = 201 Then
+            itemApprove1 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          End If
+          'If CInt(row("code_value")) = "202" Then
+          '  itemApprove2 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          'End If
+          If CInt(row("code_value")) = 203 Then
+            itemApprove3 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          End If
+        End If
       Next
+
       dt1 = CodeDescription.GetCodeList("close_status")
       For Each row As DataRow In dt1.Rows
         Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
@@ -1061,10 +1079,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbApproveLevel.Items.Clear()
       cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
-      For i As Integer = 0 To User.MaxLevel
-        Dim item As New IdValuePair(i, lvString & Space(1) & i.ToString)
+      For i As Integer = 1 To maxGRApproveLevel 'User.MaxLevel
+        Dim item As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
         cmbApproveLevel.Items.Add(item)
       Next
+      If Not itemApprove1 Is Nothing Then
+        cmbApproveLevel.Items.Insert(maxGRApproveLevel + 1, itemApprove1)
+      End If
+      If Not itemApprove3 Is Nothing Then
+        cmbApproveLevel.Items.Insert(maxGRApproveLevel + 2, itemApprove3)
+      End If
     End Sub
     Public Sub SetLabelText()
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.grbDetail}")

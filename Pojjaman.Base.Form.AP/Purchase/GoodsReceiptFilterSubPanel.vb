@@ -1387,13 +1387,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       For Each row As DataRow In dt1.Rows
         If Not row.IsNull("code_value") Then
-          If CInt(row("code_value")) = "201" Then
+          If CInt(row("code_value")) = 201 Then
             itemApprove1 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
           End If
           'If CInt(row("code_value")) = "202" Then
           '  itemApprove2 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
           'End If
-          If CInt(row("code_value")) = "203" Then
+          If CInt(row("code_value")) = 203 Then
             itemApprove3 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
           End If
         End If

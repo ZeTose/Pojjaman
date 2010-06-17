@@ -640,9 +640,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       'Dim lvString As String = Me.StringParserService.Parse("${res:Global.Level}")
       Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
-      'Dim lvApproved As String = Me.StringParserService.Parse("${res:Global.MaxLevelApproved}")
       Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
-      '('Global.WaitForOtherLevelApprove', 'Global.MaxLevelApproved')
+      Dim maxGRApproveLevel As Integer = CType(Configuration.GetConfig("MaxLevelApproveWR"), Integer)
+
       Dim dt1 As DataTable
 
       CodeDescription.ListCodeDescriptionInComboBox(cmbStatus, "sc_status", True)
@@ -651,11 +651,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
         cmbStatus.Items.Add(item)
       Next
+
       dt1 = CodeDescription.GetCodeList("approve_status")
+      Dim itemApprove1 As IdValuePair = Nothing
+      Dim itemApprove2 As IdValuePair = Nothing
+      Dim itemApprove3 As IdValuePair = Nothing
+
       For Each row As DataRow In dt1.Rows
-        Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
-        cmbStatus.Items.Add(item)
+        If Not row.IsNull("code_value") Then
+          If CInt(row("code_value")) = 201 Then
+            itemApprove1 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          End If
+          'If CInt(row("code_value")) = "202" Then
+          '  itemApprove2 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          'End If
+          If CInt(row("code_value")) = 203 Then
+            itemApprove3 = New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
+          End If
+        End If
       Next
+
       dt1 = CodeDescription.GetCodeList("close_status")
       For Each row As DataRow In dt1.Rows
         Dim item As New IdValuePair(CInt(row("code_value")), myService.Parse(CStr(row("code_description"))))
@@ -664,12 +679,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbApproveLevel.Items.Clear()
       cmbApproveLevel.Items.Insert(0, New IdValuePair(-1, notAppear))
-      For i As Integer = 1 To User.MaxLevel
-        Dim witem As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
-        cmbApproveLevel.Items.Add(witem)
+      For i As Integer = 1 To maxGRApproveLevel 'User.MaxLevel
+        Dim item As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
+        cmbApproveLevel.Items.Add(item)
       Next
-      'Dim aitem As New IdValuePair(User.MaxLevel, String.Format(lvApproved, User.MaxLevel))
-      'cmbApproveLevel.Items.Add(aitem)
+      If Not itemApprove1 Is Nothing Then
+        cmbApproveLevel.Items.Insert(maxGRApproveLevel + 1, itemApprove1)
+      End If
+      If Not itemApprove3 Is Nothing Then
+        cmbApproveLevel.Items.Insert(maxGRApproveLevel + 2, itemApprove3)
+      End If
     End Sub
     Public Sub SetLabelText()
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.grbDetail}")
@@ -695,7 +714,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel.lblApproveLevel}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(6) As Filter
+      Dim arr(7) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
       arr(2) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
@@ -703,6 +722,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(4) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       arr(5) = New Filter("ApprovePerson", ValidIdOrDBNull(m_user))
       arr(6) = New Filter("ApproveLevel", IIf(cmbApproveLevel.SelectedItem Is Nothing, DBNull.Value, CType(cmbApproveLevel.SelectedItem, IdValuePair).Id))
+      arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
