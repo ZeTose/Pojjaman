@@ -71,6 +71,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnBlankSubItem As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnShowWR As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRetention As System.Windows.Forms.TextBox
+    Friend WithEvents txtAdvancePay As System.Windows.Forms.TextBox
+    Friend WithEvents lblRetention As System.Windows.Forms.Label
+    Friend WithEvents lblAdvancePay As System.Windows.Forms.Label
     Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -95,8 +99,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierCode = New System.Windows.Forms.TextBox()
       Me.txtSupplierName = New System.Windows.Forms.TextBox()
       Me.lblStatus = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
       Me.txtSCCode = New System.Windows.Forms.TextBox()
@@ -131,7 +135,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.Label1 = New System.Windows.Forms.Label()
       Me.ImageButton1 = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.txtRetention = New System.Windows.Forms.TextBox()
+      Me.txtAdvancePay = New System.Windows.Forms.TextBox()
+      Me.lblRetention = New System.Windows.Forms.Label()
+      Me.lblAdvancePay = New System.Windows.Forms.Label()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -382,7 +392,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
       Me.Validator.SetRequired(Me.txtSupplierCode, False)
-      Me.txtSupplierCode.Size = New System.Drawing.Size(96, 21)
+      Me.txtSupplierCode.Size = New System.Drawing.Size(77, 21)
       Me.txtSupplierCode.TabIndex = 4
       '
       'txtSupplierName
@@ -392,13 +402,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
-      Me.txtSupplierName.Location = New System.Drawing.Point(192, 64)
+      Me.txtSupplierName.Location = New System.Drawing.Point(174, 64)
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
       Me.Validator.SetRequired(Me.txtSupplierName, False)
-      Me.txtSupplierName.Size = New System.Drawing.Size(216, 21)
+      Me.txtSupplierName.Size = New System.Drawing.Size(142, 21)
       Me.txtSupplierName.TabIndex = 24
       Me.txtSupplierName.TabStop = False
       '
@@ -455,7 +465,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtCostCenterCode, False)
-      Me.txtCostCenterCode.Size = New System.Drawing.Size(96, 21)
+      Me.txtCostCenterCode.Size = New System.Drawing.Size(77, 21)
       Me.txtCostCenterCode.TabIndex = 5
       '
       'txtSCCode
@@ -482,13 +492,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.txtCostCenterName.Location = New System.Drawing.Point(192, 88)
+      Me.txtCostCenterName.Location = New System.Drawing.Point(174, 88)
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
       Me.Validator.SetRequired(Me.txtCostCenterName, False)
-      Me.txtCostCenterName.Size = New System.Drawing.Size(216, 21)
+      Me.txtCostCenterName.Size = New System.Drawing.Size(142, 21)
       Me.txtCostCenterName.TabIndex = 25
       Me.txtCostCenterName.TabStop = False
       '
@@ -631,6 +641,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.txtRetention)
+      Me.grbDetail.Controls.Add(Me.txtAdvancePay)
+      Me.grbDetail.Controls.Add(Me.lblRetention)
+      Me.grbDetail.Controls.Add(Me.lblAdvancePay)
       Me.grbDetail.Controls.Add(Me.ibtnShowWR)
       Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.chkClosed)
@@ -938,12 +952,64 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ImageButton1.ThemedImage = CType(resources.GetObject("ImageButton1.ThemedImage"), System.Drawing.Bitmap)
       Me.ImageButton1.Visible = False
       '
+      'txtRetention
+      '
+      Me.Validator.SetDataType(Me.txtRetention, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRetention, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRetention, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRetention, System.Drawing.Color.Empty)
+      Me.txtRetention.Location = New System.Drawing.Point(385, 64)
+      Me.Validator.SetMinValue(Me.txtRetention, "")
+      Me.txtRetention.Name = "txtRetention"
+      Me.Validator.SetRegularExpression(Me.txtRetention, "")
+      Me.Validator.SetRequired(Me.txtRetention, False)
+      Me.txtRetention.Size = New System.Drawing.Size(103, 21)
+      Me.txtRetention.TabIndex = 348
+      Me.txtRetention.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtAdvancePay
+      '
+      Me.Validator.SetDataType(Me.txtAdvancePay, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAdvancePay, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
+      Me.txtAdvancePay.Location = New System.Drawing.Point(385, 88)
+      Me.Validator.SetMinValue(Me.txtAdvancePay, "")
+      Me.txtAdvancePay.Name = "txtAdvancePay"
+      Me.Validator.SetRegularExpression(Me.txtAdvancePay, "")
+      Me.Validator.SetRequired(Me.txtAdvancePay, False)
+      Me.txtAdvancePay.Size = New System.Drawing.Size(103, 21)
+      Me.txtAdvancePay.TabIndex = 349
+      Me.txtAdvancePay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'lblRetention
+      '
+      Me.lblRetention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRetention.Location = New System.Drawing.Point(322, 64)
+      Me.lblRetention.Name = "lblRetention"
+      Me.lblRetention.Size = New System.Drawing.Size(56, 18)
+      Me.lblRetention.TabIndex = 350
+      Me.lblRetention.Text = "Retention:"
+      Me.lblRetention.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblAdvancePay
+      '
+      Me.lblAdvancePay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAdvancePay.Location = New System.Drawing.Point(322, 88)
+      Me.lblAdvancePay.Name = "lblAdvancePay"
+      Me.lblAdvancePay.Size = New System.Drawing.Size(56, 18)
+      Me.lblAdvancePay.TabIndex = 351
+      Me.lblAdvancePay.Text = "มัดจำ:"
+      Me.lblAdvancePay.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'VOPanelView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "VOPanelView"
       Me.Size = New System.Drawing.Size(784, 552)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.ResumeLayout(False)
@@ -1863,6 +1929,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblCode}")
       Me.Validator.SetDisplayName(Me.txtSCCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
+      Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.lblRetention}")
 
       '            Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblGross}")
 
@@ -1921,6 +1988,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtCostCenterCode.TextChanged, AddressOf Me.TextHandler
+
+      AddHandler txtRetention.Validated, AddressOf Me.TextHandler
+
+      AddHandler txtAdvancePay.Validated, AddressOf Me.TextHandler
+
 
       '            ' AddHandler txtRequestorCode.Validated, AddressOf Me.ChangeProperty
       '            ' AddHandler txtRequestorCode.TextChanged, AddressOf Me.TextHandler
@@ -1989,6 +2061,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.RealGross = 0
             End Try
           End If
+        Case "txtretention"
+          If IsNumeric(txtRetention.Text) Then
+            dirtyFlag = True
+            m_entity.Retention = txtRetention.Text
+            txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+          Else
+            txtRetention.Text = Configuration.FormatToString(0, DigitConfig.Price)
+          End If
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+        Case "txtadvancepay"
+          If IsNumeric(txtAdvancePay.Text) Then
+            dirtyFlag = True
+            m_entity.AdvancePay = txtAdvancePay.Text
+            txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
+          Else
+            txtAdvancePay.Text = Configuration.FormatToString(0, DigitConfig.Price)
+          End If
           forceUpdateTaxBase = True
           forceUpdateTaxAmount = True
           UpdateAmount(True)
@@ -2042,6 +2131,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtCostCenterCode.Text = m_entity.SC.CostCenter.Code
       txtCostCenterName.Text = m_entity.SC.CostCenter.Name
+
+      txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+      txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
 
       txtNote.Text = m_entity.Note
 

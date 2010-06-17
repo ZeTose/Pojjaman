@@ -39,10 +39,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_approvePerson As User
     Private m_approveDate As DateTime
 
+    Private m_retention As Decimal
+    Private m_advancepay As Decimal
+
     Private m_closed As Boolean
     Private m_closing As Boolean
 
 #End Region
+
+    
 
 #Region "Constructors"
     Public Sub New()
@@ -144,6 +149,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "vo_closed") AndAlso Not dr.IsNull(aliasPrefix & "vo_closed") Then
           .m_closed = CBool(dr(aliasPrefix & "vo_closed"))
           .m_closing = CBool(dr(aliasPrefix & "vo_closed"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vo_retention") AndAlso Not dr.IsNull(aliasPrefix & "vo_retention") Then
+          .m_retention = CDec(dr(aliasPrefix & "vo_retention"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vo_advancepay") AndAlso Not dr.IsNull(aliasPrefix & "vo_advancepay") Then
+          .m_advancepay = CDec(dr(aliasPrefix & "vo_advancepay"))
         End If
         ' ApprovePerson
         If dr.Table.Columns.Contains("approvePerson.user_id") Then
@@ -311,6 +322,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As CodeDescription)
         m_status = CType(Value, VOStatus)
+      End Set
+    End Property
+    Public Property AdvancePay() As Decimal      Get
+        Return m_advancepay
+      End Get
+      Set(ByVal Value As Decimal)
+        m_advancepay = Value
+      End Set
+    End Property
+    Public Property Retention() As Decimal
+      Get
+        Return m_retention
+      End Get
+      Set(ByVal Value As Decimal)
+        m_retention = Value
       End Set
     End Property
     'Public ReadOnly Property DiscountWithVat() As Decimal
@@ -1149,6 +1175,8 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", Me.Closed))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", willClose))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_retention", Me.Retention))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_advancepay", Me.AdvancePay))
 
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_director", ValidIdOrDBNull(Me.Director)))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_witholdingtax", Me.WitholdingTax))
@@ -1838,6 +1866,19 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpiColl.Add(dpi)
       End If
 
+      'Retention
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Retention"
+      dpi.Value = Configuration.FormatToString(Me.Retention, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'AdvancePayAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvancePayAmount"
+      dpi.Value = Configuration.FormatToString(Me.AdvancePay, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
       '------------------ท้ายเอกสาร------------------------------
       'Note
       dpi = New DocPrintingItem
