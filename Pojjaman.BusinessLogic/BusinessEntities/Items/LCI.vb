@@ -1181,6 +1181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newRow5("Selected") = False
           newRow5("Code") = drh5.GetValue(Of String)("lci_code")
           newRow5("Description") = drh5.GetValue(Of String)("lci_name")
+          newRow5("AccountInfo") = drh5.GetValue(Of String)("AccountInfo")
 
           newRow5("Unit") = drh5.GetValue(Of String)("unit_name")
           If drh5.GetValue(Of Decimal)("lci_fairprice") <> 0 Then

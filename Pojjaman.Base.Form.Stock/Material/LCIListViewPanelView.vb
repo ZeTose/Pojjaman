@@ -1370,6 +1370,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDescription.Width = 180
       csDescription.ReadOnly = True
 
+      Dim csAccountInfo As New TreeTextColumn
+      csAccountInfo.MappingName = "AccountInfo"
+      csAccountInfo.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.AccountInfoHeaderText}")
+      csAccountInfo.NullText = ""
+      csAccountInfo.Width = 100
+      csAccountInfo.ReadOnly = True
+
       Dim csUnit As New TreeTextColumn
       csUnit.MappingName = "Unit"
       csUnit.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.UnitHeaderText}")
@@ -1390,6 +1397,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csDescription)
+      dst.GridColumnStyles.Add(csAccountInfo)
       dst.GridColumnStyles.Add(csUMC)
       dst.GridColumnStyles.Add(csUnit)
 
@@ -1426,6 +1434,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myDatatable.Columns.Add(New DataColumn("Id", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Description", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("AccountInfo", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("unitId", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitPrice", GetType(String)))
