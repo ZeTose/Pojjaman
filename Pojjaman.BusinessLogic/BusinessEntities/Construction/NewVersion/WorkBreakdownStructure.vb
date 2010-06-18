@@ -12,6 +12,11 @@ Imports System.ComponentModel
 Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class CBSValue
+    Public Property Week As Week
+    Public Property Budget As Decimal
+    Public Property Amount As Decimal
+  End Class
   Public Class CBS
 
 #Region "Shared"
@@ -142,7 +147,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+    Private m_plan As List(Of CBSValue)
+    Public Function GetPlannedValue(ByVal boqId As Integer) As Decimal
+      Dim ret As Decimal = 0
+      For Each p As CBSValue In Plan(boqId)
+        ret += p.Amount
+      Next
+      Return ret
+    End Function
+    Public Function Plan(ByVal boqId As Integer) As List(Of CBSValue)
+      RefreshPlan(boqId)
+      Return m_plan
+    End Function
+    Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+    Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+      Get
+        If m_CachedPlanDataTables Is Nothing Then
+          m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
+        End If
+        Return m_CachedPlanDataTables
+      End Get
+    End Property
+    Private Sub RefreshPlan(ByVal boqId As Integer)
+      m_plan = New List(Of CBSValue)
+      If boqId <> 0 Then
+
+        If Not CachedPlanDataTables.ContainsKey(boqId) Then
+          Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+          , CommandType.Text _
+          , "SELECT cbs_id,year,month,number,sum(wbs_amount) [Budget],SUM(amount) [amount] " & _
+" FROM wbs " & _
+" INNER JOIN cbs ON cbs_id = wbs_cbs" & _
+" INNER JOIN plans ON plan_wbs = wbs_id" & _
+" WHERE wbs_boq = 11" & _
+" GROUP BY cbs_id,year,month,number" _
+          )
+          Dim dt As DataTable = ds.Tables(0)
+          CachedPlanDataTables(boqId) = dt
+        End If
+        For Each dr As DataRow In CachedPlanDataTables(boqId).Select("cbs_id = " & Me.Id.ToString)
+          Dim deh As New DataRowHelper(dr)
+          Dim y As Integer = deh.GetValue(Of Integer)("year")
+          Dim m As Integer = deh.GetValue(Of Integer)("month")
+          Dim n As Integer = deh.GetValue(Of Integer)("number")
+          Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
+          Dim budget As Decimal = deh.GetValue(Of Decimal)("budget")
+          Dim cbv As New CBSValue
+          cbv.Amount = amount
+          cbv.Budget = budget
+          cbv.Week = New Week(n, m, y)
+          m_plan.Add(cbv)
+        Next
+      End If
+    End Sub
   End Class
+
   Public Class WorkBreakdownStructure
 
 #Region "Constructors"
@@ -171,6 +231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       FinishDate = dh.GetValue(Of Date)("wbs_realfinishdate")
 
       ParentId = dh.GetValue(Of Integer)("wbs_parid")
+      BOQId = dh.GetValue(Of Integer)("wbs_boq")
       Dim unitId As Integer = dh.GetValue(Of Integer)("wbs_unit", 0)
       Unit = New Unit(unitId)
 
@@ -178,7 +239,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CBS = CBS.GetById(cbsId)
 
       Me.State = CType([Enum].Parse(GetType(RowExpandState), dh.GetValue(Of String)("wbs_state", "1")), RowExpandState)
-
     End Sub
 #End Region
 
@@ -192,7 +252,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property ParentId As Nullable(Of Integer)
     Public Property Unit As Unit
     Public Property State As RowExpandState = RowExpandState.Expanded
+    Public Property BOQId As Integer
+    Private m_plan As Dictionary(Of Week, Decimal)
+    Public Function GetPlannedValue() As Decimal
+      Dim ret As Decimal = 0
+      For Each p As KeyValuePair(Of Week, Decimal) In Plan
+        ret += p.Value
+      Next
+      Return ret
+    End Function
+    Public ReadOnly Property Plan As Dictionary(Of Week, Decimal)
+      Get
+        If m_plan Is Nothing Then
+          RefreshPlan()
+        End If
+        Return m_plan
+      End Get
+    End Property
+    Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+    Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+      Get
+        If m_CachedPlanDataTables Is Nothing Then
+          m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
+        End If
+        Return m_CachedPlanDataTables
+      End Get
+    End Property
+    Private Sub RefreshPlan()
+      m_plan = New Dictionary(Of Week, Decimal)
+      If BOQId <> 0 Then
 
+        If Not CachedPlanDataTables.ContainsKey(BOQId) Then
+          Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+          , CommandType.Text _
+          , "select wbs_id,plans.* from plans inner join wbs on wbs_id = plan_wbs where wbs_boq =" & BOQId.ToString & " order by wbs_id,[year],[month],[number]" _
+          )
+          Dim dt As DataTable = ds.Tables(0)
+          CachedPlanDataTables(BOQId) = dt
+        End If
+        For Each dr As DataRow In CachedPlanDataTables(BOQId).Select("wbs_id = " & Me.Id.ToString)
+          Dim deh As New DataRowHelper(dr)
+          Dim y As Integer = deh.GetValue(Of Integer)("year")
+          Dim m As Integer = deh.GetValue(Of Integer)("month")
+          Dim n As Integer = deh.GetValue(Of Integer)("number")
+          Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
+          m_plan(New Week(n, m, y)) = amount
+        Next
+      End If
+    End Sub
     Public Property CBS As CBS
     Private m_qty As Nullable(Of Decimal) = Nothing
     Public Property Qty As Nullable(Of Decimal)
@@ -304,6 +412,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
       budget.Childs.AddRange(orphans)
     End Sub
 #End Region
+    Public Sub UpdatePlan()
+      Try
+        Dim planstodelete As New List(Of KeyValuePair(Of Week, Decimal))
+        For Each p As KeyValuePair(Of Week, Decimal) In Me.Plan
+          If p.Key.Year < StartDate.Value.Year Then
+            planstodelete.Add(p)
+          ElseIf p.Key.Year = StartDate.Value.Year AndAlso p.Key.Month < StartDate.Value.Month Then
+            planstodelete.Add(p)
+          End If
+          If p.Key.Year > FinishDate.Value.Year Then
+            planstodelete.Add(p)
+          ElseIf p.Key.Year = FinishDate.Value.Year AndAlso p.Key.Month > FinishDate.Value.Month Then
+            planstodelete.Add(p)
+          End If
+        Next
+        For Each p As KeyValuePair(Of Week, Decimal) In planstodelete
+          Me.Plan.Remove(p.Key)
+        Next
+      Catch ex As Exception
+
+      End Try
+      For Each child As WorkBreakdownStructure In Me.Childs
+        child.UpdatePlan()
+      Next
+    End Sub
+    Public Sub FillPlan(ByVal dtPlans As DataTable)
+
+      For Each p As KeyValuePair(Of Week, Decimal) In Me.Plan
+        Dim drPlan As DataRow = dtPlans.NewRow
+        drPlan("plan_wbs") = Me.Id
+        drPlan("year") = p.Key.Year
+        drPlan("month") = p.Key.Month
+        drPlan("number") = p.Key.Number
+        drPlan("amount") = p.Value
+        dtPlans.Rows.Add(drPlan)
+      Next
+
+      For Each child As WorkBreakdownStructure In Me.Childs
+        child.FillPlan(dtPlans)
+      Next
+    End Sub
     Public Sub CreateOrUpdate(ByVal dtWbs As DataTable, ByVal drBoq As DataRow)
       Dim drWbs As DataRow
       Dim drs As DataRow() = dtWbs.Select("wbs_id=" & Me.Id)
@@ -421,13 +570,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("FinishDate") = DBNull.Value
       End If
 
-      tr.State = Me.State
+      tr.SetState(Me.State)
 
       tr.Tag = Me
 
       If includeChildren Then
         For Each child As WorkBreakdownStructure In Me.Childs
-          child.PopulateRow(tr.Childs.Add, SetWorkDone, current, includeChildren)
+          Dim childTR As TreeRow = tr.Childs.Add
+          child.PopulateRow(childTR, SetWorkDone, current, includeChildren)
         Next
       End If
     End Sub

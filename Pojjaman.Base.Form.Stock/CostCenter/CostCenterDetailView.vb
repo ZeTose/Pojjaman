@@ -98,6 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents ibtnShowCustomerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents chkActive As System.Windows.Forms.CheckBox
     Friend WithEvents btnCashFlow As System.Windows.Forms.Button
+    Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -106,6 +107,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnCashFlow = New System.Windows.Forms.Button()
       Me.picImage = New System.Windows.Forms.PictureBox()
       Me.chkActive = New System.Windows.Forms.CheckBox()
       Me.lblPicSize = New System.Windows.Forms.Label()
@@ -171,7 +173,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.btnCashFlow = New System.Windows.Forms.Button()
+      Me.Button1 = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -227,6 +229,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbMainDetail
       '
+      Me.grbMainDetail.Controls.Add(Me.Button1)
       Me.grbMainDetail.Controls.Add(Me.btnCashFlow)
       Me.grbMainDetail.Controls.Add(Me.picImage)
       Me.grbMainDetail.Controls.Add(Me.chkActive)
@@ -294,6 +297,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.TabStop = False
       Me.grbMainDetail.Text = "รายละเอียด Cost Center:"
       Me.ToolTip1.SetToolTip(Me.grbMainDetail, "ข้อมูลทั่วไป:")
+      '
+      'btnCashFlow
+      '
+      Me.btnCashFlow.Location = New System.Drawing.Point(104, 324)
+      Me.btnCashFlow.Name = "btnCashFlow"
+      Me.btnCashFlow.Size = New System.Drawing.Size(75, 23)
+      Me.btnCashFlow.TabIndex = 326
+      Me.btnCashFlow.Text = "Cash Flow"
+      Me.btnCashFlow.UseVisualStyleBackColor = True
       '
       'picImage
       '
@@ -1105,14 +1117,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'btnCashFlow
+      'Button1
       '
-      Me.btnCashFlow.Location = New System.Drawing.Point(104, 324)
-      Me.btnCashFlow.Name = "btnCashFlow"
-      Me.btnCashFlow.Size = New System.Drawing.Size(75, 23)
-      Me.btnCashFlow.TabIndex = 326
-      Me.btnCashFlow.Text = "Cash Flow"
-      Me.btnCashFlow.UseVisualStyleBackColor = True
+      Me.Button1.Location = New System.Drawing.Point(185, 324)
+      Me.Button1.Name = "Button1"
+      Me.Button1.Size = New System.Drawing.Size(75, 23)
+      Me.Button1.TabIndex = 327
+      Me.Button1.Text = "Cash Flow"
+      Me.Button1.UseVisualStyleBackColor = True
       '
       'CostCenterDetailView
       '
@@ -1922,6 +1934,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub btnCashFlow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCashFlow.Click
       Dim cf As New CashFlowForm
+      cf.CostCenter = m_entity
+      cf.Show()
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+      Dim cf As New CashFlowView
       cf.CostCenter = m_entity
       cf.Show()
     End Sub

@@ -90,7 +90,10 @@ Namespace Longkong.Pojjaman.Gui.Components
 			End If
 			Dim parentRow As TreeRow = CType(row.Parent, TreeRow)
 			Return GetLevel(parentRow) + 1
-		End Function
+    End Function
+    Public Sub SetState(ByVal st As RowExpandState)
+      m_rowExpandState = st
+    End Sub
 		Public Property State() As RowExpandState
 			Get
 				Return m_rowExpandState
@@ -104,25 +107,27 @@ Namespace Longkong.Pojjaman.Gui.Components
 				End If
 			End Set
 		End Property
-		Public Property Childs() As TreeRowCollection Implements ITreeParent.Childs			Get				Return m_childs			End Get			Set(ByVal Value As TreeRowCollection)				m_childs = Value			End Set		End Property		Public ReadOnly Property PreviousSibling() As TreeRow
+		Public Property Childs() As TreeRowCollection Implements ITreeParent.Childs			Get				Return m_childs			End Get			Set(ByVal Value As TreeRowCollection)				m_childs = Value			End Set		End Property    Public ReadOnly Property PreviousSibling() As TreeRow
+      Get
+        If Me.m_parent Is Nothing Then
+          Return Nothing
+        End If
+        Dim indexOfMe As Integer = m_parent.Childs.IndexOf(Me)
+        If indexOfMe = 0 Then
+          Return Nothing
+        End If
+        Return m_parent.Childs(indexOfMe - 1)
+      End Get
+    End Property		Public ReadOnly Property NextSibling() As TreeRow
 			Get
 				If Me.m_parent Is Nothing Then
 					Return Nothing
-				End If
-				If m_parent.Childs.IndexOf(Me) = 0 Then
-					Return Nothing
-				End If
-				Return m_parent.Childs(m_parent.Childs.IndexOf(Me) - 1)
-			End Get
-		End Property		Public ReadOnly Property NextSibling() As TreeRow
-			Get
-				If Me.m_parent Is Nothing Then
-					Return Nothing
-				End If
-				If m_parent.Childs.IndexOf(Me) = m_parent.Childs.Count - 1 Then
-					Return Nothing
-				End If
-				Return m_parent.Childs(m_parent.Childs.IndexOf(Me) + 1)
+        End If
+        Dim indexOfMe As Integer = m_parent.Childs.IndexOf(Me)
+        If indexOfMe = m_parent.Childs.Count - 1 Then
+          Return Nothing
+        End If
+        Return m_parent.Childs(indexOfMe + 1)
 			End Get
 		End Property		Public ReadOnly Property NextRow() As TreeRow
 			Get
@@ -265,107 +270,144 @@ Namespace Longkong.Pojjaman.Gui.Components
 #End Region
 
 #Region "Methods"
-			Public Shadows Function Add() As TreeRow
-				If Me.m_parent Is Nothing Then
-					Return Nothing
-				End If
-				Dim parentTable As DataTable
-				Dim row As TreeRow
-				If TypeOf Me.m_parent Is TreeTable Then
-					parentTable = CType(Me.m_parent, DataTable)
-				Else
-					parentTable = CType(Me.m_parent, TreeRow).Table
-				End If
-				row = CType(parentTable.NewRow, TreeRow)
-				Return Add(row)
-			End Function
+      Public Function AddWithoutFindingNeighbour(ByVal row As TreeRow) As TreeRow
+        Dim parentTable As DataTable
+        If TypeOf Me.m_parent Is TreeTable Then
+          'แม่เป็น Table
+          parentTable = CType(Me.m_parent, DataTable)
+          row.Parent = Me.m_parent
+          'ยังไงก็ Add เลยโลด
+          parentTable.Rows.Add(row)
+        Else
+          'แม่เป็น row
+          Dim parentRow As TreeRow = CType(Me.m_parent, TreeRow)
+          parentTable = parentRow.Table
+          row.Parent = Me.m_parent
+          parentTable.Rows.Add(row)
+          If parentRow.State = RowExpandState.None Then
+            parentRow.SetState(RowExpandState.Collapsed)
+          End If
+        End If
+        If Not row Is Nothing Then
+          MyBase.List.Add(row)
+        End If
+        Return row
+      End Function
+      Public Function AddWithoutFindingNeighbour() As TreeRow
+        If Me.m_parent Is Nothing Then
+          Return Nothing
+        End If
+        Dim parentTable As DataTable
+        Dim row As TreeRow
+        If TypeOf Me.m_parent Is TreeTable Then
+          parentTable = CType(Me.m_parent, DataTable)
+        Else
+          parentTable = CType(Me.m_parent, TreeRow).Table
+        End If
+        row = CType(parentTable.NewRow, TreeRow)
+        Return AddWithoutFindingNeighbour(row)
+      End Function
+      Public Shadows Function Add() As TreeRow
+        If Me.m_parent Is Nothing Then
+          Return Nothing
+        End If
+        Dim parentTable As DataTable
+        Dim row As TreeRow
+        If TypeOf Me.m_parent Is TreeTable Then
+          parentTable = CType(Me.m_parent, DataTable)
+        Else
+          parentTable = CType(Me.m_parent, TreeRow).Table
+        End If
+        row = CType(parentTable.NewRow, TreeRow)
+        Return Add(row)
+      End Function
 
-			'Methods to plainly add a child to the collection
-			Public Function AddChild(ByVal row As TreeRow) As TreeRow
-				If Not row Is Nothing Then
-					MyBase.List.Add(row)
-				End If
-				Return row
-			End Function
-			Public Shadows Function Add(ByVal row As TreeRow) As TreeRow
-				Dim parentTable As DataTable
-				If TypeOf Me.m_parent Is TreeTable Then
-					'แม่เป็น Table
-					parentTable = CType(Me.m_parent, DataTable)
-					row.Parent = Me.m_parent
-					'ยังไงก็ Add เลยโลด
-					parentTable.Rows.Add(row)
-				Else
-					'แม่เป็น row
-					Dim parentRow As TreeRow = CType(Me.m_parent, TreeRow)
-					parentTable = parentRow.Table
-					row.Parent = Me.m_parent
-					Dim nextNeighbour As TreeRow = GetNextNeighbour(parentRow)
-					If nextNeighbour Is Nothing Then
-						parentTable.Rows.Add(row)
-					Else
-						parentTable.Rows.InsertAt(row, nextNeighbour.Index)
-					End If
-					If parentRow.State = RowExpandState.None Then
-						parentRow.State = RowExpandState.Collapsed
-					End If
-				End If
-				If Not row Is Nothing Then
-					MyBase.List.Add(row)
-				End If
-				Return row
-			End Function
-			Private Function GetNextNeighbour(ByVal row As TreeRow) As TreeRow
-				If TypeOf row.Parent Is TreeTable Then
-					Return row.NextSibling
-				End If
-				If Not row.NextSibling Is Nothing Then
-					Return row.NextSibling
-				End If
-				'Fail จากข้างบน >> recur
-				Return GetNextNeighbour(CType(row.Parent, TreeRow))
-			End Function
-			Public Shadows Sub Remove(ByVal row As TreeRow)
-				Dim rowsToBeRemove As New ArrayList
-				For Each myRow As TreeRow In row.Childs
-					rowsToBeRemove.Add(myRow)
-				Next
-				For Each myRow As TreeRow In rowsToBeRemove
-					row.Childs.Remove(myrow)
-				Next
-				row.Table.Rows.Remove(row)
-				MyBase.List.Remove(row)
-				row.Tag = Nothing
-				row.Parent = Nothing
-			End Sub
-			Public Function IndexOf(ByVal row As TreeRow) As Integer
-				Return InnerList.IndexOf(row)
-			End Function
-			Public Function InsertAt(ByVal index As Integer) As TreeRow
-				Dim parentTable As DataTable
-				If TypeOf Me.m_parent Is TreeTable Then
-					parentTable = CType(Me.m_parent, DataTable)
-				Else
-					parentTable = CType(Me.m_parent, TreeRow).Table
-				End If
-				Dim row As TreeRow = CType(parentTable.NewRow, TreeRow)
-				Return InsertAt(index, row)
-			End Function
-			Public Function InsertAt(ByVal index As Integer, ByVal row As TreeRow) As TreeRow
-				If Me.m_parent Is Nothing Then
-					Return Nothing
-				End If
-				Dim parentTable As DataTable
-				If TypeOf Me.m_parent Is TreeTable Then
-					parentTable = CType(Me.m_parent, DataTable)
-				Else
-					parentTable = CType(Me.m_parent, TreeRow).Table
-				End If
-				parentTable.Rows.InsertAt(row, Me.Item(index).Index)
-				MyBase.List.Insert(index, row)
-				row.Parent = Me.m_parent
-				Return row
-			End Function
+      'Methods to plainly add a child to the collection
+      Public Function AddChild(ByVal row As TreeRow) As TreeRow
+        If Not row Is Nothing Then
+          MyBase.List.Add(row)
+        End If
+        Return row
+      End Function
+      Public Shadows Function Add(ByVal row As TreeRow) As TreeRow
+        Dim parentTable As DataTable
+        If TypeOf Me.m_parent Is TreeTable Then
+          'แม่เป็น Table
+          parentTable = CType(Me.m_parent, DataTable)
+          row.Parent = Me.m_parent
+          'ยังไงก็ Add เลยโลด
+          parentTable.Rows.Add(row)
+        Else
+          'แม่เป็น row
+          Dim parentRow As TreeRow = CType(Me.m_parent, TreeRow)
+          parentTable = parentRow.Table
+          row.Parent = Me.m_parent
+          Dim nextNeighbour As TreeRow = GetNextNeighbour(parentRow)
+          If nextNeighbour Is Nothing Then
+            parentTable.Rows.Add(row)
+          Else
+            parentTable.Rows.InsertAt(row, parentTable.Rows.IndexOf(nextNeighbour))
+          End If
+          If parentRow.State = RowExpandState.None Then
+            parentRow.SetState(RowExpandState.Collapsed)
+          End If
+        End If
+        If Not row Is Nothing Then
+          MyBase.List.Add(row)
+        End If
+        Return row
+      End Function
+      Private Function GetNextNeighbour(ByVal row As TreeRow) As TreeRow
+        If TypeOf row.Parent Is TreeTable Then
+          Return row.NextSibling
+        End If
+        If Not row.NextSibling Is Nothing Then
+          Return row.NextSibling
+        End If
+        'Fail จากข้างบน >> recur
+        Return GetNextNeighbour(CType(row.Parent, TreeRow))
+      End Function
+      Public Shadows Sub Remove(ByVal row As TreeRow)
+        Dim rowsToBeRemove As New ArrayList
+        For Each myRow As TreeRow In row.Childs
+          rowsToBeRemove.Add(myRow)
+        Next
+        For Each myRow As TreeRow In rowsToBeRemove
+          row.Childs.Remove(myRow)
+        Next
+        row.Table.Rows.Remove(row)
+        MyBase.List.Remove(row)
+        row.Tag = Nothing
+        row.Parent = Nothing
+      End Sub
+      Public Function IndexOf(ByVal row As TreeRow) As Integer
+        Return InnerList.IndexOf(row)
+      End Function
+      Public Function InsertAt(ByVal index As Integer) As TreeRow
+        Dim parentTable As DataTable
+        If TypeOf Me.m_parent Is TreeTable Then
+          parentTable = CType(Me.m_parent, DataTable)
+        Else
+          parentTable = CType(Me.m_parent, TreeRow).Table
+        End If
+        Dim row As TreeRow = CType(parentTable.NewRow, TreeRow)
+        Return InsertAt(index, row)
+      End Function
+      Public Function InsertAt(ByVal index As Integer, ByVal row As TreeRow) As TreeRow
+        If Me.m_parent Is Nothing Then
+          Return Nothing
+        End If
+        Dim parentTable As DataTable
+        If TypeOf Me.m_parent Is TreeTable Then
+          parentTable = CType(Me.m_parent, DataTable)
+        Else
+          parentTable = CType(Me.m_parent, TreeRow).Table
+        End If
+        parentTable.Rows.InsertAt(row, Me.Item(index).Index)
+        MyBase.List.Insert(index, row)
+        row.Parent = Me.m_parent
+        Return row
+      End Function
 #End Region
 
 #Region "Properties"

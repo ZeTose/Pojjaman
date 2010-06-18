@@ -9,6 +9,10 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.IO
+Imports System.Collections.Generic
+Imports Telerik.WinControls.UI
+Imports Telerik.WinControls
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class BudgetPanelView
     Inherits AbstractEntityDetailPanelView
@@ -50,26 +54,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtProjectCode As System.Windows.Forms.TextBox
     Friend WithEvents ibtnImportFromExcel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents picLockUnlock As System.Windows.Forms.PictureBox
-    Friend WithEvents ibtnZoomOut As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnZoomIn As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnInsert As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnApproval As System.Windows.Forms.Button
-    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents dtpEnd As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents dtpStart As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents RadGridView1 As Telerik.WinControls.UI.RadGridView
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BudgetPanelView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.btnApproval = New System.Windows.Forms.Button()
-      Me.ibtnZoomIn = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnZoomOut = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.dtpEnd = New Telerik.WinControls.UI.RadDateTimePicker()
+      Me.dtpStart = New Telerik.WinControls.UI.RadDateTimePicker()
+      Me.RadGridView1 = New Telerik.WinControls.UI.RadGridView()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnInsert = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.picLockUnlock = New System.Windows.Forms.PictureBox()
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.txtProjectCode = New System.Windows.Forms.TextBox()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.ibtnImportFromExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -87,9 +90,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.Button1 = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
-      CType(Me.picLockUnlock, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.dtpEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.dtpStart, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
@@ -98,14 +103,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.btnApproval)
-      Me.grbDetail.Controls.Add(Me.ibtnZoomIn)
-      Me.grbDetail.Controls.Add(Me.ibtnZoomOut)
+      Me.grbDetail.Controls.Add(Me.Button1)
+      Me.grbDetail.Controls.Add(Me.Label1)
+      Me.grbDetail.Controls.Add(Me.dtpEnd)
+      Me.grbDetail.Controls.Add(Me.dtpStart)
+      Me.grbDetail.Controls.Add(Me.RadGridView1)
       Me.grbDetail.Controls.Add(Me.ibtnBlank)
       Me.grbDetail.Controls.Add(Me.ibtnDelRow)
       Me.grbDetail.Controls.Add(Me.ibtnInsert)
-      Me.grbDetail.Controls.Add(Me.picLockUnlock)
-      Me.grbDetail.Controls.Add(Me.tgItem)
       Me.grbDetail.Controls.Add(Me.txtProjectCode)
       Me.grbDetail.Controls.Add(Me.lblCode)
       Me.grbDetail.Controls.Add(Me.ibtnImportFromExcel)
@@ -127,37 +132,57 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Size = New System.Drawing.Size(1048, 624)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "Info"
+      Me.grbDetail.Text = "Detail"
       '
-      'btnApproval
+      'Label1
       '
-      Me.btnApproval.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApproval.Location = New System.Drawing.Point(201, 101)
-      Me.btnApproval.Name = "btnApproval"
-      Me.btnApproval.Size = New System.Drawing.Size(104, 23)
-      Me.btnApproval.TabIndex = 17
-      Me.btnApproval.TabStop = False
-      Me.btnApproval.Text = "Approval"
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.Label1.Location = New System.Drawing.Point(661, 104)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(31, 18)
+      Me.Label1.TabIndex = 335
+      Me.Label1.Text = "TO"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'ibtnZoomIn
+      'dtpEnd
       '
-      Me.ibtnZoomIn.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnZoomIn.Location = New System.Drawing.Point(378, 101)
-      Me.ibtnZoomIn.Name = "ibtnZoomIn"
-      Me.ibtnZoomIn.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnZoomIn.TabIndex = 19
-      Me.ibtnZoomIn.TabStop = False
-      Me.ibtnZoomIn.ThemedImage = CType(resources.GetObject("ibtnZoomIn.ThemedImage"), System.Drawing.Bitmap)
+      Me.dtpEnd.AutoSize = True
+      Me.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpEnd.Location = New System.Drawing.Point(702, 102)
+      Me.dtpEnd.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+      Me.dtpEnd.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
+      Me.dtpEnd.Name = "dtpEnd"
+      Me.dtpEnd.NullDate = New Date(1900, 1, 1, 0, 0, 0, 0)
+      Me.dtpEnd.Size = New System.Drawing.Size(96, 23)
+      Me.dtpEnd.TabIndex = 334
+      Me.dtpEnd.TabStop = False
+      Me.dtpEnd.Text = "c"
+      Me.dtpEnd.Value = New Date(2010, 6, 16, 17, 4, 25, 351)
       '
-      'ibtnZoomOut
+      'dtpStart
       '
-      Me.ibtnZoomOut.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnZoomOut.Location = New System.Drawing.Point(354, 101)
-      Me.ibtnZoomOut.Name = "ibtnZoomOut"
-      Me.ibtnZoomOut.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnZoomOut.TabIndex = 18
-      Me.ibtnZoomOut.TabStop = False
-      Me.ibtnZoomOut.ThemedImage = CType(resources.GetObject("ibtnZoomOut.ThemedImage"), System.Drawing.Bitmap)
+      Me.dtpStart.AutoSize = True
+      Me.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpStart.Location = New System.Drawing.Point(563, 102)
+      Me.dtpStart.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+      Me.dtpStart.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
+      Me.dtpStart.Name = "dtpStart"
+      Me.dtpStart.NullDate = New Date(1900, 1, 1, 0, 0, 0, 0)
+      Me.dtpStart.Size = New System.Drawing.Size(96, 23)
+      Me.dtpStart.TabIndex = 333
+      Me.dtpStart.TabStop = False
+      Me.dtpStart.Value = New Date(2010, 6, 16, 17, 4, 25, 351)
+      '
+      'RadGridView1
+      '
+      Me.RadGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.RadGridView1.Location = New System.Drawing.Point(14, 130)
+      Me.RadGridView1.Name = "RadGridView1"
+      Me.RadGridView1.Size = New System.Drawing.Size(1028, 488)
+      Me.RadGridView1.TabIndex = 331
       '
       'ibtnBlank
       '
@@ -188,36 +213,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnInsert.TabIndex = 15
       Me.ibtnInsert.TabStop = False
       Me.ibtnInsert.ThemedImage = CType(resources.GetObject("ibtnInsert.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'picLockUnlock
-      '
-      Me.picLockUnlock.Image = CType(resources.GetObject("picLockUnlock.Image"), System.Drawing.Image)
-      Me.picLockUnlock.Location = New System.Drawing.Point(311, 100)
-      Me.picLockUnlock.Name = "picLockUnlock"
-      Me.picLockUnlock.Size = New System.Drawing.Size(24, 24)
-      Me.picLockUnlock.TabIndex = 330
-      Me.picLockUnlock.TabStop = False
-      '
-      'tgItem
-      '
-      Me.tgItem.AllowNew = False
-      Me.tgItem.AllowSorting = False
-      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgItem.AutoColumnResize = True
-      Me.tgItem.CaptionVisible = False
-      Me.tgItem.Cellchanged = False
-      Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.DarkGray, System.Drawing.Color.LightGray, System.Drawing.Color.WhiteSmoke, System.Drawing.Color.White, System.Drawing.Color.White, System.Drawing.Color.White, System.Drawing.Color.White})
-      Me.tgItem.DataMember = ""
-      Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
-      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 127)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(1032, 491)
-      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 20
-      Me.tgItem.TreeManager = Nothing
       '
       'txtProjectCode
       '
@@ -418,6 +413,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'Button1
+      '
+      Me.Button1.Location = New System.Drawing.Point(201, 101)
+      Me.Button1.Name = "Button1"
+      Me.Button1.Size = New System.Drawing.Size(75, 23)
+      Me.Button1.TabIndex = 336
+      Me.Button1.Text = "Cash Flow"
+      Me.Button1.UseVisualStyleBackColor = True
+      '
       'BudgetPanelView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -426,8 +430,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(1072, 640)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      CType(Me.picLockUnlock, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.dtpEnd, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.dtpStart, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
@@ -436,30 +441,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructors"
-    Private m_treeManager As TreeManager
-    Private Sub RowExpandCollapseHandler(ByVal e As RowExpandCollapseEventArgs)
-
-      If TypeOf e.Row.Tag Is WorkBreakdownStructure Then
-        CType(e.Row.Tag, WorkBreakdownStructure).State = e.Row.State
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-    End Sub
     Public Sub New()
       MyBase.New()
       Me.InitializeComponent()
       Me.SetLabelText()
       Initialize()
 
-      Dim dt As TreeTable = Me.GetSchemaTable()
-      m_treeManager = New TreeManager(dt, tgItem)
-      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      m_treeManager.SetTableStyle(dst)
-      m_treeManager.AllowSorting = False
-      m_treeManager.AllowDelete = False
+      RadGridView1.EnableGrouping = False
+      RadGridView1.EnableSorting = False
 
-      AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler dt.RowExpandStateChanged, AddressOf RowExpandCollapseHandler
+      GetColumns()
+      Me.RadGridView1.MasterGridViewTemplate.AllowAddNewRow = False
 
       EventWiring()
     End Sub
@@ -474,183 +466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      Me.m_treeManager.Treetable.AcceptChanges()
-      If Not Me.m_tableInitialized Then
-        Return
-      End If
-      If Not TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        Return
-      End If
-      m_tableInitialized = False
-      CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).PopulateRow(CType(e.Row, TreeRow), Nothing, 0, False)
-      Dim parentRow As ITreeParent = CType(e.Row, TreeRow).Parent
-      While TypeOf (parentRow) Is TreeRow
-        CType(CType(parentRow, TreeRow).Tag, WorkBreakdownStructure).PopulateRow(CType(parentRow, TreeRow), Nothing, 0, False)
-        parentRow = CType(parentRow, TreeRow).Parent
-      End While
-      m_tableInitialized = True
-      'If ValidateRow(CType(e.Row, TreeRow)) Then
-      'UpdateAmount(e)
-      'UpdateItem()
-      'End If
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Me.tgItem.RefreshHeights()
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.m_tableInitialized Then
-        Return
-      End If
-      If Not TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        Return
-      End If
-      If e.Column.ColumnName.ToLower = "linenumber" Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      Dim w As WorkBreakdownStructure = CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure)
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            SetCode(e)
-          Case "name"
-            SetName(e)
-          Case "unit"
-            SetUnit(e)
-          Case "qty"
-            SetQty(e)
-          Case "unitprice"
-            SetUnitprice(e)
-          Case "amount"
-            SetAmount(e)
-          Case "cbs"
-            SetCBS(e)
-          Case "note"
-            SetNote(e)
-          Case "startdate"
-            If IsDate(e.ProposedValue) Then
-              w.PlannedStartDate = CDate(e.ProposedValue)
-            Else
-              w.PlannedStartDate = Nothing
-            End If
-          Case "finishdate"
-            If IsDate(e.ProposedValue) Then
-              w.PlannedFinishDate = CDate(e.ProposedValue)
-            Else
-              w.PlannedFinishDate = Nothing
-            End If
-        End Select
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
-    End Sub
-    Private m_updating As Boolean = False
-    Private Sub SetNote(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Note = e.ProposedValue.ToString
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetName(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Name = e.ProposedValue.ToString
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetUnit(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Unit = New Unit(e.ProposedValue.ToString)
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Code = e.ProposedValue.ToString
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetCBS(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If Not TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        Return
-      End If
-      Dim c As CBS = CBS.GetByCode(e.ProposedValue.ToString)
-      If c.IdOrNull.HasValue Then
-        m_updating = True
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).CBS = c
-        m_updating = False
-      Else
-        Dim msgServ As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
-        msgServ.ShowMessageFormatted("${res:Global.Error.NoCBSCode}", e.ProposedValue.ToString)
-      End If
-    End Sub
-    Private Sub SetAmount(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Amount = value
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetQty(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).Qty = value
-      End If
-      m_updating = False
-    End Sub
-    Private Sub SetUnitprice(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.UnitPrice)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      If TypeOf CType(e.Row, TreeRow).Tag Is WorkBreakdownStructure Then
-        CType(CType(e.Row, TreeRow).Tag, WorkBreakdownStructure).UnitPrice = value
-      End If
-      m_updating = False
-    End Sub
+
 #End Region
 
     Private m_entity As Budget
@@ -673,9 +489,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
         If Me.WorkbenchWindow.ActiveViewContent Is Me Then
-          Me.tgItem.Visible = False
           UpdateEntityProperties()
-          Me.tgItem.Visible = True
         End If
       End Set
     End Property
@@ -692,21 +506,81 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtEstimatorCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtProjectCode.Validated, AddressOf Me.ChangeProperty
 
+      AddHandler dtpStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpEnd.ValueChanged, AddressOf Me.ChangeProperty
+
     End Sub
     Private m_isInitialized As Boolean = False
+    Private m_colList As List(Of GridViewTextBoxColumn)
+    Private m_colGroupList As List(Of GridViewColumnGroup)
+    Private m_weekList As Dictionary(Of Week, GridViewTextBoxColumn)
+    Private Sub UpdateWeeks()
+      If Not m_colGroupList Is Nothing Then
+        For Each col As GridViewColumnGroup In m_colGroupList
+          viewDef.ColumnGroups.Remove(col)
+        Next
+      End If
+      If Not m_colList Is Nothing Then
+        For Each col As GridViewTextBoxColumn In m_colList
+          RadGridView1.Columns.Remove(col)
+        Next
+      End If
+      m_colList = New List(Of GridViewTextBoxColumn)
+      m_colGroupList = New List(Of GridViewColumnGroup)
+      m_weekList = New Dictionary(Of Week, GridViewTextBoxColumn)
+      Dim ws As List(Of Week) = m_entity.GetWeeks
+      Dim i As Integer = 0
+      Dim dateList As New List(Of String)
+      dateList.Add("1-7")
+      dateList.Add("8-14")
+      dateList.Add("15-21")
+      dateList.Add("22-31")
+
+      For Each w As Week In ws
+        Dim colGroup As GridViewColumnGroup
+        If w.Number = 1 Then
+          Dim gc As New GridViewTextBoxColumn("Col" & i.ToString)
+          gc.HeaderText = ""
+          gc.Width = 10
+          m_colList.Add(gc)
+          RadGridView1.Columns.Add(gc)
+
+          colGroup = New GridViewColumnGroup(MonthName(w.Month) & " " & w.Year)
+          m_colGroupList.Add(colGroup)
+          viewDef.ColumnGroups.Add(colGroup)
+          colGroup.Rows.Add(New GridViewColumnGroupRow())
+          i += 1
+        End If
+
+        Dim col As New GridViewTextBoxColumn("Col" & i.ToString)
+        col.HeaderText = dateList(w.Number - 1)
+        col.TextAlignment = ContentAlignment.MiddleRight
+        col.Width = 90
+        RadGridView1.Columns.Add(col)
+        colGroup.Rows(0).Columns.Add(col)
+        m_weekList(w) = col
+
+        i += 1
+      Next
+      Me.RadGridView1.ViewDefinition = viewDef
+    End Sub
     Public Overrides Sub UpdateEntityProperties()
       m_isInitialized = False
       ClearDetail()
       If m_entity Is Nothing Then
         Return
       End If
-
       txtCode.Text = m_entity.Code
       txtProjectCode.Text = m_entity.Project.Code
       txtProjectName.Text = m_entity.Project.Name
 
       txtEstimatorCode.Text = m_entity.Estimator.Code
       txtEstimatorName.Text = m_entity.Estimator.Name
+
+      dtpStart.Value = m_entity.StartDate
+      dtpEnd.Value = m_entity.EndDate
+
+      UpdateWeeks()
 
       RefreshItems()
 
@@ -728,42 +602,117 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, Me.m_entity.Estimator)
         Case "txtprojectcode"
           dirtyFlag = Project.GetProject(txtProjectCode, txtProjectName, Me.m_entity.Project)
+        Case "dtpstart"
+          m_entity.StartDate = dtpStart.Value
+          For Each w As WorkBreakdownStructure In m_entity.Childs
+            w.UpdatePlan()
+          Next
+          UpdateWeeks()
+          RefreshItems()
+          dirtyFlag = True
+        Case "dtpend"
+          m_entity.EndDate = dtpEnd.Value
+          For Each w As WorkBreakdownStructure In m_entity.Childs
+            w.UpdatePlan()
+          Next
+          UpdateWeeks()
+          RefreshItems()
+          dirtyFlag = True
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()
     End Sub
+    Public Sub PopulateRow(ByVal w As WorkBreakdownStructure, ByVal tr As GridViewDataRowInfo, ByVal SetWorkDone As CountDelegate, ByVal current As Integer, ByVal includeChildren As Boolean)
+      If tr Is Nothing Then
+        Return
+      End If
+      If Not SetWorkDone Is Nothing Then
+        current += 1
+        SetWorkDone(current)
+      End If
+
+      tr.Cells("Code").Value = w.Code
+
+      If Not w.CBS Is Nothing AndAlso w.CBS.IdOrNull.HasValue Then
+        tr.Cells("CBS").Value = w.CBS.Code
+      Else
+        tr.Cells("CBS").Value = ""
+      End If
+
+      'Dim s As String = Space(w.Level * 3)
+      'tr.Cells("Name").Value = s & w.Name
+      tr.Cells("Name").Value = w.Name
+      tr.Cells("Unit").Value = w.Unit.Name
+      tr.Cells("Note").Value = w.Note
+
+      Dim tmat As Decimal = 0 'Me.GetTotalMat
+      Dim tlab As Decimal = 0 'Me.GetTotalLab
+      Dim teq As Decimal = 0 'Me.GetTotalEq
+      Dim t As Decimal = 0 'Me.GetTotal
+      Dim tpw As Decimal = 0 'Me.GetTotalPerWBS
+
+      If w.UnitPrice.HasValue Then
+        tr.Cells("Unitprice").Value = Configuration.FormatToString(w.UnitPrice.Value, DigitConfig.UnitPrice)
+      Else
+        tr.Cells("Unitprice").Value = ""
+      End If
+
+      If w.Qty.HasValue Then
+        tr.Cells("QTY").Value = Configuration.FormatToString(w.Qty.Value, DigitConfig.UnitPrice)
+      Else
+        tr.Cells("QTY").Value = ""
+      End If
+
+      For Each p As KeyValuePair(Of Week, Decimal) In w.Plan
+        For Each wk As Week In m_weekList.Keys
+          If wk.Equals(p.Key) Then
+            tr.Cells(m_weekList(wk).Index).Value = Configuration.FormatToString(p.Value, DigitConfig.UnitPrice)
+          End If
+        Next
+      Next
+
+      tr.Cells("Amount").Value = Configuration.FormatToString(w.Amount, DigitConfig.Price)
+      tr.Cells("Budget").Value = Configuration.FormatToString(w.Budget, DigitConfig.Price)
+      tr.Cells("Planned").Value = Configuration.FormatToString(w.GetPlannedValue, DigitConfig.Price)
+
+      tr.Tag = w
+
+      If includeChildren Then
+        For Each child As WorkBreakdownStructure In w.Childs
+          Dim childTR As GridViewDataRowInfo = RadGridView1.Rows.AddNew
+          PopulateRow(child, childTR, SetWorkDone, current, includeChildren)
+        Next
+      End If
+    End Sub
     Private m_tableInitialized As Boolean = False
     Private Sub RefreshItems()
-      InitProgress()
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Me.m_tableInitialized = False
-      Me.m_entity.PopulateWorkBreakdownStructures(m_treeManager.Treetable, AddressOf WorkDone)
-      Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
-      myStatusBarService.ProgressMonitor.Done()
-      Me.m_tableInitialized = True
-      Me.tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.tgItem.RefreshHeights()
-      'ให้เลือกที่ cell ที่ต้องการ เพราะไปอยู่ col แรกมันจะเผลอ wheel ได้
-      Me.tgItem.CurrentCell = New DataGridCell(Me.tgItem.CurrentRowIndex, 2)
+      m_tableInitialized = False
+      Me.RadGridView1.Rows.Clear()
+      For Each w As WorkBreakdownStructure In m_entity.Childs
+        Dim row As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
+        PopulateRow(w, row, AddressOf WorkDone, 0, True)
+      Next
+      Dim i As Integer = 1
+      For Each row As GridViewDataRowInfo In Me.RadGridView1.Rows
+        row.Cells("Linenumber").Value = i
+        i += 1
+      Next
+      m_tableInitialized = True
+      'InitProgress()
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      'Me.m_tableInitialized = False
+      'Me.m_entity.PopulateWorkBreakdownStructures(m_treeManager.Treetable, AddressOf WorkDone)
+      'Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
+      'myStatusBarService.ProgressMonitor.Done()
+      'Me.m_tableInitialized = True
+      'Me.tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.tgItem.RefreshHeights()
+      ''ให้เลือกที่ cell ที่ต้องการ เพราะไปอยู่ col แรกมันจะเผลอ wheel ได้
+      'Me.tgItem.CurrentCell = New DataGridCell(Me.tgItem.CurrentRowIndex, 2)
     End Sub
     Public Sub WorkDone(ByVal i As Integer)
       Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
       myStatusBarService.ProgressMonitor.Worked(i)
-    End Sub
-    Dim myIndex As Integer
-    Private Sub ReIndex()
-      If Me.m_treeManager.Treetable.Childs.Count = 0 Then
-        Return
-      End If
-      myIndex = 0
-      TreeRow.TraverseRow(Me.m_treeManager.Treetable.Childs(0), AddressOf SetLine)
-    End Sub
-    Private Sub SetLine(ByVal row As TreeRow)
-      myIndex += 1
-      row("linenumber") = myIndex
-      If TypeOf row.Parent Is TreeRow Then
-        CType(row.Parent, TreeRow)("linenumber") = row.Index
-      End If
     End Sub
 
 #Region "Event of Button controls"
@@ -854,126 +803,123 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Return myDatatable
     End Function
-    Private Function CreateTableStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "Budget"
+    Dim viewDef As ColumnGroupsViewDefinition
+    Private Sub GetColumns()
+
+      viewDef = New ColumnGroupsViewDefinition
+
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim gcLineNumber As New GridViewDecimalColumn("Linenumber")
+      gcLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
+      gcLineNumber.Width = 45
+      gcLineNumber.ReadOnly = True
+      gcLineNumber.DecimalPlaces = 0
+      gcLineNumber.TextAlignment = ContentAlignment.MiddleCenter
+      Me.RadGridView1.Columns.Add(gcLineNumber)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(0).Rows(0).Columns.Add(gcLineNumber)
+      viewDef.ColumnGroups(0).IsPinned = True
 
-      Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "Linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
-      csLineNumber.NullText = ""
-      csLineNumber.Width = 30
-      csLineNumber.DataAlignment = HorizontalAlignment.Center
-      csLineNumber.ReadOnly = True
+      Dim gcCBS As New GridViewTextBoxColumn("CBS")
+      gcCBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+      gcCBS.Width = 60
+      Me.RadGridView1.Columns.Add(gcCBS)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(1).Rows(0).Columns.Add(gcCBS)
+      viewDef.ColumnGroups(1).IsPinned = True
 
-      Dim csCBS As New TreeTextColumn
-      csCBS.MappingName = "CBS"
-      csCBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
-      csCBS.NullText = ""
-      csCBS.Width = 90
+      Dim gcCode As New GridViewTextBoxColumn("Code")
+      gcCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CodeHeaderText}")
+      gcCode.Width = 100
+      Me.RadGridView1.Columns.Add(gcCode)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(2).Rows(0).Columns.Add(gcCode)
+      viewDef.ColumnGroups(2).IsPinned = True
 
-      Dim csCode As New PlusMinusTreeTextColumn
-      csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CodeHeaderText}")
-      csCode.NullText = ""
-      csCode.Width = 90
+      Dim gcName As New GridViewTextBoxColumn("Name")
+      gcName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcName.Width = 150
+      Me.RadGridView1.Columns.Add(gcName)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(3).Rows(0).Columns.Add(gcName)
+      viewDef.ColumnGroups(3).IsPinned = True
 
+      Dim gcUnit As New GridViewTextBoxColumn("Unit")
+      gcUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UnitHeaderText}")
+      gcUnit.Width = 80
+      Me.RadGridView1.Columns.Add(gcUnit)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(4).Rows(0).Columns.Add(gcUnit)
+      viewDef.ColumnGroups(4).IsPinned = True
 
-      Dim csName As New TreeTextColumn
-      csName.MappingName = "Name"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-      csName.NullText = ""
-      csName.Width = 360
+      'Dim gcUnitButton As New DataGridViewButtonColumn
+      'gcUnitButton.Width = 360
+      'Me.RadGridView1.Columns.Add(gcUnitButton)
 
-      Dim csUnit As New TreeTextColumn
-      csUnit.MappingName = "Unit"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UnitHeaderText}")
-      csUnit.NullText = ""
-      csUnit.TextBox.Name = "Unit"
-      csUnit.Width = 50
+      Dim gcQty As New GridViewTextBoxColumn("QTY")
+      gcQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyHeaderText}")
+      gcQty.Width = 80
+      gcQty.TextAlignment = ContentAlignment.MiddleRight
+      Me.RadGridView1.Columns.Add(gcQty)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(5).Rows(0).Columns.Add(gcQty)
+      viewDef.ColumnGroups(5).IsPinned = True
 
-      Dim csUnitButton As New DataGridButtonColumn
-      csUnitButton.MappingName = "UnitButton"
-      csUnitButton.HeaderText = ""
-      csUnitButton.NullText = ""
-      AddHandler csUnitButton.Click, AddressOf ButtonClick
-
-      Dim csQty As New TreeTextColumn
-      csQty.MappingName = "QTY"
-      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyHeaderText}")
-      csQty.NullText = ""
-      csQty.DataAlignment = HorizontalAlignment.Right
-      csQty.Format = "#,###.##"
-      csQty.Width = 55
-
-
-      Dim csUMC As New TreeTextColumn
-      csUMC.MappingName = "UnitPrice"
+      Dim csUMC As New GridViewTextBoxColumn("UnitPrice")
       csUMC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UnitpriceHeaderText}")
-      csUMC.NullText = ""
-      csUMC.DataAlignment = HorizontalAlignment.Right
-      csUMC.Format = "#,###.##"
-      csUMC.Width = 55
+      csUMC.Width = 80
+      csUMC.TextAlignment = ContentAlignment.MiddleRight
+      Me.RadGridView1.Columns.Add(csUMC)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(6).Rows(0).Columns.Add(csUMC)
+      viewDef.ColumnGroups(6).IsPinned = True
 
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "Amount"
+      Dim csAmount As New GridViewTextBoxColumn("Amount")
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
-      csAmount.NullText = ""
-      csAmount.DataAlignment = HorizontalAlignment.Right
-      csAmount.Format = "#,###.##"
-      csAmount.TextBox.Name = "Amount"
-      csAmount.Width = 55
+      csAmount.Width = 80
+      csAmount.TextAlignment = ContentAlignment.MiddleRight
+      Me.RadGridView1.Columns.Add(csAmount)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(7).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(7).Rows(0).Columns.Add(csAmount)
+      viewDef.ColumnGroups(7).IsPinned = True
 
-      Dim csBudget As New TreeTextColumn
-      csBudget.MappingName = "Budget"
+      Dim csPlanned As New GridViewTextBoxColumn("Planned")
+      csPlanned.HeaderText = "Planned" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+      csPlanned.ReadOnly = True
+      csPlanned.Width = 80
+      csPlanned.TextAlignment = ContentAlignment.MiddleRight
+      Me.RadGridView1.Columns.Add(csPlanned)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(8).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(8).Rows(0).Columns.Add(csPlanned)
+      viewDef.ColumnGroups(8).IsPinned = True
+
+      Dim csBudget As New GridViewTextBoxColumn("Budget")
       csBudget.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-      csBudget.NullText = ""
-      csBudget.DataAlignment = HorizontalAlignment.Right
-      csBudget.Format = "#,###.##"
-      csBudget.TextBox.Name = "Budget"
       csBudget.ReadOnly = True
-      csBudget.Width = 55
+      csBudget.Width = 80
+      csBudget.TextAlignment = ContentAlignment.MiddleRight
+      Me.RadGridView1.Columns.Add(csBudget)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(9).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(9).Rows(0).Columns.Add(csBudget)
 
-      Dim csStartDate As New DataGridTimePickerColumn
-      csStartDate.MappingName = "StartDate"
-      csStartDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.StartDateHeaderText}")
-      csStartDate.NullText = ""
-      csStartDate.Width = 100
-
-      Dim csEndDate As New DataGridTimePickerColumn
-      csEndDate.MappingName = "FinishDate"
-      csEndDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.EndDateHeaderText}")
-      csEndDate.NullText = ""
-      csEndDate.Width = 100
-
-
-      Dim csNote As New TreeTextColumn
-      csNote.MappingName = "Note"
+      Dim csNote As New GridViewTextBoxColumn("Note")
       csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.NoteHeaderText}")
-      csNote.NullText = ""
       csNote.Width = 180
-      csNote.TextBox.Name = "Note"
-
-      dst.GridColumnStyles.Add(csLineNumber)
-      dst.GridColumnStyles.Add(csCBS)
-      dst.GridColumnStyles.Add(csCode)
-      dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csUnit)
-      dst.GridColumnStyles.Add(csUnitButton)
-
-      dst.GridColumnStyles.Add(csQty)
-      dst.GridColumnStyles.Add(csUMC)
-      dst.GridColumnStyles.Add(csAmount)
-      dst.GridColumnStyles.Add(csBudget)
-
-      dst.GridColumnStyles.Add(csStartDate)
-      dst.GridColumnStyles.Add(csEndDate)
-
-      dst.GridColumnStyles.Add(csNote)
-
-      Return dst
-    End Function
+      Me.RadGridView1.Columns.Add(csNote)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(10).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(10).Rows(0).Columns.Add(csNote)
+    End Sub
     Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
       Me.UnitButtonClick(e)
     End Sub
@@ -982,62 +928,215 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
     End Sub
     Private Sub SetUnit(ByVal unit As ISimpleEntity)
-      Me.m_treeManager.SelectedRow("Unit") = unit.Code
+      'Me.m_treeManager.SelectedRow("Unit") = unit.Code
     End Sub
 #End Region
 
-#Region "Buttons"
-    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      Dim newWbs As New WorkBreakdownStructure
-      If m_entity.Childs.Count = 0 Then
-        newWbs.Name = m_entity.Code
-        m_entity.Childs.Add(newWbs)
-        Dim newRow As TreeRow = m_treeManager.Treetable.Childs.Add()
-        newWbs.PopulateRow(newRow, Nothing, 1, False)
+    '#Region "Buttons"
+    '    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+    '      Dim newWbs As New WorkBreakdownStructure
+    '      If m_entity.Childs.Count = 0 Then
+    '        newWbs.Name = m_entity.Code
+    '        m_entity.Childs.Add(newWbs)
+    '        Dim newRow As TreeRow = m_treeManager.Treetable.Childs.Add()
+    '        newWbs.PopulateRow(newRow, Nothing, 1, False)
+    '      Else
+    '        Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+    '        If theRow Is Nothing Then
+    '          Return
+    '        End If
+    '        Dim parentW As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
+    '        parentW.Childs.Add(newWbs)
+
+
+    '        Dim newRow As TreeRow = theRow.Childs.Add()
+    '        newWbs.PopulateRow(newRow, Nothing, 1, False)
+
+    '        Me.m_treeManager.Treetable.AcceptChanges()
+    '        Me.m_treeManager.SelectedRow = newRow
+    '        Me.tgItem.RefreshHeights()
+    '        Me.WorkbenchWindow.ViewContent.IsDirty = True
+    '      End If
+    '    End Sub
+    '    Private Sub ibtnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnInsert.Click
+
+    '    End Sub
+    '    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+    '      Dim currentWBS As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
+    '      If currentWBS Is Nothing Then
+    '        Return
+    '      End If
+    '      Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+    '      If theRow Is Nothing Then
+    '        Return
+    '      End If
+    '      If Not currentWBS.Parent Is Nothing Then
+    '        Dim parWBS As WorkBreakdownStructure = CType(currentWBS.Parent, WorkBreakdownStructure)
+    '        If parWBS.Childs.Contains(currentWBS) Then
+    '          parWBS.Childs.Remove(currentWBS)
+    '        End If
+    '        parWBS = Nothing
+    '      End If
+    '      currentWBS = Nothing
+    '      theRow.Parent.Childs.Remove(theRow)
+    '      Me.m_treeManager.Treetable.AcceptChanges()
+    '      Me.tgItem.RefreshHeights()
+    '      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    '    End Sub
+    '#End Region
+
+    Private Sub RadGridView1_RowFormatting(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles RadGridView1.RowFormatting
+      If e.RowElement IsNot Nothing AndAlso e.RowElement.RowInfo IsNot Nothing AndAlso TypeOf e.RowElement.RowInfo.Tag Is WorkBreakdownStructure Then
+        Dim w As WorkBreakdownStructure = CType(e.RowElement.RowInfo.Tag, WorkBreakdownStructure)
+        Dim colorList As New List(Of Color)
+        colorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(255, Byte), CType(255, Byte), CType(192, Byte)), System.Drawing.Color.FromArgb(CType(128, Byte), CType(255, Byte), CType(255, Byte)), System.Drawing.Color.FromArgb(CType(128, Byte), CType(255, Byte), CType(128, Byte)), System.Drawing.Color.FromArgb(CType(255, Byte), CType(192, Byte), CType(255, Byte))})
+        Dim foreColorList As New List(Of Color)        For Each col As Color In colorList          If CInt(col.R) + CInt(col.G) + CInt(col.B) > 128 * 3 Then
+            foreColorList.Add(Color.Black)
+          Else
+            foreColorList.Add(Color.White)
+          End If
+        Next
+
+        Dim bgColor As Color = colorList((w.Level Mod colorList.Count))
+        Dim fColor As Color = foreColorList((w.Level Mod foreColorList.Count))
+
+        e.RowElement.NumberOfColors = 1
+        e.RowElement.BackColor = bgColor
+        e.RowElement.DrawFill = True
+        e.RowElement.ForeColor = fColor
       Else
-        Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
-        If theRow Is Nothing Then
-          Return
-        End If
-        Dim parentW As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
-        parentW.Childs.Add(newWbs)
-
-
-        Dim newRow As TreeRow = theRow.Childs.Add()
-        newWbs.PopulateRow(newRow, Nothing, 1, False)
-
-        Me.m_treeManager.Treetable.AcceptChanges()
-        Me.m_treeManager.SelectedRow = newRow
-        Me.tgItem.RefreshHeights()
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
+        e.RowElement.DrawFill = False
+        e.RowElement.ResetValue(VisualElement.BackColorProperty)
+        e.RowElement.ResetValue(VisualElement.ForeColorProperty)
       End If
     End Sub
+
+    Private Sub RadGridView1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles RadGridView1.CellValueChanged
+      If Not Me.m_tableInitialized Then
+        Return
+      End If
+      If Not TypeOf sender Is GridDataCellElement Then
+        Return
+      End If
+      Dim cell As GridDataCellElement = CType(sender, GridDataCellElement)
+      m_tableInitialized = False
+      Try
+        Dim w As WorkBreakdownStructure = CType(cell.RowInfo.Tag, WorkBreakdownStructure)
+        PopulateRow(w, cell.RowInfo, Nothing, 0, False)
+        Dim i As Integer = e.RowIndex
+        Do Until i = 0
+          i -= 1
+          Dim r As GridViewDataRowInfo = RadGridView1.Rows(i)
+          Dim childW As WorkBreakdownStructure = CType(r.Tag, WorkBreakdownStructure)
+          PopulateRow(childW, r, Nothing, 0, False)
+        Loop
+
+        'Dim parentRow As ITreeParent = CType(e.Row, TreeRow).Parent
+        'While TypeOf (parentRow) Is TreeRow
+        '  CType(CType(parentRow, TreeRow).Tag, WorkBreakdownStructure).PopulateRow(CType(parentRow, TreeRow), Nothing, 0, False)
+        '  parentRow = CType(parentRow, TreeRow).Parent
+        'End While
+      Catch ex As Exception
+
+      End Try
+      m_tableInitialized = True
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private m_updating As Boolean = False
+    Private Sub RadGridView1_CellValidating(ByVal sender As Object, ByVal e As CellValidatingEventArgs) Handles RadGridView1.CellValidating
+      'Dim column As GridViewDataColumn = TryCast(e.Column, GridViewDataColumn)
+      'If TypeOf e.Row Is GridViewDataRowInfo AndAlso column IsNot Nothing AndAlso column.FieldName = "Name" Then
+      '  If String.IsNullOrEmpty(DirectCast(e.Value, String)) Then
+      '    e.Cancel = True
+      '    DirectCast(e.Row, GridViewDataRowInfo).ErrorText = "Validation error!"
+      '  Else
+      '    DirectCast(e.Row, GridViewDataRowInfo).ErrorText = String.Empty
+      '  End If
+      'End If
+      Dim column As GridViewDataColumn = TryCast(e.Column, GridViewDataColumn)
+      If e.Row Is Nothing Then
+        Return
+      End If
+      If Not TypeOf e.Row Is GridViewDataRowInfo OrElse column Is Nothing Then
+        Return
+      End If
+      If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then
+        Return
+      End If
+      If Not Me.m_tableInitialized Then
+        Return
+      End If
+      Dim w As WorkBreakdownStructure = CType(e.Row.Tag, WorkBreakdownStructure)
+      If m_updating Then
+        Return
+      End If
+      m_updating = True
+      If Not e.Value Is Nothing Then
+        Select Case column.FieldName.ToLower
+          Case "code"
+            w.Code = e.Value.ToString
+          Case "name"
+            w.Name = e.Value.ToString
+          Case "unit"
+            w.Unit = New Unit(e.Value.ToString)
+          Case "qty"
+            Dim value As Decimal = CDec(Configuration.FormatToString(CDec(TextParser.Evaluate(e.Value.ToString)), DigitConfig.Qty))
+            w.Qty = value
+          Case "unitprice"
+            Dim value As Decimal = CDec(Configuration.FormatToString(CDec(TextParser.Evaluate(e.Value.ToString)), DigitConfig.UnitPrice))
+            w.UnitPrice = value
+          Case "amount"
+            Dim value As Decimal = CDec(Configuration.FormatToString(CDec(TextParser.Evaluate(e.Value.ToString)), DigitConfig.Price))
+            w.Amount = value
+          Case "cbs"
+            If Not String.IsNullOrEmpty(e.Value.ToString) Then
+              Dim c As CBS = CBS.GetByCode(e.Value.ToString)
+              If c.IdOrNull.HasValue Then
+                w.CBS = c
+              Else
+                Dim msgServ As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
+                msgServ.ShowMessageFormatted("${res:Global.Error.NoCBSCode}", e.Value.ToString)
+              End If
+            Else
+              w.CBS = New CBS
+            End If
+          Case "note"
+            w.Note = e.Value.ToString
+          Case Else
+            If Not String.IsNullOrEmpty(e.Value.ToString) Then
+              Dim value As Decimal = CDec(Configuration.FormatToString(CDec(TextParser.Evaluate(e.Value.ToString)), DigitConfig.Price))
+              For Each x As KeyValuePair(Of Week, GridViewTextBoxColumn) In m_weekList
+                If x.Value.Equals(e.Column) Then
+                  w.Plan(x.Key) = value
+                  Exit For
+                End If
+              Next
+            End If
+        End Select
+      End If
+      m_updating = False
+    End Sub
+
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+
+    End Sub
+
     Private Sub ibtnInsert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnInsert.Click
 
     End Sub
-    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim currentWBS As WorkBreakdownStructure = CType(m_treeManager.SelectedRow.Tag, WorkBreakdownStructure)
-      If currentWBS Is Nothing Then
-        Return
-      End If
-      Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
-      If theRow Is Nothing Then
-        Return
-      End If
-      If Not currentWBS.Parent Is Nothing Then
-        Dim parWBS As WorkBreakdownStructure = CType(currentWBS.Parent, WorkBreakdownStructure)
-        If parWBS.Childs.Contains(currentWBS) Then
-          parWBS.Childs.Remove(currentWBS)
-        End If
-        parWBS = Nothing
-      End If
-      currentWBS = Nothing
-      theRow.Parent.Childs.Remove(theRow)
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.tgItem.RefreshHeights()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-#End Region
 
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+      'Dim cf As New CashFlowView
+      'cf.Budget = Me.m_entity
+      'cf.Show()
+      Dim exp As New Export.ExportToExcelML(RadGridView1)
+      exp.ExportVisualSettings = True
+      exp.RunExport("C:\mk8-1-2.xls")
+
+    End Sub
   End Class
 End Namespace

@@ -9,8 +9,30 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Text.RegularExpressions
 Imports System.Collections.Generic
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class Week
+    Public Property Number As Integer
+    Public Property Month As Integer
+    Public Property Year As Integer
+
+    Public Sub New(ByVal n As Integer, ByVal m As Integer, ByVal y As Integer)
+      Me.Number = n
+      Me.Month = m
+      Me.Year = y
+    End Sub
+    Public Overrides Function Equals(ByVal obj As Object) As Boolean
+      If obj Is Nothing Then
+        Return False
+      End If
+      Dim w As Week = CType(obj, Week)
+      If w.Year = Me.Year AndAlso w.Month = Me.Month AndAlso w.Number = Me.Number Then
+        Return True
+      End If
+      Return False
+    End Function
+  End Class
   Public Class Budget
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IDisposable, IDuplicable
@@ -52,7 +74,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_project = New Project
         .m_estimator = New Employee
         .m_status = New BOQStatus(-1)
-       
+
         m_lvfgs = New ArrayList
       End With
       WorkBreakdownStructure.GetBoqChilds(Me)
@@ -100,7 +122,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
       WorkBreakdownStructure.GetBoqChilds(Me)
+      If dr.Table.Columns.Contains(aliasPrefix & "boq_startdate") AndAlso Not dr.IsNull(aliasPrefix & "boq_startdate") Then
+        StartDate = CDate(dr(aliasPrefix & "boq_startdate"))
+      End If
+      If dr.Table.Columns.Contains(aliasPrefix & "boq_enddate") AndAlso Not dr.IsNull(aliasPrefix & "boq_enddate") Then
+        EndDate = CDate(dr(aliasPrefix & "boq_enddate"))
+      End If
     End Sub
+    Public Function GetWeeks() As List(Of Week)
+      Dim list As New List(Of Week)
+      Dim theDate As Date = StartDate
+      Do Until (theDate.Year = Me.EndDate.Year AndAlso theDate.Month = Me.EndDate.Month)
+        For n As Integer = 1 To 4
+          Dim w As New Week(n, theDate.Month, theDate.Year)
+          list.Add(w)
+        Next
+        theDate = theDate.AddMonths(1)
+      Loop
+      For n As Integer = 1 To 4
+        Dim w As New Week(n, Me.EndDate.Month, Me.EndDate.Year)
+        list.Add(w)
+      Next
+      Return list
+    End Function
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Construct(dr, aliasPrefix)
@@ -126,7 +170,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-#Region "Properties"    Public Property MarkupState() As String      Get
+#Region "Properties"    Public Property StartDate As Date    Public Property EndDate As Date    Public Property MarkupState() As String      Get
         Return m_markupState
       End Get
       Set(ByVal Value As String)
@@ -156,7 +200,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         'Return m_lvfgs
       End Get
-    End Property    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property    Public Property Project() As Project      Get        Return m_project      End Get      Set(ByVal Value As Project)        m_project = Value      End Set    End Property    Public Property Estimator() As Employee      Get        Return m_estimator      End Get      Set(ByVal Value As Employee)        m_estimator = Value      End Set    End Property        Public ReadOnly Property TotalBudget() As Decimal
+    End Property    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property    Public Property Project() As Project      Get        Return m_project      End Get      Set(ByVal Value As Project)        m_project = Value      End Set    End Property    Public Property Estimator() As Employee      Get        Return m_estimator      End Get      Set(ByVal Value As Employee)        m_estimator = Value      End Set    End Property    Public ReadOnly Property TotalBudget() As Decimal
       Get
         'If Lazy Then
         'Return Me.m_totalBudgetFromDB
@@ -264,7 +308,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End If
       Return False
-    End Function    
+    End Function
 #End Region
 
 #Region "Saving"
@@ -293,12 +337,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim daBoq As SqlDataAdapter
         Dim daWbs As SqlDataAdapter
+        Dim daPlan As SqlDataAdapter
         If Me.Originated Then
           daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
           daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id, conn)
+          daPlan = New SqlDataAdapter("select * from plans where plan_wbs in (select wbs_id from wbs where wbs_boq =" & Me.Id & ")", conn)
         Else
           daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
           daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
+          daPlan = New SqlDataAdapter("select * from plans where 1=2", conn)
         End If
 
         Dim ds As New DataSet
@@ -351,6 +398,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
         '***********----WBS ----****************
 
+        '***********----Item ----****************
+        cb = New SqlCommandBuilder(daPlan)
+        daPlan.SelectCommand.Transaction = trans
+
+        daPlan.DeleteCommand = cb.GetDeleteCommand
+        daPlan.DeleteCommand.Transaction = trans
+
+        daPlan.InsertCommand = cb.GetInsertCommand
+        daPlan.InsertCommand.Transaction = trans
+
+        daPlan.UpdateCommand = cb.GetUpdateCommand
+        daPlan.UpdateCommand.Transaction = trans
+        cb = Nothing
+
+        daPlan.FillSchema(ds, SchemaType.Mapped, "plans")
+        daPlan.Fill(ds, "plans")
+        ds.Relations.Add("plan_wbs", ds.Tables!wbs.Columns!wbs_id, ds.Tables!plans.Columns!plan_wbs)
+        '***********----Item ----****************
+
         Dim dc As DataColumn
 
         Dim dtBoq As DataTable = ds.Tables("boq")
@@ -365,6 +431,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dc.AutoIncrementSeed = Integer.MaxValue
         dc.AutoIncrementStep = -1
 
+        Dim dtPlans As DataTable = ds.Tables("plans")
+
         Dim tmpBoqDa As New SqlDataAdapter
         tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
         tmpBoqDa.InsertCommand = daBoq.InsertCommand
@@ -377,6 +445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
         AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
+        AddHandler daPlan.RowUpdated, AddressOf daPlan_MyRowUpdated
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
@@ -394,6 +463,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         drBoq(Me.Prefix & "_status") = Me.Status.Value
         drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
         drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
+        drBoq(Me.Prefix & "_StartDate") = Me.StartDate
+        drBoq(Me.Prefix & "_EndDate") = Me.EndDate
 
         Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
 
@@ -409,17 +480,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each dr As DataRow In rowsToDelete
           dr.Delete()
         Next
+        For Each dr As DataRow In dtPlans.Rows
+          dr.Delete()
+        Next
         For Each rootWbs As WorkBreakdownStructure In Me.Childs
           rootWbs.CreateOrUpdate(dtWbs, drBoq)
+          rootWbs.FillPlan(dtPlans)
         Next
 
+        daPlan.Update(GetDeletedRows(dtPlans))
         tmpwbsDa.Update(GetDeletedRows(dtWbs))
         tmpBoqDa.Update(GetDeletedRows(dtBoq))
         tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
         tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
+        daPlan.Update(dtPlans.Select("", "", DataViewRowState.ModifiedCurrent))
 
         tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
         tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.Added))
+        daPlan.Update(dtPlans.Select("", "", DataViewRowState.Added))
         ds.EnforceConstraints = True
         Dim theId As Integer = Me.Id
         If Not Me.Originated Then
@@ -443,6 +521,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return New SaveErrorException("0")
     End Function
+    Private Sub daPlan_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      If e.StatementType = StatementType.Insert Then
+        e.Status = UpdateStatus.SkipCurrentRow
+        Dim currentkey As Object = e.Row("plan_wbs")
+        e.Row!plan_wbs = e.Row.GetParentRow("plan_wbs")("wbs_id", DataRowVersion.Original)
+        e.Row.AcceptChanges()
+        e.Row!plan_wbs = currentkey
+      End If
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
     Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
       If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow

@@ -422,6 +422,10 @@
     <Content Include="Externals\syncfusion.shared.windows.dll" />
     <Content Include="Externals\syncfusion.tools.base.dll" />
     <Content Include="Externals\syncfusion.tools.windows.dll" />
+    <Content Include="Externals\Telerik.WinControls.dll" />
+    <Content Include="Externals\Telerik.WinControls.GridView.dll" />
+    <Content Include="Externals\Telerik.WinControls.UI.dll" />
+    <Content Include="Externals\TelerikCommon.dll" />
     <Content Include="PojjamanIcon.ico" />
     <Content Include="release.txt" />
     <Content Include="Resources\Images\tv_minus.bmp" />

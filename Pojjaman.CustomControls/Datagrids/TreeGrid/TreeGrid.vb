@@ -102,9 +102,37 @@ Namespace Longkong.Pojjaman.Gui.Components
                 AddHandler dt.RowExpandStateChanged, AddressOf RowExpandStateChanged
             End If
         End Sub
-        Private Sub RowExpandStateChanged(ByVal e As RowExpandCollapseEventArgs)
-            RefreshHeights()
-        End Sub
+    Private Sub RowExpandStateChanged(ByVal e As RowExpandCollapseEventArgs)
+      RefreshHeights(e.Row)
+    End Sub
+    Private Sub SetRowHeight(ByVal r As TreeRow)
+      If r.IsVisible Then
+        m_rowHeight(r.Index) = Me.TableStyles(0).PreferredRowHeight 'Me.PreferredRowHeight
+      Else
+        m_rowHeight(r.Index) = 0
+      End If
+    End Sub
+    Public Sub RefreshHeights(Optional ByVal theRow As TreeRow = Nothing)
+      m_rowHeight = Nothing
+      m_rowHeight = New DataGridRowHeightSetter(Me)
+      If TypeOf Me.DataSource Is TreeTable Then
+        If Not theRow Is Nothing Then
+          TreeRow.TraverseRow(theRow, AddressOf SetRowHeight)
+        Else
+          Dim dt As TreeTable = CType(Me.DataSource, TreeTable)
+          For Each row As TreeRow In dt.Rows
+            If row.IsVisible Then
+              m_rowHeight(row.Index) = Me.TableStyles(0).PreferredRowHeight 'Me.PreferredRowHeight
+            Else
+              m_rowHeight(row.Index) = 0
+            End If
+          Next
+        End If
+      End If
+      'Hack:แก้ปัญหาเรื่อง ScrollBar (ไม่น่าเชื่อว่าจะง่ายขนาดนี้)
+      Me.Size = New Size(Me.Size.Width + 1, Me.Size.Height)
+      Me.Size = New Size(Me.Size.Width - 1, Me.Size.Height)
+    End Sub
         Private Sub DataGrid_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
             If m_autoColumnResize AndAlso Not Me.TableStyles Is Nothing AndAlso Me.TableStyles.Count > 0 Then
                 Dim space As Integer = SystemInformation.VerticalScrollBarWidth + 10
@@ -141,29 +169,7 @@ Namespace Longkong.Pojjaman.Gui.Components
                 Next
             End If
             Return myColorList
-        End Function
-        Public Sub RefreshHeights()
-            'If Not m_rowHeight Is Nothing Then
-            '    m_rowHeight.RefreshHeights()
-            'Else
-            '    m_rowHeight = New DataGridRowHeightSetter(Me)
-            'End If
-            m_rowHeight = Nothing
-            m_rowHeight = New DataGridRowHeightSetter(Me)
-            If TypeOf Me.DataSource Is TreeTable Then
-                Dim dt As TreeTable = CType(Me.DataSource, TreeTable)
-                For Each row As TreeRow In dt.Rows
-                    If row.IsVisible Then
-                        m_rowHeight(row.Index) = Me.TableStyles(0).PreferredRowHeight 'Me.PreferredRowHeight
-                    Else
-                        m_rowHeight(row.Index) = 0
-                    End If
-                Next
-            End If
-            'Hack:แก้ปัญหาเรื่อง ScrollBar (ไม่น่าเชื่อว่าจะง่ายขนาดนี้)
-            Me.Size = New Size(Me.Size.Width + 1, Me.Size.Height)
-            Me.Size = New Size(Me.Size.Width - 1, Me.Size.Height)
-        End Sub
+        End Function        
         Public Function GetPlusMinusColumnIndex() As Integer
             For i As Integer = 0 To Me.TableStyles(0).GridColumnStyles.Count - 1
                 Dim colStyle As DataGridColumnStyle = Me.TableStyles(0).GridColumnStyles(i)
