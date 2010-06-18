@@ -112,6 +112,13 @@ Namespace Pojjaman
         End If
       Finally
         ServiceManager.Services.UnloadAllServices()
+        For Each fileName As String In ShowPrintLog.FileList
+          Try
+            IO.File.Delete(fileName)
+          Catch ex As Exception
+
+          End Try
+        Next
       End Try
     End Sub
 

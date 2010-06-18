@@ -190,7 +190,7 @@ Namespace Longkong.Pojjaman.Commands
       Dim data() As Byte = CType(ctrl.Tag, Byte())
       Try
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        Dim xpsDIR As String = myPropertyService.GetProperty("XPSDIR", "C:\")
+        Dim xpsDIR As String = System.IO.Path.GetTempPath
         Dim fileName As String = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
         Dim fs As New FileStream(fileName, FileMode.Create, FileAccess.ReadWrite)
         Dim bw As New BinaryWriter(fs)
@@ -200,10 +200,20 @@ Namespace Longkong.Pojjaman.Commands
           rd.Close()
         End If
         Process.Start(fileName)
+        FileList.Add(fileName)
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
       End Try
     End Sub
+    Private Shared m_fileList As List(Of String)
+    Public Shared ReadOnly Property FileList As List(Of String)
+      Get
+        If m_fileList Is Nothing Then
+          m_fileList = New List(Of String)
+        End If
+        Return m_fileList
+      End Get
+    End Property
     Public Overrides Property IsEnabled() As Boolean
       Get
         If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow Is Nothing Then

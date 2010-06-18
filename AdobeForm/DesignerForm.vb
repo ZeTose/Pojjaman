@@ -1182,7 +1182,7 @@ Namespace Longkong.AdobeForm
           End If
         Next
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        Dim xpsDIR As String = myPropertyService.GetProperty("XPSDIR", "C:\")
+        Dim xpsDIR As String = System.IO.Path.GetTempPath
         pd.DocumentName = "XPS"
         pd.PrinterSettings.PrintToFile = True
         m_CurrentFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
