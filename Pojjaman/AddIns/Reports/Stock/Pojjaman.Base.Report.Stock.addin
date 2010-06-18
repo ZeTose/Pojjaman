@@ -8,9 +8,7 @@
 			<MenuItem id="MatStockReport" label="${res:MainMenu.ReportMenu.MatStockReport}" insertafter="PurchaseRepot" insertbefore="APReport">
 				<MenuItem id="rptmatreturn" icon="Icons.16x16.RptMatReturn" label="${res:MainMenu.PurchaseMenu.RptMatReturn.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatReturn"/>
         <MenuItem id="rptmatwithdraw" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdraw"/>
-        <MenuItem id="rptmattransfer" icon="Icons.16x16.RptMatWithdraw" label="${res:
-                  
-                  }" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatTransfer"/>
+        <MenuItem id="rptmattransfer" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatTransfer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatTransfer"/>
 				<MenuItem id="RptAuditMatWithdraw" icon="Icons.16x16.RptAuditMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptAuditMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAuditMatWithdraw"/>		
 				<MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
 				<!--<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountResult"/>-->			
