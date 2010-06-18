@@ -90,8 +90,7 @@ Public Class RefPrintDialog
     If e.Row Is Nothing OrElse Not TypeOf e.Row.Tag Is Byte() Then
       Return
     End If
-    Dim ctrl As Control = CType(sender, Control)
-    Dim data() As Byte = CType(ctrl.Tag, Byte())
+    Dim data() As Byte = CType(e.Row.Tag, Byte())
     Try
       Dim xpsDIR As String = System.IO.Path.GetTempPath
       Dim fileName As String = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
