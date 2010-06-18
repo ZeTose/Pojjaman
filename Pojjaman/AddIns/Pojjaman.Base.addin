@@ -80,6 +80,9 @@
 			<Conditional isreferenced="True" action="Disable">
 				<ToolbarItem id="ShowRef" icon="Icons.16x16.Link" tooltip="${res:XML.MainMenu.FileMenu.ShowRef.Description}" class="Longkong.Pojjaman.Commands.ShowRef"/>
 			</Conditional>
+			<Conditional activewindow="*" action="Disable">
+				<ToolbarItem id="ShowPrintLog" icon="Icons.16x16.Link" tooltip="${res:XML.MainMenu.FileMenu.ShowPrintLog.Description}" class="Longkong.Pojjaman.Commands.ShowPrintLog"/>
+			</Conditional>
 			<Conditional canbeattached="True" action="Disable">
 				<ToolbarItem id="AttachmentShow" icon="Icons.16x16.Attach" tooltip="${res:XML.MainMenu.FileMenu.Attachment.Description}" class="Longkong.Pojjaman.Commands.AttachmentShow"/>
 			</Conditional>

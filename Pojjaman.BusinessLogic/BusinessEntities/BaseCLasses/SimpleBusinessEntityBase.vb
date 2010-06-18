@@ -603,6 +603,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
       End Try
     End Function
+    Public Function GetPrintLogs() As DataSet
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.Text _
+                , "select * from printlogs left join [user] on [user_id] = userid where entitytype=" & Me.EntityId.ToString & " and entityid=" & Me.Id.ToString _
+                )
+        Return ds
+      Catch ex As Exception
+      End Try
+    End Function
 #End Region
 
 #Region "Properties"

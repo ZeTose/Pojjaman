@@ -576,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
   End Class
   Public Class SuperPrintableEntity
-    Implements IPrintableEntity, IHasStatusString
+    Implements IPrintableEntity, IHasStatusString, IHasEntityList
     Private m_entities As List(Of IPrintableEntity)
     Private m_entityNames As Dictionary(Of IPrintableEntity, String)
     Public Sub New()
@@ -619,6 +619,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
+        End If
+      Next
+      For Each e As IPrintableEntity In m_entities
+        If TypeOf e Is ISimpleEntity Then
+          EntityList.Add(CType(e, ISimpleEntity))
         End If
       Next
     End Sub
@@ -794,6 +799,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public ReadOnly Property StatusString As String Implements BusinessLogic.IHasStatusString.StatusString
       Get
         Return m_StatusString
+      End Get
+    End Property
+    Private m_EntityList As List(Of ISimpleEntity)
+    Public ReadOnly Property EntityList As System.Collections.Generic.List(Of BusinessLogic.ISimpleEntity) Implements BusinessLogic.IHasEntityList.EntityList
+      Get
+        If m_EntityList Is Nothing Then
+          m_EntityList = New List(Of ISimpleEntity)
+        End If
+        Return m_EntityList
+      End Get
+    End Property
+
+    Public ReadOnly Property CurrentUserId As Integer Implements BusinessLogic.IHasEntityList.CurrentUserId
+      Get
+        Dim secServ As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+        If secServ.CurrentUser Is Nothing Then
+          Return 0
+        End If
+        Return secServ.CurrentUser.Id
       End Get
     End Property
   End Class

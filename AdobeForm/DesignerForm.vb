@@ -10,6 +10,12 @@ Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Core.Services
 Imports Longkong.Core.Properties
 Imports System.Drawing.Drawing2D
+Imports System.Windows.Xps.Packaging
+Imports System.Windows.Documents
+Imports System.Windows.Xps.Serialization
+Imports System.Windows.Xps
+Imports System.Windows.Documents.Serialization
+Imports System.Data.SqlClient
 
 Namespace Longkong.AdobeForm
   Public Class PJMPaper
@@ -1084,6 +1090,7 @@ Namespace Longkong.AdobeForm
         Dim pd As New PrintDocument
         AddHandler pd.BeginPrint, AddressOf BeginPrint_Handler
         AddHandler pd.PrintPage, AddressOf PrintPage_Handler
+        AddHandler pd.EndPrint, AddressOf EndPrint_Handler
         UpdatePrinterSettings(pd)
         Me.m_countPage = True
         m_rowOffsetHash = New Hashtable
@@ -1092,6 +1099,100 @@ Namespace Longkong.AdobeForm
         Return pd
       End Get
     End Property
+    Private m_CurrentFileName As String
+    Private Sub SaveXPS()
+      'If e.PrintAction = PrintAction.PrintToPreview Then
+      '  Return
+      'End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        Dim myData() As Byte = File.ReadAllBytes(m_CurrentFileName)
+        Dim theTime As Date = Now
+
+        Dim da As New SqlDataAdapter("Select * from printlogs", conn)
+        Dim ds As New DataSet
+
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+
+        cmdBuilder = Nothing
+
+        da.FillSchema(ds, SchemaType.Mapped, "printlogs")
+        da.Fill(ds, "printlogs")
+
+        Dim dr As DataRow
+        With ds.Tables("printlogs")
+          If TypeOf Me.m_entity Is IHasEntityList Then
+            Dim e As IHasEntityList = CType(m_entity, IHasEntityList)
+            If e.EntityList.Count > 0 Then
+              Dim simple As ISimpleEntity = e.EntityList(0)
+              dr = .NewRow
+              'Dim currentUser As User = simple.CurrentUser
+              dr("EntityType") = simple.EntityId
+              dr("EntityID") = simple.Id
+              dr("PrintTime") = theTime
+              dr("UserID") = e.CurrentUserId
+              dr("XPS") = myData
+              .Rows.Add(dr)
+            End If
+          End If
+        End With
+
+        da.Update(ds.Tables("printlogs"))
+        trans.Commit()
+      Catch ex As Exception
+        trans.Rollback()
+      End Try
+      Try
+        File.Delete(m_CurrentFileName)
+      Catch ex As Exception
+
+      End Try
+    End Sub
+    Private Sub EndPrint_Handler(ByVal sender As Object, ByVal e As PrintEventArgs)
+      If e.PrintAction = PrintAction.PrintToPreview Then
+        Return
+      End If
+      Try
+        Dim pd As New PrintDocument
+        AddHandler pd.BeginPrint, AddressOf BeginPrint_Handler
+        AddHandler pd.PrintPage, AddressOf PrintPage_Handler
+
+        UpdatePrinterSettings(pd)
+        Me.m_countPage = True
+        m_rowOffsetHash = New Hashtable
+        Me.m_pageCount = PageCountPrintController.GetPageCount(pd)
+        Me.m_countPage = False
+        For Each pn As String In PrinterSettings.InstalledPrinters
+          If pn.ToUpper.Contains("XPS") Then
+            pd.PrinterSettings.PrinterName = pn
+            Exit For
+          End If
+        Next
+        Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+        Dim xpsDIR As String = myPropertyService.GetProperty("XPSDIR", "C:\")
+        pd.DocumentName = "XPS"
+        pd.PrinterSettings.PrintToFile = True
+        m_CurrentFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
+        pd.PrinterSettings.PrintFileName = m_CurrentFileName
+        pd.Print()
+        SaveXPS()
+      Catch ex As Exception
+
+      End Try
+    End Sub
 #End Region
 
 #Region "Methods"
@@ -1514,13 +1615,13 @@ Namespace Longkong.AdobeForm
 
 
                       Dim dataFont As Font
-                                            If Not _Font Is Nothing Then
-                                                dataFont = New Font(_Font.FontFamily.Name, _Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
-                                            ElseIf Not col.Font Is Nothing Then
-                                                dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
-                                            Else
-                                                dataFont = New Font(tb.Font.FontFamily.Name, tb.Font.Size, tb.Font.Style, System.Drawing.GraphicsUnit.Point, tb.Font.GdiCharSet)
-                                            End If
+                      If Not _Font Is Nothing Then
+                        dataFont = New Font(_Font.FontFamily.Name, _Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                      ElseIf Not col.Font Is Nothing Then
+                        dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                      Else
+                        dataFont = New Font(tb.Font.FontFamily.Name, tb.Font.Size, tb.Font.Style, System.Drawing.GraphicsUnit.Point, tb.Font.GdiCharSet)
+                      End If
                       Dim stf As New StringFormat
                       stf.Trimming = StringTrimming.None
                       stf.FormatFlags = StringFormatFlags.NoClip

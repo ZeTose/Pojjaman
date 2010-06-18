@@ -4,6 +4,8 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports System.Drawing.Printing
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SaveErrorException
     Inherits Exception
@@ -238,7 +240,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits IHasName
 
   End Interface
-
+  Public Interface IHasEntityList
+    ReadOnly Property EntityList As List(Of ISimpleEntity)
+    ReadOnly Property CurrentUserId As Integer
+  End Interface
   Public Interface ISimpleEntity
     Inherits IBaseEntityStatusCapable, IIdentifiable _
     , IHasStatus, IDatabaseEntity, IObjectReflectable _
