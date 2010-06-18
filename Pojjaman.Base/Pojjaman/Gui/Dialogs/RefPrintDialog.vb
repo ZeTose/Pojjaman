@@ -6,9 +6,11 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.Services
 Imports Telerik.WinControls
+Imports System.IO
+Imports Longkong.Pojjaman.Commands
 
-Public Class RefDialog
-  Private Sub RefDialog_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+Public Class RefPrintDialog
+  Private Sub RefPrintDialog_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
     RadGridView1.EnableGrouping = False
     RadGridView1.EnableSorting = False
 
@@ -22,51 +24,26 @@ Public Class RefDialog
     End If
 
     Dim deh As New DataRowHelper(row)
-    Dim prefix As String = deh.GetValue(Of String)("entity_prefix")
-    Dim theDescription As String = deh.GetValue(Of String)("entity_description")
-    Dim fullClassName As String = deh.GetValue(Of String)("entity_fullClassName")
+    Dim printTime As String = deh.GetValue(Of Date)("printtime").ToString
+    Dim printUser As String = deh.GetValue(Of String)("user_name")
+    Dim theData() As Byte = CType(row("XPS"), Byte())
 
-    Dim thisMessage As String
+    tr.Cells("User").Value = printUser
 
-    Dim dr As DataRow = Longkong.Pojjaman.BusinessLogic.SimpleBusinessEntityBase.GetEntityRow(CInt(row("refto_id")), CInt(row("refto_type")))
+    tr.Cells("Time").Value = printTime
 
-    deh = New DataRowHelper(dr)
-
-    Dim theCode As String = deh.GetValue(Of String)(prefix & "_code")
-    Dim theId As Integer = deh.GetValue(Of Integer)(prefix & "_id")
-
-    thisMessage = theDescription & ":" & theCode
-
-    tr.Cells("Description").Value = thisMessage
-
-    tr.Cells("Code").Value = theCode
-
-    tr.Tag = New KeyValuePair(Of Integer, String)(theId, fullClassName)
+    tr.Tag = theData
 
   End Sub
   Public dt1 As DataTable
-  Public dt2 As DataTable
   Private Sub RefreshItems()
     Me.RadGridView1.Rows.Clear()
-    Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-    Dim headRow As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
-    headRow.Cells("Description").Value = myStringParserService.Parse("${res:Commands.ShowRef.lbl}") '"ถูกอ้างอิงไปที่: (ดับเบิ้ลคลิกเพื่อไปยังเอกสาร)"
     Dim i As Integer = 1
     For Each row As DataRow In dt1.Rows
       Dim gridRow As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
       PopulateRow(row, gridRow)
       gridRow.Cells("Linenumber").Value = i
       i += 1
-    Next
-
-    Dim headRow2 As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
-    headRow2.Cells("Description").Value = myStringParserService.Parse("${res:Commands.ShowRef.lbl2}") '"อ้างอิงมาจาก: (ดับเบิ้ลคลิกเพื่อไปยังเอกสาร)"        
-    Dim i2 As Integer = 1
-    For Each row As DataRow In dt2.Rows
-      Dim gridRow As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
-      PopulateRow(row, gridRow)
-      gridRow.Cells("Linenumber").Value = i2
-      i2 += 1
     Next
   End Sub
   Dim viewDef As ColumnGroupsViewDefinition
@@ -88,9 +65,9 @@ Public Class RefDialog
     viewDef.ColumnGroups(colNum).IsPinned = True
     colNum += 1
 
-    Dim gcCBS As New GridViewTextBoxColumn("Description")
-    gcCBS.HeaderText = "Description"
-    gcCBS.Width = 300
+    Dim gcCBS As New GridViewTextBoxColumn("User")
+    gcCBS.HeaderText = "User"
+    gcCBS.Width = 200
     gcCBS.ReadOnly = True
     Me.RadGridView1.Columns.Add(gcCBS)
     viewDef.ColumnGroups.Add(New GridViewColumnGroup)
@@ -98,8 +75,8 @@ Public Class RefDialog
     viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcCBS)
     colNum += 1
 
-    Dim gcName As New GridViewTextBoxColumn("Code")
-    gcName.HeaderText = "Code"
+    Dim gcName As New GridViewTextBoxColumn("Time")
+    gcName.HeaderText = "Time"
     gcName.Width = 200
     gcName.ReadOnly = True
     Me.RadGridView1.Columns.Add(gcName)
@@ -110,19 +87,23 @@ Public Class RefDialog
 
   End Sub
   Private Sub RadGridView1_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles RadGridView1.CellDoubleClick
-    If e.Row Is Nothing OrElse Not TypeOf e.Row.Tag Is Global.System.Collections.Generic.KeyValuePair(Of Integer, String) Then
+    If e.Row Is Nothing OrElse Not TypeOf e.Row.Tag Is Byte() Then
       Return
     End If
+    Dim ctrl As Control = CType(sender, Control)
+    Dim data() As Byte = CType(ctrl.Tag, Byte())
     Try
-      Dim kv As KeyValuePair(Of Integer, String) = CType(e.Row.Tag, Global.System.Collections.Generic.KeyValuePair(Of Integer, String))
-      Dim theId As Integer = kv.Key
-      Dim theType As String = kv.Value
-      Dim theEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(theType, theId)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenDetailPanel(theEntity)
+      Dim xpsDIR As String = System.IO.Path.GetTempPath
+      Dim fileName As String = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
+      Dim fs As New FileStream(fileName, FileMode.Create, FileAccess.ReadWrite)
+      Dim bw As New BinaryWriter(fs)
+      bw.Write(data)
+      bw.Close()
       Me.Close()
+      Process.Start(fileName)
+      ShowPrintLog.FileList.Add(fileName)
     Catch ex As Exception
-
+      MessageBox.Show(ex.ToString)
     End Try
   End Sub
 
