@@ -570,7 +570,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("FinishDate") = DBNull.Value
       End If
 
-      tr.SetState(Me.State)
+      tr.State = Me.State
 
       tr.Tag = Me
 
