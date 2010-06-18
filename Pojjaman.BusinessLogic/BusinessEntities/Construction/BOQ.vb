@@ -95,6 +95,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_totalBudgetFromDB As Decimal
     Private m_finalbidpriceFromDB As Decimal
 
+    Private m_locked As Boolean
+
 #End Region
 
 #Region "Constructors"
@@ -116,6 +118,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_project = New Project
         .m_estimator = New Employee
         .m_status = New BOQStatus(-1)
+        .m_locked = False
         m_materialMarkupMethod = New MarkupDistributionMethod(1)        m_laborMarkupMethod = New MarkupDistributionMethod(2)        m_equipmentMarkupMethod = New MarkupDistributionMethod(3)
 
         m_WBSCollection = New WBSCollection(Me)
@@ -175,6 +178,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "boq_markupstate") AndAlso Not dr.IsNull(aliasPrefix & "boq_markupstate") Then
           .m_markupState = CStr(dr(aliasPrefix & "boq_markupstate"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "boq_locked") AndAlso Not dr.IsNull(aliasPrefix & "boq_locked") Then
+          .m_locked = CBool(dr(aliasPrefix & "boq_locked"))
         End If
       End With
 
@@ -608,7 +615,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Me.FinalDirectCost + Me.FinalOverhead + Me.FinalProfit + Me.TaxAmount
       End Get
-    End Property    Public Property MarkupCollection() As MarkupCollection      Get        Return m_markupCollection      End Get      Set(ByVal Value As MarkupCollection)        m_markupCollection = Value      End Set    End Property    Public Property WBSCollection() As WBSCollection      Get        Return m_WBSCollection      End Get      Set(ByVal Value As WBSCollection)        m_WBSCollection = Value      End Set    End Property    Public Property ItemCollection() As BoqItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As BoqItemCollection)        m_itemCollection = Value      End Set    End Property    Public ReadOnly Property HasMaterialCost() As Boolean      Get        If Me.Project Is Nothing Then          Return False
+    End Property    Public Property MarkupCollection() As MarkupCollection      Get        Return m_markupCollection      End Get      Set(ByVal Value As MarkupCollection)        m_markupCollection = Value      End Set    End Property    Public Property WBSCollection() As WBSCollection      Get        Return m_WBSCollection      End Get      Set(ByVal Value As WBSCollection)        m_WBSCollection = Value      End Set    End Property    Public Property ItemCollection() As BoqItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As BoqItemCollection)        m_itemCollection = Value      End Set    End Property    Public Property Locked() As Boolean      Get
+        Return m_locked
+      End Get
+      Set(ByVal Value As Boolean)
+        m_locked = Value
+      End Set
+    End Property    Public ReadOnly Property HasMaterialCost() As Boolean      Get        If Me.Project Is Nothing Then          Return False
         End If        Return Me.Project.HasMaterialCost      End Get    End Property    Public ReadOnly Property HasLaborCost() As Boolean      Get        If Me.Project Is Nothing Then          Return False
         End If        Return Me.Project.HasLaborCost      End Get    End Property    Public ReadOnly Property HasEquipmentCost() As Boolean      Get        If Me.Project Is Nothing Then          Return False
         End If        Return Me.Project.HasEquipmentCost      End Get    End Property    Public Overrides Property Status() As CodeDescription
@@ -3742,6 +3755,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         drBoq(Me.Prefix & "_markupstate") = Me.MarkupState
         drBoq(Me.Prefix & "_finalbidprice") = Me.FinalBidPrice
         drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
+        drBoq(Me.Prefix & "_locked") = Me.Locked
 
         Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
 

@@ -825,6 +825,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return True
     End Function
+    Public Sub SetPAAdvancePayAndRetention()
+      Dim sc_retention As Decimal
+      Dim sc_advancepay As Decimal
+      Dim vo_retention As Decimal
+      Dim vo_advancepay As Decimal
+      Dim pa_retention As Decimal
+      Dim pa_advancepay As Decimal
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetRetAdvpaySCVOPA" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        Dim row As DataRow = ds.Tables(0).Rows(0)
+        Dim deh As New DataRowHelper(row)
+        sc_retention = deh.GetValue(Of Decimal)("sc_retention")
+        sc_advancepay = deh.GetValue(Of Decimal)("sc_advancepay")
+      End If
+      If ds.Tables(1).Rows.Count <> 0 Then
+        Dim row As DataRow = ds.Tables(1).Rows(0)
+        Dim deh As New DataRowHelper(row)
+        vo_retention = deh.GetValue(Of Decimal)("vo_retention")
+        vo_advancepay = deh.GetValue(Of Decimal)("vo_advancepay")
+      End If
+      If ds.Tables(2).Rows.Count <> 0 Then
+        Dim row As DataRow = ds.Tables(2).Rows(0)
+        Dim deh As New DataRowHelper(row)
+        pa_retention = deh.GetValue(Of Decimal)("pa_retention")
+        pa_advancepay = deh.GetValue(Of Decimal)("pa_advancepay")
+      End If
+      m_retention = (sc_retention + vo_retention) - pa_retention
+      m_retentionRemaining = (sc_retention + vo_retention) - pa_retention
+      m_retentionToDoc = pa_retention
+      m_advancePayRemaining = (sc_advancepay + vo_advancepay) - pa_advancepay
+      m_advancePayToDoc = pa_advancepay
+    End Sub
     Public Function GetSCRetentionRemaining() As Decimal
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
@@ -1918,12 +1956,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
-      Dim ret As Decimal = Me.GetSCRetentionRemaining
-      Me.m_retentionToDoc = Sc.Retention - ret
-      Me.m_retentionRemaining = ret
-      Me.m_retention = ret
-      Dim adv As Decimal = Me.GetSCAdvancePayRemaining
-      Me.m_advancePayToDoc = Sc.AdvancePay - adv
+      'Dim ret As Decimal = Me.GetSCRetentionRemaining
+      'Me.m_retentionToDoc = Sc.Retention - ret
+      'Me.m_retentionRemaining = ret
+      'Me.m_retention = ret
+      'Dim adv As Decimal = Me.GetSCAdvancePayRemaining
+      'Me.m_advancePayToDoc = Sc.AdvancePay - adv
+      SetPAAdvancePayAndRetention()
+
       Dim dist As Decimal = Me.GetSCDistCountRemaining
       If dist > 0 Then
         Dim distString As String = dist.ToString

@@ -116,95 +116,97 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblMonth As System.Windows.Forms.Label
     Friend WithEvents lblMonthPeriod As System.Windows.Forms.Label
     Friend WithEvents txtMonthPeriod As System.Windows.Forms.NumericUpDown
+    Friend WithEvents btnLockBoq As System.Windows.Forms.Button
     Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ItemListing))
-      Me.lblItemQTY = New System.Windows.Forms.Label
-      Me.txtItemQty = New System.Windows.Forms.TextBox
-      Me.ibtnShowUnit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowUnitDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtItemUnitName = New System.Windows.Forms.TextBox
-      Me.lblItemUnit = New System.Windows.Forms.Label
-      Me.txtItemUnitCode = New System.Windows.Forms.TextBox
-      Me.txtItemDescription = New System.Windows.Forms.TextBox
-      Me.lblItemDes = New System.Windows.Forms.Label
-      Me.txtItemNote = New System.Windows.Forms.TextBox
-      Me.lblItemNote = New System.Windows.Forms.Label
-      Me.txtItemName = New System.Windows.Forms.TextBox
-      Me.lblItemCode = New System.Windows.Forms.Label
-      Me.txtItemCode = New System.Windows.Forms.TextBox
-      Me.grbPrice = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblItemTotalPrice = New System.Windows.Forms.Label
-      Me.lblItemUnitPrice = New System.Windows.Forms.Label
-      Me.txtItemMatUnitPrice = New System.Windows.Forms.TextBox
-      Me.txtItemTotalLaborPrice = New System.Windows.Forms.TextBox
-      Me.txtItemTotalUnitPrice = New System.Windows.Forms.TextBox
-      Me.lblBaht = New System.Windows.Forms.Label
-      Me.lblBaht1 = New System.Windows.Forms.Label
-      Me.txtItemTotalPrice = New System.Windows.Forms.TextBox
-      Me.txtItemTotalEqPrice = New System.Windows.Forms.TextBox
-      Me.txtItemTotalMatPrice = New System.Windows.Forms.TextBox
-      Me.txtItemEqUnitPrice = New System.Windows.Forms.TextBox
-      Me.txtItemLaborUnitPrice = New System.Windows.Forms.TextBox
-      Me.lblMat = New System.Windows.Forms.Label
-      Me.lblLabor = New System.Windows.Forms.Label
-      Me.lblEquip = New System.Windows.Forms.Label
-      Me.lblTotal = New System.Windows.Forms.Label
-      Me.btnShowLCI = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibnShowLCIDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblWorkBreakdown = New System.Windows.Forms.Label
-      Me.tbDetail = New System.Windows.Forms.TabControl
-      Me.tpItemDetail = New System.Windows.Forms.TabPage
-      Me.cmbEntityType = New System.Windows.Forms.ComboBox
-      Me.lblEntityType = New System.Windows.Forms.Label
-      Me.tpUnitPrice = New System.Windows.Forms.TabPage
-      Me.grbUnitPrice = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtMonthPeriod = New System.Windows.Forms.NumericUpDown
-      Me.lblCurrentPrice = New System.Windows.Forms.Label
-      Me.txtCurrentPrice = New System.Windows.Forms.TextBox
-      Me.btnApplyLCIUnitPrice = New System.Windows.Forms.Button
-      Me.tgLCIUnitPrice = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblBaht2 = New System.Windows.Forms.Label
-      Me.lblMonth = New System.Windows.Forms.Label
-      Me.lblMonthPeriod = New System.Windows.Forms.Label
-      Me.grbSupplier = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.tgLCISupplier = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.btnSupplierDetail = New System.Windows.Forms.Button
-      Me.tpLaborEq = New System.Windows.Forms.TabPage
-      Me.grbEquip = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblCurrentEq = New System.Windows.Forms.Label
-      Me.txtCurrentEq = New System.Windows.Forms.TextBox
-      Me.lblCurrenEqUnit = New System.Windows.Forms.Label
-      Me.tgLCIEqCost = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.btnApplyEqCost = New System.Windows.Forms.Button
-      Me.grbLabor = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblCurrentLabor = New System.Windows.Forms.Label
-      Me.txtCurrentLabor = New System.Windows.Forms.TextBox
-      Me.lblCurrentLaborUnit = New System.Windows.Forms.Label
-      Me.btnApplyLaborUnitPrice = New System.Windows.Forms.Button
-      Me.tgLCILabor = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblBOQCode = New System.Windows.Forms.Label
-      Me.txtBOQCode = New System.Windows.Forms.TextBox
-      Me.txtProjectName = New System.Windows.Forms.TextBox
-      Me.lblProject = New System.Windows.Forms.Label
-      Me.txtProjectCode = New System.Windows.Forms.TextBox
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemListing))
+      Me.lblItemQTY = New System.Windows.Forms.Label()
+      Me.txtItemQty = New System.Windows.Forms.TextBox()
+      Me.ibtnShowUnit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowUnitDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtItemUnitName = New System.Windows.Forms.TextBox()
+      Me.lblItemUnit = New System.Windows.Forms.Label()
+      Me.txtItemUnitCode = New System.Windows.Forms.TextBox()
+      Me.txtItemDescription = New System.Windows.Forms.TextBox()
+      Me.lblItemDes = New System.Windows.Forms.Label()
+      Me.txtItemNote = New System.Windows.Forms.TextBox()
+      Me.lblItemNote = New System.Windows.Forms.Label()
+      Me.txtItemName = New System.Windows.Forms.TextBox()
+      Me.lblItemCode = New System.Windows.Forms.Label()
+      Me.txtItemCode = New System.Windows.Forms.TextBox()
+      Me.grbPrice = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblItemTotalPrice = New System.Windows.Forms.Label()
+      Me.lblItemUnitPrice = New System.Windows.Forms.Label()
+      Me.txtItemMatUnitPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemTotalLaborPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemTotalUnitPrice = New System.Windows.Forms.TextBox()
+      Me.lblBaht = New System.Windows.Forms.Label()
+      Me.lblBaht1 = New System.Windows.Forms.Label()
+      Me.txtItemTotalPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemTotalEqPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemTotalMatPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemEqUnitPrice = New System.Windows.Forms.TextBox()
+      Me.txtItemLaborUnitPrice = New System.Windows.Forms.TextBox()
+      Me.lblMat = New System.Windows.Forms.Label()
+      Me.lblLabor = New System.Windows.Forms.Label()
+      Me.lblEquip = New System.Windows.Forms.Label()
+      Me.lblTotal = New System.Windows.Forms.Label()
+      Me.btnShowLCI = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibnShowLCIDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblWorkBreakdown = New System.Windows.Forms.Label()
+      Me.tbDetail = New System.Windows.Forms.TabControl()
+      Me.tpItemDetail = New System.Windows.Forms.TabPage()
+      Me.cmbEntityType = New System.Windows.Forms.ComboBox()
+      Me.lblEntityType = New System.Windows.Forms.Label()
+      Me.tpUnitPrice = New System.Windows.Forms.TabPage()
+      Me.grbUnitPrice = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtMonthPeriod = New System.Windows.Forms.NumericUpDown()
+      Me.lblCurrentPrice = New System.Windows.Forms.Label()
+      Me.txtCurrentPrice = New System.Windows.Forms.TextBox()
+      Me.btnApplyLCIUnitPrice = New System.Windows.Forms.Button()
+      Me.tgLCIUnitPrice = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblBaht2 = New System.Windows.Forms.Label()
+      Me.lblMonth = New System.Windows.Forms.Label()
+      Me.lblMonthPeriod = New System.Windows.Forms.Label()
+      Me.grbSupplier = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.tgLCISupplier = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.btnSupplierDetail = New System.Windows.Forms.Button()
+      Me.tpLaborEq = New System.Windows.Forms.TabPage()
+      Me.grbEquip = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblCurrentEq = New System.Windows.Forms.Label()
+      Me.txtCurrentEq = New System.Windows.Forms.TextBox()
+      Me.lblCurrenEqUnit = New System.Windows.Forms.Label()
+      Me.tgLCIEqCost = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.btnApplyEqCost = New System.Windows.Forms.Button()
+      Me.grbLabor = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblCurrentLabor = New System.Windows.Forms.Label()
+      Me.txtCurrentLabor = New System.Windows.Forms.TextBox()
+      Me.lblCurrentLaborUnit = New System.Windows.Forms.Label()
+      Me.btnApplyLaborUnitPrice = New System.Windows.Forms.Button()
+      Me.tgLCILabor = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblBOQCode = New System.Windows.Forms.Label()
+      Me.txtBOQCode = New System.Windows.Forms.TextBox()
+      Me.txtProjectName = New System.Windows.Forms.TextBox()
+      Me.lblProject = New System.Windows.Forms.Label()
+      Me.txtProjectCode = New System.Windows.Forms.TextBox()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.grbBOQType = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkMat = New System.Windows.Forms.CheckBox
-      Me.chkLabor = New System.Windows.Forms.CheckBox
-      Me.chkEquip = New System.Windows.Forms.CheckBox
-      Me.ibtnZoomChart = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.grbSummarize = New System.Windows.Forms.GroupBox
-      Me.lblLevel = New System.Windows.Forms.Label
-      Me.ibtnZoomOut = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnZoomIn = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton
+      Me.grbBOQType = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkMat = New System.Windows.Forms.CheckBox()
+      Me.chkLabor = New System.Windows.Forms.CheckBox()
+      Me.chkEquip = New System.Windows.Forms.CheckBox()
+      Me.ibtnZoomChart = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.grbSummarize = New System.Windows.Forms.GroupBox()
+      Me.lblLevel = New System.Windows.Forms.Label()
+      Me.ibtnZoomOut = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnZoomIn = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnLockBoq = New System.Windows.Forms.Button()
       Me.grbPrice.SuspendLayout()
       Me.tbDetail.SuspendLayout()
       Me.tpItemDetail.SuspendLayout()
@@ -220,6 +222,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbLabor.SuspendLayout()
       CType(Me.tgLCILabor, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbBOQType.SuspendLayout()
       Me.grbSummarize.SuspendLayout()
       Me.SuspendLayout()
@@ -243,20 +246,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemQty, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemQty, System.Drawing.Color.Empty)
       Me.txtItemQty.Location = New System.Drawing.Point(104, 56)
-      Me.Validator.SetMaxValue(Me.txtItemQty, "")
       Me.Validator.SetMinValue(Me.txtItemQty, "")
       Me.txtItemQty.Name = "txtItemQty"
       Me.Validator.SetRegularExpression(Me.txtItemQty, "")
       Me.Validator.SetRequired(Me.txtItemQty, False)
       Me.txtItemQty.Size = New System.Drawing.Size(128, 22)
       Me.txtItemQty.TabIndex = 3
-      Me.txtItemQty.Text = ""
       Me.txtItemQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'ibtnShowUnit
       '
+      Me.ibtnShowUnit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowUnit.Image = CType(resources.GetObject("ibtnShowUnit.Image"), System.Drawing.Image)
       Me.ibtnShowUnit.Location = New System.Drawing.Point(480, 56)
       Me.ibtnShowUnit.Name = "ibtnShowUnit"
       Me.ibtnShowUnit.Size = New System.Drawing.Size(24, 23)
@@ -266,9 +267,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowUnitDialog
       '
+      Me.ibtnShowUnitDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowUnitDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowUnitDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowUnitDialog.Image = CType(resources.GetObject("ibtnShowUnitDialog.Image"), System.Drawing.Image)
       Me.ibtnShowUnitDialog.Location = New System.Drawing.Point(456, 56)
       Me.ibtnShowUnitDialog.Name = "ibtnShowUnitDialog"
       Me.ibtnShowUnitDialog.Size = New System.Drawing.Size(24, 23)
@@ -284,7 +285,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemUnitName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemUnitName, System.Drawing.Color.Empty)
       Me.txtItemUnitName.Location = New System.Drawing.Point(336, 56)
-      Me.Validator.SetMaxValue(Me.txtItemUnitName, "")
       Me.Validator.SetMinValue(Me.txtItemUnitName, "")
       Me.txtItemUnitName.Name = "txtItemUnitName"
       Me.txtItemUnitName.ReadOnly = True
@@ -293,7 +293,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemUnitName.Size = New System.Drawing.Size(120, 21)
       Me.txtItemUnitName.TabIndex = 19
       Me.txtItemUnitName.TabStop = False
-      Me.txtItemUnitName.Text = ""
       '
       'lblItemUnit
       '
@@ -315,14 +314,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemUnitCode, System.Drawing.Color.Empty)
       Me.txtItemUnitCode.Location = New System.Drawing.Point(280, 56)
       Me.txtItemUnitCode.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtItemUnitCode, "")
       Me.Validator.SetMinValue(Me.txtItemUnitCode, "")
       Me.txtItemUnitCode.Name = "txtItemUnitCode"
       Me.Validator.SetRegularExpression(Me.txtItemUnitCode, "")
       Me.Validator.SetRequired(Me.txtItemUnitCode, False)
       Me.txtItemUnitCode.Size = New System.Drawing.Size(56, 21)
       Me.txtItemUnitCode.TabIndex = 4
-      Me.txtItemUnitCode.Text = ""
       '
       'txtItemDescription
       '
@@ -333,14 +330,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemDescription, System.Drawing.Color.Empty)
       Me.txtItemDescription.Location = New System.Drawing.Point(104, 32)
       Me.txtItemDescription.MaxLength = 1000
-      Me.Validator.SetMaxValue(Me.txtItemDescription, "")
       Me.Validator.SetMinValue(Me.txtItemDescription, "")
       Me.txtItemDescription.Name = "txtItemDescription"
       Me.Validator.SetRegularExpression(Me.txtItemDescription, "")
       Me.Validator.SetRequired(Me.txtItemDescription, False)
       Me.txtItemDescription.Size = New System.Drawing.Size(536, 22)
       Me.txtItemDescription.TabIndex = 2
-      Me.txtItemDescription.Text = ""
       '
       'lblItemDes
       '
@@ -362,7 +357,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemNote, System.Drawing.Color.Empty)
       Me.txtItemNote.Location = New System.Drawing.Point(104, 152)
       Me.txtItemNote.MaxLength = 2000
-      Me.Validator.SetMaxValue(Me.txtItemNote, "")
       Me.Validator.SetMinValue(Me.txtItemNote, "")
       Me.txtItemNote.Multiline = True
       Me.txtItemNote.Name = "txtItemNote"
@@ -371,7 +365,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtItemNote.Size = New System.Drawing.Size(528, 42)
       Me.txtItemNote.TabIndex = 8
-      Me.txtItemNote.Text = ""
       '
       'lblItemNote
       '
@@ -392,7 +385,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemName, System.Drawing.Color.Empty)
       Me.txtItemName.Location = New System.Drawing.Point(320, 8)
-      Me.Validator.SetMaxValue(Me.txtItemName, "")
       Me.Validator.SetMinValue(Me.txtItemName, "")
       Me.txtItemName.Name = "txtItemName"
       Me.txtItemName.ReadOnly = True
@@ -401,7 +393,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemName.Size = New System.Drawing.Size(272, 22)
       Me.txtItemName.TabIndex = 14
       Me.txtItemName.TabStop = False
-      Me.txtItemName.Text = ""
       '
       'lblItemCode
       '
@@ -423,14 +414,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemCode, System.Drawing.Color.Empty)
       Me.txtItemCode.Location = New System.Drawing.Point(216, 8)
       Me.txtItemCode.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtItemCode, "")
       Me.Validator.SetMinValue(Me.txtItemCode, "")
       Me.txtItemCode.Name = "txtItemCode"
       Me.Validator.SetRegularExpression(Me.txtItemCode, "")
       Me.Validator.SetRequired(Me.txtItemCode, False)
       Me.txtItemCode.Size = New System.Drawing.Size(104, 22)
       Me.txtItemCode.TabIndex = 1
-      Me.txtItemCode.Text = ""
       '
       'grbPrice
       '
@@ -488,14 +477,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemMatUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemMatUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemMatUnitPrice.Location = New System.Drawing.Point(88, 24)
-      Me.Validator.SetMaxValue(Me.txtItemMatUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemMatUnitPrice, "")
       Me.txtItemMatUnitPrice.Name = "txtItemMatUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemMatUnitPrice, "")
       Me.Validator.SetRequired(Me.txtItemMatUnitPrice, False)
       Me.txtItemMatUnitPrice.Size = New System.Drawing.Size(128, 22)
       Me.txtItemMatUnitPrice.TabIndex = 0
-      Me.txtItemMatUnitPrice.Text = ""
       Me.txtItemMatUnitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemTotalLaborPrice
@@ -506,14 +493,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalLaborPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalLaborPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalLaborPrice.Location = New System.Drawing.Point(216, 48)
-      Me.Validator.SetMaxValue(Me.txtItemTotalLaborPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalLaborPrice, "")
       Me.txtItemTotalLaborPrice.Name = "txtItemTotalLaborPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalLaborPrice, "")
       Me.Validator.SetRequired(Me.txtItemTotalLaborPrice, False)
       Me.txtItemTotalLaborPrice.Size = New System.Drawing.Size(112, 22)
       Me.txtItemTotalLaborPrice.TabIndex = 5
-      Me.txtItemTotalLaborPrice.Text = ""
       Me.txtItemTotalLaborPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemTotalUnitPrice
@@ -524,7 +509,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalUnitPrice.Location = New System.Drawing.Point(440, 24)
-      Me.Validator.SetMaxValue(Me.txtItemTotalUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalUnitPrice, "")
       Me.txtItemTotalUnitPrice.Name = "txtItemTotalUnitPrice"
       Me.txtItemTotalUnitPrice.ReadOnly = True
@@ -533,7 +517,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemTotalUnitPrice.Size = New System.Drawing.Size(136, 22)
       Me.txtItemTotalUnitPrice.TabIndex = 10
       Me.txtItemTotalUnitPrice.TabStop = False
-      Me.txtItemTotalUnitPrice.Text = ""
       Me.txtItemTotalUnitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblBaht
@@ -566,7 +549,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalPrice.Location = New System.Drawing.Point(440, 48)
-      Me.Validator.SetMaxValue(Me.txtItemTotalPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalPrice, "")
       Me.txtItemTotalPrice.Name = "txtItemTotalPrice"
       Me.txtItemTotalPrice.ReadOnly = True
@@ -575,7 +557,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemTotalPrice.Size = New System.Drawing.Size(136, 22)
       Me.txtItemTotalPrice.TabIndex = 7
       Me.txtItemTotalPrice.TabStop = False
-      Me.txtItemTotalPrice.Text = ""
       Me.txtItemTotalPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemTotalEqPrice
@@ -586,14 +567,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalEqPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalEqPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalEqPrice.Location = New System.Drawing.Point(328, 48)
-      Me.Validator.SetMaxValue(Me.txtItemTotalEqPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalEqPrice, "")
       Me.txtItemTotalEqPrice.Name = "txtItemTotalEqPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalEqPrice, "")
       Me.Validator.SetRequired(Me.txtItemTotalEqPrice, False)
       Me.txtItemTotalEqPrice.Size = New System.Drawing.Size(112, 22)
       Me.txtItemTotalEqPrice.TabIndex = 6
-      Me.txtItemTotalEqPrice.Text = ""
       Me.txtItemTotalEqPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemTotalMatPrice
@@ -604,14 +583,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalMatPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalMatPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalMatPrice.Location = New System.Drawing.Point(88, 48)
-      Me.Validator.SetMaxValue(Me.txtItemTotalMatPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalMatPrice, "")
       Me.txtItemTotalMatPrice.Name = "txtItemTotalMatPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalMatPrice, "")
       Me.Validator.SetRequired(Me.txtItemTotalMatPrice, False)
       Me.txtItemTotalMatPrice.Size = New System.Drawing.Size(128, 22)
       Me.txtItemTotalMatPrice.TabIndex = 4
-      Me.txtItemTotalMatPrice.Text = ""
       Me.txtItemTotalMatPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemEqUnitPrice
@@ -622,14 +599,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemEqUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemEqUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemEqUnitPrice.Location = New System.Drawing.Point(328, 24)
-      Me.Validator.SetMaxValue(Me.txtItemEqUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemEqUnitPrice, "")
       Me.txtItemEqUnitPrice.Name = "txtItemEqUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemEqUnitPrice, "")
       Me.Validator.SetRequired(Me.txtItemEqUnitPrice, False)
       Me.txtItemEqUnitPrice.Size = New System.Drawing.Size(112, 22)
       Me.txtItemEqUnitPrice.TabIndex = 2
-      Me.txtItemEqUnitPrice.Text = ""
       Me.txtItemEqUnitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemLaborUnitPrice
@@ -640,14 +615,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemLaborUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemLaborUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemLaborUnitPrice.Location = New System.Drawing.Point(216, 24)
-      Me.Validator.SetMaxValue(Me.txtItemLaborUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemLaborUnitPrice, "")
       Me.txtItemLaborUnitPrice.Name = "txtItemLaborUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemLaborUnitPrice, "")
       Me.Validator.SetRequired(Me.txtItemLaborUnitPrice, False)
       Me.txtItemLaborUnitPrice.Size = New System.Drawing.Size(112, 22)
       Me.txtItemLaborUnitPrice.TabIndex = 1
-      Me.txtItemLaborUnitPrice.Text = ""
       Me.txtItemLaborUnitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblMat
@@ -696,8 +669,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnShowLCI
       '
+      Me.btnShowLCI.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnShowLCI.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnShowLCI.Image = CType(resources.GetObject("btnShowLCI.Image"), System.Drawing.Image)
       Me.btnShowLCI.Location = New System.Drawing.Point(616, 8)
       Me.btnShowLCI.Name = "btnShowLCI"
       Me.btnShowLCI.Size = New System.Drawing.Size(24, 23)
@@ -707,9 +680,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibnShowLCIDialog
       '
+      Me.ibnShowLCIDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibnShowLCIDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibnShowLCIDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibnShowLCIDialog.Image = CType(resources.GetObject("ibnShowLCIDialog.Image"), System.Drawing.Image)
       Me.ibnShowLCIDialog.Location = New System.Drawing.Point(592, 8)
       Me.ibnShowLCIDialog.Name = "ibnShowLCIDialog"
       Me.ibnShowLCIDialog.Size = New System.Drawing.Size(24, 23)
@@ -841,7 +814,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentPrice, System.Drawing.Color.Empty)
       Me.txtCurrentPrice.Location = New System.Drawing.Point(88, 16)
-      Me.Validator.SetMaxValue(Me.txtCurrentPrice, "")
       Me.Validator.SetMinValue(Me.txtCurrentPrice, "")
       Me.txtCurrentPrice.Name = "txtCurrentPrice"
       Me.txtCurrentPrice.ReadOnly = True
@@ -850,7 +822,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCurrentPrice.Size = New System.Drawing.Size(80, 22)
       Me.txtCurrentPrice.TabIndex = 1
       Me.txtCurrentPrice.TabStop = False
-      Me.txtCurrentPrice.Text = ""
       Me.txtCurrentPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'btnApplyLCIUnitPrice
@@ -1004,7 +975,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentEq, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentEq, System.Drawing.Color.Empty)
       Me.txtCurrentEq.Location = New System.Drawing.Point(88, 16)
-      Me.Validator.SetMaxValue(Me.txtCurrentEq, "")
       Me.Validator.SetMinValue(Me.txtCurrentEq, "")
       Me.txtCurrentEq.Name = "txtCurrentEq"
       Me.txtCurrentEq.ReadOnly = True
@@ -1013,7 +983,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCurrentEq.Size = New System.Drawing.Size(128, 22)
       Me.txtCurrentEq.TabIndex = 1
       Me.txtCurrentEq.TabStop = False
-      Me.txtCurrentEq.Text = ""
       Me.txtCurrentEq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblCurrenEqUnit
@@ -1087,7 +1056,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentLabor, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentLabor, System.Drawing.Color.Empty)
       Me.txtCurrentLabor.Location = New System.Drawing.Point(96, 16)
-      Me.Validator.SetMaxValue(Me.txtCurrentLabor, "")
       Me.Validator.SetMinValue(Me.txtCurrentLabor, "")
       Me.txtCurrentLabor.Name = "txtCurrentLabor"
       Me.txtCurrentLabor.ReadOnly = True
@@ -1096,7 +1064,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCurrentLabor.Size = New System.Drawing.Size(128, 22)
       Me.txtCurrentLabor.TabIndex = 1
       Me.txtCurrentLabor.TabStop = False
-      Me.txtCurrentLabor.Text = ""
       Me.txtCurrentLabor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblCurrentLaborUnit
@@ -1155,7 +1122,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.txtBOQCode.Location = New System.Drawing.Point(96, 0)
-      Me.Validator.SetMaxValue(Me.txtBOQCode, "")
       Me.Validator.SetMinValue(Me.txtBOQCode, "")
       Me.txtBOQCode.Name = "txtBOQCode"
       Me.txtBOQCode.ReadOnly = True
@@ -1164,7 +1130,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBOQCode.Size = New System.Drawing.Size(96, 22)
       Me.txtBOQCode.TabIndex = 1
       Me.txtBOQCode.TabStop = False
-      Me.txtBOQCode.Text = ""
       '
       'txtProjectName
       '
@@ -1174,7 +1139,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.txtProjectName.Location = New System.Drawing.Point(192, 24)
-      Me.Validator.SetMaxValue(Me.txtProjectName, "")
       Me.Validator.SetMinValue(Me.txtProjectName, "")
       Me.txtProjectName.Name = "txtProjectName"
       Me.txtProjectName.ReadOnly = True
@@ -1183,7 +1147,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectName.Size = New System.Drawing.Size(376, 22)
       Me.txtProjectName.TabIndex = 4
       Me.txtProjectName.TabStop = False
-      Me.txtProjectName.Text = ""
       '
       'lblProject
       '
@@ -1204,7 +1167,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.txtProjectCode.Location = New System.Drawing.Point(96, 24)
-      Me.Validator.SetMaxValue(Me.txtProjectCode, "")
       Me.Validator.SetMinValue(Me.txtProjectCode, "")
       Me.txtProjectCode.Name = "txtProjectCode"
       Me.txtProjectCode.ReadOnly = True
@@ -1213,7 +1175,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectCode.Size = New System.Drawing.Size(96, 22)
       Me.txtProjectCode.TabIndex = 3
       Me.txtProjectCode.TabStop = False
-      Me.txtProjectCode.Text = ""
       '
       'tgItem
       '
@@ -1224,7 +1185,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AutoColumnResize = False
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
-      Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(255, Byte), CType(255, Byte), CType(192, Byte)), System.Drawing.Color.FromArgb(CType(128, Byte), CType(255, Byte), CType(255, Byte)), System.Drawing.Color.FromArgb(CType(128, Byte), CType(255, Byte), CType(128, Byte)), System.Drawing.Color.FromArgb(CType(255, Byte), CType(192, Byte), CType(255, Byte))})
+      Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))})
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
@@ -1237,7 +1198,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(248, 64)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -1247,7 +1208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(272, 64)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -1264,9 +1225,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'grbBOQType
       '
@@ -1308,13 +1269,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkEquip.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.chkEquip.Location = New System.Drawing.Point(8, 46)
       Me.chkEquip.Name = "chkEquip"
+      Me.chkEquip.Size = New System.Drawing.Size(104, 24)
       Me.chkEquip.TabIndex = 2
       Me.chkEquip.TabStop = False
       Me.chkEquip.Text = "ค่าเครื่องจักร"
       '
       'ibtnZoomChart
       '
-      Me.ibtnZoomChart.Image = CType(resources.GetObject("ibtnZoomChart.Image"), System.Drawing.Image)
+      Me.ibtnZoomChart.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnZoomChart.Location = New System.Drawing.Point(312, 64)
       Me.ibtnZoomChart.Name = "ibtnZoomChart"
       Me.ibtnZoomChart.Size = New System.Drawing.Size(24, 24)
@@ -1346,7 +1308,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnZoomOut
       '
-      Me.ibtnZoomOut.Image = CType(resources.GetObject("ibtnZoomOut.Image"), System.Drawing.Image)
+      Me.ibtnZoomOut.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnZoomOut.Location = New System.Drawing.Point(16, 16)
       Me.ibtnZoomOut.Name = "ibtnZoomOut"
       Me.ibtnZoomOut.Size = New System.Drawing.Size(24, 24)
@@ -1356,7 +1318,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnZoomIn
       '
-      Me.ibtnZoomIn.Image = CType(resources.GetObject("ibtnZoomIn.Image"), System.Drawing.Image)
+      Me.ibtnZoomIn.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnZoomIn.Location = New System.Drawing.Point(40, 16)
       Me.ibtnZoomIn.Name = "ibtnZoomIn"
       Me.ibtnZoomIn.Size = New System.Drawing.Size(24, 24)
@@ -1366,7 +1328,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnSaveAsExcel
       '
-      Me.ibtnSaveAsExcel.Image = CType(resources.GetObject("ibtnSaveAsExcel.Image"), System.Drawing.Image)
+      Me.ibtnSaveAsExcel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnSaveAsExcel.Location = New System.Drawing.Point(344, 64)
       Me.ibtnSaveAsExcel.Name = "ibtnSaveAsExcel"
       Me.ibtnSaveAsExcel.Size = New System.Drawing.Size(24, 24)
@@ -1374,8 +1336,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnSaveAsExcel.TabStop = False
       Me.ibtnSaveAsExcel.ThemedImage = CType(resources.GetObject("ibtnSaveAsExcel.ThemedImage"), System.Drawing.Bitmap)
       '
+      'btnLockBoq
+      '
+      Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+      Me.btnLockBoq.Location = New System.Drawing.Point(12, 24)
+      Me.btnLockBoq.Name = "btnLockBoq"
+      Me.btnLockBoq.Size = New System.Drawing.Size(39, 44)
+      Me.btnLockBoq.TabIndex = 17
+      Me.btnLockBoq.UseVisualStyleBackColor = True
+      '
       'ItemListing
       '
+      Me.Controls.Add(Me.btnLockBoq)
       Me.Controls.Add(Me.ibtnSaveAsExcel)
       Me.Controls.Add(Me.grbSummarize)
       Me.Controls.Add(Me.tgItem)
@@ -1393,23 +1365,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "ItemListing"
       Me.Size = New System.Drawing.Size(720, 552)
       Me.grbPrice.ResumeLayout(False)
+      Me.grbPrice.PerformLayout()
       Me.tbDetail.ResumeLayout(False)
       Me.tpItemDetail.ResumeLayout(False)
+      Me.tpItemDetail.PerformLayout()
       Me.tpUnitPrice.ResumeLayout(False)
       Me.grbUnitPrice.ResumeLayout(False)
+      Me.grbUnitPrice.PerformLayout()
       CType(Me.txtMonthPeriod, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.tgLCIUnitPrice, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSupplier.ResumeLayout(False)
       CType(Me.tgLCISupplier, System.ComponentModel.ISupportInitialize).EndInit()
       Me.tpLaborEq.ResumeLayout(False)
       Me.grbEquip.ResumeLayout(False)
+      Me.grbEquip.PerformLayout()
       CType(Me.tgLCIEqCost, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbLabor.ResumeLayout(False)
+      Me.grbLabor.PerformLayout()
       CType(Me.tgLCILabor, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbBOQType.ResumeLayout(False)
       Me.grbSummarize.ResumeLayout(False)
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -1992,6 +1971,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If CType(e.Row, TreeRow).Tag Is Nothing Then
         Return
       End If
+      
       If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
         If e.Column.ColumnName.ToLower <> "qtyperwbs" Then 'If e.Column.ColumnName.ToLower <> "wbsqty" Then
           If e.Column.ColumnName.ToLower <> "unit" Then
@@ -2182,6 +2162,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_updating Then
         Return
       End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
       If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
         e.ProposedValue = ""
         Return
@@ -2221,6 +2205,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_updating Then
         Return
       End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
       If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
         e.ProposedValue = 0
       End If
@@ -2254,6 +2242,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetQty(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
+        Return
+      End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
         Return
       End If
       If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
@@ -2291,6 +2283,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetUnitPrice(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
+        Return
+      End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
         Return
       End If
       If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
@@ -2372,6 +2368,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetTotalUnitPrice(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
+        Return
+      End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
         Return
       End If
       If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
@@ -2483,6 +2483,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_updating Then
         Return
       End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
       m_updating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If e.Row.IsNull(e.Column) Then
@@ -2537,6 +2541,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetName(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
+        Return
+      End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
         Return
       End If
       m_updating = True
@@ -2610,6 +2618,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
       If m_updating Then
+        Return
+      End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
         Return
       End If
       m_updating = True
@@ -2805,6 +2817,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         SetUnitForWBS(e)
         Return
       End If
+      If m_entity.Locked Then
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
       If m_updating Then
         Return
       End If
@@ -2972,6 +2988,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       chkEquip.Checked = m_entity.HasEquipmentCost
       chkLabor.Checked = m_entity.HasLaborCost
       chkMat.Checked = m_entity.HasMaterialCost
+
+      If Not m_entity.Originated Then
+        btnLockBoq.Visible = False
+        ibtnDelRow.Enabled = True
+        ibtnBlank.Enabled = True
+      ElseIf m_entity.Locked Then
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+        'btnLockBoq.Text = "UnLock"
+        ibtnDelRow.Enabled = False
+        ibtnBlank.Enabled = False
+      Else
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+        ''btnLockBoq.Text = "Lock"
+        ibtnDelRow.Enabled = True
+        ibtnBlank.Enabled = True
+      End If
 
       If Not Me.m_treeManager.GridTableStyle Is Nothing Then
         If Me.m_treeManager.GridTableStyle.GridColumnStyles.Contains("UnitButton") Then
@@ -3435,6 +3467,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ItemBtnClick()
       If m_item Is Nothing Then
+        Return
+      End If
+      If m_entity.Locked Then
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -3963,6 +3998,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  i.Kill()
       'Next
 
+    End Sub
+
+    Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLockBoq.Click
+      If m_entity.Locked Then
+        m_entity.Locked = False
+      Else
+        m_entity.Locked = True
+      End If
+
+      UpdateEntityProperties()
     End Sub
   End Class
 End Namespace

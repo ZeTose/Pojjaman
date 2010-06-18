@@ -56,45 +56,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents tgProgress As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents ibtnBlankWBSProgress As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnLockBoq As System.Windows.Forms.Button
     Friend WithEvents ibtnDelRowWBSProgress As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(WBSDetail))
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtFinishDate = New System.Windows.Forms.TextBox
-      Me.lblFinishDate = New System.Windows.Forms.Label
-      Me.dtpFinishDate = New System.Windows.Forms.DateTimePicker
-      Me.txtStartDate = New System.Windows.Forms.TextBox
-      Me.lblStartDate = New System.Windows.Forms.Label
-      Me.dtpStartDate = New System.Windows.Forms.DateTimePicker
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.lblName = New System.Windows.Forms.Label
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.tgProgress = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblProgress = New System.Windows.Forms.Label
-      Me.ibtnBlankWBSProgress = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRowWBSProgress = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.tvWbs = New System.Windows.Forms.TreeView
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.lblBOQCode = New System.Windows.Forms.Label
-      Me.txtBOQCode = New System.Windows.Forms.TextBox
-      Me.txtProjectName = New System.Windows.Forms.TextBox
-      Me.lblProject = New System.Windows.Forms.Label
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtProjectCode = New System.Windows.Forms.TextBox
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WBSDetail))
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtFinishDate = New System.Windows.Forms.TextBox()
+      Me.lblFinishDate = New System.Windows.Forms.Label()
+      Me.dtpFinishDate = New System.Windows.Forms.DateTimePicker()
+      Me.txtStartDate = New System.Windows.Forms.TextBox()
+      Me.lblStartDate = New System.Windows.Forms.Label()
+      Me.dtpStartDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.tgProgress = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblProgress = New System.Windows.Forms.Label()
+      Me.ibtnBlankWBSProgress = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRowWBSProgress = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.tvWbs = New System.Windows.Forms.TreeView()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.lblBOQCode = New System.Windows.Forms.Label()
+      Me.txtBOQCode = New System.Windows.Forms.TextBox()
+      Me.txtProjectName = New System.Windows.Forms.TextBox()
+      Me.lblProject = New System.Windows.Forms.Label()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtProjectCode = New System.Windows.Forms.TextBox()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.grbSummarize = New System.Windows.Forms.GroupBox
-      Me.lblLevel = New System.Windows.Forms.Label
-      Me.ibtnZoomOut = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnZoomIn = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnInsert = New Longkong.Pojjaman.Gui.Components.ImageButton
+      Me.grbSummarize = New System.Windows.Forms.GroupBox()
+      Me.lblLevel = New System.Windows.Forms.Label()
+      Me.ibtnZoomOut = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnZoomIn = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnInsert = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnLockBoq = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       CType(Me.tgProgress, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbSummarize.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -133,14 +136,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtFinishDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtFinishDate, System.Drawing.Color.Empty)
       Me.txtFinishDate.Location = New System.Drawing.Point(336, 64)
-      Me.Validator.SetMaxValue(Me.txtFinishDate, "")
       Me.Validator.SetMinValue(Me.txtFinishDate, "")
       Me.txtFinishDate.Name = "txtFinishDate"
       Me.Validator.SetRegularExpression(Me.txtFinishDate, "")
       Me.Validator.SetRequired(Me.txtFinishDate, False)
       Me.txtFinishDate.Size = New System.Drawing.Size(116, 21)
       Me.txtFinishDate.TabIndex = 3
-      Me.txtFinishDate.Text = ""
       '
       'lblFinishDate
       '
@@ -172,14 +173,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtStartDate, 23)
       Me.Validator.SetInvalidBackColor(Me.txtStartDate, System.Drawing.Color.Empty)
       Me.txtStartDate.Location = New System.Drawing.Point(104, 64)
-      Me.Validator.SetMaxValue(Me.txtStartDate, "")
       Me.Validator.SetMinValue(Me.txtStartDate, "")
       Me.txtStartDate.Name = "txtStartDate"
       Me.Validator.SetRegularExpression(Me.txtStartDate, "")
       Me.Validator.SetRequired(Me.txtStartDate, False)
       Me.txtStartDate.Size = New System.Drawing.Size(116, 21)
       Me.txtStartDate.TabIndex = 2
-      Me.txtStartDate.Text = ""
       '
       'lblStartDate
       '
@@ -222,14 +221,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(104, 16)
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(96, 22)
       Me.txtCode.TabIndex = 0
-      Me.txtCode.Text = ""
       '
       'txtName
       '
@@ -239,14 +236,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(104, 40)
-      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
       Me.Validator.SetRequired(Me.txtName, False)
       Me.txtName.Size = New System.Drawing.Size(456, 22)
       Me.txtName.TabIndex = 1
-      Me.txtName.Text = ""
       '
       'lblName
       '
@@ -267,14 +262,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(104, 87)
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(456, 22)
       Me.txtNote.TabIndex = 4
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -319,7 +312,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlankWBSProgress
       '
-      Me.ibtnBlankWBSProgress.Image = CType(resources.GetObject("ibtnBlankWBSProgress.Image"), System.Drawing.Image)
+      Me.ibtnBlankWBSProgress.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlankWBSProgress.Location = New System.Drawing.Point(816, 16)
       Me.ibtnBlankWBSProgress.Name = "ibtnBlankWBSProgress"
       Me.ibtnBlankWBSProgress.Size = New System.Drawing.Size(24, 24)
@@ -329,7 +322,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRowWBSProgress
       '
-      Me.ibtnDelRowWBSProgress.Image = CType(resources.GetObject("ibtnDelRowWBSProgress.Image"), System.Drawing.Image)
+      Me.ibtnDelRowWBSProgress.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRowWBSProgress.Location = New System.Drawing.Point(840, 16)
       Me.ibtnDelRowWBSProgress.Name = "ibtnDelRowWBSProgress"
       Me.ibtnDelRowWBSProgress.Size = New System.Drawing.Size(24, 24)
@@ -344,10 +337,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tvWbs.FullRowSelect = True
       Me.tvWbs.HideSelection = False
-      Me.tvWbs.ImageIndex = -1
       Me.tvWbs.Location = New System.Drawing.Point(8, 80)
       Me.tvWbs.Name = "tvWbs"
-      Me.tvWbs.SelectedImageIndex = -1
       Me.tvWbs.Size = New System.Drawing.Size(872, 265)
       Me.tvWbs.TabIndex = 1
       '
@@ -379,7 +370,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.txtBOQCode.Location = New System.Drawing.Point(96, 8)
-      Me.Validator.SetMaxValue(Me.txtBOQCode, "")
       Me.Validator.SetMinValue(Me.txtBOQCode, "")
       Me.txtBOQCode.Name = "txtBOQCode"
       Me.txtBOQCode.ReadOnly = True
@@ -388,7 +378,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBOQCode.Size = New System.Drawing.Size(440, 22)
       Me.txtBOQCode.TabIndex = 7
       Me.txtBOQCode.TabStop = False
-      Me.txtBOQCode.Text = ""
       '
       'txtProjectName
       '
@@ -398,7 +387,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.txtProjectName.Location = New System.Drawing.Point(192, 30)
-      Me.Validator.SetMaxValue(Me.txtProjectName, "")
       Me.Validator.SetMinValue(Me.txtProjectName, "")
       Me.txtProjectName.Name = "txtProjectName"
       Me.txtProjectName.ReadOnly = True
@@ -407,7 +395,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectName.Size = New System.Drawing.Size(344, 22)
       Me.txtProjectName.TabIndex = 6
       Me.txtProjectName.TabStop = False
-      Me.txtProjectName.Text = ""
       '
       'lblProject
       '
@@ -422,7 +409,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(248, 56)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -432,7 +419,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(296, 56)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -448,7 +435,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.txtProjectCode.Location = New System.Drawing.Point(96, 30)
-      Me.Validator.SetMaxValue(Me.txtProjectCode, "")
       Me.Validator.SetMinValue(Me.txtProjectCode, "")
       Me.txtProjectCode.Name = "txtProjectCode"
       Me.txtProjectCode.ReadOnly = True
@@ -457,7 +443,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtProjectCode.Size = New System.Drawing.Size(96, 22)
       Me.txtProjectCode.TabIndex = 5
       Me.txtProjectCode.TabStop = False
-      Me.txtProjectCode.Text = ""
       '
       'ErrorProvider1
       '
@@ -468,9 +453,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'grbSummarize
       '
@@ -497,7 +482,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnZoomOut
       '
-      Me.ibtnZoomOut.Image = CType(resources.GetObject("ibtnZoomOut.Image"), System.Drawing.Image)
+      Me.ibtnZoomOut.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnZoomOut.Location = New System.Drawing.Point(16, 16)
       Me.ibtnZoomOut.Name = "ibtnZoomOut"
       Me.ibtnZoomOut.Size = New System.Drawing.Size(24, 24)
@@ -507,7 +492,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnZoomIn
       '
-      Me.ibtnZoomIn.Image = CType(resources.GetObject("ibtnZoomIn.Image"), System.Drawing.Image)
+      Me.ibtnZoomIn.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnZoomIn.Location = New System.Drawing.Point(40, 16)
       Me.ibtnZoomIn.Name = "ibtnZoomIn"
       Me.ibtnZoomIn.Size = New System.Drawing.Size(24, 24)
@@ -517,7 +502,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnInsert
       '
-      Me.ibtnInsert.Image = CType(resources.GetObject("ibtnInsert.Image"), System.Drawing.Image)
+      Me.ibtnInsert.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnInsert.Location = New System.Drawing.Point(272, 56)
       Me.ibtnInsert.Name = "ibtnInsert"
       Me.ibtnInsert.Size = New System.Drawing.Size(24, 24)
@@ -525,8 +510,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnInsert.TabStop = False
       Me.ibtnInsert.ThemedImage = CType(resources.GetObject("ibtnInsert.ThemedImage"), System.Drawing.Bitmap)
       '
+      'btnLockBoq
+      '
+      Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+      Me.btnLockBoq.Location = New System.Drawing.Point(684, 30)
+      Me.btnLockBoq.Name = "btnLockBoq"
+      Me.btnLockBoq.Size = New System.Drawing.Size(38, 40)
+      Me.btnLockBoq.TabIndex = 18
+      Me.btnLockBoq.UseVisualStyleBackColor = True
+      '
       'WBSDetail
       '
+      Me.Controls.Add(Me.btnLockBoq)
       Me.Controls.Add(Me.grbSummarize)
       Me.Controls.Add(Me.ibtnBlank)
       Me.Controls.Add(Me.ibtnDelRow)
@@ -543,9 +538,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "WBSDetail"
       Me.Size = New System.Drawing.Size(888, 504)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       CType(Me.tgProgress, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSummarize.ResumeLayout(False)
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -672,6 +670,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.ibtnDelRow.Enabled = True
         Me.ibtnInsert.Enabled = True
       End If
+      If Not m_entity.Originated Then
+        btnLockBoq.Visible = False
+        ibtnDelRow.Enabled = True
+        ibtnBlank.Enabled = True
+        ibtnInsert.Enabled = True
+      ElseIf m_entity.Locked Then
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+        'btnLockBoq.Text = "UnLock"
+        ibtnDelRow.Enabled = False
+        ibtnBlank.Enabled = False
+        ibtnInsert.Enabled = False
+      Else
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+        'btnLockBoq.Text = "Lock"
+        ibtnDelRow.Enabled = True
+        ibtnBlank.Enabled = True
+        ibtnInsert.Enabled = True
+      End If
     End Sub
     Public Overrides Sub ClearDetail()
       For Each crlt As Control In grbDetail.Controls
@@ -735,6 +751,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.tvWbs.Nodes.Count > 0 Then
         Me.tvWbs.SelectedNode = Me.tvWbs.Nodes(0)
       End If
+
+     
+
       UpdateRefDoc()
 
       RefreshWBSProgress(m_wbs.Id)
@@ -1319,5 +1338,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+    Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLockBoq.Click
+      If m_entity.Locked Then
+        m_entity.Locked = False
+       
+      Else
+        m_entity.Locked = True
+        
+      End If
+      UpdateEntityProperties()
+    End Sub
   End Class
 End Namespace

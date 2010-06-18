@@ -303,7 +303,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-
+    Public Function IsReferenced() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSupplierIsReferenced" _
+      , New SqlParameter("@supplier_id", Me.Id) _
+      )
+      If CInt(ds.Tables(0).Rows(0)(0)) > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
     Public Overrides Function ToString() As String
       Return Me.Name
     End Function

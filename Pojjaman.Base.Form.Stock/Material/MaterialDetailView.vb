@@ -1278,21 +1278,54 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				Me.chkCancel.Enabled = True
 				grbOtherUnit.Enabled = False
 				grbLCI.Enabled = False
-			Else
-				For Each ctrl As Control In grbMatDetail.Controls
-					ctrl.Enabled = True
-				Next
-				grbOtherUnit.Enabled = True
-				grbLCI.Enabled = True
-				If Me.m_entity.Level < 5 Then
-					If Me.m_entity.GetChildCount > 0 Then
-						Me.txtlv1.Enabled = False
-						Me.txtlv2.Enabled = False
-						Me.txtlv3.Enabled = False
-						Me.txtlv4.Enabled = False
-						Me.txtlv5.Enabled = False
-					End If
-				End If
+      Else
+        If m_entity.Level <> 5 Then
+          For Each ctrl As Control In grbMatDetail.Controls
+            ctrl.Enabled = True
+          Next
+          grbOtherUnit.Enabled = True
+          grbLCI.Enabled = True
+        ElseIf m_entity.IsReferenced Then
+          For Each ctrl As Control In grbMatDetail.Controls
+            ctrl.Enabled = False
+          Next
+          For Each ctrl As Control In grbOtherUnit.Controls
+            ctrl.Enabled = False
+          Next
+          If m_entity.ConversionUnit1 = 0 Then
+            txtUnit1.Enabled = True
+            txtUnitCode1.Enabled = True
+            txtUnitConversion1.Enabled = True
+            ibtnShowUnit1.Enabled = True
+            ibtnShowUnitDialog1.Enabled = True
+          End If
+          If m_entity.ConversionUnit2 = 0 Then
+            txtUnit2.Enabled = True
+            txtUnitCode2.Enabled = True
+            txtUnitConversion2.Enabled = True
+            ibtnShowUnit2.Enabled = True
+            ibtnShowUnitDialog2.Enabled = True
+          End If
+          If m_entity.ConversionUnit3 = 0 Then
+            txtUnit3.Enabled = True
+            txtUnitCode3.Enabled = True
+            txtUnitConversion3.Enabled = True
+            ibtnShowUnit3.Enabled = True
+            ibtnShowUnitDialog3.Enabled = True
+          End If
+
+          grbLCI.Enabled = False
+        End If
+       
+        If Me.m_entity.Level < 5 Then
+          If Me.m_entity.GetChildCount > 0 Then
+            Me.txtlv1.Enabled = False
+            Me.txtlv2.Enabled = False
+            Me.txtlv3.Enabled = False
+            Me.txtlv4.Enabled = False
+            Me.txtlv5.Enabled = False
+          End If
+        End If
 			End If
 		End Sub
 
@@ -1689,7 +1722,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					Me.txtCode.Text = Me.m_entity.Code
 					dirtyFlag = True
 				Case "chkcancel"
-					Me.m_entity.Canceled = chkCancel.Checked
+          Me.m_entity.Canceled = chkCancel.Checked
+          CheckFormEnable()
 					dirtyFlag = True
 				Case "chkunvatable"
 					Me.m_entity.Unvatable = chkUnvatable.Checked
@@ -1732,7 +1766,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End Select
 			Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 			SetStatus()
-			CheckFormEnable()
+      'CheckFormEnable()
 		End Sub
 		Public Sub SetUnitLabel()
 			lblDefaultUnit1.Text = m_entity.MemoryUnit.Name

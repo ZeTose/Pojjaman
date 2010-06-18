@@ -1352,10 +1352,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkcancel.Enabled = True
         otherDetailGroupBox.Enabled = False
       Else
-        For Each ctrl As Control In primaryDetailGroupBox.Controls
-          ctrl.Enabled = True
-        Next
-        otherDetailGroupBox.Enabled = True
+        If Not m_entity.IsReferenced Then
+          For Each ctrl As Control In primaryDetailGroupBox.Controls
+            ctrl.Enabled = True
+          Next
+          otherDetailGroupBox.Enabled = True
+        Else
+          For Each ctrl As Control In primaryDetailGroupBox.Controls
+            ctrl.Enabled = False
+          Next
+          otherDetailGroupBox.Enabled = False
+        End If
+        
       End If
     End Sub
 

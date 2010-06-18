@@ -620,6 +620,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function IsReferenced() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetLCIItemIsReferenced" _
+      , New SqlParameter("@lci_id", Me.Id) _
+      )
+      If CInt(ds.Tables(0).Rows(0)(0)) > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
     'Public Shared Function GetSchemaTable() As DataTable
     'Dim myDatatable As New DataTable("lciitem")
     'myDatatable.Columns.Add(New DataColumn("lci_id", GetType(Integer)))
