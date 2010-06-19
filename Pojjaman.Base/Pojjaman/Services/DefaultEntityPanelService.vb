@@ -415,6 +415,7 @@ Namespace Longkong.Pojjaman.Services
             CType(window.SubViewContents(1), IBaseViewContent).Selected()
             CType(window.SubViewContents(0), ListViewItemSelectionPanelView).ChangeTitle(Nothing, Nothing)
           Else
+            CType(window.SubViewContents(0), ListViewItemSelectionPanelView).ForceRefreshEntity = True
             CType(window.SubViewContents(0), ListViewItemSelectionPanelView).RefreshSelectedEntity()
           End If
         ElseIf TypeOf window.SubViewContents(0) Is GroupPanelView Then
