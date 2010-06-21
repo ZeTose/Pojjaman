@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Material\RptMatTransfer.vb" />
     <Compile Include="BLL\Material\RptMatCount.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -164,6 +165,9 @@
     <Compile Include="BLL\Tool\RptStockCardTool.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Material\RptMatTransferFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\Material\RptMatCountDetailFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,6 +198,9 @@
     <Compile Include="UI\Tool\RptStockCardToolFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\Material\RptMatTransferFilterSubPanel.resx">
+      <DependentUpon>RptMatTransferFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Material\RptMatCountDetailFilterSubPanel.resx">
       <DependentUpon>RptMatCountDetailFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
