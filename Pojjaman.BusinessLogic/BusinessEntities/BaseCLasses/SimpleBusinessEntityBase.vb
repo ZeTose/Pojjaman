@@ -614,6 +614,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
       End Try
     End Function
+
+    Public Function GetNumberOfPrinting() As Integer Implements ISimpleEntity.GetNumberOfPrinting
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetNumberOfPrinting" _
+      , New SqlParameter("@entityID", Me.Id) _
+      , New SqlParameter("@entityType", Me.EntityId) _
+      )
+      If ds.Tables(0).Rows.Count > 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CInt(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
+
 #End Region
 
 #Region "Properties"

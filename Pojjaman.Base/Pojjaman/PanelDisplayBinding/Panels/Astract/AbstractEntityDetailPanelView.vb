@@ -787,6 +787,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           myDpi.DataType = "System.Datetime"
           myDpiColl.Add(myDpi)
 
+          'จำนวนครั้งที่ Print
+          myDpi = New DocPrintingItem
+          myDpi.Mapping = "PrintNumber"
+          myDpi.Value = myEntity.GetNumberOfPrinting + 1
+          myDpi.DataType = "System.Integer"
+          myDpiColl.Add(myDpi)
+
         End If
       Next
 
@@ -794,7 +801,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ret.AddRange(myDpiColl)
       Return ret
     End Function
-
+    
     Private m_StatusString As String
     Public ReadOnly Property StatusString As String Implements BusinessLogic.IHasStatusString.StatusString
       Get

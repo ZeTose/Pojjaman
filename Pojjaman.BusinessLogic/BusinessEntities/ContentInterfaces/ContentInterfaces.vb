@@ -249,6 +249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     , IHasStatus, IDatabaseEntity, IObjectReflectable _
     , IPageInfoCapable, IListable
     ReadOnly Property CodonName() As String
+    Function GetNumberOfPrinting() As Integer
   End Interface
   'Public Interface ICanEditList
   '    Inherits ISimpleEntity
