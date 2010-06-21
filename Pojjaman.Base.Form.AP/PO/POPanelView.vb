@@ -531,11 +531,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'lblNote
       '
+      Me.lblNote.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblNote.BackColor = System.Drawing.Color.Transparent
       Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblNote.Location = New System.Drawing.Point(8, 584)
       Me.lblNote.Name = "lblNote"
-      Me.lblNote.Size = New System.Drawing.Size(82, 18)
+      Me.lblNote.Size = New System.Drawing.Size(110, 18)
       Me.lblNote.TabIndex = 23
       Me.lblNote.Text = "หมายเหตุ:"
       Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
