@@ -1737,6 +1737,47 @@ Public Class POItemCollection
       Next
       MyBase.List.RemoveAt(index)
     End Sub
+    Public Sub checkPritemsRemain()
+      Dim list As String = ""
+      For Each Item As POItem In Me
+        If Not Item.Pritem Is Nothing Then
+          list &= "," & Item.Pritem.Pr.Id.ToString & ":" & Item.Pritem.LineNumber.ToString
+        End If
+      Next
+      list = list.Substring(1)
+      If list.Length > 0 Then
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+       , CommandType.StoredProcedure _
+       , "GetPRItemsRemainQty" _
+       , New SqlParameter("@priList", list) _
+       )
+        If ds.Tables(0).Rows.Count > 0 Then
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim deh As New DataRowHelper(row)
+            Dim prid As Integer = deh.GetValue(Of Integer)("pri_pr")
+            Dim prline As Integer = deh.GetValue(Of Integer)("pri_linenumber")
+            Dim RemainQty As Decimal = deh.GetValue(Of Decimal)("RemainQty")
+            Dim OrderedQty As Decimal = deh.GetValue(Of Decimal)("pri_orderedQty")
+            For Each Item As POItem In Me
+              If Not Item.Pritem Is Nothing Then
+                If Item.Pritem.Pr.Id = prid AndAlso Item.Pritem.LineNumber = prline Then
+                  If RemainQty > 0 Then
+                    Dim remPoConver As Decimal = Item.Qty / OrderedQty
+                    Item.Qty = remPoConver * RemainQty
+                    Item.OriginQty = Item.Qty
+                  ElseIf Item.ItemType.Value <> 160 AndAlso Item.ItemType.Value <> 162 Then
+                    Item.Pritem = Nothing
+                  End If
+                End If
+              End If
+            Next
+
+          Next
+        End If
+      End If
+     
+    End Sub
 #End Region
 
 

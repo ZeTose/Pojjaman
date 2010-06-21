@@ -3717,6 +3717,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Code = "Copy of " & Me.Code
       Me.ApproveDate = Date.MinValue
       Me.ApprovePerson = New User
+      Me.ItemCollection.checkPritemsRemain()
       For Each item As POItem In Me.ItemCollection
         If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
           item.ReceivedQty = 0
