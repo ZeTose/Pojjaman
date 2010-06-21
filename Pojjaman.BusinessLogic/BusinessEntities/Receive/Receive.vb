@@ -548,6 +548,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									If CInt(itemRow("receivei_entity")) = 0 Then
                     check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
                     check.beforeCode = CurrentCheckCode
+                    check.DocDate = Me.DocDate
                     Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
 										If Not IsNumeric(checkSaveError.Message) Then
 											Return checkSaveError

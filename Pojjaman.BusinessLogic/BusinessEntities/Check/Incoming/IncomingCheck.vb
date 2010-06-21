@@ -22,7 +22,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_customer As Customer
 
         Private m_receivePerson As Employee
-        Private m_dueDate As Date
+    Private m_dueDate As Date
+    Private m_docDate As Date
 
 		Private m_bankacct As BankAccount
 		Private m_depositBankAcct As BankAccount
@@ -184,7 +185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Decimal)
                 m_wht = Value
             End Set
-        End Property        Public Property Customer() As Customer            Get                Return m_customer            End Get            Set(ByVal Value As Customer)                m_customer = Value            End Set        End Property               Public Property DocStatus() As IncomingCheckDocStatus            Get                Return m_docStatus            End Get            Set(ByVal Value As IncomingCheckDocStatus)                m_docStatus = Value            End Set        End Property        Public Property ReceivePerson() As Employee            Get                Return m_receivePerson            End Get            Set(ByVal Value As Employee)                m_receivePerson = Value            End Set        End Property        Public Property DueDate() As Date            Get                Return m_dueDate            End Get            Set(ByVal Value As Date)                m_dueDate = Value            End Set        End Property        Public Property BankAccount() As BankAccount            Get
+        End Property        Public Property Customer() As Customer            Get                Return m_customer            End Get            Set(ByVal Value As Customer)                m_customer = Value            End Set        End Property               Public Property DocStatus() As IncomingCheckDocStatus            Get                Return m_docStatus            End Get            Set(ByVal Value As IncomingCheckDocStatus)                m_docStatus = Value            End Set        End Property        Public Property ReceivePerson() As Employee            Get                Return m_receivePerson            End Get            Set(ByVal Value As Employee)                m_receivePerson = Value            End Set        End Property        Public Property DueDate() As Date            Get                Return m_dueDate            End Get            Set(ByVal Value As Date)                m_dueDate = Value            End Set        End Property    Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property        Public Property BankAccount() As BankAccount            Get
                 Return m_bankacct
             End Get
             Set(ByVal Value As BankAccount)
