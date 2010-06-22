@@ -1633,7 +1633,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.m_entity
       End Get
       Set(ByVal Value As ISimpleEntity)
+        If TypeOf Value Is MatReceipt OrElse Value Is Nothing Then
+          If CType(Value, MatReceipt).Id = 0 Then
+            Return
+          End If
+        End If
         If Not m_entity Is Nothing Then
+
           RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
           'RemoveHandler Me.m_entity.ItemCollection.StoreApprove, AddressOf StoreApprove
           Me.m_entity = Nothing
