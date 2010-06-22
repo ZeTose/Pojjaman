@@ -1041,7 +1041,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "chkacpayeeonly"
           Me.m_entity.ACPayeeOnly = Me.chkACPayeeOnly.Checked
           dirtyFlag = True
-        Case "checkbox2"
+        Case "chkcheckhandler"
           Me.m_entity.Unbearer = Me.chkCheckHandler.Checked
           dirtyFlag = True
         Case "txtcode"
