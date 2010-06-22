@@ -2272,17 +2272,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim i As Integer = 0
       For Each mwi As MatOperationReturnItem In Me
         i += 1
         Dim newRow As TreeRow = dt.Childs.Add()
         mwi.CopyToDataRow(newRow)
-        newRow.Tag = mwi
         mwi.ItemValidateRow(newRow)
+
+        If Not Me.MatReturn.Grouping Then
+          For Each mwci As StockCostItem In mwi.ItemCollectionPrePareCost
+            Dim newCost As TreeRow = newRow.Childs.Add
+            newCost("stocki_qty") = Configuration.FormatToString(mwci.StockQty / mwi.Conversion, DigitConfig.Qty)
+            newCost("stocki_unitcost") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.Cost)
+            newCost("StockQty") = Configuration.FormatToString(mwci.StockQty, DigitConfig.Qty)
+            newCost("stocki_transferUnitPrice") = Configuration.FormatToString(mwci.UnitCost, DigitConfig.UnitPrice)
+            newCost("stocki_transferamt") = Configuration.FormatToString(mwci.UnitCost * mwci.StockQty, DigitConfig.Price)
+            If Not mwci.UnitDefault Is Nothing Then
+              newCost("unit") = mwci.UnitDefault.Name
+            End If
+            newCost.FixLevel = -1
+            newCost("Button") = "invisible"
+            newCost("UnitButton") = "invisible"
+          Next
+        End If
+
         newRow.Tag = mwi
+        'newRow.Tag = mwi
       Next
+      dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("stocki_enitytype")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
+
       dt.AcceptChanges()
     End Sub
 #End Region

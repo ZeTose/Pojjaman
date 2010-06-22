@@ -965,7 +965,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim prRowHash As New Hashtable
       Dim parRow As TreeRow
 
-      Dim isgroupping As Boolean = Me.MatOperationWithdraw.Grouping
+      'Dim isgroupping As Boolean = Me.MatOperationWithdraw.Grouping
       For Each mwi As MatOperationWithdrawItem In Me
         parRow = Nothing
         If Not mwi.Pritem Is Nothing _

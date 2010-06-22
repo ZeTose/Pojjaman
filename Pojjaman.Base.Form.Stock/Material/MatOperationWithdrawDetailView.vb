@@ -1519,11 +1519,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
-      If Me.m_entity.Gross > 0 Then
-        Me.chkShowCost.Enabled = True
-      Else
-        Me.chkShowCost.Enabled = False
-      End If
+      'If Me.m_entity.Gross > 0 Then
+      '  Me.chkShowCost.Enabled = True
+      'Else
+      '  Me.chkShowCost.Enabled = False
+      'End If
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
@@ -1696,21 +1696,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = flag
     End Sub
     Public Sub SetStatus()
+      Dim lblStatusText As String = ""
       If m_entity.Canceled Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        lblStatusText = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        lblStatusText = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf m_entity.Originated Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatusText = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus.Text = ""
+        lblStatusText = ""
       End If
+      Me.StatusBarService.SetMessage(lblStatusText)
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity
@@ -2007,12 +2009,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.Grouping = Not Me.chkShowCost.Checked
-      Me.m_entity.ItemCollection = New MatOperationWithdrawItemCollection(Me.m_entity, Me.m_entity.Grouping)
+      'Me.m_entity.ItemCollection = New MatOperationWithdrawItemCollection(Me.m_entity, Me.m_entity.Grouping)
       Me.ToggleStyle(Me.tgItem.TableStyles(0))
       RefreshDocs()
       'tgItem.Width += 1
       'tgItem.Width -= 1
-      Me.Entity = m_entity
+      'Me.Entity = m_entity
     End Sub
     Private Sub ibtnShowPR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowPR.Click
       If SimpleBusinessEntityBase.ValidIdOrDBNull(Me.m_entity.CostCenter) Is DBNull.Value Then     '_

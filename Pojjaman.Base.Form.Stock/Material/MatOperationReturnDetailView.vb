@@ -1573,7 +1573,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Next
       End If
       ToggleStyle(Me.m_treeManager.GridTableStyle)
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       'CheckWBSRight()
     End Sub
     'Private Sub CheckWBSRight()
@@ -1747,13 +1747,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       'END HACK
 
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
       RefreshBlankGrid()
       ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
@@ -1842,7 +1842,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  End If
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckFormEnable()
     End Sub
     Private Sub UpdateDestAdmin()
@@ -1868,21 +1868,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = flag
     End Sub
     Public Sub SetStatus()
+      Dim lblStatusText As String = ""
       If m_entity.Canceled Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        lblStatusText = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        lblStatusText = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf m_entity.Originated Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatusText = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus.Text = ""
+        lblStatusText = ""
       End If
+      Me.StatusBarService.SetMessage(lblStatusText)
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity
@@ -2221,12 +2223,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.Grouping = Not Me.chkShowCost.Checked
-      Me.m_entity.ItemCollection = New MatOperationReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
+      'Me.m_entity.ItemCollection = New MatOperationReturnItemCollection(Me.m_entity, Me.m_entity.Grouping)
       Me.ToggleStyle(Me.tgItem.TableStyles(0))
       RefreshDocs()
       'tgItem.Width += 1
       'tgItem.Width -= 1
-      Me.Entity = m_entity
+      'Me.Entity = m_entity
     End Sub
 
     Private Sub ibtnShowToCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCostCenterDialog.Click
@@ -2241,7 +2243,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Or CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       UpdateDestAdmin()
       toCCCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
@@ -2253,8 +2255,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
-      toCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'toCCPersonCodeChanged = False
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     'Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '  Dim myEntityPanelService As IEntityPanelService = _
@@ -2281,7 +2283,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
       fromCCPersonCodeChanged = False
-      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ShowCostCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCostCenter.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -2309,25 +2311,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
+      'If Me.tgItem.Height = 0 Then
+      '  Return
+      'End If
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
 
-      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-        'เพิ่มแถวจนเต็ม
-        Me.m_treeManager.Treetable.Childs.Add()
-      Loop
+      'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+      '  'เพิ่มแถวจนเต็ม
+      '  Me.m_treeManager.Treetable.Childs.Add()
+      'Loop
 
-      If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-        Me.m_treeManager.Treetable.Childs.Add()
-      End If
+      'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '  Me.m_treeManager.Treetable.Childs.Add()
+      'End If
 
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      'Me.m_treeManager.Treetable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 #End Region
 
