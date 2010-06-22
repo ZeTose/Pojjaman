@@ -1157,9 +1157,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
     Public Sub Populate(ByVal dt As TreeTable)
-      dt.Clear()
+      Try
+        dt.Clear()
+      Catch ex As Exception
+
+      End Try
+
 
       Dim parentItem As LCIItem = Me.CurrentParentLciitem
+      If parentItem Is Nothing Then
+        Return
+      End If
       Dim drs As DataRow() = GetLciitemFilter(4, parentItem.Id)
       Dim lciLv4Id As Integer
       For i As Integer = 0 To drs.Length - 1

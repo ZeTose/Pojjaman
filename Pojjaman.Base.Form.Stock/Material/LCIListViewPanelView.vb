@@ -1025,6 +1025,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel3.Items.Clear()
       If coll.Count = 0 Then
         Me.m_treeManager.Treetable.Rows.Clear()
+        Me.m_entity.CurrentParentLciitem = New LCIItem
         RefreshDocs()
       End If
       'Me.m_treeManager.Treetable.Rows.Clear()
@@ -1057,6 +1058,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvLevel3.Items.Clear()
       If coll.Count = 0 Then
         Me.m_treeManager.Treetable.Rows.Clear()
+        Me.m_entity.CurrentParentLciitem = New LCIItem
         RefreshDocs()
       End If
       'Me.m_treeManager.Treetable.Rows.Clear()
