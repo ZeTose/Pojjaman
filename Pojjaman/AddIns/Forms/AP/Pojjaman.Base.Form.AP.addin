@@ -104,6 +104,7 @@
 		</EntityTab>
 		<EntityTab id="purchasecn">
 			<EntityTab id="PurchaseCNDetailView" view="Longkong.Pojjaman.Gui.Panels.PurchaseCNDetailView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 			<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATOutDetail"/>
 			<EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
 			<EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>

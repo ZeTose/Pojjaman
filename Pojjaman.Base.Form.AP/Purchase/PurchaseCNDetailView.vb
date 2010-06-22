@@ -19,11 +19,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " Windows Form Designer generated code "
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-    Friend WithEvents ibtnAddWBS As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents tgWBS As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents ibtnDelWBS As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents lblWBS As System.Windows.Forms.Label
     Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblDocDate As System.Windows.Forms.Label
     Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -97,19 +93,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
     Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnShowFromCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkShowCost As System.Windows.Forms.CheckBox
     Dim oldSupId As Integer
     Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PurchaseCNDetailView))
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.txtDocDate = New System.Windows.Forms.TextBox()
-      Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDueDate = New System.Windows.Forms.TextBox()
       Me.txtInvoiceDate = New System.Windows.Forms.TextBox()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
-      Me.tgWBS = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblWBS = New System.Windows.Forms.Label()
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
@@ -159,7 +153,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgRefDoc = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.txtInvoiceCode = New System.Windows.Forms.TextBox()
       Me.txtFromCostCenterName = New System.Windows.Forms.TextBox()
@@ -180,15 +174,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkShowCost = New System.Windows.Forms.CheckBox()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDelivery.SuspendLayout()
       Me.grbSummary.SuspendLayout()
+      CType(Me.tgRefDoc, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'chkAutorun
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(184, 16)
+      Me.chkAutorun.Location = New System.Drawing.Point(231, 16)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 8
@@ -200,25 +198,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(240, 16)
+      Me.txtDocDate.Location = New System.Drawing.Point(319, 16)
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(78, 21)
       Me.txtDocDate.TabIndex = 1
-      '
-      'ibtnAddWBS
-      '
-      Me.ibtnAddWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.ibtnAddWBS.Image = CType(resources.GetObject("ibtnAddWBS.Image"), System.Drawing.Image)
-      Me.ibtnAddWBS.Location = New System.Drawing.Point(104, 400)
-      Me.ibtnAddWBS.Name = "ibtnAddWBS"
-      Me.ibtnAddWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnAddWBS.TabIndex = 95
-      Me.ibtnAddWBS.TabStop = False
-      Me.ibtnAddWBS.ThemedImage = CType(resources.GetObject("ibtnAddWBS.ThemedImage"), System.Drawing.Bitmap)
-      Me.ibtnAddWBS.Visible = False
       '
       'ErrorProvider1
       '
@@ -246,7 +232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInvoiceDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtInvoiceDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtInvoiceDate, System.Drawing.Color.Empty)
-      Me.txtInvoiceDate.Location = New System.Drawing.Point(240, 40)
+      Me.txtInvoiceDate.Location = New System.Drawing.Point(319, 40)
       Me.Validator.SetMinValue(Me.txtInvoiceDate, "")
       Me.txtInvoiceDate.Name = "txtInvoiceDate"
       Me.Validator.SetRegularExpression(Me.txtInvoiceDate, "")
@@ -258,62 +244,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(96, 17)
+      Me.cmbCode.Location = New System.Drawing.Point(103, 17)
       Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(88, 21)
+      Me.cmbCode.Size = New System.Drawing.Size(129, 21)
       Me.cmbCode.TabIndex = 108
-      '
-      'tgWBS
-      '
-      Me.tgWBS.AllowNew = False
-      Me.tgWBS.AllowSorting = False
-      Me.tgWBS.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgWBS.AutoColumnResize = True
-      Me.tgWBS.CaptionVisible = False
-      Me.tgWBS.Cellchanged = False
-      Me.tgWBS.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
-      Me.tgWBS.DataMember = ""
-      Me.tgWBS.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgWBS.Location = New System.Drawing.Point(8, 424)
-      Me.tgWBS.Name = "tgWBS"
-      Me.tgWBS.Size = New System.Drawing.Size(320, 128)
-      Me.tgWBS.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgWBS.TabIndex = 93
-      Me.tgWBS.TreeManager = Nothing
-      Me.tgWBS.Visible = False
-      '
-      'ibtnDelWBS
-      '
-      Me.ibtnDelWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.ibtnDelWBS.Image = CType(resources.GetObject("ibtnDelWBS.Image"), System.Drawing.Image)
-      Me.ibtnDelWBS.Location = New System.Drawing.Point(128, 400)
-      Me.ibtnDelWBS.Name = "ibtnDelWBS"
-      Me.ibtnDelWBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelWBS.TabIndex = 96
-      Me.ibtnDelWBS.TabStop = False
-      Me.ibtnDelWBS.ThemedImage = CType(resources.GetObject("ibtnDelWBS.ThemedImage"), System.Drawing.Bitmap)
-      Me.ibtnDelWBS.Visible = False
-      '
-      'lblWBS
-      '
-      Me.lblWBS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.lblWBS.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWBS.ForeColor = System.Drawing.Color.Black
-      Me.lblWBS.Location = New System.Drawing.Point(8, 408)
-      Me.lblWBS.Name = "lblWBS"
-      Me.lblWBS.Size = New System.Drawing.Size(104, 18)
-      Me.lblWBS.TabIndex = 94
-      Me.lblWBS.Text = "จัดสรร WBS:"
-      Me.lblWBS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblWBS.Visible = False
       '
       'dtpDocDate
       '
       Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(240, 16)
+      Me.dtpDocDate.Location = New System.Drawing.Point(319, 16)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpDocDate.TabIndex = 9
@@ -323,9 +264,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDate.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDate.Location = New System.Drawing.Point(200, 16)
+      Me.lblDocDate.Location = New System.Drawing.Point(267, 16)
       Me.lblDocDate.Name = "lblDocDate"
-      Me.lblDocDate.Size = New System.Drawing.Size(40, 18)
+      Me.lblDocDate.Size = New System.Drawing.Size(52, 18)
       Me.lblDocDate.TabIndex = 66
       Me.lblDocDate.Text = "วันที่:"
       Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -334,7 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCode.ForeColor = System.Drawing.Color.Black
-      Me.lblCode.Location = New System.Drawing.Point(16, 16)
+      Me.lblCode.Location = New System.Drawing.Point(23, 16)
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(80, 18)
       Me.lblCode.TabIndex = 62
@@ -355,17 +296,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDelivery.Controls.Add(Me.txtDueDate)
       Me.grbDelivery.Controls.Add(Me.dtpDueDate)
       Me.grbDelivery.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDelivery.Location = New System.Drawing.Point(376, 0)
+      Me.grbDelivery.Location = New System.Drawing.Point(424, 0)
       Me.grbDelivery.Name = "grbDelivery"
-      Me.grbDelivery.Size = New System.Drawing.Size(384, 72)
+      Me.grbDelivery.Size = New System.Drawing.Size(392, 86)
       Me.grbDelivery.TabIndex = 4
       Me.grbDelivery.TabStop = False
       Me.grbDelivery.Text = "ผู้ขาย"
       '
       'ibtnShowSupplier
       '
+      Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplier.Image = CType(resources.GetObject("ibtnShowSupplier.Image"), System.Drawing.Image)
       Me.ibtnShowSupplier.Location = New System.Drawing.Point(344, 16)
       Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
       Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
@@ -390,9 +331,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowSupplierDialog
       '
+      Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSupplierDialog.Image = CType(resources.GetObject("ibtnShowSupplierDialog.Image"), System.Drawing.Image)
       Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(320, 16)
       Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
       Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
@@ -486,8 +427,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlankDoc
       '
-      Me.ibtnBlankDoc.Image = CType(resources.GetObject("ibtnBlankDoc.Image"), System.Drawing.Image)
-      Me.ibtnBlankDoc.Location = New System.Drawing.Point(104, 80)
+      Me.ibtnBlankDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlankDoc.Location = New System.Drawing.Point(102, 90)
       Me.ibtnBlankDoc.Name = "ibtnBlankDoc"
       Me.ibtnBlankDoc.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlankDoc.TabIndex = 15
@@ -496,8 +437,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelDoc
       '
-      Me.ibtnDelDoc.Image = CType(resources.GetObject("ibtnDelDoc.Image"), System.Drawing.Image)
-      Me.ibtnDelDoc.Location = New System.Drawing.Point(128, 80)
+      Me.ibtnDelDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelDoc.Location = New System.Drawing.Point(126, 90)
       Me.ibtnDelDoc.Name = "ibtnDelDoc"
       Me.ibtnDelDoc.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelDoc.TabIndex = 16
@@ -506,8 +447,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
-      Me.ibtnBlank.Location = New System.Drawing.Point(104, 224)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Location = New System.Drawing.Point(102, 254)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 75
@@ -516,8 +457,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
-      Me.ibtnDelRow.Location = New System.Drawing.Point(128, 224)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Location = New System.Drawing.Point(126, 254)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 76
@@ -529,7 +470,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblPercent.BackColor = System.Drawing.Color.Transparent
       Me.lblPercent.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPercent.Location = New System.Drawing.Point(800, 494)
+      Me.lblPercent.Location = New System.Drawing.Point(801, 459)
       Me.lblPercent.Name = "lblPercent"
       Me.lblPercent.Size = New System.Drawing.Size(16, 18)
       Me.lblPercent.TabIndex = 84
@@ -544,7 +485,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
-      Me.txtTaxBase.Location = New System.Drawing.Point(628, 469)
+      Me.txtTaxBase.Location = New System.Drawing.Point(342, 536)
       Me.Validator.SetMinValue(Me.txtTaxBase, "")
       Me.txtTaxBase.Name = "txtTaxBase"
       Me.txtTaxBase.ReadOnly = True
@@ -563,7 +504,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtBeforeTax, "")
       Me.Validator.SetGotFocusBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
-      Me.txtBeforeTax.Location = New System.Drawing.Point(628, 442)
+      Me.txtBeforeTax.Location = New System.Drawing.Point(342, 509)
       Me.Validator.SetMinValue(Me.txtBeforeTax, "")
       Me.txtBeforeTax.Name = "txtBeforeTax"
       Me.txtBeforeTax.ReadOnly = True
@@ -582,7 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
-      Me.txtTaxAmount.Location = New System.Drawing.Point(628, 515)
+      Me.txtTaxAmount.Location = New System.Drawing.Point(626, 481)
       Me.Validator.SetMinValue(Me.txtTaxAmount, "")
       Me.txtTaxAmount.Name = "txtTaxAmount"
       Me.txtTaxAmount.ReadOnly = True
@@ -598,9 +539,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblGross.BackColor = System.Drawing.Color.Transparent
       Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblGross.Location = New System.Drawing.Point(548, 395)
+      Me.lblGross.Location = New System.Drawing.Point(215, 457)
       Me.lblGross.Name = "lblGross"
-      Me.lblGross.Size = New System.Drawing.Size(80, 18)
+      Me.lblGross.Size = New System.Drawing.Size(126, 18)
       Me.lblGross.TabIndex = 80
       Me.lblGross.Text = "ยอดเงินรวม :"
       Me.lblGross.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -610,9 +551,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxAmount.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxAmount.Location = New System.Drawing.Point(544, 515)
+      Me.lblTaxAmount.Location = New System.Drawing.Point(531, 481)
       Me.lblTaxAmount.Name = "lblTaxAmount"
-      Me.lblTaxAmount.Size = New System.Drawing.Size(80, 18)
+      Me.lblTaxAmount.Size = New System.Drawing.Size(94, 18)
       Me.lblTaxAmount.TabIndex = 85
       Me.lblTaxAmount.Text = "ภาษีมูลค่าเพิ่ม :"
       Me.lblTaxAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -625,7 +566,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtGross, "")
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.txtGross.Location = New System.Drawing.Point(628, 394)
+      Me.txtGross.Location = New System.Drawing.Point(342, 456)
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -644,12 +585,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
-      Me.txtDiscountRate.Location = New System.Drawing.Point(532, 421)
+      Me.txtDiscountRate.Location = New System.Drawing.Point(342, 482)
       Me.Validator.SetMinValue(Me.txtDiscountRate, "")
       Me.txtDiscountRate.Name = "txtDiscountRate"
       Me.Validator.SetRegularExpression(Me.txtDiscountRate, "")
       Me.Validator.SetRequired(Me.txtDiscountRate, False)
-      Me.txtDiscountRate.Size = New System.Drawing.Size(88, 21)
+      Me.txtDiscountRate.Size = New System.Drawing.Size(106, 21)
       Me.txtDiscountRate.TabIndex = 8
       '
       'lblTaxType
@@ -657,9 +598,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxType.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxType.Location = New System.Drawing.Point(550, 491)
+      Me.lblTaxType.Location = New System.Drawing.Point(528, 456)
       Me.lblTaxType.Name = "lblTaxType"
-      Me.lblTaxType.Size = New System.Drawing.Size(72, 18)
+      Me.lblTaxType.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxType.TabIndex = 77
       Me.lblTaxType.Text = "ประเภทภาษี:"
       Me.lblTaxType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -673,7 +614,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAfterTax.ForeColor = System.Drawing.Color.Blue
       Me.Validator.SetGotFocusBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
-      Me.txtAfterTax.Location = New System.Drawing.Point(628, 539)
+      Me.txtAfterTax.Location = New System.Drawing.Point(628, 536)
       Me.Validator.SetMinValue(Me.txtAfterTax, "")
       Me.txtAfterTax.Name = "txtAfterTax"
       Me.txtAfterTax.ReadOnly = True
@@ -689,9 +630,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAfterTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblAfterTax.BackColor = System.Drawing.Color.Transparent
       Me.lblAfterTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAfterTax.Location = New System.Drawing.Point(528, 539)
+      Me.lblAfterTax.Location = New System.Drawing.Point(530, 536)
       Me.lblAfterTax.Name = "lblAfterTax"
-      Me.lblAfterTax.Size = New System.Drawing.Size(96, 18)
+      Me.lblAfterTax.Size = New System.Drawing.Size(97, 18)
       Me.lblAfterTax.TabIndex = 86
       Me.lblAfterTax.Text = "ยอดสุทธิ :"
       Me.lblAfterTax.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -700,9 +641,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDiscountAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblDiscountAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDiscountAmount.Location = New System.Drawing.Point(460, 424)
+      Me.lblDiscountAmount.Location = New System.Drawing.Point(215, 486)
       Me.lblDiscountAmount.Name = "lblDiscountAmount"
-      Me.lblDiscountAmount.Size = New System.Drawing.Size(64, 18)
+      Me.lblDiscountAmount.Size = New System.Drawing.Size(126, 18)
       Me.lblDiscountAmount.TabIndex = 78
       Me.lblDiscountAmount.Text = "Discount :"
       Me.lblDiscountAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -712,7 +653,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxBase.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxBase.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxBase.Location = New System.Drawing.Point(496, 469)
+      Me.lblTaxBase.Location = New System.Drawing.Point(212, 536)
       Me.lblTaxBase.Name = "lblTaxBase"
       Me.lblTaxBase.Size = New System.Drawing.Size(128, 18)
       Me.lblTaxBase.TabIndex = 81
@@ -724,9 +665,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBeforeTax.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblBeforeTax.BackColor = System.Drawing.Color.Transparent
       Me.lblBeforeTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBeforeTax.Location = New System.Drawing.Point(508, 443)
+      Me.lblBeforeTax.Location = New System.Drawing.Point(215, 510)
       Me.lblBeforeTax.Name = "lblBeforeTax"
-      Me.lblBeforeTax.Size = New System.Drawing.Size(120, 18)
+      Me.lblBeforeTax.Size = New System.Drawing.Size(126, 18)
       Me.lblBeforeTax.TabIndex = 79
       Me.lblBeforeTax.Text = "ยอดเงินไม่รวมภาษี :"
       Me.lblBeforeTax.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -735,7 +676,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbTaxType.Location = New System.Drawing.Point(628, 491)
+      Me.cmbTaxType.Location = New System.Drawing.Point(626, 454)
       Me.cmbTaxType.Name = "cmbTaxType"
       Me.cmbTaxType.Size = New System.Drawing.Size(56, 21)
       Me.cmbTaxType.TabIndex = 9
@@ -748,13 +689,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountAmount, System.Drawing.Color.Empty)
-      Me.txtDiscountAmount.Location = New System.Drawing.Point(628, 421)
+      Me.txtDiscountAmount.Location = New System.Drawing.Point(449, 482)
       Me.Validator.SetMinValue(Me.txtDiscountAmount, "")
       Me.txtDiscountAmount.Name = "txtDiscountAmount"
       Me.txtDiscountAmount.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtDiscountAmount, "")
       Me.Validator.SetRequired(Me.txtDiscountAmount, False)
-      Me.txtDiscountAmount.Size = New System.Drawing.Size(188, 21)
+      Me.txtDiscountAmount.Size = New System.Drawing.Size(81, 21)
       Me.txtDiscountAmount.TabIndex = 88
       Me.txtDiscountAmount.TabStop = False
       Me.txtDiscountAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -767,13 +708,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
-      Me.txtTaxRate.Location = New System.Drawing.Point(762, 494)
+      Me.txtTaxRate.Location = New System.Drawing.Point(758, 454)
       Me.Validator.SetMinValue(Me.txtTaxRate, "")
       Me.txtTaxRate.Name = "txtTaxRate"
       Me.txtTaxRate.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtTaxRate, "")
       Me.Validator.SetRequired(Me.txtTaxRate, True)
-      Me.txtTaxRate.Size = New System.Drawing.Size(32, 21)
+      Me.txtTaxRate.Size = New System.Drawing.Size(39, 21)
       Me.txtTaxRate.TabIndex = 83
       Me.txtTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
@@ -782,7 +723,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxRate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblTaxRate.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxRate.Location = New System.Drawing.Point(696, 494)
+      Me.lblTaxRate.Location = New System.Drawing.Point(694, 456)
       Me.lblTaxRate.Name = "lblTaxRate"
       Me.lblTaxRate.Size = New System.Drawing.Size(64, 18)
       Me.lblTaxRate.TabIndex = 82
@@ -802,9 +743,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.Controls.Add(Me.lblDiff)
       Me.grbSummary.Controls.Add(Me.txtOrgTotal)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSummary.Location = New System.Drawing.Point(512, 104)
+      Me.grbSummary.Location = New System.Drawing.Point(512, 109)
       Me.grbSummary.Name = "grbSummary"
-      Me.grbSummary.Size = New System.Drawing.Size(304, 96)
+      Me.grbSummary.Size = New System.Drawing.Size(304, 143)
       Me.grbSummary.TabIndex = 51
       Me.grbSummary.TabStop = False
       Me.grbSummary.Text = "สรุปรายการลดหนี้"
@@ -931,18 +872,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgRefDoc.Cellchanged = False
       Me.tgRefDoc.DataMember = ""
       Me.tgRefDoc.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgRefDoc.Location = New System.Drawing.Point(8, 104)
+      Me.tgRefDoc.Location = New System.Drawing.Point(8, 116)
       Me.tgRefDoc.Name = "tgRefDoc"
-      Me.tgRefDoc.Size = New System.Drawing.Size(504, 112)
+      Me.tgRefDoc.Size = New System.Drawing.Size(504, 136)
       Me.tgRefDoc.SortingArrowColor = System.Drawing.Color.Red
       Me.tgRefDoc.TabIndex = 57
       Me.tgRefDoc.TreeManager = Nothing
       '
       'lblNote
       '
-      Me.lblNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblNote.Location = New System.Drawing.Point(400, 216)
+      Me.lblNote.Location = New System.Drawing.Point(8, 457)
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(112, 18)
       Me.lblNote.TabIndex = 73
@@ -952,7 +893,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblItem
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(8, 232)
+      Me.lblItem.Location = New System.Drawing.Point(12, 259)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(96, 18)
       Me.lblItem.TabIndex = 74
@@ -970,20 +911,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtNote
       '
-      Me.txtNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtNote.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtNote, "")
       Me.txtNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.txtNote.Location = New System.Drawing.Point(512, 200)
+      Me.txtNote.Location = New System.Drawing.Point(8, 478)
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-      Me.txtNote.Size = New System.Drawing.Size(280, 42)
+      Me.txtNote.Size = New System.Drawing.Size(178, 52)
       Me.txtNote.TabIndex = 7
       Me.txtNote.TabStop = False
       '
@@ -994,12 +936,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtInvoiceCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtInvoiceCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInvoiceCode, System.Drawing.Color.Empty)
-      Me.txtInvoiceCode.Location = New System.Drawing.Point(96, 40)
+      Me.txtInvoiceCode.Location = New System.Drawing.Point(103, 40)
       Me.Validator.SetMinValue(Me.txtInvoiceCode, "")
       Me.txtInvoiceCode.Name = "txtInvoiceCode"
       Me.Validator.SetRegularExpression(Me.txtInvoiceCode, "")
       Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-      Me.txtInvoiceCode.Size = New System.Drawing.Size(88, 21)
+      Me.txtInvoiceCode.Size = New System.Drawing.Size(129, 21)
       Me.txtInvoiceCode.TabIndex = 2
       Me.txtInvoiceCode.TabStop = False
       '
@@ -1009,12 +951,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCostCenterName, System.Drawing.Color.Empty)
-      Me.txtFromCostCenterName.Location = New System.Drawing.Point(280, 80)
+      Me.txtFromCostCenterName.Location = New System.Drawing.Point(191, 65)
       Me.Validator.SetMinValue(Me.txtFromCostCenterName, "")
       Me.txtFromCostCenterName.Name = "txtFromCostCenterName"
       Me.Validator.SetRegularExpression(Me.txtFromCostCenterName, "")
       Me.Validator.SetRequired(Me.txtFromCostCenterName, False)
-      Me.txtFromCostCenterName.Size = New System.Drawing.Size(176, 21)
+      Me.txtFromCostCenterName.Size = New System.Drawing.Size(178, 21)
       Me.txtFromCostCenterName.TabIndex = 105
       Me.txtFromCostCenterName.TabStop = False
       '
@@ -1024,12 +966,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCostCenterCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCostCenterCode, System.Drawing.Color.Empty)
-      Me.txtFromCostCenterCode.Location = New System.Drawing.Point(216, 80)
+      Me.txtFromCostCenterCode.Location = New System.Drawing.Point(103, 65)
       Me.Validator.SetMinValue(Me.txtFromCostCenterCode, "")
       Me.txtFromCostCenterCode.Name = "txtFromCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtFromCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtFromCostCenterCode, False)
-      Me.txtFromCostCenterCode.Size = New System.Drawing.Size(64, 21)
+      Me.txtFromCostCenterCode.Size = New System.Drawing.Size(88, 21)
       Me.txtFromCostCenterCode.TabIndex = 103
       '
       'txtRealGross
@@ -1039,7 +981,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealGross, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealGross, System.Drawing.Color.Empty)
-      Me.txtRealGross.Location = New System.Drawing.Point(735, 392)
+      Me.txtRealGross.Location = New System.Drawing.Point(449, 455)
       Me.Validator.SetMinValue(Me.txtRealGross, "")
       Me.txtRealGross.Name = "txtRealGross"
       Me.Validator.SetRegularExpression(Me.txtRealGross, "")
@@ -1055,7 +997,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
-      Me.txtRealTaxAmount.Location = New System.Drawing.Point(735, 515)
+      Me.txtRealTaxAmount.Location = New System.Drawing.Point(733, 481)
       Me.Validator.SetMinValue(Me.txtRealTaxAmount, "")
       Me.txtRealTaxAmount.Name = "txtRealTaxAmount"
       Me.Validator.SetRegularExpression(Me.txtRealTaxAmount, "")
@@ -1071,7 +1013,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
-      Me.txtRealTaxBase.Location = New System.Drawing.Point(735, 467)
+      Me.txtRealTaxBase.Location = New System.Drawing.Point(449, 536)
       Me.Validator.SetMinValue(Me.txtRealTaxBase, "")
       Me.txtRealTaxBase.Name = "txtRealTaxBase"
       Me.Validator.SetRegularExpression(Me.txtRealTaxBase, "")
@@ -1083,7 +1025,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblItemRf
       '
       Me.lblItemRf.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemRf.Location = New System.Drawing.Point(8, 88)
+      Me.lblItemRf.Location = New System.Drawing.Point(11, 93)
       Me.lblItemRf.Name = "lblItemRf"
       Me.lblItemRf.Size = New System.Drawing.Size(96, 18)
       Me.lblItemRf.TabIndex = 64
@@ -1102,9 +1044,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 248)
+      Me.tgItem.Location = New System.Drawing.Point(8, 280)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(813, 140)
+      Me.tgItem.Size = New System.Drawing.Size(808, 169)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 59
       Me.tgItem.TreeManager = Nothing
@@ -1112,10 +1054,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnShowNote
       '
       Me.ibtnShowNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ibtnShowNote.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowNote.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowNote.Image = CType(resources.GetObject("ibtnShowNote.Image"), System.Drawing.Image)
-      Me.ibtnShowNote.Location = New System.Drawing.Point(792, 208)
+      Me.ibtnShowNote.Location = New System.Drawing.Point(126, 454)
       Me.ibtnShowNote.Name = "ibtnShowNote"
       Me.ibtnShowNote.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowNote.TabIndex = 9
@@ -1127,7 +1069,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutoRunVat.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutoRunVat.Image = CType(resources.GetObject("chkAutoRunVat.Image"), System.Drawing.Image)
-      Me.chkAutoRunVat.Location = New System.Drawing.Point(184, 40)
+      Me.chkAutoRunVat.Location = New System.Drawing.Point(231, 40)
       Me.chkAutoRunVat.Name = "chkAutoRunVat"
       Me.chkAutoRunVat.Size = New System.Drawing.Size(21, 21)
       Me.chkAutoRunVat.TabIndex = 10
@@ -1136,7 +1078,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblInvoiceCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblInvoiceCode.ForeColor = System.Drawing.Color.Black
-      Me.lblInvoiceCode.Location = New System.Drawing.Point(0, 40)
+      Me.lblInvoiceCode.Location = New System.Drawing.Point(7, 40)
       Me.lblInvoiceCode.Name = "lblInvoiceCode"
       Me.lblInvoiceCode.Size = New System.Drawing.Size(96, 18)
       Me.lblInvoiceCode.TabIndex = 99
@@ -1147,9 +1089,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblInvoiceDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblInvoiceDate.ForeColor = System.Drawing.Color.Black
-      Me.lblInvoiceDate.Location = New System.Drawing.Point(208, 40)
+      Me.lblInvoiceDate.Location = New System.Drawing.Point(271, 40)
       Me.lblInvoiceDate.Name = "lblInvoiceDate"
-      Me.lblInvoiceDate.Size = New System.Drawing.Size(32, 18)
+      Me.lblInvoiceDate.Size = New System.Drawing.Size(48, 18)
       Me.lblInvoiceDate.TabIndex = 101
       Me.lblInvoiceDate.Text = "วันที่:"
       Me.lblInvoiceDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1159,7 +1101,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpInvoiceDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpInvoiceDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpInvoiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpInvoiceDate.Location = New System.Drawing.Point(240, 40)
+      Me.dtpInvoiceDate.Location = New System.Drawing.Point(319, 40)
       Me.dtpInvoiceDate.Name = "dtpInvoiceDate"
       Me.dtpInvoiceDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpInvoiceDate.TabIndex = 11
@@ -1168,7 +1110,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblFromCostCenter
       '
       Me.lblFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblFromCostCenter.Location = New System.Drawing.Point(160, 80)
+      Me.lblFromCostCenter.Location = New System.Drawing.Point(45, 68)
       Me.lblFromCostCenter.Name = "lblFromCostCenter"
       Me.lblFromCostCenter.Size = New System.Drawing.Size(56, 18)
       Me.lblFromCostCenter.TabIndex = 104
@@ -1177,9 +1119,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowFromCostCenter
       '
+      Me.ibtnShowFromCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowFromCostCenter.Image = CType(resources.GetObject("ibtnShowFromCostCenter.Image"), System.Drawing.Image)
-      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(480, 80)
+      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(391, 64)
       Me.ibtnShowFromCostCenter.Name = "ibtnShowFromCostCenter"
       Me.ibtnShowFromCostCenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCostCenter.TabIndex = 107
@@ -1188,10 +1130,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowFromCostCenterDialog
       '
+      Me.ibtnShowFromCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowFromCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowFromCostCenterDialog.Image = CType(resources.GetObject("ibtnShowFromCostCenterDialog.Image"), System.Drawing.Image)
-      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(456, 80)
+      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(368, 64)
       Me.ibtnShowFromCostCenterDialog.Name = "ibtnShowFromCostCenterDialog"
       Me.ibtnShowFromCostCenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCostCenterDialog.TabIndex = 106
@@ -1201,8 +1143,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetGross
       '
       Me.ibtnResetGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetGross.Image = CType(resources.GetObject("ibtnResetGross.Image"), System.Drawing.Image)
-      Me.ibtnResetGross.Location = New System.Drawing.Point(711, 392)
+      Me.ibtnResetGross.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetGross.Location = New System.Drawing.Point(424, 455)
       Me.ibtnResetGross.Name = "ibtnResetGross"
       Me.ibtnResetGross.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetGross.TabIndex = 112
@@ -1212,8 +1154,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxAmount
       '
       Me.ibtnResetTaxAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxAmount.Image = CType(resources.GetObject("ibtnResetTaxAmount.Image"), System.Drawing.Image)
-      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(711, 516)
+      Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(709, 482)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxAmount.TabIndex = 114
@@ -1223,16 +1165,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxBase
       '
       Me.ibtnResetTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.ibtnResetTaxBase.Image = CType(resources.GetObject("ibtnResetTaxBase.Image"), System.Drawing.Image)
-      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(711, 469)
+      Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(424, 536)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxBase.TabIndex = 113
       Me.ibtnResetTaxBase.TabStop = False
       Me.ibtnResetTaxBase.ThemedImage = CType(resources.GetObject("ibtnResetTaxBase.ThemedImage"), System.Drawing.Bitmap)
       '
+      'chkShowCost
+      '
+      Me.chkShowCost.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkShowCost.Location = New System.Drawing.Point(176, 255)
+      Me.chkShowCost.Name = "chkShowCost"
+      Me.chkShowCost.Size = New System.Drawing.Size(104, 24)
+      Me.chkShowCost.TabIndex = 115
+      Me.chkShowCost.Text = "chkShowCost"
+      '
       'PurchaseCNDetailView
       '
+      Me.Controls.Add(Me.chkShowCost)
       Me.Controls.Add(Me.txtRealGross)
       Me.Controls.Add(Me.ibtnResetGross)
       Me.Controls.Add(Me.txtRealTaxAmount)
@@ -1252,10 +1204,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.txtInvoiceDate)
       Me.Controls.Add(Me.dtpInvoiceDate)
       Me.Controls.Add(Me.txtDocDate)
-      Me.Controls.Add(Me.ibtnAddWBS)
-      Me.Controls.Add(Me.tgWBS)
-      Me.Controls.Add(Me.ibtnDelWBS)
-      Me.Controls.Add(Me.lblWBS)
       Me.Controls.Add(Me.dtpDocDate)
       Me.Controls.Add(Me.lblCode)
       Me.Controls.Add(Me.grbDelivery)
@@ -1294,10 +1242,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "PurchaseCNDetailView"
       Me.Size = New System.Drawing.Size(824, 560)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDelivery.ResumeLayout(False)
       Me.grbDelivery.PerformLayout()
       Me.grbSummary.ResumeLayout(False)
       Me.grbSummary.PerformLayout()
+      CType(Me.tgRefDoc, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -1321,15 +1272,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_docTreeManager As TreeManager
-    Private m_docCollInitialized As Boolean
-    Private m_itemInitialized As Boolean
+    'Private m_docCollInitialized As Boolean
+    'Private m_itemInitialized As Boolean
 
     Private m_tableStyleEnable As Hashtable
 
     Private m_enableState As Hashtable
 
     Private m_wbsTreeManager As TreeManager
-    Private m_wbsdInitialized As Boolean
+    'Private m_wbsdInitialized As Boolean
 #End Region
 
 #Region "Constructors"
@@ -1362,16 +1313,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtDoc.ColumnChanged, AddressOf DocTreetable_ColumnChanged
       AddHandler dtDoc.RowDeleted, AddressOf DocItemDelete
 
-      Dim dtWBS As TreeTable = Me.GetSchemaTable()
-      Dim dstWBS As DataGridTableStyle = Me.CreateWBSTableStyle()
-      m_wbsTreeManager = New TreeManager(dtWBS, tgWBS)
-      m_wbsTreeManager.SetTableStyle(dstWBS)
-      m_wbsTreeManager.AllowSorting = False
-      m_wbsTreeManager.AllowDelete = False
+      'Dim dtWBS As TreeTable = Me.GetSchemaTable()
+      'Dim dstWBS As DataGridTableStyle = Me.CreateWBSTableStyle()
+      'm_wbsTreeManager = New TreeManager(dtWBS, tgWBS)
+      'm_wbsTreeManager.SetTableStyle(dstWBS)
+      'm_wbsTreeManager.AllowSorting = False
+      'm_wbsTreeManager.AllowDelete = False
 
-      AddHandler dtWBS.ColumnChanging, AddressOf WBSTreetable_ColumnChanging
-      AddHandler dtWBS.ColumnChanged, AddressOf WBSTreetable_ColumnChanged
-      AddHandler dtWBS.RowDeleted, AddressOf WBSItemDelete
+      'AddHandler dtWBS.ColumnChanging, AddressOf WBSTreetable_ColumnChanging
+      'AddHandler dtWBS.ColumnChanged, AddressOf WBSTreetable_ColumnChanged
+      'AddHandler dtWBS.RowDeleted, AddressOf WBSItemDelete
 
       EventWiring()
     End Sub
@@ -1471,14 +1422,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim tr As TreeRow = Me.m_treeManager.SelectedRow
       Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
       Dim item As New PurchaseCNItem
-      item.CopyFromDataRow(tr)
+      'item.CopyFromDataRow(tr)
       Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
       Dim row As TreeRow = Me.m_wbsTreeManager.SelectedRow
       CType(row.Tag, WBSDistribute).WBS = CType(wbs, WBS)
       Dim view As Integer = 45
-      m_wbsdInitialized = False
+      'm_wbsdInitialized = False
       wsdColl.Populate(dt, item, view)
-      m_wbsdInitialized = True
+      'm_wbsdInitialized = True
     End Sub
     Private ReadOnly Property CurrentWsbsd() As WBSDistribute
       Get
@@ -1737,7 +1688,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.AcctButtonClick(e)
       End If
     End Sub
-    Private ReadOnly Property CurrentItem() As PurchaseCNItem
+#End Region
+
+#Region "Properties"
+    Private ReadOnly Property CurrentTagItem() As PurchaseCNItem
       Get
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
         If row Is Nothing Then
@@ -1753,23 +1707,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "TreeTable Handlers"
     Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_itemInitialized Then
+      'If Not m_isInitialized Then
+      '  Return
+      'End If
+      'If CType(e.Row, TreeRow).Level = 0 Then
+      '  Return
+      'End If
+      'Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+      'If ValidateRow(CType(e.Row, TreeRow)) Then
+      '  If index = Me.m_treeManager.Treetable.Childs.Count - 1 Then
+      '    Me.m_treeManager.Treetable.Childs.Add()
+      '  End If
+      '  Select Case e.Column.ColumnName.ToLower
+      '    Case "stocki_unitprice", "stocki_unvatable", "stocki_discrate", "stocki_qty", "unit"
+      '      UpdateAmount(e)
+      '  End Select
+      '  Me.m_treeManager.Treetable.AcceptChanges()
+      'End If
+
+      If Not m_isInitialized Then
         Return
       End If
-      If CType(e.Row, TreeRow).Level = 0 Then
-        Return
-      End If
-      Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        If index = Me.m_treeManager.Treetable.Childs.Count - 1 Then
-          Me.m_treeManager.Treetable.Childs.Add()
-        End If
-        Select Case e.Column.ColumnName.ToLower
-          Case "stocki_unitprice", "stocki_unvatable", "stocki_discrate", "stocki_qty", "unit"
-            UpdateAmount(e)
-        End Select
-        Me.m_treeManager.Treetable.AcceptChanges()
-      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
+      'Me.m_entity.SetRealGross()
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
     End Sub
     Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
       'Dim item As New PurchaseCNItem
@@ -1779,31 +1745,113 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'RefreshTaxBase()
     End Sub
     Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_itemInitialized Then
+      If Not m_isInitialized Then
         Return
       End If
-      If CType(e.Row, TreeRow).Level = 0 Then
-        e.ProposedValue = e.Row(e.Column)
+      'If CType(e.Row, TreeRow).Level = 0 Then
+      '  e.ProposedValue = e.Row(e.Column)
+      '  Return
+      'End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
         Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+
+      Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      If e.Column.ColumnName.ToLower = "stocki_unvatable" Then
+        Me.m_treeManager.SelectedRow = e.Row
+        Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+        doc = Me.m_entity.ItemCollection.CurrentItem
+      End If
+      If doc Is Nothing Then
+        doc = New PurchaseCNItem
+        doc.ItemType = New ItemType(0)
+        Me.m_entity.ItemCollection.Add(doc)
+        Me.m_treeManager.SelectedRow.Tag = doc
+      End If
+      If e.Column.ColumnName.ToLower = "stocki_entitytype" Then
+        doc.SetItemType(Nothing)
       End If
       Try
         Select Case e.Column.ColumnName.ToLower
           Case "code"
             SetCode(e)
           Case "stocki_itemname"
-            SetName(e)
+            'SetName(e)
+
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            doc.EntityName = CStr(e.ProposedValue)
           Case "unit"
-            SetUnitValue(e)
+            'SetUnitValue(e)
+
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            Dim myUnit As New Unit(e.ProposedValue.ToString)
+            doc.Unit = myUnit
           Case "stocki_qty"
-            SetQty(e)
+            'SetQty(e)
+
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If Not e.ProposedValue = "" Then
+              If IsNumeric(e.ProposedValue) Then
+                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              End If
+            End If
+            doc.Qty = value
           Case "stocki_unitprice"
-            SetUnitPrice(e)
+            'SetUnitPrice(e)
+
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            If Not e.ProposedValue = "" Then
+              If IsNumeric(e.ProposedValue) Then
+                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              End If
+            End If
+            doc.UnitPrice = value
+          Case "stocki_discrate"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Discount = New Discount(e.ProposedValue.ToString)
           Case "accountcode"
-            SetAccount(e)
+            'SetAccount(e)
+
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+              e.ProposedValue = ""
+            End If
+            doc.SetAccountCode(CStr(e.ProposedValue))
           Case "stocki_entitytype"
-            SetEntityType(e)
+            'SetEntityType(e)
+
+            Dim value As ItemType
+            If IsNumeric(e.ProposedValue) Then
+              value = New ItemType(CInt(e.ProposedValue))
+            End If
+            doc.ItemType = value
+          Case "stocki_unvatable"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = False
+            End If
+            doc.UnVatable = CBool(e.ProposedValue)
+          Case "stocki_note"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Note = e.ProposedValue.ToString
         End Select
-        ValidateRow(e)
+        'ValidateRow(e)
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
       End Try
@@ -2131,7 +2179,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Return
           Case 42 ' Lci
             Dim item As New PurchaseCNItem
-            item.CopyFromDataRow(CType(e.Row, TreeRow))
+            'item.CopyFromDataRow(CType(e.Row, TreeRow))
             If Not item.Entity Is Nothing AndAlso item.Entity.Id <> 0 Then
               Dim lci As LCIItem = CType(item.Entity, LCIItem)
               If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
@@ -2186,7 +2234,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'มี Code อยู่ ---> 
             If Not IsDBNull(e.ProposedValue) AndAlso Not e.ProposedValue.ToString.Length = 0 Then
               Dim item As New PurchaseCNItem
-              item.CopyFromDataRow(CType(e.Row, TreeRow))
+              'item.CopyFromDataRow(CType(e.Row, TreeRow))
               Dim suffix As String = "<" & item.Entity.Name & ">"
               If e.ProposedValue.ToString <> suffix Then
                 If e.ProposedValue.ToString.EndsWith(suffix) Then
@@ -2238,10 +2286,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_updating Then
         Return
       End If
-      If Me.CurrentItem Is Nothing Then
+      If Me.m_treeManager.SelectedRow Is Nothing Then
         Return
       End If
-      Dim pdnItem As PurchaseCNItem = Me.CurrentItem
+      Dim pdnItem As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
       m_updating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If e.Row.IsNull("stocki_entityType") Then
@@ -2272,7 +2320,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If e.Row(e.Column).ToString.Length <> 0 Then
               If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {e.Row(e.Column).ToString}) Then
                 ClearRow(e)
-                pdnItem.CopyFromDataRow(CType(e.Row, TreeRow))
+                'pdnItem.CopyFromDataRow(CType(e.Row, TreeRow))
               Else
                 e.ProposedValue = e.Row(e.Column)
               End If
@@ -2308,7 +2356,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '    e.Row("AccountCode") = DBNull.Value
             '    e.Row("Account") = DBNull.Value
             'End If
-            pdnItem.CopyFromDataRow(CType(e.Row, TreeRow))
+            'pdnItem.CopyFromDataRow(CType(e.Row, TreeRow))
           End If
         Case 42 'LCI
           If e.ProposedValue.ToString.Length = 0 Then
@@ -2365,7 +2413,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim item As New PurchaseCNItem
-      item.CopyFromDataRow(CType(e.Row, TreeRow))
+      'item.CopyFromDataRow(CType(e.Row, TreeRow))
       Dim oldConversion As Decimal = item.Conversion
       Dim newConversion As Decimal = 1
       Dim myUnit As New Unit(e.ProposedValue.ToString)
@@ -2417,16 +2465,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Doc TreeTable Handlers"
     Private Sub DocTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_docCollInitialized Then
+      'If Not m_isInitialized Then
+      '  Return
+      'End If
+      'Dim index As Integer = Me.m_docTreeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+      'UpdateAmount()
+      'If DocValidateRow(CType(e.Row, TreeRow)) Then
+      '  DocUpdateAmount(e)
+      '  Me.m_docTreeManager.Treetable.AcceptChanges()
+      'End If
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+      If Not m_isInitialized Then
         Return
       End If
-      Dim index As Integer = Me.m_docTreeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      UpdateAmount()
-      If DocValidateRow(CType(e.Row, TreeRow)) Then
-        DocUpdateAmount(e)
-        Me.m_docTreeManager.Treetable.AcceptChanges()
-      End If
       Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgRefDoc.CurrentRowIndex
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
+      'Me.m_entity.SetRealGross()
+      RefreshRefDocs()
+      tgRefDoc.CurrentRowIndex = index
     End Sub
     Private Sub DocUpdateAmount(ByVal e As DataColumnChangeEventArgs)
       Dim doc As PurchaseCNRefDoc = Me.CurrentDoc
@@ -2436,7 +2496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateAmount()
     End Sub
     Private Sub DocTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.m_docCollInitialized Then
+      If Not Me.m_isInitialized Then
         Return
       End If
       If Me.m_docTreeManager.SelectedRow Is Nothing Then
@@ -2604,98 +2664,98 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "WBS TreeTable Handlers"
     Private Sub WBSTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_wbsdInitialized Then
-        Return
-      End If
-      Dim index As Integer = Me.m_wbsTreeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If WBSValidateRow(CType(e.Row, TreeRow)) Then
-        'UpdateAmount(e)
-        Me.m_wbsTreeManager.Treetable.AcceptChanges()
-      End If
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'If Not m_wbsdInitialized Then
+      '  Return
+      'End If
+      'Dim index As Integer = Me.m_wbsTreeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+      'If WBSValidateRow(CType(e.Row, TreeRow)) Then
+      '  'UpdateAmount(e)
+      '  Me.m_wbsTreeManager.Treetable.AcceptChanges()
+      'End If
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub WBSUpdateAmount(ByVal e As DataColumnChangeEventArgs)
-      Dim item As WBSDistribute = Me.CurrentWsbsd
-      If item Is Nothing Then
-        Return
-      End If
+      'Dim item As WBSDistribute = Me.CurrentWsbsd
+      'If item Is Nothing Then
+      '  Return
+      'End If
       'Dim tr As TreeRow = Me.m_treeManager.SelectedRow
       'Dim gitem As New PurchaseCNItem
       'gitem.CopyFromDataRow(tr)
       'e.Row("Amount") = Configuration.FormatToString(item.Percent * gitem.Amount / 100, DigitConfig.Price)
     End Sub
     Private Sub WBSTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_wbsdInitialized Then
-        Return
-      End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "wbs"
-            SetWBSCode(e)
-          Case "percent"
-            SetWBSPercent(e)
-        End Select
-        WBSValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
+      'If Not m_wbsdInitialized Then
+      '  Return
+      'End If
+      'Try
+      '  Select Case e.Column.ColumnName.ToLower
+      '    Case "wbs"
+      '      SetWBSCode(e)
+      '    Case "percent"
+      '      SetWBSPercent(e)
+      '  End Select
+      '  WBSValidateRow(e)
+      'Catch ex As Exception
+      '  MessageBox.Show(ex.ToString)
+      'End Try
     End Sub
     Public Sub WBSValidateRow(ByVal e As DataColumnChangeEventArgs)
-      Dim wbs As Object = e.Row("wbs")
-      Dim percent As Object = e.Row("percent")
+      'Dim wbs As Object = e.Row("wbs")
+      'Dim percent As Object = e.Row("percent")
 
-      Select Case e.Column.ColumnName.ToLower
-        Case "wbs"
-          wbs = e.ProposedValue
-        Case "percent"
-          percent = e.ProposedValue
-        Case Else
-          Return
-      End Select
+      'Select Case e.Column.ColumnName.ToLower
+      '  Case "wbs"
+      '    wbs = e.ProposedValue
+      '  Case "percent"
+      '    percent = e.ProposedValue
+      '  Case Else
+      '    Return
+      'End Select
 
-      Dim isBlankRow As Boolean = False
-      If IsDBNull(wbs) Then
-        isBlankRow = True
-      End If
+      'Dim isBlankRow As Boolean = False
+      'If IsDBNull(wbs) Then
+      '  isBlankRow = True
+      'End If
 
-      If Not isBlankRow Then
-        If IsDBNull(percent) OrElse CDec(percent) <= 0 Then
-          e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
-        Else
-          e.Row.SetColumnError("percent", "")
-        End If
-        If IsDBNull(wbs) OrElse wbs.ToString.Length = 0 Then
-          e.Row.SetColumnError("wbs", Me.StringParserService.Parse("${res:Global.Error.WBSMissing}"))
-        Else
-          e.Row.SetColumnError("wbs", "")
-        End If
-      End If
+      'If Not isBlankRow Then
+      '  If IsDBNull(percent) OrElse CDec(percent) <= 0 Then
+      '    e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
+      '  Else
+      '    e.Row.SetColumnError("percent", "")
+      '  End If
+      '  If IsDBNull(wbs) OrElse wbs.ToString.Length = 0 Then
+      '    e.Row.SetColumnError("wbs", Me.StringParserService.Parse("${res:Global.Error.WBSMissing}"))
+      '  Else
+      '    e.Row.SetColumnError("wbs", "")
+      '  End If
+      'End If
 
     End Sub
     Public Function WBSValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("WBS") Then
-        Return False
-      End If
-      Return True
+      'If row.IsNull("WBS") Then
+      '  Return False
+      'End If
+      'Return True
     End Function
     Private m_wbsUpdating As Boolean = False
     Public Sub SetWBSPercent(ByVal e As DataColumnChangeEventArgs)
-      If m_wbsUpdating Then
-        Return
-      End If
-      Dim item As WBSDistribute = Me.CurrentWsbsd
-      If item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_wbsUpdating = True
-      item.Percent = value
-      m_wbsUpdating = False
+      'If m_wbsUpdating Then
+      '  Return
+      'End If
+      'Dim item As WBSDistribute = Me.CurrentWsbsd
+      'If item Is Nothing Then
+      '  Return
+      'End If
+      'If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+      '  e.ProposedValue = ""
+      '  Return
+      'End If
+      'e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
+      'Dim value As Decimal = CDec(e.ProposedValue)
+      'm_wbsUpdating = True
+      'item.Percent = value
+      'm_wbsUpdating = False
     End Sub
 
     'Private Function DupWBSCode(ByVal e As DataColumnChangeEventArgs) As Boolean
@@ -2877,40 +2937,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
       End If
-      CheckWBSRight()
+      'CheckWBSRight()
     End Sub
-    Private Sub CheckWBSRight()
-      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      Dim level As Integer = secSrv.GetAccess(256)
-      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-      checkString = BinaryHelper.RevertString(checkString)
-      If Not CBool(checkString.Substring(0, 1)) Then
-        'ห้ามเห็น
-        Me.lblWBS.Visible = False
-        Me.tgWBS.Visible = False
-        Me.ibtnAddWBS.Visible = False
-        Me.ibtnDelWBS.Visible = False
-      ElseIf Not CBool(checkString.Substring(1, 1)) Then
-        'ห้ามแก้
-        Me.lblWBS.Visible = True
-        Me.tgWBS.Visible = True
-        Me.ibtnAddWBS.Visible = True
-        Me.ibtnDelWBS.Visible = True
-
-        Me.tgWBS.Enabled = False
-        Me.ibtnAddWBS.Enabled = False
-        Me.ibtnDelWBS.Enabled = False
+    Private Sub CheckCostEnable()
+      If Me.m_entity.ShowCost Then
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
       Else
-        Me.lblWBS.Visible = True
-        Me.tgWBS.Visible = True
-        Me.ibtnAddWBS.Visible = True
-        Me.ibtnDelWBS.Visible = True
-
-        Me.tgWBS.Enabled = True
-        Me.ibtnAddWBS.Enabled = True
-        Me.ibtnDelWBS.Enabled = True
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
+        Next
       End If
     End Sub
+    'Private Sub CheckWBSRight()
+    '  Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+    '  Dim level As Integer = secSrv.GetAccess(256)
+    '  Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+    '  checkString = BinaryHelper.RevertString(checkString)
+    '  If Not CBool(checkString.Substring(0, 1)) Then
+    '    'ห้ามเห็น
+    '    Me.lblWBS.Visible = False
+    '    Me.tgWBS.Visible = False
+    '    Me.ibtnAddWBS.Visible = False
+    '    Me.ibtnDelWBS.Visible = False
+    '  ElseIf Not CBool(checkString.Substring(1, 1)) Then
+    '    'ห้ามแก้
+    '    Me.lblWBS.Visible = True
+    '    Me.tgWBS.Visible = True
+    '    Me.ibtnAddWBS.Visible = True
+    '    Me.ibtnDelWBS.Visible = True
+
+    '    Me.tgWBS.Enabled = False
+    '    Me.ibtnAddWBS.Enabled = False
+    '    Me.ibtnDelWBS.Enabled = False
+    '  Else
+    '    Me.lblWBS.Visible = True
+    '    Me.tgWBS.Visible = True
+    '    Me.ibtnAddWBS.Visible = True
+    '    Me.ibtnDelWBS.Visible = True
+
+    '    Me.tgWBS.Enabled = True
+    '    Me.ibtnAddWBS.Enabled = True
+    '    Me.ibtnDelWBS.Enabled = True
+    '  End If
+    'End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
       For Each ctrl As Control In Me.grbDelivery.Controls
@@ -2928,6 +3001,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Text = ""
         End If
       Next
+      Me.chkShowCost.Checked = False
       Me.dtpDocDate.Value = Now
       cmbTaxType.SelectedIndex = 1
     End Sub
@@ -2968,6 +3042,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PurchaseCNDetailView.lblTaxAmount}")
       Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PurchaseCNDetailView.lblDueDate}")
       Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PurchaseCNDetailView.lblFromCostCenter}")
+      Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.chkShowCost}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
@@ -3143,20 +3218,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
-      'Load Items**********************************************************
-      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-      Me.Validator.DataTable = m_treeManager.Treetable
-      '********************************************************************
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
 
-      m_docCollInitialized = False
+      'm_docCollInitialized = False
+      RefreshRefDocs()
       RefreshDocs()
-      m_docCollInitialized = True
+      'm_docCollInitialized = True
 
-      UpdateAmount()
+      'UpdateAmount()
 
-      RefreshBlankGrid()
-      RefreshBlankDocGrid()
+      'RefreshBlankGrid()
+      'RefreshBlankDocGrid()
 
       SetStatus()
       SetLabelText()
@@ -3377,7 +3453,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           forceUpdateTaxBase = True
           forceUpdateTaxAmount = True
           UpdateAmount()
-          RefreshDocs()
+          RefreshRefDocs()
           dirtyFlag = True
         Case "txtinvoicecode"
           If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
@@ -3529,73 +3605,98 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handler"
-    Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddWBS.Click
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Private Sub chkShowCost_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowCost.CheckedChanged
       If Me.m_entity Is Nothing Then
         Return
       End If
-      'If Me.m_entity.ToCostCenter Is Nothing Then
-      '    msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-      '    Return
+      'If Not Me.m_isInitialized Then
+      '  Return
       'End If
-      'If Me.m_entity.ToCostCenter.BoqId = 0 Then
-      '    msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
-      '    Return
+      Me.m_entity.ShowCost = Me.chkShowCost.Checked
+      'Me.m_entity.ItemCollection = New MatOperationWithdrawItemCollection(Me.m_entity, Me.m_entity.Grouping)
+      'Me.ToggleStyle(Me.tgItem.TableStyles(0))
+      RefreshDocs()
+      CheckCostEnable()
+
+      'tgItem.Width += 1
+      'tgItem.Width -= 1
+      'Me.Entity = m_entity
+    End Sub
+    Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If Me.m_entity Is Nothing Then
+      '  Return
       'End If
-      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
-      Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
-      dt.Clear()
-      If tr Is Nothing Then
-        Return
-      End If
-      If tr.Tag Is Nothing Then
-        Return
-      End If
-      Dim item As New PurchaseCNItem
-      item.CopyFromDataRow(tr)
-      Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
-      wsdColl.Add(New WBSDistribute)
-      Dim view As Integer = 45
-      m_wbsdInitialized = False
-      wsdColl.Populate(dt, item, view)
-      m_wbsdInitialized = True
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      ''If Me.m_entity.ToCostCenter Is Nothing Then
+      ''    msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
+      ''    Return
+      ''End If
+      ''If Me.m_entity.ToCostCenter.BoqId = 0 Then
+      ''    msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
+      ''    Return
+      ''End If
+      'Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+      'Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
+      'dt.Clear()
+      'If tr Is Nothing Then
+      '  Return
+      'End If
+      'If tr.Tag Is Nothing Then
+      '  Return
+      'End If
+      'Dim item As New PurchaseCNItem
+      ''item.CopyFromDataRow(tr)
+      'Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
+      'wsdColl.Add(New WBSDistribute)
+      'Dim view As Integer = 45
+      'm_wbsdInitialized = False
+      'wsdColl.Populate(dt, item, view)
+      'm_wbsdInitialized = True
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
-    Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelWBS.Click
-      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
-      Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
-      dt.Clear()
-      If tr Is Nothing Then
-        Return
-      End If
-      If tr.Tag Is Nothing Then
-        Return
-      End If
-      Dim item As New PurchaseCNItem
-      item.CopyFromDataRow(tr)
-      Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
-      If wsdColl.Count > 0 Then
-        wsdColl.Remove(wsdColl.Count - 1)
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-      Dim view As Integer = 45
-      m_wbsdInitialized = False
-      wsdColl.Populate(dt, item, view)
-      m_wbsdInitialized = True
+    Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      'Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+      'Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
+      'dt.Clear()
+      'If tr Is Nothing Then
+      '  Return
+      'End If
+      'If tr.Tag Is Nothing Then
+      '  Return
+      'End If
+      'Dim item As New PurchaseCNItem
+      ''item.CopyFromDataRow(tr)
+      'Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
+      'If wsdColl.Count > 0 Then
+      '  wsdColl.Remove(wsdColl.Count - 1)
+      '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'End If
+      'Dim view As Integer = 45
+      'm_wbsdInitialized = False
+      'wsdColl.Populate(dt, item, view)
+      'm_wbsdInitialized = True
     End Sub
+    Private currentY As Integer = -1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-      RefreshWBS()
+      Trace.WriteLine(tgItem.CurrentRowIndex.ToString)
+      If tgItem.CurrentRowIndex <> currentY OrElse currentY = 0 Then
+        Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
+      End If
+      'RefreshWBS()
     End Sub
+
     Private Sub RefreshWBS()
-      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
-      Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
-      dt.Clear()
-      If tr Is Nothing Then
-        Return
-      End If
-      If tr.Tag Is Nothing Then
-        Return
-      End If
+      'Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+      'Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
+      'dt.Clear()
+      'If tr Is Nothing Then
+      '  Return
+      'End If
+      'If tr.Tag Is Nothing Then
+      '  Return
+      'End If
       'Dim item As New PurchaseCNItem
       'item.CopyFromDataRow(tr)
       'Dim wsdColl As WBSDistributeCollection = CType(tr.Tag, WBSDistributeCollection)
@@ -3676,8 +3777,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim filters(0) As Filter
-      Dim item As New PurchaseCNItem
-      item.CopyFromDataRow(Me.m_treeManager.SelectedRow)
+      Dim item As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      'item.CopyFromDataRow(Me.m_treeManager.SelectedRow)
       Dim includeFilter As Boolean = False
       If TypeOf item.Entity Is Tool Then
         Dim mytool As Tool = CType(item.Entity, Tool)
@@ -3701,48 +3802,76 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetUnit(ByVal unit As ISimpleEntity)
       Me.m_treeManager.SelectedRow("Unit") = unit.Code
     End Sub
+    Private m_targetType As Integer
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
+      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      'If Me.m_entity.ItemTable.Rows(e.Row).IsNull("stocki_entityType") Then
+      '  Dim entities(1) As ISimpleEntity
+
+      '  If Me.m_entity Is Nothing Then
+      '    Return
+      '  End If
+      '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      '  If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+      '    msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
+      '    Return
+      '  End If
+      '  Dim entity As New LCIForSelection
+      '  entity.CC = Me.m_entity.FromCostCenter
+      '  entity.FromWip = False
+      '  entities(0) = entity
+      '  entities(1) = New Tool
+      '  myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
+      'Else
+      '  Select Case CInt(Me.m_entity.ItemTable.Rows(e.Row)("stocki_entityType"))
+      '    Case 0, 28 'Blank
+      '      Return
+      '    Case 19 'Tool
+      '      myEntityPanelService.OpenListDialog(New Tool, AddressOf SetItems)
+      '    Case 42 'LCI
+      '      'myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
+      '      If Me.m_entity Is Nothing Then
+      '        Return
+      '      End If
+      '      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      '      If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+      '        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
+      '        Return
+      '      End If
+      '      Dim entity As New LCIForSelection
+      '      entity.CC = Me.m_entity.FromCostCenter
+      '      entity.FromWip = False
+      '      myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)
+      '    Case Else
+
+      '  End Select
+      'End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      If Me.m_entity.ItemTable.Rows(e.Row).IsNull("stocki_entityType") Then
-        Dim entities(1) As ISimpleEntity
-
-        If Me.m_entity Is Nothing Then
-          Return
+      Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      m_targetType = -1
+      If doc Is Nothing Then
+        Return
+        'doc = New PurchaseCNItem
+        'doc.ItemType = New ItemType(42)
+        'Me.m_entity.ItemCollection.Add(doc)
+        'Me.m_treeManager.SelectedRow.Tag = doc
+      End If
+      If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+        m_targetType = doc.ItemType.Value
+        Dim entities(2) As ISimpleEntity
+        entities(0) = New LCIItem
+        entities(1) = New LCIForList
+        'entities(0) = New Material
+        entities(2) = New Tool
+        Dim activeIndex As Integer = -1
+        If Not doc.ItemType Is Nothing Then
+          If doc.ItemType.Value = 19 Then
+            activeIndex = 2
+          ElseIf doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+            activeIndex = 0
+          End If
         End If
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
-          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
-          Return
-        End If
-        Dim entity As New LCIForSelection
-        entity.CC = Me.m_entity.FromCostCenter
-        entity.FromWip = False
-        entities(0) = entity
-        entities(1) = New Tool
-        myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
-      Else
-        Select Case CInt(Me.m_entity.ItemTable.Rows(e.Row)("stocki_entityType"))
-          Case 0, 28 'Blank
-            Return
-          Case 19 'Tool
-            myEntityPanelService.OpenListDialog(New Tool, AddressOf SetItems)
-          Case 42 'LCI
-            'myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
-            If Me.m_entity Is Nothing Then
-              Return
-            End If
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
-              msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
-              Return
-            End If
-            Dim entity As New LCIForSelection
-            entity.CC = Me.m_entity.FromCostCenter
-            entity.FromWip = False
-            myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)
-          Case Else
-
-        End Select
+        myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
       End If
     End Sub
     Private Function GetExcludeList() As String
@@ -3759,89 +3888,121 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return ret
     End Function
     Private Sub SetItems(ByVal items As BasketItemCollection)
+      'If tgItem.CurrentRowIndex = 0 Then
+      '  'Hack
+      '  tgItem.CurrentRowIndex = 1
+      'End If
       Dim index As Integer = tgItem.CurrentRowIndex
-      For i As Integer = items.Count - 1 To 0 Step -1
-        Dim itemEntityLevel As Integer
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As IHasName
-        Dim newType As Integer = -1
-        Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.lciitem"
-            newItem = New LCIItem(item.Id)
-            newType = 42
-            itemEntityLevel = CType(newItem, LCIItem).Level
-          Case "longkong.pojjaman.businesslogic.tool"
-            newItem = New Tool(item.Id)
-            newType = 19
-            itemEntityLevel = 5
-        End Select
-        If itemEntityLevel = 5 Then
-          If i = items.Count - 1 Then
-            If Me.m_entity.ItemTable.Childs.Count = 0 Then
-              Me.m_entity.AddBlankRow(1)
-              Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-              Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-            Else
-              Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-              Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-            End If
-          Else
-            Me.m_entity.Insert(index, New PurchaseCNItem)
-            Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-            Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-          End If
-        End If
-
-        Me.m_entity.ItemTable.AcceptChanges()
-      Next
+      Me.m_entity.ItemCollection.SetItems(items, m_targetType)
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-    End Sub
-    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      'If Me.m_entity Is Nothing Then
-      '    Return
-      'End If
+
       'Dim index As Integer = tgItem.CurrentRowIndex
-      'If index = -1 Then
-      '    Return
-      'End If
-      'If index > Me.m_entity.MaxRowIndex Then
-      '    Return
-      'End If
-      'Dim row As TreeRow = CType(Me.m_entity.ItemTable.Rows(index), TreeRow)
-      'If row.Level = 0 Then
-      '    Return
-      'End If
-      'Dim parRow As TreeRow = CType(row.Parent, TreeRow)
-      'If Not IsDBNull(parRow("poi_po")) AndAlso CStr(parRow("poi_po")).Length > 0 AndAlso CInt(parRow("poi_po")) > 0 Then
-      '    Return
-      'End If
-      'Dim theItem As New PurchaseCNItem
-      'Me.m_entity.Insert(index, theItem)
-      'Me.m_entity.ItemTable.AcceptChanges()
+      'For i As Integer = items.Count - 1 To 0 Step -1
+      '  Dim itemEntityLevel As Integer
+      '  Dim item As BasketItem = CType(items(i), BasketItem)
+      '  Dim newItem As IHasName
+      '  Dim newType As Integer = -1
+      '  Select Case item.FullClassName.ToLower
+      '    Case "longkong.pojjaman.businesslogic.lciitem"
+      '      newItem = New LCIItem(item.Id)
+      '      newType = 42
+      '      itemEntityLevel = CType(newItem, LCIItem).Level
+      '    Case "longkong.pojjaman.businesslogic.tool"
+      '      newItem = New Tool(item.Id)
+      '      newType = 19
+      '      itemEntityLevel = 5
+      '  End Select
+      '  If itemEntityLevel = 5 Then
+      '    'If i = items.Count - 1 Then
+      '    '  If Me.m_entity.ItemTable.Childs.Count = 0 Then
+      '    '    Me.m_entity.AddBlankRow(1)
+      '    '    Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
+      '    '    Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '    '  Else
+      '    '    Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
+      '    '    Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '    '  End If
+      '    'Else
+      '    '  Me.m_entity.Insert(index, New PurchaseCNItem)
+      '    '  Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
+      '    '  Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '    'End If
+      '  End If
+
+      '  'Me.m_entity.ItemTable.AcceptChanges()
+      'Next
       'tgItem.CurrentRowIndex = index
       'RefreshBlankGrid()
-      'Me.WorkbenchWindow.ViewContent.IsDirty = True
-      'UpdateAmount()
+    End Sub
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim index As Integer = tgItem.CurrentRowIndex
+      Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      Dim newItem As New BlankItem("")
+      Dim theItem As New PurchaseCNItem
+      theItem.Entity = newItem
+      theItem.ItemType = New ItemType(0)
+      theItem.Qty = 0
+      Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(doc), theItem)
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      If index = -1 Then
-        Return
+      Dim index As Integer = tgItem.CurrentRowIndex
+
+      Dim arrList As New ArrayList
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            index = row.Index
+            'For Each childRow As TreeRow In row.Childs
+            '  If Not arrList.Contains(childRow) Then
+            '    arrList.Add(childRow)
+            '  End If
+            'Next
+            If Not arrList.Contains(row) Then
+              arrList.Add(row)
+            End If
+          End If
+        End If
+      Next
+
+      For Each row As TreeRow In arrList
+        If Not row Is Nothing AndAlso TypeOf row.Tag Is PurchaseCNItem Then
+
+          Dim itm As PurchaseCNItem = CType(row.Tag, PurchaseCNItem)
+          If Not itm Is Nothing Then
+            If Me.m_entity.ItemCollection.Contains(itm) Then
+              Me.m_entity.ItemCollection.Remove(itm)
+              Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+          End If
+        End If
+      Next
+
+      Me.RefreshDocs()
+
+      If index > 0 Then
+        If Me.m_entity.ItemCollection.Count = 0 Then
+          tgItem.CurrentRowIndex = 0
+        Else
+          If index > Me.m_entity.ItemCollection.Count Then
+            tgItem.CurrentRowIndex = Me.m_entity.ItemCollection.Count - 1
+          Else
+            tgItem.CurrentRowIndex = index - 1
+          End If
+        End If
+      Else
+        tgItem.CurrentRowIndex = 0
       End If
-      Dim row As TreeRow = CType(Me.m_entity.ItemTable.Rows(index), TreeRow)
-      'If row.Level = 0 Then
-      '    Return
-      'End If
-      If index > Me.m_entity.MaxRowIndex Then
-        Return
-      End If
-      Me.m_entity.Remove(index)
-      Me.tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      UpdateAmount()
     End Sub
     Public Sub DocButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -3913,17 +4074,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.RefDocCollection.Insert(index, newItem)
         End If
       Next
-      RefreshDocs()
+      RefreshRefDocs()
       tgRefDoc.CurrentRowIndex = index
-      RefreshBlankDocGrid()
+      'RefreshBlankDocGrid()
       UpdateAmount()
     End Sub
-    Private Sub RefreshDocs()
-      Dim flag As Boolean = Me.m_docCollInitialized
-      Me.m_docCollInitialized = False
+    Private Sub RefreshRefDocs()
+      Me.m_isInitialized = False
+      'Dim flag As Boolean = Me.m_docCollInitialized
+      'Me.m_docCollInitialized = False
       Me.m_entity.RefDocCollection.Populate(m_docTreeManager.Treetable)
       Me.RefreshBlankDocGrid()
-      Me.m_docCollInitialized = flag
+      Me.m_docTreeManager.Treetable.AcceptChanges()
+      Me.UpdateAmount()
+      'Me.m_docCollInitialized = flag
+      Me.m_isInitialized = True
+    End Sub
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      'Dim flag As Boolean = Me.m_docCollInitialized
+      'Me.m_docCollInitialized = False
+      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
+      Me.RefreshBlankGrid()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      Me.UpdateAmount()
+      'Me.m_docCollInitialized = flag
+      Me.m_isInitialized = True
     End Sub
     Private Sub ibtnBlankDoc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlankDoc.Click
       'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -3963,15 +4139,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.RefDocCollection.Remove(doc)
-      Dim flag As Boolean = m_docCollInitialized
-      m_docCollInitialized = False
-      RefreshDocs()
-      m_docCollInitialized = flag
+      Dim flag As Boolean = m_isInitialized
+      m_isInitialized = False
+      RefreshRefDocs()
+      m_isInitialized = flag
       RefreshBlankDocGrid()
       Me.tgRefDoc.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True
       UpdateAmount()
     End Sub
+
 #End Region
 
 #Region "IValidatable"
@@ -4079,27 +4256,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
-        'เพิ่มแถวจนเต็ม
-        Me.m_treeManager.Treetable.Childs.Add()
-      Loop
-      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-      '    If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
-      '        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-      '        Me.m_entity.ItemTable.Childs.Add()
-      '    End If
+      'If Me.tgItem.Height = 0 Then
+      '  Return
       'End If
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      ''Dim maxVisibleCount As Integer
+      ''Dim tgRowHeight As Integer = 17
+      ''maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
+      'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount 'Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
+      '  'เพิ่มแถวจนเต็ม
+      '  Me.m_treeManager.Treetable.Childs.Add()
+      'Loop
+      ''If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+      ''    If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
+      ''        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      ''        Me.m_entity.ItemTable.Childs.Add()
+      ''    End If
+      ''End If
+      'Me.m_treeManager.Treetable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
     Private Sub tgRefDoc_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgRefDoc.Resize
       If Me.m_entity Is Nothing Then

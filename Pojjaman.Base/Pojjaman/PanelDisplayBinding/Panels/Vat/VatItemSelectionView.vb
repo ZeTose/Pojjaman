@@ -407,44 +407,60 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IBasketCollectable"
-        Private dlg As BasketDialog
-        Public Overrides ReadOnly Property BasketItems() As BusinessLogic.BasketItemCollection
-            Get
-                m_basketItems.Clear()
-                Dim myTable As TreeTable = CType(tgItem.DataSource, TreeTable)
-                For Each row As TreeRow In myTable.Childs
-                    For Each childRow As TreeRow In row.Childs
-                        If Not IsDBNull(childRow("Selected")) Then
-                            If CBool(childRow("Selected")) Then
-                                Dim id As Integer = CInt(childRow("Vat"))
-                                Dim stockCode As String = CStr(childRow("Code"))
-                                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.VatItem"
-                                Dim entityName As String = CStr(childRow("VatItem"))
-                                Dim lineNumber As Integer = CInt(childRow("LineNumber"))
-                                Dim vatAmt As Decimal = 0
-                                If IsNumeric(childRow("VatAmount")) Then
-                                    vatAmt = CDec(childRow("VatAmount"))
-                                End If
-                                Dim taxBase As Decimal = 0
-                                If IsNumeric(childRow("TaxBase")) Then
-                                    taxBase = CDec(childRow("TaxBase"))
-                                End If
-                                Dim qty As Decimal = vatAmt + taxBase
-                                Dim textInBasket As String = entityName & ":" & qty.ToString
-                                Dim bi As New StockBasketItem(id, stockCode, fullClassName, textInBasket, lineNumber, qty, entityName)
+    Private dlg As BasketDialog
+    Public Overrides ReadOnly Property BasketItems() As BusinessLogic.BasketItemCollection
+      Get
+        m_basketItems.Clear()
+        Dim myTable As TreeTable = CType(tgItem.DataSource, TreeTable)
+        For Each row As TreeRow In myTable.Childs
+          For Each childRow As TreeRow In row.Childs
+            If Not IsDBNull(childRow("Selected")) Then
+              If CBool(childRow("Selected")) Then
+                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.VatItem"
+                Dim id As Integer
+                Dim stockCode As String
+                Dim entityName As String
+                Dim lineNumber As Integer
 
-                                Dim rows As DataRow() = m_datatable.Select("Vat=" & id.ToString & " and LineNumber=" & lineNumber.ToString)
-                                If rows.Length = 1 Then
-                                    bi.Tag = CType(rows(0), TreeRow).Tag
-                                End If
-                                m_basketItems.Add(bi)
-                            End If
-                        End If
-                    Next
-                Next
-                Return m_basketItems
-            End Get
-        End Property
+                If Not childRow.IsNull("Vat") Then
+                  id = CInt(childRow("Vat"))
+                End If
+                If Not childRow.IsNull("Code") Then
+                  stockCode = CStr(childRow("Code"))
+                End If
+                If Not childRow.IsNull("VatItem") Then
+                  entityName = CStr(childRow("VatItem"))
+                End If
+                If Not childRow.IsNull("LineNumber") Then
+                  lineNumber = CInt(childRow("LineNumber"))
+                End If
+
+                Dim vatAmt As Decimal = 0
+                If IsNumeric(childRow("VatAmount")) Then
+                  vatAmt = CDec(childRow("VatAmount"))
+                End If
+                Dim taxBase As Decimal = 0
+                If IsNumeric(childRow("TaxBase")) Then
+                  taxBase = CDec(childRow("TaxBase"))
+                End If
+                Dim qty As Decimal = vatAmt + taxBase
+                Dim textInBasket As String = entityName & ":" & qty.ToString
+                Dim bi As New StockBasketItem(id, stockCode, fullClassName, textInBasket, lineNumber, qty, entityName)
+
+                Dim rows As DataRow() = m_datatable.Select("Vat=" & id.ToString & " and LineNumber=" & lineNumber.ToString)
+                If rows.Length = 1 Then
+                  bi.Tag = CType(rows(0), TreeRow).Tag
+                End If
+                m_basketItems.Add(bi)
+              End If
+            End If
+          Next
+        Next
+
+
+        Return m_basketItems
+      End Get
+    End Property
         Public Overrides ReadOnly Property ProposedBasketItems() As BusinessLogic.BasketItemCollection
             Get
                 Return m_proposedBasketItems
