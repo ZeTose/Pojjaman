@@ -1737,6 +1737,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "RefreshTaxBase"
+    Public Sub SetRealGross()
+      If Me.ItemCollection Is Nothing OrElse Me.ItemCollection.Count = 0 Then
+        Return
+      End If
+
+      Dim sumAmount As Decimal = 0
+      For Each item As POItem In Me.ItemCollection
+        sumAmount += item.Amount
+      Next
+      RealGross = sumAmount
+    End Sub
     Private m_taxGross As Decimal
     Public Sub RefreshTaxBase()
       m_gross = 0

@@ -615,6 +615,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Private Sub UpdateWBS()
       If Not Me.GoodsReceipt Is Nothing Then
+        Me.GoodsReceipt.SetRealGross()
         Me.GoodsReceipt.RefreshTaxBase()
         For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
           Dim oldVal As Decimal = wbsd.TransferAmount

@@ -480,7 +480,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Conversion = newConversion
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Private Sub UpdateWBS()      If Not Me.Po Is Nothing Then        Me.Po.RefreshTaxBase()
+        End If      End Set    End Property    Private Sub UpdateWBS()      If Not Me.Po Is Nothing Then        Me.Po.SetRealGross()        Me.Po.RefreshTaxBase()
         For Each wbsd As WBSDistribute In Me.WBSDistributeCollection          Dim bfTax As Decimal = 0
           If Not Me.Po Is Nothing Then 'AndAlso item.Po.Originated
             If Me.Po.Closed Then

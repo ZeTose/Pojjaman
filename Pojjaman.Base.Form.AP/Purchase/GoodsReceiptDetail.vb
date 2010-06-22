@@ -1912,7 +1912,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
-      Me.m_entity.SetRealGross()
+      'Me.m_entity.SetRealGross()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
@@ -2442,6 +2442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.RealTaxBase = 0
             End Try
           End If
+          forceUpdateTaxAmount = True
           UpdateAmount()
         Case "txtrealgross"
           Dim txt As String = Me.txtRealGross.Text

@@ -412,7 +412,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbTaxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbTaxType.Location = New System.Drawing.Point(679, 600)
+      Me.cmbTaxType.Location = New System.Drawing.Point(682, 600)
       Me.cmbTaxType.Name = "cmbTaxType"
       Me.cmbTaxType.Size = New System.Drawing.Size(56, 21)
       Me.cmbTaxType.TabIndex = 43
@@ -1502,6 +1502,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+      'm_entity.SetRealGross()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
@@ -1886,6 +1887,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.RealTaxBase = 0
             End Try
           End If
+          forceUpdateTaxAmount = True
           UpdateAmount(True)
         Case "txtrealgross"
           Dim txt As String = Me.txtRealGross.Text
