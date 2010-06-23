@@ -1519,7 +1519,7 @@ FinalLine:
     End Sub
     Private currentY As Integer = -1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-      If tgItem.CurrentRowIndex <> currentY Then
+      If tgItem.CurrentRowIndex <> currentY OrElse currentY = 0 OrElse currentY = -1 Then
         Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
         'RefreshWBS()
         currentY = tgItem.CurrentRowIndex
