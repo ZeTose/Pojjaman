@@ -78,10 +78,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col3") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.DocNumber}") '"เลขที่เอกสาร"
       tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CheckNumber}")  '"เลขที่เช็ค"
       tr("col5") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.Customer}") '"ลูกค้า"
-      tr("col6") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.ReceiveDoc}")  '"เลขที่เอกสารรับชำระ"
-      tr("col7") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.ReceiveRefDoc}")  '"เอกสารอ้างอิง"
+      tr("col6") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.ReceiveRefDoc}")  '"เลขที่เอกสารรับชำระ"
+      tr("col7") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.ReceiveDoc}")  '"RV"
       tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.Cost}") '"จำนวนเงิน"
       tr("col9") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.Status}") '"สถานะ"
+      tr("col10") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CQUpdateCheck}") '"เลขที่ปรับปรุงสถานะเช็ค"
 
     End Sub
     Private Sub PopulateData()
@@ -171,12 +172,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not trAcc Is Nothing Then
           If row("DocCode").ToString <> currentDocCode Then
-            If currentDocCode.Length <> 0 Then
-              TrCheq("col6") = indent & indent & rvCode
-              trCheq("col7") = indent & indent & rvRefCode
-              rvCode = ""
-              rvRefCode = ""
-            End If
+            'If currentDocCode.Length <> 0 Then
+            '  TrCheq("col6") = indent & indent & rvCode
+            '  trCheq("col7") = indent & indent & rvRefCode
+            '  rvCode = ""
+            '  rvRefCode = ""
+            'End If
 
             TrCheq = TrAcc.Childs.Add
             If Not row.IsNull("DocDate") Then
@@ -203,11 +204,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("SupplierCode") Then
               trCheq("col5") = indent & indent & row("SupplierCode").ToString & ":" & row("SupplierName").ToString
             End If
+            If Not row.IsNull("RVRef") Then
+              trCheq("col6") = indent & indent & row("RVRef").ToString
+            End If
+            If Not row.IsNull("RV") Then
+              trCheq("col7") = indent & indent & row("RV").ToString
+            End If
             If IsNumeric(row("Amount")) Then
               trCheq("col8") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
             End If
             If Not row.IsNull("CheckStatus") Then
               trCheq("col9") = indent & indent & row("CheckStatus").ToString
+            End If
+            If Not row.IsNull("cqupdate_code") Then
+              trCheq("col10") = indent & indent & row("cqupdate_code").ToString
             End If
 
             If IsNumeric(row("Amount")) Then
@@ -223,31 +233,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End If
 
-          If Not row.IsNull("RV") Then
-            If row("RV").ToString.Length > 0 Then
-              If rvCode.Length > 0 Then
-                rvCode &= "," & row("RV").ToString
-              Else
-                rvCode = row("RV").ToString
-              End If
-            End If
-          End If
-          If Not row.IsNull("RVRef") Then
-            If row("RVRef").ToString.Length > 0 Then
-              If rvRefCode.Length > 0 Then
-                rvRefCode &= "," & row("RVRef").ToString
-              Else
-                rvRefCode = row("RVRef").ToString
-              End If
-            End If
-          End If
+          'If Not row.IsNull("RV") Then
+          '  If row("RV").ToString.Length > 0 Then
+          '    If rvCode.Length > 0 Then
+          '      rvCode &= "," & row("RV").ToString
+          '    Else
+          '      rvCode = row("RV").ToString
+          '    End If
+          '  End If
+          'End If
+          'If Not row.IsNull("RVRef") Then
+          '  If row("RVRef").ToString.Length > 0 Then
+          '    If rvRefCode.Length > 0 Then
+          '      rvRefCode &= "," & row("RVRef").ToString
+          '    Else
+          '      rvRefCode = row("RVRef").ToString
+          '    End If
+          '  End If
+          'End If
 
         End If
 
       Next
 
-      trCheq("col6") = indent & indent & rvCode
-      trCheq("col7") = indent & indent & rvRefCode
+      'trCheq("col6") = indent & indent & rvCode
+      'trCheq("col7") = indent & indent & rvRefCode
 
       'Account สุดท้าย
       If Not TrAcc Is Nothing Then
@@ -294,6 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
 
       Return myDatatable
     End Function
@@ -312,8 +323,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(220)
       widths.Add(100)
       widths.Add(100)
+      widths.Add(200)
 
-      For i As Integer = 0 To 9
+      For i As Integer = 0 To 10
         If i = 1 Then
           Dim cs As New PlusMinusTreeTextColumn
           cs.MappingName = "col" & i

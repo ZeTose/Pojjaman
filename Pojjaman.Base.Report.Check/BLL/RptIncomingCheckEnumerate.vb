@@ -82,12 +82,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.TotalRVAmt}")    '"ยอดรับ"
       tr("col7") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.Status}")  '"สถานะ"
       tr("col8") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.CheckPassDate}")  '"วันที่เช็คผ่าน"
+      tr("col9") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.CQUpdateCheck}")  '"เลขที่ปรับปรุงสถานะเช็ค"
 
       'Level 3
       tr = Me.m_treemanager.Treetable.Childs.Add
       'tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.PVDate}")   '"วันที่เอกสารจ่ายชำระ"
-      tr("col1") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.RVCode}")   '"เลขที่เอกสารรับชำระ"
-      tr("col2") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.DocCode}")   '"เลขที่เอกสาร"
+      tr("col1") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.DocCode}")   '"เลขที่เอกสารรับชำระ"
+      tr("col2") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.RVCode}")   '"เลขที่เอกสาร"
       tr("col6") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.RVAmt}")   '"ยอดรับ"
       tr("col8") = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate.RVNote}")   '"หมายเหตุ รับชำระ"
 
@@ -109,9 +110,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAccountPaidAmt As Decimal = 0
       Dim sumDocPaidAmt As Decimal = 0
 
-      Dim currAccountCode As String = ""
+      Dim currAccountCode As String = ":::::::::::::::::::"
       Dim currAccIndex As Integer = -1
-      Dim currBankCode As String = ""
+      Dim currBankCode As String = ":::::::::::::::::::"
       Dim currentDocCode As String = ""
 
       Dim indent As String = Space(3)
@@ -215,6 +216,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("CheckPassDate") Then
               trCheq("col8") = indent & indent & CDate(row("CheckPassDate")).ToShortDateString
             End If
+            If Not row.IsNull("cqupdate_code") Then
+              trCheq("col9") = indent & indent & row("cqupdate_code").ToString
+            End If
 
             currDocCode = CStr(row("DocCode"))
             trCheq.State = RowExpandState.Expanded
@@ -224,11 +228,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("receive_code") AndAlso Not row.IsNull("receivei_amt") Then
               trDoc = trCheq.Childs.Add
 
-              If Not row.IsNull("receive_code") Then
-                trDoc("col1") = row("receive_code").ToString
-              End If
               If Not row.IsNull("receive_refdoccode") Then
-                trDoc("col2") = indent & indent & indent & row("receive_refdoccode").ToString
+                trDoc("col1") = row("receive_refdoccode").ToString
+              End If
+              If Not row.IsNull("receive_code") Then
+                trDoc("col2") = indent & indent & indent & row("receive_code").ToString
               End If
               If IsNumeric(row("receivei_amt")) Then
                 trDoc("col6") = indent & indent & indent & Configuration.FormatToString(CDec(row("receivei_amt")), DigitConfig.Price)
@@ -300,6 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
 
       Return myDatatable
     End Function
@@ -317,8 +322,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(120)
       widths.Add(120)
       widths.Add(200)
+      widths.Add(200)
 
-      For i As Integer = 0 To 8
+      For i As Integer = 0 To 9
         If i = 1 Then
           Dim cs As New PlusMinusTreeTextColumn
           cs.MappingName = "col" & i

@@ -141,12 +141,16 @@ Namespace Longkong.Pojjaman.Gui.Components
 
 #Region "Event Handlers"
         Private Sub LKGrid_CellClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs) Handles MyBase.CellClick
-            If Not m_defaultBehavior Then
-                Dim row As TreeRow = CType(m_treetable.Rows(e.RowIndex), TreeRow)
-                If e.IsOverImage Then
-                    m_treetable.ToggleRowState(row)
-                End If
-            End If
+      If Not m_defaultBehavior Then
+        Try
+          Dim row As TreeRow = CType(m_treetable.Rows(e.RowIndex), TreeRow)
+          If e.IsOverImage Then
+            m_treetable.ToggleRowState(row)
+          End If
+        Catch ex As Exception
+
+        End Try
+      End If
         End Sub
         Private Sub RowExpandStateChanged(ByVal e As RowExpandCollapseEventArgs)
             RefreshHeights()
