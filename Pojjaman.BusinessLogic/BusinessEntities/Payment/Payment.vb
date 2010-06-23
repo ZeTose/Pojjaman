@@ -96,6 +96,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .payment_refDoc.Date = Date.MinValue
         .payment_refDoc.Code = ""
         .payment_status = New PaymentStatus(-1)
+        .OnHold = False
       End With
       m_itemCollection = New PaymentItemCollection(Me)
       m_debitCollection = New PaymentAccountItemCollection(Me, True)
@@ -158,6 +159,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "payment_cc") AndAlso Not dr.IsNull(aliasPrefix & "payment_cc") Then
           .payment_ccId = CInt(dr(aliasPrefix & "payment_cc"))
         End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "payment_onhold") AndAlso Not dr.IsNull(aliasPrefix & "payment_onhold") Then
+          OnHold = CBool(dr(aliasPrefix & "payment_onhold"))
+        End If
       End With
       m_itemCollection = New PaymentItemCollection(Me)
       m_debitCollection = New PaymentAccountItemCollection(Me, True)
@@ -170,6 +175,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property OnHold As Boolean
     Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
       Get
         Return CType(payment_refDoc, ISimpleEntity)
@@ -488,7 +494,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
             End If
-          Else
+          ElseIf Not OnHold Then
             Return New SaveErrorException("${res:Global.Error.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
           End If
         End If
@@ -561,6 +567,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@payment_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@payment_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@payment_cc", Me.CCId))
+        paramArrayList.Add(New SqlParameter("@payment_onhold", Me.OnHold))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -655,7 +662,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
             End If
-          Else
+          ElseIf Not OnHold Then
             Return New SaveErrorException("${res:Global.Error.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
           End If
         End If
@@ -728,6 +735,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@payment_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@payment_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@payment_cc", Me.CCId))
+        paramArrayList.Add(New SqlParameter("@payment_onhold", Me.OnHold))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 

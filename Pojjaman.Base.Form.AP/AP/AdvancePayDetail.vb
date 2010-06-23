@@ -82,6 +82,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblTaxBase As System.Windows.Forms.Label
     Friend WithEvents rdoForAP As System.Windows.Forms.RadioButton
     Friend WithEvents rdoForSC As System.Windows.Forms.RadioButton
+    Friend WithEvents chkOnHold As System.Windows.Forms.CheckBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -134,10 +135,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotal = New System.Windows.Forms.TextBox()
       Me.lblBaht3 = New System.Windows.Forms.Label()
       Me.lblTotal = New System.Windows.Forms.Label()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.chkOnHold = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'txtNote
@@ -204,6 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.chkOnHold)
       Me.grbDetail.Controls.Add(Me.rdoForSC)
       Me.grbDetail.Controls.Add(Me.rdoForAP)
       Me.grbDetail.Controls.Add(Me.txtTaxBase)
@@ -498,7 +503,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(400, 24)
+      Me.txtDocDate.Location = New System.Drawing.Point(431, 24)
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -511,7 +516,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(400, 24)
+      Me.dtpDocDate.Location = New System.Drawing.Point(431, 24)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(144, 21)
       Me.dtpDocDate.TabIndex = 329
@@ -532,7 +537,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDate.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDate.Location = New System.Drawing.Point(312, 24)
+      Me.lblDocDate.Location = New System.Drawing.Point(343, 24)
       Me.lblDocDate.Name = "lblDocDate"
       Me.lblDocDate.Size = New System.Drawing.Size(88, 18)
       Me.lblDocDate.TabIndex = 324
@@ -569,7 +574,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblInvoiceDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblInvoiceDate.ForeColor = System.Drawing.Color.Black
-      Me.lblInvoiceDate.Location = New System.Drawing.Point(312, 48)
+      Me.lblInvoiceDate.Location = New System.Drawing.Point(343, 48)
       Me.lblInvoiceDate.Name = "lblInvoiceDate"
       Me.lblInvoiceDate.Size = New System.Drawing.Size(88, 18)
       Me.lblInvoiceDate.TabIndex = 323
@@ -583,7 +588,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInvoiceDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtInvoiceDate, 15)
       Me.Validator.SetInvalidBackColor(Me.txtInvoiceDate, System.Drawing.Color.Empty)
-      Me.txtInvoiceDate.Location = New System.Drawing.Point(400, 48)
+      Me.txtInvoiceDate.Location = New System.Drawing.Point(431, 48)
       Me.Validator.SetMinValue(Me.txtInvoiceDate, "")
       Me.txtInvoiceDate.Name = "txtInvoiceDate"
       Me.Validator.SetRegularExpression(Me.txtInvoiceDate, "")
@@ -596,7 +601,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpInvoiceDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpInvoiceDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpInvoiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpInvoiceDate.Location = New System.Drawing.Point(400, 48)
+      Me.dtpInvoiceDate.Location = New System.Drawing.Point(431, 48)
       Me.dtpInvoiceDate.Name = "dtpInvoiceDate"
       Me.dtpInvoiceDate.Size = New System.Drawing.Size(144, 21)
       Me.dtpInvoiceDate.TabIndex = 328
@@ -607,7 +612,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnEnableVatInput.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnEnableVatInput.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnEnableVatInput.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnEnableVatInput.Location = New System.Drawing.Point(544, 40)
+      Me.ibtnEnableVatInput.Location = New System.Drawing.Point(575, 40)
       Me.ibtnEnableVatInput.Name = "ibtnEnableVatInput"
       Me.ibtnEnableVatInput.Size = New System.Drawing.Size(24, 24)
       Me.ibtnEnableVatInput.TabIndex = 327
@@ -806,6 +811,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 1
       Me.tgItem.TreeManager = Nothing
       '
+      'chkOnHold
+      '
+      Me.chkOnHold.AutoSize = True
+      Me.chkOnHold.Location = New System.Drawing.Point(267, 26)
+      Me.chkOnHold.Name = "chkOnHold"
+      Me.chkOnHold.Size = New System.Drawing.Size(65, 17)
+      Me.chkOnHold.TabIndex = 371
+      Me.chkOnHold.TabStop = False
+      Me.chkOnHold.Text = "On Hold"
+      Me.chkOnHold.UseVisualStyleBackColor = True
+      '
       'AdvancePayDetail
       '
       Me.Controls.Add(Me.grbDetail)
@@ -818,6 +834,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(640, 560)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -960,6 +978,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler rdoForAP.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler rdoForSC.CheckedChanged, AddressOf Me.ChangeProperty
+
+      AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
@@ -1073,7 +1093,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         rdoForSC.Checked = True
       End If
-      
+      chkOnHold.Checked = m_entity.Payment.OnHold
+
       Me.m_entity.ReLoadItems()
 
       'Load Items**********************************************************
@@ -1114,6 +1135,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
+        Case "chkonhold"
+          Me.m_entity.Payment.OnHold = chkOnHold.Checked
+          dirtyFlag = True
         Case "txtrealtaxbase"
           dirtyFlag = True
         Case "txtrealtaxamount"

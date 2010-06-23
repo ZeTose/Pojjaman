@@ -540,6 +540,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ds.Tables(0)
     End Function
     Public Sub SetGLFormat(ByVal glf As GLFormat)
+      If PMOnHold Then
+        Me.ItemCollection.Clear()
+        Return
+      End If
       If Me.RefDoc Is Nothing Then
         Return
       End If
@@ -568,7 +572,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
-     
+
 
       '-------------------------------Basic-------------------------------
       For Each glfi As GLFormatItem In glf.ItemCollection
@@ -789,12 +793,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
+    Private ReadOnly Property PMOnHold As Boolean
+      Get
+        If TypeOf Me.RefDoc Is IPayable Then
+          Dim pm As Payment = CType(Me.RefDoc, IPayable).Payment
+          If pm IsNot Nothing AndAlso pm.OnHold Then
+            Return True
+          End If
+        End If
+        Return False
+      End Get
+    End Property
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       If DontSave Then
         Return New SaveErrorException("0")
       End If
       With Me
-        If Me.ItemCollection.Count <= 0 Then
+        If Me.ItemCollection.Count <= 0 AndAlso Not PMOnHold Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
         Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
