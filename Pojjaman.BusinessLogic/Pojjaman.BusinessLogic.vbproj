@@ -169,6 +169,7 @@
     <Compile Include="BusinessEntities\Accounting\CloseAccountPeriod.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Accounting\AccountBaseDate.vb" />
     <Compile Include="BusinessEntities\Accounting\DocPrintingItem.vb">
       <SubType>Code</SubType>
     </Compile>

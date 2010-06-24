@@ -333,10 +333,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Dim years(9) As Date
 			Dim basedate As Date
 
-			Dim MyCulture As CultureInfo
-			MyCulture = New CultureInfo("th-TH")		 'Application.CurrentCulture
-			basedate = Date.Parse(Configuration.GetConfig("BaseDate"), MyCulture)
-			'basedate = CDate(Configuration.GetConfig("BaseDate"))
+      'Dim MyCulture As CultureInfo
+      'MyCulture = New CultureInfo("th-TH")		 'Application.CurrentCulture
+      'basedate = Date.Parse(Configuration.GetConfig("BaseDate"), MyCulture)
+      basedate = AccountBaseDate.GetBaseDateFromDB() 'CDate(Configuration.GetConfig("BaseDate"))
       For i As Integer = 0 To 9
 				years(i) = basedate.AddYears(i)
       Next

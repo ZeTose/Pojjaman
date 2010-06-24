@@ -830,7 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cmbWhtType.SelectedIndex = 0
     End Sub
     Private Sub PopulateStatus()
-      Dim baseDate As Date = CDate(Configuration.GetConfig("BaseDate"))
+      Dim baseDate As Date = AccountBaseDate.GetBaseDateFromDB() 'CDate(Configuration.GetConfig("BaseDate"))
       Dim years(9) As Date
       For i As Integer = 0 To 9
         years(i) = DateAdd(DateInterval.Year, i, baseDate)
@@ -874,7 +874,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpPayDocDateEnd.Value = Date.Now
       Me.PayDocDateEnd = Date.Now
 
-      Me.cmbYear.SelectedIndex = (Date.Now.Year - CDate(Configuration.GetConfig("BaseDate")).Year)
+      Me.cmbYear.SelectedIndex = (Date.Now.Year - AccountBaseDate.GetBaseDateFromDB().Year) 'CDate(Configuration.GetConfig("BaseDate")).Year)
       Me.cmbMonth.SelectedIndex = Date.Now.Month - 1
       Me.SupplierGroup = New SupplierGroup
 
