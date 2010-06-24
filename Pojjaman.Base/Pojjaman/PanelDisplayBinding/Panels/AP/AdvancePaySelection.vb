@@ -351,9 +351,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				Select Case e.Column.ColumnName.ToLower
 					Case "code"
 						SetCode(e)
-					Case "amount"
-						SetAmount(e)
-				End Select
+          Case "amount"
+            SetAmount(e)
+        End Select
 				ValidateRow(e)
 			Catch ex As Exception
 				MessageBox.Show(ex.ToString)
@@ -393,12 +393,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			If m_updating Then
 				Return
 			End If
-			Dim doc As AdvancePayItem = Me.CurrentItem
+      Dim doc As AdvancePayItem = Me.CurrentItem
+      If Not IsNumeric(e.ProposedValue) Then
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
 			If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
 				e.ProposedValue = 0
 			End If
 			e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-			Dim value As Decimal = CDec(e.ProposedValue)
+      Dim value As Decimal = CDec(e.ProposedValue)
+      Dim RemainingAmount As Decimal = doc.AdvancePay.GetRemainingAmount
+      Dim msg As IMessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), IMessageService)
+      If value > RemainingAmount Then
+        msg.ShowWarningFormatted("${res:Global.Error.AdvancePayRemainingAmount}", Configuration.FormatToString(RemainingAmount, DigitConfig.Price))
+        e.ProposedValue = e.Row(e.Column)
+        Return
+      End If
 			m_updating = True
 			doc.Amount = value
 			m_updating = False
