@@ -1,73 +1,73 @@
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class RptOutgoingCheckFilterSubPanel
-        Inherits AbstractFilterSubPanel
-        Implements IReportFilterSubPanel
+  Public Class RptOutgoingCheckFilterSubPanel
+    Inherits AbstractFilterSubPanel
+    Implements IReportFilterSubPanel
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnSearch As System.Windows.Forms.Button
-        Friend WithEvents btnReset As System.Windows.Forms.Button
-        Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
-        Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnSupplierStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtSupplierCodeStart As System.Windows.Forms.TextBox
-        Friend WithEvents lblSupplierStart As System.Windows.Forms.Label
-        Friend WithEvents btnBankAcctStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtBankAcctCodeStart As System.Windows.Forms.TextBox
-        Friend WithEvents lblBankAcctStart As System.Windows.Forms.Label
-        Friend WithEvents cmbChkStatus As System.Windows.Forms.ComboBox
-        Friend WithEvents lblChkStatus As System.Windows.Forms.Label
-        Friend WithEvents btnBankAcctEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtBankAcctCodeEnd As System.Windows.Forms.TextBox
-        Friend WithEvents lblBankAcctEnd As System.Windows.Forms.Label
-        Friend WithEvents txtBankAcctNameEnd As System.Windows.Forms.TextBox
-        Friend WithEvents txtBankAcctNameStart As System.Windows.Forms.TextBox
-        Friend WithEvents grbBankAcctBook As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblCheckDueDateStart As System.Windows.Forms.Label
-        Friend WithEvents lblCheckDueDateEnd As System.Windows.Forms.Label
-        Friend WithEvents lblSort As System.Windows.Forms.Label
-        Friend WithEvents cmbSort As System.Windows.Forms.ComboBox
-        Friend WithEvents chkIncludeCheckDocDate As System.Windows.Forms.CheckBox
-        Friend WithEvents txtCheckDueDateStart As System.Windows.Forms.TextBox
-        Friend WithEvents txtCheckDueDateEnd As System.Windows.Forms.TextBox
-        Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
-        Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpCheckDueDateStart As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpCheckDueDateEnd As System.Windows.Forms.DateTimePicker
-        Friend WithEvents chkRemainChecksShow As System.Windows.Forms.CheckBox
-        Friend WithEvents txtUpdateDateStart As System.Windows.Forms.TextBox
-        Friend WithEvents txtUpdateDateEnd As System.Windows.Forms.TextBox
-        Friend WithEvents dtpUpdateDateStart As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpUpdateDateEnd As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblUpdateDateStart As System.Windows.Forms.Label
-        Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnSearch As System.Windows.Forms.Button
+    Friend WithEvents btnReset As System.Windows.Forms.Button
+    Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
+    Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnSupplierStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtSupplierCodeStart As System.Windows.Forms.TextBox
+    Friend WithEvents lblSupplierStart As System.Windows.Forms.Label
+    Friend WithEvents btnBankAcctStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtBankAcctCodeStart As System.Windows.Forms.TextBox
+    Friend WithEvents lblBankAcctStart As System.Windows.Forms.Label
+    Friend WithEvents cmbChkStatus As System.Windows.Forms.ComboBox
+    Friend WithEvents lblChkStatus As System.Windows.Forms.Label
+    Friend WithEvents btnBankAcctEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtBankAcctCodeEnd As System.Windows.Forms.TextBox
+    Friend WithEvents lblBankAcctEnd As System.Windows.Forms.Label
+    Friend WithEvents txtBankAcctNameEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtBankAcctNameStart As System.Windows.Forms.TextBox
+    Friend WithEvents grbBankAcctBook As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblCheckDueDateStart As System.Windows.Forms.Label
+    Friend WithEvents lblCheckDueDateEnd As System.Windows.Forms.Label
+    Friend WithEvents lblSort As System.Windows.Forms.Label
+    Friend WithEvents cmbSort As System.Windows.Forms.ComboBox
+    Friend WithEvents chkIncludeCheckDocDate As System.Windows.Forms.CheckBox
+    Friend WithEvents txtCheckDueDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents txtCheckDueDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpCheckDueDateStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpCheckDueDateEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents chkRemainChecksShow As System.Windows.Forms.CheckBox
+    Friend WithEvents txtUpdateDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents txtUpdateDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents dtpUpdateDateStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpUpdateDateEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblUpdateDateStart As System.Windows.Forms.Label
+    Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptOutgoingCheckFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -663,701 +663,703 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-        Public Sub SetLabelText()
-            'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+    Public Sub SetLabelText()
+      'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
 
-            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblDocDateStart}")
-            Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
+      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblDocDateStart}")
+      Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-            Me.lblCheckDueDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblCheckDueDateStart}")
-            Me.Validator.SetDisplayName(txtCheckDueDateStart, lblCheckDueDateStart.Text)
+      Me.lblCheckDueDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblCheckDueDateStart}")
+      Me.Validator.SetDisplayName(txtCheckDueDateStart, lblCheckDueDateStart.Text)
 
-            'Me.lblCheckPassDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblCheckPassDateStart}")
-            'Me.Validator.SetDisplayName(txtCheckPassDateStart, lblCheckPassDateStart.Text)
+      'Me.lblCheckPassDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblCheckPassDateStart}")
+      'Me.Validator.SetDisplayName(txtCheckPassDateStart, lblCheckPassDateStart.Text)
 
-            Me.lblUpdateDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblUpdateDateStart}") '"วันที่ปรับปรุงสถานะเช็ค"
-            Me.Validator.SetDisplayName(txtUpdateDateStart, lblUpdateDateStart.Text)
-            Me.lblUpdateDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtUpdateDateEnd, lblUpdateDateEnd.Text)
+      Me.lblUpdateDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblUpdateDateStart}") '"วันที่ปรับปรุงสถานะเช็ค"
+      Me.Validator.SetDisplayName(txtUpdateDateStart, lblUpdateDateStart.Text)
+      Me.lblUpdateDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtUpdateDateEnd, lblUpdateDateEnd.Text)
 
-            Me.lblBankAcctStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblBankAcctStart}")
-            Me.Validator.SetDisplayName(txtBankAcctCodeStart, lblBankAcctStart.Text)
+      Me.lblBankAcctStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblBankAcctStart}")
+      Me.Validator.SetDisplayName(txtBankAcctCodeStart, lblBankAcctStart.Text)
 
-            Me.lblSupplierStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblSupplierStart}")
-            Me.Validator.SetDisplayName(txtSupplierCodeStart, lblSupplierStart.Text)
+      Me.lblSupplierStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblSupplierStart}")
+      Me.Validator.SetDisplayName(txtSupplierCodeStart, lblSupplierStart.Text)
 
-            ' Global {ถึง}
+      ' Global {ถึง}
 
-            Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+      Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
 
-            Me.lblCheckDueDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtCheckDueDateEnd, lblCheckDueDateEnd.Text)
+      Me.lblCheckDueDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtCheckDueDateEnd, lblCheckDueDateEnd.Text)
 
-            'Me.lblCheckPassDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            'Me.Validator.SetDisplayName(txtCheckPassDateEnd, lblCheckPassDateEnd.Text)
+      'Me.lblCheckPassDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      'Me.Validator.SetDisplayName(txtCheckPassDateEnd, lblCheckPassDateEnd.Text)
 
-            ' Button
-            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
-            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+      ' Button
+      Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+      Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
-            ' GroupBox
-            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbMaster}")
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbDetail}")
+      ' GroupBox
+      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbMaster}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbDetail}")
 
-            Me.lblChkStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblChkStatus}")
-            Me.lblSort.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblSort}")
+      Me.lblChkStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblChkStatus}")
+      Me.lblSort.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblSort}")
 
-            'Checkbox
-            Me.chkIncludeCheckDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckDocDate}") '"รวมเช็คไม่ระบุวันที่"
-            Me.chkRemainChecksShow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
+      'Checkbox
+      Me.chkIncludeCheckDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckDocDate}") '"รวมเช็คไม่ระบุวันที่"
+      Me.chkRemainChecksShow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Member"
-        Private m_DocDateEnd As Date
-        Private m_DocDateStart As Date
+    Private m_DocDateEnd As Date
+    Private m_DocDateStart As Date
 
-        Private m_UpdateDateStart As Date
-        Private m_UpdateDateEnd As Date
+    Private m_UpdateDateStart As Date
+    Private m_UpdateDateEnd As Date
 
 
-        Private m_CheckDueDateEnd As Date
-        Private m_CheckDueDateStart As Date
+    Private m_CheckDueDateEnd As Date
+    Private m_CheckDueDateStart As Date
 
-        Private m_CheckPassDateEnd As Date
-        Private m_CheckPassDateStart As Date
+    Private m_CheckPassDateEnd As Date
+    Private m_CheckPassDateStart As Date
 
-        Private m_bankacctstart As BankAccount
-        Private m_supplierstart As Supplier
+    Private m_bankacctstart As BankAccount
+    Private m_supplierstart As Supplier
 
-        Private m_chkstatus As OutgoingCheckDocStatus
+    Private m_chkstatus As OutgoingCheckDocStatus
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
-            EventWiring()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
+      EventWiring()
+      Initialize()
 
-            SetLabelText()
-            LoopControl(Me)
-        End Sub
+      SetLabelText()
+      LoopControl(Me)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Public Property DocDateStart() As Date            Get                Return m_DocDateStart            End Get            Set(ByVal Value As Date)                m_DocDateStart = Value            End Set        End Property
-        Public Property DocDateEnd() As Date            Get                Return m_DocDateEnd            End Get            Set(ByVal Value As Date)                m_DocDateEnd = Value            End Set        End Property
+    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
+    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property
 
-        Public Property UpdateDateStart() As Date            Get                Return m_UpdateDateStart            End Get            Set(ByVal Value As Date)                m_UpdateDateStart = Value            End Set        End Property
-        Public Property UpdateDateEnd() As Date            Get                Return m_UpdateDateEnd            End Get            Set(ByVal Value As Date)                m_UpdateDateEnd = Value            End Set        End Property
-        Public Property CheckDueDateStart() As Date            Get                Return m_CheckDueDateStart            End Get            Set(ByVal Value As Date)                m_CheckDueDateStart = Value            End Set        End Property
-        Public Property CheckDueDateEnd() As Date            Get                Return m_CheckDueDateEnd            End Get            Set(ByVal Value As Date)                m_CheckDueDateEnd = Value            End Set        End Property
-        'Public Property CheckPassDateStart() As Date        '    Get        '        Return m_CheckPassDateStart        '    End Get        '    Set(ByVal Value As Date)        '        m_CheckPassDateStart = Value        '    End Set        'End Property
-        'Public Property CheckPassDateEnd() As Date        '    Get        '        Return m_CheckPassDateEnd        '    End Get        '    Set(ByVal Value As Date)        '        m_CheckPassDateEnd = Value        '    End Set        'End Property
-        Private Property ChkStatus() As CodeDescription
-            Get
-                Return m_chkstatus
-            End Get
-            Set(ByVal Value As CodeDescription)
-                m_chkstatus = CType(Value, OutgoingCheckDocStatus)
-            End Set
-        End Property
-        Public Property SupplierStart() As Supplier
-            Get
-                Return m_supplierstart
-            End Get
-            Set(ByVal Value As Supplier)
-                m_supplierstart = Value
-            End Set
-        End Property
-        Public Property BankAcctStart() As BankAccount
-            Get
-                Return m_bankacctstart
-            End Get
-            Set(ByVal Value As BankAccount)
-                m_bankacctstart = Value
-            End Set
-        End Property
+    Public Property UpdateDateStart() As Date      Get        Return m_UpdateDateStart      End Get      Set(ByVal Value As Date)        m_UpdateDateStart = Value      End Set    End Property
+    Public Property UpdateDateEnd() As Date      Get        Return m_UpdateDateEnd      End Get      Set(ByVal Value As Date)        m_UpdateDateEnd = Value      End Set    End Property
+    Public Property CheckDueDateStart() As Date      Get        Return m_CheckDueDateStart      End Get      Set(ByVal Value As Date)        m_CheckDueDateStart = Value      End Set    End Property
+    Public Property CheckDueDateEnd() As Date      Get        Return m_CheckDueDateEnd      End Get      Set(ByVal Value As Date)        m_CheckDueDateEnd = Value      End Set    End Property
+    'Public Property CheckPassDateStart() As Date    '    Get    '        Return m_CheckPassDateStart    '    End Get    '    Set(ByVal Value As Date)    '        m_CheckPassDateStart = Value    '    End Set    'End Property
+    'Public Property CheckPassDateEnd() As Date    '    Get    '        Return m_CheckPassDateEnd    '    End Get    '    Set(ByVal Value As Date)    '        m_CheckPassDateEnd = Value    '    End Set    'End Property
+    Private Property ChkStatus() As CodeDescription
+      Get
+        Return m_chkstatus
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_chkstatus = CType(Value, OutgoingCheckDocStatus)
+      End Set
+    End Property
+    Public Property SupplierStart() As Supplier
+      Get
+        Return m_supplierstart
+      End Get
+      Set(ByVal Value As Supplier)
+        m_supplierstart = Value
+      End Set
+    End Property
+    Public Property BankAcctStart() As BankAccount
+      Get
+        Return m_bankacctstart
+      End Get
+      Set(ByVal Value As BankAccount)
+        m_bankacctstart = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
-        Private Sub RegisterDropdown()
-            ' รูปแบบ
-            OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(Me.cmbChkStatus, "outgoingcheck_docstatus", True)
+    Private Sub RegisterDropdown()
+      Dim pars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      ' รูปแบบ
+      OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(Me.cmbChkStatus, "outgoingcheck_docstatus", True)
 
-            Me.cmbSort.Items.Add("วันที่บนเช็ค")
-            Me.cmbSort.Items.Add("วันที่เอกสาร")
-            Me.cmbSort.SelectedIndex = 0
-        End Sub
-        Private Sub Initialize()
-            RegisterDropdown()
-            ClearCriterias()
-        End Sub
+      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.DueDate}")) '"วันที่บนเช็ค"
+      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.IssueDate}")) '"วันที่เอกสาร"
+      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.CqCode}")) '"เลขที่เช็ค"
+      Me.cmbSort.SelectedIndex = 0
+    End Sub
+    Private Sub Initialize()
+      RegisterDropdown()
+      ClearCriterias()
+    End Sub
 
-        Private Sub ClearCriterias()
-            For Each grbCtrl As Control In grbMaster.Controls
-                If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
-                    For Each Ctrl As Control In grbCtrl.Controls
-                        If TypeOf Ctrl Is TextBox Then
-                            Ctrl.Text = ""
-                        End If
-                    Next
-                End If
-            Next
+    Private Sub ClearCriterias()
+      For Each grbCtrl As Control In grbMaster.Controls
+        If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
+          For Each Ctrl As Control In grbCtrl.Controls
+            If TypeOf Ctrl Is TextBox Then
+              Ctrl.Text = ""
+            End If
+          Next
+        End If
+      Next
 
-            Dim grDocDateStartBeforeToday As Long = Configuration.GetConfig("GRDocDateStartBeforeToday")
-            Dim grDocDateEndAfterToday As Long = Configuration.GetConfig("GRDocDateEndAfterToday")
+      Dim grDocDateStartBeforeToday As Long = Configuration.GetConfig("GRDocDateStartBeforeToday")
+      Dim grDocDateEndAfterToday As Long = Configuration.GetConfig("GRDocDateEndAfterToday")
 
-            Me.SupplierStart = New Supplier
-            Me.BankAcctStart = New BankAccount
+      Me.SupplierStart = New Supplier
+      Me.BankAcctStart = New BankAccount
 
-            Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
+      Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
 
-            Me.dtpDocDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateStartBeforeToday, Now.Date), "")
-            Me.dtpDocDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateEndAfterToday, Now.Date), "")
-
-
-            'Me.dtpUpdateDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateStartBeforeToday, Now.Date), "")
-            'Me.dtpUpdateDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateEndAfterToday, Now.Date), "")
-
-            Me.txtDocDateStart.Text = ""
-            Me.txtDocDateEnd.Text = ""
-
-            Me.txtUpdateDateStart.Text = ""
-            Me.txtUpdateDateEnd.Text = ""
-
-            Me.DocDateStart = Date.MinValue
-            Me.DocDateEnd = Date.MinValue
-
-            '''''''Me.DocDateStar = Date.MinValue
-            '''''''Me.DocDateEnd = Date.MinValue
-
-            'Me.DocDateStart = dtStart
-            'Me.dtpDocDateStart.Value = MinDateToNull(Me.DocDateStart, "")
-            'Me.txtDocDateStart.Text = ""
-
-            'Me.DocDateEnd = Date.Now
-            'Me.dtpDocDateEnd.Value = MinDateToNull(Me.DocDateEnd, "")
-            'Me.txtDocDateEnd.Text = ""
-
-            Me.CheckDueDateStart = dtStart
-            Me.txtCheckDueDateStart.Text = MinDateToNull(Me.CheckDueDateStart, "")
-            Me.dtpCheckDueDateStart.Value = Me.CheckDueDateStart
-
-            Me.CheckDueDateEnd = Date.Now
-            Me.txtCheckDueDateEnd.Text = MinDateToNull(Me.CheckDueDateEnd, "")
-            Me.dtpCheckDueDateEnd.Value = Me.CheckDueDateEnd
-
-            'Me.UpdateDateStart = dtStart
-            'Me.txtUpdateDateStart.Text = MinDateToNull(Me.UpdateDateStart, "")
-            'Me.dtpUpdateDateStart.Value = Me.UpdateDateStart
-
-            'Me.UpdateDateEnd = Date.Now
-            'Me.txtUpdateDateEnd.Text = MinDateToNull(Me.UpdateDateEnd, "")
-            'Me.dtpUpdateDateEnd.Value = Me.UpdateDateEnd
+      Me.dtpDocDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateStartBeforeToday, Now.Date), "")
+      Me.dtpDocDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateEndAfterToday, Now.Date), "")
 
 
+      'Me.dtpUpdateDateStart.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateStartBeforeToday, Now.Date), "")
+      'Me.dtpUpdateDateEnd.Value = Me.MinDateToNull(DateAdd(DateInterval.Month, grDocDateEndAfterToday, Now.Date), "")
 
-            Me.cmbChkStatus.SelectedIndex = 0
-            Me.cmbSort.SelectedIndex = 0
+      Me.txtDocDateStart.Text = ""
+      Me.txtDocDateEnd.Text = ""
 
-            Me.chkIncludeCheckDocDate.Checked = 0
-            Me.chkRemainChecksShow.Checked = 0
-        End Sub
-        Public Overrides Function GetFilterString() As String
+      Me.txtUpdateDateStart.Text = ""
+      Me.txtUpdateDateEnd.Text = ""
 
-        End Function
-        Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(12) As Filter
-            arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart)) '("DocDateStart", ValidDateOrDBNull(DocDateStart)) '
-            arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd)) '("DocDateEnd", ValidDateOrDBNull(DocDateEnd)) '
-            arr(2) = New Filter("SuppliCodeStart", IIf(txtSupplierCodeStart.TextLength > 0, txtSupplierCodeStart.Text, DBNull.Value))
-            arr(3) = New Filter("BankAcctCodeStart", IIf(txtBankAcctCodeStart.TextLength > 0, txtBankAcctCodeStart.Text, DBNull.Value))
-            arr(4) = New Filter("BankAcctCodeEnd", IIf(txtBankAcctCodeEnd.TextLength > 0, txtBankAcctCodeEnd.Text, DBNull.Value))
-            arr(5) = New Filter("CheckStatus", IIf(cmbChkStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbChkStatus.SelectedItem, IdValuePair).Id))
-            arr(6) = New Filter("CheckDueDateStart", IIf(Me.CheckDueDateStart.Equals(Date.MinValue), DBNull.Value, Me.CheckDueDateStart))
-            arr(7) = New Filter("CheckDueDateEnd", IIf(Me.CheckDueDateEnd.Equals(Date.MinValue), DBNull.Value, Me.CheckDueDateEnd))
-            arr(8) = New Filter("UpdateDateStart", IIf(Me.UpdateDateStart.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateStart))
-            arr(9) = New Filter("UpdateDateEnd", IIf(Me.UpdateDateEnd.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateEnd))
-            arr(10) = New Filter("SortBy", cmbSort.SelectedIndex)
-            arr(11) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
-            arr(12) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
-            'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
+      Me.DocDateStart = Date.MinValue
+      Me.DocDateEnd = Date.MinValue
 
-            Return arr
-        End Function
-        Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
-            Get
-                Return Me.btnSearch
-            End Get
-        End Property
+      '''''''Me.DocDateStar = Date.MinValue
+      '''''''Me.DocDateEnd = Date.MinValue
 
-        Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
-            ClearCriterias()
-            Me.btnSearch.PerformClick()
-        End Sub
+      'Me.DocDateStart = dtStart
+      'Me.dtpDocDateStart.Value = MinDateToNull(Me.DocDateStart, "")
+      'Me.txtDocDateStart.Text = ""
+
+      'Me.DocDateEnd = Date.Now
+      'Me.dtpDocDateEnd.Value = MinDateToNull(Me.DocDateEnd, "")
+      'Me.txtDocDateEnd.Text = ""
+
+      Me.CheckDueDateStart = dtStart
+      Me.txtCheckDueDateStart.Text = MinDateToNull(Me.CheckDueDateStart, "")
+      Me.dtpCheckDueDateStart.Value = Me.CheckDueDateStart
+
+      Me.CheckDueDateEnd = Date.Now
+      Me.txtCheckDueDateEnd.Text = MinDateToNull(Me.CheckDueDateEnd, "")
+      Me.dtpCheckDueDateEnd.Value = Me.CheckDueDateEnd
+
+      'Me.UpdateDateStart = dtStart
+      'Me.txtUpdateDateStart.Text = MinDateToNull(Me.UpdateDateStart, "")
+      'Me.dtpUpdateDateStart.Value = Me.UpdateDateStart
+
+      'Me.UpdateDateEnd = Date.Now
+      'Me.txtUpdateDateEnd.Text = MinDateToNull(Me.UpdateDateEnd, "")
+      'Me.dtpUpdateDateEnd.Value = Me.UpdateDateEnd
+
+
+
+      Me.cmbChkStatus.SelectedIndex = 0
+      Me.cmbSort.SelectedIndex = 0
+
+      Me.chkIncludeCheckDocDate.Checked = 0
+      Me.chkRemainChecksShow.Checked = 0
+    End Sub
+    Public Overrides Function GetFilterString() As String
+
+    End Function
+    Public Overrides Function GetFilterArray() As Filter()
+      Dim arr(12) As Filter
+      arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart)) '("DocDateStart", ValidDateOrDBNull(DocDateStart)) '
+      arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd)) '("DocDateEnd", ValidDateOrDBNull(DocDateEnd)) '
+      arr(2) = New Filter("SuppliCodeStart", IIf(txtSupplierCodeStart.TextLength > 0, txtSupplierCodeStart.Text, DBNull.Value))
+      arr(3) = New Filter("BankAcctCodeStart", IIf(txtBankAcctCodeStart.TextLength > 0, txtBankAcctCodeStart.Text, DBNull.Value))
+      arr(4) = New Filter("BankAcctCodeEnd", IIf(txtBankAcctCodeEnd.TextLength > 0, txtBankAcctCodeEnd.Text, DBNull.Value))
+      arr(5) = New Filter("CheckStatus", IIf(cmbChkStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbChkStatus.SelectedItem, IdValuePair).Id))
+      arr(6) = New Filter("CheckDueDateStart", IIf(Me.CheckDueDateStart.Equals(Date.MinValue), DBNull.Value, Me.CheckDueDateStart))
+      arr(7) = New Filter("CheckDueDateEnd", IIf(Me.CheckDueDateEnd.Equals(Date.MinValue), DBNull.Value, Me.CheckDueDateEnd))
+      arr(8) = New Filter("UpdateDateStart", IIf(Me.UpdateDateStart.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateStart))
+      arr(9) = New Filter("UpdateDateEnd", IIf(Me.UpdateDateEnd.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateEnd))
+      arr(10) = New Filter("SortBy", cmbSort.SelectedIndex)
+      arr(11) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
+      arr(12) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
+      'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
+
+      Return arr
+    End Function
+    Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
+      Get
+        Return Me.btnSearch
+      End Get
+    End Property
+
+    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
+      ClearCriterias()
+      Me.btnSearch.PerformClick()
+    End Sub
 #End Region
 
 #Region " IReportFilterSubPanel "
-        Public Function GetFixValueCollection() As BusinessLogic.DocPrintingItemCollection Implements IReportFilterSubPanel.GetFixValueCollection
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim dpi As DocPrintingItem
+    Public Function GetFixValueCollection() As BusinessLogic.DocPrintingItemCollection Implements IReportFilterSubPanel.GetFixValueCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-            ''Month
-            'dpi = New DocPrintingItem
-            'dpi.Mapping = "Month"
-            'dpi.Value = "" ' Me.cmbMonth.Text
-            'dpi.DataType = "System.String"
-            'dpiColl.Add(dpi)
+      ''Month
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "Month"
+      'dpi.Value = "" ' Me.cmbMonth.Text
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-            ''Year
-            'dpi = New DocPrintingItem
-            'dpi.Mapping = "Year"
-            'dpi.Value = "" 'Me.cmbYear.Text
-            'dpi.DataType = "System.String"
-            'dpiColl.Add(dpi)
+      ''Year
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "Year"
+      'dpi.Value = "" 'Me.cmbYear.Text
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-            'Checkstatus
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Checkstatus"
-            dpi.Value = Me.cmbChkStatus.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Checkstatus
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Checkstatus"
+      dpi.Value = Me.cmbChkStatus.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'today
-            dpi = New DocPrintingItem
-            dpi.Mapping = "today"
-            dpi.Value = MinDateToNull(Now, "") + " " + Now.ToShortTimeString
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'today
+      dpi = New DocPrintingItem
+      dpi.Mapping = "today"
+      dpi.Value = MinDateToNull(Now, "") + " " + Now.ToShortTimeString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Docdate start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "docdatestart"
-            dpi.Value = Me.txtDocDateStart.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Docdate start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "docdatestart"
+      dpi.Value = Me.txtDocDateStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Docdate end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "docdateend"
-            dpi.Value = Me.txtDocDateEnd.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Docdate end
+      dpi = New DocPrintingItem
+      dpi.Mapping = "docdateend"
+      dpi.Value = Me.txtDocDateEnd.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Update Date start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "updatedatestart"
-            dpi.Value = Me.txtUpdateDateStart.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Update Date start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "updatedatestart"
+      dpi.Value = Me.txtUpdateDateStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Update Date end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "updatedateend"
-            dpi.Value = Me.txtUpdateDateEnd.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Update Date end
+      dpi = New DocPrintingItem
+      dpi.Mapping = "updatedateend"
+      dpi.Value = Me.txtUpdateDateEnd.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CheckDueDateStart
-            dpi = New DocPrintingItem
-            dpi.Mapping = "checkduedatestart"
-            dpi.Value = Me.txtCheckDueDateStart.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CheckDueDateStart
+      dpi = New DocPrintingItem
+      dpi.Mapping = "checkduedatestart"
+      dpi.Value = Me.txtCheckDueDateStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CheckDueDateEnd
-            dpi = New DocPrintingItem
-            dpi.Mapping = "checkduedateend"
-            dpi.Value = Me.txtCheckDueDateEnd.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CheckDueDateEnd
+      dpi = New DocPrintingItem
+      dpi.Mapping = "checkduedateend"
+      dpi.Value = Me.txtCheckDueDateEnd.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            ''CheckPassDateStart
-            'dpi = New DocPrintingItem
-            'dpi.Mapping = "checkpassdatestart"
-            'dpi.Value = Me.txtCheckPassDateStart.Text
-            'dpi.DataType = "System.String"
-            'dpiColl.Add(dpi)
+      ''CheckPassDateStart
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "checkpassdatestart"
+      'dpi.Value = Me.txtCheckPassDateStart.Text
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-            ''CheckPassDateEnd
-            'dpi = New DocPrintingItem
-            'dpi.Mapping = "checkpassdateend"
-            'dpi.Value = Me.txtCheckPassDateEnd.Text
-            'dpi.DataType = "System.String"
-            'dpiColl.Add(dpi)
+      ''CheckPassDateEnd
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "checkpassdateend"
+      'dpi.Value = Me.txtCheckPassDateEnd.Text
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-            'Bankaccount start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "accountstart"
-            dpi.Value = Me.txtBankAcctCodeStart.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Bankaccount start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "accountstart"
+      dpi.Value = Me.txtBankAcctCodeStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Bankaccount end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "accountend"
-            dpi.Value = Me.txtBankAcctCodeEnd.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Bankaccount end
+      dpi = New DocPrintingItem
+      dpi.Mapping = "accountend"
+      dpi.Value = Me.txtBankAcctCodeEnd.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Supplier start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "supplierstart"
-            dpi.Value = Me.txtSupplierCodeStart.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Supplier start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "supplierstart"
+      dpi.Value = Me.txtSupplierCodeStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Sort By
-            dpi = New DocPrintingItem
-            dpi.Mapping = "SortBy"
-            dpi.Value = Me.cmbSort.SelectedItem
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Sort By
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SortBy"
+      dpi.Value = Me.cmbSort.SelectedItem
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CheckBox ChildInclude
-            If Me.chkIncludeCheckDocDate.Checked Then
-                dpi = New DocPrintingItem
-                dpi.Mapping = "childincluded"
-                dpi.Value = "(รวมเช็คไม่ระบุวันที่)"
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-            End If
+      'CheckBox ChildInclude
+      If Me.chkIncludeCheckDocDate.Checked Then
+        dpi = New DocPrintingItem
+        dpi.Mapping = "childincluded"
+        dpi.Value = "(รวมเช็คไม่ระบุวันที่)"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
-            Return dpiColl
-        End Function
+      Return dpiColl
+    End Function
 #End Region
 
 #Region " ChangeProperty "
-        Private Sub EventWiring()
-            AddHandler btnBankAcctStartFind.Click, AddressOf Me.btnBankAccountFind_Click
-            AddHandler btnBankAcctEndFind.Click, AddressOf Me.btnBankAccountFind_Click
+    Private Sub EventWiring()
+      AddHandler btnBankAcctStartFind.Click, AddressOf Me.btnBankAccountFind_Click
+      AddHandler btnBankAcctEndFind.Click, AddressOf Me.btnBankAccountFind_Click
 
-            AddHandler txtBankAcctCodeStart.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtBankAcctCodeStart.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtBankAcctCodeEnd.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtBankAcctCodeEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtBankAcctCodeStart.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtBankAcctCodeStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtBankAcctCodeEnd.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtBankAcctCodeEnd.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler btnSupplierStartFind.Click, AddressOf Me.btnSupplierFind_Click
-            AddHandler txtSupplierCodeStart.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtSupplierCodeStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler btnSupplierStartFind.Click, AddressOf Me.btnSupplierFind_Click
+      AddHandler txtSupplierCodeStart.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtSupplierCodeStart.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtUpdateDateStart.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtUpdateDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtUpdateDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtUpdateDateEnd.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtCheckDueDateStart.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtCheckDueDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCheckDueDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCheckDueDateEnd.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler dtpCheckDueDateStart.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpCheckDueDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpCheckDueDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpCheckDueDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler dtpUpdateDateStart.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpUpdateDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpUpdateDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpUpdateDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-            'AddHandler txtCheckPassDateStart.Validated, AddressOf Me.ChangeProperty
-            'AddHandler txtCheckPassDateEnd.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtCheckPassDateStart.Validated, AddressOf Me.ChangeProperty
+      'AddHandler txtCheckPassDateEnd.Validated, AddressOf Me.ChangeProperty
 
-            'AddHandler dtpCheckPassDateStart.ValueChanged, AddressOf Me.ChangeProperty
-            'AddHandler dtpCheckPassDateEnd.ValueChanged, AddressOf Me.ChangeProperty
-        End Sub
+      'AddHandler dtpCheckPassDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      'AddHandler dtpCheckPassDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+    End Sub
 
-        Private txtBankAcctCodeChanged As Boolean = False
-        Private txtSupplierCodeStartChanged As Boolean = False
-        Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtbankacctcodestart"
-                    txtBankAcctCodeChanged = True
-                Case "txtbankacctcodeend"
-                    txtBankAcctCodeChanged = True
-                Case "txtsuppliercodestart"
-                    txtSupplierCodeStartChanged = True
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean
-        Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+    Private txtBankAcctCodeChanged As Boolean = False
+    Private txtSupplierCodeStartChanged As Boolean = False
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtbankacctcodestart"
+          txtBankAcctCodeChanged = True
+        Case "txtbankacctcodeend"
+          txtBankAcctCodeChanged = True
+        Case "txtsuppliercodestart"
+          txtSupplierCodeStartChanged = True
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean
+    Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
 
-            Select Case CType(sender, Control).Name.ToLower
-                Case "dtpdocdatestart"
-                    If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.DocDateStart = dtpDocDateStart.Value
-                        End If
-                    End If
-                Case "txtdocdatestart"
-                    m_dateSetting = True
-                    If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
-                        If Not Me.DocDateStart.Equals(theDate) Then
-                            dtpDocDateStart.Value = theDate
-                            Me.DocDateStart = dtpDocDateStart.Value
-                        End If
-                    Else
-                        Me.dtpDocDateStart.Value = Date.Now
-                        Me.DocDateStart = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpdocdateend"
-                    If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.DocDateEnd = dtpDocDateEnd.Value
-                        End If
-                    End If
-                Case "txtdocdateend"
-                    m_dateSetting = True
-                    If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
-                        If Not Me.DocDateEnd.Equals(theDate) Then
-                            dtpDocDateEnd.Value = theDate
-                            Me.DocDateEnd = dtpDocDateEnd.Value
-                        End If
-                    Else
-                        Me.dtpDocDateEnd.Value = Date.Now
-                        Me.DocDateEnd = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpcheckduedatestart"
-                    If Not Me.CheckDueDateStart.Equals(dtpCheckDueDateStart.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtCheckDueDateStart.Text = MinDateToNull(dtpCheckDueDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.CheckDueDateStart = dtpCheckDueDateStart.Value
-                        End If
-                    End If
-                Case "txtcheckduedatestart"
-                    m_dateSetting = True
-                    If Not Me.txtCheckDueDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckDueDateStart) = "" Then
-                        Dim theDate As Date = CDate(Me.txtCheckDueDateStart.Text)
-                        If Not Me.CheckDueDateStart.Equals(theDate) Then
-                            dtpCheckDueDateStart.Value = theDate
-                            Me.CheckDueDateStart = dtpCheckDueDateStart.Value
-                        End If
-                    Else
-                        Me.dtpCheckDueDateStart.Value = Date.Now
-                        Me.CheckDueDateStart = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpcheckduedateend"
-                    If Not Me.CheckDueDateEnd.Equals(dtpCheckDueDateEnd.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtCheckDueDateEnd.Text = MinDateToNull(dtpCheckDueDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.CheckDueDateEnd = dtpCheckDueDateEnd.Value
-                        End If
-                    End If
-                Case "txtcheckduedateend"
-                    m_dateSetting = True
-                    If Not Me.txtCheckDueDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckDueDateEnd) = "" Then
-                        Dim theDate As Date = CDate(Me.txtCheckDueDateEnd.Text)
-                        If Not Me.CheckDueDateEnd.Equals(theDate) Then
-                            dtpCheckDueDateEnd.Value = theDate
-                            Me.CheckDueDateEnd = dtpCheckDueDateEnd.Value
-                        End If
-                    Else
-                        Me.dtpCheckDueDateEnd.Value = Date.Now
-                        Me.CheckDueDateEnd = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                    '-----------------------------------------------
-                Case "dtpupdatedatestart"
-                    If Not Me.UpdateDateStart.Equals(dtpUpdateDateStart.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtUpdateDateStart.Text = MinDateToNull(dtpUpdateDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.UpdateDateStart = dtpUpdateDateStart.Value
-                        End If
-                    End If
-                Case "txtupdatedatestart"
-                    m_dateSetting = True
-                    If Not Me.txtUpdateDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtUpdateDateStart) = "" Then
-                        Dim theDate As Date = CDate(Me.txtUpdateDateStart.Text)
-                        If Not Me.UpdateDateStart.Equals(theDate) Then
-                            dtpUpdateDateStart.Value = theDate
-                            Me.UpdateDateStart = dtpUpdateDateStart.Value
-                        End If
-                    Else
-                        Me.dtpUpdateDateStart.Value = Date.Now
-                        Me.UpdateDateStart = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpupdatedateend"
-                    If Not Me.UpdateDateEnd.Equals(dtpUpdateDateEnd.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtUpdateDateEnd.Text = MinDateToNull(dtpUpdateDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.UpdateDateEnd = dtpUpdateDateEnd.Value
-                        End If
-                    End If
-                Case "txtupdatedateend"
-                    m_dateSetting = True
-                    If Not Me.txtUpdateDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtUpdateDateEnd) = "" Then
-                        Dim theDate As Date = CDate(Me.txtUpdateDateEnd.Text)
-                        If Not Me.UpdateDateEnd.Equals(theDate) Then
-                            dtpUpdateDateEnd.Value = theDate
-                            Me.UpdateDateEnd = dtpUpdateDateEnd.Value
-                        End If
-                    Else
-                        Me.dtpUpdateDateEnd.Value = Date.Now
-                        Me.UpdateDateEnd = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                    '-----------------------------------------------
-                    'Case "dtpcheckpassdatestart"
-                    '    If Not Me.CheckPassDateStart.Equals(dtpCheckPassDateStart.Value) Then
-                    '        If Not m_dateSetting Then
-                    '            Me.txtCheckPassDateStart.Text = MinDateToNull(dtpCheckPassDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                    '            Me.CheckPassDateStart = dtpCheckPassDateStart.Value
-                    '        End If
-                    '    End If
-                    '    'Case "txtcheckpassdatestart"
-                    '    m_dateSetting = True
-                    '    If Not Me.txtCheckPassDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckPassDateStart) = "" Then
-                    '        Dim theDate As Date = CDate(Me.txtCheckPassDateStart.Text)
-                    '        If Not Me.CheckPassDateStart.Equals(theDate) Then
-                    '            dtpCheckPassDateStart.Value = theDate
-                    '            Me.CheckPassDateStart = dtpCheckPassDateStart.Value
-                    '        End If
-                    '    Else
-                    '        Me.dtpCheckPassDateStart.Value = Date.Now
-                    '        Me.CheckPassDateStart = Date.MinValue
-                    '    End If
-                    '    m_dateSetting = False
-                    'Case "dtpcheckpassdateend"
-                    '    If Not Me.CheckPassDateEnd.Equals(dtpCheckPassDateEnd.Value) Then
-                    '        If Not m_dateSetting Then
-                    '            Me.txtCheckPassDateEnd.Text = MinDateToNull(dtpCheckPassDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                    '            Me.CheckPassDateEnd = dtpCheckPassDateEnd.Value
-                    '        End If
-                    '    End If
-                    'Case "txtcheckpassdateend"
-                    '    m_dateSetting = True
-                    '    If Not Me.txtCheckPassDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckPassDateEnd) = "" Then
-                    '        Dim theDate As Date = CDate(Me.txtCheckPassDateEnd.Text)
-                    '        If Not Me.CheckPassDateEnd.Equals(theDate) Then
-                    '            dtpCheckPassDateEnd.Value = theDate
-                    '            Me.CheckPassDateEnd = dtpCheckPassDateEnd.Value
-                    '        End If
-                    '    Else
-                    '        Me.dtpCheckPassDateEnd.Value = Date.Now
-                    '        Me.CheckPassDateEnd = Date.MinValue
-                    '    End If
-                    '    m_dateSetting = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "dtpdocdatestart"
+          If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          End If
+        Case "txtdocdatestart"
+          m_dateSetting = True
+          If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
+            If Not Me.DocDateStart.Equals(theDate) Then
+              dtpDocDateStart.Value = theDate
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          Else
+            Me.dtpDocDateStart.Value = Date.Now
+            Me.DocDateStart = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpdocdateend"
+          If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          End If
+        Case "txtdocdateend"
+          m_dateSetting = True
+          If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
+            If Not Me.DocDateEnd.Equals(theDate) Then
+              dtpDocDateEnd.Value = theDate
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          Else
+            Me.dtpDocDateEnd.Value = Date.Now
+            Me.DocDateEnd = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpcheckduedatestart"
+          If Not Me.CheckDueDateStart.Equals(dtpCheckDueDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtCheckDueDateStart.Text = MinDateToNull(dtpCheckDueDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.CheckDueDateStart = dtpCheckDueDateStart.Value
+            End If
+          End If
+        Case "txtcheckduedatestart"
+          m_dateSetting = True
+          If Not Me.txtCheckDueDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckDueDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtCheckDueDateStart.Text)
+            If Not Me.CheckDueDateStart.Equals(theDate) Then
+              dtpCheckDueDateStart.Value = theDate
+              Me.CheckDueDateStart = dtpCheckDueDateStart.Value
+            End If
+          Else
+            Me.dtpCheckDueDateStart.Value = Date.Now
+            Me.CheckDueDateStart = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpcheckduedateend"
+          If Not Me.CheckDueDateEnd.Equals(dtpCheckDueDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtCheckDueDateEnd.Text = MinDateToNull(dtpCheckDueDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.CheckDueDateEnd = dtpCheckDueDateEnd.Value
+            End If
+          End If
+        Case "txtcheckduedateend"
+          m_dateSetting = True
+          If Not Me.txtCheckDueDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckDueDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtCheckDueDateEnd.Text)
+            If Not Me.CheckDueDateEnd.Equals(theDate) Then
+              dtpCheckDueDateEnd.Value = theDate
+              Me.CheckDueDateEnd = dtpCheckDueDateEnd.Value
+            End If
+          Else
+            Me.dtpCheckDueDateEnd.Value = Date.Now
+            Me.CheckDueDateEnd = Date.MinValue
+          End If
+          m_dateSetting = False
+          '-----------------------------------------------
+        Case "dtpupdatedatestart"
+          If Not Me.UpdateDateStart.Equals(dtpUpdateDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtUpdateDateStart.Text = MinDateToNull(dtpUpdateDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.UpdateDateStart = dtpUpdateDateStart.Value
+            End If
+          End If
+        Case "txtupdatedatestart"
+          m_dateSetting = True
+          If Not Me.txtUpdateDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtUpdateDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtUpdateDateStart.Text)
+            If Not Me.UpdateDateStart.Equals(theDate) Then
+              dtpUpdateDateStart.Value = theDate
+              Me.UpdateDateStart = dtpUpdateDateStart.Value
+            End If
+          Else
+            Me.dtpUpdateDateStart.Value = Date.Now
+            Me.UpdateDateStart = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpupdatedateend"
+          If Not Me.UpdateDateEnd.Equals(dtpUpdateDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtUpdateDateEnd.Text = MinDateToNull(dtpUpdateDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.UpdateDateEnd = dtpUpdateDateEnd.Value
+            End If
+          End If
+        Case "txtupdatedateend"
+          m_dateSetting = True
+          If Not Me.txtUpdateDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtUpdateDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtUpdateDateEnd.Text)
+            If Not Me.UpdateDateEnd.Equals(theDate) Then
+              dtpUpdateDateEnd.Value = theDate
+              Me.UpdateDateEnd = dtpUpdateDateEnd.Value
+            End If
+          Else
+            Me.dtpUpdateDateEnd.Value = Date.Now
+            Me.UpdateDateEnd = Date.MinValue
+          End If
+          m_dateSetting = False
+          '-----------------------------------------------
+          'Case "dtpcheckpassdatestart"
+          '    If Not Me.CheckPassDateStart.Equals(dtpCheckPassDateStart.Value) Then
+          '        If Not m_dateSetting Then
+          '            Me.txtCheckPassDateStart.Text = MinDateToNull(dtpCheckPassDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          '            Me.CheckPassDateStart = dtpCheckPassDateStart.Value
+          '        End If
+          '    End If
+          '    'Case "txtcheckpassdatestart"
+          '    m_dateSetting = True
+          '    If Not Me.txtCheckPassDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckPassDateStart) = "" Then
+          '        Dim theDate As Date = CDate(Me.txtCheckPassDateStart.Text)
+          '        If Not Me.CheckPassDateStart.Equals(theDate) Then
+          '            dtpCheckPassDateStart.Value = theDate
+          '            Me.CheckPassDateStart = dtpCheckPassDateStart.Value
+          '        End If
+          '    Else
+          '        Me.dtpCheckPassDateStart.Value = Date.Now
+          '        Me.CheckPassDateStart = Date.MinValue
+          '    End If
+          '    m_dateSetting = False
+          'Case "dtpcheckpassdateend"
+          '    If Not Me.CheckPassDateEnd.Equals(dtpCheckPassDateEnd.Value) Then
+          '        If Not m_dateSetting Then
+          '            Me.txtCheckPassDateEnd.Text = MinDateToNull(dtpCheckPassDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          '            Me.CheckPassDateEnd = dtpCheckPassDateEnd.Value
+          '        End If
+          '    End If
+          'Case "txtcheckpassdateend"
+          '    m_dateSetting = True
+          '    If Not Me.txtCheckPassDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtCheckPassDateEnd) = "" Then
+          '        Dim theDate As Date = CDate(Me.txtCheckPassDateEnd.Text)
+          '        If Not Me.CheckPassDateEnd.Equals(theDate) Then
+          '            dtpCheckPassDateEnd.Value = theDate
+          '            Me.CheckPassDateEnd = dtpCheckPassDateEnd.Value
+          '        End If
+          '    Else
+          '        Me.dtpCheckPassDateEnd.Value = Date.Now
+          '        Me.CheckPassDateEnd = Date.MinValue
+          '    End If
+          '    m_dateSetting = False
 
-                Case "txtbankacctcodestart"
-                    If txtBankAcctCodeChanged Then
-                        BankAccount.GetBankAccount(txtBankAcctCodeStart, txtBankAcctNameStart, Me.m_bankacctstart)
-                        txtBankAcctNameStart.Text = Me.m_bankacctstart.BankCode
-                        txtBankAcctCodeChanged = False
-                    End If
-                Case "txtbankacctcodeend"
-                    If txtBankAcctCodeChanged Then
-                        BankAccount.GetBankAccountBankCode(txtBankAcctCodeEnd, txtBankAcctNameEnd, Me.m_bankacctstart)
-                        txtBankAcctCodeChanged = False
-                    End If
-                Case "txtsuppliercodestart"
-                    If txtSupplierCodeStartChanged Then
-                        Dim txttemp As New TextBox
-                        Me.SupplierStart.GetSupplier(txtSupplierCodeStart, txttemp, Me.m_supplierstart)
-                        txtSupplierCodeStartChanged = False
-                    End If
-                Case Else
+        Case "txtbankacctcodestart"
+          If txtBankAcctCodeChanged Then
+            BankAccount.GetBankAccount(txtBankAcctCodeStart, txtBankAcctNameStart, Me.m_bankacctstart)
+            txtBankAcctNameStart.Text = Me.m_bankacctstart.BankCode
+            txtBankAcctCodeChanged = False
+          End If
+        Case "txtbankacctcodeend"
+          If txtBankAcctCodeChanged Then
+            BankAccount.GetBankAccountBankCode(txtBankAcctCodeEnd, txtBankAcctNameEnd, Me.m_bankacctstart)
+            txtBankAcctCodeChanged = False
+          End If
+        Case "txtsuppliercodestart"
+          If txtSupplierCodeStartChanged Then
+            Dim txttemp As New TextBox
+            Me.SupplierStart.GetSupplier(txtSupplierCodeStart, txttemp, Me.m_supplierstart)
+            txtSupplierCodeStartChanged = False
+          End If
+        Case Else
 
-            End Select
-        End Sub
+      End Select
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                ' Bank Account
-                If data.GetDataPresent((New BankAccount).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtbankacctcodestart", "txtbankacctcodeend"
-                                Return True
-                        End Select
-                    End If
-                End If
-                ' Supplier
-                If data.GetDataPresent((New Supplier).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtsuppliercodestart", "txtsuppliercodeend"
-                                Return True
-                        End Select
-                    End If
-                End If
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            ' bankaccount
-            If data.GetDataPresent((New BankAccount).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
-                Dim entity As New BankAccount(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtbankacctcodestart"
-                            Me.SetBankAccountStartDialog(entity)
-                    End Select
-                End If
-            End If
-            ' Supplier
-            If data.GetDataPresent((New CostCenter).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
-                Dim entity As New Supplier(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtsuppliercodestart"
-                            Me.SetSupplierStartDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        ' Bank Account
+        If data.GetDataPresent((New BankAccount).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtbankacctcodestart", "txtbankacctcodeend"
+                Return True
+            End Select
+          End If
+        End If
+        ' Supplier
+        If data.GetDataPresent((New Supplier).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtsuppliercodestart", "txtsuppliercodeend"
+                Return True
+            End Select
+          End If
+        End If
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      ' bankaccount
+      If data.GetDataPresent((New BankAccount).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
+        Dim entity As New BankAccount(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtbankacctcodestart"
+              Me.SetBankAccountStartDialog(entity)
+          End Select
+        End If
+      End If
+      ' Supplier
+      If data.GetDataPresent((New CostCenter).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
+        Dim entity As New Supplier(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtsuppliercodestart"
+              Me.SetSupplierStartDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region " Event Handlers "
-        'BankAccount
-        Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btnbankacctstartfind"
-                    myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountStartDialog)
-                Case "btnbankacctendfind"
-                    myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountEndDialog)
-            End Select
-        End Sub
-        Private Sub SetBankAccountStartDialog(ByVal e As ISimpleEntity)
-            Me.txtBankAcctCodeStart.Text = CType(e, BankAccount).Code
-            Me.txtBankAcctNameStart.Text = CType(e, BankAccount).BankCode
-        End Sub
-        Private Sub SetBankAccountEndDialog(ByVal e As ISimpleEntity)
-            Me.txtBankAcctCodeEnd.Text = CType(e, BankAccount).Code
-            Me.txtBankAcctNameEnd.Text = CType(e, BankAccount).BankCode
-        End Sub
-        'Supplier
-        Private Sub btnSupplierFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btnsupplierstartfind"
-                    myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplierStartDialog)
-            End Select
-        End Sub
-        Private Sub SetSupplierStartDialog(ByVal e As ISimpleEntity)
-            Me.txtSupplierCodeStart.Text = e.Code
-            Dim txttmp As New TextBox
-            Supplier.GetSupplier(txtSupplierCodeStart, txttmp, m_supplierstart)
-        End Sub
+    'BankAccount
+    Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btnbankacctstartfind"
+          myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountStartDialog)
+        Case "btnbankacctendfind"
+          myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountEndDialog)
+      End Select
+    End Sub
+    Private Sub SetBankAccountStartDialog(ByVal e As ISimpleEntity)
+      Me.txtBankAcctCodeStart.Text = CType(e, BankAccount).Code
+      Me.txtBankAcctNameStart.Text = CType(e, BankAccount).BankCode
+    End Sub
+    Private Sub SetBankAccountEndDialog(ByVal e As ISimpleEntity)
+      Me.txtBankAcctCodeEnd.Text = CType(e, BankAccount).Code
+      Me.txtBankAcctNameEnd.Text = CType(e, BankAccount).BankCode
+    End Sub
+    'Supplier
+    Private Sub btnSupplierFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btnsupplierstartfind"
+          myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplierStartDialog)
+      End Select
+    End Sub
+    Private Sub SetSupplierStartDialog(ByVal e As ISimpleEntity)
+      Me.txtSupplierCodeStart.Text = e.Code
+      Dim txttmp As New TextBox
+      Supplier.GetSupplier(txtSupplierCodeStart, txttmp, m_supplierstart)
+    End Sub
 #End Region
 
-    End Class
+  End Class
 
 End Namespace
 
