@@ -1191,7 +1191,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetCCCodeStartDialog)
 
         Case "btncccodeend"
-          myEntityPanelService.OpenListDialog(New SC, AddressOf SetCCCodeEndDialog)
+          myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetCCCodeEndDialog)
 
         Case "btnspgcodestart"
           myEntityPanelService.OpenListDialog(New SupplierGroup, AddressOf SetSupplierGroupDialog)
