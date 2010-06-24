@@ -2232,6 +2232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private oldCCId As Integer
     Private dirtyFlag As Boolean = False
+
     Private CCCodeBlankFlag As Boolean = False
 
     Private ccCodeChanged As Boolean = False
@@ -2261,18 +2262,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
           directorCodeChanged = True
         Case "txtretention"
           If IsNumeric(txtRetention.Text) Then
-            dirtyFlag = True
-            m_entity.Retention = txtRetention.Text
-            txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+            If CDec(txtRetention.Text) <> m_entity.Retention Then
+              dirtyFlag = True
+              m_entity.Retention = txtRetention.Text
+              txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
+            End If
           Else
             txtRetention.Text = Configuration.FormatToString(0, DigitConfig.Price)
           End If
           Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
         Case "txtadvancepay"
-          If IsNumeric(txtAdvancePay.Text) Then
-            dirtyFlag = True
-            m_entity.AdvancePay = txtAdvancePay.Text
-            txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
+            If IsNumeric(txtAdvancePay.Text) Then
+            If CDec(txtAdvancePay.Text) <> m_entity.AdvancePay Then
+              dirtyFlag = True
+              m_entity.AdvancePay = txtAdvancePay.Text
+              txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
+            End If
           Else
             txtAdvancePay.Text = Configuration.FormatToString(0, DigitConfig.Price)
           End If
@@ -2425,12 +2430,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.ContactPerson = cmbContact.Text
           dirtyFlag = True
         Case "txtsubcontractorcode"
-          dirtyFlag = Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor, True)
-          m_isInitialized = False
-          Me.txtCredit.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-          Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-          m_isInitialized = True
-          InitialCombo()
+          If m_entity.SubContractor.Code <> txtSubContractorCode.Text Then
+            dirtyFlag = Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor, True)
+            m_isInitialized = False
+            Me.txtCredit.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+            m_isInitialized = True
+            InitialCombo()
+          End If
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
             If Not m_dateSetting Then
@@ -2734,6 +2741,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Else
           m_entityRefedByPA = 0
         End If
+        dirtyFlag = False
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
