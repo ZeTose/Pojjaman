@@ -671,6 +671,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PaySRef" _
           , New SqlParameter("@pays_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_Retention_PaySRef" _
+          , New SqlParameter("@pays_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_PaySRef" _
           , New SqlParameter("@pays_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBillA_PaySRef" _
@@ -680,6 +682,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_PaySRef" _
           , New SqlParameter("@pays_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_Retention_PaySRef" _
         , New SqlParameter("@pays_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
