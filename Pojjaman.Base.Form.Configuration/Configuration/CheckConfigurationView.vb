@@ -41,16 +41,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkOneCheck As System.Windows.Forms.CheckBox
     Friend WithEvents chkAllowNoCQCodeDate As System.Windows.Forms.CheckBox
     Friend WithEvents chkAllowNoCQCode As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCanChangeRecipient As System.Windows.Forms.CheckBox
     Friend WithEvents chkCheckDateFromWHT As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkAllowNoCQCodeDate = New System.Windows.Forms.CheckBox
-      Me.grbItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkCheckRegist = New System.Windows.Forms.CheckBox
-      Me.chkOneCheck = New System.Windows.Forms.CheckBox
-      Me.chkAllowNoCQCode = New System.Windows.Forms.CheckBox
-      Me.chkCheckDateFromWHT = New System.Windows.Forms.CheckBox
+      Me.components = New System.ComponentModel.Container()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkAllowNoCQCodeDate = New System.Windows.Forms.CheckBox()
+      Me.grbItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkCheckRegist = New System.Windows.Forms.CheckBox()
+      Me.chkOneCheck = New System.Windows.Forms.CheckBox()
+      Me.chkAllowNoCQCode = New System.Windows.Forms.CheckBox()
+      Me.chkCheckDateFromWHT = New System.Windows.Forms.CheckBox()
+      Me.chkCanChangeRecipient = New System.Windows.Forms.CheckBox()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.grbItem.SuspendLayout()
       Me.SuspendLayout()
@@ -81,6 +85,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbItem
       '
+      Me.grbItem.Controls.Add(Me.chkCanChangeRecipient)
       Me.grbItem.Controls.Add(Me.chkCheckRegist)
       Me.grbItem.Controls.Add(Me.chkOneCheck)
       Me.grbItem.Controls.Add(Me.chkAllowNoCQCode)
@@ -88,7 +93,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbItem.Location = New System.Drawing.Point(8, 72)
       Me.grbItem.Name = "grbItem"
-      Me.grbItem.Size = New System.Drawing.Size(408, 128)
+      Me.grbItem.Size = New System.Drawing.Size(408, 162)
       Me.grbItem.TabIndex = 2
       Me.grbItem.TabStop = False
       Me.grbItem.Text = "อื่นๆ"
@@ -129,6 +134,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkCheckDateFromWHT.TabIndex = 2
       Me.chkCheckDateFromWHT.Text = "วันที่บนเช็คที่สร้างใหม่ใน Tab จ่ายเงิน ให้มีค่าเริ่มต้นเป็นตามใบหัก ณ ที่จ่าย"
       '
+      'chkCanChangeRecipient
+      '
+      Me.chkCanChangeRecipient.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkCanChangeRecipient.Location = New System.Drawing.Point(32, 117)
+      Me.chkCanChangeRecipient.Name = "chkCanChangeRecipient"
+      Me.chkCanChangeRecipient.Size = New System.Drawing.Size(360, 25)
+      Me.chkCanChangeRecipient.TabIndex = 3
+      Me.chkCanChangeRecipient.Text = "สามารถเปลี่ยนชื่อผู้รับเช็คจ่ายได้"
+      '
       'CheckConfigurationView
       '
       Me.Controls.Add(Me.grbItem)
@@ -136,6 +150,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "CheckConfigurationView"
       Me.Size = New System.Drawing.Size(424, 304)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbItem.ResumeLayout(False)
       Me.ResumeLayout(False)
@@ -146,7 +161,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
     Private m_isInitialized As Boolean
-    Public ConfigFilters(4) As Filter
+    Public ConfigFilters(5) As Filter
     Private Dirty As Boolean
 #End Region
 
@@ -176,6 +191,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkCheckRegist.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckRegist}")
       Me.chkAllowNoCQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkAllowNoCqCode}")
       Me.chkCheckDateFromWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckDateFromWHT}")
+      'Me.chkCanChangeRecipeint.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckDateFromWHT}")
     End Sub
     Protected Sub EventWiring()
       AddHandler chkAllowNoCQCodeDate.CheckedChanged, AddressOf ChangeProperty
@@ -183,6 +199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler chkCheckRegist.CheckedChanged, AddressOf ChangeProperty
       AddHandler chkAllowNoCQCode.CheckedChanged, AddressOf ChangeProperty
       AddHandler chkCheckDateFromWHT.CheckedChanged, AddressOf ChangeProperty
+      AddHandler chkCanChangeRecipient.CheckedChanged, AddressOf ChangeProperty
     End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Not m_isInitialized Then
@@ -205,6 +222,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "chkcheckdatefromwht"
           Me.SetFilterValue("CheckDateFromWHT", chkCheckDateFromWHT.Checked)
           dirtyFlag = True
+        Case "chkcanchangerecipient"
+          Me.SetFilterValue("CanEditOutgoingCheckRecipient", chkCanChangeRecipient.Checked)
+          dirtyFlag = True
       End Select
       Dirty = Dirty Or dirtyFlag
       CheckFormEnable()
@@ -218,6 +238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ConfigFilters(2) = New Filter("UseCheckRegistration", Configuration.GetConfig("UseCheckRegistration"))
       ConfigFilters(3) = New Filter("AllowNoCqCode", Configuration.GetConfig("AllowNoCqCode"))
       ConfigFilters(4) = New Filter("CheckDateFromWHT", Configuration.GetConfig("CheckDateFromWHT"))
+      ConfigFilters(5) = New Filter("CanEditOutgoingCheckRecipient", Configuration.GetConfig("CanEditOutgoingCheckRecipient"))
     End Sub
     Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
       For Each filter As filter In ConfigFilters
@@ -239,6 +260,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Methods"
 #End Region
 
+
 #Region "Event Handers"
     Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -255,6 +277,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkCheckRegist.Checked = CBool(GetFilterValue("UseCheckRegistration"))
       Me.chkAllowNoCQCode.Checked = CBool(GetFilterValue("AllowNoCqCode"))
       Me.chkCheckDateFromWHT.Checked = CBool(GetFilterValue("CheckDateFromWHT"))
+      Me.chkCanChangeRecipient.Checked = CBool(GetFilterValue("CanEditOutgoingCheckRecipient"))
 
       SetStatus()
       SetLabelText()

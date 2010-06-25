@@ -74,6 +74,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(OutgoingCheckDetailView))
       Me.grbOutgoingCheck = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkACPayeeOnly = New System.Windows.Forms.CheckBox()
+      Me.chkCheckHandler = New System.Windows.Forms.CheckBox()
       Me.txtTotal = New System.Windows.Forms.TextBox()
       Me.lblBaht3 = New System.Windows.Forms.Label()
       Me.lblTotal = New System.Windows.Forms.Label()
@@ -114,8 +116,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.chkACPayeeOnly = New System.Windows.Forms.CheckBox()
-      Me.chkCheckHandler = New System.Windows.Forms.CheckBox()
       Me.grbOutgoingCheck.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -175,6 +175,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbOutgoingCheck.TabIndex = 0
       Me.grbOutgoingCheck.TabStop = False
       Me.grbOutgoingCheck.Text = "ข้อมูลเช็คจ่าย : "
+      '
+      'chkACPayeeOnly
+      '
+      Me.chkACPayeeOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkACPayeeOnly.Location = New System.Drawing.Point(325, 168)
+      Me.chkACPayeeOnly.Name = "chkACPayeeOnly"
+      Me.chkACPayeeOnly.Size = New System.Drawing.Size(136, 24)
+      Me.chkACPayeeOnly.TabIndex = 203
+      Me.chkACPayeeOnly.Text = "A/C PAYEE ONLY"
+      '
+      'chkCheckHandler
+      '
+      Me.chkCheckHandler.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkCheckHandler.Location = New System.Drawing.Point(325, 192)
+      Me.chkCheckHandler.Name = "chkCheckHandler"
+      Me.chkCheckHandler.Size = New System.Drawing.Size(136, 24)
+      Me.chkCheckHandler.TabIndex = 204
+      Me.chkCheckHandler.Text = "ขีดคร่อมผู้ถือ"
       '
       'txtTotal
       '
@@ -691,24 +709,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'chkACPayeeOnly
-      '
-      Me.chkACPayeeOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkACPayeeOnly.Location = New System.Drawing.Point(325, 168)
-      Me.chkACPayeeOnly.Name = "chkACPayeeOnly"
-      Me.chkACPayeeOnly.Size = New System.Drawing.Size(136, 24)
-      Me.chkACPayeeOnly.TabIndex = 203
-      Me.chkACPayeeOnly.Text = "A/C PAYEE ONLY"
-      '
-      'CheckBox2
-      '
-      Me.chkCheckHandler.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkCheckHandler.Location = New System.Drawing.Point(325, 192)
-      Me.chkCheckHandler.Name = "chkCheckHandler"
-      Me.chkCheckHandler.Size = New System.Drawing.Size(136, 24)
-      Me.chkCheckHandler.TabIndex = 204
-      Me.chkCheckHandler.Text = "ขีดคร่อมผู้ถือ"
-      '
       'OutgoingCheckDetailView
       '
       Me.Controls.Add(Me.grbOutgoingCheck)
@@ -865,49 +865,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					txtBankAccountCode.Enabled = False
 					btnBankAccountFind.Enabled = False
           btnBankAccountEdit.Enabled = False
-          If m_entity.Status.Value = 3 Then
+          If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
             txtNote.Enabled = True
-            txtrecipient.Enabled = True
+            If CBool(Configuration.GetConfig("CanEditOutgoingCheckRecipient")) Then
+              txtrecipient.Enabled = True
+            End If
           End If
-					If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
-						txtCqCode.Enabled = True
-						txtDueDate.Enabled = True
-						dtpDueDate.Enabled = True
+          If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
+            txtCqCode.Enabled = True
+            txtDueDate.Enabled = True
+            dtpDueDate.Enabled = True
             chkACPayeeOnly.Enabled = True
             chkCheckHandler.Enabled = True
-						'txtBankAccountCode.Enabled = True
-						'btnBankAccountFind.Enabled = True
-						'btnBankAccountEdit.Enabled = True
-					Else
-						txtCqCode.Enabled = False
-						txtDueDate.Enabled = False
-						dtpDueDate.Enabled = False
-						'txtBankAccountCode.Enabled = False
-						'btnBankAccountFind.Enabled = False
-						'btnBankAccountEdit.Enabled = False
-					End If
-        End If
-        
+            If m_entity.Bankacct Is Nothing OrElse m_entity.Bankacct.BankCode Is Nothing Then
+              txtBankAccountCode.Enabled = True
+              btnBankAccountFind.Enabled = True
+              btnBankAccountEdit.Enabled = True
+            End If
+            'txtBankAccountCode.Enabled = True
+            'btnBankAccountFind.Enabled = True
+            'btnBankAccountEdit.Enabled = True
+          Else
+            txtCqCode.Enabled = False
+            txtDueDate.Enabled = False
+            dtpDueDate.Enabled = False
+            'txtBankAccountCode.Enabled = False
+            'btnBankAccountFind.Enabled = False
+            'btnBankAccountEdit.Enabled = False
+          End If
+          End If
+
       Else
 
-        If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-          grbOutgoingCheck.Enabled = True
-        Else
-          For Each ctrl As Control In grbOutgoingCheck.Controls
-            If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-              ctrl.Enabled = True
-            End If
-          Next
-          dtpIssueDate.Enabled = True
-          txtCqCode.Enabled = True
-          txtDueDate.Enabled = True
-          dtpDueDate.Enabled = True
-          txtBankAccountCode.Enabled = True
-          btnBankAccountFind.Enabled = True
-          btnBankAccountEdit.Enabled = True
-          chkACPayeeOnly.Enabled = True
-          chkCheckHandler.Enabled = True
-        End If
+          If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+            grbOutgoingCheck.Enabled = True
+          Else
+            For Each ctrl As Control In grbOutgoingCheck.Controls
+              If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+                ctrl.Enabled = True
+              End If
+            Next
+            dtpIssueDate.Enabled = True
+            txtCqCode.Enabled = True
+            txtDueDate.Enabled = True
+            dtpDueDate.Enabled = True
+            txtBankAccountCode.Enabled = True
+            btnBankAccountFind.Enabled = True
+            btnBankAccountEdit.Enabled = True
+            chkACPayeeOnly.Enabled = True
+            chkCheckHandler.Enabled = True
+          End If
       End If
       If txtrecipient.Text.Length = 0 Then
         txtrecipient.Enabled = True

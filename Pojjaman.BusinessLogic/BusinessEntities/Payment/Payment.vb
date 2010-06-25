@@ -759,6 +759,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.ResetID(oldid)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
+          ''============ Update Old Payment item 
+
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPaymentItemEntityStatus" _
+                                    , New SqlParameter("@payment_id", Me.Id))
+
+
+          ''=====================================
+
           Dim detailError As SaveErrorException = SaveDetail(Me.Id, conn, trans, currentUserId)
           If Not IsNumeric(detailError.Message) Then
             Me.ResetID(oldid)
