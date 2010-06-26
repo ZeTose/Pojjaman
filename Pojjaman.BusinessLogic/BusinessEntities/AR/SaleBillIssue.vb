@@ -1210,6 +1210,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetMilestoneRetention" _
       , New SqlParameter("@milestone_id", Me.Id) _
+      , New SqlParameter("@receives_id", ValidIdOrDBNull(Me.ReceiveSelection)) _
       )
       If ds.Tables(0).Rows.Count > 0 Then
         Return CDec(ds.Tables(0).Rows(0)(0))

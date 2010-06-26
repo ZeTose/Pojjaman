@@ -813,7 +813,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stock_aftertax") = billi.AfterTax
           dr("stock_taxBase") = billi.TaxBase
           dr("stock_note") = billi.Note
-          'dr("stock_retention") = billi.Retention ==> Version 22
+          dr("stock_retention") = billi.Retention '==> Version 22
           dr("stock_status") = Me.Status.Value
           .Rows.Add(dr)
         Next
@@ -1210,7 +1210,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
           If bi.NoVat Then
-            m_taxbase += item.AfterTax
+            m_taxbase += item.TaxBase
           End If
         End If
       Next
@@ -1279,7 +1279,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim mtb As Decimal = mi.TaxBase
               'ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
               If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
-                mtb = (item.UnreceivedAmount / item.BilledAmount) * mtb
+                mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
               End If
 							Dim amt As Decimal = item.Amount
 							Dim uamt As Decimal = item.UnreceivedAmount
@@ -1437,20 +1437,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If item.ParentType = 81 Then
               For Each mi As Milestone In bi.ItemCollection
                 If mi.Id = item.Id AndAlso mi.TaxPoint.Value = 2 AndAlso Not mi.TaxType.Value = 0 Then
-									Dim mtb As Decimal = mi.TaxBase
-									Dim amt As Decimal = item.Amount
-									Dim uamt As Decimal = item.UnreceivedAmount
-									'---------------------------------------------
-									Dim tb As Decimal = (amt / uamt) * mtb
-									If TypeOf mi Is VariationOrderDe Then
-										ret -= tb
-									Else
-										ret += tb
-									End If
-									'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
-									'---------------------------------------------
-								End If
-							Next
+                  Dim mtb As Decimal = mi.TaxBase
+                  Dim amt As Decimal = item.Amount
+                  Dim uamt As Decimal = item.UnreceivedAmount
+                  '---------------------------------------------
+                  Dim tb As Decimal = (amt / uamt) * mtb
+                  If TypeOf mi Is VariationOrderDe Then
+                    ret -= tb
+                  Else
+                    ret += tb
+                  End If
+                  'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
+                  '---------------------------------------------
+                End If
+              Next
             End If
           Next
         End If
