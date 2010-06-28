@@ -159,10 +159,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblName = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbDetail.SuspendLayout()
       Me.grbApproveLevel.SuspendLayout()
+      CType(Me.nudLevelApprovePA, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApproveDR, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApproveSC, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApproveWR, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApprovePR, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApprovePO, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudLevelApproveDO, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -202,6 +212,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbApproveLevel
       '
+      Me.grbApproveLevel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.grbApproveLevel.Controls.Add(Me.nudLevelApprovePA)
       Me.grbApproveLevel.Controls.Add(Me.lblPA)
       Me.grbApproveLevel.Controls.Add(Me.lblLevelPA)
@@ -752,6 +763,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
+      Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -946,6 +959,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.PerformLayout()
       Me.grbApproveLevel.ResumeLayout(False)
       Me.grbApproveLevel.PerformLayout()
+      CType(Me.nudLevelApprovePA, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApproveDR, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApproveSC, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApproveWR, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApprovePR, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApprovePO, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudLevelApproveDO, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.picImage, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
