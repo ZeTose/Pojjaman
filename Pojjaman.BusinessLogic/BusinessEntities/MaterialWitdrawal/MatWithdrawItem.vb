@@ -315,7 +315,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Me.Qty * Me.Conversion
       End Get
-    End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
+    End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        If m_unitCost = Decimal.MinValue OrElse m_unitCost = 0 Then
+          Return m_transferUnitPrice
+        End If        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
         If Me.UnitCost = Decimal.MinValue Then
           Return 0
         End If

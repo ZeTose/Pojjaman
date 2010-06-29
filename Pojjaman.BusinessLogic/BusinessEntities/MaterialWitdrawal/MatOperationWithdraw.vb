@@ -1261,7 +1261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stocki_qty") = item.Qty
           dr("stocki_note") = item.Note
           dr("stocki_type") = Me.EntityId
-          'dr("stocki_fromcc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.FromCostCenter)
+          dr("stocki_fromcc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.CostCenter)
           dr("stocki_tocc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.CostCenter)
           dr("stocki_status") = Me.Status.Value
           dr("stocki_refsequence") = 0  '0 ไปก่อนเดี๋ยวมี Query Update RefSequence ให้ตามหลัง
