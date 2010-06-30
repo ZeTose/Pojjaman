@@ -1816,6 +1816,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               doc.OldQty = doc.Qty
             End If
             doc.Entity = newItem
+            doc.DefaultUnit = CType(newItem, LCIItem).DefaultUnit
           Else
             Dim doc As New MatOperationWithdrawItem
             If Not Me.CurrentItem Is Nothing Then
@@ -1825,6 +1826,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.ItemCollection.Add(doc)
             End If
             doc.Entity = newItem
+            doc.DefaultUnit = CType(newItem, LCIItem).DefaultUnit
             If newType = 42 Then
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.CostCenter.Id)
               'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน

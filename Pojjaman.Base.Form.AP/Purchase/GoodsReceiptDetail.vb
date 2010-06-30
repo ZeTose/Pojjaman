@@ -3286,20 +3286,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         currentY = tgItem.CurrentRowIndex
       End If
     End Sub
-    'Private Sub RefreshWBS()
-    '  Dim dt As TreeTable = Me.m_treeManager2.Treetable
-    '  dt.Clear()
-    '  Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
-    '  If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
-    '    Return
-    '  End If
-    '  Dim item As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
-    '  Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-    '  Dim view As Integer = 45
-    '  m_wbsdInitialized = False
-    '  wsdColl.Populate(dt, item, view)
-    '  m_wbsdInitialized = True
-    'End Sub
+    Private Sub RefreshWBS()
+      Me.m_entity.RefreshWBS()
+      'Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      'dt.Clear()
+      'Me.m_entity.ItemCollection.CurrentItem = Me.CurrentTagItem
+      'If Me.m_entity.ItemCollection.CurrentItem Is Nothing Then
+      '  Return
+      'End If
+      'Dim item As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+      'Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+      'Dim view As Integer = 45
+      'm_wbsdInitialized = False
+      'wsdColl.Populate(dt, item, view)
+      'm_wbsdInitialized = True
+    End Sub
     Private Sub ibtnEnableVatInput_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnEnableVatInput.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity.Vat.ItemCollection.Count > 1 Then
@@ -3697,7 +3698,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			'For Each item As GoodsReceiptItem In Me.m_entity.ItemCollection
 			'    item.WBSDistributeCollection.Clear()
 			'Next
-      'RefreshWBS()
+      RefreshWBS()
 		End Sub
 		Private Sub UpdateDestAdmin()
 			If Me.m_entity Is Nothing Then

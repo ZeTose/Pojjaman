@@ -907,6 +907,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshWBS()
+      For Each itm As GoodsReceiptItem In Me.ItemCollection
+        For i As Integer = itm.WBSDistributeCollection.Count - 1 To 0
+          itm.WBSDistributeCollection.RemoveAt(i)
+        Next
+      Next
+    End Sub
     Public Overrides Sub ClearReference()
       If Not Me.Vat Is Nothing Then
         Me.Vat.RefDoc = Nothing
@@ -1635,7 +1642,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Public NoItem As Boolean = False
     'Public OnlyPayment As Boolean = False
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      
+
       With Me
 
         If Originated Then
@@ -1667,7 +1674,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
         If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
-          If haveAdvancePay Then
+          If haveAdvancePay() Then
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
               Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
@@ -1734,7 +1741,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.m_je.AccountBook Is Nothing OrElse m_je.AccountBook.CodePrefix Is Nothing Then
           Me.m_je.AccountBook = Me.GetDefaultGLFormat.AccountBook
         End If
-        
+
 
         If Not AutoCodeFormat Is Nothing Then
           Select Case Me.AutoCodeFormat.CodeConfig.Value

@@ -345,43 +345,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Function CleanSQL(ByVal txt As String) As String
             Return txt.Replace("'", "''")
         End Function
-        Private Sub Search(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim filters As Filter() = Me.m_filterSubPanel.GetFilterArray
-            Dim otherLength As Integer = 0
-            If Not m_otherFilters Is Nothing AndAlso m_otherFilters.Length > 0 Then
-                otherLength = m_otherFilters.Length
-            End If
-            Dim newfilters(filters.Length + otherLength - 1) As Filter
-            For i As Integer = 0 To filters.Length - 1
-                newfilters(i) = filters(i)
-            Next
-            If otherLength > 0 Then
-                For i As Integer = 0 To otherLength - 1
-                    newfilters(i + filters.Length) = m_otherFilters(i)
-                Next
-            End If
+    Private Sub Search(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim filters As Filter() = Me.m_filterSubPanel.GetFilterArray
+      Dim otherLength As Integer = 0
+      If Not m_otherFilters Is Nothing AndAlso m_otherFilters.Length > 0 Then
+        otherLength = m_otherFilters.Length
+      End If
+      Dim newfilters(filters.Length + otherLength - 1) As Filter
+      For i As Integer = 0 To filters.Length - 1
+        newfilters(i) = filters(i)
+      Next
+      If otherLength > 0 Then
+        For i As Integer = 0 To otherLength - 1
+          newfilters(i + filters.Length) = m_otherFilters(i)
+        Next
+      End If
 
       CType(Me.m_entity, CostCenter).PopulateTree(tvGroup, newfilters)
-            TreeViewHelper.Search(Me.tvGroup, "")
-            'If TypeOf Me.m_entity Is CostCenter Then
-            '   m_level = 2
-            '   TreeViewHelper.TraverseNode(Me.tvGroup.Nodes(0), AddressOf Summarize, m_level)
-            '   Me.lblLevel.Text = m_level.ToString()
-            'Else
-            If TypeOf Me.m_entity Is Account Then
-                'If Not filters Is Nothing AndAlso filters.Length > 1 Then ' 1 for status 
-                '    Me.tvGroup.ExpandAll()
-                'Else
-                '    m_level = 0
-                '    Me.tvGroup.CollapseAll()
-                '    Me.lblLevel.Text = m_level.ToString()
-                'End If
-                Me.tvGroup.ExpandAll()
-            Else
-                Me.tvGroup.ExpandAll()
-            End If
+      TreeViewHelper.Search(Me.tvGroup, "")
+      'If TypeOf Me.m_entity Is CostCenter Then
+      '   m_level = 2
+      '   TreeViewHelper.TraverseNode(Me.tvGroup.Nodes(0), AddressOf Summarize, m_level)
+      '   Me.lblLevel.Text = m_level.ToString()
+      'Else
+      If TypeOf Me.m_entity Is Account Then
+        'If Not filters Is Nothing AndAlso filters.Length > 1 Then ' 1 for status 
+        '    Me.tvGroup.ExpandAll()
+        'Else
+        '    m_level = 0
+        '    Me.tvGroup.CollapseAll()
+        '    Me.lblLevel.Text = m_level.ToString()
+        'End If
+        Me.tvGroup.ExpandAll()
+      Else
+        Me.tvGroup.ExpandAll()
+      End If
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "TreeView Events"
