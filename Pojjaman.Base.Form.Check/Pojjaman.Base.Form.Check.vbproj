@@ -97,6 +97,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -134,6 +138,12 @@
     </Compile>
     <Compile Include="GUI\OutgoingCheckFilterSubPanel.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\PaymentList.Designer.vb">
+      <DependentUpon>PaymentList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\PaymentList.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\UpdateDepositCheckDetail.vb">
       <SubType>UserControl</SubType>
@@ -176,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\OutgoingCheckFilterSubPanel.resx">
       <DependentUpon>OutgoingCheckFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PaymentList.resx">
+      <DependentUpon>PaymentList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UpdateDepositCheckDetail.resx">
       <DependentUpon>UpdateDepositCheckDetail.vb</DependentUpon>

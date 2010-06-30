@@ -8,25 +8,27 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Reflection
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
-	Public Class PaymentStatus
-		Inherits CodeDescription
+  Public Class PaymentStatus
+    Inherits CodeDescription
 
 #Region "Constructors"
-		Public Sub New(ByVal value As Integer)
-			MyBase.New(value)
-		End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Overrides ReadOnly Property CodeName() As String
-			Get
-				Return "payment_status"
-			End Get
-		End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "payment_status"
+      End Get
+    End Property
 #End Region
 
-	End Class
+  End Class
   Public Class Payment
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, IHasMainDoc
@@ -2078,7 +2080,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
           End If
-          
+
 
           If tableType = 2 Then 'paymentItemAll
             'PaymentItemAll.DueDate
@@ -3814,159 +3816,205 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
-  End Class
 
-	Public Class PaymentEntityType
-		Inherits CodeDescription
+  End Class
+  Public Class PaymentForList
+    Public Property Code As String
+    Public Property RefCode As String
+    Public Property RefType As String
+    Public Property RefDocDate As Date
+    Public Property RefDueDate As Date
+    Public Property RefCreditPeriod As Integer
+    Public Property RefAmount As Decimal
+    Public Property RefPaid As Decimal
+    Public ReadOnly Property RefRemain As Decimal
+      Get
+        Return RefAmount - RefPaid
+      End Get
+    End Property
+
+    Public Shared Function GetPaymentList(ByVal filters As Filter()) As List(Of PaymentForList)
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetPaymentForList" _
+      , params _
+      )
+      Dim ret As New List(Of PaymentForList)
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim deh As New DataRowHelper(row)
+        Dim p As New PaymentForList
+        p.Code = deh.GetValue(Of String)("Code")
+        p.RefCode = deh.GetValue(Of String)("RefCode")
+        p.RefType = deh.GetValue(Of String)("RefType")
+        p.RefDocDate = deh.GetValue(Of Date)("RefDocDate")
+        p.RefDueDate = deh.GetValue(Of Date)("RefDueDate")
+        p.RefAmount = deh.GetValue(Of Decimal)("RefAmount")
+        p.RefPaid = deh.GetValue(Of Decimal)("RefPaid")
+        ret.Add(p)
+      Next
+      Return ret
+    End Function
+  End Class
+  Public Class PaymentEntityType
+    Inherits CodeDescription
 
 #Region "Constructors"
-		Public Sub New(ByVal value As Integer)
-			MyBase.New(value)
-		End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Overrides ReadOnly Property CodeName() As String
-			Get
-				Return "paymenti_entityType"
-			End Get
-		End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "paymenti_entityType"
+      End Get
+    End Property
 #End Region
 
-	End Class
-	Public Class PaymentItem
+  End Class
+  Public Class PaymentItem
 
 #Region "Members"
-		Private m_payment As Payment
-		Private m_lineNumber As Integer
-		Private m_entity As IPaymentItem
-		Private m_entityType As PaymentEntityType
+    Private m_payment As Payment
+    Private m_lineNumber As Integer
+    Private m_entity As IPaymentItem
+    Private m_entityType As PaymentEntityType
 
-		Private m_amount As Decimal	 'เกินจำนวนที่ต้องจ่ายจริง
-		Private m_note As String
-		Private m_limit As Decimal	 'เกินได้เท่าไหร่
+    Private m_amount As Decimal  'เกินจำนวนที่ต้องจ่ายจริง
+    Private m_note As String
+    Private m_limit As Decimal   'เกินได้เท่าไหร่
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-			MyBase.New()
-			m_limit = 0
-		End Sub
-		Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			Me.Construct(ds, aliasPrefix)
-		End Sub
-		Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-			Me.Construct(dr, aliasPrefix)
-		End Sub
-		Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-			With Me
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_entityType") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_entityType") Then
-					.m_entityType = New PaymentEntityType(CInt(dr(aliasPrefix & "paymenti_entityType")))
-				End If
-				Dim itemId As Integer
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_entity") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_entity") Then
-					itemId = CInt(dr(aliasPrefix & "paymenti_entity"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_payment") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_payment") Then
-					.m_payment = New Payment
-					.m_payment.Id = CInt(dr(aliasPrefix & "paymenti_payment"))
-				End If
-				Select Case .m_entityType.Value
-					Case 0			'Cash
-						If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
-							Dim cash As New CashItem(CDec(dr(aliasPrefix & "paymenti_amt")))
-							If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
-								cash.DocDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
-							End If
-							.m_entity = cash
-						End If
-					Case 65			'Transfer
-						If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
-							Dim bto As New BankTransferOut(CDec(dr(aliasPrefix & "paymenti_amt")))
-							If dr.Table.Columns.Contains(aliasPrefix & "paymenti_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_bankacct") Then
-								bto.BankAccount = New BankAccount(CInt(dr(aliasPrefix & "paymenti_bankacct")))
-							End If
-							If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
-								bto.DocDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
-							End If
-							.m_entity = bto
-						End If
-					Case Else
-						Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
-						If TypeOf myEntity Is IPaymentItem Then
-							.m_entity = CType(myEntity, IPaymentItem)
-						End If
+    Public Sub New()
+      MyBase.New()
+      m_limit = 0
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_entityType") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_entityType") Then
+          .m_entityType = New PaymentEntityType(CInt(dr(aliasPrefix & "paymenti_entityType")))
+        End If
+        Dim itemId As Integer
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_entity") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_entity") Then
+          itemId = CInt(dr(aliasPrefix & "paymenti_entity"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_payment") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_payment") Then
+          .m_payment = New Payment
+          .m_payment.Id = CInt(dr(aliasPrefix & "paymenti_payment"))
+        End If
+        Select Case .m_entityType.Value
+          Case 0      'Cash
+            If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
+              Dim cash As New CashItem(CDec(dr(aliasPrefix & "paymenti_amt")))
+              If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
+                cash.DocDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
+              End If
+              .m_entity = cash
+            End If
+          Case 65     'Transfer
+            If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
+              Dim bto As New BankTransferOut(CDec(dr(aliasPrefix & "paymenti_amt")))
+              If dr.Table.Columns.Contains(aliasPrefix & "paymenti_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_bankacct") Then
+                bto.BankAccount = New BankAccount(CInt(dr(aliasPrefix & "paymenti_bankacct")))
+              End If
+              If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
+                bto.DocDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
+              End If
+              .m_entity = bto
+            End If
+          Case Else
+            Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
+            If TypeOf myEntity Is IPaymentItem Then
+              .m_entity = CType(myEntity, IPaymentItem)
+            End If
 
-						If TypeOf myEntity Is PettyCash Then
-							Dim pc As PettyCash = CType(myEntity, PettyCash)
-							If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
-								If Not pc.LimitedOverBudget And pc.AllowOverBudget Then
-									.m_limit = -1
-								ElseIf pc.LimitedOverBudget And Not pc.AllowOverBudget Then
-									.m_limit = pc.GetRemainingAmount(Me.Payment.Id) + pc.LimitedOverBudgetAmount
-								Else
-									.m_limit = pc.GetRemainingAmount(Me.Payment.Id)
-								End If
-							End If
-							'If Not pc.AllowOverBudget Then
-							'  m_limit = 0
-							'ElseIf pc.LimitedOverBudget Then
-							'  m_limit = pc.LimitedOverBudgetAmount
-							'Else
-							'  m_limit = -1
-							'End If
-						End If
-				End Select
+            If TypeOf myEntity Is PettyCash Then
+              Dim pc As PettyCash = CType(myEntity, PettyCash)
+              If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
+                If Not pc.LimitedOverBudget And pc.AllowOverBudget Then
+                  .m_limit = -1
+                ElseIf pc.LimitedOverBudget And Not pc.AllowOverBudget Then
+                  .m_limit = pc.GetRemainingAmount(Me.Payment.Id) + pc.LimitedOverBudgetAmount
+                Else
+                  .m_limit = pc.GetRemainingAmount(Me.Payment.Id)
+                End If
+              End If
+              'If Not pc.AllowOverBudget Then
+              '  m_limit = 0
+              'ElseIf pc.LimitedOverBudget Then
+              '  m_limit = pc.LimitedOverBudgetAmount
+              'Else
+              '  m_limit = -1
+              'End If
+            End If
+        End Select
 
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_lineNumber") Then
-					.m_lineNumber = CInt(dr(aliasPrefix & "paymenti_lineNumber"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_lineNumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & "paymenti_lineNumber"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
-					.m_amount = CDec(dr(aliasPrefix & "paymenti_amt"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_amt") Then
+          .m_amount = CDec(dr(aliasPrefix & "paymenti_amt"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenti_note") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_note") Then
-					.m_note = CStr(dr(aliasPrefix & "paymenti_note"))
-				End If
-			End With
-		End Sub
-		Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			Dim dr As DataRow = ds.Tables(0).Rows(0)
-			Me.Construct(dr, aliasPrefix)
-		End Sub
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenti_note") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_note") Then
+          .m_note = CStr(dr(aliasPrefix & "paymenti_note"))
+        End If
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Property Payment() As Payment
-			Get
-				Return m_payment
-			End Get
-			Set(ByVal Value As Payment)
-				m_payment = Value
-			End Set
-		End Property
-		Public Property LineNumber() As Integer
-			Get
-				Return m_lineNumber
-			End Get
-			Set(ByVal Value As Integer)
-				m_lineNumber = Value
-			End Set
-		End Property
-		Public Property Entity() As IPaymentItem
-			Get
-				Return m_entity
-			End Get
-			Set(ByVal Value As IPaymentItem)
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				Dim oldAmount As Decimal = Me.Amount
-				Dim parentAmount As Decimal = Me.Payment.Amount
-				Dim parentGross As Decimal = Me.Payment.Gross
-				Select Case Me.EntityType.Value
-					Case 22			'เช็คจ่าย
-						Dim check As OutgoingCheck = CType(Value, OutgoingCheck)
-						If check.Originated Then
+    Public Property Payment() As Payment
+      Get
+        Return m_payment
+      End Get
+      Set(ByVal Value As Payment)
+        m_payment = Value
+      End Set
+    End Property
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+    Public Property Entity() As IPaymentItem
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As IPaymentItem)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        Dim oldAmount As Decimal = Me.Amount
+        Dim parentAmount As Decimal = Me.Payment.Amount
+        Dim parentGross As Decimal = Me.Payment.Gross
+        Select Case Me.EntityType.Value
+          Case 22     'เช็คจ่าย
+            Dim check As OutgoingCheck = CType(Value, OutgoingCheck)
+            If check.Originated Then
               If Not TypeOf Me.Payment.RefDoc Is PettyCashClaim AndAlso check.Supplier.Id <> Me.Payment.RefDoc.Recipient.Id Then
                 msgServ.ShowMessageFormatted("${res:Global.Error.CheckIssueToOther}", New String() {Value.Code, Me.Payment.RefDoc.Recipient.Name})
                 Return
@@ -3986,77 +4034,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
             End If
-					Case 36			'เงินสดย่อย
-						If Not TypeOf Me.Payment.RefDoc Is PettyCashClaim AndAlso Not TypeOf Me.Payment.RefDoc Is PettyCash Then
-							Dim ptc As PettyCash = CType(Value, PettyCash)
-							If ptc.Originated Then
-								If ptc.Status.Value = 0 Then
-									msgServ.ShowMessageFormatted("${res:Global.Error.PettyCashIsCanceled}", New String() {Value.Code})
-									Return
-								End If
-								Dim remain As Decimal = ptc.GetRemainingAmount(Me.Payment.Id)
-								Dim limit As Decimal = 0
-								'If ptc.LimitedOverBudget Then
-								'  limit = ptc.LimitedOverBudgetAmount
-								'ElseIf Not ptc.AllowOverBudget Then
-								'  limit = 0
-								'Else
-								'  limit = -1
-								'End If
-								If Not ptc.LimitedOverBudget AndAlso ptc.AllowOverBudget Then
-									limit = -1
-									Me.m_amount = Configuration.Format((parentAmount - parentGross + oldAmount), DigitConfig.Price)
-								Else
-									limit = remain
-									If remain <= 0 Then
-										'If remain <= 0 And limit = 0 Then
-										msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPettyCashAmount}", New String() {Value.Code})
-										Return
-									End If
-									Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
-								End If
+          Case 36     'เงินสดย่อย
+            If Not TypeOf Me.Payment.RefDoc Is PettyCashClaim AndAlso Not TypeOf Me.Payment.RefDoc Is PettyCash Then
+              Dim ptc As PettyCash = CType(Value, PettyCash)
+              If ptc.Originated Then
+                If ptc.Status.Value = 0 Then
+                  msgServ.ShowMessageFormatted("${res:Global.Error.PettyCashIsCanceled}", New String() {Value.Code})
+                  Return
+                End If
+                Dim remain As Decimal = ptc.GetRemainingAmount(Me.Payment.Id)
+                Dim limit As Decimal = 0
+                'If ptc.LimitedOverBudget Then
+                '  limit = ptc.LimitedOverBudgetAmount
+                'ElseIf Not ptc.AllowOverBudget Then
+                '  limit = 0
+                'Else
+                '  limit = -1
+                'End If
+                If Not ptc.LimitedOverBudget AndAlso ptc.AllowOverBudget Then
+                  limit = -1
+                  Me.m_amount = Configuration.Format((parentAmount - parentGross + oldAmount), DigitConfig.Price)
+                Else
+                  limit = remain
+                  If remain <= 0 Then
+                    'If remain <= 0 And limit = 0 Then
+                    msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPettyCashAmount}", New String() {Value.Code})
+                    Return
+                  End If
+                  Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
+                End If
 
-								Me.Limit = limit
+                Me.Limit = limit
 
-							End If
-						End If
-					Case 59			'มัดจำจ่าย
-						Dim avp As AdvancePay = CType(Value, AdvancePay)
-						If avp.Originated Then
-							If avp.Status.Value = 0 Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.AdvanePayIsCanceled}", New String() {Value.Code})
-								Return
-							End If
-							Dim remain As Decimal = avp.GetRemainingAmount(Me.Payment.Id)
-							If remain <= 0 Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAdvanePayAmount}", New String() {Value.Code})
-								Return
-							End If
-							Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
-						End If
-					Case 174			'เงินทดรองจ่าย
-						Dim advm As AdvanceMoney = CType(Value, AdvanceMoney)
-						If advm.Originated Then
-							If advm.Status.Value = 0 Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.AdvanceMoneyIsCanceled}", New String() {Value.Code})
-								Return
-							End If
-							If advm.Closed Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.AdvanceMoneyIsClosed}", New String() {Value.Code})
-								Return
-							End If
-							Dim remain As Decimal = advm.GetRemainingAmount(Me.Payment.Id)
-							If remain <= 0 Then
-								msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAdvanceMoneyAmount}", New String() {Value.Code})
-								Return
-							End If
-							Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
-						End If
-				End Select
+              End If
+            End If
+          Case 59     'มัดจำจ่าย
+            Dim avp As AdvancePay = CType(Value, AdvancePay)
+            If avp.Originated Then
+              If avp.Status.Value = 0 Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.AdvanePayIsCanceled}", New String() {Value.Code})
+                Return
+              End If
+              Dim remain As Decimal = avp.GetRemainingAmount(Me.Payment.Id)
+              If remain <= 0 Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAdvanePayAmount}", New String() {Value.Code})
+                Return
+              End If
+              Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
+            End If
+          Case 174      'เงินทดรองจ่าย
+            Dim advm As AdvanceMoney = CType(Value, AdvanceMoney)
+            If advm.Originated Then
+              If advm.Status.Value = 0 Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.AdvanceMoneyIsCanceled}", New String() {Value.Code})
+                Return
+              End If
+              If advm.Closed Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.AdvanceMoneyIsClosed}", New String() {Value.Code})
+                Return
+              End If
+              Dim remain As Decimal = advm.GetRemainingAmount(Me.Payment.Id)
+              If remain <= 0 Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAdvanceMoneyAmount}", New String() {Value.Code})
+                Return
+              End If
+              Me.m_amount = Configuration.Format(Math.Max(Math.Min(parentAmount - parentGross + oldAmount, remain), 0), DigitConfig.Price)
+            End If
+        End Select
 
-				m_entity = Value
+        m_entity = Value
         SetRefDocGLChange()
-			End Set
+      End Set
     End Property
     ''' <summary>
     ''' เปลี่ยนแปลง GL
@@ -4069,61 +4117,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
     End Sub
-		Private Function HasCash() As Boolean
-			For Each item As PaymentItem In Me.Payment.ItemCollection
-				If Not item Is Me Then
-					If Not item.EntityType Is Nothing AndAlso item.EntityType.Value = 0 Then
-						Return True
-					End If
-				End If
-			Next
-			Return False
-		End Function
-		Public Property EntityType() As PaymentEntityType
-			Get
-				Return m_entityType
-			End Get
-			Set(ByVal Value As PaymentEntityType)
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				Dim oldAmount As Decimal = Me.Amount
-				Dim parentAmount As Decimal = Me.Payment.Amount
-				Dim parentGross As Decimal = Me.Payment.Gross
+    Private Function HasCash() As Boolean
+      For Each item As PaymentItem In Me.Payment.ItemCollection
+        If Not item Is Me Then
+          If Not item.EntityType Is Nothing AndAlso item.EntityType.Value = 0 Then
+            Return True
+          End If
+        End If
+      Next
+      Return False
+    End Function
+    Public Property EntityType() As PaymentEntityType
+      Get
+        Return m_entityType
+      End Get
+      Set(ByVal Value As PaymentEntityType)
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        Dim oldAmount As Decimal = Me.Amount
+        Dim parentAmount As Decimal = Me.Payment.Amount
+        Dim parentGross As Decimal = Me.Payment.Gross
 
-				Dim amt As Decimal = Configuration.Format(Math.Max(parentAmount - parentGross + oldAmount, 0), DigitConfig.Price)
+        Dim amt As Decimal = Configuration.Format(Math.Max(parentAmount - parentGross + oldAmount, 0), DigitConfig.Price)
 
-				If Not Value Is Nothing AndAlso Value.Value = 0 Then
-					If HasCash() Then
-						msgServ.ShowMessage("${res:Global.Error.AlreadyHasCash}")
-						Return
-					End If
-				End If
+        If Not Value Is Nothing AndAlso Value.Value = 0 Then
+          If HasCash() Then
+            msgServ.ShowMessage("${res:Global.Error.AlreadyHasCash}")
+            Return
+          End If
+        End If
 
-				If Not Me.m_entityType Is Nothing _
-				AndAlso Not Value Is Nothing _
-				AndAlso m_entityType.Value = Value.Value Then
-					'ผ่านโลด
-					Return
-				End If
+        If Not Me.m_entityType Is Nothing _
+        AndAlso Not Value Is Nothing _
+        AndAlso m_entityType.Value = Value.Value Then
+          'ผ่านโลด
+          Return
+        End If
 
-				If (Me.m_entityType Is Nothing AndAlso Not Value Is Nothing) _
-				OrElse msgServ.AskQuestion("${res:Global.Question.ChangePaymentEntityType}") Then
-					Select Case Value.Value
-						Case 0			 'เงินสด
-							Me.m_entity = New CashItem(amt)
-							Me.Entity.DueDate = Me.Payment.RefDoc.Date
-							Me.m_amount = amt
-						Case 65			 'โอน
-							Me.m_entity = New BankTransferOut(amt)
-							Me.Entity.DueDate = Me.Payment.RefDoc.Date
-							Me.m_amount = amt
-						Case 22			 'เช็ค
-							Dim check As New OutgoingCheck
-							Me.m_entity = check
-							If CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-								Me.Entity.Amount = amt
-								Me.m_amount = amt
-							Else
-								Me.m_amount = 0
+        If (Me.m_entityType Is Nothing AndAlso Not Value Is Nothing) _
+        OrElse msgServ.AskQuestion("${res:Global.Question.ChangePaymentEntityType}") Then
+          Select Case Value.Value
+            Case 0       'เงินสด
+              Me.m_entity = New CashItem(amt)
+              Me.Entity.DueDate = Me.Payment.RefDoc.Date
+              Me.m_amount = amt
+            Case 65      'โอน
+              Me.m_entity = New BankTransferOut(amt)
+              Me.Entity.DueDate = Me.Payment.RefDoc.Date
+              Me.m_amount = amt
+            Case 22      'เช็ค
+              Dim check As New OutgoingCheck
+              Me.m_entity = check
+              If CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+                Me.Entity.Amount = amt
+                Me.m_amount = amt
+              Else
+                Me.m_amount = 0
               End If
             Case 336      'เช็ค
               Dim check As New OutgoingAval
@@ -4134,48 +4182,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 Me.m_amount = 0
               End If
-						Case 59			 'มัดจำ
-							Me.m_entity = New AdvancePay
-							Me.m_amount = 0
-						Case 36			 'เงินสดย่อย
-							Me.m_entity = New PettyCash
-							Me.m_amount = 0
-						Case 174			 'เงินทดรองจ่าย
-							Me.m_entity = New AdvanceMoney
-							Me.m_amount = 0
-					End Select
-				Else
-					Return
-				End If
+            Case 59      'มัดจำ
+              Me.m_entity = New AdvancePay
+              Me.m_amount = 0
+            Case 36      'เงินสดย่อย
+              Me.m_entity = New PettyCash
+              Me.m_amount = 0
+            Case 174       'เงินทดรองจ่าย
+              Me.m_entity = New AdvanceMoney
+              Me.m_amount = 0
+          End Select
+        Else
+          Return
+        End If
         m_entityType = Value
         SetRefDocGLChange()
-			End Set
-		End Property
-		Public Property DueDate() As Date
-			Get
-				If Me.Entity Is Nothing Then
-					Return Date.MinValue
-				End If
-				Return Me.Entity.DueDate
-			End Get
-			Set(ByVal Value As Date)
-				If Me.Entity Is Nothing Then
-					Return
-				End If
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				If Me.EntityType Is Nothing Then
-					'ไม่มี Type
-					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-					Return
-				End If
-				Select Case EntityType.Value
-					Case 0			'สด
-						'ผ่าน
-					Case 22			'เช็คจ่าย
-						Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
-						If Not check Is Nothing AndAlso check.Originated Then
-							msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckDate}")
-							Return
+      End Set
+    End Property
+    Public Property DueDate() As Date
+      Get
+        If Me.Entity Is Nothing Then
+          Return Date.MinValue
+        End If
+        Return Me.Entity.DueDate
+      End Get
+      Set(ByVal Value As Date)
+        If Me.Entity Is Nothing Then
+          Return
+        End If
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Me.EntityType Is Nothing Then
+          'ไม่มี Type
+          msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+          Return
+        End If
+        Select Case EntityType.Value
+          Case 0      'สด
+            'ผ่าน
+          Case 22     'เช็คจ่าย
+            Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
+            If Not check Is Nothing AndAlso check.Originated Then
+              msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckDate}")
+              Return
             End If
           Case 336     'อาวัล
             Dim aval As OutgoingAval = CType(Me.Entity, OutgoingAval)
@@ -4183,54 +4231,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
               msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckDate}")
               Return
             End If
-					Case 36			'เงินสดย่อย
-						msgServ.ShowMessage("${res:Global.Error.CannotChangePettyCashDate}")
-						Return
-					Case 59			'มัดจำ
-						msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvancePayDate}")
-						Return
-					Case 174			'ทดรองจ่าย
-						msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvanceMoneyDate}")
-						Return
-					Case 65			'โอน
-						'ผ่าน
-					Case Else
-						msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-						Return
-				End Select
-				Me.Entity.DueDate = Value
-			End Set
-		End Property
-		Public Property Amount() As Decimal
-			Get
-				If Me.Entity Is Nothing Then
-					Return 0
-				End If
-				Return m_amount
-			End Get
-			Set(ByVal Value As Decimal)
-				If Me.Entity Is Nothing Then
-					Return
-				End If
-				Value = Configuration.Format(Value, DigitConfig.Price)
-				Dim oldAmount As Decimal = Me.Amount
-				Dim parentAmount As Decimal = Me.Payment.Amount
-				Dim parentGross As Decimal = Me.Payment.Gross
-				Dim oldRealAmount As Decimal = Me.RealAmount
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				If Me.EntityType Is Nothing Then
-					'ไม่มี Type
-					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-					Return
-				End If
-				Select Case Me.EntityType.Value
-					Case 0			'สด
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							Me.Entity.Amount = Value
-						End If
+          Case 36     'เงินสดย่อย
+            msgServ.ShowMessage("${res:Global.Error.CannotChangePettyCashDate}")
+            Return
+          Case 59     'มัดจำ
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvancePayDate}")
+            Return
+          Case 174      'ทดรองจ่าย
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvanceMoneyDate}")
+            Return
+          Case 65     'โอน
+            'ผ่าน
+          Case Else
+            msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+            Return
+        End Select
+        Me.Entity.DueDate = Value
+      End Set
+    End Property
+    Public Property Amount() As Decimal
+      Get
+        If Me.Entity Is Nothing Then
+          Return 0
+        End If
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        If Me.Entity Is Nothing Then
+          Return
+        End If
+        Value = Configuration.Format(Value, DigitConfig.Price)
+        Dim oldAmount As Decimal = Me.Amount
+        Dim parentAmount As Decimal = Me.Payment.Amount
+        Dim parentGross As Decimal = Me.Payment.Gross
+        Dim oldRealAmount As Decimal = Me.RealAmount
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Me.EntityType Is Nothing Then
+          'ไม่มี Type
+          msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+          Return
+        End If
+        Select Case Me.EntityType.Value
+          Case 0      'สด
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Me.Entity.Amount = Value
+            End If
           Case 22    'เช็คจ่าย
             If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
               msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
@@ -4257,193 +4305,193 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return
               End If
             End If
-					Case 36			'เงินสดย่อย
-						If Not TypeOf Me.Payment.RefDoc Is PettyCash Then
+          Case 36     'เงินสดย่อย
+            If Not TypeOf Me.Payment.RefDoc Is PettyCash Then
               Dim limit As Decimal
               Dim pt As PettyCash = CType(Me.Entity, PettyCash)
               limit = pt.LimitedOverBudgetAmount + pt.Amount  'CDec(IIf(IsNumeric(CType(Me.Entity, PettyCash).LimitedOverBudgetAmount), CType(Me.Entity, PettyCash).LimitedOverBudgetAmount, CType(Me.Entity, PettyCash).Amount))
-							If Not (CType(Me.Entity, PettyCash).AllowOverBudget) Then
-								If Configuration.Compare(limit, (parentGross + Value - oldAmount)) < 0 Then
-									msgServ.ShowMessageFormatted("${res:Global.Error.PaysRemainingAmountLessThanAmount}", _
-									New String() {Configuration.FormatToString(limit, DigitConfig.Price), _
-									Configuration.FormatToString((parentGross + Value - oldAmount), DigitConfig.Price)})
-									Return
-								End If
-							End If
-						End If
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							MessageBox.Show(String.Format("{0}, ({1} + {2} - {3})", parentAmount, parentGross, Value, oldAmount))
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						ElseIf limit <> -1 Then
-							If Configuration.Compare(oldRealAmount + limit, Value) < 0 Then
-								MessageBox.Show(String.Format("{0} + {1}, {2}", oldRealAmount, limit, Value))
-								msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
-								Return
-							End If
-						End If
-					Case 59			'มัดจำ
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							If Configuration.Compare(oldRealAmount, Value) < 0 Then
-								msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
-								Return
-							End If
-						End If
-					Case 174			'ทดรองจ่าย
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							If Configuration.Compare(oldRealAmount, Value) < 0 Then
-								msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
-								Return
-							End If
-						End If
-					Case 65			'โอน
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							Me.Entity.Amount = Value
-						End If
-					Case Else
-						msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-						Return
-				End Select
+              If Not (CType(Me.Entity, PettyCash).AllowOverBudget) Then
+                If Configuration.Compare(limit, (parentGross + Value - oldAmount)) < 0 Then
+                  msgServ.ShowMessageFormatted("${res:Global.Error.PaysRemainingAmountLessThanAmount}", _
+                  New String() {Configuration.FormatToString(limit, DigitConfig.Price), _
+                  Configuration.FormatToString((parentGross + Value - oldAmount), DigitConfig.Price)})
+                  Return
+                End If
+              End If
+            End If
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              MessageBox.Show(String.Format("{0}, ({1} + {2} - {3})", parentAmount, parentGross, Value, oldAmount))
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            ElseIf Limit <> -1 Then
+              If Configuration.Compare(oldRealAmount + Limit, Value) < 0 Then
+                MessageBox.Show(String.Format("{0} + {1}, {2}", oldRealAmount, Limit, Value))
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
+          Case 59     'มัดจำ
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              If Configuration.Compare(oldRealAmount, Value) < 0 Then
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
+          Case 174      'ทดรองจ่าย
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              If Configuration.Compare(oldRealAmount, Value) < 0 Then
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
+          Case 65     'โอน
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Me.Entity.Amount = Value
+            End If
+          Case Else
+            msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+            Return
+        End Select
         m_amount = Value
         SetRefDocGLChange()
-			End Set
-		End Property
-		Public Property RealAmount() As Decimal
-			Get
-				If Me.Entity Is Nothing Then
-					Return 0
-				End If
-				Return Me.Entity.Amount
-			End Get
-			Set(ByVal Value As Decimal)
-				If Me.Entity Is Nothing Then
-					Return
-				End If
+      End Set
+    End Property
+    Public Property RealAmount() As Decimal
+      Get
+        If Me.Entity Is Nothing Then
+          Return 0
+        End If
+        Return Me.Entity.Amount
+      End Get
+      Set(ByVal Value As Decimal)
+        If Me.Entity Is Nothing Then
+          Return
+        End If
 
-				Value = Configuration.Format(Value, DigitConfig.Price)
-				Dim oldAmount As Decimal = Me.Amount
-				Dim parentAmount As Decimal = Me.Payment.Amount
-				Dim parentGross As Decimal = Me.Payment.Gross
-				Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-				If Me.EntityType Is Nothing Then
-					'ไม่มี Type
-					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-					Return
-				End If
-				Select Case Me.EntityType.Value
-					Case 0			'สด
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							Me.m_amount = Value
-						End If
-					Case 22			'เช็คจ่าย
-						Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
-						If Not check Is Nothing AndAlso check.Originated Then
-							msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckAmount}")
-							Return
-						Else
-							If Configuration.Compare(Value, oldAmount) < 0 Then
-								msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
-								Return
-							End If
-						End If
-					Case 36			'เงินสดย่อย
-						msgServ.ShowMessage("${res:Global.Error.CannotChangePettyCashAmount}")
-						Return
-					Case 59			'มัดจำ
-						msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvancePayAmount}")
-						Return
-					Case 174			'ทดรองจ่าย
-						msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvanceMoneyAmount}")
-						Return
-					Case 65			'โอน
-						If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
-							msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
-							Return
-						Else
-							Me.m_amount = Value
-						End If
-					Case Else
-						msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-						Return
-				End Select
+        Value = Configuration.Format(Value, DigitConfig.Price)
+        Dim oldAmount As Decimal = Me.Amount
+        Dim parentAmount As Decimal = Me.Payment.Amount
+        Dim parentGross As Decimal = Me.Payment.Gross
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Me.EntityType Is Nothing Then
+          'ไม่มี Type
+          msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+          Return
+        End If
+        Select Case Me.EntityType.Value
+          Case 0      'สด
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Me.m_amount = Value
+            End If
+          Case 22     'เช็คจ่าย
+            Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
+            If Not check Is Nothing AndAlso check.Originated Then
+              msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckAmount}")
+              Return
+            Else
+              If Configuration.Compare(Value, oldAmount) < 0 Then
+                msgServ.ShowMessage("${res:Global.Error.RealAmountLessThanAmount}")
+                Return
+              End If
+            End If
+          Case 36     'เงินสดย่อย
+            msgServ.ShowMessage("${res:Global.Error.CannotChangePettyCashAmount}")
+            Return
+          Case 59     'มัดจำ
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvancePayAmount}")
+            Return
+          Case 174      'ทดรองจ่าย
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeAdvanceMoneyAmount}")
+            Return
+          Case 65     'โอน
+            If Configuration.Compare(parentAmount, (parentGross + Value - oldAmount)) < 0 Then
+              msgServ.ShowMessage("${res:Global.Error.AmountExceedPayingAmount}")
+              Return
+            Else
+              Me.m_amount = Value
+            End If
+          Case Else
+            msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+            Return
+        End Select
         Me.Entity.Amount = Value
         SetRefDocGLChange()
-			End Set
-		End Property
-		Public Property Note() As String
-			Get
-				Return m_note
-			End Get
-			Set(ByVal Value As String)
-				m_note = Value
-			End Set
-		End Property
-		Public Property Limit() As Decimal
-			Get
-				Return m_limit
-			End Get
-			Set(ByVal Value As Decimal)
-				m_limit = Value
-			End Set
-		End Property
-		Private Function DupCode(ByVal theCode As String) As Boolean
-			If Me.EntityType Is Nothing Then
-				Return False
-			End If
-			If theCode Is Nothing OrElse theCode.Length = 0 Then
-				Return False
-			End If
-			For Each item As PaymentItem In Me.Payment.ItemCollection
-				If Not item Is Me Then
-					If item.EntityType Is Nothing Then
-						If item.EntityType.Value = Me.EntityType.Value Then
-							If theCode.ToLower = item.Entity.Code.ToLower Then
-								Return True
-							End If
-						End If
-					End If
-				End If
-			Next
-			Return False
-		End Function
-		Public Sub SetItemCode(ByVal theCode As String)
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			Dim oldAmount As Decimal = Me.Amount
-			Dim parentAmount As Decimal = Me.Payment.Amount
-			Dim parentGross As Decimal = Me.Payment.Gross
-			If Me.EntityType Is Nothing Then
-				'ไม่มี Type
-				msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-				Return
-			End If
-			If DupCode(theCode) Then
-				msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {Me.EntityType.Description, theCode})
-				Return
-			End If
-			Select Case Me.EntityType.Value
-				Case 0		 'สด
-					msgServ.ShowMessage("${res:Global.Error.CashCannotHaveCode}")
-					Return
-				Case 22		 'เช็คจ่าย
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteOutGoingCheckDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
+      End Set
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property Limit() As Decimal
+      Get
+        Return m_limit
+      End Get
+      Set(ByVal Value As Decimal)
+        m_limit = Value
+      End Set
+    End Property
+    Private Function DupCode(ByVal theCode As String) As Boolean
+      If Me.EntityType Is Nothing Then
+        Return False
+      End If
+      If theCode Is Nothing OrElse theCode.Length = 0 Then
+        Return False
+      End If
+      For Each item As PaymentItem In Me.Payment.ItemCollection
+        If Not item Is Me Then
+          If item.EntityType Is Nothing Then
+            If item.EntityType.Value = Me.EntityType.Value Then
+              If theCode.ToLower = item.Entity.Code.ToLower Then
+                Return True
+              End If
+            End If
+          End If
+        End If
+      Next
+      Return False
+    End Function
+    Public Sub SetItemCode(ByVal theCode As String)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim oldAmount As Decimal = Me.Amount
+      Dim parentAmount As Decimal = Me.Payment.Amount
+      Dim parentGross As Decimal = Me.Payment.Gross
+      If Me.EntityType Is Nothing Then
+        'ไม่มี Type
+        msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+        Return
+      End If
+      If DupCode(theCode) Then
+        msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {Me.EntityType.Description, theCode})
+        Return
+      End If
+      Select Case Me.EntityType.Value
+        Case 0     'สด
+          msgServ.ShowMessage("${res:Global.Error.CashCannotHaveCode}")
+          Return
+        Case 22    'เช็คจ่าย
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteOutGoingCheckDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
           End If
           Dim checkInstant As New OutgoingCheck(theCode)
           Dim check As New OutgoingCheck
@@ -4504,176 +4552,176 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End If
           'End If
           'Me.Entity = aval
-				Case 36		 'เงินสดย่อย
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePettyCashDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
-					End If
-					Dim ptc As New PettyCash(theCode)
-					If Not ptc.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoPettyCash}", New String() {theCode})
-						Return
-					Else
-						Me.Entity = ptc
-					End If
-				Case 59		 'มัดจำ
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAdvancePayDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
-					End If
-					Dim avp As New AdvancePay(theCode)
-					If Not avp.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoAdvancePay}", New String() {theCode})
-						Return
-					Else
-						Me.Entity = avp
-					End If
-				Case 65		 'โอน
-					msgServ.ShowMessage("${res:Global.Error.BankTransferOutCannotHaveCode}")
-					Return
-				Case 174		 'เงินทดรองจ่าย
-					If theCode Is Nothing OrElse theCode.Length = 0 Then
-						If Me.Entity.Code.Length <> 0 Then
-							If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAdvanceMoneyDetail}", New String() {Me.Entity.Code}) Then
-								Me.Clear()
-							End If
-						End If
-						Return
-					End If
-					Dim advm As New AdvanceMoney(theCode)
-					If Not advm.Originated Then
-						msgServ.ShowMessageFormatted("${res:Global.Error.NoAdvanceMoney}", New String() {theCode})
-						Return
-					Else
-						Me.Entity = advm
-					End If
-				Case Else
-					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-					Return
+        Case 36    'เงินสดย่อย
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePettyCashDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim ptc As New PettyCash(theCode)
+          If Not ptc.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoPettyCash}", New String() {theCode})
+            Return
+          Else
+            Me.Entity = ptc
+          End If
+        Case 59    'มัดจำ
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAdvancePayDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim avp As New AdvancePay(theCode)
+          If Not avp.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoAdvancePay}", New String() {theCode})
+            Return
+          Else
+            Me.Entity = avp
+          End If
+        Case 65    'โอน
+          msgServ.ShowMessage("${res:Global.Error.BankTransferOutCannotHaveCode}")
+          Return
+        Case 174     'เงินทดรองจ่าย
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAdvanceMoneyDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim advm As New AdvanceMoney(theCode)
+          If Not advm.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoAdvanceMoney}", New String() {theCode})
+            Return
+          Else
+            Me.Entity = advm
+          End If
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+          Return
       End Select
       SetRefDocGLChange()
-		End Sub
-		Public Sub SetBankAccount(ByVal theCode As String)
-			Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-			If Me.EntityType Is Nothing Then
-				'ไม่มี Type
-				msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-				Return
-			End If
-			Select Case Me.EntityType.Value
-				Case 0		 'สด
-					msgServ.ShowMessage("${res:Global.Error.CashCannotHaveBankAccount}")
-					Return
-				Case 22		 'เช็คจ่าย
-					Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
-					If Not check Is Nothing AndAlso check.Originated Then
-						msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckBankAccount}")
-						Return
-					Else
-						Dim ba As New BankAccount(theCode)
-						If ba.Originated Then
-							check.Bankacct = ba
-						Else
-							msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {theCode})
-							Return
-						End If
-					End If
-				Case 36		 'เงินสดย่อย
-					msgServ.ShowMessage("${res:Global.Error.PettyCashCannotHaveBankAccount}")
-					Return
-				Case 59		 'มัดจำ
-					msgServ.ShowMessage("${res:Global.Error.AdvancePayCannotHaveBankAccount}")
-					Return
-				Case 174		 'ทดรองจ่าย
-					msgServ.ShowMessage("${res:Global.Error.AdvanceMoneyCannotHaveBankAccount}")
-					Return
-				Case 65		 'โอน
-					Dim bto As BankTransferOut = CType(Me.Entity, BankTransferOut)
-					Dim ba As New BankAccount(theCode)
-					If ba.Originated Then
-						bto.BankAccount = ba
-					Else
-						msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {theCode})
-						Return
-					End If
-				Case Else
-					msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
-					Return
-			End Select
-		End Sub
+    End Sub
+    Public Sub SetBankAccount(ByVal theCode As String)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.EntityType Is Nothing Then
+        'ไม่มี Type
+        msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+        Return
+      End If
+      Select Case Me.EntityType.Value
+        Case 0     'สด
+          msgServ.ShowMessage("${res:Global.Error.CashCannotHaveBankAccount}")
+          Return
+        Case 22    'เช็คจ่าย
+          Dim check As OutgoingCheck = CType(Me.Entity, OutgoingCheck)
+          If Not check Is Nothing AndAlso check.Originated Then
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeOldCheckBankAccount}")
+            Return
+          Else
+            Dim ba As New BankAccount(theCode)
+            If ba.Originated Then
+              check.Bankacct = ba
+            Else
+              msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {theCode})
+              Return
+            End If
+          End If
+        Case 36    'เงินสดย่อย
+          msgServ.ShowMessage("${res:Global.Error.PettyCashCannotHaveBankAccount}")
+          Return
+        Case 59    'มัดจำ
+          msgServ.ShowMessage("${res:Global.Error.AdvancePayCannotHaveBankAccount}")
+          Return
+        Case 174     'ทดรองจ่าย
+          msgServ.ShowMessage("${res:Global.Error.AdvanceMoneyCannotHaveBankAccount}")
+          Return
+        Case 65    'โอน
+          Dim bto As BankTransferOut = CType(Me.Entity, BankTransferOut)
+          Dim ba As New BankAccount(theCode)
+          If ba.Originated Then
+            bto.BankAccount = ba
+          Else
+            msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {theCode})
+            Return
+          End If
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoPaymentType}")
+          Return
+      End Select
+    End Sub
 #End Region
 
 #Region "Methods"
-		Public Sub Clear()
-			Me.m_entity = Nothing
-			Me.RealAmount = 0
-			Me.Amount = 0
-			Me.DueDate = Date.MinValue
-		End Sub
-		Public Sub ItemValidateRow(ByVal row As DataRow)
-			Dim code As Object = row("code")
-			Dim paymenti_entitytype As Object = row("paymenti_entitytype")
-			Dim bacode As Object = row("bacode")
-			Dim duedate As Object = row("duedate")
-			Dim realamount As Object = row("realamount")
-			Dim paymenti_amt As Object = row("paymenti_amt")
+    Public Sub Clear()
+      Me.m_entity = Nothing
+      Me.RealAmount = 0
+      Me.Amount = 0
+      Me.DueDate = Date.MinValue
+    End Sub
+    Public Sub ItemValidateRow(ByVal row As DataRow)
+      Dim code As Object = row("code")
+      Dim paymenti_entitytype As Object = row("paymenti_entitytype")
+      Dim bacode As Object = row("bacode")
+      Dim duedate As Object = row("duedate")
+      Dim realamount As Object = row("realamount")
+      Dim paymenti_amt As Object = row("paymenti_amt")
 
-			Dim isBlankRow As Boolean = False
-			If IsDBNull(paymenti_entitytype) Then
-				isBlankRow = True
-			End If
+      Dim isBlankRow As Boolean = False
+      If IsDBNull(paymenti_entitytype) Then
+        isBlankRow = True
+      End If
 
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-			If Not isBlankRow Then
-				Select Case CInt(paymenti_entitytype)
-					Case 0			'สด
-						If IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue) Then
-							row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
-						Else
-							row.SetColumnError("duedate", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						row.SetColumnError("code", "")
-						row.SetColumnError("bacode", "")
-						row.SetColumnError("realamount", "")
-					Case 22			'เช็คจ่าย
-						If (IsDBNull(code) OrElse code.ToString.Length = 0) And (Not CBool(Configuration.GetConfig("AllowNoCqCodeDate"))) Then			 ' OrElse CreateNewEmptyCqCode = False
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.CheckCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If (IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue)) And Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-							row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
-						Else
-							row.SetColumnError("duedate", "")
-						End If
-						If Not IsNumeric(realamount) OrElse CDec(realamount) <= 0 Then
-							row.SetColumnError("realamount", myStringParserService.Parse("${res:Global.Error.RealAmountMissing}"))
-						Else
-							row.SetColumnError("realamount", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						If IsDBNull(bacode) OrElse bacode.ToString.Length = 0 Then
-							'row.SetColumnError("bacode", myStringParserService.Parse("${res:Global.Error.BACodeMissing}"))
-							row.SetColumnError("bacode", "")
-						Else
-							row.SetColumnError("bacode", "")
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      If Not isBlankRow Then
+        Select Case CInt(paymenti_entitytype)
+          Case 0      'สด
+            If IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue) Then
+              row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
+            Else
+              row.SetColumnError("duedate", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            row.SetColumnError("code", "")
+            row.SetColumnError("bacode", "")
+            row.SetColumnError("realamount", "")
+          Case 22     'เช็คจ่าย
+            If (IsDBNull(code) OrElse code.ToString.Length = 0) And (Not CBool(Configuration.GetConfig("AllowNoCqCodeDate"))) Then       ' OrElse CreateNewEmptyCqCode = False
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.CheckCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If (IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue)) And Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+              row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
+            Else
+              row.SetColumnError("duedate", "")
+            End If
+            If Not IsNumeric(realamount) OrElse CDec(realamount) <= 0 Then
+              row.SetColumnError("realamount", myStringParserService.Parse("${res:Global.Error.RealAmountMissing}"))
+            Else
+              row.SetColumnError("realamount", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            If IsDBNull(bacode) OrElse bacode.ToString.Length = 0 Then
+              'row.SetColumnError("bacode", myStringParserService.Parse("${res:Global.Error.BACodeMissing}"))
+              row.SetColumnError("bacode", "")
+            Else
+              row.SetColumnError("bacode", "")
             End If
           Case 336     'Aval
             If (IsDBNull(code) OrElse code.ToString.Length = 0) And (Not CBool(Configuration.GetConfig("AllowNoCqCodeDate"))) Then       ' OrElse CreateNewEmptyCqCode = False
@@ -4703,101 +4751,101 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row.SetColumnError("bacode", "")
             End If
 
-					Case 36			'เงินสดย่อย
-						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.PettyCashCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						row.SetColumnError("bacode", "")
-						row.SetColumnError("realamount", "")
-						row.SetColumnError("duedate", "")
-					Case 59			'มัดจำ
-						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.AdvancePayCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						row.SetColumnError("bacode", "")
-						row.SetColumnError("realamount", "")
-						row.SetColumnError("duedate", "")
-					Case 174			'ทดรองจ่าย
-						If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-							row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.AdvanceMoneyCodeMissing}"))
-						Else
-							row.SetColumnError("code", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						row.SetColumnError("bacode", "")
-						row.SetColumnError("realamount", "")
-						row.SetColumnError("duedate", "")
-					Case 65			'โอน
-						If IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue) Then
-							row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
-						Else
-							row.SetColumnError("duedate", "")
-						End If
-						If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
-							row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
-						Else
-							row.SetColumnError("paymenti_amt", "")
-						End If
-						If IsDBNull(bacode) OrElse bacode.ToString.Length = 0 Then
-							row.SetColumnError("bacode", myStringParserService.Parse("${res:Global.Error.BACodeMissing}"))
-						Else
-							row.SetColumnError("bacode", "")
-						End If
-						row.SetColumnError("code", "")
-						row.SetColumnError("realamount", "")
-					Case Else
-						Return
-				End Select
-			End If
+          Case 36     'เงินสดย่อย
+            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.PettyCashCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            row.SetColumnError("bacode", "")
+            row.SetColumnError("realamount", "")
+            row.SetColumnError("duedate", "")
+          Case 59     'มัดจำ
+            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.AdvancePayCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            row.SetColumnError("bacode", "")
+            row.SetColumnError("realamount", "")
+            row.SetColumnError("duedate", "")
+          Case 174      'ทดรองจ่าย
+            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+              row.SetColumnError("code", myStringParserService.Parse("${res:Global.Error.AdvanceMoneyCodeMissing}"))
+            Else
+              row.SetColumnError("code", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            row.SetColumnError("bacode", "")
+            row.SetColumnError("realamount", "")
+            row.SetColumnError("duedate", "")
+          Case 65     'โอน
+            If IsDBNull(duedate) OrElse CDate(duedate).Equals(Date.MinValue) Then
+              row.SetColumnError("duedate", myStringParserService.Parse("${res:Global.Error.DateMissing}"))
+            Else
+              row.SetColumnError("duedate", "")
+            End If
+            If Not IsNumeric(paymenti_amt) OrElse CDec(paymenti_amt) <= 0 Then
+              row.SetColumnError("paymenti_amt", myStringParserService.Parse("${res:Global.Error.PayAmountMissing}"))
+            Else
+              row.SetColumnError("paymenti_amt", "")
+            End If
+            If IsDBNull(bacode) OrElse bacode.ToString.Length = 0 Then
+              row.SetColumnError("bacode", myStringParserService.Parse("${res:Global.Error.BACodeMissing}"))
+            Else
+              row.SetColumnError("bacode", "")
+            End If
+            row.SetColumnError("code", "")
+            row.SetColumnError("realamount", "")
+          Case Else
+            Return
+        End Select
+      End If
 
-		End Sub
-		Public Sub CopyToDataRow(ByVal row As TreeRow)
-			If row Is Nothing Then
-				Return
-			End If
-			Me.Payment.IsInitialized = False
-			row("paymenti_linenumber") = Me.LineNumber
-			row("paymenti_note") = Me.Note
-			If Me.Amount <> 0 Then
-				row("paymenti_amt") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
-			Else
-				row("paymenti_amt") = ""
-			End If
+    End Sub
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.Payment.IsInitialized = False
+      row("paymenti_linenumber") = Me.LineNumber
+      row("paymenti_note") = Me.Note
+      If Me.Amount <> 0 Then
+        row("paymenti_amt") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+      Else
+        row("paymenti_amt") = ""
+      End If
 
-			If Not Me.EntityType Is Nothing Then
-				If Not Me.Entity Is Nothing Then
-					If TypeOf Me.Entity Is OutgoingCheck Then
-						row("code") = CType(Me.Entity, OutgoingCheck).CqCode
-					Else If TypeOf Me.Entity Is OutgoingAval Then
+      If Not Me.EntityType Is Nothing Then
+        If Not Me.Entity Is Nothing Then
+          If TypeOf Me.Entity Is OutgoingCheck Then
+            row("code") = CType(Me.Entity, OutgoingCheck).CqCode
+          ElseIf TypeOf Me.Entity Is OutgoingAval Then
             row("code") = CType(Me.Entity, OutgoingAval).CqCode
           Else
             row("code") = Me.Entity.Code
           End If
-					row("DueDate") = Me.Entity.DueDate
-					If TypeOf Me.Entity Is IHasBankAccount Then
-						Dim hasb As IHasBankAccount = CType(Me.Entity, IHasBankAccount)
-						If Not hasb.BankAccount Is Nothing Then
-							row("BACode") = hasb.BankAccount.Code
-							row("BAName") = hasb.BankAccount.Name
-						End If
+          row("DueDate") = Me.Entity.DueDate
+          If TypeOf Me.Entity Is IHasBankAccount Then
+            Dim hasb As IHasBankAccount = CType(Me.Entity, IHasBankAccount)
+            If Not hasb.BankAccount Is Nothing Then
+              row("BACode") = hasb.BankAccount.Code
+              row("BAName") = hasb.BankAccount.Name
+            End If
           ElseIf TypeOf Me.Entity Is OutgoingAval Then
             Dim hasb As OutgoingAval = CType(Me.Entity, OutgoingAval)
             If Not hasb.Loan Is Nothing Then
@@ -4813,158 +4861,158 @@ Namespace Longkong.Pojjaman.BusinessLogic
             row("BAName") = DBNull.Value
           End If
 
-					If Me.Entity.Amount <> 0 Then
-						row("RealAmount") = Configuration.FormatToString(Me.Entity.Amount, DigitConfig.Price)
-					Else
-						row("RealAmount") = ""
-					End If
-				End If
-				Select Case Me.EntityType.Value
-					Case 0			'สด
-						row("Button") = "invisible"
-						row("BAButton") = "invisible"
-					Case 22			'เช็คจ่าย
-						row("Button") = ""
+          If Me.Entity.Amount <> 0 Then
+            row("RealAmount") = Configuration.FormatToString(Me.Entity.Amount, DigitConfig.Price)
+          Else
+            row("RealAmount") = ""
+          End If
+        End If
+        Select Case Me.EntityType.Value
+          Case 0      'สด
+            row("Button") = "invisible"
+            row("BAButton") = "invisible"
+          Case 22     'เช็คจ่าย
+            row("Button") = ""
             row("BAButton") = ""
           Case 336     'Aval
             row("Button") = ""
             row("BAButton") = ""
-					Case 36			'เงินสดย่อย
-						row("Button") = ""
-						row("BAButton") = ""			 ' "invisible"
-					Case 59			'มัดจำ
-						row("Button") = ""
-						row("BAButton") = ""			 '"invisible"
-					Case 174			'ทดรองจ่าย
-						row("Button") = ""
-						row("BAButton") = ""			 '"invisible"
-					Case 65			'โอน
-						row("Button") = ""			 '"invisible"
-						row("BAButton") = ""
-					Case Else
-						row("Button") = ""
-						row("BAButton") = "invisible"
-				End Select
+          Case 36     'เงินสดย่อย
+            row("Button") = ""
+            row("BAButton") = ""       ' "invisible"
+          Case 59     'มัดจำ
+            row("Button") = ""
+            row("BAButton") = ""       '"invisible"
+          Case 174      'ทดรองจ่าย
+            row("Button") = ""
+            row("BAButton") = ""       '"invisible"
+          Case 65     'โอน
+            row("Button") = ""       '"invisible"
+            row("BAButton") = ""
+          Case Else
+            row("Button") = ""
+            row("BAButton") = "invisible"
+        End Select
 
-				row("paymenti_entitytype") = Me.EntityType.Value
+        row("paymenti_entitytype") = Me.EntityType.Value
 
-			Else
-				row("Button") = ""
-				row("BAButton") = "invisible"
-			End If
-			Me.Payment.IsInitialized = True
-		End Sub
+      Else
+        row("Button") = ""
+        row("BAButton") = "invisible"
+      End If
+      Me.Payment.IsInitialized = True
+    End Sub
 #End Region
 
-		Public Shared Function GetNewCheckFromitemRow(ByVal itemRow As TreeRow, ByVal itemPayment As Payment) As OutgoingCheck
-			'เช็คใหม่
-			Dim check As New OutgoingCheck
-			If Not itemRow.IsNull("RealAmount") AndAlso IsNumeric(itemRow("RealAmount")) Then
-				check.Amount = CDec(itemRow("RealAmount"))
-			End If
-			If Not itemRow.IsNull("code") AndAlso (itemRow("code").ToString.Length > 0 OrElse (itemRow("code").ToString.Length = 0 AndAlso CBool(Configuration.GetConfig("AllowNoCqCodeDate")))) Then
-				check.CqCode = itemRow("code").ToString
-			End If
-			If Not itemRow.IsNull("paymenti_bankacct") AndAlso IsNumeric(itemRow("paymenti_bankacct")) Then
-				check.Bankacct = New BankAccount(CInt(itemRow("paymenti_bankacct")))
-			End If
-			If Not itemRow.IsNull("duedate") Then
-				check.DueDate = CDate(itemRow("duedate"))
-			End If
-			check.IssueDate = itemPayment.DocDate
-			If Not itemPayment.RefDoc Is Nothing Then
-				If Not itemPayment.RefDoc.Recipient Is Nothing Then
-					If TypeOf itemPayment.RefDoc.Recipient Is Supplier Then
-						check.Supplier = CType(itemPayment.RefDoc.Recipient, Supplier)
-						check.Recipient = itemPayment.RefDoc.Recipient.Name
-					Else
-						check.Recipient = itemPayment.RefDoc.Recipient.Name
-					End If
-				End If
-			End If
-			check.AutoGen = True
-			Return check
-		End Function
+    Public Shared Function GetNewCheckFromitemRow(ByVal itemRow As TreeRow, ByVal itemPayment As Payment) As OutgoingCheck
+      'เช็คใหม่
+      Dim check As New OutgoingCheck
+      If Not itemRow.IsNull("RealAmount") AndAlso IsNumeric(itemRow("RealAmount")) Then
+        check.Amount = CDec(itemRow("RealAmount"))
+      End If
+      If Not itemRow.IsNull("code") AndAlso (itemRow("code").ToString.Length > 0 OrElse (itemRow("code").ToString.Length = 0 AndAlso CBool(Configuration.GetConfig("AllowNoCqCodeDate")))) Then
+        check.CqCode = itemRow("code").ToString
+      End If
+      If Not itemRow.IsNull("paymenti_bankacct") AndAlso IsNumeric(itemRow("paymenti_bankacct")) Then
+        check.Bankacct = New BankAccount(CInt(itemRow("paymenti_bankacct")))
+      End If
+      If Not itemRow.IsNull("duedate") Then
+        check.DueDate = CDate(itemRow("duedate"))
+      End If
+      check.IssueDate = itemPayment.DocDate
+      If Not itemPayment.RefDoc Is Nothing Then
+        If Not itemPayment.RefDoc.Recipient Is Nothing Then
+          If TypeOf itemPayment.RefDoc.Recipient Is Supplier Then
+            check.Supplier = CType(itemPayment.RefDoc.Recipient, Supplier)
+            check.Recipient = itemPayment.RefDoc.Recipient.Name
+          Else
+            check.Recipient = itemPayment.RefDoc.Recipient.Name
+          End If
+        End If
+      End If
+      check.AutoGen = True
+      Return check
+    End Function
 
-	End Class
+  End Class
 
-	<Serializable(), DefaultMember("Item")> _
-	Public Class PaymentItemCollection
-		Inherits CollectionBase
+  <Serializable(), DefaultMember("Item")> _
+  Public Class PaymentItemCollection
+    Inherits CollectionBase
 
 #Region "Members"
-		Private m_payment As Payment
+    Private m_payment As Payment
 #End Region
 
 #Region "Constructors"
-		Public Sub New(ByVal owner As Payment)
-			Me.m_payment = owner
-			If Not Me.m_payment.Originated Then
-				Return
-			End If
+    Public Sub New(ByVal owner As Payment)
+      Me.m_payment = owner
+      If Not Me.m_payment.Originated Then
+        Return
+      End If
 
 
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
 
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-			, CommandType.StoredProcedure _
-			, "GetPaymentItems" _
-			, New SqlParameter("@payment_id", Me.m_payment.Id) _
-			)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetPaymentItems" _
+      , New SqlParameter("@payment_id", Me.m_payment.Id) _
+      )
 
-			For Each row As DataRow In ds.Tables(0).Rows
-				Dim item As New PaymentItem(row, "")
-				If Not Me.m_payment Is Nothing _
-				AndAlso Me.m_payment.Refdoctype = 66 _
-				AndAlso Not item.EntityType Is Nothing _
-				AndAlso item.EntityType.Value = 36 Then
-				Else
-					item.Payment = m_payment
-					Me.Add(item)
-				End If
-			Next
-		End Sub
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New PaymentItem(row, "")
+        If Not Me.m_payment Is Nothing _
+        AndAlso Me.m_payment.Refdoctype = 66 _
+        AndAlso Not item.EntityType Is Nothing _
+        AndAlso item.EntityType.Value = 36 Then
+        Else
+          item.Payment = m_payment
+          Me.Add(item)
+        End If
+      Next
+    End Sub
 #End Region
 
 #Region "Properties"
-		Default Public Property Item(ByVal index As Integer) As PaymentItem
-			Get
-				Return CType(MyBase.List.Item(index), PaymentItem)
-			End Get
-			Set(ByVal value As PaymentItem)
-				MyBase.List.Item(index) = value
-			End Set
-		End Property
-		Public ReadOnly Property Amount() As Decimal
-			Get
-				Dim amt As Decimal = 0
-				For Each item As PaymentItem In Me
-					amt += Configuration.Format(item.Amount, DigitConfig.Price)
-				Next
-				Return amt
-			End Get
-		End Property
+    Default Public Property Item(ByVal index As Integer) As PaymentItem
+      Get
+        Return CType(MyBase.List.Item(index), PaymentItem)
+      End Get
+      Set(ByVal value As PaymentItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
+    Public ReadOnly Property Amount() As Decimal
+      Get
+        Dim amt As Decimal = 0
+        For Each item As PaymentItem In Me
+          amt += Configuration.Format(item.Amount, DigitConfig.Price)
+        Next
+        Return amt
+      End Get
+    End Property
 #End Region
 
 #Region "Class Methods"
-		Public Sub Populate(ByVal dt As TreeTable)
-			dt.Clear()
-			Dim i As Integer = 0
-			For Each vi As PaymentItem In Me
-				If Not Me.m_payment Is Nothing _
-				AndAlso TypeOf Me.m_payment.RefDoc Is PettyCashClaim _
-				AndAlso Not vi.EntityType Is Nothing _
-				AndAlso vi.EntityType.Value = 36 Then
-				Else
-					i += 1
-					Dim newRow As TreeRow = dt.Childs.Add()
-					vi.CopyToDataRow(newRow)
-					vi.ItemValidateRow(newRow)
-					newRow.Tag = vi
-				End If
-			Next
-		End Sub
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each vi As PaymentItem In Me
+        If Not Me.m_payment Is Nothing _
+        AndAlso TypeOf Me.m_payment.RefDoc Is PettyCashClaim _
+        AndAlso Not vi.EntityType Is Nothing _
+        AndAlso vi.EntityType.Value = 36 Then
+        Else
+          i += 1
+          Dim newRow As TreeRow = dt.Childs.Add()
+          vi.CopyToDataRow(newRow)
+          vi.ItemValidateRow(newRow)
+          newRow.Tag = vi
+        End If
+      Next
+    End Sub
 #End Region
 
 #Region "Collection Methods"
@@ -5026,420 +5074,420 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 
-		Public Class PaymentItemEnumerator
-			Implements IEnumerator
+    Public Class PaymentItemEnumerator
+      Implements IEnumerator
 
 #Region "Members"
-			Private m_baseEnumerator As IEnumerator
-			Private m_temp As IEnumerable
+      Private m_baseEnumerator As IEnumerator
+      Private m_temp As IEnumerable
 #End Region
 
 #Region "Construtor"
-			Public Sub New(ByVal mappings As PaymentItemCollection)
-				Me.m_temp = mappings
-				Me.m_baseEnumerator = Me.m_temp.GetEnumerator
-			End Sub
+      Public Sub New(ByVal mappings As PaymentItemCollection)
+        Me.m_temp = mappings
+        Me.m_baseEnumerator = Me.m_temp.GetEnumerator
+      End Sub
 #End Region
 
-			Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
-				Get
-					Return CType(Me.m_baseEnumerator.Current, PaymentItem)
-				End Get
-			End Property
+      Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
+        Get
+          Return CType(Me.m_baseEnumerator.Current, PaymentItem)
+        End Get
+      End Property
 
-			Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-				Return Me.m_baseEnumerator.MoveNext
-			End Function
+      Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
+        Return Me.m_baseEnumerator.MoveNext
+      End Function
 
-			Public Sub Reset() Implements System.Collections.IEnumerator.Reset
-				Me.m_baseEnumerator.Reset()
-			End Sub
+      Public Sub Reset() Implements System.Collections.IEnumerator.Reset
+        Me.m_baseEnumerator.Reset()
+      End Sub
 
-		End Class
-	End Class
+    End Class
+  End Class
 
-	Public Class CashItem
-		Implements IPaymentItem
+  Public Class CashItem
+    Implements IPaymentItem
 
 #Region "Members"
-		Private m_amount As Decimal
-		Private m_docDate As Date
+    Private m_amount As Decimal
+    Private m_docDate As Date
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-		End Sub
-		Public Sub New(ByVal amount As Decimal)
-			Me.m_amount = amount
-		End Sub
+    Public Sub New()
+    End Sub
+    Public Sub New(ByVal amount As Decimal)
+      Me.m_amount = amount
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Property DocDate() As Date Implements IPaymentItem.DueDate
-			Get
-				Return m_docDate
-			End Get
-			Set(ByVal Value As Date)
-				m_docDate = Value
-			End Set
-		End Property
+    Public Property DocDate() As Date Implements IPaymentItem.DueDate
+      Get
+        Return m_docDate
+      End Get
+      Set(ByVal Value As Date)
+        m_docDate = Value
+      End Set
+    End Property
 #End Region
 
 #Region "IPaymentItem"
-		Public Property Code() As String Implements IIdentifiable.Code
-			Get
-				Return ""
-			End Get
-			Set(ByVal Value As String)
+    Public Property Code() As String Implements IIdentifiable.Code
+      Get
+        Return ""
+      End Get
+      Set(ByVal Value As String)
 
-			End Set
-		End Property
-		Public Property Id() As Integer Implements IIdentifiable.Id
-			Get
-				Return 0
-			End Get
-			Set(ByVal Value As Integer)
+      End Set
+    End Property
+    Public Property Id() As Integer Implements IIdentifiable.Id
+      Get
+        Return 0
+      End Get
+      Set(ByVal Value As Integer)
 
-			End Set
-		End Property
-		Public Property Amount() As Decimal Implements IHasAmount.Amount
-			Get
-				Return m_amount
-			End Get
-			Set(ByVal Value As Decimal)
-				m_amount = Value
-			End Set
-		End Property
+      End Set
+    End Property
+    Public Property Amount() As Decimal Implements IHasAmount.Amount
+      Get
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amount = Value
+      End Set
+    End Property
 #End Region
 
-	End Class
+  End Class
 
-	Public Class BankTransferOut
-		Inherits SimpleBusinessEntityBase
-		Implements IPaymentItem, IHasBankAccount
+  Public Class BankTransferOut
+    Inherits SimpleBusinessEntityBase
+    Implements IPaymentItem, IHasBankAccount
 
 #Region "Members"
-		Private m_amount As Decimal
-		Private m_bankacct As BankAccount
-		Private m_docDate As Date
+    Private m_amount As Decimal
+    Private m_bankacct As BankAccount
+    Private m_docDate As Date
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-			m_bankacct = New BankAccount
-		End Sub
-		Public Sub New(ByVal amt As Decimal)
-			Me.New()
-			m_amount = amt
-		End Sub
+    Public Sub New()
+      m_bankacct = New BankAccount
+    End Sub
+    Public Sub New(ByVal amt As Decimal)
+      Me.New()
+      m_amount = amt
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Property BankAccount() As BankAccount Implements IHasBankAccount.BankAccount
-			Get
-				Return m_bankacct
-			End Get
-			Set(ByVal Value As BankAccount)
-				m_bankacct = Value
-			End Set
-		End Property
-		Public Property DocDate() As Date Implements IPaymentItem.DueDate
-			Get
-				Return m_docDate
-			End Get
-			Set(ByVal Value As Date)
-				m_docDate = Value
-			End Set
-		End Property
+    Public Property BankAccount() As BankAccount Implements IHasBankAccount.BankAccount
+      Get
+        Return m_bankacct
+      End Get
+      Set(ByVal Value As BankAccount)
+        m_bankacct = Value
+      End Set
+    End Property
+    Public Property DocDate() As Date Implements IPaymentItem.DueDate
+      Get
+        Return m_docDate
+      End Get
+      Set(ByVal Value As Date)
+        m_docDate = Value
+      End Set
+    End Property
 #End Region
 
 #Region "IHasAmount"
-		Public Property Amount() As Decimal Implements IHasAmount.Amount
-			Get
-				Return m_amount
-			End Get
-			Set(ByVal Value As Decimal)
-				m_amount = Value
-			End Set
-		End Property
+    Public Property Amount() As Decimal Implements IHasAmount.Amount
+      Get
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amount = Value
+      End Set
+    End Property
 #End Region
 
-	End Class
+  End Class
 
-	Public Class PaymentAccountItem
-		Implements ICloneable
+  Public Class PaymentAccountItem
+    Implements ICloneable
 
 #Region "Members"
-		Private m_payment As Payment
-		Private m_acct As Account
-		Private m_amount As Decimal
-		Private m_isDebit As Boolean
+    Private m_payment As Payment
+    Private m_acct As Account
+    Private m_amount As Decimal
+    Private m_isDebit As Boolean
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-			MyBase.New()
-			m_acct = New Account
-		End Sub
-		Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			Me.Construct(ds, aliasPrefix)
-		End Sub
-		Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-			Me.Construct(dr, aliasPrefix)
-		End Sub
-		Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-			With Me
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenta_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_amt") Then
-					.m_amount = CDec(dr(aliasPrefix & "paymenta_amt"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "paymenta_isdebit") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_isdebit") Then
-					.m_isDebit = CBool(dr(aliasPrefix & "paymenta_isdebit"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "acct_id") AndAlso Not dr.IsNull(aliasPrefix & "acct_id") Then
-					If Not dr.IsNull("acct_id") Then
-						.m_acct = New Account(dr, "")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & "paymenta_acct") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_acct") Then
-						.m_acct = New Account(CInt(dr(aliasPrefix & "paymenta_acct")))
-					End If
-				End If
-			End With
-		End Sub
-		Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			Dim dr As DataRow = ds.Tables(0).Rows(0)
-			Me.Construct(dr, aliasPrefix)
-		End Sub
+    Public Sub New()
+      MyBase.New()
+      m_acct = New Account
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenta_amt") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_amt") Then
+          .m_amount = CDec(dr(aliasPrefix & "paymenta_amt"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "paymenta_isdebit") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_isdebit") Then
+          .m_isDebit = CBool(dr(aliasPrefix & "paymenta_isdebit"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "acct_id") AndAlso Not dr.IsNull(aliasPrefix & "acct_id") Then
+          If Not dr.IsNull("acct_id") Then
+            .m_acct = New Account(dr, "")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "paymenta_acct") AndAlso Not dr.IsNull(aliasPrefix & "paymenta_acct") Then
+            .m_acct = New Account(CInt(dr(aliasPrefix & "paymenta_acct")))
+          End If
+        End If
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Property Payment() As Payment
-			Get
-				Return m_payment
-			End Get
-			Set(ByVal Value As Payment)
-				m_payment = Value
-			End Set
-		End Property
-		Public Property Account() As Account
-			Get
-				Return m_acct
-			End Get
-			Set(ByVal Value As Account)
-				m_acct = Value
-			End Set
-		End Property
-		Public Property Amount() As Decimal
-			Get
-				Return m_amount
-			End Get
-			Set(ByVal Value As Decimal)
-				m_amount = Value
-			End Set
-		End Property
-		Public Property IsDebit() As Boolean
-			Get
-				Return m_isDebit
-			End Get
-			Set(ByVal Value As Boolean)
-				m_isDebit = Value
-			End Set
-		End Property
+    Public Property Payment() As Payment
+      Get
+        Return m_payment
+      End Get
+      Set(ByVal Value As Payment)
+        m_payment = Value
+      End Set
+    End Property
+    Public Property Account() As Account
+      Get
+        Return m_acct
+      End Get
+      Set(ByVal Value As Account)
+        m_acct = Value
+      End Set
+    End Property
+    Public Property Amount() As Decimal
+      Get
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amount = Value
+      End Set
+    End Property
+    Public Property IsDebit() As Boolean
+      Get
+        Return m_isDebit
+      End Get
+      Set(ByVal Value As Boolean)
+        m_isDebit = Value
+      End Set
+    End Property
 #End Region
 
 #Region "ICloneable"
-		Public Function Clone() As Object Implements System.ICloneable.Clone
-			Dim paymenta As New PaymentAccountItem
-			paymenta.m_payment = Me.m_payment
-			paymenta.m_isDebit = Me.m_isDebit
-			paymenta.m_amount = Me.m_amount
-			paymenta.m_acct = Me.m_acct
-			Return paymenta
-		End Function
+    Public Function Clone() As Object Implements System.ICloneable.Clone
+      Dim paymenta As New PaymentAccountItem
+      paymenta.m_payment = Me.m_payment
+      paymenta.m_isDebit = Me.m_isDebit
+      paymenta.m_amount = Me.m_amount
+      paymenta.m_acct = Me.m_acct
+      Return paymenta
+    End Function
 #End Region
 
-	End Class
+  End Class
 
-	<Serializable(), DefaultMember("Item")> _
-	Public Class PaymentAccountItemCollection
-		Inherits CollectionBase
-		Implements ICloneable
+  <Serializable(), DefaultMember("Item")> _
+  Public Class PaymentAccountItemCollection
+    Inherits CollectionBase
+    Implements ICloneable
 
 #Region "Members"
-		Private m_payment As Payment
-		Private m_isDebit As Boolean
+    Private m_payment As Payment
+    Private m_isDebit As Boolean
 #End Region
 
 #Region "Constructors"
-		Public Sub New()
-		End Sub
-		Public Sub New(ByVal pm As Payment, ByVal isDebit As Boolean)
-			m_payment = pm
-			m_isDebit = isDebit
-			If Not pm.Originated Then
-				Return
-			End If
+    Public Sub New()
+    End Sub
+    Public Sub New(ByVal pm As Payment, ByVal isDebit As Boolean)
+      m_payment = pm
+      m_isDebit = isDebit
+      If Not pm.Originated Then
+        Return
+      End If
 
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
 
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-			, CommandType.StoredProcedure _
-			, "GetPaymentAccountItems" _
-			, New SqlParameter("@payment_id", m_payment.Id) _
-			, New SqlParameter("@paymenta_isDebit", m_isDebit) _
-			)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetPaymentAccountItems" _
+      , New SqlParameter("@payment_id", m_payment.Id) _
+      , New SqlParameter("@paymenta_isDebit", m_isDebit) _
+      )
 
-			For Each row As DataRow In ds.Tables(0).Rows
-				Dim item As New PaymentAccountItem(row, "")
-				Me.Add(item)
-			Next
-		End Sub
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New PaymentAccountItem(row, "")
+        Me.Add(item)
+      Next
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Property Payment() As Payment
-			Get
-				Return m_payment
-			End Get
-			Set(ByVal Value As Payment)
-				m_payment = Value
-			End Set
-		End Property
-		Default Public Property Item(ByVal index As Integer) As PaymentAccountItem
-			Get
-				Return CType(MyBase.List.Item(index), PaymentAccountItem)
-			End Get
-			Set(ByVal value As PaymentAccountItem)
-				MyBase.List.Item(index) = value
-			End Set
-		End Property
+    Public Property Payment() As Payment
+      Get
+        Return m_payment
+      End Get
+      Set(ByVal Value As Payment)
+        m_payment = Value
+      End Set
+    End Property
+    Default Public Property Item(ByVal index As Integer) As PaymentAccountItem
+      Get
+        Return CType(MyBase.List.Item(index), PaymentAccountItem)
+      End Get
+      Set(ByVal value As PaymentAccountItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
 #End Region
 
 #Region "Class Methods"
-		Public Function GetAmount() As Decimal
-			Dim ret As Decimal = 0
-			For Each item As PaymentAccountItem In Me
-				ret += item.Amount
-			Next
-			Return ret
-		End Function
-		Public Sub Populate(ByVal dt As TreeTable)
-			dt.Clear()
-			Dim i As Integer = 0
-			For Each paymenta As PaymentAccountItem In Me
-				i += 1
-				Dim newRow As TreeRow = dt.Childs.Add()
-				newRow("Linenumber") = i
-				If Not paymenta.Account Is Nothing AndAlso paymenta.Account.Originated Then
-					newRow("Code") = paymenta.Account.Code
-					newRow("Name") = paymenta.Account.Name
-				End If
-				newRow("paymenta_amt") = Configuration.FormatToString(paymenta.Amount, DigitConfig.Price)
-				newRow.Tag = paymenta
-			Next
-		End Sub
-		Public Sub CleanCollection()
-			Dim temp As New ArrayList
-			For Each item As PaymentAccountItem In Me
-				If item.Account Is Nothing OrElse Not item.Account.Originated Then
-					temp.Add(item)
-				End If
-			Next
-			For Each item As PaymentAccountItem In temp
-				Me.Remove(item)
-			Next
-		End Sub
+    Public Function GetAmount() As Decimal
+      Dim ret As Decimal = 0
+      For Each item As PaymentAccountItem In Me
+        ret += item.Amount
+      Next
+      Return ret
+    End Function
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each paymenta As PaymentAccountItem In Me
+        i += 1
+        Dim newRow As TreeRow = dt.Childs.Add()
+        newRow("Linenumber") = i
+        If Not paymenta.Account Is Nothing AndAlso paymenta.Account.Originated Then
+          newRow("Code") = paymenta.Account.Code
+          newRow("Name") = paymenta.Account.Name
+        End If
+        newRow("paymenta_amt") = Configuration.FormatToString(paymenta.Amount, DigitConfig.Price)
+        newRow.Tag = paymenta
+      Next
+    End Sub
+    Public Sub CleanCollection()
+      Dim temp As New ArrayList
+      For Each item As PaymentAccountItem In Me
+        If item.Account Is Nothing OrElse Not item.Account.Originated Then
+          temp.Add(item)
+        End If
+      Next
+      For Each item As PaymentAccountItem In temp
+        Me.Remove(item)
+      Next
+    End Sub
 #End Region
 
 #Region "Collection Methods"
-		Public Function Add(ByVal value As PaymentAccountItem) As Integer
-			value.Payment = Me.m_payment
-			value.IsDebit = m_isDebit
-			Return MyBase.List.Add(value)
-		End Function
-		Public Sub AddRange(ByVal value As PaymentAccountItemCollection)
-			For i As Integer = 0 To value.Count - 1
-				Me.Add(value(i))
-			Next
-		End Sub
-		Public Sub AddRange(ByVal value As PaymentAccountItem())
-			For i As Integer = 0 To value.Length - 1
-				Me.Add(value(i))
-			Next
-		End Sub
-		Public Function Contains(ByVal value As PaymentAccountItem) As Boolean
-			Return MyBase.List.Contains(value)
-		End Function
-		Public Sub CopyTo(ByVal array As PaymentAccountItem(), ByVal index As Integer)
-			MyBase.List.CopyTo(array, index)
-		End Sub
-		Public Shadows Function GetEnumerator() As PaymentAccountItemEnumerator
-			Return New PaymentAccountItemEnumerator(Me)
-		End Function
-		Public Function IndexOf(ByVal value As PaymentAccountItem) As Integer
-			Return MyBase.List.IndexOf(value)
-		End Function
-		Public Sub Insert(ByVal index As Integer, ByVal value As PaymentAccountItem)
-			value.Payment = Me.m_payment
-			value.IsDebit = m_isDebit
-			MyBase.List.Insert(index, value)
-		End Sub
-		Public Sub Remove(ByVal value As PaymentAccountItem)
-			MyBase.List.Remove(value)
-		End Sub
-		Public Sub Remove(ByVal value As PaymentAccountItemCollection)
-			For i As Integer = 0 To value.Count - 1
-				Me.Remove(value(i))
-			Next
-		End Sub
-		Public Sub Remove(ByVal index As Integer)
-			MyBase.List.RemoveAt(index)
-		End Sub
+    Public Function Add(ByVal value As PaymentAccountItem) As Integer
+      value.Payment = Me.m_payment
+      value.IsDebit = m_isDebit
+      Return MyBase.List.Add(value)
+    End Function
+    Public Sub AddRange(ByVal value As PaymentAccountItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As PaymentAccountItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As PaymentAccountItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As PaymentAccountItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Shadows Function GetEnumerator() As PaymentAccountItemEnumerator
+      Return New PaymentAccountItemEnumerator(Me)
+    End Function
+    Public Function IndexOf(ByVal value As PaymentAccountItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As PaymentAccountItem)
+      value.Payment = Me.m_payment
+      value.IsDebit = m_isDebit
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As PaymentAccountItem)
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As PaymentAccountItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
 #End Region
 
 #Region "ICloneable"
-		Public Function Clone() As Object Implements System.ICloneable.Clone
-			Dim newColl As New PaymentAccountItemCollection
-			newColl.m_payment = Me.m_payment
-			newColl.m_isDebit = Me.m_isDebit
-			For Each oldItem As PaymentAccountItem In Me
-				newColl.Add(CType(oldItem.Clone, PaymentAccountItem))
-			Next
-			Return newColl
-		End Function
+    Public Function Clone() As Object Implements System.ICloneable.Clone
+      Dim newColl As New PaymentAccountItemCollection
+      newColl.m_payment = Me.m_payment
+      newColl.m_isDebit = Me.m_isDebit
+      For Each oldItem As PaymentAccountItem In Me
+        newColl.Add(CType(oldItem.Clone, PaymentAccountItem))
+      Next
+      Return newColl
+    End Function
 #End Region
 
 
-		Public Class PaymentAccountItemEnumerator
-			Implements IEnumerator
+    Public Class PaymentAccountItemEnumerator
+      Implements IEnumerator
 
 #Region "Members"
-			Private m_baseEnumerator As IEnumerator
-			Private m_temp As IEnumerable
+      Private m_baseEnumerator As IEnumerator
+      Private m_temp As IEnumerable
 #End Region
 
 #Region "Construtor"
-			Public Sub New(ByVal mappings As PaymentAccountItemCollection)
-				Me.m_temp = mappings
-				Me.m_baseEnumerator = Me.m_temp.GetEnumerator
-			End Sub
+      Public Sub New(ByVal mappings As PaymentAccountItemCollection)
+        Me.m_temp = mappings
+        Me.m_baseEnumerator = Me.m_temp.GetEnumerator
+      End Sub
 #End Region
 
-			Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
-				Get
-					Return CType(Me.m_baseEnumerator.Current, PaymentAccountItem)
-				End Get
-			End Property
+      Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
+        Get
+          Return CType(Me.m_baseEnumerator.Current, PaymentAccountItem)
+        End Get
+      End Property
 
-			Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-				Return Me.m_baseEnumerator.MoveNext
-			End Function
+      Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
+        Return Me.m_baseEnumerator.MoveNext
+      End Function
 
-			Public Sub Reset() Implements System.Collections.IEnumerator.Reset
-				Me.m_baseEnumerator.Reset()
-			End Sub
-		End Class
+      Public Sub Reset() Implements System.Collections.IEnumerator.Reset
+        Me.m_baseEnumerator.Reset()
+      End Sub
+    End Class
 
-	End Class
+  End Class
 End Namespace
