@@ -569,6 +569,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '==============================STOCKCOSTFIFO=========================================
 
+          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+          Me.ItemCollection = New MatReturnItemCollection(Me, True, conn, trans)
+          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
           , New SqlParameter("@refto_id", Me.Id))
@@ -739,7 +743,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.InsertCommand = cmdInsert
 
         'Detete
-        SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "DeleteStockItem", _
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
         New SqlParameter("@stocki_stock", Me.Id))
 
         Dim ds As New DataSet
@@ -955,12 +959,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function GetItemJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
-      Dim itemColl As New MatReturnItemCollection(Me, False)
-      If itemColl Is Nothing Then
-        Return jiColl
-      End If
+      'Dim itemColl As New MatReturnItemCollection(Me, False)
+      'If itemColl Is Nothing Then
+      '  Return jiColl
+      'End If
       Dim ji As New JournalEntryItem
-      For Each item As MatReturnItem In itemColl
+      For Each item As MatReturnItem In ItemCollection
         Dim lciMatched As Boolean = False
         Dim lciNoAcctMatched As Boolean = False
         Dim originMatched As Boolean = False
@@ -1670,7 +1674,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Me.Conversion * Me.Qty
       End Get
-    End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
+    End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        If m_unitCost = Decimal.MinValue OrElse m_unitCost = 0 Then
+          Return m_transferUnitPrice
+        End If        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
         If Me.UnitCost = Decimal.MinValue Then
           Return 0
         End If
@@ -1890,6 +1896,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetMatReturnItems" _
+      , New SqlParameter("@stock_id", Me.m_MatReturn.Id) _
+      , New SqlParameter("@grouping", group) _
+      )
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New MatReturnItem(row, "")
+        item.MatReturn = m_MatReturn
+        Me.Add(item)
+        If Not group Then
+          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+          item.InWbsdColl = inWbsdColl
+          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+            Dim wbsd As New WBSDistribute(wbsRow, "")
+            inWbsdColl.Add(wbsd)
+          Next
+          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+          item.OutWbsdColl = outWbsdColl
+          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
+            Dim wbsd As New WBSDistribute(wbsRow, "")
+            outWbsdColl.Add(wbsd)
+          Next
+        Else
+          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+          item.InWbsdColl = inWbsdColl
+          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=0")
+            Dim wbsd As New WBSDistribute(wbsRow, "")
+            inWbsdColl.Add(wbsd)
+          Next
+          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+          item.OutWbsdColl = outWbsdColl
+          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=1")
+            Dim wbsd As New WBSDistribute(wbsRow, "")
+            outWbsdColl.Add(wbsd)
+          Next
+        End If
+      Next
+    End Sub
+    Public Sub New(ByVal owner As MatReturn, ByVal group As Boolean, ByVal conn As SqlConnection, ByVal tran As SqlTransaction)
+      Me.m_MatReturn = owner
+      If Not Me.m_MatReturn.Originated Then
+        Return
+      End If
+
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, tran _
       , CommandType.StoredProcedure _
       , "GetMatReturnItems" _
       , New SqlParameter("@stock_id", Me.m_MatReturn.Id) _
