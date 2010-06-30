@@ -1759,12 +1759,20 @@ Public Class POItemCollection
             Dim prline As Integer = deh.GetValue(Of Integer)("pri_linenumber")
             Dim RemainQty As Decimal = deh.GetValue(Of Decimal)("RemainQty")
             Dim OrderedQty As Decimal = deh.GetValue(Of Decimal)("pri_orderedQty")
+            Dim prunitid As Integer = deh.GetValue(Of Integer)("pri_unit")
             For Each Item As POItem In Me
               If Not Item.Pritem Is Nothing Then
                 If Item.Pritem.Pr.Id = prid AndAlso Item.Pritem.LineNumber = prline Then
                   If RemainQty > 0 Then
-                    Dim remPoConver As Decimal = Item.Qty / OrderedQty
-                    Item.Qty = remPoConver * RemainQty
+                    If prunitid = Item.Unit.Id Then
+                      Item.Qty = RemainQty
+                    Else
+                      'บังคับเปลี่ยนหน่วย
+                      Item.Unit = Unit.GetUnitById(prunitid)
+                      Item.Qty = RemainQty
+                      'Dim remPoConver As Decimal = Item.Qty / OrderedQty
+                      'Item.Qty = remPoConver * RemainQty
+                    End If
                     Item.OriginQty = Item.Qty
                   ElseIf Item.ItemType.Value <> 160 AndAlso Item.ItemType.Value <> 162 Then
                     Item.Pritem = Nothing
