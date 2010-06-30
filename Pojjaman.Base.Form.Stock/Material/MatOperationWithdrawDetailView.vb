@@ -1828,9 +1828,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If newType = 42 Then
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.CostCenter.Id)
               'เผื่อมาจากหลาย PR แล้ว Lci ซ้ำกัน
-              doc.Qty = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+              doc.Qty = doc.Qty - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
               doc.OldQty = doc.Qty
             End If
+            doc.Entity = newItem
           End If
           'Else
           '  Dim doc As New MatOperationWithdrawItem

@@ -1565,7 +1565,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "F1.4D"
           ji.Amount += item.Amount
           ji.Account = realAccount
-          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
           ji.EntityItem = item.Entity.Id
           ji.EntityItemType = 42
           ji.CostCenter = Me.FromCostCenter
@@ -1577,7 +1577,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "F1.4W"
             ji.Amount += item.Amount
             ji.Account = realAccount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
             ji.EntityItem = item.Entity.Id
             ji.EntityItemType = 42
             ji.CostCenter = Me.FromCostCenter
@@ -1589,7 +1589,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Amount += iwbs.Amount
               ji.Account = realAccount
               ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
-              'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.CostCenter
@@ -1611,7 +1611,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = map & "D"
             ji.Amount += item.Amount
             ji.Account = newRealAccount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
             ji.EntityItem = item.Entity.Id
             ji.EntityItemType = 42
             ji.CostCenter = Me.ToCostCenter
@@ -1622,7 +1622,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Mapping = map & "W"
               ji.Amount += item.Amount
               ji.Account = newRealAccount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.ToCostCenter
@@ -1634,7 +1634,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Amount += iwbs.Amount
                 ji.Account = newRealAccount
                 ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
-                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.unit.Name & ")"
                 ji.EntityItem = item.Entity.Id
                 ji.EntityItemType = 42
                 ji.CostCenter = Me.CostCenter
@@ -1653,7 +1653,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = map & "D"
               ji.Amount += item.Amount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.ToCostCenter
@@ -1663,7 +1663,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = map & "W"
               ji.Amount += item.Amount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.ToCostCenter
@@ -1675,7 +1675,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Mapping = map & "W"
                 ji.Amount += iwbs.Amount
                 ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
-                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.unit.Name & ")"
                 ji.EntityItem = item.Entity.Id
                 ji.EntityItemType = 42
                 ji.CostCenter = Me.CostCenter

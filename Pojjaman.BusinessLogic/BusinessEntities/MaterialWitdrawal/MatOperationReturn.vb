@@ -1215,7 +1215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "F2.2D"
           ji.Amount += item.Amount
-          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+          ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
           ji.EntityItem = item.Entity.Id
           ji.EntityItemType = 42
           ji.Account = Me.CostCenter.WipAccount
@@ -1226,7 +1226,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji = New JournalEntryItem
             ji.Mapping = "F2.2W"
             ji.Amount += item.Amount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
             ji.EntityItem = item.Entity.Id
             ji.EntityItemType = 42
             ji.Account = Me.CostCenter.WipAccount
@@ -1262,7 +1262,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "F2.1D"
             ji.Amount += item.Amount
             ji.Account = realAccount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
             ji.EntityItem = item.Entity.Id
             ji.EntityItemType = 42
             ji.CostCenter = Me.CostCenter
@@ -1273,7 +1273,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Mapping = "F2.1W"
               ji.Amount += item.Amount
               ji.Account = realAccount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.CostCenter
@@ -1305,7 +1305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji = New JournalEntryItem
             ji.Mapping = "F2.1D"
             ji.Amount = item.Amount
-            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
             ji.EntityItem = item.Entity.Id
             ji.EntityItemType = 42
             ji.CostCenter = Me.CostCenter
@@ -1315,7 +1315,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji = New JournalEntryItem
               ji.Mapping = "F2.1W"
               ji.Amount = item.Amount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42
               ji.CostCenter = Me.CostCenter
@@ -1948,7 +1948,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Unit)
         m_defaultUnit = value
       End Set
-    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatReturn Is Nothing AndAlso Not Me.MatReturn.CostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatReturn.CostCenter, stockQty)
+    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.MatReturn Is Nothing AndAlso Not Me.MatReturn.CostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.MatReturn.CostCenter, stockQty, 0, True)
           End If
         End If        m_qty = Configuration.Format(Value, DigitConfig.Qty)        'm_qty = Value      End Set    End Property    Public Property OldQty() As Decimal 'เทจากตะกร้า      Get
         Return m_oldStockQty
