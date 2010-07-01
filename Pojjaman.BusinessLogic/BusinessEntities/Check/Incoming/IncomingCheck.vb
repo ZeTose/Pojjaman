@@ -185,7 +185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Decimal)
                 m_wht = Value
             End Set
-        End Property        Public Property Customer() As Customer            Get                Return m_customer            End Get            Set(ByVal Value As Customer)                m_customer = Value            End Set        End Property               Public Property DocStatus() As IncomingCheckDocStatus            Get                Return m_docStatus            End Get            Set(ByVal Value As IncomingCheckDocStatus)                m_docStatus = Value            End Set        End Property        Public Property ReceivePerson() As Employee            Get                Return m_receivePerson            End Get            Set(ByVal Value As Employee)                m_receivePerson = Value            End Set        End Property        Public Property DueDate() As Date            Get                Return m_dueDate            End Get            Set(ByVal Value As Date)                m_dueDate = Value            End Set        End Property    Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property        Public Property BankAccount() As BankAccount            Get
+        End Property        Public Property Customer() As Customer            Get                Return m_customer            End Get            Set(ByVal Value As Customer)                m_customer = Value            End Set        End Property               Public Property DocStatus() As IncomingCheckDocStatus            Get                Return m_docStatus            End Get            Set(ByVal Value As IncomingCheckDocStatus)                m_docStatus = Value            End Set        End Property        Public Property ReceivePerson() As Employee            Get                Return m_receivePerson            End Get            Set(ByVal Value As Employee)                m_receivePerson = Value            End Set        End Property        Public Property DueDate() As Date            Get                Return m_dueDate            End Get            Set(ByVal Value As Date)                m_dueDate = Value            End Set        End Property    Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        m_ReceiveDate = m_docDate      End Set    End Property        Public Property BankAccount() As BankAccount            Get
                 Return m_bankacct
             End Get
             Set(ByVal Value As BankAccount)
@@ -215,9 +215,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 		End Property		Public Property Bank() As Bank			Get				Return m_bank			End Get			Set(ByVal Value As Bank)				m_bank = Value			End Set		End Property		Public Property CustBankBranch() As String			Get				Return m_custbankbranch			End Get			Set(ByVal Value As String)				m_custbankbranch = Value			End Set		End Property		Public Property ReceiveDate() As Date Implements ICheckPeriod.DocDate			Get
 				Return m_ReceiveDate
 			End Get
-			Set(ByVal Value As DateTime)
-				m_ReceiveDate = Value
-			End Set
+      Set(ByVal Value As DateTime)
+        m_ReceiveDate = Value
+        m_docDate = m_ReceiveDate
+      End Set
 		End Property		Public Property Note() As String			Get				Return m_note			End Get			Set(ByVal Value As String)				m_note = Value			End Set		End Property#End Region
 
 #Region "Overrides"
