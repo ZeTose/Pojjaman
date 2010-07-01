@@ -867,13 +867,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  Me.cmbStatus.Enabled = False
           'End If
         End If
-        'If TypeOf entity Is CostCenter Then
-        '  Me.SetCostCenter(CType(entity, CostCenter))
-        '  Me.txtCostCenterCode.Enabled = False
-        '  Me.txtCostCenterName.Enabled = False
-        '  Me.btnCostCenterDialog.Enabled = False
-        '  Me.btnCostCenterPanel.Enabled = False
-        'End If
+        If TypeOf entity Is CostCenter Then
+          Me.SetCostCenter(CType(entity, CostCenter))
+          Me.txtCostCenterCode.Enabled = False
+          Me.txtCostCenterName.Enabled = False
+          Me.btnCostCenterDialog.Enabled = False
+          Me.btnCostCenterPanel.Enabled = False
+        End If
         If TypeOf entity Is RequestCostCenter Then
           'Me.SetCostCenter(CType(entity, CostCenter))
           Me.m_cc = CType(entity, RequestCostCenter)
