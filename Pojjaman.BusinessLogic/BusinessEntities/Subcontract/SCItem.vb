@@ -164,30 +164,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Select Case .m_itemType.Value
             Case 42    '"lci"
-              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                If Not dr.IsNull("lci_id") Then
-                  .m_entity = New LCIItem(dr, "")
-                End If
-              Else
-                .m_entity = New LCIItem(itemId)
-              End If
+              'If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+              .m_entity = LCIItem.GetLciItemById(itemId)
+              '  If Not dr.IsNull("lci_id") Then
+              '    .m_entity = New LCIItem(dr, "")
+              '  End If
+              'Else
+              '  .m_entity = New LCIItem(itemId)
+              'End If
             Case 19    '"tool"
               If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
                 If Not dr.IsNull("tool_id") Then
-                  .m_entity = New LCIItem(dr, "")
+                  .m_entity = New Tool(dr, "")
                 End If
               Else
                 .m_entity = New Tool(itemId)
               End If
             Case 88, 89
               If itemId > 0 Then
-                If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                  If Not dr.IsNull("lci_id") Then
-                    .m_entity = New LCIItem(dr, "")
-                  End If
-                Else
-                  .m_entity = New LCIItem(itemId)
-                End If
+                'If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                .m_entity = LCIItem.GetLciItemById(itemId)
+                '  If Not dr.IsNull("lci_id") Then
+                '    .m_entity = New LCIItem(dr, "")
+                '  End If
+                'Else
+                '  .m_entity = New LCIItem(itemId)
+                'End If
               Else
                 .m_entity = New BlankItem(.m_entityName)
               End If
@@ -212,7 +214,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "sci_unit") AndAlso Not dr.IsNull(aliasPrefix & "sci_unit") Then
-            .m_unit = New Unit(CInt(dr(aliasPrefix & "sci_unit")))
+            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "sci_unit")))
+            '.m_unit = New Unit(CInt(dr(aliasPrefix & "sci_unit")))
           End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "sci_unitprice") AndAlso Not dr.IsNull(aliasPrefix & "sci_unitprice") Then
@@ -306,9 +309,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then
-            Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+            'Dim lci As LCIItem = CType(Me.Entity, LCIItem)
             Try
-              Me.Conversion = lci.GetConversion(Me.Unit)
+              Me.Conversion = CType(Me.Entity, LCIItem).GetConversion(Me.Unit)
+              'Me.Conversion = lci.GetConversion(Me.Unit)
             Catch ex As NoConversionException
               Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
               If Not msgServ Is Nothing Then
@@ -1526,7 +1530,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Exit For
           End If
           lastIndex = i
-          m_childAmount += sci.Mat
+          m_childAmount += Configuration.Format(sci.Mat, DigitConfig.Price)
         End If
         'End If
       Next
@@ -1552,7 +1556,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Exit For
           End If
           lastIndex = i
-          m_childAmount += sci.Lab
+          m_childAmount += Configuration.Format(sci.Lab, DigitConfig.Price)
         End If
         'End If
       Next
@@ -1578,7 +1582,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Exit For
           End If
           lastIndex = i
-          m_childAmount += sci.Eq
+          m_childAmount += Configuration.Format(sci.Eq, DigitConfig.Price)
         End If
         'End If
       Next
