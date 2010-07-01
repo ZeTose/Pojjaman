@@ -543,7 +543,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
+      'Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

@@ -8,6 +8,7 @@ Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Account
     Inherits TreeBaseEntity
+    Implements IControlItem
 
 #Region "Members"
     Private acct_type As AccountType
@@ -390,6 +391,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
 #End Region
+
+#Region "IControlItem"
+    Public ReadOnly Property ControlMessage As String Implements IControlItem.ControlMessage
+      Get
+        Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Dim myString As String = myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Account.ControlMessage}")   '"ไม่สามารถเลือก ผังบัญชี " + Me.Code + " - " + Me.Name + " เนื่องจากเป็นผังบัญชีคุม"
+        myString = String.Format(myString, Me.Code + " - " + Me.Name)
+        Return myString
+      End Get
+    End Property
+#End Region
+
 
   End Class
 

@@ -90,11 +90,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property JournalEntry() As JournalEntry      Get        Return m_journalEntry      End Get      Set(ByVal Value As JournalEntry)        m_journalEntry = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Account() As Account      Get        Return m_acct      End Get      Set(ByVal Value As Account)        m_acct = Value      End Set    End Property    Public Sub SetItemCode(ByVal theCode As String)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim entity As New Account(theCode)
+      If entity.IsControlGroup Then
+        msgServ.ShowMessage(entity.ControlMessage)
+        Return
+      End If
       If entity.Originated Then
         Me.Account = entity
       Else
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         msgServ.ShowMessageFormatted("${res:Global.Error.NoAccount}", New String() {theCode})
       End If
     End Sub    Public Property CostCenter() As CostCenter      Get        Return m_cc      End Get      Set(ByVal Value As CostCenter)        m_cc = Value      End Set    End Property    Public Sub SetItemCCCode(ByVal theCode As String)

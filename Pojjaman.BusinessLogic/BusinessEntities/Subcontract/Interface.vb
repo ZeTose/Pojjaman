@@ -8,6 +8,9 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Interface IControlItem
+    ReadOnly Property ControlMessage As String
+  End Interface
   'Public Interface IWBSRefDocAble
   '    Property DocDate() As DateTime
   '    Property Suplier() As Supplier
@@ -44,7 +47,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Enum
 
   <Serializable(), DefaultMember("Item")> _
-Public Class WBSAllocatableItemCollection
+  Public Class WBSAllocatableItemCollection
     Inherits CollectionBase
 
 #Region "Properties"

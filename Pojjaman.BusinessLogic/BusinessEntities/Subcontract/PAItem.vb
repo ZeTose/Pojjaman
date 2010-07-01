@@ -1777,6 +1777,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
       Dim acct As New Account(theCode)
+      If acct.IsControlGroup Then
+        msgServ.ShowMessage(acct.ControlMessage)
+        Return
+      End If
       If acct.Originated Then
         Select Case Me.ItemType.Value
           Case 160, 162 'Note
