@@ -1479,6 +1479,9 @@ Namespace Longkong.AdobeForm
                 Dim currentPageRow As Integer = 0
                 Dim rowOffset As Integer = 0
                 For i As Integer = startRow To (tb.RowsPerPage + startRow - 1)
+                  Dim doNotDrawthisRow As Boolean = False
+                  Dim drawRects As New Generic.List(Of RectangleF)
+                  'Dim 
                   If i > tb.RowCount Then
                     'เกินจำนวนแล้ว
                     Exit For
@@ -1568,7 +1571,9 @@ Namespace Longkong.AdobeForm
                             Case HorizontalAlignment.Right
                               startPoint = CInt(colOffset - glyphSize - horizontalInterval)
                           End Select
-                          ControlPaint.DrawMenuGlyph(pe.Graphics, tb.Location.X + startPoint, tb.Location.Y + (i - startRow) * tb.RowHeight + verticalInterval, glyphSize, glyphSize, MenuGlyph.Checkmark)
+                          Dim rect As New Rectangle(tb.Location.X + startPoint, tb.Location.Y + (i - startRow) * tb.RowHeight + verticalInterval, glyphSize, glyphSize)
+                          drawRects.Add(rect)
+                          ControlPaint.DrawMenuGlyph(pe.Graphics, rect, MenuGlyph.Checkmark)
                         End If
                       Else
                         Select Case _DataType.ToLower
@@ -1661,6 +1666,7 @@ Namespace Longkong.AdobeForm
                         If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
                           'เกินจำนวนแล้ว
                           tb.CurrentRow -= 1
+                          doNotDrawthisRow = True
                           Exit For
                         End If
                         Dim passLine As Integer = 0
@@ -1672,6 +1678,7 @@ Namespace Longkong.AdobeForm
                           Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / (col.Width - indent)))                        '+6?
                           passLine += lines
                           Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
+                          drawRects.Add(drawRect)
                           pe.Graphics.DrawString(Trim(innerRow(irow)), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
                         Next
                       Else
@@ -1686,9 +1693,11 @@ Namespace Longkong.AdobeForm
                         If (currentPageRow + rowOffset + maxLines) > tb.RowsPerPage Then
                           'เกินจำนวนแล้ว
                           tb.CurrentRow -= 1
+                          doNotDrawthisRow = True
                           Exit For
                         End If
                         Dim drawRect As New RectangleF(x1 + indent, y1, col.Width - indent, tb.RowHeight * maxLines)
+                        drawRects.Add(drawRect)
                         pe.Graphics.DrawString(Trim(data), dataFont, New SolidBrush(tb.ForeColor), drawRect, stf)
 
                       End If
@@ -1708,6 +1717,12 @@ Namespace Longkong.AdobeForm
 
                   Next                'Col
                   '''''
+
+                  If doNotDrawthisRow Then
+                    For Each drawRect As RectangleF In drawRects
+                      pe.Graphics.FillRectangle(Brushes.White, drawRect)
+                    Next
+                  End If
                   currentPageRow += 1
                   If maxLines > 1 Then
                     rowOffset += maxLines - 1
