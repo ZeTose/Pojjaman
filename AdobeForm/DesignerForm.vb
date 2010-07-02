@@ -1007,8 +1007,12 @@ Namespace Longkong.AdobeForm
                     End Select
 
                     Dim p As New PointF(0, 0)
-                    Dim textSize As SizeF = g.MeasureString(data, dataFont, p, stf)
-                    Dim lines As Integer = CInt(Math.Ceiling((textSize.Width) / col.Width))                   '+6?
+                    Dim tmp As String() = data.Split(vbCrLf)
+                    Dim lines As Integer = 0
+                    For Each s As String In tmp
+                      Dim textSize As SizeF = g.MeasureString(data, dataFont, p, stf)
+                      lines += CInt(Math.Ceiling((textSize.Width) / col.Width))
+                    Next
                     If lines > maxLines Then
                       'If lines > 1 Then
                       '    MessageBox.Show(data)
@@ -1637,6 +1641,9 @@ Namespace Longkong.AdobeForm
                           stf.Alignment = StringAlignment.Far
                       End Select
                       Dim innerRow() As String = Split(data, "|br|")
+                      If innerRow.Length <= 1 Then
+                        innerRow = Split(data, vbCrLf)
+                      End If
                       Dim p As New PointF(0, 0)
                       Dim indentSize As SizeF = g.MeasureString("|", dataFont, p, stf)
                       Dim x1 As Integer
