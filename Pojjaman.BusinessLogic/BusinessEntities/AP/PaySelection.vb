@@ -1174,7 +1174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'ภาษีซื้อไม่ถึงกำหนด
       For Each pi As BillAcceptanceItem In Me.ItemCollection
-        If pi.EntityId <> 46 Then
+        If pi.EntityId <> 46 AndAlso pi.EntityId <> 199 Then
           If pi.Amount <> 0 Then
             ji = New JournalEntryItem
             ji.Mapping = "B8.5D"
@@ -1474,7 +1474,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         'item.TaxBaseDeducted = d
         'End If
-        If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 Then
+        If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
           amt += item.TaxBase - item.DeductTaxBase
         End If
       Next
