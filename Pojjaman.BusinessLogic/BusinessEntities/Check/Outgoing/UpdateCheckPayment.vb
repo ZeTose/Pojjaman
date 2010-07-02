@@ -869,7 +869,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As New JournalEntryItem
-      Dim notCombine As Boolean = True 'ถ้าไม่ต้องการรวมยอดเช็คใน GL
+      Dim notCombine As Boolean = False 'ถ้าไม่ต้องการรวมยอดเช็คใน GL
       If Me.TotalAmount > 0 Then
         If notCombine Then
           If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
@@ -918,6 +918,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If bankacct.Account.Id = acct.Id Then
               sumvalue += CDec(row("check_amount"))
             End If
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.2D"
+            ji.Amount = CDec(row("check_amount"))
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
           End If
         Next
         If sumvalue > 0 Then
@@ -952,6 +961,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If ga.Account.Id = acct.Id Then
               sumvalue += CDec(row("check_amount"))
             End If
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.1D"
+            ji.Amount = CDec(row("check_amount"))
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
           End If
         Next
         If sumvalue > 0 Then
@@ -975,7 +993,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
           ji = New JournalEntryItem
           ji.Mapping = "Through"
-          ji.IsDebit = True
+          ji.IsDebit = False
           ji.Amount = CDec(row("check_amount"))
           ji.Account = bankacct.Account
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -984,7 +1002,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
           ji = New JournalEntryItem
           ji.Mapping = "Through"
-          ji.IsDebit = False
+          ji.IsDebit = True
           ji.Amount = CDec(row("check_amount"))
           ji.Account = ga.Account
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -1014,10 +1032,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If ga.Account.Id = acct.Id Then
               sumvalue += CDec(row("check_amount"))
             End If
-            'Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
-            'If bankacct.Account.Id = acct.Id Then
-            '    sumvalue += CDec(row("check_amount"))
-            'End If
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.3D"
+            ji.Amount = CDec(row("check_amount"))
+            ji.IsDebit = True
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
           End If
         Next
         If sumvalue > 0 Then
@@ -1085,6 +1109,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If supplieracct.Account.Id = acct.Id Then
               sumvalue += CDec(row("check_amount"))
             End If
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.4D"
+            ji.Amount = CDec(row("check_amount"))
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = "ยกเลิกเช็ค " & CStr(row("check_cqcode")) & "/" & supplieracct.Name
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            jiColl.Add(ji)
           End If
         Next
         If sumvalue > 0 Then
