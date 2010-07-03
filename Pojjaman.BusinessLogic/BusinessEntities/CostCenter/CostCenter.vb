@@ -614,7 +614,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldid As Integer = Me.Id
         Try
           Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
-          m_RefreshCCList = True
+          'm_RefreshCCList = True
           ' Update CostcenterImage ...
           If Me.Originated Then
             paramArrayList = New ArrayList
@@ -1071,7 +1071,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
     Private Shared m_dsCCList As DataSet
-    Private Shared m_RefreshCCList As Boolean = False
+    'Private Shared m_RefreshCCList As Boolean = False
     Private Shared Property dsCClist As DataSet
       Get
         Return m_dsCCList
@@ -1080,14 +1080,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_dsCCList = value
       End Set
     End Property
+    Private Function GetAllListCostCenter(ByVal ParamArray filters() As Filter) As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, Me.GetListSprocName)
+      If Not ds Is Nothing AndAlso ds.Tables(0).Rows.Count > 0 Then
+        Return ds
+      End If
+    End Function
+    Private Function FildParent(ByVal ParamArray filters() As Filter) As Object
+      'arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
+      'arr(1) = New Filter("manager", IIf(Me.m_manage.Valid, Me.m_manage.Id, DBNull.Value))
+      'arr(2) = New Filter("admin", IIf(Me.m_admin.Valid, Me.m_admin.Id, DBNull.Value))
+      'Dim myType As Object
+      'If Not Me.cmbCCType.SelectedItem Is Nothing AndAlso TypeOf Me.cmbCCType.SelectedItem Is IdValuePair Then
+      '  myType = CType(Me.cmbCCType.SelectedItem, IdValuePair).Id
+      '  If CInt(myType) = -1 Then
+      '    myType = DBNull.Value
+      '  End If
+      'Else
+      '  myType = DBNull.Value
+      'End If
+      'arr(3) = New Filter("type", myType)
+      'arr(4) = New Filter("userright", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      'arr(5) = New Filter("onlyactive", chkActive.Checked)
+
+    End Function
+    Private Function GetTreeListCostCenter(ByVal ParamArray filters() As Filter) As DataSet
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.StoredProcedure, "GetCostCenterForTreeList", params)
+      If Not ds Is Nothing Then
+        Return ds
+      End If
+      Return New DataSet
+    End Function
     Public Overrides Sub PopulateTree(ByVal tvGroup As System.Windows.Forms.TreeView, ByVal ParamArray filters() As Filter)
       'Dim dt As DataTable = Me.GetTreeDataSet(filters).Tables(0)
-      If m_dsCCList Is Nothing OrElse m_RefreshCCList Then
-        dsCClist = Me.GetListDataSet("", filters)
-        m_RefreshCCList = False
+      'If m_dsCCList Is Nothing OrElse m_RefreshCCList Then
+      Dim ds As DataSet = Nothing
+      Dim dt As DataTable = Nothing
+      If m_dsCCList Is Nothing Then
+        dsCClist = GetAllListCostCenter()
+        ds = dsCClist
+        dt = dsCClist.Tables(0)
+        'm_RefreshCCList = False
+      Else
+        ds = Me.GetTreeListCostCenter(filters)
+        dt = ds.Tables(0)
       End If
-      Dim ds As DataSet = dsCClist
-      Dim dt As DataTable = dsCClist.Tables(0)
+
       tvGroup.BeginUpdate()
       tvGroup.Nodes.Clear()
       'tvGroup.ForeColor = Color.Gray
