@@ -1315,7 +1315,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
           '    trans.Commit()
 
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
 
           trans.Commit()
@@ -1543,7 +1543,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
                   'End If
                   currWBS = wbsd.WBS.Code & ":" & wbsd.WBS.Name
                   wbsd.BaseCost = bfTax
-                  wbsd.TransferBaseCost = bfTax
+                  'wbsd.TransferBaseCost = bfTax
                   Dim childDr As DataRow = dtWbs.NewRow
                   childDr("voiw_wbs") = wbsd.WBS.Id
                   childDr("voiw_sequence") = dr("voi_sequence")
@@ -1577,7 +1577,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
                     bfTax = item.CostAmount
                     'End If
                     newWbsd.BaseCost = bfTax
-                    newWbsd.TransferBaseCost = bfTax
+                    'newWbsd.TransferBaseCost = bfTax
                     Dim childDr As DataRow = dtWbs.NewRow
                     childDr("voiw_wbs") = newWbsd.WBS.Id
                     childDr("voiw_sequence") = dr("voi_sequence")

@@ -1272,7 +1272,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Dim bfTax As Decimal = 0
                   bfTax = item.Amount
                   wbsd.BaseCost = bfTax 'item.Amount
-                  wbsd.TransferBaseCost = bfTax 'item.Amount
+                  'wbsd.TransferBaseCost = bfTax 'item.Amount
                   Dim childDr As DataRow = dtWbs.NewRow
                   childDr("wriw_sequence") = dr("wri_sequence")
                   childDr("wriw_wbs") = wbsd.WBS.Id
@@ -1302,7 +1302,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Dim bfTax As Decimal = 0
                     bfTax = item.Amount
                     wbsd.BaseCost = bfTax 'item.Amount
-                    wbsd.TransferBaseCost = bfTax 'item.Amount
+                    'wbsd.TransferBaseCost = bfTax 'item.Amount
                     Dim childDr As DataRow = dtWbs.NewRow
                     childDr("wriw_sequence") = dr("wri_sequence")
                     childDr("wriw_wbs") = wbsd.WBS.Id

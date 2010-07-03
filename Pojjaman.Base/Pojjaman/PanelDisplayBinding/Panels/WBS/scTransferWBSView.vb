@@ -1240,7 +1240,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
               Dim transferAmt As Decimal = ali.ItemAmount
               wbsd.BaseCost = transferAmt
-              wbsd.TransferBaseCost = transferAmt
+              'wbsd.TransferBaseCost = transferAmt
               Dim wbsRow As TreeRow = dt.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
@@ -1300,7 +1300,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each wbsd As WBSDistribute In ali.WBSDistributeCollection2
               Dim transferAmt As Decimal = ali.ItemAmount
               wbsd.BaseCost = transferAmt
-              wbsd.TransferBaseCost = transferAmt
+              'wbsd.TransferBaseCost = transferAmt
               Dim wbsRow As TreeRow = dt2.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name

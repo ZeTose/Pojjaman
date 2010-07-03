@@ -600,7 +600,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each item As GoodsReceiptItem In arr
           For Each wbsd As WBSDistribute In item.WBSDistributeCollection
             wbsd.BaseCost = item.Cost
-            wbsd.TransferBaseCost = item.Cost
+            'wbsd.TransferBaseCost = item.Cost
             Me.SetActual(wbsd.WBS, 0, item.Cost * wbsd.Percent / 100, item.ItemType.Value)
             'Me.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
           Next
@@ -2027,8 +2027,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.CancelRef(conn, trans)
           End If
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptPVList", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual", New SqlParameter("@stock_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
 
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
@@ -2275,7 +2275,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 wbsd.Percent += (100 - currentSum)
               End If
               wbsd.BaseCost = Cost
-              wbsd.TransferBaseCost = Cost
+              'wbsd.TransferBaseCost = Cost
               Dim childDr As DataRow = dtWbs.NewRow
               childDr("stockiw_wbs") = wbsd.WBS.Id
               If wbsd.CostCenter Is Nothing Then
@@ -2287,8 +2287,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
               childDr("stockiw_direction") = 0              'in
               childDr("stockiw_baseCost") = wbsd.BaseCost
-              childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
-              childDr("stockiw_transferamt") = wbsd.TransferAmount
+              'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
+              'childDr("stockiw_transferamt") = wbsd.TransferAmount
               childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.ToAccountType.Value
               childDr("stockiw_cbs") = wbsd.CBS.Id
@@ -2305,7 +2305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 newWbsd.CostCenter = item.GoodsReceipt.ToCostCenter
                 newWbsd.Percent = 100 - currentSum
                 newWbsd.BaseCost = Cost
-                newWbsd.TransferBaseCost = Cost
+                'newWbsd.TransferBaseCost = Cost
                 Dim childDr As DataRow = dtWbs.NewRow
                 childDr("stockiw_wbs") = newWbsd.WBS.Id
                 childDr("stockiw_cc") = newWbsd.CostCenter.Id
@@ -2314,8 +2314,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("stockiw_ismarkup") = False
                 childDr("stockiw_direction") = 0                'in
                 childDr("stockiw_baseCost") = newWbsd.BaseCost
-                childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
-                childDr("stockiw_transferamt") = newWbsd.TransferAmount
+                'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
+                'childDr("stockiw_transferamt") = newWbsd.TransferAmount
                 childDr("stockiw_amt") = newWbsd.Amount
                 childDr("stockiw_toaccttype") = Me.ToAccountType.Value
                 childDr("stockiw_cbs") = newWbsd.CBS.Id

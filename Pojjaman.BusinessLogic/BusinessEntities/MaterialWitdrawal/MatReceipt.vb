@@ -942,8 +942,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End If
           'trans.Commit()
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           'trans.Commit()
 
@@ -1141,7 +1141,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim bfTax As Decimal = 0
               bfTax = item.UnitCost
               wbsd.BaseCost = bfTax 'item.Amount
-              wbsd.TransferBaseCost = bfTax 'item.Amount
+              'wbsd.TransferBaseCost = bfTax 'item.Amount
               Dim childDr As DataRow = dtWbs.NewRow
               childDr("stockiw_sequence") = item.Sequence ' dr("stocki_sequence")
               childDr("stockiw_wbs") = wbsd.WBS.Id
@@ -1174,7 +1174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim bfTax As Decimal = 0
               bfTax = item.UnitCost
               wbsd.BaseCost = bfTax 'item.Amount
-              wbsd.TransferBaseCost = bfTax 'item.Amount
+              'wbsd.TransferBaseCost = bfTax 'item.Amount
               Dim childDr As DataRow = dtWbs.NewRow
 
               childDr("stockiw_sequence") = item.Sequence  ' dr("stocki_sequence")

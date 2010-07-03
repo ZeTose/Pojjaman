@@ -194,23 +194,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_baseCost = CDec(dr(aliasPrefix & "wriw_baseCost"))
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "stockiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "stockiw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "priw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "priw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "priw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "poiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "poiw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "poiw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "sciw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "sciw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "sciw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "driw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "driw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "driw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "voiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "voiw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "voiw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "paiw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "paiw_transferBaseCost"))
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "wriw_transferBaseCost") Then
-          m_transferBaseCost = CDec(dr(aliasPrefix & "wriw_transferBaseCost"))
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "stockiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "stockiw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "priw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "priw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "priw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "poiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "poiw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "poiw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "sciw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "sciw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "sciw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "driw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "driw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "driw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "voiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "voiw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "voiw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "paiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "paiw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "paiw_transferBaseCost"))
+        'ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "wriw_transferBaseCost") Then
+        '  m_transferBaseCost = CDec(dr(aliasPrefix & "wriw_transferBaseCost"))
+        'End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_direction") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_direction") Then
           m_outward = CBool(dr(aliasPrefix & "stockiw_direction"))
@@ -294,9 +294,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_baseQty = Value
       End Set
     End Property    Public Property BfAmount() As Decimal      Get        Return m_bfAmount      End Get      Set(ByVal Value As Decimal)        m_bfAmount = Value      End Set    End Property    Public Property ThisperiodAmount() As Decimal      Get        Return m_thisperiodAmount      End Get      Set(ByVal Value As Decimal)        m_thisperiodAmount = Value      End Set    End Property
-    Public Property BaseCost() As Decimal      Get        Return m_baseCost      End Get      Set(ByVal Value As Decimal)        m_baseCost = Value        m_amount = m_baseCost * m_percent / 100      End Set    End Property    Public Property TransferBaseCost() As Decimal      Get        Return m_transferBaseCost      End Get      Set(ByVal Value As Decimal)        m_transferBaseCost = Value      End Set    End Property    'Public ReadOnly Property Amount() As Decimal    '  Get    '    Return m_baseCost * m_percent / 100    '  End Get    'End Property    Public Property Amount() As Decimal      Get        'Return m_baseCost * m_percent / 100        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value
+    Public Property BaseCost() As Decimal      Get        Return m_baseCost      End Get      Set(ByVal Value As Decimal)        m_baseCost = Value        m_amount = m_baseCost * m_percent / 100      End Set    End Property    'Public Property TransferBaseCost() As Decimal    '  Get    '    Return m_transferBaseCost    '  End Get    '  Set(ByVal Value As Decimal)    '    m_transferBaseCost = Value    '  End Set    'End Property    'Public ReadOnly Property Amount() As Decimal    '  Get    '    Return m_baseCost * m_percent / 100    '  End Get    'End Property    Public Property Amount() As Decimal      Get        'Return m_baseCost * m_percent / 100        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value
         m_percent = (Value / m_baseCost) * 100
-      End Set    End Property    Public ReadOnly Property TransferAmount() As Decimal      Get        Return m_transferBaseCost * m_percent / 100      End Get    End Property    Public Property Toaccttype() As Integer      Get        Return m_toaccttype      End Get      Set(ByVal Value As Integer)        m_toaccttype = Value      End Set    End Property
+      End Set    End Property    'Public ReadOnly Property TransferAmount() As Decimal    '  Get    '    Return m_transferBaseCost * m_percent / 100    '  End Get    'End Property    Public Property Toaccttype() As Integer      Get        Return m_toaccttype      End Get      Set(ByVal Value As Integer)        m_toaccttype = Value      End Set    End Property
     Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        Dim oldVal As WBS = m_wbs        m_wbs = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs("WBS", m_wbs, oldVal))      End Set    End Property    Public Property CBS As CBS
       Get
         Return m_cbs
@@ -305,7 +305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_cbs = value
       End Set
     End Property
-    Public Property CostCenter() As CostCenter      Get        Return m_cc      End Get      Set(ByVal Value As CostCenter)        m_cc = Value      End Set    End Property    Public Property Percent() As Decimal      Get        Return m_percent      End Get      Set(ByVal Value As Decimal)        Dim oldVal As Decimal = TransferAmount        m_percent = Value        m_amount = m_baseCost * m_percent / 100        OnPropertyChanged(Me, New PropertyChangedEventArgs("Percent", TransferAmount, oldVal))      End Set    End Property
+    Public Property CostCenter() As CostCenter      Get        Return m_cc      End Get      Set(ByVal Value As CostCenter)        m_cc = Value      End Set    End Property    Public Property Percent() As Decimal      Get        Return m_percent      End Get      Set(ByVal Value As Decimal)        'Dim oldVal As Decimal = TransferAmount        Dim oldVal As Decimal = Amount        m_percent = Value        m_amount = m_baseCost * m_percent / 100        'OnPropertyChanged(Me, New PropertyChangedEventArgs("Percent", TransferAmount, oldVal))        OnPropertyChanged(Me, New PropertyChangedEventArgs("Percent", Amount, oldVal))      End Set    End Property
     Public Property IsMarkup() As Boolean      Get        Return m_isMarkup      End Get      Set(ByVal Value As Boolean)        m_isMarkup = Value      End Set    End Property
     Public Property IsOutWard() As Boolean
       Get
@@ -476,7 +476,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
         Dim transferAmt As Decimal = item.Amount
         wbsd.BaseCost = item.Amount
-        wbsd.TransferBaseCost = transferAmt
+        'wbsd.TransferBaseCost = transferAmt
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -584,7 +584,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim transferAmt As Decimal = bfTax
         wbsd.BaseCost = bfTax
-        wbsd.TransferBaseCost = transferAmt
+        'wbsd.TransferBaseCost = transferAmt
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -761,7 +761,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
         Dim transferAmt As Decimal = item.Cost
         wbsd.BaseCost = transferAmt
-        wbsd.TransferBaseCost = transferAmt
+        'wbsd.TransferBaseCost = transferAmt
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -958,7 +958,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           wbsd.WBS.Boq = item.MatTransfer.FromCostCenter.Boq
         End If
         wbsd.BaseCost = item.TransferAmount
-        wbsd.TransferBaseCost = item.TransferAmount
+        'wbsd.TransferBaseCost = item.TransferAmount
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -1025,7 +1025,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           wbsd.WBS.Boq = item.Matwithdraw.FromCostCenter.Boq
         End If
         wbsd.BaseCost = item.TransferAmount
-        wbsd.TransferBaseCost = item.TransferAmount
+        'wbsd.TransferBaseCost = item.TransferAmount
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -1092,7 +1092,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           wbsd.WBS.Boq = item.MatReturn.FromCostCenter.Boq
         End If
         wbsd.BaseCost = item.TransferAmount
-        wbsd.TransferBaseCost = item.TransferAmount
+        'wbsd.TransferBaseCost = item.TransferAmount
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -1171,7 +1171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1181,7 +1181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1191,7 +1191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1201,7 +1201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.BeforeTax
-        newItem.TransferBaseCost = item.BeforeTax
+        'newItem.TransferBaseCost = item.BeforeTax
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1211,7 +1211,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1221,7 +1221,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1231,7 +1231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.BeforeTax
-        newItem.TransferBaseCost = item.BeforeTax
+        'newItem.TransferBaseCost = item.BeforeTax
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1241,7 +1241,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl
@@ -1251,7 +1251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
         newItem.BaseCost = item.Amount
-        newItem.TransferBaseCost = item.Amount
+        'newItem.TransferBaseCost = item.Amount
         newColl.Add(newItem)
       Next
       Return newColl

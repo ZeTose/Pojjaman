@@ -624,8 +624,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '    End Select
           '  End If
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
 
           '  trans.Commit()
           'Catch ex As Exception
@@ -873,7 +873,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
 
                     wbsd.BaseCost = Cost
-                    wbsd.TransferBaseCost = Cost
+                    'wbsd.TransferBaseCost = Cost
 
                     childDr("stockiw_cc") = wbsd.CostCenter.Id
                     childDr("stockiw_percent") = wbsd.Percent
@@ -881,8 +881,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     childDr("stockiw_ismarkup") = wbsd.IsMarkup
                     childDr("stockiw_direction") = x
                     childDr("stockiw_baseCost") = wbsd.BaseCost
-                    childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
-                    childDr("stockiw_transferamt") = wbsd.TransferAmount
+                    'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
+                    'childDr("stockiw_transferamt") = wbsd.TransferAmount
                     childDr("stockiw_amt") = wbsd.Amount
                     childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
                     'Add เข้า stockiwbs
@@ -904,7 +904,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                   newWbsd.Percent = 100 - currentSum
                   newWbsd.BaseCost = Cost
-                  newWbsd.TransferBaseCost = Cost
+                  'newWbsd.TransferBaseCost = Cost
 
                   childDr("stockiw_cc") = newWbsd.CostCenter.Id
                   childDr("stockiw_percent") = newWbsd.Percent
@@ -913,8 +913,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   childDr("stockiw_wbs") = newWbsd.WBS.Id
                   childDr("stockiw_direction") = x
                   childDr("stockiw_baseCost") = newWbsd.BaseCost
-                  childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
-                  childDr("stockiw_transferamt") = newWbsd.TransferAmount
+                  'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
+                  'childDr("stockiw_transferamt") = newWbsd.TransferAmount
                   childDr("stockiw_amt") = newWbsd.Amount
                   childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
 

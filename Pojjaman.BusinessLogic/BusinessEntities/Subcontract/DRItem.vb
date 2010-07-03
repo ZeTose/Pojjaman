@@ -2072,7 +2072,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     matWbsd.WBS = bitem.WBS
                     matWbsd.Percent = 100
                     matWbsd.BaseCost = bitem.TotalMaterialCost
-                    matWbsd.TransferBaseCost = bitem.TotalMaterialCost
+                    'matWbsd.TransferBaseCost = bitem.TotalMaterialCost
                     matWbsd.IsOutWard = False
                     matWbsd.Toaccttype = 3
                   End If
@@ -2104,7 +2104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     labWbsd.WBS = bitem.WBS
                     labWbsd.Percent = 100
                     labWbsd.BaseCost = bitem.TotalLaborCost
-                    labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                    ''labWbsd.TransferBaseCost = bitem.TotalLaborCost
                     labWbsd.IsOutWard = False
                     labWbsd.Toaccttype = 3
                   End If
@@ -2136,7 +2136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     eqWbsd.WBS = bitem.WBS
                     eqWbsd.Percent = 100
                     eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                    eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                    'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
                     eqWbsd.IsOutWard = False
                     eqWbsd.Toaccttype = 3
                   End If
@@ -2192,7 +2192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   labWbsd.WBS = bitem.WBS
                   labWbsd.Percent = 100
                   labWbsd.BaseCost = bitem.TotalLaborCost
-                  labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
                   labWbsd.IsOutWard = False
                   labWbsd.Toaccttype = 3
                 End If
@@ -2204,7 +2204,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   eqWbsd.WBS = bitem.WBS
                   eqWbsd.Percent = 100
                   eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                  eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
                   eqWbsd.IsOutWard = False
                   eqWbsd.Toaccttype = 3
                 End If

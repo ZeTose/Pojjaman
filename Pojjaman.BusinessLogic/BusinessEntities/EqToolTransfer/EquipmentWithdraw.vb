@@ -600,7 +600,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 wbsd.Percent += (100 - currentSum)
                             End If
                             wbsd.BaseCost = item.Amount
-                            wbsd.TransferBaseCost = item.Amount
+              'wbsd.TransferBaseCost = item.Amount
                             Dim childDr As DataRow = dtWbs.NewRow
                             childDr("stockiw_wbs") = wbsd.WBS.Id
                             If wbsd.CostCenter Is Nothing Then
@@ -629,7 +629,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 newWbsd.CostCenter = item.AssetWithdraw.WithdrawCostcenter
                                 newWbsd.Percent = 100 - currentSum
                                 newWbsd.BaseCost = item.Amount
-                                newWbsd.TransferBaseCost = item.Amount
+                'newWbsd.TransferBaseCost = item.Amount
                                 Dim childDr As DataRow = dtWbs.NewRow
                                 childDr("stockiw_wbs") = newWbsd.WBS.Id
                                 childDr("stockiw_cc") = newWbsd.CostCenter.Id

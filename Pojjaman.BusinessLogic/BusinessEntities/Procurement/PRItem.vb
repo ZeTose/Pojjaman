@@ -285,7 +285,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
             Dim transferAmt As Decimal = Me.Amount
             wbsd.BaseCost = transferAmt
-            wbsd.TransferBaseCost = transferAmt
+            'wbsd.TransferBaseCost = transferAmt
             Select Case Me.ItemType.Value
               Case 0, 19, 42
                 wbsd.BudgetAmount = wbsd.WBS.GetTotalMatFromDB
@@ -294,8 +294,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case 89
                 wbsd.BudgetAmount = wbsd.WBS.GetTotalEQFromDB
             End Select
-            Me.m_pr.SetActual(wbsd.WBS, wbsd.TransferAmount, 0, oldType)
-            Me.m_pr.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
+            Me.m_pr.SetActual(wbsd.WBS, wbsd.Amount, 0, oldType)
+            Me.m_pr.SetActual(wbsd.WBS, 0, wbsd.Amount, m_itemType.Value)
           Next
           Me.Clear()
         End If      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
@@ -551,11 +551,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If      End Set    End Property    Private Sub UpdateWBS()
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         Dim bfTax As Decimal = 0
-        Dim oldVal As Decimal = wbsd.TransferAmount
+        Dim oldVal As Decimal = wbsd.Amount
         Dim transferAmt As Decimal = Me.Amount
         wbsd.BaseCost = bfTax
-        wbsd.TransferBaseCost = transferAmt
-        Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+        wbsd.BaseCost = transferAmt
+        Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.Amount, oldVal))
       Next
     End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
@@ -1143,7 +1143,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				For Each wbsd As WBSDistribute In item.WBSDistributeCollection
 					'--------------------------------------------------
 					wbsd.BaseCost = transferAmt
-					wbsd.TransferBaseCost = transferAmt
+          'wbsd.TransferBaseCost = transferAmt
 					If Not wbsd.IsMarkup Then
 						'เป็น WBS
 						Dim actual As Decimal = 0
@@ -1488,7 +1488,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									matWbsd.WBS = bitem.WBS
 									matWbsd.Percent = 100
 									matWbsd.BaseCost = bitem.TotalMaterialCost
-									matWbsd.TransferBaseCost = bitem.TotalMaterialCost
+                  'matWbsd.TransferBaseCost = bitem.TotalMaterialCost
 									matWbsd.IsOutWard = False
 									matWbsd.Toaccttype = 3
 								End If
@@ -1520,7 +1520,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									labWbsd.WBS = bitem.WBS
 									labWbsd.Percent = 100
 									labWbsd.BaseCost = bitem.TotalLaborCost
-									labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
 									labWbsd.IsOutWard = False
 									labWbsd.Toaccttype = 3
 								End If
@@ -1552,7 +1552,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									eqWbsd.WBS = bitem.WBS
 									eqWbsd.Percent = 100
 									eqWbsd.BaseCost = bitem.TotalEquipmentCost
-									eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
 									eqWbsd.IsOutWard = False
 									eqWbsd.Toaccttype = 3
 								End If
@@ -1608,7 +1608,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									labWbsd.WBS = bitem.WBS
 									labWbsd.Percent = 100
 									labWbsd.BaseCost = bitem.TotalLaborCost
-									labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
 									labWbsd.IsOutWard = False
 									labWbsd.Toaccttype = 3
 								End If
@@ -1620,7 +1620,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 									eqWbsd.WBS = bitem.WBS
 									eqWbsd.Percent = 100
 									eqWbsd.BaseCost = bitem.TotalEquipmentCost
-									eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                  'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
 									eqWbsd.IsOutWard = False
 									eqWbsd.Toaccttype = 3
 								End If

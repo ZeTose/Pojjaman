@@ -1099,10 +1099,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@refto_iscanceled", isCanceled) _
           )
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           trans.Commit()
 
@@ -1321,7 +1321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       Dim bfTax As Decimal = 0
                   bfTax = Math.Abs(item.CostAmount)
                       wbsd.BaseCost = bfTax 'item.Amount
-                      wbsd.TransferBaseCost = bfTax 'item.Amount
+                  'wbsd.TransferBaseCost = bfTax 'item.Amount
                       Dim childDr As DataRow = dtWbs.NewRow
                       childDr("driw_sequence") = dr("dri_sequence")
                       childDr("driw_wbs") = wbsd.WBS.Id
@@ -1354,7 +1354,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       Dim bfTax As Decimal = 0
                       bfTax = item.CostAmount
                       wbsd.BaseCost = bfTax 'item.Amount
-                      wbsd.TransferBaseCost = bfTax 'item.Amount
+                  'wbsd.TransferBaseCost = bfTax 'item.Amount
                       Dim childDr As DataRow = dtWbs.NewRow
 
                       childDr("driw_sequence") = dr("dri_sequence")

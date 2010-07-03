@@ -306,7 +306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
             Dim transferAmt As Decimal = Me.BeforeTax
             wbsd.BaseCost = transferAmt
-            wbsd.TransferBaseCost = transferAmt
+            'wbsd.TransferBaseCost = transferAmt
             Select Case Me.ItemType.Value
               Case 0, 19, 42
                 wbsd.BudgetAmount = wbsd.WBS.GetTotalMatFromDB
@@ -315,8 +315,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case 89
                 wbsd.BudgetAmount = wbsd.WBS.GetTotalEQFromDB
             End Select
-            Me.m_goodsReceipt.SetActual(wbsd.WBS, wbsd.TransferAmount, 0, oldType)
-            Me.m_goodsReceipt.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
+            Me.m_goodsReceipt.SetActual(wbsd.WBS, wbsd.Amount, 0, oldType)
+            Me.m_goodsReceipt.SetActual(wbsd.WBS, 0, wbsd.Amount, m_itemType.Value)
           Next
           'Me.Clear()
         End If
@@ -618,11 +618,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.GoodsReceipt.SetRealGross()
         Me.GoodsReceipt.RefreshTaxBase()
         For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-          Dim oldVal As Decimal = wbsd.TransferAmount
+          Dim oldVal As Decimal = wbsd.Amount
           Dim transferAmt As Decimal = Me.BeforeTax
           wbsd.BaseCost = transferAmt
-          wbsd.TransferBaseCost = transferAmt
-          Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+          'wbsd.TransferBaseCost = transferAmt
+          Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.Amount, oldVal))
         Next
       End If
     End Sub
@@ -1571,7 +1571,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each wbsd As WBSDistribute In item.WBSDistributeCollection
           Dim transferAmt As Decimal = item.Cost
           wbsd.BaseCost = transferAmt
-          wbsd.TransferBaseCost = transferAmt
+          'wbsd.TransferBaseCost = transferAmt
           If Not wbsd.IsMarkup Then
             Dim actual As Decimal = 0
             Dim budget As Decimal = 0

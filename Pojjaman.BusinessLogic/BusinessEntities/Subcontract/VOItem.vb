@@ -1939,7 +1939,7 @@ Public Class VOItemCollection
                     labWbsd.WBS = bitem.WBS
                     labWbsd.Percent = 100
                     labWbsd.BaseCost = bitem.TotalLaborCost
-                    labWbsd.TransferBaseCost = bitem.TotalLaborCost
+                    'labWbsd.TransferBaseCost = bitem.TotalLaborCost
                     labWbsd.IsOutWard = False
                     labWbsd.Toaccttype = 3
                   End If
@@ -1971,7 +1971,7 @@ Public Class VOItemCollection
                     eqWbsd.WBS = bitem.WBS
                     eqWbsd.Percent = 100
                     eqWbsd.BaseCost = bitem.TotalEquipmentCost
-                    eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
+                    'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
                     eqWbsd.IsOutWard = False
                     eqWbsd.Toaccttype = 3
                   End If

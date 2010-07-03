@@ -65,7 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=0")
         Dim wbsd As New WBSDistribute(wbsRow, "")
         m_WBSDistributeCollection.Add(wbsd)
-        Me.MatReceipt.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
+        Me.MatReceipt.SetActual(wbsd.WBS, 0, wbsd.Amount, False)
       Next
       'm_outWbsdColl = New WBSDistributeCollection
       'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=1")

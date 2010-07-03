@@ -943,7 +943,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               'transferAmt = ali.ItemAmount
 
               wbsd.BaseCost = transferAmt
-              wbsd.TransferBaseCost = transferAmt
+              'wbsd.TransferBaseCost = transferAmt
 
               'Dim wbsRow As TreeRow = dt.Childs.Add()
               Dim wbsRow As TreeRow = currRow.Childs.Add

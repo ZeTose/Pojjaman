@@ -1063,8 +1063,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertPRProcedure" _
-          , New SqlParameter("@pr", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
 
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
@@ -1239,7 +1238,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 wbsd.BaseCost = item.UnitPrice * m_currentQty
-                wbsd.TransferBaseCost = wbsd.BaseCost
+                'wbsd.TransferBaseCost = wbsd.BaseCost
 
                 Dim childDr As DataRow = dtWbs.NewRow
                 childDr("priw_wbs") = wbsd.WBS.Id
@@ -1253,8 +1252,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("priw_ismarkup") = wbsd.IsMarkup
                 childDr("priw_direction") = 0               'in
                 childDr("priw_baseCost") = wbsd.BaseCost
-                childDr("priw_transferbaseCost") = wbsd.TransferBaseCost
-                childDr("priw_transferamt") = wbsd.TransferAmount
+                'childDr("priw_transferbaseCost") = wbsd.TransferBaseCost
+                'childDr("priw_transferamt") = wbsd.TransferAmount
                 childDr("priw_amt") = wbsd.Amount
                 childDr("priw_toaccttype") = 3
                 childDr("priw_cbs") = wbsd.CBS.Id
@@ -1283,7 +1282,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   newWbsd.CostCenter = item.Pr.CostCenter
                   newWbsd.Percent = 100 - currentSum
                   newWbsd.BaseCost = item.UnitPrice * m_currentQty
-                  newWbsd.TransferBaseCost = newWbsd.BaseCost
+                  'newWbsd.TransferBaseCost = newWbsd.BaseCost
                   Dim childDr As DataRow = dtWbs.NewRow
                   childDr("priw_wbs") = newWbsd.WBS.Id
                   childDr("priw_cc") = newWbsd.CostCenter.Id
@@ -1293,8 +1292,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   childDr("priw_ismarkup") = False
                   childDr("priw_direction") = 0                 'in
                   childDr("priw_baseCost") = newWbsd.BaseCost
-                  childDr("priw_transferbaseCost") = newWbsd.TransferBaseCost
-                  childDr("priw_transferamt") = newWbsd.TransferAmount
+                  'childDr("priw_transferbaseCost") = newWbsd.TransferBaseCost
+                  'childDr("priw_transferamt") = newWbsd.TransferAmount
                   childDr("priw_amt") = newWbsd.Amount
                   childDr("priw_toaccttype") = 3
                   childDr("priw_cbs") = newWbsd.CBS.Id

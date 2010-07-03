@@ -71,7 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=1")
         Dim wbsd As New WBSDistribute(wbsRow, "")
         m_outWbsdColl.Add(wbsd)
-        Me.MatOperationWithdraw.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, False)
+        Me.MatOperationWithdraw.SetActual(wbsd.WBS, 0, wbsd.Amount, False)
       Next
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)

@@ -1660,8 +1660,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePROrderedQty" _
           ', New SqlParameter("@po_id", Me.Id))
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           trans.Commit()
           'Catch ex As Exception
@@ -1826,7 +1826,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'End If
                 'currWBS = wbsd.WBS.Code & ":" & wbsd.WBS.Name
                 wbsd.BaseCost = bfTax
-                wbsd.TransferBaseCost = bfTax
+                'wbsd.TransferBaseCost = bfTax
                 Dim childDr As DataRow = dtWbs.NewRow
                 childDr("paiw_wbs") = wbsd.WBS.Id
                 childDr("paiw_sequence") = dr("pai_sequence")
@@ -1860,7 +1860,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   bfTax = item.CostAmount
                   'End If
                   newWbsd.BaseCost = bfTax
-                  newWbsd.TransferBaseCost = bfTax
+                  'newWbsd.TransferBaseCost = bfTax
                   Dim childDr As DataRow = dtWbs.NewRow
                   childDr("paiw_wbs") = newWbsd.WBS.Id
                   childDr("paiw_sequence") = dr("pai_sequence")

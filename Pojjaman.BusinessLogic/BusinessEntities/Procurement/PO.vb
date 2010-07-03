@@ -1370,8 +1370,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '--------------------------------------------------------------
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertPOProcedure" _
-          , New SqlParameter("@po", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
           If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -1583,7 +1582,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 currWBS = wbsd.WBS.Code & ":" & wbsd.WBS.Name
                 wbsd.BaseCost = bfTax
-                wbsd.TransferBaseCost = bfTax
+                'wbsd.TransferBaseCost = bfTax
                 Dim childDr As DataRow = dtWbs.NewRow
                 childDr("poiw_wbs") = wbsd.WBS.Id
                 If wbsd.CostCenter Is Nothing Then
@@ -1596,8 +1595,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("poiw_ismarkup") = wbsd.IsMarkup
                 childDr("poiw_direction") = 0               'in
                 childDr("poiw_baseCost") = wbsd.BaseCost
-                childDr("poiw_transferbaseCost") = wbsd.TransferBaseCost
-                childDr("poiw_transferamt") = wbsd.TransferAmount
+                'childDr("poiw_transferbaseCost") = wbsd.TransferBaseCost
+                'childDr("poiw_transferamt") = wbsd.TransferAmount
                 childDr("poiw_amt") = wbsd.Amount
                 childDr("poiw_toaccttype") = 3
                 childDr("poiw_cbs") = wbsd.CBS.Id
@@ -1620,7 +1619,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     bfTax = item.BeforeTax
                   End If
                   newWbsd.BaseCost = bfTax
-                  newWbsd.TransferBaseCost = bfTax
+                  'newWbsd.TransferBaseCost = bfTax
                   Dim childDr As DataRow = dtWbs.NewRow
                   childDr("poiw_wbs") = newWbsd.WBS.Id
                   childDr("poiw_cc") = newWbsd.CostCenter.Id
@@ -1630,8 +1629,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   childDr("poiw_ismarkup") = False
                   childDr("poiw_direction") = 0                 'in
                   childDr("poiw_baseCost") = newWbsd.BaseCost
-                  childDr("poiw_transferbaseCost") = newWbsd.TransferBaseCost
-                  childDr("poiw_transferamt") = newWbsd.TransferAmount
+                  'childDr("poiw_transferbaseCost") = newWbsd.TransferBaseCost
+                  'childDr("poiw_transferamt") = newWbsd.TransferAmount
                   childDr("poiw_amt") = newWbsd.Amount
                   childDr("poiw_toaccttype") = 3
                   childDr("poiw_cbs") = newWbsd.CBS.Id
