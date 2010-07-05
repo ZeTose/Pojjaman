@@ -1624,10 +1624,15 @@ Namespace Longkong.AdobeForm
 
 
                       Dim dataFont As Font
-                      If Not _Font Is Nothing Then
+                      If Not col.Font Is Nothing Then
+                        If Not _Font Is Nothing Then
+                          'ใช้ Style จาก font ใน item
+                          dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                        Else
+                          dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
+                        End If
+                      ElseIf Not _Font Is Nothing Then
                         dataFont = New Font(_Font.FontFamily.Name, _Font.Size, _Font.Style, GraphicsUnit.Point, CType(222, Byte))
-                      ElseIf Not col.Font Is Nothing Then
-                        dataFont = New Font(col.Font.FontFamily.Name, col.Font.Size, col.Font.Style, GraphicsUnit.Point, CType(222, Byte))
                       Else
                         dataFont = New Font(tb.Font.FontFamily.Name, tb.Font.Size, tb.Font.Style, System.Drawing.GraphicsUnit.Point, tb.Font.GdiCharSet)
                       End If
