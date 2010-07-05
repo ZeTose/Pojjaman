@@ -320,10 +320,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
         '------- End Tab Entities -------------------------------------------------------
 
-        Dim ret As Decimal = Me.GetSCRetentionRemaining
-        .m_retentionRemaining = ret
-        Dim adv As Decimal = Me.GetSCAdvancePayRemaining
-        Me.m_advancePayRemaining = ret
+        SetPAAdvancePayAndRetention()
+
+        'Dim ret As Decimal = Me.GetSCRetentionRemaining
+        '.m_retentionRemaining = ret
+        'Dim adv As Decimal = Me.GetSCAdvancePayRemaining
+        'Me.m_advancePayRemaining = adv
       End With
       m_itemCollection = New PAItemCollection(Me)
       'm_itemCollection.RefreshBudget()
