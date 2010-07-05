@@ -1357,7 +1357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkcancel.Enabled = True
         otherDetailGroupBox.Enabled = False
       Else
-        If Not m_entity.IsReferenced AndAlso Not CBool(checkString.Substring(0, 1)) Then
+        If Not m_entity.IsReferenced OrElse CBool(checkString.Substring(0, 1)) Then
           For Each ctrl As Control In primaryDetailGroupBox.Controls
             ctrl.Enabled = True
           Next
