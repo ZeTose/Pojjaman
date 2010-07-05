@@ -2750,10 +2750,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If item.ItemType.Value = 0 Then
                 dpi.Value = indent & item.EntityName.Trim
               Else
-                If item.Entity.Name IsNot Nothing AndAlso item.Entity.Name.Length > 0 Then
-                  dpi.Value = indent & item.Entity.Name.Trim
-                Else
+                If item.EntityName IsNot Nothing AndAlso item.EntityName.Length > 0 Then
                   dpi.Value = indent & item.EntityName.Trim
+                Else
+                  dpi.Value = indent & item.Entity.Name.Trim
                 End If
               End If
             Else
