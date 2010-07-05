@@ -1080,6 +1080,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.RealAmount = advancepay.AmountToPay
       Me.Date = advancepay.DocDate
       Me.BilledAmount = Me.RealAmount
+      Me.BeforeTax = advancepay.BeforeTax
       Me.AfterTax = advancepay.AfterTax
       Me.TaxBase = advancepay.RealTaxBase
 
@@ -1384,6 +1385,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
           If UnpaidAmount = Amount Then
+            If Me.EntityId = 59 Then
+              Return ((BeforeTax - DeductTaxBase) / BeforeTax) * (AfterTax - BeforeTax)
+            End If
             Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
           End If
           'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
