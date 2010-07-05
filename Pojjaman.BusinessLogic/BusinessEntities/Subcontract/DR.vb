@@ -1099,10 +1099,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@refto_iscanceled", isCanceled) _
           )
 
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           trans.Commit()
 
@@ -2100,10 +2097,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

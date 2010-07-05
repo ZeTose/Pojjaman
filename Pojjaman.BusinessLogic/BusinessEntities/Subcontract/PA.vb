@@ -3143,8 +3143,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

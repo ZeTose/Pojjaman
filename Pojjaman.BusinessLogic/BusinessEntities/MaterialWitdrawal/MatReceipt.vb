@@ -2004,8 +2004,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
         '==============================UPDATE PRITEM=========================================
 
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStockWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMatWBSActual")
 
         Return New SaveErrorException("2")
       Catch ex As SqlException
