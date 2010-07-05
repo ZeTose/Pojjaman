@@ -55,7 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_isinitialized As Boolean
 
     Private m_autogen As Boolean
-		Private m_entityId As Integer
+    Private m_entityId As Integer
     Private m_noSaveMessage As Boolean = False
 
 #End Region

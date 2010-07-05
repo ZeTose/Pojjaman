@@ -1270,14 +1270,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "IListDetail"
 		' ตรวจสอบสถานะของฟอร์ม
-		Public Overrides Sub CheckFormEnable()
-			If Me.m_entity.Canceled Then
-				For Each ctrl As Control In grbMatDetail.Controls
-					ctrl.Enabled = False
-				Next
-				Me.chkCancel.Enabled = True
-				grbOtherUnit.Enabled = False
-				grbLCI.Enabled = False
+    Public Overrides Sub CheckFormEnable()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(339)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
+      If Me.m_entity.Canceled Then
+        For Each ctrl As Control In grbMatDetail.Controls
+          ctrl.Enabled = False
+        Next
+        Me.chkCancel.Enabled = True
+        grbOtherUnit.Enabled = False
+        grbLCI.Enabled = False
       Else
         If m_entity.Level <> 5 Then
           For Each ctrl As Control In grbMatDetail.Controls
@@ -1285,7 +1289,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
           grbOtherUnit.Enabled = True
           grbLCI.Enabled = True
-        ElseIf m_entity.IsReferenced Then
+        ElseIf m_entity.IsReferenced AndAlso Not CBool(checkString.Substring(0, 1)) Then
           For Each ctrl As Control In grbMatDetail.Controls
             ctrl.Enabled = False
           Next
@@ -1316,7 +1320,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           grbLCI.Enabled = False
         End If
-       
+
         If Me.m_entity.Level < 5 Then
           If Me.m_entity.GetChildCount > 0 Then
             Me.txtlv1.Enabled = False
@@ -1326,8 +1330,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtlv5.Enabled = False
           End If
         End If
-			End If
-		End Sub
+      End If
+    End Sub
 
 		' เคลียร์ข้อมูลวัสดุภัณฑ์ใน control
 		Public Overrides Sub ClearDetail()

@@ -1344,6 +1344,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
+
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(338)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
       'lblStatus.Text = ""
       If Me.m_entity.Canceled Then
         For Each ctrl As Control In primaryDetailGroupBox.Controls
@@ -1352,7 +1357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkcancel.Enabled = True
         otherDetailGroupBox.Enabled = False
       Else
-        If Not m_entity.IsReferenced Then
+        If Not m_entity.IsReferenced AndAlso Not CBool(checkString.Substring(0, 1)) Then
           For Each ctrl As Control In primaryDetailGroupBox.Controls
             ctrl.Enabled = True
           Next
@@ -1363,7 +1368,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
           otherDetailGroupBox.Enabled = False
         End If
-        
+
       End If
     End Sub
 
