@@ -1862,7 +1862,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Else
             newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
             'End If
-            If newItem.EntityId = 45 Then
+            If newItem.EntityId = 45 Or newItem.EntityId = 292 Then
               'payable = New GoodsReceipt(item.Id) 'Julawut ถ้า new GoodsReceipt จะช้ามาก ๆ *แก้เรื่องความเร็ว
               Dim wht As WitholdingTaxCollection = New WitholdingTaxCollection(newItem.Id, newItem.EntityId)
               payable = New GoodsReceipt
