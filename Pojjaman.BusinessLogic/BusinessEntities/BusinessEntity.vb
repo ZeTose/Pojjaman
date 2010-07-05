@@ -171,7 +171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return BusinessEntity.CreateEntity(fullClassName, Nothing)
     End Function
     Public Shared Function GetApprovePersonListfromDoc(ByVal DocId As Integer, ByVal TypeId As Integer) As DataTable
-       Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
+      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
       Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
           , CommandType.StoredProcedure _
           , "GetApprovePersonListfromDoc" _

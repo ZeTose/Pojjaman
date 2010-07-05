@@ -1712,25 +1712,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In appTable.Rows
           Dim deh As New DataRowHelper(row)
           dpi = New DocPrintingItem
-          dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of String)("user_name")
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
           dpi = New DocPrintingItem
-          dpi.Mapping = "ApprovePersonCodeLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Mapping = "ApprovePersonCodeLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of String)("user_code")
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
           dpi = New DocPrintingItem
-          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of String)("user_name") & ":" & deh.GetValue(Of String)("user_code")
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
 
           dpi = New DocPrintingItem
-          dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("appdoc_level").ToString
+          dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
           dpi.DataType = "System.DateTime"
           dpiColl.Add(dpi)
