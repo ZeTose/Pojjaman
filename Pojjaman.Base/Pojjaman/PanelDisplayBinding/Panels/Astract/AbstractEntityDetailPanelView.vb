@@ -775,21 +775,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ผู้ที่ Print
           Dim mySecurity As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
           myDpi = New DocPrintingItem
-          myDpi.Mapping = "PrintBy"
+          myDpi.Mapping = m_entityNames(entity) & "." & "PrintBy"
           myDpi.Value = mySecurity.CurrentUser.Name
           myDpi.DataType = "System.String"
           myDpiColl.Add(myDpi)
 
           'วันที่ Print
           myDpi = New DocPrintingItem
-          myDpi.Mapping = "PrintDate"
+          myDpi.Mapping = m_entityNames(entity) & "." & "PrintDate"
           myDpi.Value = Date.Now.ToString("dd/MM/yyyy hh:mm:ss")
           myDpi.DataType = "System.Datetime"
           myDpiColl.Add(myDpi)
 
           'จำนวนครั้งที่ Print
           myDpi = New DocPrintingItem
-          myDpi.Mapping = "PrintNumber"
+          myDpi.Mapping = m_entityNames(entity) & "." & "PrintNumber"
           myDpi.Value = myEntity.GetNumberOfPrinting + 1
           myDpi.DataType = "System.Integer"
           myDpiColl.Add(myDpi)
