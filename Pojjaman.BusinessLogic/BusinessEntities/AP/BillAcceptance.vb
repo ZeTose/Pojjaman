@@ -1386,7 +1386,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If UnpaidAmount = Amount Then
             Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
           End If
-          Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          'If DeductTaxBase = 0 Then
+          'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
+          Return (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          'Else
+          '  Dim x As Decimal = ((TaxBase - DeductTaxBase) / TaxBase)
+          '  Dim vated As Decimal = DeductTaxBase / TaxBase
+          '  Dim b As Decimal = (Amount / UnpaidAmount)
+          '  Dim taxamt As Decimal = (AfterTax - BeforeTax)
+          '  Dim ret As Decimal = (b - vated) * taxamt
+          '  Return ret
+          'End If
         End If
         If UnpaidAmount <> Amount Then
           Return (AfterTax - BeforeTax) * Amount / UnpaidAmount

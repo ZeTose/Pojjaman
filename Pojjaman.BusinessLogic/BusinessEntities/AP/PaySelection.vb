@@ -1170,23 +1170,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
         ji.CostCenter = myCC
         jiColl.Add(ji)
-      End If
 
-      'ภาษีซื้อไม่ถึงกำหนด
-      For Each pi As BillAcceptanceItem In Me.ItemCollection
-        If pi.EntityId <> 46 AndAlso pi.EntityId <> 199 Then
-          If pi.Amount <> 0 Then
-            ji = New JournalEntryItem
-            ji.Mapping = "B8.5D"
-            ji.Amount = Configuration.Format(pi.TaxAmountDeducted, DigitConfig.Price)
-            ji.CostCenter = myCC
-            ji.EntityItem = pi.Id
-            ji.EntityItemType = pi.EntityId
-            ji.Note = pi.Code & "/" & pi.itemType
-            jiColl.Add(ji)
+        'ภาษีซื้อไม่ถึงกำหนด
+        For Each pi As BillAcceptanceItem In Me.ItemCollection
+          If pi.EntityId <> 46 AndAlso pi.EntityId <> 199 Then
+            If pi.Amount <> 0 Then
+              ji = New JournalEntryItem
+              ji.Mapping = "B8.5D"
+              ji.Amount = Configuration.Format(pi.TaxAmountDeducted, DigitConfig.Price)
+              ji.CostCenter = myCC
+              ji.EntityItem = pi.Id
+              ji.EntityItemType = pi.EntityId
+              ji.Note = pi.Code & "/" & pi.itemType
+              jiColl.Add(ji)
+            End If
           End If
-        End If
-      Next
+        Next
+
+      End If
 
 
       'ภาษีหัก ณ ที่จ่าย
@@ -1458,8 +1459,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Dim ptb As Decimal
         For Each item As BillAcceptanceItem In Me.ItemCollection
-          If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 Then
-            ptb += (item.Amount / item.BilledAmount) * (item.TaxBase - item.DeductTaxBase)
+          If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
+            'ptb += (item.Amount / item.BilledAmount) * (item.TaxBase - item.DeductTaxBase)
+            'ถ้าจ่ายไม่เต็ม ค่า taxbase ต้องเท่ากับค่าจ่ายเท่านั้น
+            ptb += (item.Amount / item.BilledAmount) * (item.TaxBase) ' - item.DeductTaxBase)
           End If
         Next
         Return ptb

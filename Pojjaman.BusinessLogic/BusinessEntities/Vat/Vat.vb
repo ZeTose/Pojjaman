@@ -647,7 +647,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                      , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
             End If
             If tmpTaxBase < tmpRefTaxBase Then
-              If (tmpTaxBase - ptb) > CDec(obj) Then
+              If Math.Abs(tmpTaxBase - ptb) > CDec(obj) Then
                 Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
                      New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
                      , Configuration.FormatToString(ptb, DigitConfig.Price)})
