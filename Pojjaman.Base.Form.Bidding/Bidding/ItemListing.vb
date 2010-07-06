@@ -2907,7 +2907,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()
+      '-------- ให้เห็น ปุ่ม lock
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(349)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
 
+      btnLockBoq.Visible = True
+      If Not CBool(checkString.Substring(0, 1)) Then
+        btnLockBoq.Visible = False
+      End If
+      '----------
     End Sub
     Public Overrides Sub ClearDetail()
       For Each crlt As Control In Me.Controls

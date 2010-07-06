@@ -2,6 +2,7 @@ Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class WBSDetail
     Inherits AbstractEntityDetailPanelView
@@ -654,6 +655,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
+
+      '-------- ให้เห็น ปุ่ม lock
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(349)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
+
+      btnLockBoq.Visible = True
+      If Not CBool(checkString.Substring(0, 1)) Then
+        btnLockBoq.Visible = False
+      End If
+      '----------
       If Me.m_entity.Status.Value = 0 OrElse _
       Me.m_entity.Status.Value >= 3 Then
         For Each ctrl As Control In grbDetail.Controls
@@ -752,7 +765,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.tvWbs.SelectedNode = Me.tvWbs.Nodes(0)
       End If
 
-     
+
 
       UpdateRefDoc()
 
@@ -1067,7 +1080,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1341,10 +1354,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLockBoq.Click
       If m_entity.Locked Then
         m_entity.Locked = False
-       
+
       Else
         m_entity.Locked = True
-        
+
       End If
       UpdateEntityProperties()
     End Sub
