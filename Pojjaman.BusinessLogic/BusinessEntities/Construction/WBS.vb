@@ -691,7 +691,30 @@ Public Class LevelPropertyAttribute
       Catch ex As Exception
       End Try
       Return 0
-    End Function    Public Function GetWBSQtyActualFromDB(ByVal Id As Integer, ByVal docType As Integer _                                         , ByVal itemId As Integer, ByVal ItemTypeId As Integer, ByVal itemName As String) As Decimal      Try
+    End Function    Public Function GetWBSMarkUpActualFromDB(ByVal Id As Integer, ByVal entityId As Integer _                                      , ByVal ItemTypeId As Integer, ByVal direction As Boolean) As Decimal      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetWBSMarkUpActualRemain" _
+                , New SqlParameter("@id", Id) _
+                , New SqlParameter("@entityId", entityId) _
+                , New SqlParameter("@wbsid", Me.Id) _
+                , New SqlParameter("@itemTypeId", ItemTypeId) _
+                , New SqlParameter("@direction", direction) _
+                )
+        Dim tableIndex As Integer = 0
+        If ds.Tables.Count > tableIndex Then
+          If ds.Tables(tableIndex).Rows.Count > 0 Then
+            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+              Return 0
+            End If
+            Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+          End If
+        End If
+      Catch ex As Exception
+      End Try
+      Return 0
+    End Function    Public Function GetWBSQtyActualFromDB(ByVal Id As Integer, ByVal docType As Integer _                                         , ByVal itemId As Integer, ByVal ItemTypeId As Integer, ByVal itemName As String) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
                 , CommandType.StoredProcedure _
@@ -864,6 +887,28 @@ Public Class LevelPropertyAttribute
       End Try
       Return 0
     End Function
+
+        Public Function GetTotalMarkUpFromDB() As Decimal
+            Try
+                Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                        ConnectionString _
+                        , CommandType.Text _
+                        , "select isnull(markup_totalamt,0) [budget] " & _
+                        " from markup where markup_id = " & Me.Id.ToString & "" _
+                        )
+                Dim tableIndex As Integer = 0
+                If ds.Tables.Count > tableIndex Then
+                    If ds.Tables(tableIndex).Rows.Count > 0 Then
+                        If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+                            Return 0
+                        End If
+                        Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
+            Return 0
+        End Function
 
     Public Function GetTotalParentBudget() As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -1432,8 +1477,21 @@ Public Class LevelPropertyAttribute
       Finally
         conn.Close()
       End Try
-		End Function
-		Public Shared ParentBudgetHash As New Hashtable
+    End Function
+    Public Shared Function GetParentsBudgetList(ByVal doctype As Integer, ByVal wbsidList As String) As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+          SimpleBusinessEntityBase.ConnectionString _
+         , CommandType.StoredProcedure _
+         , "GetParentsBudget" _
+         , New SqlParameter("@wbsidlist", wbsidList) _
+         , New SqlParameter("@doctype", doctype) _
+         )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return ds
+      End If
+      Return Nothing
+    End Function
+    Public Shared ParentBudgetHash As New Hashtable
     Public Function GetParentsBudget(ByVal doctype As Integer, Optional ByVal ccid As Integer = 0) As ArrayList
       'Dim arr As New ArrayList
       'If ccid <> 0 Then

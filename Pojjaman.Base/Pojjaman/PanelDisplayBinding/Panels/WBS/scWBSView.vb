@@ -693,16 +693,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Dim wsdColl As WBSDistributeCollection = doc.wbsd
       Dim row As TreeRow = Me.m_wbsTreeManager.SelectedRow
       If TypeOf myEntity Is WBS Then
-        CType(row.Tag, WBSDistribute).WBS = CType(myEntity, WBS)
         CType(row.Tag, WBSDistribute).IsMarkup = False
+        CType(row.Tag, WBSDistribute).WBS = CType(myEntity, WBS)
       ElseIf TypeOf myEntity Is Markup Then
         Dim newWBS As New WBS
         Dim myMarkup As Markup = CType(myEntity, Markup)
         newWBS.Id = myMarkup.Id
         newWBS.Code = myMarkup.Code
         newWBS.Name = myMarkup.Name
-        CType(row.Tag, WBSDistribute).WBS = newWBS
         CType(row.Tag, WBSDistribute).IsMarkup = True
+        CType(row.Tag, WBSDistribute).WBS = newWBS
       End If
 
       'Dim view As Integer = 7
@@ -965,7 +965,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
                 wbsd.RemainSummary = parWBS.RemainSummary - (wbsd.Amount + wbsd.ChildAmount)
                 CType(hashWBS(key), WBSDistribute).RemainSummary = wbsd.RemainSummary
-
               End If
               'Qty --------------------------------------------------------
               If Not hashWBSItem.Contains(itemKey) Then
