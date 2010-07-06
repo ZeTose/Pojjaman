@@ -43,6 +43,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New()
       MyBase.New()
       m_WBSDistributeCollection = New WBSDistributeCollection
+      AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
       'm_outWbsdColl = New WBSDistributeCollection
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -62,6 +63,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       )
       Me.Construct(ds.Tables(0).Rows(0), "")
       m_WBSDistributeCollection = New WBSDistributeCollection
+      AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
       For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & Me.Sequence & "and stockiw_direction=0")
         Dim wbsd As New WBSDistribute(wbsRow, "")
         m_WBSDistributeCollection.Add(wbsd)
@@ -554,6 +556,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
       row("stocki_note") = Me.Note
       Me.MatReceipt.IsInitialized = True
     End Sub
+
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+     
+      If TypeOf sender Is WBSDistribute Then
+        Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
+        Select Case e.Name.ToLower
+          Case "percent"
+            If Not Me.m_matReceipt Is Nothing Then
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+            End If
+          Case "amount"
+            If Not Me.m_matReceipt Is Nothing Then
+
+              'Me.m_sc.SetActual(wbsd.WBS, CDec(e.OldValue), CDec(e.Value), Me.ItemType.Value)
+            End If
+          Case "wbs"
+            'Dim oldWBS As WBS = CType(e.OldValue, WBS)
+            Dim newWBS As WBS = CType(e.Value, WBS)
+            Dim theName As String = ""
+            If Me.m_entity IsNot Nothing Then
+              theName = Me.Entity.Name
+            End If
+            
+                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+                wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
+              
+            If wbsd.IsMarkup Then
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.MatReceipt.Id, Me.MatReceipt.EntityId, 42)
+              wbsd.QtyRemain = 0
+            Else
+              wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.MatReceipt.Id, Me.MatReceipt.EntityId, 42)
+              wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.MatReceipt.Id, Me.MatReceipt.EntityId, Me.Entity.Id, _
+                                                                           42, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+            End If
+
+        End Select
+      End If
+    End Sub
+
+
     Public Sub UpdateWBSQty()
       For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         'Dim bfTax As Decimal = 0
@@ -698,6 +741,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Add(item)
 
         Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        AddHandler inWbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
         item.WBSDistributeCollection = inWbsdColl
         For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
           Dim wbsd As New WBSDistribute(wbsRow, "")
