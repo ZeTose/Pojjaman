@@ -781,12 +781,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ret
     End Function
-    Private Function PROverBudget() As Boolean
+    Private Function ListWbsId() As String
+      Dim idList As New ArrayList
+      For Each itm As PRItem In Me.ItemCollection
+        For Each iwbsd As WBSDistribute In itm.WBSDistributeCollection
+          idList.Add(iwbsd.WBS.Id)
+        Next
+      Next
+      If idList.Count > 0 Then
+        Return String.Join(",", idList.ToArray)
+      End If
+    End Function
+    Private Function ValidateOverBudget() As SaveErrorException
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
       If Me.CostCenter.Type.Value <> 2 Then
-        Return False
+        Return New SaveErrorException("-1")
       End If
       If Me.CostCenter.Boq Is Nothing OrElse Me.CostCenter.Boq.Id = 0 Then
-        Return False
+        Return New SaveErrorException("-1")
       End If
       'PROverBudgetOnlyCC
       Dim config As Object = Configuration.GetConfig("PROverBudgetOnlyCC")
@@ -794,76 +807,83 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not config Is Nothing Then
         onlyCC = CBool(config)
       End If
+
+      Dim idList As String = Me.ListWbsId
+      Dim dsParentBudget As New DataSet
+      dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
+      Dim currwbsId As Integer
+
       If Not onlyCC Then
         For Each item As PRItem In Me.ItemCollection
           If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
-            Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-            If wsdColl.Count = 0 Then
-              Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-              Dim totalBudget As Decimal = 0
-              Dim totalActual As Decimal = 0
-              Dim totalCurrentDiff As Decimal = item.Amount
-              Select Case item.ItemType.Value
-                Case 88
-                  totalBudget = rootWBS.GetTotalLabFromDB
-                  totalActual = rootWBS.GetActualLab(Me, 7)
-                Case 89
-                  totalBudget = rootWBS.GetTotalEQFromDB
-                  totalActual = rootWBS.GetActualEq(Me, 7)
-                Case Else
-                  totalBudget = rootWBS.GetTotalMatFromDB
-                  totalActual = rootWBS.GetActualMat(Me, 7)
-              End Select
-              If totalBudget < (totalActual + totalCurrentDiff) Then
-                Return True
+            Dim totalBudget As Decimal = 0
+            Dim totalActual As Decimal = 0
+            Dim totalCurrent As Decimal = 0
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              totalCurrent = (wbsd.Percent / 100) * item.Amount
+
+              'สำหรับ WBS ตัวมันเอง =====>>
+              If wbsd.BudgetRemain - totalCurrent < 0 Then
+                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
               End If
-            End If
-            For Each wbsd As WBSDistribute In wsdColl
-              If wbsd.AmountOverBudget Then
-                Return True
-              End If
-              Dim rootWBS As New WBS(wbsd.WBS.Id)
-              Dim totalBudget As Decimal = 0
-              Dim totalActual As Decimal = 0
-              Dim totalCurrentDiff As Decimal = 0
-              Select Case item.ItemType.Value
-                Case 88
-                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
-                Case 89
-                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
-                Case Else
-                  totalCurrentDiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
-              End Select
-              For Each row As DataRow In rootWBS.GetParentsBudget(Me.EntityId)
+              'สำหรับ WBS ตัวมันเอง =====<<
+
+              currwbsId = wbsd.WBS.Id
+              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                Dim drh As New DataRowHelper(drow)
+
                 totalBudget = 0
                 totalActual = 0
                 Select Case item.ItemType.Value
                   Case 88
-                    If Not row.IsNull("labbudget") Then
-                      totalBudget = CDec(row("labbudget"))
-                    End If
-                    If Not row.IsNull("labactual") Then
-                      totalActual = CDec(row("labactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                    totalActual = drh.GetValue(Of Decimal)("labactual")
                   Case 89
-                    If Not row.IsNull("eqbudget") Then
-                      totalBudget = CDec(row("eqbudget"))
-                    End If
-                    If Not row.IsNull("eqactual") Then
-                      totalActual = CDec(row("eqactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                    totalActual = drh.GetValue(Of Decimal)("eqactual")
                   Case Else
-                    If Not row.IsNull("matbudget") Then
-                      totalBudget = CDec(row("matbudget"))
-                    End If
-                    If Not row.IsNull("matactual") Then
-                      totalActual = CDec(row("matactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                    totalActual = drh.GetValue(Of Decimal)("matactual")
                 End Select
-                If totalBudget < (totalActual + totalCurrentDiff) Then
-                  Return True
+                If totalBudget < (totalActual + wbsd.Amount) Then
+                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
+                  Dim myWBS As New WBS(myId)
+                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
                 End If
               Next
+
+              'For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
+              '  totalBudget = 0
+              '  totalActual = 0
+              '  Select Case item.ItemType.Value
+              '    Case 88
+              '      If Not row.IsNull("labbudget") Then
+              '        totalBudget = CDec(row("labbudget"))
+              '      End If
+              '      If Not row.IsNull("labactual") Then
+              '        totalActual = CDec(row("labactual"))
+              '      End If
+              '    Case 89
+              '      If Not row.IsNull("eqbudget") Then
+              '        totalBudget = CDec(row("eqbudget"))
+              '      End If
+              '      If Not row.IsNull("eqactual") Then
+              '        totalActual = CDec(row("eqactual"))
+              '      End If
+              '    Case Else
+              '      If Not row.IsNull("matbudget") Then
+              '        totalBudget = CDec(row("matbudget"))
+              '      End If
+              '      If Not row.IsNull("matactual") Then
+              '        totalActual = CDec(row("matactual"))
+              '      End If
+              '  End Select
+              '  If totalBudget < (totalActual + wbsd.Amount) Then
+              '       Dim myId As Integer = CInt(row("depend_parent"))
+              '    Dim myWBS As New WBS(myId)
+              '    Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+              '  End If
+              'Next
             Next
           End If
         Next
@@ -875,10 +895,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88)) + _
         Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
         If totalBudget < (totalActual + totalCurrentDiff) Then
-          Return True
+          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
         End If
       End If
-      Return False
+
+      Return New SaveErrorException("0")
     End Function
     Private Function ValidateItem() As SaveErrorException
       Dim key As String = ""
@@ -918,22 +939,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
         End If
+
+        'Check Over Budget ====================================
+        Dim ValidateOverBudgetError As SaveErrorException
         Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
         Select Case config
           Case 0   'Not allow
-            If PROverBudget() Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.PROverBudgetCannotBeSaved}"))
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              Return New SaveErrorException(msgString & vbCrLf & msgString2)
             End If
           Case 1   'Warn
-            If PROverBudget() Then
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
               Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              If Not msgServ.AskQuestion("${res:Global.Question.PROverBudgetSaveAnyway}") Then
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
                 Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
               End If
             End If
           Case 2   'Do Nothing
         End Select
-        'Dim tmpBoq As BOQ = Me.CostCenter.Boq
+        'Check Over Budget ====================================
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"

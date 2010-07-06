@@ -1012,29 +1012,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
                 wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
             End Select
-            wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.Pr.Id, Me.Pr.EntityId, Me.ItemType.Value)
-            wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.Pr.Id, Me.Pr.EntityId, Me.Entity.Id, _
-                                                                        Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+            If wbsd.IsMarkup Then
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.Pr.Id, Me.Pr.EntityId, Me.ItemType.Value)
+              wbsd.QtyRemain = 0
+            Else
+              wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.Pr.Id, Me.Pr.EntityId, Me.ItemType.Value)
+              If Me.ItemType.Value <> 88 And Me.ItemType.Value <> 89 Then
+                wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.Pr.Id, Me.Pr.EntityId, Me.Entity.Id, _
+                                                                              Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+              Else
+                wbsd.QtyRemain = 0
+              End If
+            End If
+
         End Select
       End If
     End Sub
 
     Public Sub UpdateWBSQty()
-      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, ItemType.Value)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
-
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
+      If Me.ItemType.Value <> 88 AndAlso Me.ItemType.Value <> 89 Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          If wbsd.IsMarkup Then
+            wbsd.BaseQty = 0
+          Else
+            Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, ItemType.Value)
+            If boqConversion = 0 Then
+              wbsd.BaseQty = Me.Qty
+            Else
+              wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+            End If
+          End If
+        Next
+      Else
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          wbsd.BaseQty = 0
+        Next
+      End If
     End Sub
 
 #Region "IWBSAllocatableItem"
