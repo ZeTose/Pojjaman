@@ -913,6 +913,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '    End If
       '    Return False
     End Function
+    Private Function ListWbsId() As String
+      Dim idList As New ArrayList
+      For Each itm As POItem In Me.ItemCollection
+        For Each iwbsd As WBSDistribute In itm.WBSDistributeCollection
+          idList.Add(iwbsd.WBS.Id)
+        Next
+      Next
+      If idList.Count > 0 Then
+        Return String.Join(",", idList.ToArray)
+      End If
+    End Function
     Private Function ValidateOverBudget() As SaveErrorException
       Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       If Me.CostCenter.Type.Value <> 2 Then
@@ -930,6 +941,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '====================
       WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
       '====================
+      Dim idList As String = Me.ListWbsId
+      Dim dsParentBudget As New DataSet
+      dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
+      Dim currwbsId As Integer
+      Dim dt As New DataTable
       If Not onlyCC Then
         For Each item As VOItem In Me.ItemCollection
           If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
@@ -947,50 +963,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'สำหรับ WBS ตัวมันเอง =====<<
 
               'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
-              For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
+              currwbsId = wbsd.WBS.Id
+              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                Dim drh As New DataRowHelper(drow)
                 totalBudget = 0
                 totalActual = 0
                 Select Case item.ItemType.Value
                   Case 88
-                    If Not row.IsNull("labbudget") Then
-                      totalBudget = CDec(row("labbudget"))
-                    End If
-                    If Not row.IsNull("labactual") Then
-                      totalActual = CDec(row("labactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                    totalActual = drh.GetValue(Of Decimal)("labactual")
                   Case 89
-                    If Not row.IsNull("eqbudget") Then
-                      totalBudget = CDec(row("eqbudget"))
-                    End If
-                    If Not row.IsNull("eqactual") Then
-                      totalActual = CDec(row("eqactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                    totalActual = drh.GetValue(Of Decimal)("eqactual")
                   Case Else
-                    If Not row.IsNull("matbudget") Then
-                      totalBudget = CDec(row("matbudget"))
-                    End If
-                    If Not row.IsNull("matactual") Then
-                      totalActual = CDec(row("matactual"))
-                    End If
+                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                    totalActual = drh.GetValue(Of Decimal)("matactual")
                 End Select
-                If Me.Originated Then
-                  If item.ItemType.Value = 88 Then
-                    totalActual -= item.OldLab
-                  ElseIf item.ItemType.Value = 89 Then
-                    totalActual -= item.OldEq
-                  Else
-                    totalActual -= item.OldMat
-                  End If
-                End If
-                Trace.WriteLine("")
-                Trace.WriteLine(totalBudget.ToString)
-                Trace.WriteLine(totalActual.ToString)
-                Trace.WriteLine(totalCurrent.ToString)
-                If totalBudget < (totalActual + totalCurrent) Then
-                  Dim myId As Integer = CInt(row("depend_parent"))
+                If totalBudget < (totalActual + wbsd.Amount) Then
+                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
                   Dim myWBS As New WBS(myId)
                   Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
                 End If
+                'Trace.WriteLine("")
+                'Trace.WriteLine(totalBudget.ToString)
+                'Trace.WriteLine(totalActual.ToString)
+                'Trace.WriteLine(totalCurrent.ToString)
+                'If totalBudget < (totalActual + totalCurrent) Then
+                '  Dim myId As Integer = CInt(row("depend_parent"))
+                '  Dim myWBS As New WBS(myId)
+                '  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                'End If
               Next
               'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
             Next

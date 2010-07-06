@@ -398,32 +398,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property    Public Sub UpdateWBSQty()
-      If (Me.ItemType.Value = 160 OrElse
-          Me.ItemType.Value = 162 OrElse
-          Me.ItemType.Value = 88 OrElse
-          Me.ItemType.Value = 89) Then
-        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-          wbsd.BaseQty = 0
-          wbsd.QtyRemain = 0
-        Next
-        Return
-      End If
-      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, ItemType.Value)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
-
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
+        End If      End Set    End Property     Public Sub UpdateWBSQty()
+      Select Case Me.ItemType.Value
+        Case 88, 89, 160, 162
+          For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+            wbsd.BaseQty = 0
+          Next
+        Case Else
+          For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+            If wbsd.IsMarkup Then
+              wbsd.BaseQty = 0
+            Else
+              Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, Me.ItemType.Value)
+              If boqConversion = 0 Then
+                wbsd.BaseQty = Me.Qty
+              Else
+                wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+              End If
+            End If
+          Next
+      End Select
     End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -1487,14 +1481,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
                 wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
             End Select
-            wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.ItemType.Value)
-            wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.Entity.Id, _
-                                                                           Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+            If wbsd.IsMarkup Then
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.ItemType.Value)
+              wbsd.QtyRemain = 0
+            Else
+              wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.ItemType.Value)
+              If Me.ItemType.Value <> 88 And Me.ItemType.Value <> 89 Then
+                wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.VO.Id, Me.VO.EntityId, Me.Entity.Id, _
+                                                                               Me.ItemType.Value, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
 
-            'UpdateWBSQty()
+                'UpdateWBSQty()
 
-            'Me.m_vo.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
-            'Me.m_vo.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+                'Me.m_vo.SetActual(oldWBS, wbsd.TransferAmount, 0, Me.ItemType.Value)
+                'Me.m_vo.SetActual(newWBS, 0, wbsd.TransferAmount, Me.ItemType.Value)
+              Else
+                wbsd.QtyRemain = 0
+              End If
+            End If
+
         End Select
       End If
     End Sub

@@ -551,32 +551,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_wriorginQty = qty
     End Sub
 
-    Public Sub UpdateWBSQty()
-      If (Me.ItemType.Value = 160 OrElse
-          Me.ItemType.Value = 162 OrElse
-          Me.ItemType.Value = 88 OrElse
-          Me.ItemType.Value = 89) Then
-        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-          wbsd.BaseQty = 0
-          wbsd.QtyRemain = 0
-        Next
-        Return
-      End If
-      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
-        'Dim bfTax As Decimal = 0
-        'Dim oldVal As Decimal = wbsd.TransferAmount
-        'Dim transferAmt As Decimal = Me.Amount
-        'wbsd.BaseCost = bfTax
-        'wbsd.TransferBaseCost = transferAmt
-        Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, ItemType.Value)
-        If boqConversion = 0 Then
-          wbsd.BaseQty = Me.Qty
-        Else
-          wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
-        End If
-
-        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
-      Next
+   Public Sub UpdateWBSQty()
+      Select Case Me.ItemType.Value
+        Case 88, 89, 160, 162
+          For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+            wbsd.BaseQty = 0
+          Next
+        Case Else
+          For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+            If wbsd.IsMarkup Then
+              wbsd.BaseQty = 0
+            Else
+              Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, Me.ItemType.Value)
+              If boqConversion = 0 Then
+                wbsd.BaseQty = Me.Qty
+              Else
+                wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+              End If
+            End If
+          Next
+      End Select
     End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")

@@ -749,99 +749,103 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ret
     End Function
-    'Private Function ValidateOverBudget() As SaveErrorException
-    '  Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-    '  If Me.ToCostCenter.Type.Value <> 2 Then
-    '    Return New SaveErrorException("-1")
-    '  End If
-    '  If Me.ToCostCenter.Boq Is Nothing OrElse Me.ToCostCenter.Boq.Id = 0 Then
-    '    Return New SaveErrorException("-1")
-    '  End If
-    '  'PROverBudgetOnlyCC
-    '  Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
-    '  Dim onlyCC As Boolean = False
-    '  If Not config Is Nothing Then
-    '    onlyCC = CBool(config)
-    '  End If
-    '  '====================
-    '  WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
-    '  '====================
-    '  If Not onlyCC Then
-    '    For Each item As DRItem In Me.ItemCollection
-    '      If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
+    Private Function ListWbsId() As String
+      Dim idList As New ArrayList
+      For Each itm As DRItem In Me.ItemCollection
+        For Each iwbsd As WBSDistribute In itm.WBSDistributeCollection
+          idList.Add(iwbsd.WBS.Id)
+        Next
+      Next
+      If idList.Count > 0 Then
+        Return String.Join(",", idList.ToArray)
+      End If
+    End Function
+    Private Function ValidateOverBudget() As SaveErrorException
+      Dim stringPar As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      If Me.ToCostCenter.Type.Value <> 2 Then
+        Return New SaveErrorException("-1")
+      End If
+      If Me.ToCostCenter.Boq Is Nothing OrElse Me.ToCostCenter.Boq.Id = 0 Then
+        Return New SaveErrorException("-1")
+      End If
+      'PROverBudgetOnlyCC
+      Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
+      Dim onlyCC As Boolean = False
+      If Not config Is Nothing Then
+        onlyCC = CBool(config)
+      End If
+      '====================
+      WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
+      '====================
+      Dim idList As String = Me.ListWbsId
+      Dim dsParentBudget As New DataSet
+      dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
+      Dim currwbsId As Integer
+      Dim dt As New DataTable
+      If Not onlyCC Then
+        For Each item As DRItem In Me.ItemCollection
+          If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
+            Dim totalBudget As Decimal = 0
+            Dim totalActual As Decimal = 0
+            Dim totalCurrent As Decimal = 0
+            For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+              totalCurrent = (wbsd.Percent / 100) * item.Amount
+              'สำหรับ WBS ตัวมันเอง =====>>
+              If wbsd.BudgetRemain - totalCurrent < 0 Then
+                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+              End If
+              '          'สำหรับ WBS ตัวมันเอง =====<<
 
-    '        Dim totalBudget As Decimal = 0
-    '        Dim totalActual As Decimal = 0
-    '        Dim totalCurrent As Decimal = 0
-    '        For Each wbsd As WBSDistribute In item.ToCCWBSDistributeCollection
-    '          totalCurrent = (wbsd.Percent / 100) * item.Amount
+              '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
 
-    '          'สำหรับ WBS ตัวมันเอง =====>>
-    '          If wbsd.BudgetRemain - totalCurrent < 0 Then
-    '            Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
-    '          End If
-    '          'สำหรับ WBS ตัวมันเอง =====<<
+              currwbsId = wbsd.WBS.Id
+              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                Dim drh As New DataRowHelper(drow)
+                totalBudget = 0
+                totalActual = 0
+                Select Case item.ItemType.Value
+                  Case 88
+                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                    totalActual = drh.GetValue(Of Decimal)("labactual")
+                  Case 89
+                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                    totalActual = drh.GetValue(Of Decimal)("eqactual")
+                  Case Else
+                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                    totalActual = drh.GetValue(Of Decimal)("matactual")
+                End Select
+                If totalBudget < (totalActual + wbsd.Amount) Then
+                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
+                  Dim myWBS As New WBS(myId)
+                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                End If
+              Next
+            Next
+          End If
+        Next
+          '            If totalBudget < (totalActual + totalCurrent) Then
+          '              Dim myId As Integer = CInt(row("depend_parent"))
+          '              Dim myWBS As New WBS(myId)
+          '              Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+          '            End If
+        'Next
+              '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
+        'Next
+        'End If
+        'Next
+      Else
+        Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
+        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 7) + rootWBS.GetActualLab(Me, 7) + rootWBS.GetActualEq(Me, 7))
+        Dim totalCurrent As Decimal = Me.ItemCollection.Amount
 
-    '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====>>
-    '          For Each row As DataRow In wbsd.WBS.GetParentsBudget(Me.EntityId)
-    '            totalBudget = 0
-    '            totalActual = 0
-    '            Select Case item.ItemType.Value
-    '              Case 88
-    '                If Not row.IsNull("labbudget") Then
-    '                  totalBudget = CDec(row("labbudget"))
-    '                End If
-    '                If Not row.IsNull("labactual") Then
-    '                  totalActual = CDec(row("labactual"))
-    '                End If
-    '              Case 89
-    '                If Not row.IsNull("eqbudget") Then
-    '                  totalBudget = CDec(row("eqbudget"))
-    '                End If
-    '                If Not row.IsNull("eqactual") Then
-    '                  totalActual = CDec(row("eqactual"))
-    '                End If
-    '              Case Else
-    '                If Not row.IsNull("matbudget") Then
-    '                  totalBudget = CDec(row("matbudget"))
-    '                End If
-    '                If Not row.IsNull("matactual") Then
-    '                  totalActual = CDec(row("matactual"))
-    '                End If
-    '            End Select
-    '            If Me.Originated Then
-    '              If item.ItemType.Value = 88 Then
-    '                totalActual -= item.OldLab
-    '              ElseIf item.ItemType.Value = 89 Then
-    '                totalActual -= item.OldEq
-    '              Else
-    '                totalActual -= item.OldMat
-    '              End If
-    '            End If
+        If totalBudget < (totalActual + totalCurrent) Then
+          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+        End If
+      End If
 
-    '            If totalBudget < (totalActual + totalCurrent) Then
-    '              Dim myId As Integer = CInt(row("depend_parent"))
-    '              Dim myWBS As New WBS(myId)
-    '              Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
-    '            End If
-    '          Next
-    '          'สำหรับ WBS ที่เป็นแม่ตัวที่จัดสรรอยู่ =====<<
-    '        Next
-    '      End If
-    '    Next
-    '  Else
-    '    Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
-    '    Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-    '    Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
-    '    Dim totalCurrent As Decimal = Me.ItemCollection.Amount
-
-    '    If totalBudget < (totalActual + totalCurrent) Then
-    '      Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
-    '    End If
-    '  End If
-
-    '  Return New SaveErrorException("0")
-    'End Function
+      Return New SaveErrorException("0")
+    End Function
     Private Function ValidateItem() As SaveErrorException
       Dim key As String = ""
       For Each ditem As DRItem In Me.ItemCollection
@@ -904,30 +908,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         ''=============== Validate Over Budget ==================>>
-        'Dim ValidateOverBudgetError As SaveErrorException
-        'Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
-        'Select Case config
-        '  Case 0   'Not allow
-        '    ValidateOverBudgetError = Me.ValidateOverBudget
-        '    If Not IsNumeric(ValidateOverBudgetError.Message) Then
-        '      Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-        '      Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-        '      msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-        '      Return New SaveErrorException(msgString & vbCrLf & msgString2)
-        '    End If
-        '  Case 1   'Warn
-        '    ValidateOverBudgetError = Me.ValidateOverBudget
-        '    If Not IsNumeric(ValidateOverBudgetError.Message) Then
-        '      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        '      Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-        '      Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-        '      msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-        '      If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-        '      End If
-        '    End If
-        '  Case 2   'Do Nothing
-        'End Select
+        Dim ValidateOverBudgetError As SaveErrorException
+        Dim config As Integer = CInt(Configuration.GetConfig("GROverBudget"))
+        Select Case config
+          Case 0   'Not allow
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              Return New SaveErrorException(msgString & vbCrLf & msgString2)
+            End If
+          Case 1   'Warn
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              End If
+            End If
+          Case 2   'Do Nothing
+        End Select
         ''=============== Validate Over Budget ==================<<
 
         '    Dim tmpBoq As BOQ = Me.CostCenter.Boq
@@ -1290,10 +1294,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
 
               'For x As Integer = 0 To 1
-                Dim rootWBS As WBS
-                Dim wbsdColl As WBSDistributeCollection
-                Dim currentSum As Decimal
-                Dim currentCostCenter As CostCenter
+              Dim rootWBS As WBS
+              Dim wbsdColl As WBSDistributeCollection
+              Dim currentSum As Decimal
+              Dim currentCostCenter As CostCenter
 
               'If x = 0 Then
               '  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
@@ -1301,76 +1305,76 @@ Namespace Longkong.Pojjaman.BusinessLogic
               '  currentSum = wbsdColl.GetSumPercent
               '  currentCostCenter = Me.ToCostCenter
               'Else
-                  rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+              rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
               wbsdColl = item.WBSDistributeCollection
-                  currentSum = wbsdColl.GetSumPercent
-                  currentCostCenter = Me.FromCostCenter
+              currentSum = wbsdColl.GetSumPercent
+              currentCostCenter = Me.FromCostCenter
               'End If
 
               'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
 
-                  Try
-                    For Each wbsd As WBSDistribute In wbsdColl
-                      If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-                        'ยังไม่เต็ม 100 แต่มีหัวอยู่
-                        wbsd.Percent += (100 - currentSum)
-                      End If
-                      Dim bfTax As Decimal = 0
-                  bfTax = Math.Abs(item.CostAmount)
-                      wbsd.BaseCost = bfTax 'item.Amount
-                  'wbsd.TransferBaseCost = bfTax 'item.Amount
-                      Dim childDr As DataRow = dtWbs.NewRow
-                      childDr("driw_sequence") = dr("dri_sequence")
-                      childDr("driw_wbs") = wbsd.WBS.Id
-                      childDr("driw_percent") = wbsd.Percent
-                      childDr("driw_ismarkup") = wbsd.IsMarkup
-                  childDr("driw_direction") = 1 'x
-                      childDr("driw_baseCost") = wbsd.BaseCost
-                      childDr("driw_amt") = wbsd.Amount
-                      'childDr("sciw_toaccttype") = Me.ToAccountType.Value
-                      If wbsd.CostCenter Is Nothing Then
-                        wbsd.CostCenter = currentCostCenter
-                      End If
-                      childDr("driw_cc") = wbsd.CostCenter.Id
-                      childDr("driw_cbs") = wbsd.CBS.Id
-                      'Add เข้า sciwbs
-                      dtWbs.Rows.Add(childDr)
-                    Next
-                  Catch ex As Exception
-                    Throw New Exception(ex.Message)
-                  End Try
-
-                  currentSum = wbsdColl.GetSumPercent
-                  'ยังไม่เต็ม 100 และยังไม่มี root
-                  If currentSum < 100 Then
-                    Try
-                      Dim wbsd As New WBSDistribute
-                      wbsd.WBS = rootWBS
-                      wbsd.CostCenter = currentCostCenter
-                      wbsd.Percent = 100 - currentSum
-                      Dim bfTax As Decimal = 0
-                      bfTax = item.CostAmount
-                      wbsd.BaseCost = bfTax 'item.Amount
-                  'wbsd.TransferBaseCost = bfTax 'item.Amount
-                      Dim childDr As DataRow = dtWbs.NewRow
-
-                      childDr("driw_sequence") = dr("dri_sequence")
-                      childDr("driw_wbs") = wbsd.WBS.Id
-                      childDr("driw_percent") = wbsd.Percent
-                      childDr("driw_ismarkup") = wbsd.IsMarkup
-                  childDr("driw_direction") = 1 'x
-                      childDr("driw_baseCost") = wbsd.BaseCost
-                      childDr("driw_amt") = wbsd.Amount
-                      'childDr("sciw_toaccttype") = Me.ToAccountType.Value                               
-                      childDr("driw_cc") = wbsd.CostCenter.Id
-                      childDr("driw_cbs") = wbsd.CBS.Id
-
-                      'Add เข้า sciwbs
-                      dtWbs.Rows.Add(childDr)
-                    Catch ex As Exception
-                      Throw New Exception(ex.Message)
-                    End Try
+              Try
+                For Each wbsd As WBSDistribute In wbsdColl
+                  If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                    'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                    wbsd.Percent += (100 - currentSum)
                   End If
+                  Dim bfTax As Decimal = 0
+                  bfTax = Math.Abs(item.CostAmount)
+                  wbsd.BaseCost = bfTax 'item.Amount
+                  'wbsd.TransferBaseCost = bfTax 'item.Amount
+                  Dim childDr As DataRow = dtWbs.NewRow
+                  childDr("driw_sequence") = dr("dri_sequence")
+                  childDr("driw_wbs") = wbsd.WBS.Id
+                  childDr("driw_percent") = wbsd.Percent
+                  childDr("driw_ismarkup") = wbsd.IsMarkup
+                  childDr("driw_direction") = 1 'x
+                  childDr("driw_baseCost") = wbsd.BaseCost
+                  childDr("driw_amt") = wbsd.Amount
+                  'childDr("sciw_toaccttype") = Me.ToAccountType.Value
+                  If wbsd.CostCenter Is Nothing Then
+                    wbsd.CostCenter = currentCostCenter
+                  End If
+                  childDr("driw_cc") = wbsd.CostCenter.Id
+                  childDr("driw_cbs") = wbsd.CBS.Id
+                  'Add เข้า sciwbs
+                  dtWbs.Rows.Add(childDr)
+                Next
+              Catch ex As Exception
+                Throw New Exception(ex.Message)
+              End Try
+
+              currentSum = wbsdColl.GetSumPercent
+              'ยังไม่เต็ม 100 และยังไม่มี root
+              If currentSum < 100 Then
+                Try
+                  Dim wbsd As New WBSDistribute
+                  wbsd.WBS = rootWBS
+                  wbsd.CostCenter = currentCostCenter
+                  wbsd.Percent = 100 - currentSum
+                  Dim bfTax As Decimal = 0
+                  bfTax = item.CostAmount
+                  wbsd.BaseCost = bfTax 'item.Amount
+                  'wbsd.TransferBaseCost = bfTax 'item.Amount
+                  Dim childDr As DataRow = dtWbs.NewRow
+
+                  childDr("driw_sequence") = dr("dri_sequence")
+                  childDr("driw_wbs") = wbsd.WBS.Id
+                  childDr("driw_percent") = wbsd.Percent
+                  childDr("driw_ismarkup") = wbsd.IsMarkup
+                  childDr("driw_direction") = 1 'x
+                  childDr("driw_baseCost") = wbsd.BaseCost
+                  childDr("driw_amt") = wbsd.Amount
+                  'childDr("sciw_toaccttype") = Me.ToAccountType.Value                               
+                  childDr("driw_cc") = wbsd.CostCenter.Id
+                  childDr("driw_cbs") = wbsd.CBS.Id
+
+                  'Add เข้า sciwbs
+                  dtWbs.Rows.Add(childDr)
+                Catch ex As Exception
+                  Throw New Exception(ex.Message)
+                End Try
+              End If
 
               'End If
 
@@ -2197,7 +2201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 
-  
+
   End Class
   '    Public Class DRStatus
   '        Inherits CodeDescription
