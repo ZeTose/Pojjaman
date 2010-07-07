@@ -3269,9 +3269,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
            Not isSummaryRow AndAlso _
            doc.RefEntity.Id = 0 Then
           m_targetType = doc.ItemType.Value
-          Dim entities(1) As ISimpleEntity
+          Dim entities(2) As ISimpleEntity
           entities(0) = New LCIItem
-          entities(1) = New Tool
+          entities(1) = New LCIForList
+          entities(2) = New Tool
           Dim activeIndex As Integer = -1
           If Not doc.ItemType Is Nothing Then
             If doc.ItemType.Value = 19 Then

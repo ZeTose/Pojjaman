@@ -168,7 +168,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'SC Info
         If dr.Table.Columns.Contains("pa_sc") Then
           If Not dr.IsNull("pa_sc") Then
-            .m_sc = New SC(CInt(dr("pa_sc")))
+            Dim drh As New DataRowHelper(dr)
+            '.m_sc = New SC(CInt(dr("pa_sc")))
+            .m_sc = New SC
+            .m_sc.Id = drh.GetValue(Of Integer)("sc_id")
+            .m_sc.Code = drh.GetValue(Of String)("sc_code")
+            .m_sc.DocDate = drh.GetValue(Of Date)("sc_docdate")
+            .m_sc.SubContractor = New Supplier(drh.GetValue(Of Integer)("sc_subcontractor"))
+            .m_sc.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("sc_cc"))
+            .m_sc.CreditPeriod = drh.GetValue(Of Long)("sc_creditperiod")
+            .m_sc.ContactPerson = drh.GetValue(Of String)("sc_contactperson")
+            .m_sc.TaxType = New TaxType(drh.GetValue(Of Integer)("sc_taxtype"))
+            .m_sc.AdvancePay = drh.GetValue(Of Decimal)("sc_advancepay")
+            .m_sc.Retention = drh.GetValue(Of Decimal)("sc_retention")
+
             '.m_subcontractor = New Supplier(dr, "supplier.")
           End If
         End If
@@ -1808,8 +1821,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("pai_labacct") = Me.ValidIdOrDBNull(item.LabAccount)
             .Rows.Add(dr)
 
-            If item.ItemType.Value <> 160 _
-            AndAlso item.ItemType.Value <> 162 Then
+            If (item.ItemType.Value <> 160 AndAlso
+             item.ItemType.Value <> 162 AndAlso
+             item.ItemType.Value <> 291) Then
               Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
               Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
               Dim currentSum As Decimal = wbsdColl.GetSumPercent

@@ -835,7 +835,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       Catch ex As Exception
       End Try
-    End Function    Public Sub SetItemCode(ByVal theCode As String)      Dim unitPrice As Decimal = 0
+    End Function    Public Sub SetItemPrice(ByVal theCode As String)
+      Dim unitPrice As Decimal = 0
+      Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyDRPricing"))
+      Select Case Me.ItemType.Value
+        Case 19 'Tool
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            Return
+          End If
+          Dim myTool As New Tool(theCode)
+
+          Select Case pricing
+            Case 0
+              unitPrice = myTool.FairPrice
+            Case 2
+              unitPrice = GetAmountFromSproc("GetDRPriceForSupplier" _
+              , New SqlParameter("@dri_entity", myTool.Id) _
+              , New SqlParameter("@dri_entitytype", myTool.EntityId) _
+              )
+          End Select
+
+
+          If Me.Conversion <> 0 Then
+            unitPrice = unitPrice * Conversion
+          End If
+          Me.UnitPrice = unitPrice
+
+        Case 42, 88, 89  'LCI
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            Return
+          End If
+          Dim lci As New LCIItem(theCode)
+
+          Select Case pricing
+            Case 0
+              unitPrice = lci.FairPrice
+            Case 2
+              unitPrice = GetAmountFromSproc("GetPOPriceForSupplier" _
+              , New SqlParameter("@po_supplier", DBNull.Value) _
+              , New SqlParameter("@poi_entity", lci.Id) _
+              , New SqlParameter("@poi_entitytype", lci.EntityId) _
+              )
+          End Select
+          If Me.Conversion <> 0 Then
+            unitPrice = unitPrice * Conversion
+          End If
+          Me.UnitPrice = unitPrice
+      End Select
+      Me.Qty = 1
+      Me.ReceivedQty = 0  'UNDONE
+    End Sub    Public Sub SetItemCode(ByVal theCode As String)      Dim unitPrice As Decimal = 0
       Dim pricing As Integer = CInt(Configuration.GetConfig("CompanyPOPricing"))      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
@@ -937,10 +986,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myUnit As Unit = lci.DefaultUnit
             Me.m_unit = myUnit
             Me.m_entity = lci
-            If Me.Conversion <> 0 Then
-              unitPrice = unitPrice * Conversion
-            End If
-            Me.UnitPrice = unitPrice
+            'If Me.Conversion <> 0 Then
+            '  unitPrice = unitPrice * Conversion
+            'End If
+            'Me.UnitPrice = unitPrice
           End If
 
         Case Else
@@ -1818,6 +1867,7 @@ Public Class VOItemCollection
 
 #Region "Class Methods"
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
+      Dim currItem As VOItem = Nothing
       Dim arr As New ArrayList
       For i As Integer = 0 To items.Count - 1
         If Not TypeOf items(i) Is StockBasketItem Then
@@ -1827,7 +1877,7 @@ Public Class VOItemCollection
           Dim newItem As IHasName
           Dim newType As Integer = -1
           Select Case item.FullClassName.ToLower
-            Case "longkong.pojjaman.businesslogic.lciitem"
+            Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
               newItem = New LCIItem(item.Id)
               If targetType > -1 Then
                 newType = targetType
@@ -1846,11 +1896,14 @@ Public Class VOItemCollection
               doc = Me.CurrentItem
               doc.ItemType.Value = newType
               Me.CurrentItem = Nothing
+              currItem = doc
             Else
-              Me.Add(doc)
-              'doc.ItemType = New itemType(newType)
+              'Me.Add(doc)
+              Me.Insert(Me.IndexOf(currItem), doc)
+              doc.ItemType = New SCIItemType(newType)
+              currItem = doc
             End If
-            'doc.SetItemPrice(item.Code)
+            doc.SetItemPrice(item.Code)
             'doc.Entity = newItem   'Lock LCI
             doc.SetItemCode(newItem.Code)
           End If

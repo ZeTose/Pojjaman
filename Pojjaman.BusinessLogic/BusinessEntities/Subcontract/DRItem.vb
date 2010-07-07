@@ -2018,7 +2018,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim newItem As IHasName
           Dim newType As Integer = -1
           Select Case item.FullClassName.ToLower
-            Case "longkong.pojjaman.businesslogic.lciitem"
+            Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
               newItem = New LCIItem(item.Id)
               If targetType > -1 Then
                 newType = targetType

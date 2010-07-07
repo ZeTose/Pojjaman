@@ -1860,7 +1860,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Select Case Me.ItemType.Value
           Case 160, 162
             Return "${res:Global.Error.NoteCannotHaveWBS}"
-          Case 289
+          Case 289, 291
             If Me.ChildAmount <> Me.Amount Then
               Return "${res:Global.Error.CannotAllocate}"
             End If
@@ -2167,7 +2167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim newItem As IHasName
         Dim newType As Integer = -1
         Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.lciitem"
+          Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
             newItem = New LCIItem(item.Id)
             If targetType > -1 Then
               newType = targetType
