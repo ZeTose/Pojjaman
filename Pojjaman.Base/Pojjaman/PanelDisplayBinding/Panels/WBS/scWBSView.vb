@@ -828,11 +828,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
           Dim itemLebel As String = Me.StringParserService.Parse("${res:Global.AllocateFromCC}")
-            If Not RefDoc.FromCostCenter Is Nothing Then
+          If Not RefDoc.FromCostCenter Is Nothing Then
             itemLebel = String.Format(itemLebel, RefDoc.FromCostCenter.Code & ":" & RefDoc.FromCostCenter.Name)
           Else
             itemLebel = String.Format(itemLebel, "")
-            End If
+          End If
           lblItem.Text = itemLebel
           If Not RefDoc.FromCostCenter Is Nothing Then
             Me.txtCostCenterName.Text = RefDoc.FromCostCenter.Code & " : " & RefDoc.FromCostCenter.Name
@@ -1317,7 +1317,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get

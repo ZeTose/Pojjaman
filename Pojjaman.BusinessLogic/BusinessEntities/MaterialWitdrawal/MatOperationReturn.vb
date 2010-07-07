@@ -1632,17 +1632,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         item.UpdateWBSQty()
 
         If Not Me.Originated Then
-          For Each wbsd As WBSDistribute In item.OutWbsdColl
-            wbsd.ChildAmount = 0
-            wbsd.GetChildIdList()
-            For Each allItem As MatOperationReturnItem In Me.ItemCollection
-              For Each childWbsd As WBSDistribute In allItem.OutWbsdColl
-                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
-                  wbsd.ChildAmount += childWbsd.Amount
-                End If
-              Next
-            Next
-          Next
+          'For Each wbsd As WBSDistribute In item.OutWbsdColl
+          '  wbsd.ChildAmount = 0
+          '  wbsd.GetChildIdList()
+          '  For Each allItem As MatOperationReturnItem In Me.ItemCollection
+          '    For Each childWbsd As WBSDistribute In allItem.OutWbsdColl
+          '      If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+          '        wbsd.ChildAmount += childWbsd.Amount
+          '      End If
+          '    Next
+          '  Next
+          'Next
           For Each wbsd As WBSDistribute In item.InWbsdColl
             wbsd.ChildAmount = 0
             wbsd.GetChildIdList()
@@ -1676,13 +1676,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "AllowWBSAllocateFrom"
     Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
       Get
-        Return False
+        Return True
       End Get
     End Property
 
     Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
       Get
-        Return True
+        Return False
       End Get
     End Property
 #End Region
@@ -2123,7 +2123,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
 
             If wbsd.IsMarkup Then
-              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.MatReturn.Id, Me.MatReturn.EntityId, 42)
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB + newWBS.GetWBSActualFromDB(Me.MatReturn.Id, Me.MatReturn.EntityId, 42)
               wbsd.QtyRemain = 0
             Else
               wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.MatReturn.Id, Me.MatReturn.EntityId, 42)
@@ -2251,7 +2251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
         AddHandler inWbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
         item.InWbsdColl = inWbsdColl
-        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
           Dim wbsd As New WBSDistribute(wbsRow, "")
           inWbsdColl.Add(wbsd)
         Next

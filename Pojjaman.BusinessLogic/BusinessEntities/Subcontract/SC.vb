@@ -193,11 +193,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("cc_id") Then
           If Not dr.IsNull("cc_id") Then
-            .m_cc = New CostCenter(dr, "")
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "cc_id")))
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_cc") Then
-            .m_cc = New CostCenter(CInt(dr(aliasPrefix & "sc_cc")))
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "sc_cc")))
           End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "sc_wr") Then

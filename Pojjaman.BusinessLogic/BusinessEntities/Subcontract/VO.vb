@@ -915,7 +915,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function ListWbsId() As String
       Dim idList As New ArrayList
-      For Each itm As POItem In Me.ItemCollection
+      For Each itm As VOItem In Me.ItemCollection
         For Each iwbsd As WBSDistribute In itm.WBSDistributeCollection
           idList.Add(iwbsd.WBS.Id)
         Next
