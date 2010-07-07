@@ -247,7 +247,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Me.Type.Locked = False
     '  End If
     'End Sub
-    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter, IHasFromCostCenter.FromCC
+    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
       Get
         Return m_CostCenter 'สำหรับการจัดสรร
       End Get
@@ -256,7 +256,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'ValidateCCandType()
       End Set
     End Property
-    Public Property ToCC() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IWBSAllocatable.FromCostCenter, IHasFromCostCenter.FromCC
       Get
         'Return m_toCostCenter
       End Get
@@ -1313,7 +1313,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_wbs") = wbsd.WBS.Id
               childDr("stockiw_percent") = wbsd.Percent
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
-              childDr("stockiw_direction") = 1
+              childDr("stockiw_direction") = 0
               'childDr("stockiw_baseCost") = wbsd.BaseCost
               'childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.Type.Value
@@ -1347,7 +1347,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_wbs") = wbsd.WBS.Id
               childDr("stockiw_percent") = wbsd.Percent
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
-              childDr("stockiw_direction") = 1
+              childDr("stockiw_direction") = 0
               'childDr("stockiw_baseCost") = wbsd.BaseCost
               'childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = Me.Type.Value
@@ -2322,13 +2322,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "AllowWBSAllocateFrom"
     Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
       Get
-        Return True
+        Return False
       End Get
     End Property
 
     Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
       Get
-        Return False
+        Return True
       End Get
     End Property
 #End Region

@@ -857,7 +857,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_wbs") = wbsd.WBS.Id
               childDr("stockiw_percent") = wbsd.Percent
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
-              childDr("stockiw_direction") = 0 'เข้า
+              childDr("stockiw_direction") = 1 'ออกจากมุมเบิกไง
               'childDr("stockiw_baseCost") = wbsd.BaseCost
               'childDr("stockiw_amt") = wbsd.Amount
               childDr("stockiw_toaccttype") = 3

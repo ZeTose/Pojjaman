@@ -813,7 +813,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
         AddHandler outWbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
         item.WBSDistributeCollection = outWbsdColl
-        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
           Dim wbsd As New WBSDistribute(wbsRow, "")
           outWbsdColl.Add(wbsd)
         Next

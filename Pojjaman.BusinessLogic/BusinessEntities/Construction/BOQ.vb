@@ -691,6 +691,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return entity
     End Function
+    Public Shared Function GetMinBOQ(ByVal boqid As Integer) As BOQ
+      Dim ret As New BOQ
+      ret.Id = boqid
+      Return ret
+    End Function
     Public Shared Function GetBOQ(ByVal txtCode As TextBox, ByRef oldEntity As BOQ) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SiteConnectionString _
       , CommandType.StoredProcedure _

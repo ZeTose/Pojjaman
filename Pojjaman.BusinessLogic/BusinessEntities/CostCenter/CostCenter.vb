@@ -964,6 +964,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cc.Id = drh.GetValue(Of Integer)("cc_id")
       cc.Code = drh.GetValue(Of String)("cc_code")
       cc.Name = drh.GetValue(Of String)("cc_name")
+      cc.Boq = Boq.GetMinBOQ(drh.GetValue(Of Integer)("cc_boq"))
+      
 
       cc.WipAccount.Id = drh.GetValue(Of Integer)("cc_wipAcct")
       cc.WipAccount.Code = drh.GetValue(Of String)("wipAcctCode")
