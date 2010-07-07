@@ -387,6 +387,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+    Private Function ValidateItem() As SaveErrorException
+      Dim key As String = ""
+
+      For Each item As MatOperationReturnItem In Me.ItemCollection
+
+        Dim newHash As New Hashtable
+        For Each wbitem As WBSDistribute In item.InWbsdColl
+          key = wbitem.WBS.Id.ToString
+          If Not newHash.Contains(key) Then
+            newHash(key) = wbitem
+          Else
+            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+          End If
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+          End If
+        Next
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If Not Me.Grouping Then
@@ -396,6 +417,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
 
+        Dim ValidateError As SaveErrorException = ValidateItem()
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
+        End If
         ''check over budget
         'Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
         'Select Case overbudgetconfig
