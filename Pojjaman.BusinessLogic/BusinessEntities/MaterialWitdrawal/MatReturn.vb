@@ -708,236 +708,520 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
+        Dim unitCost As Decimal = 0
+        Dim Cost As Decimal = 0
 
         Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
-
-        da.SelectCommand.Transaction = trans
-
-        Dim cmdInsert As New SqlCommand("EXEC [InsertFIFOMatReturnItem] @stocki_stock, @stocki_lineNumber, @stocki_cc, @stocki_fromcc, @stocki_tocc, @stocki_wbs, @stocki_toacct, @stocki_fromAcctType, @stocki_toAcctType, @stocki_refSequence, @stocki_entity, @stocki_entityType, @stocki_itemname, @stocki_unit, @stocki_unitcost, @stocki_amt, @stocki_qty, @stocki_stockqty, @stocki_iscancelled, @stocki_note, @stocki_type, @stocki_status,@stocki_transferunitprice", conn)
-
-        cmdInsert.Parameters.Add("@stocki_stock", SqlDbType.Decimal, 18, "stocki_stock")
-        cmdInsert.Parameters.Add("@stocki_lineNumber", SqlDbType.Decimal, 18, "stocki_lineNumber")
-        cmdInsert.Parameters.Add("@stocki_toacct", SqlDbType.Decimal, 18, "stocki_toacct")
-        cmdInsert.Parameters.Add("@stocki_cc", SqlDbType.Decimal, 18, "stocki_cc")
-        cmdInsert.Parameters.Add("@stocki_tocc", SqlDbType.Decimal, 18, "stocki_tocc")
-        cmdInsert.Parameters.Add("@stocki_wbs", SqlDbType.Decimal, 18, "stocki_wbs")
-        cmdInsert.Parameters.Add("@stocki_toaccttype", SqlDbType.Decimal, 18, "stocki_toaccttype")
-        cmdInsert.Parameters.Add("@stocki_refSequence", SqlDbType.Decimal, 18, "stocki_refSequence")
-        cmdInsert.Parameters.Add("@stocki_entity", SqlDbType.Decimal, 18, "stocki_entity")
-        cmdInsert.Parameters.Add("@stocki_entityType", SqlDbType.Decimal, 18, "stocki_entityType")
-        cmdInsert.Parameters.Add("@stocki_itemname", SqlDbType.NVarChar, 1000, "stocki_itemname")
-        cmdInsert.Parameters.Add("@stocki_unit", SqlDbType.Decimal, 18, "stocki_unit")
-        cmdInsert.Parameters.Add("@stocki_unitcost", SqlDbType.Decimal, 18, "stocki_unitcost")
-        cmdInsert.Parameters.Add("@stocki_amt", SqlDbType.Decimal, 18, "stocki_amt")
-        cmdInsert.Parameters.Add("@stocki_qty", SqlDbType.Decimal, 18, "stocki_qty")
-        cmdInsert.Parameters.Add("@stocki_stockqty", SqlDbType.Decimal, 18, "stocki_stockqty")
-        cmdInsert.Parameters.Add("@stocki_iscancelled", SqlDbType.Bit, 4, "stocki_iscancelled")
-        cmdInsert.Parameters.Add("@stocki_note", SqlDbType.NVarChar, 2000, "stocki_note")
-        cmdInsert.Parameters.Add("@stocki_type", SqlDbType.Decimal, 18, "stocki_type")
-        cmdInsert.Parameters.Add("@stocki_status", SqlDbType.Decimal, 18, "stocki_status")
-        cmdInsert.Parameters.Add("@stocki_transferunitprice", SqlDbType.Decimal, 18, "stocki_transferunitprice")
-        cmdInsert.Parameters.Add("@stocki_fromcc", Me.ValidIdOrDBNull(Me.FromCostCenter))
-        cmdInsert.Parameters.Add("@stocki_fromaccttype", 1)      '1=WIP Account --- คืนของได้จาก WIP เท่านั้น
-
-        cmdInsert.Transaction = trans
-        da.InsertCommand = cmdInsert
-
-        'Detete
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
-        New SqlParameter("@stocki_stock", Me.Id))
+        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
 
         Dim ds As New DataSet
-        da.Fill(ds, "stockitem")
-        Dim i As Integer = 0
-        With ds.Tables("stockitem")
-          For Each item As MatReturnItem In Me.ItemCollection
-            i += 1
-            Dim dr As DataRow = .NewRow
-            dr("stocki_stock") = Me.Id
-            dr("stocki_cc") = DBNull.Value
-            If Me.Grouping Then
-              dr("stocki_linenumber") = i     'itemRow("stocki_linenumber")
-            Else
-              dr("stocki_linenumber") = item.LineNumber
-            End If
-            'Me.ItemCollection.Item(item.LineNumber).LineNumber = i
-            dr("stocki_entity") = item.Entity.Id
-            If TypeOf item.Entity Is IObjectReflectable Then
-              dr("stocki_entityType") = CType(item.Entity, IObjectReflectable).EntityId
-            Else
-              dr("stocki_entityType") = 0
-            End If
-            dr("stocki_itemName") = DBNull.Value
-            dr("stocki_unit") = item.Unit.Id
-            dr("stocki_stockqty") = item.StockQty
-            dr("stocki_toacct") = Me.ValidIdOrDBNull(Me.ToAccount)
-            dr("stocki_toacctType") = 3     'เข้า Store โลด
-            dr("stocki_qty") = item.Qty
-            dr("stocki_note") = item.Note
-            dr("stocki_type") = Me.EntityId
-            dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
-            If item.TransferUnitPrice = Decimal.MinValue Then
-              dr("stocki_transferunitprice") = DBNull.Value
-            Else
-              dr("stocki_transferunitprice") = item.TransferUnitPrice
-            End If
-            dr("stocki_status") = Me.Status.Value
-            .Rows.Add(dr)
-          Next
-        End With
-        Dim dt As DataTable = ds.Tables("stockitem")
-        ' First process deletes.
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-        ' Next process updates.
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-        ' Finally process inserts.
-        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-        Return New SaveErrorException("1")
-      Catch ex As Exception
-        Return New SaveErrorException(ex.ToString)
-      End Try
 
-    End Function
-    Private Function SaveWBSDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      Try
-        Dim da As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
         Dim cmdBuilder As New SqlCommandBuilder(da)
-
-        Dim ds As New DataSet
-
         da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
+        da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+        cmdBuilder = Nothing
+        da.FillSchema(ds, SchemaType.Mapped, "stockitem")
+        da.Fill(ds, "stockitem")
 
-        'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+        cmdBuilder = New SqlCommandBuilder(daWbs)
+        daWbs.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
         cmdBuilder.GetInsertCommand.Transaction = trans
         cmdBuilder.GetUpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        daWbs.FillSchema(ds, SchemaType.Mapped, "stockiwbs")
+        daWbs.Fill(ds, "stockiwbs")
+        ds.Relations.Add("sequence", ds.Tables!stockitem.Columns!stocki_sequence, ds.Tables!stockiwbs.Columns!stockiw_sequence)
 
-        da.Fill(ds, "stockiwbs")
+        Dim dt As DataTable = ds.Tables("stockitem")
 
-        Dim i As Integer = 0
         Dim dtWbs As DataTable = ds.Tables("stockiwbs")
-        Dim rootWBS As WBS
-        Dim currentSum As Decimal
-        Dim Cost As Decimal = 0
 
-        With dtWbs
-          For Each row As DataRow In .Rows
-            row.Delete()
+        For Each row As DataRow In ds.Tables("stockiwbs").Rows
+          row.Delete()
+        Next
+
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As MatReturnItem In Me.ItemCollection
+            If testItem.Sequence = CInt(dr("stocki_sequence")) Then
+              found = True
+              Exit For
+            End If
           Next
-          Dim line As Integer = 0
-          For Each item As MatReturnItem In Me.ItemCollection
-            Dim seqArr As New ArrayList
-            line += 1
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
 
-            seqArr = StockItem.GetSequenceArray(Me.Id, line)
-            For Each row As DataRow In seqArr
+        Dim i As Integer = 0 'Line Running
+        Dim seq As Integer = -1
+        For Each item As MatReturnItem In Me.ItemCollection
+          i += 1
 
-              If Not row.IsNull("stocki_amt") Then
-                Cost = CDec(row("stocki_amt"))
-              Else
-                Cost = 0
-              End If
+          '------------Checking if we have to add a new row or just update existing--------------------
+          Dim dr As DataRow
+          Dim drs As DataRow() = dt.Select("stocki_sequence=" & item.Sequence)
+          If drs.Length = 0 Then
+            dr = dt.NewRow
+            'dt.Rows.Add(dr)
+            seq = seq + (-1)
+            dr("stocki_sequence") = seq
+          Else
+            dr = drs(0)
+          End If
+          '------------End Checking--------------------
 
-              Dim wcoll As WBSDistributeCollection
-              For x As Integer = 0 To 1
-                If x = 0 Then
-                  wcoll = item.InWbsdColl
-                  currentSum = wcoll.GetSumPercent
-                  rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
-                Else
-                  wcoll = item.OutWbsdColl
-                  currentSum = wcoll.GetSumPercent
-                  rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+          'If item.Pritem Is Nothing Then
+          '  dr("stocki_refdoc") = DBNull.Value
+          '  dr("stocki_refdoclinenumber") = DBNull.Value
+          'Else
+          '  dr("stocki_refdoc") = item.Pritem.Pr.Id
+          '  dr("stocki_refdoclinenumber") = item.Pritem.LineNumber
+          'End If
+          dr("stocki_stock") = Me.Id
+          dr("stocki_cc") = DBNull.Value
+          If Me.Grouping Then
+            dr("stocki_linenumber") = i
+          Else
+            dr("stocki_linenumber") = item.LineNumber
+          End If
+          dr("stocki_entity") = item.Entity.Id
+          If TypeOf item.Entity Is IObjectReflectable Then
+            dr("stocki_entityType") = CType(item.Entity, IObjectReflectable).EntityId
+          Else
+            dr("stocki_entityType") = 0
+          End If
+          dr("stocki_itemName") = item.Entity.Name
+          dr("stocki_unit") = item.Unit.Id
+          dr("stocki_stockqty") = item.StockQty
+          dr("stocki_toacct") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.ToAccount)
+          dr("stocki_toacctType") = 3
+          dr("stocki_qty") = item.Qty
+          dr("stocki_note") = item.Note
+          dr("stocki_type") = Me.EntityId
+          dr("stocki_fromcc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.FromCostCenter)
+          dr("stocki_tocc") = SimpleBusinessEntityBase.ValidIdOrDBNull(Me.ToCostCenter)
+          dr("stocki_status") = Me.Status.Value
+          dr("stocki_refsequence") = 0  '0 ไปก่อนเดี๋ยวมี Query Update RefSequence ให้ตามหลัง
+          If item.TransferUnitPrice = Decimal.MinValue Then
+            dr("stocki_transferunitprice") = DBNull.Value
+          Else
+            dr("stocki_transferunitprice") = item.TransferUnitPrice
+          End If
+          'dt.Rows.Add(dr)
+
+          '------------Checking if we have to add a new row or just update existing--------------------
+          If drs.Length = 0 Then
+            dt.Rows.Add(dr)
+          End If
+          '------------End Checking--------------------
+
+          For x As Integer = 0 To 1
+            Dim rootWBS As WBS
+            Dim wbsdColl As WBSDistributeCollection
+            Dim currentSum As Decimal
+            Dim currentCostCenter As CostCenter
+
+            If x = 0 Then
+              rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
+              wbsdColl = item.InWbsdColl
+              currentSum = wbsdColl.GetSumPercent
+              currentCostCenter = Me.ToCostCenter
+            Else
+              rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+              wbsdColl = item.OutWbsdColl
+              currentSum = wbsdColl.GetSumPercent
+              currentCostCenter = Me.FromCostCenter
+            End If
+
+            'If (x = 0 AndAlso item.AllowWBSAllocateTo) OrElse (x = 1 AndAlso item.AllowWBSAllocateFrom) Then
+
+            Try
+              For Each wbsd As WBSDistribute In wbsdColl
+                If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                  'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                  wbsd.Percent += (100 - currentSum)
                 End If
-
-                Dim childDr As DataRow
-
-                If wcoll.Count > 0 Then
-
-                  For Each wbsd As WBSDistribute In wcoll
-
-                    childDr = dtWbs.NewRow
-                    childDr("stockiw_wbs") = wbsd.WBS.Id
-
-                    If wbsd.CostCenter Is Nothing Then
-                      If x = 0 Then
-                        wbsd.CostCenter = Me.ToCostCenter
-                      Else
-                        wbsd.CostCenter = Me.FromCostCenter
-                      End If
-                    End If
-
-                    If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
-                      'ยังไม่เต็ม 100 แต่มีหัวอยู่
-                      wbsd.Percent += (100 - currentSum)
-                    End If
-
-                    wbsd.BaseCost = Cost
-                    'wbsd.TransferBaseCost = Cost
-
-                    childDr("stockiw_cc") = wbsd.CostCenter.Id
-                    childDr("stockiw_percent") = wbsd.Percent
-                    childDr("stockiw_sequence") = row("stocki_sequence")
-                    childDr("stockiw_ismarkup") = wbsd.IsMarkup
-                    childDr("stockiw_direction") = x
-                    childDr("stockiw_baseCost") = wbsd.BaseCost
-                    'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
-                    'childDr("stockiw_transferamt") = wbsd.TransferAmount
-                    childDr("stockiw_amt") = wbsd.Amount
-                    childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
-                    'Add เข้า stockiwbs
-                    dtWbs.Rows.Add(childDr)
-
-
-                  Next
-                ElseIf Not (rootWBS.Id = 0) Then
-                  childDr = dtWbs.NewRow
-
-                  Dim newWbsd As New WBSDistribute
-                  newWbsd.WBS = rootWBS
-
-                  If x = 0 Then
-                    newWbsd.CostCenter = Me.ToCostCenter
-                  Else
-                    newWbsd.CostCenter = Me.FromCostCenter
-                  End If
-
-                  newWbsd.Percent = 100 - currentSum
-                  newWbsd.BaseCost = Cost
-                  'newWbsd.TransferBaseCost = Cost
-
-                  childDr("stockiw_cc") = newWbsd.CostCenter.Id
-                  childDr("stockiw_percent") = newWbsd.Percent
-                  childDr("stockiw_sequence") = row("stocki_sequence")
-                  childDr("stockiw_ismarkup") = newWbsd.IsMarkup
-                  childDr("stockiw_wbs") = newWbsd.WBS.Id
-                  childDr("stockiw_direction") = x
-                  childDr("stockiw_baseCost") = newWbsd.BaseCost
-                  'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
-                  'childDr("stockiw_transferamt") = newWbsd.TransferAmount
-                  childDr("stockiw_amt") = newWbsd.Amount
-                  childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
-
-                  'Add เข้า stockiwbs
-                  dtWbs.Rows.Add(childDr)
-                  'End If
+                'Dim bfTax As Decimal = 0
+                'bfTax = item.CostAmount
+                'wbsd.BaseCost = bfTax 'item.Amount
+                'wbsd.TransferBaseCost = bfTax 'item.Amount
+                Dim childDr As DataRow = dtWbs.NewRow
+                childDr("stockiw_sequence") = dr("stocki_sequence")
+                childDr("stockiw_wbs") = wbsd.WBS.Id
+                childDr("stockiw_percent") = wbsd.Percent
+                childDr("stockiw_ismarkup") = wbsd.IsMarkup
+                childDr("stockiw_direction") = x
+                'childDr("stockiw_baseCost") = wbsd.BaseCost
+                'childDr("stockiw_amt") = wbsd.Amount
+                childDr("stockiw_toaccttype") = 3
+                If wbsd.CostCenter Is Nothing Then
+                  wbsd.CostCenter = currentCostCenter
                 End If
-
+                childDr("stockiw_cc") = wbsd.CostCenter.Id
+                'Add เข้า sciwbs
+                dtWbs.Rows.Add(childDr)
               Next
-            Next
+            Catch ex As Exception
+              Throw New Exception(ex.Message)
+            End Try
+
+            currentSum = wbsdColl.GetSumPercent
+            'ยังไม่เต็ม 100 และยังไม่มี root
+            If currentSum < 100 Then
+              Try
+                Dim wbsd As New WBSDistribute
+                wbsd.WBS = rootWBS
+                wbsd.CostCenter = currentCostCenter
+                wbsd.Percent = 100 - currentSum
+                'Dim bfTax As Decimal = 0
+                'bfTax = item.CostAmount
+                'wbsd.BaseCost = bfTax 'item.Amount
+                'wbsd.TransferBaseCost = bfTax 'item.Amount
+                Dim childDr As DataRow = dtWbs.NewRow
+
+                childDr("stockiw_sequence") = dr("stocki_sequence")
+                childDr("stockiw_wbs") = wbsd.WBS.Id
+                childDr("stockiw_percent") = wbsd.Percent
+                childDr("stockiw_ismarkup") = wbsd.IsMarkup
+                childDr("stockiw_direction") = x
+                'childDr("stockiw_baseCost") = wbsd.BaseCost
+                'childDr("stockiw_amt") = wbsd.Amount
+                childDr("stockiw_toaccttype") = 3
+                childDr("stockiw_cc") = wbsd.CostCenter.Id
+
+                'Add เข้า sciwbs
+                dtWbs.Rows.Add(childDr)
+              Catch ex As Exception
+                Throw New Exception(ex.Message)
+              End Try
+            End If
+
+            'End If '
+
           Next
-        End With
-        ' First process deletes.
-        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Deleted))
-        ' Next process updates.
-        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-        ' Finally process inserts.
-        da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Added))
+        Next
+
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
+
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
+
+        daWbs.Update(GetDeletedRows(dtWbs))
+        'da_aux.Update(GetDeletedRows(dtAux))
+        tmpDa.Update(GetDeletedRows(dt))
+
+        tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        'da_aux.Update(dtAux.Select("", "", DataViewRowState.ModifiedCurrent))
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
+
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        'da_aux.Update(dtAux.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = False
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = True
         Return New SaveErrorException("1")
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       End Try
+
     End Function
+    Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Sub daWbs_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      ' When the primary key propagates down to the child row's foreign key field, the field
+      ' does not receive an OriginalValue with pseudo key value and a CurrentValue with the
+      ' actual key value. Therefore, when the merge occurs, this row is  appended to the DataSet
+      ' on the client tier, instead of being merged with the original row that was added.
+      If e.StatementType = StatementType.Insert Then
+        'Don't allow the AcceptChanges to occur on this row.
+        e.Status = UpdateStatus.SkipCurrentRow
+        ' Get the Current actual primary key value, so you can plug it back
+        ' in after you get the correct original value that was generated for the child row.
+        Dim currentkey As Integer = CInt(e.Row("stockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
+        ' This is where you get a correct original value key stored to the child row. You yank
+        ' the original pseudo key value from the parent, plug it in as the child row's primary key
+        ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
+        e.Row!stockiw_sequence = e.Row.GetParentRow("sequence")("stocki_sequence", DataRowVersion.Original)
+        e.Row.AcceptChanges()
+        ' Now store the actual primary key value back into the foreign key column of the child row.
+        e.Row!stockiw_sequence = currentkey
+      End If
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
+      Dim Rows() As DataRow
+      If dt Is Nothing Then Return Rows
+      Rows = dt.Select("", "", DataViewRowState.Deleted)
+      If Rows.Length = 0 OrElse Not (Rows(0) Is Nothing) Then Return Rows
+      '
+      ' Workaround:
+      ' With a remoted DataSet, Select returns the array elements
+      ' filled with Nothing/null, instead of DataRow objects.
+      '
+      Dim r As DataRow, I As Integer = 0
+      For Each r In dt.Rows
+        If r.RowState = DataRowState.Deleted Then
+          Rows(I) = r
+          I += 1
+        End If
+      Next
+      Return Rows
+    End Function
+    'Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+    '  Try
+
+    '    Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
+
+    '    da.SelectCommand.Transaction = trans
+
+    '    Dim cmdInsert As New SqlCommand("EXEC [InsertFIFOMatReturnItem] @stocki_stock, @stocki_lineNumber, @stocki_cc, @stocki_fromcc, @stocki_tocc, @stocki_wbs, @stocki_toacct, @stocki_fromAcctType, @stocki_toAcctType, @stocki_refSequence, @stocki_entity, @stocki_entityType, @stocki_itemname, @stocki_unit, @stocki_unitcost, @stocki_amt, @stocki_qty, @stocki_stockqty, @stocki_iscancelled, @stocki_note, @stocki_type, @stocki_status,@stocki_transferunitprice", conn)
+
+    '    cmdInsert.Parameters.Add("@stocki_stock", SqlDbType.Decimal, 18, "stocki_stock")
+    '    cmdInsert.Parameters.Add("@stocki_lineNumber", SqlDbType.Decimal, 18, "stocki_lineNumber")
+    '    cmdInsert.Parameters.Add("@stocki_toacct", SqlDbType.Decimal, 18, "stocki_toacct")
+    '    cmdInsert.Parameters.Add("@stocki_cc", SqlDbType.Decimal, 18, "stocki_cc")
+    '    cmdInsert.Parameters.Add("@stocki_tocc", SqlDbType.Decimal, 18, "stocki_tocc")
+    '    cmdInsert.Parameters.Add("@stocki_wbs", SqlDbType.Decimal, 18, "stocki_wbs")
+    '    cmdInsert.Parameters.Add("@stocki_toaccttype", SqlDbType.Decimal, 18, "stocki_toaccttype")
+    '    cmdInsert.Parameters.Add("@stocki_refSequence", SqlDbType.Decimal, 18, "stocki_refSequence")
+    '    cmdInsert.Parameters.Add("@stocki_entity", SqlDbType.Decimal, 18, "stocki_entity")
+    '    cmdInsert.Parameters.Add("@stocki_entityType", SqlDbType.Decimal, 18, "stocki_entityType")
+    '    cmdInsert.Parameters.Add("@stocki_itemname", SqlDbType.NVarChar, 1000, "stocki_itemname")
+    '    cmdInsert.Parameters.Add("@stocki_unit", SqlDbType.Decimal, 18, "stocki_unit")
+    '    cmdInsert.Parameters.Add("@stocki_unitcost", SqlDbType.Decimal, 18, "stocki_unitcost")
+    '    cmdInsert.Parameters.Add("@stocki_amt", SqlDbType.Decimal, 18, "stocki_amt")
+    '    cmdInsert.Parameters.Add("@stocki_qty", SqlDbType.Decimal, 18, "stocki_qty")
+    '    cmdInsert.Parameters.Add("@stocki_stockqty", SqlDbType.Decimal, 18, "stocki_stockqty")
+    '    cmdInsert.Parameters.Add("@stocki_iscancelled", SqlDbType.Bit, 4, "stocki_iscancelled")
+    '    cmdInsert.Parameters.Add("@stocki_note", SqlDbType.NVarChar, 2000, "stocki_note")
+    '    cmdInsert.Parameters.Add("@stocki_type", SqlDbType.Decimal, 18, "stocki_type")
+    '    cmdInsert.Parameters.Add("@stocki_status", SqlDbType.Decimal, 18, "stocki_status")
+    '    cmdInsert.Parameters.Add("@stocki_transferunitprice", SqlDbType.Decimal, 18, "stocki_transferunitprice")
+    '    cmdInsert.Parameters.Add("@stocki_fromcc", Me.ValidIdOrDBNull(Me.FromCostCenter))
+    '    cmdInsert.Parameters.Add("@stocki_fromaccttype", 1)      '1=WIP Account --- คืนของได้จาก WIP เท่านั้น
+
+    '    cmdInsert.Transaction = trans
+    '    da.InsertCommand = cmdInsert
+
+    '    'Detete
+    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
+    '    New SqlParameter("@stocki_stock", Me.Id))
+
+    '    Dim ds As New DataSet
+    '    da.Fill(ds, "stockitem")
+    '    Dim i As Integer = 0
+    '    With ds.Tables("stockitem")
+    '      For Each item As MatReturnItem In Me.ItemCollection
+    '        i += 1
+    '        Dim dr As DataRow = .NewRow
+    '        dr("stocki_stock") = Me.Id
+    '        dr("stocki_cc") = DBNull.Value
+    '        If Me.Grouping Then
+    '          dr("stocki_linenumber") = i     'itemRow("stocki_linenumber")
+    '        Else
+    '          dr("stocki_linenumber") = item.LineNumber
+    '        End If
+    '        'Me.ItemCollection.Item(item.LineNumber).LineNumber = i
+    '        dr("stocki_entity") = item.Entity.Id
+    '        If TypeOf item.Entity Is IObjectReflectable Then
+    '          dr("stocki_entityType") = CType(item.Entity, IObjectReflectable).EntityId
+    '        Else
+    '          dr("stocki_entityType") = 0
+    '        End If
+    '        dr("stocki_itemName") = DBNull.Value
+    '        dr("stocki_unit") = item.Unit.Id
+    '        dr("stocki_stockqty") = item.StockQty
+    '        dr("stocki_toacct") = Me.ValidIdOrDBNull(Me.ToAccount)
+    '        dr("stocki_toacctType") = 3     'เข้า Store โลด
+    '        dr("stocki_qty") = item.Qty
+    '        dr("stocki_note") = item.Note
+    '        dr("stocki_type") = Me.EntityId
+    '        dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
+    '        If item.TransferUnitPrice = Decimal.MinValue Then
+    '          dr("stocki_transferunitprice") = DBNull.Value
+    '        Else
+    '          dr("stocki_transferunitprice") = item.TransferUnitPrice
+    '        End If
+    '        dr("stocki_status") = Me.Status.Value
+    '        .Rows.Add(dr)
+    '      Next
+    '    End With
+    '    Dim dt As DataTable = ds.Tables("stockitem")
+    '    ' First process deletes.
+    '    da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+    '    ' Next process updates.
+    '    da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+    '    ' Finally process inserts.
+    '    da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+    '    Return New SaveErrorException("1")
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.ToString)
+    '  End Try
+
+    'End Function
+    'Private Function SaveWBSDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+    '  Try
+    '    Dim da As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
+    '    Dim cmdBuilder As New SqlCommandBuilder(da)
+
+    '    Dim ds As New DataSet
+
+    '    da.SelectCommand.Transaction = trans
+
+    '    'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+    '    cmdBuilder.GetDeleteCommand.Transaction = trans
+    '    cmdBuilder.GetInsertCommand.Transaction = trans
+    '    cmdBuilder.GetUpdateCommand.Transaction = trans
+
+    '    da.Fill(ds, "stockiwbs")
+
+    '    Dim i As Integer = 0
+    '    Dim dtWbs As DataTable = ds.Tables("stockiwbs")
+    '    Dim rootWBS As WBS
+    '    Dim currentSum As Decimal
+    '    Dim Cost As Decimal = 0
+
+    '    With dtWbs
+    '      For Each row As DataRow In .Rows
+    '        row.Delete()
+    '      Next
+    '      Dim line As Integer = 0
+    '      For Each item As MatReturnItem In Me.ItemCollection
+    '        Dim seqArr As New ArrayList
+    '        line += 1
+
+    '        seqArr = StockItem.GetSequenceArray(Me.Id, line)
+    '        For Each row As DataRow In seqArr
+
+    '          If Not row.IsNull("stocki_amt") Then
+    '            Cost = CDec(row("stocki_amt"))
+    '          Else
+    '            Cost = 0
+    '          End If
+
+    '          Dim wcoll As WBSDistributeCollection
+    '          For x As Integer = 0 To 1
+    '            If x = 0 Then
+    '              wcoll = item.InWbsdColl
+    '              currentSum = wcoll.GetSumPercent
+    '              rootWBS = New WBS(Me.ToCostCenter.RootWBSId)
+    '            Else
+    '              wcoll = item.OutWbsdColl
+    '              currentSum = wcoll.GetSumPercent
+    '              rootWBS = New WBS(Me.FromCostCenter.RootWBSId)
+    '            End If
+
+    '            Dim childDr As DataRow
+
+    '            If wcoll.Count > 0 Then
+
+    '              For Each wbsd As WBSDistribute In wcoll
+
+    '                childDr = dtWbs.NewRow
+    '                childDr("stockiw_wbs") = wbsd.WBS.Id
+
+    '                If wbsd.CostCenter Is Nothing Then
+    '                  If x = 0 Then
+    '                    wbsd.CostCenter = Me.ToCostCenter
+    '                  Else
+    '                    wbsd.CostCenter = Me.FromCostCenter
+    '                  End If
+    '                End If
+
+    '                If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+    '                  'ยังไม่เต็ม 100 แต่มีหัวอยู่
+    '                  wbsd.Percent += (100 - currentSum)
+    '                End If
+
+    '                wbsd.BaseCost = Cost
+    '                'wbsd.TransferBaseCost = Cost
+
+    '                childDr("stockiw_cc") = wbsd.CostCenter.Id
+    '                childDr("stockiw_percent") = wbsd.Percent
+    '                childDr("stockiw_sequence") = row("stocki_sequence")
+    '                childDr("stockiw_ismarkup") = wbsd.IsMarkup
+    '                childDr("stockiw_direction") = x
+    '                childDr("stockiw_baseCost") = wbsd.BaseCost
+    '                'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
+    '                'childDr("stockiw_transferamt") = wbsd.TransferAmount
+    '                childDr("stockiw_amt") = wbsd.Amount
+    '                childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
+    '                'Add เข้า stockiwbs
+    '                dtWbs.Rows.Add(childDr)
+
+
+    '              Next
+    '            ElseIf Not (rootWBS.Id = 0) Then
+    '              childDr = dtWbs.NewRow
+
+    '              Dim newWbsd As New WBSDistribute
+    '              newWbsd.WBS = rootWBS
+
+    '              If x = 0 Then
+    '                newWbsd.CostCenter = Me.ToCostCenter
+    '              Else
+    '                newWbsd.CostCenter = Me.FromCostCenter
+    '              End If
+
+    '              newWbsd.Percent = 100 - currentSum
+    '              newWbsd.BaseCost = Cost
+    '              'newWbsd.TransferBaseCost = Cost
+
+    '              childDr("stockiw_cc") = newWbsd.CostCenter.Id
+    '              childDr("stockiw_percent") = newWbsd.Percent
+    '              childDr("stockiw_sequence") = row("stocki_sequence")
+    '              childDr("stockiw_ismarkup") = newWbsd.IsMarkup
+    '              childDr("stockiw_wbs") = newWbsd.WBS.Id
+    '              childDr("stockiw_direction") = x
+    '              childDr("stockiw_baseCost") = newWbsd.BaseCost
+    '              'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
+    '              'childDr("stockiw_transferamt") = newWbsd.TransferAmount
+    '              childDr("stockiw_amt") = newWbsd.Amount
+    '              childDr("stockiw_toaccttype") = 3        'wbsd.Toaccttype
+
+    '              'Add เข้า stockiwbs
+    '              dtWbs.Rows.Add(childDr)
+    '              'End If
+    '            End If
+
+    '          Next
+    '        Next
+    '      Next
+    '    End With
+    '    ' First process deletes.
+    '    da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Deleted))
+    '    ' Next process updates.
+    '    da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+    '    ' Finally process inserts.
+    '    da.Update(dtWbs.Select(Nothing, Nothing, DataViewRowState.Added))
+    '    Return New SaveErrorException("1")
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.ToString)
+    '  End Try
+    'End Function
 #End Region
 
 #Region "IGLAble"
@@ -1906,33 +2190,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim item As New MatReturnItem(row, "")
         item.MatReturn = m_MatReturn
         Me.Add(item)
-        If Not group Then
-          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.InWbsdColl = inWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            inWbsdColl.Add(wbsd)
-          Next
-          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.OutWbsdColl = outWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            outWbsdColl.Add(wbsd)
-          Next
-        Else
-          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.InWbsdColl = inWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=0")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            inWbsdColl.Add(wbsd)
-          Next
-          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.OutWbsdColl = outWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=1")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            outWbsdColl.Add(wbsd)
-          Next
-        End If
+        'If Not group Then
+        Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        item.InWbsdColl = inWbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          inWbsdColl.Add(wbsd)
+        Next
+        Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        item.OutWbsdColl = outWbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          outWbsdColl.Add(wbsd)
+        Next
+        'Else
+        'Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        'item.InWbsdColl = inWbsdColl
+        'For Each wbsRow As DataRow In ds.Tables(0).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=0")
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  inWbsdColl.Add(wbsd)
+        'Next
+        'Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        'item.OutWbsdColl = outWbsdColl
+        'For Each wbsRow As DataRow In ds.Tables(0).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=1")
+        '  Dim wbsd As New WBSDistribute(wbsRow, "")
+        '  outWbsdColl.Add(wbsd)
+        'Next
+        'End If
       Next
     End Sub
     Public Sub New(ByVal owner As MatReturn, ByVal group As Boolean, ByVal conn As SqlConnection, ByVal tran As SqlTransaction)
@@ -1953,33 +2237,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim item As New MatReturnItem(row, "")
         item.MatReturn = m_MatReturn
         Me.Add(item)
-        If Not group Then
-          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.InWbsdColl = inWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            inWbsdColl.Add(wbsd)
-          Next
-          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.OutWbsdColl = outWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            outWbsdColl.Add(wbsd)
-          Next
-        Else
-          Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.InWbsdColl = inWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=0")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            inWbsdColl.Add(wbsd)
-          Next
-          Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-          item.OutWbsdColl = outWbsdColl
-          For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=1")
-            Dim wbsd As New WBSDistribute(wbsRow, "")
-            outWbsdColl.Add(wbsd)
-          Next
-        End If
+        'If Not group Then
+        Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        item.InWbsdColl = inWbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          inWbsdColl.Add(wbsd)
+        Next
+        Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        item.OutWbsdColl = outWbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          outWbsdColl.Add(wbsd)
+        Next
+        'Else
+        '  Dim inWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        '  item.InWbsdColl = inWbsdColl
+        '  For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=0")
+        '    Dim wbsd As New WBSDistribute(wbsRow, "")
+        '    inWbsdColl.Add(wbsd)
+        '  Next
+        '  Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        '  item.OutWbsdColl = outWbsdColl
+        '  For Each wbsRow As DataRow In ds.Tables(1).Select("stocki_linenumber=" & row("stocki_linenumber").ToString & "and stockiw_direction=1")
+        '    Dim wbsd As New WBSDistribute(wbsRow, "")
+        '    outWbsdColl.Add(wbsd)
+        '  Next
+        'End If
       Next
     End Sub
 #End Region

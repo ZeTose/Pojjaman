@@ -79,7 +79,7 @@
 		</EntityTab>
 		<EntityTab id="matreturn">
 			<EntityTab id="MatReturnDetailView" view="Longkong.Pojjaman.Gui.Panels.MatReturnDetailView"/>
-      <EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>
+      <!--<EntityTab id="scTransferWBSView" view="Longkong.Pojjaman.Gui.Panels.scTransferWBSView"/>-->
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
 		</EntityTab>
 		
