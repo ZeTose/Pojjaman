@@ -142,20 +142,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("cc_id") Then
           If Not dr.IsNull("cc_id") Then
-            .m_cc = New CostCenter(dr, "")
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "cc_id")))
+            '.m_cc = New CostCenter(dr, "")
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "wr_cc") Then
-            .m_cc = New CostCenter(CInt(dr(aliasPrefix & "wr_cc")))
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "wr_cc")))
+            '.m_cc = New CostCenter(CInt(dr(aliasPrefix & "wr_cc")))
           End If
         End If
         If dr.Table.Columns.Contains("employee_id") Then
           If Not dr.IsNull("employee_id") Then
-            .m_director = New Employee(dr, "")
+            .m_director = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "employee_id")))
+            '.m_director = New Employee(dr, "")
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "wr_director") Then
-            .m_director = New Employee(CInt(dr(aliasPrefix & "wr_director")))
+            .m_director = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "wr_director")))
           End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "wr_gross") AndAlso Not dr.IsNull(aliasPrefix & "wr_gross") Then
@@ -528,6 +531,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return True
 
     End Function
+
+    Public Shared Function GetWRbyDataRow(ByVal dr As DataRow) As WR
+      Dim ret As New WR
+      SetMinimumWR(ret, dr)
+      Return ret
+    End Function
+
+    Public Shared Sub SetMinimumWR(ByVal wr As WR, ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+      wr.Id = drh.GetValue(Of Integer)("wr_id")
+      wr.Code = drh.GetValue(Of String)("wr_code")
+      wr.DocDate = drh.GetValue(Of Date)("wr_docdate")
+      wr.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("wr_cc"))
+    End Sub
 
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("WR")

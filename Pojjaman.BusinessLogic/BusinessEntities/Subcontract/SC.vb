@@ -87,7 +87,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
     End Sub
-    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String, Optional ByVal noItem As Boolean = False)
       Me.Construct(dr, aliasPrefix)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -182,9 +182,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
         End If
-        If dr.Table.Columns.Contains("supplier.supplier_id") Then
-          If Not dr.IsNull("supplier.supplier_id") Then
-            .m_subcontractor = New Supplier(dr, "")
+        If dr.Table.Columns.Contains("supplier_id") Then
+          If Not dr.IsNull("supplier_id") Then
+            .m_subcontractor = Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_subcontractor") Then
@@ -200,13 +200,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "sc_cc")))
           End If
         End If
-        If dr.Table.Columns.Contains(aliasPrefix & "sc_wr") Then
+        If dr.Table.Columns.Contains(aliasPrefix & "wr_id") Then
+          If Not dr.IsNull("wr_id") Then
+            .m_wr = WR.GetWRbyDataRow(dr)
+            '.m_wr = New WR(dr, "", False)
+          End If
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "sc_wr") Then
           If Not dr.IsNull(aliasPrefix & "sc_wr") Then
             .m_wr = New WR(CInt(dr(aliasPrefix & "sc_wr")))
-          End If
-        ElseIf dr.Table.Columns.Contains(aliasPrefix & "wr_id") Then
-          If Not dr.IsNull("wr_id") Then
-            .m_wr = New WR(dr, "", False)
           End If
         End If
         If dr.Table.Columns.Contains("employee_id") Then
@@ -215,7 +216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_director") Then
-            .m_director = New Employee(CInt(dr(aliasPrefix & "sc_director")))
+            .m_director = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "sc_director")))
           End If
         End If
         If Not dr.IsNull(aliasPrefix & "sc_gross") Then
@@ -285,10 +286,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not dr.IsNull(aliasPrefix & "sc_approveDate") Then
           .m_approveDate = CDate(dr(aliasPrefix & "sc_approveDate"))
         End If
-
-        m_itemCollection = New SCItemCollection(Me)
+          m_itemCollection = New SCItemCollection(Me)
       End With
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+        Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
@@ -608,7 +608,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Shared"
     Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC) As Boolean
       If txtCode.Text.Length > 0 Then
-        Dim scNew As New SC(txtCode.Text)
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+     , CommandType.StoredProcedure _
+     , "GetSC" _
+        , New SqlParameter("@sc_code", txtCode.Text) _
+     )
+        Dim scNew As New SC
+        SetNewSCbyRow(scNew, ds.Tables(0).Rows(0))
         If txtCode.Text.Length <> 0 AndAlso Not scNew.Valid Then
           MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
           scNew = oldSC
@@ -626,6 +632,156 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return True
 
     End Function
+
+    Public Shared Sub SetNewSCbyRow(ByVal sc As SC, ByVal dr As DataRow)
+      Dim aliasPrefix As String = ""
+      Dim drh As New DataRowHelper(dr)
+      With sc
+        .Id = drh.GetValue(Of Integer)("sc_id")
+        .Code = drh.GetValue(Of String)("sc_code")
+        If dr.Table.Columns.Contains("sc_docdate") Then
+          If Not dr.IsNull("sc_docdate") Then
+            If IsDate(dr("sc_docdate")) Then
+              .m_docDate = CDate(dr("sc_docdate"))
+            End If
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_docdate") Then
+            If IsDate(dr(aliasPrefix & "sc_docdate")) Then
+              .m_docDate = CDate(aliasPrefix & "sc_docdate")
+            End If
+          End If
+        End If
+        If Not dr.IsNull("sc_creditperiod") Then
+          .m_creditPeriod = CLng(dr("sc_creditperiod"))
+        End If
+        If Not dr.IsNull("sc_contactPerson") Then
+          .m_contactPerson = CStr(dr("sc_contactPerson"))
+        End If
+        If dr.Table.Columns.Contains("sc_startdate") Then
+          If Not dr.IsNull("sc_startdate") Then
+            If IsDate(dr("sc_startdate")) Then
+              .m_startDate = CDate(dr("sc_startdate"))
+            End If
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_startdate") Then
+            If IsDate(dr(aliasPrefix & "sc_startdate")) Then
+              .m_startDate = CDate(aliasPrefix & "sc_startdate")
+            End If
+          End If
+        End If
+        If dr.Table.Columns.Contains("sc_enddate") Then
+          If Not dr.IsNull("sc_enddate") Then
+            If IsDate(dr("sc_enddate")) Then
+              .m_endDate = CDate(dr("sc_enddate"))
+            End If
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_enddate") Then
+            If IsDate(dr(aliasPrefix & "sc_enddate")) Then
+              .m_endDate = CDate(aliasPrefix & "sc_enddate")
+            End If
+          End If
+        End If
+        If dr.Table.Columns.Contains("supplier_id") Then
+          If Not dr.IsNull("supplier_id") Then
+            .m_subcontractor = Supplier.GetSupplierbyDataRow(dr)
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_subcontractor") Then
+            .m_subcontractor = New Supplier(CInt(dr(aliasPrefix & "sc_subcontractor")))
+          End If
+        End If
+        If dr.Table.Columns.Contains("cc_id") Then
+          If Not dr.IsNull("cc_id") Then
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "cc_id")))
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_cc") Then
+            .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "sc_cc")))
+          End If
+        End If
+
+        If dr.Table.Columns.Contains("employee_id") Then
+          If Not dr.IsNull("employee_id") Then
+            .m_director = New Employee(dr, "")
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_director") Then
+            .m_director = Employee.GetEmployeeById(CInt(dr(aliasPrefix & "sc_director")))
+          End If
+        End If
+        If Not dr.IsNull(aliasPrefix & "sc_gross") Then
+          .m_gross = CDec(dr(aliasPrefix & "sc_gross"))
+        End If
+        If Not dr.IsNull(aliasPrefix & "sc_discrate") Then
+          .m_discount = New Discount(CStr(dr(aliasPrefix & "sc_discrate")))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_taxtype") AndAlso Not dr.IsNull(aliasPrefix & "sc_taxtype") Then
+          .m_taxType = New TaxType(CInt(dr(aliasPrefix & "sc_taxtype")))
+        End If
+        If Not dr.IsNull(aliasPrefix & "sc_taxrate") Then
+          .m_taxRate = CDec(dr(aliasPrefix & "sc_taxrate"))
+        End If
+        '--------------------REAL-------------------------
+        ' Tax Base
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_taxbase") _
+        AndAlso Not dr.IsNull(aliasPrefix & "sc_taxbase") Then
+          .m_realTaxBase = CDec(dr(aliasPrefix & "sc_taxbase"))
+        End If
+
+        ' Gross
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_gross") _
+        AndAlso Not dr.IsNull(aliasPrefix & "sc_gross") Then
+          .m_realGross = CDec(dr(aliasPrefix & "sc_gross"))
+        End If
+
+        ' Tax Amount
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_taxamt") _
+        AndAlso Not dr.IsNull(aliasPrefix & "sc_taxamt") Then
+          .m_realTaxAmount = CDec(dr(aliasPrefix & "sc_taxamt"))
+        End If
+        '--------------------END REAL-------------------------
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_closed") AndAlso Not dr.IsNull(aliasPrefix & "sc_closed") Then
+          .m_closed = CBool(dr(aliasPrefix & "sc_closed"))
+          .m_closing = CBool(dr(aliasPrefix & "sc_closed"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_status") AndAlso Not dr.IsNull(aliasPrefix & "sc_status") Then
+          .m_status = New SCStatus(CInt(dr(aliasPrefix & "sc_status")))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_note") AndAlso Not dr.IsNull(aliasPrefix & "sc_note") Then
+          .m_note = CStr(dr(aliasPrefix & "sc_note"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_retention") AndAlso Not dr.IsNull(aliasPrefix & "sc_retention") Then
+          .m_retention = CDec(dr(aliasPrefix & "sc_retention"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_advancepay") AndAlso Not dr.IsNull(aliasPrefix & "sc_advancepay") Then
+          .m_advancepay = CDec(dr(aliasPrefix & "sc_advancepay"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "sc_witholdingtax") AndAlso Not dr.IsNull(aliasPrefix & "sc_witholdingtax") Then
+          .m_witholdingTax = CDec(dr(aliasPrefix & "sc_witholdingtax"))
+        End If
+
+
+        ' ApprovePerson
+        If dr.Table.Columns.Contains("approvePerson.user_id") Then
+          If Not dr.IsNull("approvePerson.user_id") Then
+            .m_approvePerson = New User(dr, "approvePerson.")
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & "sc_approvePerson") Then
+            .m_approvePerson = New User(CInt(dr(aliasPrefix & "sc_approvePerson")))
+          End If
+        End If
+        ' Approved Date
+        If Not dr.IsNull(aliasPrefix & "sc_approveDate") Then
+          .m_approveDate = CDate(dr(aliasPrefix & "sc_approveDate"))
+        End If
+      End With
+
+    End Sub
 
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("SC")

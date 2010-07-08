@@ -132,7 +132,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           entityId = CInt(dr(aliasPrefix & "vat_entity"))
         End If
         If entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
-          .vat_entity = CType(Supplier.GetSupplier(dr), IBillablePerson)
+          .vat_entity = CType(Supplier.GetSupplierbyDataRow(dr), IBillablePerson)
         Else
           .vat_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
         End If

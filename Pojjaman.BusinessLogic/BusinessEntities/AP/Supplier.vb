@@ -610,7 +610,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
-    Public Shared Function GetSupplier(ByVal dr As DataRow) As Supplier
+    Public Shared Function GetSupplierbyDataRow(ByVal dr As DataRow) As Supplier
       Dim sup As New Supplier
       SetMinimumSup(sup, dr)
       Return sup

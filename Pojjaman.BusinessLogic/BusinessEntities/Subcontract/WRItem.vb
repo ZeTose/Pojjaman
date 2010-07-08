@@ -156,11 +156,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case .m_itemType.Value
             Case 42    '"lci"
               If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                If Not dr.IsNull("lci_id") Then
-                  .m_entity = New LCIItem(dr, "")
-                End If
-              Else
-                .m_entity = New LCIItem(itemId)
+                .m_entity = LCIItem.GetLciItemById(itemId)
+                '  If Not dr.IsNull("lci_id") Then
+                '    .m_entity = New LCIItem(dr, "")
+                '  End If
+                'Else
+                '  .m_entity = New LCIItem(itemId)
               End If
             Case 19    '"tool"
               If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
@@ -172,13 +173,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             Case 88, 89
               If itemId > 0 Then
-                If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                  If Not dr.IsNull("lci_id") Then
-                    .m_entity = New LCIItem(dr, "")
-                  End If
-                Else
-                  .m_entity = New LCIItem(itemId)
-                End If
+                .m_entity = LCIItem.GetLciItemById(itemId)
+                'If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                '  '  If Not dr.IsNull("lci_id") Then
+                '  '    .m_entity = New LCIItem(dr, "")
+                '  '  End If
+                '  'Else
+                '  '  .m_entity = New LCIItem(itemId)
+                'End If
               Else
                 .m_entity = New BlankItem(.m_entityName)
               End If
@@ -199,11 +201,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "unit_id") AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
           If Not dr.IsNull("unit_id") Then
-            .m_unit = New Unit(dr, "")
+            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "unit_id")))
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "wri_unit") AndAlso Not dr.IsNull(aliasPrefix & "wri_unit") Then
-            .m_unit = New Unit(CInt(dr(aliasPrefix & "wri_unit")))
+            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "wri_unit")))
           End If
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "wri_unitprice") AndAlso Not dr.IsNull(aliasPrefix & "wri_unitprice") Then

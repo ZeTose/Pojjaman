@@ -264,28 +264,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If Not Me.SC.WR Is Nothing Then
+          .m_wr = Me.SC.WR
+          'If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
+          '  If CInt(dr.IsNull(aliasPrefix & "sci_wr")) > 0 Then
+          '    .m_wr = Me.SC.WR
+          '  Else
+          '    .m_wr = New WR
+          '  End If
+          'End If
+        Else
           If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
-            If CInt(dr.IsNull(aliasPrefix & "sci_wr")) > 0 Then
-              .m_wr = Me.SC.WR
-            Else
-              .m_wr = New WR
+            .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
+          Else
+            If Not .m_sc.WR Is Nothing Then
+              .m_wr = .m_sc.WR
             End If
           End If
-        Else
-        If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
-          .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
-        Else
-          If Not .m_sc.WR Is Nothing Then
-            .m_wr = .m_sc.WR
-          End If
-        End If
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrsequence") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrsequence") Then
           .m_wriSequence = CLng(dr(aliasPrefix & "sci_wrsequence"))
         End If
         If dr.Table.Columns.Contains(aliasPrefix & "sci_wrunit") AndAlso Not dr.IsNull(aliasPrefix & "sci_wrunit") Then
-          .m_wriUnit = New Unit(CInt(dr(aliasPrefix & "sci_wrunit")))
+          .m_wriUnit = Unit.GetUnitById(CInt(dr(aliasPrefix & "sci_wrunit")))
           '.m_wriUnit = New Unit
           '.m_wriUnit.Id = CInt(dr("wrunit_id"))
           '.m_wriUnit.Code = CStr(dr("wrunit_code"))
