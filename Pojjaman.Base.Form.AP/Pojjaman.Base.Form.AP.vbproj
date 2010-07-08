@@ -194,6 +194,11 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Payment\OtherPayment.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -302,6 +307,11 @@
     <EmbeddedResource Include="AP\SupplierGroupDetailView.resx">
       <DependentUpon>SupplierGroupDetailView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Payment\OtherPayment.resx">
       <DependentUpon>OtherPayment.vb</DependentUpon>
     </EmbeddedResource>
@@ -354,9 +364,7 @@
       <DependentUpon>UnlockForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -408,6 +416,12 @@
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\padlock-locked.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\padlock-unlocked.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

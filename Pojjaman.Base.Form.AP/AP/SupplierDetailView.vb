@@ -83,70 +83,73 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnAddContact As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelContact As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblContactItem As System.Windows.Forms.Label
+    Friend WithEvents btnLock As System.Windows.Forms.Button
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(SupplierDetailView))
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.tgContact = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.ibtnAddContact = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelContact = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblContactItem = New System.Windows.Forms.Label
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.btnAuxDetail = New System.Windows.Forms.Button
-      Me.primaryDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.cbmProvince = New System.Windows.Forms.ComboBox
-      Me.chkcancel = New System.Windows.Forms.CheckBox
-      Me.txtEmail = New System.Windows.Forms.TextBox
-      Me.lblEmail = New System.Windows.Forms.Label
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.lblName = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblAltName = New System.Windows.Forms.Label
-      Me.txtBillingAddress = New System.Windows.Forms.TextBox
-      Me.lblBillingAddress = New System.Windows.Forms.Label
-      Me.txtAltName = New System.Windows.Forms.TextBox
-      Me.txtAddress = New System.Windows.Forms.TextBox
-      Me.lblAddress = New System.Windows.Forms.Label
-      Me.txtPhone = New System.Windows.Forms.TextBox
-      Me.lblPhone = New System.Windows.Forms.Label
-      Me.txtFax = New System.Windows.Forms.TextBox
-      Me.lblFax = New System.Windows.Forms.Label
-      Me.lblProvince = New System.Windows.Forms.Label
-      Me.txtMobile = New System.Windows.Forms.TextBox
-      Me.lblMobile = New System.Windows.Forms.Label
-      Me.otherDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnGroupFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnGroupEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtContact = New System.Windows.Forms.TextBox
-      Me.lblContact = New System.Windows.Forms.Label
-      Me.rdJuris = New System.Windows.Forms.RadioButton
-      Me.txtAuthorizeAmount = New System.Windows.Forms.TextBox
-      Me.lblAuthorizeAmount = New System.Windows.Forms.Label
-      Me.txtTaxID = New System.Windows.Forms.TextBox
-      Me.lblTaxID = New System.Windows.Forms.Label
-      Me.lblPersonType = New System.Windows.Forms.Label
-      Me.rdIndividual = New System.Windows.Forms.RadioButton
-      Me.lblGroup = New System.Windows.Forms.Label
-      Me.lblAccount = New System.Windows.Forms.Label
-      Me.txtAccountName = New System.Windows.Forms.TextBox
-      Me.txtGroupName = New System.Windows.Forms.TextBox
-      Me.lblIdNo = New System.Windows.Forms.Label
-      Me.txtIdNo = New System.Windows.Forms.TextBox
-      Me.txtGroupCode = New System.Windows.Forms.TextBox
-      Me.txtAccountCode = New System.Windows.Forms.TextBox
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SupplierDetailView))
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.tgContact = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.ibtnAddContact = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelContact = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblContactItem = New System.Windows.Forms.Label()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.btnAuxDetail = New System.Windows.Forms.Button()
+      Me.primaryDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.cbmProvince = New System.Windows.Forms.ComboBox()
+      Me.chkcancel = New System.Windows.Forms.CheckBox()
+      Me.txtEmail = New System.Windows.Forms.TextBox()
+      Me.lblEmail = New System.Windows.Forms.Label()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblAltName = New System.Windows.Forms.Label()
+      Me.txtBillingAddress = New System.Windows.Forms.TextBox()
+      Me.lblBillingAddress = New System.Windows.Forms.Label()
+      Me.txtAltName = New System.Windows.Forms.TextBox()
+      Me.txtAddress = New System.Windows.Forms.TextBox()
+      Me.lblAddress = New System.Windows.Forms.Label()
+      Me.txtPhone = New System.Windows.Forms.TextBox()
+      Me.lblPhone = New System.Windows.Forms.Label()
+      Me.txtFax = New System.Windows.Forms.TextBox()
+      Me.lblFax = New System.Windows.Forms.Label()
+      Me.lblProvince = New System.Windows.Forms.Label()
+      Me.txtMobile = New System.Windows.Forms.TextBox()
+      Me.lblMobile = New System.Windows.Forms.Label()
+      Me.otherDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnGroupFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnGroupEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtContact = New System.Windows.Forms.TextBox()
+      Me.lblContact = New System.Windows.Forms.Label()
+      Me.rdJuris = New System.Windows.Forms.RadioButton()
+      Me.txtAuthorizeAmount = New System.Windows.Forms.TextBox()
+      Me.lblAuthorizeAmount = New System.Windows.Forms.Label()
+      Me.txtTaxID = New System.Windows.Forms.TextBox()
+      Me.lblTaxID = New System.Windows.Forms.Label()
+      Me.lblPersonType = New System.Windows.Forms.Label()
+      Me.rdIndividual = New System.Windows.Forms.RadioButton()
+      Me.lblGroup = New System.Windows.Forms.Label()
+      Me.lblAccount = New System.Windows.Forms.Label()
+      Me.txtAccountName = New System.Windows.Forms.TextBox()
+      Me.txtGroupName = New System.Windows.Forms.TextBox()
+      Me.lblIdNo = New System.Windows.Forms.Label()
+      Me.txtIdNo = New System.Windows.Forms.TextBox()
+      Me.txtGroupCode = New System.Windows.Forms.TextBox()
+      Me.txtAccountCode = New System.Windows.Forms.TextBox()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.cmbCode = New System.Windows.Forms.ComboBox
+      Me.btnLock = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.primaryDetailGroupBox.SuspendLayout()
       Me.otherDetailGroupBox.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -154,6 +157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnLock)
       Me.grbDetail.Controls.Add(Me.tgContact)
       Me.grbDetail.Controls.Add(Me.ibtnAddContact)
       Me.grbDetail.Controls.Add(Me.ibtnDelContact)
@@ -182,7 +186,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgContact.AutoColumnResize = True
       Me.tgContact.CaptionVisible = False
       Me.tgContact.Cellchanged = False
-      Me.tgContact.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(255, Byte), CType(192, Byte), CType(128, Byte)), System.Drawing.Color.FromArgb(CType(255, Byte), CType(255, Byte), CType(192, Byte))})
+      Me.tgContact.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
       Me.tgContact.DataMember = ""
       Me.tgContact.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgContact.Location = New System.Drawing.Point(360, 288)
@@ -194,7 +198,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnAddContact
       '
-      Me.ibtnAddContact.Image = CType(resources.GetObject("ibtnAddContact.Image"), System.Drawing.Image)
+      Me.ibtnAddContact.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnAddContact.Location = New System.Drawing.Point(488, 261)
       Me.ibtnAddContact.Name = "ibtnAddContact"
       Me.ibtnAddContact.Size = New System.Drawing.Size(24, 24)
@@ -204,7 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelContact
       '
-      Me.ibtnDelContact.Image = CType(resources.GetObject("ibtnDelContact.Image"), System.Drawing.Image)
+      Me.ibtnDelContact.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelContact.Location = New System.Drawing.Point(512, 261)
       Me.ibtnDelContact.Name = "ibtnDelContact"
       Me.ibtnDelContact.Size = New System.Drawing.Size(24, 24)
@@ -231,7 +235,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.ForeColor = System.Drawing.SystemColors.GrayText
       Me.lblStatus.Location = New System.Drawing.Point(8, 456)
       Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(51, 17)
+      Me.lblStatus.Size = New System.Drawing.Size(52, 13)
       Me.lblStatus.TabIndex = 3
       Me.lblStatus.Text = "Status จ้า"
       Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -242,6 +246,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAuxDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAuxDetail.Location = New System.Drawing.Point(664, 256)
       Me.btnAuxDetail.Name = "btnAuxDetail"
+      Me.btnAuxDetail.Size = New System.Drawing.Size(75, 23)
       Me.btnAuxDetail.TabIndex = 2
       Me.btnAuxDetail.Text = "เพิ่มเติม"
       '
@@ -277,6 +282,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.primaryDetailGroupBox.TabIndex = 0
       Me.primaryDetailGroupBox.TabStop = False
       Me.primaryDetailGroupBox.Text = "ข้อมูลเบื้องต้น : "
+      '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(96, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(120, 21)
+      Me.cmbCode.TabIndex = 22
       '
       'chkAutorun
       '
@@ -319,14 +333,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtEmail, System.Drawing.Color.Empty)
       Me.txtEmail.Location = New System.Drawing.Point(96, 288)
       Me.txtEmail.MaxLength = 250
-      Me.Validator.SetMaxValue(Me.txtEmail, "")
       Me.Validator.SetMinValue(Me.txtEmail, "")
       Me.txtEmail.Name = "txtEmail"
       Me.Validator.SetRegularExpression(Me.txtEmail, "")
       Me.Validator.SetRequired(Me.txtEmail, False)
       Me.txtEmail.Size = New System.Drawing.Size(224, 21)
       Me.txtEmail.TabIndex = 9
-      Me.txtEmail.Text = ""
       '
       'lblEmail
       '
@@ -349,14 +361,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(96, 48)
       Me.txtName.MaxLength = 200
-      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
       Me.Validator.SetRequired(Me.txtName, True)
       Me.txtName.Size = New System.Drawing.Size(224, 21)
       Me.txtName.TabIndex = 1
-      Me.txtName.Text = ""
       '
       'lblName
       '
@@ -401,7 +411,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBillingAddress, System.Drawing.Color.Empty)
       Me.txtBillingAddress.Location = New System.Drawing.Point(96, 96)
       Me.txtBillingAddress.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtBillingAddress, "")
       Me.Validator.SetMinValue(Me.txtBillingAddress, "")
       Me.txtBillingAddress.Multiline = True
       Me.txtBillingAddress.Name = "txtBillingAddress"
@@ -410,7 +419,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBillingAddress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtBillingAddress.Size = New System.Drawing.Size(224, 42)
       Me.txtBillingAddress.TabIndex = 3
-      Me.txtBillingAddress.Text = ""
       Me.txtBillingAddress.WordWrap = False
       '
       'lblBillingAddress
@@ -434,14 +442,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAltName, System.Drawing.Color.Empty)
       Me.txtAltName.Location = New System.Drawing.Point(96, 72)
       Me.txtAltName.MaxLength = 200
-      Me.Validator.SetMaxValue(Me.txtAltName, "")
       Me.Validator.SetMinValue(Me.txtAltName, "")
       Me.txtAltName.Name = "txtAltName"
       Me.Validator.SetRegularExpression(Me.txtAltName, "")
       Me.Validator.SetRequired(Me.txtAltName, False)
       Me.txtAltName.Size = New System.Drawing.Size(224, 21)
       Me.txtAltName.TabIndex = 2
-      Me.txtAltName.Text = ""
       '
       'txtAddress
       '
@@ -453,7 +459,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAddress, System.Drawing.Color.Empty)
       Me.txtAddress.Location = New System.Drawing.Point(96, 144)
       Me.txtAddress.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtAddress, "")
       Me.Validator.SetMinValue(Me.txtAddress, "")
       Me.txtAddress.Multiline = True
       Me.txtAddress.Name = "txtAddress"
@@ -462,7 +467,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAddress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtAddress.Size = New System.Drawing.Size(224, 42)
       Me.txtAddress.TabIndex = 4
-      Me.txtAddress.Text = ""
       Me.txtAddress.WordWrap = False
       '
       'lblAddress
@@ -486,14 +490,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtPhone, System.Drawing.Color.Empty)
       Me.txtPhone.Location = New System.Drawing.Point(96, 216)
       Me.txtPhone.MaxLength = 250
-      Me.Validator.SetMaxValue(Me.txtPhone, "")
       Me.Validator.SetMinValue(Me.txtPhone, "")
       Me.txtPhone.Name = "txtPhone"
       Me.Validator.SetRegularExpression(Me.txtPhone, "")
       Me.Validator.SetRequired(Me.txtPhone, False)
       Me.txtPhone.Size = New System.Drawing.Size(224, 21)
       Me.txtPhone.TabIndex = 6
-      Me.txtPhone.Text = ""
       '
       'lblPhone
       '
@@ -516,14 +518,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFax, System.Drawing.Color.Empty)
       Me.txtFax.Location = New System.Drawing.Point(96, 264)
       Me.txtFax.MaxLength = 250
-      Me.Validator.SetMaxValue(Me.txtFax, "")
       Me.Validator.SetMinValue(Me.txtFax, "")
       Me.txtFax.Name = "txtFax"
       Me.Validator.SetRegularExpression(Me.txtFax, "")
       Me.Validator.SetRequired(Me.txtFax, False)
       Me.txtFax.Size = New System.Drawing.Size(224, 21)
       Me.txtFax.TabIndex = 8
-      Me.txtFax.Text = ""
       '
       'lblFax
       '
@@ -557,14 +557,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtMobile, System.Drawing.Color.Empty)
       Me.txtMobile.Location = New System.Drawing.Point(96, 240)
       Me.txtMobile.MaxLength = 250
-      Me.Validator.SetMaxValue(Me.txtMobile, "")
       Me.Validator.SetMinValue(Me.txtMobile, "")
       Me.txtMobile.Name = "txtMobile"
       Me.Validator.SetRegularExpression(Me.txtMobile, "")
       Me.Validator.SetRequired(Me.txtMobile, False)
       Me.txtMobile.Size = New System.Drawing.Size(224, 21)
       Me.txtMobile.TabIndex = 7
-      Me.txtMobile.Text = ""
       '
       'lblMobile
       '
@@ -613,9 +611,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnGroupFind
       '
+      Me.btnGroupFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnGroupFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnGroupFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnGroupFind.Image = CType(resources.GetObject("btnGroupFind.Image"), System.Drawing.Image)
       Me.btnGroupFind.Location = New System.Drawing.Point(336, 47)
       Me.btnGroupFind.Name = "btnGroupFind"
       Me.btnGroupFind.Size = New System.Drawing.Size(24, 23)
@@ -625,9 +623,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAccountFind
       '
+      Me.btnAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAccountFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountFind.Image = CType(resources.GetObject("btnAccountFind.Image"), System.Drawing.Image)
       Me.btnAccountFind.Location = New System.Drawing.Point(336, 71)
       Me.btnAccountFind.Name = "btnAccountFind"
       Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
@@ -637,8 +635,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnGroupEdit
       '
+      Me.btnGroupEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnGroupEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnGroupEdit.Image = CType(resources.GetObject("btnGroupEdit.Image"), System.Drawing.Image)
       Me.btnGroupEdit.Location = New System.Drawing.Point(360, 47)
       Me.btnGroupEdit.Name = "btnGroupEdit"
       Me.btnGroupEdit.Size = New System.Drawing.Size(24, 23)
@@ -648,8 +646,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAccountEdit
       '
+      Me.btnAccountEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAccountEdit.Image = CType(resources.GetObject("btnAccountEdit.Image"), System.Drawing.Image)
       Me.btnAccountEdit.Location = New System.Drawing.Point(360, 71)
       Me.btnAccountEdit.Name = "btnAccountEdit"
       Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
@@ -667,14 +665,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtContact, System.Drawing.Color.Empty)
       Me.txtContact.Location = New System.Drawing.Point(136, 168)
       Me.txtContact.MaxLength = 100
-      Me.Validator.SetMaxValue(Me.txtContact, "")
       Me.Validator.SetMinValue(Me.txtContact, "")
       Me.txtContact.Name = "txtContact"
       Me.Validator.SetRegularExpression(Me.txtContact, "")
       Me.Validator.SetRequired(Me.txtContact, False)
       Me.txtContact.Size = New System.Drawing.Size(248, 21)
       Me.txtContact.TabIndex = 7
-      Me.txtContact.Text = ""
       '
       'lblContact
       '
@@ -707,14 +703,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAuthorizeAmount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAuthorizeAmount, System.Drawing.Color.Empty)
       Me.txtAuthorizeAmount.Location = New System.Drawing.Point(136, 96)
-      Me.Validator.SetMaxValue(Me.txtAuthorizeAmount, "")
       Me.Validator.SetMinValue(Me.txtAuthorizeAmount, "")
       Me.txtAuthorizeAmount.Name = "txtAuthorizeAmount"
       Me.Validator.SetRegularExpression(Me.txtAuthorizeAmount, "")
       Me.Validator.SetRequired(Me.txtAuthorizeAmount, False)
       Me.txtAuthorizeAmount.Size = New System.Drawing.Size(248, 21)
       Me.txtAuthorizeAmount.TabIndex = 4
-      Me.txtAuthorizeAmount.Text = ""
       '
       'lblAuthorizeAmount
       '
@@ -737,14 +731,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
       Me.txtTaxID.Location = New System.Drawing.Point(136, 120)
       Me.txtTaxID.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtTaxID, "")
       Me.Validator.SetMinValue(Me.txtTaxID, "")
       Me.txtTaxID.Name = "txtTaxID"
       Me.Validator.SetRegularExpression(Me.txtTaxID, "")
       Me.Validator.SetRequired(Me.txtTaxID, False)
       Me.txtTaxID.Size = New System.Drawing.Size(248, 21)
       Me.txtTaxID.TabIndex = 5
-      Me.txtTaxID.Text = ""
       '
       'lblTaxID
       '
@@ -775,6 +767,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdIndividual.ForeColor = System.Drawing.Color.Black
       Me.rdIndividual.Location = New System.Drawing.Point(216, 24)
       Me.rdIndividual.Name = "rdIndividual"
+      Me.rdIndividual.Size = New System.Drawing.Size(104, 24)
       Me.rdIndividual.TabIndex = 1
       Me.rdIndividual.Text = "บุคคลธรรมดา"
       '
@@ -808,7 +801,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
       Me.txtAccountName.Location = New System.Drawing.Point(216, 72)
-      Me.Validator.SetMaxValue(Me.txtAccountName, "")
       Me.Validator.SetMinValue(Me.txtAccountName, "")
       Me.txtAccountName.Name = "txtAccountName"
       Me.txtAccountName.ReadOnly = True
@@ -817,7 +809,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountName.Size = New System.Drawing.Size(120, 21)
       Me.txtAccountName.TabIndex = 18
       Me.txtAccountName.TabStop = False
-      Me.txtAccountName.Text = ""
       '
       'txtGroupName
       '
@@ -827,7 +818,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.txtGroupName.Location = New System.Drawing.Point(216, 48)
-      Me.Validator.SetMaxValue(Me.txtGroupName, "")
       Me.Validator.SetMinValue(Me.txtGroupName, "")
       Me.txtGroupName.Name = "txtGroupName"
       Me.txtGroupName.ReadOnly = True
@@ -836,7 +826,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGroupName.Size = New System.Drawing.Size(120, 21)
       Me.txtGroupName.TabIndex = 17
       Me.txtGroupName.TabStop = False
-      Me.txtGroupName.Text = ""
       '
       'lblIdNo
       '
@@ -859,14 +848,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtIdNo, System.Drawing.Color.Empty)
       Me.txtIdNo.Location = New System.Drawing.Point(136, 144)
       Me.txtIdNo.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtIdNo, "")
       Me.Validator.SetMinValue(Me.txtIdNo, "")
       Me.txtIdNo.Name = "txtIdNo"
       Me.Validator.SetRegularExpression(Me.txtIdNo, "")
       Me.Validator.SetRequired(Me.txtIdNo, False)
       Me.txtIdNo.Size = New System.Drawing.Size(248, 21)
       Me.txtIdNo.TabIndex = 6
-      Me.txtIdNo.Text = ""
       '
       'txtGroupCode
       '
@@ -878,14 +865,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtGroupCode, System.Drawing.Color.Empty)
       Me.txtGroupCode.Location = New System.Drawing.Point(136, 48)
       Me.txtGroupCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtGroupCode, "")
       Me.Validator.SetMinValue(Me.txtGroupCode, "")
       Me.txtGroupCode.Name = "txtGroupCode"
       Me.Validator.SetRegularExpression(Me.txtGroupCode, "")
       Me.Validator.SetRequired(Me.txtGroupCode, True)
       Me.txtGroupCode.Size = New System.Drawing.Size(80, 21)
       Me.txtGroupCode.TabIndex = 2
-      Me.txtGroupCode.Text = ""
       '
       'txtAccountCode
       '
@@ -897,14 +882,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
       Me.txtAccountCode.Location = New System.Drawing.Point(136, 72)
       Me.txtAccountCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtAccountCode, "")
       Me.Validator.SetMinValue(Me.txtAccountCode, "")
       Me.txtAccountCode.Name = "txtAccountCode"
       Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
       Me.Validator.SetRequired(Me.txtAccountCode, True)
       Me.txtAccountCode.Size = New System.Drawing.Size(80, 21)
       Me.txtAccountCode.TabIndex = 3
-      Me.txtAccountCode.Text = ""
       '
       'txtNote
       '
@@ -916,14 +899,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(136, 192)
       Me.txtNote.MaxLength = 100
-      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(248, 21)
       Me.txtNote.TabIndex = 8
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -949,14 +930,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
-      'cmbCode
+      'btnLockBoq
       '
-      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(96, 24)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(120, 21)
-      Me.cmbCode.TabIndex = 22
+      Me.btnLock.Image = Global.My.Resources.Resources.padlock_unlocked
+      Me.btnLock.Location = New System.Drawing.Point(8, 350)
+      Me.btnLock.Name = "btnLockBoq"
+      Me.btnLock.Size = New System.Drawing.Size(39, 44)
+      Me.btnLock.TabIndex = 18
+      Me.btnLock.UseVisualStyleBackColor = True
       '
       'SupplierDetailView
       '
@@ -965,9 +946,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Name = "SupplierDetailView"
       Me.Size = New System.Drawing.Size(768, 496)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).EndInit()
       Me.primaryDetailGroupBox.ResumeLayout(False)
+      Me.primaryDetailGroupBox.PerformLayout()
       Me.otherDetailGroupBox.ResumeLayout(False)
+      Me.otherDetailGroupBox.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1050,6 +1035,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_treeManager As TreeManager
     Private m_contactInitialized As Boolean
     Private m_combocodeindex As Integer
+
+    Private m_locked As Boolean = True
+    Private m_lockedInit As Boolean = True
 #End Region
 
 #Region " Constructor "
@@ -1349,6 +1337,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim level As Integer = secSrv.GetAccess(338)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
       Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
       checkString = BinaryHelper.RevertString(checkString)
+      btnLock.Visible = False
       'lblStatus.Text = ""
       If Me.m_entity.Canceled Then
         For Each ctrl As Control In primaryDetailGroupBox.Controls
@@ -1357,18 +1346,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkcancel.Enabled = True
         otherDetailGroupBox.Enabled = False
       Else
-        If Not m_entity.IsReferenced OrElse CBool(checkString.Substring(0, 1)) Then
+        If Not m_entity.IsReferenced OrElse Not m_locked Then
           For Each ctrl As Control In primaryDetailGroupBox.Controls
             ctrl.Enabled = True
           Next
           otherDetailGroupBox.Enabled = True
-        Else
+        ElseIf m_locked Then
           For Each ctrl As Control In primaryDetailGroupBox.Controls
             ctrl.Enabled = False
           Next
           otherDetailGroupBox.Enabled = False
         End If
 
+        If CBool(checkString.Substring(0, 1)) AndAlso m_entity.Originated Then
+          btnLock.Enabled = True
+          btnLock.Visible = True
+        End If
       End If
     End Sub
 
@@ -1461,6 +1454,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtIdNo.Text = m_entity.IdNo
       txtContact.Text = m_entity.Contact
 
+      If (Me.m_entity.IsReferenced OrElse Me.m_entity.Canceled) AndAlso m_lockedInit = True Then
+        m_locked = True
+      ElseIf m_lockedInit = True Then
+        m_locked = False
+      End If
+
       Dim flaginlist As Boolean = False
       For Each item As IdValuePair In Me.cbmProvince.Items
         If item.Value = Me.m_entity.Province Then
@@ -1485,6 +1484,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         chkcancel.Checked = False
       End If
 
+      If Not m_entity.Originated Then
+        btnLock.Visible = False
+
+      ElseIf m_locked Then
+        Me.btnLock.Image = Global.My.Resources.Resources.padlock_unlocked
+
+      Else
+        Me.btnLock.Image = Global.My.Resources.Resources.padlock_locked
+
+      End If
+
       Me.RefreshContact()
 
       SetStatus()
@@ -1493,6 +1503,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       m_isInitialized = True
     End Sub
+
+
+    Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLock.Click
+      If m_locked Then
+        m_locked = False
+      Else
+        m_locked = True
+      End If
+      m_lockedInit = False
+      UpdateEntityProperties()
+    End Sub
+
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
@@ -1620,6 +1642,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity = Nothing
         Me.m_entity = CType(Value, Supplier)
         'Hack:
+        m_locked = True
+        m_lockedInit = True
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
       End Set
