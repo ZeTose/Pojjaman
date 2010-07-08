@@ -102,7 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AddHandler wbsdColl.PropertyChanged, AddressOf Me.WBSChangedHandler
       m_WBSDistributeCollection = wbsdColl
       If ds.Tables.Count > 1 Then
-        For Each wbsRow As DataRow In ds.Tables(1).Select("voiw_sequence=" & Me.Sequence)
+        For Each wbsRow As DataRow In ds.Tables(1).Select("sciw_sequence=" & Me.Sequence)
           Dim wbsd As New WBSDistribute(wbsRow, "")
           m_WBSDistributeCollection.Add(wbsd)
         Next
