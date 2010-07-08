@@ -2264,10 +2264,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Me.m_entity.SC Is Nothing Then
               Me.m_entity.SC = New SC
             End If
-            Dim txtName As TextBox
+            'Dim txtName As TextBox
             'm_isInitialized = False
-            dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.SC)
+            If Me.txtSCCode.Text.Length > 0 Then
+              dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.SC)
+            Else
+              If Me.m_entity.SC.Code.Length > 0 Then
+                dirtyFlag = True
+              End If
+              Me.m_entity.SC = New SC
+            End If
+
             'm_isInitialized = True
+            Me.UpdateEntityProperties()
           End If
           scCodeChanged = False
 

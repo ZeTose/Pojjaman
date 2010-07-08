@@ -1486,10 +1486,10 @@ Public Class LevelPropertyAttribute
          , New SqlParameter("@wbsidlist", wbsidList) _
          , New SqlParameter("@doctype", doctype) _
          )
-      If ds.Tables(0).Rows.Count > 0 Then
+      If Not ds.Tables(0) Is Nothing Then
         Return ds
       End If
-      Return Nothing
+
     End Function
     Public Shared ParentBudgetHash As New Hashtable
     Public Function GetParentsBudget(ByVal doctype As Integer, Optional ByVal ccid As Integer = 0) As ArrayList

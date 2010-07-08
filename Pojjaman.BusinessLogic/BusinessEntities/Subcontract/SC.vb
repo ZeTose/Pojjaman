@@ -286,9 +286,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not dr.IsNull(aliasPrefix & "sc_approveDate") Then
           .m_approveDate = CDate(dr(aliasPrefix & "sc_approveDate"))
         End If
-          m_itemCollection = New SCItemCollection(Me)
+
+        m_itemCollection = New SCItemCollection(Me)
+
       End With
-        Me.AutoCodeFormat = New AutoCodeFormat(Me)
+      Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
 #End Region
 
@@ -387,6 +389,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_subcontractor
       End Get
       Set(ByVal Value As Supplier)
+        If m_subcontractor Is Nothing Then
+          m_subcontractor = New Supplier
+        End If
         If Value.Id <> m_subcontractor.Id Then
           Me.m_creditPeriod = Value.CreditPeriod
         End If
@@ -425,6 +430,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_cc
       End Get
       Set(ByVal Value As CostCenter)
+        If m_cc Is Nothing Then
+          m_cc = New CostCenter
+        End If
         If m_cc.Id <> Value.Id Then
           For Each itm As SCItem In Me.ItemCollection
             itm.WBSDistributeCollection.Clear()
@@ -606,15 +614,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-    Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC) As Boolean
+    Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC, Optional ByVal GetMiniSC As Boolean = False) As Boolean
       If txtCode.Text.Length > 0 Then
-        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
-     , CommandType.StoredProcedure _
-     , "GetSC" _
-        , New SqlParameter("@sc_code", txtCode.Text) _
-     )
-        Dim scNew As New SC
-        SetNewSCbyRow(scNew, ds.Tables(0).Rows(0))
+        Dim scNew As SC
+        If GetMiniSC Then
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+           , CommandType.StoredProcedure _
+           , "GetSC" _
+              , New SqlParameter("@sc_code", txtCode.Text) _
+           )
+          scNew = New SC
+          SetNewSCbyRow(scNew, ds.Tables(0).Rows(0))
+        Else
+          scNew = New SC(txtCode.Text)
+        End If
         If txtCode.Text.Length <> 0 AndAlso Not scNew.Valid Then
           MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
           scNew = oldSC

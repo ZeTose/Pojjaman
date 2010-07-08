@@ -73,7 +73,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_approveDate As DateTime
 
     Private m_itemCollection As PAItemCollection
-
+    Private m_hashWbsId As Hashtable
 
     Private m_advancePayToDoc As Decimal
     Private m_advancePayRemaining As Decimal
@@ -159,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       m_itemCollection = New PAItemCollection(Me)
+      m_hashWbsId = New Hashtable
       OnGlChanged()
     End Sub
     '------------------------------------------ GetPAList------------------------------------------
@@ -341,6 +342,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.m_advancePayRemaining = adv
       End With
       m_itemCollection = New PAItemCollection(Me)
+      m_hashWbsId = New Hashtable
       'm_itemCollection.RefreshBudget()
     End Sub
 #End Region
@@ -1026,6 +1028,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'สำหรับ WBS ตัวมันเอง =====<<
 
               currwbsId = wbsd.WBS.Id
+              Trace.WriteLine(dsParentBudget.Tables(0) Is Nothing)
               For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
                 Dim drh As New DataRowHelper(drow)
 
@@ -1823,7 +1826,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             If (item.ItemType.Value <> 160 AndAlso
              item.ItemType.Value <> 162 AndAlso
-             item.ItemType.Value <> 291) Then
+             item.ItemType.Value <> 291 AndAlso
+             item.ItemType.Value <> 289) Then
               Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
               Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
               Dim currentSum As Decimal = wbsdColl.GetSumPercent
@@ -2006,61 +2010,122 @@ Namespace Longkong.Pojjaman.BusinessLogic
             refDocType = CDec(row("pai_refdoctype"))
             sequence = CStr(row("pai_refsequence"))
 
-            Dim itm As New PAItem(row, "")
-            itm.Pa = Me
-            itm.SC = Me.Sc
+            Dim item As New PAItem(row, "")
+            item.Pa = Me
+            item.SC = Me.Sc
 
-            itm.WBSDistributeCollection = New WBSDistributeCollection
-            AddHandler itm.WBSDistributeCollection.PropertyChanged, AddressOf itm.WBSChangedHandler
+            item.WBSDistributeCollection = New WBSDistributeCollection
+            AddHandler item.WBSDistributeCollection.PropertyChanged, AddressOf item.WBSChangedHandler
 
             Select Case refDocType
               Case 289 'เอกสาร sc
                 If ds.Tables(1).Rows.Count > 0 Then
                   For Each wbsRow As DataRow In ds.Tables(1).Select("sciw_sequence=" & sequence)
                     Dim wbsd As New WBSDistribute(wbsRow, "")
-                    itm.WBSDistributeCollection.Add(wbsd)
+                    item.WBSDistributeCollection.Add(wbsd)
+
+                    wbsd.BaseCost = item.ReceiveAmount
+
+                    '--Budget Remain =========================================================
+                    Dim budgetRow() As DataRow = ds.Tables(3).Select("wbs_id=" & wbsd.WBS.Id)
+                    If budgetRow.Length > 0 Then
+                      Dim drh As New DataRowHelper(budgetRow(0))
+                      If wbsd.IsMarkup Then
+                        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("totalactual")
+                      Else
+                        Select Case item.ItemType.Value
+                          Case 88, 289, 291
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
+                          Case 89
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
+                          Case Else
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
+                        End Select
+                        'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+                      End If
+                    End If
+
+                    '--Qty Budget Remain =====================================================
+                    Dim qtyRow() As DataRow = ds.Tables(4).Select("boqi_wbs=" & wbsd.WBS.Id)
+                    If qtyRow.Length > 0 Then
+                      Dim qtydrh As New DataRowHelper(qtyRow(0))
+                      If wbsd.IsMarkup Then
+                        wbsd.QtyRemain = 0
+                      Else
+                        If item.ItemType.Value = 88 OrElse item.ItemType.Value = 89 Then
+                          wbsd.QtyRemain = 0
+                        Else
+                          wbsd.QtyRemain = qtydrh.GetValue(Of Decimal)("qtybudgetremain")
+                        End If
+                      End If
+                    End If
+
                   Next
                 End If
               Case 290 'เอกสาร vo
                 If ds.Tables(2).Rows.Count > 0 Then
                   For Each wbsRow As DataRow In ds.Tables(2).Select("voiw_sequence=" & sequence)
                     Dim wbsd As New WBSDistribute(wbsRow, "")
-                    itm.WBSDistributeCollection.Add(wbsd)
+                    item.WBSDistributeCollection.Add(wbsd)
+
+                    wbsd.BaseCost = item.ReceiveAmount
+
+                    '--Budget Remain =========================================================
+                    Dim budgetRow() As DataRow = ds.Tables(3).Select("wbs_id=" & wbsd.WBS.Id)
+                    If budgetRow.Length > 0 Then
+                      Dim drh As New DataRowHelper(budgetRow(0))
+                      If wbsd.IsMarkup Then
+                        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("totalactual")
+                      Else
+                        Select Case item.ItemType.Value
+                          Case 88, 289, 291
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
+                          Case 89
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
+                          Case Else
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
+                        End Select
+                        'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+                      End If
+                    End If
+
+                    '--Qty Budget Remain =====================================================
+                    Dim qtyRow() As DataRow = ds.Tables(4).Select("boqi_wbs=" & wbsd.WBS.Id)
+                    If qtyRow.Length > 0 Then
+                      Dim qtydrh As New DataRowHelper(qtyRow(0))
+                      If wbsd.IsMarkup Then
+                        wbsd.QtyRemain = 0
+                      Else
+                        If item.ItemType.Value = 88 OrElse item.ItemType.Value = 89 Then
+                          wbsd.QtyRemain = 0
+                        Else
+                          wbsd.QtyRemain = qtydrh.GetValue(Of Decimal)("qtybudgetremain")
+                        End If
+                      End If
+                    End If
+
                   Next
                 End If
-              Case 291 'เอกสาร dr  
-                If ds.Tables(3).Rows.Count > 0 Then
-                  For Each wbsRow As DataRow In ds.Tables(3).Select("driw_sequence=" & sequence)
-                    Dim wbsd As New WBSDistribute(wbsRow, "")
-                    itm.WBSDistributeCollection.Add(wbsd)
-                  Next
-                End If
+                'Case 291 'เอกสาร dr  
+                '  If ds.Tables(3).Rows.Count > 0 Then
+                '    For Each wbsRow As DataRow In ds.Tables(3).Select("driw_sequence=" & sequence)
+                '      Dim wbsd As New WBSDistribute(wbsRow, "")
+                '      itm.WBSDistributeCollection.Add(wbsd)
+                '    Next
+                '  End If
             End Select
 
-            'ทำที่ base เรียบร้อยแล้ว
-            'itm.Qty = itm.Qty - itm.ReceivedQty 'RemainingQty
-            'itm.Amount = itm.Amount - itm.ReceivedAmount 'RemainingAmount
-            Dim oldAmount As Decimal = itm.ReceiveAmount
-            itm.ReceiveAmount = oldAmount  'ต้องการให้ MAT, LAB, EQ คำนวณแล้วเอาไปโชว์ด้วย
 
-            Me.ItemCollection.Add(itm)
-            For Each wbsd As WBSDistribute In itm.WBSDistributeCollection
-              Me.ItemCollection.SetBudgetRemain(wbsd, itm)
-            Next
+            ''ทำที่ base เรียบร้อยแล้ว
+            ''itm.Qty = itm.Qty - itm.ReceivedQty 'RemainingQty
+            ''itm.Amount = itm.Amount - itm.ReceivedAmount 'RemainingAmount
+            Dim oldAmount As Decimal = item.ReceiveAmount
+            item.ReceiveAmount = oldAmount  'ต้องการให้ MAT, LAB, EQ คำนวณแล้วเอาไปโชว์ด้วย
 
-            'itm.WBSDistributeCollection = New WBSDistributeCollection
-            'AddHandler itm.WBSDistributeCollection.PropertyChanged, AddressOf itm.WBSChangedHandler
-            'itm.WBSDistributeCollection = wbsdColl
-            'If ds.Tables.Count > 1 Then
-            '  For Each wbsRow As DataRow In ds.Tables(1).Select("paiw_sequence=" & itm.Sequence)
-            '    Dim wbsd As New WBSDistribute(wbsRow, "")
-            '    itm.WBSDistributeCollection.Add(wbsd)
-            '  Next
-            'End If
-
-            'itm.WBSDistributeCollection = New WBSDistributeCollection
-            'AddHandler itm.WBSDistributeCollection.PropertyChanged, AddressOf itm.WBSChangedHandler
-            'End If
+            Me.ItemCollection.Add(item)
+            'For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            '  Me.ItemCollection.SetBudgetRemain(wbsd, item)
+            'Next
 
           Next
         End If
@@ -4015,7 +4080,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not Me.Originated Then
             For Each wbsd As WBSDistribute In item.WBSDistributeCollection
               wbsd.ChildAmount = 0
-              wbsd.GetChildIdList()
+
+              If m_hashWbsId Is Nothing Then
+                m_hashWbsId = New Hashtable
+              Else
+                If Not m_hashWbsId.Contains(wbsd.WBS.Id) Then
+                  m_hashWbsId.Add(wbsd.WBS.Id, wbsd)
+                  wbsd.GetChildIdList()
+                End If
+              End If
+
               For Each allItem As PAItem In Me.ItemCollection
                 For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
                   If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
@@ -4153,5 +4227,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New ColumnCollection(Me.ClassName, 0)
       End Get
     End Property
+
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal code As String)
+      MyBase.New(code)
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String, Optional ByVal noItem As Boolean = False)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Construct(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      'MyBase.Construct(dr, aliasPrefix)
+
+      Dim drh As New DataRowHelper(dr)
+      Me.Id = drh.GetValue(Of Integer)("sc_id")
+      Me.Code = drh.GetValue(Of String)("sc_code")
+
+      Me.DocDate = drh.GetValue(Of Date)("sc_docdate")
+
+      Me.CreditPeriod = drh.GetValue(Of Integer)("sc_creditperiod")
+      Me.ContactPerson = drh.GetValue(Of String)("sc_contactPerson")
+      Me.StartDate = drh.GetValue(Of Date)("sc_startdate")
+      Me.EndDate = drh.GetValue(Of Date)("sc_enddate")
+      Me.SubContractor = New Supplier
+      Me.SubContractor = Supplier.GetSupplierbyDataRow(dr)
+      'Me.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("sc_cc"))
+      Me.Director = New Employee(dr, "")
+      Me.TaxRate = drh.GetValue(Of Decimal)("sc_taxrate")
+
+    End Sub
   End Class
 End Namespace

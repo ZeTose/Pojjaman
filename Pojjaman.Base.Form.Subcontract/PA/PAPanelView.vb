@@ -3585,7 +3585,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim filters(1) As Filter
         filters(0) = New Filter("scNeedsApproval", scNeedsApproval)
         filters(1) = New Filter("excludedepleted", True)
-        myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, filters)
+        myEntityPanelService.OpenListDialog(New SCForPA, AddressOf SetSC, filters)
+        'myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, filters)
       End If
     End Sub
     Private Sub SetSC(ByVal e As ISimpleEntity)
