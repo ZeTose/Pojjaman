@@ -749,6 +749,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDataType(Me.txtSupplierName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtSupplierName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconAlignment(Me.txtSupplierName, System.Windows.Forms.ErrorIconAlignment.MiddleLeft)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(240, 60)
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
@@ -1782,6 +1783,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Global.SupplierText}")
       Me.Validator.SetDisplayName(Me.txtSupplierCode, StringHelper.GetRidOfAtEnd(Me.lblSupplier.Text, ":"))
+      Me.Validator.ErrorProvider.SetIconPadding(Me.txtSupplierCode, -20)
 
       Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Global.DueDate}")
       Me.lblCreditPrd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.lblCreditPrd}")
@@ -3024,6 +3026,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub grbDetail_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grbDetail.Enter
+
+    End Sub
+
+    Private Sub txtSupplierName_TextAlignChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSupplierName.TextAlignChanged
 
     End Sub
   End Class
