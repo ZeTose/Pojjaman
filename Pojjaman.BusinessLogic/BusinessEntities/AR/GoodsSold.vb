@@ -30,7 +30,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class GoodsSold
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillIssuable _
-    , IPrintableEntity, IHasIBillablePerson, IHasFromCostCenter, ICancelable, IAdvanceReceiveItemAble, ICheckPeriod
+    , IPrintableEntity, IHasIBillablePerson, IHasFromCostCenter, ICancelable, IAdvanceReceiveItemAble, ICheckPeriod, IHasVat
 
 #Region "Members"
     Private m_customer As Customer
@@ -280,7 +280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As AdvanceReceiveItemCollection)
         m_advanceReceiveItemColl = Value
       End Set
-    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note, IAdvanceReceiveItemAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, GoodsSoldStatus)      End Set    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public ReadOnly Property TaxGross() As Decimal      Get        Return m_taxGross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.RealGross        Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
+    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note, IAdvanceReceiveItemAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, GoodsSoldStatus)      End Set    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public ReadOnly Property TaxGross() As Decimal      Get        Return m_taxGross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.RealGross        Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)      End Get    End Property    Public Property TaxRate() As Decimal Implements IHasVat.Taxrate      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         'Select Case Me.TaxType.Value
         '    Case 0 '"ไม่มี"
@@ -296,7 +296,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_taxbase = Value
       End Set
-    End Property    Public Property TaxType() As TaxType Implements IAdvanceReceiveItemAble.TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
+    End Property    Public Property TaxType() As TaxType Implements IAdvanceReceiveItemAble.TaxType, IHasVat.Taxtype      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return 0
           Case 2 'รวม VAT
@@ -1310,7 +1310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีขาย
-      If Me.Vat.Amount > 0 Then
+      If Me.Vat.Code.Length > 0 AndAlso Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
@@ -1323,10 +1323,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีขาย-ไม่ถึงกำหนด
-      If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
+      If Me.Vat.Code.Length = 0 OrElse Me.RealTaxAmount - Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5.1"
-        ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+        If Me.Vat.Code.Length = 0 Then
+          ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
+        Else
+          ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+        End If
         If Me.FromCostCenter.Originated Then
           ji.CostCenter = Me.FromCostCenter
         Else
@@ -1813,6 +1817,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IVatable"
+   
     Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
       'Todo: ต้อง refresh หรือเปล่า?
       Return Me.RealTaxBase

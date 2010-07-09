@@ -727,6 +727,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stockid As Integer
     Private m_ARretention As Decimal  'ยอดหัก Retention
 
+    Private m_taxrate As Decimal
+    Private m_taxtype As TaxType
+
 #End Region
 
 #Region "Constructors"
@@ -758,6 +761,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If TypeOf receivable Is ISimpleEntity Then
         m_typeId = CType(receivable, ISimpleEntity).EntityId
+      End If
+      If TypeOf receivable Is IHasVat Then
+        m_taxrate = CType(receivable, IHasVat).Taxrate
+        m_taxtype = New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
+        If CType(receivable, IHasVat).Taxtype IsNot Nothing Then
+          m_taxtype = CType(receivable, IHasVat).Taxtype
+        End If
       End If
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal billi As SaleBillIssue)
@@ -845,8 +855,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_id") AndAlso Not dr.IsNull(aliasPrefix & "stock_id") Then
         Me.m_stockid = CInt(dr(aliasPrefix & "stock_id"))
       End If
-
-      
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_taxtype") AndAlso Not dr.IsNull(aliasPrefix & "stock_taxtype") Then
+        Me.m_taxtype = New TaxType(CInt(dr(aliasPrefix & "stock_taxtype")))
+      End If
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_taxrate") AndAlso Not dr.IsNull(aliasPrefix & "stock_taxrate") Then
+        Me.m_taxrate = CDec(dr(aliasPrefix & "stock_taxrate"))
+      End If
 
     End Sub
 #End Region
@@ -899,6 +913,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
+    Public ReadOnly Property TaxRate As Decimal
+      Get
+        Return m_taxrate
+      End Get
+    End Property
+    Public ReadOnly Property TaxType As TaxType
+      Get
+        Return m_taxtype
+      End Get
+    End Property
 		Public Overrides ReadOnly Property ClassName() As String
 			Get
 				Return "SaleBillIssueItem"

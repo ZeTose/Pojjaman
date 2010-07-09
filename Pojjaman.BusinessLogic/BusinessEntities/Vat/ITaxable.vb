@@ -13,8 +13,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Property Vat() As Vat
         Function GetAfterTax() As Decimal
         Function GetBeforeTax() As Decimal
-        Property TaxBase() As Decimal
-    End Interface
+    Property TaxBase() As Decimal
+    
+  End Interface
+
+  Public Interface IHasVat
+    Property Taxrate As Decimal
+    Property Taxtype As TaxType
+  End Interface
     Public Class GenericVatble
         Implements IVatable
 
@@ -104,7 +110,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As Decimal)
 
             End Set
-        End Property
+    End Property
+  
     End Class
 
     Public Interface IWitholdingTaxable

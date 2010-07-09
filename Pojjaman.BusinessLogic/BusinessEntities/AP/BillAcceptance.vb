@@ -645,6 +645,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
+      'SupBillCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SupBillCode"
+      dpi.Value = Me.BillIssueCode
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'SupBillDocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SupBillDocDate"
+      dpi.Value = Me.BillIssueDocDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
       If Not Me.Supplier Is Nothing AndAlso Me.Supplier.Originated Then
         'SupplierInfo
         dpi = New DocPrintingItem
