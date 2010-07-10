@@ -2756,7 +2756,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If IncludeThisItem(item, pma) Then
           Dim itemAmount As Decimal = item.CalculatedAmount
           If roundBeforeSum Then
-            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            'itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)  ''การปัดเศษย่อย แล้วรวม ไม่เท่ากับ รวมก่อนแล้วปัดเศษ
+            itemAmount = itemAmount
           End If
           If TypeOf item Is VariationOrderDe Then
             amt -= itemAmount
@@ -2765,7 +2766,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
       Next
-      Return amt
+      Return Configuration.Format(amt, DigitConfig.Price)
     End Function
     Public Function GetAfterTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
