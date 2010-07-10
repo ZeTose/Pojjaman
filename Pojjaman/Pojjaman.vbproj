@@ -427,7 +427,6 @@
     <Content Include="Externals\Telerik.WinControls.UI.dll" />
     <Content Include="Externals\TelerikCommon.dll" />
     <Content Include="PojjamanIcon.ico" />
-    <Content Include="release.txt" />
     <Content Include="Resources\Images\tv_minus.bmp" />
     <Content Include="Resources\Images\tv_plus.bmp" />
     <EmbeddedResource Include="data\resources\BitmapResources.resources" />
@@ -911,7 +910,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(ProjectDir)..\Pojjaman\Release.txt $(ProjectDir)..\Pojjaman\bin
-copy $(ProjectDir)..\Pojjaman\Externals\*.dll $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)..\Pojjaman\Externals\*.dll $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
   </PropertyGroup>
 </Project>

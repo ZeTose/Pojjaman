@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<PojjamanProperties fileversion="1.1">
+  <Properties>   
+
+    <XmlConvertableProperty key="Longkong.Pojjaman.PojjamanRealRelease">
+      <PojjamanRealRelease>
+        <RealRelease>
+          <PojjamanRealRelease release="20100709_811" />
+        </RealRelease>
+      </PojjamanRealRelease>
+    </XmlConvertableProperty>
+     
+  </Properties>
+</PojjamanProperties>

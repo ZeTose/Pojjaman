@@ -265,6 +265,7 @@
     <Compile Include="Longkong.Core\Services\AbstractService.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Longkong.Core\Services\ConfigurationService.vb" />
     <Compile Include="Longkong.Core\Services\DatabaseService.vb">
       <SubType>Code</SubType>
     </Compile>

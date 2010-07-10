@@ -73,30 +73,54 @@ Namespace Longkong.Pojjaman.Gui
     End Property
 
     Private Shared Function GetRealVersion() As String
+      Dim properties As ConfigurationService = CType(ServiceManager.Services.GetService(GetType(ConfigurationService)), ConfigurationService)
+      Dim r As Object = properties.GetProperty("Longkong.Pojjaman.PojjamanRealRelease")
+      Dim currentrelease As String = ""
+      If r IsNot Nothing AndAlso TypeOf r Is XmlElement Then
+        Dim element As XmlElement = CType(r, XmlElement)
+        Dim nodes As XmlNodeList = element.Item("PojjamanRealRelease").ChildNodes
+        For Each chilenodes As XmlElement In nodes
+          If chilenodes.Name = "RealRelease" Then
+            For Each el As XmlElement In chilenodes
+              If el.Name = "PojjamanRealRelease" Then
+                currentrelease = el.Attributes("release").InnerText 'el.Attributes("current").InnerText
+              End If
+            Next
+          End If
+        Next
+
+      End If
+
+      Return currentrelease
+
       'Dim properties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-      'Dim r As Object = properties.GetProperty("Longkong.Pojjaman.PojjamanRelease")
-      'Dim currentrelease As String
+      'Dim r As Object = properties.GetProperty("Longkong.Pojjaman.PojjamanRealRelease")
+      'Dim currentrelease As String = ""
       'If r IsNot Nothing AndAlso TypeOf r Is XmlElement Then
-      'Dim element As XmlElement = CType(r, XmlElement)
-      'Dim nodes As XmlNodeList = element.Item("PojjamanRelease").ChildNodes
-      'For Each chilenodes As XmlElement In nodes
-      'If chilenodes.Name = "PojjamanRelease" Then
-      'For Each el As XmlElement In chilenodes
-      'If el.Name = "RealRelease" Then
-      'currentrelease = el.Attributes("current").InnerText 'el.Attributes("current").InnerText
-      'End If
-      'Next
-      'End If
-      'Next
+      '  Dim element As XmlElement = CType(r, XmlElement)
+      '  Dim nodes As XmlNodeList = element.Item("PojjamanRealRelease").ChildNodes
+      '  For Each chilenodes As XmlElement In nodes
+      '    If chilenodes.Name = "RealRelease" Then
+      '      For Each el As XmlElement In chilenodes
+      '        If el.Name = "PojjamanRealRelease" Then
+      '          currentrelease = el.Attributes("realrelease").InnerText 'el.Attributes("current").InnerText
+      '        End If
+      '      Next
+      '    End If
+      '  Next
 
       'End If
 
       'Return currentrelease
 
-      '' เปิดไฟล์เพื่ออ่าน
-    Dim fileReader As String
-      fileReader = My.Computer.FileSystem.ReadAllText("release.txt")
-      Return fileReader
+      ' '' เปิดไฟล์เพื่ออ่าน
+      'Dim fileReader As String = ""
+      'Try
+      '  fileReader = My.Computer.FileSystem.ReadAllText("release.txt")
+      'Catch ex As Exception
+
+      'End Try
+      'Return fileReader
     End Function
 
     'Public ReadOnly Property GUID() As String Implements clsAppInfo.IApplicationSM.GUID
