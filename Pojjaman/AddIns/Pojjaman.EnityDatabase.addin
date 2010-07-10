@@ -100,8 +100,8 @@
 				<MenuItem id="MatReturnForOperation" icon="Icons.16x16.MatReturnForOperation" label="${res:MainMenu.StockMenu.MatReturnForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturnForOperation"/>
 				<!--<MenuItem id="MatStock" label="${res:MainMenu.StockMenu.MatStock}" icon="Icons.16x16.MatStockCount" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatStockCount"/>-->
 				<MenuItem id="Separator1" label="-"/>
-				<MenuItem id="ToolWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolWithdraw"/>
-				<MenuItem id="ToolReturn" label="${res:MainMenu.StockMenu.ToolReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolReturn"/>
+				<!--<MenuItem id="ToolWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolWithdraw"/>
+				<MenuItem id="ToolReturn" label="${res:MainMenu.StockMenu.ToolReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolReturn"/>-->
 				<!--<MenuItem id="ToolStock" label="${res:MainMenu.StockMenu.ToolStock}" icon="Icons.16x16.ToolStockCount" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolStockCount"/>-->
 				<!--<MenuItem id="Separator2" label="-"/>-->
 				<MenuItem id="AssetWithdraw" label="${res:MainMenu.StockMenu.AssetWithdraw}" icon="Icons.16x16.EqipmentWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWithdraw"/>
