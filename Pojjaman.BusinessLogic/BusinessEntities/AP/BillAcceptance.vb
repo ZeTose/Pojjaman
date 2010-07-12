@@ -1866,7 +1866,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If type = 199 Then
           row("billai_retentiontype") = tableRow("billai_retentiontype")
           row("billai_unpaidamt") = Configuration.FormatToString(CDec(tableRow("remain")), DigitConfig.Price)
-        ElseIf type = 292 Then
+        ElseIf type = 292 OrElse type = 45 Then
           row("stock_retention") = tableRow("stock_retention")
           row("billai_unpaidamt") = Configuration.FormatToString(CDec(tableRow("remain")), DigitConfig.Price)
         Else
