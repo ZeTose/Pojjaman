@@ -1027,6 +1027,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sumvalue As Decimal = 0
         For i As Integer = Me.MaxRowIndex To 0 Step -1
           Dim row As TreeRow = Me.ItemTable.Childs(i)
+          'Dim drh As New DataRowHelper(row)
           If ValidateRow(row) Then
             Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
             If ga.Account.Id = acct.Id Then

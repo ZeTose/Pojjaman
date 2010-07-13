@@ -739,6 +739,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.Code = m_entity.AutoCodeFormat.Format
             Me.m_entity.OnGlChanged()
           End If
         Case "txtnote"
