@@ -2398,17 +2398,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return myCollection
     End Function
     Public Function GetAdvanceLocked() As Boolean
-      Dim advrColl As MilestoneCollection = Me.GetAdvanceCollection
-      If advrColl.Count > 1 Then
-        Return True
-      End If
-      If advrColl.Count > 0 Then
-        Dim advr As AdvanceMileStone = CType(advrColl(0), AdvanceMileStone)
-        If advr.Status.Value = 0 Or advr.Status.Value > 3 Then
-          Return True
-        End If
-      End If
-      Return False
+      'Dim advrColl As MilestoneCollection = Me.GetAdvanceCollection
+      'If advrColl.Count > 1 Then
+      '  Return True
+      'End If
+      'If advrColl.Count > 0 Then
+      '  Dim advr As AdvanceMileStone = CType(advrColl(0), AdvanceMileStone)
+      'If advr.Status.Value = 0 Or advr.Status.Value > 3 Then
+      '  Return True
+      'End If
+      '  Dim advAmout As Decimal = 0
+      '  For Each itm As Milestone In advrColl
+      '    advAmout += itm.Amount
+      '  Next
+      '  If (advrColl.PaymentApplication.Advance = advAmout) Then
+      '    Return False
+      '  End If
+      'End If
+      'Return False
     End Function
     Public Function GetOrCreateAdvance() As AdvanceMileStone
       Dim coll As MilestoneCollection = Me.GetAdvanceCollection
@@ -2455,16 +2462,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return myCollection
     End Function
     Public Function GetRetentionLocked() As Boolean
-      Dim rtnColl As MilestoneCollection = Me.GetRetentionCollection
-      If rtnColl.Count > 1 Then
-        Return True
-      End If
-      If rtnColl.Count > 0 Then
-        Dim rtn As Retention = CType(rtnColl(0), Retention)
-        If rtn.Status.Value = 0 Or rtn.Status.Value > 3 Then
-          Return True
-        End If
-      End If
+      'Dim rtnColl As MilestoneCollection = Me.GetRetentionCollection
+      'If rtnColl.Count > 1 Then
+      '  Return True
+      'End If
+      'If rtnColl.Count > 0 Then
+      '  Dim rtn As Retention = CType(rtnColl(0), Retention)
+      '  If rtn.Status.Value = 0 Or rtn.Status.Value > 3 Then
+      '    Return True
+      '  End If
+      'End If
       Return False
     End Function
     Public Function GetOrCreateRetention() As Retention

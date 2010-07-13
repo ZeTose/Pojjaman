@@ -446,7 +446,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub DistributeAdvance()
       Dim roundBeforeSum As Boolean = True
-			Dim coll As MilestoneCollection = Me.ItemCollection.GetMilestoneCollection(Nothing, True)
+      Dim coll As MilestoneCollection = Me.ItemCollection.GetMilestoneCollection(Nothing, True)
       If coll.Count = 0 Then
         Return
       End If
@@ -1270,7 +1270,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'TotalFinal
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalFinal"
-			dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetCanGetAmount, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetCanGetAmount, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 

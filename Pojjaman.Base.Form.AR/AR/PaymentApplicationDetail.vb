@@ -1854,7 +1854,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             row("Discount") = item.Discount.Rate
             row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
           Case 78       'เพิ่ม
-            row("Advance") = ""
+            row("Advance") = Configuration.FormatToString(item.Advance, DigitConfig.Price)
             row("Retention") = Configuration.FormatToString(item.Retention, DigitConfig.Price)
             row("Discount") = item.Discount.Rate
             row("Penalty") = Configuration.FormatToString(item.Penalty, DigitConfig.Price)
@@ -2392,7 +2392,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Select Case CInt(e.Row("type"))
-        Case 75 'งวดงาน
+        Case 75, 78 'งวดงาน, งานเพิ่ม
           If oldRealAmount < (value + oldRetention + oldPenalty + oldDiscount) Then
             msgServ.ShowMessage("${res:Global.Error.MilestoneRealAmountLessThanDe}")
             e.ProposedValue = e.Row(e.Column)
