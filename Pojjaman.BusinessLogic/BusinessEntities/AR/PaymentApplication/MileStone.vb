@@ -2131,6 +2131,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+
+    Sub SetMilestoneAdvr()
+      Me.MileStoneAmount = m_pma.Advance - m_pma.ItemCollection.GetMilestoneAdvrAmount + Me.MileStoneAmount
+      Me.Amount = m_pma.Advance - m_pma.ItemCollection.GetMilestoneAdvrAmount + Me.Amount
+    End Sub
+
+    Sub SetMilestoneRetention()
+      Me.MileStoneAmount = m_pma.Retention - m_pma.ItemCollection.GetMilestoneRetention + Me.MileStoneAmount
+      'hack สุดๆ ไปเลย ว่า ต้องไม่มี ภาษีมูลค่าเพิ่ม
+      m_realTaxAmount = 0
+      Me.Amount = m_pma.Retention - m_pma.ItemCollection.GetMilestoneRetention + Me.MileStoneAmount
+    End Sub
+
   End Class
   Public Class MilestoneStatus
     Inherits CodeDescription
@@ -2763,8 +2776,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If IncludeThisItem(item, pma) Then
           Dim itemAmount As Decimal = item.CalculatedAmount
           If roundBeforeSum Then
-            'itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)  ''การปัดเศษย่อย แล้วรวม ไม่เท่ากับ รวมก่อนแล้วปัดเศษ
-            itemAmount = itemAmount
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)  ''การปัดเศษย่อย แล้วรวม ไม่เท่ากับ รวมก่อนแล้วปัดเศษ
+            'itemAmount = itemAmount
           End If
           If TypeOf item Is VariationOrderDe Then
             amt -= itemAmount
@@ -2828,6 +2841,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function GetMilestoneRetention(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is Retention Then
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetHandedRetentionAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
@@ -2852,6 +2880,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
           End If
           amt += itemAmount
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetMilestoneAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is AdvanceMileStone Then
+            amt += itemAmount
+          End If
         End If
       Next
       Return amt

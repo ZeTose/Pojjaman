@@ -490,7 +490,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim tmpAmount As Decimal = Configuration.Format(Me.ItemCollection.GetCanGetAmount(Nothing, True), DigitConfig.Price)
 
         Dim tmpTotalAmount As Decimal = Configuration.Format(Me.AfterTax, DigitConfig.Price)
-        Dim tmpAmount As Decimal = Configuration.Format(Me.ItemCollection.GetCanGetMilestoneAmountWithTax(Nothing, True), DigitConfig.Price)
+        Dim tmpAmount As Decimal = Configuration.Format(Me.ItemCollection.GetCanGetMilestoneAmountWithTax(Nothing, False), DigitConfig.Price)
         If tmpAmount <> tmpTotalAmount Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.AmountToHandIsnotEqual}"), _
           New String() {Configuration.FormatToString(tmpAmount, DigitConfig.Price) _

@@ -2666,11 +2666,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_milestone.Retention = 0
           row("Discount") = m_milestone.Discount.Rate
           row("Penalty") = Configuration.FormatToString(m_milestone.Penalty, DigitConfig.Price)
+        Case 86 'advance
+          row("Advance") = ""
+          row("Retention") = ""
+          row("Discount") = ""
+          row("Penalty") = ""
+          m_milestone.SetMilestoneAdvr()
+          
+        Case 77 'retention
+          row("Advance") = ""
+          row("Retention") = ""
+          row("Discount") = ""
+          row("Penalty") = ""
+          m_milestone.SetMilestoneRetention()
+         
         Case Else
           row("Advance") = ""
           row("Retention") = ""
           row("Discount") = ""
           row("Penalty") = ""
+          row("RealAmount") = Configuration.FormatToString(m_milestone.MileStoneAmount, DigitConfig.Price)
+          row("Amount") = Configuration.FormatToString(m_milestone.Amount, DigitConfig.Price)
       End Select
 
       row("RealAmount") = Configuration.FormatToString(m_milestone.MileStoneAmount, DigitConfig.Price)
@@ -3781,7 +3797,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
       temp += Me.m_entity.Advance + Me.m_entity.Retention
       temp -= Me.m_entity.ItemCollection.GetCanGetMilestoneAmount
+      temp -= (Me.m_entity.Advance - m_entity.ItemCollection.GetAdvrAmount)
+      temp -= (Me.m_entity.Retention - m_entity.ItemCollection.GetRetentionAmount)
+
+      If temp < 0 Then
+        temp = 0
+      End If
       myItem.MileStoneAmount = temp
+
+      Dim advr As Decimal = Me.m_entity.Advance
+      advr -= m_entity.ItemCollection.GetAdvrAmount
+      myItem.Advance = advr
+
+      Dim ret As Decimal = Me.m_entity.Retention
+      ret -= m_entity.ItemCollection.GetRetentionAmount
+      myItem.Retention = ret
       If Not Me.m_milestone Is Nothing Then
         Me.m_milestone.ResetReal() 'TODO
       End If
