@@ -2655,6 +2655,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case m_milestone.Type.Value
         Case 75
           'ผ่าน
+          AutoFillRealAmount(m_milestone)
           row("Advance") = Configuration.FormatToString(m_milestone.Advance, DigitConfig.Price)
           row("Retention") = Configuration.FormatToString(m_milestone.Retention, DigitConfig.Price)
           row("Discount") = m_milestone.Discount.Rate
@@ -3797,8 +3798,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
       temp += Me.m_entity.Advance + Me.m_entity.Retention
       temp -= Me.m_entity.ItemCollection.GetCanGetMilestoneAmount
-      temp -= (Me.m_entity.Advance - m_entity.ItemCollection.GetAdvrAmount)
-      temp -= (Me.m_entity.Retention - m_entity.ItemCollection.GetRetentionAmount)
+      temp -= (Me.m_entity.Advance - m_entity.ItemCollection.GetMilestoneAdvrAmount)
+      temp -= (Me.m_entity.Retention - m_entity.ItemCollection.GetMilestoneRetention)
+      temp += myItem.MileStoneAmount
 
       If temp < 0 Then
         temp = 0
@@ -3807,10 +3809,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim advr As Decimal = Me.m_entity.Advance
       advr -= m_entity.ItemCollection.GetAdvrAmount
+      advr += myItem.Advance
       myItem.Advance = advr
 
       Dim ret As Decimal = Me.m_entity.Retention
       ret -= m_entity.ItemCollection.GetRetentionAmount
+      ret += myItem.Retention
       myItem.Retention = ret
       If Not Me.m_milestone Is Nothing Then
         Me.m_milestone.ResetReal() 'TODO
