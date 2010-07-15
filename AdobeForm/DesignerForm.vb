@@ -1158,6 +1158,52 @@ Namespace Longkong.AdobeForm
         trans.Commit()
       Catch ex As Exception
         trans.Rollback()
+        Try 'ถ้า save xps ไม่ได้ ให้เก็บ log อย่างเดียว
+          Dim theTime As Date = Now
+
+          Dim da As New SqlDataAdapter("Select * from printlogs", conn)
+          Dim ds As New DataSet
+
+          Dim cmdBuilder As New SqlCommandBuilder(da)
+          da.SelectCommand.Transaction = trans
+
+          da.DeleteCommand = cmdBuilder.GetDeleteCommand
+          da.DeleteCommand.Transaction = trans
+
+          da.InsertCommand = cmdBuilder.GetInsertCommand
+          da.InsertCommand.Transaction = trans
+
+          da.UpdateCommand = cmdBuilder.GetUpdateCommand
+          da.UpdateCommand.Transaction = trans
+
+          cmdBuilder = Nothing
+
+          da.FillSchema(ds, SchemaType.Mapped, "printlogs")
+          da.Fill(ds, "printlogs")
+
+          Dim dr As DataRow
+          With ds.Tables("printlogs")
+            If TypeOf Me.m_entity Is IHasEntityList Then
+              Dim e As IHasEntityList = CType(m_entity, IHasEntityList)
+              If e.EntityList.Count > 0 Then
+                Dim simple As ISimpleEntity = e.EntityList(0)
+                dr = .NewRow
+                'Dim currentUser As User = simple.CurrentUser
+                dr("EntityType") = simple.EntityId
+                dr("EntityID") = simple.Id
+                dr("PrintTime") = theTime
+                dr("UserID") = e.CurrentUserId
+                dr("XPS") = ""
+                .Rows.Add(dr)
+              End If
+            End If
+          End With
+
+          da.Update(ds.Tables("printlogs"))
+          trans.Commit()
+        Catch ex2 As Exception
+          trans.Rollback()
+        End Try
       End Try
       Try
         File.Delete(m_CurrentFileName)
