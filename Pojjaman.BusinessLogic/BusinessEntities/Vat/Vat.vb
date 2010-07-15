@@ -1349,6 +1349,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          'Item.PrintName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.PrintName"
+          dpi.Value = item.PrintName
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.Date
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Date"
