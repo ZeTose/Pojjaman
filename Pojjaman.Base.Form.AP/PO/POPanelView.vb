@@ -1230,6 +1230,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private m_enableState As Hashtable
     Private m_tableStyleEnable As Hashtable
+    Private m_checkedCanPrint As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -1255,6 +1256,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
       AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
       AddHandler dt.RowDeleted, AddressOf POItemDelete
+
+
+      m_checkedCanPrint = New Hashtable
 
       EventWiring()
     End Sub
@@ -2975,11 +2979,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides ReadOnly Property CanPrint() As Boolean
       Get
         Try
-          If Me.m_entity.Originated Then
-            If Not Me.m_entity.IsApproved Then
-              Return False
-            End If
+        If m_checkedCanPrint Is Nothing Then
+            m_checkedCanPrint = New Hashtable
+          End If
 
+          If m_checkedCanPrint.Contains(m_entity.Id) Then
+            
+            Dim approveDocColl As ApproveDocCollection = CType(m_checkedCanPrint(m_entity.Id), ApproveDocCollection)
+            Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
+            If poNeedsApproval Then
+              If Not approveDocColl.IsApproved Then
+                Return False
+              End If
+            End If
           Else
 
             Dim approveDocColl As New ApproveDocCollection(m_entity)
@@ -2989,6 +3001,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return False
               End If
             End If
+
+            m_checkedCanPrint(m_entity.Id) = approveDocColl
           End If
         Catch ex As Exception
         End Try
