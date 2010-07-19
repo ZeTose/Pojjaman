@@ -16,7 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   'End Interface
   Public Class EquipmentToolWithdraw
     Inherits SimpleBusinessEntityBase
-    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod
+    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod, IWBSAllocatable
 
 
 #Region "Members"
@@ -215,7 +215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee
       Get
         Return m_withdrawperson
       End Get      Set(ByVal Value As Employee)
@@ -383,9 +383,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.Status.Value))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromstatus", Me.fromStatus.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromstatus", Me.FromStatus.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tostatus", Me.ToStatus.Value))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_gross", Me.ItemCollection.gross))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_gross", Me.ItemCollection.Gross))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isexternal", Me.IsExternal))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", Me.ValidIdOrDBNull(Me.Customer)))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entityType", 2))
@@ -558,7 +558,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString + vbCrLf + ex.InnerException.ToString)
       End Try
-      
+
 
     End Function
     Private Function GetEqiLastSequence() As DataTable
@@ -640,7 +640,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IHasToCostCenter"
-    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC, IWBSAllocatable.ToCostCenter
       Get
         Return Me.m_withdrawcc
       End Get
@@ -651,7 +651,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IHasFromCostCenter"
-    Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
+    Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC, IWBSAllocatable.FromCostCenter
       Get
         Return Me.m_storecc
       End Get
@@ -1135,6 +1135,66 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IWBSAllocatable"
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+
+    Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
+      Dim coll As New WBSAllocatableItemCollection
+      For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
+        'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+        item.UpdateWBSQty()
+
+        If Not Me.Originated Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsd.ChildAmount = 0
+            wbsd.GetChildIdList()
+            For Each allItem As EquipmentToolWithdrawItem In Me.ItemCollection
+              For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                  wbsd.ChildAmount += childWbsd.Amount
+                End If
+              Next
+            Next
+          Next
+          'For Each wbsd As WBSDistribute In item.InWbsdColl
+          '  wbsd.ChildAmount = 0
+          '  wbsd.GetChildIdList()
+          '  For Each allItem As MatOperationWithdrawItem In Me.ItemCollection
+          '    For Each childWbsd As WBSDistribute In allItem.InWbsdColl
+          '      If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+          '        wbsd.ChildAmount += childWbsd.Amount
+          '      End If
+          '    Next
+          '  Next
+          'Next
+        End If
+
+        coll.Add(item)
+        'End If
+      Next
+      Return coll
+    End Function
+
+    Public Property Supplier As Supplier Implements IWBSAllocatable.Supplier
+      Get
+
+      End Get
+      Set(ByVal value As Supplier)
+
+      End Set
+    End Property
+
+#End Region
 
   End Class
 
@@ -1142,7 +1202,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class EquipmentToolWithdrawItem
     Inherits EqtItem
-
+    Implements IWBSAllocatableItem
+    
 #Region "Members"
     Private m_eqtWithdraw As EquipmentToolWithdraw
     Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
@@ -1163,6 +1224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New()
       MyBase.New()
       m_WBSDistributeCollection = New WBSDistributeCollection
+      AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -1196,7 +1258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    'Public Property WBSDistributeCollection() As WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
     'Public Property InternalChargeCollection() As InternalChargeCollection    '  Get    '    If m_internalChargeCollection Is Nothing Then    '      m_internalChargeCollection = New InternalChargeCollection(Me)
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
 
@@ -1215,14 +1277,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Set    End Property
 
-    Public Property EqtWithdraw() As EquipmentToolWithdraw
+    Public Property EquipmentToolWithdraw() As EquipmentToolWithdraw
       Get        Return m_eqtWithdraw      End Get      Set(ByVal Value As EquipmentToolWithdraw)        m_eqtWithdraw = Value      End Set    End Property
-    Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtWithdraw Is Nothing Then
+    Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EquipmentToolWithdraw Is Nothing Then
         Return False
       End If      If myCode Is Nothing OrElse myCode.Length = 0 Then
         Return False
       End If
-      For Each item As EquipmentToolWithdrawItem In Me.EqtWithdraw.ItemCollection
+      For Each item As EquipmentToolWithdrawItem In Me.EquipmentToolWithdraw.ItemCollection
         If Not item Is Me Then
           Dim theCode As String = ""
           If Not item.Entity Is Nothing Then
@@ -1303,7 +1365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
       Try
-        Me.EqtWithdraw.IsInitialized = False
+        Me.EquipmentToolWithdraw.IsInitialized = False
         Dim rpd As Decimal = 0
         Dim rentrate As Decimal = 0
         row("Linenumber") = Me.LineNumber
@@ -1342,11 +1404,123 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("RentalPerDay") = ""
         End If
 
-        Me.EqtWithdraw.IsInitialized = True
+        Me.EquipmentToolWithdraw.IsInitialized = True
       Catch ex As Exception
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+
+      If TypeOf sender Is WBSDistribute Then
+        Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
+        Select Case e.Name.ToLower
+          Case "percent"
+            'If Not Me.m_matWithdraw Is Nothing Then
+
+            'End If
+          Case "amount"
+            'If Not Me.m_matWithdraw Is Nothing Then
+
+            'End If
+          Case "wbs"
+            'Dim oldWBS As WBS = CType(e.OldValue, WBS)
+            Dim newWBS As WBS = CType(e.Value, WBS)
+            Dim theName As String = ""
+            If Me.Entity IsNot Nothing Then
+              theName = Me.Entity.Name
+            End If
+
+            wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+            wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
+
+            If wbsd.IsMarkup Then
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.EquipmentToolWithdraw.Id, Me.EquipmentToolWithdraw.EntityId, 42)
+              wbsd.QtyRemain = 0
+            Else
+              wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.EquipmentToolWithdraw.Id, Me.EquipmentToolWithdraw.EntityId, 42)
+              wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.EquipmentToolWithdraw.Id, Me.EquipmentToolWithdraw.EntityId, Me.Entity.Id, _
+                                                                           42, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+            End If
+
+        End Select
+      End If
+    End Sub
+    Public Sub UpdateWBSQty()
+      'For Each wbsd As WBSDistribute In Me.InWbsdColl
+      '  'Dim bfTax As Decimal = 0
+      '  'Dim oldVal As Decimal = wbsd.TransferAmount
+      '  'Dim transferAmt As Decimal = Me.Amount
+      '  'wbsd.BaseCost = bfTax
+      '  'wbsd.TransferBaseCost = transferAmt
+      '  Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+      '  If boqConversion = 0 Then
+      '    wbsd.BaseQty = Me.Qty
+      '  Else
+      '    wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+      '  End If
+
+      '  'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      'Next
+      For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+        'Dim bfTax As Decimal = 0
+        'Dim oldVal As Decimal = wbsd.TransferAmount
+        'Dim transferAmt As Decimal = Me.Amount
+        'wbsd.BaseCost = bfTax
+        'wbsd.TransferBaseCost = transferAmt
+        'Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
+        'If boqConversion = 0 Then
+        '  wbsd.BaseQty = Me.Qty
+        'Else
+        '  wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+        'End If
+
+        wbsd.BaseQty = Me.Qty
+
+        'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      Next
+    End Sub
+#End Region
+
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Return "eq"
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+      Get
+        Return Me.Amount
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+        Return strType
+      End Get
+    End Property
+
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
+
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
+
+      End Set
+    End Property
 #End Region
 
   End Class
@@ -1378,14 +1552,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New EquipmentToolWithdrawItem(row, "")
-        item.EqtWithdraw = m_eqtWithdraw
+        item.EquipmentToolWithdraw = m_eqtWithdraw
         Me.Add(item)
-        'Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-        'item.WBSDistributeCollection = wbsdColl
-        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
-        '  Dim wbsd As New WBSDistribute(wbsRow, "")
-        '  wbsdColl.Add(wbsd)
-        'Next
+
+        Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        AddHandler wbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
+        item.WBSDistributeCollection = wbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          wbsdColl.Add(wbsd)
+        Next
 
         'Dim itcColl As New InternalChargeCollection(item)
         'item.InternalChargeCollection = itcColl
@@ -1446,7 +1622,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Collection Methods"
     Public Overridable Function Add(ByVal value As EquipmentToolWithdrawItem) As Integer
       If Not m_eqtWithdraw Is Nothing Then
-        value.EqtWithdraw = m_eqtWithdraw
+        value.EquipmentToolWithdraw = m_eqtWithdraw
       End If
       Return MyBase.List.Add(value)
     End Function
@@ -1474,7 +1650,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Overridable Sub Insert(ByVal index As Integer, ByVal value As EquipmentToolWithdrawItem)
       If Not m_eqtWithdraw Is Nothing Then
-        value.EqtWithdraw = m_eqtWithdraw
+        value.EquipmentToolWithdraw = m_eqtWithdraw
       End If
       MyBase.List.Insert(index, value)
     End Sub

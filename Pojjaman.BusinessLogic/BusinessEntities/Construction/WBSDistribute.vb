@@ -854,7 +854,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim i As Integer = 0
       For Each wbsd As WBSDistribute In Me
         i += 1
-        wbsd.WBS.Boq = item.EqtWithdraw.WithdrawCostcenter.Boq
+        wbsd.WBS.Boq = item.EquipmentToolWithdraw.WithdrawCostcenter.Boq
         Dim newRow As TreeRow = dt.Childs.Add()
         newRow("Linenumber") = i
         If Not wbsd.CostCenter Is Nothing Then
@@ -876,9 +876,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim currentQty As Decimal = 0
 
           Dim theName As String = item.Entity.Name
-          actual = wbsd.WBS.GetActualMat(item.EqtWithdraw, view)
+          actual = wbsd.WBS.GetActualMat(item.EquipmentToolWithdraw, view)
           budget = wbsd.WBS.GetTotalMatFromDB
-          current = item.EqtWithdraw.GetCurrentAmountForWBS(wbsd.WBS, Nothing)
+          current = item.EquipmentToolWithdraw.GetCurrentAmountForWBS(wbsd.WBS, Nothing)
 
           'MessageBox.Show(String.Format("{0}:{1}:{2}", actual, budget, current))
           wbsd.BudgetRemain = budget - actual - current
@@ -890,7 +890,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           Dim mk As New Markup(wbsd.WBS.Id)
           If Not mk Is Nothing Then
-            wbsd.BudgetRemain = mk.StoredTotalAmount - mk.GetActualTotal(item.EqtWithdraw, view) - item.EqtWithdraw.GetCurrentAmountForMarkup(mk)
+            wbsd.BudgetRemain = mk.StoredTotalAmount - mk.GetActualTotal(item.EquipmentToolWithdraw, view) - item.EquipmentToolWithdraw.GetCurrentAmountForMarkup(mk)
             newRow("BudgetRemain") = Configuration.FormatToString(wbsd.BudgetRemain, DigitConfig.Price)
             'newRow("QtyRemain") = Configuration.FormatToString(wbsd.WBS.GetTotal, DigitConfig.Price)
           End If

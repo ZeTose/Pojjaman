@@ -124,6 +124,7 @@
     
     <EntityTab id="equipmenttoolwithdraw">
       <EntityTab id="EqtWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.EqtWithdrawDetail"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
     </EntityTab>
 
     <EntityTab id="equipmenttoolreturn">
