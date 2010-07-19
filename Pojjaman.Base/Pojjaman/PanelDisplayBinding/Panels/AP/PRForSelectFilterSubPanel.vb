@@ -867,7 +867,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  Me.cmbStatus.Enabled = False
           'End If
         End If
-        If TypeOf entity Is CostCenter Then
+        If TypeOf entity Is CostCenter AndAlso Not TypeOf entity Is StoreCostCenter _
+          AndAlso Not TypeOf entity Is RequestCostCenter Then
           Me.SetCostCenter(CType(entity, CostCenter))
           Me.txtCostCenterCode.Enabled = False
           Me.txtCostCenterName.Enabled = False
