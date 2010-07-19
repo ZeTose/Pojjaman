@@ -934,7 +934,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetCostCenter(ByVal dr As DataRow, ByVal viewType As ViewType) As CostCenter
       Dim cc As New CostCenter
       Select Case viewType
-        Case viewType.JournalEntryItem
+        Case viewType.JournalEntryItem, viewType.PaySelection
           SetMinimumCC(cc, dr)
 
 
