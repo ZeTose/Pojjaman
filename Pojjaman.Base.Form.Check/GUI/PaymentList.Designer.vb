@@ -26,6 +26,13 @@ Partial Class PaymentList
     Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
     Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
     Me.btnSearch = New System.Windows.Forms.Button()
+    Me.txtSupplierCode = New System.Windows.Forms.TextBox()
+    Me.lblSupplier = New System.Windows.Forms.Label()
+    Me.txtSupplierName = New System.Windows.Forms.TextBox()
+    Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
+    Me.RadGridView1 = New Telerik.WinControls.UI.RadGridView()
+    Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
+    Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
     Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
     Me.txtDocDateStart = New System.Windows.Forms.TextBox()
     Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
@@ -34,13 +41,6 @@ Partial Class PaymentList
     Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
     Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
     Me.btnSupplierFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-    Me.txtSupplierCode = New System.Windows.Forms.TextBox()
-    Me.lblSupplier = New System.Windows.Forms.Label()
-    Me.txtSupplierName = New System.Windows.Forms.TextBox()
-    Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
-    Me.RadGridView1 = New Telerik.WinControls.UI.RadGridView()
-    Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
-    Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
     Me.ibtnDelete = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnAdd = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnClear = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -48,13 +48,13 @@ Partial Class PaymentList
     Me.RadSplitContainer1.SuspendLayout()
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel1.SuspendLayout()
-    Me.grbDocDate.SuspendLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel2.SuspendLayout()
     CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel3.SuspendLayout()
     CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+    Me.grbDocDate.SuspendLayout()
     Me.SuspendLayout()
     '
     'RadSplitContainer1
@@ -70,7 +70,7 @@ Partial Class PaymentList
     '
     '
     Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.RadSplitContainer1.Size = New System.Drawing.Size(827, 462)
+    Me.RadSplitContainer1.Size = New System.Drawing.Size(926, 540)
     Me.RadSplitContainer1.TabIndex = 0
     Me.RadSplitContainer1.TabStop = False
     Me.RadSplitContainer1.Text = "RadSplitContainer1"
@@ -89,8 +89,8 @@ Partial Class PaymentList
     '
     '
     Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.SplitPanel1.Size = New System.Drawing.Size(827, 111)
-    Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.08991229!)
+    Me.SplitPanel1.Size = New System.Drawing.Size(926, 130)
+    Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.08988765!)
     Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -41)
     Me.SplitPanel1.TabIndex = 0
     Me.SplitPanel1.TabStop = False
@@ -104,6 +104,88 @@ Partial Class PaymentList
     Me.btnSearch.Size = New System.Drawing.Size(75, 23)
     Me.btnSearch.TabIndex = 21
     Me.btnSearch.Text = "ค้นหา"
+    '
+    'txtSupplierCode
+    '
+    Me.txtSupplierCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtSupplierCode.Location = New System.Drawing.Point(118, 12)
+    Me.txtSupplierCode.Name = "txtSupplierCode"
+    Me.txtSupplierCode.Size = New System.Drawing.Size(88, 21)
+    Me.txtSupplierCode.TabIndex = 13
+    '
+    'lblSupplier
+    '
+    Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblSupplier.ForeColor = System.Drawing.Color.Black
+    Me.lblSupplier.Location = New System.Drawing.Point(14, 12)
+    Me.lblSupplier.Name = "lblSupplier"
+    Me.lblSupplier.Size = New System.Drawing.Size(96, 18)
+    Me.lblSupplier.TabIndex = 12
+    Me.lblSupplier.Text = "Supplier:"
+    Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtSupplierName
+    '
+    Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
+    Me.txtSupplierName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtSupplierName.Location = New System.Drawing.Point(206, 12)
+    Me.txtSupplierName.Name = "txtSupplierName"
+    Me.txtSupplierName.ReadOnly = True
+    Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
+    Me.txtSupplierName.TabIndex = 14
+    '
+    'SplitPanel2
+    '
+    Me.SplitPanel2.Controls.Add(Me.RadGridView1)
+    Me.SplitPanel2.Location = New System.Drawing.Point(0, 133)
+    Me.SplitPanel2.Name = "SplitPanel2"
+    '
+    '
+    '
+    Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(25, 25)
+    Me.SplitPanel2.Size = New System.Drawing.Size(926, 166)
+    Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.02247192!)
+    Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -11)
+    Me.SplitPanel2.TabIndex = 1
+    Me.SplitPanel2.TabStop = False
+    Me.SplitPanel2.Text = "SplitPanel2"
+    '
+    'RadGridView1
+    '
+    Me.RadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.RadGridView1.Location = New System.Drawing.Point(0, 0)
+    Me.RadGridView1.Name = "RadGridView1"
+    Me.RadGridView1.Size = New System.Drawing.Size(926, 166)
+    Me.RadGridView1.TabIndex = 0
+    '
+    'SplitPanel3
+    '
+    Me.SplitPanel3.Controls.Add(Me.ibtnDelete)
+    Me.SplitPanel3.Controls.Add(Me.ibtnAdd)
+    Me.SplitPanel3.Controls.Add(Me.ibtnClear)
+    Me.SplitPanel3.Controls.Add(Me.RadGridView2)
+    Me.SplitPanel3.Location = New System.Drawing.Point(0, 302)
+    Me.SplitPanel3.Name = "SplitPanel3"
+    '
+    '
+    '
+    Me.SplitPanel3.RootElement.MinSize = New System.Drawing.Size(25, 25)
+    Me.SplitPanel3.Size = New System.Drawing.Size(926, 238)
+    Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.1123595!)
+    Me.SplitPanel3.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 52)
+    Me.SplitPanel3.TabIndex = 2
+    Me.SplitPanel3.TabStop = False
+    Me.SplitPanel3.Text = "SplitPanel3"
+    '
+    'RadGridView2
+    '
+    Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+    Me.RadGridView2.Location = New System.Drawing.Point(0, 39)
+    Me.RadGridView2.Name = "RadGridView2"
+    Me.RadGridView2.Size = New System.Drawing.Size(926, 199)
+    Me.RadGridView2.TabIndex = 1
     '
     'grbDocDate
     '
@@ -187,87 +269,6 @@ Partial Class PaymentList
     Me.btnSupplierFind.TabStop = False
     Me.btnSupplierFind.ThemedImage = CType(resources.GetObject("btnSupplierFind.ThemedImage"), System.Drawing.Bitmap)
     '
-    'txtSupplierCode
-    '
-    Me.txtSupplierCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.txtSupplierCode.Location = New System.Drawing.Point(118, 12)
-    Me.txtSupplierCode.Name = "txtSupplierCode"
-    Me.txtSupplierCode.Size = New System.Drawing.Size(88, 21)
-    Me.txtSupplierCode.TabIndex = 13
-    '
-    'lblSupplier
-    '
-    Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.lblSupplier.ForeColor = System.Drawing.Color.Black
-    Me.lblSupplier.Location = New System.Drawing.Point(14, 12)
-    Me.lblSupplier.Name = "lblSupplier"
-    Me.lblSupplier.Size = New System.Drawing.Size(96, 18)
-    Me.lblSupplier.TabIndex = 12
-    Me.lblSupplier.Text = "Supplier:"
-    Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-    '
-    'txtSupplierName
-    '
-    Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
-    Me.txtSupplierName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.txtSupplierName.Location = New System.Drawing.Point(206, 12)
-    Me.txtSupplierName.Name = "txtSupplierName"
-    Me.txtSupplierName.ReadOnly = True
-    Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
-    Me.txtSupplierName.TabIndex = 14
-    '
-    'SplitPanel2
-    '
-    Me.SplitPanel2.Controls.Add(Me.RadGridView1)
-    Me.SplitPanel2.Location = New System.Drawing.Point(0, 114)
-    Me.SplitPanel2.Name = "SplitPanel2"
-    '
-    '
-    '
-    Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.SplitPanel2.Size = New System.Drawing.Size(827, 195)
-    Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.09429824!)
-    Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 43)
-    Me.SplitPanel2.TabIndex = 1
-    Me.SplitPanel2.TabStop = False
-    Me.SplitPanel2.Text = "SplitPanel2"
-    '
-    'RadGridView1
-    '
-    Me.RadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.RadGridView1.Location = New System.Drawing.Point(0, 0)
-    Me.RadGridView1.Name = "RadGridView1"
-    Me.RadGridView1.Size = New System.Drawing.Size(827, 195)
-    Me.RadGridView1.TabIndex = 0
-    '
-    'SplitPanel3
-    '
-    Me.SplitPanel3.Controls.Add(Me.ibtnDelete)
-    Me.SplitPanel3.Controls.Add(Me.ibtnAdd)
-    Me.SplitPanel3.Controls.Add(Me.ibtnClear)
-    Me.SplitPanel3.Controls.Add(Me.RadGridView2)
-    Me.SplitPanel3.Location = New System.Drawing.Point(0, 312)
-    Me.SplitPanel3.Name = "SplitPanel3"
-    '
-    '
-    '
-    Me.SplitPanel3.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.SplitPanel3.Size = New System.Drawing.Size(827, 150)
-    Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.004385975!)
-    Me.SplitPanel3.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -2)
-    Me.SplitPanel3.TabIndex = 2
-    Me.SplitPanel3.TabStop = False
-    Me.SplitPanel3.Text = "SplitPanel3"
-    '
-    'RadGridView2
-    '
-    Me.RadGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.RadGridView2.Location = New System.Drawing.Point(0, 39)
-    Me.RadGridView2.Name = "RadGridView2"
-    Me.RadGridView2.Size = New System.Drawing.Size(827, 111)
-    Me.RadGridView2.TabIndex = 1
-    '
     'ibtnDelete
     '
     Me.ibtnDelete.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -306,7 +307,7 @@ Partial Class PaymentList
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(827, 462)
+    Me.ClientSize = New System.Drawing.Size(926, 540)
     Me.Controls.Add(Me.RadSplitContainer1)
     Me.Name = "PaymentList"
     Me.Text = "PaymentList"
@@ -315,14 +316,14 @@ Partial Class PaymentList
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel1.ResumeLayout(False)
     Me.SplitPanel1.PerformLayout()
-    Me.grbDocDate.ResumeLayout(False)
-    Me.grbDocDate.PerformLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel2.ResumeLayout(False)
     CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
     CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel3.ResumeLayout(False)
     CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).EndInit()
+    Me.grbDocDate.ResumeLayout(False)
+    Me.grbDocDate.PerformLayout()
     Me.ResumeLayout(False)
 
   End Sub

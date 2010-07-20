@@ -925,12 +925,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             End With
 
-            Me.m_entity.ReLoadItems()
+      'Me.m_entity.ReLoadItems()
 
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
             UpdateAmount()
 
             SetStatus()
@@ -1189,12 +1189,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Me.m_treeManager.Treetable.Childs.Remove(Me.m_treeManager.SelectedRow)
             Me.WorkbenchWindow.ViewContent.IsDirty = True
-            Me.m_entity.ReIndex()
+      ' Me.m_entity.ReIndex()
         End Sub
 #End Region
 
         Private Sub UpdateAmount()
-            txtTotal.Text = Configuration.FormatToString(m_entity.GetRemainingAmount, DigitConfig.Price)
+      'txtTotal.Text = Configuration.FormatToString(m_entity.GetRemainingAmount, DigitConfig.Price)
         End Sub
     End Class
 

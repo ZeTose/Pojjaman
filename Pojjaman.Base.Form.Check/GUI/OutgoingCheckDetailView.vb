@@ -3,6 +3,10 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+Imports Telerik.WinControls.UI
+Imports System.Linq
+Imports System.IO
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class OutgoingCheckDetailView
@@ -66,20 +70,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtTotal As System.Windows.Forms.TextBox
     Friend WithEvents lblBaht3 As System.Windows.Forms.Label
     Friend WithEvents lblTotal As System.Windows.Forms.Label
-    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents chkACPayeeOnly As System.Windows.Forms.CheckBox
     Friend WithEvents chkCheckHandler As System.Windows.Forms.CheckBox
+    Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents RadGridView2 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnExport As System.Windows.Forms.Button
+    Friend WithEvents cmbExportType As System.Windows.Forms.ComboBox
     Friend WithEvents lblItem As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(OutgoingCheckDetailView))
       Me.grbOutgoingCheck = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnExport = New System.Windows.Forms.Button()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkACPayeeOnly = New System.Windows.Forms.CheckBox()
       Me.chkCheckHandler = New System.Windows.Forms.CheckBox()
       Me.txtTotal = New System.Windows.Forms.TextBox()
       Me.lblBaht3 = New System.Windows.Forms.Label()
       Me.lblTotal = New System.Windows.Forms.Label()
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.txtDueDate = New System.Windows.Forms.TextBox()
@@ -116,8 +127,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.cmbExportType = New System.Windows.Forms.ComboBox()
       Me.grbOutgoingCheck.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
@@ -126,12 +138,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbOutgoingCheck.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbOutgoingCheck.Controls.Add(Me.cmbExportType)
+      Me.grbOutgoingCheck.Controls.Add(Me.btnExport)
+      Me.grbOutgoingCheck.Controls.Add(Me.ibtnDelRow)
+      Me.grbOutgoingCheck.Controls.Add(Me.RadGridView2)
+      Me.grbOutgoingCheck.Controls.Add(Me.ibtnBlank)
       Me.grbOutgoingCheck.Controls.Add(Me.chkACPayeeOnly)
       Me.grbOutgoingCheck.Controls.Add(Me.chkCheckHandler)
       Me.grbOutgoingCheck.Controls.Add(Me.txtTotal)
       Me.grbOutgoingCheck.Controls.Add(Me.lblBaht3)
       Me.grbOutgoingCheck.Controls.Add(Me.lblTotal)
-      Me.grbOutgoingCheck.Controls.Add(Me.tgItem)
       Me.grbOutgoingCheck.Controls.Add(Me.lblItem)
       Me.grbOutgoingCheck.Controls.Add(Me.chkAutorun)
       Me.grbOutgoingCheck.Controls.Add(Me.txtDueDate)
@@ -171,10 +187,50 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbOutgoingCheck.ForeColor = System.Drawing.Color.Blue
       Me.grbOutgoingCheck.Location = New System.Drawing.Point(8, 8)
       Me.grbOutgoingCheck.Name = "grbOutgoingCheck"
-      Me.grbOutgoingCheck.Size = New System.Drawing.Size(624, 520)
+      Me.grbOutgoingCheck.Size = New System.Drawing.Size(693, 520)
       Me.grbOutgoingCheck.TabIndex = 0
       Me.grbOutgoingCheck.TabStop = False
       Me.grbOutgoingCheck.Text = "ข้อมูลเช็คจ่าย : "
+      '
+      'btnExport
+      '
+      Me.btnExport.Location = New System.Drawing.Point(216, 248)
+      Me.btnExport.Name = "btnExport"
+      Me.btnExport.Size = New System.Drawing.Size(75, 23)
+      Me.btnExport.TabIndex = 208
+      Me.btnExport.TabStop = False
+      Me.btnExport.Text = "Export"
+      Me.btnExport.UseVisualStyleBackColor = True
+      '
+      'ibtnDelRow
+      '
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Location = New System.Drawing.Point(186, 248)
+      Me.ibtnDelRow.Name = "ibtnDelRow"
+      Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnDelRow.TabIndex = 207
+      Me.ibtnDelRow.TabStop = False
+      Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'RadGridView2
+      '
+      Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.RadGridView2.Location = New System.Drawing.Point(19, 275)
+      Me.RadGridView2.Name = "RadGridView2"
+      Me.RadGridView2.Size = New System.Drawing.Size(668, 218)
+      Me.RadGridView2.TabIndex = 206
+      '
+      'ibtnBlank
+      '
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Location = New System.Drawing.Point(158, 248)
+      Me.ibtnBlank.Name = "ibtnBlank"
+      Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnBlank.TabIndex = 205
+      Me.ibtnBlank.TabStop = False
+      Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
       '
       'chkACPayeeOnly
       '
@@ -200,7 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTotal, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTotal, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotal, System.Drawing.Color.Empty)
-      Me.txtTotal.Location = New System.Drawing.Point(368, 248)
+      Me.txtTotal.Location = New System.Drawing.Point(506, 248)
       Me.Validator.SetMinValue(Me.txtTotal, "")
       Me.txtTotal.Name = "txtTotal"
       Me.txtTotal.ReadOnly = True
@@ -213,7 +269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBaht3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht3.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht3.Location = New System.Drawing.Point(512, 248)
+      Me.lblBaht3.Location = New System.Drawing.Point(650, 248)
       Me.lblBaht3.Name = "lblBaht3"
       Me.lblBaht3.Size = New System.Drawing.Size(32, 16)
       Me.lblBaht3.TabIndex = 198
@@ -224,32 +280,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblTotal.ForeColor = System.Drawing.Color.Black
-      Me.lblTotal.Location = New System.Drawing.Point(272, 248)
+      Me.lblTotal.Location = New System.Drawing.Point(410, 248)
       Me.lblTotal.Name = "lblTotal"
       Me.lblTotal.Size = New System.Drawing.Size(88, 18)
       Me.lblTotal.TabIndex = 200
       Me.lblTotal.Text = "ยอดเช็คคงเหลือ:"
       Me.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'tgItem
-      '
-      Me.tgItem.AllowNew = False
-      Me.tgItem.AllowSorting = False
-      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgItem.AutoColumnResize = True
-      Me.tgItem.CaptionVisible = False
-      Me.tgItem.Cellchanged = False
-      Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
-      Me.tgItem.DataMember = ""
-      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(16, 272)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(592, 200)
-      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 202
-      Me.tgItem.TreeManager = Nothing
       '
       'lblItem
       '
@@ -709,14 +745,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'cmbExportType
+      '
+      Me.cmbExportType.FormattingEnabled = True
+      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT"})
+      Me.cmbExportType.Location = New System.Drawing.Point(297, 250)
+      Me.cmbExportType.Name = "cmbExportType"
+      Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
+      Me.cmbExportType.TabIndex = 209
+      Me.cmbExportType.TabStop = False
+      '
       'OutgoingCheckDetailView
       '
       Me.Controls.Add(Me.grbOutgoingCheck)
       Me.Name = "OutgoingCheckDetailView"
-      Me.Size = New System.Drawing.Size(640, 504)
+      Me.Size = New System.Drawing.Size(709, 504)
       Me.grbOutgoingCheck.ResumeLayout(False)
       Me.grbOutgoingCheck.PerformLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
@@ -763,7 +809,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Member"
     Private m_entity As New OutgoingCheck
     Private m_isInitialized As Boolean = False
-    Private m_treeManager As TreeManager
+    Private m_tableInitialized2 As Boolean = False
 #End Region
 
 #Region "Constructor"
@@ -772,25 +818,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       InitializeComponent()
       Initialize()
 
-      Dim dt As TreeTable = OutgoingCheck.GetSchemaTable()
-      Dim dst As DataGridTableStyle = OutgoingCheck.CreateTableStyle()
-      m_treeManager = New TreeManager(dt, tgItem)
-      m_treeManager.SetTableStyle(dst)
-      m_treeManager.AllowSorting = False
-			m_treeManager.AllowDelete = False
+      If CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+        Me.Validator.SetRequired(txtCqCode, False)
+        Me.Validator.SetRequired(txtDueDate, False)
+      End If
 
-			For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-				colStyle.ReadOnly = True
-			Next
-
-			If CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-				Me.Validator.SetRequired(txtCqCode, False)
-				Me.Validator.SetRequired(txtDueDate, False)
-			End If
-
-			Me.SetLabelText()
-			Me.UpdateEntityProperties()
-			Me.EventWiring()
+      Me.SetLabelText()
+      Me.UpdateEntityProperties()
+      Me.EventWiring()
     End Sub
 #End Region
 
@@ -807,10 +842,174 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = oldstatus
     End Sub
 #End Region
+    Dim viewDef As ColumnGroupsViewDefinition
+    Private Sub GetColumns(ByVal grid As RadGridView, ByVal istop As Boolean)
+
+      viewDef = New ColumnGroupsViewDefinition
+      Dim colNum As Integer = 0
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim gcLineNumber As New GridViewDecimalColumn("Linenumber")
+      gcLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
+      gcLineNumber.Width = 45
+      gcLineNumber.ReadOnly = True
+      gcLineNumber.DecimalPlaces = 0
+      gcLineNumber.TextAlignment = ContentAlignment.MiddleCenter
+      grid.Columns.Add(gcLineNumber)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcLineNumber)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim colName As String
+      If istop Then
+        colName = "Selected"
+      Else
+        colName = "SelectedForDeleted"
+      End If
+      Dim gcSelected As New GridViewCheckBoxColumn(colName)
+      gcSelected.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+      gcSelected.Width = 30
+      gcSelected.ReadOnly = False
+      gcSelected.AllowSort = False
+      grid.Columns.Add(gcSelected)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcSelected)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
+      gcPaymentCode.HeaderText = "เลขที่ PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+      gcPaymentCode.Width = 100
+      gcPaymentCode.ReadOnly = True
+      grid.Columns.Add(gcPaymentCode)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcPaymentCode)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
+      gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcRefCode.Width = 100
+      gcRefCode.ReadOnly = True
+      grid.Columns.Add(gcRefCode)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefCode)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim gcRefType As New GridViewTextBoxColumn("RefType")
+      gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcRefType.Width = 100
+      gcRefType.ReadOnly = True
+      grid.Columns.Add(gcRefType)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefType)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
+      gcRefDueDate.HeaderText = "วันที่ครบกำหนด" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcRefDueDate.Width = 100
+      gcRefDueDate.ReadOnly = True
+      grid.Columns.Add(gcRefDueDate)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefDueDate)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+
+      Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
+      csRefAmount.HeaderText = "จำนวนเงิน PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+      csRefAmount.ReadOnly = True
+      csRefAmount.Width = 150
+      csRefAmount.TextAlignment = ContentAlignment.MiddleRight
+      csRefAmount.ReadOnly = True
+      grid.Columns.Add(csRefAmount)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRefAmount)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+
+      Dim csRemain As New GridViewTextBoxColumn("Remain")
+      csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+      csRemain.ReadOnly = True
+      csRemain.Width = 150
+      csRemain.TextAlignment = ContentAlignment.MiddleRight
+      csRemain.ReadOnly = True
+      grid.Columns.Add(csRemain)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRemain)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+
+      Dim csAmount As New GridViewTextBoxColumn("Amount")
+      csAmount.HeaderText = "จำนวนจ่ายโดยเช็คนี้" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
+      csAmount.Width = 150
+      csAmount.TextAlignment = ContentAlignment.MiddleRight
+      csAmount.ReadOnly = True
+      grid.Columns.Add(csAmount)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csAmount)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+      colNum += 1
+    End Sub
+    Private Sub RefreshSelectedItems()
+      m_tableInitialized2 = False
+      Me.RadGridView2.GridElement.BeginUpdate()
+      Me.RadGridView2.Rows.Clear()
+      For Each p As PaymentForList In m_entity.PaymentList
+        Dim row As GridViewDataRowInfo = Me.RadGridView2.Rows.AddNew()
+        PopulateRow(p, row)
+      Next
+      Dim i As Integer = 1
+      For Each row As GridViewDataRowInfo In Me.RadGridView2.Rows
+        row.Cells("Linenumber").Value = i
+        i += 1
+      Next
+      Me.RadGridView2.GridElement.EndUpdate(True)
+      m_tableInitialized2 = True
+    End Sub
+
+    Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If tr.ViewTemplate.Columns.Contains("SelectedForDeleted") Then
+        tr.Cells("SelectedForDeleted").Value = p.SelectedForDeleted
+      End If
+      If tr.ViewTemplate.Columns.Contains("Selected") Then
+        tr.Cells("Selected").Value = p.Selected
+      End If
+      tr.Cells("PaymentCode").Value = p.Code
+      tr.Cells("RefCode").Value = p.RefCode
+      tr.Cells("RefType").Value = p.RefType
+      tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
+      tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
+      Dim remain As Decimal = p.RefRemain
+      If Not p.JustAdded Then
+        remain += p.Amount
+      End If
+      tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
+      tr.Cells("Amount").Value = Configuration.FormatToString(p.Amount, DigitConfig.Price)
+
+      tr.Tag = p
+
+    End Sub
 
 #Region "ISimpleEntityPanel"
     Public Overrides Sub Initialize()
       OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(cmbStatus, "outgoingcheck_docstatus")
+      Me.RadGridView2.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.RadGridView2.MasterGridViewTemplate.AllowDragToGroup = False
+      Me.RadGridView2.ShowGroupPanel = False
+      GetColumns(RadGridView2, False)
     End Sub
 
     Protected Overrides Sub EventWiring()
@@ -834,6 +1033,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler cmbStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
+      AddHandler cmbExportType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
       AddHandler chkACPayeeOnly.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkCheckHandler.CheckedChanged, AddressOf Me.ChangeProperty
@@ -861,9 +1062,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           Next
-					dtpIssueDate.Enabled = False
-					txtBankAccountCode.Enabled = False
-					btnBankAccountFind.Enabled = False
+          dtpIssueDate.Enabled = False
+          txtBankAccountCode.Enabled = False
+          btnBankAccountFind.Enabled = False
           btnBankAccountEdit.Enabled = False
           If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
             txtNote.Enabled = True
@@ -893,28 +1094,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'btnBankAccountFind.Enabled = False
             'btnBankAccountEdit.Enabled = False
           End If
-          End If
+        End If
 
       Else
 
-          If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-            grbOutgoingCheck.Enabled = True
-          Else
-            For Each ctrl As Control In grbOutgoingCheck.Controls
-              If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-                ctrl.Enabled = True
-              End If
-            Next
-            dtpIssueDate.Enabled = True
-            txtCqCode.Enabled = True
-            txtDueDate.Enabled = True
-            dtpDueDate.Enabled = True
-            txtBankAccountCode.Enabled = True
-            btnBankAccountFind.Enabled = True
-            btnBankAccountEdit.Enabled = True
-            chkACPayeeOnly.Enabled = True
-            chkCheckHandler.Enabled = True
-          End If
+        If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+          grbOutgoingCheck.Enabled = True
+        Else
+          For Each ctrl As Control In grbOutgoingCheck.Controls
+            If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+              ctrl.Enabled = True
+            End If
+          Next
+          dtpIssueDate.Enabled = True
+          txtCqCode.Enabled = True
+          txtDueDate.Enabled = True
+          dtpDueDate.Enabled = True
+          txtBankAccountCode.Enabled = True
+          btnBankAccountFind.Enabled = True
+          btnBankAccountEdit.Enabled = True
+          chkACPayeeOnly.Enabled = True
+          chkCheckHandler.Enabled = True
+        End If
       End If
       If txtrecipient.Text.Length = 0 Then
         txtrecipient.Enabled = True
@@ -922,6 +1123,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         chkCheckHandler.Enabled = True
       End If
       Me.cmbStatus.Enabled = False
+      Me.ibtnBlank.Enabled = True
+      Me.ibtnDelRow.Enabled = True
+      Me.btnExport.Enabled = True
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -940,6 +1144,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cmbStatus.SelectedIndex = 0
       cmbStatus.SelectedIndex = 0
+
+      cmbExportType.SelectedIndex = 0
+      cmbExportType.SelectedIndex = 0
     End Sub
 
     ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
@@ -970,7 +1177,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
         End If
 
-
+        cmbExportType.Text = m_entity.ExportType.ToUpper
         txtrecipient.Text = .m_entity.Recipient
 
         txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
@@ -998,12 +1205,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         .chkACPayeeOnly.Checked = .m_entity.ACPayeeOnly
       End With
 
-      Me.m_entity.ReLoadItems()
+      Me.RefreshSelectedItems()
 
-      'Load Items**********************************************************
-      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-      Me.Validator.DataTable = m_treeManager.Treetable
-      '********************************************************************
+      'Me.m_entity.ReLoadItems()
+
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
       UpdateAmount()
 
       SetStatus()
@@ -1045,6 +1254,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean
       Select Case CType(sender, Control).Name.ToLower
+        Case "cmbexporttype"
+          Me.m_entity.ExportType = Me.cmbExportType.Text.ToUpper
+          dirtyFlag = True
         Case "chkacpayeeonly"
           Me.m_entity.ACPayeeOnly = Me.chkACPayeeOnly.Checked
           dirtyFlag = True
@@ -1152,7 +1364,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1273,12 +1485,104 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
     Private Sub UpdateAmount()
-      txtTotal.Text = Configuration.FormatToString(m_entity.GetRemainingAmount, DigitConfig.Price)
+      Dim flag As Boolean = m_isInitialized
+      m_isInitialized = False
+      txtTotal.Text = Configuration.FormatToString(m_entity.GetRemain, DigitConfig.Price)
+      txtAmount.Text = Configuration.FormatToString(m_entity.Amount, DigitConfig.Price)
+      m_isInitialized = flag
     End Sub
-
-
-    Private Sub lblItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
+    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+      Dim f As New PaymentList
+      f.SetSupplier(Me.m_entity.Supplier)
+      f.SetType(22)
+      If f.ShowDialog() = DialogResult.OK Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+        Dim list As List(Of PaymentForList) = f.Selected
+        If Not list Is Nothing Then
+          Dim originalSum As Decimal = m_entity.GetSum
+          For Each p As PaymentForList In list
+            If Not m_entity.PaymentList.Contains(p) Then
+              p.Amount = p.RefRemain
+              p.JustAdded = True
+              originalSum += p.Amount
+              If m_entity.Amount < originalSum Then
+                If MessageBox.Show("ยอดเกินจำนวนเงินในเช็ค ท่านต้องการปรับยอดเงินในเช็คหรือไม่?", "ยอดเกิน", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                  m_entity.Amount = originalSum
+                Else
+                  Exit For
+                End If
+              End If
+              m_entity.PaymentList.Add(p)
+            End If
+          Next
+        End If
+      End If
+      RefreshSelectedItems()
+      UpdateAmount()
+    End Sub
+    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+      Dim deleted As New List(Of PaymentForList)
+      For Each p As PaymentForList In m_entity.PaymentList
+        If p.SelectedForDeleted Then
+          deleted.Add(p)
+        End If
+      Next
+      For Each p As PaymentForList In deleted
+        p.SelectedForDeleted = False
+        If p.JustAdded Then
+          m_entity.PaymentList.Remove(p)
+        End If
+      Next
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      RefreshSelectedItems()
+      UpdateAmount()
+    End Sub
+    Private m_updating2 As Boolean = False
+    Private Sub RadGridView2_CellValidating(ByVal sender As Object, ByVal e As CellValidatingEventArgs) Handles RadGridView2.CellValidating
+      Dim column As GridViewDataColumn = TryCast(e.Column, GridViewDataColumn)
+      If e.Row Is Nothing Then
+        Return
+      End If
+      If Not TypeOf e.Row Is GridViewDataRowInfo OrElse column Is Nothing Then
+        Return
+      End If
+      If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then
+        Return
+      End If
+      If Not Me.m_tableInitialized2 Then
+        Return
+      End If
+      Dim p As PaymentForList = CType(e.Row.Tag, PaymentForList)
+      If m_updating2 Then
+        Return
+      End If
+      m_updating2 = True
+      If Not e.Value Is Nothing Then
+        Select Case column.FieldName.ToLower
+          Case "selectedfordeleted"
+            p.SelectedForDeleted = e.Value
+          Case Else
+        End Select
+      End If
+      m_updating2 = False
+    End Sub
+    Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
+      Dim myOpb As New SaveFileDialog
+      myOpb.Filter = "All Files|*.*"
+      myOpb.FilterIndex = 1
+      myOpb.FileName = m_entity.ExportType.ToUpper & ".txt"
+      If myOpb.ShowDialog() = DialogResult.OK Then
+        Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
+        Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))
+        Try
+          Exporter.Export(m_entity, writer)
+          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail.ExportCompleted}"))
+        Catch ex As Exception
+          MessageBox.Show("Error:" & ex.ToString)
+        Finally
+          writer.Close()
+        End Try
+      End If
     End Sub
   End Class
 

@@ -3818,20 +3818,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
   End Class
+  Public Class TaxInfoItem
+
+    Property TaxRate As Decimal
+    Property Description As String
+    Property BeforeVAT As Decimal
+
+    Property WHT As Decimal
+
+    Property AfterVat As Decimal
+
+  End Class
+  Public Class TaxInfo
+
+    Property TaxForm As String
+    Property TaxCondition As String
+    Private m_items As List(Of TaxInfoItem)
+    Public ReadOnly Property TaxInfoItems As List(Of TaxInfoItem)
+      Get
+        If m_items Is Nothing Then
+          m_items = New List(Of TaxInfoItem)
+        End If
+        Return m_items
+      End Get
+    End Property
+
+    Property ID As Integer
+
+  End Class
   Public Class PaymentForList
+
+    '=========================================
+    Private m_TaxInfos As List(Of TaxInfo)
+    Public ReadOnly Property TaxInfos As List(Of TaxInfo)
+      Get
+        If m_TaxInfos Is Nothing Then
+          m_TaxInfos = New List(Of TaxInfo)
+        End If
+        Return m_TaxInfos
+      End Get
+    End Property
+    Public Property KbankMCBank As String
+    Public Property KbankMCAccount As String
+
+    Public Property KbankDCBank As String
+    Public Property KbankDCAccount As String
+
+    Public Property PayeeName As String
+
+    Property BankName As String
+
+    Public Property PayeeID As String
+
+    Property PersonalID As String
+    Property PayeeTaxID As String
+    Property PayeeFax As String
+    '=========================================
+
+    Public Overrides Function Equals(ByVal obj As Object) As Boolean
+      If obj Is Nothing Then
+        Return False
+      End If
+      Return CType(obj, PaymentForList).Id = Me.Id
+      'Return CType
+    End Function
+    Public Property Id As Integer
+    Public Property Selected As Boolean
+    Public Property SelectedForDeleted As Boolean
     Public Property Code As String
+    Public Property RefId As Integer
     Public Property RefCode As String
     Public Property RefType As String
+    Public Property RefTypeId As Integer
     Public Property RefDocDate As Date
     Public Property RefDueDate As Date
     Public Property RefCreditPeriod As Integer
     Public Property RefAmount As Decimal
     Public Property RefPaid As Decimal
+    Public Property JustAdded As Boolean = False
+    Public Property Note As String
     Public ReadOnly Property RefRemain As Decimal
       Get
         Return RefAmount - RefPaid
       End Get
     End Property
+    Public Property Amount As Decimal
+
+
+
 
     Public Shared Function GetPaymentList(ByVal filters As Filter()) As List(Of PaymentForList)
       Dim params() As SqlParameter
@@ -3852,13 +3926,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In ds.Tables(0).Rows
         Dim deh As New DataRowHelper(row)
         Dim p As New PaymentForList
+        p.Id = deh.GetValue(Of Integer)("Id")
         p.Code = deh.GetValue(Of String)("Code")
+        p.RefId = deh.GetValue(Of Integer)("RefId")
         p.RefCode = deh.GetValue(Of String)("RefCode")
         p.RefType = deh.GetValue(Of String)("RefType")
+        p.RefTypeId = deh.GetValue(Of Integer)("RefTypeId")
         p.RefDocDate = deh.GetValue(Of Date)("RefDocDate")
         p.RefDueDate = deh.GetValue(Of Date)("RefDueDate")
         p.RefAmount = deh.GetValue(Of Decimal)("RefAmount")
         p.RefPaid = deh.GetValue(Of Decimal)("RefPaid")
+        p.Note = ""
         ret.Add(p)
       Next
       Return ret
