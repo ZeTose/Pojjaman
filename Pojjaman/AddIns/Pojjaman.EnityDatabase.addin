@@ -145,6 +145,8 @@
 				<MenuItem id="AdvanceMoneyClosed" icon="Icons.16x16.AdvanceMoneyClosed" label="${res:MainMenu.CashBankMenu.AdvanceMoneyClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoneyClosed"/>
 			</MenuItem>
 			<MenuItem id="Check" insertafter="CashBank" insertbefore="Asset" label="${res:MainMenu.CheckMenu}">
+				<MenuItem id="BankTransferOut" label="${res:MainMenu.CashBankMenu.BankTransferOut}" icon="Icons.16x16.BankTransferOut" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransferOut"/>
+				<MenuItem id="Separator0" label="-"/>
 				<MenuItem id="OutgoingCheck" icon="Icons.16x16.OutgoingCheckIcon" label="${res:MainMenu.CheckMenu.OutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OutgoingCheck"/>
 				<MenuItem id="UpdateCheckPayment" icon="Icons.16x16.UpdateCheckPayment" label="${res:MainMenu.CheckMenu.UpdateCheckPayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment"/>
 				<MenuItem id="Separator1" label="-"/>

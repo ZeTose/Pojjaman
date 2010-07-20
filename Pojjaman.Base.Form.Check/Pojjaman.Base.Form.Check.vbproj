@@ -124,6 +124,12 @@
     <Compile Include="GUI\CheckRunningView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\BankTransferOutDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\BankTransferOutFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\ExportOutgoingCheckDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,6 +177,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CheckRunningView.resx">
       <DependentUpon>CheckRunningView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\BankTransferOutDetailView.resx">
+      <DependentUpon>BankTransferOutDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\BankTransferOutFilterSubPanel.resx">
+      <DependentUpon>BankTransferOutFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ExportOutgoingCheckDetail.resx">
       <DependentUpon>ExportOutgoingCheckDetail.vb</DependentUpon>

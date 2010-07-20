@@ -5,6 +5,7 @@
 		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+		<EntityFilter id="banktransferout" entity="banktransferout" filter="Longkong.Pojjaman.Gui.Panels.BankTransferOutFilterSubPanel"/>
 		<EntityFilter id="outgoingcheck" entity="outgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.OutgoingCheckFilterSubPanel"/>
     <EntityFilter id="incomingcheck" entity="incomingcheck" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>
 		<EntityFilter id="updatecheckpayment" entity="updatecheckpayment" filter="Longkong.Pojjaman.Gui.Panels.UpdateCheckFilterSubPanel"/>
@@ -18,6 +19,9 @@
 		<EntityTab id="outgoingcheck">
 			<EntityTab id="OutgoingCheckDetailView" view="Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView"/>
 		</EntityTab>
+		<EntityTab id="banktransferout">
+			<EntityTab id="BankTransferOutDetailView" view="Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView"/>
+		</EntityTab>		
 		<EntityTab id="updatecheckpayment">
 			<EntityTab id="UpdateOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateOutgoingCheckDetail"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
