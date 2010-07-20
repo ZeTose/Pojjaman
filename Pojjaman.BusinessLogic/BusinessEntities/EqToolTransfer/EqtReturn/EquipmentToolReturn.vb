@@ -215,7 +215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property ReturnPerson() As Employee
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        RefreshRental()      End Set    End Property    Public Property ReturnPerson() As Employee
       Get
         Return m_Returnperson
       End Get      Set(ByVal Value As Employee)
@@ -295,12 +295,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshRental()
+      For Each item As EquipmentToolReturnItem In Me.ItemCollection
+        item.RentalQty = CInt(DateDiff(DateInterval.Day, item.RefDoc.DocDate, Me.DocDate))
+      Next
+    End Sub
     Public Function ValidateRow(ByVal row As TreeRow) As Boolean
       Dim proposedCode As Object = row("code")
-      Dim proposedQty As Object = row("qty")
+      Dim proposedQty As Object = row("RentalAmount")
 
       If (IsDBNull(proposedCode) OrElse CStr(proposedCode) = "") _
-          And (Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
+          Or (Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0) _
           Then
         Return False
       End If
@@ -501,7 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim dt As DataTable = ds.Tables("Eqtstockitem")
 
-        Dim EqtDt As DataTable = GetEqiLastSequence()
+        'Dim EqtDt As DataTable = GetEqiLastSequence()
 
 
         Dim i As Integer = 0 'Line Running
@@ -511,7 +516,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
           For Each item As EquipmentToolReturnItem In Me.ItemCollection
             Dim dr As DataRow = .NewRow
-            Dim row() As DataRow = EqtDt.Select("eqtstocki_id =" & item.Entity.Id.ToString)
+            'Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
             i += 1
             dr("eqtstocki_eqtstock") = Me.Id
             dr("eqtstocki_linenumber") = i
@@ -527,13 +532,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_unit") = item.Unit.Id
 
             dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
-            'dr("eqtstocki_rentalqty") = item.
+            dr("eqtstocki_rentalqty") = item.RentalQty
+            dr("eqtstocki_amount") = item.Amount
 
-            If row.Length > 0 Then
-              dr("eqtstocki_refid") = row(0)("id")
+            'If row.Length > 0 Then
+            dr("eqtstocki_refsequence") = item.RefItem.Sequence
+            'dr("eqtstocki_refsequence") = row(0)("id")
 
-            End If
+            'End If
             dr("eqtstocki_note") = item.Note
+            dr("eqtstocki_type") = 351
 
             .Rows.Add(dr)
 
@@ -1147,14 +1155,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_eqtReturn As EquipmentToolReturn
-    Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
+    Private m_Refsequence As Integer 'อาจไม่ต้องมีแล้ว
+    Private m_refdoc As EquipmentToolWithdraw
 
-    Private m_sequence As Integer
-
-
+    Private m_ewi As EquipmentToolWithdrawItem
     Private m_rentalqty As Integer
     Private m_rentalperday As Decimal
     Private m_rentalAmt As Decimal
+
+
+    '' อ้างอิงใบเบิกเดิม
+
     'Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
 #End Region
@@ -1162,6 +1173,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
+      m_ewi = New EquipmentToolWithdrawItem
+
       'm_WBSDistributeCollection = New WBSDistributeCollection
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -1179,15 +1192,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_rentalqty = deh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_rentalqty")
         .m_rentalAmt = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount")
 
-        '' Sequence Refed to ...
-        'If dr.Table.Columns.Contains(aliasPrefix & "refto") AndAlso Not dr.IsNull(aliasPrefix & "refto") Then
-        '  .m_sequenceRefedto = CInt(dr(aliasPrefix & "refto"))
-        'End If
+        ' Sequence Refed to ...
+        .m_Refsequence = deh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_refsequence")
 
-        'If dr.Table.Columns.Contains(aliasPrefix & "stocki_sequence") AndAlso Not dr.IsNull(aliasPrefix & "stocki_sequence") Then
-        '  m_sequence = CInt(dr(aliasPrefix & "stocki_sequence"))
-        'End If
+        .m_refdoc = New EquipmentToolWithdraw
+        .m_refdoc.Id = deh.GetValue(Of Integer)(aliasPrefix & "eqtstock_id")
+        .m_refdoc.Code = deh.GetValue(Of String)(aliasPrefix & "eqtstock_code")
+        .m_refdoc.DocDate = deh.GetValue(Of Date)(aliasPrefix & "eqtstock_docdate")
 
+        .m_ewi = New EquipmentToolWithdrawItem(dr, "")
 
       End With
     End Sub
@@ -1203,6 +1216,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
 
     'Public ReadOnly Property Sequence() As Integer    '  Get    '    Return m_sequence    '  End Get    'End Property
+    Public Overrides Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
+            m_qty = 1
+          End If
+        End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Me.ItemType Is Nothing Then
+          'ไม่มี Type
+          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+          Return
+        End If
+        If Me.ItemType.Value = 160 Or Me.ItemType.Value = 162 Then
+          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
+          Return
+        End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Entity.RentalRate      End Set    End Property
     Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
         m_rentalAmt = m_rentalperday * m_rentalqty
@@ -1211,6 +1238,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get        Return m_rentalqty
       End Get      Set(ByVal value As Integer)
         m_rentalqty = value
+        m_rentalAmt = m_rentalperday * m_rentalqty
       End Set
     End Property
     Public Property Amount() As Decimal      Get        Return m_rentalAmt      End Get      Set(ByVal value As Decimal)
@@ -1221,8 +1249,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Set    End Property
     Public Property EqtReturn() As EquipmentToolReturn
-      Get        Return m_eqtReturn      End Get      Set(ByVal Value As EquipmentToolReturn)        m_eqtReturn = Value      End Set    End Property
-    Public Property SequenceRefedto() As Integer      Get        Return m_sequenceRefedto      End Get      Set(ByVal Value As Integer)        m_sequenceRefedto = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtReturn Is Nothing Then
+      Get        Return m_eqtReturn      End Get      Set(ByVal Value As EquipmentToolReturn)        m_eqtReturn = Value      End Set    End Property    Public Property RefDoc As EquipmentToolWithdraw
+      Get
+        Return m_refdoc
+      End Get
+      Set(ByVal value As EquipmentToolWithdraw)
+        m_refdoc = value
+      End Set
+    End Property
+
+    Public Property RefItem() As EquipmentToolWithdrawItem      Get        Return m_ewi      End Get      Set(ByVal Value As EquipmentToolWithdrawItem)        m_ewi = Value      End Set    End Property
+
+    Public Property RefSequence() As Integer      Get        Return m_Refsequence      End Get      Set(ByVal Value As Integer)        m_Refsequence = Value      End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean      If Me.EqtReturn Is Nothing Then
         Return False
       End If      If myCode Is Nothing OrElse myCode.Length = 0 Then
         Return False
@@ -1346,7 +1384,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("RentalPerDay") = ""
         End If
-
+        row("RentalQty") = Me.RentalQty
+        row("RentalAmount") = Me.Amount
         Me.EqtReturn.IsInitialized = True
       Catch ex As Exception
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
@@ -1426,7 +1465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Dim ret As Decimal = 0
         For Each Item As EquipmentToolReturnItem In Me
-          ret += Item.RentalPerDay
+          ret += Item.Amount
         Next
         Return ret
       End Get
@@ -1436,13 +1475,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Class Methods"
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
-      Dim i As Integer = 0
-      For Each gri As EquipmentToolReturnItem In Me
-        i += 1
-        Dim newRow As TreeRow = dt.Childs.Add()
-        gri.CopyToDataRow(newRow)
-        gri.ItemValidateRow(newRow)
-        newRow.Tag = gri
+      'Dim i As Integer = 0
+      'For Each gri As EquipmentToolReturnItem In Me
+      '  i += 1
+      '  Dim newRow As TreeRow = dt.Childs.Add()
+      '  gri.CopyToDataRow(newRow)
+      '  gri.ItemValidateRow(newRow)
+      '  newRow.Tag = gri
+      'Next
+      'dt.AcceptChanges()
+
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim prRowHash As New Hashtable
+      Dim parRow As TreeRow
+
+      For Each eri As EquipmentToolReturnItem In Me
+        parRow = Nothing
+        If Not eri.RefItem Is Nothing _
+         AndAlso eri.RefDoc.Originated Then
+          If Not prRowHash.Contains(eri.RefDoc.Id) Then
+            parRow = dt.Childs.Add
+            parRow("Code") = eri.RefDoc.Code
+            parRow("Name") = eri.RefDoc.DocDate.ToString
+            parRow("Button") = "invisible"
+            parRow.State = RowExpandState.Expanded
+            prRowHash(eri.RefDoc.Id) = parRow
+          Else
+            parRow = CType(prRowHash(eri.RefDoc.Id), TreeRow)
+          End If
+          'Else ''ต้องมีการอ้างอิงเท่านั้น
+          '  'แบบไม่มี PR
+          '  If Not prRowHash.Contains(0) Then
+          '    parRow = dt.Childs.Add
+          '    parRow("PRItemCode") = noPRText
+          '    parRow("Button") = "invisible"
+          '    parRow("UnitButton") = "invisible"
+          '    parRow.State = RowExpandState.Expanded
+          '    prRowHash(0) = parRow
+          '  Else
+          '    parRow = CType(prRowHash(0), TreeRow)
+          '  End If
+        End If
+
+        Dim newRow As TreeRow = parRow.Childs.Add()
+        eri.CopyToDataRow(newRow)
+        eri.ItemValidateRow(newRow)
+        newRow.Tag = eri
       Next
       dt.AcceptChanges()
     End Sub
@@ -1539,6 +1617,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class ToCostcenter
+    Inherits CostCenter
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal Id As Integer)
+      MyBase.New(Id)
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+    End Sub
+  End Class
+
+  Public Class fromCostcenter
+    Inherits CostCenter
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal Id As Integer)
+      MyBase.New(Id)
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+    End Sub
+  End Class
   '  Public Class InternalCharge
   '    '1=ปกติ 2=หยุด 3=ลดราคา
   '    Public Enum InternalChargeType

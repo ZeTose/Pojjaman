@@ -64,16 +64,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_note As String
     'Private m_amount As Decimal
 
-    Private m_sequence As Integer
+    Protected m_sequence As Integer
 
-    Private m_itemtype As EqtItemType
-    Private m_fromstatus As EqtStatus
-    Private m_tostatus As EqtStatus
+    Protected m_itemtype As EqtItemType
+    Protected m_fromstatus As EqtStatus
+    Protected m_tostatus As EqtStatus
 
-    Private m_unit As Unit
-    Private m_qty As Integer = 1
-    Private m_rentalqty As Integer
-    Private m_rentalperday As Decimal
+    Protected m_unit As Unit
+    Protected m_qty As Integer = 1
+    Protected m_rentalqty As Integer
+    Protected m_rentalperday As Decimal
 
     Private m_WBSDistributeCollection As WBSDistributeCollection
 #End Region
@@ -260,7 +260,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.m_qty = 1
-    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
+    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overridable Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
         End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -320,6 +320,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+#End Region
+
+#Region "Shared"
+    Public Shared Function GetListDatatable(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataTable
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, procName, params)
+      Return ds.Tables(0)
+    End Function
 #End Region
 
   End Class

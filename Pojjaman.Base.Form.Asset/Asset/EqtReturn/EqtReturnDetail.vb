@@ -62,6 +62,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtRentalAmt As System.Windows.Forms.TextBox
     Friend WithEvents lblRentalAmt As System.Windows.Forms.Label
     Friend WithEvents lblCurrency As System.Windows.Forms.Label
+    Friend WithEvents btnEqtw As System.Windows.Forms.Button
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -71,6 +72,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCountUnit = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtRentalAmt = New System.Windows.Forms.TextBox()
+      Me.lblRentalAmt = New System.Windows.Forms.Label()
+      Me.lblCurrency = New System.Windows.Forms.Label()
       Me.grbReceive = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.btnStoreCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnStorepersonFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -110,9 +114,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.txtRentalAmt = New System.Windows.Forms.TextBox()
-      Me.lblRentalAmt = New System.Windows.Forms.Label()
-      Me.lblCurrency = New System.Windows.Forms.Label()
+      Me.btnEqtw = New System.Windows.Forms.Button()
       Me.grbSummary.SuspendLayout()
       Me.grbReceive.SuspendLayout()
       Me.grbRequest.SuspendLayout()
@@ -191,6 +193,46 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.TabStop = False
       Me.grbSummary.Text = "สรุปยอดคืน"
       '
+      'txtRentalAmt
+      '
+      Me.txtRentalAmt.BackColor = System.Drawing.SystemColors.Control
+      Me.txtRentalAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+      'Me.Validator.SetDataType(Me.txtRentalAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
+      'Me.Validator.SetDisplayName(Me.txtRentalAmt, "")
+      'Me.Validator.SetGotFocusBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
+      'Me.ErrorProvider1.SetIconPadding(Me.txtRentalAmt, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
+      Me.txtRentalAmt.Location = New System.Drawing.Point(341, 17)
+      'Me.Validator.SetMinValue(Me.txtRentalAmt, "")
+      Me.txtRentalAmt.Name = "txtRentalAmt"
+      Me.txtRentalAmt.ReadOnly = True
+      'Me.Validator.SetRegularExpression(Me.txtRentalAmt, "")
+      'Me.Validator.SetRequired(Me.txtRentalAmt, False)
+      Me.txtRentalAmt.Size = New System.Drawing.Size(64, 21)
+      Me.txtRentalAmt.TabIndex = 4
+      Me.txtRentalAmt.TabStop = False
+      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      '
+      'lblRentalAmt
+      '
+      Me.lblRentalAmt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRentalAmt.Location = New System.Drawing.Point(229, 17)
+      Me.lblRentalAmt.Name = "lblRentalAmt"
+      Me.lblRentalAmt.Size = New System.Drawing.Size(104, 18)
+      Me.lblRentalAmt.TabIndex = 3
+      Me.lblRentalAmt.Text = "มูลค่าค่าเช่า"
+      Me.lblRentalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblCurrency
+      '
+      Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCurrency.Location = New System.Drawing.Point(413, 17)
+      Me.lblCurrency.Name = "lblCurrency"
+      Me.lblCurrency.Size = New System.Drawing.Size(40, 18)
+      Me.lblCurrency.TabIndex = 5
+      Me.lblCurrency.Text = "บาท"
+      Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'grbReceive
       '
       Me.grbReceive.Controls.Add(Me.btnStoreCCFind)
@@ -209,7 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceive.Size = New System.Drawing.Size(352, 72)
       Me.grbReceive.TabIndex = 1
       Me.grbReceive.TabStop = False
-      Me.grbReceive.Text = "ผู้คืน"
+      Me.grbReceive.Text = "Store"
       '
       'btnStoreCCFind
       '
@@ -325,7 +367,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreCC.Name = "lblStoreCC"
       Me.lblStoreCC.Size = New System.Drawing.Size(96, 18)
       Me.lblStoreCC.TabIndex = 0
-      Me.lblStoreCC.Text = "จาก Cost Center:"
+      Me.lblStoreCC.Text = "store Cost Center:"
       Me.lblStoreCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtStorepersonCode
@@ -365,7 +407,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.Size = New System.Drawing.Size(360, 72)
       Me.grbRequest.TabIndex = 2
       Me.grbRequest.TabStop = False
-      Me.grbRequest.Text = "ผู้รับคืน"
+      Me.grbRequest.Text = "ผู้คืนจาก"
       '
       'btnReturnCCFind
       '
@@ -377,7 +419,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnCCFind.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnCCFind.TabIndex = 3
       Me.btnReturnCCFind.TabStop = False
-      Me.btnReturnCCFind.ThemedImage = CType(resources.GetObject("btnReturnCCFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnCCFind.ThemedImage = Nothing
       '
       'btnReturnPersonFind
       '
@@ -389,7 +431,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnPersonFind.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnPersonFind.TabIndex = 8
       Me.btnReturnPersonFind.TabStop = False
-      Me.btnReturnPersonFind.ThemedImage = CType(resources.GetObject("btnReturnPersonFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnPersonFind.ThemedImage = Nothing
       '
       'btnReturnCCEdit
       '
@@ -400,7 +442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnCCEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnCCEdit.TabIndex = 4
       Me.btnReturnCCEdit.TabStop = False
-      Me.btnReturnCCEdit.ThemedImage = CType(resources.GetObject("btnReturnCCEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnCCEdit.ThemedImage = Nothing
       '
       'btnReturnPersonEdit
       '
@@ -411,7 +453,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnPersonEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnPersonEdit.TabIndex = 9
       Me.btnReturnPersonEdit.TabStop = False
-      Me.btnReturnPersonEdit.ThemedImage = CType(resources.GetObject("btnReturnPersonEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnReturnPersonEdit.ThemedImage = Nothing
       '
       'ImageButton3
       '
@@ -505,7 +547,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReturnCC.Name = "lblReturnCC"
       Me.lblReturnCC.Size = New System.Drawing.Size(104, 18)
       Me.lblReturnCC.TabIndex = 0
-      Me.lblReturnCC.Text = "คืนเข้า Cost Center:"
+      Me.lblReturnCC.Text = "Return Cost Center:"
       Me.lblReturnCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtReturnCCCode
@@ -709,48 +751,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
-      'txtRentalAmt
+      'btnEqtw
       '
-      Me.txtRentalAmt.BackColor = System.Drawing.SystemColors.Control
-      Me.txtRentalAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.Validator.SetDataType(Me.txtRentalAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
-      Me.Validator.SetDisplayName(Me.txtRentalAmt, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtRentalAmt, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
-      Me.txtRentalAmt.Location = New System.Drawing.Point(341, 17)
-      Me.Validator.SetMinValue(Me.txtRentalAmt, "")
-      Me.txtRentalAmt.Name = "txtRentalAmt"
-      Me.txtRentalAmt.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtRentalAmt, "")
-      Me.Validator.SetRequired(Me.txtRentalAmt, False)
-      Me.txtRentalAmt.Size = New System.Drawing.Size(64, 21)
-      Me.txtRentalAmt.TabIndex = 4
-      Me.txtRentalAmt.TabStop = False
-      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-      '
-      'lblRentalAmt
-      '
-      Me.lblRentalAmt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRentalAmt.Location = New System.Drawing.Point(229, 17)
-      Me.lblRentalAmt.Name = "lblRentalAmt"
-      Me.lblRentalAmt.Size = New System.Drawing.Size(104, 18)
-      Me.lblRentalAmt.TabIndex = 3
-      Me.lblRentalAmt.Text = "มูลค่าค่าเช่า"
-      Me.lblRentalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblCurrency
-      '
-      Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCurrency.Location = New System.Drawing.Point(413, 17)
-      Me.lblCurrency.Name = "lblCurrency"
-      Me.lblCurrency.Size = New System.Drawing.Size(40, 18)
-      Me.lblCurrency.TabIndex = 5
-      Me.lblCurrency.Text = "บาท"
-      Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnEqtw.Location = New System.Drawing.Point(99, 161)
+      Me.btnEqtw.Name = "btnEqtw"
+      Me.btnEqtw.Size = New System.Drawing.Size(39, 23)
+      Me.btnEqtw.TabIndex = 9
+      Me.btnEqtw.Text = "เบิก"
+      Me.btnEqtw.UseVisualStyleBackColor = True
       '
       'EqtReturnDetail
       '
+      Me.Controls.Add(Me.btnEqtw)
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.grbGeneral)
       Me.Controls.Add(Me.ibtnBlank)
@@ -992,7 +1004,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
     Protected Sub GridButton_Clicked(ByVal e As ButtonColumnEventArgs)
       If e.Column = 3 Then
-        EntityButton_Click(e)
+        'EntityButton_Click(e)
       Else
         ' กรณีอื่น ๆ ...
       End If
@@ -1193,10 +1205,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               dtpDocDate.Value = theDate
               Me.m_entity.DocDate = dtpDocDate.Value
               dirtyFlag = True
+              RefreshDocs()
             End If
           Else
             Me.m_entity.DocDate = Date.Now
             Me.m_entity.DocDate = Date.MinValue
+            RefreshDocs()
             dirtyFlag = True
           End If
           m_dateSetting = False
@@ -1206,6 +1220,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not m_dateSetting Then
               Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.m_entity.DocDate = dtpDocDate.Value
+              RefreshDocs()
             End If
             dirtyFlag = True
           End If
@@ -1214,10 +1229,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
           ReturnCheckedChanged(sender)
 
-        Case "txtReturnpersoncode"
+        Case "txtreturnpersoncode"
           dirtyFlag = Employee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
 
-        Case "txtReturncccode"
+        Case "txtreturncccode"
           dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
           ReturnCheckedChanged(sender)
 
@@ -1273,6 +1288,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
+      Me.m_entity.RefreshRental()
       Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
       RefreshBlankGrid()
       ReIndex()
@@ -1389,82 +1405,91 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Return idlist
     End Function
-    Public Sub EntityButton_Click(ByVal e As ButtonColumnEventArgs)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity.FromCC Is Nothing OrElse Not Me.m_entity.FromCC.Originated Then
-        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.InputStoreCC}")
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    'Public Sub EntityButton_Click(ByVal e As ButtonColumnEventArgs)
+    '  If Me.m_entity Is Nothing Then
+    '    Return
+    '  End If
+    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '  If Me.m_entity.FromCC Is Nothing OrElse Not Me.m_entity.FromCC.Originated Then
+    '    msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.InputStoreCC}")
+    '    Return
+    '  End If
+    '  Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 
-      If Me.CurrentItem Is Nothing Then
-        Return
-      End If
-      If Me.CurrentItem.ItemType.Value = 19 Then
-        Dim entities As New ArrayList
-        Dim entity As New ToolForSelection
-        entity.CC = Me.m_entity.FromCC
-        entity.FromWip = False
-        entity.EqtClass = Me.m_entity.ClassName
-        entities.Add(entity)
-        Dim filters(2) As Filter
-        filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
-        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        filters(2) = New Filter("eqtstatus", 3)  'ต้องการสถานะว่าง
-        myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
-      ElseIf Me.CurrentItem.ItemType.Value = 342 Then
-        Dim dlg As New BasketDialog
-        AddHandler dlg.EmptyBasket, AddressOf SetItems
+    '  If Me.CurrentItem Is Nothing Then
+    '    Return
+    '  End If
+    '  If Me.CurrentItem.ItemType.Value = 19 Then
+    '    Dim entities As New ArrayList
+    '    Dim entity As New ToolForSelection
+    '    entity.CC = Me.m_entity.FromCC
+    '    entity.FromWip = False
+    '    entity.EqtClass = Me.m_entity.ClassName
+    '    entities.Add(entity)
+    '    Dim filters(2) As Filter
+    '    filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
+    '    filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+    '    filters(2) = New Filter("eqtstatus", 3)  'ต้องการสถานะว่าง
+    '    myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
+    '  ElseIf Me.CurrentItem.ItemType.Value = 342 Then
+    '    Dim dlg As New BasketDialog
+    '    AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-        Dim eqi As New EqItemForSelection
+    '    Dim eqi As New EqItemForSelection
 
-        Dim filters(1) As Filter
-        filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
-        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        'filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
+    '    Dim filters(1) As Filter
+    '    filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
+    '    filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+    '    'filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
 
-        Dim entities As New ArrayList
-        eqi.Costcenter = Me.m_entity.FromCC
-        eqi.entityId = Me.m_entity.EntityId
-        eqi.Status = Me.m_entity.FromStatus
-        entities.Add(eqi)
+    '    Dim entities As New ArrayList
+    '    eqi.Costcenter = Me.m_entity.FromCC
+    '    eqi.entityId = Me.m_entity.EntityId
+    '    eqi.Status = Me.m_entity.FromStatus
+    '    entities.Add(eqi)
 
-        Dim view As AbstractEntityPanelViewContent = New EqiSelectionView(eqi, New BasketDialog, filters, entities)
-        dlg.Lists.Add(view)
-        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
-        myDialog.ShowDialog()
+    '    Dim view As AbstractEntityPanelViewContent = New EqiSelectionView(eqi, New BasketDialog, filters, entities)
+    '    dlg.Lists.Add(view)
+    '    Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+    '    myDialog.ShowDialog()
 
 
-        'Dim entities As New ArrayList
-        'Dim eqi As New EqItemForSelection
-        'eqi.Costcenter = Me.m_entity.FromCC
-        'eqi.entityId = Me.m_entity.EntityId
-        'entities.Add(eqi)
-        'Dim filters(1) As Filter
-        'filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
-        'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        'myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
-      End If
+    '    'Dim entities As New ArrayList
+    '    'Dim eqi As New EqItemForSelection
+    '    'eqi.Costcenter = Me.m_entity.FromCC
+    '    'eqi.entityId = Me.m_entity.EntityId
+    '    'entities.Add(eqi)
+    '    'Dim filters(1) As Filter
+    '    'filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
+    '    'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+    '    'myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
+    '  End If
 
-    End Sub
+    'End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
       For i As Integer = items.Count - 1 To 0 Step -1
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As IEqtItem
+        Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+
+        Dim refItem As EquipmentToolWithdrawItem
+        Dim newEntity As IEqtItem
         Dim doc As New EquipmentToolReturnItem
         Dim itemType As Integer
-        Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.equipmentitem"
-            newItem = New EquipmentItem(item.Id)
-            itemType = 342
-          Case "longkong.pojjaman.businesslogic.tool"
-            newItem = New Tool(item.Id)
-            itemType = 19
-        End Select
+        If TypeOf item.Tag Is EquipmentToolWithdrawItem Then
+          refItem = CType(item.Tag, EquipmentToolWithdrawItem)
+          newEntity = CType(item.Tag, EquipmentToolWithdrawItem).Entity
+          itemType = CType(item.Tag, EquipmentToolWithdrawItem).ItemType.Value
+        Else
+          Select Case item.FullClassName.ToLower
+            Case "longkong.pojjaman.businesslogic.equipmentitem"
+              newEntity = New EquipmentItem
+              itemType = 342
+            Case "longkong.pojjaman.businesslogic.tool"
+              newEntity = New Tool(item.Id)
+              itemType = 19
+          End Select
+        End If
+
 
         If Not itemType = 0 Then
           'Dim doc As New EquipmentToolReturnItem
@@ -1476,15 +1501,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.ItemCollection.Add(doc)
             doc.ItemType = New EqtItemType(itemType)
           End If
-          doc.Entity = newItem
-          doc.Unit = CType(newItem, IEqtItem).Unit
+          doc.RefItem = refItem
+          doc.RefDoc = refItem.EquipmentToolWithdraw
+          doc.Entity = newEntity
+          doc.Unit = CType(newEntity, IEqtItem).Unit
           doc.ToStatus = New EqtStatus(3)
           If itemType = 19 Then
-            doc.Qty = 1
-            doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
+            If refItem IsNot Nothing Then
+              doc.Qty = refItem.Qty
+            Else
+              doc.Qty = 1
+            End If
+            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
           Else
             doc.Qty = 1
-            doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate
+            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
           End If
         End If
       Next
@@ -1552,6 +1583,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
 
     End Sub
+    Private Sub btnEqtw_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnEqtw.Click
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+      Dim filters(2) As Filter
+      Dim excludeList As Object = ""
+      excludeList = GetRefitemExcludeList()
+      If excludeList.ToString.Length = 0 Then
+        excludeList = DBNull.Value
+      End If
+     
+
+      filters(0) = New Filter("excludeList", excludeList)
+      filters(1) = New Filter("excludeCanceled", True)
+      filters(2) = New Filter("formEntity", Me.m_entity.EntityId)
+     
+
+      Dim Entities As New ArrayList
+      If Not Me.m_entity.ReturnCostcenter Is Nothing AndAlso Me.m_entity.ReturnCostcenter.Originated Then
+        Dim fromcc As New fromCostcenter
+        fromcc.Id = m_entity.ReturnCostcenter.Id
+        fromcc.Code = m_entity.ReturnCostcenter.Code
+        fromcc.Name = m_entity.ReturnCostcenter.Name
+        Entities.Add(fromcc)
+      End If
+      If Not Me.m_entity.StoreCostcenter Is Nothing AndAlso Me.m_entity.StoreCostcenter.Originated Then
+        Dim tocc As New StoreCostCenter
+        tocc.Id = m_entity.StoreCostcenter.Id
+        tocc.Code = m_entity.StoreCostcenter.Code
+        tocc.Name = m_entity.StoreCostcenter.Name
+        Entities.Add(tocc)
+      End If
+
+      Dim view As AbstractEntityPanelViewContent = New EqtWithdrawSelectionView(New EquipmentToolWithdrawforSelection, New BasketDialog, filters, Entities)
+      dlg.Lists.Add(view)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
+    End Sub
+    Private Function GetRefitemExcludeList() As String
+      Dim ret As String = ""
+      For Each item As EquipmentToolReturnItem In Me.m_entity.ItemCollection
+        If item.RefSequence <> 0 Then
+          ret &= "|" & item.RefSequence.ToString & "|"
+        End If
+      Next
+      Return ret
+    End Function
 #End Region
 
 #Region " IValidatable "
@@ -1792,6 +1870,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+    
+  
   End Class
 End Namespace
 

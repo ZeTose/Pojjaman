@@ -104,6 +104,107 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
   End Class
+
+  Public Class EqtBasketItem
+    Implements IBasketItem
+
+#Region "Members"
+    Private m_textInBasket As String
+    Private m_id As Integer
+    Private m_stockCode As String
+    Private m_enityName As String
+    Private m_linenumber As Integer
+    Private m_fullClassName As String
+    Private m_qty As Decimal
+    Private m_tag As Object
+    Private m_level As Integer
+#End Region
+
+#Region "Constructors"
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String)
+      m_id = id
+      m_stockCode = stockCode
+      m_linenumber = linenumber
+      m_fullClassName = fullClassName
+      m_textInBasket = textInBasket
+      m_qty = qty
+      m_enityName = enityName
+    End Sub
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer)
+      m_id = id
+      m_stockCode = stockCode
+      m_linenumber = linenumber
+      m_fullClassName = fullClassName
+      m_textInBasket = textInBasket
+      m_qty = qty
+      m_enityName = enityName
+      m_level = level
+    End Sub
+#End Region
+
+#Region "Methods"
+    Public Overrides Function ToString() As String
+      Return Me.m_textInBasket
+    End Function
+#End Region
+
+#Region "Properties"
+    Public Property Tag() As Object Implements IHasTag.Tag      Get        Return m_tag      End Get      Set(ByVal Value As Object)        m_tag = Value      End Set    End Property
+    Public ReadOnly Property Id() As Integer
+      Get
+        Return Me.m_id
+      End Get
+    End Property
+    Public ReadOnly Property Linenumber() As Integer
+      Get
+        Return Me.m_linenumber
+      End Get
+    End Property
+    Public ReadOnly Property StockCode() As String
+      Get
+        Return Me.m_stockCode
+      End Get
+    End Property
+    Public ReadOnly Property EntityName() As String
+      Get
+        Return Me.m_enityName
+      End Get
+    End Property
+    Public ReadOnly Property Qty() As Decimal
+      Get
+        Return m_qty
+      End Get
+    End Property
+    Public ReadOnly Property FullClassName() As String
+      Get
+        Return m_fullClassName
+      End Get
+    End Property
+    Public ReadOnly Property ParentText() As String Implements IBasketItem.ParentText
+      Get
+        Return Me.StockCode
+      End Get
+    End Property
+    Public ReadOnly Property Level() As Integer
+      Get
+        Return m_level
+      End Get
+    End Property
+
+#End Region
+
+#Region "IBasketItem"
+    Public Overloads Overrides Function Equals(ByVal obj As Object) As Boolean Implements IBasketItem.Equals
+      Dim item As EqtBasketItem = CType(obj, EqtBasketItem)
+      Return item.FullClassName = Me.FullClassName And item.Id = Me.Id And item.Linenumber = Me.Linenumber
+    End Function
+    Public ReadOnly Property TextInBasket() As String Implements IBasketItem.TextInBasket
+      Get
+        Return m_textInBasket
+      End Get
+    End Property
+#End Region
+  End Class
   Public Class BasketItem
     Implements IBasketItem, IIdentifiable, IObjectReflectable
 

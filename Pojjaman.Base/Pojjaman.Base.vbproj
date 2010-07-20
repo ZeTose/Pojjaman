@@ -1181,6 +1181,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtWithdrawSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtwithdrawForSelectFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractBaseEntityPanelViewContent.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1604,6 +1610,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.resx">
       <DependentUpon>AdvanceReceiveSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtWithdrawSelectionView.resx">
+      <DependentUpon>EqtWithdrawSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtwithdrawForSelectFilterSubPanel.resx">
+      <DependentUpon>EqtwithdrawForSelectFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Astract\AbstractEntityDetailPanelView.resx">
       <DependentUpon>AbstractEntityDetailPanelView.vb</DependentUpon>

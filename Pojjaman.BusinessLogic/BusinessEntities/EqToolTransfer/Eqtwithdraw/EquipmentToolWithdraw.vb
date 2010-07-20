@@ -1203,7 +1203,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class EquipmentToolWithdrawItem
     Inherits EqtItem
     Implements IWBSAllocatableItem
-    
+
 #Region "Members"
     Private m_eqtWithdraw As EquipmentToolWithdraw
     Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
@@ -1238,6 +1238,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim deh As New DataRowHelper(dr)
 
         .m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
+
+        If dr.Table.Columns.Contains("eqtstock_id") Then
+          .m_eqtWithdraw = New EquipmentToolWithdraw
+          .m_eqtWithdraw.Id = deh.GetValue(Of Integer)("eqtstock_id")
+          .m_eqtWithdraw.Code = deh.GetValue(Of String)("eqtstock_code")
+          .m_eqtWithdraw.DocDate = deh.GetValue(Of Date)("eqtstock_docdate")
+        End If
 
         '' Sequence Refed to ...
         'If dr.Table.Columns.Contains(aliasPrefix & "refto") AndAlso Not dr.IsNull(aliasPrefix & "refto") Then
@@ -1705,9 +1712,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return String.Join(",", list)
-    
+
     End Function
 
+  End Class
+
+  Public Class EquipmentToolWithdrawforSelection
+    Inherits EquipmentToolWithdraw
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "EquipmentToolWithdrawforSelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "EquipmentToolWithdrawforSelection"
+      End Get
+    End Property
   End Class
 
   '  Public Class InternalCharge
