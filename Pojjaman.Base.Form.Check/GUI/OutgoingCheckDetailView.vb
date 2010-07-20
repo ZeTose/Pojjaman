@@ -1070,6 +1070,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             txtNote.Enabled = True
             If CBool(Configuration.GetConfig("CanEditOutgoingCheckRecipient")) Then
               txtrecipient.Enabled = True
+              txtCode.Enabled = True
+              txtIssueDate.Enabled = True
+              dtpIssueDate.Enabled = True
+              chkAutorun.Enabled = True
             End If
           End If
           If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
