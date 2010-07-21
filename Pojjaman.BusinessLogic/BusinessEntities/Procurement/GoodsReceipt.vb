@@ -167,7 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New GoodsReceiptItemCollection(Me)
-      m_itemCollection.RefreshBudget()
+      'm_itemCollection.RefreshBudget()
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -338,7 +338,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New GoodsReceiptItemCollection(Me)
-      m_itemCollection.RefreshBudget()
+      'm_itemCollection.RefreshBudget()
 
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
@@ -1968,6 +1968,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
+          ''==============================DELETE STOCKCOST=========================================
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          ''==============================DELETE STOCKCOST=========================================
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
