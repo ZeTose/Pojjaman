@@ -10,10 +10,7 @@ Imports System.Reflection
 Imports Syncfusion.Windows.Forms.Grid
 
 Namespace Longkong.Pojjaman.BusinessLogic
-  'Public Interface IHasRentalRate
-  '    Inherits IHasName
-  '    Property RentalRate() As Decimal
-  'End Interface
+
   Public Class EquipmentToolReturn
     Inherits SimpleBusinessEntityBase
     Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod
@@ -444,8 +441,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           Me.DeleteRef(conn, trans)
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_Ref" _
+          , New SqlParameter("@refto_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
           ', New SqlParameter("@refto_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _

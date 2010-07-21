@@ -827,7 +827,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csName)
       dst.GridColumnStyles.Add(csUnit)
       dst.GridColumnStyles.Add(csQty)
-      dst.GridColumnStyles.Add(csFromStatus)
+      'dst.GridColumnStyles.Add(csFromStatus)
       'dst.GridColumnStyles.Add(csRentalPerDay)
       'dst.GridColumnStyles.Add(csRentalQty)
       dst.GridColumnStyles.Add(csAmount)
