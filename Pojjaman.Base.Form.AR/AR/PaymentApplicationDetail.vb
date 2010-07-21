@@ -2660,7 +2660,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           row("Retention") = Configuration.FormatToString(m_milestone.Retention, DigitConfig.Price)
           row("Discount") = m_milestone.Discount.Rate
           row("Penalty") = Configuration.FormatToString(m_milestone.Penalty, DigitConfig.Price)
-        Case 78, 79 'เพิ่ม /ลด
+        Case 78 'เพิ่ม
+          'ผ่าน
+          AutoFillRealAmount(m_milestone)
+          row("Advance") = Configuration.FormatToString(m_milestone.Advance, DigitConfig.Price)
+          row("Retention") = Configuration.FormatToString(m_milestone.Retention, DigitConfig.Price)
+          row("Discount") = m_milestone.Discount.Rate
+          row("Penalty") = Configuration.FormatToString(m_milestone.Penalty, DigitConfig.Price)
+        Case 79 'ลด
           row("Advance") = ""
           m_milestone.Advance = 0
           row("Retention") = ""
