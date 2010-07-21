@@ -1466,7 +1466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      'CheckApproveStore()
+      CheckApproveStore()
       'If m_entity.ApprovalCollection.IsApproved Then
       '  For Each ctrl As Control In Me.grbDetail.Controls
       '    ctrl.Enabled = False
@@ -2536,11 +2536,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
-      If Me.m_entity.Originated Then
-        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-        Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
-        Me.CheckFormEnable()
-      End If
+      'If Me.m_entity.Originated Then
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
+      Me.CheckFormEnable()
+      'End If
       'Me.m_entity.ItemCollection.CheckPRForStoreApprove()
     End Sub
 

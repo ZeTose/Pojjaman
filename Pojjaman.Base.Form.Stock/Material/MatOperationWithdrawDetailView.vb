@@ -1330,9 +1330,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
 
-        If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
-          Me.btnApprove.Visible = True
-        End If
+        'If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
+        '  Me.btnApprove.Visible = True
+        'End If
       End If
       tgItem.Enabled = True
       If Not Me.m_entity.Grouping Then
@@ -2073,6 +2073,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
+      CheckApproveStore()
     End Sub
     Private Function GetPRExcludeList() As String
       Dim ret As String = ""
@@ -2215,11 +2216,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
-      If Me.m_entity.Originated Then
-        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-        Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
-        Me.CheckFormEnable()
-      End If
+      'If Me.m_entity.Originated Then
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
+      Me.CheckFormEnable()
+      ' End If
       'Me.m_entity.ItemCollection.CheckPRForStoreApprove()
     End Sub
 

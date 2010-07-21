@@ -478,6 +478,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub ApproveStore(ByVal UserId As Integer)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim prCodeList As String = Me.GetPrCodeListFromCollection
+      Dim prIdList As String = Me.GetPrIDListFromCollection
 
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
@@ -486,6 +487,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "MatOperationWithdrawApproveStore", _
                                   New SqlParameter("@stock_id", Me.Id), _
+                                  New SqlParameter("@pridList", prIdList), _
                                   New SqlParameter("@userId", UserId))
         trans.Commit()
 
@@ -505,6 +507,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return String.Join(",", prCodeList.ToArray)
+    End Function
+    Public Function GetPrIDListFromCollection() As String
+      Dim prIDList As New ArrayList
+      For Each itm As MatTransferItem In Me.ItemCollection
+        If (Not itm.Pritem Is Nothing AndAlso
+            Not itm.Pritem.Pr Is Nothing AndAlso
+            Not prIDList.Contains(itm.Pritem.Pr.Id)) Then
+          prIDList.Add(itm.Pritem.Pr.Id)
+        End If
+      Next
+      Return String.Join(",", prIDList.ToArray)
     End Function
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal isOut As Boolean)
       If Not isOut Then
