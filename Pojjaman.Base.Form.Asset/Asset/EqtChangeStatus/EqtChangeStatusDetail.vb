@@ -17,7 +17,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents grbSummary As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents lblChangeItem As System.Windows.Forms.Label
     Friend WithEvents txtItemCount As System.Windows.Forms.TextBox
     Friend WithEvents lblItemCount As System.Windows.Forms.Label
     Friend WithEvents lblItemCountUnit As System.Windows.Forms.Label
@@ -46,8 +46,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblCode As System.Windows.Forms.Label
     Friend WithEvents txtNote As System.Windows.Forms.TextBox
     Friend WithEvents lblNote As System.Windows.Forms.Label
-    Friend WithEvents txtRentalAmt As System.Windows.Forms.TextBox
-    Friend WithEvents lblRentalAmt As System.Windows.Forms.Label
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
     Friend WithEvents lblCurrency As System.Windows.Forms.Label
     Friend WithEvents cmbToStatus As System.Windows.Forms.ComboBox
     Friend WithEvents lblToStatus As System.Windows.Forms.Label
@@ -60,12 +59,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount = New System.Windows.Forms.TextBox()
       Me.lblItemCount = New System.Windows.Forms.Label()
       Me.lblItemCountUnit = New System.Windows.Forms.Label()
-      Me.lblItem = New System.Windows.Forms.Label()
+      Me.lblChangeItem = New System.Windows.Forms.Label()
       Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtRentalAmt = New System.Windows.Forms.TextBox()
-      Me.lblRentalAmt = New System.Windows.Forms.Label()
+      Me.lblAmount = New System.Windows.Forms.Label()
       Me.lblCurrency = New System.Windows.Forms.Label()
       Me.grbStore = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.cmbFromStatus = New System.Windows.Forms.ComboBox()
       Me.lblToStatus = New System.Windows.Forms.Label()
       Me.cmbToStatus = New System.Windows.Forms.ComboBox()
       Me.btnStoreCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -93,8 +93,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.cmbFromStatus = New System.Windows.Forms.ComboBox()
-      Me.Label1 = New System.Windows.Forms.Label()
       Me.grbSummary.SuspendLayout()
       Me.grbStore.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,24 +140,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCountUnit.Text = "รายการ"
       Me.lblItemCountUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblItem
+      'lblChangeItem
       '
-      Me.lblItem.AutoSize = True
-      Me.lblItem.BackColor = System.Drawing.Color.Transparent
-      Me.lblItem.Cursor = System.Windows.Forms.Cursors.Default
-      Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(16, 164)
-      Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(137, 16)
-      Me.lblItem.TabIndex = 3
-      Me.lblItem.Text = "รายการเปลี่ยนสถานะ:"
-      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.lblChangeItem.AutoSize = True
+      Me.lblChangeItem.BackColor = System.Drawing.Color.Transparent
+      Me.lblChangeItem.Cursor = System.Windows.Forms.Cursors.Default
+      Me.lblChangeItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblChangeItem.Location = New System.Drawing.Point(16, 164)
+      Me.lblChangeItem.Name = "lblChangeItem"
+      Me.lblChangeItem.Size = New System.Drawing.Size(137, 16)
+      Me.lblChangeItem.TabIndex = 3
+      Me.lblChangeItem.Text = "รายการเปลี่ยนสถานะ:"
+      Me.lblChangeItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'grbSummary
       '
       Me.grbSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbSummary.Controls.Add(Me.txtRentalAmt)
-      Me.grbSummary.Controls.Add(Me.lblRentalAmt)
+      Me.grbSummary.Controls.Add(Me.lblAmount)
       Me.grbSummary.Controls.Add(Me.lblCurrency)
       Me.grbSummary.Controls.Add(Me.txtItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCount)
@@ -172,35 +169,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.TabStop = False
       Me.grbSummary.Text = "สรุปยอดเปลี่ยน"
       '
-      'txtRentalAmt
+      'lblAmount
       '
-      Me.txtRentalAmt.BackColor = System.Drawing.SystemColors.Control
-      Me.txtRentalAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.Validator.SetDataType(Me.txtRentalAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
-      Me.Validator.SetDisplayName(Me.txtRentalAmt, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtRentalAmt, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtRentalAmt, System.Drawing.Color.Empty)
-      Me.txtRentalAmt.Location = New System.Drawing.Point(341, 17)
-      Me.Validator.SetMinValue(Me.txtRentalAmt, "")
-      Me.txtRentalAmt.Name = "txtRentalAmt"
-      Me.txtRentalAmt.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtRentalAmt, "")
-      Me.Validator.SetRequired(Me.txtRentalAmt, False)
-      Me.txtRentalAmt.Size = New System.Drawing.Size(64, 21)
-      Me.txtRentalAmt.TabIndex = 4
-      Me.txtRentalAmt.TabStop = False
-      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-      '
-      'lblRentalAmt
-      '
-      Me.lblRentalAmt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRentalAmt.Location = New System.Drawing.Point(229, 17)
-      Me.lblRentalAmt.Name = "lblRentalAmt"
-      Me.lblRentalAmt.Size = New System.Drawing.Size(104, 18)
-      Me.lblRentalAmt.TabIndex = 3
-      Me.lblRentalAmt.Text = "มูลค่าค่าเช่า"
-      Me.lblRentalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAmount.Location = New System.Drawing.Point(229, 17)
+      Me.lblAmount.Name = "lblAmount"
+      Me.lblAmount.Size = New System.Drawing.Size(104, 18)
+      Me.lblAmount.TabIndex = 3
+      Me.lblAmount.Text = "มูลค่า"
+      Me.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblCurrency
       '
@@ -235,6 +212,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbStore.TabIndex = 1
       Me.grbStore.TabStop = False
       Me.grbStore.Text = "ผู้บันทึก"
+      '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.Location = New System.Drawing.Point(10, 45)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(96, 18)
+      Me.Label1.TabIndex = 13
+      Me.Label1.Text = "จากสถานะ :"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'cmbFromStatus
+      '
+      Me.cmbFromStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbFromStatus.Enabled = False
+      Me.ErrorProvider1.SetIconPadding(Me.cmbFromStatus, -15)
+      Me.cmbFromStatus.Location = New System.Drawing.Point(112, 45)
+      Me.cmbFromStatus.Name = "cmbFromStatus"
+      Me.cmbFromStatus.Size = New System.Drawing.Size(184, 21)
+      Me.cmbFromStatus.TabIndex = 12
       '
       'lblToStatus
       '
@@ -574,26 +571,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
-      'cmbFromStatus
-      '
-      Me.cmbFromStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbFromStatus.Enabled = False
-      Me.ErrorProvider1.SetIconPadding(Me.cmbFromStatus, -15)
-      Me.cmbFromStatus.Location = New System.Drawing.Point(112, 45)
-      Me.cmbFromStatus.Name = "cmbFromStatus"
-      Me.cmbFromStatus.Size = New System.Drawing.Size(184, 21)
-      Me.cmbFromStatus.TabIndex = 12
-      '
-      'Label1
-      '
-      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.Location = New System.Drawing.Point(10, 45)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(96, 18)
-      Me.Label1.TabIndex = 13
-      Me.Label1.Text = "จากสถานะ :"
-      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
       'EqtChangeStatusDetail
       '
       Me.Controls.Add(Me.tgItem)
@@ -603,7 +580,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblStatus)
       Me.Controls.Add(Me.grbSummary)
       Me.Controls.Add(Me.grbStore)
-      Me.Controls.Add(Me.lblItem)
+      Me.Controls.Add(Me.lblChangeItem)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "EqtChangeStatusDetail"
       Me.Size = New System.Drawing.Size(752, 408)
@@ -641,9 +618,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblDocDate}")
       Me.Validator.SetDisplayName(txtDocDate, lblDocDate.Text)
+      'Me.Validator.SetDisplayName(txtRentalAmt, "")
 
-      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblItem}")
+      Me.lblChangeItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblChangeItem}")
 
+      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblAmount}")
       Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblItemCount}")
       Me.Validator.SetDisplayName(txtItemCount, lblItemCount.Text)
 
@@ -652,19 +631,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblNote}")
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-      
 
-      Me.lblStoreperson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblStoreperson}")
+
+      Me.lblStoreperson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblOwnerPerson}")
       Me.Validator.SetDisplayName(txtStorepersonCode, lblStoreperson.Text)
 
-      Me.lblStoreCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblStoreCC}")
+      Me.lblStoreCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblOwnerCC}")
       Me.Validator.SetDisplayName(txtStoreCCCode, lblStoreCC.Text)
 
-    
+
 
       Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbSummary}")
-      Me.grbStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolReturnDetail.grbReceive}")
-      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolReturnDetail.grbGeneral}")
+      Me.grbStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbChange}")
+      Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbDocGeneral}")
     End Sub
 #End Region
 
@@ -674,6 +653,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_tableStyleEnable As Hashtable
+
+    Private m_oldtostatus As EqtStatus
+    Private m_oldfromstatus As EqtStatus
 #End Region
 
 #Region " Style "
@@ -885,19 +867,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return CType(row.Tag, EquipmentToolChangeStatusItem)
       End Get
     End Property
-    'Private Property ComboCodeIndex() As Integer
-    '  Get
-    '    If m_combocodeindex = -1 Then
-    '      If cmbCode.Items.Count > 0 Then
-    '        m_combocodeindex = 0
-    '      End If
-    '    End If
-    '    Return m_combocodeindex
-    '  End Get
-    '  Set(ByVal Value As Integer)
-    '    m_combocodeindex = Value
-    '  End Set
-    'End Property
+    
 #End Region
 #Region " IListDetail "
     ' Check Enable 
@@ -925,6 +895,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
       End If
+      cmbFromStatus.Enabled = True
+      cmbToStatus.Enabled = True
     End Sub
     ' Clear Detail
     Public Overrides Sub ClearDetail()
@@ -951,11 +923,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-      'AddHandler txtReturnPersonCode.Validated, AddressOf Me.ChangeProperty
-      'AddHandler txtReturnCCCode.Validated, AddressOf Me.ChangeProperty
-
+      
       AddHandler txtStorepersonCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtStoreCCCode.Validated, AddressOf Me.ChangeProperty
+
+
+
+      AddHandler cmbFromStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbToStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
 
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
@@ -973,18 +949,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
+      'Combobox status
+      If m_entity.FromStatus IsNot Nothing AndAlso m_entity.FromStatus.Value > 0 Then
+        isManualStatus = False
+        Dim item As New IdValuePair(m_entity.FromStatus.Value, m_entity.FromStatus.ToString)
+        cmbFromStatus.SelectedIndex = IndexOf(cmbFromStatus, item)
+        isManualStatus = True
+      Else
+        m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
+      End If
+
+      If m_entity.ToStatus IsNot Nothing AndAlso m_entity.ToStatus.Value > 0 Then
+        isManualStatus = False
+        Dim item As New IdValuePair(m_entity.ToStatus.Value, m_entity.ToStatus.ToString)
+        cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, item)
+        isManualStatus = True
+      Else
+        m_entity.ToStatus = New EqtStatus(cmbToStatus.SelectedItem.id)
+      End If
+
+
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-      'If Not Me.m_entity.ReturnPerson Is Nothing Then
-      '  txtReturnPersonCode.Text = Me.m_entity.ReturnPerson.Code
-      '  txtReturnPersonName.Text = Me.m_entity.ReturnPerson.Name
-      'End If
-
-      'If Not Me.m_entity.ReturnCostcenter Is Nothing Then
-      '  txtReturnCCCode.Text = Me.m_entity.ReturnCostcenter.Code
-      '  txtReturnCCName.Text = Me.m_entity.ReturnCostcenter.Name
-      'End If
+     
 
       If Not Me.m_entity.Storeperson Is Nothing Then
         txtStorepersonCode.Text = Me.m_entity.Storeperson.Code
@@ -1021,6 +1009,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetSummaryText()
     End Sub
     Private m_dateSetting As Boolean = False
+    Private isManualStatus As Boolean = True
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
@@ -1060,23 +1049,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
 
-        Case "chkReturn"
-          dirtyFlag = True
-          'ReturnCheckedChanged(sender)
-
-          'Case "txtReturnpersoncode"
-          '  dirtyFlag = Employee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
-
-          'Case "txtReturncccode"
-          '  dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
-          '  ReturnCheckedChanged(sender)
-
         Case "txtstorepersoncode"
           dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
         Case "txtstorecccode"
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           'ReturnCheckedChanged(sender)
+        Case "cmbfromstatus"
+          If isManualStatus Then
+          dirtyFlag = True
+          m_oldfromstatus = m_entity.FromStatus
+          m_oldtostatus = m_entity.ToStatus
+          If cmbFromStatus.SelectedItem IsNot Nothing Then
+            m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
+          Else
+            m_entity.FromStatus = New EqtStatus(cmbFromStatus.Items(0).id)
+          End If
+          PopolateToCmb()
+          Dim old As New IdValuePair(m_oldtostatus.Value, m_oldtostatus.ToString)
+            cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, old)
+            isManualStatus = False
+          Else
+            isManualStatus = True
+          End If
+        Case "cmbtostatus"
+          If isManualStatus Then
+            dirtyFlag = True
+            m_oldfromstatus = m_entity.FromStatus
+            m_oldtostatus = m_entity.ToStatus
+            If cmbToStatus.SelectedItem IsNot Nothing Then
+              m_entity.ToStatus = New EqtStatus(cmbToStatus.SelectedItem.id)
+            Else
+              m_entity.ToStatus = New EqtStatus(cmbToStatus.Items(0).id)
+            End If
+            PopolateFromCmb()
+            Dim old As New IdValuePair(m_oldfromstatus.Value, m_oldfromstatus.ToString)
+            cmbFromStatus.SelectedIndex = IndexOf(cmbFromStatus, old)
+            isManualStatus = False
+          Else
+            isManualStatus = True
+          End If
+
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
@@ -1085,6 +1098,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetSummaryText()
       CheckFormEnable()
     End Sub
+
+    Public Function IndexOf(ByVal cmb As ComboBox, ByVal item As IdValuePair) As Integer
+      Dim ret As Integer
+      isManualStatus = False
+      For Each i As Object In cmb.Items
+        Dim p As IdValuePair = CType(i, IdValuePair)
+        If item.Id = p.Id Then
+          ret = cmb.Items.IndexOf(i)
+          Return ret
+        End If
+      Next
+      Return 0
+    End Function
     Public Sub SetStatus()
       If m_entity.Canceled Then
         lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
@@ -1119,7 +1145,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 
     Public Overrides Sub Initialize()
-
+      PopulateCmb()
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
@@ -1188,18 +1214,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Dim value As Integer = CInt(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.Qty = value
-            'Case "rentalperday"
-            '  If IsDBNull(e.ProposedValue) Then
-            '    e.ProposedValue = ""
-            '  End If
-            '  Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-            '  doc.RentalPerDay = value
-            'Case "rentalqty"
-            '  If IsDBNull(e.ProposedValue) Then
-            '    e.ProposedValue = ""
-            '  End If
-            '  Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-            '  doc.RentalQty = value
+           
           Case "amount"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -1248,6 +1263,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.InputStoreCC}")
         Return
       End If
+      'ต้องเลือกสถนะทั้งสองด้านแล้วเท่านั้น
+      If Me.m_entity.FromStatus Is Nothing OrElse Me.m_entity.ToStatus Is Nothing Then
+        msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.Status}")
+        Return
+      End If
+
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 
       If Me.CurrentItem Is Nothing Then
@@ -1263,7 +1284,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim filters(2) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        filters(2) = New Filter("eqtstatus", 3)  'ต้องการสถานะว่าง
+        filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
         myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
         Dim dlg As New BasketDialog
@@ -1271,10 +1292,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Dim eqi As New EqItemForSelection
 
-        Dim filters(1) As Filter
+        Dim filters(2) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        'filters(2) = New Filter("eqtstatus", 2)  'ต้องการสถานะว่าง
+        filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
 
         Dim entities As New ArrayList
         eqi.Costcenter = Me.m_entity.FromCC
@@ -1288,15 +1309,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         myDialog.ShowDialog()
 
 
-        'Dim entities As New ArrayList
-        'Dim eqi As New EqItemForSelection
-        'eqi.Costcenter = Me.m_entity.FromCC
-        'eqi.entityId = Me.m_entity.EntityId
-        'entities.Add(eqi)
-        'Dim filters(1) As Filter
-        'filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
-        'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        'myEntityPanelService.OpenListDialog(eqi, AddressOf SetItems, filters, entities)
+       
       End If
 
     End Sub
@@ -1307,17 +1320,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim newItem As IEqtItem
         Dim doc As New EquipmentToolChangeStatusItem
         Dim itemType As Integer
+        Dim row As DataRow
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.equipmentitem"
             newItem = New EquipmentItem(item.Id)
             itemType = 342
           Case "longkong.pojjaman.businesslogic.tool"
-            newItem = New Tool(item.Id)
+            row = CType(item.Tag, DataRow)
+            newItem = New Tool(row, "")
             itemType = 19
         End Select
 
         If Not itemType = 0 Then
-          'Dim doc As New EquipmentToolChangeStatusItem
           If Not Me.CurrentItem Is Nothing Then
             doc = Me.CurrentItem
             doc.ItemType.Value = itemType
@@ -1328,13 +1342,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           doc.Entity = newItem
           doc.Unit = CType(newItem, IEqtItem).Unit
-          doc.ToStatus = New EqtStatus(3)
+          doc.ToStatus = m_entity.ToStatus
+          doc.FromStatus = m_entity.FromStatus
           If itemType = 19 Then
-            doc.Qty = 1
-            'doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
+            doc.Qty = row("Remain")
           Else
             doc.Qty = 1
-            'doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate
           End If
         End If
       Next
@@ -1352,7 +1365,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myItem.Unit = New Unit
       'myItem. = New CostCenter
 
-      myItem.ToStatus = New EqtStatus(2)
+      myItem.ToStatus = m_entity.ToStatus
       'myItem.ItemType = New EqtItemType(Me.m_entity.EntityId)
       'myItem.ItemType.value = 
 
@@ -1425,7 +1438,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Event of Button controls "
-    
+
 
     ' Store Person
     Private Sub btnStorepersonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStoreCCEdit.Click
@@ -1499,7 +1512,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entity As New Employee(id)
         If Not Me.ActiveControl Is Nothing Then
           Select Case Me.ActiveControl.Name.ToLower
-            
+
             Case "txtstorepersoncode", "txtstorepersonname"
               Me.SetStorePersonDialog(entity)
           End Select
@@ -1511,7 +1524,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entity As New CostCenter(id)
         If Not Me.ActiveControl Is Nothing Then
           Select Case Me.ActiveControl.Name.ToLower
-            
+
             Case "txtstorecccode", "txtstoreccname"
               Me.SetStoreCostCenterDialog(entity)
           End Select
@@ -1565,7 +1578,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub UpdateAmount()
       m_isInitialized = False
-      txtRentalAmt.Text = Configuration.FormatToString(m_entity.ItemCollection.Gross, DigitConfig.Price)
+      'txtRentalAmt.Text = Configuration.FormatToString(m_entity.ItemCollection.Gross, DigitConfig.Price)
       m_isInitialized = True
     End Sub
 
@@ -1606,6 +1619,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 #End Region
+
+    Private Sub PopulateCmb()
+      If cmbFromStatus.Items.Count = 0 OrElse cmbToStatus.Items.Count = 0 Then
+        CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,7,8)", False)
+        cmbFromStatus.SelectedIndex = 0
+        'm_entity.FromStatus = New EqtStatus(2)
+        CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8)", False)
+        cmbToStatus.SelectedIndex = 0
+        'm_entity.ToStatus = New EqtStatus(5)
+      End If
+    End Sub
+    Private Sub PopolateToCmb()
+      Select Case m_entity.FromStatus.Value
+        Case 2 'ว่าง
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8)", False)
+        Case 5 'รอซ่อม
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,6,7,8)", False)
+        Case 6 'ส่งซ่อม
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,7,8)", False)
+        Case 7 'ชำรุดพัง
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,8)", False)
+        Case 8 'หาย
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,7)", False)
+      End Select
+    End Sub
+    Private Sub PopolateFromCmb()
+      Select Case m_entity.ToStatus.Value
+        Case 2 'ว่าง
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (5,6,7,8)", False)
+        Case 5 'รอซ่อม
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,6,7,8)", False)
+        Case 6 'ส่งซ่อม
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,7,8)", False)
+        Case 7 'ชำรุดพัง
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,8)", False)
+        Case 8 'หาย
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,7)", False)
+      End Select
+    End Sub
 
   End Class
 End Namespace

@@ -968,6 +968,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Select Case classname.ToLower
         Case "equipmenttoolwithdraw"
           ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetAvaliableToolInCC", params)
+        Case "equipmenttoolchangestatus"
+          ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetToolInCCFromStatus", params)
       End Select
       If ds IsNot Nothing Then
         Return ds.Tables(0)

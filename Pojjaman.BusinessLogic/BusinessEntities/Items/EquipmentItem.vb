@@ -226,32 +226,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("m_eqi_id") = tableRow("eqi_id")
         row("RentalRate") = tableRow("eqi_rentalrate")
         row("Name") = tableRow("eq_name")
-        'row("Date") = tableRow("pr_docdate")
-        'row("ReceivingDate") = tableRow("pr_receivingdate")
-
-        'Dim entityText As String = ""
-        'If Not eqi.Name Is Nothing Then
-        '  entityText &= eqi.ItemType.Description & ":"
-        'End If
-        'If Not eqi.Entity.Code Is Nothing AndAlso eqi.Entity.Code.Length > 0 Then
-        '  entityText &= eqi.Entity.Code & ":"
-        'End If
-        'If Not eqi.Entity.Name Is Nothing AndAlso eqi.Entity.Name.Length > 0 Then
-        '  entityText &= eqi.Entity.Name
-        'End If
+        
         row("Entity") = eqi.Name
         row("Qty") = 1
-        'row("OrderedQty") = eqi.OrderedQty
-        'row("Requestor") = tableRow("requestorinfo")
+        
         If Not tableRow.IsNull("ccinfo") Then
           row("CostCenter") = tableRow("ccinfo")
         End If
         row.State = RowExpandState.None
 
-        'eqi.Pr = New PR
-        'eqi.Pr.Id = eqId
+        
         row.Tag = eqi
-        'End If
       Next
       Return myDatatable
     End Function

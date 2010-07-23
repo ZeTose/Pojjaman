@@ -494,6 +494,7 @@
     <Compile Include="BusinessEntities\Documents\ReportFormat.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\EqToolTransfer\EqtChangeStatus\EquipmentToolChangeStatusItem.vb" />
     <Compile Include="BusinessEntities\EqToolTransfer\EqtChangeStatus\EquipmentToolChangeStatus.vb" />
     <Compile Include="BusinessEntities\EqToolTransfer\EqtReturn\EquipmentToolReturn.vb" />
     <Compile Include="BusinessEntities\EqToolTransfer\Eqtwithdraw\EquipmentToolWithdraw.vb" />
