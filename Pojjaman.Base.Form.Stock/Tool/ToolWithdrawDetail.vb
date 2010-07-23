@@ -1213,7 +1213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.Add(myItem)
           Else
             myItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("stocki_lineNumber"))
-            myItem.EntityBase = Me.m_entity
+            myItem.Stock = Me.m_entity
             myItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
           End If
         Else

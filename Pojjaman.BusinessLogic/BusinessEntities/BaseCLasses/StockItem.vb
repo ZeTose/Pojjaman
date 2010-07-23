@@ -49,11 +49,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+  
+
   ' StockItem
   Public Class StockItem
 
 #Region "Members"
-    Private m_entitybase As SimpleBusinessEntityBase
+    Private m_stock As SimpleBusinessEntityBase
     Private m_lineNumber As Integer
     Private m_cc As CostCenter
     Private m_fromcc As CostCenter
@@ -80,7 +82,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_note As String
     Private m_type As StockDocType
     Private m_status As StockStatus
-
     Private m_IsInitialized As Boolean
 #End Region
 
@@ -283,12 +284,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property IsInitialized() As Boolean      Get        Return m_IsInitialized      End Get      Set(ByVal Value As Boolean)        m_IsInitialized = Value      End Set    End Property
 
-    Public Property EntityBase() As SimpleBusinessEntityBase
+    Public Property Stock() As SimpleBusinessEntityBase
       Get
-        Return m_entitybase
+        Return m_stock
       End Get
       Set(ByVal Value As SimpleBusinessEntityBase)
-        m_entitybase = Value
+        m_stock = Value
       End Set
     End Property
 
@@ -335,7 +336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Dim obj As SimpleBusinessEntityBase
 
-      Me.EntityBase.IsInitialized = False
+      Me.Stock.IsInitialized = False
 
       row("stocki_lineNumber") = Me.LineNumber
 
@@ -423,7 +424,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("stocki_status") = Me.Status.Value
       End If
 
-      Me.EntityBase.IsInitialized = True
+      Me.Stock.IsInitialized = True
     End Sub
     Public Overridable Sub CopyFromDataRow(ByVal row As TreeRow)
       If row Is Nothing Then
@@ -619,115 +620,289 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
-  '  Public Class StockItemCollection
-  '    Inherits CollectionBase
-  '#Region "Members"
-  '    Private m_eci As EquipmentToolChangeStatusItem
-  '#End Region
+  Public Class StockItemCollection
+    Inherits CollectionBase
+#Region "Members"
+    Private m_stock As SimpleBusinessEntityBase
+    Private m_stockHash As Hashtable
+    Private m_currentItem As StockItem
+#End Region
 
-  '#Region "Constructors"
-  '    Public Sub New()
-  '    End Sub
-  '    Public Sub New(ByVal owner As EquipmentToolChangeStatusItem)
-  '      Me.m_eci = owner
-  '      If Not Me.m_eci.Sequence > 0 Then
-  '        Return
-  '      End If
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+    Public Sub New(ByVal owner As GoodsReceipt)
+      Me.m_stock = owner
+      If Not Me.m_stock.Originated Then
+        Return
+      End If
 
-  '      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
-  '      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-  '      , CommandType.StoredProcedure _
-  '      , "GetEquipmentToolChangeStatusItems" _
-  '      , New SqlParameter("@eqtstocki_sequence", Me.m_eci.Sequence) _
-  '      )
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetStockItems" _
+      , New SqlParameter("@stock_id", Me.m_stock.Id) _
+      )
 
-  '      For Each row As DataRow In ds.Tables(0).Rows
-  '        Dim item As New StockItem(row, "")
-  '        'item.EqtChangeStatus = m_eqtChangeStatus
-  '        Me.Add(item)
-  '        'Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-  '        'item.WBSDistributeCollection = wbsdColl
-  '        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
-  '        '  Dim wbsd As New WBSDistribute(wbsRow, "")
-  '        '  wbsdColl.Add(wbsd)
-  '        'Next
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New StockItem(row, "")
+        item.Stock = m_stock
+        Me.Add(item)
 
-  '        'Dim itcColl As New InternalChargeCollection(item)
-  '        'item.InternalChargeCollection = itcColl
-  '        'For Each itcRow As DataRow In ds.Tables(2).Select("itci_refsequence=" & item.Sequence)
-  '        '  Dim itc As New InternalCharge(itcRow, "")
-  '        '  itcColl.Add(itc)
-  '        'Next
-  '      Next
-  '    End Sub
-  '#End Region
+      Next
+    End Sub
 
-  '#Region "Properties"
+#End Region
 
-  '#End Region
+#Region "Properties"
+    Public Property Stock() As SimpleBusinessEntityBase
+      Get
+        Return m_stock
+      End Get
+      Set(ByVal Value As SimpleBusinessEntityBase)
+        m_stock = Value
+      End Set
+    End Property
+    Default Public Property Item(ByVal index As Integer) As StockItem
+      Get
+        Return CType(MyBase.List.Item(index), StockItem)
+      End Get
+      Set(ByVal value As StockItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
+    Public ReadOnly Property StockHASH() As Hashtable
+      Get
+        Return m_stockHash
+      End Get
+    End Property
+    Public Property CurrentItem() As StockItem
+      Get
+        Return m_currentItem
+      End Get
+      Set(ByVal Value As StockItem)
+        m_currentItem = Value
+      End Set
+    End Property
+#End Region
 
-  '#Region "Class Methods"
-  '    Public Sub Populate(ByVal dt As TreeTable)
-  '      dt.Clear()
-  '      Dim i As Integer = 0
-  '      For Each gri As EquipmentToolChangeStatusItem In Me
-  '        i += 1
-  '        Dim newRow As TreeRow = dt.Childs.Add()
-  '        gri.CopyToDataRow(newRow)
-  '        gri.ItemValidateRow(newRow)
-  '        newRow.Tag = gri
-  '      Next
-  '      dt.AcceptChanges()
-  '    End Sub
-  '#End Region
+#Region "Class Methods"
+    'Public Sub Populate(ByVal dt As TreeTable)
+    '  dt.Clear()
+    '  Dim i As Integer = 0
+    '  For Each gri As StockItem In Me
+    '    i += 1
+    '    Dim thePO As PO = Nothing
+    '    If Not gri.POitem Is Nothing Then
+    '      If Not gri.POitem.Po Is Nothing AndAlso gri.POitem.Po.Originated Then
+    '        thePO = gri.POitem.Po
+    '      End If
+    '    End If
+    '    Dim parRow As TreeRow = FindRow(dt, thePO)
+    '    Dim newRow As TreeRow = parRow.Childs.Add()
+    '    gri.CopyToDataRow(newRow)
+    '    gri.ItemValidateRow(newRow)
+    '    newRow.Tag = gri
+    '  Next
+    '  If i = 0 Then
+    '    Dim parRow As TreeRow = FindRow(dt, Nothing)
+    '  End If
+    '  dt.AcceptChanges()
+    'End Sub
+    Public Shared Function FindRow(ByVal dt As TreeTable, ByVal thePO As PO) As TreeRow
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim noPOText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.entityBaseDetail.BlankPOText}")
+      For Each row As TreeRow In dt.Childs
+        If thePO Is Nothing Then
+          If row.Tag Is Nothing Then
+            If Not row.IsNull("Code") AndAlso CStr(row("Code")) = noPOText Then
+              Return row
+            End If
+          End If
+        End If
+        If TypeOf row.Tag Is PO Then
+          If CType(row.Tag, PO) Is thePO Then
+            Return row
+          End If
+        End If
+      Next
 
-  '#Region "Collection Methods"
-  '    Public Overridable Function Add(ByVal value As StockItem) As Integer
-  '      If Not m_eci Is Nothing Then
-  '        value.EqtChangeStatus = m_eqtChangeStatus
-  '      End If
-  '      Return MyBase.List.Add(value)
-  '    End Function
-  '    Public Sub AddRange(ByVal value As EquipmentToolChangeStatusItemCollection)
-  '      For i As Integer = 0 To value.Count - 1
-  '        Me.Add(value(i))
-  '      Next
-  '    End Sub
-  '    Public Sub AddRange(ByVal value As EquipmentToolChangeStatusItem())
-  '      For i As Integer = 0 To value.Length - 1
-  '        Me.Add(value(i))
-  '      Next
-  '    End Sub
-  '    Public Function Contains(ByVal value As EquipmentToolChangeStatusItem) As Boolean
-  '      Return MyBase.List.Contains(value)
-  '    End Function
-  '    Public Sub CopyTo(ByVal array As EquipmentToolChangeStatusItem(), ByVal index As Integer)
-  '      MyBase.List.CopyTo(array, index)
-  '    End Sub
-  '    'Public Shadows Function GetEnumerator() As EquipmentToolChangeStatusItemEnumerator
-  '    '  Return New EquipmentToolChangeStatusItemEnumerator(Me)
-  '    'End Function
-  '    Public Function IndexOf(ByVal value As EquipmentToolChangeStatusItem) As Integer
-  '      Return MyBase.List.IndexOf(value)
-  '    End Function
-  '    Public Overridable Sub Insert(ByVal index As Integer, ByVal value As EquipmentToolChangeStatusItem)
-  '      If Not m_eci Is Nothing Then
-  '        value.EqtChangeStatus = m_eqtChangeStatus
-  '      End If
-  '      MyBase.List.Insert(index, value)
-  '    End Sub
-  '    Public Sub Remove(ByVal value As EquipmentToolChangeStatusItem)
-  '      MyBase.List.Remove(value)
-  '    End Sub
-  '    Public Sub Remove(ByVal value As EquipmentToolChangeStatusItemCollection)
-  '      For i As Integer = 0 To value.Count - 1
-  '        Me.Remove(value(i))
-  '      Next
-  '    End Sub
-  '    Public Sub Remove(ByVal index As Integer)
-  '      MyBase.List.RemoveAt(index)
-  '    End Sub
-  '#End Region
-  '  End Class
+      '---->ไม่เจอ
+      Dim newRow As TreeRow
+      Dim desc As String = ""
+      If thePO Is Nothing Then
+        newRow = dt.Childs.Add
+        desc = noPOText
+      Else
+        Dim noParentRow As TreeRow = FindRow(dt, Nothing)
+        newRow = dt.Childs.InsertAt(dt.Childs.IndexOf(noParentRow))
+        desc = thePO.Code
+        newRow.Tag = thePO
+      End If
+      newRow("Code") = desc
+      newRow("Button") = "invisible"
+      newRow("UnitButton") = "invisible"
+      newRow("AccountButton") = "invisible"
+      newRow.State = RowExpandState.Expanded
+      Return newRow
+    End Function
+    Public Function GetCollectionForStock(ByVal stock As SimpleBusinessEntityBase) As StockItemCollection
+      Dim myCollection As New StockItemCollection
+      myCollection.Stock = stock
+      For Each item As StockItem In Me
+        'If item.EntityBase Is SimpleBusinessEntityBase Then
+        '  myCollection.Add(item)
+        'Else
+        If stock.Id <> 0 And stock.Id = item.Stock.Id Then
+          myCollection.Add(item)
+        End If
+      Next
+      Return myCollection
+    End Function
+    Public Function GetStockCollection() As StockItemCollection
+      Dim myCollection As New StockItemCollection
+      Dim stockid As Integer
+      For Each item As StockItem In Me
+        If stockid = 0 And stockid <> item.Stock.Id Then
+          myCollection.Add(item)
+        End If
+      Next
+      Return myCollection
+    End Function
+    Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
+      For i As Integer = 0 To items.Count - 1
+        Dim itemEntityLevel As Integer
+        Dim item As BasketItem = CType(items(i), BasketItem)
+        Dim newItem As IHasName
+        Dim newType As Integer = -1
+        Select Case item.FullClassName.ToLower
+          Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
+            newItem = New LCIItem(item.Id)
+            If targetType > -1 Then
+              newType = targetType
+            Else
+              newType = 42
+            End If
+            itemEntityLevel = CType(newItem, LCIItem).Level
+          Case "longkong.pojjaman.businesslogic.tool"
+            newItem = New Tool(item.Id)
+            newType = 19
+            itemEntityLevel = 5
+        End Select
+        If itemEntityLevel = 5 Then
+          Dim doc As New StockItem
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.ItemType.Value = newType
+            Me.CurrentItem = Nothing
+          Else
+            Me.Add(doc)
+            doc.ItemType = New ItemType(newType)
+          End If
+          'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
+          'doc.SetItemCode(newItem.Code)
+        End If
+      Next
+    End Sub
+#End Region
+
+#Region "Collection Methods"
+    Public Overridable Function Add(ByVal value As StockItem) As Integer
+      If Not m_stock Is Nothing Then
+        value.Stock = m_stock
+      End If
+      If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
+        If Not m_stockHash.Contains(value.Stock.Id) Then
+          m_stockHash(value.Stock.Id) = PO.GetPO(value.Stock.Id, ViewType.PaySelection)
+        End If
+        value.Stock = CType(m_stockHash(value.Stock.Id), SimpleBusinessEntityBase)
+      End If
+      Return MyBase.List.Add(value)
+    End Function
+    Public Sub AddRange(ByVal value As StockItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As StockItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As StockItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As StockItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Shadows Function GetEnumerator() As StockItemEnumerator
+      Return New StockItemEnumerator(Me)
+    End Function
+    Public Function IndexOf(ByVal value As StockItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Overridable Sub Insert(ByVal index As Integer, ByVal value As StockItem)
+      If Not m_stock Is Nothing Then
+        value.Stock = m_stock
+      End If
+            If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
+        If Not m_stockHash.Contains(value.Stock.Id) Then
+          m_stockHash(value.Stock.Id) = PO.GetPO(value.Stock.Id, ViewType.PaySelection)
+        End If
+        value.Stock = CType(m_stockHash(value.Stock.Id), SimpleBusinessEntityBase)
+      End If
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As StockItem)
+      'For Each wbsd As WBSDistribute In value.WBSDistributeCollection
+      '  value.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
+      'Next
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As StockItemCollection)
+      'For Each item As StockItem In value
+      '  For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+      '    item.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", New WBS, wbsd.WBS))
+      '  Next
+      'Next
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
+#End Region
+
+    Public Class StockItemEnumerator
+      Implements IEnumerator
+
+#Region "Members"
+      Private m_baseEnumerator As IEnumerator
+      Private m_temp As IEnumerable
+#End Region
+
+#Region "Construtor"
+      Public Sub New(ByVal mappings As StockItemCollection)
+        Me.m_temp = mappings
+        Me.m_baseEnumerator = Me.m_temp.GetEnumerator
+      End Sub
+#End Region
+
+      Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
+        Get
+          Return CType(Me.m_baseEnumerator.Current, StockItem)
+        End Get
+      End Property
+
+      Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
+        Return Me.m_baseEnumerator.MoveNext
+      End Function
+
+      Public Sub Reset() Implements System.Collections.IEnumerator.Reset
+        Me.m_baseEnumerator.Reset()
+      End Sub
+    End Class
+  End Class
 End Namespace

@@ -202,6 +202,9 @@
     <Compile Include="Asset\EqtChangeStatus\EqtChangeStatusFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\EqtChangeStatus\EQTExpView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\EqtReturn\EqtReturnDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -296,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqtChangeStatus\EqtChangeStatusFilterSubPanel.resx">
       <DependentUpon>EqtChangeStatusFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtChangeStatus\EQTExpView.resx">
+      <DependentUpon>EQTExpView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqtReturn\EqtReturnDetail.resx">
       <DependentUpon>EqtReturnDetail.vb</DependentUpon>

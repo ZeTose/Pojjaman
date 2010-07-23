@@ -18,7 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_eqtChangeStatus As EquipmentToolChangeStatus
     Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
 
-    Private m_itemcollection As StockItem
+    Private m_itemcollection As StockItemCollection
 
     'Private m_rentalqty As Integer
     'Private m_rentalperday As Decimal
@@ -70,7 +70,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Public Property InternalChargeCollection() As InternalChargeCollection    '  Get    '    If m_internalChargeCollection Is Nothing Then    '      m_internalChargeCollection = New InternalChargeCollection(Me)
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
 
-  
+    Public Property ExpItemCollection As StockItemCollection
+      Get
+        Return m_itemcollection
+      End Get
+      Set(ByVal value As StockItemCollection)
+        m_itemcollection = value
+      End Set
+    End Property
   
     Public Property Amount() As Decimal      Get        Return m_Amt      End Get      Set(ByVal value As Decimal)
         m_Amt = value

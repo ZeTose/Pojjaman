@@ -491,50 +491,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each row As DataRow In ds.Tables(0).Rows
                 Dim item As New StockItem(row, "")
-                item.EntityBase = Me
-                Me.Add(item)
-            Next
-        End Sub
-        Private Overloads Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            For Each dr As DataRow In ds.Tables(1).Rows
-                Dim item As New StockItem(dr, aliasPrefix)
-                item.EntityBase = Me
-                Me.Add(item)
-            Next
-        End Sub
-        Public Sub AddBlankRow(ByVal count As Integer)
-            For i As Integer = 0 To count - 1
-                Dim newItem As New BlankItem("")
-                Dim myItem As New StockItem
-                Dim newtool As New Tool
-                myItem.Entity = newItem
+        item.Stock = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Private Overloads Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      For Each dr As DataRow In ds.Tables(1).Rows
+        Dim item As New StockItem(dr, aliasPrefix)
+        item.Stock = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Public Sub AddBlankRow(ByVal count As Integer)
+      For i As Integer = 0 To count - 1
+        Dim newItem As New BlankItem("")
+        Dim myItem As New StockItem
+        Dim newtool As New Tool
+        myItem.Entity = newItem
 
-                myItem.CostCenter = Me.StoreCostcenter
-                myItem.Unit = New Unit
-                myItem.Type = New StockDocType(Me.EntityId)   ' เบิกเครื่องมือ ..
-                myItem.ItemType = New ItemType(newtool.EntityId)
-                myItem.Status = New StockStatus(1)  ' ทั่วไป
+        myItem.CostCenter = Me.StoreCostcenter
+        myItem.Unit = New Unit
+        myItem.Type = New StockDocType(Me.EntityId)   ' เบิกเครื่องมือ ..
+        myItem.ItemType = New ItemType(newtool.EntityId)
+        myItem.Status = New StockStatus(1)  ' ทั่วไป
 
-                Me.ItemTable.AcceptChanges()
-                Me.Add(myItem)
-            Next
-        End Sub
-        Public Function Add(ByVal item As StockItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemTable.Childs.Add
-            item.LineNumber = Me.ItemTable.Childs.Count
-            item.EntityBase = Me
+        Me.ItemTable.AcceptChanges()
+        Me.Add(myItem)
+      Next
+    End Sub
+    Public Function Add(ByVal item As StockItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.Add
+      item.LineNumber = Me.ItemTable.Childs.Count
+      item.Stock = Me
 
-            item.CopyToDataRow(myRow)
-            Return myRow
-        End Function
-        Public Function Insert(ByVal index As Integer, ByVal item As StockItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-            item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
-            item.EntityBase = Me
-            item.CopyToDataRow(myRow)
-            ReIndex(index + 1)
-            Return myRow
-        End Function
+      item.CopyToDataRow(myRow)
+      Return myRow
+    End Function
+    Public Function Insert(ByVal index As Integer, ByVal item As StockItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
+      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+      item.Stock = Me
+      item.CopyToDataRow(myRow)
+      ReIndex(index + 1)
+      Return myRow
+    End Function
         Public Sub Remove(ByVal index As Integer)
             Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
             ReIndex()
