@@ -69,7 +69,7 @@ Namespace Longkong.Core.Properties
     End Sub
 
     Public Sub SaveProperties()
-      Me.WritePropertiesToFile((ConfigurationService.m_configDirectory & ConfigurationService.m_propertyFileName))
+      'Me.WritePropertiesToFile((ConfigurationService.m_configDirectory & ConfigurationService.m_propertyFileName))
     End Sub
 
     Private Sub WritePropertiesToFile(ByVal fileName As String)
