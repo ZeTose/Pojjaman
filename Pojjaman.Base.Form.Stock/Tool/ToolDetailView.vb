@@ -28,22 +28,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    'Friend WithEvents txtCode As System.Windows.Forms.TextBox
         Friend WithEvents txtName As System.Windows.Forms.TextBox
         Friend WithEvents lblName As System.Windows.Forms.Label
         Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblGroup As System.Windows.Forms.Label
+    Friend WithEvents lblGroup As System.Windows.Forms.Label
         Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
-        Friend WithEvents picImage As System.Windows.Forms.PictureBox
+    Friend WithEvents picImage As System.Windows.Forms.PictureBox
         Friend WithEvents lblUnit As System.Windows.Forms.Label
         Friend WithEvents ibtnShowDefaultUnitDialog As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents txtUnitName As System.Windows.Forms.TextBox
         Friend WithEvents txtfairprice As System.Windows.Forms.TextBox
         Friend WithEvents lblfairprice As System.Windows.Forms.Label
         Friend WithEvents lblbath As System.Windows.Forms.Label
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents txtGroupCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtGroupCode As System.Windows.Forms.TextBox
         Friend WithEvents txtUnitCode As System.Windows.Forms.TextBox
         Friend WithEvents btnUnitEdit As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents btnGroupEdit As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -61,13 +60,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
     Friend WithEvents ibtnShowcostcenter As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnCostcenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Public WithEvents lv As Longkong.Pojjaman.Gui.Components.PJMListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.lv = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.lblCostCentername = New System.Windows.Forms.Label()
       Me.txtCostcenterCode = New System.Windows.Forms.TextBox()
       Me.lblPicSize = New System.Windows.Forms.Label()
@@ -81,7 +90,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDateInval = New System.Windows.Forms.Label()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.btnUnitEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblStatus = New System.Windows.Forms.Label()
       Me.ibtnShowDefaultUnitDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.picImage = New System.Windows.Forms.PictureBox()
       Me.txtGroupCode = New System.Windows.Forms.TextBox()
@@ -89,7 +97,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtName = New System.Windows.Forms.TextBox()
       Me.lblName = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
-      Me.txtCode = New System.Windows.Forms.TextBox()
       Me.txtGroupName = New System.Windows.Forms.TextBox()
       Me.txtUnitCode = New System.Windows.Forms.TextBox()
       Me.lblUnit = New System.Windows.Forms.Label()
@@ -102,7 +109,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbDetail.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
@@ -112,11 +118,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.tgItem)
+      Me.grbDetail.Controls.Add(Me.cmbCode)
+      Me.grbDetail.Controls.Add(Me.lv)
       Me.grbDetail.Controls.Add(Me.lblCostCentername)
-            Me.grbDetail.Controls.Add(Me.txtCostcenterCode)
+      Me.grbDetail.Controls.Add(Me.txtCostcenterCode)
       Me.grbDetail.Controls.Add(Me.lblPicSize)
-            Me.grbDetail.Controls.Add(Me.txtCostCenterName)
+      Me.grbDetail.Controls.Add(Me.txtCostCenterName)
       Me.grbDetail.Controls.Add(Me.btnLoadImage)
       Me.grbDetail.Controls.Add(Me.ibtnShowcostcenter)
       Me.grbDetail.Controls.Add(Me.btnClearImage)
@@ -126,7 +133,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.lblDateInval)
       Me.grbDetail.Controls.Add(Me.chkAutorun)
       Me.grbDetail.Controls.Add(Me.btnUnitEdit)
-      Me.grbDetail.Controls.Add(Me.lblStatus)
       Me.grbDetail.Controls.Add(Me.ibtnShowDefaultUnitDialog)
       Me.grbDetail.Controls.Add(Me.picImage)
       Me.grbDetail.Controls.Add(Me.txtGroupCode)
@@ -134,7 +140,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.txtName)
       Me.grbDetail.Controls.Add(Me.lblName)
       Me.grbDetail.Controls.Add(Me.lblCode)
-      Me.grbDetail.Controls.Add(Me.txtCode)
       Me.grbDetail.Controls.Add(Me.txtGroupName)
       Me.grbDetail.Controls.Add(Me.txtUnitCode)
       Me.grbDetail.Controls.Add(Me.lblUnit)
@@ -149,37 +154,61 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(563, 447)
+      Me.grbDetail.Size = New System.Drawing.Size(563, 454)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูล Tool : "
       '
-      'tgItem
+      'cmbCode
       '
-      Me.tgItem.AllowNew = True
-      Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.Khaki
-      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+      Me.cmbCode.Location = New System.Drawing.Point(96, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(112, 21)
+      Me.cmbCode.TabIndex = 325
+      '
+      'lv
+      '
+      Me.lv.Alignment = System.Windows.Forms.ListViewAlignment.Left
+      Me.lv.AllowSort = True
+      Me.lv.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgItem.AutoColumnResize = True
-      Me.tgItem.BackColor = System.Drawing.Color.LemonChiffon
-      Me.tgItem.CaptionForeColor = System.Drawing.SystemColors.Window
-      Me.tgItem.CaptionVisible = False
-      Me.tgItem.Cellchanged = False
-      Me.tgItem.DataMember = ""
-      Me.tgItem.Font = New System.Drawing.Font("Tahoma", 8.25!)
-      Me.tgItem.GridLineColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(120, Byte), Integer))
-      Me.tgItem.HeaderBackColor = System.Drawing.Color.DarkGoldenrod
-      Me.tgItem.HeaderForeColor = System.Drawing.Color.White
-      Me.tgItem.Location = New System.Drawing.Point(11, 240)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.SelectionBackColor = System.Drawing.Color.Sienna
-      Me.tgItem.Size = New System.Drawing.Size(523, 180)
-      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 347
-      Me.tgItem.TreeManager = Nothing
+      Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
+      Me.lv.FullRowSelect = True
+      Me.lv.GridLines = True
+      Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+      Me.lv.HideSelection = False
+      Me.lv.Location = New System.Drawing.Point(11, 209)
+      Me.lv.Name = "lv"
+      Me.lv.Size = New System.Drawing.Size(546, 233)
+      Me.lv.SortIndex = -1
+      Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
+      Me.lv.TabIndex = 324
+      Me.lv.UseCompatibleStateImageBehavior = False
+      Me.lv.View = System.Windows.Forms.View.Details
+      '
+      'ColumnHeader1
+      '
+      Me.ColumnHeader1.Text = "Code"
+      Me.ColumnHeader1.Width = 105
+      '
+      'ColumnHeader3
+      '
+      Me.ColumnHeader3.Text = "จำนวนซื้อ"
+      Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      Me.ColumnHeader3.Width = 73
+      '
+      'ColumnHeader4
+      '
+      Me.ColumnHeader4.Text = "จำนวนWrite Off"
+      Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      Me.ColumnHeader4.Width = 91
+      '
+      'ColumnHeader5
+      '
+      Me.ColumnHeader5.Text = "จำนวนคงเหลือ"
+      Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      Me.ColumnHeader5.Width = 102
       '
       'lblCostCentername
       '
@@ -204,7 +233,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtCostcenterCode, "")
       Me.txtCostcenterCode.Name = "txtCostcenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostcenterCode, "")
-      Me.Validator.SetRequired(Me.txtCostcenterCode, False)
+      Me.Validator.SetRequired(Me.txtCostcenterCode, True)
       Me.txtCostcenterCode.Size = New System.Drawing.Size(109, 21)
       Me.txtCostcenterCode.TabIndex = 24
       '
@@ -340,17 +369,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnUnitEdit.TabStop = False
       Me.btnUnitEdit.ThemedImage = CType(resources.GetObject("btnUnitEdit.ThemedImage"), System.Drawing.Bitmap)
       '
-      'lblStatus
-      '
-      Me.lblStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.lblStatus.AutoSize = True
-      Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblStatus.Location = New System.Drawing.Point(8, 423)
-      Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(48, 13)
-      Me.lblStatus.TabIndex = 12
-      Me.lblStatus.Text = "lblStatus"
-      '
       'ibtnShowDefaultUnitDialog
       '
       Me.ibtnShowDefaultUnitDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -414,7 +432,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
-      Me.Validator.SetRequired(Me.txtName, False)
+      Me.Validator.SetRequired(Me.txtName, True)
       Me.txtName.Size = New System.Drawing.Size(312, 21)
       Me.txtName.TabIndex = 2
       '
@@ -439,23 +457,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.TabIndex = 0
       Me.lblCode.Text = "รหัส:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtCode
-      '
-      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCode, "")
-      Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.txtCode.Location = New System.Drawing.Point(96, 24)
-      Me.txtCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtCode, "")
-      Me.txtCode.Name = "txtCode"
-      Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, False)
-      Me.txtCode.Size = New System.Drawing.Size(112, 21)
-      Me.txtCode.TabIndex = 1
       '
       'txtGroupName
       '
@@ -487,7 +488,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtUnitCode, "")
       Me.txtUnitCode.Name = "txtUnitCode"
       Me.Validator.SetRegularExpression(Me.txtUnitCode, "")
-      Me.Validator.SetRequired(Me.txtUnitCode, False)
+      Me.Validator.SetRequired(Me.txtUnitCode, True)
       Me.txtUnitCode.Size = New System.Drawing.Size(112, 21)
       Me.txtUnitCode.TabIndex = 3
       '
@@ -602,7 +603,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(579, 471)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
@@ -619,7 +619,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtName, lblName.Text)
 
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolDetailView.lblCode}")
-      Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+      Me.Validator.SetDisplayName(cmbCode, lblCode.Text)
 
       Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolDetailView.lblGroup}")
       Me.Validator.SetDisplayName(txtGroupCode, lblGroup.Text)
@@ -637,12 +637,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.btnLoadImage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolDetailView.btnLoadImage}")
       Me.lblbath.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolDetailView.grbDetail}")
+
+      Me.Validator.SetDisplayName(txtCostcenterCode, lblCostCentername.Text)
+
     End Sub
 #End Region
 
 #Region "Member"
     Private m_entity As New Tool
     Private m_isInitialized As Boolean = False
+    Private m_treeManager As TreeManager
 #End Region
 
 #Region "Properties"
@@ -695,7 +699,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' เคลียร์ข้อมูลใน control
     Public Overrides Sub ClearDetail()
-      lblStatus.Text = ""
+      'lblStatus.Text = ""
       For Each ctrl As Control In grbDetail.Controls
         If TypeOf ctrl Is TextBox Then
           ctrl.Text = ""
@@ -705,7 +709,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' กำหนดการทำงานของ Event Controls 
     Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtGroupCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtUnitCode.Validated, AddressOf Me.ChangeProperty
@@ -730,7 +734,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     '  End Select
     'End Sub
-
+    Private Sub CreateHeader()
+      Dim col1 As New ColumnHeader
+      col1.Text = "Code"
+    End Sub
     Public Sub NumerberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
         Return
@@ -751,7 +758,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       ' ทำการผูก Property ต่าง ๆ เข้ากับ control
       With Me
-        .txtCode.Text = .m_entity.Code
+        'txtCode.Text = Me.m_entity.Code
         .txtName.Text = .m_entity.Name
         ' Autogencode 
         Me.m_oldCode = Me.m_entity.Code
@@ -773,12 +780,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           .txtUnitName.Text = .m_entity.MemoryUnit.Name
         End If
 
-        If Not .m_entity.Costcenter Is Nothing Then
-          .txtCostcenterCode.Text = .m_entity.Costcenter.Code
-          .txtCostCenterName.Text = .m_entity.Costcenter.Name
+        If Not Me.m_entity.Costcenter Is Nothing AndAlso Me.m_entity.Costcenter.Originated Then
+          txtCostcenterCode.Text = Me.m_entity.Costcenter.Code
+          txtCostCenterName.Text = Me.m_entity.Costcenter.Name
         End If
-
       End With
+
       SetStatus()
       SetLabelText()
       CheckFormEnable()
@@ -809,8 +816,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
-          Me.m_entity.Code = Me.txtCode.Text
+        Case "cmbcode"
+          Me.m_entity.Code = cmbCode.Text
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtname"
           Me.m_entity.Name = Me.txtName.Text
@@ -832,10 +844,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           dirtyFlag = True
         Case "txtunitcode"
-          dirtyFlag = Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.MemoryUnit)
+          dirtyFlag = Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.Unit)
         Case "txtcostcentercode"
-                    dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.m_entity.Costcenter)
-                    'doc.Costcenter
+          dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.m_entity.Costcenter)
+          'doc.Costcenter
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
@@ -843,21 +855,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub SetStatus()
+      Dim lblStatus As String = ""
       If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        lblStatus = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        lblStatus = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        lblStatus = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
+        lblStatus = "ยังไม่ได้บันทึก"
       End If
+      Me.StatusBarService.SetMessage(lblStatus)
     End Sub
 
     Private Sub PopulateToolUnit()
@@ -1004,7 +1018,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetUnit(ByVal e As ISimpleEntity)
       Me.txtUnitCode.Text = e.Code
-      Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.MemoryUnit)
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+         Me.WorkbenchWindow.ViewContent.IsDirty _
+         Or Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.Unit)
     End Sub
     Private Sub SetCostcenter(ByVal e As ISimpleEntity)
       If m_entity Is Nothing Then
@@ -1049,18 +1065,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
         Me.m_entity.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        'If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+        '  Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+        'End If
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = Me.m_entity.Code
         Me.m_entity.AutoGen = False
       End If
     End Sub

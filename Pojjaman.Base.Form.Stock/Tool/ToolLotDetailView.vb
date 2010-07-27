@@ -35,12 +35,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblToollotCode As System.Windows.Forms.Label
     Friend WithEvents TxtToollotBuycost As System.Windows.Forms.TextBox
     Friend WithEvents Grbeqi As System.Windows.Forms.GroupBox
-    Friend WithEvents TxtBuyDocDate As System.Windows.Forms.TextBox
-    Friend WithEvents TxtlastDateEdit As System.Windows.Forms.TextBox
-    Friend WithEvents dtpLastEditDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents TxtToollotbrand As System.Windows.Forms.TextBox
-    Friend WithEvents dtpBuyDocDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents lblLasteditdate As System.Windows.Forms.Label
     Friend WithEvents lblDocnum As System.Windows.Forms.Label
     Friend WithEvents txtToollotbuydoccode As System.Windows.Forms.TextBox
     Friend WithEvents lblBuydocdate As System.Windows.Forms.Label
@@ -48,18 +43,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Public WithEvents lv As Longkong.Pojjaman.Gui.Components.PJMListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnNew As System.Windows.Forms.Button
-    Friend WithEvents btnDel As System.Windows.Forms.Button
-    Friend WithEvents btnAdd As System.Windows.Forms.Button
     Friend WithEvents txtDescription As System.Windows.Forms.TextBox
     Friend WithEvents lblBrand As System.Windows.Forms.Label
     Friend WithEvents lblBuycost As System.Windows.Forms.Label
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents CmbToolCode As System.Windows.Forms.ComboBox
     Friend WithEvents lblToolCode As System.Windows.Forms.Label
     Friend WithEvents lblToolName As System.Windows.Forms.Label
-    Friend WithEvents txtToolName As System.Windows.Forms.TextBox
-    Friend WithEvents chkEqAutoRun As System.Windows.Forms.CheckBox
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -80,19 +69,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnAddNew As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnDel As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtToollotBuyDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtToollotCode As System.Windows.Forms.TextBox
+    Friend WithEvents TxtToollotName As System.Windows.Forms.TextBox
     Friend WithEvents txtAssetCode As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolLotDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.CmbToolCode = New System.Windows.Forms.ComboBox()
+      Me.txtToollotCode = New System.Windows.Forms.TextBox()
+      Me.TxtToollotName = New System.Windows.Forms.TextBox()
+      Me.btnAddNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnDel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblToolCode = New System.Windows.Forms.Label()
       Me.lblToolName = New System.Windows.Forms.Label()
-      Me.txtToolName = New System.Windows.Forms.TextBox()
-      Me.chkEqAutoRun = New System.Windows.Forms.CheckBox()
-      Me.btnDel = New System.Windows.Forms.Button()
-      Me.btnAdd = New System.Windows.Forms.Button()
-      Me.btnNew = New System.Windows.Forms.Button()
       Me.lv = New Longkong.Pojjaman.Gui.Components.PJMListView()
       Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -100,6 +92,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
       Me.Grbeqi = New System.Windows.Forms.GroupBox()
       Me.txtToollotBuyQTY = New System.Windows.Forms.TextBox()
+      Me.txtToollotBuyDate = New System.Windows.Forms.TextBox()
       Me.txtToollotWriteOff = New System.Windows.Forms.TextBox()
       Me.txtToollotRemainQTY = New System.Windows.Forms.TextBox()
       Me.txtToollotRemainCost = New System.Windows.Forms.TextBox()
@@ -114,7 +107,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDescription = New System.Windows.Forms.Label()
       Me.btnLoadImage = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnClearImage = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.TxtBuyDocDate = New System.Windows.Forms.TextBox()
       Me.lblPicSize = New System.Windows.Forms.Label()
       Me.picImage = New System.Windows.Forms.PictureBox()
       Me.TxtToollotbrand = New System.Windows.Forms.TextBox()
@@ -122,13 +114,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblToollotCode = New System.Windows.Forms.Label()
       Me.lblBuycost = New System.Windows.Forms.Label()
-      Me.TxtlastDateEdit = New System.Windows.Forms.TextBox()
-      Me.dtpLastEditDate = New System.Windows.Forms.DateTimePicker()
       Me.lblBuydocdate = New System.Windows.Forms.Label()
       Me.txtToollotbuydoccode = New System.Windows.Forms.TextBox()
-      Me.lblLasteditdate = New System.Windows.Forms.Label()
       Me.Label3 = New System.Windows.Forms.Label()
-      Me.dtpBuyDocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblDocnum = New System.Windows.Forms.Label()
       Me.btnAssetFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtAssetName = New System.Windows.Forms.TextBox()
@@ -148,14 +136,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.CmbToolCode)
+      Me.grbDetail.Controls.Add(Me.txtToollotCode)
+      Me.grbDetail.Controls.Add(Me.TxtToollotName)
+      Me.grbDetail.Controls.Add(Me.btnAddNew)
+      Me.grbDetail.Controls.Add(Me.btnDel)
       Me.grbDetail.Controls.Add(Me.lblToolCode)
       Me.grbDetail.Controls.Add(Me.lblToolName)
-      Me.grbDetail.Controls.Add(Me.txtToolName)
-      Me.grbDetail.Controls.Add(Me.chkEqAutoRun)
-      Me.grbDetail.Controls.Add(Me.btnDel)
-      Me.grbDetail.Controls.Add(Me.btnAdd)
-      Me.grbDetail.Controls.Add(Me.btnNew)
       Me.grbDetail.Controls.Add(Me.lv)
       Me.grbDetail.Controls.Add(Me.Grbeqi)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -163,23 +149,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(1046, 755)
+      Me.grbDetail.Size = New System.Drawing.Size(1046, 746)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ชื่อเครื่องจักร :"
       '
-      'CmbToolCode
+      'txtToollotCode
       '
-      Me.CmbToolCode.Location = New System.Drawing.Point(118, 54)
-      Me.CmbToolCode.Name = "CmbToolCode"
-      Me.CmbToolCode.Size = New System.Drawing.Size(120, 21)
-      Me.CmbToolCode.TabIndex = 338
+      Me.Validator.SetDataType(Me.txtToollotCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtToollotCode, "")
+      Me.txtToollotCode.Enabled = False
+      Me.Validator.SetGotFocusBackColor(Me.txtToollotCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtToollotCode, System.Drawing.Color.Empty)
+      Me.txtToollotCode.Location = New System.Drawing.Point(111, 22)
+      Me.Validator.SetMinValue(Me.txtToollotCode, "")
+      Me.txtToollotCode.Name = "txtToollotCode"
+      Me.txtToollotCode.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtToollotCode, "")
+      Me.Validator.SetRequired(Me.txtToollotCode, False)
+      Me.txtToollotCode.Size = New System.Drawing.Size(117, 21)
+      Me.txtToollotCode.TabIndex = 341
+      '
+      'TxtToollotName
+      '
+      Me.Validator.SetDataType(Me.TxtToollotName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.TxtToollotName, "")
+      Me.TxtToollotName.Enabled = False
+      Me.Validator.SetGotFocusBackColor(Me.TxtToollotName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.TxtToollotName, System.Drawing.Color.Empty)
+      Me.TxtToollotName.Location = New System.Drawing.Point(111, 53)
+      Me.Validator.SetMinValue(Me.TxtToollotName, "")
+      Me.TxtToollotName.Name = "TxtToollotName"
+      Me.TxtToollotName.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.TxtToollotName, "")
+      Me.Validator.SetRequired(Me.TxtToollotName, False)
+      Me.TxtToollotName.Size = New System.Drawing.Size(287, 21)
+      Me.TxtToollotName.TabIndex = 343
+      '
+      'btnAddNew
+      '
+      Me.btnAddNew.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAddNew.Location = New System.Drawing.Point(118, 81)
+      Me.btnAddNew.Name = "btnAddNew"
+      Me.btnAddNew.Size = New System.Drawing.Size(24, 24)
+      Me.btnAddNew.TabIndex = 341
+      Me.btnAddNew.TabStop = False
+      Me.btnAddNew.ThemedImage = CType(resources.GetObject("btnAddNew.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'btnDel
+      '
+      Me.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnDel.Location = New System.Drawing.Point(142, 81)
+      Me.btnDel.Name = "btnDel"
+      Me.btnDel.Size = New System.Drawing.Size(24, 24)
+      Me.btnDel.TabIndex = 342
+      Me.btnDel.TabStop = False
+      Me.btnDel.ThemedImage = CType(resources.GetObject("btnDel.ThemedImage"), System.Drawing.Bitmap)
       '
       'lblToolCode
       '
       Me.lblToolCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToolCode.ForeColor = System.Drawing.Color.Black
-      Me.lblToolCode.Location = New System.Drawing.Point(6, 51)
+      Me.lblToolCode.Location = New System.Drawing.Point(-1, 22)
       Me.lblToolCode.Name = "lblToolCode"
       Me.lblToolCode.Size = New System.Drawing.Size(106, 23)
       Me.lblToolCode.TabIndex = 334
@@ -190,82 +221,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblToolName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToolName.ForeColor = System.Drawing.Color.Black
-      Me.lblToolName.Location = New System.Drawing.Point(13, 27)
+      Me.lblToolName.Location = New System.Drawing.Point(6, 56)
       Me.lblToolName.Name = "lblToolName"
       Me.lblToolName.Size = New System.Drawing.Size(99, 18)
       Me.lblToolName.TabIndex = 337
       Me.lblToolName.Text = "ชื่อชนิดเครื่องมือ :"
       Me.lblToolName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'txtToolName
-      '
-      Me.Validator.SetDataType(Me.txtToolName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtToolName, "")
-      Me.txtToolName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtToolName, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtToolName, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtToolName, System.Drawing.Color.Empty)
-      Me.txtToolName.Location = New System.Drawing.Point(118, 27)
-      Me.txtToolName.MaxLength = 255
-      Me.Validator.SetMinValue(Me.txtToolName, "")
-      Me.txtToolName.Name = "txtToolName"
-      Me.Validator.SetRegularExpression(Me.txtToolName, "")
-      Me.Validator.SetRequired(Me.txtToolName, False)
-      Me.txtToolName.Size = New System.Drawing.Size(290, 21)
-      Me.txtToolName.TabIndex = 336
-      '
-      'chkEqAutoRun
-      '
-      Me.chkEqAutoRun.Appearance = System.Windows.Forms.Appearance.Button
-      Me.chkEqAutoRun.Image = CType(resources.GetObject("chkEqAutoRun.Image"), System.Drawing.Image)
-      Me.chkEqAutoRun.Location = New System.Drawing.Point(239, 54)
-      Me.chkEqAutoRun.Name = "chkEqAutoRun"
-      Me.chkEqAutoRun.Size = New System.Drawing.Size(21, 21)
-      Me.chkEqAutoRun.TabIndex = 335
-      Me.chkEqAutoRun.TabStop = False
-      '
-      'btnDel
-      '
-      Me.btnDel.ForeColor = System.Drawing.Color.Black
-      Me.btnDel.Location = New System.Drawing.Point(580, 471)
-      Me.btnDel.Name = "btnDel"
-      Me.btnDel.Size = New System.Drawing.Size(75, 23)
-      Me.btnDel.TabIndex = 3
-      Me.btnDel.Text = "ลบข้อมูล"
-      Me.btnDel.UseVisualStyleBackColor = True
-      '
-      'btnAdd
-      '
-      Me.btnAdd.ForeColor = System.Drawing.Color.Black
-      Me.btnAdd.Location = New System.Drawing.Point(499, 471)
-      Me.btnAdd.Name = "btnAdd"
-      Me.btnAdd.Size = New System.Drawing.Size(75, 23)
-      Me.btnAdd.TabIndex = 2
-      Me.btnAdd.Text = "เพิ่มข้อมูล"
-      Me.btnAdd.UseVisualStyleBackColor = True
-      '
-      'btnNew
-      '
-      Me.btnNew.ForeColor = System.Drawing.Color.Black
-      Me.btnNew.Location = New System.Drawing.Point(418, 471)
-      Me.btnNew.Name = "btnNew"
-      Me.btnNew.Size = New System.Drawing.Size(75, 23)
-      Me.btnNew.TabIndex = 1
-      Me.btnNew.Text = "สร้างใหม่"
-      Me.btnNew.UseVisualStyleBackColor = True
-      '
       'lv
       '
       Me.lv.Alignment = System.Windows.Forms.ListViewAlignment.Left
       Me.lv.AllowSort = True
+      Me.lv.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
       Me.lv.FullRowSelect = True
       Me.lv.GridLines = True
       Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
       Me.lv.HideSelection = False
-      Me.lv.Location = New System.Drawing.Point(7, 81)
+      Me.lv.Location = New System.Drawing.Point(6, 108)
       Me.lv.Name = "lv"
-      Me.lv.Size = New System.Drawing.Size(399, 374)
+      Me.lv.Size = New System.Drawing.Size(399, 624)
       Me.lv.SortIndex = -1
       Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lv.TabIndex = 323
@@ -297,9 +273,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'Grbeqi
       '
-      Me.Grbeqi.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+      Me.Grbeqi.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Grbeqi.Controls.Add(Me.txtToollotBuyQTY)
+      Me.Grbeqi.Controls.Add(Me.txtToollotBuyDate)
       Me.Grbeqi.Controls.Add(Me.txtToollotWriteOff)
       Me.Grbeqi.Controls.Add(Me.txtToollotRemainQTY)
       Me.Grbeqi.Controls.Add(Me.txtToollotRemainCost)
@@ -314,7 +292,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.Controls.Add(Me.lblDescription)
       Me.Grbeqi.Controls.Add(Me.btnLoadImage)
       Me.Grbeqi.Controls.Add(Me.btnClearImage)
-      Me.Grbeqi.Controls.Add(Me.TxtBuyDocDate)
       Me.Grbeqi.Controls.Add(Me.lblPicSize)
       Me.Grbeqi.Controls.Add(Me.picImage)
       Me.Grbeqi.Controls.Add(Me.TxtToollotbrand)
@@ -322,21 +299,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.Controls.Add(Me.chkAutorun)
       Me.Grbeqi.Controls.Add(Me.lblToollotCode)
       Me.Grbeqi.Controls.Add(Me.lblBuycost)
-      Me.Grbeqi.Controls.Add(Me.TxtlastDateEdit)
-      Me.Grbeqi.Controls.Add(Me.dtpLastEditDate)
       Me.Grbeqi.Controls.Add(Me.lblBuydocdate)
       Me.Grbeqi.Controls.Add(Me.txtToollotbuydoccode)
-      Me.Grbeqi.Controls.Add(Me.lblLasteditdate)
       Me.Grbeqi.Controls.Add(Me.Label3)
-      Me.Grbeqi.Controls.Add(Me.dtpBuyDocDate)
       Me.Grbeqi.Controls.Add(Me.lblDocnum)
       Me.Grbeqi.Controls.Add(Me.btnAssetFind)
       Me.Grbeqi.Controls.Add(Me.txtAssetName)
       Me.Grbeqi.Controls.Add(Me.txtAssetCode)
       Me.Grbeqi.Controls.Add(Me.TxtToollotBuycost)
-      Me.Grbeqi.Location = New System.Drawing.Point(412, 9)
+      Me.Grbeqi.Location = New System.Drawing.Point(412, 101)
       Me.Grbeqi.Name = "Grbeqi"
-      Me.Grbeqi.Size = New System.Drawing.Size(628, 454)
+      Me.Grbeqi.Size = New System.Drawing.Size(628, 631)
       Me.Grbeqi.TabIndex = 0
       Me.Grbeqi.TabStop = False
       Me.Grbeqi.Text = "รายละเอียดเครื่องจักรรายตัว"
@@ -353,8 +326,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotBuyQTY, "")
       Me.Validator.SetRequired(Me.txtToollotBuyQTY, False)
       Me.txtToollotBuyQTY.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotBuyQTY.TabIndex = 8
+      Me.txtToollotBuyQTY.TabIndex = 6
       Me.txtToollotBuyQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtToollotBuyDate
+      '
+      Me.Validator.SetDataType(Me.txtToollotBuyDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtToollotBuyDate, "")
+      Me.txtToollotBuyDate.Enabled = False
+      Me.Validator.SetGotFocusBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
+      Me.txtToollotBuyDate.Location = New System.Drawing.Point(134, 101)
+      Me.Validator.SetMinValue(Me.txtToollotBuyDate, "")
+      Me.txtToollotBuyDate.Name = "txtToollotBuyDate"
+      Me.Validator.SetRegularExpression(Me.txtToollotBuyDate, "")
+      Me.Validator.SetRequired(Me.txtToollotBuyDate, False)
+      Me.txtToollotBuyDate.Size = New System.Drawing.Size(112, 21)
+      Me.txtToollotBuyDate.TabIndex = 3
+      Me.txtToollotBuyDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotWriteOff
       '
@@ -369,7 +358,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotWriteOff, "")
       Me.Validator.SetRequired(Me.txtToollotWriteOff, False)
       Me.txtToollotWriteOff.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotWriteOff.TabIndex = 11
+      Me.txtToollotWriteOff.TabIndex = 9
       Me.txtToollotWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotRemainQTY
@@ -384,7 +373,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotRemainQTY, "")
       Me.Validator.SetRequired(Me.txtToollotRemainQTY, False)
       Me.txtToollotRemainQTY.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotRemainQTY.TabIndex = 9
+      Me.txtToollotRemainQTY.TabIndex = 7
       Me.txtToollotRemainQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotRemainCost
@@ -400,7 +389,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotRemainCost, "")
       Me.Validator.SetRequired(Me.txtToollotRemainCost, False)
       Me.txtToollotRemainCost.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotRemainCost.TabIndex = 12
+      Me.txtToollotRemainCost.TabIndex = 10
       Me.txtToollotRemainCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotUnitCost
@@ -415,7 +404,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotUnitCost, "")
       Me.Validator.SetRequired(Me.txtToollotUnitCost, False)
       Me.txtToollotUnitCost.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotUnitCost.TabIndex = 7
+      Me.txtToollotUnitCost.TabIndex = 5
       Me.txtToollotUnitCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtDescription
@@ -435,7 +424,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtDescription, False)
       Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtDescription.Size = New System.Drawing.Size(248, 47)
-      Me.txtDescription.TabIndex = 13
+      Me.txtDescription.TabIndex = 11
       Me.txtDescription.TabStop = False
       '
       'lblBrand
@@ -538,20 +527,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnClearImage.TabStop = False
       Me.btnClearImage.ThemedImage = CType(resources.GetObject("btnClearImage.ThemedImage"), System.Drawing.Bitmap)
       '
-      'TxtBuyDocDate
-      '
-      Me.Validator.SetDataType(Me.TxtBuyDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.TxtBuyDocDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.TxtBuyDocDate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.TxtBuyDocDate, System.Drawing.Color.Empty)
-      Me.TxtBuyDocDate.Location = New System.Drawing.Point(134, 101)
-      Me.Validator.SetMinValue(Me.TxtBuyDocDate, "")
-      Me.TxtBuyDocDate.Name = "TxtBuyDocDate"
-      Me.Validator.SetRegularExpression(Me.TxtBuyDocDate, "")
-      Me.Validator.SetRequired(Me.TxtBuyDocDate, True)
-      Me.TxtBuyDocDate.Size = New System.Drawing.Size(82, 21)
-      Me.TxtBuyDocDate.TabIndex = 5
-      '
       'lblPicSize
       '
       Me.lblPicSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -584,14 +559,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.TxtToollotbrand, "")
       Me.Validator.SetRequired(Me.TxtToollotbrand, False)
       Me.TxtToollotbrand.Size = New System.Drawing.Size(112, 21)
-      Me.TxtToollotbrand.TabIndex = 6
+      Me.TxtToollotbrand.TabIndex = 4
       '
       'cmbCode
       '
       Me.cmbCode.Location = New System.Drawing.Point(134, 20)
       Me.cmbCode.Name = "cmbCode"
       Me.cmbCode.Size = New System.Drawing.Size(145, 21)
-      Me.cmbCode.TabIndex = 2
+      Me.cmbCode.TabIndex = 0
       '
       'chkAutorun
       '
@@ -625,29 +600,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBuycost.Text = "มูลค่าซื้อ :"
       Me.lblBuycost.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'TxtlastDateEdit
-      '
-      Me.Validator.SetDataType(Me.TxtlastDateEdit, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.TxtlastDateEdit, "")
-      Me.Validator.SetGotFocusBackColor(Me.TxtlastDateEdit, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.TxtlastDateEdit, System.Drawing.Color.Empty)
-      Me.TxtlastDateEdit.Location = New System.Drawing.Point(33, 476)
-      Me.Validator.SetMinValue(Me.TxtlastDateEdit, "")
-      Me.TxtlastDateEdit.Name = "TxtlastDateEdit"
-      Me.TxtlastDateEdit.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.TxtlastDateEdit, "")
-      Me.Validator.SetRequired(Me.TxtlastDateEdit, False)
-      Me.TxtlastDateEdit.Size = New System.Drawing.Size(91, 21)
-      Me.TxtlastDateEdit.TabIndex = 15
-      '
-      'dtpLastEditDate
-      '
-      Me.dtpLastEditDate.Enabled = False
-      Me.dtpLastEditDate.Location = New System.Drawing.Point(32, 476)
-      Me.dtpLastEditDate.Name = "dtpLastEditDate"
-      Me.dtpLastEditDate.Size = New System.Drawing.Size(112, 21)
-      Me.dtpLastEditDate.TabIndex = 349
-      '
       'lblBuydocdate
       '
       Me.lblBuydocdate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -672,17 +624,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotbuydoccode, "")
       Me.Validator.SetRequired(Me.txtToollotbuydoccode, False)
       Me.txtToollotbuydoccode.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotbuydoccode.TabIndex = 4
-      '
-      'lblLasteditdate
-      '
-      Me.lblLasteditdate.AutoSize = True
-      Me.lblLasteditdate.ForeColor = System.Drawing.Color.Black
-      Me.lblLasteditdate.Location = New System.Drawing.Point(14, 433)
-      Me.lblLasteditdate.Name = "lblLasteditdate"
-      Me.lblLasteditdate.Size = New System.Drawing.Size(117, 13)
-      Me.lblLasteditdate.TabIndex = 205
-      Me.lblLasteditdate.Text = "รหัสผู้บันทึก วันที่บันทึก "
+      Me.txtToollotbuydoccode.TabIndex = 2
       '
       'Label3
       '
@@ -694,17 +636,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label3.TabIndex = 0
       Me.Label3.Text = "สินทรัพย์ :"
       Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'dtpBuyDocDate
-      '
-      Me.dtpBuyDocDate.CustomFormat = "dd/MM/yyyy"
-      Me.dtpBuyDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.dtpBuyDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpBuyDocDate.Location = New System.Drawing.Point(134, 101)
-      Me.dtpBuyDocDate.Name = "dtpBuyDocDate"
-      Me.dtpBuyDocDate.Size = New System.Drawing.Size(112, 21)
-      Me.dtpBuyDocDate.TabIndex = 9
-      Me.dtpBuyDocDate.TabStop = False
       '
       'lblDocnum
       '
@@ -759,7 +690,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtAssetCode, "")
       Me.Validator.SetRequired(Me.txtAssetCode, False)
       Me.txtAssetCode.Size = New System.Drawing.Size(86, 21)
-      Me.txtAssetCode.TabIndex = 3
+      Me.txtAssetCode.TabIndex = 1
       '
       'TxtToollotBuycost
       '
@@ -773,7 +704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.TxtToollotBuycost, "")
       Me.Validator.SetRequired(Me.TxtToollotBuycost, False)
       Me.TxtToollotBuycost.Size = New System.Drawing.Size(112, 21)
-      Me.TxtToollotBuycost.TabIndex = 10
+      Me.TxtToollotBuycost.TabIndex = 8
       Me.TxtToollotBuycost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'Validator
@@ -873,7 +804,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.Validator.SetDisplayName(txtBuyPrice, lblBuyPrice.Text)
 
       'Me.lblBuyDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDate}")
-      Me.Validator.SetDisplayName(TxtBuyDocDate, "วันที่ไม่ถูกต้อง")
+      'Me.Validator.SetDisplayName(TxtBuyDocDate, "วันที่ไม่ถูกต้อง")
 
       'Me.lblTransferDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblTransferDate}")
       'Me.Validator.SetDisplayName(txtTransferDate, lblTransferDate.Text)
@@ -969,6 +900,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '    End If
         '  End If
         'End If
+        If Me.m_entity Is Nothing Then
+          Return Nothing
+        End If
 
         'Return Nothing
         If Not Me.m_entity Is Nothing AndAlso Not Me.m_entity.ToolLot Is Nothing Then
@@ -994,6 +928,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 #Region "Method"
+#Region "After the main entity has been saved"
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      If Not successful Then
+        Return
+      End If
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+    Public Overrides Sub NotifyBeforeSave()
+      MyBase.NotifyBeforeSave()
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+#End Region
     Public Overrides Sub Initialize()
       ' กำหนดการคำนวณค่าเสื่อมราคา
       'AssetCalcType.ListCodeDescriptionInComboBox(cmbCalcType, "asset_calctype")
@@ -1022,6 +968,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
     Public Overrides Sub UpdateEntityProperties()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
       Me.m_isInitialized = False
       'If m_refDoc Is Nothing Then
       '  Return
@@ -1031,28 +980,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Else
       '  Return
       'End If
-      If m_entity Is Nothing Then
-        ClearDetail()
-        Return
-      End If
+      'If m_entity Is Nothing Then
+      ClearDetail()
+      'Return
+      'End If
 
-      Dim doc As ToolLot = Me.CurrentTagItem
-      If doc Is Nothing Then
-        doc = New ToolLot
-        Me.m_entity.ItemCollection.Add(doc)
-        doc.Autogen = True
-      End If
+      'Dim doc As ToolLot = Me.CurrentTagItem
+      'If doc Is Nothing Then
+      '  doc = New ToolLot
+      '  Me.m_entity.ItemCollection.Add(doc)
+      '  doc.Autogen = True
+      'End If
 
-      'autogencode
-      CmbToolCode.Text = m_entity.Code
-      Me.m_oldEqCode = Me.m_entity.Code
-      Me.chkEqAutoRun.Checked = Me.m_entity.AutoGen
-      Me.UpdateEqAutogenStatus()
+      ''autogencode
+      'CmbToolCode.Text = m_entity.Code
+      'Me.m_oldEqCode = Me.m_entity.Code
+      'Me.chkEqAutoRun.Checked = Me.m_entity.AutoGen
+      'Me.UpdateEqAutogenStatus()
 
-      cmbCode.Text = doc.Code
-      Me.m_oldCode = doc.Code
-      Me.chkAutorun.Checked = doc.Autogen
-      Me.UpdateAutogenStatus()
+      'cmbCode.Text = doc.Code
+      'Me.m_oldCode = doc.Code
+      'Me.chkAutorun.Checked = doc.Autogen
+      'Me.UpdateAutogenStatus()
 
       Dim row As TreeRow = Nothing
       Dim eqitem As ToolLot = Nothing
@@ -1062,8 +1011,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.RefreshData()
       Me.RefreshDocs()
-      txtToolName.Text = m_entity.Name
-
+      TxtToollotName.Text = m_entity.Name
+      txtToollotCode.Text = m_entity.Code
 
       'TxtToollotBuycost.Text = m_entity.ToolLot.UnitCost * m_entity.ToolLot.Buyqty
       'CmbToolCode.Text = doc.Equipment.Code
@@ -1225,20 +1174,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End If
 
 
-        Me.TxtlastDateEdit.Text = MinDateToNull(toollotitem.LastEditDate, Me.StringParserService.Parse(""))
-        Try
-          Me.dtpLastEditDate.Value = toollotitem.LastEditDate
-        Catch ex As Exception
-          Me.dtpLastEditDate.Value = Now
-        End Try
+        'Me.TxtlastDateEdit.Text = MinDateToNull(toollotitem.LastEditDate, Me.StringParserService.Parse(""))
+        'Try
+        '  Me.dtpLastEditDate.Value = toollotitem.LastEditDate
+        'Catch ex As Exception
+        '  Me.dtpLastEditDate.Value = Now
+        'End Try
 
         'If TxtBuyDocDate.Text = Date.Now Then
-        Me.TxtBuyDocDate.Text = MinDateToNull(toollotitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-        Try
-          Me.dtpBuyDocDate.Value = toollotitem.Buydate
-        Catch ex As Exception
-          Me.dtpBuyDocDate.Value = Now
-        End Try
+        'Me.TxtBuyDocDate.Text = MinDateToNull(toollotitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        'Try
+        '  Me.dtpBuyDocDate.Value = toollotitem.Buydate
+        'Catch ex As Exception
+        '  Me.dtpBuyDocDate.Value = Now
+        'End Try
         'Else
         '  Me.TxtBuyDocDate.Text = "โปรดระบุ"
         'End If
@@ -1278,12 +1227,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Me.txtDescription.Text = toollotitem.Description
 
-        Dim lastEdited As String = ""
-        If Not toollotitem.LastEditor Is Nothing Then
-          lastEdited = "รหัสผู้แก้ไขล่าสุด : " & toollotitem.LastEditor.Name
-        End If
-        lastEdited &= " วันที่แก้ไขล่าสุด : " & toollotitem.LastEditDate
-        Me.lblLasteditdate.Text = lastEdited.Trim
+        'Dim lastEdited As String = ""
+        'If Not toollotitem.LastEditor Is Nothing Then
+        '  lastEdited = "รหัสผู้แก้ไขล่าสุด : " & toollotitem.LastEditor.Name
+        'End If
+        'lastEdited &= " วันที่แก้ไขล่าสุด : " & toollotitem.LastEditDate
+        'Me.lblLasteditdate.Text = lastEdited.Trim
       End If
 
       Me.m_isInitialized = True
@@ -1343,6 +1292,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_isInitialized = True
     End Sub
     Private Sub RefreshDocs()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
       Me.m_isInitialized = False
       'Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
       'Me.m_treeManager.Treetable.AcceptChanges()
@@ -1383,8 +1335,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler TxtToollotbrand.TextChanged, AddressOf Me.ChangeProperty
       'AddHandler txtlToollotlicense.TextChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtToolName.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler CmbToolCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler TxtToollotName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtToollotCode.TextChanged, AddressOf Me.ChangeProperty
       'AddHandler CmbToolCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
       'AddHandler TxtStatus.TextChanged, AddressOf Me.ChangeProperty
@@ -1392,10 +1344,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'AddHandler TxtStatus.Validated, AddressOf Me.ChangeProperty
       AddHandler txtToollotbuydoccode.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler TxtBuyDocDate.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler dtpBuyDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      'AddHandler TxtBuyDocDate.TextChanged, AddressOf Me.ChangeProperty
+      'AddHandler dtpBuyDocDate.ValueChanged, AddressOf Me.ChangeProperty
       'AddHandler TxtlastDateEdit.Validated, AddressOf Me.ChangeProperty 
-      AddHandler dtpLastEditDate.ValueChanged, AddressOf Me.ChangeProperty
+      'AddHandler dtpLastEditDate.ValueChanged, AddressOf Me.ChangeProperty
       'AddHandler txtRentalRate.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtDescription.TextChanged, AddressOf Me.ChangeProperty
 
@@ -1643,47 +1595,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Select Case CType(sender, Control).Name.ToLower
 
-        Case "cmbcode"
-          doc.Code = cmbCode.Text
-          dirtyFlag = True
-        Case "cmbtoolcode"
-          Me.m_entity.Code = CmbToolCode.Text
-          dirtyFlag = True
-        Case "txttoolname"
-          Me.m_entity.Name = txtToolName.Text
-          dirtyFlag = True
-          'Case "txttoollotname"
-          '  doc.Name = txtToollotName.Text
-          '  dirtyFlag = True
-      
+        'Case "cmbcode"
+        '  doc.Code = cmbCode.Text
+        '  dirtyFlag = True
+        'Case "txtToollotCode"
+        '  Me.m_entity.Code = txtToollotCode.Text
+        '  dirtyFlag = True
+        'Case "txttoolname"
+        '  Me.m_entity.Name = txtToolName.Text
+        '  dirtyFlag = True
+        'Case "txttoollotname"
+        '  doc.Name = txtToollotName.Text
+        '  dirtyFlag = True
+
         Case "txttoollotbrand"
-            doc.Brand = TxtToollotbrand.Text
-            dirtyFlag = True
+          doc.Brand = TxtToollotbrand.Text
+          dirtyFlag = True
 
-        Case "txtlastdateedit"
-            If Not TxtlastDateEdit.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(TxtlastDateEdit) = "" Then
-              Dim thedate As Date = CDate(TxtlastDateEdit.Text)
-              If Not doc.LastEditDate.Equals(thedate) Then
-                doc.LastEditDate = thedate
-              dtpLastEditDate.Value = doc.LastEditDate
-                dirtyFlag = True
-              End If
+          'Case "txtlastdateedit"
+          '  If Not TxtlastDateEdit.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(TxtlastDateEdit) = "" Then
+          '    Dim thedate As Date = CDate(TxtlastDateEdit.Text)
+          '    If Not doc.LastEditDate.Equals(thedate) Then
+          '      doc.LastEditDate = thedate
+          '      dtpLastEditDate.Value = doc.LastEditDate
+          '      dirtyFlag = True
+          '    End If
 
-            End If
-        Case "dtplasteditdate"
-            If Not doc.LastEditDate.Equals(dtpLastEditDate.Value) Then
-              Me.TxtlastDateEdit.Text = MinDateToNull(dtpLastEditDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              doc.LastEditDate = dtpLastEditDate.Value
-              dirtyFlag = True
-              'Me.RefreshDocs()
-            End If
+          '  End If
+          'Case "dtplasteditdate"
+          '  If Not doc.LastEditDate.Equals(dtpLastEditDate.Value) Then
+          '    Me.TxtlastDateEdit.Text = MinDateToNull(dtpLastEditDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          '    doc.LastEditDate = dtpLastEditDate.Value
+          '    dirtyFlag = True
+          '    'Me.RefreshDocs()
+          '  End If
 
         Case "txtassetcode"
-            If m_txtAssetCodeChanged Then
-              dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, Me.CurrentTagItem.Asset) 'doc.Costcenter
-              m_txtAssetCodeChanged = False
-              'Me.RefreshDocs()
-            End If
+          If m_txtAssetCodeChanged Then
+            dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, Me.CurrentTagItem.Asset) 'doc.Costcenter
+            m_txtAssetCodeChanged = False
+            'Me.RefreshDocs()
+          End If
 
         Case "txttoollotbuydoccode"
           'If m_txtToollotbuydoccodechanged Then
@@ -1697,29 +1649,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ''Me.txtToollotbuydoccode.Text = doc.Buydoc.Id
           'doc.Buydoc = txtToollotbuydoccode.Text
           'dirtyFlag = True
-        Case "txtbuydocdate"
-          m_dateSetting = True
-          If Not Me.TxtBuyDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.TxtBuyDocDate) = "" Then
-            Dim theDate As DateTime = CDate(Me.TxtBuyDocDate.Text)
-            If Not doc.Buydate.Equals(theDate) Then
-              dtpBuyDocDate.Value = theDate
-              doc.Buydate = dtpBuyDocDate.Value
-              dirtyFlag = True
-            End If
-          Else
-            doc.Buydate = Date.Now
-            doc.Buydate = Date.MinValue
-            dirtyFlag = True
-          End If
-          m_dateSetting = False
-        Case "dtpbuydocdate"
-          If Not doc.Buydate.Equals(dtpBuyDocDate.Value) Then
-            If Not m_dateSetting Then
-              Me.TxtBuyDocDate.Text = MinDateToNull(dtpBuyDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              doc.Buydate = dtpBuyDocDate.Value.ToShortDateString
-            End If
-            dirtyFlag = True
-          End If
+          'Case "txtbuydocdate"
+          '  m_dateSetting = True
+          '  'If Not Me.TxtBuyDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.TxtBuyDocDate) = "" Then
+          '  '  Dim theDate As DateTime = CDate(Me.TxtBuyDocDate.Text)
+          '  '  If Not doc.Buydate.Equals(theDate) Then
+          '  '    dtpBuyDocDate.Value = theDate
+          '  '    doc.Buydate = dtpBuyDocDate.Value
+          '  '    dirtyFlag = True
+          '  '  End If
+          '  Else
+          '  doc.Buydate = Date.Now
+          '  doc.Buydate = Date.MinValue
+          '  dirtyFlag = True
+          '  End If
+          '  m_dateSetting = False
+          'Case "dtpbuydocdate"
+          '  If Not doc.Buydate.Equals(dtpBuyDocDate.Value) Then
+          '    If Not m_dateSetting Then
+          '      Me.TxtBuyDocDate.Text = MinDateToNull(dtpBuyDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          '      doc.Buydate = dtpBuyDocDate.Value.ToShortDateString
+          '    End If
+          '    dirtyFlag = True
+          '  End If
         Case "txtdescription"
           doc.Description = txtDescription.Text
           dirtyFlag = True
@@ -1740,7 +1692,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoollotunitcost"
           If m_txtToollotUnitCostchanged Then
-            If txtToollotUnitCost.TextLength > 0 Then
+            If txtToollotUnitCost.TextLength > 0 AndAlso IsNumeric(txtToollotUnitCost.Text) Then
               doc.UnitCost = CDec(txtToollotUnitCost.Text)
             Else
               doc.UnitCost = 0
@@ -1752,7 +1704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoollotbuyqty"
           If m_txtToollotBuyQTYchanged Then
-            If txtToollotBuyQTY.TextLength > 0 Then
+            If txtToollotBuyQTY.TextLength > 0 AndAlso IsNumeric(txtToollotBuyQTY.Text) Then
               doc.Buyqty = CDec(txtToollotBuyQTY.Text)
             Else
               doc.Buyqty = 0
@@ -1777,7 +1729,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoollotremainqty"
           If m_txtToollotRemainQTYchanged Then
-            If txtToollotRemainQTY.TextLength > 0 Then
+            If txtToollotRemainQTY.TextLength > 0 AndAlso IsNumeric(txtToollotRemainQTY.Text) Then
               doc.RemainQTY = CDec(txtToollotRemainQTY.Text)
             Else
               doc.RemainQTY = 0
@@ -1967,7 +1919,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Text = ""
         End If
       Next
-
       'For Each ctrl As Control In TabPage1.Controls
       '  If TypeOf ctrl Is TextBox Then
       '    ctrl.Text = ""
@@ -1982,17 +1933,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbCalcType.SelectedIndex = 0
 
       cmbCode.Text = ""
-      TxtlastDateEdit.Text = ""
-      dtpLastEditDate.Value = Date.Now
+      'TxtlastDateEdit.Text = ""
+      'dtpLastEditDate.Value = Date.Now
 
       'txtEndCalcDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
 
       'TxtBuyDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
       'DateTimePicker2.Value = Date.Now
 
-      dtpBuyDocDate.Value = Date.Now
-      TxtBuyDocDate.Text = "" 'Me.StringParserService.Parse("${res:Global.BlankDateText}")
-      lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด" & " : " & " .... " & " วันที่แก้ไขล่าสุด : " & Date.Now.ToString("dd/MM/yyyy")
+      'dtpBuyDocDate.Value = Date.Now
+      'TxtBuyDocDate.Text = "" 'Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      'lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด" & " : " & " .... " & " วันที่แก้ไขล่าสุด : " & Date.Now.ToString("dd/MM/yyyy")
 
       Me.picImage.Image = Nothing
 
@@ -2042,6 +1993,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Image button"
     Private Sub btnLoadImage_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
       'Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim doc As ToolLot = Me.CurrentTagItem
+      If doc Is Nothing Then
+        Return
+      End If
       Dim dlg As New OpenFileDialog
 
       Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
@@ -2326,10 +2281,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim doc As ToolLot = Me.CurrentTagItem
       If doc Is Nothing Then
-        'Return
-        doc = New ToolLot
-        Me.m_entity.ItemCollection.Add(doc)
-
+        Return
+        'doc = New ToolLot
+        'Me.m_entity.ItemCollection.Add(doc)
       End If
 
       If Me.chkAutorun.Checked Then
@@ -2363,37 +2317,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
         doc.Autogen = False
       End If
     End Sub
-    Private Sub UpdateEqAutogenStatus()
-      If Me.chkEqAutoRun.Checked Then
-        'Me.Validator.SetRequired(Me.txtCode, False)
-        'Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.CmbToolCode.DropDownStyle = ComboBoxStyle.DropDownList
-        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
-        BusinessLogic.Entity.NewPopulateCodeCombo(Me.CmbToolCode, Me.m_entity.EntityId, currentUserId)
-        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
-          If Me.CmbToolCode.Items.Count > 0 Then
-            Me.m_entity.Code = CType(Me.CmbToolCode.Items(0), AutoCodeFormat).Format
-            Me.CmbToolCode.SelectedIndex = 0
-            Me.m_entity.AutoCodeFormat = CType(Me.CmbToolCode.Items(0), AutoCodeFormat)
-          End If
-        Else
-          Me.CmbToolCode.SelectedIndex = Me.CmbToolCode.FindStringExact(Me.m_entity.Code)
-          If TypeOf Me.CmbToolCode.SelectedItem Is AutoCodeFormat Then
-            Me.m_entity.AutoCodeFormat = CType(Me.CmbToolCode.SelectedItem, AutoCodeFormat)
-          End If
-        End If
-        m_oldEqCode = Me.CmbToolCode.Text
-        Me.m_entity.Code = m_oldEqCode
-        Me.m_entity.AutoGen = True
-      Else
-        'Me.Validator.SetRequired(Me.txtCode, True)
-        Me.CmbToolCode.DropDownStyle = ComboBoxStyle.Simple
-        Me.CmbToolCode.Items.Clear()
-        'Me.CmbToolCode.Text = m_oldCode '*******************************************************
-        Me.m_entity.Code = m_oldEqCode
-        Me.m_entity.AutoGen = False
-      End If
-    End Sub
+    'Private Sub UpdateEqAutogenStatus()
+    '  If Me.chkEqAutoRun.Checked Then
+    '    'Me.Validator.SetRequired(Me.txtCode, False)
+    '    'Me.ErrorProvider1.SetError(Me.txtCode, "")
+    '    Me.CmbToolCode.DropDownStyle = ComboBoxStyle.DropDownList
+    '    Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+    '    BusinessLogic.Entity.NewPopulateCodeCombo(Me.CmbToolCode, Me.m_entity.EntityId, currentUserId)
+    '    If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+    '      If Me.CmbToolCode.Items.Count > 0 Then
+    '        Me.m_entity.Code = CType(Me.CmbToolCode.Items(0), AutoCodeFormat).Format
+    '        Me.CmbToolCode.SelectedIndex = 0
+    '        Me.m_entity.AutoCodeFormat = CType(Me.CmbToolCode.Items(0), AutoCodeFormat)
+    '      End If
+    '    Else
+    '      Me.CmbToolCode.SelectedIndex = Me.CmbToolCode.FindStringExact(Me.m_entity.Code)
+    '      If TypeOf Me.CmbToolCode.SelectedItem Is AutoCodeFormat Then
+    '        Me.m_entity.AutoCodeFormat = CType(Me.CmbToolCode.SelectedItem, AutoCodeFormat)
+    '      End If
+    '    End If
+    '    m_oldEqCode = Me.CmbToolCode.Text
+    '    Me.m_entity.Code = m_oldEqCode
+    '    Me.m_entity.AutoGen = True
+    '  Else
+    '    'Me.Validator.SetRequired(Me.txtCode, True)
+    '    Me.CmbToolCode.DropDownStyle = ComboBoxStyle.Simple
+    '    Me.CmbToolCode.Items.Clear()
+    '    'Me.CmbToolCode.Text = m_oldCode '*******************************************************
+    '    Me.m_entity.Code = m_oldEqCode
+    '    Me.m_entity.AutoGen = False
+    '  End If
+    'End Sub
 #End Region
 
     'Private Sub CheckLabelImgSize()
@@ -2512,7 +2466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim eqi As New ToolLot
       If Not Me.m_entity.ItemCollection.Contains(eqi) Then
         Me.m_entity.ItemCollection.Add(eqi)
@@ -2540,7 +2494,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  Me.RefreshDocs()
     'End Sub
 
-    Private Sub btnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDel.Click
+    Private Sub btnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       If Me.m_entity.ToolLot Is Nothing Then
         Return
       End If
@@ -2575,8 +2529,60 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateAutogenStatus()
     End Sub
 
-    Private Sub chkEqAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEqAutoRun.CheckedChanged
-      UpdateEqAutogenStatus()
+    'Private Sub chkEqAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  UpdateEqAutogenStatus()
+    'End Sub
+
+    Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
+      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+
+      Dim filters(0) As Filter
+      filters(0) = New Filter("id", 0)
+
+      'myEntityPanelService.OpenDetailPanel(New GoodsReceipt)
+
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+
+      Dim Entities As New ArrayList
+
+      Dim view As AbstractEntityPanelViewContent = New GoodsReceiptSelectionView(Me.m_entity, 0, dlg, filters, Entities)
+      dlg.Lists.Add(view)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
+
+      Me.RefreshDocs()
+
+      Me.UpdateAutogenStatus()
+
+    End Sub
+    Private Sub SetItems(ByVal items As BasketItemCollection)
+
+      Dim newCode As String = ""
+      Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+
+      Me.m_entity.ItemCollection.SetItems(items, newCode, currentUserId)
+
+    End Sub
+
+    Private Sub btnDel_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDel.Click
+      'If Me.m_entity.EquipmentItem Is Nothing Then
+      '  Return
+      'End If
+      'If Me.m_entity.ItemCollection.Contains(Me.m_entity.EquipmentItem) Then
+      '  Me.m_entity.ItemCollection.Remove(Me.m_entity.ItemCollection.IndexOf(Me.m_entity.EquipmentItem))
+      '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'End If
+      'If Me.m_entity.ItemCollection.Count > 0 Then
+      '  'Me.m_entity.EquipmentItem = Me.m_entity.ItemCollection(0)
+      '  Me.RefreshDocs()
+      '  Me.RefreshData()
+      'End If
+    End Sub
+
+    Private Sub TxtToollotName_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtToollotName.EnabledChanged
+
     End Sub
   End Class
 

@@ -34,7 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_buydate As DateTime
     Private m_CompareUnit1 As Unit
     Private m_CompareUnit2 As Unit
-
+    Private m_cc As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -206,7 +206,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_equipmentitem.Asset = New Asset
         End If
         If m_equipmentitem.CurrentStatus Is Nothing Then
-          m_equipmentitem.CurrentStatus = New EqtStatus(2)
+          m_equipmentitem.CurrentStatus = New EqtStatus(10)
         End If
         If m_equipmentitem.CurrentCostCenter Is Nothing Then
           m_equipmentitem.CurrentCostCenter = New CostCenter
@@ -237,8 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_CompareUnit2 = Value
       End Set
     End Property
-
-#End Region
+  #End Region
 
 #Region "Methods"
     Public Overloads Overrides Function GetDataset(ByVal query As String, ByVal order As String) As System.Data.DataSet
@@ -577,10 +576,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqi_rentalunit") = Me.ValidIdOrDBNull(item.Rentalunit)
             dr("eqi_lastEditDate") = Me.ValidDateOrDBNull(item.LastEditDate.Date)
             dr("eqi_lastEditor") = Me.ValidIdOrDBNull(item.LastEditor)
-            dr("eqi_currentstatus") = item.CurrentStatus.Value
+            If item.CurrentStatus.Value = 10 Then
+              dr("eqi_currentstatus") = 2
+            Else
+              dr("eqi_currentstatus") = item.CurrentStatus.Value
+            End If
+
             dr("eqi_currentcc") = Me.ValidIdOrDBNull(item.CurrentCostCenter)
-
-
+            dr("eqi_stockisequence") = item.Buydoc.Sequence
 
             '------------Checking if we have to add a new row or just update existing--------------------
             If drs.Length = 0 Then

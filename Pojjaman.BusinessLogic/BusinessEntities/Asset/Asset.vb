@@ -1737,7 +1737,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.MappingName = "AssetStock"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      ' Items
+      'Items()
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "Linenumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.LineNumberHeaderText}")
@@ -1755,41 +1755,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "DocCode"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CodeHeaderText}")
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToolCodeHeaderText}")
       csCode.NullText = ""
       csCode.ReadOnly = True
 
-      Dim csDate As New TreeTextColumn
-      csDate.MappingName = "DocDate"
-      csDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.DateHeaderText}")
-      csDate.NullText = ""
-      csDate.ReadOnly = True
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "DocName"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.NameHeaderText}")
+      csName.NullText = ""
+      csName.ReadOnly = True
 
 
-      Dim csFromCc As New TreeTextColumn
-      csFromCc.MappingName = "FromCC"
-      csFromCc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.FromCCHeaderText}")
-      csFromCc.NullText = ""
-      csFromCc.ReadOnly = True
+      Dim csFromCCcode As New TreeTextColumn
+      csFromCCcode.MappingName = "FromCCcode"
+      csFromCCcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCcodeHeaderText}")
+      csFromCCcode.NullText = ""
+      csFromCCcode.ReadOnly = True
 
-      Dim csToCC As New TreeTextColumn
-      csToCC.MappingName = "ToCC"
-      csToCC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToCCHeaderText}")
-      csToCC.NullText = ""
-      csToCC.ReadOnly = True
+      Dim csFromCCname As New TreeTextColumn
+      csFromCCname.MappingName = "FromCCname"
+      csFromCCname.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCnameHeaderText}")
+      csFromCCname.NullText = ""
+      csFromCCname.ReadOnly = True
 
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.AmountHeaderText}")
-      csAmount.NullText = ""
-      csAmount.ReadOnly = True
-
-      dst.GridColumnStyles.Add(csType)
+      'Dim csAmount As New TreeTextColumn
+      'csAmount.MappingName = "Amount"
+      'csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.AmountHeaderText}")
+      'csAmount.NullText = ""
+      'csAmount.ReadOnly = True
       dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csCode)
-      dst.GridColumnStyles.Add(csDate)
-      dst.GridColumnStyles.Add(csFromCc)
-      dst.GridColumnStyles.Add(csToCC)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csFromCCcode)
+      dst.GridColumnStyles.Add(csFromCCname)
       'dst.GridColumnStyles.Add(csAmount)
 
       Return dst
@@ -1798,13 +1797,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("AssetStock")
 
-      myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("DocCode", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("DocDate", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("FromCC", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("ToCC", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCcode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCname", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("FromCC", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ToCC", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       Return myDatatable
     End Function
 #End Region
@@ -2468,12 +2469,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dr("Linenumber") = i
         dr("DocType") = row("DocType")
         dr("DocCode") = row("DocCode")
-        dr("DocDate") = row("DocDate")
-        dr("FromCC") = row("FromCC")
-        dr("ToCC") = row("ToCC")
-        If IsNumeric(row("Amount")) Then
-          dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-        End If
+        dr("DocName") = row("DocName")
+        dr("FromCCcode") = row("FromCCcode")
+        dr("FromCCname") = row("FromCCname")
+        'If IsNumeric(row("Amount")) Then
+        '  dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+        'End If
       Next
     End Sub
 #End Region
@@ -2956,6 +2957,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Costcenter = Value
       End Set
     End Property
+
+    'Private Shared Sub Items()
+    '  Throw New NotImplementedException
+    'End Sub
+
   End Class
 
   Public Class AssetOPB
@@ -3032,10 +3038,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct(dr, aliasPrefix)
       With Me
         ' m_docdate As Date
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
-        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
-          .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
+        'AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
+        '  .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+        'End If
         ' m_depredate As Date
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_depredate") _
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_depredate") Then

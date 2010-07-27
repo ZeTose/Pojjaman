@@ -1,3 +1,4 @@
+Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
@@ -24,6 +25,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_image As Image
     Private m_toollot As ToolLot
     Private m_equipmentitem As EquipmentItem
+    Private m_itemTable As TreeTable
 
 #End Region
 
@@ -78,22 +80,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "tool_costcenter") _
                AndAlso Not dr.IsNull(aliasPrefix & "tool_costcenter") Then
-          .m_cc = New CostCenter(dr, "")
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_costcenter") _
-          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_costcenter") Then
-            .m_cc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_costcenter")))
-          End If
+          '  .m_cc = New CostCenter(dr, "")
+          'Else
+          '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_costcenter") _
+          '  AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_costcenter") Then
+          '    .m_cc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_costcenter")))
+          '  End If
+
+          Dim ccId As Integer = CInt(dr("tool_costcenter"))
+          .m_cc = Costcenter.GetCCMinDataById(ccId)
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "unit_id") _
-        AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
-          .tool_unit = New Unit(dr, "")
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") _
-          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
-            .tool_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
-          End If
+        If dr.Table.Columns.Contains("tool_unit") _
+        AndAlso Not dr.IsNull("tool_unit") Then
+          '  .tool_unit = New Unit(dr, "")
+          'Else
+          '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") _
+          '  AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
+          '    .tool_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
+          '  End If
+          Dim unitId As Integer = CInt(dr("tool_unit"))
+          .tool_unit = Unit.GetUnitById(unitId)
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fairprice") _
@@ -150,7 +157,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tool_unit
       End Get
       Set(ByVal Value As Unit)
-        'tool_unit = Value
+        tool_unit = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
     Public Property Qty() As Integer
@@ -161,12 +169,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_qty = Value
       End Set
     End Property
-    Public Property Costcenter As CostCenter
+    Public Property Costcenter() As CostCenter
       Get
         Return m_cc
       End Get
-      Set(ByVal value As CostCenter)
+      Set(ByVal Value As CostCenter)
         m_cc = value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
     Public Property Name() As String Implements IHasName.Name      Get
@@ -214,6 +223,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property ItemCollection As ToolLotCollection
       Get
+        If m_Toollotcollection Is Nothing Then
+          m_Toollotcollection = New ToolLotCollection(New Tool)
+        End If
         Return m_Toollotcollection
       End Get
       Set(ByVal value As ToolLotCollection)
@@ -244,6 +256,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If m_toollot.CurrentCostCenter Is Nothing Then
         '  m_toollot.CurrentCostCenter = New CostCenter
         'End If
+      End Set
+    End Property
+    Public Property ItemTable() As TreeTable
+      Get
+        Return m_itemTable
+      End Get
+      Set(ByVal Value As TreeTable)
+        m_itemTable = Value
       End Set
     End Property
 
@@ -325,6 +345,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return ds.Tables(0)
         End Function
 #End Region
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("AssetStock")
+
+      myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("DocCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCcode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCname", GetType(String)))
+      Return myDatatable
+    End Function
 
 #Region "Method"
         Public Function GetLastWithdrawSequence() As Integer
@@ -349,12 +380,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If dt Is Nothing Then
                 Return ""
             End If
-            For Each row As DataRow In dt.Rows
-                Dim refUnit As New Unit(CInt(row("unit_id")))
-                If Me.MemoryUnit.Id <> refUnit.Id Then
-                    Return "ต้องมีหน่วยนับ " & refUnit.Name & " เท่านั้น เนื่องจากมีการอ้างอิงไปยังเอกสารอื่นแล้ว"
-                End If
-            Next
+      For Each row As DataRow In dt.Rows
+        Dim drh As New DataRowHelper(row)
+        Dim unid As Integer = drh.GetValue(Of Integer)("tool_unit")
+        Dim refUnit As Unit = Unit.GetUnitById(unid) ' New Unit(CInt(row("tool_unit")))
+        If Me.Unit.Id <> refUnit.Id Then
+          Return "ต้องมีหน่วยนับ " & refUnit.Name & " เท่านั้น เนื่องจากมีการอ้างอิงไปยังเอกสารอื่นแล้ว"
+        End If
+      Next
             Return ""
         End Function
         Public Function GetRefUnitTable() As DataTable
@@ -393,9 +426,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim theTime As Date = Now
             Dim theUser As New User(currentUserId)
 
-            If Me.AutoGen And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
-            End If
+      If Me.AutoGen Then
+        Me.Code = Me.GetNextCode
+      End If
             Me.AutoGen = False
 
             paramArrayList.Add(returnVal)
@@ -404,9 +437,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_group", Me.Group.Id))
             paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.MemoryUnit.Id))
             paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fairprice", Me.FairPrice))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalrate", Me.RentalRate))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalrate", Me.RentalRate))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_costcenter", IIf(Me.Costcenter.Originated, Me.Costcenter.Id, DBNull.Value)))
 
-            SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
             ' สร้าง SqlParameter จาก ArrayList ...
             Dim sqlparams() As SqlParameter
@@ -457,15 +491,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
 
-
-        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        'Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         ' Save Image process 
-        'If Not Me.Image Is Nothing Then
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
-        , New SqlParameter("@tool_id", Me.Id) _
-        , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
-        'End If
-
+        If Not Me.Image Is Nothing Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
+          , New SqlParameter("@tool_id", Me.Id) _
+          , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+        End If
 
 
         trans.Commit()
@@ -482,6 +514,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
 #End Region
+
+#Region "Items"
+    Public Overloads Sub ReLoadItems()
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      LoadItems()
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      Me.IsInitialized = True
+    End Sub
+    Private Sub LoadItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetAssetStocks" _
+      , New SqlParameter("@asset_id", Me.Id) _
+      )
+
+      Dim i As Integer = 0
+      Dim amt As Decimal = 0
+      For Each row As DataRow In ds.Tables(0).Rows
+        i += 1
+        Dim dr As TreeRow = m_itemTable.Childs.Add
+        dr("Linenumber") = i
+        dr("DocType") = row("DocType")
+        dr("DocCode") = row("DocCode")
+        dr("DocName") = row("DocName")
+        dr("FromCCcode") = row("FromCCcode")
+        dr("FromCCname") = row("FromCCname")
+        'If IsNumeric(row("Amount")) Then
+        '  dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+        'End If
+      Next
+    End Sub
+#End Region
+
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Dim currWBS As String
       Try
@@ -805,7 +878,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return "${res:Longkong.Pojjaman.BusinessLogic.ToolGroup.ListLabel}"
       End Get
 
-        End Property
+    End Property
 #End Region
 
 #Region "Methods"
@@ -892,7 +965,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return True
             End If
             Return False
-        End Function
+    End Function
+    Public Shared Function GetSchemaTable() As DataTable
+      Dim myDatatable As New DataTable("AssetStock")
+
+      myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("DocCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCcode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCname", GetType(String)))
+      Return myDatatable
+    End Function
 #End Region
 
 #Region "Delete"
