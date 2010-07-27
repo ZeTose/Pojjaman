@@ -1298,6 +1298,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkReportDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Equipment\GoodsReceiptSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Equipment\GoodsReceiptForSelectFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\HelperCollection.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1702,6 +1708,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkReportDetail.resx">
       <DependentUpon>LinkReportDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Equipment\GoodsReceiptSelectionView.resx">
+      <DependentUpon>GoodsReceiptSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Equipment\GoodsReceiptForSelectFilterSubPanel.resx">
+      <DependentUpon>GoodsReceiptForSelectFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ItemGridPanel.resx">
       <DependentUpon>ItemGridPanel.vb</DependentUpon>

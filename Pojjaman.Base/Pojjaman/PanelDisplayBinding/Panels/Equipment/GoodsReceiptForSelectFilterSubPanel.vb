@@ -45,7 +45,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
-    Friend WithEvents btnToolQuoted As System.Windows.Forms.Button
     Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -72,7 +71,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCC = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.btnToolQuoted = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
@@ -117,7 +115,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(7, 0)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(652, 123)
+      Me.grbDetail.Size = New System.Drawing.Size(652, 119)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
@@ -209,7 +207,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(565, 94)
+      Me.btnSearch.Location = New System.Drawing.Point(565, 90)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 5
@@ -219,7 +217,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(484, 94)
+      Me.btnReset.Location = New System.Drawing.Point(484, 90)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
@@ -348,22 +346,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'btnToolQuoted
-      '
-      Me.btnToolQuoted.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnToolQuoted.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnToolQuoted.Location = New System.Drawing.Point(15, 129)
-      Me.btnToolQuoted.Name = "btnToolQuoted"
-      Me.btnToolQuoted.Size = New System.Drawing.Size(88, 23)
-      Me.btnToolQuoted.TabIndex = 6
-      Me.btnToolQuoted.Text = "เครื่องมือยกมา"
-      '
       'GoodsReceiptForSelectFilterSubPanel
       '
-      Me.Controls.Add(Me.btnToolQuoted)
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "GoodsReceiptForSelectFilterSubPanel"
-      Me.Size = New System.Drawing.Size(666, 155)
+      Me.Size = New System.Drawing.Size(666, 122)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDocDate.ResumeLayout(False)
       Me.grbDocDate.PerformLayout()
@@ -698,9 +685,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
-    Private Sub btnToolQuoted_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToolQuoted.Click
-
-    End Sub
   End Class
 End Namespace
 
