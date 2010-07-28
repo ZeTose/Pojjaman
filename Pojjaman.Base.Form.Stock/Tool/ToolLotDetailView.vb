@@ -69,19 +69,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnAddNew As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnDel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtToollotBuyDate As System.Windows.Forms.TextBox
     Friend WithEvents txtToollotCode As System.Windows.Forms.TextBox
     Friend WithEvents TxtToollotName As System.Windows.Forms.TextBox
+    Friend WithEvents IbtnAddRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAssetCode As System.Windows.Forms.TextBox
+    Friend WithEvents btnAddNew As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolLotDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnAddNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.IbtnAddRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtToollotCode = New System.Windows.Forms.TextBox()
       Me.TxtToollotName = New System.Windows.Forms.TextBox()
-      Me.btnAddNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnDel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblToolCode = New System.Windows.Forms.Label()
       Me.lblToolName = New System.Windows.Forms.Label()
@@ -136,9 +139,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnAddNew)
+      Me.grbDetail.Controls.Add(Me.IbtnAddRow)
       Me.grbDetail.Controls.Add(Me.txtToollotCode)
       Me.grbDetail.Controls.Add(Me.TxtToollotName)
-      Me.grbDetail.Controls.Add(Me.btnAddNew)
       Me.grbDetail.Controls.Add(Me.btnDel)
       Me.grbDetail.Controls.Add(Me.lblToolCode)
       Me.grbDetail.Controls.Add(Me.lblToolName)
@@ -153,6 +157,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ชื่อเครื่องจักร :"
+      '
+      'btnAddNew
+      '
+      Me.btnAddNew.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnAddNew.Location = New System.Drawing.Point(111, 80)
+      Me.btnAddNew.Name = "btnAddNew"
+      Me.btnAddNew.Size = New System.Drawing.Size(40, 24)
+      Me.btnAddNew.TabIndex = 345
+      Me.btnAddNew.TabStop = False
+      Me.btnAddNew.Text = "GR"
+      Me.btnAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnAddNew.ThemedImage = CType(resources.GetObject("btnAddNew.ThemedImage"), System.Drawing.Bitmap)
+      Me.ToolTip1.SetToolTip(Me.btnAddNew, "GR")
+      '
+      'IbtnAddRow
+      '
+      Me.IbtnAddRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.IbtnAddRow.Location = New System.Drawing.Point(187, 80)
+      Me.IbtnAddRow.Name = "IbtnAddRow"
+      Me.IbtnAddRow.Size = New System.Drawing.Size(24, 24)
+      Me.IbtnAddRow.TabIndex = 344
+      Me.IbtnAddRow.TabStop = False
+      Me.IbtnAddRow.ThemedImage = CType(resources.GetObject("IbtnAddRow.ThemedImage"), System.Drawing.Bitmap)
       '
       'txtToollotCode
       '
@@ -186,20 +214,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtToollotName.Size = New System.Drawing.Size(287, 21)
       Me.TxtToollotName.TabIndex = 343
       '
-      'btnAddNew
-      '
-      Me.btnAddNew.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnAddNew.Location = New System.Drawing.Point(118, 81)
-      Me.btnAddNew.Name = "btnAddNew"
-      Me.btnAddNew.Size = New System.Drawing.Size(24, 24)
-      Me.btnAddNew.TabIndex = 341
-      Me.btnAddNew.TabStop = False
-      Me.btnAddNew.ThemedImage = CType(resources.GetObject("btnAddNew.ThemedImage"), System.Drawing.Bitmap)
-      '
       'btnDel
       '
       Me.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnDel.Location = New System.Drawing.Point(142, 81)
+      Me.btnDel.Location = New System.Drawing.Point(157, 80)
       Me.btnDel.Name = "btnDel"
       Me.btnDel.Size = New System.Drawing.Size(24, 24)
       Me.btnDel.TabIndex = 342
@@ -333,12 +351,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Validator.SetDataType(Me.txtToollotBuyDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtToollotBuyDate, "")
-      Me.txtToollotBuyDate.Enabled = False
       Me.Validator.SetGotFocusBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
       Me.txtToollotBuyDate.Location = New System.Drawing.Point(134, 101)
       Me.Validator.SetMinValue(Me.txtToollotBuyDate, "")
       Me.txtToollotBuyDate.Name = "txtToollotBuyDate"
+      Me.txtToollotBuyDate.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotBuyDate, "")
       Me.Validator.SetRequired(Me.txtToollotBuyDate, False)
       Me.txtToollotBuyDate.Size = New System.Drawing.Size(112, 21)
@@ -349,12 +367,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Validator.SetDataType(Me.txtToollotWriteOff, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtToollotWriteOff, "")
-      Me.txtToollotWriteOff.Enabled = False
       Me.Validator.SetGotFocusBackColor(Me.txtToollotWriteOff, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotWriteOff, System.Drawing.Color.Empty)
       Me.txtToollotWriteOff.Location = New System.Drawing.Point(134, 263)
       Me.Validator.SetMinValue(Me.txtToollotWriteOff, "")
       Me.txtToollotWriteOff.Name = "txtToollotWriteOff"
+      Me.txtToollotWriteOff.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotWriteOff, "")
       Me.Validator.SetRequired(Me.txtToollotWriteOff, False)
       Me.txtToollotWriteOff.Size = New System.Drawing.Size(112, 21)
@@ -380,12 +398,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Validator.SetDataType(Me.txtToollotRemainCost, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtToollotRemainCost, "")
-      Me.txtToollotRemainCost.Enabled = False
       Me.Validator.SetGotFocusBackColor(Me.txtToollotRemainCost, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotRemainCost, System.Drawing.Color.Empty)
       Me.txtToollotRemainCost.Location = New System.Drawing.Point(134, 290)
       Me.Validator.SetMinValue(Me.txtToollotRemainCost, "")
       Me.txtToollotRemainCost.Name = "txtToollotRemainCost"
+      Me.txtToollotRemainCost.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotRemainCost, "")
       Me.Validator.SetRequired(Me.txtToollotRemainCost, False)
       Me.txtToollotRemainCost.Size = New System.Drawing.Size(112, 21)
@@ -621,6 +639,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotbuydoccode.Location = New System.Drawing.Point(134, 74)
       Me.Validator.SetMinValue(Me.txtToollotbuydoccode, "")
       Me.txtToollotbuydoccode.Name = "txtToollotbuydoccode"
+      Me.txtToollotbuydoccode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotbuydoccode, "")
       Me.Validator.SetRequired(Me.txtToollotbuydoccode, False)
       Me.txtToollotbuydoccode.Size = New System.Drawing.Size(112, 21)
@@ -1210,12 +1229,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If toollotitem.Buydoc Is Nothing Then
           Me.txtToollotbuydoccode.Text = ""
         Else
-          Me.txtToollotbuydoccode.Text = toollotitem.Buydoc.Id
+          Me.txtToollotbuydoccode.Text = toollotitem.Buydoc.Code
+          Me.txtToollotBuyDate.Text = toollotitem.Buydate.ToShortDateString
+          Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Cost)
         End If
-
-
-
-
 
         'TxtBuyDocDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
         'dtpBuyDocDate.Value = MinDateToNow(eqitem.Buydate)
@@ -2533,7 +2550,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  UpdateEqAutogenStatus()
     'End Sub
 
-    Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
+    Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 
       Dim filters(0) As Filter
@@ -2567,22 +2584,61 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnDel_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDel.Click
-      'If Me.m_entity.EquipmentItem Is Nothing Then
-      '  Return
-      'End If
-      'If Me.m_entity.ItemCollection.Contains(Me.m_entity.EquipmentItem) Then
-      '  Me.m_entity.ItemCollection.Remove(Me.m_entity.ItemCollection.IndexOf(Me.m_entity.EquipmentItem))
-      '  Me.WorkbenchWindow.ViewContent.IsDirty = True
-      'End If
+      If Me.m_entity.ToolLot Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.ItemCollection.Contains(Me.m_entity.ToolLot) Then
+        Dim newToolLot As ToolLot = Nothing
+        If Me.m_entity.ItemCollection.IndexOf(Me.m_entity.ToolLot) - 1 >= 0 Then
+          newToolLot = Me.m_entity.ItemCollection(Me.m_entity.ItemCollection.IndexOf(Me.m_entity.ToolLot) - 1)
+        End If
+        Me.m_entity.ItemCollection.Remove(Me.m_entity.ItemCollection.IndexOf(Me.m_entity.ToolLot))
+        If Not newToolLot Is Nothing Then
+          Me.m_entity.ToolLot = newToolLot
+        End If
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
       'If Me.m_entity.ItemCollection.Count > 0 Then
-      '  'Me.m_entity.EquipmentItem = Me.m_entity.ItemCollection(0)
-      '  Me.RefreshDocs()
-      '  Me.RefreshData()
+      '  Me.m_entity.ToolLot = Me.m_entity.ItemCollection(0)
+      Me.RefreshDocs()
+      Me.RefreshData()
+      '  Me.ClearDetail()
       'End If
+
     End Sub
 
     Private Sub TxtToollotName_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtToollotName.EnabledChanged
 
+    End Sub
+
+    Private Sub IbtnAddRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IbtnAddRow.Click
+
+      Dim doc As ToolLot '= Me.CurrentTagItem
+      'If doc Is Nothing Then
+      doc = New ToolLot
+      Me.m_entity.ItemCollection.Add(doc)
+      doc.Autogen = True
+      Me.m_entity.ToolLot = doc
+      'End If
+
+      Me.RefreshData()
+      Me.RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub btnAddNew_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
+      Dim filters(0) As Filter
+      filters(0) = New Filter("id", 0)
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+      Dim Entities As New ArrayList
+      Dim view As AbstractEntityPanelViewContent = New GoodsReceiptSelectionView(Me.m_entity, 0, dlg, filters, Entities)
+      dlg.Lists.Add(view)
+
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
+      Me.RefreshDocs()
+      Me.UpdateAutogenStatus()
     End Sub
   End Class
 

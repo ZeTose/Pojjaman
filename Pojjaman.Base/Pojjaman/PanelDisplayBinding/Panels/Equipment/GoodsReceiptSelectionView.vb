@@ -33,9 +33,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.pnlFilter = New System.Windows.Forms.Panel
-      Me.Splitter1 = New System.Windows.Forms.Splitter
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
+      Me.pnlFilter = New System.Windows.Forms.Panel()
+      Me.Splitter1 = New System.Windows.Forms.Splitter()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
@@ -61,7 +61,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
-      'Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.InactiveCaptionText
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -674,6 +673,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
 
+    Private Sub pnlFilter_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles pnlFilter.Paint
+
+    End Sub
   End Class
 End Namespace
 

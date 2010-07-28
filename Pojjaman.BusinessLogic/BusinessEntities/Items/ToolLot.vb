@@ -237,6 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tool = value
       End Set
     End Property
+
     Public ReadOnly Property parent As SimpleBusinessEntityBase Implements IHasParent.parent
       Get
         Return CType(m_tool, SimpleBusinessEntityBase)
@@ -454,7 +455,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_writeoff = value
-
         'm_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
@@ -606,6 +606,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_currentItem = Value
       End Set
     End Property
+
     Public Property AutocodeFormats As List(Of AutoCodeFormat)
     'Public ReadOnly Property haveEmpty As Boolean
     '  Get

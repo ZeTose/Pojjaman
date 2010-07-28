@@ -477,7 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Public Sub SetLabelText()
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.grbDetail}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptForSelectFilterSubPanel.grbDetail}")
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblCode}")
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.btnSearch}")
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.btnReset}")
@@ -685,6 +685,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+    Private Sub grbMainDetail_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grbMainDetail.Enter
+
+    End Sub
+
+    Private Sub grbDetail_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grbDetail.Enter
+
+    End Sub
   End Class
 End Namespace
 

@@ -5,115 +5,115 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class AssetDetailView
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class AssetDetailView
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblType As System.Windows.Forms.Label
-        Friend WithEvents lblLocation As System.Windows.Forms.Label
-        Friend WithEvents picImage As System.Windows.Forms.PictureBox
-        Friend WithEvents btnAssetAuxDetail As System.Windows.Forms.Button
-        Friend WithEvents txtLocation As System.Windows.Forms.TextBox
-        Friend WithEvents grbCalcDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblCalcRate As System.Windows.Forms.Label
-        Friend WithEvents lblEndCalcDate As System.Windows.Forms.Label
-        Friend WithEvents txtAge As System.Windows.Forms.TextBox
-        Friend WithEvents txtCalcRate As System.Windows.Forms.TextBox
-        Friend WithEvents lblAge As System.Windows.Forms.Label
-        Friend WithEvents dtpStartCalcDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtStartCalcAmt As System.Windows.Forms.TextBox
-        Friend WithEvents lblCalcType As System.Windows.Forms.Label
-        Friend WithEvents lblStartCalcDate As System.Windows.Forms.Label
-        Friend WithEvents txtBuyFrom As System.Windows.Forms.TextBox
-        Friend WithEvents lblBuyPrice As System.Windows.Forms.Label
-        Friend WithEvents dtpBuyDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtBuyPrice As System.Windows.Forms.TextBox
-        Friend WithEvents lblBuyFrom As System.Windows.Forms.Label
-        Friend WithEvents lblBuyDocCode As System.Windows.Forms.Label
-        Friend WithEvents txtBuyDocCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblBuyDocDate As System.Windows.Forms.Label
-        Friend WithEvents lblCurrency1 As System.Windows.Forms.Label
-        Friend WithEvents cmbCalcType As System.Windows.Forms.ComboBox
-        Friend WithEvents lblYear As System.Windows.Forms.Label
-        Friend WithEvents lblYear1 As System.Windows.Forms.Label
-        Friend WithEvents lblCurrency2 As System.Windows.Forms.Label
-        Friend WithEvents lblSavage As System.Windows.Forms.Label
-        Friend WithEvents lblCurrency3 As System.Windows.Forms.Label
-        Friend WithEvents txtSalvage As System.Windows.Forms.TextBox
-        Friend WithEvents txtRemainingValue As System.Windows.Forms.TextBox
-        Friend WithEvents lblCurrency4 As System.Windows.Forms.Label
-        Friend WithEvents lblRemainingValue As System.Windows.Forms.Label
-        Friend WithEvents lblDepreOpenning As System.Windows.Forms.Label
-        Friend WithEvents lblCurrency5 As System.Windows.Forms.Label
-        Friend WithEvents txtDepreOpenning As System.Windows.Forms.TextBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblType As System.Windows.Forms.Label
+    Friend WithEvents lblLocation As System.Windows.Forms.Label
+    Friend WithEvents picImage As System.Windows.Forms.PictureBox
+    Friend WithEvents btnAssetAuxDetail As System.Windows.Forms.Button
+    Friend WithEvents txtLocation As System.Windows.Forms.TextBox
+    Friend WithEvents grbCalcDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblCalcRate As System.Windows.Forms.Label
+    Friend WithEvents lblEndCalcDate As System.Windows.Forms.Label
+    Friend WithEvents txtAge As System.Windows.Forms.TextBox
+    Friend WithEvents txtCalcRate As System.Windows.Forms.TextBox
+    Friend WithEvents lblAge As System.Windows.Forms.Label
+    Friend WithEvents dtpStartCalcDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtStartCalcAmt As System.Windows.Forms.TextBox
+    Friend WithEvents lblCalcType As System.Windows.Forms.Label
+    Friend WithEvents lblStartCalcDate As System.Windows.Forms.Label
+    Friend WithEvents txtBuyFrom As System.Windows.Forms.TextBox
+    Friend WithEvents lblBuyPrice As System.Windows.Forms.Label
+    Friend WithEvents dtpBuyDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtBuyPrice As System.Windows.Forms.TextBox
+    Friend WithEvents lblBuyFrom As System.Windows.Forms.Label
+    Friend WithEvents lblBuyDocCode As System.Windows.Forms.Label
+    Friend WithEvents txtBuyDocCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblBuyDocDate As System.Windows.Forms.Label
+    Friend WithEvents lblCurrency1 As System.Windows.Forms.Label
+    Friend WithEvents cmbCalcType As System.Windows.Forms.ComboBox
+    Friend WithEvents lblYear As System.Windows.Forms.Label
+    Friend WithEvents lblYear1 As System.Windows.Forms.Label
+    Friend WithEvents lblCurrency2 As System.Windows.Forms.Label
+    Friend WithEvents lblSavage As System.Windows.Forms.Label
+    Friend WithEvents lblCurrency3 As System.Windows.Forms.Label
+    Friend WithEvents txtSalvage As System.Windows.Forms.TextBox
+    Friend WithEvents txtRemainingValue As System.Windows.Forms.TextBox
+    Friend WithEvents lblCurrency4 As System.Windows.Forms.Label
+    Friend WithEvents lblRemainingValue As System.Windows.Forms.Label
+    Friend WithEvents lblDepreOpenning As System.Windows.Forms.Label
+    Friend WithEvents lblCurrency5 As System.Windows.Forms.Label
+    Friend WithEvents txtDepreOpenning As System.Windows.Forms.TextBox
     Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents lblGl As System.Windows.Forms.Label
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents grbBuyDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtGLCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtGLName As System.Windows.Forms.TextBox
-        Friend WithEvents txtTypeCode As System.Windows.Forms.TextBox
-        Friend WithEvents btnGLEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnGLFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnTypeFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnTypeEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtTypeName As System.Windows.Forms.TextBox
-        Friend WithEvents txtBuyDocDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtStartCalcDate As System.Windows.Forms.TextBox
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents txtEndCalcDate As System.Windows.Forms.TextBox
-        Friend WithEvents lblStartCalcAmnt As System.Windows.Forms.Label
-        Friend WithEvents lblCostcenter As System.Windows.Forms.Label
-        Friend WithEvents txtCostcenterCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtCostcenterName As System.Windows.Forms.TextBox
-        Friend WithEvents btnCostcenterEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnCostcenterFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents btnDepreAcctFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDepreAcctCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblDepreAcct As System.Windows.Forms.Label
-        Friend WithEvents btnDepreAcctEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDepreAcctName As System.Windows.Forms.TextBox
+    Friend WithEvents lblGl As System.Windows.Forms.Label
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents grbBuyDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtGLCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtGLName As System.Windows.Forms.TextBox
+    Friend WithEvents txtTypeCode As System.Windows.Forms.TextBox
+    Friend WithEvents btnGLEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnGLFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnTypeFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnTypeEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtTypeName As System.Windows.Forms.TextBox
+    Friend WithEvents txtBuyDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtStartCalcDate As System.Windows.Forms.TextBox
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents txtEndCalcDate As System.Windows.Forms.TextBox
+    Friend WithEvents lblStartCalcAmnt As System.Windows.Forms.Label
+    Friend WithEvents lblCostcenter As System.Windows.Forms.Label
+    Friend WithEvents txtCostcenterCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtCostcenterName As System.Windows.Forms.TextBox
+    Friend WithEvents btnCostcenterEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnCostcenterFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents btnDepreAcctFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDepreAcctCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblDepreAcct As System.Windows.Forms.Label
+    Friend WithEvents btnDepreAcctEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDepreAcctName As System.Windows.Forms.TextBox
     Friend WithEvents lblDepreOpeningAcct As System.Windows.Forms.Label
-        Friend WithEvents btnDepreOpeningAcctEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDepreOpeningAcctName As System.Windows.Forms.TextBox
-        Friend WithEvents btnDepreOpeningAcctFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtDepreOpeningAcctCode As System.Windows.Forms.TextBox
+    Friend WithEvents btnDepreOpeningAcctEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDepreOpeningAcctName As System.Windows.Forms.TextBox
+    Friend WithEvents btnDepreOpeningAcctFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtDepreOpeningAcctCode As System.Windows.Forms.TextBox
     Friend WithEvents lblAssetStatus As System.Windows.Forms.Label
     Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents txtTransferDate As System.Windows.Forms.TextBox
-        Friend WithEvents lblTransferDate As System.Windows.Forms.Label
-        Friend WithEvents dtpTransferDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtBuyDate As System.Windows.Forms.TextBox
-        Friend WithEvents lblBuyDate As System.Windows.Forms.Label
-        Friend WithEvents dtpBuyDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtDetail As System.Windows.Forms.TextBox
+    Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents txtTransferDate As System.Windows.Forms.TextBox
+    Friend WithEvents lblTransferDate As System.Windows.Forms.Label
+    Friend WithEvents dtpTransferDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtBuyDate As System.Windows.Forms.TextBox
+    Friend WithEvents lblBuyDate As System.Windows.Forms.Label
+    Friend WithEvents dtpBuyDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtDetail As System.Windows.Forms.TextBox
     Friend WithEvents lblDetail As System.Windows.Forms.Label
     Friend WithEvents txtDeprebase As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
@@ -1570,231 +1570,231 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCode}")
-            Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCode}")
+      Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
 
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblName}")
-            Me.Validator.SetDisplayName(Me.txtName, StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblName}")
+      Me.Validator.SetDisplayName(Me.txtName, StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
 
-            Me.lblDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDetail}")
-            Me.Validator.SetDisplayName(Me.txtDetail, StringHelper.GetRidOfAtEnd(Me.lblDetail.Text, ":"))
+      Me.lblDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDetail}")
+      Me.Validator.SetDisplayName(Me.txtDetail, StringHelper.GetRidOfAtEnd(Me.lblDetail.Text, ":"))
 
-            ' 
-            Me.lblGl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblGl}")
-            Me.Validator.SetDisplayName(Me.txtGLCode, StringHelper.GetRidOfAtEnd(Me.lblGl.Text, ":"))
-
-
-            Me.lblDepreOpeningAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpeningAcct}")
-            Me.Validator.SetDisplayName(Me.txtDepreOpeningAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreOpeningAcct.Text, ":"))
-
-            Me.lblDepreAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreAcct}")
-            Me.Validator.SetDisplayName(Me.txtDepreAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreAcct.Text, ":"))
-
-            Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblType}")
-            Me.Validator.SetDisplayName(Me.txtTypeCode, StringHelper.GetRidOfAtEnd(Me.lblType.Text, ":"))
-
-            Me.lblCostcenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCostcenter}")
-            Me.Validator.SetDisplayName(Me.txtCostcenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostcenter.Text, ":"))
-
-            Me.lblLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblLocation}")
-            Me.Validator.SetDisplayName(Me.txtLocation, StringHelper.GetRidOfAtEnd(Me.lblLocation.Text, ":"))
-
-            Me.lblCalcRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcRate}")
-            Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcRate.Text, ":"))
-
-            Me.lblEndCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblEndCalcDate}")
-            Me.Validator.SetDisplayName(Me.txtEndCalcDate, StringHelper.GetRidOfAtEnd(Me.lblEndCalcDate.Text, ":"))
-
-            Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
-            Me.Validator.SetDisplayName(Me.txtAge, StringHelper.GetRidOfAtEnd(Me.lblAge.Text, ":"))
-
-            Me.lblStartCalcAmnt.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcAmnt}")
-            Me.Validator.SetDisplayName(Me.txtStartCalcAmt, StringHelper.GetRidOfAtEnd(Me.lblStartCalcAmnt.Text, ":"))
+      ' 
+      Me.lblGl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblGl}")
+      Me.Validator.SetDisplayName(Me.txtGLCode, StringHelper.GetRidOfAtEnd(Me.lblGl.Text, ":"))
 
 
-            Me.lblCalcType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcType}")
-            Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcType.Text, ":"))
+      Me.lblDepreOpeningAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpeningAcct}")
+      Me.Validator.SetDisplayName(Me.txtDepreOpeningAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreOpeningAcct.Text, ":"))
+
+      Me.lblDepreAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreAcct}")
+      Me.Validator.SetDisplayName(Me.txtDepreAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreAcct.Text, ":"))
+
+      Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblType}")
+      Me.Validator.SetDisplayName(Me.txtTypeCode, StringHelper.GetRidOfAtEnd(Me.lblType.Text, ":"))
+
+      Me.lblCostcenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCostcenter}")
+      Me.Validator.SetDisplayName(Me.txtCostcenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostcenter.Text, ":"))
+
+      Me.lblLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblLocation}")
+      Me.Validator.SetDisplayName(Me.txtLocation, StringHelper.GetRidOfAtEnd(Me.lblLocation.Text, ":"))
+
+      Me.lblCalcRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcRate}")
+      Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcRate.Text, ":"))
+
+      Me.lblEndCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblEndCalcDate}")
+      Me.Validator.SetDisplayName(Me.txtEndCalcDate, StringHelper.GetRidOfAtEnd(Me.lblEndCalcDate.Text, ":"))
+
+      Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
+      Me.Validator.SetDisplayName(Me.txtAge, StringHelper.GetRidOfAtEnd(Me.lblAge.Text, ":"))
+
+      Me.lblStartCalcAmnt.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcAmnt}")
+      Me.Validator.SetDisplayName(Me.txtStartCalcAmt, StringHelper.GetRidOfAtEnd(Me.lblStartCalcAmnt.Text, ":"))
+
+
+      Me.lblCalcType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcType}")
+      Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcType.Text, ":"))
 
 
 
-            Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
-            Me.Validator.SetDisplayName(txtAge, lblAge.Text)
+      Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
+      Me.Validator.SetDisplayName(txtAge, lblAge.Text)
 
       'Me.lblRent.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblRent}")
       'Me.Validator.SetDisplayName(txtRent, lblRent.Text)
       'Me.lblDateInval.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDateInval}")
 
-            Me.lblStartCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcDate}")
-            Me.Validator.SetDisplayName(txtStartCalcDate, lblStartCalcDate.Text)
+      Me.lblStartCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcDate}")
+      Me.Validator.SetDisplayName(txtStartCalcDate, lblStartCalcDate.Text)
 
-            Me.lblBuyPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyPrice}")
-            Me.Validator.SetDisplayName(txtBuyPrice, lblBuyPrice.Text)
+      Me.lblBuyPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyPrice}")
+      Me.Validator.SetDisplayName(txtBuyPrice, lblBuyPrice.Text)
 
-            Me.lblBuyDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDate}")
-            Me.Validator.SetDisplayName(txtBuyDate, lblBuyDate.Text)
+      Me.lblBuyDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDate}")
+      Me.Validator.SetDisplayName(txtBuyDate, lblBuyDate.Text)
 
-            Me.lblTransferDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblTransferDate}")
-            Me.Validator.SetDisplayName(txtTransferDate, lblTransferDate.Text)
+      Me.lblTransferDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblTransferDate}")
+      Me.Validator.SetDisplayName(txtTransferDate, lblTransferDate.Text)
 
-            Me.lblBuyFrom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyFrom}")
-            Me.Validator.SetDisplayName(txtBuyFrom, lblBuyFrom.Text)
+      Me.lblBuyFrom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyFrom}")
+      Me.Validator.SetDisplayName(txtBuyFrom, lblBuyFrom.Text)
 
-            Me.lblBuyDocCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocCode}")
-            Me.Validator.SetDisplayName(txtBuyDocCode, lblBuyDocCode.Text)
+      Me.lblBuyDocCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocCode}")
+      Me.Validator.SetDisplayName(txtBuyDocCode, lblBuyDocCode.Text)
 
-            Me.lblBuyDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocDate}")
-            Me.Validator.SetDisplayName(txtBuyDocDate, lblBuyDocDate.Text)
+      Me.lblBuyDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocDate}")
+      Me.Validator.SetDisplayName(txtBuyDocDate, lblBuyDocDate.Text)
 
-            Me.lblYear.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear}")
-            Me.lblYear1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear1}")
+      Me.lblYear.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear}")
+      Me.lblYear1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear1}")
 
-            Me.lblSavage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblSavage}")
-            Me.Validator.SetDisplayName(txtSalvage, lblSavage.Text)
+      Me.lblSavage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblSavage}")
+      Me.Validator.SetDisplayName(txtSalvage, lblSavage.Text)
 
-            Me.lblRemainingValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblRemainingValue}")
-            Me.Validator.SetDisplayName(txtRemainingValue, lblRemainingValue.Text)
+      Me.lblRemainingValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblRemainingValue}")
+      Me.Validator.SetDisplayName(txtRemainingValue, lblRemainingValue.Text)
 
-            Me.lblDepreOpenning.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpenning}")
-            Me.Validator.SetDisplayName(txtDepreOpenning, lblDepreOpenning.Text)
+      Me.lblDepreOpenning.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpenning}")
+      Me.Validator.SetDisplayName(txtDepreOpenning, lblDepreOpenning.Text)
 
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblNote}")
-            Me.Validator.SetDisplayName(txtNote, lblNote.Text)
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblNote}")
+      Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-            Me.ToolTip1.SetToolTip(Me.btnLoadImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnLoadImage}"))
-            Me.ToolTip1.SetToolTip(Me.btnClearImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnClearImage}"))
-            Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
-            Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
+      Me.ToolTip1.SetToolTip(Me.btnLoadImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnLoadImage}"))
+      Me.ToolTip1.SetToolTip(Me.btnClearImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnClearImage}"))
+      Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
+      Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
 
-            Me.lblCurrency1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblCurrency2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblCurrency3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblCurrency4.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.lblCurrency5.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblCurrency1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblCurrency2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblCurrency3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblCurrency4.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.lblCurrency5.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
 
-            Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}")
+      Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}")
 
       'Me.grbStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbStatus}")
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbDetail}")
-            Me.grbCalcDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbCalcDetail}")
-            Me.grbBuyDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbBuyDetail}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbDetail}")
+      Me.grbCalcDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbCalcDetail}")
+      Me.grbBuyDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbBuyDetail}")
 
       'Me.chkCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.chkCancel}")
       'Me.chkDecay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.chkDecay}")
 
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Member"
-        Private m_entity As Asset
-        Private m_isInitialized As Boolean = False
+    Private m_entity As Asset
+    Private m_isInitialized As Boolean = False
 
 #End Region
 
 #Region "Constructor"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.Initialize()
 
-            Me.EventWiring()
-            Me.SetLabelText()
+      Me.EventWiring()
+      Me.SetLabelText()
 
-            Me.UpdateEntityProperties()
+      Me.UpdateEntityProperties()
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Method"
-        Public Overrides Sub Initialize()
-            ' กำหนดการคำนวณค่าเสื่อมราคา
-            AssetCalcType.ListCodeDescriptionInComboBox(cmbCalcType, "asset_calctype")
-            ' กำหนดอัตราค่าเช่าพื้นฐาน
-        End Sub
-        ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            Me.m_isInitialized = False
-            If m_entity Is Nothing Then
-                ClearDetail()
-                Return
-            End If
+    Public Overrides Sub Initialize()
+      ' กำหนดการคำนวณค่าเสื่อมราคา
+      AssetCalcType.ListCodeDescriptionInComboBox(cmbCalcType, "asset_calctype")
+      ' กำหนดอัตราค่าเช่าพื้นฐาน
+    End Sub
+    ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      Me.m_isInitialized = False
+      If m_entity Is Nothing Then
+        ClearDetail()
+        Return
+      End If
 
-            txtCode.Text = Me.m_entity.Code
-            txtName.Text = Me.m_entity.Name
-            txtDetail.Text = Me.m_entity.Detail
-            ' autogencode
-            Me.m_oldCode = Me.m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+      txtCode.Text = Me.m_entity.Code
+      txtName.Text = Me.m_entity.Name
+      txtDetail.Text = Me.m_entity.Detail
+      ' autogencode
+      Me.m_oldCode = Me.m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            If Not Me.m_entity.Account Is Nothing Then
-                txtGLCode.Text = Me.m_entity.Account.Code
-                txtGLName.Text = Me.m_entity.Account.Name
-            End If
-            If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
-                txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
-                txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
-            End If
-            If Not Me.m_entity.DepreAccount Is Nothing Then
-                txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
-                txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
-            End If
+      If Not Me.m_entity.Account Is Nothing Then
+        txtGLCode.Text = Me.m_entity.Account.Code
+        txtGLName.Text = Me.m_entity.Account.Name
+      End If
+      If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
+        txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
+        txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
+      End If
+      If Not Me.m_entity.DepreAccount Is Nothing Then
+        txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
+        txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
+      End If
 
-            If Not Me.m_entity.Costcenter Is Nothing Then
-                txtCostcenterCode.Text = Me.m_entity.Costcenter.Code
-                txtCostcenterName.Text = Me.m_entity.Costcenter.Name
-            End If
-            If Not Me.m_entity.Type Is Nothing Then
-                txtTypeCode.Text = Me.m_entity.Type.Code
-                txtTypeName.Text = Me.m_entity.Type.Name
-            End If
+      If Not Me.m_entity.Costcenter Is Nothing Then
+        txtCostcenterCode.Text = Me.m_entity.Costcenter.Code
+        txtCostcenterName.Text = Me.m_entity.Costcenter.Name
+      End If
+      If Not Me.m_entity.Type Is Nothing Then
+        txtTypeCode.Text = Me.m_entity.Type.Code
+        txtTypeName.Text = Me.m_entity.Type.Name
+      End If
 
-            txtLocation.Text = Me.m_entity.Location
-            txtNote.Text = Me.m_entity.Note
+      txtLocation.Text = Me.m_entity.Location
+      txtNote.Text = Me.m_entity.Note
       'txtRent.Text = Configuration.FormatToString(Me.m_entity.RentalRate, DigitConfig.Qty)
 
-            ' cmbCalcType.SelectedIndex = Me.m_entity.CalcType.Value
-            For Each item As IdValuePair In Me.cmbCalcType.Items
-                If Me.m_entity.CalcType Is item Then
-                    Me.cmbCalcType.SelectedItem = item
-                    Exit For
-                End If
-            Next
+      ' cmbCalcType.SelectedIndex = Me.m_entity.CalcType.Value
+      For Each item As IdValuePair In Me.cmbCalcType.Items
+        If Me.m_entity.CalcType Is item Then
+          Me.cmbCalcType.SelectedItem = item
+          Exit For
+        End If
+      Next
 
       'Me.lblCurrentStatus.Text = Me.m_entity.Status.Description
 
-            txtAge.Text = Configuration.FormatToString(Me.m_entity.Age, DigitConfig.Int)
-            ' วันที่เริ่มคำนวณค่าเสื่อม
-            txtStartCalcDate.Text = MinDateToNull(Me.m_entity.StartCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpStartCalcDate.Value = MinDateToNow(Me.m_entity.StartCalcDate)
-            ' วันที่สิ้นสุดคำนวณค่าเสื่อม
-            txtEndCalcDate.Text = MinDateToNull(Me.m_entity.EndCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            ' ค่าการคำนวณ
-            txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Price)
-            txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
-            txtSalvage.Text = Configuration.FormatToString(Me.m_entity.Salvage, DigitConfig.Price)
-            ' ค่าอัตโนมัติ
-            txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
-            txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
-            ' วันที่ซื้อ
-            txtBuyDate.Text = MinDateToNull(Me.m_entity.BuyDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpBuyDate.Value = MinDateToNow(Me.m_entity.BuyDate)
-            ' วันที่ยกค่าเสื่อมมา
-            txtTransferDate.Text = MinDateToNull(Me.m_entity.TransferDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpTransferDate.Value = MinDateToNow(Me.m_entity.TransferDate)
+      txtAge.Text = Configuration.FormatToString(Me.m_entity.Age, DigitConfig.Int)
+      ' วันที่เริ่มคำนวณค่าเสื่อม
+      txtStartCalcDate.Text = MinDateToNull(Me.m_entity.StartCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpStartCalcDate.Value = MinDateToNow(Me.m_entity.StartCalcDate)
+      ' วันที่สิ้นสุดคำนวณค่าเสื่อม
+      txtEndCalcDate.Text = MinDateToNull(Me.m_entity.EndCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      ' ค่าการคำนวณ
+      txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Price)
+      txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
+      txtSalvage.Text = Configuration.FormatToString(Me.m_entity.Salvage, DigitConfig.Price)
+      ' ค่าอัตโนมัติ
+      txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
+      txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
+      ' วันที่ซื้อ
+      txtBuyDate.Text = MinDateToNull(Me.m_entity.BuyDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpBuyDate.Value = MinDateToNow(Me.m_entity.BuyDate)
+      ' วันที่ยกค่าเสื่อมมา
+      txtTransferDate.Text = MinDateToNull(Me.m_entity.TransferDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpTransferDate.Value = MinDateToNow(Me.m_entity.TransferDate)
 
-            txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
-            txtBuyDocCode.Text = Me.m_entity.BuyDocCode
-            ' วันที่ซื้อในเอกสาร
-            txtBuyDocDate.Text = MinDateToNull(Me.m_entity.BuyDocDate, "")
-            dtpBuyDocDate.Value = MinDateToNow(Me.m_entity.BuyDocDate)
+      txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
+      txtBuyDocCode.Text = Me.m_entity.BuyDocCode
+      ' วันที่ซื้อในเอกสาร
+      txtBuyDocDate.Text = MinDateToNull(Me.m_entity.BuyDocDate, "")
+      dtpBuyDocDate.Value = MinDateToNow(Me.m_entity.BuyDocDate)
 
-            txtBuyFrom.Text = Me.m_entity.BuyFrom
+      txtBuyFrom.Text = Me.m_entity.BuyFrom
 
-            picImage.Image = Me.m_entity.Image
-            CheckLabelImgSize()
+      picImage.Image = Me.m_entity.Image
+      CheckLabelImgSize()
 
       'chkCancel.Checked = Me.m_entity.Canceled
       'If Me.m_entity.Status.Value = 4 Then   ' ชำรุด
@@ -1803,83 +1803,83 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    chkDecay.Checked = False
       'End If
 
-            SetLabelText()
-            CheckFormEnable()
-            Me.m_isInitialized = True
-        End Sub
+      SetLabelText()
+      CheckFormEnable()
+      Me.m_isInitialized = True
+    End Sub
 
-        Protected Overrides Sub EventWiring()
-            ' สถานะสินทรัพย์
+    Protected Overrides Sub EventWiring()
+      ' สถานะสินทรัพย์
       'AddHandler chkCancel.CheckedChanged, AddressOf Me.ChangeStatus
       'AddHandler chkDecay.CheckedChanged, AddressOf Me.ChangeStatus
 
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtDetail.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDetail.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtGLCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtDepreOpeningAcctCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtDepreAcctCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtGLCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDepreOpeningAcctCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDepreAcctCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtCostcenterCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtTypeCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCostcenterCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtTypeCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtLocation.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtLocation.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler cmbCalcType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCalcType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtAge.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAge.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtStartCalcDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpStartCalcDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtStartCalcDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpStartCalcDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            'AddHandler txtCalcRate.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtStartCalcAmt.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtSalvage.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtDepreOpenning.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtRemainingValue.TextChanged, AddressOf Me.ChangeProperty
+      'AddHandler txtCalcRate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtStartCalcAmt.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSalvage.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDepreOpenning.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRemainingValue.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtTransferDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpTransferDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtTransferDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpTransferDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBuyDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpBuyDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpBuyDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBuyPrice.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtBuyDocCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyPrice.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyDocCode.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBuyDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpBuyDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpBuyDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBuyFrom.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyFrom.TextChanged, AddressOf Me.ChangeProperty
 
       'AddHandler txtRent.TextChanged, AddressOf Me.ChangeProperty
 
-            ' numeric format  
+      ' numeric format  
       'AddHandler txtRent.Validated, AddressOf Me.NumerberTextBoxChange
-            AddHandler txtAge.Validated, AddressOf Me.NumerberTextBoxChange
-            AddHandler txtCalcRate.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtAge.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtCalcRate.Validated, AddressOf Me.NumerberTextBoxChange
 
-            AddHandler txtStartCalcAmt.Validated, AddressOf Me.NumerberTextBoxChange
-            AddHandler txtDepreOpenning.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtStartCalcAmt.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtDepreOpenning.Validated, AddressOf Me.NumerberTextBoxChange
 
-            AddHandler txtSalvage.Validated, AddressOf Me.NumerberTextBoxChange
-            AddHandler txtBuyPrice.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtSalvage.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtBuyPrice.Validated, AddressOf Me.NumerberTextBoxChange
 
-            ' SetDefault value  
-            AddHandler cmbCalcType.SelectedIndexChanged, AddressOf Me.SetValue
-            AddHandler txtAge.Validated, AddressOf Me.SetValue
-            AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
-            AddHandler dtpStartCalcDate.Validated, AddressOf Me.SetValue
+      ' SetDefault value  
+      AddHandler cmbCalcType.SelectedIndexChanged, AddressOf Me.SetValue
+      AddHandler txtAge.Validated, AddressOf Me.SetValue
+      AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
+      AddHandler dtpStartCalcDate.Validated, AddressOf Me.SetValue
 
-            AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
-            AddHandler txtDepreOpenning.Validated, AddressOf Me.SetValue
+      AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
+      AddHandler txtDepreOpenning.Validated, AddressOf Me.SetValue
 
-            AddHandler txtSalvage.Validated, AddressOf Me.SetValue
-            AddHandler txtBuyPrice.Validated, AddressOf Me.SetValue
+      AddHandler txtSalvage.Validated, AddressOf Me.SetValue
+      AddHandler txtBuyPrice.Validated, AddressOf Me.SetValue
 
-        End Sub
+    End Sub
     'Public Sub ChangeStatus(ByVal sender As Object, ByVal e As EventArgs)
     '    If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
     '        Return
@@ -1900,97 +1900,97 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '    Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
     '    CheckFormEnable()
     'End Sub
-        Public Sub SetValueFromAssetType()
-            If Not Me.m_entity.Type Is Nothing _
-            AndAlso Not Me.m_entity.Type.DepreAble Then
-                'txtUnitCode.Enabled = False
-                'txtUnitName.Enabled = False
-                'btnUnitEdit.Enabled = False
-                'btnUnitFind.Enabled = False
-                'txtUnitCode.Text = Me.m_entity.Type.Unit.Code
-                'txtUnitName.Text = Me.m_entity.Type.Unit.Name
-            Else
-                ''txtUnitCode.Text = ""
-                ''txtUnitName.Text = ""
-                'txtUnitCode.Enabled = True
-                'txtUnitName.Enabled = True
-                'btnUnitEdit.Enabled = True
-                'btnUnitFind.Enabled = True
-            End If
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            If Not Me.m_entity.Account Is Nothing Then
-                txtGLCode.Text = Me.m_entity.Account.Code
-                txtGLName.Text = Me.m_entity.Account.Name
-            End If
-            If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
-                txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
-                txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
-            End If
-            If Not Me.m_entity.DepreAccount Is Nothing Then
-                txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
-                txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
-            End If
-            Me.m_isInitialized = flag
-        End Sub
-        Public Sub NumerberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
+    Public Sub SetValueFromAssetType()
+      If Not Me.m_entity.Type Is Nothing _
+      AndAlso Not Me.m_entity.Type.DepreAble Then
+        'txtUnitCode.Enabled = False
+        'txtUnitName.Enabled = False
+        'btnUnitEdit.Enabled = False
+        'btnUnitFind.Enabled = False
+        'txtUnitCode.Text = Me.m_entity.Type.Unit.Code
+        'txtUnitName.Text = Me.m_entity.Type.Unit.Name
+      Else
+        ''txtUnitCode.Text = ""
+        ''txtUnitName.Text = ""
+        'txtUnitCode.Enabled = True
+        'txtUnitName.Enabled = True
+        'btnUnitEdit.Enabled = True
+        'btnUnitFind.Enabled = True
+      End If
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      If Not Me.m_entity.Account Is Nothing Then
+        txtGLCode.Text = Me.m_entity.Account.Code
+        txtGLName.Text = Me.m_entity.Account.Name
+      End If
+      If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
+        txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
+        txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
+      End If
+      If Not Me.m_entity.DepreAccount Is Nothing Then
+        txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
+        txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
+      End If
+      Me.m_isInitialized = flag
+    End Sub
+    Public Sub NumerberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
         'Case "txtrent"
         '    txtRent.Text = Configuration.FormatToString(Me.m_entity.RentalRate, DigitConfig.Price)
-                Case "txtage"
-                    txtAge.Text = Configuration.FormatToString(Me.m_entity.Age, DigitConfig.Int)
-                Case "txtcalcrate"
-                    txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Qty)
-                Case "txtstartcalcamt"
-                    txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
-                Case "txtsalvage"
-                    txtSalvage.Text = Configuration.FormatToString(Me.m_entity.Salvage, DigitConfig.Price)
-                Case "txtdepreopenning"
-                    txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
-                Case "txtremainingvalue"
-                    txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
+        Case "txtage"
+          txtAge.Text = Configuration.FormatToString(Me.m_entity.Age, DigitConfig.Int)
+        Case "txtcalcrate"
+          txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Qty)
+        Case "txtstartcalcamt"
+          txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
+        Case "txtsalvage"
+          txtSalvage.Text = Configuration.FormatToString(Me.m_entity.Salvage, DigitConfig.Price)
+        Case "txtdepreopenning"
+          txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
+        Case "txtremainingvalue"
+          txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
 
-                Case "txtbuyprice"
-                    txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+        Case "txtbuyprice"
+          txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
 
-            If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Dim tmpFlag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcode"
-                    Me.m_entity.Code = txtCode.Text
-                    dirtyFlag = True
-                Case "txtname"
-                    Me.m_entity.Name = txtName.Text
-                    dirtyFlag = True
-                Case "txtdetail"
-                    Me.m_entity.Detail = txtDetail.Text
-                    dirtyFlag = True
+      If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Dim tmpFlag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          Me.m_entity.Code = txtCode.Text
+          dirtyFlag = True
+        Case "txtname"
+          Me.m_entity.Name = txtName.Text
+          dirtyFlag = True
+        Case "txtdetail"
+          Me.m_entity.Detail = txtDetail.Text
+          dirtyFlag = True
 
-                Case "txtglcode"
-                    dirtyFlag = Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
-                Case "txtdepreopeningacctcode"
-                    dirtyFlag = Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
-                Case "txtdepreacctcode"
-                    dirtyFlag = Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
-                Case "txtcostcentercode"
-                    dirtyFlag = CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
-                Case "txttypecode"
-                    dirtyFlag = AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
-                    Me.SetValueFromAssetType()
-                Case "txtlocation"
-                    Me.m_entity.Location = txtLocation.Text
-                    dirtyFlag = True
+        Case "txtglcode"
+          dirtyFlag = Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
+        Case "txtdepreopeningacctcode"
+          dirtyFlag = Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
+        Case "txtdepreacctcode"
+          dirtyFlag = Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
+        Case "txtcostcentercode"
+          dirtyFlag = CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
+        Case "txttypecode"
+          dirtyFlag = AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
+          Me.SetValueFromAssetType()
+        Case "txtlocation"
+          Me.m_entity.Location = txtLocation.Text
+          dirtyFlag = True
 
           'Case "txtrent"
           '    If txtRent.TextLength > 0 Then
@@ -2000,531 +2000,533 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '    End If
           '    dirtyFlag = True
 
-                Case "txtnote"
-                    Me.m_entity.Note = txtNote.Text
-                    dirtyFlag = True
-                Case "cmbcalctype"
-                    Dim idPair As IdValuePair = CType(Me.cmbCalcType.SelectedItem, IdValuePair)
-                    Me.m_entity.CalcType.Value = idPair.Id
-                    Me.m_entity.CalcType.Description = idPair.Value
-                    dirtyFlag = True
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "cmbcalctype"
+          Dim idPair As IdValuePair = CType(Me.cmbCalcType.SelectedItem, IdValuePair)
+          Me.m_entity.CalcType.Value = idPair.Id
+          Me.m_entity.CalcType.Description = idPair.Value
+          dirtyFlag = True
 
-                Case "txtage"
-                    If txtAge.TextLength > 0 AndAlso Me.Validator.GetErrorMessage(txtAge).Length = 0 Then
-                        Me.m_entity.Age = CInt(txtAge.Text)
-                    Else
-                        Me.m_entity.Age = Nothing
-                    End If
-                    dirtyFlag = True
+        Case "txtage"
+          If txtAge.TextLength > 0 AndAlso Me.Validator.GetErrorMessage(txtAge).Length = 0 Then
+            Me.m_entity.Age = CInt(txtAge.Text)
+          Else
+            Me.m_entity.Age = Nothing
+          End If
+          dirtyFlag = True
 
-                Case "dtpstartcalcdate"
-                    If Not Me.m_entity.StartCalcDate.Equals(dtpStartCalcDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtStartCalcDate.Text = MinDateToNull(dtpStartCalcDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.StartCalcDate = dtpStartCalcDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txtstartcalcdate"
-                    m_dateSetting = True
-                    If Not Me.txtStartCalcDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtStartCalcDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtStartCalcDate.Text)
-                        If Not Me.m_entity.StartCalcDate.Equals(theDate) Then
-                            dtpStartCalcDate.Value = theDate
-                            Me.m_entity.StartCalcDate = dtpStartCalcDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpStartCalcDate.Value = Date.Now
-                        Me.m_entity.StartCalcDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-
-                Case "txtstartcalcamt"
-                    If txtStartCalcAmt.TextLength > 0 Then
-                        Me.m_entity.StartCalcAmt = CDec(txtStartCalcAmt.Text)
-                    Else
-                        Me.m_entity.StartCalcAmt = Nothing
-                    End If
-                    txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
-                    dirtyFlag = True
-
-                Case "txtdepreopenning"
-                    If txtDepreOpenning.TextLength > 0 Then
-                        Me.m_entity.DepreOpening = CDec(txtDepreOpenning.Text)
-                    Else
-                        Me.m_entity.DepreOpening = Nothing
-                    End If
-                    txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
-                    dirtyFlag = True
-
-                Case "dtptransferdate"
-                    If Not Me.m_entity.TransferDate.Equals(dtpTransferDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtTransferDate.Text = MinDateToNull(dtpTransferDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.TransferDate = dtpTransferDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txttransferdate"
-                    m_dateSetting = True
-                    If Not Me.txtTransferDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtTransferDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtTransferDate.Text)
-                        If Not Me.m_entity.TransferDate.Equals(theDate) Then
-                            dtpTransferDate.Value = theDate
-                            Me.m_entity.TransferDate = dtpTransferDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpTransferDate.Value = Date.Now
-                        Me.m_entity.TransferDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-
-                Case "dtpbuydate"
-                    If Not Me.m_entity.BuyDate.Equals(dtpBuyDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtBuyDate.Text = MinDateToNull(dtpBuyDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.BuyDate = dtpBuyDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txtbuydate"
-                    m_dateSetting = True
-                    If Not Me.txtBuyDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBuyDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtBuyDate.Text)
-                        If Not Me.m_entity.BuyDate.Equals(theDate) Then
-                            dtpBuyDate.Value = theDate
-                            Me.m_entity.BuyDate = dtpBuyDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpBuyDate.Value = Date.Now
-                        Me.m_entity.BuyDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-                Case "txtbuyprice"
-                    dirtyFlag = True
-                    If txtBuyPrice.TextLength > 0 Then
-                        Me.m_entity.BuyPrice = CDec(txtBuyPrice.Text)
-                    Else
-                        Me.m_entity.BuyPrice = Nothing
-                    End If
-
-                Case "txtbuydoccode"
-                    Me.m_entity.BuyDocCode = txtBuyDocCode.Text
-                    dirtyFlag = True
-
-                Case "txtbuydocdate"
-                    Dim dt As DateTime = StringToDate(txtBuyDocDate, dtpBuyDocDate)
-                    Me.m_entity.BuyDocDate = dt
-                    dirtyFlag = True
-
-                Case "dtpbuydocdate"
-                    txtBuyDocDate.Text = MinDateToNull(dtpBuyDocDate.Value, "")
-                    Me.m_entity.BuyDocDate = dtpBuyDocDate.Value
-                    dirtyFlag = True
-
-                Case "txtbuyfrom"
-                    Me.m_entity.BuyFrom = txtBuyFrom.Text
-                    dirtyFlag = True
-
-                Case "txtsalvage"
-                    If txtSalvage.TextLength > 0 Then
-                        Me.m_entity.Salvage = CDec(txtSalvage.Text)
-                    Else
-                        Me.m_entity.Salvage = Nothing
-                    End If
-                    dirtyFlag = True
-
-            End Select
-            Me.m_isInitialized = tmpFlag
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-
-            CheckFormEnable()
-        End Sub
-        Private Sub CalcDepreEndCalcDate()
-            txtEndCalcDate.Text = MinDateToNull(Me.m_entity.EndCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-        End Sub
-        Private Sub CalcDepreCalcRate()
-            txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Qty)
-        End Sub
-        Private Sub SetValue(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
-                Return
+        Case "dtpstartcalcdate"
+          If Not Me.m_entity.StartCalcDate.Equals(dtpStartCalcDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtStartCalcDate.Text = MinDateToNull(dtpStartCalcDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.StartCalcDate = dtpStartCalcDate.Value
             End If
-            ' คำนวณค่าเริ่มต้นที่สำคัญ
-            Select Case CType(sender, Control).Name.ToLower
-                ' คำนวณเกี่ยวกับวันที่เริ่มต้น
-            Case "cmbcalctype"
-                    CalcDepreEndCalcDate()
-                    CalcDepreCalcRate()
-                Case "txtage"
-                    CalcDepreEndCalcDate()
-                    CalcDepreCalcRate()
+            dirtyFlag = True
+          End If
+        Case "txtstartcalcdate"
+          m_dateSetting = True
+          If Not Me.txtStartCalcDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtStartCalcDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtStartCalcDate.Text)
+            If Not Me.m_entity.StartCalcDate.Equals(theDate) Then
+              dtpStartCalcDate.Value = theDate
+              Me.m_entity.StartCalcDate = dtpStartCalcDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpStartCalcDate.Value = Date.Now
+            Me.m_entity.StartCalcDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
 
-                Case "txtstartcalcdate"
-                    CalcDepreEndCalcDate()
+        Case "txtstartcalcamt"
+          If txtStartCalcAmt.TextLength > 0 Then
+            Me.m_entity.StartCalcAmt = CDec(txtStartCalcAmt.Text)
+          Else
+            Me.m_entity.StartCalcAmt = Nothing
+          End If
+          txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
+          dirtyFlag = True
 
-                Case "dtpstartcalcdate"
-                    CalcDepreEndCalcDate()
+        Case "txtdepreopenning"
+          If txtDepreOpenning.TextLength > 0 Then
+            Me.m_entity.DepreOpening = CDec(txtDepreOpenning.Text)
+          Else
+            Me.m_entity.DepreOpening = Nothing
+          End If
+          txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
+          dirtyFlag = True
 
-                Case "txtsalvage", "txtbuyprice", "txtdepreopenning", "txtstartcalcamt"
-                    txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
-            End Select
-        End Sub
+        Case "dtptransferdate"
+          If Not Me.m_entity.TransferDate.Equals(dtpTransferDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtTransferDate.Text = MinDateToNull(dtpTransferDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.TransferDate = dtpTransferDate.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txttransferdate"
+          m_dateSetting = True
+          If Not Me.txtTransferDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtTransferDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtTransferDate.Text)
+            If Not Me.m_entity.TransferDate.Equals(theDate) Then
+              dtpTransferDate.Value = theDate
+              Me.m_entity.TransferDate = dtpTransferDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpTransferDate.Value = Date.Now
+            Me.m_entity.TransferDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+
+        Case "dtpbuydate"
+          If Not Me.m_entity.BuyDate.Equals(dtpBuyDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtBuyDate.Text = MinDateToNull(dtpBuyDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.BuyDate = dtpBuyDate.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtbuydate"
+          m_dateSetting = True
+          If Not Me.txtBuyDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBuyDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtBuyDate.Text)
+            If Not Me.m_entity.BuyDate.Equals(theDate) Then
+              dtpBuyDate.Value = theDate
+              Me.m_entity.BuyDate = dtpBuyDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpBuyDate.Value = Date.Now
+            Me.m_entity.BuyDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "txtbuyprice"
+          dirtyFlag = True
+          If txtBuyPrice.TextLength > 0 Then
+            Me.m_entity.BuyPrice = CDec(txtBuyPrice.Text)
+          Else
+            Me.m_entity.BuyPrice = Nothing
+          End If
+
+        Case "txtbuydoccode"
+          Me.m_entity.BuyDocCode = txtBuyDocCode.Text
+          dirtyFlag = True
+
+        Case "txtbuydocdate"
+          Dim dt As DateTime = StringToDate(txtBuyDocDate, dtpBuyDocDate)
+          Me.m_entity.BuyDocDate = dt
+          dirtyFlag = True
+
+        Case "dtpbuydocdate"
+          txtBuyDocDate.Text = MinDateToNull(dtpBuyDocDate.Value, "")
+          Me.m_entity.BuyDocDate = dtpBuyDocDate.Value
+          dirtyFlag = True
+
+        Case "txtbuyfrom"
+          Me.m_entity.BuyFrom = txtBuyFrom.Text
+          dirtyFlag = True
+
+        Case "txtsalvage"
+          If txtSalvage.TextLength > 0 Then
+            Me.m_entity.Salvage = CDec(txtSalvage.Text)
+          Else
+            Me.m_entity.Salvage = Nothing
+          End If
+          dirtyFlag = True
+
+      End Select
+      Me.m_isInitialized = tmpFlag
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+
+      CheckFormEnable()
+    End Sub
+    Private Sub CalcDepreEndCalcDate()
+      txtEndCalcDate.Text = MinDateToNull(Me.m_entity.EndCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+    End Sub
+    Private Sub CalcDepreCalcRate()
+      txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Qty)
+    End Sub
+    Private Sub SetValue(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
+        Return
+      End If
+      ' คำนวณค่าเริ่มต้นที่สำคัญ
+      Select Case CType(sender, Control).Name.ToLower
+        ' คำนวณเกี่ยวกับวันที่เริ่มต้น
+        Case "cmbcalctype"
+          CalcDepreEndCalcDate()
+          CalcDepreCalcRate()
+        Case "txtage"
+          CalcDepreEndCalcDate()
+          CalcDepreCalcRate()
+
+        Case "txtstartcalcdate"
+          CalcDepreEndCalcDate()
+
+        Case "dtpstartcalcdate"
+          CalcDepreEndCalcDate()
+
+        Case "txtsalvage", "txtbuyprice", "txtdepreopenning", "txtstartcalcamt"
+          txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
+      End Select
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        Private Sub CheckIsDepreciated(ByVal flag As Boolean)
-            ' ผังบัญชี
-            txtGLCode.Enabled = Not flag
-            txtGLName.Enabled = Not flag
-            btnGLEdit.Enabled = Not flag
-            btnGLFind.Enabled = Not flag
-            ' ผังบัญชีค่าเสื่อมสะสม
-            txtDepreOpeningAcctCode.Enabled = Not flag
-            txtDepreOpeningAcctName.Enabled = Not flag
-            btnDepreOpeningAcctEdit.Enabled = Not flag
-            btnDepreOpeningAcctFind.Enabled = Not flag
-            ' ผังบัญชีค่าเสื่อม
-            txtDepreAcctCode.Enabled = Not flag
-            txtDepreAcctName.Enabled = Not flag
-            btnDepreAcctEdit.Enabled = Not flag
-            btnDepreAcctFind.Enabled = Not flag
-            ' cost center
-            txtCostcenterCode.Enabled = Not flag
-            txtCostcenterName.Enabled = Not flag
-            btnCostcenterEdit.Enabled = Not flag
-            btnCostcenterFind.Enabled = Not flag
-            ' การคำนวณ
-            grbCalcDetail.Enabled = Not flag
-            ' การซื้อ 
-            grbBuyDetail.Enabled = Not flag
-        End Sub
+    Private Sub CheckIsDepreciated(ByVal flag As Boolean)
+      ' ผังบัญชี
+      txtGLCode.Enabled = Not flag
+      txtGLName.Enabled = Not flag
+      btnGLEdit.Enabled = Not flag
+      btnGLFind.Enabled = Not flag
+      ' ผังบัญชีค่าเสื่อมสะสม
+      txtDepreOpeningAcctCode.Enabled = Not flag
+      txtDepreOpeningAcctName.Enabled = Not flag
+      btnDepreOpeningAcctEdit.Enabled = Not flag
+      btnDepreOpeningAcctFind.Enabled = Not flag
+      ' ผังบัญชีค่าเสื่อม
+      txtDepreAcctCode.Enabled = Not flag
+      txtDepreAcctName.Enabled = Not flag
+      btnDepreAcctEdit.Enabled = Not flag
+      btnDepreAcctFind.Enabled = Not flag
+      ' cost center
+      txtCostcenterCode.Enabled = Not flag
+      txtCostcenterName.Enabled = Not flag
+      btnCostcenterEdit.Enabled = Not flag
+      btnCostcenterFind.Enabled = Not flag
+      ' การคำนวณ
+      grbCalcDetail.Enabled = Not flag
+      ' การซื้อ 
+      grbBuyDetail.Enabled = Not flag
+    End Sub
 
-        ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
-            ' Protected from ...
-            If Me.m_entity.Canceled OrElse (Me.m_entity.Status.Value <> 1 AndAlso Me.m_entity.Status.Value <> -1) Then
-                For Each crlt As Control In grbDetail.Controls
-                    If Not TypeOf crlt Is FixedGroupBox Then
-                        crlt.Enabled = False
-                    End If
-                Next
+    ' ตรวจสอบสถานะของฟอร์ม
+    Public Overrides Sub CheckFormEnable()
+      ' Protected from ...
+      If Me.m_entity.Canceled OrElse (Me.m_entity.Status.Value <> 1 AndAlso Me.m_entity.Status.Value <> -1) Then
+        For Each crlt As Control In grbDetail.Controls
+          If Not TypeOf crlt Is FixedGroupBox Then
+            crlt.Enabled = False
+          End If
+        Next
         'For Each crlt As Control In grbStatus.Controls
         '    crlt.Enabled = False
         'Next
         'grbCalcDetail.Enabled = False
         'grbBuyDetail.Enabled = False
         'chkCancel.Enabled = True
-            Else
-                For Each crlt As Control In grbDetail.Controls
-                    crlt.Enabled = True
-                Next
+      Else
+        For Each crlt As Control In grbDetail.Controls
+          crlt.Enabled = True
+        Next
         'For Each ctrl As Control In grbStatus.Controls
         '    ctrl.Enabled = True
         'Next
-                grbCalcDetail.Enabled = True
-                grbBuyDetail.Enabled = True
-                ' กำหนด columns ที่ต้องการ protect เมื่อมีการคำนวณค่าเสื่อม
-                CheckIsDepreciated(Me.m_entity.IsDepreciated)
+        grbCalcDetail.Enabled = True
+        grbBuyDetail.Enabled = True
+        ' กำหนด columns ที่ต้องการ protect เมื่อมีการคำนวณค่าเสื่อม
+        CheckIsDepreciated(Me.m_entity.IsDepreciated)
 
+      End If
+
+      SetValueFromAssetType()
+    End Sub
+
+    ' เคลียร์ข้อมูลใน control
+    Public Overrides Sub ClearDetail()
+      For Each ctrl As Control In grbDetail.Controls
+        If TypeOf ctrl Is FixedGroupBox OrElse TypeOf ctrl Is GroupBox Then
+          For Each child As Control In ctrl.Controls
+            If TypeOf child Is TextBox Then
+              child.Text = ""
             End If
+          Next
+        ElseIf TypeOf ctrl Is TextBox Then
+          ctrl.Text = ""
+        End If
+      Next
 
-            SetValueFromAssetType()
-        End Sub
+      cmbCalcType.SelectedIndex = 0
 
-        ' เคลียร์ข้อมูลใน control
-        Public Overrides Sub ClearDetail()
-            For Each ctrl As Control In grbDetail.Controls
-                If TypeOf ctrl Is FixedGroupBox OrElse TypeOf ctrl Is GroupBox Then
-                    For Each child As Control In ctrl.Controls
-                        If TypeOf child Is TextBox Then
-                            child.Text = ""
-                        End If
-                    Next
-                ElseIf TypeOf ctrl Is TextBox Then
-                    ctrl.Text = ""
-                End If
-            Next
+      txtStartCalcDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpStartCalcDate.Value = Date.Now
 
-            cmbCalcType.SelectedIndex = 0
+      txtEndCalcDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
 
-            txtStartCalcDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-            dtpStartCalcDate.Value = Date.Now
+      txtTransferDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpTransferDate.Value = Date.Now
 
-            txtEndCalcDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      txtBuyDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpBuyDate.Value = Date.Now
 
-            txtTransferDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-            dtpTransferDate.Value = Date.Now
+      txtBuyDocDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpBuyDocDate.Value = Date.Now
 
-            txtBuyDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-            dtpBuyDate.Value = Date.Now
+      Me.picImage.Image = Nothing
 
-            txtBuyDocDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-            dtpBuyDocDate.Value = Date.Now
+    End Sub
 
-            Me.picImage.Image = Nothing
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
 
-        End Sub
+        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+          Me.m_entity = Nothing
+          Me.m_entity = CType(Value, Asset)
+          If Me.m_entity IsNot Nothing Then
+            Me.m_entity.LoadImage()
+          End If
+        End If
 
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-
-                If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-                    Me.m_entity = Nothing
-                    Me.m_entity = CType(Value, Asset)
-                    Me.m_entity.LoadImage()
-                End If
-
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
 
 
-                UpdateEntityProperties()
-            End Set
-        End Property
+        UpdateEntityProperties()
+      End Set
+    End Property
 
 
 
 #End Region
 
 #Region " IValidatable "
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Image button"
-        Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
-            Dim dlg As New OpenFileDialog
-            Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
-            dlg.Filter = String.Join("|", fileFilters)
-            If dlg.ShowDialog = DialogResult.OK Then
-                Dim img As Image = Image.FromFile(dlg.FileName)
-                If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
-                    Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
-                    img = ImageHelper.Resize(img, percent)
-                End If
-                Me.picImage.Image = img
-                m_entity.Image = img
-                Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-                myContent.IsDirty = True
-                CheckLabelImgSize()
-            End If
-        End Sub
-        Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
-            m_entity.Image = Nothing
-            Me.picImage.Image = Nothing
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            myContent.IsDirty = True
-            CheckLabelImgSize()
-        End Sub
+    Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
+      Dim dlg As New OpenFileDialog
+      Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
+      dlg.Filter = String.Join("|", fileFilters)
+      If dlg.ShowDialog = DialogResult.OK Then
+        Dim img As Image = Image.FromFile(dlg.FileName)
+        If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
+          Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
+          img = ImageHelper.Resize(img, percent)
+        End If
+        Me.picImage.Image = img
+        m_entity.Image = img
+        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        myContent.IsDirty = True
+        CheckLabelImgSize()
+      End If
+    End Sub
+    Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
+      m_entity.Image = Nothing
+      Me.picImage.Image = Nothing
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      myContent.IsDirty = True
+      CheckLabelImgSize()
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New Account).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtglcode", "txtglname"
-                                Return True
-                            Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
-                                Return True
-                            Case "txtdepreacctcode", "txtdepreacctname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New Unit).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtunitcode", "txtunitname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New AssetType).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txttypecode", "txttypename"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New CostCenter).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtcostcentercode", "txtcostcentername"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New Account).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
-                Dim entity As New Account(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtglcode", "txtglname"
-                            Me.SetAccountDialog(entity)
-                        Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
-                            Me.SetDepreOpeningAccountDialog(entity)
-                        Case "txtdepreacctcode", "txtdepreacctname"
-                            Me.SetDepreAccountDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New AssetType).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New AssetType).FullClassName))
-                Dim entity As New AssetType(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txttypecode", "txttypename"
-                            Me.SetAssetTypeDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New CostCenter).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
-                Dim entity As New CostCenter(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtcostcentercode", "txtcostcentername"
-                            Me.SetCostCenterDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Account).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtglcode", "txtglname"
+                Return True
+              Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
+                Return True
+              Case "txtdepreacctcode", "txtdepreacctname"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New Unit).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtunitcode", "txtunitname"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New AssetType).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txttypecode", "txttypename"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New CostCenter).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcostcentercode", "txtcostcentername"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New Account).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
+        Dim entity As New Account(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtglcode", "txtglname"
+              Me.SetAccountDialog(entity)
+            Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
+              Me.SetDepreOpeningAccountDialog(entity)
+            Case "txtdepreacctcode", "txtdepreacctname"
+              Me.SetDepreAccountDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New AssetType).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New AssetType).FullClassName))
+        Dim entity As New AssetType(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txttypecode", "txttypename"
+              Me.SetAssetTypeDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New CostCenter).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
+        Dim entity As New CostCenter(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtcostcentercode", "txtcostcentername"
+              Me.SetCostCenterDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "Event of Button controls"
-        ' Account button
-        Private Sub btnGLEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLEdit.Click, btnDepreAcctEdit.Click, btnDepreOpeningAcctEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Account)
-        End Sub
-        Private Sub btnGLFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLFind.Click, btnDepreAcctFind.Click, btnDepreOpeningAcctFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btnglfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
-                Case "btndepreopeningacctfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreOpeningAccountDialog)
-                Case "btndepreacctfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreAccountDialog)
-            End Select
-        End Sub
-        Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtGLCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
-        End Sub
-        Private Sub SetDepreOpeningAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtDepreOpeningAcctCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
-        End Sub
-        Private Sub SetDepreAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtDepreAcctCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
-        End Sub
-        ' Type button
-        Private Sub btnTypeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New AssetType)
-        End Sub
-        Private Sub btnTypeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New AssetType, AddressOf SetAssetTypeDialog)
-        End Sub
-        Private Sub SetAssetTypeDialog(ByVal e As ISimpleEntity)
-            Me.txtTypeCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
-            SetValueFromAssetType()
-        End Sub
+    ' Account button
+    Private Sub btnGLEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLEdit.Click, btnDepreAcctEdit.Click, btnDepreOpeningAcctEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Account)
+    End Sub
+    Private Sub btnGLFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLFind.Click, btnDepreAcctFind.Click, btnDepreOpeningAcctFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btnglfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
+        Case "btndepreopeningacctfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreOpeningAccountDialog)
+        Case "btndepreacctfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreAccountDialog)
+      End Select
+    End Sub
+    Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtGLCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
+    End Sub
+    Private Sub SetDepreOpeningAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtDepreOpeningAcctCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
+    End Sub
+    Private Sub SetDepreAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtDepreAcctCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
+    End Sub
+    ' Type button
+    Private Sub btnTypeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New AssetType)
+    End Sub
+    Private Sub btnTypeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New AssetType, AddressOf SetAssetTypeDialog)
+    End Sub
+    Private Sub SetAssetTypeDialog(ByVal e As ISimpleEntity)
+      Me.txtTypeCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
+      SetValueFromAssetType()
+    End Sub
 
-        ' Costcenter button
-        Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New CostCenter)
-        End Sub
-        Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterDialog)
-        End Sub
-        Private Sub SetCostCenterDialog(ByVal e As ISimpleEntity)
-            Me.txtCostcenterCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
-        End Sub
+    ' Costcenter button
+    Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New CostCenter)
+    End Sub
+    Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterDialog)
+    End Sub
+    Private Sub SetCostCenterDialog(ByVal e As ISimpleEntity)
+      Me.txtCostcenterCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
+    End Sub
 
-        ' More detail
-        Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAssetAuxDetail.Click
-            Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.AssetAuxDetail
-            myAuxPanel.Entity = Me.m_entity
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
-            If myDialog.ShowDialog() = DialogResult.Cancel Then
-                Me.WorkbenchWindow.ViewContent.IsDirty = False
-            End If
-        End Sub
+    ' More detail
+    Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAssetAuxDetail.Click
+      Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.AssetAuxDetail
+      myAuxPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+      End If
+    End Sub
 #End Region
 
 #Region " Autogencode "
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
-                Me.Validator.SetRequired(Me.txtCode, False)
-                Me.ErrorProvider1.SetError(Me.txtCode, "")
-                Me.txtCode.ReadOnly = True
-                m_oldCode = Me.txtCode.Text
-                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-                'Hack: set Code เป็น "" เอง
-                Me.m_entity.Code = ""
-                Me.m_entity.AutoGen = True
-            Else
-                Me.Validator.SetRequired(Me.txtCode, True)
-                Me.txtCode.Text = m_oldCode
-                Me.txtCode.ReadOnly = False
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        Me.Validator.SetRequired(Me.txtCode, False)
+        Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.txtCode.ReadOnly = True
+        m_oldCode = Me.txtCode.Text
+        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+        'Hack: set Code เป็น "" เอง
+        Me.m_entity.Code = ""
+        Me.m_entity.AutoGen = True
+      Else
+        Me.Validator.SetRequired(Me.txtCode, True)
+        Me.txtCode.Text = m_oldCode
+        Me.txtCode.ReadOnly = False
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
 #End Region
 
-        Private Sub CheckLabelImgSize()
-            Me.lblPicSize.Text = "272 X 204 pixel"
-            If Me.m_entity.Image Is Nothing Then
-                Me.lblPicSize.Visible = True
-            Else
-                Me.lblPicSize.Visible = False
-            End If
-        End Sub
+    Private Sub CheckLabelImgSize()
+      Me.lblPicSize.Text = "272 X 204 pixel"
+      If Me.m_entity.Image Is Nothing Then
+        Me.lblPicSize.Visible = True
+      Else
+        Me.lblPicSize.Visible = False
+      End If
+    End Sub
 
-    End Class
+  End Class
 
 End Namespace
