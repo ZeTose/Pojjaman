@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
         '------- End Tab Entities -------------------------------------------------------
 
-        SetPAAdvancePayAndRetention()
+        'SetPAAdvancePayAndRetention()
 
         'Dim ret As Decimal = Me.GetSCRetentionRemaining
         '.m_retentionRemaining = ret

@@ -902,7 +902,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return 0
       End Get
-    End Property    Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount      Get
+    End Property    Public ReadOnly Property CostAmount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount      Get
         Return Me.UnitCost * Me.StockQty
       End Get
     End Property    Public ReadOnly Property BudgetConversion() As Decimal      Get
@@ -914,7 +914,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
     End Property
-    Public ReadOnly Property Amount() As Decimal
+    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         'Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
         'Return amtFormatted - Me.DiscountAmount
