@@ -437,7 +437,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
-
+        Dim daWbs As New SqlDataAdapter("select * from Eqtstock_Stock where es_eqtstockisequence in (select eqtstocki_sequence from EqtStockitem where eqtstocki_eqtstock=" & Me.Id & ")", conn)
 
         Dim ds As New DataSet
 
@@ -449,26 +449,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.InsertCommand.Transaction = trans
         da.UpdateCommand = cmdBuilder.GetUpdateCommand
         da.UpdateCommand.Transaction = trans
-        'da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
-        'da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+        da.InsertCommand.CommandText &= "; Select * From EqtStockitem Where eqtstocki_sequence = @@IDENTITY"
+        da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
         cmdBuilder = Nothing
         da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
         da.Fill(ds, "Eqtstockitem")
 
-
+        cmdBuilder = New SqlCommandBuilder(daWbs)
+        daWbs.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        daWbs.FillSchema(ds, SchemaType.Mapped, "Eqtstock_Stock")
+        daWbs.Fill(ds, "Eqtstock_Stock")
+        ds.Relations.Add("sequence", ds.Tables!EqtStockitem.Columns!eqtstocki_sequence, ds.Tables!Eqtstock_Stock.Columns!es_eqtstockisequence)
 
         Dim dt As DataTable = ds.Tables("Eqtstockitem")
 
-        Dim EqtDt As DataTable = GetEqiLastSequence()
+        Dim dtExp As DataTable = ds.Tables("Eqtstock_Stock")
+
+        For Each row As DataRow In ds.Tables("Eqtstock_Stock").Rows
+          row.Delete()
+        Next
+
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As EquipmentToolChangeStatusItem In Me.ItemCollection
+            If testItem.Sequence = CInt(dr("eqtstocki_sequence")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
+        'Dim EqtDt As DataTable = GetEqiLastSequence()
 
 
         Dim i As Integer = 0 'Line Running
+        Dim seq As Integer
         With ds.Tables("Eqtstockitem")
-          For Each row As DataRow In .Rows
-            row.Delete()
-          Next
+          'For Each row As DataRow In .Rows
+          '  row.Delete()
+          'Next
           For Each item As EquipmentToolChangeStatusItem In Me.ItemCollection
-            Dim dr As DataRow = .NewRow
+            'Dim dr As DataRow = .NewRow
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = dt.Select("eqtstocki_sequence=" & item.Sequence)
+            If drs.Length = 0 Then
+              dr = dt.NewRow
+              'dt.Rows.Add(dr)
+              seq = seq + (-1)
+              dr("eqtstocki_sequence") = seq
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
             'Dim row() As DataRow = EqtDt.Select("eqtstocki_sequence =" & item.Entity.Id.ToString)
             i += 1
             dr("eqtstocki_eqtstock") = Me.Id
@@ -493,8 +541,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'End If
             dr("eqtstocki_note") = item.Note
 
-            .Rows.Add(dr)
+            '------------Checking if we have to add a new row or just update existing--------------------
+            If drs.Length = 0 Then
+              dt.Rows.Add(dr)
+            End If
+            '------------End Checking--------------------
 
+            For Each expItem As StockItem In item.ExpItemCollection
+              Dim childDr As DataRow = dtExp.NewRow
+              'childDr("es_sequence") = 
+              childDr("es_eqtstockisequence") = dr("eqtstocki_sequence")
+              childDr("es_stockisequence") = expItem.Sequence
+              childDr("es_stockqty") = expItem.Stockqty
+              childDr("es_unitcost") = expItem.UnitCost
+              childDr("es_note") = expItem.Note
+
+              dtExp.Rows.Add(childDr)
+            Next
 
           Next
         End With
@@ -509,11 +572,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tmpDa.UpdateCommand = da.UpdateCommand
 
         AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        AddHandler daWbs.RowUpdated, AddressOf daExp_MyRowUpdated
 
+        daWbs.Update(GetDeletedRows(dtExp))
+        tmpDa.Update(GetDeletedRows(dt))
 
         tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        daWbs.Update(dtExp.Select("", "", DataViewRowState.ModifiedCurrent))
 
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = False
+        daWbs.Update(dtExp.Select("", "", DataViewRowState.Added))
         ds.EnforceConstraints = True
+
+        'ds.EnforceConstraints = True
         Return New SaveErrorException("0")
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString + vbCrLf + ex.InnerException.ToString)
@@ -536,7 +608,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
     End Sub
-    Private Sub daWbs_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+    Private Sub daExp_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
       ' When the primary key propagates down to the child row's foreign key field, the field
       ' does not receive an OriginalValue with pseudo key value and a CurrentValue with the
       ' actual key value. Therefore, when the merge occurs, this row is  appended to the DataSet
@@ -546,14 +618,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         e.Status = UpdateStatus.SkipCurrentRow
         ' Get the Current actual primary key value, so you can plug it back
         ' in after you get the correct original value that was generated for the child row.
-        Dim currentkey As Integer = CInt(e.Row("stockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
+        Dim currentkey As Integer = CInt(e.Row("es_eqtstockisequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
         ' This is where you get a correct original value key stored to the child row. You yank
         ' the original pseudo key value from the parent, plug it in as the child row's primary key
         ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
-        e.Row!stockiw_sequence = e.Row.GetParentRow("sequence")("stocki_sequence", DataRowVersion.Original)
+        e.Row!es_eqtstockisequence = e.Row.GetParentRow("sequence")("eqtstocki_sequence", DataRowVersion.Original)
         e.Row.AcceptChanges()
         ' Now store the actual primary key value back into the foreign key column of the child row.
-        e.Row!stockiw_sequence = currentkey
+        e.Row!es_eqtstockisequence = currentkey
       End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
     End Sub

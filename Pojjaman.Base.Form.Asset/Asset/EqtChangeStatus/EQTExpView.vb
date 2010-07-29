@@ -529,16 +529,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return m_refDoc
       End Get
     End Property
-    Private ReadOnly Property CurrentWsbsd() As WBSDistribute
+    Private ReadOnly Property CurrentWsbsd() As StockItem
       Get
         Dim row As TreeRow = Me.m_expTreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is WBSDistribute Then
+        If Not TypeOf row.Tag Is StockItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, WBSDistribute)
+        Return CType(row.Tag, StockItem)
       End Get
     End Property
     Private ReadOnly Property CurrentItem() As EquipmentToolChangeStatusItem
@@ -553,30 +553,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return CType(row.Tag, EquipmentToolChangeStatusItem)
       End Get
     End Property
-    Private ReadOnly Property CurrentParItem() As IWBSAllocatableItem  ' WBSDistributeCollection
+    Private ReadOnly Property CurrentParItem() As EqtItem  ' WBSDistributeCollection
       Get
         Dim row As TreeRow = Me.m_expTreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf m_entity Is IWBSAllocatable Then
+        'If Not TypeOf m_entity Is IEqtItem Then
+        '  Return Nothing
+        'End If
+        If Not TypeOf row.Tag Is StockItem Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is WBSDistribute Then
-          Return Nothing
-        End If
-        Dim wbsd As WBSDistribute = CType(row.Tag, WBSDistribute)
-        For Each itm As IWBSAllocatableItem In CType(m_entity, IWBSAllocatable).GetWBSAllocatableItemCollection
-          If itm.WBSDistributeCollection.Contains(wbsd) Then
-            Return itm 'itm.WBSDistributeCollection
-          End If
-          'For Each wbsitem As WBSDistribute In itm.WBSDistributeCollection
-          '    If wbsd Is wbsitem Then
-          '        Exit For
-          '    End If
-          'Next
-        Next
-        Return Nothing
+        Dim eqt As EqtItem
+        eqt = CType(row.Tag, StockItem).RefEqtItem
+        'Dim wbsd As WBSDistribute = CType(row.Tag, WBSDistribute)
+        'For Each itm As IWBSAllocatableItem In CType(m_entity, IWBSAllocatable).GetWBSAllocatableItemCollection
+        '  If itm.WBSDistributeCollection.Contains(wbsd) Then
+        '    Return itm 'itm.WBSDistributeCollection
+        '  End If
+        '  'For Each wbsitem As WBSDistribute In itm.WBSDistributeCollection
+        '  '    If wbsd Is wbsitem Then
+        '  '        Exit For
+        '  '    End If
+        '  'Next
+        'Next
+        Return eqt
       End Get
     End Property
 
@@ -798,23 +800,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Private Sub UpdateAmount()
+      For Each eci As EquipmentToolChangeStatusItem In RefDoc.ItemCollection
+        Dim amount As Decimal = 0
+        If eci.ExpItemCollection IsNot Nothing Then
+          For Each si As StockItem In eci.ExpItemCollection
+            amount += si.Amount
+          Next
+          eci.Amount = amount
+        End If
+      Next
       Me.txtGross.Text = Configuration.FormatToString(m_refDoc.Gross, DigitConfig.Price)
-      'Dim oldFlag As Boolean = m_isInitialized
-      'm_isInitialized = False
-      'Me.txtDebitAmount.Text = Configuration.FormatToString(Me.m_payment.DebitAmount, DigitConfig.Price)
-      'Me.txtCreditAmount.Text = Configuration.FormatToString(Me.m_payment.CreditAmount, DigitConfig.Price)
-      'Me.txtTotalDebitAmount.Text = Configuration.FormatToString(Me.m_payment.SumDebitAmount, DigitConfig.Price)
-      'Me.txtTotalCreditAmount.Text = Configuration.FormatToString(Me.m_payment.SumCreditAmount, DigitConfig.Price)
-      'Me.txtGross.Text = Configuration.FormatToString(myGross, DigitConfig.Price)
-      'Me.txtAmount.Text = Configuration.FormatToString(Me.m_payment.Amount, DigitConfig.Price)
-      'm_isInitialized = oldFlag
-
-      'ถ้ามีรายการจ่ายเงิน ให้ตรวจสอบเลขที่ PV ด้วย
-      'If myGross > 0 Then
-      '    Me.Validator.SetRequired(Me.cmbCode, True)
-      'Else
-      '    Me.Validator.SetRequired(Me.cmbCode, False)
-      'End If
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
@@ -1087,7 +1082,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnDelWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelStockitem.Click
       'Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
       'dt.Clear()
-      Dim doc As WBSDistribute = Me.CurrentWsbsd
+      Dim doc As StockItem = Me.CurrentWsbsd
       If doc Is Nothing Then
         Return
       End If
@@ -1095,36 +1090,42 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If doc Is Nothing Then
       '    Return
       'End If
+      Dim eci As EquipmentToolChangeStatusItem
+      eci = doc.RefEqtItem
 
-      If TypeOf m_entity Is IWBSAllocatable Then
-        Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
-        'Dim dt As TreeTable = m_wbsTreeManager.Treetable
-        'dt.Clear()
-        For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
-          'Dim newRow As TreeRow = dt.Childs.Add()
-          'newRow("ItemType") = ali.Type
-          'newRow("Description") = ali.Description
-          'newRow("ItemAmount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
-          'newRow("CCButton") = "invisible"
-          'newRow("Button") = "invisible"
-
-          'newRow.Tag = ali
-          If ali.WBSDistributeCollection.Contains(doc) Then
-            ali.WBSDistributeCollection.Remove(doc)
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-          End If
-
-
-          'For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
-          'Dim wbsRow As TreeRow = dt.Childs.Add()
-          'wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
-          'wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
-
-          'wbsRow.Tag = wbsd
-
-          'Next
-        Next
+      If eci.ExpItemCollection.Contains(doc) Then
+        eci.ExpItemCollection.Remove(doc)
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
+      'If TypeOf m_entity Is IWBSAllocatable Then
+      '  Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
+      '  'Dim dt As TreeTable = m_wbsTreeManager.Treetable
+      '  'dt.Clear()
+      '  For Each ali As IWBSAllocatableItem In al.GetWBSAllocatableItemCollection
+      '    'Dim newRow As TreeRow = dt.Childs.Add()
+      '    'newRow("ItemType") = ali.Type
+      '    'newRow("Description") = ali.Description
+      '    'newRow("ItemAmount") = Configuration.FormatToString(ali.ItemAmount, DigitConfig.Price)
+      '    'newRow("CCButton") = "invisible"
+      '    'newRow("Button") = "invisible"
+
+      '    'newRow.Tag = ali
+      '    If ali.WBSDistributeCollection.Contains(doc) Then
+      '      ali.WBSDistributeCollection.Remove(doc)
+      '      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      '    End If
+
+
+      '    'For Each wbsd As WBSDistribute In ali.WBSDistributeCollection
+      '    'Dim wbsRow As TreeRow = dt.Childs.Add()
+      '    'wbsRow("CostCenter") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
+      '    'wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
+
+      '    'wbsRow.Tag = wbsd
+
+      '    'Next
+      '  Next
+      'End If
 
       'Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
       'If wsdColl.Count > 0 Then
@@ -1159,7 +1160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.CurrentItem.ExpItemCollection.SetItems(items)
       
-      
+      Me.CurrentItem.ExpItemCollection.RefEqtitem = Me.CurrentItem
       
       RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -1205,10 +1206,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim index As Integer = Me.m_expTreeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If WBSValidateRow(CType(e.Row, TreeRow)) Then
-        'UpdateAmount(e)
-        Me.m_expTreeManager.Treetable.AcceptChanges()
-      End If
+      'If WBSValidateRow(CType(e.Row, TreeRow)) Then
+      UpdateAmount()
+      Me.m_expTreeManager.Treetable.AcceptChanges()
+      'End If
       Me.RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
@@ -1229,16 +1230,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Try
         Select Case e.Column.ColumnName.ToLower
-          Case "cbs"
-            SetCBSCode(e)
-          Case "wbs"
-            SetWBSCode(e)
-          Case "percent"
-            SetWBSPercent(e)
+          'Case "cbs"
+          '  SetCBSCode(e)
+          'Case "wbs"
+          '  SetWBSCode(e)
+          'Case "percent"
+          '  SetWBSPercent(e)
           Case "amount"
             SetAmount(e)
+          Case "stockqty"
+            SetStockQty(e)
         End Select
-        WBSValidateRow(e)
+        'WBSValidateRow(e)
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
       End Try
@@ -1290,44 +1293,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return True
     End Function
     Private m_wbsUpdating As Boolean = False
-    Public Sub SetWBSPercent(ByVal e As DataColumnChangeEventArgs)
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If m_wbsUpdating Then
-        Return
-      End If
-      Dim item As WBSDistribute = Me.CurrentWsbsd
-      If item Is Nothing Then
-        Return
-      End If
-
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-
-      Dim oldvalue As Decimal = 0
-      If Not e.Row.IsNull(e.Column) Then
-        oldvalue = CDec(e.Row(e.Column))
-      End If
-
-      Dim wsdColl As WBSDistributeCollection = Me.CurrentParItem.WBSDistributeCollection
-      If (wsdColl.GetSumPercent) - oldvalue + value > 100 Then
-        msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-        Return
-      End If
-
-      m_wbsUpdating = True
-      item.Percent = value
-      m_wbsUpdating = False
-    End Sub
+    
     Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If m_wbsUpdating Then
-        Return
-      End If
-      Dim item As WBSDistribute = Me.CurrentWsbsd
+      'If m_wbsUpdating Then
+      '  Return
+      'End If
+      Dim item As StockItem = Me.CurrentWsbsd
       If item Is Nothing Then
         Return
       End If
@@ -1359,7 +1331,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       item.Amount = value
       m_wbsUpdating = False
     End Sub
+    Public Sub SetStockQty(ByVal e As DataColumnChangeEventArgs)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If m_wbsUpdating Then
+      '  Return
+      'End If
+      Dim item As StockItem = Me.CurrentWsbsd
+      If item Is Nothing Then
+        Return
+      End If
 
+      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
+      Dim value As Decimal = CDec(e.ProposedValue)
+
+      Dim oldvalue As Decimal = 0
+      If Not e.Row.IsNull(e.Column) Then
+        oldvalue = CDec(e.Row(e.Column))
+      End If
+      Dim doc As EqtItem = Me.CurrentParItem
+      If doc Is Nothing Then
+        Return
+      End If
+      If value > item.oldstockqty Then
+        value = oldvalue
+      End If
+
+      'Dim wsdColl As WBSDistributeCollection = Me.CurrentParItem.WBSDistributeCollection
+      'Dim Amount As Decimal = wsdColl.GetSumAmount - oldvalue + value
+      'If Amount > doc.ItemAmount Then
+      '  e.ProposedValue = e.Row(e.Column)
+      '  msgServ.ShowMessageFormatted("${res:Global.Error.AmountOverCostAmount}", New String() {Configuration.FormatToString(Amount, DigitConfig.Price), Configuration.FormatToString(doc.ItemAmount, DigitConfig.Price)})
+      '  Return
+      'End If
+
+      m_wbsUpdating = True
+      item.Stockqty = value
+      m_wbsUpdating = False
+    End Sub
     'Private Function DupWBSCode(ByVal e As DataColumnChangeEventArgs) As Boolean
     '    If e.Row.IsNull("stocki_entityType") Then
     '        Return False
@@ -1512,55 +1524,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'e.Row("stocki_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
       'm_wbsUpdating = False
     End Sub
-    Public Sub SetCBSCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      Dim myString As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim myMsg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
-      If m_wbsUpdating Then
-        Return
-      End If
-      Dim isItem As Boolean = False
-      Dim wbsd As WBSDistribute = Me.CurrentWsbsd
-      Dim item As IWBSAllocatableItem = Me.CurrentItem
-      If wbsd Is Nothing AndAlso item Is Nothing Then
-        Return
-      ElseIf Not item Is Nothing Then
-        isItem = True
-      End If
-
-      'If wbsd Is Nothing Then
-      '  Return
-      'End If
-
-      'If wbsd.CBS Is Nothing Then
-      '  Return
-      'End If
-
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-
-      Dim oldCodeValue As String = CStr(e.Row(e.Column))
-
-      Dim value As String = SplitCodeCBS(CStr(e.ProposedValue))
-      Dim myCBS As CBS = CBS.GetByCode(value)
-
-      If myCBS Is Nothing OrElse myCBS.Id = 0 Then
-        myMsg.ShowMessageFormatted(myString.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.ValidCBS}"), New String() {value})
-        e.ProposedValue = oldCodeValue
-        Return
-      End If
-
-      m_wbsUpdating = True
-      If isItem Then
-        For Each wbsditem As WBSDistribute In item.WBSDistributeCollection
-          wbsditem.CBS = myCBS
-        Next
-      Else
-        wbsd.CBS = myCBS
-      End If
-      m_wbsUpdating = False
-    End Sub
+   
     Private Function SplitCodeCBS(ByVal value As String) As String
       Dim spCodeName() As String
       spCodeName = value.Split(CChar(":"))

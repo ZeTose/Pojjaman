@@ -232,24 +232,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , "GetEquipmentToolChangeStatusItems" _
       , New SqlParameter("@eqtstock_id", Me.m_eqtChangeStatus.Id) _
       )
+      Dim dtExp As DataTable = ds.Tables(1)
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New EquipmentToolChangeStatusItem(row, "")
         item.EqtChangeStatus = m_eqtChangeStatus
         Me.Add(item)
-        'Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-        'item.WBSDistributeCollection = wbsdColl
-        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
-        '  Dim wbsd As New WBSDistribute(wbsRow, "")
-        '  wbsdColl.Add(wbsd)
-        'Next
-
-        'Dim itcColl As New InternalChargeCollection(item)
-        'item.InternalChargeCollection = itcColl
-        'For Each itcRow As DataRow In ds.Tables(2).Select("itci_refsequence=" & item.Sequence)
-        '  Dim itc As New InternalCharge(itcRow, "")
-        '  itcColl.Add(itc)
-        'Next
+        For Each exprow As DataRow In dtExp.Select("es_eqtstockisequence =" & item.Sequence)
+          Dim si As New StockItem(exprow, "", True)
+          If item.ExpItemCollection Is Nothing Then
+            item.ExpItemCollection = New StockItemCollection
+          End If
+          item.ExpItemCollection.Add(si)
+          si.RefEqtItem = item
+        Next
       Next
     End Sub
 #End Region

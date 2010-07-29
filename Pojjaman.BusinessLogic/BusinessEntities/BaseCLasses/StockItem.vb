@@ -84,6 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_type As StockDocType
     Private m_status As StockStatus
     Private m_IsInitialized As Boolean
+
 #End Region
 
 #Region "Constructors"
@@ -96,7 +97,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
     End Sub
-    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal iseqt As Boolean)
+      Me.Construct(dr, aliasPrefix, iseqt)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String, Optional ByVal isEqt As Boolean = False)
       With Me
         m_stock = New SimpleBusinessEntityBase(dr, "stock")
         'm_stock.EntityId = CInt(dr(aliasPrefix & "stocki_type"))
@@ -249,9 +253,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_qty = CDec(dr(aliasPrefix & "stocki_qty"))
         End If
         ' Stock Qty ...
-        If dr.Table.Columns.Contains(aliasPrefix & "stocki_stockqty") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stockqty") Then
-          .m_stockqty = CDec(dr(aliasPrefix & "stocki_stockqty"))
+        If isEqt Then
+          If dr.Table.Columns.Contains(aliasPrefix & "es_sequence") AndAlso Not dr.IsNull(aliasPrefix & "es_sequence") Then
+            .esSequence = CInt(dr(aliasPrefix & "es_sequence"))
+          End If
+          If dr.Table.Columns.Contains(aliasPrefix & "es_stockqty") AndAlso Not dr.IsNull(aliasPrefix & "es_stockqty") Then
+            .m_stockqty = CDec(dr(aliasPrefix & "es_stockqty"))
+          End If
+          If dr.Table.Columns.Contains(aliasPrefix & "stocki_stockqty") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stockqty") Then
+            .oldstockqty = CDec(dr(aliasPrefix & "stocki_stockqty"))
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "stocki_stockqty") AndAlso Not dr.IsNull(aliasPrefix & "stocki_stockqty") Then
+            .m_stockqty = CDec(dr(aliasPrefix & "stocki_stockqty"))
+          End If
         End If
+        
         ' Iscancelled ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_iscancelled") AndAlso Not dr.IsNull(aliasPrefix & "stocki_iscancelled") Then
           .m_iscancelled = CBool(dr(aliasPrefix & "stocki_iscancelled"))
@@ -339,10 +356,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As AccountType)
         m_toacctType = Value
       End Set
-    End Property    Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property    Public Property RefDoc() As Integer      Get        Return m_refDoc      End Get      Set(ByVal Value As Integer)        m_refDoc = Value      End Set    End Property    Public Property RefDocLinenumber() As Integer      Get        Return m_refDocLinenumber      End Get      Set(ByVal Value As Integer)        m_refDocLinenumber = Value      End Set    End Property    Public Property RefSequence() As Integer      Get        Return m_refSequence      End Get      Set(ByVal Value As Integer)        m_refSequence = Value      End Set    End Property    Public Property Itemname() As String      Get        Return m_itemname      End Get      Set(ByVal Value As String)        m_itemname = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public ReadOnly Property DefaultUnit() As Unit      Get        If m_defaultunit IsNot Nothing AndAlso m_defaultunit.Originated Then          Return m_defaultunit        Else
+    End Property    Public Property esSequence As Integer    Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property    Public Property RefEqtItem As EqtItem    Public Property RefDoc() As Integer      Get        Return m_refDoc      End Get      Set(ByVal Value As Integer)        m_refDoc = Value      End Set    End Property    Public Property RefDocLinenumber() As Integer      Get        Return m_refDocLinenumber      End Get      Set(ByVal Value As Integer)        m_refDocLinenumber = Value      End Set    End Property    Public Property RefSequence() As Integer      Get        Return m_refSequence      End Get      Set(ByVal Value As Integer)        m_refSequence = Value      End Set    End Property    Public Property Itemname() As String      Get        Return m_itemname      End Get      Set(ByVal Value As String)        m_itemname = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public ReadOnly Property DefaultUnit() As Unit      Get        If m_defaultunit IsNot Nothing AndAlso m_defaultunit.Originated Then          Return m_defaultunit        Else
           Return m_unit
         End If      End Get    End Property    Public Property Unitprice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        m_unitprice = Value      End Set    End Property    Public Property Discrate() As Discount      Get        Return m_discrate      End Get      Set(ByVal Value As Discount)        m_discrate = Value      End Set    End Property    Public Property Discamt() As Decimal      Get        Return m_discamt      End Get      Set(ByVal Value As Decimal)        m_discamt = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public Property Amount() As Decimal      Get        If m_amt = 0 AndAlso m_stockqty > 0 AndAlso m_unitCost > 0 Then          Return m_stockqty * m_unitCost
-        End If        Return m_amt      End Get      Set(ByVal Value As Decimal)        m_amt = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property Stockqty() As Decimal      Get        Return m_stockqty      End Get      Set(ByVal Value As Decimal)        m_stockqty = Value      End Set    End Property    Public Property Iscancelled() As Boolean      Get        Return m_iscancelled      End Get      Set(ByVal Value As Boolean)        m_iscancelled = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Type() As StockDocType      Get        Return m_type      End Get      Set(ByVal Value As StockDocType)        m_type = Value      End Set    End Property    Public Property Status() As StockStatus      Get        Return m_status      End Get      Set(ByVal Value As StockStatus)        m_status = Value      End Set    End Property
+        End If        Return m_amt      End Get      Set(ByVal Value As Decimal)        m_amt = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property oldstockqty As Decimal    Public Property Stockqty() As Decimal      Get        Return m_stockqty      End Get      Set(ByVal Value As Decimal)        m_stockqty = Value      End Set    End Property    Public Property Iscancelled() As Boolean      Get        Return m_iscancelled      End Get      Set(ByVal Value As Boolean)        m_iscancelled = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Type() As StockDocType      Get        Return m_type      End Get      Set(ByVal Value As StockDocType)        m_type = Value      End Set    End Property    Public Property Status() As StockStatus      Get        Return m_status      End Get      Set(ByVal Value As StockStatus)        m_status = Value      End Set    End Property
 #End Region
 
 #Region "Methods"
@@ -642,6 +659,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stock As SimpleBusinessEntityBase
     Private m_stockHash As Hashtable
     Private m_currentItem As StockItem
+    Private m_refeqtitem As EqtItem
 #End Region
 
 #Region "Constructors"
@@ -699,6 +717,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As StockItem)
         m_currentItem = Value
+      End Set
+    End Property
+    Public Property RefEqtitem As EqtItem
+      Get
+        Return m_refeqtitem
+      End Get
+      Set(ByVal value As EqtItem)
+        m_refeqtitem = value
+        For Each Item As StockItem In Me
+          Item.RefEqtItem = m_refeqtitem
+        Next
       End Set
     End Property
 #End Region
@@ -821,6 +850,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Else
         Me.Add(doc)
         doc.ItemType = New ItemType(newType)
+        doc.oldstockqty = newItem.Stockqty
         'End If
         'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
         'doc.SetItemCode(newItem.Code)
