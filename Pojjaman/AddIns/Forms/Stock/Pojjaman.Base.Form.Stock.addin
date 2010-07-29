@@ -132,7 +132,8 @@
     </EntityTab>
 
     <EntityTab id="equipmenttoolchangestatus">
-      <EntityTab id="EqtChangeStatusDetail" view="Longkong.Pojjaman.Gui.Panels.EqtChangeStatusDetail"/>
+			<EntityTab id="EqtChangeStatusDetail" view="Longkong.Pojjaman.Gui.Panels.EqtChangeStatusDetail"/>
+			<EntityTab id="EQTExpView" view="Longkong.Pojjaman.Gui.Panels.EQTExpView"/>
     </EntityTab>
     
 		<EntityTab id="eqcost">

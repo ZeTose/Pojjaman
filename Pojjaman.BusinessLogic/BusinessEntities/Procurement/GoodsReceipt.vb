@@ -2534,6 +2534,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ds.Tables(0)
 
     End Function
+    
 #End Region
 
 #Region "RefreshTaxBase"

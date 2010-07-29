@@ -12,6 +12,8 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.IO
 Imports Longkong.Core.Properties
 Imports Longkong.AdobeForm
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class EQTExpView
@@ -318,6 +320,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_combocodeindex As Integer
     Private m_refDoc As EquipmentToolChangeStatus
 
+    Public StockItemlist As List(Of StockItem)
     Public MatActualHash As Hashtable
     Public LabActualHash As Hashtable
     Public EQActualHash As Hashtable
@@ -333,19 +336,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SaveEnableState()
       m_tableStyleEnable = New Hashtable
 
-      Dim dtWBS As TreeTable = GetSchemaTable()
-      Dim dstWBS As DataGridTableStyle = Me.CreateTableStyle()
-      m_expTreeManager = New TreeManager(dtWBS, tgToCC)
-      m_expTreeManager.SetTableStyle(dstWBS)
+      Dim dtExp As TreeTable = EquipmentToolChangeStatus.GetSchemaExpTable
+      Dim dstExp As DataGridTableStyle = Me.CreateTableStyle()
+      m_expTreeManager = New TreeManager(dtExp, tgToCC)
+      m_expTreeManager.SetTableStyle(dstExp)
       m_expTreeManager.AllowSorting = False
       m_expTreeManager.AllowDelete = False
 
-      AddHandler dtWBS.ColumnChanging, AddressOf WBSTreetable_ColumnChanging
-      AddHandler dtWBS.ColumnChanged, AddressOf WBSTreetable_ColumnChanged
-      AddHandler dtWBS.RowDeleted, AddressOf WBSItemDelete
+      AddHandler dtExp.ColumnChanging, AddressOf ExpTreetable_ColumnChanging
+      AddHandler dtExp.ColumnChanged, AddressOf ExpTreetable_ColumnChanged
+      AddHandler dtExp.RowDeleted, AddressOf WBSItemDelete
 
       EventWiring()
 
+      StockItemlist = New List(Of StockItem)
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
@@ -359,36 +363,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"       'add แค่ header เท่านั้น
-    Private Function GetSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("WBS")
-      myDatatable.Columns.Add(New DataColumn("ItemType", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Description", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("ItemAmount", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("CCButton", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("CBS", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("CBSButton", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("WBS", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Percent", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("BudgetRemain", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("QtyRemain", GetType(String)))
 
-      Return myDatatable
-    End Function
     Private Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
-      dst.MappingName = "ExpenseItem"
+      dst.MappingName = "EqtExpItem"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
       Dim csType As New TreeTextColumn
-      csType.MappingName = "ItemType"
+      csType.MappingName = "TypeName"
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.ItemTypeHeaderText}") '"ประเภท"
       csType.NullText = ""
       csType.Width = 80
       csType.ReadOnly = True
-      csType.TextBox.Name = "ItemType"
+      csType.TextBox.Name = "TypeName"
+
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.CodeHeaderText}") '"รายการ/Cost Center"
+      csCode.NullText = ""
+      csCode.Width = 100
+      csCode.ReadOnly = True
+      csCode.TextBox.Name = "Code"
+
+
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "Description"
@@ -442,6 +439,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.TextBox.Name = "Amount"
       AddHandler csAmount.CheckCellHilighted, AddressOf SetHilightValues
 
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "Note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.NoteHeaderText}") '"รายการ/Cost Center"
+      csNote.NullText = ""
+      csNote.Width = 175
+      csNote.ReadOnly = True
+      csNote.TextBox.Name = "Note"
+
       Dim csBudgetRemain As New TreeTextColumn(11, True)
       csBudgetRemain.MappingName = "BudgetRemain"
       csBudgetRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.BudgetRemainHeaderText}") 'งบประมาณคงเหลือ
@@ -468,11 +473,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '------------------------WBS----------------------------------
 
       dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csDescription)
       dst.GridColumnStyles.Add(csStockQty)
       dst.GridColumnStyles.Add(csUnit)
       dst.GridColumnStyles.Add(csUnitCost)
       dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csNote)
       'dst.GridColumnStyles.Add(csBudgetRemain)
       'dst.GridColumnStyles.Add(csQtyRemain)
 
@@ -534,16 +541,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return CType(row.Tag, WBSDistribute)
       End Get
     End Property
-    Private ReadOnly Property CurrentItem() As IWBSAllocatableItem
+    Private ReadOnly Property CurrentItem() As EquipmentToolChangeStatusItem
       Get
         Dim row As TreeRow = Me.m_expTreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        If Not TypeOf row.Tag Is IWBSAllocatableItem Then
+        If Not TypeOf row.Tag Is EquipmentToolChangeStatusItem Then
           Return Nothing
         End If
-        Return CType(row.Tag, IWBSAllocatableItem)
+        Return CType(row.Tag, EquipmentToolChangeStatusItem)
       End Get
     End Property
     Private ReadOnly Property CurrentParItem() As IWBSAllocatableItem  ' WBSDistributeCollection
@@ -723,7 +730,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newRow.FixLevel = 1
           currRow = newRow
           newRow.State = RowExpandState.Expanded
-          newRow("ItemType") = ali.ItemType
+          newRow("TypeName") = ali.ItemType.ToString
+          newRow("Code") = ali.Entity.Code
           newRow("Description") = ali.Name
 
           'If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
@@ -739,36 +747,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'newRow("Button") = "invisible"
 
           newRow.Tag = ali
-          For Each st As StockItem In ali.ExpItemCollection.GetStockCollection 'เอามาเฉพาะที่ ที่stock ต่างกัน
-            'transferAmt = ali.ItemAmount
+          If ali.ExpItemCollection IsNot Nothing Then
+            For Each st As StockItem In ali.ExpItemCollection.GetStockCollection 'เอามาเฉพาะที่ ที่stock ต่างกัน
+              'transferAmt = ali.ItemAmount
 
-            'wbsd.BaseCost = transferAmt
-            'wbsd.TransferBaseCost = transferAmt
+              'wbsd.BaseCost = transferAmt
+              'wbsd.TransferBaseCost = transferAmt
 
-            'Dim wbsRow As TreeRow = dt.Childs.Add()
-            Dim StockRow As TreeRow = currRow.Childs.Add
-            StockRow.FixLevel = -1
-            StockRow("Description") = st.Stock.Code
-            For Each si As StockItem In ali.ExpItemCollection.GetCollectionForStock(st.Stock)
-              Dim stockitemRow As TreeRow = StockRow.Childs.Add
-              stockitemRow.FixLevel = -2
-              stockitemRow("ItemType") = si.ItemType.Description
-              stockitemRow("Description") = si.Itemname
-              stockitemRow("Unit") = si.Unit.Name
-              stockitemRow("stockQty") = si.Stockqty
-              stockitemRow("UnitCost") = si.UnitCost
-              stockitemRow("Amount") = si.Amount
-              stockitemRow.Tag = si
+              'Dim wbsRow As TreeRow = dt.Childs.Add()
+              Dim StockRow As TreeRow = currRow.Childs.Add
+              StockRow.FixLevel = -1
+
+              StockRow.State = RowExpandState.Expanded
+              StockRow("ItemType") = st.Type.Value
+              StockRow("TypeName") = st.Type.Description
+              StockRow("Code") = st.Stock.Code
+              For Each si As StockItem In ali.ExpItemCollection.GetCollectionForStock(st.Stock)
+                Dim stockitemRow As TreeRow = StockRow.Childs.Add
+                stockitemRow.FixLevel = -2
+                stockitemRow.State = RowExpandState.Expanded
+                stockitemRow("ItemType") = si.ItemType.Value
+                stockitemRow("TypeName") = si.ItemType.Description
+                stockitemRow("Code") = si.Entity.Code
+                stockitemRow("Description") = si.Itemname
+                stockitemRow("UnitName") = si.DefaultUnit.Name
+                stockitemRow("stockQty") = si.Stockqty
+                stockitemRow("UnitCost") = si.UnitCost
+                stockitemRow("Amount") = si.Amount
+                stockitemRow.Tag = si
+              Next
+
+
+
+              'StockRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
+              'StockRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Price)
+              'wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemain, DigitConfig.Qty)
+
+              StockRow.Tag = st
             Next
-
-
-
-            'StockRow("BudgetRemain") = Configuration.FormatToString(wbsd.RemainSummary, DigitConfig.Price)
-            'StockRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemainSummary, DigitConfig.Price)
-            'wbsRow("QtyRemain") = Configuration.FormatToString(wbsd.QtyRemain, DigitConfig.Qty)
-
-            StockRow.Tag = st
-          Next
+          End If
           newRow("Amount") = Configuration.FormatToString(ali.Amount, DigitConfig.Price)
 
         Next
@@ -998,6 +1015,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
 
+      Dim filters(0) As Filter
+      If RefDoc Is Nothing Then
+       
+        Return
+      End If
+      filters(0) = New Filter("stockisequence_list", GetStockitemAndQtyList)
+
+      'myEntityPanelService.OpenDetailPanel(New GoodsReceipt)
+
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+
+      Dim Entities As New ArrayList
+      Entities.Add(RefDoc.StoreCostcenter)
+
+      Dim view As AbstractEntityPanelViewContent = New GoodsReceiptSelectionView(Me.m_entity, 0, dlg, filters, Entities)
+      dlg.Lists.Add(view)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
+
       Dim myCostCenter As CostCenter = Nothing
       'If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
       '  If Me.RefDoc.FromCostCenter Is Nothing Then
@@ -1018,27 +1056,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  msgServ.ShowMessage("${res:Global.Error.SpecifyCCWithBOQ}")
       '  Return
       'End If
-      Dim doc As IWBSAllocatableItem = Me.CurrentItem
+      Dim doc As EquipmentToolChangeStatusItem = Me.CurrentItem
       If doc Is Nothing Then
         Return
       End If
       'Dim dt As TreeTable = Me.m_wbsTreeManager.Treetable
       'dt.Clear()
       'Dim view As Integer = 7
-      Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      If wsdColl.GetSumPercent >= 100 Then
-        'msgServ.ShowMessage(wsdColl.GetSumPercent)
-        msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
-        Return
-      ElseIf doc.AllocationErrorMessage.Length > 0 Then
-        msgServ.ShowMessage(doc.AllocationErrorMessage)
-        Return
-      Else
-        Dim wbsd As New WBSDistribute
-        wbsd.CostCenter = myCostCenter 'Me.RefDoc.ToCostCenter
-        wbsd.Percent = 100 - wsdColl.GetSumPercent
-        wsdColl.Add(wbsd)
-      End If
+      Dim sicoll As StockItemCollection = doc.ExpItemCollection
+      'If wsdColl.GetSumPercent >= 100 Then
+      '  'msgServ.ShowMessage(wsdColl.GetSumPercent)
+      '  msgServ.ShowMessage("${res:Global.Error.WBSPercentExceed100}")
+      '  Return
+      'ElseIf doc.AllocationErrorMessage.Length > 0 Then
+      '  msgServ.ShowMessage(doc.AllocationErrorMessage)
+      '  Return
+      'Else
+      '  Dim wbsd As New WBSDistribute
+      '  wbsd.CostCenter = myCostCenter 'Me.RefDoc.ToCostCenter
+      '  wbsd.Percent = 100 - wsdColl.GetSumPercent
+      '  wsdColl.Add(wbsd)
+      'End If
       Dim flag As Boolean = m_isInitialized
       m_isInitialized = False
       'wsdColl.Populate(dt, doc, view)
@@ -1100,6 +1138,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.RefreshDocs()
       m_isInitialized = flag
     End Sub
+    Private Function GetStockitemAndQtyList() As String
+      Dim ret As String = ""
+      For Each eci As EquipmentToolChangeStatusItem In RefDoc.ItemCollection
+        If eci.ExpItemCollection IsNot Nothing Then
+          For Each si As StockItem In eci.ExpItemCollection
+            ret &= si.Sequence.ToString & ":" & si.Stockqty.ToString & ","
+          Next
+        End If
+      Next
+      Return ret
+    End Function
+    Private Sub SetItems(ByVal items As BasketItemCollection)
+      'If tgItem.CurrentRowIndex = 0 Then
+      '  'Hack
+      '  tgItem.CurrentRowIndex = 1
+      'End If
+      If Me.CurrentItem.ExpItemCollection Is Nothing Then
+        Me.CurrentItem.ExpItemCollection = New StockItemCollection
+      End If
+      Me.CurrentItem.ExpItemCollection.SetItems(items)
+      
+      
+      
+      RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
 #End Region
 
 #Region "IValidatable"
@@ -1135,8 +1199,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '            End Get
     '        End Property
     '#End Region
-#Region "WBS TreeTable Handlers"
-    Private Sub WBSTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+#Region "Exp TreeTable Handlers"
+    Private Sub ExpTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
       End If
@@ -1159,7 +1223,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
       'e.Row("Amount") = Configuration.FormatToString(item.Percent * currItem.Amount / 100, DigitConfig.Price)
     End Sub
-    Private Sub WBSTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+    Private Sub ExpTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
       End If
@@ -1535,6 +1599,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
     End Sub
 #End Region
+
+
 
   End Class
 

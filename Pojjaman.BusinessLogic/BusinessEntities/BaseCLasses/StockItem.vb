@@ -71,6 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemType As ItemType
     Private m_itemname As String
     Private m_unit As Unit
+    Private m_defaultunit As Unit
     Private m_unitprice As Decimal
     Private m_discrate As Discount
     Private m_discamt As Decimal
@@ -97,6 +98,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
+        m_stock = New SimpleBusinessEntityBase(dr, "stock")
+        'm_stock.EntityId = CInt(dr(aliasPrefix & "stocki_type"))
         ' Line number ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "stocki_lineNumber") Then
           .m_lineNumber = CInt(dr(aliasPrefix & "stocki_lineNumber"))
@@ -120,7 +123,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' to Cost Center ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_tocc") _
         AndAlso Not dr.IsNull(aliasPrefix & "stocki_tocc") Then
-          .m_tocc = New CostCenter(CInt(dr(aliasPrefix & "stocki_tocc")))
+          .m_tocc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "stocki_tocc")))
         End If
         ' to customer Center ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_tocust") _
@@ -178,7 +181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 .m_entity = New LCIItem(dr, "")
               End If
             Else
-              .m_entity = New LCIItem(itemId)
+              .m_entity = LCIItem.GetLciItemById(itemId)
             End If
           Case "tool"
             If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
@@ -203,18 +206,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_itemname") AndAlso Not dr.IsNull(aliasPrefix & "stocki_itemname") Then
           .m_itemname = CStr(dr(aliasPrefix & "stocki_itemname"))
         End If
+        ' Default Unit ... 
+        If dr.Table.Columns.Contains(aliasPrefix & "lci_defaultunit") AndAlso Not dr.IsNull(aliasPrefix & "lci_defaultunit") Then
+          .m_defaultunit = Unit.GetUnitById(CInt(dr(aliasPrefix & "lci_defaultunit")))
+          '.m_defaultunit = New Unit(dr, "Unit.")
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "stocki_unit") AndAlso Not dr.IsNull(aliasPrefix & "stocki_unit") Then
+            .m_defaultunit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
+          End If
+        End If
         ' Unit ... 
         If dr.Table.Columns.Contains(aliasPrefix & "unit.unit_id") AndAlso Not dr.IsNull(aliasPrefix & "unit.unit_id") Then
           .m_unit = New Unit(dr, "Unit.")
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "stocki_unit") AndAlso Not dr.IsNull(aliasPrefix & "stocki_unit") Then
-            .m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
+            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "stocki_unit")))
           End If
         End If
         ' Unit Price ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_unitprice") AndAlso Not dr.IsNull(aliasPrefix & "stocki_unitprice") Then
           .m_unitprice = CDec(dr(aliasPrefix & "stocki_unitprice"))
         End If
+
         ' Discount rate ...
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_discrate") AndAlso Not dr.IsNull(aliasPrefix & "stocki_discrate") Then
           .m_discrate = New Discount(CStr(dr(aliasPrefix & "stocki_discrate")))
@@ -326,7 +339,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As AccountType)
         m_toacctType = Value
       End Set
-    End Property    Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property    Public Property RefDoc() As Integer      Get        Return m_refDoc      End Get      Set(ByVal Value As Integer)        m_refDoc = Value      End Set    End Property    Public Property RefDocLinenumber() As Integer      Get        Return m_refDocLinenumber      End Get      Set(ByVal Value As Integer)        m_refDocLinenumber = Value      End Set    End Property    Public Property RefSequence() As Integer      Get        Return m_refSequence      End Get      Set(ByVal Value As Integer)        m_refSequence = Value      End Set    End Property    Public Property Itemname() As String      Get        Return m_itemname      End Get      Set(ByVal Value As String)        m_itemname = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public Property Unitprice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        m_unitprice = Value      End Set    End Property    Public Property Discrate() As Discount      Get        Return m_discrate      End Get      Set(ByVal Value As Discount)        m_discrate = Value      End Set    End Property    Public Property Discamt() As Decimal      Get        Return m_discamt      End Get      Set(ByVal Value As Decimal)        m_discamt = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amt      End Get      Set(ByVal Value As Decimal)        m_amt = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property Stockqty() As Decimal      Get        Return m_stockqty      End Get      Set(ByVal Value As Decimal)        m_stockqty = Value      End Set    End Property    Public Property Iscancelled() As Boolean      Get        Return m_iscancelled      End Get      Set(ByVal Value As Boolean)        m_iscancelled = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Type() As StockDocType      Get        Return m_type      End Get      Set(ByVal Value As StockDocType)        m_type = Value      End Set    End Property    Public Property Status() As StockStatus      Get        Return m_status      End Get      Set(ByVal Value As StockStatus)        m_status = Value      End Set    End Property
+    End Property    Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property    Public Property RefDoc() As Integer      Get        Return m_refDoc      End Get      Set(ByVal Value As Integer)        m_refDoc = Value      End Set    End Property    Public Property RefDocLinenumber() As Integer      Get        Return m_refDocLinenumber      End Get      Set(ByVal Value As Integer)        m_refDocLinenumber = Value      End Set    End Property    Public Property RefSequence() As Integer      Get        Return m_refSequence      End Get      Set(ByVal Value As Integer)        m_refSequence = Value      End Set    End Property    Public Property Itemname() As String      Get        Return m_itemname      End Get      Set(ByVal Value As String)        m_itemname = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public ReadOnly Property DefaultUnit() As Unit      Get        If m_defaultunit IsNot Nothing AndAlso m_defaultunit.Originated Then          Return m_defaultunit        Else
+          Return m_unit
+        End If      End Get    End Property    Public Property Unitprice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        m_unitprice = Value      End Set    End Property    Public Property Discrate() As Discount      Get        Return m_discrate      End Get      Set(ByVal Value As Discount)        m_discrate = Value      End Set    End Property    Public Property Discamt() As Decimal      Get        Return m_discamt      End Get      Set(ByVal Value As Decimal)        m_discamt = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public Property Amount() As Decimal      Get        If m_amt = 0 AndAlso m_stockqty > 0 AndAlso m_unitCost > 0 Then          Return m_stockqty * m_unitCost
+        End If        Return m_amt      End Get      Set(ByVal Value As Decimal)        m_amt = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property Stockqty() As Decimal      Get        Return m_stockqty      End Get      Set(ByVal Value As Decimal)        m_stockqty = Value      End Set    End Property    Public Property Iscancelled() As Boolean      Get        Return m_iscancelled      End Get      Set(ByVal Value As Boolean)        m_iscancelled = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Type() As StockDocType      Get        Return m_type      End Get      Set(ByVal Value As StockDocType)        m_type = Value      End Set    End Property    Public Property Status() As StockStatus      Get        Return m_status      End Get      Set(ByVal Value As StockStatus)        m_status = Value      End Set    End Property
 #End Region
 
 #Region "Methods"
@@ -773,36 +789,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       For i As Integer = 0 To items.Count - 1
         Dim itemEntityLevel As Integer
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As IHasName
+        Dim item As StockBasketItem = CType(items(i), StockBasketItem)
+        Dim row As DataRow = CType(item.Tag, DataRow)
+        Dim drh As New DataRowHelper(row)
+        Dim newItem As StockItem
         Dim newType As Integer = -1
         Select Case item.FullClassName.ToLower
+          Case "longkong.pojjaman.businesslogic.stockitem"
+            newItem = New StockItem(row, "")
+            If targetType > -1 Then
+              newType = targetType
+            Else
+              newType = drh.GetValue(Of Integer)("stocki_entitytype")
+            End If
           Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
-            newItem = New LCIItem(item.Id)
+            newItem = New StockItem(row, "")
             If targetType > -1 Then
               newType = targetType
             Else
               newType = 42
             End If
-            itemEntityLevel = CType(newItem, LCIItem).Level
-          Case "longkong.pojjaman.businesslogic.tool"
-            newItem = New Tool(item.Id)
-            newType = 19
-            itemEntityLevel = 5
+            itemEntityLevel = CType(newItem.Entity, LCIItem).Level
         End Select
-        If itemEntityLevel = 5 Then
-          Dim doc As New StockItem
-          If Not Me.CurrentItem Is Nothing Then
-            doc = Me.CurrentItem
-            doc.ItemType.Value = newType
-            Me.CurrentItem = Nothing
-          Else
-            Me.Add(doc)
-            doc.ItemType = New ItemType(newType)
-          End If
-          'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
-          'doc.SetItemCode(newItem.Code)
-        End If
+        'If itemEntityLevel = 5 Then
+        Dim doc As New StockItem
+        doc = newItem
+        'If Not Me.CurrentItem Is Nothing Then
+        '  doc = Me.CurrentItem
+        '  doc.ItemType.Value = newType
+        '  Me.CurrentItem = Nothing
+        'Else
+        Me.Add(doc)
+        doc.ItemType = New ItemType(newType)
+        'End If
+        'doc.Entity = newItem   'เดิม Set จากการกดปุ่มเป็นแบบนี้ทำให้รหัสบัญชีไม่ขึ้น จึงไปใช้วิธีเดียวกับการกรอกใน textbox
+        'doc.SetItemCode(newItem.Code)
+        'End If
       Next
     End Sub
 #End Region
@@ -812,12 +834,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not m_stock Is Nothing Then
         value.Stock = m_stock
       End If
-      If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
-        If Not m_stockHash.Contains(value.Stock.Id) Then
-          m_stockHash(value.Stock.Id) = PO.GetPO(value.Stock.Id, ViewType.PaySelection)
-        End If
-        value.Stock = CType(m_stockHash(value.Stock.Id), SimpleBusinessEntityBase)
-      End If
+      'If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
+      '  If Not m_stockHash.Contains(value.Stock.Id) Then
+      '    m_stockHash(value.Stock.Id) = PO.GetPO(value.Stock.Id, ViewType.PaySelection)
+      '  End If
+      '  value.Stock = CType(m_stockHash(value.Stock.Id), SimpleBusinessEntityBase)
+      'End If
       Return MyBase.List.Add(value)
     End Function
     Public Sub AddRange(ByVal value As StockItemCollection)

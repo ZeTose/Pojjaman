@@ -25,6 +25,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ret = ret.TrimStart(","c)
       Return ret
     End Function
+    Public Shared Function GetListDatatableForEquipmenttoolChangestatus(ByVal ParamArray filters() As Filter) As DataTable
+
+      Dim sqlConString As String = SimpleBusinessEntityBase.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetStockItemsForECList", params)
+
+      Return ds.Tables(0)
+
+    End Function
   End Class
 
   Public Class PaySelectionStatus

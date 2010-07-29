@@ -101,7 +101,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_selectionMode As Selection
 
     'Private m_oldBasket As BasketItemCollection
-
+    Private m_fullclassname As String
     Private m_otherFilters As Filter()
     'Private m_proposedBasketItems As BasketItemCollection
     'Private m_selectedEntity As ISimpleEntity
@@ -125,7 +125,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
       Me.pnlFilter.Controls.Add(filterControl)
       Me.pnlFilter.Height = filterControl.Height
-      'm_otherFilters = filters
+      m_otherFilters = filters
 
       AddHandler Me.m_filterSubPanel.SearchButton.Click, AddressOf btnSearch_Click
       Me.m_filterSubPanel.SearchButton.PerformClick()
@@ -214,17 +214,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  PopDataStyle2(filterdt)
       'Else
       Dim filterdt As DataTable
+      Dim tagisdatarow As Boolean = False
       If TypeOf Me.Entity Is Equipment Then
         filterdt = GoodsReceipt.GetListDatatableForEquipment(newfilters)
+        m_fullclassname = "Longkong.Pojjaman.BusinessLogic.EquipmentItem"
       ElseIf TypeOf Me.Entity Is Tool Then
         filterdt = GoodsReceipt.GetListDatatableForTool(newfilters)
+        m_fullclassname = "Longkong.Pojjaman.BusinessLogic.Toollot"
+      ElseIf TypeOf Me.Entity Is EquipmentToolChangeStatus Then
+        filterdt = Stock.GetListDatatableForEquipmenttoolChangestatus(newfilters)
+        m_fullclassname = "Longkong.Pojjaman.BusinessLogic.StockItem"
+        tagisdatarow = True
       End If
 
-      PopDataStyle1(filterdt)
+
+
+      PopDataStyle1(filterdt, tagisdatarow)
       'End If
 
     End Sub
-    Private Sub PopDataStyle1(ByVal filterdt As DataTable)
+    Private Sub PopDataStyle1(ByVal filterdt As DataTable, ByVal tagisdatarow As Boolean)
       Dim dt As TreeTable = GetSchemaTable()
 
       dt.Clear()
@@ -272,8 +281,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           Trace.WriteLine(drh.GetValue(Of String)("stock_code").ToString)
           Trace.WriteLine(drh.GetValue(Of String)("stock_docdate").ToString)
-
-          crow.Tag = crow
+          If tagisdatarow Then
+            crow.Tag = drow
+          Else
+            crow.Tag = crow
+          End If
         End If
 
       Next
@@ -625,7 +637,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               If CBool(childRow("Selected")) Then
                 Dim id As Integer = CInt(childRow("Id"))
                 Dim stockCode As String = CStr(childRow("Code"))
-                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.EquipmentItem"
+                Dim fullClassName As String = m_fullclassname
                 Dim entityName As String = CStr(childRow("Description"))
                 Dim lineNumber As Integer = CInt(childRow("LineNumber"))
 

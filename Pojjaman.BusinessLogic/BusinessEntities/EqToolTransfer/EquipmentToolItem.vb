@@ -74,6 +74,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected m_qty As Integer = 1
     Protected m_rentalqty As Integer
     Protected m_rentalperday As Decimal
+    Protected m_ownercc As CostCenter
 
     Private m_WBSDistributeCollection As WBSDistributeCollection
 #End Region
@@ -151,6 +152,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_sequence = CInt(dr(aliasPrefix & "eqtstocki_sequence"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "owner_cc") AndAlso Not dr.IsNull(aliasPrefix & "owner_cc") Then
+          m_ownercc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "owner_cc")))
+        End If
+
         'If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_amt") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_amt") Then
         '  m_amount = CDec(dr(aliasPrefix & "eqtstocki_amt"))
         'End If
@@ -212,7 +217,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     '    End If
     '  End Set    'End Property
-    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public ReadOnly Property OwnerCostcenter As CostCenter      Get
+        Return m_ownercc
+      End Get
+    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
