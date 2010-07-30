@@ -105,6 +105,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_fromCostCenter = New CostCenter
         Me.m_fromCostCenterPerson = New Employee
 
+        .m_itemcollection = New AssetSoldItemCollection
+
         '----------------------------Tab Entities-----------------------------------------
         .m_whtcol = New WitholdingTaxCollection(Me)
         .m_whtcol.Direction = New WitholdingTaxDirection(0)
@@ -183,6 +185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_taxRate = CDec(dr(aliasPrefix & "stock_taxrate"))
         End If
 
+        .m_itemcollection = New AssetSoldItemCollection(Me)
         .m_vat = New Vat(Me)
         m_vat.Direction.Value = 0
 
@@ -198,7 +201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
-    Public Property ItemCollection() As AssetSoldItemCollection      Get        Return m_itemcollection      End Get      Set(ByVal Value As AssetSoldItemCollection)        m_itemcollection = Value      End Set    End Property
+   
     Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        Dim oldPerson As IBillablePerson = m_customer
         If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
             For Each wht As WitholdingTax In m_whtcol
@@ -229,7 +232,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_taxbase = Value
       End Set
-    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
+    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Itemcollection As AssetSoldItemCollection      Get
+        Return m_itemcollection
+      End Get
+      Set(ByVal value As AssetSoldItemCollection)
+
+      End Set
+    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return 0
           Case Else '1,2
@@ -247,7 +256,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.BeforeTax + Me.TaxAmount
           Case 2 '"รวม"
             Return Me.Gross - Me.DiscountAmount
-        End Select      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
+        End Select      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "AssetSold"
       End Get
@@ -1335,7 +1344,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ht As New Hashtable
       For Each trow As TreeRow In Me.ItemTable.Childs
         If ValidateRow(trow) Then
-          Dim asset As New asset(CInt(trow("stocki_entity")))
+          Dim asset As New Asset(CInt(trow("stocki_entity")))
           If Not asset.DepreAccount Is Nothing Then
             ht(asset.DepreAccount.Id) = asset.DepreAccount
           End If
@@ -1345,7 +1354,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Intotalamnt As Decimal = 0
         For Each row As TreeRow In Me.ItemTable.Childs
           If ValidateRow(row) Then
-            Dim myAsset As New asset(CInt(row("stocki_entity")))
+            Dim myAsset As New Asset(CInt(row("stocki_entity")))
             'myAsset.DepreciationCalc()
             If myAsset.DepreAccount.Originated AndAlso myAsset.DepreAccount.Id = acct.Id Then
               If Not row.IsNull("deprecalcamt") Then
@@ -1373,7 +1382,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ht As New Hashtable
       For Each trow As TreeRow In Me.ItemTable.Childs
         If ValidateRow(trow) Then
-          Dim asset As New asset(CInt(trow("stocki_entity")))
+          Dim asset As New Asset(CInt(trow("stocki_entity")))
           If Not asset.DepreOpeningAccount Is Nothing Then
             ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
           End If
@@ -1383,7 +1392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Intotalamnt As Decimal = 0
         For Each row As TreeRow In Me.ItemTable.Childs
           If ValidateRow(row) Then
-            Dim myAsset As New asset(CInt(row("stocki_entity")))
+            Dim myAsset As New Asset(CInt(row("stocki_entity")))
             'myAsset.DepreciationCalc()
             If myAsset.DepreOpeningAccount.Originated AndAlso myAsset.DepreOpeningAccount.Id = acct.Id Then
               If Not row.IsNull("deprecalcamt") Then
@@ -1411,7 +1420,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ht As New Hashtable
       For Each trow As TreeRow In Me.ItemTable.Childs
         If ValidateRow(trow) Then
-          Dim asset As New asset(CInt(trow("stocki_entity")))
+          Dim asset As New Asset(CInt(trow("stocki_entity")))
           If Not asset.DepreOpeningAccount Is Nothing Then
             ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
           End If
@@ -1421,7 +1430,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Intotalamnt As Double = 0 'Decimal = 0
         For Each row As TreeRow In Me.ItemTable.Childs
           If ValidateRow(row) Then
-            Dim myAsset As New asset(CInt(row("stocki_entity")))
+            Dim myAsset As New Asset(CInt(row("stocki_entity")))
             If myAsset.DepreOpeningAccount.Id = acct.Id Then
               Dim depreamntinprocess As Decimal = 0
               Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
@@ -1452,7 +1461,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ht As New Hashtable
       For Each trow As TreeRow In Me.ItemTable.Childs
         If ValidateRow(trow) Then
-          Dim asset As New asset(CInt(trow("stocki_entity")))
+          Dim asset As New Asset(CInt(trow("stocki_entity")))
           If Not asset.Account Is Nothing Then
             ht(asset.Account.Id) = asset.Account
           End If
@@ -1462,7 +1471,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Intotalamnt As Decimal = 0
         For Each row As TreeRow In Me.ItemTable.Childs
           If ValidateRow(row) Then
-            Dim myAsset As New asset(CInt(row("stocki_entity")))
+            Dim myAsset As New Asset(CInt(row("stocki_entity")))
             If myAsset.Account.Originated AndAlso myAsset.Account.Id = acct.Id Then
               Dim depreamntinprocess As Decimal = 0
               Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
@@ -1591,7 +1600,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18"
             ji.Amount = CDec(WHTTypeSum(obj))
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = Me.FromCostCenter
+            ji.CostCenter = Me.FromCostCenter
             jiColl.Add(ji)
           End If
         Next
@@ -1605,7 +1614,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18D"
             ji.Amount = wht.Amount
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = Me.FromCostCenter
+            ji.CostCenter = Me.FromCostCenter
             jiColl.Add(ji)
           End If
         Next
@@ -1619,7 +1628,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18W"
             ji.Amount = wht.Amount
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = Me.FromCostCenter
+            ji.CostCenter = Me.FromCostCenter
             jiColl.Add(ji)
           End If
         Next
@@ -1676,7 +1685,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
     End Sub
-    Public Property JournalEntry() As JournalEntry Implements IGLAble.journalEntry
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get
         Return Me.m_je
       End Get
@@ -2391,5 +2400,5 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '#End Region
   '  End Class
 
- 
+
 End Namespace

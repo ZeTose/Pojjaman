@@ -506,13 +506,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Stock Items
       Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "eqtstocki_linenumber"
+      csLineNumber.MappingName = "stocki_linenumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.LineNumberHeaderText}")
       csLineNumber.NullText = ""
       csLineNumber.Width = 30
       csLineNumber.DataAlignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "eqtstocki_linenumber"
+      csLineNumber.TextBox.Name = "stocki_linenumber"
 
 
       Dim csCode As New TreeTextColumn
@@ -530,7 +530,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AddHandler csButton.Click, AddressOf ButtonClick
 
       Dim csName As New TreeTextColumn
-      csName.MappingName = "eqtstocki_itemName"
+      csName.MappingName = "stocki_itemName"
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
       csName.NullText = ""
       csName.Width = 180
@@ -547,7 +547,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnit.DataAlignment = HorizontalAlignment.Center
 
       Dim csQty As New TreeTextColumn
-      csQty.MappingName = "eqtstocki_qty"
+      csQty.MappingName = "stocki_qty"
       csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
       csQty.NullText = ""
       csQty.Format = "#,###.##"
@@ -824,7 +824,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ReIndex()
       Dim i As Integer = 0
       For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-        row("Linenumber") = i + 1
+        row("stocki_linenumber") = i + 1
         i += 1
       Next
     End Sub

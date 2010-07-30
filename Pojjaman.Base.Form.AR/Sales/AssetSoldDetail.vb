@@ -1254,293 +1254,293 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             'Stock Items
             Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "eqtstocki_linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "eqtstocki_linenumber"
+      csLineNumber.MappingName = "stocki_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "stocki_linenumber"
 
 
-            Dim csCode As New TreeTextColumn
+      Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 80
-            csCode.ReadOnly = False
-            csCode.TextBox.Name = "Code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 80
+      csCode.ReadOnly = False
+      csCode.TextBox.Name = "Code"
 
-            Dim csButton As New DataGridButtonColumn
-            csButton.MappingName = "Button"
-            csButton.HeaderText = ""
-            csButton.NullText = ""
-            AddHandler csButton.Click, AddressOf ButtonClick
+      Dim csButton As New DataGridButtonColumn
+      csButton.MappingName = "Button"
+      csButton.HeaderText = ""
+      csButton.NullText = ""
+      AddHandler csButton.Click, AddressOf ButtonClick
 
-            Dim csName As New TreeTextColumn
-      csName.MappingName = "eqtstocki_itemName"
-            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
-            csName.NullText = ""
-            csName.Width = 180
-            csName.TextBox.Name = "Description"
-            csName.ReadOnly = True
-         
-            Dim csUnit As New TreeTextColumn
-            csUnit.MappingName = "Unit"
-            csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitHeaderText}")
-            csUnit.NullText = ""
-            csUnit.Width = 30
-            csUnit.TextBox.Name = "Unit"
-            csUnit.ReadOnly = True
-            csUnit.DataAlignment = HorizontalAlignment.Center
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "stocki_itemName"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
+      csName.NullText = ""
+      csName.Width = 180
+      csName.TextBox.Name = "Description"
+      csName.ReadOnly = True
 
-            Dim csQty As New TreeTextColumn
-      csQty.MappingName = "eqtstocki_qty"
-            csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
-            csQty.NullText = ""
-            csQty.Format = "#,###.##"
-            csQty.TextBox.Name = "Qty"
-            csQty.ReadOnly = True
-            csQty.DataAlignment = HorizontalAlignment.Right
+      Dim csUnit As New TreeTextColumn
+      csUnit.MappingName = "Unit"
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitHeaderText}")
+      csUnit.NullText = ""
+      csUnit.Width = 30
+      csUnit.TextBox.Name = "Unit"
+      csUnit.ReadOnly = True
+      csUnit.DataAlignment = HorizontalAlignment.Center
 
-            Dim csStockQty As New TreeTextColumn
-            csStockQty.MappingName = "StockQty"
-            csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.StockQtyHeaderText}")
-            csStockQty.NullText = ""
-            csStockQty.Format = "#,###.##"
-            csStockQty.ReadOnly = True
-            csStockQty.DataAlignment = HorizontalAlignment.Right
+      Dim csQty As New TreeTextColumn
+      csQty.MappingName = "stocki_qty"
+      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
+      csQty.NullText = ""
+      csQty.Format = "#,###.##"
+      csQty.TextBox.Name = "Qty"
+      csQty.ReadOnly = True
+      csQty.DataAlignment = HorizontalAlignment.Right
 
-            Dim csUnitPRice As New TreeTextColumn
-            csUnitPRice.MappingName = "stocki_unitprice"
-            csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
-            csUnitPRice.NullText = ""
-            csUnitPRice.TextBox.Name = "stocki_unitprice"
-            csStockQty.Format = "#,###.##"
-            csStockQty.ReadOnly = False
-            csUnitPRice.DataAlignment = HorizontalAlignment.Right
+      Dim csStockQty As New TreeTextColumn
+      csStockQty.MappingName = "StockQty"
+      csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.StockQtyHeaderText}")
+      csStockQty.NullText = ""
+      csStockQty.Format = "#,###.##"
+      csStockQty.ReadOnly = True
+      csStockQty.DataAlignment = HorizontalAlignment.Right
 
-            Dim csDiscount As New TreeTextColumn
-            csDiscount.MappingName = "stocki_discrate"
-            csDiscount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DiscountHeaderText}")
-            csDiscount.NullText = ""
-            csDiscount.TextBox.Name = "stocki_discrate"
+      Dim csUnitPRice As New TreeTextColumn
+      csUnitPRice.MappingName = "stocki_unitprice"
+      csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csUnitPRice.NullText = ""
+      csUnitPRice.TextBox.Name = "stocki_unitprice"
+      csStockQty.Format = "#,###.##"
+      csStockQty.ReadOnly = False
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
 
-            Dim csAmount As New TreeTextColumn
-            csAmount.MappingName = "Amount"
-            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AmountHeaderText}")
-            csAmount.NullText = ""
-            csAmount.TextBox.Name = "Amount"
-            csAmount.ReadOnly = True
-            csAmount.Format = "#,###.##"
-            csAmount.DataAlignment = HorizontalAlignment.Right
+      Dim csDiscount As New TreeTextColumn
+      csDiscount.MappingName = "stocki_discrate"
+      csDiscount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DiscountHeaderText}")
+      csDiscount.NullText = ""
+      csDiscount.TextBox.Name = "stocki_discrate"
 
-            Dim csDepre As New TreeTextColumn
-            csDepre.MappingName = "deprecalcamt"
-            csDepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DeprecalcHeaderText}")
-            csDepre.NullText = ""
-            csDepre.TextBox.Name = "deprecalcamt"
-            csDepre.ReadOnly = True
-            csDepre.Format = "#,###.##"
-            csDepre.DataAlignment = HorizontalAlignment.Right
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.TextBox.Name = "Amount"
+      csAmount.ReadOnly = True
+      csAmount.Format = "#,###.##"
+      csAmount.DataAlignment = HorizontalAlignment.Right
 
-            Dim csAccountCode As New TreeTextColumn
-            csAccountCode.MappingName = "AccountCode"
-            csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountCodeHeaderText}")
-            csAccountCode.NullText = ""
-            csAccountCode.TextBox.Name = "AccountCode"
+      Dim csDepre As New TreeTextColumn
+      csDepre.MappingName = "deprecalcamt"
+      csDepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DeprecalcHeaderText}")
+      csDepre.NullText = ""
+      csDepre.TextBox.Name = "deprecalcamt"
+      csDepre.ReadOnly = True
+      csDepre.Format = "#,###.##"
+      csDepre.DataAlignment = HorizontalAlignment.Right
 
-            Dim csAccount As New TreeTextColumn
-            csAccount.MappingName = "Account"
-            csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountHeaderText}")
-            csAccount.NullText = ""
-            csAccount.ReadOnly = True
-            csAccount.TextBox.Name = "Account"
+      Dim csAccountCode As New TreeTextColumn
+      csAccountCode.MappingName = "AccountCode"
+      csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountCodeHeaderText}")
+      csAccountCode.NullText = ""
+      csAccountCode.TextBox.Name = "AccountCode"
 
-            Dim csAccountButton As New DataGridButtonColumn
-            csAccountButton.MappingName = "AccountButton"
-            csAccountButton.HeaderText = ""
-            csAccountButton.NullText = ""
-            'AddHandler csAccountButton.Click, AddressOf ButtonClick
+      Dim csAccount As New TreeTextColumn
+      csAccount.MappingName = "Account"
+      csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountHeaderText}")
+      csAccount.NullText = ""
+      csAccount.ReadOnly = True
+      csAccount.TextBox.Name = "Account"
 
-            Dim csVatable As New DataGridCheckBoxColumn
-            csVatable.MappingName = "stocki_unvatable"
-            csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnVatableHeaderText}")
-            csVatable.Width = 100
-            csVatable.ReadOnly = True
-            csVatable.InvisibleWhenUnspcified = True
+      Dim csAccountButton As New DataGridButtonColumn
+      csAccountButton.MappingName = "AccountButton"
+      csAccountButton.HeaderText = ""
+      csAccountButton.NullText = ""
+      'AddHandler csAccountButton.Click, AddressOf ButtonClick
 
-            Dim csNote As New TreeTextColumn
-            csNote.MappingName = "stocki_note"
-            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.NoteHeaderText}")
-            csNote.NullText = ""
-            csNote.Width = 180
-            csNote.TextBox.Name = "stocki_note"
+      Dim csVatable As New DataGridCheckBoxColumn
+      csVatable.MappingName = "stocki_unvatable"
+      csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnVatableHeaderText}")
+      csVatable.Width = 100
+      csVatable.ReadOnly = True
+      csVatable.InvisibleWhenUnspcified = True
 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csButton)
-            dst.GridColumnStyles.Add(csName)
-            dst.GridColumnStyles.Add(csUnit)
-            dst.GridColumnStyles.Add(csQty)
-            dst.GridColumnStyles.Add(csUnitPRice)
-            dst.GridColumnStyles.Add(csDiscount)
-            dst.GridColumnStyles.Add(csAmount)
-            dst.GridColumnStyles.Add(csDepre)
-            dst.GridColumnStyles.Add(csAccountCode)
-            dst.GridColumnStyles.Add(csAccountButton)
-            dst.GridColumnStyles.Add(csAccount)
-            dst.GridColumnStyles.Add(csNote)
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "stocki_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 180
+      csNote.TextBox.Name = "stocki_note"
 
-            m_tableStyleEnable = New Hashtable
-            For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-                m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-            Next
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csButton)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csUnit)
+      dst.GridColumnStyles.Add(csQty)
+      dst.GridColumnStyles.Add(csUnitPRice)
+      dst.GridColumnStyles.Add(csDiscount)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csDepre)
+      dst.GridColumnStyles.Add(csAccountCode)
+      dst.GridColumnStyles.Add(csAccountButton)
+      dst.GridColumnStyles.Add(csAccount)
+      dst.GridColumnStyles.Add(csNote)
 
-            Return dst
-        End Function
-        Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
-            If e.Column = 2 Then
-                Me.ItemButtonClick(e)
-            Else
-                Me.AcctButtonClick(e)
-            End If
-        End Sub
+      m_tableStyleEnable = New Hashtable
+      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+      Next
+
+      Return dst
+    End Function
+    Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
+      If e.Column = 2 Then
+        Me.ItemButtonClick(e)
+      Else
+        Me.AcctButtonClick(e)
+      End If
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            If Me.m_entity.Status.Value = 0 _
-            OrElse m_entityRefed = 1 _
-            Then
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = False
-                Next
-                tgItem.Enabled = True
-                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-                    colStyle.ReadOnly = True
-                Next
-            Else
-                For Each ctrl As Control In Me.Controls
-                    ctrl.Enabled = True
-                Next
-                tgItem.Enabled = True
-                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-                    colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-                Next
-            End If
-        End Sub
-        Public Overrides Sub ClearDetail()
-            Me.StatusBarService.SetMessage("")
-            For Each crlt As Control In Me.grbDelivery.Controls
-                If crlt.Name.StartsWith("txt") Then
-                    crlt.Text = ""
-                End If
-            Next
-            For Each crlt As Control In Me.grbCostCenter.Controls
-                If crlt.Name.StartsWith("txt") Then
-                    crlt.Text = ""
-                End If
-            Next
-            For Each crlt As Control In Me.Controls
-                If crlt.Name.StartsWith("txt") Then
-                    crlt.Text = ""
-                End If
-            Next
-            Me.dtpDocDate.Value = Now
-            cmbTaxType.SelectedIndex = 1
-        End Sub
-        
-        Protected Overrides Sub EventWiring()
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.Status.Value = 0 _
+      OrElse m_entityRefed = 1 _
+      Then
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
+      Else
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        Next
+      End If
+    End Sub
+    Public Overrides Sub ClearDetail()
+      Me.StatusBarService.SetMessage("")
+      For Each crlt As Control In Me.grbDelivery.Controls
+        If crlt.Name.StartsWith("txt") Then
+          crlt.Text = ""
+        End If
+      Next
+      For Each crlt As Control In Me.grbCostCenter.Controls
+        If crlt.Name.StartsWith("txt") Then
+          crlt.Text = ""
+        End If
+      Next
+      For Each crlt As Control In Me.Controls
+        If crlt.Name.StartsWith("txt") Then
+          crlt.Text = ""
+        End If
+      Next
+      Me.dtpDocDate.Value = Now
+      cmbTaxType.SelectedIndex = 1
+    End Sub
 
-            AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
+    Protected Overrides Sub EventWiring()
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtCreditPrd.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCreditPrd.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtPoDocCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtPoDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpPoDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbTaxType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtInvoiceCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPoDocCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPoDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpPoDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtFromCCPersonCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtFromCostCenterCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtInvoiceCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtFromCCPersonCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtFromCostCenterCode.Validated, AddressOf Me.ChangeProperty
 
 
-        End Sub
-        Private m_oldInvoiceCode As String = ""
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
-            End If
+    End Sub
+    Private m_oldInvoiceCode As String = ""
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
 
-            txtCode.Text = m_entity.Code
-            txtCreditPrd.Text = m_entity.CreditPeriod.ToString
-            m_oldCode = m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+      txtCode.Text = m_entity.Code
+      txtCreditPrd.Text = m_entity.CreditPeriod.ToString
+      m_oldCode = m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-            Me.txtPoDocCode.Text = Me.m_entity.PoDocCode
-            txtPoDocDate.Text = MinDateToNull(Me.m_entity.PoDocDate, "")
-            dtpPoDocDate.Value = MinDateToNow(Me.m_entity.PoDocDate)
+      Me.txtPoDocCode.Text = Me.m_entity.PoDocCode
+      txtPoDocDate.Text = MinDateToNull(Me.m_entity.PoDocDate, "")
+      dtpPoDocDate.Value = MinDateToNow(Me.m_entity.PoDocDate)
 
-            Dim myVat As Vat = Me.m_entity.Vat
-            If Not myVat Is Nothing Then
-                Dim myVatitem As VatItem
-                If myVat.ItemCollection.Count <= 0 Then
-                    Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-                End If
-                VatInputEnabled(True)
-                myVatitem = myVat.ItemCollection(0)
-                If myVat.AutoGen Then
-                    Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
-                Else
-                    Me.txtInvoiceCode.Text = myVatitem.Code
-                End If
-                Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
-            End If
-            m_oldInvoiceCode = Me.txtInvoiceCode.Text
-            Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-            Me.UpdateVatAutogenStatus()
+      Dim myVat As Vat = Me.m_entity.Vat
+      If Not myVat Is Nothing Then
+        Dim myVatitem As VatItem
+        If myVat.ItemCollection.Count <= 0 Then
+          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+        End If
+        VatInputEnabled(True)
+        myVatitem = myVat.ItemCollection(0)
+        If myVat.AutoGen Then
+          Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+        Else
+          Me.txtInvoiceCode.Text = myVatitem.Code
+        End If
+        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      End If
+      m_oldInvoiceCode = Me.txtInvoiceCode.Text
+      Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
+      Me.UpdateVatAutogenStatus()
 
-            txtCustomerCode.Text = m_entity.Customer.Code
-            txtCustomerName.Text = m_entity.Customer.Name
-            txtNote.Text = m_entity.Note
+      txtCustomerCode.Text = m_entity.Customer.Code
+      txtCustomerName.Text = m_entity.Customer.Name
+      txtNote.Text = m_entity.Note
 
-            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+      Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
 
-            txtFromCostCenterCode.Text = m_entity.FromCostCenter.Code
-            txtFromCostCenterName.Text = m_entity.FromCostCenter.Name
+      txtFromCostCenterCode.Text = m_entity.FromCostCenter.Code
+      txtFromCostCenterName.Text = m_entity.FromCostCenter.Name
 
-            Me.txtFromCCPersonCode.Text = m_entity.FromCostCenterPerson.Code
-            txtFromCCPersonName.Text = m_entity.FromCostCenterPerson.Name
+      Me.txtFromCCPersonCode.Text = m_entity.FromCostCenterPerson.Code
+      txtFromCCPersonName.Text = m_entity.FromCostCenterPerson.Name
 
-            For Each item As IdValuePair In Me.cmbTaxType.Items
-                If Me.m_entity.TaxType.Value = item.Id Then
-                    Me.cmbTaxType.SelectedItem = item
-                End If
-            Next
+      For Each item As IdValuePair In Me.cmbTaxType.Items
+        If Me.m_entity.TaxType.Value = item.Id Then
+          Me.cmbTaxType.SelectedItem = item
+        End If
+      Next
       RefreshDocs()
       ''Load Items**********************************************************
       'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
@@ -1552,167 +1552,167 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'RefreshBlankGrid()
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
     End Sub
 
-        Private Sub VatInputEnabled(ByVal enable As Boolean)
-            Me.txtInvoiceCode.Enabled = enable
-            Me.txtInvoiceDate.Enabled = enable
-            Me.dtpInvoiceDate.Enabled = enable
-            If enable Then
-                Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
-                Me.Validator.SetRequired(Me.txtInvoiceCode, True)
-                If Me.m_isInitialized Then
-                    SetVatToOneDoc()
-                End If
-            Else
-                Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
-                Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+    Private Sub VatInputEnabled(ByVal enable As Boolean)
+      Me.txtInvoiceCode.Enabled = enable
+      Me.txtInvoiceDate.Enabled = enable
+      Me.dtpInvoiceDate.Enabled = enable
+      If enable Then
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        If Me.m_isInitialized Then
+          SetVatToOneDoc()
+        End If
+      Else
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+      End If
+    End Sub
+    Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+      If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
+        If e.Name = "QtyChanged" Then
+          Me.UpdateAmount(False)
+          Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End If
+      End If
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcode"
+          Me.m_entity.Code = txtCode.Text
+          dirtyFlag = True
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "txtcustomercode"
+          dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+          If dirtyFlag Then
+            UpdateCustomer()
+          End If
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
+              Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
             End If
-        End Sub
-        Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-            If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
-                If e.Name = "QtyChanged" Then
-                    Me.UpdateAmount(False)
-                    Me.WorkbenchWindow.ViewContent.IsDirty = True
-                End If
+            dirtyFlag = True
+            Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
+          End If
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+              dirtyFlag = True
             End If
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcode"
-                    Me.m_entity.Code = txtCode.Text
-                    dirtyFlag = True
-                Case "txtnote"
-                    Me.m_entity.Note = txtNote.Text
-                    dirtyFlag = True
-                Case "txtcustomercode"
-                    dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
-                    If dirtyFlag Then
-                        UpdateCustomer()
-                    End If
-                Case "dtpdocdate"
-                    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-                        End If
-                        dirtyFlag = True
-                        Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
-                    End If
-                Case "txtdocdate"
-                    m_dateSetting = True
-                    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDate.Text)
-                        If Not Me.m_entity.DocDate.Equals(theDate) Then
-                            dtpDocDate.Value = theDate
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpDocDate.Value = Date.Now
-                        Me.m_entity.DocDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-                    Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
+          Else
+            dtpDocDate.Value = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+          Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
 
-                Case "txtcreditprd"
-                    If IsNumeric(txtCreditPrd.Text) Then
-                        Me.m_entity.CreditPeriod = CInt(txtCreditPrd.Text)
-                        Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
-                    End If
-                    dirtyFlag = True
-                Case "txttaxbase"
-                    'Todo
-                Case "txtdiscountrate"
-                    Me.m_entity.Discount.Rate = txtDiscountRate.Text
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "cmbtaxtype"
-                    Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
-                    Me.m_entity.TaxType.Value = item.Id
-                    UpdateAmount(True)
-                    dirtyFlag = True
-                Case "txtpodoccode"
-                    Me.m_entity.PoDocCode = txtPoDocCode.Text
-                    dirtyFlag = True
-                Case "txtpodocdate"
-                    m_dateSetting = True
-                    If Not Me.txtPoDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtPoDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtPoDocDate.Text)
-                        If Not Me.m_entity.PoDocDate.Equals(theDate) Then
-                            dtpPoDocDate.Value = theDate
-                            Me.m_entity.PoDocDate = dtpPoDocDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpPoDocDate.Value = Date.Now
-                        Me.m_entity.PoDocDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-                Case "dtppodocdate"
-                    If Not Me.m_entity.PoDocDate.Equals(dtpPoDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtPoDocDate.Text = MinDateToNull(dtpPoDocDate.Value, "")
-                            Me.m_entity.PoDocDate = dtpPoDocDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txtinvoicecode"
-                    If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
-                        Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
-                        m_oldInvoiceCode = Me.txtInvoiceCode.Text
-                        dirtyFlag = True
-                    End If
-                Case "txtinvoicedate"
-                    m_dateSetting = True
-                    dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
-                    m_dateSetting = False
-                Case "dtpinvoicedate"
-                    dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
-                Case "txtfromccpersoncode"
-                    dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
-                Case "txtfromcostcentercode"
-                    dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter)
-                    If dirtyFlag Then
-                        Me.m_entity.FromCostCenterPerson = Me.m_entity.FromCostCenter.Admin
-                        txtFromCCPersonCode.Text = Me.m_entity.FromCostCenterPerson.Code
-                        txtFromCCPersonName.Text = Me.m_entity.FromCostCenterPerson.Name
-                    End If
-                Case Else
-            End Select
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        Private Sub SetVatToNoDoc()
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            Me.m_entity.Vat.ItemCollection.Clear()
-            Me.txtInvoiceCode.Text = ""
-            Me.txtInvoiceDate.Text = ""
-            Me.dtpInvoiceDate.Value = Now
-            Me.m_isInitialized = flag
-        End Sub
-        Private Sub SetVatToOneDoc()
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
-            , txtInvoiceDate _
-            , dtpInvoiceDate _
-            , AddressOf UpdateVatAutogenStatus)
-            Me.m_isInitialized = flag
+        Case "txtcreditprd"
+          If IsNumeric(txtCreditPrd.Text) Then
+            Me.m_entity.CreditPeriod = CInt(txtCreditPrd.Text)
+            Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+          End If
+          dirtyFlag = True
+        Case "txttaxbase"
+          'Todo
+        Case "txtdiscountrate"
+          Me.m_entity.Discount.Rate = txtDiscountRate.Text
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "cmbtaxtype"
+          Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
+          Me.m_entity.TaxType.Value = item.Id
+          UpdateAmount(True)
+          dirtyFlag = True
+        Case "txtpodoccode"
+          Me.m_entity.PoDocCode = txtPoDocCode.Text
+          dirtyFlag = True
+        Case "txtpodocdate"
+          m_dateSetting = True
+          If Not Me.txtPoDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtPoDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtPoDocDate.Text)
+            If Not Me.m_entity.PoDocDate.Equals(theDate) Then
+              dtpPoDocDate.Value = theDate
+              Me.m_entity.PoDocDate = dtpPoDocDate.Value
+              dirtyFlag = True
+            End If
+          Else
+            dtpPoDocDate.Value = Date.Now
+            Me.m_entity.PoDocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtppodocdate"
+          If Not Me.m_entity.PoDocDate.Equals(dtpPoDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtPoDocDate.Text = MinDateToNull(dtpPoDocDate.Value, "")
+              Me.m_entity.PoDocDate = dtpPoDocDate.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtinvoicecode"
+          If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
+            Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            dirtyFlag = True
+          End If
+        Case "txtinvoicedate"
+          m_dateSetting = True
+          dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
+          m_dateSetting = False
+        Case "dtpinvoicedate"
+          dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
+        Case "txtfromccpersoncode"
+          dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
+        Case "txtfromcostcentercode"
+          dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter)
+          If dirtyFlag Then
+            Me.m_entity.FromCostCenterPerson = Me.m_entity.FromCostCenter.Admin
+            txtFromCCPersonCode.Text = Me.m_entity.FromCostCenterPerson.Code
+            txtFromCCPersonName.Text = Me.m_entity.FromCostCenterPerson.Name
+          End If
+        Case Else
+      End Select
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Private Sub SetVatToNoDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Me.m_entity.Vat.ItemCollection.Clear()
+      Me.txtInvoiceCode.Text = ""
+      Me.txtInvoiceDate.Text = ""
+      Me.dtpInvoiceDate.Value = Now
+      Me.m_isInitialized = flag
+    End Sub
+    Private Sub SetVatToOneDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
+      , txtInvoiceDate _
+      , dtpInvoiceDate _
+      , AddressOf UpdateVatAutogenStatus)
+      Me.m_isInitialized = flag
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
@@ -1727,130 +1727,130 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ReIndex()
       Dim i As Integer = 0
       For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-        row("Linenumber") = i + 1
+        row("stocki_linenumber") = i + 1
         i += 1
       Next
     End Sub
-        Private Sub UpdateAmount(ByVal refresh As Boolean)
-            m_isInitialized = False
-            If refresh Then
-                Me.m_entity.RefreshTaxBase()
-            End If
-            txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
-            txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
-            txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
-            txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
-            txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
-            txtDiscountRate.Text = m_entity.Discount.Rate
-            txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
-            txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
-            m_isInitialized = True
-            SetVatInputAfterAmountChange()
-        End Sub
-        Private Sub SetVatInputAfterAmountChange()
-            If Me.m_entity.TaxType.Value = 0 Then
-                'ไม่มี Vat
-                SetVatToNoDoc()
-                Me.VatInputEnabled(False)
-                Me.m_isInitialized = False
-                Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                Me.dtpInvoiceDate.Value = Now
-                Me.m_isInitialized = True
-            ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-                'ไม่มี Vatitem
-                Me.m_entity.Vat.ItemCollection().Add(New VatItem)
-                Me.VatInputEnabled(True)
-            Else
-                'มี Vatitem ใบเดียว
-                Me.VatInputEnabled(True)
-            End If
-        End Sub
-        Public Sub SetStatus()
-            Dim docDate As Date
-            Dim docPerson As New User
-            If Not Me.m_entity.LastEditDate = Nothing AndAlso Not Me.m_entity.LastEditDate.Equals(Date.MinValue) Then
-                docDate = Me.m_entity.LastEditDate
-                docPerson = Me.m_entity.LastEditor
-            ElseIf Not Me.m_entity.OriginDate = Nothing AndAlso Not Me.m_entity.OriginDate.Equals(Date.MinValue) Then
-                docDate = Me.m_entity.OriginDate
-                docPerson = Me.m_entity.Originator
-            End If
+    Private Sub UpdateAmount(ByVal refresh As Boolean)
+      m_isInitialized = False
+      If refresh Then
+        Me.m_entity.RefreshTaxBase()
+      End If
+      txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+      txtDiscountAmount.Text = Configuration.FormatToString(m_entity.DiscountAmount, DigitConfig.Price)
+      txtBeforeTax.Text = Configuration.FormatToString(m_entity.BeforeTax, DigitConfig.Price)
+      txtAfterTax.Text = Configuration.FormatToString(m_entity.AfterTax, DigitConfig.Price)
+      txtTaxAmount.Text = Configuration.FormatToString(m_entity.TaxAmount, DigitConfig.Price)
+      txtDiscountRate.Text = m_entity.Discount.Rate
+      txtTaxRate.Text = Configuration.FormatToString(m_entity.TaxRate, DigitConfig.Price)
+      txtTaxBase.Text = Configuration.FormatToString(m_entity.TaxBase, DigitConfig.Price)
+      m_isInitialized = True
+      SetVatInputAfterAmountChange()
+    End Sub
+    Private Sub SetVatInputAfterAmountChange()
+      If Me.m_entity.TaxType.Value = 0 Then
+        'ไม่มี Vat
+        SetVatToNoDoc()
+        Me.VatInputEnabled(False)
+        Me.m_isInitialized = False
+        Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+        Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+        Me.dtpInvoiceDate.Value = Now
+        Me.m_isInitialized = True
+      ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
+        'ไม่มี Vatitem
+        Me.m_entity.Vat.ItemCollection().Add(New VatItem)
+        Me.VatInputEnabled(True)
+      Else
+        'มี Vatitem ใบเดียว
+        Me.VatInputEnabled(True)
+      End If
+    End Sub
+    Public Sub SetStatus()
+      Dim docDate As Date
+      Dim docPerson As New User
+      If Not Me.m_entity.LastEditDate = Nothing AndAlso Not Me.m_entity.LastEditDate.Equals(Date.MinValue) Then
+        docDate = Me.m_entity.LastEditDate
+        docPerson = Me.m_entity.LastEditor
+      ElseIf Not Me.m_entity.OriginDate = Nothing AndAlso Not Me.m_entity.OriginDate.Equals(Date.MinValue) Then
+        docDate = Me.m_entity.OriginDate
+        docPerson = Me.m_entity.Originator
+      End If
 
-            Select Case m_entity.Status.Value
-                Case -1
-                    Me.lblDocStatus.Text = "ยังไม่บันทึก"
-                Case 0
-                    Me.lblDocStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                                    " " & m_entity.CancelDate.ToShortTimeString & _
-                                    "  โดย:" & docPerson.Name
-                Case 1
-                    Me.lblDocStatus.Text = ""
-                Case 2
-                    Me.lblDocStatus.Text = "แก้ไขล่าสุด: " & docDate.ToShortDateString & _
-                " " & docDate.ToShortTimeString & _
-                "  โดย:" & docPerson.Name
-                Case 3
-                    Me.lblDocStatus.Text = "ถูกอ้างอิง"
-                Case 4
-                    Me.lblDocStatus.Text = "ผ่านรายการ: " & docDate.ToShortDateString & _
-                 " " & docDate.ToShortTimeString & _
-                 "  โดย:" & docPerson.Name
-            End Select
-            'If m_entity.Canceled Then
-            '    Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-            '    " " & m_entity.CancelDate.ToShortTimeString & _
-            '    "  โดย:" & m_entity.CancelPerson.Name)
-            'ElseIf m_entity.Edited Then
-            '    Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-            '    " " & m_entity.LastEditDate.ToShortTimeString & _
-            '    "  โดย:" & m_entity.LastEditor.Name)
-            'ElseIf Me.m_entity.Originated Then
-            '    Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-            '    " " & m_entity.OriginDate.ToShortTimeString & _
-            '    "  โดย:" & m_entity.Originator.Name)
-            'Else
-            '    Me.StatusBarService.SetMessage("")
-            'End If
-        End Sub
-        Private m_entityRefed As Integer = -1
-        Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As BusinessLogic.ISimpleEntity)
-                If Not m_entity Is Nothing Then
-                    RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-                    'If Not Me.m_treeManager.GridTableStyle Is Nothing Then
-                    '    If Me.m_treeManager.GridTableStyle.GridColumnStyles.Contains("Button") Then
-                    '        Dim btnCol As DataGridButtonColumn = CType(Me.m_treeManager.GridTableStyle.GridColumnStyles("Button"), DataGridButtonColumn)
-                    '        RemoveHandler btnCol.Click, AddressOf ButtonClick
-                    '    End If
-                    'End If
-                End If
-                If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-                    Me.m_entity = Nothing
-                    Me.m_entity = CType(Value, AssetSold)
-                End If
-                If Me.m_entity.IsReferenced Then
-                    m_entityRefed = 1
-                Else
-                    m_entityRefed = 0
-                End If
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
-        Public Overrides Sub Initialize()
-            SetTaxTypeComboBox()
-        End Sub
-        ' 
-        Private Sub SetTaxTypeComboBox()
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
-            Dim tt As New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
-            CodeDescription.ComboSelect(Me.cmbTaxType, tt)
-        End Sub
+      Select Case m_entity.Status.Value
+        Case -1
+          Me.lblDocStatus.Text = "ยังไม่บันทึก"
+        Case 0
+          Me.lblDocStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+                          " " & m_entity.CancelDate.ToShortTimeString & _
+                          "  โดย:" & docPerson.Name
+        Case 1
+          Me.lblDocStatus.Text = ""
+        Case 2
+          Me.lblDocStatus.Text = "แก้ไขล่าสุด: " & docDate.ToShortDateString & _
+      " " & docDate.ToShortTimeString & _
+      "  โดย:" & docPerson.Name
+        Case 3
+          Me.lblDocStatus.Text = "ถูกอ้างอิง"
+        Case 4
+          Me.lblDocStatus.Text = "ผ่านรายการ: " & docDate.ToShortDateString & _
+       " " & docDate.ToShortTimeString & _
+       "  โดย:" & docPerson.Name
+      End Select
+      'If m_entity.Canceled Then
+      '    Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '    " " & m_entity.CancelDate.ToShortTimeString & _
+      '    "  โดย:" & m_entity.CancelPerson.Name)
+      'ElseIf m_entity.Edited Then
+      '    Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '    " " & m_entity.LastEditDate.ToShortTimeString & _
+      '    "  โดย:" & m_entity.LastEditor.Name)
+      'ElseIf Me.m_entity.Originated Then
+      '    Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '    " " & m_entity.OriginDate.ToShortTimeString & _
+      '    "  โดย:" & m_entity.Originator.Name)
+      'Else
+      '    Me.StatusBarService.SetMessage("")
+      'End If
+    End Sub
+    Private m_entityRefed As Integer = -1
+    Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As BusinessLogic.ISimpleEntity)
+        If Not m_entity Is Nothing Then
+          RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+          'If Not Me.m_treeManager.GridTableStyle Is Nothing Then
+          '    If Me.m_treeManager.GridTableStyle.GridColumnStyles.Contains("Button") Then
+          '        Dim btnCol As DataGridButtonColumn = CType(Me.m_treeManager.GridTableStyle.GridColumnStyles("Button"), DataGridButtonColumn)
+          '        RemoveHandler btnCol.Click, AddressOf ButtonClick
+          '    End If
+          'End If
+        End If
+        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+          Me.m_entity = Nothing
+          Me.m_entity = CType(Value, AssetSold)
+        End If
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+    Public Overrides Sub Initialize()
+      SetTaxTypeComboBox()
+    End Sub
+    ' 
+    Private Sub SetTaxTypeComboBox()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
+      Dim tt As New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
+      CodeDescription.ComboSelect(Me.cmbTaxType, tt)
+    End Sub
 #End Region
 
 #Region "Event Handler"
