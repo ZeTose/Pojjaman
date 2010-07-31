@@ -303,6 +303,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
+    Private Shared m_AllAccount As Hashtable
+    Private Shared m_AccountCodeandId As Hashtable
+    Public Shared ReadOnly Property AllAccount As Hashtable
+      Get
+        If m_AllAccount Is Nothing Then
+          RefreshAllAccount()
+        End If
+        Return m_AllAccount
+      End Get
+    End Property
+    Public Shared ReadOnly Property AllAccountCode As Hashtable
+      Get
+        If m_AccountCodeandId Is Nothing Then
+          RefreshAllAccount()
+        End If
+        Return m_AccountCodeandId
+      End Get
+    End Property
+    Public Shared Sub RefreshAllAccount()
+      Account.m_AllAccount = New Hashtable
+      Dim key As String = ""
+      Dim code As String = ""
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetAccountCollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          key = CStr(drh.GetValue(Of Integer)("acct_id"))
+          code = drh.GetValue(Of String)("acct_code")
+          Account.m_AllAccount(key) = row
+          Account.m_AccountCodeandId(code) = key
+        Next
+      End If
+    End Sub
+    Public Shared Function GetAccountById(ByVal Id As Integer) As Account
+      Dim key As String = Id.ToString
+      Dim row As DataRow = CType(AllAccount(key), DataRow)
+      Dim cc As New Account
+      SetAccount(cc, row)
+      Return cc
+    End Function
+    Public Shared Function GetAccountByCode(ByVal code As String) As Account
+      Dim id As Integer = CInt(AllAccountCode(code))
+      Dim key As String = id.ToString
+      Dim row As DataRow = CType(AllAccount(key), DataRow)
+      Dim acct As New Account
+      SetAccount(acct, row)
+      Return acct
+    End Function
+    Private Shared Sub SetAccount(ByVal acct As Account, ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+      acct.Id = drh.GetValue(Of Integer)("acct_id")
+      acct.Code = drh.GetValue(Of String)("acct_code")
+      acct.Name = drh.GetValue(Of String)("acct_name")
+      acct.Type = New AccountType(drh.GetValue(Of Integer)("acct_type"))
+      acct.IsControlGroup = drh.GetValue(Of Boolean)("acct_control")
+    End Sub
     Public Shared Function GetAccProfit(ByVal endDate As Date) As Decimal
       Dim acct As Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.AccProfit).Account
       If acct Is Nothing OrElse Not acct.Originated Then

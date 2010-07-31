@@ -276,13 +276,12 @@
     <Compile Include="BusinessEntities\Asset\AssetSoldItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Asset\AssetWriteOff.vb" />
+    <Compile Include="BusinessEntities\Asset\AssetWriteOffItem.vb" />
     <Compile Include="BusinessEntities\Asset\DepreciationCal.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessEntities\Asset\EqMaintenance.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BusinessEntities\Asset\WriteOff.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessEntities\Attachment\Attachment.vb">

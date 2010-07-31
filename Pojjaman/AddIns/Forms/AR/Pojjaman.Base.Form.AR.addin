@@ -75,6 +75,7 @@
 			<EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
 		</EntityTab>
+
 		
 		<EntityTab id="receiveselection">
 			<EntityTab id="ReceiveSelectionDetail" view="Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail"/>

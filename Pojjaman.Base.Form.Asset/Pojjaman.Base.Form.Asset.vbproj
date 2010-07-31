@@ -172,6 +172,12 @@
     <Compile Include="Asset\AssetWithdrawDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\AssetWriteOff\AssetWriteOffDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\DepreTransferDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -241,9 +247,6 @@
     <Compile Include="Asset\EqiSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Asset\WriteOffView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,6 +272,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\AssetWithdrawDetail.resx">
       <DependentUpon>AssetWithdrawDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffDetail.resx">
+      <DependentUpon>AssetWriteOffDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.resx">
+      <DependentUpon>AssetWriteOffFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\DepreTransferDetail.resx">
       <DependentUpon>DepreTransferDetail.vb</DependentUpon>
@@ -338,9 +347,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqiSelectionView.resx">
       <DependentUpon>EqiSelectionView.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Asset\WriteOffView.resx">
-      <DependentUpon>WriteOffView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
