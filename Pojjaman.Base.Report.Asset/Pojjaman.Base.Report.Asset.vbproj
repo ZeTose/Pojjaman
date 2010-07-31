@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptToolStatus.vb" />
     <Compile Include="BLL\Rpt265.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +167,20 @@
     </Compile>
     <Compile Include="BLL\RptDepreciationByCC.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BLL\RptEquipmentStatus.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RptToolStatusFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Rpt265FilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -203,6 +218,17 @@
     <Compile Include="UI\RptDepreciationByCCFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\RptEquipmentStatusFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptToolStatusFilterSubPanel.resx">
+      <DependentUpon>RptToolStatusFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Rpt265FilterSubPanel.resx">
       <DependentUpon>Rpt265FilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -239,10 +265,11 @@
     <EmbeddedResource Include="UI\RptDepreciationByCCFilterSubPanel.resx">
       <DependentUpon>RptDepreciationByCCFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptEquipmentStatusFilterSubPanel.resx">
+      <DependentUpon>RptEquipmentStatusFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -294,6 +321,13 @@
       <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
       <Name>Pojjaman.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

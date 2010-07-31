@@ -18,6 +18,11 @@
 				<MenuItem id="rptdepreciationbyasset" icon="Icons.16x16.RptDepreciationByAsset" label="${res:MainMenu.PurchaseMenu.RptDepreciationByAsset.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByAsset"/>
 				<MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
 			</MenuItem>
+      
+      <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">
+        <MenuItem id="rptequipmentstatus" icon="Icons.16x16.RptEquipmentStatus" label="${res:MainMenu.PurchaseMenu.RptEquipmentStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus"/>
+        <MenuItem id="rpttoolstatus" icon="Icons.16x16.RptToolStatus" label="${res:MainMenu.PurchaseMenu.RptToolStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolStatus"/>
+      </MenuItem>
 		</Conditional>
 	</Extension>
 	
@@ -33,7 +38,9 @@
 		<EntityFilter id="rpt272" entity="Rpt272" filter="Longkong.Pojjaman.Gui.Panels.Rpt272FilterSubPanel"/> 
 		<EntityFilter id="rpt273" entity="Rpt273" filter="Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel"/>
 		<EntityFilter id="rptdepreciationbyasset" entity="RptDepreciationByAsset" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByAssetFilterSubPanel"/>
-		<EntityFilter id="rptdepreciationbycc" entity="RptDepreciationByCC" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByCCFilterSubPanel"/>
+    <EntityFilter id="rptdepreciationbycc" entity="RptDepreciationByCC" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByCCFilterSubPanel"/>
+    <EntityFilter id="rptequipmentstatus" entity="RptEquipmentStatus" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel"/>
+    <EntityFilter id="rpttoolstatus" entity="RptToolStatus" filter="Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel"/>
 	</Extension>
 	
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -71,5 +78,11 @@
 		<EntityTab id="rptdepreciationbycc">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
+    <EntityTab id="rptequipmentstatus">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rpttoolstatus">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
 	</Extension>
 </AddIn>

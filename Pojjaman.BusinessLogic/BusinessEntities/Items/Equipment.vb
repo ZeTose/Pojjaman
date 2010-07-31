@@ -426,9 +426,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
-
-
-
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()

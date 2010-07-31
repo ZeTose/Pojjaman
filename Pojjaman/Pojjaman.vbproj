@@ -175,7 +175,9 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin" />
-    <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin" />
+    <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="AddIns\Reports\Purchase\Pojjaman.Base.Report.Purchase.addin" />
     <Content Include="AddIns\Reports\Subcontract\Pojjaman.Base.Report.Subcontract.addin" />
     <Content Include="blank.bmp" />

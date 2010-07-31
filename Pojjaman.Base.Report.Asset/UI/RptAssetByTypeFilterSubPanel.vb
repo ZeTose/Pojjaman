@@ -57,479 +57,467 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents txtAssetTypeCodeStart As System.Windows.Forms.TextBox
         Friend WithEvents lblAssetTypeStart As System.Windows.Forms.Label
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(RptAssetByTypeFilterSubPanel))
-            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.txtTemp = New System.Windows.Forms.TextBox
-            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtCCCodeEnd = New System.Windows.Forms.TextBox
-            Me.lblCCEnd = New System.Windows.Forms.Label
-            Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtCCCodeStart = New System.Windows.Forms.TextBox
-            Me.lblCCStart = New System.Windows.Forms.Label
-            Me.btnAssetStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.btnAssetEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtAssetCodeEnd = New System.Windows.Forms.TextBox
-            Me.lblAssetEnd = New System.Windows.Forms.Label
-            Me.txtAssetCodeStart = New System.Windows.Forms.TextBox
-            Me.lblAssetStart = New System.Windows.Forms.Label
-            Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-            Me.txtDocDateStart = New System.Windows.Forms.TextBox
-            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-            Me.lblDocDateStart = New System.Windows.Forms.Label
-            Me.lblDocDateEnd = New System.Windows.Forms.Label
-            Me.txtAssetTypeCodeEnd = New System.Windows.Forms.TextBox
-            Me.btnAssetTypeEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.btnAssetTypeStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.lblAssetTypeEnd = New System.Windows.Forms.Label
-            Me.txtAssetTypeCodeStart = New System.Windows.Forms.TextBox
-            Me.lblAssetTypeStart = New System.Windows.Forms.Label
-            Me.btnSearch = New System.Windows.Forms.Button
-            Me.btnReset = New System.Windows.Forms.Button
-            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-            Me.grbMaster.SuspendLayout()
-            Me.grbDetail.SuspendLayout()
-            Me.SuspendLayout()
-            '
-            'grbMaster
-            '
-            Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.grbMaster.Controls.Add(Me.txtTemp)
-            Me.grbMaster.Controls.Add(Me.grbDetail)
-            Me.grbMaster.Controls.Add(Me.btnSearch)
-            Me.grbMaster.Controls.Add(Me.btnReset)
-            Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.grbMaster.Location = New System.Drawing.Point(8, 8)
-            Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(440, 176)
-            Me.grbMaster.TabIndex = 0
-            Me.grbMaster.TabStop = False
-            Me.grbMaster.Text = "ค้นหา"
-            '
-            'txtTemp
-            '
-            Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtTemp, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-            Me.txtTemp.Location = New System.Drawing.Point(448, 32)
-            Me.txtTemp.MaxLength = 255
-            Me.Validator.SetMaxValue(Me.txtTemp, "")
-            Me.Validator.SetMinValue(Me.txtTemp, "")
-            Me.txtTemp.Name = "txtTemp"
-            Me.txtTemp.ReadOnly = True
-            Me.Validator.SetRegularExpression(Me.txtTemp, "")
-            Me.Validator.SetRequired(Me.txtTemp, False)
-            Me.txtTemp.Size = New System.Drawing.Size(104, 21)
-            Me.txtTemp.TabIndex = 3
-            Me.txtTemp.Text = ""
-            Me.txtTemp.Visible = False
-            '
-            'grbDetail
-            '
-            Me.grbDetail.Controls.Add(Me.btnCCEndFind)
-            Me.grbDetail.Controls.Add(Me.txtCCCodeEnd)
-            Me.grbDetail.Controls.Add(Me.lblCCEnd)
-            Me.grbDetail.Controls.Add(Me.btnCCStartFind)
-            Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
-            Me.grbDetail.Controls.Add(Me.lblCCStart)
-            Me.grbDetail.Controls.Add(Me.btnAssetStartFind)
-            Me.grbDetail.Controls.Add(Me.btnAssetEndFind)
-            Me.grbDetail.Controls.Add(Me.txtAssetCodeEnd)
-            Me.grbDetail.Controls.Add(Me.lblAssetEnd)
-            Me.grbDetail.Controls.Add(Me.txtAssetCodeStart)
-            Me.grbDetail.Controls.Add(Me.lblAssetStart)
-            Me.grbDetail.Controls.Add(Me.txtDocDateEnd)
-            Me.grbDetail.Controls.Add(Me.txtDocDateStart)
-            Me.grbDetail.Controls.Add(Me.dtpDocDateStart)
-            Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
-            Me.grbDetail.Controls.Add(Me.lblDocDateStart)
-            Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
-            Me.grbDetail.Controls.Add(Me.txtAssetTypeCodeEnd)
-            Me.grbDetail.Controls.Add(Me.btnAssetTypeEndFind)
-            Me.grbDetail.Controls.Add(Me.btnAssetTypeStartFind)
-            Me.grbDetail.Controls.Add(Me.lblAssetTypeEnd)
-            Me.grbDetail.Controls.Add(Me.txtAssetTypeCodeStart)
-            Me.grbDetail.Controls.Add(Me.lblAssetTypeStart)
-            Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbDetail.Location = New System.Drawing.Point(16, 16)
-            Me.grbDetail.Name = "grbDetail"
-            Me.grbDetail.Size = New System.Drawing.Size(408, 120)
-            Me.grbDetail.TabIndex = 0
-            Me.grbDetail.TabStop = False
-            Me.grbDetail.Text = "ข้อมูลทั่วไป"
-            '
-            'btnCCEndFind
-            '
-            Me.btnCCEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnCCEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCEndFind.Image = CType(resources.GetObject("btnCCEndFind.Image"), System.Drawing.Image)
-            Me.btnCCEndFind.Location = New System.Drawing.Point(368, 88)
-            Me.btnCCEndFind.Name = "btnCCEndFind"
-            Me.btnCCEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnCCEndFind.TabIndex = 31
-            Me.btnCCEndFind.TabStop = False
-            Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtCCCodeEnd
-            '
-            Me.Validator.SetDataType(Me.txtCCCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtCCCodeEnd, "")
-            Me.txtCCCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
-            Me.txtCCCodeEnd.Location = New System.Drawing.Point(272, 88)
-            Me.Validator.SetMaxValue(Me.txtCCCodeEnd, "")
-            Me.Validator.SetMinValue(Me.txtCCCodeEnd, "")
-            Me.txtCCCodeEnd.Name = "txtCCCodeEnd"
-            Me.Validator.SetRegularExpression(Me.txtCCCodeEnd, "")
-            Me.Validator.SetRequired(Me.txtCCCodeEnd, False)
-            Me.txtCCCodeEnd.Size = New System.Drawing.Size(96, 21)
-            Me.txtCCCodeEnd.TabIndex = 7
-            Me.txtCCCodeEnd.Text = ""
-            '
-            'lblCCEnd
-            '
-            Me.lblCCEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCCEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblCCEnd.Location = New System.Drawing.Point(240, 88)
-            Me.lblCCEnd.Name = "lblCCEnd"
-            Me.lblCCEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblCCEnd.TabIndex = 29
-            Me.lblCCEnd.Text = "ถึง"
-            Me.lblCCEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'btnCCStartFind
-            '
-            Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCStartFind.Image = CType(resources.GetObject("btnCCStartFind.Image"), System.Drawing.Image)
-            Me.btnCCStartFind.Location = New System.Drawing.Point(208, 88)
-            Me.btnCCStartFind.Name = "btnCCStartFind"
-            Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnCCStartFind.TabIndex = 28
-            Me.btnCCStartFind.TabStop = False
-            Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtCCCodeStart
-            '
-            Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
-            Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-            Me.txtCCCodeStart.Location = New System.Drawing.Point(112, 88)
-            Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
-            Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
-            Me.txtCCCodeStart.Name = "txtCCCodeStart"
-            Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
-            Me.Validator.SetRequired(Me.txtCCCodeStart, False)
-            Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
-            Me.txtCCCodeStart.TabIndex = 6
-            Me.txtCCCodeStart.Text = ""
-            '
-            'lblCCStart
-            '
-            Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCCStart.ForeColor = System.Drawing.Color.Black
-            Me.lblCCStart.Location = New System.Drawing.Point(8, 88)
-            Me.lblCCStart.Name = "lblCCStart"
-            Me.lblCCStart.Size = New System.Drawing.Size(96, 18)
-            Me.lblCCStart.TabIndex = 26
-            Me.lblCCStart.Text = "ตั้งแต่ CostCenter"
-            Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'btnAssetStartFind
-            '
-            Me.btnAssetStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAssetStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAssetStartFind.Image = CType(resources.GetObject("btnAssetStartFind.Image"), System.Drawing.Image)
-            Me.btnAssetStartFind.Location = New System.Drawing.Point(208, 64)
-            Me.btnAssetStartFind.Name = "btnAssetStartFind"
-            Me.btnAssetStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAssetStartFind.TabIndex = 24
-            Me.btnAssetStartFind.TabStop = False
-            Me.btnAssetStartFind.ThemedImage = CType(resources.GetObject("btnAssetStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'btnAssetEndFind
-            '
-            Me.btnAssetEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAssetEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAssetEndFind.Image = CType(resources.GetObject("btnAssetEndFind.Image"), System.Drawing.Image)
-            Me.btnAssetEndFind.Location = New System.Drawing.Point(368, 64)
-            Me.btnAssetEndFind.Name = "btnAssetEndFind"
-            Me.btnAssetEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAssetEndFind.TabIndex = 23
-            Me.btnAssetEndFind.TabStop = False
-            Me.btnAssetEndFind.ThemedImage = CType(resources.GetObject("btnAssetEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtAssetCodeEnd
-            '
-            Me.Validator.SetDataType(Me.txtAssetCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtAssetCodeEnd, "")
-            Me.txtAssetCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtAssetCodeEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtAssetCodeEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtAssetCodeEnd, System.Drawing.Color.Empty)
-            Me.txtAssetCodeEnd.Location = New System.Drawing.Point(272, 64)
-            Me.Validator.SetMaxValue(Me.txtAssetCodeEnd, "")
-            Me.Validator.SetMinValue(Me.txtAssetCodeEnd, "")
-            Me.txtAssetCodeEnd.Name = "txtAssetCodeEnd"
-            Me.Validator.SetRegularExpression(Me.txtAssetCodeEnd, "")
-            Me.Validator.SetRequired(Me.txtAssetCodeEnd, False)
-            Me.txtAssetCodeEnd.Size = New System.Drawing.Size(96, 21)
-            Me.txtAssetCodeEnd.TabIndex = 5
-            Me.txtAssetCodeEnd.Text = ""
-            '
-            'lblAssetEnd
-            '
-            Me.lblAssetEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAssetEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblAssetEnd.Location = New System.Drawing.Point(240, 64)
-            Me.lblAssetEnd.Name = "lblAssetEnd"
-            Me.lblAssetEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblAssetEnd.TabIndex = 9
-            Me.lblAssetEnd.Text = "ถึง"
-            Me.lblAssetEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'txtAssetCodeStart
-            '
-            Me.Validator.SetDataType(Me.txtAssetCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtAssetCodeStart, "")
-            Me.txtAssetCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtAssetCodeStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtAssetCodeStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtAssetCodeStart, System.Drawing.Color.Empty)
-            Me.txtAssetCodeStart.Location = New System.Drawing.Point(112, 64)
-            Me.Validator.SetMaxValue(Me.txtAssetCodeStart, "")
-            Me.Validator.SetMinValue(Me.txtAssetCodeStart, "")
-            Me.txtAssetCodeStart.Name = "txtAssetCodeStart"
-            Me.Validator.SetRegularExpression(Me.txtAssetCodeStart, "")
-            Me.Validator.SetRequired(Me.txtAssetCodeStart, False)
-            Me.txtAssetCodeStart.Size = New System.Drawing.Size(96, 21)
-            Me.txtAssetCodeStart.TabIndex = 4
-            Me.txtAssetCodeStart.Text = ""
-            '
-            'lblAssetStart
-            '
-            Me.lblAssetStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAssetStart.ForeColor = System.Drawing.Color.Black
-            Me.lblAssetStart.Location = New System.Drawing.Point(16, 64)
-            Me.lblAssetStart.Name = "lblAssetStart"
-            Me.lblAssetStart.Size = New System.Drawing.Size(88, 18)
-            Me.lblAssetStart.TabIndex = 6
-            Me.lblAssetStart.Text = "รหัสสินทรัพย์:"
-            Me.lblAssetStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'txtDocDateEnd
-            '
-            Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-            Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-            Me.txtDocDateEnd.Location = New System.Drawing.Point(272, 16)
-            Me.txtDocDateEnd.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
-            Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
-            Me.txtDocDateEnd.Name = "txtDocDateEnd"
-            Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
-            Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-            Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
-            Me.txtDocDateEnd.TabIndex = 1
-            Me.txtDocDateEnd.Text = ""
-            '
-            'txtDocDateStart
-            '
-            Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-            Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-            Me.txtDocDateStart.Location = New System.Drawing.Point(112, 16)
-            Me.txtDocDateStart.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
-            Me.Validator.SetMinValue(Me.txtDocDateStart, "")
-            Me.txtDocDateStart.Name = "txtDocDateStart"
-            Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
-            Me.Validator.SetRequired(Me.txtDocDateStart, False)
-            Me.txtDocDateStart.Size = New System.Drawing.Size(99, 21)
-            Me.txtDocDateStart.TabIndex = 0
-            Me.txtDocDateStart.Text = ""
-            '
-            'dtpDocDateStart
-            '
-            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
-            Me.dtpDocDateStart.Location = New System.Drawing.Point(112, 16)
-            Me.dtpDocDateStart.Name = "dtpDocDateStart"
-            Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
-            Me.dtpDocDateStart.TabIndex = 2
-            Me.dtpDocDateStart.TabStop = False
-            '
-            'dtpDocDateEnd
-            '
-            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
-            Me.dtpDocDateEnd.Location = New System.Drawing.Point(272, 16)
-            Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-            Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
-            Me.dtpDocDateEnd.TabIndex = 5
-            Me.dtpDocDateEnd.TabStop = False
-            '
-            'lblDocDateStart
-            '
-            Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateStart.Location = New System.Drawing.Point(16, 16)
-            Me.lblDocDateStart.Name = "lblDocDateStart"
-            Me.lblDocDateStart.Size = New System.Drawing.Size(88, 18)
-            Me.lblDocDateStart.TabIndex = 0
-            Me.lblDocDateStart.Text = "ตั้งแต่"
-            Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblDocDateEnd
-            '
-            Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateEnd.Location = New System.Drawing.Point(240, 16)
-            Me.lblDocDateEnd.Name = "lblDocDateEnd"
-            Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblDocDateEnd.TabIndex = 3
-            Me.lblDocDateEnd.Text = "ถึง"
-            Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'txtAssetTypeCodeEnd
-            '
-            Me.Validator.SetDataType(Me.txtAssetTypeCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtAssetTypeCodeEnd, "")
-            Me.txtAssetTypeCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtAssetTypeCodeEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtAssetTypeCodeEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtAssetTypeCodeEnd, System.Drawing.Color.Empty)
-            Me.txtAssetTypeCodeEnd.Location = New System.Drawing.Point(272, 40)
-            Me.Validator.SetMaxValue(Me.txtAssetTypeCodeEnd, "")
-            Me.Validator.SetMinValue(Me.txtAssetTypeCodeEnd, "")
-            Me.txtAssetTypeCodeEnd.Name = "txtAssetTypeCodeEnd"
-            Me.Validator.SetRegularExpression(Me.txtAssetTypeCodeEnd, "")
-            Me.Validator.SetRequired(Me.txtAssetTypeCodeEnd, False)
-            Me.txtAssetTypeCodeEnd.Size = New System.Drawing.Size(96, 21)
-            Me.txtAssetTypeCodeEnd.TabIndex = 3
-            Me.txtAssetTypeCodeEnd.Text = ""
-            '
-            'btnAssetTypeEndFind
-            '
-            Me.btnAssetTypeEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAssetTypeEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAssetTypeEndFind.Image = CType(resources.GetObject("btnAssetTypeEndFind.Image"), System.Drawing.Image)
-            Me.btnAssetTypeEndFind.Location = New System.Drawing.Point(368, 40)
-            Me.btnAssetTypeEndFind.Name = "btnAssetTypeEndFind"
-            Me.btnAssetTypeEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAssetTypeEndFind.TabIndex = 23
-            Me.btnAssetTypeEndFind.TabStop = False
-            Me.btnAssetTypeEndFind.ThemedImage = CType(resources.GetObject("btnAssetTypeEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'btnAssetTypeStartFind
-            '
-            Me.btnAssetTypeStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAssetTypeStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAssetTypeStartFind.Image = CType(resources.GetObject("btnAssetTypeStartFind.Image"), System.Drawing.Image)
-            Me.btnAssetTypeStartFind.Location = New System.Drawing.Point(208, 40)
-            Me.btnAssetTypeStartFind.Name = "btnAssetTypeStartFind"
-            Me.btnAssetTypeStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAssetTypeStartFind.TabIndex = 24
-            Me.btnAssetTypeStartFind.TabStop = False
-            Me.btnAssetTypeStartFind.ThemedImage = CType(resources.GetObject("btnAssetTypeStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblAssetTypeEnd
-            '
-            Me.lblAssetTypeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAssetTypeEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblAssetTypeEnd.Location = New System.Drawing.Point(240, 40)
-            Me.lblAssetTypeEnd.Name = "lblAssetTypeEnd"
-            Me.lblAssetTypeEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblAssetTypeEnd.TabIndex = 9
-            Me.lblAssetTypeEnd.Text = "ถึง"
-            Me.lblAssetTypeEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'txtAssetTypeCodeStart
-            '
-            Me.Validator.SetDataType(Me.txtAssetTypeCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtAssetTypeCodeStart, "")
-            Me.txtAssetTypeCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtAssetTypeCodeStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtAssetTypeCodeStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtAssetTypeCodeStart, System.Drawing.Color.Empty)
-            Me.txtAssetTypeCodeStart.Location = New System.Drawing.Point(112, 40)
-            Me.Validator.SetMaxValue(Me.txtAssetTypeCodeStart, "")
-            Me.Validator.SetMinValue(Me.txtAssetTypeCodeStart, "")
-            Me.txtAssetTypeCodeStart.Name = "txtAssetTypeCodeStart"
-            Me.Validator.SetRegularExpression(Me.txtAssetTypeCodeStart, "")
-            Me.Validator.SetRequired(Me.txtAssetTypeCodeStart, False)
-            Me.txtAssetTypeCodeStart.Size = New System.Drawing.Size(96, 21)
-            Me.txtAssetTypeCodeStart.TabIndex = 2
-            Me.txtAssetTypeCodeStart.Text = ""
-            '
-            'lblAssetTypeStart
-            '
-            Me.lblAssetTypeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAssetTypeStart.ForeColor = System.Drawing.Color.Black
-            Me.lblAssetTypeStart.Location = New System.Drawing.Point(16, 40)
-            Me.lblAssetTypeStart.Name = "lblAssetTypeStart"
-            Me.lblAssetTypeStart.Size = New System.Drawing.Size(88, 18)
-            Me.lblAssetTypeStart.TabIndex = 6
-            Me.lblAssetTypeStart.Text = "ประเภทสินทรัพย์:"
-            Me.lblAssetTypeStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'btnSearch
-            '
-            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(352, 144)
-            Me.btnSearch.Name = "btnSearch"
-            Me.btnSearch.TabIndex = 2
-            Me.btnSearch.Text = "ค้นหา"
-            '
-            'btnReset
-            '
-            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnReset.Location = New System.Drawing.Point(272, 144)
-            Me.btnReset.Name = "btnReset"
-            Me.btnReset.TabIndex = 1
-            Me.btnReset.TabStop = False
-            Me.btnReset.Text = "เคลียร์"
-            '
-            'Validator
-            '
-            Me.Validator.BackcolorChanging = False
-            Me.Validator.DataTable = Nothing
-            Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
-            Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-            '
-            'ErrorProvider1
-            '
-            Me.ErrorProvider1.ContainerControl = Me
-            '
-            'RptAssetByTypeFilterSubPanel
-            '
-            Me.Controls.Add(Me.grbMaster)
-            Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Name = "RptAssetByTypeFilterSubPanel"
-            Me.Size = New System.Drawing.Size(456, 192)
-            Me.grbMaster.ResumeLayout(False)
-            Me.grbDetail.ResumeLayout(False)
-            Me.ResumeLayout(False)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAssetByTypeFilterSubPanel))
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCCCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblCCEnd = New System.Windows.Forms.Label()
+      Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCCCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblCCStart = New System.Windows.Forms.Label()
+      Me.btnAssetStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAssetEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAssetCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblAssetEnd = New System.Windows.Forms.Label()
+      Me.txtAssetCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblAssetStart = New System.Windows.Forms.Label()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.lblDocDateEnd = New System.Windows.Forms.Label()
+      Me.txtAssetTypeCodeEnd = New System.Windows.Forms.TextBox()
+      Me.btnAssetTypeEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAssetTypeStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAssetTypeEnd = New System.Windows.Forms.Label()
+      Me.txtAssetTypeCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblAssetTypeStart = New System.Windows.Forms.Label()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.grbMaster.SuspendLayout()
+      Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.SuspendLayout()
+      '
+      'grbMaster
+      '
+      Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.txtTemp)
+      Me.grbMaster.Controls.Add(Me.grbDetail)
+      Me.grbMaster.Controls.Add(Me.btnSearch)
+      Me.grbMaster.Controls.Add(Me.btnReset)
+      Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
+      Me.grbMaster.Name = "grbMaster"
+      Me.grbMaster.Size = New System.Drawing.Size(440, 176)
+      Me.grbMaster.TabIndex = 0
+      Me.grbMaster.TabStop = False
+      Me.grbMaster.Text = "ค้นหา"
+      '
+      'txtTemp
+      '
+      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtTemp, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.txtTemp.Location = New System.Drawing.Point(448, 32)
+      Me.txtTemp.MaxLength = 255
+      Me.Validator.SetMinValue(Me.txtTemp, "")
+      Me.txtTemp.Name = "txtTemp"
+      Me.txtTemp.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtTemp, "")
+      Me.Validator.SetRequired(Me.txtTemp, False)
+      Me.txtTemp.Size = New System.Drawing.Size(104, 21)
+      Me.txtTemp.TabIndex = 3
+      Me.txtTemp.Visible = False
+      '
+      'grbDetail
+      '
+      Me.grbDetail.Controls.Add(Me.btnCCEndFind)
+      Me.grbDetail.Controls.Add(Me.txtCCCodeEnd)
+      Me.grbDetail.Controls.Add(Me.lblCCEnd)
+      Me.grbDetail.Controls.Add(Me.btnCCStartFind)
+      Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
+      Me.grbDetail.Controls.Add(Me.lblCCStart)
+      Me.grbDetail.Controls.Add(Me.btnAssetStartFind)
+      Me.grbDetail.Controls.Add(Me.btnAssetEndFind)
+      Me.grbDetail.Controls.Add(Me.txtAssetCodeEnd)
+      Me.grbDetail.Controls.Add(Me.lblAssetEnd)
+      Me.grbDetail.Controls.Add(Me.txtAssetCodeStart)
+      Me.grbDetail.Controls.Add(Me.lblAssetStart)
+      Me.grbDetail.Controls.Add(Me.txtDocDateEnd)
+      Me.grbDetail.Controls.Add(Me.txtDocDateStart)
+      Me.grbDetail.Controls.Add(Me.dtpDocDateStart)
+      Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
+      Me.grbDetail.Controls.Add(Me.lblDocDateStart)
+      Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
+      Me.grbDetail.Controls.Add(Me.txtAssetTypeCodeEnd)
+      Me.grbDetail.Controls.Add(Me.btnAssetTypeEndFind)
+      Me.grbDetail.Controls.Add(Me.btnAssetTypeStartFind)
+      Me.grbDetail.Controls.Add(Me.lblAssetTypeEnd)
+      Me.grbDetail.Controls.Add(Me.txtAssetTypeCodeStart)
+      Me.grbDetail.Controls.Add(Me.lblAssetTypeStart)
+      Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbDetail.Location = New System.Drawing.Point(16, 16)
+      Me.grbDetail.Name = "grbDetail"
+      Me.grbDetail.Size = New System.Drawing.Size(408, 120)
+      Me.grbDetail.TabIndex = 0
+      Me.grbDetail.TabStop = False
+      Me.grbDetail.Text = "ข้อมูลทั่วไป"
+      '
+      'btnCCEndFind
+      '
+      Me.btnCCEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCCEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCEndFind.Location = New System.Drawing.Point(368, 88)
+      Me.btnCCEndFind.Name = "btnCCEndFind"
+      Me.btnCCEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCEndFind.TabIndex = 31
+      Me.btnCCEndFind.TabStop = False
+      Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtCCCodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtCCCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCCCodeEnd, "")
+      Me.txtCCCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtCCCodeEnd, System.Drawing.Color.Empty)
+      Me.txtCCCodeEnd.Location = New System.Drawing.Point(272, 88)
+      Me.Validator.SetMinValue(Me.txtCCCodeEnd, "")
+      Me.txtCCCodeEnd.Name = "txtCCCodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtCCCodeEnd, "")
+      Me.Validator.SetRequired(Me.txtCCCodeEnd, False)
+      Me.txtCCCodeEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtCCCodeEnd.TabIndex = 7
+      '
+      'lblCCEnd
+      '
+      Me.lblCCEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblCCEnd.Location = New System.Drawing.Point(240, 88)
+      Me.lblCCEnd.Name = "lblCCEnd"
+      Me.lblCCEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblCCEnd.TabIndex = 29
+      Me.lblCCEnd.Text = "ถึง"
+      Me.lblCCEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnCCStartFind
+      '
+      Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCStartFind.Location = New System.Drawing.Point(208, 88)
+      Me.btnCCStartFind.Name = "btnCCStartFind"
+      Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCStartFind.TabIndex = 28
+      Me.btnCCStartFind.TabStop = False
+      Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtCCCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.txtCCCodeStart.Location = New System.Drawing.Point(112, 88)
+      Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Name = "txtCCCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
+      Me.Validator.SetRequired(Me.txtCCCodeStart, False)
+      Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtCCCodeStart.TabIndex = 6
+      '
+      'lblCCStart
+      '
+      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
+      Me.lblCCStart.Location = New System.Drawing.Point(8, 88)
+      Me.lblCCStart.Name = "lblCCStart"
+      Me.lblCCStart.Size = New System.Drawing.Size(96, 18)
+      Me.lblCCStart.TabIndex = 26
+      Me.lblCCStart.Text = "ตั้งแต่ CostCenter"
+      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnAssetStartFind
+      '
+      Me.btnAssetStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAssetStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAssetStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAssetStartFind.Location = New System.Drawing.Point(208, 64)
+      Me.btnAssetStartFind.Name = "btnAssetStartFind"
+      Me.btnAssetStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAssetStartFind.TabIndex = 24
+      Me.btnAssetStartFind.TabStop = False
+      Me.btnAssetStartFind.ThemedImage = CType(resources.GetObject("btnAssetStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'btnAssetEndFind
+      '
+      Me.btnAssetEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAssetEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAssetEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAssetEndFind.Location = New System.Drawing.Point(368, 64)
+      Me.btnAssetEndFind.Name = "btnAssetEndFind"
+      Me.btnAssetEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAssetEndFind.TabIndex = 23
+      Me.btnAssetEndFind.TabStop = False
+      Me.btnAssetEndFind.ThemedImage = CType(resources.GetObject("btnAssetEndFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtAssetCodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtAssetCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAssetCodeEnd, "")
+      Me.txtAssetCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAssetCodeEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAssetCodeEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAssetCodeEnd, System.Drawing.Color.Empty)
+      Me.txtAssetCodeEnd.Location = New System.Drawing.Point(272, 64)
+      Me.Validator.SetMinValue(Me.txtAssetCodeEnd, "")
+      Me.txtAssetCodeEnd.Name = "txtAssetCodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtAssetCodeEnd, "")
+      Me.Validator.SetRequired(Me.txtAssetCodeEnd, False)
+      Me.txtAssetCodeEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtAssetCodeEnd.TabIndex = 5
+      '
+      'lblAssetEnd
+      '
+      Me.lblAssetEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAssetEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblAssetEnd.Location = New System.Drawing.Point(240, 64)
+      Me.lblAssetEnd.Name = "lblAssetEnd"
+      Me.lblAssetEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblAssetEnd.TabIndex = 9
+      Me.lblAssetEnd.Text = "ถึง"
+      Me.lblAssetEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtAssetCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtAssetCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAssetCodeStart, "")
+      Me.txtAssetCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAssetCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAssetCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAssetCodeStart, System.Drawing.Color.Empty)
+      Me.txtAssetCodeStart.Location = New System.Drawing.Point(112, 64)
+      Me.Validator.SetMinValue(Me.txtAssetCodeStart, "")
+      Me.txtAssetCodeStart.Name = "txtAssetCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtAssetCodeStart, "")
+      Me.Validator.SetRequired(Me.txtAssetCodeStart, False)
+      Me.txtAssetCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtAssetCodeStart.TabIndex = 4
+      '
+      'lblAssetStart
+      '
+      Me.lblAssetStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAssetStart.ForeColor = System.Drawing.Color.Black
+      Me.lblAssetStart.Location = New System.Drawing.Point(16, 64)
+      Me.lblAssetStart.Name = "lblAssetStart"
+      Me.lblAssetStart.Size = New System.Drawing.Size(88, 18)
+      Me.lblAssetStart.TabIndex = 6
+      Me.lblAssetStart.Text = "รหัสสินทรัพย์:"
+      Me.lblAssetStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtDocDateEnd
+      '
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(272, 16)
+      Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(87, 21)
+      Me.txtDocDateEnd.TabIndex = 1
+      '
+      'txtDocDateStart
+      '
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(112, 16)
+      Me.txtDocDateStart.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(87, 21)
+      Me.txtDocDateStart.TabIndex = 0
+      '
+      'dtpDocDateStart
+      '
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(112, 16)
+      Me.dtpDocDateStart.Name = "dtpDocDateStart"
+      Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateStart.TabIndex = 2
+      Me.dtpDocDateStart.TabStop = False
+      '
+      'dtpDocDateEnd
+      '
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(272, 16)
+      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateEnd.TabIndex = 5
+      Me.dtpDocDateEnd.TabStop = False
+      '
+      'lblDocDateStart
+      '
+      Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
+      Me.lblDocDateStart.Location = New System.Drawing.Point(16, 16)
+      Me.lblDocDateStart.Name = "lblDocDateStart"
+      Me.lblDocDateStart.Size = New System.Drawing.Size(88, 18)
+      Me.lblDocDateStart.TabIndex = 0
+      Me.lblDocDateStart.Text = "ตั้งแต่"
+      Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblDocDateEnd
+      '
+      Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblDocDateEnd.Location = New System.Drawing.Point(240, 16)
+      Me.lblDocDateEnd.Name = "lblDocDateEnd"
+      Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblDocDateEnd.TabIndex = 3
+      Me.lblDocDateEnd.Text = "ถึง"
+      Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtAssetTypeCodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtAssetTypeCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAssetTypeCodeEnd, "")
+      Me.txtAssetTypeCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAssetTypeCodeEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAssetTypeCodeEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAssetTypeCodeEnd, System.Drawing.Color.Empty)
+      Me.txtAssetTypeCodeEnd.Location = New System.Drawing.Point(272, 40)
+      Me.Validator.SetMinValue(Me.txtAssetTypeCodeEnd, "")
+      Me.txtAssetTypeCodeEnd.Name = "txtAssetTypeCodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtAssetTypeCodeEnd, "")
+      Me.Validator.SetRequired(Me.txtAssetTypeCodeEnd, False)
+      Me.txtAssetTypeCodeEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtAssetTypeCodeEnd.TabIndex = 3
+      '
+      'btnAssetTypeEndFind
+      '
+      Me.btnAssetTypeEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAssetTypeEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAssetTypeEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAssetTypeEndFind.Location = New System.Drawing.Point(368, 40)
+      Me.btnAssetTypeEndFind.Name = "btnAssetTypeEndFind"
+      Me.btnAssetTypeEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAssetTypeEndFind.TabIndex = 23
+      Me.btnAssetTypeEndFind.TabStop = False
+      Me.btnAssetTypeEndFind.ThemedImage = CType(resources.GetObject("btnAssetTypeEndFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'btnAssetTypeStartFind
+      '
+      Me.btnAssetTypeStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAssetTypeStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAssetTypeStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAssetTypeStartFind.Location = New System.Drawing.Point(208, 40)
+      Me.btnAssetTypeStartFind.Name = "btnAssetTypeStartFind"
+      Me.btnAssetTypeStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAssetTypeStartFind.TabIndex = 24
+      Me.btnAssetTypeStartFind.TabStop = False
+      Me.btnAssetTypeStartFind.ThemedImage = CType(resources.GetObject("btnAssetTypeStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'lblAssetTypeEnd
+      '
+      Me.lblAssetTypeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAssetTypeEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblAssetTypeEnd.Location = New System.Drawing.Point(240, 40)
+      Me.lblAssetTypeEnd.Name = "lblAssetTypeEnd"
+      Me.lblAssetTypeEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblAssetTypeEnd.TabIndex = 9
+      Me.lblAssetTypeEnd.Text = "ถึง"
+      Me.lblAssetTypeEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtAssetTypeCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtAssetTypeCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAssetTypeCodeStart, "")
+      Me.txtAssetTypeCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAssetTypeCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAssetTypeCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAssetTypeCodeStart, System.Drawing.Color.Empty)
+      Me.txtAssetTypeCodeStart.Location = New System.Drawing.Point(112, 40)
+      Me.Validator.SetMinValue(Me.txtAssetTypeCodeStart, "")
+      Me.txtAssetTypeCodeStart.Name = "txtAssetTypeCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtAssetTypeCodeStart, "")
+      Me.Validator.SetRequired(Me.txtAssetTypeCodeStart, False)
+      Me.txtAssetTypeCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtAssetTypeCodeStart.TabIndex = 2
+      '
+      'lblAssetTypeStart
+      '
+      Me.lblAssetTypeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAssetTypeStart.ForeColor = System.Drawing.Color.Black
+      Me.lblAssetTypeStart.Location = New System.Drawing.Point(16, 40)
+      Me.lblAssetTypeStart.Name = "lblAssetTypeStart"
+      Me.lblAssetTypeStart.Size = New System.Drawing.Size(88, 18)
+      Me.lblAssetTypeStart.TabIndex = 6
+      Me.lblAssetTypeStart.Text = "ประเภทสินทรัพย์:"
+      Me.lblAssetTypeStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnSearch
+      '
+      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSearch.Location = New System.Drawing.Point(352, 144)
+      Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+      Me.btnSearch.TabIndex = 2
+      Me.btnSearch.Text = "ค้นหา"
+      '
+      'btnReset
+      '
+      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReset.Location = New System.Drawing.Point(272, 144)
+      Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
+      Me.btnReset.TabIndex = 1
+      Me.btnReset.TabStop = False
+      Me.btnReset.Text = "เคลียร์"
+      '
+      'Validator
+      '
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Me.ErrorProvider1
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+      '
+      'ErrorProvider1
+      '
+      Me.ErrorProvider1.ContainerControl = Me
+      '
+      'RptAssetByTypeFilterSubPanel
+      '
+      Me.Controls.Add(Me.grbMaster)
+      Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Name = "RptAssetByTypeFilterSubPanel"
+      Me.Size = New System.Drawing.Size(456, 192)
+      Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
+      Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.ResumeLayout(False)
 
-        End Sub
+    End Sub
 
 #End Region
 

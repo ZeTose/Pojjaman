@@ -961,6 +961,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssetCodeStart.Text = e.Code
       Asset.GetAsset(txtAssetCodeStart, txtTemp, Me.AssetStart)
     End Sub
+
     Private Sub SetAssetEndDialog(ByVal e As ISimpleEntity)
       Me.txtAssetCodeEnd.Text = e.Code
       Asset.GetAsset(txtAssetCodeEnd, txtTemp, Me.AssetEnd)
@@ -983,6 +984,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+    Private Sub btnAssetStartFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAssetStartFind.Click
+
+    End Sub
   End Class
 End Namespace
 
