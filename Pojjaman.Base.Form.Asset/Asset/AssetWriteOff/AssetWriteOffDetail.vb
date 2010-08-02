@@ -1255,9 +1255,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Stock Items
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "eqtstocki_linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.LineNumberHeaderText}")
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:#}")
       csLineNumber.NullText = ""
-      csLineNumber.Width = 30
+      csLineNumber.Width = 10
       csLineNumber.DataAlignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
       csLineNumber.TextBox.Name = "eqtstocki_linenumber"
@@ -1275,13 +1275,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csButton.MappingName = "Button"
       csButton.HeaderText = ""
       csButton.NullText = ""
+      csButton.Width = 20
       AddHandler csButton.Click, AddressOf ButtonClick
 
       Dim csName As New TreeTextColumn
       csName.MappingName = "eqtstocki_Name"
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
       csName.NullText = ""
-      csName.Width = 180
+      csName.Width = 120
       csName.TextBox.Name = "Description"
       csName.ReadOnly = True
 
@@ -1300,6 +1301,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.NullText = ""
       csQty.Format = "#,###.##"
       csQty.TextBox.Name = "Qty"
+      csQty.Width = 30
       csQty.ReadOnly = False
       csQty.DataAlignment = HorizontalAlignment.Right
 
@@ -1317,6 +1319,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.NullText = ""
       csUnitPRice.TextBox.Name = "eqtstocki_unitprice"
       csUnitPRice.Format = "#,###.##"
+      csUnitPRice.Width = 50
       csUnitPRice.ReadOnly = False
       csUnitPRice.DataAlignment = HorizontalAlignment.Right
 
@@ -1334,6 +1337,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
       csAmount.Format = "#,###.##"
+      csAmount.Width = 80
       csAmount.DataAlignment = HorizontalAlignment.Right
 
       Dim csRemainBuyQty As New TreeTextColumn
@@ -1341,62 +1345,69 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRemainBuyQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
       csRemainBuyQty.NullText = ""
       csRemainBuyQty.Format = "#,###.##"
-      csRemainBuyQty.TextBox.Name = "buyQty"
+      csRemainBuyQty.TextBox.Name = "eqtstocki_remainbuyqty"
       csRemainBuyQty.ReadOnly = True
+      csRemainBuyQty.Width = 30
       csRemainBuyQty.DataAlignment = HorizontalAlignment.Right
 
       Dim csUnitassetamount As New TreeTextColumn
       csUnitassetamount.MappingName = "eqtstocki_unitassetamount"
-      csUnitassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csUnitassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.UnitAsstAmtHeaderText}")
       csUnitassetamount.NullText = ""
       csUnitassetamount.TextBox.Name = "eqtstocki_unitassetamount"
       csUnitassetamount.Format = "#,###.##"
       csUnitassetamount.ReadOnly = True
+      csUnitassetamount.Width = 50
       csUnitassetamount.DataAlignment = HorizontalAlignment.Right
 
       Dim csassetamount As New TreeTextColumn
       csassetamount.MappingName = "eqtstocki_assetamount"
-      csassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AssetAmtHeaderText}")
       csassetamount.NullText = ""
       csassetamount.TextBox.Name = "eqtstocki_assetamount"
       csassetamount.Format = "#,###.##"
       csassetamount.ReadOnly = True
+      csassetamount.Width = 80
       csassetamount.DataAlignment = HorizontalAlignment.Right
 
       Dim cswriteoffamount As New TreeTextColumn
       cswriteoffamount.MappingName = "eqtstocki_writeoffamount"
-      cswriteoffamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      cswriteoffamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.WFAmtHeaderText}")
       cswriteoffamount.NullText = ""
       cswriteoffamount.TextBox.Name = "eqtstocki_writeoffamount"
       cswriteoffamount.Format = "#,###.##"
       cswriteoffamount.ReadOnly = True
+      cswriteoffamount.Width = 80
       cswriteoffamount.DataAlignment = HorizontalAlignment.Right
 
       Dim csaccdepre As New TreeTextColumn
       csaccdepre.MappingName = "eqtstocki_accdepre"
-      csaccdepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csaccdepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AccDepreHeaderText}")
       csaccdepre.NullText = ""
       csaccdepre.TextBox.Name = "eqtstocki_accdepre"
       csaccdepre.Format = "#,###.##"
       csaccdepre.ReadOnly = True
+      csaccdepre.Width = 60
       csaccdepre.DataAlignment = HorizontalAlignment.Right
 
       Dim csCost As New TreeTextColumn
       csCost.MappingName = "Cost"
-      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.CostHeaderText}")
       csCost.NullText = ""
       csCost.TextBox.Name = "Cost"
       csCost.Format = "#,###.##"
       csCost.ReadOnly = True
+      csCost.Width = 60
       csCost.DataAlignment = HorizontalAlignment.Right
 
       Dim csPL As New TreeTextColumn
       csPL.MappingName = "P/L"
-      csPL.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
+      csPL.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.PLHeaderText}")
       csPL.NullText = ""
       csPL.TextBox.Name = "P/L"
       csPL.Format = "#,###.##"
       csPL.ReadOnly = True
+      csPL.Width = 60
       csPL.DataAlignment = HorizontalAlignment.Right
 
       Dim csDepre As New TreeTextColumn
@@ -1435,11 +1446,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csVatable.InvisibleWhenUnspcified = True
 
       Dim csNote As New TreeTextColumn
-      csNote.MappingName = "stocki_note"
+      csNote.MappingName = "eqtstocki_note"
       csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.NoteHeaderText}")
       csNote.NullText = ""
       csNote.Width = 180
-      csNote.TextBox.Name = "stocki_note"
+      csNote.TextBox.Name = "eqtstocki_note"
 
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csCode)
@@ -1798,7 +1809,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ReIndex()
       Dim i As Integer = 0
       For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-        row("stocki_linenumber") = i + 1
+        row("eqtstocki_linenumber") = i + 1
         i += 1
       Next
     End Sub
@@ -2252,16 +2263,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim maxVisibleCount As Integer
       Dim tgRowHeight As Integer = 17
       maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1
+      'Do While Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1
+      '  'เพิ่มแถวจนเต็ม
+      '  Me.m_entity.AddBlankRow(1)
+      'Loop
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
         'เพิ่มแถวจนเต็ม
-        Me.m_entity.AddBlankRow(1)
+        Me.m_treeManager.Treetable.Childs.Add()
       Loop
-      If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-        If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
-          'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-          Me.m_entity.AddBlankRow(1)
-        End If
-      End If
+      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+      '  If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
+      '    'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '    Me.m_entity.AddBlankRow(1)
+      '  End If
+      'End If
       'Do While Me.m_entity.ItemTable.Rows.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Rows.Count - 2 <> Me.m_entity.MaxRowIndex
       '    'ลบแถวที่ไม่จำเป็น
       '    Me.m_entity.Remove(Me.m_entity.ItemTable.Rows.Count - 1)

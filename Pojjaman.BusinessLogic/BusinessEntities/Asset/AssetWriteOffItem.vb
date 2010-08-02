@@ -170,62 +170,99 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.AssetWriteoff.IsInitialized = False
 
-      row("stocki_linenumber") = Me.LineNumber
+      row("eqtstocki_linenumber") = Me.LineNumber
 
       If Not Me.Entity Is Nothing Then
-        row("stocki_entity") = Me.Entity.Id
-        row("stocki_entityType") = Me.ItemType
         row("Code") = Me.Entity.Code
-        row("stocki_itemName") = Me.Entity.Name
-        row("deprecalcamt") = Me.DepreCalculation
+        row("eqtstocki_entity") = Me.Entity.Id
+        row("eqtstocki_entityType") = Me.ItemType
+        row("eqtstocki_Name") = Me.Entity.Name
+        'row("deprecalcamt") = Me.DepreCalculation
       End If
 
       If Not Me.Unit Is Nothing Then
-        row("stocki_unit") = Me.Unit.Id
+        row("eqtstocki_unit") = Me.Unit.Id
         row("Unit") = Me.Unit.Name
       End If
 
-      Me.Conversion = 1
-
-      If Not Me.AccDepreAccount Is Nothing Then
-        row("stocki_acct") = Me.AccDepreAccount.Id
-        row("AccountCode") = Me.AccDepreAccount.Code
-        row("Account") = Me.AccDepreAccount.Name
-      End If
-
-
-      If Me.Cost <> 0 Then
-        row("stocki_unitcost") = Configuration.FormatToString(Me.Cost, DigitConfig.Cost)
-      Else
-        row("stocki_unitcost") = ""
-      End If
-
-      'row("stocki_discrate") = Me.Discount.Rate
       If Me.Qty <> 0 Then
-        row("stocki_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
+        row("eqtstocki_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
       Else
-        row("stocki_qty") = ""
+        row("eqtstocki_qty") = ""
       End If
 
-      'row("stocki_discrate") = Me.Discount.Rate
+      If Me.UnitPrice <> 0 Then
+        row("eqtstocki_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
+      Else
+        row("eqtstocki_unitprice") = ""
+      End If
+
       If Me.Amount <> 0 Then
         row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
       Else
         row("Amount") = ""
       End If
+      Me.Conversion = 1
 
-      row("stocki_note") = Me.Note
-      If Me.UnitPrice <> 0 Then
-        row("stocki_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
+      If Me.RemainBuyQty <> 0 Then
+        row("eqtstocki_remainbuyqty") = Configuration.FormatToString(Me.RemainBuyQty, DigitConfig.Qty)
       Else
-        row("stocki_unitprice") = ""
+        row("eqtstocki_remainbuyqty") = ""
       End If
-      If Me.StockQty <> 0 Then
-        row("StockQty") = Configuration.FormatToString(Me.StockQty, DigitConfig.Qty)
+
+      If Me.UnitAssetAmount <> 0 Then
+        row("eqtstocki_unitassetamount") = Configuration.FormatToString(Me.UnitAssetAmount, DigitConfig.Qty)
       Else
-        row("StockQty") = ""
+        row("eqtstocki_unitassetamount") = ""
       End If
-      row("stocki_unvatable") = Me.UnVatable
+
+      If Me.AssetAmount <> 0 Then
+        row("eqtstocki_assetamount") = Configuration.FormatToString(Me.AssetAmount, DigitConfig.Qty)
+      Else
+        row("eqtstocki_assetamount") = ""
+      End If
+
+      If Me.WriteOffAmount <> 0 Then
+        row("eqtstocki_writeoffamount") = Configuration.FormatToString(Me.WriteOffAmount, DigitConfig.Qty)
+      Else
+        row("eqtstocki_writeoffamount") = ""
+      End If
+
+      If Me.AccDepre <> 0 Then
+        row("eqtstocki_accdepre") = Configuration.FormatToString(Me.AccDepre, DigitConfig.Qty)
+      Else
+        row("eqtstocki_accdepre") = ""
+      End If
+
+      If Me.Cost <> 0 Then
+        row("Cost") = Configuration.FormatToString(Me.Cost, DigitConfig.Qty)
+      Else
+        row("Cost") = ""
+      End If
+
+      If Me.ProfitLoss <> 0 Then
+        row("P/L") = Configuration.FormatToString(Me.ProfitLoss, DigitConfig.Qty)
+      Else
+        row("P/L") = ""
+      End If
+
+      If Not Me.AssetAccount Is Nothing Then
+        row("asset_acct") = Me.AssetAccount.Id
+        'row("AccountCode") = Me.AccDepreAccount.Code
+        'row("Account") = Me.AccDepreAccount.Name
+      End If
+
+      If Not Me.AccDepreAccount Is Nothing Then
+        row("asset_depreopeningacct") = Me.AccDepreAccount.Id
+        'row("AccountCode") = Me.AccDepreAccount.Code
+        'row("Account") = Me.AccDepreAccount.Name
+      End If
+
+
+      row("eqtstocki_note") = Me.Note
+      
+      
+      'row("stocki_unvatable") = Me.UnVatable
 
       Me.AssetWriteoff.IsInitialized = True
     End Sub
@@ -277,33 +314,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub GetAmountFromRow(ByVal row As TreeRow)
       'เพื่อประหยัด ไม่ต้องสร้าง Entity
-      If Not row.IsNull(("stocki_qty")) Then
-        If CStr(row("stocki_qty")).Length = 0 Then
+      If Not row.IsNull(("eqtstocki_qty")) Then
+        If CStr(row("eqtstocki_qty")).Length = 0 Then
           Me.Qty = 0
         Else
-          Me.Qty = CInt(row("stocki_qty"))
+          Me.Qty = CInt(row("eqtstocki_qty"))
         End If
       End If
       'If Not row.IsNull(("stocki_discrate")) Then
       '  Me.Discount.Rate = CStr(row("stocki_discrate"))
       'End If
-      If Not row.IsNull(("stocki_unitprice")) Then
-        If CStr(row("stocki_unitprice")).Length = 0 Then
+      If Not row.IsNull(("eqtstocki_unitprice")) Then
+        If CStr(row("eqtstocki_unitprice")).Length = 0 Then
           Me.UnitPrice = 0
         Else
-          Me.UnitPrice = CDec(row("stocki_unitprice"))
+          Me.UnitPrice = CDec(row("eqtstocki_unitprice"))
         End If
       End If
-      If Not row.IsNull(("stocki_unitcost")) Then
-        If CStr(row("stocki_unitcost")).Length = 0 Then
+      If Not row.IsNull(("cost")) Then
+        If CStr(row("cost")).Length = 0 Then
           Me.Cost = 0
         Else
-          Me.Cost = CDec(row("stocki_unitcost"))
+          Me.Cost = CDec(row("cost"))
         End If
       End If
-      If Not row.IsNull("stocki_unvatable") Then
-        Me.UnVatable = CBool(row("stocki_unvatable"))
-      End If
+      'If Not row.IsNull("stocki_unvatable") Then
+      '  Me.UnVatable = CBool(row("stocki_unvatable"))
+      'End If
     End Sub
 #End Region
 

@@ -330,7 +330,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'myDatatable.Columns.Add(New DataColumn("Account", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("AccountButton", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("stocki_unvatable", GetType(Boolean)))
-      myDatatable.Columns.Add(New DataColumn("stocki_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("eqtstocki_note", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("deprecalcamt", GetType(Double)))
 
       Return myDatatable
@@ -909,7 +909,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         Dim amt As Decimal = 0        For Each row As TreeRow In Me.ItemTable.Rows
           Dim item As New AssetWriteOffItem
-          item.GetAmountFromRow(row)
+          'item.GetAmountFromRow(row)
           amt += item.Amount
         Next        m_gross = amt
       End If
@@ -1041,7 +1041,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
     Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("stocki_entity") Then
+      If row.IsNull("eqtstocki_entity") Then
         Return False
       End If
       Return True
