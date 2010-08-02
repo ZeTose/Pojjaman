@@ -3,6 +3,7 @@
 		<Import assembly="Pojjaman.Base.Form.Asset.dll"/>
 		<Import assembly="../Accounting/Pojjaman.Base.Form.Accounting.dll"/>
 		<Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
+		<Import assembly="../AR/Pojjaman.Base.Form.AR.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="equipmentwithdraw" entity="equipmentwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqWithdrawFilterSubPanel"/>

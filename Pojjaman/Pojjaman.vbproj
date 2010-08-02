@@ -452,7 +452,9 @@
     <None Include="AddIns\Forms\AP\Pojjaman.Base.Form.AP.addin">
       <SubType>Designer</SubType>
     </None>
-    <None Include="AddIns\Forms\AR\Pojjaman.Base.Form.AR.addin" />
+    <None Include="AddIns\Forms\AR\Pojjaman.Base.Form.AR.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Forms\Asset\Pojjaman.Base.Form.Asset.addin">
       <SubType>Designer</SubType>
     </None>
