@@ -2004,12 +2004,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.ItemTable.AcceptChanges()
       For Each row As TreeRow In Me.m_entity.ItemTable.Rows
         If Me.m_entity.ValidateRow(row) Then
-          If Not row.IsNull("stocki_entity") Then
-            idlist &= "|" & CStr(row("stocki_entity")) & "|"
+          If Not row.IsNull("eqtstocki_entity") Then
+            idlist &= "|" & CStr(row("eqtstocki_entity")) & "|"
           End If
         End If
       Next
       Return idlist
+    End Function
+    Private Function GetItemAndTypeList() As String
+      Dim ret As String = ""
+      For Each awi As AssetWriteOffItem In m_entity.Itemcollection
+        ret &= awi.Entity.Id.ToString & ":" & awi.ItemType.Value.ToString & ","
+      Next
+      Return ret
     End Function
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
       If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
@@ -2018,16 +2025,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtFromCostCenterCode.Focus()
         Return
       End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      'Dim filters(0) As Filter
+      'filters(0) = New Filter("idlist", GetToolIdList())
+
+      'Dim entities As New ArrayList
+      'Dim obj As New Asset
+      'obj.Costcenter = Me.m_entity.FromCostCenter
+      'entities.Add(obj)
+
+      'myEntityPanelService.OpenListDialog(New Asset, AddressOf SetItems, filters, entities)
+
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
+
       Dim filters(0) As Filter
-      filters(0) = New Filter("idlist", GetToolIdList())
+     
+      filters(0) = New Filter("idandTypelist", GetItemAndTypeList())
 
-      Dim entities As New ArrayList
-      Dim obj As New Asset
-      obj.Costcenter = Me.m_entity.FromCostCenter
-      entities.Add(obj)
-
-      myEntityPanelService.OpenListDialog(New Asset, AddressOf SetItems, filters, entities)
+      Dim Entities As New ArrayList
+      If Not Me.m_entity.FromCC Is Nothing AndAlso Me.m_entity.FromCC.Originated Then
+        Dim fromcc As New fromCostcenter
+        fromcc.Id = m_entity.FromCC.Id
+        fromcc.Code = m_entity.FromCC.Code
+        fromcc.Name = m_entity.FromCC.Name
+        Entities.Add(fromcc)
+      End If
+      Dim view As AbstractEntityPanelViewContent = New AssetSelectionForWriteOffView(New AssetSelectionForWriteOff, New BasketDialog, filters, Entities)
+      dlg.Lists.Add(view)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex

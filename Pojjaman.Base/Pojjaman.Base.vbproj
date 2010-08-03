@@ -1181,6 +1181,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Asset\AssetSelectionForWriteOffFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Asset\AssetSelectionForWriteOffView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtWithdrawSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1616,6 +1622,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\AR\AdvanceReceiveSelection.resx">
       <DependentUpon>AdvanceReceiveSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Asset\AssetSelectionForWriteOffFilterSubPanel.resx">
+      <DependentUpon>AssetSelectionForWriteOffFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Asset\AssetSelectionForWriteOffView.resx">
+      <DependentUpon>AssetSelectionForWriteOffView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Asset\EqtWithdrawSelectionView.resx">
       <DependentUpon>EqtWithdrawSelectionView.vb</DependentUpon>

@@ -304,6 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("AssetWriteoff")
       myDatatable.Columns.Add(New DataColumn("eqtstocki_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("itemType", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("eqtstocki_entity", GetType(Integer)))
@@ -334,6 +335,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'myDatatable.Columns.Add(New DataColumn("deprecalcamt", GetType(Double)))
 
       Return myDatatable
+    End Function
+
+    Public Shared Function GetListDatatable(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataSet
+      Dim sqlConString As String = ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, procName, params)
+      Return ds
     End Function
 #End Region
 
@@ -2190,6 +2204,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
 
+  End Class
+
+  Public Class AssetSelectionForWriteOff
+    Inherits Asset
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "AssetSelectionForWriteOff"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AssetSelectionForWriteOff"
+      End Get
+    End Property
   End Class
 
   '  Public Class AssetSoldItem
