@@ -209,6 +209,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\bin</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
