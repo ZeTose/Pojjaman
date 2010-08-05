@@ -8,6 +8,9 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+Imports System.Linq
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PettyCashClaimStatus
     Inherits CodeDescription
@@ -30,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PettyCashClaim
     Inherits SimpleBusinessEntityBase
     Implements IPayable, IGLAble, IPrintableEntity, ICancelable, ICheckPeriod
-        
+
 #Region "Members"
     Private pcc_docDate As Date
     Private pcc_pc As PettyCash
@@ -1358,6 +1361,432 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
 #End Region
+
+  End Class
+
+  Public Class ExportPC
+    Inherits SimpleBusinessEntityBase
+    Implements IPaymentItem, IHasBankAccount
+
+#Region "Members"
+    Private m_amount As Decimal
+    Private m_bankacct As BankAccount
+    Private m_docDate As Date
+
+#End Region
+
+#Region "Constructors"
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+    Public Sub New(ByVal code As String)
+      MyBase.New(code)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.New(dr, aliasPrefix)
+    End Sub
+    Public Property ExportType As String = "mcl"
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+
+      Me.m_bankacct = New BankAccount
+      Me.m_docDate = Now.Date
+      Me.Status = New CheckStatus(-1)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      MyBase.Construct(ds, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
+
+        If dr.Table.Columns.Contains(aliasPrefix & "exportpc_docDate") AndAlso Not dr.IsNull(aliasPrefix & "exportpc_docDate") Then
+          .m_docDate = CDate(dr(aliasPrefix & "exportpc_docDate"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "bankacct_id") Then
+          If Not dr.IsNull(aliasPrefix & "bankacct_id") Then
+            .m_bankacct = New BankAccount(dr, aliasPrefix)
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "exportpc_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "exportpc_bankacct") Then
+            .m_bankacct = New BankAccount(CInt(dr(aliasPrefix & "exportpc_bankacct")))
+          End If
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "exportpc_amt") AndAlso Not dr.IsNull(aliasPrefix & "exportpc_amt") Then
+          .m_amount = CDec(dr(aliasPrefix & "exportpc_amt"))
+        End If
+
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+          .Status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "exportpc_ExportType") AndAlso Not dr.IsNull(aliasPrefix & "exportpc_ExportType") Then
+          .ExportType = CStr(dr(aliasPrefix & "exportpc_ExportType"))
+        End If
+      End With
+      RefreshPVList()
+    End Sub
+#End Region
+
+#Region "Properties"
+    Public Property BankAccount() As BankAccount Implements IHasBankAccount.BankAccount
+      Get
+        Return m_bankacct
+      End Get
+      Set(ByVal Value As BankAccount)
+        m_bankacct = Value
+      End Set
+    End Property
+    Public Property DocDate() As Date Implements IPaymentItem.DueDate
+      Get
+        Return m_docDate
+      End Get
+      Set(ByVal Value As Date)
+        m_docDate = Value
+      End Set
+    End Property
+#End Region
+
+#Region "IHasAmount"
+    Public Property Amount() As Decimal Implements IHasAmount.Amount
+      Get
+        Return m_amount
+      End Get
+      Set(ByVal Value As Decimal)
+        m_amount = Value
+      End Set
+    End Property
+#End Region
+
+#Region "Methods"
+    Private m_paymentList As List(Of PaymentForList)
+    Public ReadOnly Property PaymentList As List(Of PaymentForList)
+      Get
+        If m_paymentList Is Nothing Then
+          m_paymentList = New List(Of PaymentForList)
+        End If
+        Return m_paymentList
+      End Get
+    End Property
+    Public Sub RefreshPVList()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetExportPCItems" _
+      , New SqlParameter("@exportpc_id", Me.Id) _
+      )
+
+      m_paymentList = New List(Of PaymentForList)
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim deh As New DataRowHelper(row)
+        Dim p As New PaymentForList
+        p.Id = deh.GetValue(Of Integer)("Id")
+        p.Code = deh.GetValue(Of String)("Code")
+        p.RefId = deh.GetValue(Of Integer)("RefId")
+        p.RefCode = deh.GetValue(Of String)("RefCode")
+        p.RefType = deh.GetValue(Of String)("RefType")
+        p.RefTypeId = deh.GetValue(Of Integer)("RefTypeId")
+        p.RefDocDate = deh.GetValue(Of Date)("RefDocDate")
+        p.RefDueDate = deh.GetValue(Of Date)("RefDueDate")
+        p.RefAmount = deh.GetValue(Of Decimal)("RefAmount")
+        p.Amount = deh.GetValue(Of Decimal)("Amount")
+        p.RefPaid = deh.GetValue(Of Decimal)("RefPaid")
+        p.Note = deh.GetValue(Of String)("Note")
+        p.JustAdded = False
+
+        '===========================================================
+        p.PayeeFax = deh.GetValue(Of String)("PayeeFax")
+        p.PayeeID = deh.GetValue(Of String)("PayeeID")
+        p.PayeeName = deh.GetValue(Of String)("PayeeName")
+        p.PayeeTaxID = deh.GetValue(Of String)("PayeeTaxID")
+        p.PersonalID = deh.GetValue(Of String)("PersonalID")
+
+        p.KbankDCAccount = deh.GetValue(Of String)("KbankDCAccount")
+        p.KbankDCBank = deh.GetValue(Of String)("KbankDCBank")
+        p.KbankMCAccount = deh.GetValue(Of String)("KbankMCAccount")
+        p.KbankMCBank = deh.GetValue(Of String)("KbankMCBank")
+        '===========================================================
+
+        '===========================================================
+        Dim drs As DataRow() = ds.Tables(1).Select("ID=" & p.Id.ToString)
+        If Not drs Is Nothing AndAlso drs.Length > 0 Then
+          Dim currentTaxInfo As New TaxInfo
+          For Each r As DataRow In drs
+            Dim deh2 As New DataRowHelper(r)
+            Dim wid As Integer = deh2.GetValue(Of Integer)("whtid")
+            If currentTaxInfo.ID <> wid Then
+              currentTaxInfo = New TaxInfo
+              currentTaxInfo.ID = wid
+              currentTaxInfo.TaxCondition = deh2.GetValue(Of String)("TaxCondition")
+              currentTaxInfo.TaxForm = deh2.GetValue(Of String)("TaxForm")
+              p.TaxInfos.Add(currentTaxInfo)
+            End If
+            Dim ti As New TaxInfoItem
+            ti.Description = deh2.GetValue(Of String)("Description")
+            ti.BeforeVAT = deh2.GetValue(Of Decimal)("BeforeVAT")
+            ti.TaxRate = deh2.GetValue(Of Decimal)("TaxRate")
+            ti.AfterVat = ti.BeforeVAT + Vat.GetVatAmount(ti.BeforeVAT)
+            ti.WHT = deh2.GetValue(Of Decimal)("TaxAmount")
+            currentTaxInfo.TaxInfoItems.Add(ti)
+          Next
+        End If
+        '===========================================================
+        m_paymentList.Add(p)
+      Next
+    End Sub
+#End Region
+
+#Region "Overrides"
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "ExportPC"
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property TableName() As String
+      Get
+        Return "ExportPC"
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property GetSprocName() As String
+      Get
+        Return "Get" & Me.TableName
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "exportpc"
+      End Get
+    End Property
+
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.ExportPC.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.ExportPC"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.ExportPC"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.ExportPC.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
+      End Get
+    End Property
+
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      'If Me.Amount <= 0 AndAlso (Me.DocStatus.Value <> 5 OrElse Me.Originated) Then
+      '  Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", "${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblAmount}")
+      'End If
+      ' กำหนด SqlParameter เพื่อ return ค่าการ Execute procedure ...
+      Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      returnVal.ParameterName = "RETURN_VALUE"
+      returnVal.DbType = DbType.Int32
+      returnVal.Direction = ParameterDirection.ReturnValue
+      returnVal.SourceVersion = DataRowVersion.Current
+
+      ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+      Dim paramArrayList As New ArrayList
+
+      If Me.Originated Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      End If
+
+      Dim theTime As Date = Now
+      Dim theUser As New User(currentUserId)
+
+      If Me.AutoGen And Me.Code.Length = 0 Then
+        Me.Code = Me.GetNextCode
+      End If
+      Me.AutoGen = False
+
+
+      If Me.Status.Value = -1 Then
+        Me.Status.Value = 2
+      End If
+
+      paramArrayList.Add(returnVal)
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", ValidDateOrDBNull(Me.DocDate)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", Me.ValidIdOrDBNull(Me.BankAccount)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_exporttype", Me.ExportType))
+
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+
+      If conn.State = ConnectionState.Open Then conn.Close()
+      conn.Open()
+      trans = conn.BeginTransaction()
+
+      Dim oldid As Integer = Me.Id
+
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              Me.ResetID(oldid)
+              Return New SaveErrorException("${res:Global.Error.DupexportpcCode}", Me.Code)
+            Case -2
+              trans.Rollback()
+              Me.ResetID(oldid)
+              Return New SaveErrorException("${res:Global.Error.exportpcCodeIsRefed}", Me.Code)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        Dim detailError As SaveErrorException = SaveDetail(Me.Id, conn, trans, currentUserId)
+        If Not IsNumeric(detailError.Message) Then
+          Me.ResetID(oldid)
+          trans.Rollback()
+          Return detailError
+        Else
+          Select Case CInt(detailError.Message)
+            Case -1, -5
+              Me.ResetID(oldid)
+              trans.Rollback()
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case -2
+              Me.ResetID(oldid)
+              trans.Rollback()
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        End If
+        trans.Commit()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        trans.Rollback()
+        Me.ResetID(oldid)
+        Return New SaveErrorException(ex.ToString)
+      Catch ex As Exception
+        trans.Rollback()
+        Me.ResetID(oldid)
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+    Private Function GetPaymentIdToSave() As String
+      Dim list As New List(Of String)
+      list.Add("'0'")
+      For Each item As PaymentForList In Me.PaymentList
+        If item.JustAdded Then
+          list.Add(item.Id.ToString)
+        End If
+      Next
+      Return String.Join(",", list.ToArray)
+    End Function
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
+      Try
+        Dim da As New SqlDataAdapter("Select * from exportpcitem where exportpci_exportpc=" & Me.Id, conn)
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+
+        Dim ds As New DataSet
+
+        da.SelectCommand.Transaction = trans
+
+        'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+
+        da.Fill(ds, "exportpcitem")
+
+        With ds.Tables("exportpcitem")
+          Dim rowsToDelete As New List(Of DataRow)
+          For Each row As DataRow In .Rows
+            Dim found As Boolean = False
+            For Each item As PaymentForList In Me.PaymentList
+              If item.Id = CInt(row("exportpci_pcc")) Then
+                found = True
+                Exit For
+              End If
+            Next
+            If Not found Then
+              rowsToDelete.Add(row)
+            End If
+          Next
+          For Each row As DataRow In rowsToDelete
+            row.Delete()
+          Next
+          Dim i As Integer = 0
+          Dim added As New List(Of Integer)
+          For Each item As PaymentForList In Me.PaymentList
+            If Not added.Contains(item.Id) Then
+              Dim dr As DataRow = .NewRow
+              dr("exportpci_exportpc") = Me.Id
+              dr("exportpci_linenumber") = i + 1
+              dr("exportpci_pcc") = item.Id
+              .Rows.Add(dr)
+              added.Add(item.Id)
+            End If
+          Next
+        End With
+        Dim dt As DataTable = ds.Tables("exportpcitem")
+        ' First process deletes.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      Return New SaveErrorException("0")
+    End Function
+#End Region
+
+    Private Function GetList(ByVal list As List(Of PaymentForList)) As IQueryable(Of PaymentForList)
+      Dim ret As IQueryable(Of PaymentForList) = (From p In list
+                  Select p).AsQueryable
+      Return ret
+    End Function
+    Public Function GetSum() As Decimal
+      Return GetList(PaymentList).Sum(Function(p) p.Amount)
+    End Function
+    Public Function GetRemain() As Decimal
+      Return Me.Amount - GetSum()
+    End Function
 
   End Class
 End Namespace

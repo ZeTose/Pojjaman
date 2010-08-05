@@ -21,7 +21,10 @@
 		</EntityTab>
 		<EntityTab id="banktransferout">
 			<EntityTab id="BankTransferOutDetailView" view="Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView"/>
-		</EntityTab>		
+		</EntityTab>
+		<EntityTab id="exportpc">
+			<EntityTab id="ExportPCDetailView" view="Longkong.Pojjaman.Gui.Panels.ExportPCDetailView"/>
+		</EntityTab>
 		<EntityTab id="updatecheckpayment">
 			<EntityTab id="UpdateOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.UpdateOutgoingCheckDetail"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>

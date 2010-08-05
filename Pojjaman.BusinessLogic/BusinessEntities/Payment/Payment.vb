@@ -3942,6 +3942,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return ret
     End Function
+
+    Public Shared Function GetPCCList(ByVal filters As Filter()) As List(Of PaymentForList)
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetPCCForList" _
+      , params _
+      )
+      Dim ret As New List(Of PaymentForList)
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim deh As New DataRowHelper(row)
+        Dim p As New PaymentForList
+        p.Id = deh.GetValue(Of Integer)("Id")
+        p.Code = deh.GetValue(Of String)("Code")
+        p.RefId = deh.GetValue(Of Integer)("RefId")
+        p.RefCode = deh.GetValue(Of String)("RefCode")
+        p.RefType = deh.GetValue(Of String)("RefType")
+        p.RefTypeId = deh.GetValue(Of Integer)("RefTypeId")
+        p.RefDocDate = deh.GetValue(Of Date)("RefDocDate")
+        p.RefDueDate = deh.GetValue(Of Date)("RefDueDate")
+        p.RefAmount = deh.GetValue(Of Decimal)("RefAmount")
+        p.RefPaid = deh.GetValue(Of Decimal)("RefPaid")
+        p.Note = ""
+        ret.Add(p)
+      Next
+      Return ret
+    End Function
+
   End Class
   Public Class PaymentEntityType
     Inherits CodeDescription

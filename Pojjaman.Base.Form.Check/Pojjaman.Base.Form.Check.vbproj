@@ -130,6 +130,15 @@
     <Compile Include="GUI\BankTransferOutFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\PCCList.Designer.vb">
+      <DependentUpon>PCCList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\PCCList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ExportPCDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\ExportOutgoingCheckDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -183,6 +192,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\BankTransferOutFilterSubPanel.resx">
       <DependentUpon>BankTransferOutFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PCCList.resx">
+      <DependentUpon>PCCList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ExportPCDetailView.resx">
+      <DependentUpon>ExportPCDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ExportOutgoingCheckDetail.resx">
       <DependentUpon>ExportOutgoingCheckDetail.vb</DependentUpon>
