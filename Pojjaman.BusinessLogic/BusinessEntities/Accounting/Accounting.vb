@@ -323,6 +323,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Shared Sub RefreshAllAccount()
       Account.m_AllAccount = New Hashtable
+      Account.m_AccountCodeandId = New Hashtable
       Dim key As String = ""
       Dim code As String = ""
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _

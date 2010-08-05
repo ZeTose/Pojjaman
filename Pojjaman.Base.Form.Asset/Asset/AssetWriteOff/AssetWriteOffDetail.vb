@@ -1257,7 +1257,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.MappingName = "eqtstocki_linenumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:#}")
       csLineNumber.NullText = ""
-      csLineNumber.Width = 10
+      csLineNumber.Width = 15
       csLineNumber.DataAlignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
       csLineNumber.TextBox.Name = "eqtstocki_linenumber"
@@ -1267,7 +1267,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.CodeHeaderText}")
       csCode.NullText = ""
-      csCode.Width = 80
+      csCode.Width = 70
       csCode.ReadOnly = False
       csCode.TextBox.Name = "Code"
 
@@ -1275,14 +1275,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csButton.MappingName = "Button"
       csButton.HeaderText = ""
       csButton.NullText = ""
-      csButton.Width = 20
+      csButton.Width = 15
       AddHandler csButton.Click, AddressOf ButtonClick
 
       Dim csName As New TreeTextColumn
       csName.MappingName = "eqtstocki_Name"
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
       csName.NullText = ""
-      csName.Width = 120
+      csName.Width = 150
       csName.TextBox.Name = "Description"
       csName.ReadOnly = True
 
@@ -1299,7 +1299,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.MappingName = "eqtstocki_qty"
       csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
       csQty.NullText = ""
-      csQty.Format = "#,###.##"
+      csQty.Format = "#,###"
       csQty.TextBox.Name = "Qty"
       csQty.Width = 30
       csQty.ReadOnly = False
@@ -1344,7 +1344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRemainBuyQty.MappingName = "eqtstocki_remainbuyqty"
       csRemainBuyQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
       csRemainBuyQty.NullText = ""
-      csRemainBuyQty.Format = "#,###.##"
+      csRemainBuyQty.Format = "#,###"
       csRemainBuyQty.TextBox.Name = "eqtstocki_remainbuyqty"
       csRemainBuyQty.ReadOnly = True
       csRemainBuyQty.Width = 30
@@ -2058,35 +2058,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
-      For i As Integer = items.Count - 1 To 0 Step -1
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As Asset
-        Dim newType As Integer = -1
+      m_entity.Itemcollection.AssetWriteoff = m_entity
+      Me.m_entity.Itemcollection.SetItems(items)
+      'For i As Integer = items.Count - 1 To 0 Step -1
+      '  Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+      '  Dim newItem As IEqtItem
+      '  Dim newType As Integer = -1
 
-        newItem = New Asset(item.Id)
-        newType = newItem.EntityId
+      '  newItem = New Asset(item.Id)
+      '  newType = newItem.EntityId
 
-        If i = items.Count - 1 Then
-          If Me.m_entity.ItemTable.Childs.Count = 0 Then
-            Me.m_entity.AddBlankRow(1)
-            Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-            Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-          Else
-            Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-            Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-          End If
-        Else
-          Dim mySolditem As New AssetWriteOffItem
-          mySolditem.AssetWriteoff = Me.m_entity
-          mySolditem.Entity = newItem
+      '  If i = items.Count - 1 Then
+      '    If Me.m_entity.ItemTable.Childs.Count = 0 Then
+      '      Me.m_entity.AddBlankRow(1)
+      '      Me.m_entity.ItemTable.Rows(index)("eqtstocki_entityType") = newType
+      '      Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '    Else
+      '      Me.m_entity.ItemTable.Rows(index)("eqtstocki_entityType") = newType
+      '      Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '    End If
+      '  Else
+      '    Dim mySolditem As New AssetWriteOffItem
+      '    mySolditem.AssetWriteoff = Me.m_entity
+      '    mySolditem.Entity = newItem
 
-          Me.m_entity.Insert(index, mySolditem)
-          Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
-          Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
-        End If
-        Me.m_entity.ItemTable.AcceptChanges()
-      Next
+      '    Me.m_entity.Insert(index, mySolditem)
+      '    Me.m_entity.ItemTable.Rows(index)("eqtstocki_entityType") = newType
+      '    Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
+      '  End If
+      '  Me.m_entity.ItemTable.AcceptChanges()
+      'Next
       tgItem.CurrentRowIndex = index
+      RefreshDocs()
       RefreshBlankGrid()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click

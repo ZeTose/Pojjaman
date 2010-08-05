@@ -13,6 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Interface IEqtItem
     Inherits IHasRentalRate
+    ReadOnly Property EntityId As Integer
     Property Unit As Unit
   End Interface
 

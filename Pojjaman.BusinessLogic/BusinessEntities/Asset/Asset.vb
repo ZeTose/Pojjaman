@@ -676,6 +676,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
       End With
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aseetwriteoff As AssetWriteOff)
+      MyBase.Construct(dr, "asset") 'id ,code
+      Dim drh As New DataRowHelper(dr)
+      With Me
+        .m_name = drh.GetValue(Of String)("asset_name")
+        .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)("asset_unit"))
+        .m_account = Account.GetAccountById(drh.GetValue(Of Integer)("asset_acct"))
+        .m_depreopeningacct = Account.GetAccountById(drh.GetValue(Of Integer)("asset_depreopeningacct"))
+      End With
+    End Sub
     Public Sub New()
       MyBase.New()
     End Sub
@@ -1381,7 +1391,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Set
         End Property
 
-
+    Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
+      Get
+        Return MyBase.EntityId
+      End Get
+    End Property
         Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
             Get
                 Return m_rentalrate

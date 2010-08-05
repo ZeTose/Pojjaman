@@ -114,22 +114,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stockCode As String
     Private m_enityName As String
     Private m_linenumber As Integer
+    Private m_entityType As Integer
     Private m_fullClassName As String
     Private m_qty As Decimal
     Private m_tag As Object
     Private m_level As Integer
+    Private m_haschilds As Boolean
 #End Region
 
 #Region "Constructors"
-    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String)
+    'Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String)
+    '  m_id = id
+    '  m_stockCode = stockCode
+    '  m_linenumber = linenumber
+    '  m_fullClassName = fullClassName
+    '  m_textInBasket = textInBasket
+    '  m_qty = qty
+    '  m_enityName = enityName
+    'End Sub
+
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
+                   ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer, ByVal haschild As Boolean)
       m_id = id
       m_stockCode = stockCode
       m_linenumber = linenumber
+      m_entityType = entityType
       m_fullClassName = fullClassName
       m_textInBasket = textInBasket
       m_qty = qty
       m_enityName = enityName
+      m_level = level
+      m_haschilds = haschild
     End Sub
+
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
+                   ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer)
+      m_id = id
+      m_stockCode = stockCode
+      m_linenumber = linenumber
+      m_entityType = entityType
+      m_fullClassName = fullClassName
+      m_textInBasket = textInBasket
+      m_qty = qty
+      m_enityName = enityName
+      m_level = level
+    End Sub
+    
     Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer)
       m_id = id
       m_stockCode = stockCode
@@ -160,6 +190,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.m_linenumber
       End Get
     End Property
+    Public ReadOnly Property EntityType() As Integer
+      Get
+        Return Me.m_entityType
+      End Get
+    End Property
+
     Public ReadOnly Property StockCode() As String
       Get
         Return Me.m_stockCode
@@ -190,6 +226,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_level
       End Get
     End Property
+    Public ReadOnly Property haschilds() As Boolean
+      Get
+        Return m_haschilds
+      End Get
+    End Property
 
 #End Region
 
@@ -205,6 +246,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
   End Class
+
   Public Class BasketItem
     Implements IBasketItem, IIdentifiable, IObjectReflectable
 
@@ -404,4 +446,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Class
   End Class
 
+  Public Class TreeBasketItemCollection
+    Inherits BasketItemCollection
+
+  End Class
 End Namespace

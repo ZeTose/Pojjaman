@@ -106,6 +106,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal assetwriteoff As AssetWriteOff)
+      Dim drh As New DataRowHelper(dr)
+      With Me
+        .Id = drh.GetValue(Of Integer)("eqtid")
+        .Code = drh.GetValue(Of String)("eqtcode")
+        .m_name = drh.GetValue(Of String)("eqtname")
+        .m_cc = Costcenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
+        .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)("eqtunit"))
+      End With
+    End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.New(dr, aliasPrefix)
       Me.Construct(dr, aliasPrefix)
@@ -131,7 +141,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'm_name = drh.GetValue(Of String)("eqi_name")
 
         Dim ccid As Integer = drh.GetValue(Of Integer)("toollot_cc")
-        m_cc = New CostCenter(ccid)
+        m_cc = Costcenter.GetCCMinDataById(ccid)
 
         m_buydate = drh.GetValue(Of DateTime)("toollot_buydate")
         m_lastEditDate = drh.GetValue(Of DateTime)("toollot_lastEditDate")
@@ -160,7 +170,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_description = drh.GetValue(Of String)("toollot_decription")
 
         Dim unitid As Integer = drh.GetValue(Of Integer)("toollot_unit")
-        m_unit = New Unit(unitid)
+        m_unit = Unit.GetUnitById(unitid)
 
         m_rentalrate = drh.GetValue(Of Decimal)("toollot_rentrate")
 
@@ -244,6 +254,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
+    Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
+      Get
+        Return MyBase.EntityId
+      End Get
+    End Property
 
     'Public Overrides Property Id As Integer Implements IHasName.Id
     '  Get

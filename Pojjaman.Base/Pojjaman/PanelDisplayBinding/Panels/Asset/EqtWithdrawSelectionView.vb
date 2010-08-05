@@ -533,7 +533,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   'pri = New EquipmentToolWithdrawItem(pri.EqtWithdraw.Id, pri.LineNumber)
                   'ewi.EquipmentToolWithdraw = theEw
                   id = theEw.Id
-                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, qty, entityName)
+                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, qty, entityName, 1)
                   bi.Tag = ewi
                   m_basketItems.Add(bi)
                 End If

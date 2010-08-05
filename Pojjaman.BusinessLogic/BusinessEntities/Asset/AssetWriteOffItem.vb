@@ -34,6 +34,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_writeoffamount As Decimal
 
     Private m_accdepre As Decimal
+
+    Private m_hasChild As Boolean
+    Private m_parent As Integer
+
+
+
 #End Region
 
 #Region "Constructors"
@@ -120,7 +126,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Decimal)
         m_writeoffamount = value
       End Set
-    End Property    Public Property UnitPrice() As Decimal 'ราคาที่ขาย      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property AccDepre As Decimal 'เอาไปลงบัญชี accom depre
+    End Property    Public Property Parent() As Integer      Get
+        Return m_parent
+      End Get
+      Set(ByVal Value As Integer)
+        m_parent = Value
+      End Set
+    End Property    Public Property HasChild() As Boolean
+      Get
+        Return m_hasChild
+      End Get
+      Set(ByVal Value As Boolean)
+        m_hasChild = Value
+      End Set
+    End Property    Public Property UnitPrice() As Decimal 'ราคาที่ขาย      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property AccDepre As Decimal 'เอาไปลงบัญชี accom depre
       Get
         Return m_accdepre
       End Get
@@ -175,7 +194,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Entity Is Nothing Then
         row("Code") = Me.Entity.Code
         row("eqtstocki_entity") = Me.Entity.Id
-        row("eqtstocki_entityType") = Me.ItemType
+        row("eqtstocki_entityType") = Me.ItemType.Value
         row("eqtstocki_Name") = Me.Entity.Name
         'row("deprecalcamt") = Me.DepreCalculation
       End If
@@ -342,6 +361,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  Me.UnVatable = CBool(row("stocki_unvatable"))
       'End If
     End Sub
+    Sub SetItem(ByVal newItem As IEqtItem, ByVal itemType As Integer, ByVal dr As DataRow, ByVal hasChild As Boolean, ByVal level As Integer, ByVal item As EqtBasketItem)
+      Dim drh As New DataRowHelper(dr)
+      With Me
+        .Entity = newItem
+        .Name = newItem.Name
+        .m_fromstatus = New EqtStatus(drh.GetValue(Of Integer)("fromStatus"))
+        .m_tostatus = New EqtStatus(9) 'writeOff
+        .m_itemtype = New EqtItemType(itemType)
+        .m_unit = newItem.Unit
+        Select Case itemType
+          Case 28
+            .m_remainbuyqty = 1
+            .m_qty = 1
+            .m_unitassetamount = drh.GetValue(Of Decimal)("asset_buyPrice")
+            .m_accdepre = drh.GetValue(Of Decimal)("accdepre")
+          Case 346
+            .m_remainbuyqty = 1
+            .m_qty = 1
+            .m_unitassetamount = drh.GetValue(Of Decimal)("eqi_buycost")
+            .m_ownercc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
+          Case 348
+            .m_remainbuyqty = drh.GetValue(Of Integer)("RemainQty")
+            .m_qty = CInt(item.Qty)
+            .m_unitassetamount = drh.GetValue(Of Decimal)("eqi_buycost")
+            .m_ownercc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
+        End Select
+        .m_hasChild = hasChild
+        If level = 0 Then
+        ElseIf level = 1 Then
+          m_parent = drh.GetValue(Of Integer)("asset")
+        End If
+      End With
+
+    End Sub
 #End Region
 
 #Region "Shared"
@@ -390,6 +443,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return myDatatable
     End Function
 #End Region
+
+    
 
   End Class
 
@@ -488,6 +543,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow.Tag = gri
       Next
       dt.AcceptChanges()
+    End Sub
+    Public Sub SetItems(ByVal items As BasketItemCollection)
+      Dim currItem As AssetWriteOffItem = Nothing
+
+
+
+      For i As Integer = 0 To items.Count - 1
+        If TypeOf items(i) Is EqtBasketItem Then
+          '-----------------LCI Items--------------------
+
+          Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+          Dim dr As DataRow = CType(item.Tag, DataRow)
+          Dim hasChild As Boolean = item.haschilds
+          Dim level As Integer = item.Level
+          Dim newItem As IEqtItem
+          Dim newType As Integer = -1
+          Select Case item.EntityType
+            Case 28
+              newItem = New Asset(dr, Me.m_AssetWriteoff)
+              newType = 28
+            Case 348
+              newItem = New ToolLot(dr, "")
+              newType = 348
+            Case 346
+              newItem = New EquipmentItem(dr, "")
+              newType = 346
+
+          End Select
+
+          Dim doc As New AssetWriteOffItem
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.ItemType.Value = newType
+            Me.CurrentItem = Nothing
+            currItem = doc
+          Else
+            'Me.Add(doc)
+            If currItem Is Nothing Then
+              Me.Insert(0, doc)
+            Else
+              Me.Insert(Me.IndexOf(currItem), doc)
+            End If
+            doc.ItemType = New EqtItemType(newType)
+            currItem = doc
+          End If
+          doc.SetItem(newItem, newType, dr, hasChild, level, item)
+          doc.AssetWriteoff = Me.AssetWriteoff
+
+        End If
+      Next
     End Sub
 #End Region
 

@@ -186,6 +186,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
+    Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
+      Get
+        Return MyBase.EntityId
+      End Get
+    End Property
     Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
       Get
         Return tool_rentalrate

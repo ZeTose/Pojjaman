@@ -111,6 +111,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New(dr, aliasPrefix)
       Me.Construct(dr, aliasPrefix)
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal assetwriteoff As AssetWriteOff)
+      Dim drh As New DataRowHelper(dr)
+      With Me
+        .Id = drh.GetValue(Of Integer)("eqtid")
+        .Code = drh.GetValue(Of String)("eqtcode")
+        .m_name = drh.GetValue(Of String)("eqtname")
+        .m_cc = Costcenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
+        .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)("eqtunit"))
+      End With
+    End Sub
     Public Sub New(ByVal thecode As String)
       MyBase.New(thecode)
 
@@ -308,6 +318,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
+    Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
+      Get
+        Return MyBase.EntityId
+      End Get
+    End Property
     'Public Overrides Property Id As Integer Implements IHasName.Id
     '  Get
     '    Return m_id
