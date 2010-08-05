@@ -620,6 +620,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       sup.Id = drh.GetValue(Of Integer)("supplier_id")
       sup.Code = drh.GetValue(Of String)("supplier_code")
       sup.Name = drh.GetValue(Of String)("supplier_name")
+      Dim acctId As Integer = drh.GetValue(Of Integer)("supplier_acct")
+      sup.Account = New Account(acctId)
     End Sub
     Public Enum DefaultSupplierType
       PettyCash
