@@ -76,19 +76,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"หน่วย"
       'm_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}") '"CCที่อยู่"
 
-      'm_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.asset}") '"asset"
-      'm_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.BuyDocCode}") '"BuyDocCode"
-      'm_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Buydate}") '"Buydate"
-      'm_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.buycost}") '"buycost"
-
       Dim indent As String = Space(1)
-
-      'm_grid(1, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.assetID}")  '"No."
-      'm_grid(1, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.assetName}")  '"รหัสสินทรัพย์"
-      'm_grid(1, 3).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.CCname}")  '"ชื่อสินทรัพย์"
-      'm_grid(1, 4).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.status}")   '"วันที่ซื้อ"
-      ''m_grid(1, 5).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.assetTotal}")  '"รหัสสินทรัพย์"
-      ''m_grid(1, 6).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.assetFree}")  '"ชื่อสินทรัพย์"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -100,13 +88,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-
-      'm_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'm_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'm_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'm_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'm_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'm_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
@@ -138,12 +119,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In dt.Rows
         If row("toolg_code").ToString <> currentAssetTypeCode Then
           If Not (currentAssetTypeCode = "") Then
-            'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-            'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-
-            'sumAssetTypeWithdtaw = 0
-            'sumAssetTypeReturn = 0
-
             no = 1
           End If
           m_grid.RowCount += 1
@@ -157,19 +132,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End If
         If row("tool_code").ToString <> currentAssetCode Then
-          If Not (currentAssetCode = "") Then
-            If no = 0 Then
-              'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-              'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-              'sumAssetWithdtaw = 0
-              'sumAssetReturn = 0
-            End If
-            no = 0
-            'm_grid(currCcIndex, 5).CellValue = Configuration.FormatToString(sumAssetWithdtaw, DigitConfig.Price)
-            'm_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(sumAssetReturn, DigitConfig.Price)
-            'sumAssetWithdtaw = 0
-            'sumAssetReturn = 0
-          End If
+          'If Not (currentAssetCode = "") Then
+          '  If no = 0 Then
+
+          '  End If
+          '  no = 0
+
+          'End If
 
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
@@ -177,12 +146,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currDocIndex, 2).CellValue = "  " & row("tool_name").ToString
           currentAssetCode = row("tool_code").ToString
         End If
-        'If Not row.IsNull("currentCC") Then
-        '  currentCC = CStr(row("currentCC"))
-        'End If
-        'If Not row.IsNull("Rentalrate") Then
-        '  bReturn = CDec(row("Rentalrate"))
-        'End If
 
         'sumAssetWithdtaw += Withdtaw
         sumAssetReturn = bReturn
@@ -194,30 +157,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currCcIndex, 3).CellValue = row("Costcenter").ToString
         m_grid(currCcIndex, 4).CellValue = "  " & row("tool_rentalrate").ToString
         m_grid(currCcIndex, 5).CellValue = row("unit_name").ToString
-        'm_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Rentalrate")), DigitConfig.Price)
-        'm_grid(currCcIndex, 7).CellValue = "  " & row("Asset").ToString
-        'm_grid(currCcIndex, 8).CellValue = "  " & row("eqi_buydoccode").ToString
-
-        'If Not row.IsNull("eqi_buydate") Then
-        '  m_grid(currCcIndex, 9).CellValue = "  " & CDate(row("eqi_buydate")).ToShortDateString
-        'End If
-
-        'm_grid(currCcIndex, 10).CellValue = Configuration.FormatToString(CDec(row("eqi_buycost")), DigitConfig.Price)
-
-        'm_grid(currCcIndex, 5).CellValue = Configuration.FormatToString(sumAssetWithdtaw, DigitConfig.Price)
-        'm_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(sumAssetReturn, DigitConfig.Price)
 
       Next
-
-      'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-      'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-
-
-      'm_grid.RowCount += 1
-      'currDocIndex = m_grid.RowCount
-      'm_grid(currDocIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt271.Totals}")
-      'm_grid(currDocIndex, 5).CellValue = Configuration.FormatToString(sum1, DigitConfig.Price)
-      'm_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(sum2, DigitConfig.Price)
 
     End Sub
 #End Region#Region "Shared"

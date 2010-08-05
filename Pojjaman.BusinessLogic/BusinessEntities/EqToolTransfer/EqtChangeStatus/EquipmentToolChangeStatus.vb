@@ -546,19 +546,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dt.Rows.Add(dr)
             End If
             '------------End Checking--------------------
+            If Not item.ExpItemCollection Is Nothing Then
+              For Each expItem As StockItem In item.ExpItemCollection
+                Dim childDr As DataRow = dtExp.NewRow
+                'childDr("es_sequence") = 
+                childDr("es_eqtstockisequence") = dr("eqtstocki_sequence")
+                childDr("es_stockisequence") = expItem.Sequence
+                childDr("es_stockqty") = expItem.Stockqty
+                childDr("es_unitcost") = expItem.UnitCost
+                childDr("es_note") = expItem.Note
 
-            For Each expItem As StockItem In item.ExpItemCollection
-              Dim childDr As DataRow = dtExp.NewRow
-              'childDr("es_sequence") = 
-              childDr("es_eqtstockisequence") = dr("eqtstocki_sequence")
-              childDr("es_stockisequence") = expItem.Sequence
-              childDr("es_stockqty") = expItem.Stockqty
-              childDr("es_unitcost") = expItem.UnitCost
-              childDr("es_note") = expItem.Note
-
-              dtExp.Rows.Add(childDr)
-            Next
-
+                dtExp.Rows.Add(childDr)
+              Next
+            End If
           Next
         End With
 

@@ -4739,7 +4739,6 @@ Public Class DepreItemCollection
     End Class
   End Class
   Public Class EquipmentTool
-
 #Region "members"
     Public EqtId As Integer
     Public EqtCode As String

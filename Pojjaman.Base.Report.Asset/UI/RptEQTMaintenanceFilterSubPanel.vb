@@ -3,7 +3,7 @@ Imports longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class RptEquipmentStatusFilterSubPanel
+  Public Class RptEQTMaintenanceFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
 
@@ -37,32 +37,46 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtTemp As System.Windows.Forms.TextBox
+    Friend WithEvents btnCCStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCCCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblCCStart As System.Windows.Forms.Label
+    Friend WithEvents btnToolEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnToolStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblToolCode As System.Windows.Forms.Label
+    Friend WithEvents lblEQCode As System.Windows.Forms.Label
+    Friend WithEvents txtToolCodeEnd As System.Windows.Forms.TextBox
+    Friend WithEvents lblToolEnd As System.Windows.Forms.Label
+    Friend WithEvents txtToolCodeStart As System.Windows.Forms.TextBox
+    Friend WithEvents btnEQEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnEQStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtEQCodeEnd As System.Windows.Forms.TextBox
     Friend WithEvents lblEQEnd As System.Windows.Forms.Label
     Friend WithEvents txtEQCodeStart As System.Windows.Forms.TextBox
-    Friend WithEvents lblEQCode As System.Windows.Forms.Label
-    Friend WithEvents btnEQStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnEQEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnCCStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkEquipment As System.Windows.Forms.CheckBox
+    Friend WithEvents chkTool As System.Windows.Forms.CheckBox
     Friend WithEvents ChkCancel As System.Windows.Forms.CheckBox
-    Friend WithEvents txttmp As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptEquipmentStatusFilterSubPanel))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptEQTMaintenanceFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.ChkCancel = New System.Windows.Forms.CheckBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkEquipment = New System.Windows.Forms.CheckBox()
+      Me.chkTool = New System.Windows.Forms.CheckBox()
       Me.btnEQEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnEQStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.txtCCCodeStart = New System.Windows.Forms.TextBox()
-      Me.lblCCStart = New System.Windows.Forms.Label()
       Me.txtEQCodeEnd = New System.Windows.Forms.TextBox()
       Me.lblEQEnd = New System.Windows.Forms.Label()
       Me.txtEQCodeStart = New System.Windows.Forms.TextBox()
-      Me.lblEQCode = New System.Windows.Forms.Label()
+      Me.btnToolEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnToolStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtToolCodeEnd = New System.Windows.Forms.TextBox()
+      Me.lblToolEnd = New System.Windows.Forms.Label()
+      Me.txtToolCodeStart = New System.Windows.Forms.TextBox()
+      Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCCCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblCCStart = New System.Windows.Forms.Label()
       Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
@@ -71,9 +85,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.txttmp = New System.Windows.Forms.TextBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,16 +104,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Controls.Add(Me.btnReset)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbMaster.Location = New System.Drawing.Point(12, 8)
+      Me.grbMaster.Location = New System.Drawing.Point(8, 4)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(449, 163)
+      Me.grbMaster.Size = New System.Drawing.Size(460, 166)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "ค้นหา"
       '
       'ChkCancel
       '
-      Me.ChkCancel.Location = New System.Drawing.Point(8, 117)
+      Me.ChkCancel.Location = New System.Drawing.Point(16, 139)
       Me.ChkCancel.Name = "ChkCancel"
       Me.ChkCancel.Size = New System.Drawing.Size(240, 24)
       Me.ChkCancel.TabIndex = 4
@@ -107,15 +121,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
-      Me.grbDetail.Controls.Add(Me.btnCCStartFind)
+      Me.grbDetail.Controls.Add(Me.chkEquipment)
+      Me.grbDetail.Controls.Add(Me.chkTool)
       Me.grbDetail.Controls.Add(Me.btnEQEndFind)
       Me.grbDetail.Controls.Add(Me.btnEQStartFind)
-      Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
-      Me.grbDetail.Controls.Add(Me.lblCCStart)
       Me.grbDetail.Controls.Add(Me.txtEQCodeEnd)
       Me.grbDetail.Controls.Add(Me.lblEQEnd)
       Me.grbDetail.Controls.Add(Me.txtEQCodeStart)
-      Me.grbDetail.Controls.Add(Me.lblEQCode)
+      Me.grbDetail.Controls.Add(Me.btnToolEndFind)
+      Me.grbDetail.Controls.Add(Me.btnToolStartFind)
+      Me.grbDetail.Controls.Add(Me.txtToolCodeEnd)
+      Me.grbDetail.Controls.Add(Me.lblToolEnd)
+      Me.grbDetail.Controls.Add(Me.txtToolCodeStart)
+      Me.grbDetail.Controls.Add(Me.btnCCStartFind)
+      Me.grbDetail.Controls.Add(Me.txtCCCodeStart)
+      Me.grbDetail.Controls.Add(Me.lblCCStart)
       Me.grbDetail.Controls.Add(Me.txtDocDateEnd)
       Me.grbDetail.Controls.Add(Me.txtDocDateStart)
       Me.grbDetail.Controls.Add(Me.dtpDocDateStart)
@@ -123,34 +143,42 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.lblDocDateStart)
       Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Location = New System.Drawing.Point(6, 16)
+      Me.grbDetail.Location = New System.Drawing.Point(16, 16)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(435, 95)
+      Me.grbDetail.Size = New System.Drawing.Size(431, 117)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
       '
-      'btnCCStartFind
+      'chkEquipment
       '
-      Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCStartFind.Location = New System.Drawing.Point(208, 62)
-      Me.btnCCStartFind.Name = "btnCCStartFind"
-      Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
-      Me.btnCCStartFind.TabIndex = 31
-      Me.btnCCStartFind.TabStop = False
-      Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.chkEquipment.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkEquipment.Location = New System.Drawing.Point(27, 62)
+      Me.chkEquipment.Name = "chkEquipment"
+      Me.chkEquipment.Size = New System.Drawing.Size(94, 24)
+      Me.chkEquipment.TabIndex = 14
+      Me.chkEquipment.Text = "ข้อมูลเครื่องจักร"
+      Me.chkEquipment.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'chkTool
+      '
+      Me.chkTool.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkTool.Location = New System.Drawing.Point(27, 38)
+      Me.chkTool.Name = "chkTool"
+      Me.chkTool.Size = New System.Drawing.Size(94, 24)
+      Me.chkTool.TabIndex = 13
+      Me.chkTool.Text = "ข้อมูลเครื่องมือ"
+      Me.chkTool.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnEQEndFind
       '
       Me.btnEQEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnEQEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnEQEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnEQEndFind.Location = New System.Drawing.Point(380, 39)
+      Me.btnEQEndFind.Location = New System.Drawing.Point(392, 66)
       Me.btnEQEndFind.Name = "btnEQEndFind"
       Me.btnEQEndFind.Size = New System.Drawing.Size(24, 22)
-      Me.btnEQEndFind.TabIndex = 30
+      Me.btnEQEndFind.TabIndex = 42
       Me.btnEQEndFind.TabStop = False
       Me.btnEQEndFind.ThemedImage = CType(resources.GetObject("btnEQEndFind.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -159,39 +187,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnEQStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnEQStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnEQStartFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnEQStartFind.Location = New System.Drawing.Point(208, 39)
+      Me.btnEQStartFind.Location = New System.Drawing.Point(227, 64)
       Me.btnEQStartFind.Name = "btnEQStartFind"
       Me.btnEQStartFind.Size = New System.Drawing.Size(24, 22)
-      Me.btnEQStartFind.TabIndex = 29
+      Me.btnEQStartFind.TabIndex = 41
       Me.btnEQStartFind.TabStop = False
       Me.btnEQStartFind.ThemedImage = CType(resources.GetObject("btnEQStartFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'txtCCCodeStart
-      '
-      Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
-      Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
-      Me.txtCCCodeStart.Location = New System.Drawing.Point(112, 63)
-      Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
-      Me.txtCCCodeStart.Name = "txtCCCodeStart"
-      Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
-      Me.Validator.SetRequired(Me.txtCCCodeStart, False)
-      Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
-      Me.txtCCCodeStart.TabIndex = 6
-      '
-      'lblCCStart
-      '
-      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
-      Me.lblCCStart.Location = New System.Drawing.Point(6, 63)
-      Me.lblCCStart.Name = "lblCCStart"
-      Me.lblCCStart.Size = New System.Drawing.Size(104, 18)
-      Me.lblCCStart.TabIndex = 26
-      Me.lblCCStart.Text = "CostCenter เจ้าของ"
-      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtEQCodeEnd
       '
@@ -201,22 +202,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtEQCodeEnd, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtEQCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtEQCodeEnd, System.Drawing.Color.Empty)
-      Me.txtEQCodeEnd.Location = New System.Drawing.Point(277, 39)
+      Me.txtEQCodeEnd.Location = New System.Drawing.Point(289, 66)
       Me.Validator.SetMinValue(Me.txtEQCodeEnd, "")
       Me.txtEQCodeEnd.Name = "txtEQCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtEQCodeEnd, "")
       Me.Validator.SetRequired(Me.txtEQCodeEnd, False)
       Me.txtEQCodeEnd.Size = New System.Drawing.Size(102, 21)
-      Me.txtEQCodeEnd.TabIndex = 5
+      Me.txtEQCodeEnd.TabIndex = 38
       '
       'lblEQEnd
       '
       Me.lblEQEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblEQEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblEQEnd.Location = New System.Drawing.Point(247, 39)
+      Me.lblEQEnd.Location = New System.Drawing.Point(259, 66)
       Me.lblEQEnd.Name = "lblEQEnd"
       Me.lblEQEnd.Size = New System.Drawing.Size(24, 18)
-      Me.lblEQEnd.TabIndex = 9
+      Me.lblEQEnd.TabIndex = 40
       Me.lblEQEnd.Text = "ถึง"
       Me.lblEQEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
@@ -228,24 +229,119 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtEQCodeStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtEQCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtEQCodeStart, System.Drawing.Color.Empty)
-      Me.txtEQCodeStart.Location = New System.Drawing.Point(112, 39)
+      Me.txtEQCodeStart.Location = New System.Drawing.Point(131, 64)
       Me.Validator.SetMinValue(Me.txtEQCodeStart, "")
       Me.txtEQCodeStart.Name = "txtEQCodeStart"
       Me.Validator.SetRegularExpression(Me.txtEQCodeStart, "")
       Me.Validator.SetRequired(Me.txtEQCodeStart, False)
       Me.txtEQCodeStart.Size = New System.Drawing.Size(96, 21)
-      Me.txtEQCodeStart.TabIndex = 4
+      Me.txtEQCodeStart.TabIndex = 37
       '
-      'lblEQCode
+      'btnToolEndFind
       '
-      Me.lblEQCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblEQCode.ForeColor = System.Drawing.Color.Black
-      Me.lblEQCode.Location = New System.Drawing.Point(16, 39)
-      Me.lblEQCode.Name = "lblEQCode"
-      Me.lblEQCode.Size = New System.Drawing.Size(88, 18)
-      Me.lblEQCode.TabIndex = 6
-      Me.lblEQCode.Text = "รหัสเครื่องจักร:"
-      Me.lblEQCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnToolEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnToolEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnToolEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnToolEndFind.Location = New System.Drawing.Point(392, 42)
+      Me.btnToolEndFind.Name = "btnToolEndFind"
+      Me.btnToolEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnToolEndFind.TabIndex = 36
+      Me.btnToolEndFind.TabStop = False
+      Me.btnToolEndFind.ThemedImage = CType(resources.GetObject("btnToolEndFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'btnToolStartFind
+      '
+      Me.btnToolStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnToolStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnToolStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnToolStartFind.Location = New System.Drawing.Point(227, 40)
+      Me.btnToolStartFind.Name = "btnToolStartFind"
+      Me.btnToolStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnToolStartFind.TabIndex = 35
+      Me.btnToolStartFind.TabStop = False
+      Me.btnToolStartFind.ThemedImage = CType(resources.GetObject("btnToolStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtToolCodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtToolCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtToolCodeEnd, "")
+      Me.txtToolCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtToolCodeEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtToolCodeEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtToolCodeEnd, System.Drawing.Color.Empty)
+      Me.txtToolCodeEnd.Location = New System.Drawing.Point(289, 42)
+      Me.Validator.SetMinValue(Me.txtToolCodeEnd, "")
+      Me.txtToolCodeEnd.Name = "txtToolCodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtToolCodeEnd, "")
+      Me.Validator.SetRequired(Me.txtToolCodeEnd, False)
+      Me.txtToolCodeEnd.Size = New System.Drawing.Size(102, 21)
+      Me.txtToolCodeEnd.TabIndex = 32
+      '
+      'lblToolEnd
+      '
+      Me.lblToolEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblToolEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblToolEnd.Location = New System.Drawing.Point(259, 42)
+      Me.lblToolEnd.Name = "lblToolEnd"
+      Me.lblToolEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblToolEnd.TabIndex = 34
+      Me.lblToolEnd.Text = "ถึง"
+      Me.lblToolEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtToolCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtToolCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtToolCodeStart, "")
+      Me.txtToolCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtToolCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtToolCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtToolCodeStart, System.Drawing.Color.Empty)
+      Me.txtToolCodeStart.Location = New System.Drawing.Point(131, 40)
+      Me.Validator.SetMinValue(Me.txtToolCodeStart, "")
+      Me.txtToolCodeStart.Name = "txtToolCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtToolCodeStart, "")
+      Me.Validator.SetRequired(Me.txtToolCodeStart, False)
+      Me.txtToolCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtToolCodeStart.TabIndex = 31
+      '
+      'btnCCStartFind
+      '
+      Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCStartFind.Location = New System.Drawing.Point(227, 88)
+      Me.btnCCStartFind.Name = "btnCCStartFind"
+      Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCStartFind.TabIndex = 28
+      Me.btnCCStartFind.TabStop = False
+      Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtCCCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtCCCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
+      Me.txtCCCodeStart.Location = New System.Drawing.Point(131, 88)
+      Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
+      Me.txtCCCodeStart.Name = "txtCCCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
+      Me.Validator.SetRequired(Me.txtCCCodeStart, False)
+      Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtCCCodeStart.TabIndex = 6
+      '
+      'lblCCStart
+      '
+      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
+      Me.lblCCStart.Location = New System.Drawing.Point(29, 88)
+      Me.lblCCStart.Name = "lblCCStart"
+      Me.lblCCStart.Size = New System.Drawing.Size(96, 18)
+      Me.lblCCStart.TabIndex = 26
+      Me.lblCCStart.Text = "CostCenter"
+      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDocDateEnd
       '
@@ -254,13 +350,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.txtDocDateEnd.Location = New System.Drawing.Point(277, 16)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(289, 18)
       Me.txtDocDateEnd.MaxLength = 10
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(102, 21)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
       Me.txtDocDateEnd.TabIndex = 1
       '
       'txtDocDateStart
@@ -270,7 +366,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.txtDocDateStart.Location = New System.Drawing.Point(112, 16)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(131, 16)
       Me.txtDocDateStart.MaxLength = 10
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
@@ -282,18 +378,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpDocDateStart
       '
       Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDocDateStart.Location = New System.Drawing.Point(112, 16)
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(131, 16)
       Me.dtpDocDateStart.Name = "dtpDocDateStart"
-      Me.dtpDocDateStart.Size = New System.Drawing.Size(129, 21)
+      Me.dtpDocDateStart.Size = New System.Drawing.Size(128, 21)
       Me.dtpDocDateStart.TabIndex = 2
       Me.dtpDocDateStart.TabStop = False
       '
       'dtpDocDateEnd
       '
       Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDocDateEnd.Location = New System.Drawing.Point(292, 16)
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(289, 18)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-      Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(130, 21)
       Me.dtpDocDateEnd.TabIndex = 5
       Me.dtpDocDateEnd.TabStop = False
       '
@@ -301,7 +397,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDateStart.Location = New System.Drawing.Point(16, 16)
+      Me.lblDocDateStart.Location = New System.Drawing.Point(37, 18)
       Me.lblDocDateStart.Name = "lblDocDateStart"
       Me.lblDocDateStart.Size = New System.Drawing.Size(88, 18)
       Me.lblDocDateStart.TabIndex = 0
@@ -312,7 +408,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDateEnd.Location = New System.Drawing.Point(247, 16)
+      Me.lblDocDateEnd.Location = New System.Drawing.Point(259, 16)
       Me.lblDocDateEnd.Name = "lblDocDateEnd"
       Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblDocDateEnd.TabIndex = 3
@@ -323,7 +419,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(361, 131)
+      Me.btnSearch.Location = New System.Drawing.Point(372, 137)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -333,12 +429,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(281, 131)
+      Me.btnReset.Location = New System.Drawing.Point(292, 137)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
+      '
+      'txtTemp
+      '
+      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtTemp, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.txtTemp.Location = New System.Drawing.Point(474, 36)
+      Me.txtTemp.MaxLength = 255
+      Me.Validator.SetMinValue(Me.txtTemp, "")
+      Me.txtTemp.Name = "txtTemp"
+      Me.txtTemp.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtTemp, "")
+      Me.Validator.SetRequired(Me.txtTemp, False)
+      Me.txtTemp.Size = New System.Drawing.Size(104, 21)
+      Me.txtTemp.TabIndex = 3
+      Me.txtTemp.Visible = False
       '
       'Validator
       '
@@ -353,31 +466,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'txttmp
+      'RptEQTMaintenanceFilterSubPanel
       '
-      Me.Validator.SetDataType(Me.txttmp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txttmp, "")
-      Me.txttmp.Enabled = False
-      Me.Validator.SetGotFocusBackColor(Me.txttmp, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txttmp, -15)
-      Me.Validator.SetInvalidBackColor(Me.txttmp, System.Drawing.Color.Empty)
-      Me.txttmp.Location = New System.Drawing.Point(521, 88)
-      Me.txttmp.MaxLength = 10
-      Me.Validator.SetMinValue(Me.txttmp, "")
-      Me.txttmp.Name = "txttmp"
-      Me.Validator.SetRegularExpression(Me.txttmp, "")
-      Me.Validator.SetRequired(Me.txttmp, False)
-      Me.txttmp.Size = New System.Drawing.Size(102, 21)
-      Me.txttmp.TabIndex = 6
-      Me.txttmp.Visible = False
-      '
-      'RptEquipmentStatusFilterSubPanel
-      '
-      Me.Controls.Add(Me.txttmp)
       Me.Controls.Add(Me.grbMaster)
+      Me.Controls.Add(Me.txtTemp)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "RptEquipmentStatusFilterSubPanel"
-      Me.Size = New System.Drawing.Size(677, 185)
+      Me.Name = "RptEQTMaintenanceFilterSubPanel"
+      Me.Size = New System.Drawing.Size(476, 177)
       Me.grbMaster.ResumeLayout(False)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
@@ -392,8 +487,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Sub SetLabelText()
       'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblEQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel.lblEQCode}")
-      Me.Validator.SetDisplayName(txtEQCodeStart, lblEQCode.Text)
+
+      'Me.chkTool.checkbox = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel.lblToolCode}")
+      'Me.Validator.SetDisplayName(txtToolCodeStart, lblToolCode.Text)
+
+      'Me.lblEQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel.lblEQCode}")
+      'Me.Validator.SetDisplayName(txtEQCodeStart, lblEQCode.Text)
 
       Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblDocDateStart}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
@@ -402,17 +501,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
       ' Global {ถึง}
-      Me.lblEQEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.Validator.SetDisplayName(txtEQCodeEnd, lblEQEnd.Text)
-
-      'Me.lblAssetTypeEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtAssetTypeCodeEnd, lblAssetTypeEnd.Text)
+      Me.lblToolEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtToolCodeEnd, lblToolEnd.Text)
 
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-
-      'Me.lblCCEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtCCCodeEnd, lblCCEnd.Text)
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
@@ -428,8 +521,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_equipmentstart As Equipment
     Private m_equipmentend As Equipment
 
-    'Private m_assettypestart As AssetType
-    'Private m_assettypeend As AssetType
+    Private m_toolstart As Tool
+    Private m_toolend As Tool
 
     Private m_DocDateEnd As Date
     Private m_DocDateStart As Date
@@ -464,6 +557,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
       Set(ByVal Value As Equipment)
         m_equipmentend = Value
+      End Set
+    End Property
+    Public Property Toolstart() As Tool
+      Get
+        Return m_toolstart
+      End Get
+      Set(ByVal Value As Tool)
+        m_toolstart = Value
+      End Set
+    End Property
+    Public Property ToolEnd() As Tool
+      Get
+        Return m_toolend
+      End Get
+      Set(ByVal Value As Tool)
+        m_toolend = Value
       End Set
     End Property
 
@@ -501,6 +610,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.equipmentstart = New Equipment
       Me.EquipmentEnd = New Equipment
 
+      Me.Toolstart = New Tool
+      Me.ToolEnd = New Tool
 
       Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
       Me.DocDateStart = dtStart
@@ -518,17 +629,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(5) As Filter
+      Dim arr(7) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
-      arr(2) = New Filter("EquipmentCodeStart", IIf(txtEQCodeStart.TextLength > 0, txtEQCodeStart.Text, DBNull.Value))
-      arr(3) = New Filter("EquipmentCodeEnd", IIf(txtEQCodeEnd.TextLength > 0, txtEQCodeEnd.Text, DBNull.Value))
-      arr(4) = New Filter("CostCenter", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
-      arr(5) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      'arr(4) = New Filter("AssetTypeCodeStart", IIf(txtAssetTypeCodeStart.TextLength > 0, txtAssetTypeCodeStart.Text, DBNull.Value))
-      'arr(5) = New Filter("AssetTypeCodeEnd", IIf(txtAssetTypeCodeEnd.TextLength > 0, txtAssetTypeCodeEnd.Text, DBNull.Value))
-      'arr(7) = New Filter("CostCenterCodeEnd", IIf(txtCCCodeEnd.TextLength > 0, txtCCCodeEnd.Text, DBNull.Value))
-      'arr(8) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
+      arr(2) = New Filter("ToolCodeStart", IIf(txtToolCodeStart.TextLength > 0, txtToolCodeStart.Text, DBNull.Value))
+      arr(3) = New Filter("ToolCodeEnd", IIf(txtToolCodeEnd.TextLength > 0, txtToolCodeEnd.Text, DBNull.Value))
+      arr(4) = New Filter("EquipmentCodeStart", IIf(txtEQCodeStart.TextLength > 0, txtEQCodeStart.Text, DBNull.Value))
+      arr(5) = New Filter("EquipmentCodeEnd", IIf(txtEQCodeEnd.TextLength > 0, txtEQCodeEnd.Text, DBNull.Value))
+      arr(6) = New Filter("CostCenter", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
+      'arr(7) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
+      arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -562,6 +673,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'Tool Start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ToolCodeStart"
+      dpi.Value = Me.txtToolCodeStart.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'Tool End
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ToolCodeEnd"
+      dpi.Value = Me.txtToolCodeEnd.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'EquipmentCodeStart 
       dpi = New DocPrintingItem
       dpi.Mapping = "EquipmentCodeStart"
@@ -578,7 +703,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'CostCenterStart
       dpi = New DocPrintingItem
-      dpi.Mapping = "Costcenter"
+      dpi.Mapping = "CostcenterStart"
       dpi.Value = Me.txtCCCodeStart.Text
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
@@ -599,31 +724,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler btnEQStartFind.Click, AddressOf Me.btnEQFind_Click
       AddHandler btnEQEndFind.Click, AddressOf Me.btnEQFind_Click
 
-      AddHandler btnCCStartFind.Click, AddressOf Me.btnCCFind_Click
-      'AddHandler btnCCEndFind.Click, AddressOf Me.btnCCFind_Click
+      AddHandler btnToolStartFind.Click, AddressOf Me.btnToolFind_Click
+      AddHandler btnToolEndFind.Click, AddressOf Me.btnToolFind_Click
 
       AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
       AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
-
-      AddHandler txtCCCodeStart.Validated, AddressOf Me.ChangeProperty
-      'AddHandler txtCCCodeEnd.Validated, AddressOf Me.ChangeProperty
 
       AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
     End Sub
 
     Private m_dateSetting As Boolean
-    'Private m_ccSetting As Boolean = False
-
     Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
 
       Select Case CType(sender, Control).Name.ToLower
         Case "txtcccodestart"
-          'If Not m_ccSetting Then
-          Me.txtCCCodeStart.Text = CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          'Else
-          'm_ccSetting = False
-          'End If
+          CostCenter.GetCostCenter(txtCCCodeStart, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
 
         Case "dtpdocdatestart"
           If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
@@ -680,7 +796,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New Supplier).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtEQcodestart", "txtEQcodeend"
+              Case "txtassetcodestart", "txtassetcodeend"
                 Return True
             End Select
           End If
@@ -698,6 +814,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
       Dim data As IDataObject = Clipboard.GetDataObject
+      'Equipment
       If data.GetDataPresent((New Supplier).FullClassName) Then
         Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
         Dim entity As New Supplier(id)
@@ -708,6 +825,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Case "txtEQcodeend"
               Me.SetEQEndDialog(entity)
+
+          End Select
+        End If
+      End If
+      'Tool
+      If data.GetDataPresent((New Supplier).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
+        Dim entity As New Supplier(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtToolcodestart"
+              Me.SetToolStartDialog(entity)
+
+            Case "txtToolcodeend"
+              Me.SetToolEndDialog(entity)
 
           End Select
         End If
@@ -740,44 +872,52 @@ Namespace Longkong.Pojjaman.Gui.Panels
           myEntityPanelService.OpenListDialog(New Equipment, AddressOf SetEQEndDialog)
       End Select
     End Sub
+    Private Sub btnToolFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btntoolstartfind"
+
+          myEntityPanelService.OpenListDialog(New Tool, AddressOf SetToolStartDialog)
+
+        Case "btntoolendfind"
+          myEntityPanelService.OpenListDialog(New Tool, AddressOf SetToolEndDialog)
+      End Select
+    End Sub
+    ' CostCenter
     Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Select Case CType(sender, Control).Name.ToLower
         Case "btnccstartfind"
-
           myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeStartDialog)
-
-          'Case "btnccendfind"
-          '  myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeEndDialog)
       End Select
     End Sub
     Private Sub SetEQStartDialog(ByVal e As ISimpleEntity)
       Me.txtEQCodeStart.Text = e.Code
-      Equipment.GetEquipment(txtEQCodeStart, txttmp, Me.equipmentstart)
+      Equipment.GetEquipment(txtEQCodeStart, txtTemp, Me.equipmentstart)
     End Sub
+
     Private Sub SetEQEndDialog(ByVal e As ISimpleEntity)
       Me.txtEQCodeEnd.Text = e.Code
-      Equipment.GetEquipment(txtEQCodeEnd, txttmp, Me.EquipmentEnd)
+      Equipment.GetEquipment(txtEQCodeEnd, txtTemp, Me.EquipmentEnd)
     End Sub
-    Private Sub SetAssetTypeStartDialog(ByVal e As ISimpleEntity)
-      'Me.txtAssetTypeCodeStart.Text = e.Code
-      'AssetType.GetAssetType(txtAssetTypeCodeStart, txtTemp, Me.AssetTypeStart)
+    Private Sub SetToolStartDialog(ByVal e As ISimpleEntity)
+      Me.txtToolCodeStart.Text = e.Code
+      Tool.GetTool(txtToolCodeStart, txtTemp, Me.Toolstart)
     End Sub
-    Private Sub SetAssetTypeEndDialog(ByVal e As ISimpleEntity)
-      'Me.txtAssetTypeCodeEnd.Text = e.Code
-      'AssetType.GetAssetType(txtAssetTypeCodeEnd, txtTemp, Me.AssetTypeEnd)
+    Private Sub SetToolEndDialog(ByVal e As ISimpleEntity)
+      Me.txtToolCodeEnd.Text = e.Code
+      Tool.GetTool(txtToolCodeEnd, txtTemp, Me.ToolEnd)
     End Sub
     Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
-      'm_ccSetting = True
       Me.txtCCCodeStart.Text = e.Code
-      CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      CostCenter.GetCostCenter(txtCCCodeStart, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
     End Sub
-    Private Sub SetCCCodeEndDialog(ByVal e As ISimpleEntity)
-      'Me.txtCCCodeEnd.Text = e.Code
-      'CostCenter.GetCostCenter(txtCCCodeEnd, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-    End Sub
+
 #End Region
 
+    Private Sub chkTool_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTool.CheckedChanged
+
+    End Sub
   End Class
 End Namespace
 

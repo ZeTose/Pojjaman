@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptEQTMaintenance.vb" />
     <Compile Include="BLL\RptToolStatus.vb" />
     <Compile Include="BLL\Rpt265.vb">
       <SubType>Code</SubType>
@@ -179,6 +180,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\RptEQTMaintenanceFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\RptToolStatusFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -225,6 +229,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptEQTMaintenanceFilterSubPanel.resx">
+      <DependentUpon>RptEQTMaintenanceFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptToolStatusFilterSubPanel.resx">
       <DependentUpon>RptToolStatusFilterSubPanel.vb</DependentUpon>

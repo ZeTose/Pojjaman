@@ -443,20 +443,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
-      ''Docdate Start
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "DocdateStart"
-      'dpi.Value = Me.txtDocDateStart.Text
-      'dpi.DataType = "System.String"
-      'dpiColl.Add(dpi)
-
-      ''Docdate End
-      'dpi = New DocPrintingItem
-      'dpi.Mapping = "DocdateEnd"
-      'dpi.Value = Me.txtDocDateEnd.Text
-      'dpi.DataType = "System.String"
-      'dpiColl.Add(dpi)
-
       'Tool Start
       dpi = New DocPrintingItem
       dpi.Mapping = "ToolCodeStart"

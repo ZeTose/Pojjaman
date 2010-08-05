@@ -22,6 +22,7 @@
       <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">
         <MenuItem id="rptequipmentstatus" icon="Icons.16x16.RptEquipmentStatus" label="${res:MainMenu.PurchaseMenu.RptEquipmentStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus"/>
         <MenuItem id="rpttoolstatus" icon="Icons.16x16.RptToolStatus" label="${res:MainMenu.PurchaseMenu.RptToolStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolStatus"/>
+        <MenuItem id="rpteqtmaintenance" icon="Icons.16x16.RptEQTMaintenance" label="${res:MainMenu.PurchaseMenu.RptEQTMaintenance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance"/>
       </MenuItem>
 		</Conditional>
 	</Extension>
@@ -41,6 +42,7 @@
     <EntityFilter id="rptdepreciationbycc" entity="RptDepreciationByCC" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByCCFilterSubPanel"/>
     <EntityFilter id="rptequipmentstatus" entity="RptEquipmentStatus" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel"/>
     <EntityFilter id="rpttoolstatus" entity="RptToolStatus" filter="Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel"/>
+    <EntityFilter id="rpteqtmaintenance" entity="RptEQTMaintenance" filter="Longkong.Pojjaman.Gui.Panels.RptEQTMaintenanceFilterSubPanel"/>
 	</Extension>
 	
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -82,6 +84,9 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rpttoolstatus">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rpteqtmaintenance">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
 	</Extension>
