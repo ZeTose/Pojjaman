@@ -1086,7 +1086,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '********************************************************************
 
       RefreshDocs()
-      ReIndex()
+      'ReIndex()
       RefreshBlankGrid()
 
       SetStatus()
@@ -1210,7 +1210,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = False
       Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
       RefreshBlankGrid()
-      ReIndex()
+      'ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
       'Me.UpdateAmount()
       Me.m_isInitialized = True
@@ -1247,7 +1247,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgItem.CurrentRowIndex = index
     End Sub
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_isInitialized OrElse e.Column.ColumnName.ToLower = "selected" Then
+      If Not m_isInitialized OrElse e.Column.ColumnName.ToLower = "selected" _
+        OrElse e.Column.ColumnName.ToLower = "linenumber" Then
         Return
       End If
       If Me.m_treeManager.SelectedRow Is Nothing Then
@@ -1296,13 +1297,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MessageBox.Show(ex.ToString)
       End Try
     End Sub
-
+    Dim currentY As Integer = 1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-      'If tgItem.CurrentRowIndex <> currentY Then
-      Me.m_entity.ItemCollection.CurrentItem = Me.CurrentItem
-      'RefreshWBS()
-      'currentY = tgItem.CurrentRowIndex
-      'End If
+      If tgItem.CurrentRowIndex <> currentY Then
+        Me.m_entity.ItemCollection.CurrentItem = Me.CurrentItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
+      End If
     End Sub
 #End Region
 

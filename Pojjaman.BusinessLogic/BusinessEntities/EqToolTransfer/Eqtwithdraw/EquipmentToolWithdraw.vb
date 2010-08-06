@@ -508,7 +508,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
           For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
             Dim dr As DataRow = .NewRow
-            Dim row() As DataRow = EqtDt.Select("eqtstocki_id =" & item.Entity.Id.ToString)
+            Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
             i += 1
             dr("eqtstocki_eqtstock") = Me.Id
             dr("eqtstocki_linenumber") = i
@@ -1244,7 +1244,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_eqtWithdraw.Code = deh.GetValue(Of String)("eqtstock_code")
           .m_eqtWithdraw.DocDate = deh.GetValue(Of Date)("eqtstock_docdate")
 
-          .m_pritem = New PRItem(dr, "")
+          If dr.Table.Columns.Contains("pri_entitytype") Then
+            .m_pritem = New PRItem(dr, "")
+          End If
         End If
 
         '' Sequence Refed to ...
@@ -1385,7 +1387,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim rpd As Decimal = 0
         'Dim rentrate As Decimal = 0
         row("Linenumber") = Me.LineNumber
-        row("Type") = Me.ItemType.Value
+        row("Type") = Me.ItemType.Description
         If Not Me.Entity Is Nothing Then
           row("eqtstocki_entity") = Me.Entity.Id
           row("Code") = Me.Entity.Code
@@ -1639,6 +1641,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         parRow.State = RowExpandState.Expanded
         prRowHash(0) = parRow
       End If
+      Dim i As Integer = 1
 
       For Each eqi As EquipmentToolWithdrawItem In Me
         parRow = Nothing
@@ -1669,6 +1672,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not parRow Is Nothing Then
           Dim newRow As TreeRow = parRow.Childs.Add()
+          eqi.LineNumber = i
+          i += 1
           eqi.CopyToDataRow(newRow)
           eqi.ItemValidateRow(newRow)
           newRow.Tag = eqi

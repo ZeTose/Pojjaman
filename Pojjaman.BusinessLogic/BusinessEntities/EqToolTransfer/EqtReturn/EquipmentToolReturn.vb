@@ -442,7 +442,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_Ref" _
-          , New SqlParameter("@refto_id", Me.Id))
+          , New SqlParameter("@refto_id", Me.Id) _
+          , New SqlParameter("@entitytype", Me.EntityId))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
           ', New SqlParameter("@refto_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
@@ -1381,8 +1382,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("RentalPerDay") = ""
         End If
-        row("RentalQty") = Me.RentalQty
-        row("RentalAmount") = Me.Amount
+        row("RentalQty") = Configuration.FormatToString(Me.RentalQty, DigitConfig.Price)
+        row("RentalAmount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
         Me.EqtReturn.IsInitialized = True
       Catch ex As Exception
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
