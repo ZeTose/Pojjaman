@@ -52,6 +52,7 @@
     </EntityTab>
 		<EntityTab id="poforapprove">
 			<EntityTab id="POPanelView" view="Longkong.Pojjaman.Gui.Panels.POPanelView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 		</EntityTab>
 		<EntityTab id="pr">
 			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
@@ -59,6 +60,7 @@
 		</EntityTab>
 		<EntityTab id="prforapprove">
 			<EntityTab id="PRPanelView" view="Longkong.Pojjaman.Gui.Panels.PRPanelView"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 		</EntityTab>
 		<EntityTab id="goodsreceipt">
 			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
@@ -73,6 +75,7 @@
 		</EntityTab>			
 		<EntityTab id="goodsreceiptforapprove">
 			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 		</EntityTab>		
 		<EntityTab id="supplier">
 			<EntityTab id="SupplierDetailView" view="Longkong.Pojjaman.Gui.Panels.SupplierDetailView"/>
