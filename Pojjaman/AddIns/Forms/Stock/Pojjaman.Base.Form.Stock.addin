@@ -25,6 +25,8 @@
     <EntityFilter id="equipmenttoolreturn" entity="equipmenttoolreturn" filter="Longkong.Pojjaman.Gui.Panels.EqtReturnFilterSubPanel"/>
     <EntityFilter id="equipmenttoolchangestatus" entity="equipmenttoolchangestatus" filter="Longkong.Pojjaman.Gui.Panels.EqtChangeStatusFilterSubPanel"/>
 
+    <EntityFilter id="toolforselection" entity="toolforselection" filter="Longkong.Pojjaman.Gui.Panels.ToolEquipmentFilterSubPanel"/>
+    <EntityFilter id="eqitemforselection" entity="eqitemforselection" filter="Longkong.Pojjaman.Gui.Panels.ToolEquipmentFilterSubPanel"/>
   </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="lciitem">
@@ -149,9 +151,9 @@
 		<EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	
 		<EntityListView id="lciitem" entity="lciitem" view="Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView"/>
 		<EntityListView id="lciforselection" entity="lciforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterMatListDetail"/>
-    <EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>
-    <EntityListView id="EqitemForSelection" entity="EqitemForSelection" view="Longkong.Pojjaman.Gui.Panels.EqiSelectionView"/>
-    
+    <!--<EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>
+    <EntityListView id="EqitemForSelection" entity="EqitemForSelection" view="Longkong.Pojjaman.Gui.Panels.EqiSelectionView"/>-->
+      
     <EntityListView id="stocksequence" entity="stocksequence" view="Longkong.Pojjaman.Gui.Panels.StockSequenceDetail"/>                                                                                                 
   </Extension>	
 </AddIn>

@@ -18,7 +18,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod, IWBSAllocatable
 
-
 #Region "Members"
     Private m_docDate As Date
     Private m_withdrawperson As Employee
@@ -244,22 +243,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.AssetWithdraw.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.AssetWithdraw"
+        Return "Icons.16x16.EquipmentToolWithdraw"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.AssetWithdraw"
+        Return "Icons.16x16.EquipmentToolWithdraw"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.AssetWithdraw.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -279,7 +278,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myDatatable As New TreeTable("EqtStockItem")
       ' Get from StockItem ...
       myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Type", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Type", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("eqtstocki_entity", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
@@ -1214,7 +1213,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_rentalqty As Integer
     Private m_rentalperday As Decimal
     Private m_amount As Decimal
-
+    Private m_pritem As PRItem
 
     Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
@@ -1244,6 +1243,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_eqtWithdraw.Id = deh.GetValue(Of Integer)("eqtstock_id")
           .m_eqtWithdraw.Code = deh.GetValue(Of String)("eqtstock_code")
           .m_eqtWithdraw.DocDate = deh.GetValue(Of Date)("eqtstock_docdate")
+
+          .m_pritem = New PRItem(dr, "")
         End If
 
         '' Sequence Refed to ...
@@ -1266,6 +1267,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+    Public Property PRItem As PRItem
+      Get
+        Return m_pritem
+      End Get
+      Set(ByVal value As PRItem)
+        m_pritem = value
+      End Set
+    End Property
     'Public Property InternalChargeCollection() As InternalChargeCollection    '  Get    '    If m_internalChargeCollection Is Nothing Then    '      m_internalChargeCollection = New InternalChargeCollection(Me)
     '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
 
@@ -1373,19 +1382,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Try
         Me.EquipmentToolWithdraw.IsInitialized = False
-        Dim rpd As Decimal = 0
-        Dim rentrate As Decimal = 0
+        'Dim rpd As Decimal = 0
+        'Dim rentrate As Decimal = 0
         row("Linenumber") = Me.LineNumber
         row("Type") = Me.ItemType.Value
         If Not Me.Entity Is Nothing Then
           row("eqtstocki_entity") = Me.Entity.Id
           row("Code") = Me.Entity.Code
           row("Name") = Me.Entity.Name
-          If Not Me.Entity.Unit Is Nothing Then
-            Me.Unit = Me.Entity.Unit
-            row("UnitName") = Me.Entity.Unit.Name
-          End If
-          rentrate = Me.Entity.RentalRate
+          'If Not Me.Entity.Unit Is Nothing Then
+          '  Me.Unit = Me.Entity.Unit
+          '  row("UnitName") = Me.Entity.Unit.Name
+          'End If
+          'rentrate = Me.Entity.RentalRate
+        End If
+        If Not Me.Unit Is Nothing Then
+          row("UnitName") = Me.Unit.Name
         End If
 
         'row("Name") = Me.name
@@ -1399,14 +1411,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("QTY") = ""
         End If
-        rpd = rentrate * Me.Qty
-        If Me.RentalPerDay <> 0 And rpd <> 0 Then
-          If Me.RentalPerDay <> 0 Then
-            row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
-          Else
-            row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
-            Me.RentalPerDay = rpd
-          End If
+        'rpd = rentrate * Me.Qty
+        'If Me.RentalPerDay <> 0 And rpd <> 0 Then
+        If Me.RentalPerDay <> 0 Then
+          row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
+          'Else
+          '  row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
+          '  Me.RentalPerDay = rpd
+          'End If
         Else
           row("RentalPerDay") = ""
         End If
@@ -1612,16 +1624,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
-    Public Sub Populate(ByVal dt As TreeTable)
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
-      Dim i As Integer = 0
-      For Each gri As EquipmentToolWithdrawItem In Me
-        i += 1
-        Dim newRow As TreeRow = dt.Childs.Add()
-        gri.CopyToDataRow(newRow)
-        gri.ItemValidateRow(newRow)
-        newRow.Tag = gri
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim noPRText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
+      Dim prRowHash As New Hashtable
+      Dim parRow As TreeRow = Nothing
+
+      If Me.List.Count = 0 Then
+        parRow = dt.Childs.Add()
+        'parRow.CustomFontStyle = FontStyle.Bold
+        parRow("Type") = noPRText
+        parRow("Button") = ""
+        parRow.State = RowExpandState.Expanded
+        prRowHash(0) = parRow
+      End If
+
+      For Each eqi As EquipmentToolWithdrawItem In Me
+        parRow = Nothing
+
+        If Not eqi.PRItem Is Nothing AndAlso Not eqi.PRItem.Pr Is Nothing AndAlso eqi.PRItem.Pr.Originated Then
+          If Not prRowHash.Contains(eqi.PRItem.Pr.Id) Then
+            parRow = dt.Childs.Add()
+            'parRow.CustomFontStyle = FontStyle.Bold
+            parRow("Type") = eqi.PRItem.Pr.Code
+            parRow("Button") = ""
+            parRow.State = RowExpandState.Expanded
+            prRowHash(eqi.PRItem.Pr.Id) = parRow
+          Else
+            parRow = CType(prRowHash(eqi.PRItem.Pr.Id), TreeRow)
+          End If
+        Else
+          If Not prRowHash.Contains(0) Then
+            'parRow.CustomFontStyle = FontStyle.Bold
+            parRow = dt.Childs.Add()
+            parRow("Type") = noPRText
+            parRow("Button") = ""
+            parRow.State = RowExpandState.Expanded
+            prRowHash(0) = parRow
+          Else
+            parRow = CType(prRowHash(0), TreeRow)
+          End If
+        End If
+
+        If Not parRow Is Nothing Then
+          Dim newRow As TreeRow = parRow.Childs.Add()
+          eqi.CopyToDataRow(newRow)
+          eqi.ItemValidateRow(newRow)
+          newRow.Tag = eqi
+        End If
+
       Next
+      dt.AcceptChanges()
+
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("Code")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+
+      End Try
+
       dt.AcceptChanges()
     End Sub
 #End Region

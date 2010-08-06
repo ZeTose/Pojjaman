@@ -36,16 +36,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents TxtToollotBuycost As System.Windows.Forms.TextBox
     Friend WithEvents Grbeqi As System.Windows.Forms.GroupBox
     Friend WithEvents TxtToollotbrand As System.Windows.Forms.TextBox
-    Friend WithEvents lblDocnum As System.Windows.Forms.Label
+    Friend WithEvents lblRefDoc As System.Windows.Forms.Label
     Friend WithEvents txtToollotbuydoccode As System.Windows.Forms.TextBox
-    Friend WithEvents lblBuydocdate As System.Windows.Forms.Label
+    Friend WithEvents lblRefDocDate As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Public WithEvents lv As Longkong.Pojjaman.Gui.Components.PJMListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents txtDescription As System.Windows.Forms.TextBox
     Friend WithEvents lblBrand As System.Windows.Forms.Label
-    Friend WithEvents lblBuycost As System.Windows.Forms.Label
+    Friend WithEvents lblRefDocAmount As System.Windows.Forms.Label
     Friend WithEvents lblDescription As System.Windows.Forms.Label
     Friend WithEvents lblToolCode As System.Windows.Forms.Label
     Friend WithEvents lblToolName As System.Windows.Forms.Label
@@ -54,15 +54,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents picImage As System.Windows.Forms.PictureBox
     Friend WithEvents txtAssetName As System.Windows.Forms.TextBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents lblAsset As System.Windows.Forms.Label
     Friend WithEvents btnAssetFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtToollotBuyQTY As System.Windows.Forms.TextBox
     Friend WithEvents txtToollotRemainQTY As System.Windows.Forms.TextBox
     Friend WithEvents txtToollotRemainCost As System.Windows.Forms.TextBox
     Friend WithEvents txtToollotUnitCost As System.Windows.Forms.TextBox
     Friend WithEvents lblRemianQTY As System.Windows.Forms.Label
-    Friend WithEvents lblRemainCost As System.Windows.Forms.Label
-    Friend WithEvents lblBuyQTY As System.Windows.Forms.Label
+    Friend WithEvents lblRefDocUnitCost As System.Windows.Forms.Label
+    Friend WithEvents lblRefDocQty As System.Windows.Forms.Label
     Friend WithEvents lblUnitCost As System.Windows.Forms.Label
     Friend WithEvents txtToollotWriteOff As System.Windows.Forms.TextBox
     Friend WithEvents lblWriteOff As System.Windows.Forms.Label
@@ -76,9 +76,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents IbtnAddRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAssetCode As System.Windows.Forms.TextBox
     Friend WithEvents btnAddNew As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtReference As System.Windows.Forms.TextBox
+    Friend WithEvents lblReference As System.Windows.Forms.Label
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolLotDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.btnAddNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -98,14 +99,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotBuyDate = New System.Windows.Forms.TextBox()
       Me.txtToollotWriteOff = New System.Windows.Forms.TextBox()
       Me.txtToollotRemainQTY = New System.Windows.Forms.TextBox()
+      Me.txtReference = New System.Windows.Forms.TextBox()
       Me.txtToollotRemainCost = New System.Windows.Forms.TextBox()
       Me.txtToollotUnitCost = New System.Windows.Forms.TextBox()
       Me.txtDescription = New System.Windows.Forms.TextBox()
       Me.lblBrand = New System.Windows.Forms.Label()
       Me.lblWriteOff = New System.Windows.Forms.Label()
+      Me.lblReference = New System.Windows.Forms.Label()
       Me.lblRemianQTY = New System.Windows.Forms.Label()
-      Me.lblRemainCost = New System.Windows.Forms.Label()
-      Me.lblBuyQTY = New System.Windows.Forms.Label()
+      Me.lblRefDocUnitCost = New System.Windows.Forms.Label()
+      Me.lblRefDocQty = New System.Windows.Forms.Label()
       Me.lblUnitCost = New System.Windows.Forms.Label()
       Me.lblDescription = New System.Windows.Forms.Label()
       Me.btnLoadImage = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -116,18 +119,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblToollotCode = New System.Windows.Forms.Label()
-      Me.lblBuycost = New System.Windows.Forms.Label()
-      Me.lblBuydocdate = New System.Windows.Forms.Label()
+      Me.lblRefDocAmount = New System.Windows.Forms.Label()
+      Me.lblRefDocDate = New System.Windows.Forms.Label()
       Me.txtToollotbuydoccode = New System.Windows.Forms.TextBox()
-      Me.Label3 = New System.Windows.Forms.Label()
-      Me.lblDocnum = New System.Windows.Forms.Label()
+      Me.lblAsset = New System.Windows.Forms.Label()
+      Me.lblRefDoc = New System.Windows.Forms.Label()
       Me.btnAssetFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtAssetName = New System.Windows.Forms.TextBox()
       Me.txtAssetCode = New System.Windows.Forms.TextBox()
       Me.TxtToollotBuycost = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
       Me.grbDetail.SuspendLayout()
       Me.Grbeqi.SuspendLayout()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -153,7 +156,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(1046, 746)
+      Me.grbDetail.Size = New System.Drawing.Size(995, 634)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ชื่อเครื่องจักร :"
@@ -162,7 +165,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnAddNew.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnAddNew.Location = New System.Drawing.Point(111, 80)
+      Me.btnAddNew.Location = New System.Drawing.Point(117, 68)
       Me.btnAddNew.Name = "btnAddNew"
       Me.btnAddNew.Size = New System.Drawing.Size(40, 24)
       Me.btnAddNew.TabIndex = 345
@@ -175,7 +178,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'IbtnAddRow
       '
       Me.IbtnAddRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.IbtnAddRow.Location = New System.Drawing.Point(187, 80)
+      Me.IbtnAddRow.Location = New System.Drawing.Point(160, 68)
       Me.IbtnAddRow.Name = "IbtnAddRow"
       Me.IbtnAddRow.Size = New System.Drawing.Size(24, 24)
       Me.IbtnAddRow.TabIndex = 344
@@ -189,14 +192,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotCode.Enabled = False
       Me.Validator.SetGotFocusBackColor(Me.txtToollotCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotCode, System.Drawing.Color.Empty)
-      Me.txtToollotCode.Location = New System.Drawing.Point(111, 22)
+      Me.txtToollotCode.Location = New System.Drawing.Point(117, 21)
       Me.Validator.SetMinValue(Me.txtToollotCode, "")
       Me.txtToollotCode.Name = "txtToollotCode"
       Me.txtToollotCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotCode, "")
       Me.Validator.SetRequired(Me.txtToollotCode, False)
-      Me.txtToollotCode.Size = New System.Drawing.Size(117, 21)
-      Me.txtToollotCode.TabIndex = 341
+      Me.txtToollotCode.Size = New System.Drawing.Size(139, 21)
+      Me.txtToollotCode.TabIndex = 0
       '
       'TxtToollotName
       '
@@ -205,19 +208,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtToollotName.Enabled = False
       Me.Validator.SetGotFocusBackColor(Me.TxtToollotName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.TxtToollotName, System.Drawing.Color.Empty)
-      Me.TxtToollotName.Location = New System.Drawing.Point(111, 53)
+      Me.TxtToollotName.Location = New System.Drawing.Point(117, 44)
       Me.Validator.SetMinValue(Me.TxtToollotName, "")
       Me.TxtToollotName.Name = "TxtToollotName"
       Me.TxtToollotName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.TxtToollotName, "")
       Me.Validator.SetRequired(Me.TxtToollotName, False)
-      Me.TxtToollotName.Size = New System.Drawing.Size(287, 21)
-      Me.TxtToollotName.TabIndex = 343
+      Me.TxtToollotName.Size = New System.Drawing.Size(314, 21)
+      Me.TxtToollotName.TabIndex = 1
       '
       'btnDel
       '
       Me.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnDel.Location = New System.Drawing.Point(157, 80)
+      Me.btnDel.Location = New System.Drawing.Point(184, 68)
       Me.btnDel.Name = "btnDel"
       Me.btnDel.Size = New System.Drawing.Size(24, 24)
       Me.btnDel.TabIndex = 342
@@ -228,9 +231,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblToolCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToolCode.ForeColor = System.Drawing.Color.Black
-      Me.lblToolCode.Location = New System.Drawing.Point(-1, 22)
+      Me.lblToolCode.Location = New System.Drawing.Point(6, 22)
       Me.lblToolCode.Name = "lblToolCode"
-      Me.lblToolCode.Size = New System.Drawing.Size(106, 23)
+      Me.lblToolCode.Size = New System.Drawing.Size(107, 18)
       Me.lblToolCode.TabIndex = 334
       Me.lblToolCode.Text = "รหัสชนิดเครื่องมือ :"
       Me.lblToolCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -239,9 +242,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblToolName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToolName.ForeColor = System.Drawing.Color.Black
-      Me.lblToolName.Location = New System.Drawing.Point(6, 56)
+      Me.lblToolName.Location = New System.Drawing.Point(6, 45)
       Me.lblToolName.Name = "lblToolName"
-      Me.lblToolName.Size = New System.Drawing.Size(99, 18)
+      Me.lblToolName.Size = New System.Drawing.Size(107, 18)
       Me.lblToolName.TabIndex = 337
       Me.lblToolName.Text = "ชื่อชนิดเครื่องมือ :"
       Me.lblToolName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -257,9 +260,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lv.GridLines = True
       Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
       Me.lv.HideSelection = False
-      Me.lv.Location = New System.Drawing.Point(6, 108)
+      Me.lv.Location = New System.Drawing.Point(6, 95)
       Me.lv.Name = "lv"
-      Me.lv.Size = New System.Drawing.Size(399, 624)
+      Me.lv.Size = New System.Drawing.Size(425, 531)
       Me.lv.SortIndex = -1
       Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lv.TabIndex = 323
@@ -298,14 +301,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.Controls.Add(Me.txtToollotBuyDate)
       Me.Grbeqi.Controls.Add(Me.txtToollotWriteOff)
       Me.Grbeqi.Controls.Add(Me.txtToollotRemainQTY)
+      Me.Grbeqi.Controls.Add(Me.txtReference)
       Me.Grbeqi.Controls.Add(Me.txtToollotRemainCost)
       Me.Grbeqi.Controls.Add(Me.txtToollotUnitCost)
       Me.Grbeqi.Controls.Add(Me.txtDescription)
       Me.Grbeqi.Controls.Add(Me.lblBrand)
       Me.Grbeqi.Controls.Add(Me.lblWriteOff)
+      Me.Grbeqi.Controls.Add(Me.lblReference)
       Me.Grbeqi.Controls.Add(Me.lblRemianQTY)
-      Me.Grbeqi.Controls.Add(Me.lblRemainCost)
-      Me.Grbeqi.Controls.Add(Me.lblBuyQTY)
+      Me.Grbeqi.Controls.Add(Me.lblRefDocUnitCost)
+      Me.Grbeqi.Controls.Add(Me.lblRefDocQty)
       Me.Grbeqi.Controls.Add(Me.lblUnitCost)
       Me.Grbeqi.Controls.Add(Me.lblDescription)
       Me.Grbeqi.Controls.Add(Me.btnLoadImage)
@@ -316,19 +321,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.Controls.Add(Me.cmbCode)
       Me.Grbeqi.Controls.Add(Me.chkAutorun)
       Me.Grbeqi.Controls.Add(Me.lblToollotCode)
-      Me.Grbeqi.Controls.Add(Me.lblBuycost)
-      Me.Grbeqi.Controls.Add(Me.lblBuydocdate)
+      Me.Grbeqi.Controls.Add(Me.lblRefDocAmount)
+      Me.Grbeqi.Controls.Add(Me.lblRefDocDate)
       Me.Grbeqi.Controls.Add(Me.txtToollotbuydoccode)
-      Me.Grbeqi.Controls.Add(Me.Label3)
-      Me.Grbeqi.Controls.Add(Me.lblDocnum)
+      Me.Grbeqi.Controls.Add(Me.lblAsset)
+      Me.Grbeqi.Controls.Add(Me.lblRefDoc)
       Me.Grbeqi.Controls.Add(Me.btnAssetFind)
       Me.Grbeqi.Controls.Add(Me.txtAssetName)
       Me.Grbeqi.Controls.Add(Me.txtAssetCode)
       Me.Grbeqi.Controls.Add(Me.TxtToollotBuycost)
-      Me.Grbeqi.Location = New System.Drawing.Point(412, 101)
+      Me.Grbeqi.Location = New System.Drawing.Point(438, 88)
       Me.Grbeqi.Name = "Grbeqi"
-      Me.Grbeqi.Size = New System.Drawing.Size(628, 631)
-      Me.Grbeqi.TabIndex = 0
+      Me.Grbeqi.Size = New System.Drawing.Size(548, 539)
+      Me.Grbeqi.TabIndex = 2
       Me.Grbeqi.TabStop = False
       Me.Grbeqi.Text = "รายละเอียดเครื่องจักรรายตัว"
       '
@@ -338,13 +343,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotBuyQTY, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotBuyQTY, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotBuyQTY, System.Drawing.Color.Empty)
-      Me.txtToollotBuyQTY.Location = New System.Drawing.Point(134, 182)
+      Me.txtToollotBuyQTY.Location = New System.Drawing.Point(134, 116)
       Me.Validator.SetMinValue(Me.txtToollotBuyQTY, "")
       Me.txtToollotBuyQTY.Name = "txtToollotBuyQTY"
+      Me.txtToollotBuyQTY.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotBuyQTY, "")
       Me.Validator.SetRequired(Me.txtToollotBuyQTY, False)
       Me.txtToollotBuyQTY.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotBuyQTY.TabIndex = 6
+      Me.txtToollotBuyQTY.TabIndex = 4
       Me.txtToollotBuyQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotBuyDate
@@ -353,7 +359,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotBuyDate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotBuyDate, System.Drawing.Color.Empty)
-      Me.txtToollotBuyDate.Location = New System.Drawing.Point(134, 101)
+      Me.txtToollotBuyDate.Location = New System.Drawing.Point(134, 92)
       Me.Validator.SetMinValue(Me.txtToollotBuyDate, "")
       Me.txtToollotBuyDate.Name = "txtToollotBuyDate"
       Me.txtToollotBuyDate.ReadOnly = True
@@ -361,7 +367,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtToollotBuyDate, False)
       Me.txtToollotBuyDate.Size = New System.Drawing.Size(112, 21)
       Me.txtToollotBuyDate.TabIndex = 3
-      Me.txtToollotBuyDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotWriteOff
       '
@@ -369,14 +374,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotWriteOff, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotWriteOff, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotWriteOff, System.Drawing.Color.Empty)
-      Me.txtToollotWriteOff.Location = New System.Drawing.Point(134, 263)
+      Me.txtToollotWriteOff.Location = New System.Drawing.Point(134, 310)
       Me.Validator.SetMinValue(Me.txtToollotWriteOff, "")
       Me.txtToollotWriteOff.Name = "txtToollotWriteOff"
       Me.txtToollotWriteOff.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotWriteOff, "")
       Me.Validator.SetRequired(Me.txtToollotWriteOff, False)
       Me.txtToollotWriteOff.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotWriteOff.TabIndex = 9
+      Me.txtToollotWriteOff.TabIndex = 12
       Me.txtToollotWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotRemainQTY
@@ -385,14 +390,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotRemainQTY, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotRemainQTY, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotRemainQTY, System.Drawing.Color.Empty)
-      Me.txtToollotRemainQTY.Location = New System.Drawing.Point(134, 209)
+      Me.txtToollotRemainQTY.Location = New System.Drawing.Point(134, 188)
       Me.Validator.SetMinValue(Me.txtToollotRemainQTY, "")
       Me.txtToollotRemainQTY.Name = "txtToollotRemainQTY"
       Me.Validator.SetRegularExpression(Me.txtToollotRemainQTY, "")
       Me.Validator.SetRequired(Me.txtToollotRemainQTY, False)
       Me.txtToollotRemainQTY.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotRemainQTY.TabIndex = 7
+      Me.txtToollotRemainQTY.TabIndex = 8
       Me.txtToollotRemainQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtReference
+      '
+      Me.Validator.SetDataType(Me.txtReference, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReference, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReference, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReference, System.Drawing.Color.Empty)
+      Me.txtReference.Location = New System.Drawing.Point(134, 334)
+      Me.Validator.SetMinValue(Me.txtReference, "")
+      Me.txtReference.Name = "txtReference"
+      Me.txtReference.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReference, "")
+      Me.Validator.SetRequired(Me.txtReference, False)
+      Me.txtReference.Size = New System.Drawing.Size(254, 21)
+      Me.txtReference.TabIndex = 13
       '
       'txtToollotRemainCost
       '
@@ -400,14 +420,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotRemainCost, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotRemainCost, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotRemainCost, System.Drawing.Color.Empty)
-      Me.txtToollotRemainCost.Location = New System.Drawing.Point(134, 290)
+      Me.txtToollotRemainCost.Location = New System.Drawing.Point(134, 140)
       Me.Validator.SetMinValue(Me.txtToollotRemainCost, "")
       Me.txtToollotRemainCost.Name = "txtToollotRemainCost"
       Me.txtToollotRemainCost.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotRemainCost, "")
       Me.Validator.SetRequired(Me.txtToollotRemainCost, False)
       Me.txtToollotRemainCost.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotRemainCost.TabIndex = 10
+      Me.txtToollotRemainCost.TabIndex = 7
       Me.txtToollotRemainCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotUnitCost
@@ -416,13 +436,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToollotUnitCost, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToollotUnitCost, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotUnitCost, System.Drawing.Color.Empty)
-      Me.txtToollotUnitCost.Location = New System.Drawing.Point(134, 155)
+      Me.txtToollotUnitCost.Location = New System.Drawing.Point(134, 212)
       Me.Validator.SetMinValue(Me.txtToollotUnitCost, "")
       Me.txtToollotUnitCost.Name = "txtToollotUnitCost"
       Me.Validator.SetRegularExpression(Me.txtToollotUnitCost, "")
       Me.Validator.SetRequired(Me.txtToollotUnitCost, False)
       Me.txtToollotUnitCost.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotUnitCost.TabIndex = 5
+      Me.txtToollotUnitCost.TabIndex = 9
       Me.txtToollotUnitCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtDescription
@@ -433,7 +453,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDescription, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDescription, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDescription, System.Drawing.Color.Empty)
-      Me.txtDescription.Location = New System.Drawing.Point(134, 317)
+      Me.txtDescription.Location = New System.Drawing.Point(134, 260)
       Me.txtDescription.MaxLength = 255
       Me.Validator.SetMinValue(Me.txtDescription, "")
       Me.txtDescription.Multiline = True
@@ -441,7 +461,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtDescription, "")
       Me.Validator.SetRequired(Me.txtDescription, False)
       Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-      Me.txtDescription.Size = New System.Drawing.Size(248, 47)
+      Me.txtDescription.Size = New System.Drawing.Size(254, 47)
       Me.txtDescription.TabIndex = 11
       Me.txtDescription.TabStop = False
       '
@@ -449,9 +469,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBrand.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBrand.ForeColor = System.Drawing.Color.Black
-      Me.lblBrand.Location = New System.Drawing.Point(67, 128)
+      Me.lblBrand.Location = New System.Drawing.Point(6, 239)
       Me.lblBrand.Name = "lblBrand"
-      Me.lblBrand.Size = New System.Drawing.Size(64, 18)
+      Me.lblBrand.Size = New System.Drawing.Size(125, 18)
       Me.lblBrand.TabIndex = 4
       Me.lblBrand.Text = "Brand :"
       Me.lblBrand.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -460,53 +480,64 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblWriteOff.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblWriteOff.ForeColor = System.Drawing.Color.Black
-      Me.lblWriteOff.Location = New System.Drawing.Point(68, 261)
+      Me.lblWriteOff.Location = New System.Drawing.Point(5, 311)
       Me.lblWriteOff.Name = "lblWriteOff"
-      Me.lblWriteOff.Size = New System.Drawing.Size(63, 23)
+      Me.lblWriteOff.Size = New System.Drawing.Size(125, 18)
       Me.lblWriteOff.TabIndex = 5
       Me.lblWriteOff.Text = "Wirte Off  :"
       Me.lblWriteOff.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblReference
+      '
+      Me.lblReference.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblReference.ForeColor = System.Drawing.Color.Black
+      Me.lblReference.Location = New System.Drawing.Point(5, 336)
+      Me.lblReference.Name = "lblReference"
+      Me.lblReference.Size = New System.Drawing.Size(125, 18)
+      Me.lblReference.TabIndex = 5
+      Me.lblReference.Text = "Reference :"
+      Me.lblReference.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblRemianQTY
       '
       Me.lblRemianQTY.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblRemianQTY.ForeColor = System.Drawing.Color.Black
-      Me.lblRemianQTY.Location = New System.Drawing.Point(33, 207)
+      Me.lblRemianQTY.Location = New System.Drawing.Point(5, 191)
       Me.lblRemianQTY.Name = "lblRemianQTY"
-      Me.lblRemianQTY.Size = New System.Drawing.Size(98, 23)
+      Me.lblRemianQTY.Size = New System.Drawing.Size(125, 18)
       Me.lblRemianQTY.TabIndex = 5
       Me.lblRemianQTY.Text = "Remain quantity  :"
       Me.lblRemianQTY.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblRemainCost
+      'lblRefDocUnitCost
       '
-      Me.lblRemainCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRemainCost.ForeColor = System.Drawing.Color.Black
-      Me.lblRemainCost.Location = New System.Drawing.Point(52, 288)
-      Me.lblRemainCost.Name = "lblRemainCost"
-      Me.lblRemainCost.Size = New System.Drawing.Size(79, 23)
-      Me.lblRemainCost.TabIndex = 5
-      Me.lblRemainCost.Text = "Remain Cost :"
-      Me.lblRemainCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRefDocUnitCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRefDocUnitCost.ForeColor = System.Drawing.Color.Black
+      Me.lblRefDocUnitCost.Location = New System.Drawing.Point(5, 141)
+      Me.lblRefDocUnitCost.Name = "lblRefDocUnitCost"
+      Me.lblRefDocUnitCost.Size = New System.Drawing.Size(125, 18)
+      Me.lblRefDocUnitCost.TabIndex = 5
+      Me.lblRefDocUnitCost.Text = "Remain Cost :"
+      Me.lblRefDocUnitCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblBuyQTY
+      'lblRefDocQty
       '
-      Me.lblBuyQTY.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBuyQTY.ForeColor = System.Drawing.Color.Black
-      Me.lblBuyQTY.Location = New System.Drawing.Point(51, 180)
-      Me.lblBuyQTY.Name = "lblBuyQTY"
-      Me.lblBuyQTY.Size = New System.Drawing.Size(80, 23)
-      Me.lblBuyQTY.TabIndex = 5
-      Me.lblBuyQTY.Text = "Buy quantity :"
-      Me.lblBuyQTY.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRefDocQty.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRefDocQty.ForeColor = System.Drawing.Color.Black
+      Me.lblRefDocQty.Location = New System.Drawing.Point(5, 117)
+      Me.lblRefDocQty.Name = "lblRefDocQty"
+      Me.lblRefDocQty.Size = New System.Drawing.Size(125, 18)
+      Me.lblRefDocQty.TabIndex = 5
+      Me.lblRefDocQty.Text = "Buy quantity :"
+      Me.lblRefDocQty.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblUnitCost
       '
       Me.lblUnitCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblUnitCost.ForeColor = System.Drawing.Color.Black
-      Me.lblUnitCost.Location = New System.Drawing.Point(59, 153)
+      Me.lblUnitCost.Location = New System.Drawing.Point(4, 215)
       Me.lblUnitCost.Name = "lblUnitCost"
-      Me.lblUnitCost.Size = New System.Drawing.Size(72, 23)
+      Me.lblUnitCost.Size = New System.Drawing.Size(125, 18)
       Me.lblUnitCost.TabIndex = 5
       Me.lblUnitCost.Text = "Unit Cost :"
       Me.lblUnitCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -515,9 +546,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDescription.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDescription.ForeColor = System.Drawing.Color.Black
-      Me.lblDescription.Location = New System.Drawing.Point(59, 330)
+      Me.lblDescription.Location = New System.Drawing.Point(5, 263)
       Me.lblDescription.Name = "lblDescription"
-      Me.lblDescription.Size = New System.Drawing.Size(72, 23)
+      Me.lblDescription.Size = New System.Drawing.Size(125, 18)
       Me.lblDescription.TabIndex = 5
       Me.lblDescription.Text = "Description :"
       Me.lblDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -527,7 +558,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnLoadImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnLoadImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnLoadImage.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnLoadImage.Location = New System.Drawing.Point(543, 15)
+      Me.btnLoadImage.Location = New System.Drawing.Point(489, 155)
       Me.btnLoadImage.Name = "btnLoadImage"
       Me.btnLoadImage.Size = New System.Drawing.Size(24, 23)
       Me.btnLoadImage.TabIndex = 204
@@ -538,7 +569,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnClearImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnClearImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearImage.Location = New System.Drawing.Point(543, 41)
+      Me.btnClearImage.Location = New System.Drawing.Point(515, 155)
       Me.btnClearImage.Name = "btnClearImage"
       Me.btnClearImage.Size = New System.Drawing.Size(24, 23)
       Me.btnClearImage.TabIndex = 205
@@ -548,7 +579,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblPicSize
       '
       Me.lblPicSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.lblPicSize.Location = New System.Drawing.Point(422, 64)
+      Me.lblPicSize.Location = New System.Drawing.Point(422, 69)
       Me.lblPicSize.Name = "lblPicSize"
       Me.lblPicSize.Size = New System.Drawing.Size(100, 23)
       Me.lblPicSize.TabIndex = 206
@@ -558,7 +589,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'picImage
       '
       Me.picImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.picImage.Location = New System.Drawing.Point(396, 15)
+      Me.picImage.Location = New System.Drawing.Point(396, 20)
       Me.picImage.Name = "picImage"
       Me.picImage.Size = New System.Drawing.Size(143, 129)
       Me.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -571,13 +602,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.TxtToollotbrand, "")
       Me.Validator.SetGotFocusBackColor(Me.TxtToollotbrand, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.TxtToollotbrand, System.Drawing.Color.Empty)
-      Me.TxtToollotbrand.Location = New System.Drawing.Point(134, 128)
+      Me.TxtToollotbrand.Location = New System.Drawing.Point(134, 236)
       Me.Validator.SetMinValue(Me.TxtToollotbrand, "")
       Me.TxtToollotbrand.Name = "TxtToollotbrand"
       Me.Validator.SetRegularExpression(Me.TxtToollotbrand, "")
       Me.Validator.SetRequired(Me.TxtToollotbrand, False)
       Me.TxtToollotbrand.Size = New System.Drawing.Size(112, 21)
-      Me.TxtToollotbrand.TabIndex = 4
+      Me.TxtToollotbrand.TabIndex = 10
       '
       'cmbCode
       '
@@ -590,7 +621,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(280, 20)
+      Me.chkAutorun.Location = New System.Drawing.Point(280, 19)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 334
@@ -600,34 +631,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblToollotCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToollotCode.ForeColor = System.Drawing.Color.Black
-      Me.lblToollotCode.Location = New System.Drawing.Point(97, 20)
+      Me.lblToollotCode.Location = New System.Drawing.Point(5, 22)
       Me.lblToollotCode.Name = "lblToollotCode"
-      Me.lblToollotCode.Size = New System.Drawing.Size(34, 23)
+      Me.lblToollotCode.Size = New System.Drawing.Size(125, 18)
       Me.lblToollotCode.TabIndex = 0
       Me.lblToollotCode.Text = "รหัส :"
       Me.lblToollotCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblBuycost
+      'lblRefDocAmount
       '
-      Me.lblBuycost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBuycost.ForeColor = System.Drawing.Color.Black
-      Me.lblBuycost.Location = New System.Drawing.Point(67, 236)
-      Me.lblBuycost.Name = "lblBuycost"
-      Me.lblBuycost.Size = New System.Drawing.Size(64, 18)
-      Me.lblBuycost.TabIndex = 4
-      Me.lblBuycost.Text = "มูลค่าซื้อ :"
-      Me.lblBuycost.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRefDocAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRefDocAmount.ForeColor = System.Drawing.Color.Black
+      Me.lblRefDocAmount.Location = New System.Drawing.Point(5, 165)
+      Me.lblRefDocAmount.Name = "lblRefDocAmount"
+      Me.lblRefDocAmount.Size = New System.Drawing.Size(125, 18)
+      Me.lblRefDocAmount.TabIndex = 4
+      Me.lblRefDocAmount.Text = "มูลค่าซื้อ :"
+      Me.lblRefDocAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblBuydocdate
+      'lblRefDocDate
       '
-      Me.lblBuydocdate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBuydocdate.ForeColor = System.Drawing.Color.Black
-      Me.lblBuydocdate.Location = New System.Drawing.Point(19, 99)
-      Me.lblBuydocdate.Name = "lblBuydocdate"
-      Me.lblBuydocdate.Size = New System.Drawing.Size(112, 23)
-      Me.lblBuydocdate.TabIndex = 5
-      Me.lblBuydocdate.Text = "วันที่ซื้อในเอกสาร :"
-      Me.lblBuydocdate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRefDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRefDocDate.ForeColor = System.Drawing.Color.Black
+      Me.lblRefDocDate.Location = New System.Drawing.Point(5, 94)
+      Me.lblRefDocDate.Name = "lblRefDocDate"
+      Me.lblRefDocDate.Size = New System.Drawing.Size(125, 18)
+      Me.lblRefDocDate.TabIndex = 5
+      Me.lblRefDocDate.Text = "วันที่ซื้อในเอกสาร :"
+      Me.lblRefDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtToollotbuydoccode
       '
@@ -636,7 +667,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotbuydoccode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtToollotbuydoccode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToollotbuydoccode, System.Drawing.Color.Empty)
-      Me.txtToollotbuydoccode.Location = New System.Drawing.Point(134, 74)
+      Me.txtToollotbuydoccode.Location = New System.Drawing.Point(134, 68)
       Me.Validator.SetMinValue(Me.txtToollotbuydoccode, "")
       Me.txtToollotbuydoccode.Name = "txtToollotbuydoccode"
       Me.txtToollotbuydoccode.ReadOnly = True
@@ -645,34 +676,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotbuydoccode.Size = New System.Drawing.Size(112, 21)
       Me.txtToollotbuydoccode.TabIndex = 2
       '
-      'Label3
+      'lblAsset
       '
-      Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label3.ForeColor = System.Drawing.Color.Black
-      Me.Label3.Location = New System.Drawing.Point(76, 47)
-      Me.Label3.Name = "Label3"
-      Me.Label3.Size = New System.Drawing.Size(55, 23)
-      Me.Label3.TabIndex = 0
-      Me.Label3.Text = "สินทรัพย์ :"
-      Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblAsset.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAsset.ForeColor = System.Drawing.Color.Black
+      Me.lblAsset.Location = New System.Drawing.Point(5, 46)
+      Me.lblAsset.Name = "lblAsset"
+      Me.lblAsset.Size = New System.Drawing.Size(125, 18)
+      Me.lblAsset.TabIndex = 0
+      Me.lblAsset.Text = "สินทรัพย์ :"
+      Me.lblAsset.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'lblDocnum
+      'lblRefDoc
       '
-      Me.lblDocnum.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocnum.ForeColor = System.Drawing.Color.Black
-      Me.lblDocnum.Location = New System.Drawing.Point(19, 72)
-      Me.lblDocnum.Name = "lblDocnum"
-      Me.lblDocnum.Size = New System.Drawing.Size(112, 23)
-      Me.lblDocnum.TabIndex = 3
-      Me.lblDocnum.Text = "เลขที่เอกสารซื้อ :"
-      Me.lblDocnum.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRefDoc.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRefDoc.ForeColor = System.Drawing.Color.Black
+      Me.lblRefDoc.Location = New System.Drawing.Point(5, 70)
+      Me.lblRefDoc.Name = "lblRefDoc"
+      Me.lblRefDoc.Size = New System.Drawing.Size(125, 18)
+      Me.lblRefDoc.TabIndex = 3
+      Me.lblRefDoc.Text = "เลขที่เอกสารซื้อ :"
+      Me.lblRefDoc.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnAssetFind
       '
       Me.btnAssetFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAssetFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAssetFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAssetFind.Location = New System.Drawing.Point(343, 45)
+      Me.btnAssetFind.Location = New System.Drawing.Point(364, 42)
       Me.btnAssetFind.Name = "btnAssetFind"
       Me.btnAssetFind.Size = New System.Drawing.Size(24, 23)
       Me.btnAssetFind.TabIndex = 340
@@ -686,13 +717,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssetName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtAssetName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAssetName, System.Drawing.Color.Empty)
-      Me.txtAssetName.Location = New System.Drawing.Point(221, 47)
+      Me.txtAssetName.Location = New System.Drawing.Point(220, 44)
       Me.Validator.SetMinValue(Me.txtAssetName, "")
       Me.txtAssetName.Name = "txtAssetName"
       Me.txtAssetName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAssetName, "")
       Me.Validator.SetRequired(Me.txtAssetName, False)
-      Me.txtAssetName.Size = New System.Drawing.Size(119, 21)
+      Me.txtAssetName.Size = New System.Drawing.Size(143, 21)
       Me.txtAssetName.TabIndex = 339
       Me.txtAssetName.TabStop = False
       '
@@ -703,7 +734,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssetCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtAssetCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAssetCode, System.Drawing.Color.Empty)
-      Me.txtAssetCode.Location = New System.Drawing.Point(134, 47)
+      Me.txtAssetCode.Location = New System.Drawing.Point(134, 44)
       Me.Validator.SetMinValue(Me.txtAssetCode, "")
       Me.txtAssetCode.Name = "txtAssetCode"
       Me.Validator.SetRegularExpression(Me.txtAssetCode, "")
@@ -717,13 +748,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.TxtToollotBuycost, "")
       Me.Validator.SetGotFocusBackColor(Me.TxtToollotBuycost, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.TxtToollotBuycost, System.Drawing.Color.Empty)
-      Me.TxtToollotBuycost.Location = New System.Drawing.Point(134, 236)
+      Me.TxtToollotBuycost.Location = New System.Drawing.Point(134, 164)
       Me.Validator.SetMinValue(Me.TxtToollotBuycost, "")
       Me.TxtToollotBuycost.Name = "TxtToollotBuycost"
+      Me.TxtToollotBuycost.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.TxtToollotBuycost, "")
       Me.Validator.SetRequired(Me.TxtToollotBuycost, False)
       Me.TxtToollotBuycost.Size = New System.Drawing.Size(112, 21)
-      Me.TxtToollotBuycost.TabIndex = 8
+      Me.TxtToollotBuycost.TabIndex = 6
       Me.TxtToollotBuycost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'Validator
@@ -743,7 +775,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "ToolLotDetailView"
-      Me.Size = New System.Drawing.Size(1062, 771)
+      Me.Size = New System.Drawing.Size(1010, 650)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.Grbeqi.ResumeLayout(False)
@@ -758,7 +790,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
-      'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
       'Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCode}")
       'Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
 
@@ -866,12 +898,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}")
 
       'Me.grbStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbStatus}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbDetail}")
-      'Me.grbCalcDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbCalcDetail}")
-      'Me.grbBuyDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbBuyDetail}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.grbDetail}") 'ข้อมูลเครื่องมือ
 
-      'Me.chkCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.chkCancel}")
-      'Me.chkDecay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.chkDecay}")
+      lblToolCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblToolCode}") 'รหัสเครื่องมือ :
+      Me.Validator.SetDisplayName(cmbCode, lblToolCode.Text)
+      lblToolName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblToolName}") 'ชื่อเครื่องมือ :
+      Grbeqi.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.Grbeqi}") 'รายละเอียด Lot เครื่องมือ
+      lblToollotCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblToollotCode}") 'Lot No. :
+
+      lblAsset.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblAsset}") 'สินทรัพย์ :
+      lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDoc}") 'เลขที่เอกสารซื้อ :
+      lblRefDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocDate}") 'วันที่เอกสารซื้อ :
+      lblRefDocQty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocQty}") 'จำนวนตามเอกสารซื้อ :
+      lblRefDocUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocUnitCost}") 'ต้นทุน/หน่วย :
+      lblRefDocAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocAmount}") 'มูลค่า :
+
+      lblRemianQTY.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRemianQTY}") 'จำนวนคงเหลือ :
+      lblUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblUnitCost}") 'ต้นทุนคงเหลือ :
+      lblBrand.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblBrand}") 'Brand :
+
+      lblDescription.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblDescription}") 'รายละเอียด :
+      lblWriteOff.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblWriteOff}") 'Write Off :
+      lblReference.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblReference}") 'สถานะถูกอ้างอิง :
 
 
     End Sub
@@ -903,6 +951,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
 #End Region
+
 #Region "Properties"
     Private ReadOnly Property CurrentTagItem() As ToolLot
       Get
@@ -946,6 +995,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End Get
     End Property
 #End Region
+
 #Region "Method"
 #Region "After the main entity has been saved"
     Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
@@ -1156,6 +1206,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RefreshData()
       Me.m_isInitialized = False
       Dim toollotitem As ToolLot = Me.CurrentTagItem
+      Me.ClearItemOnly()
       If Not toollotitem Is Nothing Then
         cmbCode.Text = toollotitem.Code
         Me.m_oldCode = toollotitem.Code
@@ -1230,7 +1281,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtToollotbuydoccode.Text = ""
         Else
           Me.txtToollotbuydoccode.Text = toollotitem.Buydoc.Code
-          Me.txtToollotBuyDate.Text = toollotitem.Buydate.ToShortDateString
+          If Not MinDateToNull(toollotitem.Buydate, "") = "" Then
+            Me.txtToollotBuyDate.Text = toollotitem.Buydate.ToShortDateString
+          Else
+            Me.txtToollotBuyDate.Text = ""
+          End If
           Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Cost)
         End If
 
@@ -1243,6 +1298,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End If
 
         Me.txtDescription.Text = toollotitem.Description
+
+        If toollotitem.IsReferenced Then
+          Me.txtReference.Text = Me.StringParserService.Parse("${res:Global.IsReferenced}")
+        End If
 
         'Dim lastEdited As String = ""
         'If Not toollotitem.LastEditor Is Nothing Then
@@ -1296,7 +1355,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If toollotitem.WriteOff <> 0 Then
           Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.WriteOff, DigitConfig.Price)
         Else
-          Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.Buyqty - toollotitem.RemainQTY, DigitConfig.Price) '(txtToollotBuyQTY.Text - txtToollotRemainQTY.Text, DigitConfig.Price)
+          Me.txtToollotWriteOff.Text = ""
         End If
 
         If toollotitem.RemainCost <> 0 Then
@@ -1324,7 +1383,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'lvItem.SubItems.Add(tl.Code)
         'lvItem.SubItems.Add(tl.Name)
         lvItem.SubItems.Add(Configuration.FormatToString(tl.Buyqty, DigitConfig.Qty))
-        lvItem.SubItems.Add(Configuration.FormatToString(tl.Buyqty - tl.RemainQTY, DigitConfig.Price)) 'WriteOff
+        lvItem.SubItems.Add(Configuration.FormatToString(tl.WriteOff, DigitConfig.Price))
         lvItem.SubItems.Add(Configuration.FormatToString(tl.RemainQTY, DigitConfig.Qty))
 
         'If Not eqi.CurrentStatus Is Nothing Then
@@ -1807,6 +1866,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '      'End Select
     '    End Sub
 #End Region
+
 #Region "Style"
     Public Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -1856,34 +1916,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-      ' Protected from ...
       If Me.m_entity.Canceled Then
         For Each crlt As Control In grbDetail.Controls
           crlt.Enabled = False
         Next
-        'For Each crlt As Control In grbStatus.Controls
-        '  crlt.Enabled = False
-        'Next
-        'grbCalcDetail.Enabled = False
-        'grbBuyDetail.Enabled = False
-        'chkCancel.Enabled = True
       Else
         For Each crlt As Control In grbDetail.Controls
           crlt.Enabled = True
         Next
-        ''For Each ctrl As Control In grbStatus.Controls
-        ''    ctrl.Enabled = True
-        ''Next
-        'grbCalcDetail.Enabled = True
-        'grbBuyDetail.Enabled = True
-        '' กำหนด columns ที่ต้องการ protect เมื่อมีการคำนวณค่าเสื่อม
-        'CheckIsDepreciated(Me.m_entity.IsDepreciated)
-
       End If
-
-      'SetValueFromAssetType()
     End Sub
-
+    Public Sub CheckToolLotEnable()
+      If Me.m_entity.ToolLot.IsReferenced Then
+        'For Each crlt As Control In grbDetail.Controls
+        '  crlt.Enabled = False
+        'Next
+        Grbeqi.Enabled = False
+        btnDel.Enabled = False
+      Else
+        Grbeqi.Enabled = True
+        btnDel.Enabled = True
+      End If
+    End Sub
     Public Sub ClearItemOnly()
       For Each ctrl As Control In Grbeqi.Controls
         If TypeOf ctrl Is TextBox Then
@@ -2048,7 +2102,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 #End Region
-
 
 #Region "IClipboardHandler Overrides"
     Public Overrides ReadOnly Property EnablePaste() As Boolean
@@ -2381,14 +2434,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = False
       'Me.RemoveEvent()
       If lv.SelectedItems.Count > 0 Then
-        If Me.m_entity.ToolLot.Id <> CType(lv.SelectedItems(0).Tag, ToolLot).Id Then
-          Me.m_entity.ToolLot = CType(lv.SelectedItems(0).Tag, ToolLot)
-          Dim eqi As ToolLot = Me.CurrentTagItem
-          Me.RefreshData()
-        End If
+        'If Me.m_entity.ToolLot.Id <> CType(lv.SelectedItems(0).Tag, ToolLot).Id Then
+        Me.m_entity.ToolLot = CType(lv.SelectedItems(0).Tag, ToolLot)
+        'Dim eqi As ToolLot = Me.CurrentTagItem
+        Me.RefreshData()
+        Me.CheckToolLotEnable()
+        'End If
       End If
       Me.m_isInitialized = True
-      Me.EventWiring()
+      'Me.EventWiring()
     End Sub
 
     'Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2570,6 +2624,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myDialog.ShowDialog()
 
       Me.RefreshDocs()
+      Me.RefreshData()
 
       Me.UpdateAutogenStatus()
 
@@ -2580,6 +2635,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
 
       Me.m_entity.ItemCollection.SetItems(items, newCode, currentUserId)
+      If Me.m_entity.ItemCollection.Contains(Me.m_entity.ItemCollection(Me.m_entity.ItemCollection.Count - 1)) Then
+        Me.m_entity.ToolLot = Me.m_entity.ItemCollection(Me.m_entity.ItemCollection.Count - 1)
+      End If
 
     End Sub
 
@@ -2598,8 +2656,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
-      'If Me.m_entity.ItemCollection.Count > 0 Then
-      '  Me.m_entity.ToolLot = Me.m_entity.ItemCollection(0)
+      If Me.m_entity.ItemCollection.Count <= 0 Then
+        Me.m_entity.ToolLot = New ToolLot
+      End If
+
       Me.RefreshDocs()
       Me.RefreshData()
       '  Me.ClearDetail()
@@ -2638,6 +2698,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
       Me.RefreshDocs()
+      Me.RefreshData()
       Me.UpdateAutogenStatus()
     End Sub
   End Class

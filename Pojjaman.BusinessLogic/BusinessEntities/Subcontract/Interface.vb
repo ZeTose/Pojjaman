@@ -17,6 +17,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '    Property ToCostCenter() As CostCenter
   '    Property FromCostCenter() As CostCenter
   'End Interface
+  Public Interface IWithdrawAble
+
+  End Interface
   Public Interface IWBSAllocatable
     Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection
     Property DocDate() As DateTime

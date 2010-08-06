@@ -177,6 +177,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unicost = drh.GetValue(Of Decimal)("toollot_unitcost")
         m_buyqty = drh.GetValue(Of Decimal)("toollot_buyqty")
         m_remainqty = drh.GetValue(Of Decimal)("toollot_remainqty")
+
+        Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
         'Dim unitid2 As Integer = drh.GetValue(Of Integer)("eqi_rentalunit")
         'm_rentalunit = New Unit(unitid2)
 
@@ -229,6 +231,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property IsReferenced As Boolean
+
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "ToolLot"
@@ -326,7 +330,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-   
+
     Public Property Supplier As Supplier
       Get
         Return m_buysupplier
@@ -450,7 +454,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_buyqty = value
 
         m_buycost = m_buyqty * m_unicost
-        m_writeoff = m_buyqty - m_remainqty
+        'm_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
     Public Property RemainQTY As Decimal
@@ -460,7 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Decimal)
         m_remainqty = value
 
-        m_writeoff = m_buyqty - m_remainqty
+        'm_writeoff = m_buyqty - m_remainqty
         m_RemainCost = m_remainqty * m_unicost
       End Set
     End Property
@@ -501,6 +505,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Property
 
 #End Region
+
     Public Sub SetCurrentBuydoc(ByVal bd As SimpleRefdocItem)
       m_buydoc = bd
     End Sub
@@ -790,15 +795,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newToolLot.Name = childrow("Description").ToString
           newToolLot.Costcenter = CostCenter.GetCCMinDataById(CInt(childrow("ccId")))
           newToolLot.Unit = Unit.GetUnitById(drh.GetValue(Of Integer)("UnitId"))
-          newToolLot.Buycost = drh.GetValue(Of Decimal)("UnitCost")
+
           newToolLot.Buydoc = New SimpleRefdocItem
 
           newToolLot.Buydoc.Id = drh.GetValue(Of Integer)("Id")
           newToolLot.Buydoc.Code = drh.GetValue(Of String)("Code")
           newToolLot.Buydoc.Sequence = drh.GetValue(Of Integer)("Sequence")
-          newToolLot.Buyqty = drh.GetValue(Of Decimal)("qtyremaining")
-
+          newToolLot.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
+          newToolLot.Buyqty = drh.GetValue(Of Decimal)("Qty")
           newToolLot.Buydate = drh.GetValue(Of DateTime)("DocDate")
+          newToolLot.Buycost = drh.GetValue(Of Decimal)("UnitCost")
+
+          newToolLot.RemainQTY = drh.GetValue(Of Decimal)("qtyremaining")
+
           'newToolLot.CurrentStatus = New EqtStatus(10)
 
           Trace.WriteLine(drh.GetValue(Of String)("Code").ToString)

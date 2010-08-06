@@ -56,6 +56,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class BlankEqItem
+    Implements IEqtItem
+
+    Private m_EntityId As Integer
+
+    Public Sub New()
+    End Sub
+
+    Public Property Unit As Unit Implements IEqtItem.Unit
+
+    Public Property Name As String Implements IHasName.Name
+
+    Public Property RentalRate As Decimal Implements IHasRentalRate.RentalRate
+
+    Public Property Code As String Implements IIdentifiable.Code
+
+    Public Property Id As Integer Implements IIdentifiable.Id
+
+    Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
+      Get
+        Return m_EntityId
+      End Get
+    End Property
+  End Class
+
   Public Class EqtItem
 
 #Region "Members"

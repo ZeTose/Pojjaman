@@ -276,7 +276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           crow("UnitCost") = drh.GetValue(Of Decimal)("stocki_unitcost")
           crow("CCId") = drh.GetValue(Of Integer)("stock_tocc")
           crow("UnitId") = drh.GetValue(Of Integer)("stocki_unit")
-          crow("QtyRemaining") = drh.GetValue(Of Decimal)("qtyremaining")
+          crow("QtyRemaining") = Configuration.FormatToString(drh.GetValue(Of Decimal)("qtyremaining"), DigitConfig.Price)
           crow("Sequence") = drh.GetValue(Of Decimal)("stocki_sequence")
 
           Trace.WriteLine(drh.GetValue(Of String)("stock_code").ToString)
@@ -393,6 +393,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  Return myDatatable
     'End Function
 #End Region
+
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -683,11 +684,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
-
-
-    Private Sub pnlFilter_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles pnlFilter.Paint
-
-    End Sub
   End Class
 End Namespace
 

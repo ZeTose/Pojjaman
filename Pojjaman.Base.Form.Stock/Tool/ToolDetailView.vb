@@ -178,14 +178,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lv.GridLines = True
       Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
       Me.lv.HideSelection = False
-      Me.lv.Location = New System.Drawing.Point(11, 209)
+      Me.lv.Location = New System.Drawing.Point(11, 195)
       Me.lv.Name = "lv"
-      Me.lv.Size = New System.Drawing.Size(546, 233)
+      Me.lv.Size = New System.Drawing.Size(546, 247)
       Me.lv.SortIndex = -1
       Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lv.TabIndex = 324
       Me.lv.UseCompatibleStateImageBehavior = False
       Me.lv.View = System.Windows.Forms.View.Details
+      Me.lv.Visible = False
       '
       'ColumnHeader1
       '
@@ -214,9 +215,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCostCentername.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCostCentername.ForeColor = System.Drawing.Color.Black
-      Me.lblCostCentername.Location = New System.Drawing.Point(11, 171)
+      Me.lblCostCentername.Location = New System.Drawing.Point(6, 168)
       Me.lblCostCentername.Name = "lblCostCentername"
-      Me.lblCostCentername.Size = New System.Drawing.Size(77, 18)
+      Me.lblCostCentername.Size = New System.Drawing.Size(89, 18)
       Me.lblCostCentername.TabIndex = 27
       Me.lblCostCentername.Text = "Cost center:"
       Me.lblCostCentername.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -228,13 +229,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostcenterCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCostcenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostcenterCode, System.Drawing.Color.Empty)
-      Me.txtCostcenterCode.Location = New System.Drawing.Point(96, 171)
+      Me.txtCostcenterCode.Location = New System.Drawing.Point(96, 168)
       Me.txtCostcenterCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtCostcenterCode, "")
       Me.txtCostcenterCode.Name = "txtCostcenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostcenterCode, "")
       Me.Validator.SetRequired(Me.txtCostcenterCode, True)
-      Me.txtCostcenterCode.Size = New System.Drawing.Size(109, 21)
+      Me.txtCostcenterCode.Size = New System.Drawing.Size(112, 21)
       Me.txtCostcenterCode.TabIndex = 24
       '
       'lblPicSize
@@ -254,13 +255,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.txtCostCenterName.Location = New System.Drawing.Point(207, 171)
+      Me.txtCostCenterName.Location = New System.Drawing.Point(208, 168)
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
       Me.Validator.SetRequired(Me.txtCostCenterName, False)
-      Me.txtCostCenterName.Size = New System.Drawing.Size(153, 21)
+      Me.txtCostCenterName.Size = New System.Drawing.Size(152, 21)
       Me.txtCostCenterName.TabIndex = 28
       Me.txtCostCenterName.TabStop = False
       '
@@ -280,7 +281,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowcostcenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowcostcenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowcostcenter.Location = New System.Drawing.Point(383, 169)
+      Me.ibtnShowcostcenter.Location = New System.Drawing.Point(383, 166)
       Me.ibtnShowcostcenter.Name = "ibtnShowcostcenter"
       Me.ibtnShowcostcenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowcostcenter.TabIndex = 26
@@ -303,7 +304,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCostcenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCostcenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCostcenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCostcenterDialog.Location = New System.Drawing.Point(360, 169)
+      Me.ibtnCostcenterDialog.Location = New System.Drawing.Point(360, 166)
       Me.ibtnCostcenterDialog.Name = "ibtnCostcenterDialog"
       Me.ibtnCostcenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnCostcenterDialog.TabIndex = 25
@@ -316,7 +317,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRent.ForeColor = System.Drawing.Color.Black
       Me.lblRent.Location = New System.Drawing.Point(8, 144)
       Me.lblRent.Name = "lblRent"
-      Me.lblRent.Size = New System.Drawing.Size(80, 18)
+      Me.lblRent.Size = New System.Drawing.Size(87, 18)
       Me.lblRent.TabIndex = 11
       Me.lblRent.Text = "ค่าเช่าพื้นฐาน:"
       Me.lblRent.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -414,7 +415,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGroup.ForeColor = System.Drawing.Color.Black
       Me.lblGroup.Location = New System.Drawing.Point(8, 96)
       Me.lblGroup.Name = "lblGroup"
-      Me.lblGroup.Size = New System.Drawing.Size(80, 18)
+      Me.lblGroup.Size = New System.Drawing.Size(87, 18)
       Me.lblGroup.TabIndex = 9
       Me.lblGroup.Text = "กลุ่ม:"
       Me.lblGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -442,7 +443,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblName.ForeColor = System.Drawing.Color.Black
       Me.lblName.Location = New System.Drawing.Point(8, 48)
       Me.lblName.Name = "lblName"
-      Me.lblName.Size = New System.Drawing.Size(80, 18)
+      Me.lblName.Size = New System.Drawing.Size(87, 18)
       Me.lblName.TabIndex = 7
       Me.lblName.Text = "ชื่อ:"
       Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -453,7 +454,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.ForeColor = System.Drawing.Color.Black
       Me.lblCode.Location = New System.Drawing.Point(8, 24)
       Me.lblCode.Name = "lblCode"
-      Me.lblCode.Size = New System.Drawing.Size(80, 18)
+      Me.lblCode.Size = New System.Drawing.Size(87, 18)
       Me.lblCode.TabIndex = 0
       Me.lblCode.Text = "รหัส:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -498,7 +499,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblUnit.ForeColor = System.Drawing.Color.Black
       Me.lblUnit.Location = New System.Drawing.Point(8, 72)
       Me.lblUnit.Name = "lblUnit"
-      Me.lblUnit.Size = New System.Drawing.Size(80, 18)
+      Me.lblUnit.Size = New System.Drawing.Size(87, 18)
       Me.lblUnit.TabIndex = 8
       Me.lblUnit.Text = "หน่วย:"
       Me.lblUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -526,7 +527,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblfairprice.ForeColor = System.Drawing.Color.Black
       Me.lblfairprice.Location = New System.Drawing.Point(8, 120)
       Me.lblfairprice.Name = "lblfairprice"
-      Me.lblfairprice.Size = New System.Drawing.Size(80, 18)
+      Me.lblfairprice.Size = New System.Drawing.Size(87, 18)
       Me.lblfairprice.TabIndex = 10
       Me.lblfairprice.Text = "ราคากลาง:"
       Me.lblfairprice.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -686,7 +687,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IListDetail"
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-      If Me.m_entity.Canceled Then
+      If Me.m_entity.Canceled OrElse Me.m_entity.GetIsReferenced Then
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = False
         Next
@@ -709,6 +710,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' กำหนดการทำงานของ Event Controls 
     Protected Overrides Sub EventWiring()
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtGroupCode.Validated, AddressOf Me.ChangeProperty

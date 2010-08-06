@@ -351,8 +351,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           ''-------------------------------------------------------
 
-
-
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
@@ -368,7 +366,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByEquipmentItem", New SqlParameter("@EqtId", Me.Id))
 
           ''Save CustomNote จากการ Copy เอกสาร
           'If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then

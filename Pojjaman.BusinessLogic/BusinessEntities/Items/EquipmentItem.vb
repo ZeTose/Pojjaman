@@ -10,6 +10,9 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports System.Collections.Generic
 Imports Longkong.Pojjaman.TextHelper
+
+Imports Microsoft.VisualBasic.a
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SimpleRefdocItem
     Inherits SimpleBusinessEntityBase
@@ -19,6 +22,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Sequence As Integer
     Public Property Entity As IHasName
     Public Property EntityType As Integer
+    Public Property Supplier As Supplier
   End Class
   Public Class EquipmentItem
     Inherits SimpleBusinessEntityBase
@@ -182,6 +186,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim currCCId As Integer = drh.GetValue(Of Integer)("eqi_currentcc")
         m_currentcc = New CostCenter(currCCId)
 
+        Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
+
       End With
     End Sub
     Protected Overloads Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -293,6 +299,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property IsReferenced As Boolean
     Public Property oldcode As String
     Public Overrides ReadOnly Property ClassName() As String
       Get
@@ -1011,7 +1018,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Class
   End Class
 
-
   Public Class EqItemForSelection
     Inherits EquipmentItem
     Public CC As New CostCenter
@@ -1019,12 +1025,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "EqitemForSelection"
+        Return "EqItemForSelection"
       End Get
     End Property
     Public Overrides ReadOnly Property CodonName() As String
       Get
-        Return "EqitemForSelection"
+        Return "EqItemForSelection"
       End Get
     End Property
   End Class

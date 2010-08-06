@@ -217,6 +217,9 @@
     <Compile Include="Asset\EqtReturn\EqtReturnFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\EqtWithdraw\ToolEquipmentFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\EqtWithdraw\EqtWithdrawDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -317,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqtReturn\EqtReturnFilterSubPanel.resx">
       <DependentUpon>EqtReturnFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\EqtWithdraw\ToolEquipmentFilterSubPanel.resx">
+      <DependentUpon>ToolEquipmentFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\EqtWithdraw\EqtWithdrawDetail.resx">
       <DependentUpon>EqtWithdrawDetail.vb</DependentUpon>
