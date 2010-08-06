@@ -2569,6 +2569,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatTransfer
     Inherits PR
+    Implements IWithdrawAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatTransfer"
@@ -2582,6 +2583,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatOperationWithdraw
     Inherits PR
+    Implements IWithdrawAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatOperationWithdraw"
@@ -2590,6 +2592,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PRForMatOperationWithdraw"
+      End Get
+    End Property
+  End Class
+
+  Public Class PRForEqToolTransfer
+    Inherits PR
+    Implements IWithdrawAble
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "PRForEqToolTransfer"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PRForEqToolTransfer"
       End Get
     End Property
   End Class

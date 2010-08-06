@@ -202,7 +202,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If TypeOf m_entity Is PRForMatTransfer OrElse TypeOf m_entity Is PRForMatOperationWithdraw Then
+      If TypeOf m_entity Is IWithdrawAble Then
         Dim filterdt As DataTable = Nothing
         Dim procName As String = "Get" & m_entity.ClassName & "List"
         filterdt = PRItem.GetListDatatableForMatWithDraw(procName, newfilters)
@@ -315,9 +315,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           childRow("WithdrawQty") = Configuration.FormatToString(WithdrawQty, DigitConfig.Price)
           childRow("RemainingQty") = Configuration.FormatToString(RemainingQty, DigitConfig.Price)
           childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
-          Dim pritem As New PRItem
+          Dim pritem As New PRItem(filteredRow, "")
           pritem.Pr = New PR
           pritem.Pr.Id = prId
+          pritem.Pr.Code = prCode
           pritem.LineNumber = LineNumber
           childRow.Tag = pritem
         End If
@@ -360,6 +361,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return myDatatable
     End Function
 #End Region
+
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -442,14 +444,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "Material"
-      csDescription.HeaderText = "เลขที่เอกสาร/วัสดุ"
+      csDescription.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.Code/Descripion}") '"เลขที่เอกสาร/วัสดุ"
       csDescription.NullText = ""
       csDescription.Width = 190
       csDescription.ReadOnly = True
 
       Dim csUnit As New TreeTextColumn
       csUnit.MappingName = "Unit"
-      csUnit.HeaderText = "หน่วยมาตรฐาน"
+      csUnit.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.DefaultUnit}") '"หน่วยมาตรฐาน"
       csUnit.NullText = ""
       csUnit.Width = 70
       csUnit.DataAlignment = HorizontalAlignment.Center
@@ -457,7 +459,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csPRQty As New TreeTextColumn
       csPRQty.MappingName = "Qty"
-      csPRQty.HeaderText = "ปริมาณ PR"
+      csPRQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.PRQty}") '"ปริมาณ PR"
       csPRQty.DataAlignment = HorizontalAlignment.Right
       csPRQty.NullText = ""
       csPRQty.Width = 90
@@ -465,7 +467,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csStockQty As New TreeTextColumn
       csStockQty.MappingName = "StockQty"
-      csStockQty.HeaderText = "ปริมาณในคลัง"
+      csStockQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.StockQty}") '"ปริมาณในคลัง"
       csStockQty.DataAlignment = HorizontalAlignment.Right
       csStockQty.NullText = ""
       csStockQty.Width = 90
@@ -473,7 +475,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csWithdrawQty As New TreeTextColumn
       csWithdrawQty.MappingName = "WithdrawQty"
-      csWithdrawQty.HeaderText = "เบิกแล้ว"
+      csWithdrawQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.Withdrawed}") '"เบิกแล้ว"
       csWithdrawQty.DataAlignment = HorizontalAlignment.Right
       csWithdrawQty.NullText = ""
       csWithdrawQty.Width = 90
@@ -481,7 +483,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csRemainingQty As New TreeTextColumn
       csRemainingQty.MappingName = "RemainingQty"
-      csRemainingQty.HeaderText = "เบิกได้"
+      csRemainingQty.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRSelectionView.Remaining}") '"เบิกได้"
       csRemainingQty.DataAlignment = HorizontalAlignment.Right
       csRemainingQty.NullText = ""
       csRemainingQty.Width = 90
@@ -617,10 +619,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim textInBasket As String = entityName & ":" & qty.ToString
                 If TypeOf childRow.Tag Is PRItem Then
                   Dim pri As PRItem = CType(childRow.Tag, PRItem)
-                  Dim thePR As PR = pri.Pr
-                  pri = New PRItem(pri.Pr.Id, pri.LineNumber)
-                  pri.Pr = thePR
-                  id = thePR.Id
+                  'Dim thePR As PR = pri.Pr
+                  'pri = New PRItem(pri.Pr.Id, pri.LineNumber)
+                  'pri.Pr = thePR
+                  id = pri.Pr.Id ' thePR.Id
                   Dim bi As New StockBasketItem(id, stockCode, fullClassName, textInBasket, lineNumber, qty, entityName)
                   bi.Tag = pri
                   m_basketItems.Add(bi)

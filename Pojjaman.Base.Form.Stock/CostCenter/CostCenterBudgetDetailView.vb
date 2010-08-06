@@ -174,7 +174,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Name = "txtCode"
       Me.txtCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, True)
+      Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(148, 21)
       Me.txtCode.TabIndex = 0
       '
