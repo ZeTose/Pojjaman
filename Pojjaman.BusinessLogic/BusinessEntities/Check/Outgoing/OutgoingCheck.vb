@@ -88,7 +88,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "supplier_id") Then
           If Not dr.IsNull(aliasPrefix & "supplier_id") Then
-            .m_supplier = Supplier.GetSupplierbyDataRow(dr)
+            .m_supplier = New Supplier(CInt(dr("supplier_id"))) ' Supplier.GetSupplierbyDataRow(dr)
             '.m_supplier = New Supplier(dr, aliasPrefix)
           End If
         Else

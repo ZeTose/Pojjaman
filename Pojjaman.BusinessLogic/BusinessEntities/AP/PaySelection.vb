@@ -133,7 +133,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("supplier_id") Then
           If Not dr.IsNull("supplier_id") Then
             '.m_supplier = New Supplier(dr, "supplier.")
-            .m_supplier = Supplier.GetSupplierbyDataRow(dr)
+            .m_supplier = New Supplier(CInt(dr("supplier_id"))) ' Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "pays_supplier") Then

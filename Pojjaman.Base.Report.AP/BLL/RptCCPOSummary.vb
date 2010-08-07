@@ -287,8 +287,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             tmpTaxType = 0
             tmpTaxAmount = 0
-            SumNoTax += CDec(row("AfterTax"))
+            'SumNoTax += CDec(row("AfterTax"))
           End If
+
+          If Not row.IsNull("po_beforetax") Then
+            SumNoTax += CDec(row("po_beforetax"))
+          End If
+
           currentDocId = row("DocId").ToString
           currentItem = ""
         End If

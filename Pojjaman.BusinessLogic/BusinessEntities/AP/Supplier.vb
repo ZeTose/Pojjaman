@@ -35,6 +35,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_contactCollection As SupplierContactCollection
     Private m_notGetItems As Boolean = False
+    Public Shared m_SupplierCollection As Hashtable 'เก็บเป็น Datarow
 #End Region
 
 #Region "Constructors"
@@ -42,7 +43,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New()
     End Sub
     Public Sub New(ByVal id As Integer)
-      MyBase.New(id)
+      RefreshSupplierCollection(id)
+      Dim drow As DataRow = CType(m_SupplierCollection(id), DataRow)
+      Me.Construct(drow, "")
+      'MyBase.New(id)
     End Sub
     Public Sub New(ByVal code As String, ByVal ParamArray filters() As Filter)
       MyBase.New(code, filters)
@@ -51,7 +55,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New(id, filters)
     End Sub
     Public Sub New(ByVal code As String)
-      MyBase.New(code)
+      RefreshSupplierCollection(code)
+      Dim drow As DataRow = CType(m_SupplierCollection(code), DataRow)
+      Me.Construct(drow, "")
+      'MyBase.New(id)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Construct(dr, aliasPrefix)
@@ -300,6 +307,84 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End Get
     End Property
+#End Region
+
+#Region "Cach Memo"
+    Public Shared Sub RefreshSupplierCollection(ByVal Key As Object)
+      If IsNumeric(Key) Then
+        If CInt(Key) = 0 Then
+          Return
+        End If
+      End If
+
+      If m_SupplierCollection Is Nothing Then
+        m_SupplierCollection = New Hashtable
+
+        Dim dt As DataTable = RefreshSupplier(Key)
+        For Each row As DataRow In dt.Rows
+          Dim drh As New DataRowHelper(row)
+          m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
+          m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code"), row)
+        Next
+      Else
+        If Not m_SupplierCollection.Contains(Key) Then
+          Dim dt As DataTable = RefreshSupplier(Key)
+          For Each row As DataRow In dt.Rows
+            Dim drh As New DataRowHelper(row)
+            m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
+            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code"), row)
+          Next
+        Else
+          Dim drow As DataRow = CType(m_SupplierCollection(Key), DataRow)
+          If Not Sync(drow) Then
+            Dim dt As DataTable = RefreshSupplier(Key)
+            For Each row As DataRow In dt.Rows
+              Dim drh As New DataRowHelper(row)
+              m_SupplierCollection(drh.GetValue(Of Integer)("supplier_id")) = row
+              m_SupplierCollection(drh.GetValue(Of String)("supplier_code")) = row
+            Next
+          End If
+        End If
+      End If
+    End Sub
+    Public Shared Function RefreshSupplier(ByVal Key As Object) As DataTable
+      Dim id As Object
+      Dim code As Object
+      If TypeOf Key Is Integer Then
+        id = Key
+        code = DBNull.Value
+      Else
+        id = DBNull.Value
+        code = Key
+      End If
+
+      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+      , CommandType.StoredProcedure _
+      , "GetSupplier" _
+      , New SqlParameter("@supplier_id", id) _
+      , New SqlParameter("@supplier_code", code) _
+      )
+      Return ds.Tables(0)
+    End Function
+    Public Shared Function Sync(ByVal drow As DataRow) As Boolean
+      Dim drh As New DataRowHelper(drow)
+      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+      , CommandType.Text _
+      , "select supplier_lastEditDate from supplier where supplier_id = " & drh.GetValue(Of Integer)("supplier_id") _
+      )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Dim drh2 As New DataRowHelper(ds.Tables(0).Rows(0))
+        If drh2.GetValue(Of Date)("supplier_lastEditDate").Equals(drh.GetValue(Of Date)("supplier_lastEditDate")) Then
+          Return True
+        End If
+      Else
+        Return True
+      End If
+
+      Return False
+    End Function
 #End Region
 
 #Region "Methods"
@@ -610,19 +695,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
-    Public Shared Function GetSupplierbyDataRow(ByVal dr As DataRow) As Supplier
-      Dim sup As New Supplier
-      SetMinimumSup(sup, dr)
-      Return sup
-    End Function
-    Public Shared Sub SetMinimumSup(ByVal sup As Supplier, ByVal dr As DataRow)
-      Dim drh As New DataRowHelper(dr)
-      sup.Id = drh.GetValue(Of Integer)("supplier_id")
-      sup.Code = drh.GetValue(Of String)("supplier_code")
-      sup.Name = drh.GetValue(Of String)("supplier_name")
-      Dim acctId As Integer = drh.GetValue(Of Integer)("supplier_acct")
-      sup.Account = New Account(acctId)
-    End Sub
+    'Public Shared Function GetSupplierbyDataRow(ByVal dr As DataRow) As Supplier
+    '  Dim sup As New Supplier
+    '  SetMinimumSup(sup, dr)
+    '  Return sup
+    'End Function
+    'Public Shared Sub SetMinimumSup(ByVal sup As Supplier, ByVal dr As DataRow)
+    '  Dim drh As New DataRowHelper(dr)
+    '  sup.Id = drh.GetValue(Of Integer)("supplier_id")
+    '  sup.Code = drh.GetValue(Of String)("supplier_code")
+    '  sup.Name = drh.GetValue(Of String)("supplier_name")
+    '  Dim acctId As Integer = drh.GetValue(Of Integer)("supplier_acct")
+    '  sup.Account = New Account(acctId)
+    'End Sub
     Public Enum DefaultSupplierType
       PettyCash
       AdvanceMoney

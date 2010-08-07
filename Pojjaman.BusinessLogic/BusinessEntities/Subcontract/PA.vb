@@ -4264,7 +4264,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.StartDate = drh.GetValue(Of Date)("sc_startdate")
       Me.EndDate = drh.GetValue(Of Date)("sc_enddate")
       Me.SubContractor = New Supplier
-      Me.SubContractor = Supplier.GetSupplierbyDataRow(dr)
+      Me.SubContractor = New Supplier(CInt(dr("sc_subcontractor"))) 'Supplier.GetSupplierbyDataRow(dr)
       'Me.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("sc_cc"))
       Me.Director = New Employee(dr, "")
       Me.TaxRate = drh.GetValue(Of Decimal)("sc_taxrate")

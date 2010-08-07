@@ -184,7 +184,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("supplier_id") Then
           If Not dr.IsNull("supplier_id") Then
-            .m_subcontractor = Supplier.GetSupplierbyDataRow(dr)
+            .m_subcontractor = New Supplier(CInt(dr("supplier_id"))) 'Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_subcontractor") Then
@@ -699,7 +699,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains("supplier_id") Then
           If Not dr.IsNull("supplier_id") Then
-            .m_subcontractor = Supplier.GetSupplierbyDataRow(dr)
+            .m_subcontractor = New Supplier(CInt(dr("supplier_id"))) 'Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_subcontractor") Then

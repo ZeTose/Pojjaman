@@ -774,7 +774,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       po.Id = drh.GetValue(Of Integer)("po_id")
       po.Code = drh.GetValue(Of String)("po_code")
       po.DocDate = drh.GetValue(Of DateTime)("po_docdate")
-      po.Supplier = Supplier.GetSupplierbyDataRow(dr)
+      po.Supplier = New Supplier(CInt(dr("po_supplier"))) ' Supplier.GetSupplierbyDataRow(dr)
     End Sub
 #End Region
 
