@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private components As System.ComponentModel.IContainer
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtMTDocDate As System.Windows.Forms.TextBox
     Friend WithEvents lblDocDate As System.Windows.Forms.Label
     Friend WithEvents txtNote As System.Windows.Forms.TextBox
     Friend WithEvents lblNote As System.Windows.Forms.Label
@@ -72,6 +72,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtDocType As System.Windows.Forms.TextBox
     Friend WithEvents lblReceiptStatus As System.Windows.Forms.Label
     Friend WithEvents txtReceiptStatus As System.Windows.Forms.TextBox
+    Friend WithEvents lblMtDocdate As System.Windows.Forms.Label
+    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblDocType As System.Windows.Forms.Label
 
     Protected Sub InitializeComponent()
@@ -80,7 +83,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtCode = New System.Windows.Forms.TextBox()
-      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.txtMTDocDate = New System.Windows.Forms.TextBox()
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.lblNote = New System.Windows.Forms.Label()
@@ -116,9 +119,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalAmount = New System.Windows.Forms.TextBox()
       Me.lblTotalAmount = New System.Windows.Forms.Label()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.txtReceiptStatus = New System.Windows.Forms.TextBox()
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
       Me.lblReceiptStatus = New System.Windows.Forms.Label()
-      Me.txtReceiptStatus = New System.Windows.Forms.TextBox()
+      Me.lblMtDocdate = New System.Windows.Forms.Label()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,8 +162,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
-      Me.grbDetail.Controls.Add(Me.txtCode)
       Me.grbDetail.Controls.Add(Me.txtDocDate)
+      Me.grbDetail.Controls.Add(Me.dtpDocDate)
+      Me.grbDetail.Controls.Add(Me.lblMtDocdate)
+      Me.grbDetail.Controls.Add(Me.txtCode)
+      Me.grbDetail.Controls.Add(Me.txtMTDocDate)
       Me.grbDetail.Controls.Add(Me.lblDocDate)
       Me.grbDetail.Controls.Add(Me.txtNote)
       Me.grbDetail.Controls.Add(Me.lblNote)
@@ -186,20 +195,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Size = New System.Drawing.Size(194, 21)
       Me.txtCode.TabIndex = 1
       '
-      'txtDocDate
+      'txtMTDocDate
       '
-      Me.Validator.SetDataType(Me.txtDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDocDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(393, 15)
-      Me.Validator.SetMinValue(Me.txtDocDate, "")
-      Me.txtDocDate.Name = "txtDocDate"
-      Me.txtDocDate.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtDocDate, "")
-      Me.Validator.SetRequired(Me.txtDocDate, True)
-      Me.txtDocDate.Size = New System.Drawing.Size(100, 21)
-      Me.txtDocDate.TabIndex = 1
+      Me.Validator.SetDataType(Me.txtMTDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtMTDocDate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtMTDocDate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtMTDocDate, System.Drawing.Color.Empty)
+      Me.txtMTDocDate.Location = New System.Drawing.Point(648, 16)
+      Me.Validator.SetMinValue(Me.txtMTDocDate, "")
+      Me.txtMTDocDate.Name = "txtMTDocDate"
+      Me.txtMTDocDate.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtMTDocDate, "")
+      Me.Validator.SetRequired(Me.txtMTDocDate, True)
+      Me.txtMTDocDate.Size = New System.Drawing.Size(100, 21)
+      Me.txtMTDocDate.TabIndex = 1
       '
       'lblDocDate
       '
@@ -658,6 +667,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
+      'txtReceiptStatus
+      '
+      Me.txtReceiptStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtReceiptStatus.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReceiptStatus, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtReceiptStatus, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
+      Me.txtReceiptStatus.Location = New System.Drawing.Point(105, 477)
+      Me.Validator.SetMinValue(Me.txtReceiptStatus, "")
+      Me.txtReceiptStatus.Multiline = True
+      Me.txtReceiptStatus.Name = "txtReceiptStatus"
+      Me.txtReceiptStatus.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtReceiptStatus, "")
+      Me.Validator.SetRequired(Me.txtReceiptStatus, False)
+      Me.txtReceiptStatus.Size = New System.Drawing.Size(282, 44)
+      Me.txtReceiptStatus.TabIndex = 334
+      '
       'chkShowCost
       '
       Me.chkShowCost.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -679,24 +707,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReceiptStatus.Text = "สถานะการยืนยันรับของ"
       Me.lblReceiptStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
-      'txtReceiptStatus
+      'lblMtDocdate
       '
-      Me.txtReceiptStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.txtReceiptStatus.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtReceiptStatus, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtReceiptStatus, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtReceiptStatus, System.Drawing.Color.Empty)
-      Me.txtReceiptStatus.Location = New System.Drawing.Point(105, 477)
-      Me.Validator.SetMinValue(Me.txtReceiptStatus, "")
-      Me.txtReceiptStatus.Multiline = True
-      Me.txtReceiptStatus.Name = "txtReceiptStatus"
-      Me.txtReceiptStatus.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtReceiptStatus, "")
-      Me.Validator.SetRequired(Me.txtReceiptStatus, False)
-      Me.txtReceiptStatus.Size = New System.Drawing.Size(282, 44)
-      Me.txtReceiptStatus.TabIndex = 334
+      Me.lblMtDocdate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblMtDocdate.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblMtDocdate.Location = New System.Drawing.Point(546, 16)
+      Me.lblMtDocdate.Name = "lblMtDocdate"
+      Me.lblMtDocdate.Size = New System.Drawing.Size(96, 18)
+      Me.lblMtDocdate.TabIndex = 7
+      Me.lblMtDocdate.Text = "วันที่เอกสารโอน:"
+      Me.lblMtDocdate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtDocDate
+      '
+      Me.Validator.SetDataType(Me.txtDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
+      Me.txtDocDate.Location = New System.Drawing.Point(394, 13)
+      Me.Validator.SetMinValue(Me.txtDocDate, "")
+      Me.txtDocDate.Name = "txtDocDate"
+      Me.Validator.SetRegularExpression(Me.txtDocDate, "")
+      Me.Validator.SetRequired(Me.txtDocDate, True)
+      Me.txtDocDate.Size = New System.Drawing.Size(90, 21)
+      Me.txtDocDate.TabIndex = 8
+      '
+      'dtpDocDate
+      '
+      Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
+      Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+      Me.dtpDocDate.Location = New System.Drawing.Point(394, 13)
+      Me.dtpDocDate.Name = "dtpDocDate"
+      Me.dtpDocDate.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDate.TabIndex = 9
+      Me.dtpDocDate.TabStop = False
       '
       'MatReceiptDetailView
       '
@@ -1169,10 +1214,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       ''CheckApproveStore()
-      'If Me.m_entity.Canceled _
-      'OrElse Me.m_entity.Status.Value = 0 _
-      'OrElse m_entityRefed = 1 _
-      'Then
+     
       '  For Each ctrl As Control In Me.grbDetail.Controls
       '    ctrl.Enabled = False
       '  Next
@@ -1200,6 +1242,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Enabled = False
         End If
       Next
+
+      txtDocDate.Enabled = True
+      txtDocDate.ReadOnly = False
+      dtpDocDate.Enabled = True
+      If Me.m_entity.Canceled _
+     OrElse Me.m_entity.Status.Value = 0 _
+     OrElse m_entityRefed = 1 _
+     Then
+        txtDocDate.Enabled = False
+        txtDocDate.ReadOnly = True
+        dtpDocDate.Enabled = False
+      End If
       '  For Each ctrl As Control In Me.grbFromCC.Controls
       '    ctrl.Enabled = CBool(m_enableState(ctrl))
       '  Next
@@ -1300,8 +1354,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       'AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-      'AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
       'AddHandler txtToCostCenterCode.Validated, AddressOf Me.ChangeProperty
       'AddHandler txtToCCPersonCode.Validated, AddressOf Me.ChangeProperty
@@ -1372,9 +1426,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.chkShowCost.Checked = Me.m_entity.Grouping
       UpdateAccount()
 
-      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       'dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
-
+      txtMTDocDate.Text = MinDateToNull(Me.m_entity.MatTransferDocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       'CodeDescription.ComboSelect(Me.cmbDocType, Me.m_entity.Type)
       txtDocType.Text = Me.m_entity.Type.Description
 
@@ -1387,6 +1440,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Dim approveText As String = ""
           If approvalComment.Type = ApproveType.approved Then
             approveText = Me.StringParserService.Parse("${res:Global.Receipt}")
+            If m_dateSetting2 Then
+              m_entity.DocDate = approvalComment.LastEditDate
+            End If
           ElseIf approvalComment.Type = ApproveType.reject Then
             approveText = Me.StringParserService.Parse("${res:Global.Reject}")
           End If
@@ -1396,6 +1452,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           txtReceiptStatus.Text = Me.StringParserService.Parse("${res:Global.NotConfirm}")
         End If
       End If
+
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
 
       RefreshDocs()
 
@@ -1476,12 +1534,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
     Private m_dateSetting As Boolean = False
+    Private m_dateSetting2 As Boolean = True  'set จากหน้าจอ 
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
       End If
-      'Dim dirtyFlag As Boolean = False
-      'Select CType(sender, Control).Name.ToLower
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
       '  Case "cmbcode"
       '    If m_entity.AutoGen Then
       '      'เพิ่ม AutoCode
@@ -1497,29 +1556,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Case "txtnote"
       '    Me.m_entity.Note = txtNote.Text
       '    dirtyFlag = True
-      '  Case "dtpdocdate"
-      '    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-      '      If Not m_dateSetting Then
-      '        Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      '        Me.m_entity.DocDate = dtpDocDate.Value
-      '      End If
-      '      dirtyFlag = True
-      '    End If
-      '  Case "txtdocdate"
-      '    m_dateSetting = True
-      '    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-      '      Dim theDate As Date = CDate(Me.txtDocDate.Text)
-      '      If Not Me.m_entity.DocDate.Equals(theDate) Then
-      '        dtpDocDate.Value = theDate
-      '        Me.m_entity.DocDate = dtpDocDate.Value
-      '        dirtyFlag = True
-      '      End If
-      '    Else
-      '      Me.m_entity.DocDate = Date.Now
-      '      Me.m_entity.DocDate = Date.MinValue
-      '      dirtyFlag = True
-      '    End If
-      '    m_dateSetting = False
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
+              m_dateSetting2 = False
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              m_dateSetting2 = False
+              dirtyFlag = True
+            End If
+          Else
+            Me.m_entity.DocDate = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            m_dateSetting2 = True
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
 
       '  Case "txttoccpersoncode"
       '    If toCCPersonCodeChanged Then
@@ -1573,10 +1635,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    Me.m_entity.Type.Value = item.Id
       '    dirtyFlag = True
       '    UpdateAccount()
-      'End Select
-      'Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
-      'CheckFormEnable()
+      End Select
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+      CheckFormEnable()
     End Sub
     Private oldCCId As Integer
     Private Sub ChangeCC()
@@ -2099,23 +2161,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Try
+        Dim old_aprvType As ApproveType = m_entity.ApprovalCollection.Approved
         Dim x As New AdvanceStoreApprovalCommentForm(Me.Entity)
         x.ShowDialog()
         If Not x.ApproveDoc Is Nothing Then
-          Dim aprvType As ApproveType = x.ApproveDoc.Type
+          'Dim aprvType As ApproveType = x.ApproveDoc.Type
+          Dim aprvType As ApproveType = m_entity.ApprovalCollection.Approved
           Select Case aprvType
             Case ApproveType.approved
               'Me.m_entity.Save(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
               'Me.m_entity.RefreshApproveCommentList()
-              Me.NotifyAfterSave(True)
+              ' Me.NotifyAfterSave(True)
+              m_dateSetting2 = True
               UpdateEntityProperties()
             Case ApproveType.reject
               'Me.m_entity.Delete()
               'Me.m_entity.RefreshApproveCommentList()
-              Me.NotifyAfterSave(True)
+              '  Me.NotifyAfterSave(True)
+              m_dateSetting2 = True
               UpdateEntityProperties()
           End Select
+          If old_aprvType <> aprvType Then
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
+          End If
         End If
+
       Catch ex As Exception
         MessageBox.Show(ex.Message & vbCrLf & ex.InnerException.ToString)
       End Try

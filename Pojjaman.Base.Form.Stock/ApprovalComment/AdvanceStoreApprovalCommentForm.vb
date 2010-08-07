@@ -151,7 +151,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_entity As ISimpleEntity
+    Private m_entity As IHasAppStoreColl
 
     Private m_approveDoc As ApprovalStoreComment
     'Private m_approveDocColl As ApproveDocCollection
@@ -176,7 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructors"
-    Public Sub New(ByVal entity As ISimpleEntity)
+    Public Sub New(ByVal entity As IHasAppStoreColl)
       MyBase.New()
       InitializeComponent()
       SetLabelText()
@@ -184,7 +184,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity.Originated Then
         Return
       End If
+      If m_entity.ApprovalCollection Is Nothing Then
       m_itemCollection = New ApprovalStoreCommentCollection(m_entity)
+      Else
+        m_itemCollection = m_entity.ApprovalCollection
+      End If
       'm_approveDocColl = New ApproveDocCollection(m_entity)
       mySService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
       'ApprovalDocLevel = New ApprovalDocLevelCollection(mySService.CurrentUser)
@@ -350,8 +354,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_approveDoc.OriginDate = Now
         'Add to Collection
         m_itemCollection.Add(m_approveDoc)
-
-        Me.Save(commentType)
+        m_entity.ApprovalCollection = m_itemCollection
+        'Me.Save(commentType)
       Catch ex As Exception
         Dim msg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
         msg.ShowError(ex.Message.ToString & vbCrLf & ex.InnerException.ToString)

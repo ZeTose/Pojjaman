@@ -35,10 +35,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '  End Class
   Public Class MatReceipt
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IExtender
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IExtender, IHasAppStoreColl
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_MTDate As Date 'เอกสารโอนเดิม
     Private m_note As String
     Private m_otherDocCode As String
 
@@ -51,6 +52,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_type As MatTransferType
     Private m_diffAmountFIFO As Decimal
     Private m_isinitialized As Boolean
+
 
     Private m_je As JournalEntry
 
@@ -172,8 +174,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_type.Value = CInt(dr(aliasPrefix & "stock_tag"))
         End If
 
+        'วันที่โอนย้ายไปไว้ที่ stock_otherdocdate แล้วเอาวันรับมาทับ
+
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+        End If
+
+
+        If dr.Table.Columns.Contains("stock_otherdocDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_otherdocDate") Then
+          .m_MTDate = CDate(dr(aliasPrefix & "stock_otherdocDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -204,7 +213,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'm_otherDocCode
 
         m_je = New JournalEntry(Me)
-
+        If m_je.DocDate = Date.MinValue Then
+          m_je.DocDate = Me.DocDate
+        End If
         m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
         MatActualHashIn = New Hashtable
         MatActualHashOut = New Hashtable
@@ -215,7 +226,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ApprovalCollection As ApprovalStoreCommentCollection
+    Public Property ApprovalCollection As ApprovalStoreCommentCollection Implements IHasAppStoreColl.ApprovalCollection
       Get
         Return m_approvalCollection
       End Get
@@ -239,6 +250,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
         Me.m_je.DocDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property MatTransferDocDate() As Date
+      Get
+        Return m_MTDate
+      End Get
+      Set(ByVal Value As Date)
+        m_MTDate = Value
       End Set
     End Property
     Public Property StockEntity As Integer
@@ -816,6 +835,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Return Save(currentUserId, conn, trans)
     End Function
     'Public Property AutoCodeFormat As String
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
@@ -912,6 +937,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldjeid As Integer = Me.m_je.Id
 
         Try
+          Try
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMTDocdate", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                       New SqlParameter("@stock_docdate", Me.DocDate))
+          Catch ex As SqlException
+            trans.Rollback()
+            ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+          End Try
+         
           'Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           'If IsNumeric(returnVal.Value) Then
           '  Select Case CInt(returnVal.Value)
@@ -927,9 +962,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Return New SaveErrorException(returnVal.Value.ToString)
           'End If
 
+          Dim saveApproveError As SaveErrorException = m_approvalCollection.SaveApproveComment(conn, trans)
+          If Not IsNumeric(saveApproveError.Message) Then
+            trans.Rollback()
+            ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return saveApproveError
+          Else
+            Select Case CInt(saveApproveError.Message)
+              Case -1, -2, -5
+                'trans.Rollback()
+                ResetId(oldid, oldjeid)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveApproveError
+              Case Else
+            End Select
+          End If
+
           Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
-            'trans.Rollback()
+            trans.Rollback()
             ResetId(oldid, oldjeid)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveDetailError
@@ -1004,10 +1056,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
-          'trans.Commit()
+          trans.Commit()
 
           Return New SaveErrorException("1")
         Catch ex As SqlException
+
           'trans.Rollback()
           ResetId(oldid, oldjeid)
           ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
@@ -1571,35 +1624,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Type.Value = 3 Then
           newRealAccount = newEntityAcct
         End If
-        For Each addedJi As JournalEntryItem In jiColl
-          If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
-            If Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = newRealAccount.Id Then
-              If addedJi.Mapping = map Then
-                addedJi.Amount += item.Amount
-                lciMatched = True
-              End If
+        'For Each addedJi As JournalEntryItem In jiColl
+        '  If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
+        '    If Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = newRealAccount.Id Then
+        '      If addedJi.Mapping = map Then
+        '        addedJi.Amount += item.Amount
+        '        lciMatched = True
+        '      End If
 
-              'ต้นทาง
-              If addedJi.Mapping = "F1.4" Then
-                addedJi.Amount += item.Amount
-                originMatched = True
-              End If
-            End If
-          ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
-            If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) Then
-              If addedJi.Mapping = map Then
-                addedJi.Amount += item.Amount
-                lciNoAcctMatched = True
-              End If
+        '      'ต้นทาง
+        '      If addedJi.Mapping = "F1.4" Then
+        '        addedJi.Amount += item.Amount
+        '        originMatched = True
+        '      End If
+        '    End If
+        '  ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
+        '    If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) Then
+        '      If addedJi.Mapping = map Then
+        '        addedJi.Amount += item.Amount
+        '        lciNoAcctMatched = True
+        '      End If
 
-              'ต้นทาง
-              If addedJi.Mapping = "F1.4" Then
-                addedJi.Amount += item.Amount
-                originMatched = True
-              End If
-            End If
-          End If
-        Next
+        '      'ต้นทาง
+        '      If addedJi.Mapping = "F1.4" Then
+        '        addedJi.Amount += item.Amount
+        '        originMatched = True
+        '      End If
+        '    End If
+        '  End If
+        'Next
         Dim realAccount As Account
         Dim entityAcct As Account
         Dim lci As LCIItem = CType(item.Entity, LCIItem)
@@ -1630,7 +1683,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
 
-          If item.WBSDistributeCollection Is Nothing Then
+          If item.WBSDistributeCollection Is Nothing OrElse item.WBSDistributeCollection.Count = 0 Then
             'ฝั่งต้นทาง
             ji = New JournalEntryItem
             ji.Mapping = "F1.4W"
@@ -1647,7 +1700,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Mapping = "F1.4W"
               ji.Amount += iwbs.Amount
               ji.Account = realAccount
-              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & Configuration.FormatToString(iwbs.Percent, 2) & "%"
               'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.unit.Name & ")"
               ji.EntityItem = item.Entity.Id
               ji.EntityItemType = 42

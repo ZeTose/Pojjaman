@@ -7,6 +7,11 @@ Imports Longkong.Core.Services
 Imports System.Reflection
 
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Interface IHasAppStoreColl
+    Inherits ISimpleEntity
+    Property ApprovalCollection As ApprovalStoreCommentCollection
+  End Interface
+
   Public Class ApprovalStoreComment
 
 #Region "Members"
@@ -63,7 +68,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property
-    Public Property Comment() As String      Get        Return m_comment      End Get      Set(ByVal Value As String)        m_comment = Value      End Set    End Property    Public Property Type() As Integer      Get        Return m_approveType      End Get      Set(ByVal Value As Integer)        m_approveType = Value      End Set    End Property    Public Property Originator() As Integer      Get        Return m_originator      End Get      Set(ByVal Value As Integer)        m_originator = Value      End Set    End Property    Public Property OriginDate() As Date      Get        Return m_originDate      End Get      Set(ByVal Value As Date)        m_originDate = Value      End Set    End Property    Public Property LastEditor() As Integer      Get        Return m_lastEditor      End Get      Set(ByVal Value As Integer)        m_lastEditor = Value      End Set    End Property    Public Property LastEditDate() As Date      Get        Return m_lastEditDate      End Get      Set(ByVal Value As Date)        m_lastEditDate = Value      End Set    End Property    Public Property EntityId() As Integer      Get        Return m_entityId      End Get      Set(ByVal Value As Integer)        m_entityId = Value      End Set    End Property    Public Property EntityType() As Integer      Get        Return m_entityType      End Get      Set(ByVal Value As Integer)        m_entityType = Value      End Set    End Property
+    Public Property Comment() As String      Get        Return m_comment      End Get      Set(ByVal Value As String)        m_comment = Value      End Set    End Property    Public Property Type() As Integer      Get        Return m_approveType      End Get      Set(ByVal Value As Integer)        m_approveType = Value      End Set    End Property    Public Property Originator() As Integer      Get        Return m_originator      End Get      Set(ByVal Value As Integer)        m_originator = Value      End Set    End Property    Public Property OriginDate() As Date      Get        Return m_originDate      End Get      Set(ByVal Value As Date)        m_originDate = Value      End Set    End Property    Public Property LastEditor() As Integer      Get        Return m_lastEditor      End Get      Set(ByVal Value As Integer)        m_lastEditor = Value      End Set    End Property    Public Property LastEditDate() As Date      Get        If Date.MinValue = m_lastEditDate Then
+          Return m_originDate
+        End If
+        Return m_lastEditDate      End Get      Set(ByVal Value As Date)        m_lastEditDate = Value      End Set    End Property    Public Property EntityId() As Integer      Get        Return m_entityId      End Get      Set(ByVal Value As Integer)        m_entityId = Value      End Set    End Property    Public Property EntityType() As Integer      Get        Return m_entityType      End Get      Set(ByVal Value As Integer)        m_entityType = Value      End Set    End Property
 #End Region
 
 #Region "Methods"
@@ -86,11 +94,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_entityId As Integer
     Private m_entityType As Integer
-    Private m_entity As ISimpleEntity
+    Private m_entity As IHasAppStoreColl
 #End Region
 
 #Region "Constructors"
-    Public Sub New(ByVal entity As ISimpleEntity)
+    Public Sub New(ByVal entity As IHasAppStoreColl)
       If Not entity.Originated Then
         Return
       End If
@@ -99,7 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_entityType = entity.EntityId
       Construct(entity.Id, entity.EntityId)
     End Sub
-    Public Sub New(ByVal entity As ISimpleEntity, ByVal showLastStatusFirst As Boolean)
+    Public Sub New(ByVal entity As IHasAppStoreColl, ByVal showLastStatusFirst As Boolean)
       If Not entity.Originated Then
         Return
       End If
@@ -157,7 +165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MyBase.List.Item(index) = value
       End Set
     End Property
-    Public ReadOnly Property Entity As ISimpleEntity
+    Public ReadOnly Property Entity As IHasAppStoreColl
       Get
         Return m_entity
       End Get
@@ -205,7 +213,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not m_entity Is Nothing Then
           Dim saveMRError As SaveErrorException = Me.m_entity.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveMRError.Message) Then
-            trans.Rollback()
+            ' trans.Rollback()
             'ResetId(oldId, oldPaymentId, oldVatId, oldJeId)
             Return New SaveApproveException(saveMRError.Message)
           Else
@@ -271,7 +279,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveApproveException(ex.InnerException.ToString)
       End Try
     End Function
-    Private Function SaveApproveComment(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+    Public Function SaveApproveComment(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim cmd As SqlCommand = conn.CreateCommand
         cmd.CommandText = "select * from StockiApprovalStoreComment where (apvstore_entityId = " & m_entityId & ")  and (apvstore_entityType = " & m_entityType & ") "
@@ -314,8 +322,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
         ' Finally process inserts.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        Return New SaveErrorException("1")
       Catch ex As Exception
-
+        Return New SaveErrorException(ex.ToString)
       End Try
     End Function
     'Public Function IsApproved() As Boolean

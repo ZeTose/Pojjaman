@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatableItem
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatableItem, IHasAppStoreColl
 
 #Region "Members"
     Private m_docDate As Date
@@ -209,7 +209,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ApprovalCollection As ApprovalStoreCommentCollection
+    Public Property ApprovalCollection As ApprovalStoreCommentCollection Implements IHasAppStoreColl.ApprovalCollection
       Get
         If m_approvalCollection Is Nothing Then
           m_approvalCollection = New ApprovalStoreCommentCollection(Me)
@@ -954,6 +954,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.AutoGen = False
         'Me.m_je.AutoGen = False
         paramArrayList.Add(New SqlParameter("@stock_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
+        paramArrayList.Add(New SqlParameter("@stock_otherdocDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@stock_code", Me.Code))
 
         'paramArrayList.Add(New SqlParameter("@stock_otherDocCode", Me.AutoCodeFormat.Format)) ''เก็บ AutoCode Format ไว้สำหรับ เอกสารรับของ
