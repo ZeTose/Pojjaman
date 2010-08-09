@@ -1238,7 +1238,10 @@ Namespace Longkong.AdobeForm
         m_CurrentFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
         pd.PrinterSettings.PrintFileName = m_CurrentFileName
         pd.Print()
-        SaveXPS()
+        Dim config As Object = Configuration.GetConfig("SaveXPSLog")
+        If CBool(config) Then
+          SaveXPS()
+        End If
       Catch ex As Exception
 
       End Try
