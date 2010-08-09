@@ -2337,6 +2337,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.SubContractor.Phone
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'SubContractorMobile
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorMobilePhone"
+        dpi.Value = Me.SubContractor.Mobile.ToString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorEmail
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorEmail"
+        dpi.Value = Me.SubContractor.EmailAddress.ToString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorHomePage
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorHomePage"
+        dpi.Value = Me.SubContractor.HomePage.ToString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
       End If
 
       If Not Me.CostCenter Is Nothing Then
