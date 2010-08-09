@@ -156,7 +156,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbExportType
       '
       Me.cmbExportType.FormattingEnabled = True
-      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT"})
+      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
       Me.cmbExportType.Location = New System.Drawing.Point(300, 164)
       Me.cmbExportType.Name = "cmbExportType"
       Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
@@ -1231,7 +1231,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
         Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))
         Try
-          'Exporter.Export(m_entity, writer)
+          Exporter.Export(m_entity, writer)
           MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportBankTransferOutDetail.ExportCompleted}"))
         Catch ex As Exception
           MessageBox.Show("Error:" & ex.ToString)

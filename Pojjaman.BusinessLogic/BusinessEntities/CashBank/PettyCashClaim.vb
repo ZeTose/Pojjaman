@@ -1366,7 +1366,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class ExportPC
     Inherits SimpleBusinessEntityBase
-    Implements IPaymentItem, IHasBankAccount
+    Implements IPaymentItem, IHasBankAccount, IExportable
 
 #Region "Members"
     Private m_amount As Decimal
@@ -1388,7 +1388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.New(dr, aliasPrefix)
     End Sub
-    Public Property ExportType As String = "mcl"
+    Public Property ExportType As String = "mcl" Implements IExportable.ExportType
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
 
@@ -1466,7 +1466,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Private m_paymentList As List(Of PaymentForList)
-    Public ReadOnly Property PaymentList As List(Of PaymentForList)
+    Public ReadOnly Property PaymentList As List(Of PaymentForList) Implements IExportable.PaymentList
       Get
         If m_paymentList Is Nothing Then
           m_paymentList = New List(Of PaymentForList)
@@ -1780,6 +1780,5 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetRemain() As Decimal
       Return Me.Amount - GetSum()
     End Function
-
   End Class
 End Namespace

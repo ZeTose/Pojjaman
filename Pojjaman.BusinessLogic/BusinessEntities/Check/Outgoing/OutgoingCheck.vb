@@ -14,7 +14,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class OutgoingCheck
     Inherits SimpleBusinessEntityBase
-    Implements IPaymentItem, IPrintableEntity, IHasBankAccount, IHasIBillablePerson, ICheckPeriod
+    Implements IPaymentItem, IPrintableEntity, IHasBankAccount, IHasIBillablePerson, ICheckPeriod, IExportable
 
 
 #Region "Members"
@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New(dr, aliasPrefix)
     End Sub
 
-    Public Property ExportType As String = "mcl"
+    Public Property ExportType As String = "mcl" Implements IExportable.ExportType
 
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
@@ -399,7 +399,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
     Private m_paymentList As List(Of PaymentForList)
-    Public ReadOnly Property PaymentList As List(Of PaymentForList)
+    Public ReadOnly Property PaymentList As List(Of PaymentForList) Implements IExportable.PaymentList
       Get
         If m_paymentList Is Nothing Then
           m_paymentList = New List(Of PaymentForList)
@@ -1162,6 +1162,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Interface IExportable
+    Inherits IHasBankAccount, IPaymentItem
+
+    ReadOnly Property PaymentList As List(Of PaymentForList)
+
+    Property ExportType As String
+
+  End Interface
   Public Class Exporter
     Public Shared Function GetBankInfo(ByVal bankName As String, ByVal bankAccountCode As String) As BankInfo
       If bankName Is Nothing Then
@@ -1291,16 +1299,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Public BankAccountCode As String
       Public BankBranchCode As String
     End Class
-    Public Shared Sub Export(ByVal c As OutgoingCheck, ByVal writer As TextWriter)
+    Public Shared Sub Export(ByVal c As IExportable, ByVal writer As TextWriter)
       Dim t As String = c.ExportType.ToLower
       Select Case t.ToLower
         Case "mcl"
           ExportMCP(c, t, writer)
         Case "dct", "pct"
           ExportDCP(c, t, writer)
+        Case "coc"
+          ExportCOC(c, t, writer)
       End Select
     End Sub
-    Private Shared Sub ExportMCP(ByVal c As OutgoingCheck, ByVal t As String, ByVal writer As TextWriter)
+    Private Shared Sub ExportMCP(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
       Dim theItemList As List(Of PaymentForList) = c.PaymentList 'GetGroupedList(c.PaymentList, t)
       Dim amtString As String = Configuration.FormatToString(c.Amount, 2)
 
@@ -1312,7 +1322,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim header As String = ""
       header &= "H" 'Part Identifier
       header &= "MCL" 'Payment Type
-      header &= String.Format("{0,-10}", c.Bankacct.BankCode.Replace("-", "")) 'Debit A/C No.
+      header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'Debit A/C No.
       header &= Space(16) 'Batch Ref.#
       header &= effectiveDate.ToString("dd-MM-yyyy", culture) 'Effective Date
       header &= Space(5) 'Customer Branch #
@@ -1390,7 +1400,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
     Public Const COMPANY_NAME As String = "บริษัท วิศวภัทร์ จำกัด"
-    Private Shared Sub ExportDCP(ByVal c As OutgoingCheck, ByVal t As String, ByVal writer As TextWriter)
+    Private Shared Sub ExportDCP(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
       Dim theItemList As List(Of PaymentForList) = c.PaymentList 'GetGroupedList(c.PaymentList, t)
       Dim amtString As String = Configuration.FormatToString(c.Amount, 2)
 
@@ -1409,7 +1419,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= Space(1) 'FILLER
       header &= Space(7) 'COMPANY-CODE
       header &= Space(1) 'FILLER
-      header &= String.Format("{0,-10}", c.Bankacct.BankCode.Replace("-", "")) 'ACCT-NO
+      header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'ACCT-NO
       header &= Space(1) 'FILLER
       header &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(amtString, ",", ""), ".", "") & "0")) 'AMOUNT
       header &= Space(1) 'FILLER
@@ -1447,10 +1457,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= Space(1) 'FILLER
         creditText &= Space(7) 'COMPANY-CODE
         creditText &= Space(1) 'FILLER
-        If IsNumeric(c.Bankacct.BankCode.Replace("-", "")) Then
-          creditText &= String.Format("{0:0000000000}", CInt(c.Bankacct.BankCode.Replace("-", ""))) 'ACCT-NO
+        If IsNumeric(c.BankAccount.BankCode.Replace("-", "")) Then
+          creditText &= String.Format("{0:0000000000}", CInt(c.BankAccount.BankCode.Replace("-", ""))) 'ACCT-NO
         Else
-          creditText &= String.Format("{0,-10}", c.Bankacct.BankCode.Replace("-", "")) 'ACCT-NO
+          creditText &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'ACCT-NO
         End If
         creditText &= Space(1) 'FILLER
         creditText &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(itemAmountString, ",", ""), ".", "") & "0")) 'AMOUNT
@@ -1477,6 +1487,97 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= Space(30) 'Payee Address 3
         creditText &= Space(30) 'Payee Address 4
 
+        writer.WriteLine(creditText)
+
+        Dim j As Integer = 1
+        For Each taxi As TaxInfo In item.TaxInfos
+          For Each ti As TaxInfoItem In taxi.TaxInfoItems
+            Dim tiAmountString As String = Configuration.FormatToString(ti.TaxRate, 2)
+            Dim tiBfVatString As String = Configuration.FormatToString(ti.BeforeVAT, 2)
+            Dim tiWHtString As String = Configuration.FormatToString(ti.WHT, 2)
+            Dim tiAfVatString As String = Configuration.FormatToString(ti.AfterVat, 2)
+
+            Dim taxDetail As String = ""
+            taxDetail &= "T" 'Part Identifier
+            taxDetail &= taxi.TaxForm 'Tax Form
+            taxDetail &= String.Format("{0,-10}", j) 'Tax Seq.#
+            taxDetail &= String.Format("{0:000.00}", CDbl(Replace(tiAmountString, ",", ""))) 'Tax rate (3.2)
+            taxDetail &= String.Format("{0,-40}", ti.Description).Substring(0, 40)   'Type of tax deducted
+            taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiBfVatString, ",", ""))) 'Inv Amt bef VAT (10.2)
+            taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiWHtString, ",", ""))) 'Tax deducted Amt (10.2)
+            taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiAfVatString, ",", ""))) 'Inv Amt after VAT (10.2)
+            taxDetail &= taxi.TaxCondition 'Tax Condition
+            writer.WriteLine(taxDetail)
+          Next
+
+          j += 1
+        Next
+
+        i += 1
+      Next
+    End Sub
+    Private Shared Sub ExportCOC(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
+      Dim theItemList As List(Of PaymentForList) = c.PaymentList 'GetGroupedList(c.PaymentList, t)
+      Dim amtString As String = Configuration.FormatToString(c.Amount, 2)
+
+      Dim culture As New CultureInfo("en-US", True)
+
+      Dim effectiveDate As Date = c.DueDate
+      Dim pickupDate As Date = c.DueDate
+
+      Dim exportTime As Date = Date.Now
+      Dim header As String = ""
+      header &= "H" 'Part Identifier
+      header &= "COC" 'Payment Type
+      header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'Debit A/C No.
+      header &= Space(16) 'Batch Ref.#
+      header &= effectiveDate.ToString("dd-MM-yyyy", culture) 'Effective Date
+      header &= pickupDate.ToString("dd-MM-yyyy", culture) 'Pickup Date
+      header &= Space(5) 'Customer Branch #
+      header &= String.Format("{0:000000000000000000}", theItemList.Count)  'Total Credit Items
+      header &= String.Format("{0:000000000000000.00}", CDbl(Replace(amtString, ",", ""))) 'Total Debit Amount
+      header &= "N" 'Charges for A/C Of.
+
+      writer.WriteLine(header)
+
+      Dim i As Integer = 1
+      For Each item As PaymentForList In theItemList
+        Dim bi As BankInfo = GetBankInfo(item.KbankMCBank, item.KbankMCAccount)
+        Dim itemBankCode As String = bi.BankCode
+        Dim itemBankName As String = bi.BankName
+        Dim itemBankBranchCode As String = bi.BankBranchCode
+        Dim itemBankBranchName As String = ""
+        Dim itemAccount As String = bi.BankAccountCode
+
+        Dim itemAmountString As String = Configuration.FormatToString(item.Amount, 2)
+        Dim itemBfVatString As String = Configuration.FormatToString(item.Amount, 2)
+        Dim itemWHtString As String = Configuration.FormatToString(item.Amount, 2)
+        Dim itemAfVatString As String = Configuration.FormatToString(item.Amount, 2)
+
+        Dim creditText As String = ""
+        creditText &= "D" 'Part Identifier
+        creditText &= String.Format("{0,-10}", i) 'Txn. Reference No.
+        creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemAmountString, ",", ""))) 'Amount
+        creditText &= String.Format("{0,-120}", item.PayeeName).Substring(0, 120) 'Payee
+        creditText &= Space(30) 'Payee Address 1
+        creditText &= Space(30) 'Payee Address 2
+        creditText &= Space(30) 'Payee Address 3
+        creditText &= Space(30) 'Payee Address 4
+        creditText &= String.Format("{0,-10}", item.PayeeTaxID) 'Tax Id
+        creditText &= String.Format("{0,-13}", item.PersonalID).Substring(0, 13) 'Personal Id
+        creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
+        creditText &= Space(255) 'Details
+        creditText &= item.DeliveryMethod 'Delivery Method
+        creditText &= String.Format("{0,-4}", item.PickupLocation).Substring(0, 4) 'Pickup Location Code
+        creditText &= String.Format("{0,-24}", item.PickupDocument).Substring(0, 24) 'Document for Pickup
+        creditText &= Space(50) 'Attachment Sub-file
+        creditText &= "F" 'Advice Mode (F = fax)
+        creditText &= String.Format("{0,-50}", item.PayeeFax) 'Fax No.
+        creditText &= Space(50) 'Email ID
+        creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemBfVatString, ",", ""))) 'Total Inv Amt bef VAT (10.2)
+        creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemWHtString, ",", ""))) 'Total Tax deducted Amt (10.2)
+        creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemAfVatString, ",", ""))) 'Total Inv Amt after VAT (10.2)
+        creditText &= String.Format("{0:000}", item.TaxInfos.Count) 'Tax Info Count
         writer.WriteLine(creditText)
 
         Dim j As Integer = 1

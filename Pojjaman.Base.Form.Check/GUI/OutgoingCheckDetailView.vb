@@ -748,7 +748,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbExportType
       '
       Me.cmbExportType.FormattingEnabled = True
-      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT"})
+      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
       Me.cmbExportType.Location = New System.Drawing.Point(297, 250)
       Me.cmbExportType.Name = "cmbExportType"
       Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
