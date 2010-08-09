@@ -264,36 +264,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return True
     End Function
-    Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal itemType As ItemType) As Decimal
-      Dim ret As Decimal = 0
-      For Each item As EquipmentToolChangeStatusItem In Me.ItemCollection
-        For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-          If Not grWBSD.IsMarkup Then
-            Dim isOut As Boolean = False
-            Dim view As Integer = 45
-            Dim transferAmt As Decimal = item.Amount
-            Dim amt As Decimal = WBSDistribute.GetUsedAmount(transferAmt, item.Amount, isOut, view, 3)
-            If grWBSD.WBS.IsDescendantOf(myWbs) Then
-              ret += (grWBSD.Percent * amt / 100)
-            End If
-          End If
-        Next
-      Next
-      Return ret
-    End Function
-    Public Function GetCurrentAmountForMarkup(ByVal mk As Markup) As Decimal
-      Dim ret As Decimal = 0
-      For Each item As EquipmentToolChangeStatusItem In Me.ItemCollection
-        For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-          If grWBSD.IsMarkup Then
-            If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
-              ret += (grWBSD.Percent * item.Amount / 100)
-            End If
-          End If
-        Next
-      Next
-      Return ret
-    End Function
+    'Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal itemType As ItemType) As Decimal
+    '  Dim ret As Decimal = 0
+    '  For Each item As EquipmentToolChangeStatusItem In Me.ItemCollection
+    '    For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
+    '      If Not grWBSD.IsMarkup Then
+    '        Dim isOut As Boolean = False
+    '        Dim view As Integer = 45
+    '        Dim transferAmt As Decimal = item.Amount
+    '        Dim amt As Decimal = WBSDistribute.GetUsedAmount(transferAmt, item.Amount, isOut, view, 3)
+    '        If grWBSD.WBS.IsDescendantOf(myWbs) Then
+    '          ret += (grWBSD.Percent * amt / 100)
+    '        End If
+    '      End If
+    '    Next
+    '  Next
+    '  Return ret
+    'End Function
+    'Public Function GetCurrentAmountForMarkup(ByVal mk As Markup) As Decimal
+    '  Dim ret As Decimal = 0
+    '  For Each item As EquipmentToolChangeStatusItem In Me.ItemCollection
+    '    For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
+    '      If grWBSD.IsMarkup Then
+    '        If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
+    '          ret += (grWBSD.Percent * item.Amount / 100)
+    '        End If
+    '      End If
+    '    Next
+    '  Next
+    '  Return ret
+    'End Function
     Private Sub ResetId(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub

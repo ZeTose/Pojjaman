@@ -1319,13 +1319,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc Is Nothing Then
         Return
       End If
-      Dim wsdColl As WBSDistributeCollection = Me.CurrentParItem.WBSDistributeCollection
-      Dim Amount As Decimal = wsdColl.GetSumAmount - oldvalue + value
-      If Amount > doc.ItemAmount Then
-        e.ProposedValue = e.Row(e.Column)
-        msgServ.ShowMessageFormatted("${res:Global.Error.AmountOverCostAmount}", New String() {Configuration.FormatToString(Amount, DigitConfig.Price), Configuration.FormatToString(doc.ItemAmount, DigitConfig.Price)})
-        Return
-      End If
+      'Dim wsdColl As WBSDistributeCollection = Me.CurrentParItem.WBSDistributeCollection
+      'Dim Amount As Decimal = wsdColl.GetSumAmount - oldvalue + value
+      'If Amount > doc.ItemAmount Then
+      '  e.ProposedValue = e.Row(e.Column)
+      '  msgServ.ShowMessageFormatted("${res:Global.Error.AmountOverCostAmount}", New String() {Configuration.FormatToString(Amount, DigitConfig.Price), Configuration.FormatToString(doc.ItemAmount, DigitConfig.Price)})
+      '  Return
+      'End If
 
       m_wbsUpdating = True
       item.Amount = value

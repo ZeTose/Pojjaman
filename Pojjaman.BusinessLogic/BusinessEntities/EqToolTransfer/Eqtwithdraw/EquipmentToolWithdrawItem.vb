@@ -26,7 +26,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_amount As Decimal
     Private m_pritem As PRItem
 
-    'Private m_WBSDistributeCollection As WBSDistributeCollection
+    Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
 #End Region
 
@@ -79,7 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    'Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
     Public Property PRItem As PRItem
       Get
         Return m_pritem
@@ -313,47 +313,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-    '#Region "IWBSAllocatableItem"
-    '    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
-    '      Get
-    '        Return ""
-    '      End Get
-    '    End Property
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        Return ""
+      End Get
+    End Property
 
-    '    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
-    '      Get
-    '        Return "eq"
-    '      End Get
-    '    End Property
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Return "eq"
+      End Get
+    End Property
 
-    '    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
-    '      Get
-    '        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
-    '      End Get
-    '    End Property
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
 
-    '    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
-    '      Get
-    '        Return Me.Amount
-    '      End Get
-    '    End Property
+    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+      Get
+        Return Me.Amount
+      End Get
+    End Property
 
-    '    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
-    '      Get
-    '        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
-    '        Return strType
-    '      End Get
-    '    End Property
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+        Return strType
+      End Get
+    End Property
 
-    '    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
-    '      Get
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
 
-    '      End Get
-    '      Set(ByVal value As WBSDistributeCollection)
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
 
-    '      End Set
-    '    End Property
-    '#End Region
+      End Set
+    End Property
+#End Region
 
   End Class
 

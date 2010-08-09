@@ -13,6 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class EquipmentToolReturnItem
     Inherits EqtItem
+    Implements IWBSAllocatableItem
 
 #Region "Members"
     Private m_eqtReturn As EquipmentToolReturn
@@ -27,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     '' อ้างอิงใบเบิกเดิม
 
-    'Private m_WBSDistributeCollection As WBSDistributeCollection
+    Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
 #End Region
 
@@ -36,7 +37,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New()
       m_ewi = New EquipmentToolWithdrawItem
 
-      'm_WBSDistributeCollection = New WBSDistributeCollection
+      m_WBSDistributeCollection = New WBSDistributeCollection
+      AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -72,11 +74,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    'Public Property WBSDistributeCollection() As WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
-    'Public Property InternalChargeCollection() As InternalChargeCollection    '  Get    '    If m_internalChargeCollection Is Nothing Then    '      m_internalChargeCollection = New InternalChargeCollection(Me)
-    '    End If    '    Return m_internalChargeCollection    '  End Get    '  Set(ByVal Value As InternalChargeCollection)    '    m_internalChargeCollection = Value    '  End Set    'End Property
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
 
-    'Public ReadOnly Property Sequence() As Integer    '  Get    '    Return m_sequence    '  End Get    'End Property
     Public Overrides Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
@@ -252,8 +251,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+
+      If TypeOf sender Is WBSDistribute Then
+        Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
+        Select Case e.Name.ToLower
+          Case "percent"
+            'If Not Me.m_matWithdraw Is Nothing Then
+
+            'End If
+          Case "amount"
+            'If Not Me.m_matWithdraw Is Nothing Then
+
+            'End If
+          Case "wbs"
+            'Dim oldWBS As WBS = CType(e.OldValue, WBS)
+            Dim newWBS As WBS = CType(e.Value, WBS)
+            Dim theName As String = ""
+            If Me.Entity IsNot Nothing Then
+              theName = Me.Entity.Name
+            End If
+
+            wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+            wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
+
+            If wbsd.IsMarkup Then
+              wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.EqtReturn.Id, Me.EqtReturn.EntityId, 42)
+              wbsd.QtyRemain = 0
+            Else
+              wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.EqtReturn.Id, Me.EqtReturn.EntityId, 42)
+              wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.EqtReturn.Id, Me.EqtReturn.EntityId, Me.Entity.Id, _
+                                                                           42, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+            End If
+
+        End Select
+      End If
+    End Sub
 #End Region
 
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Return "eq"
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+      Get
+        Return Me.Amount
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+        Return strType
+      End Get
+    End Property
+
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
+
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
+
+      End Set
+    End Property
+#End Region
   End Class
 
   <Serializable(), DefaultMember("Item")> _

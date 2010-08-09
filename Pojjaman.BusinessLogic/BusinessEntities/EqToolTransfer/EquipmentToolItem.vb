@@ -82,7 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public MustInherit Class EqtItem
-    Implements IWBSAllocatableItem
+    'Implements IWBSAllocatableItem
 
 
 #Region "Members"
@@ -104,13 +104,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected m_rentalperday As Decimal
     Protected m_ownercc As CostCenter
 
-    Protected m_WBSDistributeCollection As WBSDistributeCollection
+    'Protected m_WBSDistributeCollection As WBSDistributeCollection
 #End Region
 
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      m_WBSDistributeCollection = New WBSDistributeCollection
+      'm_WBSDistributeCollection = New WBSDistributeCollection
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -196,7 +196,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+    'Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
 
     Public Property ItemType() As EqtItemType      Get        Return m_itemtype      End Get      Set(ByVal Value As EqtItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemtype Is Nothing Then
@@ -346,47 +346,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-#Region "IWBSAllocatableItem"
-    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
-      Get
-        Return ""
-      End Get
-    End Property
+    '#Region "IWBSAllocatableItem"
+    '    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+    '      Get
+    '        Return ""
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
-      Get
-        Return "eq"
-      End Get
-    End Property
+    '    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+    '      Get
+    '        Return "eq"
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
-      Get
-        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
-      End Get
-    End Property
+    '    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+    '      Get
+    '        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
-      Get
-        Return Me.Amount
-      End Get
-    End Property
+    '    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+    '      Get
+    '        Return Me.Amount
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
-      Get
-        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
-        Return strType
-      End Get
-    End Property
+    '    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+    '      Get
+    '        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+    '        Return strType
+    '      End Get
+    '    End Property
 
-    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
-      Get
+    '    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+    '      Get
 
-      End Get
-      Set(ByVal value As WBSDistributeCollection)
+    '      End Get
+    '      Set(ByVal value As WBSDistributeCollection)
 
-      End Set
-    End Property
-#End Region
+    '      End Set
+    '    End Property
+    '#End Region
 
 #Region "Shared"
     Public Shared Function GetListDatatable(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataTable
