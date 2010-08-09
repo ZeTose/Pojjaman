@@ -18,15 +18,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_eqtWithdraw As EquipmentToolWithdraw
     Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
 
-    Private m_sequence As Integer
+    'Private m_sequence As Integer
 
 
-    Private m_rentalqty As Integer
-    Private m_rentalperday As Decimal
+    'Private m_rentalqty As Integer
+    'Private m_rentalperday As Decimal
     Private m_amount As Decimal
     Private m_pritem As PRItem
 
-    Private m_WBSDistributeCollection As WBSDistributeCollection
+    'Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
 #End Region
 
@@ -79,7 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+    'Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection    '  Get    '    Return m_WBSDistributeCollection    '  End Get    '  Set(ByVal Value As WBSDistributeCollection)    '    m_WBSDistributeCollection = Value    '  End Set    'End Property
     Public Property PRItem As PRItem
       Get
         Return m_pritem
@@ -99,7 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal value As Decimal)
+    Public Overrides Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal value As Decimal)
         m_amount = value
         If m_rentalqty > 0 Then
           m_rentalperday = m_amount / m_rentalqty
@@ -127,59 +127,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return False
-    End Function    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.ItemType Is Nothing Then
-        'ไม่มี Type
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        Return
-      End If
-      'If DupCode(theCode) Then
-      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
-      '    Return
-      'End If
-      Select Case Me.ItemType.Value
-        Case 342 'F/A
-          If theCode Is Nothing OrElse theCode.Length = 0 Then
-            If Me.Entity.Code.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
-                Me.Clear()
-              End If
-            End If
-            Return
-          End If
-          Dim myEquipment As New EquipmentItem(theCode)
-          If Not myEquipment.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
-            Return
-          Else
-            Me.Entity = myEquipment
-          End If
-        Case 19 'Tool
-          If theCode Is Nothing OrElse theCode.Length = 0 Then
-            If Me.Entity.Code.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
-                Me.Clear()
-              End If
-            End If
-            Return
-          End If
-          Dim myTool As New Tool(theCode)
-          If Not myTool.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
-            Return
-          Else
-            Me.Entity = myTool
-          End If
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          Return
-      End Select
-      Me.Qty = 1
-    End Sub
+    End Function    'ไปใช้ของแม่ Eqtitem    'Public Sub SetItemCode(ByVal theCode As String)    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '  If Me.ItemType Is Nothing Then
+    '    'ไม่มี Type
+    '    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+    '    Return
+    '  End If
+    '  'If DupCode(theCode) Then
+    '  '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
+    '  '    Return
+    '  'End If
+    '  Select Case Me.ItemType.Value
+    '    Case 342 'F/A
+    '      If theCode Is Nothing OrElse theCode.Length = 0 Then
+    '        If Me.Entity.Code.Length <> 0 Then
+    '          If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+    '            Me.Clear()
+    '          End If
+    '        End If
+    '        Return
+    '      End If
+    '      Dim myEquipment As New EquipmentItem(theCode)
+    '      If Not myEquipment.Originated Then
+    '        msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
+    '        Return
+    '      Else
+    '        Me.Entity = myEquipment
+    '      End If
+    '    Case 19 'Tool
+    '      If theCode Is Nothing OrElse theCode.Length = 0 Then
+    '        If Me.Entity.Code.Length <> 0 Then
+    '          If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+    '            Me.Clear()
+    '          End If
+    '        End If
+    '        Return
+    '      End If
+    '      Dim myTool As New Tool(theCode)
+    '      If Not myTool.Originated Then
+    '        msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+    '        Return
+    '      Else
+    '        Me.Entity = myTool
+    '      End If
+    '    Case Else
+    '      msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+    '      Return
+    '  End Select
+    '  Me.Qty = 1
+    'End Sub
 #End Region
 
 #Region "Methods"
-    Public Sub Clear()
+    Public Overrides Sub Clear()
       'Me.Entity = New EquipmentToolWithdrawItem
       Me.Qty = 0
       Me.Note = ""
@@ -313,47 +313,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-#Region "IWBSAllocatableItem"
-    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
-      Get
-        Return ""
-      End Get
-    End Property
+    '#Region "IWBSAllocatableItem"
+    '    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+    '      Get
+    '        Return ""
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
-      Get
-        Return "eq"
-      End Get
-    End Property
+    '    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+    '      Get
+    '        Return "eq"
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
-      Get
-        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
-      End Get
-    End Property
+    '    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+    '      Get
+    '        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
-      Get
-        Return Me.Amount
-      End Get
-    End Property
+    '    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+    '      Get
+    '        Return Me.Amount
+    '      End Get
+    '    End Property
 
-    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
-      Get
-        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
-        Return strType
-      End Get
-    End Property
+    '    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+    '      Get
+    '        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+    '        Return strType
+    '      End Get
+    '    End Property
 
-    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
-      Get
+    '    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+    '      Get
 
-      End Get
-      Set(ByVal value As WBSDistributeCollection)
+    '      End Get
+    '      Set(ByVal value As WBSDistributeCollection)
 
-      End Set
-    End Property
-#End Region
+    '      End Set
+    '    End Property
+    '#End Region
 
   End Class
 
@@ -390,7 +390,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
         AddHandler wbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
         item.WBSDistributeCollection = wbsdColl
-        For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
+        For Each wbsRow As DataRow In ds.Tables(1).Select("eqtstockiw_sequence=" & item.Sequence)
           Dim wbsd As New WBSDistribute(wbsRow, "")
           wbsdColl.Add(wbsd)
         Next

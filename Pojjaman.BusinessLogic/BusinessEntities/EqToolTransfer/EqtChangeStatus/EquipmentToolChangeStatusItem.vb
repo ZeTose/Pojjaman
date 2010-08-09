@@ -79,7 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
   
-    Public Property Amount() As Decimal      Get        Return m_Amt      End Get      Set(ByVal value As Decimal)
+    Public Overrides Property Amount() As Decimal      Get        Return m_Amt      End Get      Set(ByVal value As Decimal)
         m_Amt = value
       End Set    End Property
     Public Property EqtChangeStatus() As EquipmentToolChangeStatus

@@ -166,11 +166,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_deprecalc = Value
       End Set
     End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    'Public Property Discount() As Discount 'ไม่มีส่วนลดต่อ item    '  Get    '    Return m_discount    '  End Get    '  Set(ByVal Value As Discount)    '    m_discount = Value    '  End Set    'End Property
-    Public ReadOnly Property Amount() As Decimal 'ในที่นี้คือ มูลค่าที่ขาย
+    Public Overrides Property Amount() As Decimal 'ในที่นี้คือ มูลค่าที่ขาย
       Get
         'Me.Discount.AmountBeforeDiscount = (Me.UnitPrice * Me.Qty)
         Return (Me.UnitPrice * Me.Qty) '- Me.Discount.Amount
       End Get
+      Set(ByVal value As Decimal)
+
+      End Set
     End Property
     Public ReadOnly Property ProfitLoss() As Decimal 'กำไรขาดทุนจากการขายสินทรัพย์
       Get

@@ -150,11 +150,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_deprecalc = Value
       End Set
     End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value      End Set    End Property
-    Public ReadOnly Property Amount() As Decimal
+    Public Overrides Property Amount() As Decimal
       Get
         Me.Discount.AmountBeforeDiscount = (Me.UnitPrice * Me.Qty)
         Return (Me.UnitPrice * Me.Qty) - Me.Discount.Amount
       End Get
+      Set(ByVal value As Decimal)
+
+      End Set
     End Property
     Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
     Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property

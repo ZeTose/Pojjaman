@@ -81,7 +81,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
   End Class
 
-  Public Class EqtItem
+  Public MustInherit Class EqtItem
+    Implements IWBSAllocatableItem
+
 
 #Region "Members"
     Private m_lineNumber As Integer
@@ -102,7 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected m_rentalperday As Decimal
     Protected m_ownercc As CostCenter
 
-    Private m_WBSDistributeCollection As WBSDistributeCollection
+    Protected m_WBSDistributeCollection As WBSDistributeCollection
 #End Region
 
 #Region "Constructors"
@@ -194,8 +196,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WBSDistributeCollection() As WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
-    
+    Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
+
     Public Property ItemType() As EqtItemType      Get        Return m_itemtype      End Get      Set(ByVal Value As EqtItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemtype Is Nothing Then
           m_itemtype = Value
@@ -231,21 +233,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set    End Property
 
     Public ReadOnly Property Sequence() As Integer      Get        Return m_sequence      End Get    End Property
-    'Public Property RentalPerDay() As Decimal    '  Get    '    Return m_rentalperday    '  End Get    '  Set(ByVal value As Decimal)
-    '    m_rentalperday = value
-    '    m_amount = m_rentalperday * m_rentalqty
-    '  End Set    'End Property
-    'Public Property Amount() As Decimal    '  Get    '    Return m_amount    '  End Get    '  Set(ByVal value As Decimal)
-    '    m_amount = value
-    '    If m_rentalqty > 0 Then
-    '      m_rentalperday = m_amount / m_rentalqty
-
-    '    End If
-    '  End Set    'End Property
     Public ReadOnly Property OwnerCostcenter As CostCenter      Get
         Return m_ownercc
       End Get
-    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public MustOverride Property Amount As Decimal    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -316,7 +307,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property#End Region
 
 #Region "Methods"
-    Public Sub Clear()
+    Public Overridable Sub Clear()
       Me.m_entityitem = New Asset
       Me.m_qty = 0
       Me.m_note = ""
@@ -353,6 +344,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+#End Region
+
+#Region "IWBSAllocatableItem"
+    Public ReadOnly Property AllocationErrorMessage As String Implements IWBSAllocatableItem.AllocationErrorMessage
+      Get
+        Return ""
+      End Get
+    End Property
+
+    Public ReadOnly Property AllocationType As String Implements IWBSAllocatableItem.AllocationType
+      Get
+        Return "eq"
+      End Get
+    End Property
+
+    Public ReadOnly Property Description As String Implements IWBSAllocatableItem.Description
+      Get
+        Return Me.Entity.Code & " : " & Trim(Me.Entity.Name)
+      End Get
+    End Property
+
+    Public ReadOnly Property ItemAmount As Decimal Implements IWBSAllocatableItem.ItemAmount
+      Get
+        Return Me.Amount
+      End Get
+    End Property
+
+    Public ReadOnly Property Type As String Implements IWBSAllocatableItem.Type
+      Get
+        Dim strType As String = Me.ItemType.Description 'CodeDescription.GetDescription("eqtstocki_entityType", Me.ItemType.Value)
+        Return strType
+      End Get
+    End Property
+
+    Public Property WBSDistributeCollection2 As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection2
+      Get
+
+      End Get
+      Set(ByVal value As WBSDistributeCollection)
+
+      End Set
+    End Property
 #End Region
 
 #Region "Shared"

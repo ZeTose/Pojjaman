@@ -131,7 +131,8 @@
 
     <EntityTab id="equipmenttoolreturn">
       <EntityTab id="EqtReturnDetail" view="Longkong.Pojjaman.Gui.Panels.EqtReturnDetail"/>
-    </EntityTab>
+			<EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
+		</EntityTab>
 
     <EntityTab id="equipmenttoolchangestatus">
 			<EntityTab id="EqtChangeStatusDetail" view="Longkong.Pojjaman.Gui.Panels.EqtChangeStatusDetail"/>

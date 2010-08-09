@@ -20,8 +20,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_refdoc As EquipmentToolWithdraw
 
     Private m_ewi As EquipmentToolWithdrawItem
-    Private m_rentalqty As Integer
-    Private m_rentalperday As Decimal
+    'Private m_rentalqty As Integer
+    'Private m_rentalperday As Decimal
     Private m_rentalAmt As Decimal
 
 
@@ -102,7 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_rentalAmt = m_rentalperday * m_rentalqty
       End Set
     End Property
-    Public Property Amount() As Decimal      Get        Return m_rentalAmt      End Get      Set(ByVal value As Decimal)
+    Public Overrides Property Amount() As Decimal      Get        Return m_rentalAmt      End Get      Set(ByVal value As Decimal)
         m_rentalAmt = value
         If m_rentalqty > 0 Then
           m_rentalperday = m_rentalAmt / m_rentalqty
