@@ -1513,27 +1513,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '===========================================================
 
         '===========================================================
-        Dim drs As DataRow() = ds.Tables(1).Select("ID=" & p.Id.ToString)
-        If Not drs Is Nothing AndAlso drs.Length > 0 Then
-          Dim currentTaxInfo As New TaxInfo
-          For Each r As DataRow In drs
-            Dim deh2 As New DataRowHelper(r)
-            Dim wid As Integer = deh2.GetValue(Of Integer)("whtid")
-            If currentTaxInfo.ID <> wid Then
-              currentTaxInfo = New TaxInfo
-              currentTaxInfo.ID = wid
-              currentTaxInfo.TaxCondition = deh2.GetValue(Of String)("TaxCondition")
-              currentTaxInfo.TaxForm = deh2.GetValue(Of String)("TaxForm")
-              p.TaxInfos.Add(currentTaxInfo)
-            End If
-            Dim ti As New TaxInfoItem
-            ti.Description = deh2.GetValue(Of String)("Description")
-            ti.BeforeVAT = deh2.GetValue(Of Decimal)("BeforeVAT")
-            ti.TaxRate = deh2.GetValue(Of Decimal)("TaxRate")
-            ti.AfterVat = ti.BeforeVAT + Vat.GetVatAmount(ti.BeforeVAT)
-            ti.WHT = deh2.GetValue(Of Decimal)("TaxAmount")
-            currentTaxInfo.TaxInfoItems.Add(ti)
-          Next
+        If ds.Tables.Count > 1 Then
+          Dim drs As DataRow() = ds.Tables(1).Select("ID=" & p.Id.ToString)
+          If Not drs Is Nothing AndAlso drs.Length > 0 Then
+            Dim currentTaxInfo As New TaxInfo
+            For Each r As DataRow In drs
+              Dim deh2 As New DataRowHelper(r)
+              Dim wid As Integer = deh2.GetValue(Of Integer)("whtid")
+              If currentTaxInfo.ID <> wid Then
+                currentTaxInfo = New TaxInfo
+                currentTaxInfo.ID = wid
+                currentTaxInfo.TaxCondition = deh2.GetValue(Of String)("TaxCondition")
+                currentTaxInfo.TaxForm = deh2.GetValue(Of String)("TaxForm")
+                p.TaxInfos.Add(currentTaxInfo)
+              End If
+              Dim ti As New TaxInfoItem
+              ti.Description = deh2.GetValue(Of String)("Description")
+              ti.BeforeVAT = deh2.GetValue(Of Decimal)("BeforeVAT")
+              ti.TaxRate = deh2.GetValue(Of Decimal)("TaxRate")
+              ti.AfterVat = ti.BeforeVAT + Vat.GetVatAmount(ti.BeforeVAT)
+              ti.WHT = deh2.GetValue(Of Decimal)("TaxAmount")
+              currentTaxInfo.TaxInfoItems.Add(ti)
+            Next
+          End If
         End If
         '===========================================================
         m_paymentList.Add(p)
@@ -1734,16 +1736,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         With ds.Tables("exportpcitem")
           Dim rowsToDelete As New List(Of DataRow)
           For Each row As DataRow In .Rows
-            Dim found As Boolean = False
-            For Each item As PaymentForList In Me.PaymentList
-              If item.Id = CInt(row("exportpci_pcc")) Then
-                found = True
-                Exit For
-              End If
-            Next
-            If Not found Then
-              rowsToDelete.Add(row)
-            End If
+            rowsToDelete.Add(row)
           Next
           For Each row As DataRow In rowsToDelete
             row.Delete()

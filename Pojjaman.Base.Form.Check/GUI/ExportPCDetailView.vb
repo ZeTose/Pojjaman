@@ -51,9 +51,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnBankAccountEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents lblCurrency As System.Windows.Forms.Label
-    Friend WithEvents txtTotal As System.Windows.Forms.TextBox
-    Friend WithEvents lblBaht3 As System.Windows.Forms.Label
-    Friend WithEvents lblTotal As System.Windows.Forms.Label
     Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents RadGridView2 As Telerik.WinControls.UI.RadGridView
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -69,9 +66,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.txtTotal = New System.Windows.Forms.TextBox()
-      Me.lblBaht3 = New System.Windows.Forms.Label()
-      Me.lblTotal = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.btnBankAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -107,9 +101,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbExportPC.Controls.Add(Me.ibtnDelRow)
       Me.grbExportPC.Controls.Add(Me.RadGridView2)
       Me.grbExportPC.Controls.Add(Me.ibtnBlank)
-      Me.grbExportPC.Controls.Add(Me.txtTotal)
-      Me.grbExportPC.Controls.Add(Me.lblBaht3)
-      Me.grbExportPC.Controls.Add(Me.lblTotal)
       Me.grbExportPC.Controls.Add(Me.lblItem)
       Me.grbExportPC.Controls.Add(Me.chkAutorun)
       Me.grbExportPC.Controls.Add(Me.btnBankAccountFind)
@@ -188,43 +179,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank.TabStop = False
       Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
       '
-      'txtTotal
-      '
-      Me.Validator.SetDataType(Me.txtTotal, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtTotal, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtTotal, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtTotal, System.Drawing.Color.Empty)
-      Me.txtTotal.Location = New System.Drawing.Point(509, 132)
-      Me.Validator.SetMinValue(Me.txtTotal, "")
-      Me.txtTotal.Name = "txtTotal"
-      Me.txtTotal.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtTotal, "")
-      Me.Validator.SetRequired(Me.txtTotal, False)
-      Me.txtTotal.Size = New System.Drawing.Size(136, 21)
-      Me.txtTotal.TabIndex = 201
-      '
-      'lblBaht3
-      '
-      Me.lblBaht3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBaht3.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht3.Location = New System.Drawing.Point(653, 132)
-      Me.lblBaht3.Name = "lblBaht3"
-      Me.lblBaht3.Size = New System.Drawing.Size(32, 16)
-      Me.lblBaht3.TabIndex = 198
-      Me.lblBaht3.Text = "บาท"
-      Me.lblBaht3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblTotal
-      '
-      Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTotal.ForeColor = System.Drawing.Color.Black
-      Me.lblTotal.Location = New System.Drawing.Point(388, 132)
-      Me.lblTotal.Name = "lblTotal"
-      Me.lblTotal.Size = New System.Drawing.Size(113, 18)
-      Me.lblTotal.TabIndex = 200
-      Me.lblTotal.Text = "ยอดเงินโอนคงเหลือ:"
-      Me.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
       'lblItem
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -282,9 +236,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtAmount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
-      Me.txtAmount.Location = New System.Drawing.Point(144, 105)
+      Me.txtAmount.Location = New System.Drawing.Point(520, 137)
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
+      Me.txtAmount.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
       Me.Validator.SetRequired(Me.txtAmount, True)
       Me.txtAmount.Size = New System.Drawing.Size(128, 21)
@@ -337,7 +292,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblAmount.ForeColor = System.Drawing.Color.Black
-      Me.lblAmount.Location = New System.Drawing.Point(8, 105)
+      Me.lblAmount.Location = New System.Drawing.Point(384, 137)
       Me.lblAmount.Name = "lblAmount"
       Me.lblAmount.Size = New System.Drawing.Size(128, 18)
       Me.lblAmount.TabIndex = 25
@@ -349,7 +304,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency.AutoSize = True
       Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency.Location = New System.Drawing.Point(280, 105)
+      Me.lblCurrency.Location = New System.Drawing.Point(656, 137)
       Me.lblCurrency.Name = "lblCurrency"
       Me.lblCurrency.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency.TabIndex = 27
@@ -579,7 +534,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
-      gcPaymentCode.HeaderText = "เลขที่ PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+      gcPaymentCode.HeaderText = "เอกสารเคลม" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
       gcPaymentCode.Width = 100
       gcPaymentCode.ReadOnly = True
       grid.Columns.Add(gcPaymentCode)
@@ -622,32 +577,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).IsPinned = True
       colNum += 1
 
-      Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
-      csRefAmount.HeaderText = "จำนวนเงิน PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-      csRefAmount.ReadOnly = True
-      csRefAmount.Width = 150
-      csRefAmount.TextAlignment = ContentAlignment.MiddleRight
-      csRefAmount.ReadOnly = True
-      grid.Columns.Add(csRefAmount)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRefAmount)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-
-      Dim csRemain As New GridViewTextBoxColumn("Remain")
-      csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-      csRemain.ReadOnly = True
-      csRemain.Width = 150
-      csRemain.TextAlignment = ContentAlignment.MiddleRight
-      csRemain.ReadOnly = True
-      grid.Columns.Add(csRemain)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRemain)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-
       Dim csAmount As New GridViewTextBoxColumn("Amount")
-      csAmount.HeaderText = "จำนวนจ่ายโดยการโอนนี้" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
+      csAmount.HeaderText = "จำนวนเงิน" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
       csAmount.Width = 150
       csAmount.TextAlignment = ContentAlignment.MiddleRight
       csAmount.ReadOnly = True
@@ -690,12 +621,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tr.Cells("RefCode").Value = p.RefCode
       tr.Cells("RefType").Value = p.RefType
       tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
-      tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
-      Dim remain As Decimal = p.RefRemain
-      If Not p.JustAdded Then
-        remain += p.Amount
-      End If
-      tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
+      'tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
+      'Dim remain As Decimal = p.RefRemain
+      'If Not p.JustAdded Then
+      '  remain += p.Amount
+      'End If
+      'tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
       tr.Cells("Amount").Value = Configuration.FormatToString(p.Amount, DigitConfig.Price)
 
       tr.Tag = p
@@ -1020,14 +951,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub UpdateAmount()
       Dim flag As Boolean = m_isInitialized
       m_isInitialized = False
-      txtTotal.Text = Configuration.FormatToString(m_entity.GetRemain, DigitConfig.Price)
       txtAmount.Text = Configuration.FormatToString(m_entity.Amount, DigitConfig.Price)
       m_isInitialized = flag
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim f As New PCCList
       'f.SetSupplier(Me.m_entity.Supplier)
-      f.SetType(22)
       If f.ShowDialog() = DialogResult.OK Then
         Me.WorkbenchWindow.ViewContent.IsDirty = True
         Dim list As List(Of PaymentForList) = f.Selected
@@ -1039,11 +968,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               p.JustAdded = True
               originalSum += p.Amount
               If m_entity.Amount < originalSum Then
-                If MessageBox.Show("ยอดเกินจำนวนเงินโอน ท่านต้องการปรับยอดเงินหรือไม่?", "ยอดเกิน", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                  m_entity.Amount = originalSum
-                Else
-                  Exit For
-                End If
+                m_entity.Amount = originalSum
               End If
               m_entity.PaymentList.Add(p)
             End If

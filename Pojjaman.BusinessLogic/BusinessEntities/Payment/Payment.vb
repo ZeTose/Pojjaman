@@ -3880,7 +3880,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If obj Is Nothing Then
         Return False
       End If
-      Return CType(obj, PaymentForList).Id = Me.Id
+      Return CType(obj, PaymentForList).Id = Me.Id AndAlso CType(obj, PaymentForList).RefCode = Me.RefCode AndAlso CType(obj, PaymentForList).RefTypeId = Me.RefTypeId
       'Return CType
     End Function
     Public Property Id As Integer

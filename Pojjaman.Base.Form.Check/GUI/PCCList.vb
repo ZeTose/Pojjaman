@@ -15,10 +15,12 @@ Public Class PCCList
 
   Private Sub PCCList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
     Me.RadGridView1.MasterGridViewTemplate.AllowAddNewRow = False
+    Me.RadGridView1.MasterGridViewTemplate.AllowDragToGroup = False
     Me.RadGridView2.MasterGridViewTemplate.AllowAddNewRow = False
     Me.RadGridView2.MasterGridViewTemplate.AllowDragToGroup = False
     GetColumns(RadGridView1, True)
     GetColumns(RadGridView2, False)
+
     RefreshItems()
 
     ClearCriterias()
@@ -155,6 +157,12 @@ Public Class PCCList
       Select Case column.FieldName.ToLower
         Case "selected"
           p.Selected = e.Value
+          For Each r As GridViewRowInfo In RadGridView1.Rows
+            Dim p2 As PaymentForList = CType(r.Tag, PaymentForList)
+            If p2.Id = p.Id Then
+              p2.Selected = e.Value
+            End If
+          Next
         Case Else
       End Select
     End If
@@ -191,10 +199,9 @@ Public Class PCCList
     m_updating2 = False
   End Sub
   Private Function GetFilterArray() As Filter()
-    Dim arr(2) As Filter
+    Dim arr(1) As Filter
     arr(0) = New Filter("startdate", ValidDateOrDBNull(docDateStart))
     arr(1) = New Filter("enddate", ValidDateOrDBNull(docDateEnd))
-    arr(2) = New Filter("type", m_type)
     Return arr
   End Function
   Private Function ValidDateOrDBNull(ByVal myDate As Date) As Object
@@ -223,6 +230,14 @@ Public Class PCCList
     For Each row As GridViewDataRowInfo In Me.RadGridView1.Rows
       row.Cells("Linenumber").Value = i
       i += 1
+    Next
+    Me.RadGridView1.MasterGridViewTemplate.GroupByExpressions.Clear()
+    Dim expression As New GridGroupByExpression()
+    expression.Expression = "PaymentCode as เอกสารเคลม format ""{0}: {1}"" Group By PaymentCode"
+    Me.RadGridView1.MasterGridViewTemplate.GroupByExpressions.Add(expression)
+
+    For Each g As DataGroup In Me.RadGridView1.Groups
+      g.Expand()
     Next
     Me.RadGridView1.GridElement.EndUpdate(True)
     m_tableInitialized = True
@@ -265,7 +280,7 @@ Public Class PCCList
     colNum += 1
 
     Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
-    gcPaymentCode.HeaderText = "เลขที่ PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+    gcPaymentCode.HeaderText = "เอกสารเคลม" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
     gcPaymentCode.Width = 100
     gcPaymentCode.ReadOnly = True
     grid.Columns.Add(gcPaymentCode)
@@ -346,6 +361,13 @@ Public Class PCCList
       row.Cells("Linenumber").Value = i
       i += 1
     Next
+    Me.RadGridView2.MasterGridViewTemplate.GroupByExpressions.Clear()
+    Dim expression As New GridGroupByExpression()
+    expression.Expression = "PaymentCode as เอกสารเคลม format ""{0}: {1}"" Group By PaymentCode"
+    Me.RadGridView2.MasterGridViewTemplate.GroupByExpressions.Add(expression)
+    For Each g As DataGroup In Me.RadGridView2.Groups
+      g.Expand()
+    Next
     Me.RadGridView2.GridElement.EndUpdate(True)
     m_tableInitialized2 = True
   End Sub
@@ -358,8 +380,10 @@ Public Class PCCList
 
   Private Sub ibtnAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAdd.Click
     For Each p As PaymentForList In m_currentList
-      If p.Selected AndAlso Not m_selected.Contains(p) Then
-        m_selected.Add(p)
+      If p.Selected Then
+        If Not m_selected.Contains(p) Then
+          m_selected.Add(p)
+        End If
       End If
     Next
     RefreshSelectedItems()
@@ -381,9 +405,4 @@ Public Class PCCList
     Me.DialogResult = Windows.Forms.DialogResult.OK
     Me.Close()
   End Sub
-  Private m_type As Integer = -1
-  Public Sub SetType(ByVal t As Integer)
-    m_type = t
-  End Sub
-
 End Class
