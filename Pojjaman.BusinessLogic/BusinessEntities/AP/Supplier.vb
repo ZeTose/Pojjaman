@@ -43,6 +43,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New()
     End Sub
     Public Sub New(ByVal id As Integer)
+      If id = 0 Then
+        Return
+      End If
       RefreshSupplierCollection(id)
       Dim drow As DataRow = CType(m_SupplierCollection(id), DataRow)
       Me.Construct(drow, "")
@@ -55,6 +58,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.New(id, filters)
     End Sub
     Public Sub New(ByVal code As String)
+      If code.Length = 0 Then
+        Return
+      End If
       RefreshSupplierCollection(code)
       Dim drow As DataRow = CType(m_SupplierCollection(code), DataRow)
       Me.Construct(drow, "")
