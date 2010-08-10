@@ -226,6 +226,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim Qty As Decimal = drh.GetValue(Of Decimal)("eqtstocki_Qty")
         Dim RentalRate As Decimal = drh.GetValue(Of Decimal)("eqtstocki_rentalrate")
         Dim LineNumber As Integer = drh.GetValue(Of Integer)("eqtstocki_linenumber")
+        Dim sequence As Integer = drh.GetValue(Of Integer)("eqtstocki_sequence")
 
         If currentEqtW <> eqtwid Then
           parRow = dt.Childs.Add
@@ -247,6 +248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           childRow("Qty") = Configuration.FormatToString(Qty, DigitConfig.Price)
           childRow("RentRate") = Configuration.FormatToString(RentalRate, DigitConfig.Price)
           childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
+          childRow("sequence") = sequence
           'Dim eqtwitem As New EquipmentToolWithdrawItem
           'eqtwitem.EquipmentToolWithdraw = New EquipmentToolWithdraw
           'eqtwitem.EquipmentToolWithdraw.Id = eqtwid
@@ -274,6 +276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RentRate", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("sequence", GetType(Integer)))
       Return myDatatable
     End Function
 #End Region
@@ -523,6 +526,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdrawItem"
                 Dim entityName As String = CStr(childRow("EquipmentTool"))
                 Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+                Dim sequence As Integer = CInt(childRow("sequence"))
 
                 Dim qty As Decimal = CDec(childRow("Qty"))
 

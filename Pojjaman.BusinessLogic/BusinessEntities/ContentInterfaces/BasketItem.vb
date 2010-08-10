@@ -114,6 +114,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stockCode As String
     Private m_enityName As String
     Private m_linenumber As Integer
+    Private m_sequence As Integer
     Private m_entityType As Integer
     Private m_fullClassName As String
     Private m_qty As Decimal
@@ -160,7 +161,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_level = level
     End Sub
     
-    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer)
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal qty As Decimal, _
+                   ByVal enityName As String, ByVal level As Integer)
       m_id = id
       m_stockCode = stockCode
       m_linenumber = linenumber
@@ -190,6 +192,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.m_linenumber
       End Get
     End Property
+    'Public ReadOnly Property sequence() As Integer
+    '  Get
+    '    Return Me.m_sequence
+    '  End Get
+    'End Property
     Public ReadOnly Property EntityType() As Integer
       Get
         Return Me.m_entityType

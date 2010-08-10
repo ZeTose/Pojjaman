@@ -287,6 +287,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End If
     End Sub
+    Public Sub UpdateWBSQty()
+      'For Each wbsd As WBSDistribute In Me.InWbsdColl
+      '  'Dim bfTax As Decimal = 0
+      '  'Dim oldVal As Decimal = wbsd.TransferAmount
+      '  'Dim transferAmt As Decimal = Me.Amount
+      '  'wbsd.BaseCost = bfTax
+      '  'wbsd.TransferBaseCost = transferAmt
+      '  Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id)
+      '  If boqConversion = 0 Then
+      '    wbsd.BaseQty = Me.Qty
+      '  Else
+      '    wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+      '  End If
+
+      '  'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+      'Next
+      If Me.WBSDistributeCollection IsNot Nothing Then
+        For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+          'Dim bfTax As Decimal = 0
+          'Dim oldVal As Decimal = wbsd.TransferAmount
+          'Dim transferAmt As Decimal = Me.Amount
+          'wbsd.BaseCost = bfTax
+          'wbsd.TransferBaseCost = transferAmt
+          'Dim boqConversion As Decimal = wbsd.WBS.GetBoqItemConversion(Me.Entity.Id, Me.Unit.Id, 42)
+          'If boqConversion = 0 Then
+          '  wbsd.BaseQty = Me.Qty
+          'Else
+          '  wbsd.BaseQty = Me.Qty * (Me.Conversion / boqConversion)
+          'End If
+
+          wbsd.BaseQty = Me.Qty
+
+          'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
+        Next
+      Else
+        Me.WBSDistributeCollection = New WBSDistributeCollection
+      End If
+    End Sub
 #End Region
 
 #Region "IWBSAllocatableItem"
@@ -361,12 +399,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim item As New EquipmentToolReturnItem(row, "")
         item.EqtReturn = m_eqtReturn
         Me.Add(item)
-        'Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
-        'item.WBSDistributeCollection = wbsdColl
-        'For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & item.Sequence)
-        '  Dim wbsd As New WBSDistribute(wbsRow, "")
-        '  wbsdColl.Add(wbsd)
-        'Next
+
+        Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+        AddHandler wbsdColl.PropertyChanged, AddressOf item.WBSChangedHandler
+        item.WBSDistributeCollection = wbsdColl
+        For Each wbsRow As DataRow In ds.Tables(1).Select("eqtstockiw_sequence=" & item.Sequence)
+          Dim wbsd As New WBSDistribute(wbsRow, "")
+          wbsdColl.Add(wbsd)
+        Next
 
         'Dim itcColl As New InternalChargeCollection(item)
         'item.InternalChargeCollection = itcColl
@@ -410,6 +450,89 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Sub SetItems(ByVal items As BasketItemCollection)
+      Dim sequnces As New ArrayList
+      For i As Integer = items.Count - 1 To 0 Step -1
+        Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+        Dim refItem As EquipmentToolWithdrawItem
+        Dim newEntity As IEqtItem
+        Dim doc As New EquipmentToolReturnItem
+        Dim itemType As Integer
+        If TypeOf item.Tag Is EquipmentToolWithdrawItem Then
+          refItem = CType(item.Tag, EquipmentToolWithdrawItem)
+          newEntity = CType(item.Tag, EquipmentToolWithdrawItem).Entity
+          itemType = CType(item.Tag, EquipmentToolWithdrawItem).ItemType.Value
+        Else
+          Select Case item.FullClassName.ToLower
+            Case "longkong.pojjaman.businesslogic.equipmentitem"
+              newEntity = New EquipmentItem
+              itemType = 342
+            Case "longkong.pojjaman.businesslogic.tool"
+              newEntity = New Tool(item.Id)
+              itemType = 19
+          End Select
+        End If
+
+
+        If Not itemType = 0 Then
+          'Dim doc As New EquipmentToolReturnItem
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.ItemType.Value = itemType
+            'Me.m_treeManager.SelectedRow.Tag = Nothing
+          Else
+            Me.m_eqtReturn.ItemCollection.Add(doc)
+            doc.ItemType = New EqtItemType(itemType)
+          End If
+          doc.RefItem = refItem
+          doc.RefDoc = refItem.EquipmentToolWithdraw
+          doc.Entity = newEntity
+          doc.Unit = CType(newEntity, IEqtItem).Unit
+          doc.ToStatus = New EqtStatus(3)
+          If itemType = 19 Then
+            If refItem IsNot Nothing Then
+              doc.Qty = refItem.Qty
+            Else
+              doc.Qty = 1
+            End If
+            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+          Else
+            doc.Qty = 1
+            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
+          End If
+        End If
+        sequnces.Add(refItem.Sequence)
+        'สร้างการจัดสรร
+      Next
+      Dim theList As String = String.Join(",", sequnces.ToArray)
+      SetWBSCollections(theList)
+
+    End Sub
+    Private Sub SetWBSCollections(ByVal theList As String)
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetEqtStockWbsfromList" _
+      , New SqlParameter("@List", theList) _
+      )
+
+      If ds.Tables(0).Rows.Count > 0 Then
+        For Each Item As EquipmentToolReturnItem In Me
+          Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+          AddHandler wbsdColl.PropertyChanged, AddressOf Item.WBSChangedHandler
+          If Item.WBSDistributeCollection Is Nothing Then
+            Item.WBSDistributeCollection = wbsdColl
+          Else
+            wbsdColl = Item.WBSDistributeCollection
+          End If
+          For Each wbsRow As DataRow In ds.Tables(0).Select("eqtstockiw_sequence=" & Item.RefItem.Sequence)
+            Dim wbsd As New WBSDistribute(wbsRow, "")
+            wbsdColl.Add(wbsd)
+          Next
+        Next
+      End If
+    End Sub
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       'Dim i As Integer = 0

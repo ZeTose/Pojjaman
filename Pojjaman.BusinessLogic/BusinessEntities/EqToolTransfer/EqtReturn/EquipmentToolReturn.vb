@@ -13,7 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class EquipmentToolReturn
     Inherits SimpleBusinessEntityBase
-    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod
+    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod, IWBSAllocatable
 
 
 #Region "Members"
@@ -212,11 +212,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        RefreshRental()      End Set    End Property    Public Property ReturnPerson() As Employee
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        RefreshRental()      End Set    End Property    Public Property ReturnPerson() As Employee
       Get
         Return m_Returnperson
       End Get      Set(ByVal Value As Employee)
-        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter Implements IWBSAllocatable.ToCostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -482,6 +482,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
+        'Dim daWbs As New SqlDataAdapter("Select * from eqtstockiwbs where eqtstockiw_sequence in (select eqtstocki_sequence from eqtstockitem where eqtstocki_eqtstock=" & Me.Id & ")", conn)
 
 
         Dim ds As New DataSet
@@ -500,12 +501,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
         da.Fill(ds, "Eqtstockitem")
 
+        'cmdBuilder = New SqlCommandBuilder(daWbs)
+        'daWbs.SelectCommand.Transaction = trans
+        'cmdBuilder.GetDeleteCommand.Transaction = trans
+        'cmdBuilder.GetInsertCommand.Transaction = trans
+        'cmdBuilder.GetUpdateCommand.Transaction = trans
+        'cmdBuilder = Nothing
+        'daWbs.FillSchema(ds, SchemaType.Mapped, "eqtstockiwbs")
+        'daWbs.Fill(ds, "eqtstockiwbs")
+        'ds.Relations.Add("sequence", ds.Tables!eqtstockitem.Columns!eqtstocki_sequence, ds.Tables!eqtstockiwbs.Columns!eqtstockiw_sequence)
 
 
         Dim dt As DataTable = ds.Tables("Eqtstockitem")
+        'Dim dtWbs As DataTable = ds.Tables("eqtstockiwbs")
+
 
         'Dim EqtDt As DataTable = GetEqiLastSequence()
-
+        'For Each row As DataRow In ds.Tables("eqtstockiwbs").Rows
+        '  row.Delete()
+        'Next
 
         Dim i As Integer = 0 'Line Running
         With ds.Tables("Eqtstockitem")
@@ -1143,6 +1157,66 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IWBSAllocatable"
+    Public ReadOnly Property AllowWBSAllocateFrom As Boolean Implements IWBSAllocatable.AllowWBSAllocateFrom
+      Get
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property AllowWBSAllocateTo As Boolean Implements IWBSAllocatable.AllowWBSAllocateTo
+      Get
+        Return True
+      End Get
+    End Property
+
+    Public Function GetWBSAllocatableItemCollection() As WBSAllocatableItemCollection Implements IWBSAllocatable.GetWBSAllocatableItemCollection
+      Dim coll As New WBSAllocatableItemCollection
+      For Each item As EquipmentToolReturnItem In Me.ItemCollection
+        'If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+        item.UpdateWBSQty()
+
+        If Not Me.Originated Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsd.ChildAmount = 0
+            wbsd.GetChildIdList()
+            For Each allItem As EquipmentToolReturnItem In Me.ItemCollection
+              For Each childWbsd As WBSDistribute In allItem.WBSDistributeCollection
+                If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+                  wbsd.ChildAmount += childWbsd.Amount
+                End If
+              Next
+            Next
+          Next
+          'For Each wbsd As WBSDistribute In item.InWbsdColl
+          '  wbsd.ChildAmount = 0
+          '  wbsd.GetChildIdList()
+          '  For Each allItem As MatOperationWithdrawItem In Me.ItemCollection
+          '    For Each childWbsd As WBSDistribute In allItem.InWbsdColl
+          '      If wbsd.ChildIdList.Contains(childWbsd.WBS.Id) Then
+          '        wbsd.ChildAmount += childWbsd.Amount
+          '      End If
+          '    Next
+          '  Next
+          'Next
+        End If
+
+        coll.Add(item)
+        'End If
+      Next
+      Return coll
+    End Function
+
+    Public Property Supplier As Supplier Implements IWBSAllocatable.Supplier
+      Get
+
+      End Get
+      Set(ByVal value As Supplier)
+
+      End Set
+    End Property
+
+#End Region
 
   End Class
 

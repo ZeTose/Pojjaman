@@ -1468,57 +1468,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
-      For i As Integer = items.Count - 1 To 0 Step -1
-        Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+      Me.m_entity.ItemCollection.SetItems(items)
+      'For i As Integer = items.Count - 1 To 0 Step -1
+      '  Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
 
-        Dim refItem As EquipmentToolWithdrawItem
-        Dim newEntity As IEqtItem
-        Dim doc As New EquipmentToolReturnItem
-        Dim itemType As Integer
-        If TypeOf item.Tag Is EquipmentToolWithdrawItem Then
-          refItem = CType(item.Tag, EquipmentToolWithdrawItem)
-          newEntity = CType(item.Tag, EquipmentToolWithdrawItem).Entity
-          itemType = CType(item.Tag, EquipmentToolWithdrawItem).ItemType.Value
-        Else
-          Select Case item.FullClassName.ToLower
-            Case "longkong.pojjaman.businesslogic.equipmentitem"
-              newEntity = New EquipmentItem
-              itemType = 342
-            Case "longkong.pojjaman.businesslogic.tool"
-              newEntity = New Tool(item.Id)
-              itemType = 19
-          End Select
-        End If
+      '  Dim refItem As EquipmentToolWithdrawItem
+      '  Dim newEntity As IEqtItem
+      '  Dim doc As New EquipmentToolReturnItem
+      '  Dim itemType As Integer
+      '  If TypeOf item.Tag Is EquipmentToolWithdrawItem Then
+      '    refItem = CType(item.Tag, EquipmentToolWithdrawItem)
+      '    newEntity = CType(item.Tag, EquipmentToolWithdrawItem).Entity
+      '    itemType = CType(item.Tag, EquipmentToolWithdrawItem).ItemType.Value
+      '  Else
+      '    Select Case item.FullClassName.ToLower
+      '      Case "longkong.pojjaman.businesslogic.equipmentitem"
+      '        newEntity = New EquipmentItem
+      '        itemType = 342
+      '      Case "longkong.pojjaman.businesslogic.tool"
+      '        newEntity = New Tool(item.Id)
+      '        itemType = 19
+      '    End Select
+      '  End If
 
 
-        If Not itemType = 0 Then
-          'Dim doc As New EquipmentToolReturnItem
-          If Not Me.CurrentItem Is Nothing Then
-            doc = Me.CurrentItem
-            doc.ItemType.Value = itemType
-            Me.m_treeManager.SelectedRow.Tag = Nothing
-          Else
-            Me.m_entity.ItemCollection.Add(doc)
-            doc.ItemType = New EqtItemType(itemType)
-          End If
-          doc.RefItem = refItem
-          doc.RefDoc = refItem.EquipmentToolWithdraw
-          doc.Entity = newEntity
-          doc.Unit = CType(newEntity, IEqtItem).Unit
-          doc.ToStatus = New EqtStatus(3)
-          If itemType = 19 Then
-            If refItem IsNot Nothing Then
-              doc.Qty = refItem.Qty
-            Else
-              doc.Qty = 1
-            End If
-            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
-          Else
-            doc.Qty = 1
-            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
-          End If
-        End If
-      Next
+      '  If Not itemType = 0 Then
+      '    'Dim doc As New EquipmentToolReturnItem
+      '    If Not Me.CurrentItem Is Nothing Then
+      '      doc = Me.CurrentItem
+      '      doc.ItemType.Value = itemType
+      '      Me.m_treeManager.SelectedRow.Tag = Nothing
+      '    Else
+      '      Me.m_entity.ItemCollection.Add(doc)
+      '      doc.ItemType = New EqtItemType(itemType)
+      '    End If
+      '    doc.RefItem = refItem
+      '    doc.RefDoc = refItem.EquipmentToolWithdraw
+      '    doc.Entity = newEntity
+      '    doc.Unit = CType(newEntity, IEqtItem).Unit
+      '    doc.ToStatus = New EqtStatus(3)
+      '    If itemType = 19 Then
+      '      If refItem IsNot Nothing Then
+      '        doc.Qty = refItem.Qty
+      '      Else
+      '        doc.Qty = 1
+      '      End If
+      '      doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+      '    Else
+      '      doc.Qty = 1
+      '      doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
+      '    End If
+      '  End If
+      'Next
       tgItem.CurrentRowIndex = index
       RefreshDocs()
       RefreshBlankGrid()
