@@ -120,6 +120,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "voi_entity") AndAlso Not dr.IsNull(aliasPrefix & "voi_entity") Then
           itemId = CInt(dr(aliasPrefix & "voi_entity"))
         End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "voi_itemName") AndAlso Not dr.IsNull(aliasPrefix & "voi_itemName") Then
+          .m_entityName = CStr(dr(aliasPrefix & "voi_itemName"))
+        Else
+          .m_entityName = ""
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "voi_entityType") AndAlso Not dr.IsNull(aliasPrefix & "voi_entityType") Then
           .m_itemType = New SCIItemType(CInt(dr(aliasPrefix & "voi_entityType")))
           Select Case .m_itemType.Value
@@ -154,12 +161,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else    '0, 28, 88, 89, 160, 162
               .m_entity = New BlankItem(.m_entityName)
           End Select
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "voi_itemName") AndAlso Not dr.IsNull(aliasPrefix & "voi_itemName") Then
-          .m_entityName = CStr(dr(aliasPrefix & "voi_itemName"))
-        Else
-          .m_entityName = ""
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "voi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "voi_lineNumber") Then

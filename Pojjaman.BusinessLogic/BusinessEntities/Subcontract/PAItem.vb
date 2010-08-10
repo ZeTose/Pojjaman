@@ -134,6 +134,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemId = CInt(dr(aliasPrefix & "pai_entity"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "pai_itemName") AndAlso Not dr.IsNull(aliasPrefix & "pai_itemName") Then
+          .m_entityName = CStr(dr(aliasPrefix & "pai_itemName"))
+        Else
+          .m_entityName = ""
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "pai_entityType") AndAlso Not dr.IsNull(aliasPrefix & "pai_entityType") Then
           .m_itemType = New PAIItemType(CInt(dr(aliasPrefix & "pai_entityType")))
 
@@ -171,12 +177,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case Else     '0, 28, 88, 89, 160, 162, 291
               .m_entity = New BlankItem(.m_entityName)
           End Select
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "pai_itemName") AndAlso Not dr.IsNull(aliasPrefix & "pai_itemName") Then
-          .m_entityName = CStr(dr(aliasPrefix & "pai_itemName"))
-        Else
-          .m_entityName = ""
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "pai_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "pai_lineNumber") Then

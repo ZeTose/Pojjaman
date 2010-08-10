@@ -158,6 +158,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_receiptEq = CDec(dr("ReceiptEq"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "sci_itemName") AndAlso Not dr.IsNull(aliasPrefix & "sci_itemName") Then
+          .m_entityName = CStr(dr(aliasPrefix & "sci_itemName"))
+        Else
+          .m_entityName = ""
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "sci_entityType") AndAlso Not dr.IsNull(aliasPrefix & "sci_entityType") Then
 
           .m_itemType = New SCIItemType(CInt(dr(aliasPrefix & "sci_entityType")))
@@ -199,11 +205,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "sci_itemName") AndAlso Not dr.IsNull(aliasPrefix & "sci_itemName") Then
-          .m_entityName = CStr(dr(aliasPrefix & "sci_itemName"))
-        Else
-          .m_entityName = ""
-        End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "sci_qty") AndAlso Not dr.IsNull(aliasPrefix & "sci_qty") Then
           .m_qty = CDec(dr(aliasPrefix & "sci_qty"))

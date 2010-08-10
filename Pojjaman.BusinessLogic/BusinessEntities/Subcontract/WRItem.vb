@@ -149,6 +149,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_orderedEq = CDec(dr("orderedEq"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "wri_itemName") AndAlso Not dr.IsNull(aliasPrefix & "wri_itemName") Then
+          .m_entityName = CStr(dr(aliasPrefix & "wri_itemName"))
+        Else
+          .m_entityName = ""
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "wri_entityType") AndAlso Not dr.IsNull(aliasPrefix & "wri_entityType") Then
 
           .m_itemType = New SCIItemType(CInt(dr(aliasPrefix & "wri_entityType")))
@@ -188,12 +194,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .m_entity = New BlankItem(.m_entityName)
           End Select
 
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "wri_itemName") AndAlso Not dr.IsNull(aliasPrefix & "wri_itemName") Then
-          .m_entityName = CStr(dr(aliasPrefix & "wri_itemName"))
-        Else
-          .m_entityName = ""
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "wri_qty") AndAlso Not dr.IsNull(aliasPrefix & "wri_qty") Then
