@@ -278,6 +278,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           crow("UnitId") = drh.GetValue(Of Integer)("stocki_unit")
           crow("QtyRemaining") = Configuration.FormatToString(drh.GetValue(Of Decimal)("qtyremaining"), DigitConfig.Price)
           crow("Sequence") = drh.GetValue(Of Decimal)("stocki_sequence")
+          crow("Qty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Qty"), DigitConfig.Price)
 
           Trace.WriteLine(drh.GetValue(Of String)("stock_code").ToString)
           Trace.WriteLine(drh.GetValue(Of String)("stock_docdate").ToString)
@@ -373,7 +374,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myDatatable.Columns.Add(New DataColumn("CCId", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("UnitId", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Sequence", GetType(Integer)))
-
+      myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
 
       Return myDatatable
     End Function

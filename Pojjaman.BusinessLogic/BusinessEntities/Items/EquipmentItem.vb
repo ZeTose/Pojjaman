@@ -45,7 +45,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Private m_unitprice As Decimal
 
     'Private m_WBSDistributeCollection As WBSDistributeCollection
-    'Private m_id As Integer
+    Private m_id As Integer
     'Private m_code As String
     Private m_name As String
     Private m_cc As CostCenter
@@ -132,6 +132,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
 
+    End Sub
+    Public Sub LoadImage()
+      If Id <= 0 Then
+        Return
+      End If
+
+      Dim sqlConString As String = Me.RealConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select eqi_image from Equipmentimage where eqi_id = " & Me.Id
+
+      conn.Open()
+
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
+
+      Dim custReader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+      If custReader.Read Then
+        LoadImage(custReader)
+      End If
+    End Sub
+    Public Sub LoadImage(ByVal reader As IDataReader)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      m_image = Field.GetImage(reader, "eqi_image")
+      Try
+        If Image Is Nothing Then
+          m_image = Image.FromFile(myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Entity.BlankImage}"))
+        End If
+      Catch ex As Exception
+
+      End Try
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -330,6 +360,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return MyBase.EntityId
       End Get
     End Property
+
     'Public Overrides Property Id As Integer Implements IHasName.Id
     '  Get
     '    Return m_id
@@ -919,6 +950,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Next
     '  Return myDatatable
     'End Function
+
 #End Region
 
 #Region "Collection Methods"

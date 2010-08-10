@@ -92,17 +92,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblAsset As System.Windows.Forms.Label
     Friend WithEvents btnAssetFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAssetCode As System.Windows.Forms.TextBox
-    Friend WithEvents btnNew As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnAddNew As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtReference As System.Windows.Forms.TextBox
     Friend WithEvents lblReference As System.Windows.Forms.Label
+    Friend WithEvents IbtnAddRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnDel As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EquipmentDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.IbtnAddRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnAddNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnNew = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnDel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.CmbEQCode = New System.Windows.Forms.ComboBox()
       Me.lblEquipmentCode = New System.Windows.Forms.Label()
@@ -175,8 +175,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.IbtnAddRow)
       Me.grbDetail.Controls.Add(Me.btnAddNew)
-      Me.grbDetail.Controls.Add(Me.btnNew)
       Me.grbDetail.Controls.Add(Me.btnDel)
       Me.grbDetail.Controls.Add(Me.CmbEQCode)
       Me.grbDetail.Controls.Add(Me.lblEquipmentCode)
@@ -195,6 +195,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ชื่อเครื่องจักร :"
       '
+      'IbtnAddRow
+      '
+      Me.IbtnAddRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.IbtnAddRow.Location = New System.Drawing.Point(161, 68)
+      Me.IbtnAddRow.Name = "IbtnAddRow"
+      Me.IbtnAddRow.Size = New System.Drawing.Size(24, 24)
+      Me.IbtnAddRow.TabIndex = 347
+      Me.IbtnAddRow.TabStop = False
+      Me.IbtnAddRow.ThemedImage = CType(resources.GetObject("IbtnAddRow.ThemedImage"), System.Drawing.Bitmap)
+      '
       'btnAddNew
       '
       Me.btnAddNew.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -208,16 +218,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnAddNew.ThemedImage = CType(resources.GetObject("btnAddNew.ThemedImage"), System.Drawing.Bitmap)
       Me.ToolTip1.SetToolTip(Me.btnAddNew, "GR")
-      '
-      'btnNew
-      '
-      Me.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnNew.Location = New System.Drawing.Point(162, 68)
-      Me.btnNew.Name = "btnNew"
-      Me.btnNew.Size = New System.Drawing.Size(24, 24)
-      Me.btnNew.TabIndex = 339
-      Me.btnNew.TabStop = False
-      Me.btnNew.ThemedImage = CType(resources.GetObject("btnNew.ThemedImage"), System.Drawing.Bitmap)
       '
       'btnDel
       '
@@ -469,7 +469,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtBuyDocDate.Name = "TxtBuyDocDate"
       Me.TxtBuyDocDate.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.TxtBuyDocDate, "")
-      Me.Validator.SetRequired(Me.TxtBuyDocDate, True)
+      Me.Validator.SetRequired(Me.TxtBuyDocDate, False)
       Me.TxtBuyDocDate.Size = New System.Drawing.Size(112, 21)
       Me.TxtBuyDocDate.TabIndex = 7
       '
@@ -504,6 +504,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnLoadImage.TabIndex = 204
       Me.btnLoadImage.TabStop = False
       Me.btnLoadImage.ThemedImage = CType(resources.GetObject("btnLoadImage.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnLoadImage.Visible = False
       '
       'TextEQIserailnumber
       '
@@ -551,6 +552,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnClearImage.TabIndex = 205
       Me.btnClearImage.TabStop = False
       Me.btnClearImage.ThemedImage = CType(resources.GetObject("btnClearImage.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnClearImage.Visible = False
       '
       'TextEQIbrand
       '
@@ -600,6 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPicSize.TabIndex = 206
       Me.lblPicSize.Text = "120 X 120 pixel"
       Me.lblPicSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      Me.lblPicSize.Visible = False
       '
       'lblRefDocDate
       '
@@ -696,6 +699,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
       Me.picImage.TabIndex = 203
       Me.picImage.TabStop = False
+      Me.picImage.Visible = False
       '
       'lblRefDoc
       '
@@ -1249,6 +1253,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
     Public Overrides Sub UpdateEntityProperties()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
       Me.m_isInitialized = False
       'If m_refDoc Is Nothing Then
       '  Return
@@ -1258,10 +1265,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Else
       '  Return
       'End If
-      If m_entity Is Nothing Then
-        ClearDetail()
-        Return
-      End If
+      'If m_entity Is Nothing Then
+      ClearDetail()
+      'Return
+      'End If
 
 
 
@@ -1272,7 +1279,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  doc.Autogen = True
       'End If
 
-      'autogencode
+      ''autogencode()
       CmbEQCode.Text = m_entity.Code
       Me.m_oldEqCode = Me.m_entity.Code
       Me.chkEqAutoRun.Checked = Me.m_entity.AutoGen
@@ -1286,13 +1293,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim row As TreeRow = Nothing
       Dim eqitem As EquipmentItem = Nothing
 
-
-
-      Me.RefreshDocs()
       Me.RefreshData()
+      Me.RefreshDocs()
 
-      txtEQName.Text = m_entity.Name
-      'CmbEQCode.Text = doc.Equipment.Code
+      CmbEQCode.Text = m_entity.Code
+      txtEQName.Text = Me.m_entity.Name
+
+      'cmbCode.Text = m_entity.Code
 
       'If Me.CurrentTagItem Is Nothing AndAlso Me.lv.Items.Count > 0 Then
       '  eqitem = Me.m_entity.ItemCollection(0)
@@ -1413,16 +1420,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshData()
       Me.m_isInitialized = False
-      Dim eqitem As EquipmentItem = Me.CurrentTagItem
-      If Not eqitem Is Nothing Then
-        cmbCode.Text = eqitem.Code
-        Me.m_oldCode = eqitem.Code
-        Me.CurrentTagItem.oldcode = eqitem.Code
-        Me.chkAutorun.Checked = eqitem.Autogen
+      Dim eqitem As EquipmentItem = Me.CurrentTagItem 
+      Me.ClearItemOnly()
+
+
+        If Not eqitem Is Nothing Then
+          cmbCode.Text = eqitem.Code
+          Me.m_oldCode = eqitem.Code
+          Me.CurrentTagItem.oldcode = eqitem.Code
+          Me.chkAutorun.Checked = eqitem.Autogen
         Me.UpdateAutogenStatus()
 
-        'Me.txtEQName.Text = eqitem.Equipment.Name
-        'Me.CmbEQCode.Text = eqitem.Equipment.Code
+        Me.UpdateEqAutogenStatus()
+        Me.CmbEQCode.Text = eqitem.equipment.Code
+
+        If Not eqitem.equipment.Name Is Nothing Then
+          Me.txtEQName.Text = eqitem.equipment.Name
+        End If
 
         Me.txtEQIName.Text = eqitem.Name
 
@@ -1455,9 +1469,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.TxtCostcenterAddress.Text = ""
         End If
 
-        If eqitem.Buydoc IsNot Nothing Then
-          txtEQIbuydoccode.Text = eqitem.Buydoc.Code
+        'If eqitem.Buydoc IsNot Nothing Then
+        '  txtEQIbuydoccode.Text = eqitem.Buydoc.Code
+        'End If
+        If eqitem.Buydoc Is Nothing Then
+          Me.txtEQIbuydoccode.Text = ""
+          If Not MinDateToNull(eqitem.Buydate, "") = "" Then
+            Me.TxtBuyDocDate.Text = eqitem.Buydate.ToShortDateString
+          Else
+            Me.TxtBuyDocDate.Text = ""
+          End If
+        Else
+          Me.txtEQIbuydoccode.Text = eqitem.Buydoc.Code
+          If Not MinDateToNull(eqitem.Buydate, "") = "" Then
+            Me.TxtBuyDocDate.Text = eqitem.Buydate.ToShortDateString
+          Else
+            Me.TxtBuyDocDate.Text = ""
+          End If
         End If
+
         'Me.TxtlastDateEdit.Text = MinDateToNull(eqitem.LastEditDate, Me.StringParserService.Parse(""))
         'Try
         '  Me.dtpLastEditDate.Value = eqitem.LastEditDate
@@ -1466,7 +1496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End Try
 
         'If TxtBuyDocDate.Text = Date.Now Then
-        Me.TxtBuyDocDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        ' Me.TxtBuyDocDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
         'Try
         '  Me.dtpBuyDocDate.Value = eqitem.Buydate
         'Catch ex As Exception
@@ -1500,7 +1530,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         Me.txtDescription.Text = eqitem.Description
-
+        'picImage.Image = eqitem.Image
+        'CheckLabelImgSize()
         'Dim lastEdited As String = ""
         'If Not eqitem.LastEditor Is Nothing Then
         '  lastEdited = "รหัสผู้แก้ไขล่าสุด : " & eqitem.LastEditor.Name
@@ -1508,7 +1539,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'lastEdited &= " วันที่แก้ไขล่าสุด : " & eqitem.LastEditDate
         'Me.lblLasteditdate.Text = lastEdited.Trim
       End If
-      'Me.m_isInitialized = True **************************
+      Me.m_isInitialized = True
     End Sub
 
     Private Sub RefreshDocs()
@@ -1741,15 +1772,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing OrElse Not Me.m_isInitialized Then
         Return
       End If
+      Dim dirtyFlag As Boolean = False
+      Dim tmpFlag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+
+      Select Case CType(sender, Control).Name.ToLower
+        Case "cmbeqcode"
+          Me.m_entity.Code = CmbEQCode.Text
+          dirtyFlag = True
+        Case "txteqname"
+          Me.m_entity.Name = txtEQName.Text
+          dirtyFlag = True
+      End Select
+
+      If dirtyFlag Then
+        Me.m_isInitialized = tmpFlag
+        Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      End If
       Dim doc As EquipmentItem = Me.CurrentTagItem
       If Me.m_entity.EquipmentItem Is Nothing Then
         '  doc = New EquipmentItem
         '  Me.m_entity.ItemCollection.Add(Doc)
         Return
       End If
-      Dim dirtyFlag As Boolean = False
-      Dim tmpFlag As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
 
       Select Case CType(sender, Control).Name.ToLower
 
@@ -1764,12 +1809,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.Code = cmbCode.Text
           'End If
           dirtyFlag = True
-        Case "cmbeqcode"
-          Me.m_entity.Code = CmbEQCode.Text
-          dirtyFlag = True
-        Case "txteqname"
-          Me.m_entity.Name = txtEQName.Text
-          dirtyFlag = True
+   
         Case "txteqiname"
           doc.Name = txtEQIName.Text
           dirtyFlag = True
@@ -2135,7 +2175,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'DateTimePicker2.Value = Date.Now
 
       'dtpBuyDocDate.Value = Date.Now
-      TxtBuyDocDate.Text = "" 'Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      'TxtBuyDocDate.Text = "" 'Me.StringParserService.Parse("${res:Global.BlankDateText}")
       'lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด" & " : " & " .... " & " วันที่แก้ไขล่าสุด : " & Date.Now.ToString("dd/MM/yyyy")
 
       Me.picImage.Image = Nothing
@@ -2497,7 +2537,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             doc.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
           End If
         End If
-        
+
         doc.oldcode = Me.cmbCode.Text
         doc.Code = doc.oldcode
         doc.Autogen = True
@@ -2710,29 +2750,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetUnit(ByVal unit As ISimpleEntity)
       Me.m_treeManager.SelectedRow("Unit") = unit.Code
     End Sub
-    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
-      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    Private Sub IbtnAddRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IbtnAddRow.Click
 
-      Dim filters(0) As Filter
-      filters(0) = New Filter("id", 0)
+      Dim doc As EquipmentItem '= Me.CurrentTagItem
+      'If doc Is Nothing Then
+      doc = New EquipmentItem
+      Me.m_entity.ItemCollection.Add(doc)
+      doc.Autogen = True
+      Me.m_entity.EquipmentItem = doc
+      'End If
 
-      'myEntityPanelService.OpenDetailPanel(New GoodsReceipt)
-
-      Dim dlg As New BasketDialog
-      AddHandler dlg.EmptyBasket, AddressOf SetItems
-
-
-      Dim Entities As New ArrayList
-
-      Dim view As AbstractEntityPanelViewContent = New GoodsReceiptSelectionView(Me.m_entity, 0, dlg, filters, Entities)
-      dlg.Lists.Add(view)
-      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
-      myDialog.ShowDialog()
-
+      Me.RefreshData()
       Me.RefreshDocs()
- 
-      Me.UpdateAutogenStatus()
-
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
 
@@ -2805,6 +2835,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.RefreshData()
       Me.UpdateAutogenStatus()
     End Sub
+
   End Class
 
 End Namespace

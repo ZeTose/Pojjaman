@@ -428,11 +428,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Decimal)
         m_buycost = value
 
-        If m_buyqty = 0 Then
-          m_unicost = m_buycost
-        Else
-          m_unicost = m_buycost / m_buyqty
-        End If
+        'If m_buyqty = 0 Then
+        '  m_unicost = m_buycost
+        'Else
+        '  m_unicost = m_buycost / m_buyqty
+        'End If
       End Set
     End Property
     Public Property UnitCost As Decimal
@@ -443,7 +443,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unicost = value
 
         m_buycost = m_buyqty * m_unicost
-        m_RemainCost = m_remainqty * m_unicost
+        'm_RemainCost = m_remainqty * m_unicost
       End Set
     End Property
     Public Property Buyqty As Decimal
@@ -453,7 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Decimal)
         m_buyqty = value
 
-        m_buycost = m_buyqty * m_unicost
+        ' m_buycost = m_buyqty * m_unicost
         'm_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
@@ -474,7 +474,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_writeoff = value
-        'm_writeoff = m_buyqty - m_remainqty
+        m_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
     Public Property RemainCost As Decimal
@@ -567,6 +567,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return Me.tool.ItemCollection.DupCodeInCollection(newCode)
     End Function
+    'Public Sub LoadImage()
+    '  If Id <= 0 Then
+    '    Return
+    '  End If
+
+    '  Dim sqlConString As String = Me.RealConnectionString
+    '  Dim conn As New SqlConnection(sqlConString)
+    '  Dim sql As String = "select tool_image from toolimage where tool_id = " & Me.Id
+
+    '  conn.Open()
+
+    '  Dim cmd As SqlCommand = conn.CreateCommand
+    '  cmd.CommandText = sql
+
+    '  Dim custReader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+    '  If custReader.Read Then
+    '    LoadImage(custReader)
+    '  End If
+    'End Sub
   End Class
  
   <Serializable(), DefaultMember("Item")> _
@@ -804,7 +823,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newToolLot.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
           newToolLot.Buyqty = drh.GetValue(Of Decimal)("Qty")
           newToolLot.Buydate = drh.GetValue(Of DateTime)("DocDate")
-          newToolLot.Buycost = drh.GetValue(Of Decimal)("UnitCost")
+          newToolLot.UnitCost = drh.GetValue(Of Decimal)("UnitCost")
 
           newToolLot.RemainQTY = drh.GetValue(Of Decimal)("qtyremaining")
 

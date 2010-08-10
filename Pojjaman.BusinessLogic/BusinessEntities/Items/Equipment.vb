@@ -171,6 +171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unit = value
       End Set
     End Property
+
     Public Property Rentalrate As Decimal
       Get
         Return m_rentalrate
@@ -237,6 +238,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_CompareUnit2 = Value
       End Set
     End Property
+
   #End Region
 
 #Region "Methods"
@@ -578,7 +580,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             dr("eqi_currentcc") = Me.ValidIdOrDBNull(item.CurrentCostCenter)
-            dr("eqi_stockisequence") = item.Buydoc.Sequence
+
+            If Not item.Buydoc Is Nothing Then
+              dr("eqi_stockisequence") = item.Buydoc.Sequence
+            End If
+
 
             '------------Checking if we have to add a new row or just update existing--------------------
             If drs.Length = 0 Then
