@@ -347,7 +347,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotBuyQTY.Location = New System.Drawing.Point(134, 116)
       Me.Validator.SetMinValue(Me.txtToollotBuyQTY, "")
       Me.txtToollotBuyQTY.Name = "txtToollotBuyQTY"
-      Me.txtToollotBuyQTY.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotBuyQTY, "")
       Me.Validator.SetRequired(Me.txtToollotBuyQTY, False)
       Me.txtToollotBuyQTY.Size = New System.Drawing.Size(112, 21)
@@ -425,7 +424,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToollotUnitCost.Location = New System.Drawing.Point(134, 141)
       Me.Validator.SetMinValue(Me.txtToollotUnitCost, "")
       Me.txtToollotUnitCost.Name = "txtToollotUnitCost"
-      Me.txtToollotUnitCost.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToollotUnitCost, "")
       Me.Validator.SetRequired(Me.txtToollotUnitCost, False)
       Me.txtToollotUnitCost.Size = New System.Drawing.Size(112, 21)
@@ -531,7 +529,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefDocQty.Name = "lblRefDocQty"
       Me.lblRefDocQty.Size = New System.Drawing.Size(125, 18)
       Me.lblRefDocQty.TabIndex = 5
-      Me.lblRefDocQty.Text = "จำนวนตามเอกสารซื้อ :"
+      Me.lblRefDocQty.Text = "จำนวนซื้อ :"
       Me.lblRefDocQty.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblUnitCost
@@ -798,110 +796,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      'Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCode}")
-      'Me.Validator.SetDisplayName(Me.txtCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
-
-      'Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblName}")
-      'Me.Validator.SetDisplayName(Me.txtToollotName, StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
-
-      'Me.lblDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDetail}")
-      'Me.Validator.SetDisplayName(Me.txtDetail, StringHelper.GetRidOfAtEnd(Me.lblDetail.Text, ":"))
-
-      'Me.Validator.SetDisplayName(Me.txtToollotName, StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
-      'Me.Validator.SetDisplayName(Me.txtRentalRate, StringHelper.GetRidOfAtEnd(Me.lblRentalRate.Text, ":"))
-      'Me.Validator.SetDisplayName(Me.txtCostcenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostCentername.Text, ":"))
-      'Me.Validator.SetDisplayName(Me.txtRentalUnitCode, StringHelper.GetRidOfAtEnd(Me.lblRentalunit.Text, ":"))
-      'Me.lblGl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblGl}")
-      'Me.Validator.SetDisplayName(Me.txtGLCode, StringHelper.GetRidOfAtEnd(Me.lblGl.Text, ":"))
-
-
-      'Me.lblDepreOpeningAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpeningAcct}")
-      'Me.Validator.SetDisplayName(Me.txtDepreOpeningAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreOpeningAcct.Text, ":"))
-
-      'Me.lblDepreAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreAcct}")
-      'Me.Validator.SetDisplayName(Me.txtDepreAcctCode, StringHelper.GetRidOfAtEnd(Me.lblDepreAcct.Text, ":"))
-
-      'Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblType}")
-      'Me.Validator.SetDisplayName(Me.txtTypeCode, StringHelper.GetRidOfAtEnd(Me.lblType.Text, ":"))
-
-      'Me.lblCostcenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCostcenter}")
-      'Me.Validator.SetDisplayName(Me.txtCostcenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostcenter.Text, ":"))
-
-      'Me.lblLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblLocation}")
-      'Me.Validator.SetDisplayName(Me.txtLocation, StringHelper.GetRidOfAtEnd(Me.lblLocation.Text, ":"))
-
-      'Me.lblCalcRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcRate}")
-      'Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcRate.Text, ":"))
-
-      'Me.lblEndCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblEndCalcDate}")
-      'Me.Validator.SetDisplayName(Me.txtEndCalcDate, StringHelper.GetRidOfAtEnd(Me.lblEndCalcDate.Text, ":"))
-
-      'Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
-      'Me.Validator.SetDisplayName(Me.txtAge, StringHelper.GetRidOfAtEnd(Me.lblAge.Text, ":"))
-
-      'Me.lblStartCalcAmnt.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcAmnt}")
-      'Me.Validator.SetDisplayName(Me.txtStartCalcAmt, StringHelper.GetRidOfAtEnd(Me.lblStartCalcAmnt.Text, ":"))
-
-
-      'Me.lblCalcType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblCalcType}")
-      'Me.Validator.SetDisplayName(Me.txtCalcRate, StringHelper.GetRidOfAtEnd(Me.lblCalcType.Text, ":"))
-
-
-
-      'Me.lblAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
-      'Me.Validator.SetDisplayName(txtAge, lblAge.Text)
-
-      ''Me.lblRent.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblRent}")
-      ''Me.Validator.SetDisplayName(txtRent, lblRent.Text)
-      ''Me.lblDateInval.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDateInval}")
-
-      'Me.lblStartCalcDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblStartCalcDate}")
-      'Me.Validator.SetDisplayName(txtStartCalcDate, lblStartCalcDate.Text)
-
-      'Me.lblBuyPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyPrice}")
-      'Me.Validator.SetDisplayName(txtBuyPrice, lblBuyPrice.Text)
-
-      'Me.lblBuyDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDate}")
-      'Me.Validator.SetDisplayName(TxtBuyDocDate, "วันที่ไม่ถูกต้อง")
-
-      'Me.lblTransferDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblTransferDate}")
-      'Me.Validator.SetDisplayName(txtTransferDate, lblTransferDate.Text)
-
-      'Me.lblBuyFrom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyFrom}")
-      'Me.Validator.SetDisplayName(txtBuyFrom, lblBuyFrom.Text)
-
-      'Me.lblBuyDocCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocCode}")
-      'Me.Validator.SetDisplayName(txtBuyDocCode, lblBuyDocCode.Text)
-
-      'Me.lblBuyDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyDocDate}")
-      'Me.Validator.SetDisplayName(txtBuyDocDate, lblBuyDocDate.Text)
-
-      'Me.lblYear.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear}")
-      'Me.lblYear1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblYear1}")
-
-      'Me.lblSavage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblSavage}")
-      'Me.Validator.SetDisplayName(txtSalvage, lblSavage.Text)
-
-      'Me.lblRemainingValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblRemainingValue}")
-      'Me.Validator.SetDisplayName(txtRemainingValue, lblRemainingValue.Text)
-
-      'Me.lblDepreOpenning.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDepreOpenning}")
-      'Me.Validator.SetDisplayName(txtDepreOpenning, lblDepreOpenning.Text)
-
-      'Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblNote}")
-      'Me.Validator.SetDisplayName(txtNote, lblNote.Text)
-
-      'Me.ToolTip1.SetToolTip(Me.btnLoadImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnLoadImage}"))
-      'Me.ToolTip1.SetToolTip(Me.btnClearImage, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnClearImage}"))
-      'Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
-      'Me.btnAssetAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.btnAssetAuxDetail}")
-
-      'Me.lblCurrency1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblCurrency2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblCurrency3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblCurrency4.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblCurrency5.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-
       'Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}")
 
       'Me.grbStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbStatus}")
@@ -916,11 +810,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lblAsset.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblAsset}") 'สินทรัพย์ :
       lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDoc}") 'เลขที่เอกสารซื้อ :
       lblRefDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocDate}") 'วันที่เอกสารซื้อ :
-      lblRefDocQty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocQty}") 'จำนวนตามเอกสารซื้อ :
+      lblRefDocQty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocQty}") 'จำนวนซื้อ : :
       lblUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocUnitCost}") 'ต้นทุน/หน่วย :
       lblRefDocAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRefDocAmount}") 'มูลค่า :
 
-      lblRemianQTY.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRemianQTY}") 'จำนวนคงเหลือ :
+      lblRemianQTY.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblRemianQTY}") 'จำนวนคงเหลือ : :
       lblRefDocUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblUnitCost}") 'ต้นทุนคงเหลือ :
       lblBrand.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblBrand}") 'Brand :
 
@@ -1090,122 +984,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       TxtToollotName.Text = m_entity.Name
       txtToollotCode.Text = m_entity.Code
 
-      'TxtToollotBuycost.Text = m_entity.ToolLot.UnitCost * m_entity.ToolLot.Buyqty
-      'CmbToolCode.Text = doc.Equipment.Code
-
-      'If Me.CurrentTagItem Is Nothing AndAlso Me.lv.Items.Count > 0 Then
-      '  eqitem = Me.m_entity.ItemCollection(0)
-
-      '  'ElseIf Not Me.CurrentTagItem Is Nothing Then
-      '  '  eqitem = Me.CurrentTagItem
-      '  Me.RefreshData(eqitem)
-      'End If
-
-
-
-      'txtToollotName.Text = Me.m_entity.Name
-
-
-      'If Not Me.m_entity.Account Is Nothing Then
-      '  txtGLCode.Text = Me.m_entity.Account.Code
-      '  txtGLName.Text = Me.m_entity.Account.Name
-      'End If
-      'If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
-      '  txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
-      '  txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
-      'End If
-      'If Not Me.m_entity.DepreAccount Is Nothing Then
-      '  txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
-      '  txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
-      'End If
-
-      'If Not Me.m_entity.Costcenter Is Nothing Then
-      '  'txtCostcenterName.Text = Me.m_entity.Costcenter.Code
-      '  txtCostcenterName.Text = Me.m_entity.Costcenter.Name
-      'End If
-      'If Not Me.m_entity.Type Is Nothing Then
-      '  txtTypeCode.Text = Me.m_entity.Type.Code
-      '  txtTypeName.Text = Me.m_entity.Type.Name
-      'End If
-
-      'txtLocation.Text = Me.m_entity.Location
-      'txtNote.Text = Me.m_entity.Note
-      'txtRent.Text = Configuration.FormatToString(Me.m_entity.RentalRate, DigitConfig.Qty)
-
-      'cmbCalcType.SelectedIndex = Me.m_entity.CalcType.Value
-      'For Each item As IdValuePair In Me.cmbCalcType.Items
-      '  If Me.m_entity.CalcType Is item Then
-      '    Me.cmbCalcType.SelectedItem = item
-      '    Exit For
-      '  End If
-      'Next
-
-      'Me.lblCurrentStatus.Text = Me.m_entity.Status.Description
-
-      'txtAge.Text = Configuration.FormatToString(Me.m_entity.Age, DigitConfig.Int)
-      '' วันที่เริ่มคำนวณค่าเสื่อม
-      'txtStartCalcDate.Text = MinDateToNull(Me.m_entity.StartCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpStartCalcDate.Value = MinDateToNow(Me.m_entity.StartCalcDate)
-      '' วันที่สิ้นสุดคำนวณค่าเสื่อม
-      'txtEndCalcDate.Text = MinDateToNull(Me.m_entity.EndCalcDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      '' ค่าการคำนวณ
-      'txtCalcRate.Text = Configuration.FormatToString(Me.m_entity.CalcRate, DigitConfig.Price)
-      'txtStartCalcAmt.Text = Configuration.FormatToString(Me.m_entity.StartCalcAmt, DigitConfig.Price)
-      'txtSalvage.Text = Configuration.FormatToString(Me.m_entity.Salvage, DigitConfig.Price)
-      '' ค่าอัตโนมัติ
-      'txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
-      'txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
-      '' วันที่ซื้อ
-      'TxtlastDateEdit.Text = MinDateToNull(Me.m_entity.LastEditDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpLastEditDate.Value = MinDateToNow(Me.m_entity.LastEditDate)
-
-      'TxtBuyDocDate.Text = MinDateToNull(Me.m_entity.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpBuyDocDate.Value = MinDateToNow(Me.m_entity.Buydate)
-
-      'TxtBuyDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'DateTimePicker2.Value = MinDateToNow(eqitem.Buydate)
-
-      '' วันที่ยกค่าเสื่อมมา
-      'txtTransferDate.Text = MinDateToNull(Me.m_entity.TransferDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpTransferDate.Value = MinDateToNow(Me.m_entity.TransferDate)
-
-      'txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
-      'txtBuyDocCode.Text = Me.m_entity.BuyDocCode
-      ' วันที่ซื้อในเอกสาร
-      'TxtBuyDate.Text = MinDateToNull(Me.m_entity, "")
-      'dtpBuyDocDate.Value = MinDateToNow(Me.m_entity.BuyDocDate)
-
-      'txtBuyFrom.Text = Me.m_entity.BuyFrom
-
-      'picImage.Image = Me.m_entity.Image
-      'CheckLabelImgSize()
-
-      'chkCancel.Checked = Me.m_entity.Canceled
-      'If Me.m_entity.Status.Value = 4 Then   ' ชำรุด
-      '  chkDecay.Checked = True
-      'Else
-      '  chkDecay.Checked = False
-      'End If
-      'cmbCode.Text = m_entity.Code
-
-      'txtUnitCode.Text = Me.CurrentTagItem.Unit.Code
-      'txtUnit.Text = Me.CurrentTagItem.Unit.Name
-
-      'txtRentalUnitCode.Text = Me.CurrentTagItem.Rentalunit.Code
-      'txtRentalunit.Text = Me.CurrentTagItem.Rentalunit.Name
-
-      'txtToollotName.Text = m_entity.Name
-      'CmbToolCode.Text = m_entity.Code
-
-      'lblLasteditdate.Text = "รหัสผู้แก้ไขล่าสุด : " + CurrentTagItem.LastEditor.Name + " วันที่แก้ไขล่าสุด : " + CurrentTagItem.LastEditDate
-      'txtDescription.Text = Me.CurrentTagItem.Description
-      'Dim lastEdited As String = ""
-      'If Not eqitem.LastEditor Is Nothing Then
-      '  lastEdited = "รหัสผู้แก้ไขล่าสุด : " & eqitem.LastEditor.Name
-      'End If
-      'lastEdited &= " วันที่แก้ไขล่าสุด : " & eqitem.LastEditDate
-      'Me.lblLasteditdate.Text = lastEdited.Trim
-
       SetLabelText()
       CheckFormEnable()
       Me.m_isInitialized = True
@@ -1220,55 +998,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkAutorun.Checked = toollotitem.Autogen
         Me.UpdateAutogenStatus()
 
-        'Me.txtToollotName.Text = eqitem.Equipment.Name
-        'Me.CmbToolCode.Text = eqitem.Equipment.Code
-
-        'Me.txtToollotName.Text = toollotitem.Name
-
-
-        'If Not doc.Buydate.Equals(dtpBuyDocDate.Value) Then
-        '  If Not m_dateSetting Then
-        '    Me.TxtBuyDocDate.Text = MinDateToNull(dtpBuyDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-        '    doc.Buydate = dtpBuyDocDate.Value.ToShortDateString
-        '  End If
-
-
-        'Me.TxtToollotserailnumber.Text = eqitem.Serailnumber
         Me.TxtToollotbrand.Text = toollotitem.Brand
-
-        'Me.txtlToollotlicense.Text = eqitem.License
-
-        'If Not eqitem.CurrentStatus Is Nothing Then
-        '  Me.TxtStatus.Text = eqitem.CurrentStatus.Description
-        'Else
-        '  Me.TxtStatus.Text = ""
-        'End If
-
-        'If eqitem.CurrentCostCenter.Code <> "" Then
-        '  Me.TxtCostcenterAddress.Text = eqitem.CurrentCostCenter.Code & " : " & eqitem.CurrentCostCenter.Name
-        'Else
-        '  Me.TxtCostcenterAddress.Text = ""
-        'End If
-
-
-        'Me.TxtlastDateEdit.Text = MinDateToNull(toollotitem.LastEditDate, Me.StringParserService.Parse(""))
-        'Try
-        '  Me.dtpLastEditDate.Value = toollotitem.LastEditDate
-        'Catch ex As Exception
-        '  Me.dtpLastEditDate.Value = Now
-        'End Try
-
-        'If TxtBuyDocDate.Text = Date.Now Then
-        'Me.TxtBuyDocDate.Text = MinDateToNull(toollotitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-        'Try
-        '  Me.dtpBuyDocDate.Value = toollotitem.Buydate
-        'Catch ex As Exception
-        '  Me.dtpBuyDocDate.Value = Now
-        'End Try
-        'Else
-        '  Me.TxtBuyDocDate.Text = "โปรดระบุ"
-        'End If
-
 
         Me.RefreshCost(toollotitem)
 
@@ -1293,7 +1023,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             Me.txtToollotBuyDate.Text = ""
           End If
-          Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Cost)
+          If toollotitem.Buycost <> 0 Then
+            Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Cost)
+          Else
+            Me.TxtToollotBuycost.Text = ""
+          End If
         End If
 
         'TxtBuyDocDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
@@ -1305,6 +1039,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End If
 
         Me.txtDescription.Text = toollotitem.Description
+        If toollotitem.Buydoc IsNot Nothing AndAlso toollotitem.Buydoc.Originated Then
+          Me.txtToollotBuyQTY.ReadOnly = True
+        Else
+          Me.txtToollotBuyQTY.ReadOnly = False
+        End If
 
         If toollotitem.IsReferenced Then
           Me.txtReference.Text = Me.StringParserService.Parse("${res:Global.IsReferenced}")
@@ -1335,40 +1074,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtToollotRemainCost.Text = toollotitem.RemainCost
         Me.TxtToollotBuycost.Text = toollotitem.Buycost
 
-        If toollotitem.Buycost <> 0 Then
-          Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Price)
-        Else
-          Me.TxtToollotBuycost.Text = ""
-        End If
-
-        If toollotitem.UnitCost <> 0 Then
-          Me.txtToollotUnitCost.Text = Configuration.FormatToString(toollotitem.UnitCost, DigitConfig.Price)
-        Else
-          Me.txtToollotUnitCost.Text = ""
-        End If
-
         If toollotitem.Buyqty <> 0 Then
           Me.txtToollotBuyQTY.Text = Configuration.FormatToString(toollotitem.Buyqty, DigitConfig.Price)
         Else
           Me.txtToollotBuyQTY.Text = ""
         End If
 
-        If toollotitem.RemainQTY <> 0 Then
-          Me.txtToollotRemainQTY.Text = Configuration.FormatToString(toollotitem.RemainQTY, DigitConfig.Price)
+        Me.txtToollotUnitCost.Text = Configuration.FormatToString(toollotitem.UnitCost, DigitConfig.Price)
+
+        If toollotitem.Buycost <> 0 Then
+          Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Price)
         Else
-          Me.txtToollotRemainQTY.Text = ""
+          Me.TxtToollotBuycost.Text = ""
         End If
 
-        'If toollotitem.WriteOff <> 0 Then
-        Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.WriteOff, DigitConfig.Price)
-        'Else
-        '  Me.txtToollotWriteOff.Text = ""
-        'End If
+        Me.txtToollotRemainQTY.Text = Configuration.FormatToString(toollotitem.Buyqty - toollotitem.WriteOff, DigitConfig.Price)
+
+        If toollotitem.WriteOff <> 0 Then
+          Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.WriteOff, DigitConfig.Price)
+        Else
+          Me.txtToollotWriteOff.Text = ""
+        End If
 
         If toollotitem.RemainCost <> 0 Then
           Me.txtToollotRemainCost.Text = Configuration.FormatToString(toollotitem.RemainCost, DigitConfig.Price)
-        Else
+        ElseIf toollotitem.RemainQTY <> 0 Then
           Me.txtToollotRemainCost.Text = Configuration.FormatToString(toollotitem.RemainQTY * toollotitem.UnitCost, DigitConfig.Price) '(txtToollotRemainQTY.Text * txtToollotUnitCost.Text, DigitConfig.Price)
+        Else
+          Me.txtToollotRemainCost.Text = ""
         End If
       End If
 
@@ -1774,8 +1507,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoollotunitcost"
           If m_txtToollotUnitCostchanged Then
-            If txtToollotRemainCost.TextLength > 0 AndAlso IsNumeric(txtToollotRemainCost.Text) Then
-              doc.UnitCost = CDec(txtToollotRemainCost.Text)
+            If txtToollotUnitCost.TextLength > 0 AndAlso IsNumeric(txtToollotUnitCost.Text) Then
+              doc.UnitCost = CDec(txtToollotUnitCost.Text)
             Else
               doc.UnitCost = 0
             End If
@@ -2695,6 +2428,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(0) As Filter
       filters(0) = New Filter("id", 0)
       Dim dlg As New BasketDialog
+
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
       Dim Entities As New ArrayList

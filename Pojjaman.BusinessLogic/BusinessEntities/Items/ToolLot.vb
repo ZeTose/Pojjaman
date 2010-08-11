@@ -427,12 +427,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_buycost = value
-
-        'If m_buyqty = 0 Then
-        '  m_unicost = m_buycost
-        'Else
-        '  m_unicost = m_buycost / m_buyqty
-        'End If
       End Set
     End Property
     Public Property UnitCost As Decimal
@@ -443,7 +437,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unicost = value
 
         m_buycost = m_buyqty * m_unicost
-        'm_RemainCost = m_remainqty * m_unicost
+        m_RemainCost = m_remainqty * m_unicost
       End Set
     End Property
     Public Property Buyqty As Decimal
@@ -453,7 +447,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Decimal)
         m_buyqty = value
 
-        ' m_buycost = m_buyqty * m_unicost
+        m_buycost = m_buyqty * m_unicost
         'm_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
@@ -821,11 +815,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newToolLot.Buydoc.Code = drh.GetValue(Of String)("Code")
           newToolLot.Buydoc.Sequence = drh.GetValue(Of Integer)("Sequence")
           newToolLot.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
-          newToolLot.Buyqty = drh.GetValue(Of Decimal)("Qty")
+          newToolLot.Buyqty = drh.GetValue(Of Decimal)("qtyremaining")
           newToolLot.Buydate = drh.GetValue(Of DateTime)("DocDate")
           newToolLot.UnitCost = drh.GetValue(Of Decimal)("UnitCost")
 
-          newToolLot.RemainQTY = drh.GetValue(Of Decimal)("qtyremaining")
+          'newToolLot.RemainQTY = drh.GetValue(Of Decimal)("qtyremaining")
 
           'newToolLot.CurrentStatus = New EqtStatus(10)
 
