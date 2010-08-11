@@ -1296,7 +1296,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AndAlso ds.Tables(0).Rows.Count = 1 _
       AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) Then
         'Dim cc As CostCenter = New CostCenter(CInt(ds.Tables(0).Rows(0)(0)))
-        Dim cc As CostCenter = CostCenter.GetCostCenter(ds.Tables(0).Rows(0), ViewType.JournalEntryItem)
+        Dim cc As CostCenter = CostCenter.GetCCMinDataById(CInt(ds.Tables(0).Rows(0)(0)))
         If Not cc Is Nothing AndAlso cc.Originated Then
           Return cc
         End If
