@@ -440,6 +440,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(errstr.Message)
           End If
 
+          '==============================eqtSTOCKFIFO=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (Teeraboon)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockiReturn", New SqlParameter("@eqtstock_id", Me.Id), _
+                                                                                                  New SqlParameter("@tostatus", Me.ToStatus.Value), _
+                                                                                                  New SqlParameter("@fromstatus", Me.FromStatus.Value) _
+                                                                                                  )
+          End If
+          '==============================eqtSTOCKFIFO=========================================
+
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_Ref" _
           , New SqlParameter("@refto_id", Me.Id) _
