@@ -483,7 +483,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
-
+        Dim daWbs As New SqlDataAdapter("Select * from EqtStockiWbs Where EqtStockiw_sequence in ( Select eqtstocki_sequence from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id & ")", conn)
 
         Dim ds As New DataSet
 
@@ -495,60 +495,184 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.InsertCommand.Transaction = trans
         da.UpdateCommand = cmdBuilder.GetUpdateCommand
         da.UpdateCommand.Transaction = trans
-        'da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
-        'da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+        da.InsertCommand.CommandText &= "; Select * From EqtStockItem Where eqtstocki_sequence = @@IDENTITY"
+        da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
         cmdBuilder = Nothing
         da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
         da.Fill(ds, "Eqtstockitem")
 
+        'Dim EqtDt As DataTable = GetEqiLastSequence()
 
+        cmdBuilder = New SqlCommandBuilder(daWbs)
+        daWbs.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        daWbs.FillSchema(ds, SchemaType.Mapped, "EqtStockiWbs")
+        daWbs.Fill(ds, "EqtStockiWbs")
+        ds.Relations.Add("sequence", ds.Tables!EqtStockItem.Columns!eqtstocki_sequence, ds.Tables!EqtStockiWbs.Columns!EqtStockiw_sequence)
 
         Dim dt As DataTable = ds.Tables("Eqtstockitem")
+        Dim dtWbs As DataTable = ds.Tables("EqtStockiWbs")
 
-        Dim EqtDt As DataTable = GetEqiLastSequence()
+        For Each row As DataRow In ds.Tables("EqtStockiWbs").Rows
+          row.Delete()
+        Next
 
+        '------------Checking if we have to delete some rows--------------------
+        Dim rowsToDelete As New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As EquipmentToolWithdrawItem In Me.ItemCollection
+            If testItem.Sequence = CInt(dr("eqtstocki_sequence")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
 
         Dim i As Integer = 0 'Line Running
+        Dim seq As Integer = -1
         With ds.Tables("Eqtstockitem")
-          For Each row As DataRow In .Rows
-            row.Delete()
-          Next
+          'For Each row As DataRow In .Rows
+          '  row.Delete()
+          'Next
           For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
-            Dim dr As DataRow = .NewRow
-            Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
+            'Dim dr As DataRow = .NewRow
+            'Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
             i += 1
+
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = dt.Select("eqtstocki_sequence=" & item.Sequence)
+            If drs.Length = 0 Then
+              dr = dt.NewRow
+              'dt.Rows.Add(dr)
+              seq = (Me.Id + i) * (-1)
+              dr("eqtstocki_sequence") = seq
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
+
+            'dr("eqtstocki_eqtstock") = Me.Id
+            'dr("eqtstocki_linenumber") = i
+
+            'dr("eqtstocki_entity") = item.Entity.Id
+            'dr("eqtstocki_entityType") = item.ItemType.Value
+            'dr("eqtstocki_Name") = item.Entity.Name
+            'dr("eqtstocki_qty") = item.Qty
+            'dr("eqtstocki_unit") = item.Unit.Id
+            'dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
+            'dr("eqtstocki_note") = item.Note
+            'dr("eqtstocki_type") = Me.EntityId
+
             dr("eqtstocki_eqtstock") = Me.Id
             dr("eqtstocki_linenumber") = i
-
-            dr("eqtstocki_fromstatus") = Me.FromStatus.Value
-            dr("eqtstocki_tostatus") = Me.ToStatus.Value
-
             dr("eqtstocki_entity") = item.Entity.Id
             dr("eqtstocki_entityType") = item.ItemType.Value
-            dr("eqtstocki_Name") = item.Entity.Name
-
-            dr("eqtstocki_qty") = item.Qty
+            dr("eqtstocki_toollot") = DBNull.Value
+            dr("eqtstocki_name") = item.Entity.Name
             dr("eqtstocki_unit") = item.Unit.Id
-
+            dr("eqtstocki_qty") = item.Qty
+            dr("eqtstocki_refsequence") = DBNull.Value
             dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
-            'dr("eqtstocki_rentalqty") = item.
-
-            If row.Length > 0 Then
-              dr("eqtstocki_refid") = row(0)("id")
-
-            End If
+            dr("eqtstocki_rentalunit") = DBNull.Value
+            dr("eqtstocki_rentalqty") = DBNull.Value
+            dr("eqtstocki_unitprice") = item.RentalPerDay
+            dr("eqtstocki_Amount") = 0
+            dr("eqtstocki_remainbuyqty") = 0
+            dr("eqtstocki_unitAssetAmount") = 0
+            dr("eqtstocki_AssetAmount") = 0
+            dr("eqtstocki_writeoffAmt") = 0
+            dr("eqtstocki_unitaccdepre") = 0
+            dr("eqtstocki_accdepre") = 0
             dr("eqtstocki_note") = item.Note
-            dr("eqtstocki_type") = 345
+            dr("eqtstocki_type") = Me.EntityId
+            dr("eqtstocki_refdoc") = item.PRItem.Pr.Id
+            dr("eqtstocki_refdoctype") = item.PRItem.Pr.EntityId
+            dr("eqtstocki_refdoclinenumber") = item.PRItem.LineNumber
+            dr("eqtstocki_parent") = DBNull.Value
+            dr("eqtstocki_level") = DBNull.Value
+            dr("eqtstocki_fromstatus") = Me.FromStatus.Value
+            dr("eqtstocki_tostatus") = Me.ToStatus.Value
+            If drs.Length = 0 Then
+              .Rows.Add(dr)
+            End If
 
-            .Rows.Add(dr)
+            Dim rootWBS As New WBS(Me.WithdrawCostcenter.RootWBSId)
+            If item.ItemType.Value <> 160 _
+            AndAlso item.ItemType.Value <> 162 Then
+              Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+              Dim currentSum As Decimal = wbsdColl.GetSumPercent
+              For Each wbsd As WBSDistribute In wbsdColl
+                If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+                  'ยังไม่เต็ม 100 แต่มีหัวอยู่
+                  wbsd.Percent += (100 - currentSum)
+                End If
+                wbsd.BaseCost = 0 'item.ItemAmount
+                Dim childDr As DataRow = dtWbs.NewRow
+                childDr("eqtstockiw_wbs") = wbsd.WBS.Id
+                If wbsd.CostCenter Is Nothing Then
+                  wbsd.CostCenter = Me.WithdrawCostcenter
+                End If
+                childDr("eqtstockiw_cc") = wbsd.CostCenter.Id
+                childDr("eqtstockiw_percent") = wbsd.Percent
+                childDr("eqtstockiw_sequence") = dr("eqtstocki_sequence")
+                childDr("eqtstockiw_ismarkup") = wbsd.IsMarkup
+                childDr("eqtstockiw_direction") = 0              'in
+                childDr("eqtstockiw_baseCost") = wbsd.BaseCost
+                childDr("eqtstockiw_amt") = wbsd.Amount
+                childDr("eqtstockiw_toaccttype") = 1
+                childDr("eqtstockiw_cbs") = wbsd.CBS.Id
+                'Add เข้า stockiwbs
+                dtWbs.Rows.Add(childDr)
+              Next
 
+              currentSum = wbsdColl.GetSumPercent
+              'ยังไม่เต็ม 100 และยังไม่มี root
+              If currentSum < 100 Then
+                Try
+                  Dim newWbsd As New WBSDistribute
+                  newWbsd.WBS = rootWBS
+                  newWbsd.CostCenter = Me.WithdrawCostcenter
+                  newWbsd.Percent = 100 - currentSum
+                  newWbsd.BaseCost = item.ItemAmount
+                  Dim childDr As DataRow = dtWbs.NewRow
+                  childDr("eqtstockiw_wbs") = newWbsd.WBS.Id
+                  childDr("eqtstockiw_cc") = newWbsd.CostCenter.Id
+                  childDr("eqtstockiw_percent") = newWbsd.Percent
+                  childDr("eqtstockiw_sequence") = dr("eqtstocki_sequence")
+                  childDr("eqtstockiw_ismarkup") = False
+                  childDr("eqtstockiw_direction") = 0                'in
+                  childDr("eqtstockiw_baseCost") = newWbsd.BaseCost
+                  childDr("eqtstockiw_amt") = newWbsd.Amount
+                  childDr("eqtstockiw_toaccttype") = 1
+                  childDr("eqtstockiw_cbs") = newWbsd.CBS.Id
+                  'Add เข้า stockiwbs
+                  dtWbs.Rows.Add(childDr)
+                Catch ex As Exception
+                  MessageBox.Show(ex.ToString)
+                End Try
+              End If
+            End If
 
           Next
         End With
 
-        da.Update(dt.Select("", "", DataViewRowState.Added))
+        'da.Update(dt.Select("", "", DataViewRowState.Added))
 
-        ds.EnforceConstraints = False
+        'ds.EnforceConstraints = False
 
         Dim tmpDa As New SqlDataAdapter
         tmpDa.DeleteCommand = da.DeleteCommand
@@ -556,11 +680,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tmpDa.UpdateCommand = da.UpdateCommand
 
         AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
 
+        daWbs.Update(GetDeletedRows(dtWbs))
+        tmpDa.Update(GetDeletedRows(dt))
 
         tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
 
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        ds.EnforceConstraints = False
+        daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
         ds.EnforceConstraints = True
+
         Return New SaveErrorException("0")
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString + vbCrLf + ex.InnerException.ToString)
@@ -593,14 +725,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         e.Status = UpdateStatus.SkipCurrentRow
         ' Get the Current actual primary key value, so you can plug it back
         ' in after you get the correct original value that was generated for the child row.
-        Dim currentkey As Integer = CInt(e.Row("stockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
+        Dim currentkey As Integer = CInt(e.Row("eqtstockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
         ' This is where you get a correct original value key stored to the child row. You yank
         ' the original pseudo key value from the parent, plug it in as the child row's primary key
         ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
-        e.Row!stockiw_sequence = e.Row.GetParentRow("sequence")("stocki_sequence", DataRowVersion.Original)
+        e.Row!eqtstockiw_sequence = e.Row.GetParentRow("sequence")("eqtstocki_sequence", DataRowVersion.Original)
         e.Row.AcceptChanges()
         ' Now store the actual primary key value back into the foreign key column of the child row.
-        e.Row!stockiw_sequence = currentkey
+        e.Row!eqtstockiw_sequence = currentkey
       End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
     End Sub
@@ -715,7 +847,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtWithdraw", New SqlParameter() {New SqlParameter("@eqtstock_id", Me.Id), returnVal})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEquipmentToolWithdraw", New SqlParameter() {New SqlParameter("@eqtstock_id", Me.Id), returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1

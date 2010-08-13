@@ -33,6 +33,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
+      Me.m_pritem = New PRItem
+      Me.m_pritem.Pr = New PR
+      Me.Entity = New BlankEqItem()
       m_WBSDistributeCollection = New WBSDistributeCollection
       AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
     End Sub
@@ -60,6 +63,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        .m_unit = Unit.GetUnitById(deh.GetValue(Of Integer)("eqtstocki_unit"))
+
+        .m_pritem = New PRItem
+        .m_pritem.Pr = New PR(deh.GetValue(Of Integer)("eqtstock_refdoc"))
         '' Sequence Refed to ...
         'If dr.Table.Columns.Contains(aliasPrefix & "refto") AndAlso Not dr.IsNull(aliasPrefix & "refto") Then
         '  .m_sequenceRefedto = CInt(dr(aliasPrefix & "refto"))
@@ -446,10 +453,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       If Me.List.Count = 0 Then
         parRow = dt.Childs.Add()
+        parRow.State = RowExpandState.Expanded
         'parRow.CustomFontStyle = FontStyle.Bold
         parRow("Type") = noPRText
         parRow("Button") = ""
-        parRow.State = RowExpandState.Expanded
         prRowHash(0) = parRow
       End If
       Dim i As Integer = 1
@@ -460,24 +467,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not eqi.PRItem Is Nothing AndAlso Not eqi.PRItem.Pr Is Nothing AndAlso eqi.PRItem.Pr.Originated Then
           If Not prRowHash.Contains(eqi.PRItem.Pr.Id) Then
             parRow = dt.Childs.Add()
-            'parRow.CustomFontStyle = FontStyle.Bold
-            parRow("Type") = eqi.PRItem.Pr.Code
-            parRow("Button") = ""
             parRow.State = RowExpandState.Expanded
+            'parRow.CustomFontStyle = FontStyle.Bold
+            parRow("Code") = eqi.PRItem.Pr.Code
+            parRow("Button") = ""
             prRowHash(eqi.PRItem.Pr.Id) = parRow
           Else
             parRow = CType(prRowHash(eqi.PRItem.Pr.Id), TreeRow)
+            parRow.State = RowExpandState.Expanded
           End If
         Else
           If Not prRowHash.Contains(0) Then
             'parRow.CustomFontStyle = FontStyle.Bold
             parRow = dt.Childs.Add()
-            parRow("Type") = noPRText
-            parRow("Button") = ""
             parRow.State = RowExpandState.Expanded
+            parRow("Code") = noPRText
+            parRow("Button") = ""
             prRowHash(0) = parRow
           Else
             parRow = CType(prRowHash(0), TreeRow)
+            parRow.State = RowExpandState.Expanded
           End If
         End If
 

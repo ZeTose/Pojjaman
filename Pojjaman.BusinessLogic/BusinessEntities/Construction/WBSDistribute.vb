@@ -77,6 +77,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_isMarkup = CBool(dr(aliasPrefix & "paiw_isMarkup"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "wriw_isMarkup") Then
           m_isMarkup = CBool(dr(aliasPrefix & "wriw_isMarkup"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_isMarkup") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_isMarkup") Then
+          m_isMarkup = CBool(dr(aliasPrefix & "eqtstockiw_isMarkup"))
         End If
 
         'WBS
@@ -126,6 +128,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_cc.Id = CInt(dr(aliasPrefix & "paiw_cc"))
           ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_cc") AndAlso Not dr.IsNull(aliasPrefix & "wriw_cc") Then
             m_cc.Id = CInt(dr(aliasPrefix & "wriw_cc"))
+          ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_cc") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_cc") Then
+            m_cc.Id = CInt(dr(aliasPrefix & "eqtstockiw_cc"))
           End If
 
 
@@ -156,6 +160,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_percent = CDec(dr(aliasPrefix & "paiw_percent"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_percent") AndAlso Not dr.IsNull(aliasPrefix & "wriw_percent") Then
           m_percent = CDec(dr(aliasPrefix & "wriw_percent"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_percent") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_percent") Then
+          m_percent = CDec(dr(aliasPrefix & "eqtstockiw_percent"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_amt") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_amt") Then
@@ -174,6 +180,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_amount = CDec(dr(aliasPrefix & "paiw_amt"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_amt") AndAlso Not dr.IsNull(aliasPrefix & "wriw_amt") Then
           m_amount = CDec(dr(aliasPrefix & "wriw_amt"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_amt") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_amt") Then
+          m_amount = CDec(dr(aliasPrefix & "eqtstockiw_amt"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_baseCost") Then
@@ -192,6 +200,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_baseCost = CDec(dr(aliasPrefix & "paiw_baseCost"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "wriw_baseCost") Then
           m_baseCost = CDec(dr(aliasPrefix & "wriw_baseCost"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_baseCost") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_baseCost") Then
+          m_baseCost = CDec(dr(aliasPrefix & "eqtstockiw_baseCost"))
         End If
 
         'If dr.Table.Columns.Contains(aliasPrefix & "stockiw_transferBaseCost") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_transferBaseCost") Then
@@ -228,6 +238,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_outward = CBool(dr(aliasPrefix & "paiw_direction"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_direction") AndAlso Not dr.IsNull(aliasPrefix & "wriw_direction") Then
           m_outward = CBool(dr(aliasPrefix & "wriw_direction"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_direction") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_direction") Then
+          m_outward = CBool(dr(aliasPrefix & "eqtstockiw_direction"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "stockiw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "stockiw_toaccttype") Then
@@ -246,6 +258,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_toaccttype = CInt(dr(aliasPrefix & "voiw_toaccttype"))
         ElseIf dr.Table.Columns.Contains(aliasPrefix & "wriw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "wriw_toaccttype") Then
           m_toaccttype = CInt(dr(aliasPrefix & "wriw_toaccttype"))
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "eqtstockiw_toaccttype") AndAlso Not dr.IsNull(aliasPrefix & "eqtstockiw_toaccttype") Then
+          m_toaccttype = CInt(dr(aliasPrefix & "eqtstockiw_toaccttype"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "budgetremain") AndAlso Not dr.IsNull(aliasPrefix & "budgetremain") Then

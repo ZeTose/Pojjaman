@@ -136,7 +136,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
       Get
-        Return Me.ClassName & ":" & Me.Code
+        'Return Me.ClassName & ":" & Me.Code
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
       End Get
     End Property
     Public Property Name As String
