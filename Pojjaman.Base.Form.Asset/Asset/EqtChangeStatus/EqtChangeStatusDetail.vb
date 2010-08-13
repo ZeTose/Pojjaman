@@ -1289,17 +1289,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       If Me.CurrentItem.ItemType.Value = 19 Then
+        Dim dlg As New BasketDialog
+        AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+        Dim t As New ToolForSelection
+
         Dim entities As New ArrayList
         Dim entity As New ToolForSelection
         entity.CC = Me.m_entity.FromCC
         entity.FromWip = False
         entity.EqtClass = Me.m_entity.ClassName
+        entity.fromstatus = m_entity.FromStatus
         entities.Add(entity)
+
+        'entities.Add(m_entity.FromStatus)
         Dim filters(2) As Filter
         filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
         filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
         filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
-        myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
+        'myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
+
+        Dim view As AbstractEntityPanelViewContent = New ToolSelectionView(t, New BasketDialog, filters, entities)
+        dlg.Lists.Add(view)
+        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+        myDialog.ShowDialog()
+
       ElseIf Me.CurrentItem.ItemType.Value = 342 Then
         Dim dlg As New BasketDialog
         AddHandler dlg.EmptyBasket, AddressOf SetItems
@@ -1323,7 +1337,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         myDialog.ShowDialog()
 
 
-       
+
       End If
 
     End Sub

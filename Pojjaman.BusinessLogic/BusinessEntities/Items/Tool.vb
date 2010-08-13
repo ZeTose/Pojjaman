@@ -1451,8 +1451,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public CC As New CostCenter
     Public FromWip As Boolean = False
     Public EqtClass As String
+    Public fromstatus As EqtStatus
 
 #Region "Shared"
+    Public Shared Function GetListDatatable(ByVal ParamArray filters() As Filter) As DataTable
+
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim dt As DataTable
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GettoolForSelectionList", params)
+      dt = ds.Tables(0)
+      Return dt
+      Dim myDatatable As New TreeTable("Tools")
+      myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("id", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("cc", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("unitId", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("unit", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RemainQty", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("RentalRate", GetType(Decimal)))
+      'myDatatable.Columns.Add(New DataColumn("OrderedQty", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("ReceivingDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
+      'myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CurrentStatus", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("CurrentCostCenter", GetType(Decimal)))
+
+      'Dim inValidIds As ArrayList = GetEqIdWithOnlyNoteItem(dt)
+      For Each tableRow As DataRow In dt.Rows
+        'If Not inValidIds.Contains(CInt(tableRow("eqi_id"))) Then
+        'Dim eqi As New EquipmentItem(tableRow, "")
+        Dim row As TreeRow = myDatatable.Childs.Add
+        row("Selected") = False
+        row("id") = tableRow("tool_id")
+        row("Code") = tableRow("tool_code")
+        row("Name") = tableRow("tool_name")
+        row("RemainQty") = tableRow("tool_remaining")
+        row("cc") = tableRow("tool_costcenter")
+        row("unitId") = tableRow("tool_unit")
+        row("unit") = tableRow("unit_name")
+
+
+        'Dim eqId As Integer
+        'If Not row.IsNull("m_eq") Then
+        '  eqId = CInt(row("m_eq"))
+        'End If
+
+        'row("m_eqi_id") = tableRow("eqi_id")
+        'row("RentalRate") = tableRow("eqi_rentalrate")
+        'row("Name") = tableRow("eq_name")
+
+        'row("Entity") = eqi.Name
+        'row("Qty") = 1
+
+        'If Not tableRow.IsNull("ccinfo") Then
+        '  row("CostCenter") = tableRow("ccinfo")
+        'End If
+        row.State = RowExpandState.None
+
+
+        row.Tag = tableRow
+      Next
+      Return myDatatable
+    End Function
     Public Shared Function GetQtyOfToolsInCC(ByVal filters As Filter(), ByVal classname As String) As DataTable
       'GetRemainToolListForCC
       Dim params() As SqlParameter
