@@ -396,7 +396,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(errstr.Message)
           End If
 
+          '==============================eqtSTOCKFIFO=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (Teeraboon)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockiFIFO", New SqlParameter("@eqtstock_id", Me.Id), _
+                                                                                                  New SqlParameter("@tostatus", Me.ToStatus.Value), _
+                                                                                                  New SqlParameter("@fromstatus", Me.FromStatus.Value) _
+                                                                                                  )
+          End If
+          '==============================eqtSTOCKFIFO=========================================
+
+
           Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStockRef" _
+          , New SqlParameter("@refto_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
           ', New SqlParameter("@refto_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
@@ -562,9 +575,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
         End With
 
-        da.Update(dt.Select("", "", DataViewRowState.Added))
+        'da.Update(dt.Select("", "", DataViewRowState.Added))
 
-        ds.EnforceConstraints = False
+        'ds.EnforceConstraints = False
 
         Dim tmpDa As New SqlDataAdapter
         tmpDa.DeleteCommand = da.DeleteCommand

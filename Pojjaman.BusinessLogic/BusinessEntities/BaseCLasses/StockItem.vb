@@ -733,6 +733,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+
+    Public ReadOnly Property amount As Decimal
+      Get
+        Dim amt As Decimal
+        For Each Item As StockItem In Me
+          amt += Item.Amount
+        Next
+        Return amt
+      End Get
+    End Property
+
     'Public Sub Populate(ByVal dt As TreeTable)
     '  dt.Clear()
     '  Dim i As Integer = 0
@@ -809,8 +820,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myCollection As New StockItemCollection
       Dim stockid As Integer
       For Each item As StockItem In Me
-        If stockid = 0 And stockid <> item.Stock.Id Then
+        If stockid = 0 OrElse stockid <> item.Stock.Id Then
           myCollection.Add(item)
+          stockid = item.Stock.Id
         End If
       Next
       Return myCollection
@@ -898,7 +910,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not m_stock Is Nothing Then
         value.Stock = m_stock
       End If
-            If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
+      If Not value.Stock Is Nothing AndAlso value.Stock.Originated Then
         If Not m_stockHash.Contains(value.Stock.Id) Then
           m_stockHash(value.Stock.Id) = PO.GetPO(value.Stock.Id, ViewType.PaySelection)
         End If

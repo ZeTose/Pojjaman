@@ -912,7 +912,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
         End If
       Next
-
+      PopulateCmb(True)
       Me.dtpDocDate.Value = Date.Now
     End Sub
     ' Addhandler events
@@ -951,19 +951,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Combobox status
       If m_entity.FromStatus IsNot Nothing AndAlso m_entity.FromStatus.Value > 0 Then
-        isManualStatus = False
+        isautoStatus = True
         Dim item As New IdValuePair(m_entity.FromStatus.Value, m_entity.FromStatus.ToString)
         cmbFromStatus.SelectedIndex = IndexOf(cmbFromStatus, item)
-        isManualStatus = True
+        isautoStatus = False
       Else
         m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
       End If
 
       If m_entity.ToStatus IsNot Nothing AndAlso m_entity.ToStatus.Value > 0 Then
-        isManualStatus = False
+        isautoStatus = True
         Dim item As New IdValuePair(m_entity.ToStatus.Value, m_entity.ToStatus.ToString)
         cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, item)
-        isManualStatus = True
+        isautoStatus = False
       Else
         m_entity.ToStatus = New EqtStatus(cmbToStatus.SelectedItem.id)
       End If
@@ -972,7 +972,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-     
+
 
       If Not Me.m_entity.Storeperson Is Nothing Then
         txtStorepersonCode.Text = Me.m_entity.Storeperson.Code
@@ -1009,7 +1009,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetSummaryText()
     End Sub
     Private m_dateSetting As Boolean = False
-    Private isManualStatus As Boolean = True
+    Private isautoStatus As Boolean = False
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
@@ -1056,24 +1056,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           'ReturnCheckedChanged(sender)
         Case "cmbfromstatus"
-          If isManualStatus Then
-          dirtyFlag = True
-          m_oldfromstatus = m_entity.FromStatus
-          m_oldtostatus = m_entity.ToStatus
-          If cmbFromStatus.SelectedItem IsNot Nothing Then
-            m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
-          Else
-            m_entity.FromStatus = New EqtStatus(cmbFromStatus.Items(0).id)
-          End If
-          PopolateToCmb()
-          Dim old As New IdValuePair(m_oldtostatus.Value, m_oldtostatus.ToString)
+          If Not isautoStatus Then
+            dirtyFlag = True
+            m_oldfromstatus = m_entity.FromStatus
+            m_oldtostatus = m_entity.ToStatus
+            If cmbFromStatus.SelectedItem IsNot Nothing Then
+              m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
+            Else
+              m_entity.FromStatus = New EqtStatus(cmbFromStatus.Items(0).id)
+            End If
+            PopolateToCmb()
+            Dim old As New IdValuePair(m_oldtostatus.Value, m_oldtostatus.ToString)
+            isautoStatus = True
             cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, old)
-            isManualStatus = False
           Else
-            isManualStatus = True
+            isautoStatus = False
+            m_entity.FromStatus.Value = cmbFromStatus.SelectedItem.id
           End If
         Case "cmbtostatus"
-          If isManualStatus Then
+          If Not isautoStatus Then
             dirtyFlag = True
             m_oldfromstatus = m_entity.FromStatus
             m_oldtostatus = m_entity.ToStatus
@@ -1084,10 +1085,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             PopolateFromCmb()
             Dim old As New IdValuePair(m_oldfromstatus.Value, m_oldfromstatus.ToString)
+            isautoStatus = True
             cmbFromStatus.SelectedIndex = IndexOf(cmbFromStatus, old)
-            isManualStatus = False
           Else
-            isManualStatus = True
+            isautoStatus = False
+            m_entity.ToStatus.Value = cmbToStatus.SelectedItem.id
           End If
 
       End Select
@@ -1101,7 +1103,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Function IndexOf(ByVal cmb As ComboBox, ByVal item As IdValuePair) As Integer
       Dim ret As Integer
-      isManualStatus = False
+      isautoStatus = True
       For Each i As Object In cmb.Items
         Dim p As IdValuePair = CType(i, IdValuePair)
         If item.Id = p.Id Then
@@ -1140,6 +1142,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity = CType(Value, EquipmentToolChangeStatus)
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        PopolateFromCmb()
+        PopolateToCmb()
         UpdateEntityProperties()
       End Set
     End Property
@@ -1325,7 +1329,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "longkong.pojjaman.businesslogic.equipmentitem"
             newItem = New EquipmentItem(item.Id)
             itemType = 342
-          Case "longkong.pojjaman.businesslogic.tool"
+          Case "longkong.pojjaman.businesslogic.toolforselection"
             row = CType(item.Tag, DataRow)
             newItem = New Tool(row, "")
             itemType = 19
@@ -1345,7 +1349,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.ToStatus = m_entity.ToStatus
           doc.FromStatus = m_entity.FromStatus
           If itemType = 19 Then
-            doc.Qty = row("Remain")
+            doc.Qty = row("tool_remaining")
           Else
             doc.Qty = 1
           End If
@@ -1620,12 +1624,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub PopulateCmb()
-      If cmbFromStatus.Items.Count = 0 OrElse cmbToStatus.Items.Count = 0 Then
+    Private Sub PopulateCmb(Optional ByVal forcepop As Boolean = False)
+      If cmbFromStatus.Items.Count = 0 OrElse cmbToStatus.Items.Count = 0 OrElse Not Me.m_entity.Originated Then
         CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,7,8)", False)
+        isautoStatus = True
         cmbFromStatus.SelectedIndex = 0
         'm_entity.FromStatus = New EqtStatus(2)
-        CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8)", False)
+        CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8,9)", False)
+        isautoStatus = True
         cmbToStatus.SelectedIndex = 0
         'm_entity.ToStatus = New EqtStatus(5)
       End If
@@ -1633,15 +1639,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub PopolateToCmb()
       Select Case m_entity.FromStatus.Value
         Case 2 'ว่าง
-          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8)", False)
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (5,6,7,8,9)", False)
         Case 5 'รอซ่อม
-          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,6,7,8)", False)
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,6,7,8,9)", False)
         Case 6 'ส่งซ่อม
-          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,7,8)", False)
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,7,8,9)", False)
         Case 7 'ชำรุดพัง
-          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,8)", False)
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,8,9)", False)
         Case 8 'หาย
-          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,7)", False)
+          CodeDescription.ListCodeDescriptionInComboBox(cmbToStatus, "eqtstatus", "code_value in (2,5,6,7,9)", False)
       End Select
     End Sub
     Private Sub PopolateFromCmb()
@@ -1656,6 +1662,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,8)", False)
         Case 8 'หาย
           CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,7)", False)
+        Case 9 'write off
+          CodeDescription.ListCodeDescriptionInComboBox(cmbFromStatus, "eqtstatus", "code_value in (2,5,6,7,8)", False)
       End Select
     End Sub
 
