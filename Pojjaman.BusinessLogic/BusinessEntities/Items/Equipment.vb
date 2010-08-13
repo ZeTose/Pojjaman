@@ -368,7 +368,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByEquipmentItem", New SqlParameter("@EqtId", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByEquipmentItem", New SqlParameter("@EqtId", Me.Id))
+
+          Dim saveDetailError2 As SaveErrorException = DeleteEqtStockNonRefEquipmentItem(conn, trans)
+          If Not IsNumeric(saveDetailError2.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            Return saveDetailError2
+          Else
+            Select Case CInt(saveDetailError2.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                Return saveDetailError2
+              Case Else
+            End Select
+          End If
+
+          Dim saveEqtDetailError As SaveErrorException = SaveEqtStockDetail(Me.Id, conn, trans)
+          If Not IsNumeric(saveEqtDetailError.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            Return saveEqtDetailError
+          Else
+            Select Case CInt(saveEqtDetailError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                Return saveEqtDetailError
+              Case Else
+            End Select
+          End If
 
           ''Save CustomNote จากการ Copy เอกสาร
           'If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
@@ -459,6 +489,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
       End While
       Return newCode
+    End Function
+    Private Function DeleteEqtStockNonRefEquipmentItem(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtStockNonRefEquipmentItem", New SqlParameter("@eqi_eq", Me.Id))
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
+    Private Function RefreshNewEquipmentItem(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As DataTable
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.Text, "Select * from EquipmentItem where eqi_eq =" & Me.Id)
+      Return ds.Tables(0)
     End Function
     'Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
     '    If Not Me.Originated Then
@@ -625,8 +667,250 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
+    Private Function SaveEqtStockDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        'Dim da As New SqlDataAdapter("Select * from ToolLot where toollot_tool =" & Me.Id, conn)
+        Dim daEqStock As New SqlDataAdapter("select * from EqtStock where eqtstock_refdoctype = 346 and eqtstock_refdoc in (select eqi_id from EquipmentItem where eqi_eq =" & Me.Id & ")", conn)
+        Dim daEqStockItem As New SqlDataAdapter("select * from EqtStockItem where eqtstocki_refdoctype = 346 and eqtstocki_refdoc in (select eqi_id from EquipmentItem where eqi_eq =" & Me.Id & ")", conn)
+
+        Dim ds As New DataSet
+
+        Dim cmdEqBuilder As New SqlCommandBuilder(daEqStock)
+        daEqStock.SelectCommand.Transaction = trans
+        daEqStock.DeleteCommand = cmdEqBuilder.GetDeleteCommand
+        daEqStock.DeleteCommand.Transaction = trans
+        daEqStock.InsertCommand = cmdEqBuilder.GetInsertCommand
+        daEqStock.InsertCommand.Transaction = trans
+        daEqStock.UpdateCommand = cmdEqBuilder.GetUpdateCommand
+        daEqStock.UpdateCommand.Transaction = trans
+        daEqStock.InsertCommand.CommandText &= "; Select * From EqtStock Where eqtstock_id = @@IDENTITY"
+        daEqStock.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+        cmdEqBuilder = Nothing
+        daEqStock.FillSchema(ds, SchemaType.Mapped, "EqtStock")
+        daEqStock.Fill(ds, "EqtStock")
+        'ds.Relations.Add("sequence", ds.Tables("ToolLot").Columns("toollot_id"), ds.Tables("EqtStock").Columns("eqtstock_refdoc"))
+        'Trace.WriteLine(ds.Tables(0).TableName)
+        'Trace.WriteLine(daEqStock.SelectCommand.CommandText)
+        'Trace.WriteLine(ds.Tables(0).Rows.Count.ToString)
+
+        cmdEqBuilder = New SqlCommandBuilder(daEqStockItem)
+        daEqStockItem.SelectCommand.Transaction = trans
+        cmdEqBuilder.GetDeleteCommand.Transaction = trans
+        cmdEqBuilder.GetInsertCommand.Transaction = trans
+        cmdEqBuilder.GetUpdateCommand.Transaction = trans
+        cmdEqBuilder = Nothing
+        daEqStockItem.FillSchema(ds, SchemaType.Mapped, "EqtStockItem")
+        daEqStockItem.Fill(ds, "EqtStockItem")
+        ds.Relations.Add("sequence", ds.Tables!EqtStock.Columns!eqtstock_id, ds.Tables!EqtStockItem.Columns!eqtstocki_eqtstock)
+
+        Dim dt As DataTable = RefreshNewEquipmentItem(conn, trans)
+        Dim dtEqt As DataTable = ds.Tables("EqtStock")
+        Dim dtEqti As DataTable = ds.Tables("EqtStockItem")
+
+        Trace.WriteLine("EqtStock : " + dtEqt.Rows.Count.ToString)
+        Trace.WriteLine("EqtStockItem : " + dtEqti.Rows.Count.ToString)
+
+        'For Each row As DataRow In ds.Tables("poiwbs").Rows
+        '  row.Delete()
+        'Next
+
+        '------------Checking if we have to delete some rows--------------------
+        Dim rowsToDelete As New ArrayList
+        Dim rowsToDeleteItem As New ArrayList
+        For Each req As DataRow In dtEqt.Rows
+          Dim found As Boolean = False
+          For Each rtool As DataRow In dt.Rows
+            If CInt(req("eqtstock_refdoc")) = CInt(rtool("eqi_id")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(req) Then
+              rowsToDelete.Add(req)
+            End If
+          End If
+        Next
+
+        For Each eqirow As DataRow In dtEqti.Rows
+          Dim found As Boolean = False
+          For Each eqrow As DataRow In dtEqt.Rows
+            If CInt(eqrow("eqtstock_id")) = CInt(eqirow("eqtstocki_eqtstock")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDeleteItem.Contains(eqirow) Then
+              rowsToDeleteItem.Add(eqirow)
+            End If
+          End If
+        Next
+
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        For Each dr As DataRow In rowsToDeleteItem
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
+
+        Dim i As Integer = 0
+
+        For Each row As DataRow In dt.Rows
+          i += 1
+          Dim drh As New DataRowHelper(row)
+          Dim drs As DataRow() = dtEqt.Select("eqtstock_refdoctype=346 and eqtstock_refdoc=" & drh.GetValue(Of Integer)("eqi_id").ToString)
+
+          Dim drEq As DataRow
+          Dim drEqi As DataRow
+          If drs.Length = 0 Then
+            drEq = dtEqt.NewRow
+            drEq("eqtstock_id") = (Me.Id + i) * (-1)
+            drEqi = dtEqti.NewRow
+          Else
+            drEq = drs(0)
+          End If
+
+          Dim dris As DataRow() = dtEqti.Select("eqtstocki_refdoctype=346 and eqtstocki_refdoc=" & drh.GetValue(Of Integer)("eqi_id").ToString)
+          If dris.Length > 0 Then
+            drEqi = dris(0)
+          End If
+
+          drEq("eqtstock_code") = drh.GetValue(Of String)("eqi_code")
+          drEq("eqtstock_type") = 346
+          drEq("eqtstock_tocc") = drh.GetValue(Of Integer)("eqi_cc")
+          drEq("eqtstock_toCCPerson") = DBNull.Value
+          drEq("eqtstock_fromcc") = DBNull.Value
+          drEq("eqtstock_fromCCPerson") = DBNull.Value
+          drEq("eqtstock_entity") = DBNull.Value
+          drEq("eqtstock_entityType") = DBNull.Value
+          drEq("eqtstock_entityPerson") = DBNull.Value
+          drEq("eqtstock_docdate") = ValidDateOrDBNull(Me.OriginDate)
+          drEq("eqtstock_refdoc") = drh.GetValue(Of Integer)("eqi_id")
+          drEq("eqtstock_refdoctype") = 346
+          drEq("eqtstock_gross") = DBNull.Value
+          drEq("eqtstock_discRate") = DBNull.Value
+          drEq("eqtstock_discAmt") = DBNull.Value
+          drEq("eqtstock_taxType") = DBNull.Value
+          drEq("eqtstock_taxbase") = DBNull.Value
+          drEq("eqtstock_beforeTax") = DBNull.Value
+          drEq("eqtstock_taxRate") = DBNull.Value
+          drEq("eqtstock_taxAmt") = DBNull.Value
+          drEq("eqtstock_afterTax") = DBNull.Value
+          drEq("eqtstock_originator") = ValidIdOrDBNull(Me.Originator)
+          drEq("eqtstock_originDate") = ValidDateOrDBNull(Me.OriginDate)
+          drEq("eqtstock_lastEditor") = ValidIdOrDBNull(Me.LastEditor)
+          drEq("eqtstock_lastEditDate") = ValidDateOrDBNull(Me.LastEditDate)
+          drEq("eqtstock_canceled") = Me.Canceled
+          drEq("eqtstock_cancelperson") = ValidIdOrDBNull(Me.CancelPerson)
+          drEq("eqtstock_canceldate") = ValidDateOrDBNull(Me.CancelDate)
+          drEq("eqtstock_approveperson") = DBNull.Value
+          drEq("eqtstock_approvedate") = DBNull.Value
+          drEq("eqtstock_note") = DBNull.Value
+
+          '------------Checking if we have to add a new row or just update existing--------------------
+          If drs.Length = 0 Then
+            drEq("eqtstock_docstatus") = 2
+            drEq("eqtstock_fromstatus") = 10
+            drEq("eqtstock_tostatus") = 2
+            dtEqt.Rows.Add(drEq)
+          End If
+          '------------End Checking--------------------
+
+          'If dris.Length > 0 Then
+          'drEqi("eqtstocki_sequence") = DBNull.Value
+          drEqi("eqtstocki_eqtstock") = drEq("eqtstock_id")
+          drEqi("eqtstocki_linenumber") = i
+          drEqi("eqtstocki_entity") = drh.GetValue(Of Integer)("eqi_id")
+          drEqi("eqtstocki_entityType") = Me.EntityId
+          drEqi("eqtstocki_toollot") = DBNull.Value
+          drEqi("eqtstocki_name") = drh.GetValue(Of String)("eqi_name")
+          drEqi("eqtstocki_unit") = drh.GetValue(Of Integer)("eqi_unit")
+          drEqi("eqtstocki_qty") = 1
+          drEqi("eqtstocki_refsequence") = DBNull.Value
+          drEqi("eqtstocki_rentalrate") = drh.GetValue(Of Decimal)("eqi_rentalrate")
+          drEqi("eqtstocki_rentalunit") = DBNull.Value
+          drEqi("eqtstocki_rentalqty") = DBNull.Value
+          drEqi("eqtstocki_unitprice") = drh.GetValue(Of Decimal)("eqi_rentalrate")
+          drEqi("eqtstocki_Amount") = drh.GetValue(Of Decimal)("eqi_rentalrate") * 1
+          drEqi("eqtstocki_remainbuyqty") = 1
+          drEqi("eqtstocki_unitAssetAmount") = DBNull.Value
+          drEqi("eqtstocki_AssetAmount") = DBNull.Value
+          drEqi("eqtstocki_writeoffAmt") = DBNull.Value
+          drEqi("eqtstocki_unitaccdepre") = DBNull.Value
+          drEqi("eqtstocki_accdepre") = DBNull.Value
+          drEqi("eqtstocki_note") = DBNull.Value
+          drEqi("eqtstocki_type") = 346
+          drEqi("eqtstocki_refdoc") = drh.GetValue(Of Integer)("eqi_id")
+          drEqi("eqtstocki_refdoctype") = 346
+          drEqi("eqtstocki_refdoclinenumber") = DBNull.Value
+          drEqi("eqtstocki_parent") = DBNull.Value
+          drEqi("eqtstocki_level") = DBNull.Value
+
+          If dris.Length = 0 Then
+            drEqi("eqtstocki_fromstatus") = 10
+            drEqi("eqtstocki_tostatus") = 2
+            dtEqti.Rows.Add(drEqi)
+          End If
+
+          'End If
+        Next
+
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = daEqStock.DeleteCommand
+        tmpDa.InsertCommand = daEqStock.InsertCommand
+        tmpDa.UpdateCommand = daEqStock.UpdateCommand
+
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        AddHandler daEqStockItem.RowUpdated, AddressOf daEqStock_MyRowUpdated
+
+        daEqStockItem.Update(GetDeletedRows(dtEqti))
+        tmpDa.Update(GetDeletedRows(dtEqt))
+
+        Try
+          tmpDa.Update(dtEqt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+          daEqStockItem.Update(dtEqti.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        Catch ex As SqlException
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicatePO}"), New String() {Me.Code})
+        End Try
+
+        tmpDa.Update(dtEqt.Select(Nothing, Nothing, DataViewRowState.Added))
+        ds.EnforceConstraints = False
+        daEqStockItem.Update(dtEqti.Select(Nothing, Nothing, DataViewRowState.Added))
+        ds.EnforceConstraints = True
+
+        Return New SaveErrorException("1")
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
     Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
       If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Sub daEqStock_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      'If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      'If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+      ' When the primary key propagates down to the child row's foreign key field, the field
+      ' does not receive an OriginalValue with pseudo key value and a CurrentValue with the
+      ' actual key value. Therefore, when the merge occurs, this row is  appended to the DataSet
+      ' on the client tier, instead of being merged with the original row that was added.
+      If e.StatementType = StatementType.Insert Then
+        'Don't allow the AcceptChanges to occur on this row.
+        e.Status = UpdateStatus.SkipCurrentRow
+        ' Get the Current actual primary key value, so you can plug it back
+        ' in after you get the correct original value that was generated for the child row.
+        Dim currentkey As Integer = CInt(e.Row("eqtstocki_eqtstock")) '.GetParentRow("sequence")("paiw_sequence", DataRowVersion.Current)
+        ' This is where you get a correct original value key stored to the child row. You yank
+        ' the original pseudo key value from the parent, plug it in as the child row's primary key
+        ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
+        e.Row!eqtstocki_eqtstock = e.Row.GetParentRow("sequence")("eqtstock_id", DataRowVersion.Original)
+        e.Row.AcceptChanges()
+        ' Now store the actual primary key value back into the foreign key column of the child row.
+        e.Row!eqtstocki_eqtstock = currentkey
+      End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
     End Sub
     Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
