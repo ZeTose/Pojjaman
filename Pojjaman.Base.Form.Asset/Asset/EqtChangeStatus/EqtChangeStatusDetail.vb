@@ -1056,22 +1056,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           'ReturnCheckedChanged(sender)
         Case "cmbfromstatus"
-          If Not isautoStatus Then
-            dirtyFlag = True
+          If m_entity.ItemCollection IsNot Nothing AndAlso m_entity.ItemCollection.Count > 0 AndAlso cmbFromStatus.SelectedItem.id <> m_entity.FromStatus.Value Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.EqtDetailView.Message.CannotChangeStatus}")
             m_oldfromstatus = m_entity.FromStatus
-            m_oldtostatus = m_entity.ToStatus
-            If cmbFromStatus.SelectedItem IsNot Nothing Then
-              m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
-            Else
-              m_entity.FromStatus = New EqtStatus(cmbFromStatus.Items(0).id)
-            End If
-            PopolateToCmb()
-            Dim old As New IdValuePair(m_oldtostatus.Value, m_oldtostatus.ToString)
+            Dim old As New IdValuePair(m_oldfromstatus.Value, m_oldfromstatus.ToString)
             isautoStatus = True
-            cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, old)
+            cmbFromStatus.SelectedIndex = IndexOf(cmbFromStatus, old)
+            Return
           Else
-            isautoStatus = False
-            m_entity.FromStatus.Value = cmbFromStatus.SelectedItem.id
+            If Not isautoStatus Then
+              dirtyFlag = True
+              m_oldfromstatus = m_entity.FromStatus
+              m_oldtostatus = m_entity.ToStatus
+              If cmbFromStatus.SelectedItem IsNot Nothing Then
+                m_entity.FromStatus = New EqtStatus(cmbFromStatus.SelectedItem.id)
+              Else
+                m_entity.FromStatus = New EqtStatus(cmbFromStatus.Items(0).id)
+              End If
+              PopolateToCmb()
+              Dim old As New IdValuePair(m_oldtostatus.Value, m_oldtostatus.ToString)
+              isautoStatus = True
+              cmbToStatus.SelectedIndex = IndexOf(cmbToStatus, old)
+            Else
+              isautoStatus = False
+              m_entity.FromStatus.Value = cmbFromStatus.SelectedItem.id
+            End If
           End If
         Case "cmbtostatus"
           If Not isautoStatus Then

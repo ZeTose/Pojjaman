@@ -537,6 +537,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             dr("eqtstocki_fromstatus") = Me.FromStatus.Value
             dr("eqtstocki_tostatus") = Me.ToStatus.Value
+            dr("eqtstocki_type") = Me.EntityId
 
             dr("eqtstocki_entity") = item.Entity.Id
             dr("eqtstocki_entityType") = item.ItemType.Value
