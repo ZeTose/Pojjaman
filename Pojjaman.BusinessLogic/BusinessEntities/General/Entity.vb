@@ -358,7 +358,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As AutoCodeFormat In arr
         cmb.Items.Add(item)
       Next
-      cmb.SelectedIndex = 0
+      If cmb.Items.Count > 0 Then
+        cmb.SelectedIndex = 0
+      End If
     End Sub
     Public Shared Sub PopulateCodeCombo(ByVal cmb As ComboBox, ByVal entityId As Integer)
       Dim arr As ArrayList = GetAutoCodeFormats(entityId)
