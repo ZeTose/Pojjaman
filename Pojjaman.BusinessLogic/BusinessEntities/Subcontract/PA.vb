@@ -1614,6 +1614,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
                                     , New SqlParameter("@id", Me.Id) _
                                     , New SqlParameter("@docType", Me.EntityId))
+          'ถ้า cancle ต้อง update Adv และ Ret todate ให้ตรง
+          If Me.Status.Value = 0 Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePAAdvRetToDate" _
+                                     , New SqlParameter("@sc_id", Me.Sc.Id))
+          End If
+
           Me.DeleteRef(conn, trans)
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
           ', New SqlParameter("@pa_id", Me.Id))
