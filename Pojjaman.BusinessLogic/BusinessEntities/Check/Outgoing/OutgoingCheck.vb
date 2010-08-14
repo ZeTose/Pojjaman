@@ -1421,7 +1421,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= Space(1) 'FILLER
       header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'ACCT-NO
       header &= Space(1) 'FILLER
-      header &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(amtString, ",", ""), ".", "") & "0")) 'AMOUNT
+      header &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(amtString, ",", ""), ".", ""))) 'AMOUNT
       header &= Space(1) 'FILLER
       header &= effectiveDate.ToString("yyMMdd", culture) 'TRANS-DATE
       header &= Space(1) 'FILLER
@@ -1450,20 +1450,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim itemAfVatString As String = Configuration.FormatToString(item.Amount, 2)
 
         Dim creditText As String = ""
-        creditText &= "D" 'Part Identifier
-        creditText &= String.Format("{0:000000}", i) 'TRANS-NO
-        creditText &= Space(1) 'FILLER
-        creditText &= Space(4) 'TRANS-TYPE
-        creditText &= Space(1) 'FILLER
-        creditText &= Space(7) 'COMPANY-CODE
-        creditText &= Space(1) 'FILLER
-        If IsNumeric(c.BankAccount.BankCode.Replace("-", "")) Then
-          creditText &= String.Format("{0:0000000000}", CInt(c.BankAccount.BankCode.Replace("-", ""))) 'ACCT-NO
+        creditText &= "D" 'Part Identifier 1
+        creditText &= String.Format("{0:000000}", i) 'TRANS-NO 6
+        creditText &= Space(1) 'FILLER 1
+        creditText &= Space(4) 'TRANS-TYPE 4
+        creditText &= Space(1) 'FILLER 1
+        creditText &= Space(7) 'COMPANY-CODE 7
+        creditText &= Space(1) 'FILLER 1
+        If IsNumeric(itemAccount.Replace("-", "")) Then
+          creditText &= String.Format("{0:0000000000}", CInt(itemAccount.Replace("-", ""))) 'ACCT-NO
         Else
-          creditText &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'ACCT-NO
+          creditText &= String.Format("{0,-10}", itemAccount.Replace("-", "")) 'ACCT-NO
         End If
         creditText &= Space(1) 'FILLER
-        creditText &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(itemAmountString, ",", ""), ".", "") & "0")) 'AMOUNT
+        creditText &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(itemAmountString, ",", ""), ".", ""))) 'AMOUNT
         creditText &= Space(1) 'FILLER
         creditText &= effectiveDate.ToString("yyMMdd", culture) 'TRANS-DATE
         creditText &= Space(1) 'FILLER
