@@ -19,7 +19,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_sequenceRefedto As Integer 'อาจไม่ต้องมีแล้ว
 
     Private m_itemcollection As StockItemCollection
-
     'Private m_rentalqty As Integer
     'Private m_rentalperday As Decimal
     Private m_Amt As Decimal
@@ -197,8 +196,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("QTY") = ""
         End If
-        
-
+        If Me.ExpItemCollection.Amount <> 0 Then
+          row("Amount") = CDec(Configuration.FormatToString(Me.ExpItemCollection.Amount, DigitConfig.Price))
+        Else
+          row("Amount") = ""
+        End If
         Me.EqtChangeStatus.IsInitialized = True
       Catch ex As Exception
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
@@ -237,6 +239,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New EquipmentToolChangeStatusItem(row, "")
         item.EqtChangeStatus = m_eqtChangeStatus
+        If item.ExpItemCollection Is Nothing Then
+          item.ExpItemCollection = New StockItemCollection
+        End If
         Me.Add(item)
         For Each exprow As DataRow In dtExp.Select("es_eqtstockisequence =" & item.Sequence)
           Dim si As New StockItem(exprow, "", True)
@@ -277,6 +282,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ret += Item.Amount
         Next
         Return ret
+      End Get
+    End Property
+    Public ReadOnly Property RealAmount As Decimal
+      Get
+        Dim amt As Decimal = 0
+        For Each eqti As EquipmentToolChangeStatusItem In Me
+          If Not eqti.ExpItemCollection Is Nothing Then
+            amt += eqti.ExpItemCollection.Amount
+          End If
+        Next
+        Return amt
       End Get
     End Property
 #End Region

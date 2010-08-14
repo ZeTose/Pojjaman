@@ -734,7 +734,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Class Methods"
 
-    Public ReadOnly Property amount As Decimal
+    Public ReadOnly Property Amount As Decimal
       Get
         Dim amt As Decimal
         For Each Item As StockItem In Me

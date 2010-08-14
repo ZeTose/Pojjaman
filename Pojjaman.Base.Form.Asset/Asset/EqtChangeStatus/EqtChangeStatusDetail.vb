@@ -52,7 +52,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblToStatus As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmbFromStatus As System.Windows.Forms.ComboBox
+    Friend WithEvents TxtAmt As System.Windows.Forms.TextBox
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+
     Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EqtChangeStatusDetail))
@@ -93,6 +95,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.TxtAmt = New System.Windows.Forms.TextBox()
       Me.grbSummary.SuspendLayout()
       Me.grbStore.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,6 +159,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbSummary
       '
       Me.grbSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbSummary.Controls.Add(Me.TxtAmt)
       Me.grbSummary.Controls.Add(Me.lblAmount)
       Me.grbSummary.Controls.Add(Me.lblCurrency)
       Me.grbSummary.Controls.Add(Me.txtItemCount)
@@ -218,7 +222,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label1.Location = New System.Drawing.Point(10, 45)
       Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(96, 18)
+      Me.Label1.Size = New System.Drawing.Size(118, 18)
       Me.Label1.TabIndex = 13
       Me.Label1.Text = "จากสถานะ :"
       Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -228,7 +232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbFromStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbFromStatus.Enabled = False
       Me.ErrorProvider1.SetIconPadding(Me.cmbFromStatus, -15)
-      Me.cmbFromStatus.Location = New System.Drawing.Point(112, 45)
+      Me.cmbFromStatus.Location = New System.Drawing.Point(134, 45)
       Me.cmbFromStatus.Name = "cmbFromStatus"
       Me.cmbFromStatus.Size = New System.Drawing.Size(184, 21)
       Me.cmbFromStatus.TabIndex = 12
@@ -236,7 +240,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblToStatus
       '
       Me.lblToStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblToStatus.Location = New System.Drawing.Point(365, 45)
+      Me.lblToStatus.Location = New System.Drawing.Point(373, 45)
       Me.lblToStatus.Name = "lblToStatus"
       Me.lblToStatus.Size = New System.Drawing.Size(96, 18)
       Me.lblToStatus.TabIndex = 11
@@ -248,7 +252,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbToStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbToStatus.Enabled = False
       Me.ErrorProvider1.SetIconPadding(Me.cmbToStatus, -15)
-      Me.cmbToStatus.Location = New System.Drawing.Point(469, 45)
+      Me.cmbToStatus.Location = New System.Drawing.Point(477, 45)
       Me.cmbToStatus.Name = "cmbToStatus"
       Me.cmbToStatus.Size = New System.Drawing.Size(184, 21)
       Me.cmbToStatus.TabIndex = 10
@@ -258,7 +262,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnStoreCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnStoreCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnStoreCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnStoreCCFind.Location = New System.Drawing.Point(296, 16)
+      Me.btnStoreCCFind.Location = New System.Drawing.Point(318, 16)
       Me.btnStoreCCFind.Name = "btnStoreCCFind"
       Me.btnStoreCCFind.Size = New System.Drawing.Size(24, 23)
       Me.btnStoreCCFind.TabIndex = 3
@@ -270,7 +274,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnStorepersonFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnStorepersonFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnStorepersonFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnStorepersonFind.Location = New System.Drawing.Point(653, 18)
+      Me.btnStorepersonFind.Location = New System.Drawing.Point(661, 18)
       Me.btnStorepersonFind.Name = "btnStorepersonFind"
       Me.btnStorepersonFind.Size = New System.Drawing.Size(24, 23)
       Me.btnStorepersonFind.TabIndex = 8
@@ -281,7 +285,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnStoreCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnStoreCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnStoreCCEdit.Location = New System.Drawing.Point(320, 16)
+      Me.btnStoreCCEdit.Location = New System.Drawing.Point(342, 16)
       Me.btnStoreCCEdit.Name = "btnStoreCCEdit"
       Me.btnStoreCCEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnStoreCCEdit.TabIndex = 4
@@ -292,7 +296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnStorepersonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnStorepersonEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnStorepersonEdit.Location = New System.Drawing.Point(677, 18)
+      Me.btnStorepersonEdit.Location = New System.Drawing.Point(685, 18)
       Me.btnStorepersonEdit.Name = "btnStorepersonEdit"
       Me.btnStorepersonEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnStorepersonEdit.TabIndex = 9
@@ -306,7 +310,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtStorepersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtStorepersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtStorepersonName, System.Drawing.Color.Empty)
-      Me.txtStorepersonName.Location = New System.Drawing.Point(533, 18)
+      Me.txtStorepersonName.Location = New System.Drawing.Point(541, 18)
       Me.Validator.SetMinValue(Me.txtStorepersonName, "")
       Me.txtStorepersonName.Name = "txtStorepersonName"
       Me.txtStorepersonName.ReadOnly = True
@@ -323,7 +327,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtStoreCCName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtStoreCCName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtStoreCCName, System.Drawing.Color.Empty)
-      Me.txtStoreCCName.Location = New System.Drawing.Point(176, 16)
+      Me.txtStoreCCName.Location = New System.Drawing.Point(198, 16)
       Me.Validator.SetMinValue(Me.txtStoreCCName, "")
       Me.txtStoreCCName.Name = "txtStoreCCName"
       Me.txtStoreCCName.ReadOnly = True
@@ -341,7 +345,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtStoreCCCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtStoreCCCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtStoreCCCode, System.Drawing.Color.Empty)
-      Me.txtStoreCCCode.Location = New System.Drawing.Point(112, 16)
+      Me.txtStoreCCCode.Location = New System.Drawing.Point(134, 16)
       Me.txtStoreCCCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtStoreCCCode, "")
       Me.txtStoreCCCode.Name = "txtStoreCCCode"
@@ -353,7 +357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblStoreperson
       '
       Me.lblStoreperson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblStoreperson.Location = New System.Drawing.Point(365, 18)
+      Me.lblStoreperson.Location = New System.Drawing.Point(373, 18)
       Me.lblStoreperson.Name = "lblStoreperson"
       Me.lblStoreperson.Size = New System.Drawing.Size(96, 18)
       Me.lblStoreperson.TabIndex = 5
@@ -365,7 +369,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblStoreCC.Location = New System.Drawing.Point(8, 16)
       Me.lblStoreCC.Name = "lblStoreCC"
-      Me.lblStoreCC.Size = New System.Drawing.Size(96, 18)
+      Me.lblStoreCC.Size = New System.Drawing.Size(120, 18)
       Me.lblStoreCC.TabIndex = 0
       Me.lblStoreCC.Text = "Cost Center เจ้าของ:"
       Me.lblStoreCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -378,7 +382,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtStorepersonCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtStorepersonCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtStorepersonCode, System.Drawing.Color.Empty)
-      Me.txtStorepersonCode.Location = New System.Drawing.Point(469, 18)
+      Me.txtStorepersonCode.Location = New System.Drawing.Point(477, 18)
       Me.txtStorepersonCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtStorepersonCode, "")
       Me.txtStorepersonCode.Name = "txtStorepersonCode"
@@ -571,6 +575,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
       '
+      'TxtAmt
+      '
+      Me.TxtAmt.BackColor = System.Drawing.SystemColors.Control
+      Me.TxtAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+      Me.Validator.SetDataType(Me.TxtAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
+      Me.Validator.SetDisplayName(Me.TxtAmt, "")
+      Me.Validator.SetGotFocusBackColor(Me.TxtAmt, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.TxtAmt, -15)
+      Me.Validator.SetInvalidBackColor(Me.TxtAmt, System.Drawing.Color.Empty)
+      Me.TxtAmt.Location = New System.Drawing.Point(339, 16)
+      Me.Validator.SetMinValue(Me.TxtAmt, "")
+      Me.TxtAmt.Name = "TxtAmt"
+      Me.TxtAmt.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.TxtAmt, "")
+      Me.Validator.SetRequired(Me.TxtAmt, False)
+      Me.TxtAmt.Size = New System.Drawing.Size(85, 21)
+      Me.TxtAmt.TabIndex = 6
+      Me.TxtAmt.TabStop = False
+      Me.TxtAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      '
       'EqtChangeStatusDetail
       '
       Me.Controls.Add(Me.tgItem)
@@ -653,7 +677,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_tableStyleEnable As Hashtable
-
+    Private m_refDoc As EquipmentToolChangeStatus
     Private m_oldtostatus As EqtStatus
     Private m_oldfromstatus As EqtStatus
 #End Region
@@ -943,7 +967,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       txtCode.Text = Me.m_entity.Code
       txtNote.Text = Me.m_entity.Note
-
+      TxtAmt.Text = Configuration.FormatToString(Me.m_entity.ItemCollection.RealAmount, DigitConfig.Price)
       'autogencode
       m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
@@ -1377,6 +1401,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             doc.Qty = 1
           End If
+          doc.Amount = Configuration.FormatToString(m_refDoc.Gross, DigitConfig.Price)
         End If
       Next
       tgItem.CurrentRowIndex = index
@@ -1606,7 +1631,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub UpdateAmount()
       m_isInitialized = False
-      'txtRentalAmt.Text = Configuration.FormatToString(m_entity.ItemCollection.Gross, DigitConfig.Price)
+      ' me.TxtAmt.Text = Configuration.FormatToString(m_entity.ItemCollection.Gross, DigitConfig.Price)
       m_isInitialized = True
     End Sub
 

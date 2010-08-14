@@ -158,6 +158,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgToCC.AutoColumnResize = True
       Me.tgToCC.CaptionVisible = False
       Me.tgToCC.Cellchanged = False
+      Me.tgToCC.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
       Me.tgToCC.DataMember = ""
       Me.tgToCC.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgToCC.Location = New System.Drawing.Point(10, 136)
@@ -260,9 +261,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblEmployee.BackColor = System.Drawing.Color.Transparent
       Me.lblEmployee.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblEmployee.Location = New System.Drawing.Point(40, 40)
+      Me.lblEmployee.Location = New System.Drawing.Point(27, 40)
       Me.lblEmployee.Name = "lblEmployee"
-      Me.lblEmployee.Size = New System.Drawing.Size(88, 18)
+      Me.lblEmployee.Size = New System.Drawing.Size(101, 18)
       Me.lblEmployee.TabIndex = 28
       Me.lblEmployee.Text = "ผู้บันทึก:"
       Me.lblEmployee.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -379,7 +380,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.CodeHeaderText}") '"รายการ/Cost Center"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.CodeHeaderText}") '"รหัส"
       csCode.NullText = ""
       csCode.Width = 100
       csCode.ReadOnly = True
@@ -389,7 +390,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "Description"
-      csDescription.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.DescriptionHeaderText}") '"รายการ/Cost Center"
+      csDescription.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.DescriptionHeaderText}") '"รายการ"
       csDescription.NullText = ""
       csDescription.Width = 175
       csDescription.ReadOnly = True
@@ -399,7 +400,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csStockQty As New TreeTextColumn
       csStockQty.MappingName = "StockQty"
-      csStockQty.HeaderText = myStringParserService.Parse("${res:StockQty}") 'CBS
+      csStockQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.QtyHeaderText}") 'จำนวน
       csStockQty.NullText = ""
       csStockQty.Width = 50
       csStockQty.Format = "#,###.##"
@@ -420,7 +421,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csUnitCost As New TreeTextColumn
       csUnitCost.MappingName = "UnitCost"
-      csUnitCost.HeaderText = myStringParserService.Parse("${res:UnitCost}") '
+      csUnitCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.UnitpriceHeaderText}") 'ราคา/หน่วย
       csUnitCost.NullText = ""
       csUnitCost.DataAlignment = HorizontalAlignment.Right
       csUnitCost.Format = "#,###.##"
@@ -441,7 +442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "Note"
-      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.NoteHeaderText}") '"รายการ/Cost Center"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.NoteHeaderText}") '"รายการ/Cost Center"
       csNote.NullText = ""
       csNote.Width = 175
       csNote.ReadOnly = True
@@ -604,41 +605,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Sub SetLabelText()
       'คาดว่าจะเป็นตรงนี้
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      'Me.lblBankCharge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblBankCharge}")
-      'Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblWHT}")
-      'Me.lblOtherExpense.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblOtherExpense}")
-      'Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblNote}")
-      'Me.txtDiscountUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.txtWHTUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.txtBankChargeUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.txtOtherExpenseUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblItem}")
+
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.grbDetail}")
       Me.grbRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.grbRefDoc}")
       'Me.lblRefDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblRefDocDate}")
       Me.lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblRefDoc}")
-      Me.lblEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblSupplier}")
+      Me.lblEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.lblEmployee}")
       Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblCostCenter}")
 
-      'Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblCode}")
-      'Me.Validator.SetDisplayName(Me.cmbCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
-
-      'Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblDocDate}")
-      'Me.lblRefAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblRefAmount}")
-      'Me.lblRefAmountUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.grbDebit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.grbDebit}")
-      'Me.lblDiscountAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblDiscountAmount}")
-      'Me.lblOtherRev.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblOtherRev}")
-      'Me.txtOtherRevUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblDebitAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblDebitAmount}")
-      'Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblAmount}")
-      'Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblGross}")
-      'Me.grbCredit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.grbCredit}")
-      'Me.lblInterest.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblInterest}")
-      'Me.txtInterestUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblCreditAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblCreditAmount}")
-      'Me.txtGrossUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      'Me.lblAmountUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
@@ -1567,7 +1541,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
     End Sub
 #End Region
-
 
 
   End Class
