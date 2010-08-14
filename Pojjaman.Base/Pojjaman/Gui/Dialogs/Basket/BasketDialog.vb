@@ -171,20 +171,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ElseIf TypeOf item Is EqtBasketItem Then
               'ต้องใช้ id ปลอม หากันเจอ โดยไม่ซ้ำกัน
               Dim eti As EqtBasketItem = CType(item, EqtBasketItem)
-              Dim node As TreeNode = TreeViewHelper.SearchTag(Me.tvItems, eti.Id)
+              Dim node As TreeNode
+              If eti.ParId <> 0 Then
+                node = TreeViewHelper.SearchTag(Me.tvItems, eti.ParId)
+              End If
               If node Is Nothing AndAlso eti.Level = 1 AndAlso eti.Qty > 0 Then
                 node = Me.tvItems.Nodes.Add(eti.ParentText)
-                node.Tag = eti.Id
+                node.Tag = eti.ParId
               End If
-              If eti.Level = 1 Then
+              If eti.Level = 1 AndAlso eti.Qty > 0 Then
+                If node Is Nothing Then
+                  node = Me.tvItems.Nodes.Add(eti.ParentText)
+                End If
                 node.Nodes.Add(eti.TextInBasket).Tag = eti
               End If
               If eti.Level = 0 AndAlso Not eti.haschilds Then
                 tvItems.Nodes.Add(item.TextInBasket).Tag = item
               End If
-            Else
-              tvItems.Nodes.Add(item.TextInBasket).Tag = item
-            End If
+              Else
+                tvItems.Nodes.Add(item.TextInBasket).Tag = item
+              End If
           End If
         Next
         For Each item As IBasketItem In m_basketItems

@@ -168,7 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               checkCount += 1
             End If
           Next
-          If checkCount = row.Childs.Count Then
+          If checkCount + 1 = row.Childs.Count Then
             row("Selected") = True
           ElseIf checkCount = -1 Then
             row("Selected") = False
@@ -252,6 +252,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           parRow("BuyCost") = ""
           parRow("AccDepre") = Configuration.FormatToString(accdepre, DigitConfig.Price)
           parRow("hasChilds") = hasChilds
+          parRow("parent") = assetid
           parRow.CustomFontStyle = FontStyle.Bold
           parRow.Tag = AssetRow
           currentAsset = assetid
@@ -605,75 +606,136 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_basketItems.Clear()
         Dim myTable As TreeTable = CType(tgItem.DataSource, TreeTable)
         Dim id As Integer = 0 'id ปลอม ห้ามใช้หา แต่ทำเพื่อให้ สร้าง tree ใน basket ได้
+        Dim parId As Integer = 0
         For Each row As TreeRow In myTable.Childs
           'Row แม่ ที่ไม่มีลูก
           If CBool(row("haschilds")) Then
             If Not IsDBNull(row("Selected")) Then
               If CBool(row("Selected")) Then
+
                 Dim EwCode As String = CStr(row("Code"))
                 Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
                 Dim entityName As String = CStr(row("Name"))
                 'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
-
-                Dim qty As Decimal = CDec(row("Qty"))
-
-                Dim textInBasket As String = entityName & ":" & qty.ToString
-                If TypeOf row.Tag Is DataRow Then
-                  Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
-                  'id = drh.GetValue(Of Integer)("Asset_id")
-                  id += 1
-                  Dim entityType As Integer = drh.GetValue(Of Integer)("type")
-
-                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, True)
-                  bi.Tag = CType(row.Tag, DataRow)
-                  m_basketItems.Add(bi)
-                End If
-              Else
-                Dim EwCode As String = CStr(row("Code"))
-                Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
-                Dim entityName As String = CStr(row("Name"))
-                'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
-
                 Dim qty As Decimal = 0
+                If Not IsNumeric(CStr(row("Qty"))) Then
+                  qty = 0
+                Else
+                  qty = CDec(row("Qty"))
+                End If
 
                 Dim textInBasket As String = entityName & ":" & qty.ToString
                 If TypeOf row.Tag Is DataRow Then
                   Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
                   'id = drh.GetValue(Of Integer)("Asset_id")
                   id += 1
+                  parId = id
                   Dim entityType As Integer = drh.GetValue(Of Integer)("type")
 
                   Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, True)
                   bi.Tag = CType(row.Tag, DataRow)
                   m_basketItems.Add(bi)
                 End If
+
+                ' Row ลูกของแม่ ที่ select all
+                For Each childRow As TreeRow In row.Childs
+                  If Not IsDBNull(childRow("Selected")) Then
+                    If CBool(childRow("Selected")) Then
+                      Dim cEwCode As String = CStr(row("Code"))
+                      Dim cfullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
+                      Dim centityName As String = CStr(childRow("Name"))
+                      'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+
+                      Dim cqty As Decimal = CDec(childRow("Qty"))
+
+                      Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+                      If TypeOf childRow.Tag Is DataRow Then
+                        Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
+                        'id = drh.GetValue(Of Integer)("eqtid")
+                        id += 1
+                        Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+
+                        Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                        bi.Tag = CType(childRow.Tag, DataRow)
+                        m_basketItems.Add(bi)
+                      End If
+
+                    End If
+                  End If
+                Next
               End If
-            End If
-            ' Row ลูกของแม่
-            For Each childRow As TreeRow In row.Childs
-              If Not IsDBNull(childRow("Selected")) Then
-                If CBool(childRow("Selected")) Then
-                  Dim EwCode As String = CStr(row("Code"))
-                  Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
-                  Dim entityName As String = CStr(childRow("Name"))
-                  'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+            ElseIf IsDBNull(row("Selected")) Then
+              Dim EwCode As String = CStr(row("Code"))
+              Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
+              Dim entityName As String = CStr(row("Name"))
+              'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+              Dim qty As Decimal = 0
+              If Not IsNumeric(CStr(row("Qty"))) Then
+                qty = 0
+              Else
+                qty = CDec(row("Qty"))
+              End If
 
-                  Dim qty As Decimal = CDec(childRow("Qty"))
+              Dim textInBasket As String = entityName & ":" & qty.ToString
+              If TypeOf row.Tag Is DataRow Then
+                Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
+                'id = drh.GetValue(Of Integer)("Asset_id")
+                id += 1
+                parId = id
+                Dim entityType As Integer = drh.GetValue(Of Integer)("type")
 
-                  Dim textInBasket As String = entityName & ":" & qty.ToString
-                  If TypeOf childRow.Tag Is DataRow Then
-                    Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
-                    'id = drh.GetValue(Of Integer)("eqtid")
-                    id += 1
-                    Dim entityType As Integer = drh.GetValue(Of Integer)("type")
+                Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, True)
+                bi.Tag = CType(row.Tag, DataRow)
+                m_basketItems.Add(bi)
+              End If
 
-                    Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 1)
-                    bi.Tag = CType(childRow.Tag, DataRow)
-                    m_basketItems.Add(bi)
+              ' Row ลูกของแม่ ที่ Selcted บางส่วน
+              For Each childRow As TreeRow In row.Childs
+                If Not IsDBNull(childRow("Selected")) Then
+                  If CBool(childRow("Selected")) Then
+                    Dim cEwCode As String = CStr(row("Code"))  'เอา code แม่
+                    Dim cfullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
+                    Dim centityName As String = CStr(childRow("Name"))
+                    'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+
+                    Dim cqty As Decimal = CDec(childRow("Qty"))
+
+                    Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+                    If TypeOf childRow.Tag Is DataRow Then
+                      Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
+                      'id = drh.GetValue(Of Integer)("eqtid")
+                      id += 1
+                      Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+
+                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                      bi.Tag = CType(childRow.Tag, DataRow)
+                      m_basketItems.Add(bi)
+                    End If
+                  Else
+                    Dim cEwCode As String = CStr(row("Code"))
+                    Dim cfullClassName As String = "Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem"
+                    Dim centityName As String = CStr(childRow("Name"))
+                    'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
+
+                    Dim cqty As Decimal = 0
+
+                    Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+                    If TypeOf row.Tag Is DataRow Then
+                      Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
+                      'id = drh.GetValue(Of Integer)("Asset_id")
+                      id += 1
+                      Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+
+                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                      bi.Tag = CType(childRow.Tag, DataRow)
+                      m_basketItems.Add(bi)
+                    End If
                   End If
                 End If
-              End If
-            Next
+              Next
+
+            End If
+           
           Else
             'Row แม่ที่ไม่มีลูก
             If Not IsDBNull(row("Selected")) Then

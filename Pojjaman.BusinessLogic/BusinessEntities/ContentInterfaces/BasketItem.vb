@@ -111,6 +111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_textInBasket As String
     Private m_id As Integer
+    Private m_parid As Integer
     Private m_stockCode As String
     Private m_enityName As String
     Private m_linenumber As Integer
@@ -146,6 +147,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_enityName = enityName
       m_level = level
       m_haschilds = haschild
+    End Sub
+
+    Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
+                   ByVal qty As Decimal, ByVal enityName As String, ByVal level As Integer, ByVal parId As Integer)
+      m_id = id
+      m_stockCode = stockCode
+      m_linenumber = linenumber
+      m_entityType = entityType
+      m_fullClassName = fullClassName
+      m_textInBasket = textInBasket
+      m_qty = qty
+      m_enityName = enityName
+      m_level = level
+      m_parid = parId
     End Sub
 
     Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
@@ -185,6 +200,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property Id() As Integer
       Get
         Return Me.m_id
+      End Get
+    End Property
+    Public ReadOnly Property ParId() As Integer
+      Get
+        Return Me.m_parid
       End Get
     End Property
     Public ReadOnly Property Linenumber() As Integer
