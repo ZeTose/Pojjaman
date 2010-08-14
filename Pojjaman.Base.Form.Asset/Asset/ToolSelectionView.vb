@@ -214,7 +214,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         parRow("id") = drh.GetValue(Of Integer)("tool_id")
         parRow("code") = drh.GetValue(Of String)("tool_code")
         parRow("Name") = drh.GetValue(Of String)("tool_name")
-        parRow("cc") = drh.GetValue(Of String)("tool_costcenter")
+        parRow("cc") = drh.GetValue(Of Integer)("tool_costcenter")
         parRow("Unit") = drh.GetValue(Of String)("unit_name")
         parRow("unitid") = drh.GetValue(Of Integer)("tool_unit")
         parRow("RemainQty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("tool_remaining"), DigitConfig.Qty)
@@ -256,7 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim csSelected As New DataGridCheckBoxColumn
       csSelected.MappingName = "Selected"
       csSelected.HeaderText = ""
-      AddHandler csSelected.Click, AddressOf RowIcon_Click
+      'AddHandler csSelected.Click, AddressOf RowIcon_Click
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
