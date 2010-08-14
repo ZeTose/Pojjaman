@@ -1015,6 +1015,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
        
         Return
       End If
+
+      If CurrentItem Is Nothing Then
+        Return
+      End If
       filters(0) = New Filter("stockisequence_list", GetStockitemAndQtyList)
 
       'myEntityPanelService.OpenDetailPanel(New GoodsReceipt)
