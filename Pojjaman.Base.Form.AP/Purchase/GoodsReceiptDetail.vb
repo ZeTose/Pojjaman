@@ -251,9 +251,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 166)
+      Me.tgItem.Location = New System.Drawing.Point(8, 170)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(847, 432)
+      Me.tgItem.Size = New System.Drawing.Size(849, 428)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 19
       Me.tgItem.TreeManager = Nothing
@@ -284,7 +284,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(8, 145)
+      Me.lblItem.Location = New System.Drawing.Point(8, 148)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(112, 18)
       Me.lblItem.TabIndex = 29
@@ -311,7 +311,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceive.Controls.Add(Me.ibtnShowToCCPerson)
       Me.grbReceive.Controls.Add(Me.ibtnShowToCCPersonDialog)
       Me.grbReceive.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbReceive.Location = New System.Drawing.Point(400, 51)
+      Me.grbReceive.Location = New System.Drawing.Point(400, 52)
       Me.grbReceive.Name = "grbReceive"
       Me.grbReceive.Size = New System.Drawing.Size(369, 114)
       Me.grbReceive.TabIndex = 9
@@ -542,7 +542,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDelivery.Controls.Add(Me.txtDeliveryPerson)
       Me.grbDelivery.Controls.Add(Me.lblDeliveryPerson)
       Me.grbDelivery.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDelivery.Location = New System.Drawing.Point(8, 51)
+      Me.grbDelivery.Location = New System.Drawing.Point(8, 52)
       Me.grbDelivery.Name = "grbDelivery"
       Me.grbDelivery.Size = New System.Drawing.Size(388, 87)
       Me.grbDelivery.TabIndex = 7
@@ -1034,12 +1034,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDiscountRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDiscountRate, System.Drawing.Color.Empty)
-      Me.txtDiscountRate.Location = New System.Drawing.Point(405, 625)
+      Me.txtDiscountRate.Location = New System.Drawing.Point(408, 625)
       Me.Validator.SetMinValue(Me.txtDiscountRate, "")
       Me.txtDiscountRate.Name = "txtDiscountRate"
       Me.Validator.SetRegularExpression(Me.txtDiscountRate, "")
       Me.Validator.SetRequired(Me.txtDiscountRate, False)
-      Me.txtDiscountRate.Size = New System.Drawing.Size(84, 20)
+      Me.txtDiscountRate.Size = New System.Drawing.Size(82, 20)
       Me.txtDiscountRate.TabIndex = 17
       '
       'txtTaxRate
@@ -1135,7 +1135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAdvancePayAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtAdvancePayAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAdvancePayAmount, System.Drawing.Color.Empty)
-      Me.txtAdvancePayAmount.Location = New System.Drawing.Point(431, 651)
+      Me.txtAdvancePayAmount.Location = New System.Drawing.Point(431, 650)
       Me.Validator.SetMinValue(Me.txtAdvancePayAmount, "")
       Me.txtAdvancePayAmount.Name = "txtAdvancePayAmount"
       Me.txtAdvancePayAmount.ReadOnly = True
@@ -1225,7 +1225,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(104, 141)
+      Me.ibtnBlank.Location = New System.Drawing.Point(104, 144)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 39
@@ -1235,7 +1235,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(128, 141)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(128, 144)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 40
@@ -1477,7 +1477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowAdvancePay.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowAdvancePay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowAdvancePay.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowAdvancePay.Location = New System.Drawing.Point(407, 647)
+      Me.ibtnShowAdvancePay.Location = New System.Drawing.Point(407, 648)
       Me.ibtnShowAdvancePay.Name = "ibtnShowAdvancePay"
       Me.ibtnShowAdvancePay.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowAdvancePay.TabIndex = 44
@@ -1504,9 +1504,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtUnlocker.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtUnlocker.ForeColor = System.Drawing.Color.White
       Me.ibtUnlocker.GenerateDisabledImage = True
-      Me.ibtUnlocker.Location = New System.Drawing.Point(821, 29)
+      Me.ibtUnlocker.Location = New System.Drawing.Point(811, 28)
       Me.ibtUnlocker.Name = "ibtUnlocker"
-      Me.ibtUnlocker.Size = New System.Drawing.Size(32, 24)
+      Me.ibtUnlocker.Size = New System.Drawing.Size(43, 24)
       Me.ibtUnlocker.TabIndex = 335
       Me.ibtUnlocker.TabStop = False
       Me.ibtUnlocker.ThemedImage = CType(resources.GetObject("ibtUnlocker.ThemedImage"), System.Drawing.Bitmap)
