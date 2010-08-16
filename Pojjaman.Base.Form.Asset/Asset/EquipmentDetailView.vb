@@ -234,7 +234,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.CmbEQCode.Location = New System.Drawing.Point(118, 21)
       Me.CmbEQCode.Name = "CmbEQCode"
       Me.CmbEQCode.Size = New System.Drawing.Size(139, 21)
-      Me.CmbEQCode.TabIndex = 0
+      Me.CmbEQCode.TabIndex = 1
       '
       'lblEquipmentCode
       '
@@ -273,7 +273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtEQName, "")
       Me.Validator.SetRequired(Me.txtEQName, True)
       Me.txtEQName.Size = New System.Drawing.Size(314, 21)
-      Me.txtEQName.TabIndex = 1
+      Me.txtEQName.TabIndex = 2
       '
       'chkEqAutoRun
       '

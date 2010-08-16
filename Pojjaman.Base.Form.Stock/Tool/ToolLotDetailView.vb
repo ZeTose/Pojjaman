@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.Location = New System.Drawing.Point(438, 88)
       Me.Grbeqi.Name = "Grbeqi"
       Me.Grbeqi.Size = New System.Drawing.Size(548, 539)
-      Me.Grbeqi.TabIndex = 2
+      Me.Grbeqi.TabIndex = 1
       Me.Grbeqi.TabStop = False
       Me.Grbeqi.Text = "รายละเอียดเครื่องจักรรายตัว"
       '
@@ -350,7 +350,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotBuyQTY, "")
       Me.Validator.SetRequired(Me.txtToollotBuyQTY, False)
       Me.txtToollotBuyQTY.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotBuyQTY.TabIndex = 4
+      Me.txtToollotBuyQTY.TabIndex = 5
       Me.txtToollotBuyQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotBuyDate
@@ -366,7 +366,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotBuyDate, "")
       Me.Validator.SetRequired(Me.txtToollotBuyDate, False)
       Me.txtToollotBuyDate.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotBuyDate.TabIndex = 3
+      Me.txtToollotBuyDate.TabIndex = 4
       '
       'txtToollotWriteOff
       '
@@ -427,7 +427,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotUnitCost, "")
       Me.Validator.SetRequired(Me.txtToollotUnitCost, False)
       Me.txtToollotUnitCost.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotUnitCost.TabIndex = 7
+      Me.txtToollotUnitCost.TabIndex = 6
       Me.txtToollotUnitCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtToollotRemainCost
@@ -620,7 +620,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbCode.Location = New System.Drawing.Point(134, 20)
       Me.cmbCode.Name = "cmbCode"
       Me.cmbCode.Size = New System.Drawing.Size(145, 21)
-      Me.cmbCode.TabIndex = 0
+      Me.cmbCode.TabIndex = 1
       '
       'chkAutorun
       '
@@ -679,7 +679,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToollotbuydoccode, "")
       Me.Validator.SetRequired(Me.txtToollotbuydoccode, False)
       Me.txtToollotbuydoccode.Size = New System.Drawing.Size(112, 21)
-      Me.txtToollotbuydoccode.TabIndex = 2
+      Me.txtToollotbuydoccode.TabIndex = 3
       '
       'lblAsset
       '
@@ -745,7 +745,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtAssetCode, "")
       Me.Validator.SetRequired(Me.txtAssetCode, False)
       Me.txtAssetCode.Size = New System.Drawing.Size(86, 21)
-      Me.txtAssetCode.TabIndex = 1
+      Me.txtAssetCode.TabIndex = 2
       '
       'TxtToollotBuycost
       '
@@ -760,7 +760,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.TxtToollotBuycost, "")
       Me.Validator.SetRequired(Me.TxtToollotBuycost, False)
       Me.TxtToollotBuycost.Size = New System.Drawing.Size(112, 21)
-      Me.TxtToollotBuycost.TabIndex = 6
+      Me.TxtToollotBuycost.TabIndex = 7
       Me.TxtToollotBuycost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'Validator
