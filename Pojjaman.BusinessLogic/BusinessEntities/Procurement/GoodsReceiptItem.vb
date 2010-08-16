@@ -809,7 +809,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property AmountWithDefaultUnit() As Decimal
       Get
         If StockQty > 0 Then
-          Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount / Me.Conversion)
+          Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount) ' (Me.Discount.Amount / Me.Conversion)
         Else
           Return 0
         End If
@@ -959,12 +959,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Dim tmpCost As Decimal = 0
         Dim tmpRealGrossNoVat As Decimal = 0
-        tmpRealGrossNoVat = Me.GoodsReceipt.RealGross
+        tmpRealGrossNoVat = Me.GoodsReceipt.RealGross 'sum(มูลค่ารวม (ปริมาณ * ราคา) - ส่วนลดรายการ)
 
         If Me.StockQty = 0 OrElse tmpRealGrossNoVat = 0 Then
           Return 0
         Else
-          tmpCost = Me.Amount 'Me.AmountWithDefaultUnit
+          tmpCost = Me.AmountWithDefaultUnit '(ปริมาณมาตรฐาน * ราคาหน่วย) - หักส่วนลดท้ายรายการด้วย
 
           tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.GoodsReceipt.Discount.Amount)
 
