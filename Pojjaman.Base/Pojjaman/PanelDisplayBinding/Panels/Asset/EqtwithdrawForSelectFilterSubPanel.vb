@@ -620,12 +620,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim arr(7) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("requestor", IIf(Me.m_requestor.Valid, Me.m_requestor.Id, DBNull.Value))
-      arr(2) = New Filter("tocc", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
+      arr(2) = New Filter("tocc", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value)) 'cc รับคืน 
       arr(3) = New Filter("docdatestart", ValidDateOrDBNull(docDateStart))
       arr(4) = New Filter("docdateend", ValidDateOrDBNull(docDateEnd))
-      arr(5) = New Filter("itemName", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))
-      arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      arr(7) = New Filter("fromCC", IIf(Me.m_ccFrom.Valid, Me.m_ccFrom.Id, DBNull.Value))
+      arr(5) = New Filter("itemname", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))
+      arr(6) = New Filter("userright", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(7) = New Filter("fromcc", IIf(Me.m_ccFrom.Valid, Me.m_ccFrom.Id, DBNull.Value)) 'cc คืนจาก (ต้นทาง)
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button

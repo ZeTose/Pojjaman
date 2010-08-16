@@ -121,7 +121,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Cursor = System.Windows.Forms.Cursors.Default
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(16, 153)
+      Me.lblItem.Location = New System.Drawing.Point(16, 152)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(81, 16)
       Me.lblItem.TabIndex = 3
@@ -297,7 +297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtStoreCCCode, "")
       Me.Validator.SetRequired(Me.txtStoreCCCode, False)
       Me.txtStoreCCCode.Size = New System.Drawing.Size(88, 21)
-      Me.txtStoreCCCode.TabIndex = 8
+      Me.txtStoreCCCode.TabIndex = 1
       '
       'lblStoreperson
       '
@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtStorepersonCode, "")
       Me.Validator.SetRequired(Me.txtStorepersonCode, False)
       Me.txtStorepersonCode.Size = New System.Drawing.Size(88, 21)
-      Me.txtStorepersonCode.TabIndex = 9
+      Me.txtStorepersonCode.TabIndex = 2
       '
       'grbRequest
       '
@@ -477,7 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtWithdrawPersonCode, "")
       Me.Validator.SetRequired(Me.txtWithdrawPersonCode, True)
       Me.txtWithdrawPersonCode.Size = New System.Drawing.Size(88, 21)
-      Me.txtWithdrawPersonCode.TabIndex = 11
+      Me.txtWithdrawPersonCode.TabIndex = 2
       '
       'lblRequestPerson
       '
@@ -496,7 +496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWithdrawCC.Name = "lblWithdrawCC"
       Me.lblWithdrawCC.Size = New System.Drawing.Size(90, 18)
       Me.lblWithdrawCC.TabIndex = 0
-      Me.lblWithdrawCC.Text = "เบิกเข้า Cost Center:"
+      Me.lblWithdrawCC.Text = "เข้า Cost Center:"
       Me.lblWithdrawCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtWithdrawCCCode
@@ -514,7 +514,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtWithdrawCCCode, "")
       Me.Validator.SetRequired(Me.txtWithdrawCCCode, False)
       Me.txtWithdrawCCCode.Size = New System.Drawing.Size(88, 21)
-      Me.txtWithdrawCCCode.TabIndex = 10
+      Me.txtWithdrawCCCode.TabIndex = 1
       '
       'ErrorProvider1
       '
@@ -533,7 +533,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(82, 21)
-      Me.txtDocDate.TabIndex = 4
+      Me.txtDocDate.TabIndex = 2
       '
       'txtCode
       '
@@ -574,7 +574,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(552, 21)
-      Me.txtNote.TabIndex = 7
+      Me.txtNote.TabIndex = 3
       '
       'ibtnBlank
       '
@@ -585,6 +585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank.TabIndex = 4
       Me.ibtnBlank.TabStop = False
       Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
+      Me.ibtnBlank.Visible = False
       '
       'ibtnDelRow
       '
@@ -702,6 +703,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowPR.Text = "PR"
       Me.ibtnShowPR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.ibtnShowPR.ThemedImage = CType(resources.GetObject("ibtnShowPR.ThemedImage"), System.Drawing.Bitmap)
+      Me.ibtnShowPR.Visible = False
       '
       'EqtWithdrawDetail
       '
@@ -951,7 +953,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-
 #Region "Properties"
     Private ReadOnly Property CurrentItem() As EquipmentToolWithdrawItem
       Get
@@ -1001,6 +1002,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = True
+          'If ctrl.Text = "สรุปยอดเบิกเครื่องมือ" AndAlso TypeOf ctrl Is FixedGroupBox Then
+          '  For Each cr As Control In ctrl.Controls
+          '    If TypeOf cr Is TextBox Then
+          '      Trace.WriteLine(cr.Name + " : " + cr.Text)
+          '    End If
+          '  Next
+          'End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
@@ -1091,7 +1099,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       SetStatus()
       SetLabelText()
-      SetSummaryText()
+      'SetSummaryText()
       CheckFormEnable()
 
       m_isInitialized = True
@@ -1101,7 +1109,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If e.Name = "ItemChanged" Then
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
-      SetSummaryText()
+      'SetSummaryText()
     End Sub
     Private m_dateSetting As Boolean = False
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
@@ -1165,7 +1173,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
       SetStatus()
-      SetSummaryText()
+      'SetSummaryText()
       CheckFormEnable()
     End Sub
     Public Sub SetStatus()
@@ -1212,7 +1220,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
       'ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
-      'Me.UpdateAmount()
+      Me.UpdateAmount()
       Me.m_isInitialized = True
 
     End Sub
@@ -1297,7 +1305,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MessageBox.Show(ex.ToString)
       End Try
     End Sub
-    Dim currentY As Integer = 1
+    Dim currentY As Integer = -1
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
       If tgItem.CurrentRowIndex <> currentY Then
         Me.m_entity.ItemCollection.CurrentItem = Me.CurrentItem
@@ -1820,14 +1828,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Private Methods "
-    Private Sub SetSummaryText()
-      Dim i As Integer = 0
-      For Each item As TreeRow In Me.m_treeManager.Treetable.Rows
-        If Me.m_entity.ValidateRow(item) Then
-          i += 1
-        End If
-      Next
-      txtItemCount.Text = i.ToString("#,###")
+    'Private Sub SetSummaryText()
+    '  Dim i As Integer = 0
+    '  For Each item As TreeRow In Me.m_treeManager.Treetable.Rows
+    '    If Me.m_entity.ValidateRow(item) Then
+    '      i += 1
+    '    End If
+    '  Next
+    '  txtItemCount.Text = i.ToString("#,###")
+    'End Sub
+    Private Sub UpdateAmount()
+      If Not Me.m_entity Is Nothing Then
+        Me.txtItemCount.Text = Configuration.FormatToString(Me.m_entity.ItemCollection.Count, DigitConfig.Int)
+      End If
     End Sub
 
     Private Sub WithdrawCheckedChanged(ByVal sender As System.Object)

@@ -451,53 +451,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim prRowHash As New Hashtable
       Dim parRow As TreeRow = Nothing
 
-      If Me.List.Count = 0 Then
-        parRow = dt.Childs.Add()
-        parRow.State = RowExpandState.Expanded
-        'parRow.CustomFontStyle = FontStyle.Bold
-        parRow("Type") = noPRText
-        parRow("Button") = ""
-        prRowHash(0) = parRow
-      End If
+      'If Me.List.Count = 0 Then
+      '  parRow = dt.Childs.Add()
+      '  parRow.State = RowExpandState.Expanded
+      '  'parRow.CustomFontStyle = FontStyle.Bold
+      '  parRow("Code") = noPRText
+      '  parRow("Button") = ""
+      '  prRowHash(0) = parRow
+      'End If
       Dim i As Integer = 1
 
       For Each eqi As EquipmentToolWithdrawItem In Me
         parRow = Nothing
 
-        If Not eqi.PRItem Is Nothing AndAlso Not eqi.PRItem.Pr Is Nothing AndAlso eqi.PRItem.Pr.Originated Then
-          If Not prRowHash.Contains(eqi.PRItem.Pr.Id) Then
-            parRow = dt.Childs.Add()
-            parRow.State = RowExpandState.Expanded
-            'parRow.CustomFontStyle = FontStyle.Bold
-            parRow("Code") = eqi.PRItem.Pr.Code
-            parRow("Button") = ""
-            prRowHash(eqi.PRItem.Pr.Id) = parRow
-          Else
-            parRow = CType(prRowHash(eqi.PRItem.Pr.Id), TreeRow)
-            parRow.State = RowExpandState.Expanded
-          End If
-        Else
-          If Not prRowHash.Contains(0) Then
-            'parRow.CustomFontStyle = FontStyle.Bold
-            parRow = dt.Childs.Add()
-            parRow.State = RowExpandState.Expanded
-            parRow("Code") = noPRText
-            parRow("Button") = ""
-            prRowHash(0) = parRow
-          Else
-            parRow = CType(prRowHash(0), TreeRow)
-            parRow.State = RowExpandState.Expanded
-          End If
-        End If
+        'If Not eqi.PRItem Is Nothing AndAlso Not eqi.PRItem.Pr Is Nothing AndAlso eqi.PRItem.Pr.Originated Then
+        '  If Not prRowHash.Contains(eqi.PRItem.Pr.Id) Then
+        '    parRow = dt.Childs.Add()
+        '    parRow.State = RowExpandState.Expanded
+        '    'parRow.CustomFontStyle = FontStyle.Bold
+        '    parRow("Code") = eqi.PRItem.Pr.Code
+        '    parRow("Button") = ""
+        '    prRowHash(eqi.PRItem.Pr.Id) = parRow
+        '  Else
+        '    parRow = CType(prRowHash(eqi.PRItem.Pr.Id), TreeRow)
+        '    parRow.State = RowExpandState.Expanded
+        '  End If
+        'Else
+        '  If Not prRowHash.Contains(0) Then
+        '    'parRow.CustomFontStyle = FontStyle.Bold
+        '    parRow = dt.Childs.Add()
+        '    parRow.State = RowExpandState.Expanded
+        '    parRow("Code") = noPRText
+        '    parRow("Button") = ""
+        '    prRowHash(0) = parRow
+        '  Else
+        '    parRow = CType(prRowHash(0), TreeRow)
+        '    parRow.State = RowExpandState.Expanded
+        '  End If
+        'End If
 
-        If Not parRow Is Nothing Then
-          Dim newRow As TreeRow = parRow.Childs.Add()
-          eqi.LineNumber = i
-          i += 1
-          eqi.CopyToDataRow(newRow)
-          eqi.ItemValidateRow(newRow)
-          newRow.Tag = eqi
-        End If
+        'If Not parRow Is Nothing Then
+        'Dim newRow As TreeRow = parRow.Childs.Add()
+        Dim newRow As TreeRow = dt.Childs.Add
+        eqi.LineNumber = i
+        i += 1
+        eqi.CopyToDataRow(newRow)
+        eqi.ItemValidateRow(newRow)
+        newRow.Tag = eqi
+        'End If
 
       Next
       dt.AcceptChanges()

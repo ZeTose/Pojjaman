@@ -80,16 +80,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_qty = 1
           End If
         End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If Me.ItemType Is Nothing Then
-          'ไม่มี Type
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+        If Me.RefItem Is Nothing Then
+          'รายการไม่ได้อ้างอิงเอกสารเบิก
+          msgServ.ShowMessage("${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolReturnItem.NotRefEqWR}")
           Return
         End If
-        If Me.ItemType.Value = 160 Or Me.ItemType.Value = 162 Then
-          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
-          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
+        If Me.ItemType.Value = 342 AndAlso Value <> 1 Then
+          'รายการประเภทเครื่องจักรมีจำนวนคืนได้เป็น 1 เท่านั้น
+          msgServ.ShowMessage("${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolReturnItem.EquipmentItemCanBeOne}")
           Return
-        End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Entity.RentalRate      End Set    End Property
+        End If
+        If Me.RefItem.Qty < Value Then
+          'ปริมาณการคืนมากกว่าปริมาณการเบิก
+          msgServ.ShowMessage("${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolReturnItem.OverQty}")
+          Return
+        End If
+        'If Me.ItemType.Value = 160 Or Me.ItemType.Value = 162 Then
+        '  'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+        '  msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
+        '  Return
+        'End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Entity.RentalRate      End Set    End Property
     Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
         m_rentalAmt = m_rentalperday * m_rentalqty
@@ -105,7 +115,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_rentalAmt = value
         If m_rentalqty > 0 Then
           m_rentalperday = m_rentalAmt / m_rentalqty
-
         End If
       End Set    End Property
     Public Property EqtReturn() As EquipmentToolReturn
@@ -210,7 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim rpd As Decimal = 0
         Dim rentrate As Decimal = 0
         row("Linenumber") = Me.LineNumber
-        row("Type") = Me.ItemType.Value
+        row("Type") = Me.ItemType.Description
         If Not Me.Entity Is Nothing Then
           row("eqtstocki_entity") = Me.Entity.Id
           row("Code") = Me.Entity.Code
@@ -224,7 +233,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'row("Name") = Me.name
 
-        row("Button") = ""
+        'row("Button") = ""
 
         row("Note") = Me.Note
 
@@ -452,7 +461,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Class Methods"
     Public Sub SetItems(ByVal items As BasketItemCollection)
       Dim sequnces As New ArrayList
-      For i As Integer = items.Count - 1 To 0 Step -1
+      Dim lineNumber As Integer = 0
+      'For i As Integer = items.Count - 1 To 0 Step -1
+      For i As Integer = 0 To items.Count - 1
+        lineNumber += 1
         Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
         Dim refItem As EquipmentToolWithdrawItem
         Dim newEntity As IEqtItem
@@ -489,6 +501,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           doc.Entity = newEntity
           doc.Unit = CType(newEntity, IEqtItem).Unit
           doc.ToStatus = New EqtStatus(3)
+          doc.LineNumber = lineNumber
           If itemType = 19 Then
             If refItem IsNot Nothing Then
               doc.Qty = refItem.Qty
@@ -556,7 +569,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not prRowHash.Contains(eri.RefDoc.Id) Then
             parRow = dt.Childs.Add
             parRow("Code") = eri.RefDoc.Code
-            parRow("Name") = eri.RefDoc.DocDate.ToString
+            parRow("Name") = eri.RefDoc.DocDate.ToShortDateString
             parRow("Button") = "invisible"
             parRow.State = RowExpandState.Expanded
             prRowHash(eri.RefDoc.Id) = parRow

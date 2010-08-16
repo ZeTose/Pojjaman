@@ -280,6 +280,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return myDatatable
     End Function
 #End Region
+
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -522,7 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not IsDBNull(childRow("Selected")) Then
               If CBool(childRow("Selected")) Then
                 Dim id As Integer
-                Dim EwCode As String = CStr(childRow("Code"))
+                Dim EwCode As String '= CStr(childRow("Code"))
                 Dim fullClassName As String = "Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdrawItem"
                 Dim entityName As String = CStr(childRow("EquipmentTool"))
                 Dim lineNumber As Integer = CInt(childRow("LineNumber"))
@@ -537,7 +538,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   'pri = New EquipmentToolWithdrawItem(pri.EqtWithdraw.Id, pri.LineNumber)
                   'ewi.EquipmentToolWithdraw = theEw
                   id = theEw.Id
+                  EwCode = theEw.Code
                   Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, qty, entityName, 1)
+
                   bi.Tag = ewi
                   m_basketItems.Add(bi)
                 End If

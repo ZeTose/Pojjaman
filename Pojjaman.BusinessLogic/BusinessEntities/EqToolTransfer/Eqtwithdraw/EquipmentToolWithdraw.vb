@@ -333,11 +333,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetId(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Function ValidateItem() As SaveErrorException
+      Dim key As String = ""
+
+      For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
+
+        Dim newHash As New Hashtable
+        For Each wbitem As WBSDistribute In item.WBSDistributeCollection
+          key = wbitem.WBS.Id.ToString
+          If Not newHash.Contains(key) Then
+            newHash(key) = wbitem
+          Else
+            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+          End If
+          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+          End If
+        Next
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
 
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
+        Dim ValidateError As SaveErrorException = ValidateItem()
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
         End If
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
@@ -544,9 +569,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim i As Integer = 0 'Line Running
         Dim seq As Integer = -1
         With ds.Tables("Eqtstockitem")
-          'For Each row As DataRow In .Rows
-          '  row.Delete()
-          'Next
           For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
             'Dim dr As DataRow = .NewRow
             'Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
