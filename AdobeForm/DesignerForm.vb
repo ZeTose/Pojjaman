@@ -1221,27 +1221,33 @@ Namespace Longkong.AdobeForm
         AddHandler pd.PrintPage, AddressOf PrintPage_Handler
 
         UpdatePrinterSettings(pd)
-        Me.m_countPage = True
-        m_rowOffsetHash = New Hashtable
-        Me.m_pageCount = PageCountPrintController.GetPageCount(pd)
-        Me.m_countPage = False
-        For Each pn As String In PrinterSettings.InstalledPrinters
-          If pn.ToUpper.Contains("XPS") Then
-            pd.PrinterSettings.PrinterName = pn
-            Exit For
+        Dim oldPrinterName As String = pd.PrinterSettings.PrinterName
+        Try
+          Me.m_countPage = True
+          m_rowOffsetHash = New Hashtable
+          Me.m_pageCount = PageCountPrintController.GetPageCount(pd)
+          Me.m_countPage = False
+          For Each pn As String In PrinterSettings.InstalledPrinters
+            If pn.ToUpper.Contains("XPS") Then
+              pd.PrinterSettings.PrinterName = pn
+              Exit For
+            End If
+          Next
+          Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+          Dim xpsDIR As String = System.IO.Path.GetTempPath
+          pd.DocumentName = "XPS"
+          pd.PrinterSettings.PrintToFile = True
+          m_CurrentFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
+          pd.PrinterSettings.PrintFileName = m_CurrentFileName
+          pd.Print()
+          Dim config As Object = Configuration.GetConfig("SaveXPSLog")
+          If CBool(config) Then
+            SaveXPS()
           End If
-        Next
-        Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        Dim xpsDIR As String = System.IO.Path.GetTempPath
-        pd.DocumentName = "XPS"
-        pd.PrinterSettings.PrintToFile = True
-        m_CurrentFileName = xpsDIR & Path.DirectorySeparatorChar & Now.Ticks.ToString & "tmp.xps"
-        pd.PrinterSettings.PrintFileName = m_CurrentFileName
-        pd.Print()
-        Dim config As Object = Configuration.GetConfig("SaveXPSLog")
-        If CBool(config) Then
-          SaveXPS()
-        End If
+        Catch ex As Exception
+
+        End Try
+        pd.PrinterSettings.PrinterName = oldPrinterName
       Catch ex As Exception
 
       End Try
