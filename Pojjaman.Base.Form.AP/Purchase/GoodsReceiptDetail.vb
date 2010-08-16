@@ -1489,9 +1489,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWHT.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblWHT.BackColor = System.Drawing.Color.Transparent
       Me.lblWHT.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWHT.Location = New System.Drawing.Point(567, 653)
+      Me.lblWHT.Location = New System.Drawing.Point(585, 653)
       Me.lblWHT.Name = "lblWHT"
-      Me.lblWHT.Size = New System.Drawing.Size(105, 18)
+      Me.lblWHT.Size = New System.Drawing.Size(87, 18)
       Me.lblWHT.TabIndex = 334
       Me.lblWHT.Text = "ภาษีหัก ณ ที่จ่าย :"
       Me.lblWHT.TextAlign = System.Drawing.ContentAlignment.MiddleRight
