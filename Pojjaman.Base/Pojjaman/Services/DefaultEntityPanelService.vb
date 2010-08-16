@@ -110,6 +110,8 @@ Namespace Longkong.Pojjaman.Services
 
       If TypeOf entity Is INewReport Then
         Return New GridReportPanelView(entity, handler, New BasketDialog, filters, entities)
+      ElseIf TypeOf entity Is IUseTelerikGridReport Then
+        Return New TelerikReportPanelView(entity, handler, New BasketDialog, filters, entities)
       ElseIf TypeOf entity Is Report Then
         Return New ReportPanelView(entity, handler, New BasketDialog, filters, entities)
       End If

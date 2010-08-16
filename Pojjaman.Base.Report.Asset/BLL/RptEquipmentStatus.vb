@@ -1,4 +1,4 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
@@ -9,10 +9,13 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Telerik.WinControls.UI
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptEquipmentStatus
     Inherits Report
-    Implements INewReport
+    Implements IUseTelerikGridReport
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
@@ -28,70 +31,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
-    Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
+    Dim viewDef As ColumnGroupsViewDefinition
+    Private m_grid As RadGridView
+    Public Overrides Sub ListInNewGrid(ByVal grid As RadGridView)
       m_grid = grid
-      m_grid.BeginUpdate()
-
-      m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      m_grid.Model.Options.NumberedColHeaders = False
-      m_grid.Model.Options.WrapCellBehavior = Syncfusion.Windows.Forms.Grid.GridWrapCellBehavior.WrapRow
+      m_grid.MasterGridViewTemplate.AllowAddNewRow = False
+      m_grid.MasterGridViewTemplate.AllowDeleteRow = False
+      m_grid.MasterGridViewTemplate.AllowCellContextMenu = False
+      'm_grid.MasterGridViewTemplate.AllowColumnReorder = False
       CreateHeader()
       PopulateData()
-      m_grid.EndUpdate()
     End Sub
     Private Sub CreateHeader()
-      m_grid.RowCount = 1
-      m_grid.ColCount = 10
+      viewDef = New ColumnGroupsViewDefinition
 
-      m_grid.ColWidths(1) = 100
-      m_grid.ColWidths(2) = 100
-      m_grid.ColWidths(3) = 100
-      m_grid.ColWidths(4) = 100
-      m_grid.ColWidths(5) = 100
-      m_grid.ColWidths(6) = 100
-      m_grid.ColWidths(7) = 100
-      m_grid.ColWidths(8) = 100
-      m_grid.ColWidths(9) = 100
-      m_grid.ColWidths(10) = 100
+      Dim headerTextList As New List(Of String)
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัสเครื่องจักร"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentName}")) '"ชื่อเครื่องจักร"
 
-      m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      headerTextList.Add("xxx") '"ชื่อเครื่องจักร"
+      headerTextList.Add("yyy") '"ชื่อเครื่องจักร"
 
-      m_grid.Rows.HeaderCount = 1
-      m_grid.Rows.FrozenCount = 1
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentStatus}")) '"สถานะปัจจุบัน"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}")) '"CCที่อยู่"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}")) '"ค่าเช่าต่อวัน"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.asset}")) '"asset"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.BuyDocCode}")) '"BuyDocCode"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Buydate}")) '"Buydate"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.buycost}")) '"buycost"
 
-      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}") '"รหัสเครื่องจักร"
-      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentName}") '"ชื่อเครื่องจักร"
-      m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}") '"CCเจ้าของ"
-      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentStatus}") '"สถานะปัจจุบัน"
-      m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}") '"CCที่อยู่"
-      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}") '"ค่าเช่าต่อวัน"
-      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.asset}") '"asset"
-      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.BuyDocCode}") '"BuyDocCode"
-      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Buydate}") '"Buydate"
-      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.buycost}") '"buycost"
-
-      Dim indent As String = Space(1)
-
-      m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      For i As Integer = 0 To 11
+        Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
+        gridColumn.HeaderText = headerTextList(i)
+        gridColumn.Width = 100
+        gridColumn.ReadOnly = True
+        gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        m_grid.Columns.Add(gridColumn)
+      Next
 
     End Sub
     Private Sub PopulateData()
@@ -121,89 +98,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim no1 As Integer = 0
 
       For Each row As DataRow In dt.Rows
-        If row("eq_code").ToString <> currentAssetTypeCode Then
-          If Not (currentAssetTypeCode = "") Then
-            'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-            'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-
-            'sumAssetTypeWithdtaw = 0
-            'sumAssetTypeReturn = 0
-
-            no = 1
-          End If
-          m_grid.RowCount += 1
-          currAssetTypeIndex = m_grid.RowCount
-          m_grid.RowStyles(currAssetTypeIndex).BackColor = Color.FromArgb(128, 255, 128)
-          m_grid.RowStyles(currAssetTypeIndex).Font.Bold = True
-          m_grid.RowStyles(currAssetTypeIndex).ReadOnly = True
-          m_grid(currAssetTypeIndex, 1).CellValue = row("eq_code")
-          m_grid(currAssetTypeIndex, 2).CellValue = row("eq_name")
-          currentAssetTypeCode = row("eq_code").ToString
-
-        End If
-        If row("eqi_code").ToString <> currentAssetCode Then
-          If Not (currentAssetCode = "") Then
-            If no = 0 Then
-              'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-              'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-              'sumAssetWithdtaw = 0
-              'sumAssetReturn = 0
-            End If
-            no = 0
-            'm_grid(currCcIndex, 5).CellValue = Configuration.FormatToString(sumAssetWithdtaw, DigitConfig.Price)
-            'm_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(sumAssetReturn, DigitConfig.Price)
-            'sumAssetWithdtaw = 0
-            'sumAssetReturn = 0
-          End If
-
-          m_grid.RowCount += 1
-          currDocIndex = m_grid.RowCount
-          m_grid(currDocIndex, 1).CellValue = "  " & row("eqi_code").ToString
-          m_grid(currDocIndex, 2).CellValue = "  " & row("eqi_name").ToString
-          currentAssetCode = row("eqi_code").ToString
-        End If
-        If Not row.IsNull("currentCC") Then
-          currentCC = CStr(row("currentCC"))
-        End If
-        If Not row.IsNull("Rentalrate") Then
-          bReturn = CDec(row("Rentalrate"))
-        End If
-
-        'sumAssetWithdtaw += Withdtaw
-        sumAssetReturn = bReturn
-        'sumAssetTypeWithdtaw += Withdtaw
-        sumAssetTypeReturn = bReturn
-        currCcIndex = m_grid.RowCount
-        'sum1 += Withdtaw
-        'sum2 += bReturn
-        m_grid(currCcIndex, 3).CellValue = row("ownerCC").ToString
-        m_grid(currCcIndex, 4).CellValue = "  " & row("Status").ToString
-        m_grid(currCcIndex, 5).CellValue = row("currentCC").ToString
-        m_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Rentalrate")), DigitConfig.Price)
-        m_grid(currCcIndex, 7).CellValue = "  " & row("Asset").ToString
-        m_grid(currCcIndex, 8).CellValue = "  " & row("eqi_buydoccode").ToString
-
-        If Not row.IsNull("eqi_buydate") Then
-          m_grid(currCcIndex, 9).CellValue = "  " & CDate(row("eqi_buydate")).ToShortDateString
-        End If
-
-        m_grid(currCcIndex, 10).CellValue = Configuration.FormatToString(CDec(row("eqi_buycost")), DigitConfig.Price)
-
-        'm_grid(currCcIndex, 5).CellValue = Configuration.FormatToString(sumAssetWithdtaw, DigitConfig.Price)
-        'm_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(sumAssetReturn, DigitConfig.Price)
-
+        Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
+        Dim deh As New DataRowHelper(row)
+        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("eq_code")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eq_name")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eqi_code")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("eqi_name")
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("ownerCC")
+        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("Status")
+        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("currentCC")
+        currentGridRow.Cells(7).Value = deh.GetValue(Of String)("Rentalrate")
+        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("Asset")
+        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("eqi_buydoccode")
+        currentGridRow.Cells(10).Value = deh.GetValue(Of String)("eqi_buydate")
+        currentGridRow.Cells(11).Value = deh.GetValue(Of String)("eqi_buycost")
       Next
-
-      'm_grid(currAssetTypeIndex, 5).CellValue = Configuration.FormatToString(sumAssetTypeWithdtaw, DigitConfig.Price)
-      'm_grid(currAssetTypeIndex, 6).CellValue = Configuration.FormatToString(sumAssetTypeReturn, DigitConfig.Price)
-
-
-      'm_grid.RowCount += 1
-      'currDocIndex = m_grid.RowCount
-      'm_grid(currDocIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt271.Totals}")
-      'm_grid(currDocIndex, 5).CellValue = Configuration.FormatToString(sum1, DigitConfig.Price)
-      'm_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(sum2, DigitConfig.Price)
-
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
@@ -256,62 +165,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       Dim n As Integer = 0
-      For rowIndex As Integer = 2 To m_grid.RowCount
+      For rowIndex As Integer = 0 To m_grid.RowCount - 1
         dpi = New DocPrintingItem
         dpi.Mapping = "col0"
-        dpi.Value = m_grid(rowIndex, 1).CellValue
+        dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col1"
-        dpi.Value = m_grid(rowIndex, 2).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col1"
+        'dpi.Value = m_grid(rowIndex, 2).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col2"
-        dpi.Value = m_grid(rowIndex, 3).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col2"
+        'dpi.Value = m_grid(rowIndex, 3).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col3"
-        dpi.Value = m_grid(rowIndex, 4).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col3"
+        'dpi.Value = m_grid(rowIndex, 4).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col4"
-        dpi.Value = m_grid(rowIndex, 5).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col4"
+        'dpi.Value = m_grid(rowIndex, 5).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col5"
-        dpi.Value = m_grid(rowIndex, 6).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col5"
+        'dpi.Value = m_grid(rowIndex, 6).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
-        dpi = New DocPrintingItem
-        dpi.Mapping = "col6"
-        dpi.Value = m_grid(rowIndex, 7).CellValue
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col6"
+        'dpi.Value = m_grid(rowIndex, 7).CellValue
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
 
 

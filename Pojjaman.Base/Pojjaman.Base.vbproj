@@ -1358,6 +1358,9 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1735,6 +1738,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.resx">
       <DependentUpon>WBSSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportPanelView.resx">
+      <DependentUpon>TelerikReportPanelView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.resx">
       <DependentUpon>GridReportPanelView.vb</DependentUpon>
