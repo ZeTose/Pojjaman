@@ -1321,16 +1321,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As New JournalEntryItem
       If Me.Amount > 0 Then
-        ' DR. ค่าเสื่อมราคา          costcenter เดิม           ji.Mapping = "I6.1"
-        SetGLI7_1(jiColl)
-        ' CR. ค่าเสื่อมราคาสะสม  costcenter เดิม           ji.Mapping = "I6.2"
-        SetGLI7_2(jiColl)
+        '' DR. ค่าเสื่อมราคา          costcenter เดิม           ji.Mapping = "I6.1"
+        'SetGLI8_1(jiColl)
+        '' CR. ค่าเสื่อมราคาสะสม  costcenter เดิม           ji.Mapping = "I6.2"
+        'SetGLI8_2(jiColl)
         ' dr. ค่าเสื่อราคาสะสมทั้งหมด
-        SetGLI7_3(jiColl)
+        SetGLI8_1(jiColl)
         ' cr. สินทรัพย์ทั้งหมด
-        SetGLI7_4(jiColl)
+        SetGLI8_2(jiColl)
         ' dr.ลูกหนี้การค้า
-        SetGLI7_5(jiColl)
+        SetGLI8_3(jiColl)
         ' cr.กำไรจากการขายสินทรัพย์
         SetGLI7_6(jiColl)
         ' cr.ภาษีขาย
@@ -1356,173 +1356,213 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return jiColl
     End Function
-    ' dr. ค่าเสื่อมราคาเพิ่มเติมจนถึงวันที่ขาย
-    Private Sub SetGLI7_1(ByVal jiColl As JournalEntryItemCollection)
-      Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim asset As New Asset(CInt(trow("stocki_entity")))
-          If Not asset.DepreAccount Is Nothing Then
-            ht(asset.DepreAccount.Id) = asset.DepreAccount
-          End If
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim Intotalamnt As Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Childs
-          If ValidateRow(row) Then
-            Dim myAsset As New Asset(CInt(row("stocki_entity")))
-            'myAsset.DepreciationCalc()
-            If myAsset.DepreAccount.Originated AndAlso myAsset.DepreAccount.Id = acct.Id Then
-              If Not row.IsNull("deprecalcamt") Then
-                Intotalamnt += CDec(row("deprecalcamt"))
-              End If
-            End If
-            'Intotalamnt = CDec(myAsset.DepreLTD)
-          End If
-        Next
-        If Intotalamnt > 0 Then
-          ji = New JournalEntryItem
-          ji.Mapping = "I7.1"
-          ji.Amount = Intotalamnt
-          If acct.Originated Then
-            ji.Account = acct
-          End If
-          ji.CostCenter = Me.FromCostCenter
-          jiColl.Add(ji)
-        End If
-      Next
-    End Sub
-    ' cr. ค่าเสื่อมราคาสะสม
-    Private Sub SetGLI7_2(ByVal jiColl As JournalEntryItemCollection)
-      Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim asset As New Asset(CInt(trow("stocki_entity")))
-          If Not asset.DepreOpeningAccount Is Nothing Then
-            ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
-          End If
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim Intotalamnt As Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Childs
-          If ValidateRow(row) Then
-            Dim myAsset As New Asset(CInt(row("stocki_entity")))
-            'myAsset.DepreciationCalc()
-            If myAsset.DepreOpeningAccount.Originated AndAlso myAsset.DepreOpeningAccount.Id = acct.Id Then
-              If Not row.IsNull("deprecalcamt") Then
-                Intotalamnt += CDec(row("deprecalcamt"))
-              End If
-            End If
-            'Intotalamnt = CDec(myAsset.DepreLTD)
-          End If
-        Next
-        If Intotalamnt > 0 Then
-          ji = New JournalEntryItem
-          ji.Mapping = "I7.2"
-          ji.Amount = Intotalamnt
-          If acct.Originated Then
-            ji.Account = acct
-          End If
-          ji.CostCenter = Me.FromCostCenter
-          jiColl.Add(ji)
-        End If
-      Next
-    End Sub
+    '' dr. ค่าเสื่อมราคาเพิ่มเติมจนถึงวันที่ขาย
+    'Private Sub SetGLI8_1(ByVal jiColl As JournalEntryItemCollection)
+    '  Dim ji As New JournalEntryItem
+    '  Dim ht As New Hashtable
+    '  For Each trow As TreeRow In Me.ItemTable.Childs
+    '    If ValidateRow(trow) Then
+    '      Dim asset As New Asset(CInt(trow("stocki_entity")))
+    '      If Not asset.DepreAccount Is Nothing Then
+    '        ht(asset.DepreAccount.Id) = asset.DepreAccount
+    '      End If
+    '    End If
+    '  Next
+    '  For Each acct As Account In ht.Values
+    '    Dim Intotalamnt As Decimal = 0
+    '    For Each row As TreeRow In Me.ItemTable.Childs
+    '      If ValidateRow(row) Then
+    '        Dim myAsset As New Asset(CInt(row("stocki_entity")))
+    '        'myAsset.DepreciationCalc()
+    '        If myAsset.DepreAccount.Originated AndAlso myAsset.DepreAccount.Id = acct.Id Then
+    '          If Not row.IsNull("deprecalcamt") Then
+    '            Intotalamnt += CDec(row("deprecalcamt"))
+    '          End If
+    '        End If
+    '        'Intotalamnt = CDec(myAsset.DepreLTD)
+    '      End If
+    '    Next
+    '    If Intotalamnt > 0 Then
+    '      ji = New JournalEntryItem
+    '      ji.Mapping = "I8.1"
+    '      ji.Amount = Intotalamnt
+    '      If acct.Originated Then
+    '        ji.Account = acct
+    '      End If
+    '      ji.CostCenter = Me.FromCostCenter
+    '      jiColl.Add(ji)
+    '    End If
+    '  Next
+    'End Sub
+    '' cr. ค่าเสื่อมราคาสะสม
+    'Private Sub SetGLI8_2(ByVal jiColl As JournalEntryItemCollection)
+    '  Dim ji As New JournalEntryItem
+    '  Dim ht As New Hashtable
+    '  For Each trow As TreeRow In Me.ItemTable.Childs
+    '    If ValidateRow(trow) Then
+    '      Dim asset As New Asset(CInt(trow("stocki_entity")))
+    '      If Not asset.DepreOpeningAccount Is Nothing Then
+    '        ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
+    '      End If
+    '    End If
+    '  Next
+    '  For Each acct As Account In ht.Values
+    '    Dim Intotalamnt As Decimal = 0
+    '    For Each row As TreeRow In Me.ItemTable.Childs
+    '      If ValidateRow(row) Then
+    '        Dim myAsset As New Asset(CInt(row("stocki_entity")))
+    '        'myAsset.DepreciationCalc()
+    '        If myAsset.DepreOpeningAccount.Originated AndAlso myAsset.DepreOpeningAccount.Id = acct.Id Then
+    '          If Not row.IsNull("deprecalcamt") Then
+    '            Intotalamnt += CDec(row("deprecalcamt"))
+    '          End If
+    '        End If
+    '        'Intotalamnt = CDec(myAsset.DepreLTD)
+    '      End If
+    '    Next
+    '    If Intotalamnt > 0 Then
+    '      ji = New JournalEntryItem
+    '      ji.Mapping = "I7.2"
+    '      ji.Amount = Intotalamnt
+    '      If acct.Originated Then
+    '        ji.Account = acct
+    '      End If
+    '      ji.CostCenter = Me.FromCostCenter
+    '      jiColl.Add(ji)
+    '    End If
+    '  Next
+    'End Sub
     ' dr. ค่าเสื่อราคาสะสมทั้งหมด
-    Private Sub SetGLI7_3(ByVal jiColl As JournalEntryItemCollection)
+    Private Sub SetGLI8_1(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim asset As New Asset(CInt(trow("stocki_entity")))
-          If Not asset.DepreOpeningAccount Is Nothing Then
-            ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
-          End If
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim Intotalamnt As Double = 0 'Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Childs
-          If ValidateRow(row) Then
-            Dim myAsset As New Asset(CInt(row("stocki_entity")))
-            If myAsset.DepreOpeningAccount.Id = acct.Id Then
-              Dim depreamntinprocess As Decimal = 0
-              Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
-              If lastestCalcDate.Equals(Date.MinValue) Then
-                depreamntinprocess = myAsset.DepreOpening
-              Else
-                depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DocDate))
-              End If
-              Intotalamnt += myAsset.BuyPrice - depreamntinprocess
-            End If
-          End If
-        Next
-        If Intotalamnt > 0 Then
+      'Dim ht As New Hashtable
+      'For Each trow As TreeRow In Me.ItemTable.Childs
+      '  If ValidateRow(trow) Then
+      '    Dim asset As New Asset(CInt(trow("eqtstocki_entity")))
+      '    If Not asset.DepreOpeningAccount Is Nothing Then
+      '      ht(asset.DepreOpeningAccount.Id) = asset.DepreOpeningAccount
+      '    End If
+      '  End If
+      'Next
+      'For Each acct As Account In ht.Values
+      '  Dim Intotalamnt As Double = 0 'Decimal = 0
+      '  For Each row As TreeRow In Me.ItemTable.Childs
+      '    If ValidateRow(row) Then
+      '      Dim myAsset As New Asset(CInt(row("eqtstocki_entity")))
+      '      If myAsset.DepreOpeningAccount.Id = acct.Id Then
+      '        Dim depreamntinprocess As Decimal = 0
+      '        Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
+      '        If lastestCalcDate.Equals(Date.MinValue) Then
+      '          depreamntinprocess = myAsset.DepreOpening
+      '        Else
+      '          depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DocDate))
+      '        End If
+      '        Intotalamnt += myAsset.BuyPrice - depreamntinprocess
+      '      End If
+      '    End If
+      '  Next
+      '  If Intotalamnt > 0 Then
+      '    ji = New JournalEntryItem
+      '    ji.Mapping = "I8.1"
+      '    ji.Amount = CDec(Intotalamnt)
+      '    If acct.Originated Then
+      '      ji.Account = acct
+      '    End If
+      '    ji.CostCenter = Me.FromCostCenter
+      '    jiColl.Add(ji)
+      '  End If
+      'Next
+      For Each item As AssetWriteOffItem In Me.Itemcollection
+        If item.ItemType.Value = 28 Then
           ji = New JournalEntryItem
-          ji.Mapping = "I7.3"
-          ji.Amount = CDec(Intotalamnt)
-          If acct.Originated Then
-            ji.Account = acct
-          End If
+          ji.Mapping = "I8.1"
+          ji.Amount = item.AccDepre
+          ji.Account = item.AccDepreAccount
           ji.CostCenter = Me.FromCostCenter
+          jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "I8.1D"
+          ji.Amount = item.AccDepre
+          ji.Account = item.AccDepreAccount
+          ji.CostCenter = Me.FromCostCenter
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = item.Entity.EntityId
+          ji.Note = item.Entity.Code & " " & item.Entity.Name
           jiColl.Add(ji)
         End If
       Next
     End Sub
     ' cr. สินทรัพย์ทั้งหมด
-    Private Sub SetGLI7_4(ByVal jiColl As JournalEntryItemCollection)
+    Private Sub SetGLI8_2(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim asset As New Asset(CInt(trow("stocki_entity")))
-          If Not asset.Account Is Nothing Then
-            ht(asset.Account.Id) = asset.Account
-          End If
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim Intotalamnt As Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Childs
-          If ValidateRow(row) Then
-            Dim myAsset As New Asset(CInt(row("stocki_entity")))
-            If myAsset.Account.Originated AndAlso myAsset.Account.Id = acct.Id Then
-              Dim depreamntinprocess As Decimal = 0
-              Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
-              If lastestCalcDate.Equals(Date.MinValue) Then
-                depreamntinprocess = myAsset.DepreOpening
-              Else
-                depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DocDate))
-              End If
-              Intotalamnt += myAsset.BuyPrice - depreamntinprocess
-            End If
-          End If
-        Next
-        If Intotalamnt > 0 Then
+      'Dim ht As New Hashtable
+      'For Each trow As TreeRow In Me.ItemTable.Childs
+      '  If ValidateRow(trow) Then
+      '    Dim asset As New Asset(CInt(trow("stocki_entity")))
+      '    If Not asset.Account Is Nothing Then
+      '      ht(asset.Account.Id) = asset.Account
+      '    End If
+      '  End If
+      'Next
+      'For Each acct As Account In ht.Values
+      '  Dim Intotalamnt As Decimal = 0
+      '  For Each row As TreeRow In Me.ItemTable.Childs
+      '    If ValidateRow(row) Then
+      '      Dim myAsset As New Asset(CInt(row("stocki_entity")))
+      '      If myAsset.Account.Originated AndAlso myAsset.Account.Id = acct.Id Then
+      '        Dim depreamntinprocess As Decimal = 0
+      '        Dim lastestCalcDate As Date = myAsset.GetLastCalcDate(Nothing)
+      '        If lastestCalcDate.Equals(Date.MinValue) Then
+      '          depreamntinprocess = myAsset.DepreOpening
+      '        Else
+      '          depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DocDate))
+      '        End If
+      '        Intotalamnt += myAsset.BuyPrice - depreamntinprocess
+      '      End If
+      '    End If
+      '  Next
+      '  If Intotalamnt > 0 Then
+      '    ji = New JournalEntryItem
+      '    ji.Mapping = "I7.4"
+      '    ji.Amount = Intotalamnt
+      '    If acct.Originated Then
+      '      ji.Account = acct
+      '    End If
+      '    ji.CostCenter = Me.FromCostCenter
+      '    jiColl.Add(ji)
+      '  End If
+      'Next
+      For Each item As AssetWriteOffItem In Me.Itemcollection
+        If item.ItemType.Value = 28 Then
           ji = New JournalEntryItem
-          ji.Mapping = "I7.4"
-          ji.Amount = Intotalamnt
-          If acct.Originated Then
-            ji.Account = acct
-          End If
+          ji.Mapping = "I8.2"
+          ji.Amount = item.WriteOffAmount
+          ji.Account = item.AssetAccount
           ji.CostCenter = Me.FromCostCenter
+          jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "I8.2D"
+          ji.Amount = item.WriteOffAmount
+          ji.Account = item.AssetAccount
+          ji.CostCenter = Me.FromCostCenter
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = item.Entity.EntityId
+          ji.Note = item.Entity.Code & " " & item.Entity.Name
           jiColl.Add(ji)
         End If
       Next
     End Sub
     ' dr. ลูกหนี้การค้า
-    Private Sub SetGLI7_5(ByVal jiColl As JournalEntryItemCollection)
+    Private Sub SetGLI8_3(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
       If Not Me.Receive Is Nothing Then
         'ส่วนต่างระหว่างยอดรับกับยอดจริง ---> ลูกหนี้
         Me.Receive.UpdateGross()
         If Configuration.Compare(Me.Receive.Gross, Me.Receive.Amount) < 0 Then
           ji = New JournalEntryItem
-          ji.Mapping = "I7.5"
+          ji.Mapping = "I8.3"
           ji.Amount = Me.Receive.Amount - Me.Receive.Gross
           If Not Me.Customer.Account Is Nothing AndAlso Me.Customer.Account.Originated Then
             ji.Account = Me.Customer.Account
@@ -1535,44 +1575,64 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'cr.กำไรจากการขายสินทรัพย์
     Private Sub SetGLI7_6(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim acctItem As New Account(CInt(trow("stocki_acct")))
-          If Not acctItem Is Nothing Then
-            ht(acctItem.Id) = acctItem
-          End If
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim Intotalamnt As Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Childs
-          If ValidateRow(row) Then
-            Dim myAcct As New Account(CInt(row("stocki_acct")))
-            If myAcct.Originated AndAlso myAcct.Id = acct.Id Then
-              Dim amt As Decimal
-              Dim taxBase As Decimal
-              If Not row.IsNull("Amount") Then
-                amt = CDec(row("amount"))
-              Else
-                amt = 0
-              End If              Select Case Me.TaxType.Value
-                Case 2 '"รวม"
-                  taxBase = amt * (100 / (Me.TaxRate + 100))
-                Case Else
-                  taxBase = amt
-              End Select              Intotalamnt += taxBase
-            End If
-          End If
-        Next
-        If Intotalamnt > 0 Then
+      'Dim ht As New Hashtable
+      'For Each trow As TreeRow In Me.ItemTable.Childs
+      '  If ValidateRow(trow) Then
+      '    Dim acctItem As New Account(CInt(trow("stocki_acct")))
+      '    If Not acctItem Is Nothing Then
+      '      ht(acctItem.Id) = acctItem
+      '    End If
+      '  End If
+      'Next
+      'For Each acct As Account In ht.Values
+      '  Dim Intotalamnt As Decimal = 0
+      '  For Each row As TreeRow In Me.ItemTable.Childs
+      '    If ValidateRow(row) Then
+      '      Dim myAcct As New Account(CInt(row("stocki_acct")))
+      '      If myAcct.Originated AndAlso myAcct.Id = acct.Id Then
+      '        Dim amt As Decimal
+      '        Dim taxBase As Decimal
+      '        If Not row.IsNull("Amount") Then
+      '          amt = CDec(row("amount"))
+      '        Else
+      '          amt = 0
+      '        End If      '        Select Case Me.TaxType.Value
+      '          Case 2 '"รวม"
+      '            taxBase = amt * (100 / (Me.TaxRate + 100))
+      '          Case Else
+      '            taxBase = amt
+      '        End Select      '        Intotalamnt += taxBase
+      '      End If
+      '    End If
+      '  Next
+      '  If Intotalamnt > 0 Then
+      '    ji = New JournalEntryItem
+      '    ji.Mapping = "I7.6"
+      '    ji.Amount = Intotalamnt
+      '    If acct.Originated Then
+      '      ji.Account = acct
+      '    End If
+      '    ji.CostCenter = Me.FromCostCenter
+      '    jiColl.Add(ji)
+      '  End If
+      'Next
+      For Each item As AssetWriteOffItem In Me.Itemcollection
+        If item.ItemType.Value = 28 Then
           ji = New JournalEntryItem
           ji.Mapping = "I7.6"
-          ji.Amount = Intotalamnt
-          If acct.Originated Then
-            ji.Account = acct
-          End If
+          ji.Amount = item.ProfitLoss
+          'ji.Account = item.
           ji.CostCenter = Me.FromCostCenter
+          jiColl.Add(ji)
+
+          ji = New JournalEntryItem
+          ji.Mapping = "I7.6D"
+          ji.Amount = item.ProfitLoss
+          'ji.Account = item.AssetAccount
+          ji.CostCenter = Me.FromCostCenter
+          ji.EntityItem = item.Entity.Id
+          ji.EntityItemType = item.Entity.EntityId
+          ji.Note = item.Entity.Code & " " & item.Entity.Name
           jiColl.Add(ji)
         End If
       Next
