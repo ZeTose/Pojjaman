@@ -175,11 +175,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               If eti.ParId <> 0 Then
                 node = TreeViewHelper.SearchTag(Me.tvItems, eti.ParId)
               End If
-              If node Is Nothing AndAlso eti.Level = 1 AndAlso eti.Qty > 0 Then
+              If node Is Nothing AndAlso eti.Level = 1 Then ' AndAlso eti.Qty > 0 Then  'จะแสดงปริมาณที่ เป็น 0 ด้วยหรือเปล่ายังคิดอยู๋
                 node = Me.tvItems.Nodes.Add(eti.ParentText)
                 node.Tag = eti.ParId
               End If
-              If eti.Level = 1 AndAlso eti.Qty > 0 Then
+              If eti.Level = 1 Then 'AndAlso eti.Qty > 0 Then 'จะแสดงปริมาณที่ เป็น 0 ด้วยหรือเปล่ายังคิดอยู๋
                 If node Is Nothing Then
                   node = Me.tvItems.Nodes.Add(eti.ParentText)
                 End If
