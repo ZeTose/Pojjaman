@@ -135,7 +135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.Controls.Add(Me.lblItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCountUnit)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSummary.Location = New System.Drawing.Point(494, 360)
+      Me.grbSummary.Location = New System.Drawing.Point(514, 360)
       Me.grbSummary.Name = "grbSummary"
       Me.grbSummary.Size = New System.Drawing.Size(250, 45)
       Me.grbSummary.TabIndex = 8
@@ -353,7 +353,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbRequest.Location = New System.Drawing.Point(384, 74)
       Me.grbRequest.Name = "grbRequest"
-      Me.grbRequest.Size = New System.Drawing.Size(360, 72)
+      Me.grbRequest.Size = New System.Drawing.Size(380, 72)
       Me.grbRequest.TabIndex = 2
       Me.grbRequest.TabStop = False
       Me.grbRequest.Text = "ผู้ขอเบิก"
@@ -363,9 +363,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnWithdrawCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnWithdrawCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnWithdrawCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnWithdrawCCFind.Location = New System.Drawing.Point(306, 16)
+      Me.btnWithdrawCCFind.Location = New System.Drawing.Point(312, 18)
       Me.btnWithdrawCCFind.Name = "btnWithdrawCCFind"
-      Me.btnWithdrawCCFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnWithdrawCCFind.Size = New System.Drawing.Size(34, 23)
       Me.btnWithdrawCCFind.TabIndex = 3
       Me.btnWithdrawCCFind.TabStop = False
       Me.btnWithdrawCCFind.ThemedImage = CType(resources.GetObject("btnWithdrawCCFind.ThemedImage"), System.Drawing.Bitmap)
@@ -375,9 +375,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnWithdrawPersonFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnWithdrawPersonFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnWithdrawPersonFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnWithdrawPersonFind.Location = New System.Drawing.Point(306, 40)
+      Me.btnWithdrawPersonFind.Location = New System.Drawing.Point(312, 42)
       Me.btnWithdrawPersonFind.Name = "btnWithdrawPersonFind"
-      Me.btnWithdrawPersonFind.Size = New System.Drawing.Size(24, 23)
+      Me.btnWithdrawPersonFind.Size = New System.Drawing.Size(34, 23)
       Me.btnWithdrawPersonFind.TabIndex = 8
       Me.btnWithdrawPersonFind.TabStop = False
       Me.btnWithdrawPersonFind.ThemedImage = CType(resources.GetObject("btnWithdrawPersonFind.ThemedImage"), System.Drawing.Bitmap)
@@ -386,9 +386,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnWithdrawCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnWithdrawCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawCCEdit.Location = New System.Drawing.Point(330, 16)
+      Me.btnWithdrawCCEdit.Location = New System.Drawing.Point(336, 18)
       Me.btnWithdrawCCEdit.Name = "btnWithdrawCCEdit"
-      Me.btnWithdrawCCEdit.Size = New System.Drawing.Size(24, 23)
+      Me.btnWithdrawCCEdit.Size = New System.Drawing.Size(34, 23)
       Me.btnWithdrawCCEdit.TabIndex = 4
       Me.btnWithdrawCCEdit.TabStop = False
       Me.btnWithdrawCCEdit.ThemedImage = CType(resources.GetObject("btnWithdrawCCEdit.ThemedImage"), System.Drawing.Bitmap)
@@ -397,9 +397,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnWithdrawPersonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnWithdrawPersonEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnWithdrawPersonEdit.Location = New System.Drawing.Point(330, 40)
+      Me.btnWithdrawPersonEdit.Location = New System.Drawing.Point(336, 42)
       Me.btnWithdrawPersonEdit.Name = "btnWithdrawPersonEdit"
-      Me.btnWithdrawPersonEdit.Size = New System.Drawing.Size(24, 23)
+      Me.btnWithdrawPersonEdit.Size = New System.Drawing.Size(34, 23)
       Me.btnWithdrawPersonEdit.TabIndex = 9
       Me.btnWithdrawPersonEdit.TabStop = False
       Me.btnWithdrawPersonEdit.ThemedImage = CType(resources.GetObject("btnWithdrawPersonEdit.ThemedImage"), System.Drawing.Bitmap)
@@ -435,13 +435,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtWithdrawCCName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtWithdrawCCName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtWithdrawCCName, System.Drawing.Color.Empty)
-      Me.txtWithdrawCCName.Location = New System.Drawing.Point(187, 16)
+      Me.txtWithdrawCCName.Location = New System.Drawing.Point(193, 18)
       Me.Validator.SetMinValue(Me.txtWithdrawCCName, "")
       Me.txtWithdrawCCName.Name = "txtWithdrawCCName"
       Me.txtWithdrawCCName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtWithdrawCCName, "")
       Me.Validator.SetRequired(Me.txtWithdrawCCName, False)
-      Me.txtWithdrawCCName.Size = New System.Drawing.Size(123, 21)
+      Me.txtWithdrawCCName.Size = New System.Drawing.Size(133, 21)
       Me.txtWithdrawCCName.TabIndex = 2
       Me.txtWithdrawCCName.TabStop = False
       '
@@ -452,13 +452,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtWithdrawPersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtWithdrawPersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtWithdrawPersonName, System.Drawing.Color.Empty)
-      Me.txtWithdrawPersonName.Location = New System.Drawing.Point(187, 40)
+      Me.txtWithdrawPersonName.Location = New System.Drawing.Point(193, 42)
       Me.Validator.SetMinValue(Me.txtWithdrawPersonName, "")
       Me.txtWithdrawPersonName.Name = "txtWithdrawPersonName"
       Me.txtWithdrawPersonName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtWithdrawPersonName, "")
       Me.Validator.SetRequired(Me.txtWithdrawPersonName, False)
-      Me.txtWithdrawPersonName.Size = New System.Drawing.Size(123, 21)
+      Me.txtWithdrawPersonName.Size = New System.Drawing.Size(133, 21)
       Me.txtWithdrawPersonName.TabIndex = 7
       Me.txtWithdrawPersonName.TabStop = False
       '
@@ -470,7 +470,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtWithdrawPersonCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtWithdrawPersonCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtWithdrawPersonCode, System.Drawing.Color.Empty)
-      Me.txtWithdrawPersonCode.Location = New System.Drawing.Point(100, 40)
+      Me.txtWithdrawPersonCode.Location = New System.Drawing.Point(116, 42)
       Me.txtWithdrawPersonCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtWithdrawPersonCode, "")
       Me.txtWithdrawPersonCode.Name = "txtWithdrawPersonCode"
@@ -482,9 +482,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblRequestPerson
       '
       Me.lblRequestPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRequestPerson.Location = New System.Drawing.Point(8, 40)
+      Me.lblRequestPerson.Location = New System.Drawing.Point(19, 42)
       Me.lblRequestPerson.Name = "lblRequestPerson"
-      Me.lblRequestPerson.Size = New System.Drawing.Size(90, 18)
+      Me.lblRequestPerson.Size = New System.Drawing.Size(96, 18)
       Me.lblRequestPerson.TabIndex = 5
       Me.lblRequestPerson.Text = "ผู้เบิก:"
       Me.lblRequestPerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -492,9 +492,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblWithdrawCC
       '
       Me.lblWithdrawCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWithdrawCC.Location = New System.Drawing.Point(8, 16)
+      Me.lblWithdrawCC.Location = New System.Drawing.Point(6, 16)
       Me.lblWithdrawCC.Name = "lblWithdrawCC"
-      Me.lblWithdrawCC.Size = New System.Drawing.Size(90, 18)
+      Me.lblWithdrawCC.Size = New System.Drawing.Size(109, 22)
       Me.lblWithdrawCC.TabIndex = 0
       Me.lblWithdrawCC.Text = "เข้า Cost Center:"
       Me.lblWithdrawCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -507,7 +507,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtWithdrawCCCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtWithdrawCCCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtWithdrawCCCode, System.Drawing.Color.Empty)
-      Me.txtWithdrawCCCode.Location = New System.Drawing.Point(100, 16)
+      Me.txtWithdrawCCCode.Location = New System.Drawing.Point(116, 18)
       Me.txtWithdrawCCCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtWithdrawCCCode, "")
       Me.txtWithdrawCCCode.Name = "txtWithdrawCCCode"
@@ -610,7 +610,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbGeneral.Location = New System.Drawing.Point(8, 2)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(736, 72)
+      Me.grbGeneral.Size = New System.Drawing.Size(756, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "ผู้ให้เบิก"
@@ -686,7 +686,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Name = "tgItem"
       Me.tgItem.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.SelectionBackColor = System.Drawing.Color.Sienna
-      Me.tgItem.Size = New System.Drawing.Size(736, 184)
+      Me.tgItem.Size = New System.Drawing.Size(756, 184)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
@@ -718,7 +718,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblItem)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "EqtWithdrawDetail"
-      Me.Size = New System.Drawing.Size(752, 408)
+      Me.Size = New System.Drawing.Size(772, 408)
       Me.grbSummary.ResumeLayout(False)
       Me.grbSummary.PerformLayout()
       Me.grbReceive.ResumeLayout(False)
@@ -1436,44 +1436,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return ret
     End Function
     Private Sub SetItems(ByVal items As BasketItemCollection)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim index As Integer = tgItem.CurrentRowIndex
       For i As Integer = items.Count - 1 To 0 Step -1
         If TypeOf items(i) Is StockBasketItem Then
+
           Dim item As StockBasketItem = CType(items(i), StockBasketItem)
-          'Dim newItem As IEqtItem
-          Dim doc As New EquipmentToolWithdrawItem
-          Dim itemType As Integer
-          If TypeOf item.Tag Is PRItem Then
-            Dim prItem As PRItem = CType(item.Tag, PRItem)
-            itemType = prItem.ItemType.Value
-            If itemType = 28 Then
-              itemType = 342
-            End If
+          If item.Qty = 0 Then
+            'ไม่มีเครื่องมือเ/ครื่องจักร ที่ว่างในคลัง 
+            msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
+          Else
+            'Dim newItem As IEqtItem
+            Dim doc As New EquipmentToolWithdrawItem
+            Dim itemType As Integer
+            If TypeOf item.Tag Is PRItem Then
+              Dim prItem As PRItem = CType(item.Tag, PRItem)
+              itemType = prItem.ItemType.Value
+              If itemType = 28 Then
+                itemType = 342
+              End If
 
-            If Not Me.CurrentItem Is Nothing Then
-              doc = Me.CurrentItem
-              doc.ItemType.Value = itemType
-              Me.m_treeManager.SelectedRow.Tag = Nothing
-            Else
-              Me.m_entity.ItemCollection.Add(doc)
-              doc.ItemType = New EqtItemType(itemType)
-            End If
-            doc.Entity = New BlankEqItem
-            doc.Entity.Id = prItem.Entity.Id
-            doc.Entity.Code = prItem.Entity.Code
-            doc.Entity.Name = prItem.Entity.Name
+              If Not Me.CurrentItem Is Nothing Then
+                doc = Me.CurrentItem
+                doc.ItemType.Value = itemType
+                Me.m_treeManager.SelectedRow.Tag = Nothing
+              Else
+                Me.m_entity.ItemCollection.Add(doc)
+                doc.ItemType = New EqtItemType(itemType)
+              End If
+              doc.Entity = New BlankEqItem
+              doc.Entity.Id = prItem.Entity.Id
+              doc.Entity.Code = prItem.Entity.Code
+              doc.Entity.Name = prItem.Entity.Name
 
-            doc.Unit = prItem.Unit
-            doc.ToStatus = New EqtStatus(3)
-            If itemType = 19 Then
-              doc.Qty = 1
+              doc.Unit = prItem.Unit
+              doc.ToStatus = New EqtStatus(3)
+
+              doc.Qty = item.Qty
               doc.RentalPerDay = prItem.UnitPrice * doc.Qty
-            Else
-              doc.Qty = 1
-              doc.RentalPerDay = prItem.UnitPrice
-            End If
-            doc.PRItem = prItem
 
+              doc.PRItem = prItem
+            End If
           End If
           'Select Case item.FullClassName.ToLower
           '  Case "longkong.pojjaman.businesslogic.equipmentitem"
@@ -1511,7 +1514,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             doc.Unit = CType(newItem, IEqtItem).Unit
             doc.ToStatus = New EqtStatus(3)
             If itemType = 19 Then
-              doc.Qty = 1
+              If TypeOf item.Tag Is DataRow Then
+                Dim dr As DataRow = CType(item.Tag, DataRow)
+                doc.Qty = CInt(dr("tool_remaining"))
+              End If
               doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
             Else
               doc.Qty = 1
@@ -1880,6 +1886,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 #End Region
+
 
   End Class
 End Namespace

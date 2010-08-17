@@ -1465,7 +1465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
       Dim dt As DataTable
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GettoolForSelectionList", params)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GettoolForSelectionListByStatus", params)
       dt = ds.Tables(0)
       Return dt
       Dim myDatatable As New TreeTable("Tools")

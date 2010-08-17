@@ -152,6 +152,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgToCC.AllowNew = False
       Me.tgToCC.AllowSorting = False
+      Me.tgToCC.AlternatingBackColor = System.Drawing.SystemColors.Highlight
       Me.tgToCC.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

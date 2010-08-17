@@ -1401,7 +1401,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             doc.Qty = 1
           End If
-          doc.Amount = Configuration.FormatToString(m_refDoc.Gross, DigitConfig.Price)
+          'doc.Amount = Configuration.FormatToString(m_refDoc.Gross, DigitConfig.Price)
         End If
       Next
       tgItem.CurrentRowIndex = index

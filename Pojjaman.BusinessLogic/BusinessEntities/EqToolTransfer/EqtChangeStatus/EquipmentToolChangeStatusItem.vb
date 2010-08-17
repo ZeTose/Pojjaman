@@ -196,10 +196,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("QTY") = ""
         End If
-        If Me.ExpItemCollection.Amount <> 0 Then
-          row("Amount") = CDec(Configuration.FormatToString(Me.ExpItemCollection.Amount, DigitConfig.Price))
-        Else
-          row("Amount") = ""
+        If Me.ExpItemCollection IsNot Nothing Then
+          If Me.ExpItemCollection.Amount <> 0 Then
+            row("Amount") = CDec(Configuration.FormatToString(Me.ExpItemCollection.Amount, DigitConfig.Price))
+          Else
+            row("Amount") = ""
+          End If
         End If
         Me.EqtChangeStatus.IsInitialized = True
       Catch ex As Exception

@@ -1227,6 +1227,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
               Me.RecalculateAmount()
               Me.RefreshTaxBase()
+              Me.m_realGross = Me.m_gross
               Me.RealTaxBase = Me.TaxBase
               Me.RealTaxAmount = Me.TaxAmount
             Else
