@@ -13,7 +13,7 @@ Imports Telerik.WinControls.UI
 Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class RptEquipmentStatus
+  Public Class RptEQTIncome
     Inherits Report
     Implements IUseTelerikGridReport
 
@@ -49,29 +49,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       viewDef = New ColumnGroupsViewDefinition
 
       Dim headerTextList As New List(Of String)
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัสชนิดเครื่องจักร"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeName}")) '"ชื่อชนิดเครื่องจักร"
-
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัสเครื่องจักร"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"ชื่อเครื่องจักร"
-
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByLci.ItemCode}")) '"ชื่อ"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt272.type}")) '"ประเภท"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Unit}")) '"หน่วย"
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentStatus}")) '"สถานะปัจจุบัน"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}")) '"CCที่อยู่"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}")) '"รหัสเอกสาร"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}")) '"ประเภทเอกสาร"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.FromCC}")) '"costcenterคืน"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"costcenterรับ"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Note}")) '"หมายเหตุ"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Qty}")) '"จำนวนเช่า"
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}")) '"ค่าเช่าต่อวัน"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.asset}")) '"asset"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.BuyDocCode}")) '"BuyDocCode"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Buydate}")) '"Buydate"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.buycost}")) '"buycost"
-      m_grid.Columns.Clear()
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.RentalQty}")) '"จำนวนวัน"
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Amount}")) '"รวมรายได้"
+      'headerTextList.Add("f") '"buycost"
+      'headerTextList.Add("g") '"buycost"
 
-      For i As Integer = 0 To 11
+      m_grid.Columns.Clear()
+      For i As Integer = 0 To 14
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-        If i = 7 OrElse i = 11 Then
-          gridColumn.TextAlignment = ContentAlignment.MiddleRight
-        Else
-          gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-        End If
+        'If i = 7 OrElse i = 11 Then
+        'gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        'Else
+        gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+        'End If
         gridColumn.HeaderText = headerTextList(i)
         gridColumn.Width = 100
         gridColumn.ReadOnly = True
@@ -92,45 +95,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
         Dim deh As New DataRowHelper(row)
         'If deh.GetValue(Of String)("eq_code") <> currentEQTypeCode then
-        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("eq_code")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eq_name")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eqi_code")
-        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("eqi_name")
-        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("ownerCC")
-        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("Status")
-        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("currentCC")
-        currentGridRow.Cells(7).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("Rentalrate"), DigitConfig.Price)
-        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("Asset")
-        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("eqi_buydoccode")
-        currentGridRow.Cells(10).Value = deh.GetValue(Of String)("eqi_buydate")
-        currentGridRow.Cells(11).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("eqi_code")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_name")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("type")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("unit_name")
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqicc")
+        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("eqtstock_code")
+        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("eqtstock_docdate")
+        currentGridRow.Cells(7).Value = deh.GetValue(Of String)("fromcc")
+        'currentGridRow.Cells(8).Value = deh.GetValue(Of String)("fromstatus")
+        'currentGridRow.Cells(9).Value = deh.GetValue(Of String)("tostatus")
+        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("tocc")
+        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("entity_description")
+        currentGridRow.Cells(10).Value = deh.GetValue(Of String)("eqtstocki_note")
+        currentGridRow.Cells(11).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalqty")
+        currentGridRow.Cells(12).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalrate")
+        currentGridRow.Cells(13).Value = deh.GetValue(Of Decimal)("eqtstocki_qty")
+        currentGridRow.Cells(14).Value = deh.GetValue(Of Decimal)("eqtstocki_Amount")
 
       Next
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "RptEquipmentStatus"
+        Return "RptEQTIncome"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.RptEquipmentStatus"
+        Return "Icons.16x16.RptEQTIncome"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.RptEquipmentStatus"
+        Return "Icons.16x16.RptEQTIncome"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -144,10 +152,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
-      Return "RptEquipmentStatus"
+      Return "RptEQTIncome"
     End Function
     Public Overrides Function GetDefaultForm() As String
-      Return "RptEquipmentStatus"
+      Return "RptEQTIncome"
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection

@@ -3,7 +3,7 @@ Imports longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class RptEquipmentStatusFilterSubPanel
+  Public Class RptEQTIncomeFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
 
@@ -50,7 +50,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txttmp As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptEquipmentStatusFilterSubPanel))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptEQTIncomeFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.ChkCancel = New System.Windows.Forms.CheckBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -371,12 +371,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txttmp.TabIndex = 6
       Me.txttmp.Visible = False
       '
-      'RptEquipmentStatusFilterSubPanel
+      'RptEQTIncomeFilterSubPanel
       '
       Me.Controls.Add(Me.txttmp)
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "RptEquipmentStatusFilterSubPanel"
+      Me.Name = "RptEQTIncomeFilterSubPanel"
       Me.Size = New System.Drawing.Size(677, 185)
       Me.grbMaster.ResumeLayout(False)
       Me.grbDetail.ResumeLayout(False)
@@ -392,7 +392,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Sub SetLabelText()
       'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblEQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel.lblEQCode}")
+      Me.lblEQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")
       Me.Validator.SetDisplayName(txtEQCodeStart, lblEQCode.Text)
 
       Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblDocDateStart}")
@@ -778,6 +778,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+    Private Sub btnSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+
+    End Sub
   End Class
 End Namespace
 

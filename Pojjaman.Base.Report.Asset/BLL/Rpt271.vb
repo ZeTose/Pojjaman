@@ -151,6 +151,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
+          m_grid.RowStyles(currDocIndex).ReadOnly = True
           m_grid(currDocIndex, 1).CellValue = "  " & row("asset_code").ToString
           m_grid(currDocIndex, 2).CellValue = "  " & row("asset_name").ToString
           currentAssetCode = row("asset_code").ToString
@@ -169,6 +170,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         currCcIndex = m_grid.RowCount
         sum1 += Withdtaw
         sum2 += bReturn
+
+        m_grid.RowStyles(currCcIndex).ReadOnly = True
         m_grid(currCcIndex, 4).CellValue = "  " & row("code_description").ToString
 
         m_grid(currCcIndex, 3).CellValue = "  " & row("cc_name").ToString

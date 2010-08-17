@@ -77,7 +77,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}") '"CCที่อยู่"
 
       Dim indent As String = Space(1)
-
+      'm_grid.RowStyles().ReadOnly = True
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -132,16 +132,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End If
         If row("tool_code").ToString <> currentAssetCode Then
-          'If Not (currentAssetCode = "") Then
-          '  If no = 0 Then
-
-          '  End If
-          '  no = 0
-
-          'End If
 
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
+          m_grid.RowStyles(currDocIndex).ReadOnly = True
           m_grid(currDocIndex, 1).CellValue = "  " & row("tool_code").ToString
           m_grid(currDocIndex, 2).CellValue = "  " & row("tool_name").ToString
           currentAssetCode = row("tool_code").ToString
@@ -154,8 +148,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         currCcIndex = m_grid.RowCount
         'sum1 += Withdtaw
         'sum2 += bReturn
+        m_grid.RowStyles(currCcIndex).ReadOnly = True
         m_grid(currCcIndex, 3).CellValue = row("Costcenter").ToString
-        m_grid(currCcIndex, 4).CellValue = "  " & row("tool_rentalrate").ToString
+        m_grid(currCcIndex, 4).CellValue = "  " & Configuration.FormatToString(CDec(row("tool_rentalrate")), DigitConfig.Price)
         m_grid(currCcIndex, 5).CellValue = row("unit_name").ToString
 
       Next

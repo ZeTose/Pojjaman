@@ -147,6 +147,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptEQTIncome.vb" />
     <Compile Include="BLL\RptEQTMaintenance.vb" />
     <Compile Include="BLL\RptToolStatus.vb" />
     <Compile Include="BLL\Rpt265.vb">
@@ -196,6 +197,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\Copy of RptEquipmentStatusFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\RptEQTMaintenanceFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -238,13 +242,16 @@
     <Compile Include="UI\RptDepreciationByCCFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\RptEquipmentStatusFilterSubPanel.vb">
+    <Compile Include="UI\RptEQTIncomeFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Copy of RptEquipmentStatusFilterSubPanel.resx">
+      <DependentUpon>Copy of RptEquipmentStatusFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptEQTMaintenanceFilterSubPanel.resx">
       <DependentUpon>RptEQTMaintenanceFilterSubPanel.vb</DependentUpon>
@@ -288,8 +295,8 @@
     <EmbeddedResource Include="UI\RptDepreciationByCCFilterSubPanel.resx">
       <DependentUpon>RptDepreciationByCCFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\RptEquipmentStatusFilterSubPanel.resx">
-      <DependentUpon>RptEquipmentStatusFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="UI\RptEQTIncomeFilterSubPanel.resx">
+      <DependentUpon>RptEQTIncomeFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
