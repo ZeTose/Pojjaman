@@ -763,7 +763,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
-          ''============ Update Old Payment item 
+          ''============ Update Old Payment item ================= 
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPaymentItemEntityStatus" _
                                     , New SqlParameter("@payment_id", Me.Id))

@@ -1376,7 +1376,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.equipmentitem"
             newItem = New EquipmentItem(item.Id)
-            itemType = 342
+            itemType = 346
           Case "longkong.pojjaman.businesslogic.toolforselection"
             row = CType(item.Tag, DataRow)
             newItem = New Tool(row, "")

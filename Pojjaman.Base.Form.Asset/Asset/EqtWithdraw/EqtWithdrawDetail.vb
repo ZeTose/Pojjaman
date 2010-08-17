@@ -1453,7 +1453,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim prItem As PRItem = CType(item.Tag, PRItem)
               itemType = prItem.ItemType.Value
               If itemType = 28 Then
-                itemType = 342
+                itemType = 346
               End If
 
               If Not Me.CurrentItem Is Nothing Then
@@ -1495,7 +1495,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Select Case item.FullClassName.ToLower
             Case "longkong.pojjaman.businesslogic.eqitemforselection"
               newItem = New EquipmentItem(item.Id)
-              itemType = 342
+              itemType = 346
             Case "longkong.pojjaman.businesslogic.toolforselection"
               newItem = New Tool(item.Id)
               itemType = 19

@@ -478,7 +478,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case item.FullClassName.ToLower
             Case "longkong.pojjaman.businesslogic.equipmentitem"
               newEntity = New EquipmentItem
-              itemType = 342
+              itemType = 346
             Case "longkong.pojjaman.businesslogic.tool"
               newEntity = New Tool(item.Id)
               itemType = 19
