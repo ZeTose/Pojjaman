@@ -116,6 +116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Construct(dr, aliasPrefix)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal assetwriteoff As AssetWriteOff)
+      MyBase.Construct(dr, "")
       Dim drh As New DataRowHelper(dr)
       With Me
         .Id = drh.GetValue(Of Integer)("eqtid")

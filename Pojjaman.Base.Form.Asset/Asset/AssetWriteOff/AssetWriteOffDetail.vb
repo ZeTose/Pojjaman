@@ -1242,8 +1242,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
 
+      AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
+      AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
+
       EventWiring()
     End Sub
+#End Region
+
+#Region "Properties"
+    Private ReadOnly Property CurrentItem() As AssetWriteOffItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        If Not TypeOf row.Tag Is AssetWriteOffItem Then
+          Return Nothing
+        End If
+        Return CType(row.Tag, AssetWriteOffItem)
+      End Get
+    End Property
 #End Region
 
 #Region "Style"
@@ -1254,21 +1272,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Stock Items
       Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "eqtstocki_linenumber"
+      csLineNumber.MappingName = "LineNumber"
       csLineNumber.HeaderText = myStringParserService.Parse("${res:#}")
       csLineNumber.NullText = ""
       csLineNumber.Width = 15
       csLineNumber.DataAlignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "eqtstocki_linenumber"
+      csLineNumber.TextBox.Name = "LineNumber"
 
+      Dim csType As New TreeTextColumn
+      csType.MappingName = "Type"
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.TypeHeaderText}")
+      csType.NullText = ""
+      csType.Width = 80
+      csType.ReadOnly = True
+      csType.TextBox.Name = "Type"
 
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.CodeHeaderText}")
       csCode.NullText = ""
-      csCode.Width = 70
-      csCode.ReadOnly = False
+      csCode.Width = 80
+      csCode.ReadOnly = True
       csCode.TextBox.Name = "Code"
 
       Dim csButton As New DataGridButtonColumn
@@ -1279,7 +1304,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler csButton.Click, AddressOf ButtonClick
 
       Dim csName As New TreeTextColumn
-      csName.MappingName = "eqtstocki_Name"
+      csName.MappingName = "Description"
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DescriptionHeaderText}")
       csName.NullText = ""
       csName.Width = 150
@@ -1290,18 +1315,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnit.MappingName = "Unit"
       csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitHeaderText}")
       csUnit.NullText = ""
-      csUnit.Width = 30
+      csUnit.Width = 40
       csUnit.TextBox.Name = "Unit"
       csUnit.ReadOnly = True
       csUnit.DataAlignment = HorizontalAlignment.Center
 
       Dim csQty As New TreeTextColumn
-      csQty.MappingName = "eqtstocki_qty"
+      csQty.MappingName = "Qty"
       csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
       csQty.NullText = ""
       csQty.Format = "#,###"
       csQty.TextBox.Name = "Qty"
-      csQty.Width = 30
+      csQty.Width = 60
       csQty.ReadOnly = False
       csQty.DataAlignment = HorizontalAlignment.Right
 
@@ -1314,12 +1339,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'csStockQty.DataAlignment = HorizontalAlignment.Right
 
       Dim csUnitPRice As New TreeTextColumn
-      csUnitPRice.MappingName = "eqtstocki_unitprice"
+      csUnitPRice.MappingName = "UnitPrice"
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnitpriceHeaderText}")
       csUnitPRice.NullText = ""
-      csUnitPRice.TextBox.Name = "eqtstocki_unitprice"
+      csUnitPRice.TextBox.Name = "UnitPrice"
       csUnitPRice.Format = "#,###.##"
-      csUnitPRice.Width = 50
+      csUnitPRice.Width = 80
       csUnitPRice.ReadOnly = False
       csUnitPRice.DataAlignment = HorizontalAlignment.Right
 
@@ -1340,64 +1365,75 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Width = 80
       csAmount.DataAlignment = HorizontalAlignment.Right
 
+      Dim csBarrier1 As New DataGridBarrierColumn
+      csBarrier1.MappingName = "Barrier1"
+      csBarrier1.HeaderText = ""
+      csBarrier1.NullText = ""
+      csBarrier1.ReadOnly = True
+
       Dim csRemainBuyQty As New TreeTextColumn
-      csRemainBuyQty.MappingName = "eqtstocki_remainbuyqty"
-      csRemainBuyQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.QtyHeaderText}")
+      csRemainBuyQty.MappingName = "RemainingQty"
+      csRemainBuyQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.RemainingQtyHeaderText}")
       csRemainBuyQty.NullText = ""
       csRemainBuyQty.Format = "#,###"
-      csRemainBuyQty.TextBox.Name = "eqtstocki_remainbuyqty"
+      csRemainBuyQty.TextBox.Name = "RemainingQty"
       csRemainBuyQty.ReadOnly = True
-      csRemainBuyQty.Width = 30
+      csRemainBuyQty.Width = 60
       csRemainBuyQty.DataAlignment = HorizontalAlignment.Right
 
       Dim csUnitassetamount As New TreeTextColumn
-      csUnitassetamount.MappingName = "eqtstocki_unitassetamount"
-      csUnitassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.UnitAsstAmtHeaderText}")
+      csUnitassetamount.MappingName = "BuyPrice"
+      'csUnitassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.UnitAsstAmtHeaderText}")
+      csUnitassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.BuyPriceHeaderText}")
       csUnitassetamount.NullText = ""
-      csUnitassetamount.TextBox.Name = "eqtstocki_unitassetamount"
+      csUnitassetamount.TextBox.Name = "BuyPrice"
       csUnitassetamount.Format = "#,###.##"
       csUnitassetamount.ReadOnly = True
-      csUnitassetamount.Width = 50
+      csUnitassetamount.Width = 80
       csUnitassetamount.DataAlignment = HorizontalAlignment.Right
 
       Dim csassetamount As New TreeTextColumn
-      csassetamount.MappingName = "eqtstocki_assetamount"
-      csassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AssetAmtHeaderText}")
+      csassetamount.MappingName = "RemainingAmount"
+      'csassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AssetAmtHeaderText}")
+      csassetamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.RemainingAmountHeaderText}")
       csassetamount.NullText = ""
-      csassetamount.TextBox.Name = "eqtstocki_assetamount"
+      csassetamount.TextBox.Name = "RemainingAmount"
       csassetamount.Format = "#,###.##"
       csassetamount.ReadOnly = True
       csassetamount.Width = 80
       csassetamount.DataAlignment = HorizontalAlignment.Right
 
       Dim cswriteoffamount As New TreeTextColumn
-      cswriteoffamount.MappingName = "eqtstocki_writeoffamount"
-      cswriteoffamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.WFAmtHeaderText}")
+      cswriteoffamount.MappingName = "WriteOffAmount"
+      'cswriteoffamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.WFAmtHeaderText}")
+      cswriteoffamount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.WriteOffAmountHeaderText}")
       cswriteoffamount.NullText = ""
-      cswriteoffamount.TextBox.Name = "eqtstocki_writeoffamount"
+      cswriteoffamount.TextBox.Name = "WriteOffAmount"
       cswriteoffamount.Format = "#,###.##"
       cswriteoffamount.ReadOnly = True
       cswriteoffamount.Width = 80
       cswriteoffamount.DataAlignment = HorizontalAlignment.Right
 
       Dim csaccdepre As New TreeTextColumn
-      csaccdepre.MappingName = "eqtstocki_accdepre"
-      csaccdepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AccDepreHeaderText}")
+      csaccdepre.MappingName = "DepreAmount"
+      'csaccdepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.AccDepreHeaderText}")
+      csaccdepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.DepreAmountHeaderText}")
       csaccdepre.NullText = ""
-      csaccdepre.TextBox.Name = "eqtstocki_accdepre"
+      csaccdepre.TextBox.Name = "DepreAmount"
       csaccdepre.Format = "#,###.##"
       csaccdepre.ReadOnly = True
-      csaccdepre.Width = 60
+      csaccdepre.Width = 80
       csaccdepre.DataAlignment = HorizontalAlignment.Right
 
       Dim csCost As New TreeTextColumn
-      csCost.MappingName = "Cost"
-      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.CostHeaderText}")
+      csCost.MappingName = "CostAmount"
+      'csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.CostHeaderText}")
+      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWriteOffDetail.CostAmountHeaderText}")
       csCost.NullText = ""
-      csCost.TextBox.Name = "Cost"
+      csCost.TextBox.Name = "CostAmount"
       csCost.Format = "#,###.##"
       csCost.ReadOnly = True
-      csCost.Width = 60
+      csCost.Width = 80
       csCost.DataAlignment = HorizontalAlignment.Right
 
       Dim csPL As New TreeTextColumn
@@ -1407,52 +1443,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csPL.TextBox.Name = "P/L"
       csPL.Format = "#,###.##"
       csPL.ReadOnly = True
-      csPL.Width = 60
+      csPL.Width = 80
       csPL.DataAlignment = HorizontalAlignment.Right
 
-      Dim csDepre As New TreeTextColumn
-      csDepre.MappingName = "deprecalcamt"
-      csDepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DeprecalcHeaderText}")
-      csDepre.NullText = ""
-      csDepre.TextBox.Name = "deprecalcamt"
-      csDepre.ReadOnly = True
-      csDepre.Format = "#,###.##"
-      csDepre.DataAlignment = HorizontalAlignment.Right
+      'Dim csDepre As New TreeTextColumn
+      'csDepre.MappingName = "deprecalcamt"
+      'csDepre.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.DeprecalcHeaderText}")
+      'csDepre.NullText = ""
+      'csDepre.TextBox.Name = "deprecalcamt"
+      'csDepre.ReadOnly = True
+      'csDepre.Format = "#,###.##"
+      'csDepre.DataAlignment = HorizontalAlignment.Right
 
-      Dim csAccountCode As New TreeTextColumn
-      csAccountCode.MappingName = "AccountCode"
-      csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountCodeHeaderText}")
-      csAccountCode.NullText = ""
-      csAccountCode.TextBox.Name = "AccountCode"
+      'Dim csAccountCode As New TreeTextColumn
+      'csAccountCode.MappingName = "AccountCode"
+      'csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountCodeHeaderText}")
+      'csAccountCode.NullText = ""
+      'csAccountCode.TextBox.Name = "AccountCode"
 
-      Dim csAccount As New TreeTextColumn
-      csAccount.MappingName = "Account"
-      csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountHeaderText}")
-      csAccount.NullText = ""
-      csAccount.ReadOnly = True
-      csAccount.TextBox.Name = "Account"
+      'Dim csAccount As New TreeTextColumn
+      'csAccount.MappingName = "Account"
+      'csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.AccountHeaderText}")
+      'csAccount.NullText = ""
+      'csAccount.ReadOnly = True
+      'csAccount.TextBox.Name = "Account"
 
-      Dim csAccountButton As New DataGridButtonColumn
-      csAccountButton.MappingName = "AccountButton"
-      csAccountButton.HeaderText = ""
-      csAccountButton.NullText = ""
+      'Dim csAccountButton As New DataGridButtonColumn
+      'csAccountButton.MappingName = "AccountButton"
+      'csAccountButton.HeaderText = ""
+      'csAccountButton.NullText = ""
       'AddHandler csAccountButton.Click, AddressOf ButtonClick
 
-      Dim csVatable As New DataGridCheckBoxColumn
-      csVatable.MappingName = "stocki_unvatable"
-      csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnVatableHeaderText}")
-      csVatable.Width = 100
-      csVatable.ReadOnly = True
-      csVatable.InvisibleWhenUnspcified = True
+      'Dim csVatable As New DataGridCheckBoxColumn
+      'csVatable.MappingName = "stocki_unvatable"
+      'csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.UnVatableHeaderText}")
+      'csVatable.Width = 100
+      'csVatable.ReadOnly = True
+      'csVatable.InvisibleWhenUnspcified = True
 
       Dim csNote As New TreeTextColumn
-      csNote.MappingName = "eqtstocki_note"
+      csNote.MappingName = "Note"
       csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.NoteHeaderText}")
       csNote.NullText = ""
       csNote.Width = 180
-      csNote.TextBox.Name = "eqtstocki_note"
+      csNote.TextBox.Name = "Note"
 
       dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csName)
@@ -1461,6 +1498,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csUnitPRice)
       'dst.GridColumnStyles.Add(csDiscount)
       dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csBarrier1)
       dst.GridColumnStyles.Add(csRemainBuyQty)
       dst.GridColumnStyles.Add(csUnitassetamount)
       dst.GridColumnStyles.Add(csassetamount)
@@ -1482,11 +1520,82 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return dst
     End Function
     Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
-      If e.Column = 2 Then
+      If e.Column = 3 Then
         Me.ItemButtonClick(e)
       Else
         Me.AcctButtonClick(e)
       End If
+    End Sub
+#End Region
+
+#Region "ItemTreeTable Handlers"
+    Private Sub ItemTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized OrElse e.Column.ColumnName.ToLower = "selected" Then
+        Return
+      End If
+      Dim doc As AssetWriteOffItem = Me.CurrentItem
+      If Not doc Is Nothing Then
+        doc.ItemValidateRow(e.Row)
+      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized OrElse e.Column.ColumnName.ToLower = "selected" _
+        OrElse e.Column.ColumnName.ToLower = "linenumber" Then
+        Return
+      End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim doc As AssetWriteOffItem = Me.CurrentItem
+      If doc Is Nothing Then
+        doc = New AssetWriteOffItem
+        Me.m_entity.ItemCollection.Add(doc)
+        Me.m_treeManager.SelectedRow.Tag = doc
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          'Case "code"
+          '  If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+          '    e.ProposedValue = ""
+          '  End If
+          '  doc.SetItemCode(CStr(e.ProposedValue))
+          'Case "type"
+          '  doc.ItemType = New EqtItemType(CInt(e.ProposedValue))
+          Case "qty"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0
+            If IsNumeric(e.ProposedValue) Then
+              value = CDec(TextParser.Evaluate(e.ProposedValue))
+            End If
+            doc.Qty = value
+          Case "unitprice"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            Dim value As Decimal = 0
+            If IsNumeric(e.ProposedValue) Then
+              value = CDec(TextParser.Evaluate(e.ProposedValue))
+            End If
+            doc.UnitPrice = value
+          Case "note"
+            If IsDBNull(e.ProposedValue) Then
+              e.ProposedValue = ""
+            End If
+            doc.Note = e.ProposedValue.ToString
+        End Select
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
     End Sub
 #End Region
 
@@ -1689,7 +1798,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
             End If
             dirtyFlag = True
-            Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
+            'Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
           End If
         Case "txtdocdate"
           m_dateSetting = True
@@ -1707,7 +1816,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
           m_dateSetting = False
-          Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
+          'Me.m_entity.ReUpdateDepreciation()  ' คำนวณค่าเสื่อมทั้งหมด เพราะวันที่เปลี่ยน
 
         Case "txtcreditprd"
           If IsNumeric(txtCreditPrd.Text) Then
@@ -1798,8 +1907,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.Itemcollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
+      Me.m_entity.Itemcollection.Populate(m_treeManager.Treetable, tgItem)
+      'RefreshBlankGrid()
       ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount(True)
@@ -1809,7 +1918,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ReIndex()
       Dim i As Integer = 0
       For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-        row("eqtstocki_linenumber") = i + 1
+        row("LineNumber") = i + 1
         i += 1
       Next
     End Sub
@@ -2000,16 +2109,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Function GetToolIdList() As String
-      Dim idlist As String
-      Me.m_entity.ItemTable.AcceptChanges()
-      For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-        If Me.m_entity.ValidateRow(row) Then
-          If Not row.IsNull("eqtstocki_entity") Then
-            idlist &= "|" & CStr(row("eqtstocki_entity")) & "|"
-          End If
-        End If
-      Next
-      Return idlist
+      'Dim idlist As String
+      'Me.m_entity.ItemTable.AcceptChanges()
+      'For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+      '  If Me.m_entity.ValidateRow(row) Then
+      '    If Not row.IsNull("eqtstocki_entity") Then
+      '      idlist &= "|" & CStr(row("eqtstocki_entity")) & "|"
+      '    End If
+      '  End If
+      'Next
+      'Return idlist
     End Function
     Private Function GetItemAndTypeList() As String
       Dim ret As String = ""
@@ -2040,7 +2149,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
       Dim filters(0) As Filter
-     
+
       filters(0) = New Filter("idandTypelist", GetItemAndTypeList())
 
       Dim Entities As New ArrayList
@@ -2090,29 +2199,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Next
       tgItem.CurrentRowIndex = index
       RefreshDocs()
-      RefreshBlankGrid()
+      'RefreshBlankGrid()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      Dim index As Integer = tgItem.CurrentRowIndex
-      If index > Me.m_entity.MaxRowIndex Then
-        Return
-      End If
-      Dim item As New AssetWriteOffItem
-      Me.m_entity.Insert(index, item)
-      Me.m_entity.ItemTable.AcceptChanges()
-      tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'If index > Me.m_entity.MaxRowIndex Then
+      '  Return
+      'End If
+      'Dim item As New AssetWriteOffItem
+      'Me.m_entity.Insert(index, item)
+      'Me.m_entity.ItemTable.AcceptChanges()
+      'tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      If index > Me.m_entity.MaxRowIndex Then
-        Return
-      End If
-      Me.m_entity.Remove(index)
-      Me.tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      'If index > Me.m_entity.MaxRowIndex Then
+      '  Return
+      'End If
+      'Me.m_entity.Remove(index)
+      'Me.tgItem.CurrentRowIndex = index
+      ''RefreshBlankGrid()
+      'Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
 
 #Region "Comment"
@@ -2282,7 +2391,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      RefreshBlankGrid()
+      'RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
       If Me.tgItem.Height = 0 Then
@@ -2311,7 +2420,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    'ลบแถวที่ไม่จำเป็น
       '    Me.m_entity.Remove(Me.m_entity.ItemTable.Rows.Count - 1)
       'Loop
-      Me.m_entity.ItemTable.AcceptChanges()
+      'Me.m_entity.ItemTable.AcceptChanges()
       tgItem.CurrentRowIndex = Math.Max(0, index)
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub

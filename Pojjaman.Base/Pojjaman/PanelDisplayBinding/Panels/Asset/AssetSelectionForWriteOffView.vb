@@ -177,7 +177,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Else
           If e.Row = row.Index Then
-            row("Selected") = True
+            'row("Selected") = True
+            If CBool(row("Selected")) Then
+              row("Selected") = True
+            Else
+              row("Selected") = False
+            End If
           End If
         End If
       Next
@@ -217,78 +222,281 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+    'Private Sub PopDataStyle(ByVal ds As DataSet)
+    '  Dim equipmentString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.EquipmentItem}")
+    '  Dim toollotString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.ToolLot}")
+    '  Dim assetdt As DataTable = ds.Tables(0)
+    '  Dim eqtdt As DataTable = ds.Tables(1)
+    '  Dim dt As TreeTable = GetSchemaTable()
+    '  dt.Clear()
+    '  Dim parRow As TreeRow
+    '  Dim currentAsset As Integer = -1
+    '  Dim indent As String = Space(3)
+    '  Dim itemString As New Hashtable
+    '  itemString(342) = equipmentString
+    '  itemString(348) = toollotString
+
+    '  Dim parName As String = assetdt.TableName & "."
+    '  For Each dc As DataColumn In assetdt.Columns
+    '    If eqtdt.Columns.Contains(dc.ColumnName) Then
+    '      dc.ColumnName = parName & dc.ColumnName
+    '    End If
+    '    eqtdt.Columns.Add(New DataColumn(dc.ColumnName))
+    '  Next
+
+    '  For Each AssetRow As DataRow In assetdt.Rows
+    '    Dim drh As New DataRowHelper(AssetRow)
+    '    Dim assetid As Integer = drh.GetValue(Of Integer)("asset_id")
+    '    Dim assetCode As String = drh.GetValue(Of String)("asset_code")
+    '    Dim assetName As String = drh.GetValue(Of String)("asset_name")
+    '    'Dim Eqt As String = drh.GetValue(Of String)("eqtinfo")
+    '    'Dim Unit As String = drh.GetValue(Of String)("unit_name")
+    '    'Dim Qty As Decimal = drh.GetValue(Of Decimal)("eqtstocki_Qty")
+    '    Dim BuyPrice As Decimal = drh.GetValue(Of Decimal)("asset_buyprice")
+    '    Dim accdepre As Decimal = drh.GetValue(Of Decimal)("accdepre")
+    '    Dim hasChilds As Boolean = drh.GetValue(Of Integer)("hasChilds") > 0
+    '    'Dim LineNumber As Integer = drh.GetValue(Of Integer)("eqtstocki_linenumber")
+
+    '    If currentAsset <> assetid Then
+    '      parRow = dt.Childs.Add
+    '      parRow("Selected") = False
+    '      'parRow("TypeID") = drh.GetValue(Of Integer)("Type")
+    '      parRow("Type") = drh.GetValue(Of String)("EntityType")
+    '      parRow("Code") = assetCode
+    '      parRow("name") = assetName
+    '      parRow("Unit") = ""
+    '      parRow("Qty") = ""
+    '      parRow("BuyPrice") = Configuration.FormatToString(BuyPrice, DigitConfig.Price)
+    '      'parRow("BuyCost") = ""
+    '      parRow("AccDepre") = Configuration.FormatToString(accdepre, DigitConfig.Price)
+    '      parRow("hasChilds") = hasChilds
+    '      parRow("parent") = assetid
+    '      parRow.CustomFontStyle = FontStyle.Bold
+    '      parRow.Tag = AssetRow
+    '      currentAsset = assetid
+    '    End If
+
+    '    For Each eqtrow As DataRow In eqtdt.Select("asset =" & currentAsset.ToString)
+    '      Dim childRow As TreeRow = parRow.Childs.Add
+    '      Dim drh2 As New DataRowHelper(eqtrow)
+    '      childRow("Selected") = False
+    '      'childRow("TypeID") = drh2.GetValue(Of Integer)("Type")
+    '      childRow("Type") = indent & CType(itemString(drh2.GetValue(Of Integer)("Type")), String)
+    '      childRow("Code") = indent & drh2.GetValue(Of String)("eqtcode")
+    '      childRow("name") = indent & drh2.GetValue(Of String)("eqtname")
+    '      childRow("Unit") = drh2.GetValue(Of String)("unit_name")
+    '      childRow("Qty") = Configuration.FormatToString(drh2.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+    '      'childRow("BuyPrice") = ""
+    '      'childRow("BuyCost") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+    '      childRow("BuyPrice") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+    '      childRow("parent") = drh2.GetValue(Of Integer)("asset")
+
+    '      Me.AddParentCollumnToChild(eqtrow, AssetRow)
+    '      childRow.Tag = eqtrow
+    '    Next
+    '    'If Not parRow Is Nothing Then
+    '    '  Dim childRow As TreeRow = parRow.Childs.Add
+    '    '  childRow("Selected") = False
+    '    '  childRow("Code") = ""
+    '    '  childRow("EquipmentTool") = Eqt
+    '    '  childRow("Unit") = Unit
+    '    '  childRow("Qty") = Configuration.FormatToString(Qty, DigitConfig.Price)
+    '    '  childRow("RentRate") = Configuration.FormatToString(RentalRate, DigitConfig.Price)
+    '    '  childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
+    '    '  'Dim eqtwitem As New EquipmentToolWithdrawItem
+    '    '  'eqtwitem.EquipmentToolWithdraw = New EquipmentToolWithdraw
+    '    '  'eqtwitem.EquipmentToolWithdraw.Id = eqtwid
+    '    '  'eqtwitem.LineNumber = LineNumber
+    '    '  childRow.Tag = AssetRow
+    '    'End If
+    '  Next
+
+    '  'For Each eqtrow As DataRow In eqtdt.Select("asset = 0")
+    '  '  Dim drh2 As New DataRowHelper(eqtrow)
+
+    '  '  parRow = dt.Childs.Add
+    '  '  parRow("Selected") = False
+    '  '  parRow("Type") = drh2.GetValue(Of String)("EntityType")
+    '  '  parRow("Code") = drh2.GetValue(Of String)("eqi_code")
+    '  '  parRow("name") = drh2.GetValue(Of String)("eqi_name")
+    '  '  parRow("Unit") = drh2.GetValue(Of String)("unit_name")
+    '  '  parRow("Qty") = Configuration.FormatToString(drh2.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+    '  '  parRow("BuyCost") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+    '  '  parRow.CustomFontStyle = FontStyle.Bold
+    '  '  parRow.Tag = eqtrow
+    '  'Next
+
+    '  dt.AcceptChanges()
+
+    '  Dim dst As DataGridTableStyle = CreateListTableStyle2()
+    '  m_treeManager = New TreeManager(dt, tgItem)
+    '  m_treeManager.SetTableStyle(dst)
+    '  m_treeManager.AllowSorting = False
+    '  m_treeManager.AllowDelete = False
+    'End Sub
+
     Private Sub PopDataStyle(ByVal ds As DataSet)
-      Dim assetdt As DataTable = ds.Tables(0)
-      Dim eqtdt As DataTable = ds.Tables(1)
+      Dim equipmentString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.EquipmentItem}")
+      Dim toollotString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.ToolLot}")
+      'Dim assetString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.Asset}")
+
+      'Dim dt As DataTable = ds.Tables(0)
+      'Dim eqtdt As DataTable = ds.Tables(1)
+
       Dim dt As TreeTable = GetSchemaTable()
       dt.Clear()
+
       Dim parRow As TreeRow
+      Dim childRow As TreeRow
       Dim currentAsset As Integer = -1
+
       Dim indent As String = Space(3)
 
-      For Each AssetRow As DataRow In assetdt.Rows
-        Dim drh As New DataRowHelper(AssetRow)
-        Dim assetid As Integer = drh.GetValue(Of Integer)("asset_id")
-        Dim assetCode As String = drh.GetValue(Of String)("asset_code")
-        Dim assetName As String = drh.GetValue(Of String)("asset_name")
-        'Dim Eqt As String = drh.GetValue(Of String)("eqtinfo")
-        'Dim Unit As String = drh.GetValue(Of String)("unit_name")
-        'Dim Qty As Decimal = drh.GetValue(Of Decimal)("eqtstocki_Qty")
-        Dim BuyPrice As Decimal = drh.GetValue(Of Decimal)("asset_buyprice")
-        Dim accdepre As Decimal = drh.GetValue(Of Decimal)("accdepre")
-        Dim hasChilds As Boolean = drh.GetValue(Of Integer)("hasChilds") > 0
-        'Dim LineNumber As Integer = drh.GetValue(Of Integer)("eqtstocki_linenumber")
+      Dim itemString As New Hashtable
+      itemString(342) = equipmentString
+      itemString(348) = toollotString
+      'itemString(28) = assetString
 
-        If currentAsset <> assetid Then
+      Dim assetHash As New Hashtable
+      Dim key As Integer = 0
+      'Dim oldAssetType As Integer = 0
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        key = drh.GetValue(Of Integer)("asset_id")
+
+        If Not assetHash.Contains(key) Then
           parRow = dt.Childs.Add
+          parRow.CustomFontStyle = FontStyle.Bold
+          parRow.State = RowExpandState.Expanded
+
           parRow("Selected") = False
-          'parRow("TypeID") = drh.GetValue(Of Integer)("Type")
-          parRow("Type") = drh.GetValue(Of String)("EntityType")
-          parRow("Code") = assetCode
-          parRow("name") = assetName
+          parRow("Type") = drh.GetValue(Of String)("asset_entityType")
+          parRow("Code") = drh.GetValue(Of String)("asset_code")
+          parRow("name") = drh.GetValue(Of String)("asset_name")
           parRow("Unit") = ""
           parRow("Qty") = ""
-          parRow("BuyPrice") = Configuration.FormatToString(BuyPrice, DigitConfig.Price)
-          parRow("BuyCost") = ""
-          parRow("AccDepre") = Configuration.FormatToString(accdepre, DigitConfig.Price)
-          parRow("hasChilds") = hasChilds
-          parRow("parent") = assetid
+          parRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("asset_buyprice"), DigitConfig.Price)
+          parRow("AccDepre") = Configuration.FormatToString(drh.GetValue(Of Decimal)("accdepre"), DigitConfig.Price)
+          parRow("hasChilds") = drh.GetValue(Of Integer)("hasChilds") > 0
+          parRow("parent") = drh.GetValue(Of Integer)("asset_id")
+          'oldAssetType = drh.GetValue(Of Integer)("type")
+          'row("type") = 28 '
           parRow.CustomFontStyle = FontStyle.Bold
-          parRow.Tag = AssetRow
-          currentAsset = assetid
+          parRow.Tag = row
+
+          assetHash(key) = parRow
+
+          If drh.GetValue(Of Integer)("haschilds") > 0 Then
+            childRow = parRow.Childs.Add
+            childRow("Selected") = False
+            childRow("Type") = indent & CType(itemString(drh.GetValue(Of Integer)("Type")), String)
+            'oldAssetType = drh.GetValue(Of Integer)("type")
+            'row("type") = oldAssetType '
+            childRow("Code") = indent & drh.GetValue(Of String)("eqtcode")
+            childRow("name") = indent & drh.GetValue(Of String)("eqtname")
+            childRow("Unit") = drh.GetValue(Of String)("unit_name")
+            childRow("Qty") = Configuration.FormatToString(drh.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+            childRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+            childRow("parent") = drh.GetValue(Of Integer)("asset")
+
+            childRow.Tag = row
+          End If
+
+        Else
+          parRow = CType(assetHash(key), TreeRow)
+          Dim newRow As DataRow = CType(parRow.Tag, DataRow)
+          Dim drh2 As New DataRowHelper(newRow)
+
+          Trace.WriteLine(drh2.GetValue(Of Integer)("asset_id").ToString & ":" & drh.GetValue(Of Integer)("asset_id").ToString)
+
+          If drh2.GetValue(Of Integer)("asset_id") = drh.GetValue(Of Integer)("asset_id") Then
+            childRow = parRow.Childs.Add
+            childRow("Selected") = False
+            childRow("Type") = indent & CType(itemString(drh.GetValue(Of Integer)("Type")), String)
+            'oldAssetType = drh.GetValue(Of Integer)("type")
+            'row("type") = oldAssetType '
+            childRow("Code") = indent & drh.GetValue(Of String)("eqtcode")
+            childRow("name") = indent & drh.GetValue(Of String)("eqtname")
+            childRow("Unit") = drh.GetValue(Of String)("unit_name")
+            childRow("Qty") = Configuration.FormatToString(drh.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+            childRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+            childRow("parent") = drh.GetValue(Of Integer)("asset")
+
+            childRow.Tag = row
+          End If
+
         End If
 
-        For Each eqtrow As DataRow In eqtdt.Select("asset =" & currentAsset.ToString)
-          Dim childRow As TreeRow = parRow.Childs.Add
-          Dim drh2 As New DataRowHelper(eqtrow)
-          childRow("Selected") = False
-          'childRow("TypeID") = drh2.GetValue(Of Integer)("Type")
-          childRow("Type") = indent & drh2.GetValue(Of String)("EntityType")
-          childRow("Code") = indent & drh2.GetValue(Of String)("eqtcode")
-          childRow("name") = indent & drh2.GetValue(Of String)("eqtname")
-          childRow("Unit") = drh2.GetValue(Of String)("unit_name")
-          childRow("Qty") = Configuration.FormatToString(drh2.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
-          childRow("BuyPrice") = ""
-          childRow("BuyCost") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
-          childRow("parent") = drh2.GetValue(Of Integer)("asset")
-          childRow.Tag = eqtrow
-        Next
-        'If Not parRow Is Nothing Then
-        '  Dim childRow As TreeRow = parRow.Childs.Add
-        '  childRow("Selected") = False
-        '  childRow("Code") = ""
-        '  childRow("EquipmentTool") = Eqt
-        '  childRow("Unit") = Unit
-        '  childRow("Qty") = Configuration.FormatToString(Qty, DigitConfig.Price)
-        '  childRow("RentRate") = Configuration.FormatToString(RentalRate, DigitConfig.Price)
-        '  childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
-        '  'Dim eqtwitem As New EquipmentToolWithdrawItem
-        '  'eqtwitem.EquipmentToolWithdraw = New EquipmentToolWithdraw
-        '  'eqtwitem.EquipmentToolWithdraw.Id = eqtwid
-        '  'eqtwitem.LineNumber = LineNumber
-        '  childRow.Tag = AssetRow
-        'End If
+        row("entityType") = CType(itemString(drh.GetValue(Of Integer)("Type")), String)
       Next
+
+      'For Each AssetRow As DataRow In assetdt.Rows
+      '  Dim drh As New DataRowHelper(AssetRow)
+      '  Dim assetid As Integer = drh.GetValue(Of Integer)("asset_id")
+      '  Dim assetCode As String = drh.GetValue(Of String)("asset_code")
+      '  Dim assetName As String = drh.GetValue(Of String)("asset_name")
+      '  'Dim Eqt As String = drh.GetValue(Of String)("eqtinfo")
+      '  'Dim Unit As String = drh.GetValue(Of String)("unit_name")
+      '  'Dim Qty As Decimal = drh.GetValue(Of Decimal)("eqtstocki_Qty")
+      '  Dim BuyPrice As Decimal = drh.GetValue(Of Decimal)("asset_buyprice")
+      '  Dim accdepre As Decimal = drh.GetValue(Of Decimal)("accdepre")
+      '  Dim hasChilds As Boolean = drh.GetValue(Of Integer)("hasChilds") > 0
+      '  'Dim LineNumber As Integer = drh.GetValue(Of Integer)("eqtstocki_linenumber")
+
+      '  If currentAsset <> assetid Then
+      '    parRow = dt.Childs.Add
+      '    parRow("Selected") = False
+      '    'parRow("TypeID") = drh.GetValue(Of Integer)("Type")
+      '    parRow("Type") = drh.GetValue(Of String)("EntityType")
+      '    parRow("Code") = assetCode
+      '    parRow("name") = assetName
+      '    parRow("Unit") = ""
+      '    parRow("Qty") = ""
+      '    parRow("BuyPrice") = Configuration.FormatToString(BuyPrice, DigitConfig.Price)
+      '    'parRow("BuyCost") = ""
+      '    parRow("AccDepre") = Configuration.FormatToString(accdepre, DigitConfig.Price)
+      '    parRow("hasChilds") = hasChilds
+      '    parRow("parent") = assetid
+      '    parRow.CustomFontStyle = FontStyle.Bold
+      '    parRow.Tag = AssetRow
+      '    currentAsset = assetid
+      '  End If
+
+      '  For Each eqtrow As DataRow In eqtdt.Select("asset =" & currentAsset.ToString)
+      '    Dim childRow As TreeRow = parRow.Childs.Add
+      '    Dim drh2 As New DataRowHelper(eqtrow)
+      '    childRow("Selected") = False
+      '    'childRow("TypeID") = drh2.GetValue(Of Integer)("Type")
+      '    childRow("Type") = indent & CType(itemString(drh2.GetValue(Of Integer)("Type")), String)
+      '    childRow("Code") = indent & drh2.GetValue(Of String)("eqtcode")
+      '    childRow("name") = indent & drh2.GetValue(Of String)("eqtname")
+      '    childRow("Unit") = drh2.GetValue(Of String)("unit_name")
+      '    childRow("Qty") = Configuration.FormatToString(drh2.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+      '    'childRow("BuyPrice") = ""
+      '    'childRow("BuyCost") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+      '    childRow("BuyPrice") = Configuration.FormatToString(drh2.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+      '    childRow("parent") = drh2.GetValue(Of Integer)("asset")
+
+      '    Me.AddParentCollumnToChild(eqtrow, AssetRow)
+      '    childRow.Tag = eqtrow
+      '  Next
+      '  'If Not parRow Is Nothing Then
+      '  '  Dim childRow As TreeRow = parRow.Childs.Add
+      '  '  childRow("Selected") = False
+      '  '  childRow("Code") = ""
+      '  '  childRow("EquipmentTool") = Eqt
+      '  '  childRow("Unit") = Unit
+      '  '  childRow("Qty") = Configuration.FormatToString(Qty, DigitConfig.Price)
+      '  '  childRow("RentRate") = Configuration.FormatToString(RentalRate, DigitConfig.Price)
+      '  '  childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
+      '  '  'Dim eqtwitem As New EquipmentToolWithdrawItem
+      '  '  'eqtwitem.EquipmentToolWithdraw = New EquipmentToolWithdraw
+      '  '  'eqtwitem.EquipmentToolWithdraw.Id = eqtwid
+      '  '  'eqtwitem.LineNumber = LineNumber
+      '  '  childRow.Tag = AssetRow
+      '  'End If
+      'Next
 
       'For Each eqtrow As DataRow In eqtdt.Select("asset = 0")
       '  Dim drh2 As New DataRowHelper(eqtrow)
@@ -326,14 +534,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("BuyPrice", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("BuyCost", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("BuyCost", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("AccDepre", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("hasChilds", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("parent", GetType(Integer)))
       'myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
+      'For Parent 
+      'myDatatable.Columns.Add(New DataColumn("ParType", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ParId", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ParCode", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("AccDepre", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("AccDepre", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("AccDepre", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("AccDepre", GetType(String)))
+
+
+      'parRow("Type") = drh.GetValue(Of String)("EntityType")
+      'parRow("Code") = assetCode
+      'parRow("name") = assetName
+      'parRow("Unit") = ""
+      'parRow("Qty") = ""
+      'parRow("BuyPrice") = Configuration.FormatToString(BuyPrice, DigitConfig.Price)
+      ''parRow("BuyCost") = ""
+      'parRow("AccDepre") = Configuration.FormatToString(accdepre, DigitConfig.Price)
+      'parRow("hasChilds") = hasChilds
+      'parRow("parent") = assetid
+      'parRow.CustomFontStyle = FontStyle.Bold
+      'parRow.Tag = AssetRow
+      'currentAsset = assetid
+
       Return myDatatable
     End Function
+    Private Sub AddParentCollumnToChild(ByRef ChildDr As DataRow, ByVal ParDr As DataRow)
+      For Each dc As DataColumn In ParDr.Table.Columns
+        'If Not ChildDr.Table.Columns.Contains(dc.ColumnName) Then
+        For Each dr As DataRow In ParDr.Table.Rows
+          ChildDr(dc.ColumnName) = dr.Table.Columns(dc.ColumnName)
+        Next
+        'End If
+      Next
+
+      'Dim c(5) As DataColumn
+      'c(0) = New DataColumn("asset_id")
+      'c(0) = New DataColumn("asset_code")
+      'c(0) = DataColumn("asset_name")
+      'c(0) = DataColumn("asset_buyprice")
+      'c(0) = DataColumn("accdepre")
+      'c(0) = DataColumn("hasChilds")
+
+      'dr.Table.Columns.Add(cid)
+
+      'Dim assetid As Integer = drh.GetValue(Of Integer)("asset_id")
+      'Dim assetCode As String = drh.GetValue(Of String)("asset_code")
+      'Dim assetName As String = drh.GetValue(Of String)("asset_name")
+      ''Dim Eqt As String = drh.GetValue(Of String)("eqtinfo")
+      ''Dim Unit As String = drh.GetValue(Of String)("unit_name")
+      ''Dim Qty As Decimal = drh.GetValue(Of Decimal)("eqtstocki_Qty")
+      'Dim BuyPrice As Decimal = drh.GetValue(Of Decimal)("asset_buyprice")
+      'Dim accdepre As Decimal = drh.GetValue(Of Decimal)("accdepre")
+      'Dim hasChilds As Boolean = drh.GetValue(Of Integer)("hasChilds") > 0
+    End Sub
 #End Region
+
 #Region "Style"
     Public Function CreateListTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -459,13 +721,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csBuyPrice.Width = 90
       csBuyPrice.ReadOnly = True
 
-      Dim csBuyCost As New TreeTextColumn
-      csBuyCost.MappingName = "BuyCost"
-      csBuyCost.HeaderText = "ราคาซื้อ"
-      csBuyCost.DataAlignment = HorizontalAlignment.Right
-      csBuyCost.NullText = ""
-      csBuyCost.Width = 90
-      csBuyCost.ReadOnly = True
+      'Dim csBuyCost As New TreeTextColumn
+      'csBuyCost.MappingName = "BuyCost"
+      'csBuyCost.HeaderText = "ราคาซื้อ"
+      'csBuyCost.DataAlignment = HorizontalAlignment.Right
+      'csBuyCost.NullText = ""
+      'csBuyCost.Width = 90
+      'csBuyCost.ReadOnly = True
 
       Dim csAccDepre As New TreeTextColumn
       csAccDepre.MappingName = "AccDepre"
@@ -498,7 +760,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csUnit)
       dst.GridColumnStyles.Add(csQty)
       dst.GridColumnStyles.Add(csBuyPrice)
-      dst.GridColumnStyles.Add(csBuyCost)
+      'dst.GridColumnStyles.Add(csBuyCost)
       dst.GridColumnStyles.Add(csAccDepre)
       'dst.GridColumnStyles.Add(csWithdrawQty)
       'dst.GridColumnStyles.Add(csRemainingQty)
@@ -605,8 +867,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Get
         m_basketItems.Clear()
         Dim myTable As TreeTable = CType(tgItem.DataSource, TreeTable)
-        Dim id As Integer = 0 'id ปลอม ห้ามใช้หา แต่ทำเพื่อให้ สร้าง tree ใน basket ได้
+
+        'Dim EwCode As String
+        'Dim fullClassName As String
+        'Dim entityName As String
+        'Dim lineNumber As Integer
+        'Dim qty As Decimal = 0
+
+        Dim id As Integer = 0
         Dim parId As Integer = 0
+        Dim itemCode As String = ""
+        Dim entityType As Integer
+        Dim textInBasket As String = ""
+        Dim lineNumber As Integer = 0
+
+        'Dim listItem As New ArrayList
+        'For Each row As TreeRow In myTable.Childs
+        '  If Not IsDBNull(row("Selected")) Then
+        '    If CBool(row("Selected")) Then
+        '      If TypeOf row.Tag Is DataRow Then
+        '        Dim dr As DataRow = CType(row.Tag, DataRow)
+        '        Dim drh As New DataRowHelper(dr)
+
+        '        If drh.GetValue(Of Integer)("type") = 28 Then
+        '          For Each childrow As TreeRow In row.Childs
+        '            'Dim dr2 As DataRow = 
+
+        '            'EwCode = 
+        '            'Dim fullClassName As String
+        '            'Dim entityName As String
+        '            'Dim lineNumber As Integer
+        '            'Dim qty As Decimal = 0
+
+        '            If Not IsDBNull(childrow("Selected")) Then
+        '              If CBool(childrow("Selected")) Then
+
+        '              End If
+        '            End If
+
+
+        '          Next
+        '        End If
+
+        '      End If
+        '    End If
+        '  End If
+        'Next
+
         For Each row As TreeRow In myTable.Childs
           'Row แม่ ที่ไม่มีลูก
           If CBool(row("haschilds")) Then
@@ -624,15 +931,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   qty = CDec(row("Qty"))
                 End If
 
-                Dim textInBasket As String = entityName & ":" & qty.ToString
                 If TypeOf row.Tag Is DataRow Then
                   Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
-                  'id = drh.GetValue(Of Integer)("Asset_id")
-                  id += 1
+                  id = drh.GetValue(Of Integer)("Asset_id")
+                  'id += 1
                   parId = id
-                  Dim entityType As Integer = drh.GetValue(Of Integer)("type")
+                  entityType = drh.GetValue(Of Integer)("type")
+                  itemCode = drh.GetValue(Of String)("eqtcode")
+                  textInBasket = "(" & itemCode & ")" & entityName & ":" & qty.ToString
+                  lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, True)
+                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, entityType, qty, entityName, 0, True)
                   bi.Tag = CType(row.Tag, DataRow)
                   m_basketItems.Add(bi)
                 End If
@@ -648,14 +957,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
                       Dim cqty As Decimal = CDec(childRow("Qty"))
 
-                      Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+
                       If TypeOf childRow.Tag Is DataRow Then
                         Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
-                        'id = drh.GetValue(Of Integer)("eqtid")
-                        id += 1
-                        Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+                        id = drh.GetValue(Of Integer)("eqtid")
+                        'id += 1
+                        entityType = drh.GetValue(Of Integer)("type")
+                        itemCode = drh.GetValue(Of String)("eqtcode")
+                        textInBasket = "(" & itemCode & ")" & centityName & ":" & cqty.ToString
+                        lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                        Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                        Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, textInBasket, lineNumber, entityType, cqty, centityName, 1, parId)
                         bi.Tag = CType(childRow.Tag, DataRow)
                         m_basketItems.Add(bi)
                       End If
@@ -676,15 +988,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 qty = CDec(row("Qty"))
               End If
 
-              Dim textInBasket As String = entityName & ":" & qty.ToString
               If TypeOf row.Tag Is DataRow Then
                 Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
-                'id = drh.GetValue(Of Integer)("Asset_id")
-                id += 1
+                id = drh.GetValue(Of Integer)("Asset_id")
+                'id += 1
                 parId = id
-                Dim entityType As Integer = drh.GetValue(Of Integer)("type")
+                entityType = drh.GetValue(Of Integer)("type")
+                itemCode = drh.GetValue(Of String)("eqtcode")
+                textInBasket = "(" & itemCode & ")" & entityName & ":" & qty.ToString
+                lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, True)
+                Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, entityType, qty, entityName, 0, True)
                 bi.Tag = CType(row.Tag, DataRow)
                 m_basketItems.Add(bi)
               End If
@@ -700,14 +1014,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
                     Dim cqty As Decimal = CDec(childRow("Qty"))
 
-                    Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+                    'Dim ctextInBasket As String = "(" & EwCode & ")" & centityName & ":" & cqty.ToString
                     If TypeOf childRow.Tag Is DataRow Then
                       Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
-                      'id = drh.GetValue(Of Integer)("eqtid")
-                      id += 1
+                      id = drh.GetValue(Of Integer)("eqtid")
+                      'id += 1
                       Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+                      itemCode = drh.GetValue(Of String)("eqtcode")
+                      textInBasket = "(" & itemCode & ")" & centityName & ":" & cqty.ToString
+                      lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, textInBasket, lineNumber, centityType, cqty, centityName, 1, parId)
                       bi.Tag = CType(childRow.Tag, DataRow)
                       m_basketItems.Add(bi)
                     End If
@@ -719,14 +1036,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
                     Dim cqty As Decimal = 0
 
-                    Dim ctextInBasket As String = centityName & ":" & cqty.ToString
+                    'Dim ctextInBasket As String = "(" & EwCode & ")" & centityName & ":" & cqty.ToString
                     If TypeOf row.Tag Is DataRow Then
                       Dim drh As New DataRowHelper(CType(childRow.Tag, DataRow))
-                      'id = drh.GetValue(Of Integer)("Asset_id")
-                      id += 1
+                      id = drh.GetValue(Of Integer)("Asset_id")
+                      'id += 1
                       Dim centityType As Integer = drh.GetValue(Of Integer)("type")
+                      itemCode = drh.GetValue(Of String)("eqtcode")
+                      textInBasket = "(" & itemCode & ")" & centityName & ":" & cqty.ToString
+                      lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, ctextInBasket, 1, centityType, cqty, centityName, 1, parId)
+                      Dim bi As New EqtBasketItem(id, cEwCode, cfullClassName, textInBasket, lineNumber, centityType, cqty, centityName, 1, parId)
                       bi.Tag = CType(childRow.Tag, DataRow)
                       m_basketItems.Add(bi)
                     End If
@@ -735,7 +1055,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Next
 
             End If
-           
+
           Else
             'Row แม่ที่ไม่มีลูก
             If Not IsDBNull(row("Selected")) Then
@@ -747,14 +1067,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
                 Dim qty As Decimal = 0
 
-                Dim textInBasket As String = entityName & ":" & qty.ToString
+                'Dim textInBasket As String = "(" & EwCode & ")" & entityName & ":" & qty.ToString
                 If TypeOf row.Tag Is DataRow Then
                   Dim drh As New DataRowHelper(CType(row.Tag, DataRow))
-                  'id = drh.GetValue(Of Integer)("Asset_id")
-                  id += 1
-                  Dim entityType As Integer = drh.GetValue(Of Integer)("type")
+                  id = drh.GetValue(Of Integer)("Asset_id")
+                  'id += 1
+                  entityType = drh.GetValue(Of Integer)("type")
+                  itemCode = drh.GetValue(Of String)("eqtcode")
+                  textInBasket = "(" & EwCode & ") " & entityName & ":" & qty.ToString
+                  lineNumber = drh.GetValue(Of Integer)("linenumber")
 
-                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, 1, entityType, qty, entityName, 0, False)
+                  Dim bi As New EqtBasketItem(id, EwCode, fullClassName, textInBasket, lineNumber, entityType, qty, entityName, 0, False)
                   bi.Tag = CType(row.Tag, DataRow)
                   m_basketItems.Add(bi)
                 End If

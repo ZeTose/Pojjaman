@@ -829,7 +829,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drEqi("eqtstocki_eqtstock") = drEq("eqtstock_id")
           drEqi("eqtstocki_linenumber") = i
           drEqi("eqtstocki_entity") = drh.GetValue(Of Integer)("eqi_id")
-          drEqi("eqtstocki_entityType") = Me.EntityId
+          drEqi("eqtstocki_entityType") = 346
           drEqi("eqtstocki_toollot") = DBNull.Value
           drEqi("eqtstocki_name") = drh.GetValue(Of String)("eqi_name")
           drEqi("eqtstocki_unit") = drh.GetValue(Of Integer)("eqi_unit")

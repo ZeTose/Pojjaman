@@ -37,7 +37,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxRate As Decimal
     Private m_taxType As TaxType
 
-    Private m_itemTable As TreeTable
+    'Private m_itemTable As TreeTable
     Private m_itemcollection As AssetWriteOffItemCollection
 
 #End Region
@@ -45,52 +45,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      ReLoadItems()
+      'ReLoadItems()
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Public Sub New(ByVal code As String)
       MyBase.New(code)
-      ReLoadItems()
+      'ReLoadItems()
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-      ReLoadItems()
+      'ReLoadItems()
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
-      ReLoadItems(ds, aliasPrefix)
+      'ReLoadItems(ds, aliasPrefix)
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
-      ReLoadItems()
+      'ReLoadItems()
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Construct(dr, aliasPrefix)
-      ReLoadItems()
+      'ReLoadItems()
       'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'AddHandler m_itemTable.RowDeleted, AddressOf ItemDelete
     End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
@@ -197,7 +197,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
+    'Public Property ItemTable() As TreeTable    '  Get    '    Return m_itemTable    '  End Get    '  Set(ByVal Value As TreeTable)    '    m_itemTable = Value    '  End Set    'End Property
 
     Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        Dim oldPerson As IBillablePerson = m_customer
         If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
@@ -303,36 +303,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Shared"
     Public Shared Function GetSchemaTable() As TreeTable
       Dim myDatatable As New TreeTable("AssetWriteoff")
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_linenumber", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("itemType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Type", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_entity", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_entityType", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_Name", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_unit", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Entity", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("EntityType", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Description", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("UnitId", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitButton", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_qty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_unitprice", GetType(String)))  'ราคาขาย
+      myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("UnitPrice", GetType(String)))  'ราคาขาย
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String))) 'มูลค่าขาย
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_remainbuyqty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Barrier1", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RemainingQty", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("StockQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_unitassetamount", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_assetamount", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_writeoffamount", GetType(String))) 'มูลค่าหักค่าสินทรัพย์
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_accdepre", GetType(String))) 'ค่าเสื่อมสะสม
-      myDatatable.Columns.Add(New DataColumn("Cost", GetType(String))) 'ต้นทุนแล้ว
+      myDatatable.Columns.Add(New DataColumn("BuyPrice", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
+      myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
+      myDatatable.Columns.Add(New DataColumn("WriteOffAmount", GetType(String))) 'มูลค่าหักค่าสินทรัพย์
+      myDatatable.Columns.Add(New DataColumn("DepreAmount", GetType(String))) 'ค่าเสื่อมสะสม
+      myDatatable.Columns.Add(New DataColumn("CostAmount", GetType(String))) 'ต้นทุนแล้ว
       myDatatable.Columns.Add(New DataColumn("P/L", GetType(String))) 'ต้นทุนแล้ว
       'myDatatable.Columns.Add(New DataColumn("stocki_discrate", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("asset_acct", GetType(Integer)))
-      myDatatable.Columns.Add(New DataColumn("asset_depreopeningacct", GetType(Integer)))
+      'myDatatable.Columns.Add(New DataColumn("asset_acct", GetType(Integer)))
+      'myDatatable.Columns.Add(New DataColumn("asset_depreopeningacct", GetType(Integer)))
       'myDatatable.Columns.Add(New DataColumn("AccountCode", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("Account", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Account", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DepreAccount", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("AccountButton", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("stocki_unvatable", GetType(Boolean)))
-      myDatatable.Columns.Add(New DataColumn("eqtstocki_note", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("deprecalcamt", GetType(Double)))
+      myDatatable.Columns.Add(New DataColumn("Note", GetType(String)))
 
       Return myDatatable
     End Function
@@ -371,9 +372,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
           , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
         End If
-        If Me.MaxRowIndex < 0 Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        End If
+        'If Me.MaxRowIndex < 0 Then
+        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        'End If
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
@@ -542,8 +543,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Me.m_je.Status.Value = -1 Then
               m_je.Status.Value = 3
             End If
-            Me.m_grouping = False
-            Me.ReLoadItems()
+            'Me.m_grouping = False
+            'Me.ReLoadItems()
             '********************************************
             If Not Me.JournalEntry.ManualFormat Then
               If Not (Me.m_je.GLFormat.Originated) Then
@@ -600,117 +601,117 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldStockItemStatus", New SqlParameter("@stock_id", Me.Id))
     End Sub
-    Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
-      If Not Me.Originated Then
-        Return
-      End If
-      For Each tr As TreeRow In Me.m_itemTable.Childs
-        If ValidateRow(tr) Then
+    'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    '  If Not Me.Originated Then
+    '    Return
+    '  End If
+    '  For Each tr As TreeRow In Me.m_itemTable.Childs
+    '    If ValidateRow(tr) Then
 
-        End If
-      Next
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStockItemStatus", New SqlParameter("@stock_id", Me.Id))
-    End Sub
+    '    End If
+    '  Next
+    '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStockItemStatus", New SqlParameter("@stock_id", Me.Id))
+    'End Sub
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      Try
-        '----------------HACK------------------------------------
-        Try
-          Dim cmd As New SqlCommand("delete StockItem where stocki_stock = " & Me.Id, conn)
-          cmd.Transaction = trans
-          cmd.ExecuteNonQuery()
-        Catch ex As Exception
-          Throw New Exception(ex.ToString)
-        End Try
-        '----------------HACK------------------------------------
+      'Try
+      '  '----------------HACK------------------------------------
+      '  Try
+      '    Dim cmd As New SqlCommand("delete StockItem where stocki_stock = " & Me.Id, conn)
+      '    cmd.Transaction = trans
+      '    cmd.ExecuteNonQuery()
+      '  Catch ex As Exception
+      '    Throw New Exception(ex.ToString)
+      '  End Try
+      '  '----------------HACK------------------------------------
 
-        Dim ds As New DataSet
+      '  Dim ds As New DataSet
 
-        '***********----WBS ----****************
-        Dim da As New SqlDataAdapter("Select * from StockItem where 1=2", conn)
-        Dim cb As New SqlCommandBuilder(da)
-        da.SelectCommand.Transaction = trans
+      '  '***********----WBS ----****************
+      '  Dim da As New SqlDataAdapter("Select * from StockItem where 1=2", conn)
+      '  Dim cb As New SqlCommandBuilder(da)
+      '  da.SelectCommand.Transaction = trans
 
-        da.DeleteCommand = cb.GetDeleteCommand
-        da.DeleteCommand.Transaction = trans
+      '  da.DeleteCommand = cb.GetDeleteCommand
+      '  da.DeleteCommand.Transaction = trans
 
-        da.InsertCommand = cb.GetInsertCommand
-        da.InsertCommand.Transaction = trans
+      '  da.InsertCommand = cb.GetInsertCommand
+      '  da.InsertCommand.Transaction = trans
 
-        da.UpdateCommand = cb.GetUpdateCommand
-        da.UpdateCommand.Transaction = trans
+      '  da.UpdateCommand = cb.GetUpdateCommand
+      '  da.UpdateCommand.Transaction = trans
 
-        da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
+      '  da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+      '  cb = Nothing
 
-        da.FillSchema(ds, SchemaType.Mapped, "StockItem")
-        da.Fill(ds, "StockItem")
+      '  da.FillSchema(ds, SchemaType.Mapped, "StockItem")
+      '  da.Fill(ds, "StockItem")
 
-        Dim dtMatCounti As DataTable
-        Dim dc As DataColumn
-        dtMatCounti = ds.Tables("StockItem")
+      '  Dim dtMatCounti As DataTable
+      '  Dim dc As DataColumn
+      '  dtMatCounti = ds.Tables("StockItem")
 
 
-        Dim tmpDa As New SqlDataAdapter
-        tmpDa.DeleteCommand = da.DeleteCommand
-        tmpDa.InsertCommand = da.InsertCommand
-        tmpDa.UpdateCommand = da.UpdateCommand
+      '  Dim tmpDa As New SqlDataAdapter
+      '  tmpDa.DeleteCommand = da.DeleteCommand
+      '  tmpDa.InsertCommand = da.InsertCommand
+      '  tmpDa.UpdateCommand = da.UpdateCommand
 
-        'AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+      '  'AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
 
-        For Each dr As DataRow In dtMatCounti.Rows
-          dr.Delete()
-        Next
-        Dim i As Integer = 0
-        For Each tr As TreeRow In Me.m_itemTable.Childs
-          If ValidateRow(tr) Then
-            i += 1
-            Dim drFi As DataRow = dtMatCounti.NewRow
-            drFi("stocki_stock") = Me.Id
-            drFi("stocki_linenumber") = i
+      '  For Each dr As DataRow In dtMatCounti.Rows
+      '    dr.Delete()
+      '  Next
+      '  Dim i As Integer = 0
+      '  For Each tr As TreeRow In Me.m_itemTable.Childs
+      '    If ValidateRow(tr) Then
+      '      i += 1
+      '      Dim drFi As DataRow = dtMatCounti.NewRow
+      '      drFi("stocki_stock") = Me.Id
+      '      drFi("stocki_linenumber") = i
 
-            drFi("stocki_cc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
-            drFi("stocki_fromcc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
-            drFi("stocki_tocc") = DBNull.Value
-            drFi("stocki_acct") = tr("stocki_acct")
-            drFi("stocki_toacct") = DBNull.Value
+      '      drFi("stocki_cc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
+      '      drFi("stocki_fromcc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
+      '      drFi("stocki_tocc") = DBNull.Value
+      '      drFi("stocki_acct") = tr("stocki_acct")
+      '      drFi("stocki_toacct") = DBNull.Value
 
-            drFi("stocki_entity") = tr("stocki_entity")
-            drFi("stocki_entityType") = tr("stocki_entityType")
-            drFi("stocki_itemName") = tr("stocki_itemName")
+      '      drFi("stocki_entity") = tr("stocki_entity")
+      '      drFi("stocki_entityType") = tr("stocki_entityType")
+      '      drFi("stocki_itemName") = tr("stocki_itemName")
 
-            drFi("stocki_unit") = tr("stocki_unit")
-            drFi("stocki_toacctType") = DBNull.Value
+      '      drFi("stocki_unit") = tr("stocki_unit")
+      '      drFi("stocki_toacctType") = DBNull.Value
 
-            drFi("stocki_qty") = 1
-            drFi("stocki_stockqty") = 1
+      '      drFi("stocki_qty") = 1
+      '      drFi("stocki_stockqty") = 1
 
-            drFi("stocki_unitprice") = tr("stocki_unitprice")
-            drFi("stocki_unvatable") = tr("stocki_unvatable")
-            drFi("stocki_note") = tr("stocki_note")
+      '      drFi("stocki_unitprice") = tr("stocki_unitprice")
+      '      drFi("stocki_unvatable") = tr("stocki_unvatable")
+      '      drFi("stocki_note") = tr("stocki_note")
 
-            drFi("stocki_type") = Me.EntityId
-            drFi("stocki_status") = Me.Status.Value
+      '      drFi("stocki_type") = Me.EntityId
+      '      drFi("stocki_status") = Me.Status.Value
 
-            drFi("stocki_refSequence") = 0
-            drFi("stocki_tag") = tr("deprecalcamt")
+      '      drFi("stocki_refSequence") = 0
+      '      drFi("stocki_tag") = tr("deprecalcamt")
 
-            dtMatCounti.Rows.Add(drFi)
-          End If
-        Next
+      '      dtMatCounti.Rows.Add(drFi)
+      '    End If
+      '  Next
 
-        tmpDa.Update(GetDeletedRows(dtMatCounti))
-        tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.ModifiedCurrent))
+      '  tmpDa.Update(GetDeletedRows(dtMatCounti))
+      '  tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.ModifiedCurrent))
 
-        ds.EnforceConstraints = False
+      '  ds.EnforceConstraints = False
 
-        tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.Added))
+      '  tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.Added))
 
-        ds.EnforceConstraints = True
+      '  ds.EnforceConstraints = True
 
-        Return New SaveErrorException("0")
-      Catch ex As Exception
-        Return New SaveErrorException(ex.ToString)
-      End Try
+      '  Return New SaveErrorException("0")
+      'Catch ex As Exception
+      '  Return New SaveErrorException(ex.ToString)
+      'End Try
     End Function
 
     Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
@@ -731,335 +732,335 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Items"
-    Private m_grouping As Boolean = False
-    Public Overloads Sub ReLoadItems()
-      Me.IsInitialized = False
-      m_itemTable = GetSchemaTable()
-      LoadItems()
-      Me.IsInitialized = True
-    End Sub
-    Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-      Me.IsInitialized = False
-      m_itemTable = GetSchemaTable()
-      Me.IsInitialized = True
-    End Sub
-    Private Sub LoadItems()
-      If Not Me.Originated Then
-        Return
-      End If
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-      , CommandType.StoredProcedure _
-      , "GetAssetWriteoffItems" _
-      , New SqlParameter("@stock_id", Me.Id) _
-      , New SqlParameter("@grouping", Me.m_grouping) _
-      )
+    'Private m_grouping As Boolean = False
+    'Public Overloads Sub ReLoadItems()
+    '  Me.IsInitialized = False
+    '  m_itemTable = GetSchemaTable()
+    '  LoadItems()
+    '  Me.IsInitialized = True
+    'End Sub
+    'Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    '  Me.IsInitialized = False
+    '  m_itemTable = GetSchemaTable()
+    '  Me.IsInitialized = True
+    'End Sub
+    'Private Sub LoadItems()
+    '  If Not Me.Originated Then
+    '    Return
+    '  End If
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+    '  , CommandType.StoredProcedure _
+    '  , "GetAssetWriteoffItems" _
+    '  , New SqlParameter("@stock_id", Me.Id) _
+    '  , New SqlParameter("@grouping", Me.m_grouping) _
+    '  )
 
-      For Each row As DataRow In ds.Tables(0).Rows
-        Dim item As New AssetWriteOffItem(row, "")
-        item.AssetWriteoff = Me
-        Me.Add(item)
-      Next
-    End Sub
-    Public Sub AddBlankRow(ByVal count As Integer)
-      For i As Integer = 0 To count - 1
-        Dim myItem As New AssetWriteOffItem
-        Me.ItemTable.AcceptChanges()
-        myItem.AssetWriteoff = Me
-        Me.Add(myItem)
-      Next
-    End Sub
-    Public Function Add(ByVal item As AssetWriteOffItem) As TreeRow
-      Dim myRow As TreeRow = Me.ItemTable.Childs.Add
-      item.LineNumber = Me.ItemTable.Childs.Count
-      item.AssetWriteoff = Me
-      item.CopyToDataRow(myRow)
-      Return myRow
-    End Function
-    Public Function Insert(ByVal index As Integer, ByVal item As AssetWriteOffItem) As TreeRow
-      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
-      item.AssetWriteoff = Me
-      item.CopyToDataRow(myRow)
-      ReIndex(index + 1)
-      Return myRow
-    End Function
-    Public Sub Remove(ByVal index As Integer)
-      Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
-      ReIndex()
-    End Sub
-    Private Sub ReIndex()
-      ReIndex(0)
-    End Sub
-    Private Sub ReIndex(ByVal index As Integer)
-      If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
-        Return
-      End If
-      For i As Integer = index To Me.ItemTable.Childs.Count - 1
-        Me.ItemTable.Childs(i)("stocki_linenumber") = i + 1
-      Next
-    End Sub
-    Public Function MaxRowIndex() As Integer
-      If Me.m_itemTable Is Nothing Then
-        Return -1
-      End If
-      'ให้ค่า index ของแถวสุดท้ายที่มีข้อมูล
-      For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
-        Dim row As TreeRow = Me.m_itemTable.Childs(i)
-        If ValidateRow(row) Then
-          Return i
-        End If
-      Next
-      Return -1 'ไม่มีข้อมูลเลย
-    End Function
+    '  For Each row As DataRow In ds.Tables(0).Rows
+    '    Dim item As New AssetWriteOffItem(row, "")
+    '    item.AssetWriteoff = Me
+    '    Me.Add(item)
+    '  Next
+    'End Sub
+    'Public Sub AddBlankRow(ByVal count As Integer)
+    '  For i As Integer = 0 To count - 1
+    '    Dim myItem As New AssetWriteOffItem
+    '    Me.ItemTable.AcceptChanges()
+    '    myItem.AssetWriteoff = Me
+    '    Me.Add(myItem)
+    '  Next
+    'End Sub
+    'Public Function Add(ByVal item As AssetWriteOffItem) As TreeRow
+    '  Dim myRow As TreeRow = Me.ItemTable.Childs.Add
+    '  item.LineNumber = Me.ItemTable.Childs.Count
+    '  item.AssetWriteoff = Me
+    '  item.CopyToDataRow(myRow)
+    '  Return myRow
+    'End Function
+    'Public Function Insert(ByVal index As Integer, ByVal item As AssetWriteOffItem) As TreeRow
+    '  Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
+    '  item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+    '  item.AssetWriteoff = Me
+    '  item.CopyToDataRow(myRow)
+    '  ReIndex(index + 1)
+    '  Return myRow
+    'End Function
+    'Public Sub Remove(ByVal index As Integer)
+    '  Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
+    '  ReIndex()
+    'End Sub
+    'Private Sub ReIndex()
+    '  ReIndex(0)
+    'End Sub
+    'Private Sub ReIndex(ByVal index As Integer)
+    '  If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
+    '    Return
+    '  End If
+    '  For i As Integer = index To Me.ItemTable.Childs.Count - 1
+    '    Me.ItemTable.Childs(i)("stocki_linenumber") = i + 1
+    '  Next
+    'End Sub
+    'Public Function MaxRowIndex() As Integer
+    'If Me.m_itemTable Is Nothing Then
+    '  Return -1
+    'End If
+    ''ให้ค่า index ของแถวสุดท้ายที่มีข้อมูล
+    'For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
+    '  Dim row As TreeRow = Me.m_itemTable.Childs(i)
+    '  If ValidateRow(row) Then
+    '    Return i
+    '  End If
+    'Next
+    'Return -1 'ไม่มีข้อมูลเลย
+    'End Function
 #End Region
 
 #Region "TreeTable Handlers"
     Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.IsInitialized Then
-        Return
-      End If
-      'If CType(e.Row, TreeRow).Level = 0 Then
-      '    Return
+      'If Not Me.IsInitialized Then
+      '  Return
       'End If
-      Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        If index = Me.m_itemTable.Childs.Count - 1 Then
-          Me.AddBlankRow(1)
-        End If
-        Dim pe As New PropertyChangedEventArgs
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            UpdateDepreciation(e)
-            pe.Name = "ItemChanged"
-          Case "stocki_unitprice", "stocki_unvatable", "stocki_discrate", "stocki_qty", "unit"
-            UpdateAmount(e)
-            pe.Name = "QtyChanged"
-          Case Else
-            pe.Name = "ItemChanged"
-        End Select
-        Me.OnPropertyChanged(Me, pe)
-        Me.m_itemTable.AcceptChanges()
-      End If
+      ''If CType(e.Row, TreeRow).Level = 0 Then
+      ''    Return
+      ''End If
+      'Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
+      'If ValidateRow(CType(e.Row, TreeRow)) Then
+      '  If index = Me.m_itemTable.Childs.Count - 1 Then
+      '    Me.AddBlankRow(1)
+      '  End If
+      '  Dim pe As New PropertyChangedEventArgs
+      '  Select Case e.Column.ColumnName.ToLower
+      '    Case "code"
+      '      UpdateDepreciation(e)
+      '      pe.Name = "ItemChanged"
+      '    Case "stocki_unitprice", "stocki_unvatable", "stocki_discrate", "stocki_qty", "unit"
+      '      UpdateAmount(e)
+      '      pe.Name = "QtyChanged"
+      '    Case Else
+      '      pe.Name = "ItemChanged"
+      '  End Select
+      '  Me.OnPropertyChanged(Me, pe)
+      '  Me.m_itemTable.AcceptChanges()
+      'End If
     End Sub
-    Public Sub ReUpdateDepreciation()
-      For Each row As TreeRow In Me.ItemTable.Rows
-        If ValidateRow(row) Then
-          Dim assetitem As New Asset(CInt(row("stocki_entity")))
-          Dim depreopeningamnt As Decimal = 0
-          Dim depreamntinprocess As Decimal = 0
-          Dim lastestCalcDate As Date = assetitem.GetLastCalcDate(Nothing)
-          If lastestCalcDate.Equals(Date.MinValue) Then
-            depreopeningamnt = assetitem.DepreOpening
+    'Public Sub ReUpdateDepreciation()
+    '  For Each row As TreeRow In Me.ItemTable.Rows
+    '    If ValidateRow(row) Then
+    '      Dim assetitem As New Asset(CInt(row("stocki_entity")))
+    '      Dim depreopeningamnt As Decimal = 0
+    '      Dim depreamntinprocess As Decimal = 0
+    '      Dim lastestCalcDate As Date = assetitem.GetLastCalcDate(Nothing)
+    '      If lastestCalcDate.Equals(Date.MinValue) Then
+    '        depreopeningamnt = assetitem.DepreOpening
 
-            'depreamntinprocess = CDec(assetitem.DepreCalcAtDate(Me.DocDate))
-            'row("deprecalcamt") = Configuration.FormatToString(depreamntinprocess, DigitConfig.Price)
-            row("deprecalcamt") = Configuration.FormatToString(depreopeningamnt, DigitConfig.Price)
-          Else
-            If lastestCalcDate.Date <= Me.DocDate Then
-              depreopeningamnt = CDec(assetitem.DepreCalcAtDate(lastestCalcDate.Date))
-            End If
+    '        'depreamntinprocess = CDec(assetitem.DepreCalcAtDate(Me.DocDate))
+    '        'row("deprecalcamt") = Configuration.FormatToString(depreamntinprocess, DigitConfig.Price)
+    '        row("deprecalcamt") = Configuration.FormatToString(depreopeningamnt, DigitConfig.Price)
+    '      Else
+    '        If lastestCalcDate.Date <= Me.DocDate Then
+    '          depreopeningamnt = CDec(assetitem.DepreCalcAtDate(lastestCalcDate.Date))
+    '        End If
 
-            depreamntinprocess = CDec(assetitem.DepreCalcAtDate(Me.DocDate))
-            Dim depre As Double = depreamntinprocess - depreopeningamnt
-            row("deprecalcamt") = Configuration.FormatToString(depre, DigitConfig.Price)
-          End If
+    '        depreamntinprocess = CDec(assetitem.DepreCalcAtDate(Me.DocDate))
+    '        Dim depre As Double = depreamntinprocess - depreopeningamnt
+    '        row("deprecalcamt") = Configuration.FormatToString(depre, DigitConfig.Price)
+    '      End If
 
-          'row("deprecalcamt") = Configuration.FormatToString(depre, DigitConfig.Price)
+    '      'row("deprecalcamt") = Configuration.FormatToString(depre, DigitConfig.Price)
 
-          'Dim item As New AssetWriteoffItem
-          'item.AssetWriteoff = Me
-          'item.CopyFromDataRow(CType(row, TreeRow))
-        End If
-      Next
-    End Sub
-    Private Sub UpdateDepreciation(ByVal e As DataColumnChangeEventArgs)
-      If Not e.Row.IsNull("stocki_entity") Then
-        Dim assetItem As New Asset(CInt(e.Row("stocki_entity")))
+    '      'Dim item As New AssetWriteoffItem
+    '      'item.AssetWriteoff = Me
+    '      'item.CopyFromDataRow(CType(row, TreeRow))
+    '    End If
+    '  Next
+    'End Sub
+    'Private Sub UpdateDepreciation(ByVal e As DataColumnChangeEventArgs)
+    '  If Not e.Row.IsNull("stocki_entity") Then
+    '    Dim assetItem As New Asset(CInt(e.Row("stocki_entity")))
 
-        Dim depreopeningamnt As Double
-        Dim lastestCalcDate As Date = assetItem.GetLastCalcDate(Nothing)
-        If lastestCalcDate.Equals(Date.MinValue) Then
-          depreopeningamnt = assetItem.DepreOpening
+    '    Dim depreopeningamnt As Double
+    '    Dim lastestCalcDate As Date = assetItem.GetLastCalcDate(Nothing)
+    '    If lastestCalcDate.Equals(Date.MinValue) Then
+    '      depreopeningamnt = assetItem.DepreOpening
 
-          If assetItem.Originated Then
-            Dim item As New AssetWriteOffItem
-            item.AssetWriteoff = Me
+    '      If assetItem.Originated Then
+    '        Dim item As New AssetWriteOffItem
+    '        item.AssetWriteoff = Me
 
-            'Dim depre As Double = assetItem.DepreCalcAtDate(Me.DocDate)
-            item.CopyFromDataRow(CType(e.Row, TreeRow))
-            'item.DepreCalculation = depre
-            item.DepreCalculation = depreopeningamnt
-            e.Row("deprecalcamt") = Configuration.FormatToString(item.DepreCalculation, DigitConfig.Price)
-          End If
-        Else
-          If lastestCalcDate.Date <= Me.DocDate Then
-            depreopeningamnt = CDec(assetItem.DepreCalcAtDate(lastestCalcDate.Date))
-          End If
+    '        'Dim depre As Double = assetItem.DepreCalcAtDate(Me.DocDate)
+    '        item.CopyFromDataRow(CType(e.Row, TreeRow))
+    '        'item.DepreCalculation = depre
+    '        item.DepreCalculation = depreopeningamnt
+    '        e.Row("deprecalcamt") = Configuration.FormatToString(item.DepreCalculation, DigitConfig.Price)
+    '      End If
+    '    Else
+    '      If lastestCalcDate.Date <= Me.DocDate Then
+    '        depreopeningamnt = CDec(assetItem.DepreCalcAtDate(lastestCalcDate.Date))
+    '      End If
 
-          If assetItem.Originated Then
-            Dim item As New AssetWriteOffItem
-            item.AssetWriteoff = Me
+    '      If assetItem.Originated Then
+    '        Dim item As New AssetWriteOffItem
+    '        item.AssetWriteoff = Me
 
-            Dim depre As Double = assetItem.DepreCalcAtDate(Me.DocDate)
-            item.CopyFromDataRow(CType(e.Row, TreeRow))
-            item.DepreCalculation = depre - depreopeningamnt
-            e.Row("deprecalcamt") = Configuration.FormatToString(item.DepreCalculation, DigitConfig.Price)
-          End If
-        End If
+    '        Dim depre As Double = assetItem.DepreCalcAtDate(Me.DocDate)
+    '        item.CopyFromDataRow(CType(e.Row, TreeRow))
+    '        item.DepreCalculation = depre - depreopeningamnt
+    '        e.Row("deprecalcamt") = Configuration.FormatToString(item.DepreCalculation, DigitConfig.Price)
+    '      End If
+    '    End If
 
 
-      End If
-    End Sub
+    '  End If
+    'End Sub
     Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
-      Dim item As New AssetWriteOffItem
-      item.AssetWriteoff = Me
-      item.CopyFromDataRow(CType(e.Row, TreeRow))
-      e.Row("Amount") = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-      e.Row("StockQty") = Configuration.FormatToString(item.StockQty, DigitConfig.Qty)
-      RefreshTaxBase()
+      'Dim item As New AssetWriteOffItem
+      'item.AssetWriteoff = Me
+      'item.CopyFromDataRow(CType(e.Row, TreeRow))
+      'e.Row("Amount") = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+      'e.Row("StockQty") = Configuration.FormatToString(item.StockQty, DigitConfig.Qty)
+      'RefreshTaxBase()
     End Sub
     Public Sub RefreshTaxBase()
-      If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then        m_gross = 0
-      Else
-        Dim amt As Decimal = 0        For Each row As TreeRow In Me.ItemTable.Rows
-          Dim item As New AssetWriteOffItem
-          'item.GetAmountFromRow(row)
-          amt += item.Amount
-        Next        m_gross = amt
-      End If
-      If Me.Gross = 0 Then
-        Me.TaxBase = 0
-        Return
-      End If
-      Select Case Me.TaxType.Value
-        Case 0 '"ไม่มี"
-          Me.TaxBase = 0
-        Case 1 '"แยก"
-          Dim myGross As Decimal = Me.Gross
-          Dim myDiscount As Decimal = Me.DiscountAmount
-          Dim sumInItems As Decimal = 0
-          For Each row As TreeRow In Me.ItemTable.Rows
-            Dim item As New AssetWriteOffItem
-            item.GetAmountFromRow(row)
-            If Not item.UnVatable Then
-              sumInItems += (item.Amount - _
-              ( _
-              (item.Amount / myGross) * myDiscount) _
-              )
-            End If
-          Next
-          Me.TaxBase = sumInItems
-        Case 2 '"รวม"
-          Dim myGross As Decimal = Me.Gross
-          Dim myDiscount As Decimal = Me.DiscountAmount
-          Dim sumInItems As Decimal = 0
-          For Each row As TreeRow In Me.ItemTable.Rows
-            Dim item As New AssetWriteOffItem
-            item.GetAmountFromRow(row)
-            If Not item.UnVatable Then
-              sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
-            End If
-          Next
-          Me.TaxBase = sumInItems
-      End Select
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.IsInitialized Then
-        Return
-      End If
-      'If CType(e.Row, TreeRow).Level = 0 Then
-      '    Return
+      'If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then      '  m_gross = 0
+      'Else
+      '  Dim amt As Decimal = 0      '  For Each row As TreeRow In Me.ItemTable.Rows
+      '    Dim item As New AssetWriteOffItem
+      '    'item.GetAmountFromRow(row)
+      '    amt += item.Amount
+      '  Next      '  m_gross = amt
+      'End If
+      'If Me.Gross = 0 Then
+      '  Me.TaxBase = 0
+      '  Return
       'End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            SetCode(e)
-          Case "stocki_itemname"
-            SetName(e)
-          Case "unit"
-            SetUnitValue(e)
-          Case "stocki_qty"
-            SetQty(e)
-          Case "stocki_unitprice"
-            SetUnitPrice(e)
-          Case "accountcode"
-            SetAccount(e)
-
-        End Select
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
+      'Select Case Me.TaxType.Value
+      '  Case 0 '"ไม่มี"
+      '    Me.TaxBase = 0
+      '  Case 1 '"แยก"
+      '    Dim myGross As Decimal = Me.Gross
+      '    Dim myDiscount As Decimal = Me.DiscountAmount
+      '    Dim sumInItems As Decimal = 0
+      '    For Each row As TreeRow In Me.ItemTable.Rows
+      '      Dim item As New AssetWriteOffItem
+      '      item.GetAmountFromRow(row)
+      '      If Not item.UnVatable Then
+      '        sumInItems += (item.Amount - _
+      '        ( _
+      '        (item.Amount / myGross) * myDiscount) _
+      '        )
+      '      End If
+      '    Next
+      '    Me.TaxBase = sumInItems
+      '  Case 2 '"รวม"
+      '    Dim myGross As Decimal = Me.Gross
+      '    Dim myDiscount As Decimal = Me.DiscountAmount
+      '    Dim sumInItems As Decimal = 0
+      '    For Each row As TreeRow In Me.ItemTable.Rows
+      '      Dim item As New AssetWriteOffItem
+      '      item.GetAmountFromRow(row)
+      '      If Not item.UnVatable Then
+      '        sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
+      '      End If
+      '    Next
+      '    Me.TaxBase = sumInItems
+      'End Select
     End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-      Dim code As Object = e.Row("code")
-      Dim stocki_itemname As Object = e.Row("stocki_itemname")
-      Dim stocki_entitytype As Object = e.Row("stocki_entitytype")
-      Dim accountcode As Object = e.Row("accountcode")
-      Dim unit As Object = e.Row("unit")
-      Dim stocki_unitprice As Object = e.Row("stocki_unitprice")
-      Dim stocki_qty As Object = e.Row("stocki_qty")
+    'Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+    '  If Not Me.IsInitialized Then
+    '    Return
+    '  End If
+    '  'If CType(e.Row, TreeRow).Level = 0 Then
+    '  '    Return
+    '  'End If
+    '  Try
+    '    Select Case e.Column.ColumnName.ToLower
+    '      Case "code"
+    '        SetCode(e)
+    '      Case "stocki_itemname"
+    '        SetName(e)
+    '      Case "unit"
+    '        SetUnitValue(e)
+    '      Case "stocki_qty"
+    '        SetQty(e)
+    '      Case "stocki_unitprice"
+    '        SetUnitPrice(e)
+    '      Case "accountcode"
+    '        SetAccount(e)
 
-      Select Case e.Column.ColumnName.ToLower
-        Case "code"
-          code = e.ProposedValue
-        Case "stocki_itemname"
-          stocki_itemname = e.ProposedValue
-        Case "stocki_entitytype"
-          stocki_entitytype = e.ProposedValue
-        Case "accountcode"
-          accountcode = e.ProposedValue
-        Case "unit"
-          unit = e.ProposedValue
-        Case "stocki_unitprice"
-          stocki_unitprice = e.ProposedValue
-        Case "stocki_qty"
-          stocki_qty = e.ProposedValue
-        Case Else
-          Return
-      End Select
+    '    End Select
+    '    ValidateRow(e)
+    '  Catch ex As Exception
+    '    MessageBox.Show(ex.ToString)
+    '  End Try
+    'End Sub
+    'Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+    '  Dim code As Object = e.Row("code")
+    '  Dim stocki_itemname As Object = e.Row("stocki_itemname")
+    '  Dim stocki_entitytype As Object = e.Row("stocki_entitytype")
+    '  Dim accountcode As Object = e.Row("accountcode")
+    '  Dim unit As Object = e.Row("unit")
+    '  Dim stocki_unitprice As Object = e.Row("stocki_unitprice")
+    '  Dim stocki_qty As Object = e.Row("stocki_qty")
 
-      Dim isBlankRow As Boolean = False
-      If IsDBNull(stocki_entitytype) Then
-        isBlankRow = True
-      End If
+    '  Select Case e.Column.ColumnName.ToLower
+    '    Case "code"
+    '      code = e.ProposedValue
+    '    Case "stocki_itemname"
+    '      stocki_itemname = e.ProposedValue
+    '    Case "stocki_entitytype"
+    '      stocki_entitytype = e.ProposedValue
+    '    Case "accountcode"
+    '      accountcode = e.ProposedValue
+    '    Case "unit"
+    '      unit = e.ProposedValue
+    '    Case "stocki_unitprice"
+    '      stocki_unitprice = e.ProposedValue
+    '    Case "stocki_qty"
+    '      stocki_qty = e.ProposedValue
+    '    Case Else
+    '      Return
+    '  End Select
 
-      If Not isBlankRow Then
-        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-          e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
-        Else
-          e.Row.SetColumnError("code", "")
-        End If
-        If IsDBNull(stocki_itemname) OrElse stocki_itemname.ToString.Length = 0 Then
-          e.Row.SetColumnError("stocki_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-        Else
-          e.Row.SetColumnError("stocki_itemname", "")
-        End If
+    '  Dim isBlankRow As Boolean = False
+    '  If IsDBNull(stocki_entitytype) Then
+    '    isBlankRow = True
+    '  End If
 
-        If IsDBNull(stocki_qty) OrElse (IsNumeric(stocki_qty) AndAlso CDec(stocki_qty) <= 0) Then
-          e.Row.SetColumnError("stocki_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-        Else
-          e.Row.SetColumnError("stocki_qty", "")
-        End If
-        If IsDBNull(stocki_unitprice) OrElse CStr(stocki_unitprice).ToString.Length <= 0 OrElse (IsNumeric(stocki_unitprice) AndAlso CDec(stocki_unitprice) <= 0) Then
-          e.Row.SetColumnError("stocki_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-        Else
-          e.Row.SetColumnError("stocki_unitprice", "")
-        End If
-        If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
-          e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
-        Else
-          e.Row.SetColumnError("accountcode", "")
-        End If
-      End If
+    '  If Not isBlankRow Then
+    '    If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+    '      e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
+    '    Else
+    '      e.Row.SetColumnError("code", "")
+    '    End If
+    '    If IsDBNull(stocki_itemname) OrElse stocki_itemname.ToString.Length = 0 Then
+    '      e.Row.SetColumnError("stocki_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+    '    Else
+    '      e.Row.SetColumnError("stocki_itemname", "")
+    '    End If
 
-    End Sub
-    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("eqtstocki_entity") Then
-        Return False
-      End If
-      Return True
-    End Function
+    '    If IsDBNull(stocki_qty) OrElse (IsNumeric(stocki_qty) AndAlso CDec(stocki_qty) <= 0) Then
+    '      e.Row.SetColumnError("stocki_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+    '    Else
+    '      e.Row.SetColumnError("stocki_qty", "")
+    '    End If
+    '    If IsDBNull(stocki_unitprice) OrElse CStr(stocki_unitprice).ToString.Length <= 0 OrElse (IsNumeric(stocki_unitprice) AndAlso CDec(stocki_unitprice) <= 0) Then
+    '      e.Row.SetColumnError("stocki_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+    '    Else
+    '      e.Row.SetColumnError("stocki_unitprice", "")
+    '    End If
+    '    If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
+    '      e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
+    '    Else
+    '      e.Row.SetColumnError("accountcode", "")
+    '    End If
+    '  End If
+
+    'End Sub
+    'Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+    '  If row.IsNull("eqtstocki_entity") Then
+    '    Return False
+    '  End If
+    '  Return True
+    'End Function
     Private m_updating As Boolean = False
     Public Sub SetQty(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
@@ -1177,7 +1178,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Else
         Dim item As New AssetWriteOffItem
-        item.CopyFromDataRow(CType(e.Row, TreeRow))
+        'item.CopyFromDataRow(CType(e.Row, TreeRow))
         If Not item.Entity Is Nothing AndAlso item.Entity.Id <> 0 Then
           Dim myAsset As IEqtItem = item.Entity
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherIncome)
@@ -1207,26 +1208,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_updating = False
     End Sub
     Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
-      If e.Row.IsNull("stocki_entityType") Then
-        Return False
-      End If
-      If IsDBNull(e.ProposedValue) Then
-        Return False
-      End If
-      For Each row As TreeRow In Me.ItemTable.Childs
-        If Not row Is e.Row Then
-          If Not row.IsNull("stocki_entityType") Then
-            If CInt(row("stocki_entityType")) = CInt(e.Row("stocki_entityType")) Then
-              If Not row.IsNull("code") Then
-                If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
-                  Return True
-                End If
-              End If
-            End If
-          End If
-        End If
-      Next
-      Return False
+      'If e.Row.IsNull("stocki_entityType") Then
+      '  Return False
+      'End If
+      'If IsDBNull(e.ProposedValue) Then
+      '  Return False
+      'End If
+      'For Each row As TreeRow In Me.ItemTable.Childs
+      '  If Not row Is e.Row Then
+      '    If Not row.IsNull("stocki_entityType") Then
+      '      If CInt(row("stocki_entityType")) = CInt(e.Row("stocki_entityType")) Then
+      '        If Not row.IsNull("code") Then
+      '          If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
+      '            Return True
+      '          End If
+      '        End If
+      '      End If
+      '    End If
+      '  End If
+      'Next
+      'Return False
     End Function
     Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
       If m_updating Then
@@ -2044,126 +2045,126 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      Dim n As Integer = 0
-      For i As Integer = 0 To Me.MaxRowIndex
-        Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
-        If ValidateRow(itemRow) Then 'And itemRow.Level <> 0 Then
-          Dim item As New AssetWriteOffItem
-          item.CopyFromDataRow(itemRow)
-          'Item.LineNumber
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.LineNumber"
-          dpi.Value = n + 1
-          dpi.DataType = "System.Int32"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      'Dim n As Integer = 0
+      'For i As Integer = 0 To Me.MaxRowIndex
+      '  Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
+      '  If ValidateRow(itemRow) Then 'And itemRow.Level <> 0 Then
+      '    Dim item As New AssetWriteOffItem
+      '    item.CopyFromDataRow(itemRow)
+      '    'Item.LineNumber
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.LineNumber"
+      '    dpi.Value = n + 1
+      '    dpi.DataType = "System.Int32"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.Code
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Code"
-          dpi.Value = item.Entity.Code
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Code
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Code"
+      '    dpi.Value = item.Entity.Code
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.Name
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Name"
-          dpi.Value = item.Entity.Name
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Name
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Name"
+      '    dpi.Value = item.Entity.Name
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.Unit
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Unit"
-          dpi.Value = item.Unit.Name
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Unit
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Unit"
+      '    dpi.Value = item.Unit.Name
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.Qty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty"
-          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Qty
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Qty"
+      '    dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.UnitPrice
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.UnitPrice"
-          If item.UnitPrice = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.UnitPrice
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.UnitPrice"
+      '    If item.UnitPrice = 0 Then
+      '      dpi.Value = ""
+      '    Else
+      '      dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+      '    End If
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          ''Item.DiscountRate
-          'dpi = New DocPrintingItem
-          'dpi.Mapping = "Item.DiscountRate"
-          'dpi.Value = item.Discount.Rate
-          'dpi.DataType = "System.String"
-          'dpi.Row = n + 1
-          'dpi.Table = "Item"
-          'dpiColl.Add(dpi)
+      '    ''Item.DiscountRate
+      '    'dpi = New DocPrintingItem
+      '    'dpi.Mapping = "Item.DiscountRate"
+      '    'dpi.Value = item.Discount.Rate
+      '    'dpi.DataType = "System.String"
+      '    'dpi.Row = n + 1
+      '    'dpi.Table = "Item"
+      '    'dpiColl.Add(dpi)
 
-          ''Item.DiscountAmount
-          'dpi = New DocPrintingItem
-          'dpi.Mapping = "Item.DiscountAmount"
-          'If item.Discount.Amount = 0 Then
-          '  dpi.Value = ""
-          'Else
-          '  dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
-          'End If
-          'dpi.DataType = "System.String"
-          'dpi.Row = n + 1
-          'dpi.Table = "Item"
-          'dpiColl.Add(dpi)
+      '    ''Item.DiscountAmount
+      '    'dpi = New DocPrintingItem
+      '    'dpi.Mapping = "Item.DiscountAmount"
+      '    'If item.Discount.Amount = 0 Then
+      '    '  dpi.Value = ""
+      '    'Else
+      '    '  dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
+      '    'End If
+      '    'dpi.DataType = "System.String"
+      '    'dpi.Row = n + 1
+      '    'dpi.Table = "Item"
+      '    'dpiColl.Add(dpi)
 
-          'Item.Amount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Amount"
-          If item.Amount = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Amount
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Amount"
+      '    If item.Amount = 0 Then
+      '      dpi.Value = ""
+      '    Else
+      '      dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+      '    End If
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.Note
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Note"
-          dpi.Value = item.Note
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.Note
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.Note"
+      '    dpi.Value = item.Note
+      '    dpi.DataType = "System.String"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          'Item.ZeroVat
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ZeroVat"
-          dpi.Value = item.UnVatable
-          dpi.DataType = "System.Boolean"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+      '    'Item.ZeroVat
+      '    dpi = New DocPrintingItem
+      '    dpi.Mapping = "Item.ZeroVat"
+      '    dpi.Value = item.UnVatable
+      '    dpi.DataType = "System.Boolean"
+      '    dpi.Row = n + 1
+      '    dpi.Table = "Item"
+      '    dpiColl.Add(dpi)
 
-          n += 1
-        End If
-      Next
+      '    n += 1
+      '  End If
+      'Next
       Return dpiColl
     End Function
 #End Region

@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     'Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_id As Integer
-    Private m_code As String
+    'Private m_code As String
     Private m_name As String
     Private m_cc As CostCenter
     Private m_buydate As DateTime
@@ -107,11 +107,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Construct(ds, aliasPrefix)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal assetwriteoff As AssetWriteOff)
+      MyBase.Construct(dr, "")
       Dim drh As New DataRowHelper(dr)
       With Me
         .Id = drh.GetValue(Of Integer)("eqtid")
         .Code = drh.GetValue(Of String)("eqtcode")
-        .m_name = drh.GetValue(Of String)("eqtname")
+        .Name = drh.GetValue(Of String)("eqtname")
         .m_cc = Costcenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
         .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)("eqtunit"))
       End With
@@ -137,7 +138,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'm_equipment = New Equipment(eqid)
 
         'm_id = drh.GetValue(Of Integer)("eqi_id")
-        m_code = drh.GetValue(Of String)("toollot_code")
+        'm_code = drh.GetValue(Of String)("toollot_code")
         'm_name = drh.GetValue(Of String)("eqi_name")
 
         Dim ccid As Integer = drh.GetValue(Of Integer)("toollot_cc")
@@ -280,14 +281,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_autogen = value
       End Set
     End Property
-    Public Overrides Property Code As String Implements IHasName.Code
-      Get
-        Return m_code
-      End Get
-      Set(ByVal value As String)
-        m_code = value
-      End Set
-    End Property
+    'Public Overrides Property Code As String Implements IHasName.Code
+    '  Get
+    '    Return m_code
+    '  End Get
+    '  Set(ByVal value As String)
+    '    m_code = value
+    '  End Set
+    'End Property
     Public Property Name As String Implements IHasName.Name
       Get
         Return m_name

@@ -264,7 +264,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IBasketItem"
     Public Overloads Overrides Function Equals(ByVal obj As Object) As Boolean Implements IBasketItem.Equals
       Dim item As EqtBasketItem = CType(obj, EqtBasketItem)
-      Return item.FullClassName = Me.FullClassName And item.Id = Me.Id And item.Linenumber = Me.Linenumber
+      Return item.FullClassName = Me.FullClassName And item.Id = Me.Id And item.Linenumber = Me.Linenumber And item.EntityType = Me.EntityType And item.Level = Me.Level
     End Function
     Public ReadOnly Property TextInBasket() As String Implements IBasketItem.TextInBasket
       Get
