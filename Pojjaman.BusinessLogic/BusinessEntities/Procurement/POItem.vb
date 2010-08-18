@@ -1757,8 +1757,8 @@ Public Class POItemCollection
           list &= "," & Item.Pritem.Pr.Id.ToString & ":" & Item.Pritem.LineNumber.ToString
         End If
       Next
-      list = list.Substring(1)
       If list.Length > 0 Then
+        list = list.Substring(1)
         Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
         Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
        , CommandType.StoredProcedure _
