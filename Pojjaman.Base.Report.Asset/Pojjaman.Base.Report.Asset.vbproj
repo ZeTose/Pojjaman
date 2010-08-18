@@ -147,6 +147,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptEquipmentMovement.vb" />
     <Compile Include="BLL\RptEQTIncome.vb" />
     <Compile Include="BLL\RptEQTMaintenance.vb" />
     <Compile Include="BLL\RptToolStatus.vb" />
@@ -197,7 +198,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="UI\Copy of RptEquipmentStatusFilterSubPanel.vb">
+    <Compile Include="UI\RptRptEquipmentMovementFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\RptEquipmentStatusFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptEQTMaintenanceFilterSubPanel.vb">
@@ -250,8 +254,11 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Copy of RptEquipmentStatusFilterSubPanel.resx">
-      <DependentUpon>Copy of RptEquipmentStatusFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="UI\RptRptEquipmentMovementFilterSubPanel.resx">
+      <DependentUpon>RptRptEquipmentMovementFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptEquipmentStatusFilterSubPanel.resx">
+      <DependentUpon>RptEquipmentStatusFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptEQTMaintenanceFilterSubPanel.resx">
       <DependentUpon>RptEQTMaintenanceFilterSubPanel.vb</DependentUpon>

@@ -24,6 +24,7 @@
         <MenuItem id="rpttoolstatus" icon="Icons.16x16.RptToolStatus" label="${res:MainMenu.PurchaseMenu.RptToolStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolStatus"/>
         <MenuItem id="rpteqtmaintenance" icon="Icons.16x16.RptEQTMaintenance" label="${res:MainMenu.PurchaseMenu.RptEQTMaintenance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance"/>
         <MenuItem id="rpteqtincome" icon="Icons.16x16.RptEQTIncome" label="${res:MainMenu.PurchaseMenu.RptEQTIncome.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTIncome"/>
+        <MenuItem id="rptequipmentmovement" icon="Icons.16x16.RptEquipmentMovement" label="${res:MainMenu.PurchaseMenu.RptEquipmentMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement"/>
       </MenuItem>
 		</Conditional>
 	</Extension>
@@ -45,6 +46,7 @@
     <EntityFilter id="rpttoolstatus" entity="RptToolStatus" filter="Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel"/>
     <EntityFilter id="rpteqtmaintenance" entity="RptEQTMaintenance" filter="Longkong.Pojjaman.Gui.Panels.RptEQTMaintenanceFilterSubPanel"/>
     <EntityFilter id="rpteqtincome" entity="RptEQTIncome" filter="Longkong.Pojjaman.Gui.Panels.RptEQTIncomeFilterSubPanel"/>
+    <EntityFilter id="rptequipmentmovement" entity="RptEquipmentMovement" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentMovementFilterSubPanel"/>
 	</Extension>
 	
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -92,6 +94,9 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rpteqtincome">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptequipmentmovement">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
 	</Extension>

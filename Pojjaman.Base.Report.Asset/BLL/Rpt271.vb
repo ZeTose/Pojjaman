@@ -307,7 +307,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return dpiColl
     End Function
-#End Region
-  End Class
+#End Region  End Class
 End Namespace
 
