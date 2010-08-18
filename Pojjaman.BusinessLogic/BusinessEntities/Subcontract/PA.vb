@@ -874,10 +874,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         pa_retention = deh.GetValue(Of Decimal)("pa_retention")
         pa_advancepay = deh.GetValue(Of Decimal)("pa_advancepay")
       End If
-      m_retention = (sc_retention + vo_retention) - pa_retention
-      m_retentionRemaining = (sc_retention + vo_retention) - pa_retention
+
+      'ถ้าไมน้อยกว่า ก็ไม่แสดงติดลบ
+      If sc_retention + vo_retention > pa_retention Then
+        m_retention = (sc_retention + vo_retention) - pa_retention
+        m_retentionRemaining = (sc_retention + vo_retention) - pa_retention
+      Else
+        m_retention = 0
+        m_retentionRemaining = 0
+      End If
       m_retentionToDoc = pa_retention
-      m_advancePayRemaining = (sc_advancepay + vo_advancepay) - pa_advancepay
+      If sc_advancepay + vo_advancepay < pa_advancepay Then
+        m_advancePayRemaining = (sc_advancepay + vo_advancepay) - pa_advancepay
+      Else
+        m_advancePayRemaining = 0
+      End If
       m_advancePayToDoc = pa_advancepay
     End Sub
     Public Function GetSCRetentionRemaining() As Decimal
