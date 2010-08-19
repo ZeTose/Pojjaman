@@ -1161,8 +1161,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return Me.m_entity
             End Get
             Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, Asset)
+        Me.m_entity = Nothing
+
+        Me.m_entity = CType(Value, Asset)
+        If m_entity Is Nothing Then
+          m_entity = New Asset
+        End If
                 'Hack:
                 Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
                 UpdateEntityProperties()

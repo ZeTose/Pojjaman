@@ -1514,7 +1514,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         , "AssetDepreciation" _
         , New SqlParameter("@DepreId", Depre.Id) _
         , New SqlParameter("@AssetId", myAsset.Id) _
-        , New SqlParameter("@DocDateEnd", Depre.DocDate))
+        , New SqlParameter("@DocDateEnd", Depre.DepreDate))
 
         If ds.Tables(0).Rows.Count > 0 Then
           m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))

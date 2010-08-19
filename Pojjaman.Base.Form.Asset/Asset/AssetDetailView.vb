@@ -2280,6 +2280,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not Object.ReferenceEquals(Me.m_entity, Value) Then
           Me.m_entity = Nothing
+          If Value Is Nothing Then
+            Value = New Asset
+          End If
           Me.m_entity = CType(Value, Asset)
           If Me.m_entity IsNot Nothing Then
             Me.m_entity.LoadImage()
