@@ -470,9 +470,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           oldItems.Add(row("deprei_entity"))
           row.Delete()
         Next
-        For Each item As DepreciationCalItem In Me.ItemCollection
-          item.DepreciationCalculation(item.Entity)
-        Next
+        'For Each item As DepreciationCalItem In Me.ItemCollection
+        '  item.DepreciationCalculation(item.Entity)
+        'Next
         For Each oldId As Integer In oldItems
           Dim found As Boolean = False
           For Each item As DepreciationCalItem In Me.ItemCollection
@@ -522,7 +522,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("deprei_note") = item.Note
           dr("deprei_status") = Me.Status.Value
           dr("deprei_depreopening") = item.DepreOpeningBalanceamnt
-          dr("deprei_deprebase") = item.Depreamnt
+          dr("deprei_deprebase") = item.DepreBase
           .Rows.Add(dr)
         Next
       End With
@@ -1396,7 +1396,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' คำนวณค่า
         'Me.DepreciationCalculation(Me.Entity)
         Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
-        m_deprebase = Entity.BuyPrice - m_writeoffamt
+        'm_deprebase = Entity.BuyPrice - m_writeoffamt
         row("deprei_note") = Me.Note
         row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
         row("deprei_depreamnt") = Configuration.FormatToString(Me.Depreamnt, DigitConfig.Price)

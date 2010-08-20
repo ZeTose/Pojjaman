@@ -2160,6 +2160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         fromcc.Name = m_entity.FromCC.Name
         Entities.Add(fromcc)
       End If
+      Entities.Add(m_entity)
       Dim view As AbstractEntityPanelViewContent = New AssetSelectionForWriteOffView(New AssetSelectionForWriteOff, New BasketDialog, filters, Entities)
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
