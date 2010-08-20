@@ -154,7 +154,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               .m_entityitem = New Asset(itemId)
             End If
-          Case 342
+          Case 346
             If dr.Table.Columns.Contains("eqi_id") AndAlso Not dr.IsNull("eqi_id") Then
               If Not dr.IsNull("eqi_id") Then
                 .m_entityitem = New EquipmentItem(dr, "")

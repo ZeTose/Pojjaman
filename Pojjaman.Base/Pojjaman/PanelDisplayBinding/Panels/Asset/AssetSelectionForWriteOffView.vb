@@ -335,6 +335,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  m_treeManager.AllowDelete = False
     'End Sub
 
+    Private Class WQty
+      Public Property Id As Integer
+      Public Property typeId As Integer
+      Public Property Qty As Integer
+
+      Public Sub New(ByVal dr As DataRow)
+        Dim drh As New DataRowHelper(dr)
+        Id = drh.GetValue(Of Integer)("eqtstocki_entity")
+        typeId = drh.GetValue(Of Integer)("eqtstocki_entityType")
+        Qty = drh.GetValue(Of Integer)("wqty")
+      End Sub
+
+    End Class
+
     Private Sub PopDataStyle(ByVal ds As DataSet)
       Dim equipmentString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.EquipmentItem}")
       Dim toollotString As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSelectionForWriteOffView.ToolLot}")
@@ -353,13 +367,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim indent As String = Space(3)
 
       Dim itemString As New Hashtable
-      itemString(342) = equipmentString
+      itemString(346) = equipmentString
       itemString(348) = toollotString
       'itemString(28) = assetString
 
       Dim assetHash As New Hashtable
       Dim key As Integer = 0
       'Dim oldAssetType As Integer = 0
+
+      Dim HWqty As New Hashtable
+      Dim dtWqty As DataTable = ds.Tables(1)
+
+      For Each row As DataRow In dtWqty.Rows
+        Dim drh As New DataRowHelper(row)
+        HWqty(drh.GetValue(Of Integer)("eqtstocki_entity").ToString & ":" & drh.GetValue(Of Integer)("eqtstocki_entitytype").ToString) = New WQty(row)
+      Next
+
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
@@ -396,7 +419,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             childRow("Code") = indent & drh.GetValue(Of String)("eqtcode")
             childRow("name") = indent & drh.GetValue(Of String)("eqtname")
             childRow("Unit") = drh.GetValue(Of String)("unit_name")
-            childRow("Qty") = Configuration.FormatToString(drh.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+            Dim curWqty As WQty = CType(HWqty(drh.GetValue(Of Integer)("eqtid").ToString & ":" & drh.GetValue(Of Integer)("type").ToString), WQty)
+            Dim qty As Integer = drh.GetValue(Of Integer)("remainQty")
+            If curWqty IsNot Nothing Then
+              If curWqty.Qty >= qty Then
+                childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+                curWqty.Qty = curWqty.Qty - qty
+              Else
+                childRow("Qty") = Configuration.FormatToString(curWqty.Qty, DigitConfig.Price)
+                curWqty.Qty = 0
+                row("remainQty") = curWqty.Qty
+              End If
+            Else
+              childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+            End If
             childRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
             childRow("parent") = drh.GetValue(Of Integer)("asset")
 
@@ -419,16 +455,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
             childRow("Code") = indent & drh.GetValue(Of String)("eqtcode")
             childRow("name") = indent & drh.GetValue(Of String)("eqtname")
             childRow("Unit") = drh.GetValue(Of String)("unit_name")
-            childRow("Qty") = Configuration.FormatToString(drh.GetValue(Of Integer)("remainQty"), DigitConfig.Price)
+            Dim curWqty As WQty = CType(HWqty(drh.GetValue(Of Integer)("eqtid").ToString & ":" & drh.GetValue(Of Integer)("type").ToString), WQty)
+            Dim qty As Integer = drh.GetValue(Of Integer)("remainQty")
+            If curWqty IsNot Nothing Then
+              If curWqty.Qty >= qty Then
+                childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+                curWqty.Qty = curWqty.Qty - qty
+              Else
+                childRow("Qty") = Configuration.FormatToString(curWqty.Qty, DigitConfig.Price)
+                curWqty.Qty = 0
+                row("remainQty") = curWqty.Qty
+              End If
+            Else
+              childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+            End If
             childRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
             childRow("parent") = drh.GetValue(Of Integer)("asset")
 
             childRow.Tag = row
           End If
 
-        End If
+          End If
 
-        row("entityType") = CType(itemString(drh.GetValue(Of Integer)("Type")), String)
+          row("entityType") = CType(itemString(drh.GetValue(Of Integer)("Type")), String)
       Next
 
       'For Each AssetRow As DataRow In assetdt.Rows

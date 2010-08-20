@@ -579,7 +579,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.TxtAmt.BackColor = System.Drawing.SystemColors.Control
       Me.TxtAmt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.Validator.SetDataType(Me.TxtAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
+      'Me.Validator.SetDataType(Me.TxtAmt, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int16Type)
       Me.Validator.SetDisplayName(Me.TxtAmt, "")
       Me.Validator.SetGotFocusBackColor(Me.TxtAmt, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.TxtAmt, -15)
@@ -1338,7 +1338,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
         myDialog.ShowDialog()
 
-      ElseIf Me.CurrentItem.ItemType.Value = 342 Then
+      ElseIf Me.CurrentItem.ItemType.Value = 346 Then
         Dim dlg As New BasketDialog
         AddHandler dlg.EmptyBasket, AddressOf SetItems
 
