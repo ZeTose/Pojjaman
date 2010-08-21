@@ -244,7 +244,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "toollot"
       End Get
     End Property
-    Public Property tool As Tool
+    Public Property Tool As Tool
       Get
         Return m_tool
       End Get
@@ -253,7 +253,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-    Public ReadOnly Property parent As SimpleBusinessEntityBase Implements IHasParent.parent
+    Public ReadOnly Property Parent As SimpleBusinessEntityBase Implements IHasParent.parent
       Get
         Return CType(m_tool, SimpleBusinessEntityBase)
       End Get

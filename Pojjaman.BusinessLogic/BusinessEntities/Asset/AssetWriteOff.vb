@@ -127,27 +127,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim drh As New DataRowHelper(dr)
       With Me
 
-        If dr.Table.Columns.Contains("customer_id") Then
-          If Not dr.IsNull("customer_id") Then
+        If dr.Table.Columns.Contains("cust_id") Then
+          If Not dr.IsNull("cust_id") Then
             .m_customer = New Customer(dr, "")
           End If
         Else
-          If Not dr.IsNull(aliasPrefix & "eqtstock_entity") Then
+          If dr.Table.Columns.Contains(aliasPrefix & "eqtstock_entity") AndAlso Not dr.IsNull(aliasPrefix & "eqtstock_entity") Then
             .m_customer = New Customer(CInt(dr(aliasPrefix & "eqtstock_entity")))
           End If
+        End If
+        If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
+          .m_creditPeriod = CInt(dr(aliasPrefix & "eqtstock_creditPeriod"))
         End If
         If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
           .m_discount = New Discount(CStr(dr(aliasPrefix & "eqtstock_discrate")))
         End If
 
-        '==== จำเป็นต้องมีหรือไม่
-        If dr.Table.Columns.Contains("stock_otherdoccode") AndAlso Not dr.IsNull(aliasPrefix & "stock_otherdoccode") Then
-          .m_poDocCode = CStr(dr(aliasPrefix & "stock_otherdoccode"))
-        End If
-        If dr.Table.Columns.Contains("stock_otherdocdate") AndAlso Not dr.IsNull(aliasPrefix & "stock_otherdocdate") Then
-          .m_poDocDate = CDate(dr(aliasPrefix & "stock_otherdocdate"))
-        End If
-        '==============
+        ''==== จำเป็นต้องมีหรือไม่
+        'If dr.Table.Columns.Contains("stock_otherdoccode") AndAlso Not dr.IsNull(aliasPrefix & "stock_otherdoccode") Then
+        '  .m_poDocCode = CStr(dr(aliasPrefix & "stock_otherdoccode"))
+        'End If
+        'If dr.Table.Columns.Contains("stock_otherdocdate") AndAlso Not dr.IsNull(aliasPrefix & "stock_otherdocdate") Then
+        '  .m_poDocDate = CDate(dr(aliasPrefix & "stock_otherdocdate"))
+        'End If
+        ''==============
         '======ไม่มี จำเป็นต้องมีหรือป่าว
         If dr.Table.Columns.Contains(aliasPrefix & "stock_creditperiod") AndAlso Not dr.IsNull(aliasPrefix & "stock_creditperiod") Then
           .m_creditPeriod = CInt(dr(aliasPrefix & "stock_creditperiod"))
@@ -165,7 +168,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         .m_fromCostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtstock_fromcc"))
-        
 
         If dr.Table.Columns.Contains("eqtstock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "eqtstock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "eqtstock_docDate"))
@@ -180,6 +182,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' PO Tax Rate
         If Not dr.IsNull(aliasPrefix & "eqtstock_taxrate") Then
           .m_taxRate = CDec(dr(aliasPrefix & "eqtstock_taxrate"))
+        End If
+
+        If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
+          .m_discount = New Discount(CStr(dr(aliasPrefix & "eqtstock_discrate")))
         End If
 
         .m_itemcollection = New AssetWriteOffItemCollection(Me)
@@ -206,14 +212,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
           End If
         End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IReceivable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then          Return Me.FromCostCenter.StoreAccount
-        End If      End Get    End Property    Public Property PoDocCode() As String      Get        Return m_poDocCode      End Get      Set(ByVal Value As String)        m_poDocCode = Value      End Set    End Property    Public Property PoDocDate() As Date      Get        Return m_poDocDate      End Get      Set(ByVal Value As Date)        m_poDocDate = Value      End Set    End Property    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property    Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
+        End If      End Get    End Property    'Public Property PoDocCode() As String    '  Get    '    Return m_poDocCode    '  End Get    '  Set(ByVal Value As String)    '    m_poDocCode = Value    '  End Set    'End Property    'Public Property PoDocDate() As Date    '  Get    '    Return m_poDocDate    '  End Get    '  Set(ByVal Value As Date)    '    m_poDocDate = Value    '  End Set    'End Property    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property    Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
       Get
         Return m_whtcol
       End Get
       Set(ByVal Value As WitholdingTaxCollection)
         m_whtcol = Value
       End Set
-    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
+    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    'Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Dim ret As Decimal = 0        For Each wri As AssetWriteOffItem In Me.Itemcollection          ret += wri.Amount
+        Next        Return ret 'm_gross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
@@ -313,16 +320,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("UnitId", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitButton", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RemainingQty", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("BuyPrice", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
+      myDatatable.Columns.Add(New DataColumn("AssetAmount", GetType(String))) 'มูลค่าสินทรัพย์
+      myDatatable.Columns.Add(New DataColumn("DepreAmount", GetType(String))) 'ค่าเสื่อมสะสม
+      myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
+
+      myDatatable.Columns.Add(New DataColumn("Barrier1", GetType(String)))
+
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitPrice", GetType(String)))  'ราคาขาย
-      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String))) 'มูลค่าขาย
-      myDatatable.Columns.Add(New DataColumn("Barrier1", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("RemainingQty", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("StockQty", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("BuyPrice", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
-      myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String))) 'ราคาสินทรัพย์ตอนซื้อ
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String))) 'มูลค่าขาย  
       myDatatable.Columns.Add(New DataColumn("WriteOffAmount", GetType(String))) 'มูลค่าหักค่าสินทรัพย์
-      myDatatable.Columns.Add(New DataColumn("DepreAmount", GetType(String))) 'ค่าเสื่อมสะสม
+
+      myDatatable.Columns.Add(New DataColumn("Barrier2", GetType(String)))
+
+      myDatatable.Columns.Add(New DataColumn("WriteOffDepreAmount", GetType(String))) 'ค่าเสื่อมสะสม Write Off
       myDatatable.Columns.Add(New DataColumn("CostAmount", GetType(String))) 'ต้นทุนแล้ว
       myDatatable.Columns.Add(New DataColumn("P/L", GetType(String))) 'ต้นทุนแล้ว
       'myDatatable.Columns.Add(New DataColumn("stocki_discrate", GetType(String)))
@@ -353,6 +366,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshSummaryParent()
+      Dim arrAssParentItm As New ArrayList
+      Dim arrAssChildItm As New ArrayList
+      For Each itm As AssetWriteOffItem In Me.Itemcollection
+        If TypeOf itm.Entity Is Asset Then
+          itm.AssetAmount = 0
+          itm.Amount = 0
+          itm.WriteOffAmount = 0
+          itm.WriteOffDepreAmount = 0
+          arrAssParentItm.Add(itm)
+        Else
+          itm.AccDepre = 0
+          arrAssChildItm.Add(itm)
+        End If
+      Next
+      'Summary จากลูกไปหาแม่
+      For Each itm As AssetWriteOffItem In arrAssParentItm
+        If TypeOf itm.Entity Is Asset AndAlso itm.HasChild Then
+          For Each childItm As AssetWriteOffItem In arrAssChildItm
+            If itm.Asset.Id = childItm.Asset.Id AndAlso itm.Asset.Id > 0 Then
+              'Summary จากลูกไปหาแม่
+              itm.AssetAmount += childItm.AssetAmount
+              itm.Amount += childItm.Amount
+              itm.WriteOffAmount += childItm.WriteOffAmount
+              'itm.WriteOffDepreAmount += childItm.WriteOffDepreAmount
+            End If
+          Next
+        End If
+      Next
+
+      'เฉลี่ยจากแม่ไปหาลูก
+      For Each childitem As AssetWriteOffItem In arrAssChildItm
+        For Each paritem As AssetWriteOffItem In arrAssParentItm
+          If childitem.Asset.Id = paritem.Asset.Id AndAlso childitem.Asset.Id > 0 Then
+            'เฉลี่ยจากแม่ไปหาลูก
+            If paritem.AssetAmount = 0 Then
+              childitem.AccDepre = 0
+            Else
+              childitem.AccDepre = (childitem.AssetAmount / paritem.AssetAmount) * paritem.AccDepre
+            End If
+          End If
+        Next
+      Next
+
+      'Summary จากลูกไปหาแม่
+      For Each itm As AssetWriteOffItem In arrAssParentItm
+        If TypeOf itm.Entity Is Asset AndAlso itm.HasChild Then
+          For Each childItm As AssetWriteOffItem In arrAssChildItm
+            If itm.Asset.Id = childItm.Asset.Id AndAlso itm.Asset.Id > 0 Then
+              'Summary จากลูกไปหาแม่          
+              itm.WriteOffDepreAmount += childItm.WriteOffDepreAmount
+            End If
+          Next
+        End If
+      Next
+    End Sub
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldreceive As Integer, ByVal oldvat As Integer, ByVal oldje As Integer)
       Me.Id = oldid
       Me.m_receive.Id = oldreceive
@@ -365,16 +434,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Me.RefreshTaxBase()
-        Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-        Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-        If tmpTaxBase <> tmpVatTaxBase Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-          New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
-          , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
-        End If
-        'If Me.MaxRowIndex < 0 Then
-        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        'Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+        'Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
+        'If tmpTaxBase <> tmpVatTaxBase Then
+        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '  New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
+        '  , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
         'End If
+        If Me.Itemcollection.Count <= 0 Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
@@ -411,9 +480,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", Me.Customer.Id))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entityType", Me.Customer.EntityId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", ValidDateOrDBNull(Me.DocDate)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherDocCode", Me.PoDocCode))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherDocDate", ValidDateOrDBNull(Me.PoDocDate)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_toAcct", ValidIdOrDBNull(Me.ToAccount)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherDocCode", Me.PoDocCode))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_otherDocDate", ValidDateOrDBNull(Me.PoDocDate)))
+        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_toAcct", ValidIdOrDBNull(Me.ToAccount)))
         'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", ""))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromCCPerson", ValidIdOrDBNull(Me.FromCostCenterPerson)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromcc", ValidIdOrDBNull(Me.FromCostCenter)))
@@ -427,7 +496,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxRate", Me.TaxRate))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.TaxAmount))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_afterTax", Me.AfterTax))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -535,52 +604,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
-          trans.Commit()
-          Try
-            trans = conn.BeginTransaction()
+          'trans.Commit()
+          'Try
+          'trans = conn.BeginTransaction()
 
 
-            If Me.m_je.Status.Value = -1 Then
-              m_je.Status.Value = 3
-            End If
-            'Me.m_grouping = False
-            'Me.ReLoadItems()
-            '********************************************
-            If Not Me.JournalEntry.ManualFormat Then
-              If Not (Me.m_je.GLFormat.Originated) Then
-                Dim glf As GLFormat = Me.GetDefaultGLFormat
-                If Not glf Is Nothing Then
-                  m_je.SetGLFormat(glf)
-                End If
+          If Me.m_je.Status.Value = -1 Then
+            m_je.Status.Value = 3
+          End If
+          'Me.m_grouping = False
+          'Me.ReLoadItems()
+          '********************************************
+          If Not Me.JournalEntry.ManualFormat Then
+            If Not (Me.m_je.GLFormat.Originated) Then
+              Dim glf As GLFormat = Me.GetDefaultGLFormat
+              If Not glf Is Nothing Then
+                m_je.SetGLFormat(glf)
               End If
             End If
-            '********************************************
-            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveJeError.Message) Then
-              trans.Rollback()
-              Me.ResetID(oldid, oldreceive, oldvat, oldje)
-              Return saveJeError
-            Else
-              Select Case CInt(saveJeError.Message)
-                Case -1, -5
-                  trans.Rollback()
-                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                  Return saveJeError
-                Case -2
-                  'Post ไปแล้ว
-                  Return saveJeError
-                Case Else
-              End Select
-            End If
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteoffStatus" _
-            , New SqlParameter("@stock_id", Me.Id))
-
-            trans.Commit()
-          Catch ex As Exception
+          End If
+          '********************************************
+          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            Return New SaveErrorException(ex.ToString)
-          End Try
+            Return saveJeError
+          Else
+            Select Case CInt(saveJeError.Message)
+              Case -1, -5
+                trans.Rollback()
+                Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                Return saveJeError
+              Case -2
+                'Post ไปแล้ว
+                Return saveJeError
+              Case Else
+            End Select
+          End If
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteoffStatus" _
+          ', New SqlParameter("@stock_id", Me.Id))
+
+          trans.Commit()
+          'Catch ex As Exception
+          '  trans.Rollback()
+          '  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
@@ -613,113 +682,283 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStockItemStatus", New SqlParameter("@stock_id", Me.Id))
     'End Sub
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      'Try
-      '  '----------------HACK------------------------------------
-      '  Try
-      '    Dim cmd As New SqlCommand("delete StockItem where stocki_stock = " & Me.Id, conn)
-      '    cmd.Transaction = trans
-      '    cmd.ExecuteNonQuery()
-      '  Catch ex As Exception
-      '    Throw New Exception(ex.ToString)
-      '  End Try
-      '  '----------------HACK------------------------------------
+      Try
+        Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
+        'Dim daWbs As New SqlDataAdapter("Select * from EqtStockiWbs Where EqtStockiw_sequence in ( Select eqtstocki_sequence from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id & ")", conn)
 
-      '  Dim ds As New DataSet
+        Dim ds As New DataSet
 
-      '  '***********----WBS ----****************
-      '  Dim da As New SqlDataAdapter("Select * from StockItem where 1=2", conn)
-      '  Dim cb As New SqlCommandBuilder(da)
-      '  da.SelectCommand.Transaction = trans
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        'da.InsertCommand.CommandText &= "; Select * From EqtStockItem Where eqtstocki_sequence = @@IDENTITY"
+        'da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+        cmdBuilder = Nothing
+        da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
+        da.Fill(ds, "Eqtstockitem")
 
-      '  da.DeleteCommand = cb.GetDeleteCommand
-      '  da.DeleteCommand.Transaction = trans
+        'Dim EqtDt As DataTable = GetEqiLastSequence()
 
-      '  da.InsertCommand = cb.GetInsertCommand
-      '  da.InsertCommand.Transaction = trans
+        'cmdBuilder = New SqlCommandBuilder(daWbs)
+        'daWbs.SelectCommand.Transaction = trans
+        'cmdBuilder.GetDeleteCommand.Transaction = trans
+        'cmdBuilder.GetInsertCommand.Transaction = trans
+        'cmdBuilder.GetUpdateCommand.Transaction = trans
+        'cmdBuilder = Nothing
+        'daWbs.FillSchema(ds, SchemaType.Mapped, "EqtStockiWbs")
+        'daWbs.Fill(ds, "EqtStockiWbs")
+        'ds.Relations.Add("sequence", ds.Tables!EqtStockItem.Columns!eqtstocki_sequence, ds.Tables!EqtStockiWbs.Columns!EqtStockiw_sequence)
 
-      '  da.UpdateCommand = cb.GetUpdateCommand
-      '  da.UpdateCommand.Transaction = trans
+        Dim dt As DataTable = ds.Tables("Eqtstockitem")
+        'Dim dtWbs As DataTable = ds.Tables("EqtStockiWbs")
 
-      '  da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-      '  cb = Nothing
+        'For Each row As DataRow In ds.Tables("EqtStockiWbs").Rows
+        '  row.Delete()
+        'Next
 
-      '  da.FillSchema(ds, SchemaType.Mapped, "StockItem")
-      '  da.Fill(ds, "StockItem")
+        '------------Checking if we have to delete some rows--------------------
+        Dim rowsToDelete As New ArrayList
+        For Each dr As DataRow In dt.Rows
+          Dim found As Boolean = False
+          For Each testItem As EquipmentToolWithdrawItem In Me.Itemcollection
+            If testItem.Sequence = CInt(dr("eqtstocki_sequence")) Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+        '------------End Checking--------------------
 
-      '  Dim dtMatCounti As DataTable
-      '  Dim dc As DataColumn
-      '  dtMatCounti = ds.Tables("StockItem")
+        Dim i As Integer = 0 'Line Running
+        Dim seq As Integer = -1
+        With ds.Tables("Eqtstockitem")
+          For Each item As AssetWriteOffItem In Me.Itemcollection
+            'Dim dr As DataRow = .NewRow
+            'Dim row() As DataRow = EqtDt.Select("eqtstocki_entity =" & item.Entity.Id.ToString)
+            i += 1
 
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = dt.Select("eqtstocki_sequence=" & item.Sequence)
+            If drs.Length = 0 Then
+              dr = dt.NewRow
+              'dt.Rows.Add(dr)
+              seq = (Me.Id + i) * (-1)
+              dr("eqtstocki_sequence") = seq
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
 
-      '  Dim tmpDa As New SqlDataAdapter
-      '  tmpDa.DeleteCommand = da.DeleteCommand
-      '  tmpDa.InsertCommand = da.InsertCommand
-      '  tmpDa.UpdateCommand = da.UpdateCommand
+            'dr("eqtstocki_eqtstock") = Me.Id
+            'dr("eqtstocki_linenumber") = i
 
-      '  'AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+            'dr("eqtstocki_entity") = item.Entity.Id
+            'dr("eqtstocki_entityType") = item.ItemType.Value
+            'dr("eqtstocki_Name") = item.Entity.Name
+            'dr("eqtstocki_qty") = item.Qty
+            'dr("eqtstocki_unit") = item.Unit.Id
+            'dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
+            'dr("eqtstocki_note") = item.Note
+            'dr("eqtstocki_type") = Me.EntityId
 
-      '  For Each dr As DataRow In dtMatCounti.Rows
-      '    dr.Delete()
-      '  Next
-      '  Dim i As Integer = 0
-      '  For Each tr As TreeRow In Me.m_itemTable.Childs
-      '    If ValidateRow(tr) Then
-      '      i += 1
-      '      Dim drFi As DataRow = dtMatCounti.NewRow
-      '      drFi("stocki_stock") = Me.Id
-      '      drFi("stocki_linenumber") = i
+            dr("eqtstocki_eqtstock") = Me.Id
+            dr("eqtstocki_linenumber") = i
+            If TypeOf item.Entity Is ToolLot Then
+              dr("eqtstocki_entity") = CType(item.Entity, ToolLot).Tool.Id
+              dr("eqtstocki_entityType") = 19
+              dr("eqtstocki_toollot") = item.Entity.Id
+            Else
+              dr("eqtstocki_entity") = item.Entity.Id
+              dr("eqtstocki_entityType") = item.ItemType.Value
+              dr("eqtstocki_toollot") = DBNull.Value
+            End If
+            dr("eqtstocki_name") = item.Entity.Name
+            dr("eqtstocki_unit") = item.Unit.Id
+            dr("eqtstocki_qty") = item.Qty
+            dr("eqtstocki_refsequence") = item.RefSequence
+            dr("eqtstocki_rentalrate") = DBNull.Value 'item.RentalPerDay  'คิดจากจำนวนแล้ว
+            dr("eqtstocki_rentalunit") = DBNull.Value
+            dr("eqtstocki_rentalqty") = DBNull.Value
+            dr("eqtstocki_unitprice") = DBNull.Value 'item.RentalPerDay
+            dr("eqtstocki_Amount") = item.Amount 'มูลค่าขาย
+            dr("eqtstocki_remainbuyqty") = item.RemainBuyQty 'ปริมาณคงเหลือ
+            dr("eqtstocki_unitAssetAmount") = item.UnitPrice 'ราคาขาย/หน่วย
+            dr("eqtstocki_AssetAmount") = item.AssetAmount 'มูลค่า Write off
+            dr("eqtstocki_writeoffAmt") = item.WriteOffAmount 'มูลค่า Write off
+            dr("eqtstocki_unitaccdepre") = DBNull.Value
+            dr("eqtstocki_accdepre") = DBNull.Value
+            dr("eqtstocki_note") = item.Note
+            dr("eqtstocki_type") = Me.EntityId
+            dr("eqtstocki_refdoc") = DBNull.Value
+            dr("eqtstocki_refdoctype") = DBNull.Value
+            dr("eqtstocki_refdoclinenumber") = DBNull.Value
+            dr("eqtstocki_parent") = item.Parent 'DBNull.Value
+            dr("eqtstocki_level") = item.Level
+            dr("eqtstocki_fromstatus") = 9
+            dr("eqtstocki_tostatus") = 9
+            If drs.Length = 0 Then
+              .Rows.Add(dr)
+            End If
 
-      '      drFi("stocki_cc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
-      '      drFi("stocki_fromcc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
-      '      drFi("stocki_tocc") = DBNull.Value
-      '      drFi("stocki_acct") = tr("stocki_acct")
-      '      drFi("stocki_toacct") = DBNull.Value
+            'Dim rootWBS As New WBS(Me.WithdrawCostcenter.RootWBSId)
+            'If item.ItemType.Value <> 160 _
+            'AndAlso item.ItemType.Value <> 162 Then
+            '  Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+            '  Dim currentSum As Decimal = wbsdColl.GetSumPercent
+            '  For Each wbsd As WBSDistribute In wbsdColl
+            '    If currentSum < 100 AndAlso (wbsd.WBS Is rootWBS OrElse wbsd.WBS.Id = rootWBS.Id) Then
+            '      'ยังไม่เต็ม 100 แต่มีหัวอยู่
+            '      wbsd.Percent += (100 - currentSum)
+            '    End If
+            '    wbsd.BaseCost = 0 'item.ItemAmount
+            '    Dim childDr As DataRow = dtWbs.NewRow
+            '    childDr("eqtstockiw_wbs") = wbsd.WBS.Id
+            '    If wbsd.CostCenter Is Nothing Then
+            '      wbsd.CostCenter = Me.WithdrawCostcenter
+            '    End If
+            '    childDr("eqtstockiw_cc") = wbsd.CostCenter.Id
+            '    childDr("eqtstockiw_percent") = wbsd.Percent
+            '    childDr("eqtstockiw_sequence") = dr("eqtstocki_sequence")
+            '    childDr("eqtstockiw_ismarkup") = wbsd.IsMarkup
+            '    childDr("eqtstockiw_direction") = 0              'in
+            '    childDr("eqtstockiw_baseCost") = wbsd.BaseCost
+            '    childDr("eqtstockiw_amt") = wbsd.Amount
+            '    childDr("eqtstockiw_toaccttype") = 1
+            '    childDr("eqtstockiw_cbs") = wbsd.CBS.Id
+            '    'Add เข้า stockiwbs
+            '    dtWbs.Rows.Add(childDr)
+            '  Next
 
-      '      drFi("stocki_entity") = tr("stocki_entity")
-      '      drFi("stocki_entityType") = tr("stocki_entityType")
-      '      drFi("stocki_itemName") = tr("stocki_itemName")
+            '  currentSum = wbsdColl.GetSumPercent
+            '  'ยังไม่เต็ม 100 และยังไม่มี root
+            '  If currentSum < 100 Then
+            '    Try
+            '      Dim newWbsd As New WBSDistribute
+            '      newWbsd.WBS = rootWBS
+            '      newWbsd.CostCenter = Me.WithdrawCostcenter
+            '      newWbsd.Percent = 100 - currentSum
+            '      newWbsd.BaseCost = item.ItemAmount
+            '      Dim childDr As DataRow = dtWbs.NewRow
+            '      childDr("eqtstockiw_wbs") = newWbsd.WBS.Id
+            '      childDr("eqtstockiw_cc") = newWbsd.CostCenter.Id
+            '      childDr("eqtstockiw_percent") = newWbsd.Percent
+            '      childDr("eqtstockiw_sequence") = dr("eqtstocki_sequence")
+            '      childDr("eqtstockiw_ismarkup") = False
+            '      childDr("eqtstockiw_direction") = 0                'in
+            '      childDr("eqtstockiw_baseCost") = newWbsd.BaseCost
+            '      childDr("eqtstockiw_amt") = newWbsd.Amount
+            '      childDr("eqtstockiw_toaccttype") = 1
+            '      childDr("eqtstockiw_cbs") = newWbsd.CBS.Id
+            '      'Add เข้า stockiwbs
+            '      dtWbs.Rows.Add(childDr)
+            '    Catch ex As Exception
+            '      MessageBox.Show(ex.ToString)
+            '    End Try
+            '  End If
+            'End If
 
-      '      drFi("stocki_unit") = tr("stocki_unit")
-      '      drFi("stocki_toacctType") = DBNull.Value
+          Next
+        End With
 
-      '      drFi("stocki_qty") = 1
-      '      drFi("stocki_stockqty") = 1
+        'da.Update(dt.Select("", "", DataViewRowState.Added))
 
-      '      drFi("stocki_unitprice") = tr("stocki_unitprice")
-      '      drFi("stocki_unvatable") = tr("stocki_unvatable")
-      '      drFi("stocki_note") = tr("stocki_note")
+        'ds.EnforceConstraints = False
 
-      '      drFi("stocki_type") = Me.EntityId
-      '      drFi("stocki_status") = Me.Status.Value
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
 
-      '      drFi("stocki_refSequence") = 0
-      '      drFi("stocki_tag") = tr("deprecalcamt")
+        AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        'AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
 
-      '      dtMatCounti.Rows.Add(drFi)
-      '    End If
-      '  Next
+        'daWbs.Update(GetDeletedRows(dtWbs))
+        tmpDa.Update(GetDeletedRows(dt))
 
-      '  tmpDa.Update(GetDeletedRows(dtMatCounti))
-      '  tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.ModifiedCurrent))
+        tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        'daWbs.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
 
-      '  ds.EnforceConstraints = False
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+        'ds.EnforceConstraints = False
+        'daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
+        'ds.EnforceConstraints = True
 
-      '  tmpDa.Update(dtMatCounti.Select("", "", DataViewRowState.Added))
+        Return New SaveErrorException("0")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString + vbCrLf + ex.InnerException.ToString)
+      End Try
 
-      '  ds.EnforceConstraints = True
-
-      '  Return New SaveErrorException("0")
-      'Catch ex As Exception
-      '  Return New SaveErrorException(ex.ToString)
-      'End Try
     End Function
-
+    Private Sub tmpDa_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      If e.StatementType = StatementType.Insert Then e.Status = UpdateStatus.SkipCurrentRow
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Sub daWbs_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      ' When the primary key propagates down to the child row's foreign key field, the field
+      ' does not receive an OriginalValue with pseudo key value and a CurrentValue with the
+      ' actual key value. Therefore, when the merge occurs, this row is  appended to the DataSet
+      ' on the client tier, instead of being merged with the original row that was added.
+      If e.StatementType = StatementType.Insert Then
+        'Don't allow the AcceptChanges to occur on this row.
+        e.Status = UpdateStatus.SkipCurrentRow
+        ' Get the Current actual primary key value, so you can plug it back
+        ' in after you get the correct original value that was generated for the child row.
+        Dim currentkey As Integer = CInt(e.Row("eqtstockiw_sequence")) '.GetParentRow("sequence")("stockiw_sequence", DataRowVersion.Current)
+        ' This is where you get a correct original value key stored to the child row. You yank
+        ' the original pseudo key value from the parent, plug it in as the child row's primary key
+        ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
+        e.Row!eqtstockiw_sequence = e.Row.GetParentRow("sequence")("eqtstocki_sequence", DataRowVersion.Original)
+        e.Row.AcceptChanges()
+        ' Now store the actual primary key value back into the foreign key column of the child row.
+        e.Row!eqtstockiw_sequence = currentkey
+      End If
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
+    Private Sub daItc_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
+      ' When the primary key propagates down to the child row's foreign key field, the field
+      ' does not receive an OriginalValue with pseudo key value and a CurrentValue with the
+      ' actual key value. Therefore, when the merge occurs, this row is  appended to the DataSet
+      ' on the client tier, instead of being merged with the original row that was added.
+      If e.StatementType = StatementType.Insert Then
+        'Don't allow the AcceptChanges to occur on this row.
+        e.Status = UpdateStatus.SkipCurrentRow
+        ' Get the Current actual primary key value, so you can plug it back
+        ' in after you get the correct original value that was generated for the child row.
+        Dim currentkey As Integer = CInt(e.Row("itci_refsequence")) '.GetParentRow("sequence")("itci_refsequence", DataRowVersion.Current)
+        ' This is where you get a correct original value key stored to the child row. You yank
+        ' the original pseudo key value from the parent, plug it in as the child row's primary key
+        ' field, and accept changes on it. Specifically, this is why you turned off EnforceConstraints.
+        e.Row!itci_refsequence = e.Row.GetParentRow("sequence_2")("stocki_sequence", DataRowVersion.Original)
+        e.Row.AcceptChanges()
+        ' Now store the actual primary key value back into the foreign key column of the child row.
+        e.Row!itci_refsequence = currentkey
+      End If
+      If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
+    End Sub
     Private Function GetDeletedRows(ByVal dt As DataTable) As DataRow()
       Dim Rows() As DataRow
       If dt Is Nothing Then Return Rows
       Rows = dt.Select("", "", DataViewRowState.Deleted)
       If Rows.Length = 0 OrElse Not (Rows(0) Is Nothing) Then Return Rows
-
+      '
+      ' Workaround:
+      ' With a remoted DataSet, Select returns the array elements
+      ' filled with Nothing/null, instead of DataRow objects.
+      '
       Dim r As DataRow, I As Integer = 0
       For Each r In dt.Rows
         If r.RowState = DataRowState.Deleted Then
@@ -928,41 +1167,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '    amt += item.Amount
       '  Next      '  m_gross = amt
       'End If
-      'If Me.Gross = 0 Then
-      '  Me.TaxBase = 0
-      '  Return
-      'End If
-      'Select Case Me.TaxType.Value
-      '  Case 0 '"ไม่มี"
-      '    Me.TaxBase = 0
-      '  Case 1 '"แยก"
-      '    Dim myGross As Decimal = Me.Gross
-      '    Dim myDiscount As Decimal = Me.DiscountAmount
-      '    Dim sumInItems As Decimal = 0
-      '    For Each row As TreeRow In Me.ItemTable.Rows
-      '      Dim item As New AssetWriteOffItem
-      '      item.GetAmountFromRow(row)
-      '      If Not item.UnVatable Then
-      '        sumInItems += (item.Amount - _
-      '        ( _
-      '        (item.Amount / myGross) * myDiscount) _
-      '        )
-      '      End If
-      '    Next
-      '    Me.TaxBase = sumInItems
-      '  Case 2 '"รวม"
-      '    Dim myGross As Decimal = Me.Gross
-      '    Dim myDiscount As Decimal = Me.DiscountAmount
-      '    Dim sumInItems As Decimal = 0
-      '    For Each row As TreeRow In Me.ItemTable.Rows
-      '      Dim item As New AssetWriteOffItem
-      '      item.GetAmountFromRow(row)
-      '      If Not item.UnVatable Then
-      '        sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
-      '      End If
-      '    Next
-      '    Me.TaxBase = sumInItems
-      'End Select
+      If Me.Gross = 0 Then
+        Me.TaxBase = 0
+        Return
+      End If
+      Select Case Me.TaxType.Value
+        Case 0 '"ไม่มี"
+          Me.TaxBase = 0
+        Case 1 '"แยก"
+          Dim myGross As Decimal = Me.Gross
+          Dim myDiscount As Decimal = Me.DiscountAmount
+          Dim sumInItems As Decimal = 0
+          For Each item As AssetWriteOffItem In Me.Itemcollection
+            If Not item.UnVatable Then
+              sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount))
+            End If
+          Next
+          Me.TaxBase = sumInItems
+        Case 2 '"รวม"
+          Dim myGross As Decimal = Me.Gross
+          Dim myDiscount As Decimal = Me.DiscountAmount
+          Dim sumInItems As Decimal = 0
+          For Each item As AssetWriteOffItem In Me.Itemcollection
+            If Not item.UnVatable Then
+              sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
+            End If
+          Next
+          Me.TaxBase = sumInItems
+      End Select
     End Sub
     'Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
     '  If Not Me.IsInitialized Then
@@ -1622,14 +1854,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "I7.6"
           ji.Amount = item.ProfitLoss
-          'ji.Account = item.
+          ji.Account = item.AssetAccount
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
 
           ji = New JournalEntryItem
           ji.Mapping = "I7.6D"
           ji.Amount = item.ProfitLoss
-          'ji.Account = item.AssetAccount
+          ji.Account = item.AssetAccount
           ji.CostCenter = Me.FromCostCenter
           ji.EntityItem = item.Entity.Id
           ji.EntityItemType = item.Entity.EntityId
@@ -1933,19 +2165,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
-      'PoDocCode
-      dpi = New DocPrintingItem
-      dpi.Mapping = "PoDocCode"
-      dpi.Value = Me.PoDocCode
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+      ''PoDocCode
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "PoDocCode"
+      'dpi.Value = Me.PoDocCode
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
-      'PoDocDate
-      dpi = New DocPrintingItem
-      dpi.Mapping = "PoDocDate"
-      dpi.Value = Me.PoDocDate.ToShortDateString
-      dpi.DataType = "System.DateTime"
-      dpiColl.Add(dpi)
+      ''PoDocDate
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "PoDocDate"
+      'dpi.Value = Me.PoDocDate.ToShortDateString
+      'dpi.DataType = "System.DateTime"
+      'dpiColl.Add(dpi)
 
 
       If Not Me.Customer Is Nothing AndAlso Me.Customer.Originated Then
@@ -2212,8 +2444,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteoffStatus" _
-        , New SqlParameter("@stock_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteoffStatus" _
+        ', New SqlParameter("@stock_id", Me.Id))
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

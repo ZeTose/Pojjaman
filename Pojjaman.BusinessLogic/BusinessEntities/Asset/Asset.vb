@@ -666,7 +666,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         If Not dr.IsNull("stocki_tocc") Then
-          .m_cc = New Costcenter(CInt(dr("stocki_tocc")))
+          .m_cc = New CostCenter(CInt(dr("stocki_tocc")))
         End If
 
         'If dr.Table.Columns.Contains(Me.Prefix & "_DateIntervalUnit") Then
@@ -677,7 +677,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aseetwriteoff As AssetWriteOff)
-      MyBase.Construct(dr, "asset") 'id ,code
+      MyBase.Construct(dr, "") 'id ,code
       Dim drh As New DataRowHelper(dr)
       With Me
         .m_name = drh.GetValue(Of String)("asset_name")

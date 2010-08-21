@@ -125,8 +125,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_lineNumber = CInt(dr(aliasPrefix & "eqtstocki_lineNumber"))
         End If
 
-
-
         If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_entityType") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_entityType") Then
           .m_itemtype = New EqtItemType(CInt(dr(aliasPrefix & "eqtstocki_entityType")))
         End If

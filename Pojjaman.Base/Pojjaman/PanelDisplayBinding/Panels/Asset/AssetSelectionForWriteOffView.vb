@@ -368,7 +368,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim itemString As New Hashtable
       itemString(346) = equipmentString
-      itemString(348) = toollotString
+      itemString(19) = toollotString
       'itemString(28) = assetString
 
       Dim assetHash As New Hashtable

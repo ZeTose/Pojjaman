@@ -603,6 +603,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OrElse TypeOf Me.RefDoc Is EqMaintenance _
         OrElse TypeOf Me.RefDoc Is GoodsSold _
         OrElse TypeOf Me.RefDoc Is PA _
+        OrElse TypeOf Me.RefDoc Is AssetWriteOff _
         ) _
         AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
           Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -635,6 +636,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AndAlso Not TypeOf Me.RefDoc Is ReceiveSelection _
         AndAlso Not TypeOf Me.RefDoc Is AROpeningBalance _
         AndAlso Not TypeOf Me.RefDoc Is PA _
+        AndAlso Not TypeOf Me.RefDoc Is AssetWriteOff _
           Then
           If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
             'ในกรณี payselection ยอมรับ 2 case คือ Full Taxbase กับ Full Partial Pays

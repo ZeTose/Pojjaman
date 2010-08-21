@@ -17,7 +17,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_unitPrice As Decimal
     Private m_note As String
-    Private m_Cost As Decimal
+    'Private m_CostAmount As Decimal
     Private m_unvatable As Boolean = False
     Private m_discount As New Discount("")
 
@@ -26,18 +26,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_conversion As Decimal = 1
 
-
     Private m_deprecalc As Double
-    'Private m_remainbuyqty As Decimal
+    Private m_RealRemainQty As Decimal
     Private m_buyUnitPrice As Decimal
-    'Private m_assetamount As Decimal
+    Private m_assetamount As Decimal
+
+    Private m_amount As Decimal
     Private m_writeoffamount As Decimal
 
     Private m_accdepre As Decimal
+    Private m_writeOffDepreAmount As Decimal
 
     Private m_hasChild As Boolean
     Private m_parent As Integer
-
+    Private m_refSequence As Integer
+    Private m_asset As Asset
 #End Region
 
 #Region "Constructors"
@@ -62,16 +65,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Construct(ds.Tables(0).Rows(0), "")
     End Sub
     Protected Overrides Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-      MyBase.Construct(dr, aliasPrefix)
+      'MyBase.Construct(dr, aliasPrefix)
       Dim drh As New DataRowHelper(dr)
       With Me
+
+        .Level = drh.GetValue(Of Integer)("eqtstocki_level")
+        .m_itemtype = New EqtItemType(drh.GetValue(Of Integer)("eqtstocki_entityType"))
+        '.m_itemtype.Value = drh.GetValue(Of Integer)("eqtstocki_entityType")
+
+        Dim newItem As IEqtItem
+        Select Case Level
+          Case 0
+            newItem = New Asset(dr, Me.AssetWriteoff)
+          Case 1
+            If .m_itemtype.Value = 348 Then
+              newItem = New ToolLot(dr, Me.AssetWriteoff)
+            ElseIf .m_itemtype.Value = 346 Then
+              newItem = New EquipmentItem(dr, Me.AssetWriteoff)
+            End If
+        End Select
+        .Entity = newItem
+
+        Trace.WriteLine(newItem.Id.ToString & ":" & newItem.Code & ":" & newItem.Name)
 
         .m_unitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice")
         '.m_remainbuyqty = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_remainbuyqty")
         .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_unit"))
         .m_buyUnitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitassetamount")
         '.m_assetamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_assetamount")
-        .m_writeoffamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffamount")
+        '.m_writeoffamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffamount")
 
         .m_accdepre = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_accdepre")
         .m_assetacct = Account.GetAccountById(drh.GetValue(Of Integer)("asset_acct"))
@@ -86,7 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  .m_deprecalc = CDbl(dr(aliasPrefix & "stocki_tag"))
         'End If
 
-        .Level = drh.GetValue(Of Integer)("eqtstocki_level")
+
         .RemainingQty = Me.Qty
 
       End With
@@ -98,9 +120,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property AssetAmount As Decimal
+      Get
+        Return m_assetamount ' Me.RealRemainQty * Me.BuyUnitPrice
+      End Get
+      Set(ByVal value As Decimal)
+        m_assetamount = value
+      End Set
+    End Property
+    Public Property WriteOffDepreAmount As Decimal
+      Get
+        Dim amt As Decimal
+        If TypeOf Me.Entity Is Asset Then
+          amt = m_writeOffDepreAmount
+        Else
+          If Me.RealRemainQty = 0 Then
+            amt = 0
+          Else
+            amt = (Me.AccDepre / Me.RealRemainQty) * Me.Qty
+          End If
+        End If
+
+        Return amt
+      End Get
+      Set(ByVal value As Decimal)
+        m_writeOffDepreAmount = value
+      End Set
+    End Property
     Public Property AssetWriteoff() As AssetWriteOff      Get        Return m_AssetWriteoff      End Get      Set(ByVal Value As AssetWriteOff)        m_AssetWriteoff = Value      End Set    End Property    Public ReadOnly Property RemainBuyQty As Decimal
       Get
-        Return Me.RemainingQty - Me.Qty 'm_remainbuyqty
+        Return Me.RealRemainQty 'Me.RemainingQty - Me.Qty 'm_remainbuyqty
       End Get
       'Set(ByVal value As Decimal)
       '  m_remainbuyqty = value
@@ -111,16 +160,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_buyUnitPrice = value
+        m_assetamount = Me.RealRemainQty * m_buyUnitPrice
+        m_writeoffamount = Me.Qty * m_buyUnitPrice
       End Set
-    End Property    Public ReadOnly Property AssetAmount As Decimal 'มูลค่าสินทรัพย์หักออก      Get
-        Return Me.BuyUnitPrice * Me.RemainBuyQty
+    End Property    Public ReadOnly Property AssetRemainAmount As Decimal 'มูลค่าสินทรัพย์หักออก      Get
+        Return Me.AssetAmount - Me.AccDepre
       End Get
-      'Set(ByVal value As Decimal)
-      '  m_assetamount = value
-      'End Set
     End Property    Public Property WriteOffAmount As Decimal 'มูลค่าสินทรัพย์ที่จะ write-off ในครั้งนี้ เอาไปลงบัญชี asset
       Get
-        Return m_writeoffamount
+        Return m_writeoffamount 'Me.Qty * Me.BuyUnitPrice 'm_writeoffamount
       End Get
       Set(ByVal value As Decimal)
         m_writeoffamount = value
@@ -138,15 +186,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Boolean)
         m_hasChild = Value
       End Set
-    End Property    Public Property UnitPrice() As Decimal 'ราคาที่ขาย      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property AccDepre As Decimal 'เอาไปลงบัญชี accom depre
+    End Property    Public Property UnitPrice() As Decimal 'ราคาที่ขาย      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value        m_amount = m_unitPrice * Me.Qty      End Set    End Property    Public Property AccDepre As Decimal 'เอาไปลงบัญชี accom depre
       Get
         Return m_accdepre
       End Get
       Set(ByVal value As Decimal)
         m_accdepre = value
       End Set
-    End Property
-    Public Property Cost() As Decimal 'ต้นทุนของสินทรัพย์ที่ขาย      Get        Return m_Cost      End Get      Set(ByVal Value As Decimal)        m_Cost = Value      End Set    End Property    Public Property AssetAccount() As Account      Get
+    End Property    Public ReadOnly Property CostAmount() As Decimal 'ต้นทุนของสินทรัพย์ที่ขาย      Get        Return WriteOffAmount - Me.WriteOffDepreAmount 'm_CostAmount      End Get      'Set(ByVal Value As Decimal)      '  m_Cost = Value      'End Set    End Property    Public Property AssetAccount() As Account      Get
         Return Me.m_assetacct
       End Get
       Set(ByVal Value As Account)
@@ -168,19 +215,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Property Amount() As Decimal 'ในที่นี้คือ มูลค่าที่ขาย
       Get
         'Me.Discount.AmountBeforeDiscount = (Me.UnitPrice * Me.Qty)
-        Return (Me.UnitPrice * Me.Qty) '- Me.Discount.Amount
+        Return m_amount '(Me.UnitPrice * Me.Qty) 
       End Get
       Set(ByVal value As Decimal)
-
+        m_amount = value
       End Set
     End Property
     Public ReadOnly Property ProfitLoss() As Decimal 'กำไรขาดทุนจากการขายสินทรัพย์
       Get
-        Return Amount - cost
+        Return Me.Amount - Me.CostAmount
       End Get
     End Property
     Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
     Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property
+    Public Property RealRemainQty As Decimal
+      Get
+        Return m_RealRemainQty
+      End Get
+      Set(ByVal value As Decimal)
+        m_RealRemainQty = value
+        m_assetamount = m_RealRemainQty * Me.BuyUnitPrice
+      End Set
+    End Property
     Public Property Level As Integer
     Public Property RemainingQty As Decimal
     Public Overrides Property Qty As Integer
@@ -188,16 +244,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.m_qty
       End Get
       Set(ByVal value As Integer)
-        If value > Me.RemainingQty Then
-          'Dim myPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-          Dim myMsg As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          'myPars.Parse("$res:{Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem.OverWriteOffQty}")
-          myMsg.ShowErrorFormatted("Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem.OverWriteOffQty", _
-                                   New String() {Configuration.FormatToString(value, DigitConfig.Price), _
-                                                 Configuration.FormatToString(RemainingQty, DigitConfig.Price)})
-          Return
+        Dim qty As Integer = 0
+        If TypeOf Me.Entity Is Asset Then
+          If Not Me.HasChild Then
+            qty = 1
+          End If
+        ElseIf TypeOf Me.Entity Is EquipmentItem Then
+          qty = 1
+        Else
+          qty = value
+          If qty > Me.RemainingQty Then
+            'Dim myPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim myMsg As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            'myPars.Parse("$res:{Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem.OverWriteOffQty}")
+            myMsg.ShowErrorFormatted("${res:Longkong.Pojjaman.BusinessLogic.AssetWriteOffItem.OverWriteOffQty}", _
+                                     New String() {Configuration.FormatToString(value, DigitConfig.Price), _
+                                                   Configuration.FormatToString(RemainingQty, DigitConfig.Price)})
+            Return
+          End If
+          Me.m_qty = qty
+          Me.m_amount = Me.UnitPrice * Me.m_qty
+          Me.m_writeoffamount = m_qty * Me.BuyUnitPrice
         End If
-        Me.m_qty = value
+      End Set
+    End Property
+    Public Property RefSequence As Integer
+      Get
+        Return m_refSequence
+      End Get
+      Set(ByVal value As Integer)
+        m_refSequence = value
+      End Set
+    End Property
+    Public Property Asset As Asset
+      Get
+        If m_asset Is Nothing Then
+          m_asset = New Asset
+        End If
+        Return m_asset
+      End Get
+      Set(ByVal value As Asset)
+        m_asset = value
       End Set
     End Property
 #End Region
@@ -225,6 +312,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("UnitId") = Me.Unit.Id
         row("Unit") = Me.Unit.Name
       End If
+      Me.Conversion = 1
+
+      If Me.RemainBuyQty <> 0 Then
+        row("RemainingQty") = Configuration.FormatToString(Me.RemainBuyQty, DigitConfig.Qty)
+      Else
+        row("RemainingQty") = ""
+      End If
+
+      If Me.BuyUnitPrice <> 0 Then
+        row("BuyPrice") = Configuration.FormatToString(Me.BuyUnitPrice, DigitConfig.UnitPrice)
+      Else
+        row("BuyPrice") = ""
+      End If
+
+      If Me.AssetAmount <> 0 Then
+        row("AssetAmount") = Configuration.FormatToString(Me.AssetAmount, DigitConfig.Price)
+      Else
+        row("AssetAmount") = ""
+      End If
+
+      If Me.AccDepre <> 0 Then
+        row("DepreAmount") = Configuration.FormatToString(Me.AccDepre, DigitConfig.UnitPrice)
+      Else
+        row("DepreAmount") = ""
+      End If
+
+      If Me.AssetRemainAmount <> 0 Then
+        row("RemainingAmount") = Configuration.FormatToString(Me.AssetRemainAmount, DigitConfig.UnitPrice)
+      Else
+        row("RemainingAmount") = ""
+      End If
 
       If Me.Qty <> 0 Then
         row("Qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
@@ -243,46 +361,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         row("Amount") = ""
       End If
-      Me.Conversion = 1
-
-      If Me.RemainBuyQty <> 0 Then
-        row("RemainingQty") = Configuration.FormatToString(Me.RemainBuyQty, DigitConfig.Qty)
-      Else
-        row("RemainingQty") = ""
-      End If
-
-      If Me.BuyUnitPrice <> 0 Then
-        row("BuyPrice") = Configuration.FormatToString(Me.BuyUnitPrice, DigitConfig.Qty)
-      Else
-        row("BuyPrice") = ""
-      End If
-
-      If Me.AssetAmount <> 0 Then
-        row("RemainingAmount") = Configuration.FormatToString(Me.AssetAmount, DigitConfig.Qty)
-      Else
-        row("RemainingAmount") = ""
-      End If
 
       If Me.WriteOffAmount <> 0 Then
-        row("WriteOffAmount") = Configuration.FormatToString(Me.WriteOffAmount, DigitConfig.Qty)
+        row("WriteOffAmount") = Configuration.FormatToString(Me.WriteOffAmount, DigitConfig.UnitPrice)
       Else
         row("WriteOffAmount") = ""
       End If
 
-      If Me.AccDepre <> 0 Then
-        row("DepreAmount") = Configuration.FormatToString(Me.AccDepre, DigitConfig.Qty)
+      If Me.WriteOffDepreAmount <> 0 Then
+        row("WriteOffDepreAmount") = Configuration.FormatToString(Me.WriteOffDepreAmount, DigitConfig.UnitPrice)
       Else
-        row("DepreAmount") = ""
+        row("WriteOffDepreAmount") = ""
       End If
 
-      If Me.Cost <> 0 Then
-        row("CostAmount") = Configuration.FormatToString(Me.Cost, DigitConfig.Qty)
+      If Me.CostAmount <> 0 Then
+        row("CostAmount") = Configuration.FormatToString(Me.CostAmount, DigitConfig.UnitPrice)
       Else
         row("CostAmount") = ""
       End If
 
       If Me.ProfitLoss <> 0 Then
-        row("P/L") = Configuration.FormatToString(Me.ProfitLoss, DigitConfig.Qty)
+        row("P/L") = Configuration.FormatToString(Me.ProfitLoss, DigitConfig.UnitPrice)
       Else
         row("P/L") = ""
       End If
@@ -370,13 +469,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.UnitPrice = CDec(row("eqtstocki_unitprice"))
         End If
       End If
-      If Not row.IsNull(("cost")) Then
-        If CStr(row("cost")).Length = 0 Then
-          Me.Cost = 0
-        Else
-          Me.Cost = CDec(row("cost"))
-        End If
-      End If
+      'If Not row.IsNull(("cost")) Then
+      '  If CStr(row("cost")).Length = 0 Then
+      '    Me.m_CostAmount = 0
+      '  Else
+      '    Me.m_CostAmount = CDec(row("cost"))
+      '  End If
+      'End If
       'If Not row.IsNull("stocki_unvatable") Then
       '  Me.UnVatable = CBool(row("stocki_unvatable"))
       'End If
@@ -386,39 +485,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .Entity = newItem
         .Name = newItem.Name
-        .m_fromstatus = New EqtStatus(drh.GetValue(Of Integer)("fromStatus"))
-        .m_tostatus = New EqtStatus(9) 'writeOff
-        .m_itemtype = New EqtItemType(itemType)
-        .m_unit = newItem.Unit
+        .FromStatus = New EqtStatus(drh.GetValue(Of Integer)("fromStatus"))
+        .ToStatus = New EqtStatus(9) 'writeOff
+        .ItemType = New EqtItemType(itemType)
+        .Unit = newItem.Unit
         Select Case itemType
           Case 28
-            '.m_remainbuyqty = 1
-            .m_qty = 1
-            .m_buyUnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
-            .m_unitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
+            If hasChild Then
+              .RemainingQty = 0
+              .Qty = 0
+              .RealRemainQty = 0
+              .BuyUnitPrice = 0
+              .UnitPrice = 0
+            Else
+              .RemainingQty = 1
+              .Qty = 1
+              .RealRemainQty = 1
+              .BuyUnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
+              .UnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
+            End If
             .m_accdepre = drh.GetValue(Of Decimal)("accdepre")
-          Case 346
-            '.m_remainbuyqty = 1
-            .m_qty = 1
-            .m_buyUnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
-            .m_unitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
+          Case 19
+            .RemainingQty = CInt(item.Qty)
+            .Qty = CInt(item.Qty)
+            .RealRemainQty = drh.GetValue(Of Decimal)("RealRemainQty")
+            .BuyUnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
+            .UnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
             .m_ownercc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
-          Case 348
-            '.m_remainbuyqty = drh.GetValue(Of Integer)("RemainQty")
-            .m_qty = CInt(item.Qty)
-            .m_buyUnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
-            .m_unitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
+          Case 346
+            .RemainingQty = 1
+            .Qty = 1
+            .RealRemainQty = drh.GetValue(Of Decimal)("RealRemainQty")
+            .BuyUnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
+            .UnitPrice = drh.GetValue(Of Decimal)("eqi_buycost")
             .m_ownercc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
         End Select
-        .m_hasChild = hasChild
+        .HasChild = hasChild
         'If level = 0 Then
         .Level = level
+        .AssetAccount = New Account(drh.GetValue(Of Integer)("asset_acct"))
+        .AccDepreAccount = New Account(drh.GetValue(Of Integer)("asset_depreopeningacct"))
 
+        .RefSequence = drh.GetValue(Of Integer)("createseq")
+        .Asset = New Asset(dr, Me.AssetWriteoff)
         'ElseIf level = 1 Then
         'm_parent = drh.GetValue(Of Integer)("asset")
         'End If
 
-        .RemainingQty = m_qty
+
       End With
 
     End Sub
@@ -639,7 +753,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'newItem.Name = drh.GetValue(Of String)("asset_name")
               newType = 28
             Case 1
-              If drh.GetValue(Of Integer)("type") = 348 Then
+              If drh.GetValue(Of Integer)("type") = 19 Then
                 newItem = New ToolLot(dr, Me.AssetWriteoff)
                 'newItem.Id = drh.GetValue(Of Integer)("eqtid")
                 'newItem.Name = drh.GetValue(Of String)("eqtname")
@@ -681,6 +795,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End If
       Next
+
     End Sub
 #End Region
 
