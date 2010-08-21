@@ -501,7 +501,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 'แสดงเอกสารแต่ละตัว
-                tr.State = RowExpandState.Collapsed
+                tr.State = RowExpandState.Expanded
                 Doctr = tr.Childs.Add
                 Doctr("boqi_itemname") = "(เอกสาร) " & CStr(wbsDoc("DocCode"))
                 Doctr.State = RowExpandState.None
@@ -512,7 +512,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If CInt(Me.Filters(4).Value) > 1 Then
                 'แสดงรายการในแต่ละเอกสาร
                 If Not Doctr Is Nothing Then
-                  Doctr.State = RowExpandState.Collapsed
+                  Doctr.State = RowExpandState.Expanded
                   DocItemTr = Doctr.Childs.Add
                   DocItemTr("boqi_itemname") = wbsDoc("itemName")
                   DocItemTr("UnitPrice") = Configuration.FormatToString(CDec(wbsDoc("UnitPrice")), dgt)
