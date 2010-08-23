@@ -64,17 +64,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}")) '"ค่าเช่าต่อวัน"
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.RentalQty}")) '"จำนวนวัน"
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Amount}")) '"รวมรายได้"
-      'headerTextList.Add("f") '"buycost"
-      'headerTextList.Add("g") '"buycost"
 
       m_grid.Columns.Clear()
       For i As Integer = 0 To 14
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-        'If i = 7 OrElse i = 11 Then
-        'gridColumn.TextAlignment = ContentAlignment.MiddleRight
-        'Else
-        gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-        'End If
+        If i = 6 OrElse i = 11 OrElse i = 12 OrElse i = 13 OrElse i = 14 Then
+          gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        Else
+          gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+        End If
         gridColumn.HeaderText = headerTextList(i)
         gridColumn.Width = 100
         gridColumn.ReadOnly = True
@@ -97,21 +95,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If deh.GetValue(Of String)("eq_code") <> currentEQTypeCode then
         currentGridRow.Cells(0).Value = deh.GetValue(Of String)("eqi_code")
         currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_name")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("type")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("nameType")
         currentGridRow.Cells(3).Value = deh.GetValue(Of String)("unit_name")
-        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqicc")
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("Costcenter")
         currentGridRow.Cells(5).Value = deh.GetValue(Of String)("eqtstock_code")
-        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("eqtstock_docdate")
-        currentGridRow.Cells(7).Value = deh.GetValue(Of String)("fromcc")
-        'currentGridRow.Cells(8).Value = deh.GetValue(Of String)("fromstatus")
-        'currentGridRow.Cells(9).Value = deh.GetValue(Of String)("tostatus")
-        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("tocc")
-        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("entity_description")
+        currentGridRow.Cells(6).Value = deh.GetValue(Of DateTime)("eqtstock_docdate").ToShortDateString
+        currentGridRow.Cells(7).Value = deh.GetValue(Of String)("entity_description")
+        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("fromcc")
+        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("tocc")
         currentGridRow.Cells(10).Value = deh.GetValue(Of String)("eqtstocki_note")
         currentGridRow.Cells(11).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalqty")
-        currentGridRow.Cells(12).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalrate")
+        currentGridRow.Cells(12).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_rentalrate"), DigitConfig.Price)
         currentGridRow.Cells(13).Value = deh.GetValue(Of Decimal)("eqtstocki_qty")
-        currentGridRow.Cells(14).Value = deh.GetValue(Of Decimal)("eqtstocki_Amount")
+        currentGridRow.Cells(14).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
 
       Next
     End Sub
@@ -169,61 +165,123 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For rowIndex As Integer = 0 To m_grid.RowCount - 1
         dpi = New DocPrintingItem
         dpi.Mapping = "col0"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(0).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col1"
         dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col1"
-        'dpi.Value = m_grid(rowIndex, 2).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col2"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col2"
-        'dpi.Value = m_grid(rowIndex, 3).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col3"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col3"
-        'dpi.Value = m_grid(rowIndex, 4).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col4"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col4"
-        'dpi.Value = m_grid(rowIndex, 5).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col5"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col5"
-        'dpi.Value = m_grid(rowIndex, 6).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col6"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(6).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col6"
-        'dpi.Value = m_grid(rowIndex, 7).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col7"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(7).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col8"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(8).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col9"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(9).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col10"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(10).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col11"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(11).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col12"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(12).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col13"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(13).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col14"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(14).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         n += 1
       Next

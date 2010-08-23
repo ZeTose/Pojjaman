@@ -157,12 +157,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
       Me.txtCCCodeStart.Location = New System.Drawing.Point(113, 41)
+      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
       Me.txtCCCodeStart.Name = "txtCCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
       Me.Validator.SetRequired(Me.txtCCCodeStart, False)
       Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtCCCodeStart.TabIndex = 6
+      Me.txtCCCodeStart.Text = ""
       '
       'lblCCStart
       '
@@ -494,61 +496,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private m_dateSetting As Boolean
-    'Private m_ccSetting As Boolean = False
-
     Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
 
       Select Case CType(sender, Control).Name.ToLower
         Case "txtcccodestart"
-          'If Not m_ccSetting Then
-          Me.txtCCCodeStart.Text = CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-          'Else
-          'm_ccSetting = False
-          'End If
-
-          'Case "dtpdocdatestart"
-          '  If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
-          '    If Not m_dateSetting Then
-          '      Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-          '      Me.DocDateStart = dtpDocDateStart.Value
-          '    End If
-          '  End If
-          'Case "txtdocdatestart"
-          '  m_dateSetting = True
-          '  If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
-          '    Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
-          '    If Not Me.DocDateStart.Equals(theDate) Then
-          '      dtpDocDateStart.Value = theDate
-          '      Me.DocDateStart = dtpDocDateStart.Value
-          '    End If
-          '  Else
-          '    Me.dtpDocDateStart.Value = Date.Now
-          '    Me.DocDateStart = Date.MinValue
-          '  End If
-          '  m_dateSetting = False
-
-          'Case "dtpdocdateend"
-          '  If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
-          '    If Not m_dateSetting Then
-          '      Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-          '      Me.DocDateEnd = dtpDocDateEnd.Value
-          '    End If
-          '  End If
-          'Case "txtdocdateend"
-          '  m_dateSetting = True
-          '  If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
-          '    Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
-          '    If Not Me.DocDateEnd.Equals(theDate) Then
-          '      dtpDocDateEnd.Value = theDate
-          '      Me.DocDateEnd = dtpDocDateEnd.Value
-          '    End If
-          '  Else
-          '    Me.dtpDocDateEnd.Value = Date.Now
-          '    Me.DocDateEnd = Date.MinValue
-          '  End If
-          '  m_dateSetting = False
-
-        Case Else
+          CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          'Case Else
 
       End Select
     End Sub
@@ -570,7 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New CostCenter).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtcccodestart", "txtcccodeend"
+              Case "txtcccodestart"
                 Return True
             End Select
           End If
@@ -601,9 +554,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Select Case Me.ActiveControl.Name.ToLower
             Case "txtcccodestart"
               Me.SetCCCodeStartDialog(entity)
-
-            Case "txtcccodestart"
-              Me.SetCCCodeStartDialog(entity)
           End Select
         End If
       End If
@@ -627,8 +577,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case "btnccstartfind"
           myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeStartDialog)
-          'Case "btnccendfind"
-          '  myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeEndDialog)
       End Select
     End Sub
     Private Sub SetToolStartDialog(ByVal e As ISimpleEntity)

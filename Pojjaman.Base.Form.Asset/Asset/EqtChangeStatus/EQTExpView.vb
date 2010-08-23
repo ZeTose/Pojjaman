@@ -707,6 +707,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newRow.FixLevel = 1
           currRow = newRow
           newRow.State = RowExpandState.Expanded
+          newRow.CustomBackColor = Color.CadetBlue
           newRow("TypeName") = ali.ItemType.ToString
           newRow("Code") = ali.Entity.Code
           newRow("Description") = ali.Name

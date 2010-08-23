@@ -435,6 +435,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_DocDateStart As Date
 
     Private m_cc As CostCenter
+
 #End Region
 
 #Region "Constructors"
@@ -525,10 +526,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(3) = New Filter("EquipmentCodeEnd", IIf(txtEQCodeEnd.TextLength > 0, txtEQCodeEnd.Text, DBNull.Value))
       arr(4) = New Filter("CostCenter", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
       arr(5) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      'arr(4) = New Filter("AssetTypeCodeStart", IIf(txtAssetTypeCodeStart.TextLength > 0, txtAssetTypeCodeStart.Text, DBNull.Value))
-      'arr(5) = New Filter("AssetTypeCodeEnd", IIf(txtAssetTypeCodeEnd.TextLength > 0, txtAssetTypeCodeEnd.Text, DBNull.Value))
-      'arr(7) = New Filter("CostCenterCodeEnd", IIf(txtCCCodeEnd.TextLength > 0, txtCCCodeEnd.Text, DBNull.Value))
-      'arr(8) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -778,9 +775,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-    Private Sub btnSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+    Private Function settingsPanel() As Object
+      Throw New NotImplementedException
+    End Function
 
-    End Sub
   End Class
 End Namespace
 

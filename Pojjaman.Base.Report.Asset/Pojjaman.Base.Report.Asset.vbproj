@@ -198,7 +198,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="UI\RptRptEquipmentMovementFilterSubPanel.vb">
+    <Compile Include="UI\RptEquipmentMovementFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptEquipmentStatusFilterSubPanel.vb">
@@ -254,8 +254,8 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\RptRptEquipmentMovementFilterSubPanel.resx">
-      <DependentUpon>RptRptEquipmentMovementFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="UI\RptEquipmentMovementFilterSubPanel.resx">
+      <DependentUpon>RptEquipmentMovementFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptEquipmentStatusFilterSubPanel.resx">
       <DependentUpon>RptEquipmentStatusFilterSubPanel.vb</DependentUpon>

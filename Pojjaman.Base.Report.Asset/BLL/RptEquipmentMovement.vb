@@ -11,6 +11,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Telerik.WinControls.UI
 Imports System.Collections.Generic
+Imports Telerik.WinControls
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptEquipmentMovement
@@ -34,107 +35,202 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Dim viewDef As ColumnGroupsViewDefinition
     Private m_grid As RadGridView
+    Dim template As GridViewTemplate
+    Private rowInfo As GridViewDataRowInfo
+    Private Property radRadioHierarchyFromDataSet As Object
+
+    Private Property Theme As Object
+
     Public Overrides Sub ListInNewGrid(ByVal grid As RadGridView)
+      'm_grid = New RadGridView
       m_grid = grid
       m_grid.GridElement.BeginUpdate()
-      m_grid.Rows.Clear()
+      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
       m_grid.MasterGridViewTemplate.AllowAddNewRow = False
       m_grid.MasterGridViewTemplate.AllowDeleteRow = False
       m_grid.MasterGridViewTemplate.AllowCellContextMenu = False
       'm_grid.MasterGridViewTemplate.AllowColumnReorder = False
+      template = New GridViewTemplate
       CreateHeader()
-      PopulateData()
+      CreateDocHeader()
+      setdatasource()
+      'PopulateData()
+      'PopulateMasterData()
+      'PopulateDocData()
+      SetRelation()
+      ExpandAllRows(m_grid, True)
+      'SetColumnProperties()
       m_grid.GridElement.EndUpdate()
     End Sub
-    'Public Sub group()
-    '  ' column groups view
-    '  Me.columnGroupsView = New ColumnGroupsViewDefinition()
-    '  Me.columnGroupsView.ColumnGroups.Add(New GridViewColumnGroup("General"))
-    '  Me.columnGroupsView.ColumnGroups.Add(New GridViewColumnGroup("Details"))
-    '  Me.columnGroupsView.ColumnGroups(1).Groups.Add(New GridViewColumnGroup("Address"))
-    '  Me.columnGroupsView.ColumnGroups(1).Groups.Add(New GridViewColumnGroup())
-    '  Me.columnGroupsView.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-    '  Me.columnGroupsView.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-    '  Me.columnGroupsView.ColumnGroups(0).Rows(0).Columns.Add(Me.radGridView1.Columns("CustomerID"))
-    '  Me.columnGroupsView.ColumnGroups(0).Rows(0).Columns.Add(Me.radGridView1.Columns("ContactName"))
-    '  Me.columnGroupsView.ColumnGroups(0).Rows(1).Columns.Add(Me.radGridView1.Columns("CompanyName"))
-    '  Me.columnGroupsView.ColumnGroups(1).Groups(0).Rows.Add(New GridViewColumnGroupRow())
-    '  Me.columnGroupsView.ColumnGroups(1).Groups(0).Rows(0).Columns.Add(Me.radGridView1.Columns("City"))
-    '  Me.columnGroupsView.ColumnGroups(1).Groups(0).Rows(0).Columns.Add(Me.radGridView1.Columns("Country"))
-    '  Me.columnGroupsView.ColumnGroups(1).Groups(1).Rows.Add(New GridViewColumnGroupRow())
-    '  Me.columnGroupsView.ColumnGroups(1).Groups(1).Rows(0).Columns.Add(Me.radGridView1.Columns("Phone"))
-    'End Sub
+    Private Sub SetTheme()
+      'Me.radRadioHierarchyFromDataSet.ThemeName = Theme
+      'Me.radRadioButton2.ThemeName = Theme
+      'Me.radRadioManuallyUnbound.ThemeName = Theme
+      m_grid.ThemeName = CStr(Theme)
+      'Me.radGroupHierarchyOptions.ThemeName = Theme
+
+    End Sub
+
+    Private Sub Configure(ByVal template As GridViewTemplate, ByVal enableFiltering As Boolean)
+      template.EnableFiltering = enableFiltering
+
+      For i As Integer = 0 To template.ChildGridViewTemplates.Count - 1
+        Configure(template.ChildGridViewTemplates(i), enableFiltering)
+      Next i
+    End Sub
+
+    Private Sub ResetGridView()
+      m_grid.GridElement.RowHeight = 20
+      m_grid.AutoGenerateHierarchy = False
+
+      m_grid.CurrentRow = Nothing
+      m_grid.Relations.Clear()
+      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
+      m_grid.MasterGridViewTemplate.Columns.Clear()
+      m_grid.DataSource = Nothing
+
+      m_grid.MasterGridViewTemplate.AllowAddNewRow = False
+      m_grid.MasterGridViewTemplate.AllowEditRow = False
+      m_grid.MasterGridViewTemplate.AllowDeleteRow = False
+      m_grid.MasterGridViewTemplate.ShowFilteringRow = False
+    End Sub
+
     Private Sub CreateHeader()
       viewDef = New ColumnGroupsViewDefinition
 
       Dim headerTextList As New List(Of String)
+      Dim FieldNameList As New List(Of String)
+      headerTextList.Add("")
+      FieldNameList.Add("eqi_id")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByLci.ItemCode}")) '"ชื่อ"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt272.type}")) '"ประเภท"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Unit}")) '"หน่วย"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}")) '"รหัสเอกสาร"
+      FieldNameList.Add("eqi_code")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
+      FieldNameList.Add("eqi_name")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}")) '"ประเภทเอกสาร"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.FromCC}")) '"costcenterคืน"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"costcenterรับ"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Note}")) '"หมายเหตุ"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Qty}")) '"จำนวนเช่า"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}")) '"ค่าเช่าต่อวัน"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.RentalQty}")) '"จำนวนวัน"
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.Amount}")) '"รวมรายได้"
-      'headerTextList.Add("f") '"buycost"
-      'headerTextList.Add("g") '"buycost"
-
+      FieldNameList.Add("eqi_buydate")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
+      FieldNameList.Add("eqi_cc")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
+      FieldNameList.Add("code_description")
 
       m_grid.Columns.Clear()
       For i As Integer = 0 To 5
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-        'If i = 7 OrElse i = 11 Then
-        'gridColumn.TextAlignment = ContentAlignment.MiddleRight
-        'Else
+        If i = 0 Then
+          gridColumn.Width = 0
+        Else
+          gridColumn.Width = 100
+        End If
         gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-        'End If
         gridColumn.HeaderText = headerTextList(i)
-        gridColumn.Width = 100
+        gridColumn.FieldName = FieldNameList(i)
         gridColumn.ReadOnly = True
         m_grid.Columns.Add(gridColumn)
       Next
 
     End Sub
-    Private Sub PopulateData()
-      Dim dt As DataTable = Me.DataSet.Tables(0)
-      Dim currentEQTypeCode As String = ""
-      Dim currentEQTypeCodeIndex As Integer = -1
-      Dim currentEqiTypeCode As String = ""
-      Dim currentEqiTypeCodeIndex As Integer = -1
+    Private Sub CreateDocHeader()
+      viewDef = New ColumnGroupsViewDefinition
 
-      '  'Dim indent As String = Space(3)
+      Dim headerTextList As New List(Of String)
+      Dim FieldNameList As New List(Of String)
+      headerTextList.Add("")
+      FieldNameList.Add("eqi_id")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัส"
+      FieldNameList.Add("eqtstock_code")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
+      FieldNameList.Add("eqtstock_docdate")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}")) '"ประเภทเอกสาร"
+      FieldNameList.Add("Doctype")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"CCรับ"
+      FieldNameList.Add("tocc")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
+      FieldNameList.Add("tostatus")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}")) '"ค่าเช่า/ค่าใช้จ่าย"
+      FieldNameList.Add("eqtstocki_Amount")
+
+      template.Columns.Clear()
+      For i As Integer = 0 To 6
+        Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
+        If i = 0 Then
+          gridColumn.Width = 0
+        Else
+          gridColumn.Width = 100
+        End If
+        If i = 6 Then
+          gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        Else
+          gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+        End If
+        gridColumn.HeaderText = headerTextList(i)
+        gridColumn.FieldName = FieldNameList(i)
+        gridColumn.ReadOnly = True
+        template.Columns.Add(gridColumn)
+      Next
+
+    End Sub
+
+    Private Sub setdatasource()
+      Dim dt As DataTable = DataSet.Tables(0)
+      Dim dtchilds As DataTable = DataSet.Tables(1)
+
+      m_grid.DataSource = dt
+      template.DataSource = dtchilds
+      template.AllowDeleteRow = True
+      template.AllowAddNewRow = False
+
+      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
+
+    End Sub
+
+    Private Sub PopulateMasterData()
+      Dim dt As DataTable = DataSet.Tables(0)
+      For Each row As DataRow In dt.Rows
+        Dim deh As New DataRowHelper(row)
+        Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
+        currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_code")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("eqi_name")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of DateTime)("eqi_buydate").ToShortDateString
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqi_cc")
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("code_description")
+      Next
+
+    End Sub
+    Private Sub PopulateDocData()
+      Dim dt As DataTable = DataSet.Tables(1)
 
       For Each row As DataRow In dt.Rows
-        Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
         Dim deh As New DataRowHelper(row)
-        'If deh.GetValue(Of String)("eq_code") <> currentEQTypeCode then
-        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("eqi_code")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_name")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("type")
-        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("unit_name")
-        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqicc")
-        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("eqtstock_code")
-        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("eqtstock_docdate")
-        currentGridRow.Cells(7).Value = deh.GetValue(Of String)("fromcc")
-        'currentGridRow.Cells(8).Value = deh.GetValue(Of String)("fromstatus")
-        'currentGridRow.Cells(9).Value = deh.GetValue(Of String)("tostatus")
-        currentGridRow.Cells(8).Value = deh.GetValue(Of String)("tocc")
-        currentGridRow.Cells(9).Value = deh.GetValue(Of String)("entity_description")
-        currentGridRow.Cells(10).Value = deh.GetValue(Of String)("eqtstocki_note")
-        currentGridRow.Cells(11).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalqty")
-        currentGridRow.Cells(12).Value = deh.GetValue(Of Decimal)("eqtstocki_rentalrate")
-        currentGridRow.Cells(13).Value = deh.GetValue(Of Decimal)("eqtstocki_qty")
-        currentGridRow.Cells(14).Value = deh.GetValue(Of Decimal)("eqtstocki_Amount")
-
+        Dim currentGridRow As GridViewDataRowInfo = template.Rows.AddNew()
+        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of DateTime)("eqtstock_code").ToShortDateString
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eqtstock_docdate")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("Doctype")
+        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("tocc")
+        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("tostatus")
+        currentGridRow.Cells(6).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
       Next
+
+      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
+
     End Sub
+    Private Sub SetRelation()
+      Dim relation As GridViewRelation = New GridViewRelation(m_grid.MasterGridViewTemplate)
+      relation.ChildTemplate = template
+      relation.RelationName = "Eqi"
+      relation.ParentColumnNames.Add("eqi_id")
+      relation.ChildColumnNames.Add("eqi_id")
+      m_grid.Relations.Add(relation)
+    End Sub
+    Private Sub ExpandAllRows(ByVal grid As RadGridView, ByVal expand As Boolean)
+      grid.GridElement.BeginUpdate()
+      For Each row As GridViewRowInfo In grid.Rows
+        row.IsExpanded = expand
+      Next
+      grid.GridElement.EndUpdate()
+    End Sub
+
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
@@ -184,73 +280,116 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each fixDpi As DocPrintingItem In Me.FixValueCollection
         dpiColl.Add(fixDpi)
       Next
-
+      
       Dim n As Integer = 0
+      Dim cRow As Integer = 0
       For rowIndex As Integer = 0 To m_grid.RowCount - 1
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col0"
+          dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col1"
+          dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col2"
+          dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col3"
+          dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         dpi = New DocPrintingItem
-        dpi.Mapping = "col0"
-        dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
+        dpi.Mapping = "col4"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col1"
-        'dpi.Value = m_grid(rowIndex, 2).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        Dim childRowInfo As GridViewRowInfo = m_grid.Rows(rowIndex)
+        Dim childRows As GridViewRowInfo() = childRowInfo.ViewTemplate.ChildGridViewTemplates(0).GetChildRows(childRowInfo)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col2"
-        'dpi.Value = m_grid(rowIndex, 3).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        For i As Integer = 0 To childRows.Length - 1
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col3"
-        'dpi.Value = m_grid(rowIndex, 4).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col0"
+          dpi.Value = childRows(i).Cells(1).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col4"
-        'dpi.Value = m_grid(rowIndex, 5).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col1"
+          dpi.Value = childRows(i).Cells(2).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col5"
-        'dpi.Value = m_grid(rowIndex, 6).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col2"
+          dpi.Value = childRows(i).Cells(3).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col6"
-        'dpi.Value = m_grid(rowIndex, 7).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col3"
+          dpi.Value = childRows(i).Cells(4).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col4"
+          dpi.Value = childRows(i).Cells(5).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col5"
+          dpi.Value = childRows(i).Cells(6).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
-        n += 1
+          n += 1
+          cRow += 1
+        Next
       Next
-
       Return dpiColl
     End Function
 #End Region
+    Private Function radGroupHierarchyOptions() As Object
+      Throw New NotImplementedException
+    End Function
+
+    
+
   End Class
 End Namespace
 
