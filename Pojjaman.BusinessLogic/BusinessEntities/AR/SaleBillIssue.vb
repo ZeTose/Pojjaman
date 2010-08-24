@@ -952,6 +952,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetType(ByVal type As Integer)
       Me.m_typeId = type
     End Sub
+    Public Sub SetTaxType(ByVal _taxtype As Integer)
+      Me.m_taxtype = New TaxType(_taxtype)
+    End Sub
     Public Sub Clear()
       Me.Id = 0
       Me.RealAmount = 0
@@ -1178,6 +1181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("salebillii_unreceivedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("salebillii_billedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("salebillii_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("stock_taxtype", GetType(Integer)))
 
       For Each tableRow As DataRow In dt.Rows
         Dim row As TreeRow = myDatatable.Childs.Add
@@ -1206,6 +1210,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("salebillii_unreceivedamt") = Configuration.FormatToString(receivable.GetRemainingAmountReceiveSelection(receives_id), DigitConfig.Price)
         row("salebillii_billedamt") = tableRow("salebillii_billedamt")
         row("salebillii_linenumber") = tableRow("salebillii_linenumber")
+        If tableRow.Table.Columns.Contains("stock_taxtype") AndAlso Not tableRow.IsNull("stock_taxtype") Then
+          row("stock_taxtype") = tableRow("stock_taxtype")
+        End If
+
         row.State = RowExpandState.None
       Next
       Return myDatatable

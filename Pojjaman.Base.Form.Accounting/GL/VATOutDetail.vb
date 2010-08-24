@@ -1072,24 +1072,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.m_entity
       End Get
       Set(ByVal Value As ISimpleEntity)
-        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-          Me.m_entity = Nothing
-          Me.m_entity = Value
-          If Not m_vat Is Nothing Then
-            RemoveHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
-            Me.m_vat = Nothing
-          End If
-          If TypeOf m_entity Is IVatable Then
-            Dim vatRefDoc As IVatable = CType(m_entity, IVatable)
-            m_vat = vatRefDoc.Vat
-            If m_vat Is Nothing Then
-              m_vat = New Vat
-              m_vat.RefDoc.Vat = m_vat
-            End If
-            m_vat.RefDoc = vatRefDoc
-            m_vat.Entity = vatRefDoc.Person
-          End If
+        'If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+        Me.m_entity = Nothing
+        Me.m_entity = Value
+        If Not m_vat Is Nothing Then
+          RemoveHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+          Me.m_vat = Nothing
         End If
+        If TypeOf m_entity Is IVatable Then
+          Dim vatRefDoc As IVatable = CType(m_entity, IVatable)
+          m_vat = vatRefDoc.Vat
+          If m_vat Is Nothing Then
+            m_vat = New Vat
+            m_vat.RefDoc.Vat = m_vat
+          End If
+          m_vat.RefDoc = vatRefDoc
+          m_vat.Entity = vatRefDoc.Person
+        End If
+        'End If
         If Not Me.m_vat Is Nothing Then
           Me.m_vat.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
