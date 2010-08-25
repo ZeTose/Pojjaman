@@ -1,9 +1,9 @@
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class Rpt273FilterSubPanel
+  Public Class RptAssetProfitLossFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
 
@@ -56,10 +56,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblAssetTypeEnd As System.Windows.Forms.Label
     Friend WithEvents txtAssetTypeCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblAssetTypeStart As System.Windows.Forms.Label
+    Friend WithEvents ChkCancel As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Rpt273FilterSubPanel))
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptAssetProfitLossFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ChkCancel = New System.Windows.Forms.CheckBox()
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -100,6 +102,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.ChkCancel)
       Me.grbMaster.Controls.Add(Me.txtTemp)
       Me.grbMaster.Controls.Add(Me.grbDetail)
       Me.grbMaster.Controls.Add(Me.btnSearch)
@@ -112,6 +115,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "ค้นหา"
+      '
+      'ChkCancel
+      '
+      Me.ChkCancel.Location = New System.Drawing.Point(16, 144)
+      Me.ChkCancel.Name = "ChkCancel"
+      Me.ChkCancel.Size = New System.Drawing.Size(240, 24)
+      Me.ChkCancel.TabIndex = 4
+      Me.ChkCancel.Text = "แสดงสินทรัพย์ยกเลิกสถานะ และ Write off"
       '
       'txtTemp
       '
@@ -174,7 +185,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCEndFind.Size = New System.Drawing.Size(24, 22)
       Me.btnCCEndFind.TabIndex = 31
       Me.btnCCEndFind.TabStop = False
-      Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCEndFind.ThemedImage = Nothing
       '
       'txtCCCodeEnd
       '
@@ -252,7 +263,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAssetStartFind.Size = New System.Drawing.Size(24, 22)
       Me.btnAssetStartFind.TabIndex = 24
       Me.btnAssetStartFind.TabStop = False
-      Me.btnAssetStartFind.ThemedImage = CType(resources.GetObject("btnAssetStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAssetStartFind.ThemedImage = Nothing
       '
       'btnAssetEndFind
       '
@@ -264,7 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAssetEndFind.Size = New System.Drawing.Size(24, 22)
       Me.btnAssetEndFind.TabIndex = 23
       Me.btnAssetEndFind.TabStop = False
-      Me.btnAssetEndFind.ThemedImage = CType(resources.GetObject("btnAssetEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAssetEndFind.ThemedImage = Nothing
       '
       'txtAssetCodeEnd
       '
@@ -333,7 +344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(86, 21)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(88, 21)
       Me.txtDocDateEnd.TabIndex = 1
       '
       'txtDocDateStart
@@ -418,7 +429,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAssetTypeEndFind.Size = New System.Drawing.Size(24, 22)
       Me.btnAssetTypeEndFind.TabIndex = 23
       Me.btnAssetTypeEndFind.TabStop = False
-      Me.btnAssetTypeEndFind.ThemedImage = CType(resources.GetObject("btnAssetTypeEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAssetTypeEndFind.ThemedImage = Nothing
       '
       'btnAssetTypeStartFind
       '
@@ -430,7 +441,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAssetTypeStartFind.Size = New System.Drawing.Size(24, 22)
       Me.btnAssetTypeStartFind.TabIndex = 24
       Me.btnAssetTypeStartFind.TabStop = False
-      Me.btnAssetTypeStartFind.ThemedImage = CType(resources.GetObject("btnAssetTypeStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAssetTypeStartFind.ThemedImage = Nothing
       '
       'lblAssetTypeEnd
       '
@@ -504,11 +515,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'Rpt273FilterSubPanel
+      'RptAssetProfitLossFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "Rpt273FilterSubPanel"
+      Me.Name = "RptAssetProfitLossFilterSubPanel"
       Me.Size = New System.Drawing.Size(456, 192)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
@@ -522,19 +533,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-
     Public Sub SetLabelText()
       'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblAssetStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.lblAssetStart}")
+      Me.lblAssetStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblAssetStart}")
       Me.Validator.SetDisplayName(txtAssetCodeStart, lblAssetStart.Text)
 
-      Me.lblAssetTypeStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.lblAssetTypeStart}")
+      Me.lblAssetTypeStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblAssetTypeStart}")
       Me.Validator.SetDisplayName(txtAssetTypeCodeStart, lblAssetTypeStart.Text)
 
-      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.lblDocDateStart}")
+      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblDocDateStart}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.lblCCStart}")
+      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblCCStart}")
       Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
       ' Global {ถึง}
@@ -555,8 +565,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
       ' GroupBox
-      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel.grbDetail}")
+      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbMaster}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbDetail}")
     End Sub
 #End Region
 
@@ -662,12 +672,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.DocDateEnd = Date.Now
       Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
       Me.dtpDocDateEnd.Value = Me.DocDateEnd
+
+      Me.ChkCancel.Checked = False
+
     End Sub
     Public Overrides Function GetFilterString() As String
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(8) As Filter
+      Dim arr(9) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("AssetCodeStart", IIf(txtAssetCodeStart.TextLength > 0, txtAssetCodeStart.Text, DBNull.Value))
@@ -676,7 +689,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(5) = New Filter("AssetTypeCodeEnd", IIf(txtAssetTypeCodeEnd.TextLength > 0, txtAssetTypeCodeEnd.Text, DBNull.Value))
       arr(6) = New Filter("CostCenterCodeStart", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
       arr(7) = New Filter("CostCenterCodeEnd", IIf(txtCCCodeEnd.TextLength > 0, txtCCCodeEnd.Text, DBNull.Value))
-      arr(8) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(8) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
+      arr(9) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -934,6 +949,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssetCodeStart.Text = e.Code
       Asset.GetAsset(txtAssetCodeStart, txtTemp, Me.AssetStart)
     End Sub
+
     Private Sub SetAssetEndDialog(ByVal e As ISimpleEntity)
       Me.txtAssetCodeEnd.Text = e.Code
       Asset.GetAsset(txtAssetCodeEnd, txtTemp, Me.AssetEnd)
@@ -956,6 +972,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+    Private Sub btnAssetStartFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAssetStartFind.Click
+
+    End Sub
   End Class
 End Namespace
 

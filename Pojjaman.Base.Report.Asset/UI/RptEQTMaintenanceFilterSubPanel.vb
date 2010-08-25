@@ -159,6 +159,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkEquipment.TabIndex = 14
       Me.chkEquipment.Text = "ข้อมูลเครื่องจักร"
       Me.chkEquipment.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.chkEquipment.Checked = True
       '
       'chkTool
       '
@@ -169,6 +170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkTool.TabIndex = 13
       Me.chkTool.Text = "ข้อมูลเครื่องมือ"
       Me.chkTool.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.chkTool.Checked = True
       '
       'btnEQEndFind
       '
@@ -325,12 +327,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
       Me.txtCCCodeStart.Location = New System.Drawing.Point(131, 88)
+      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
       Me.txtCCCodeStart.Name = "txtCCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
       Me.Validator.SetRequired(Me.txtCCCodeStart, False)
       Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtCCCodeStart.TabIndex = 6
+      Me.txtCCCodeStart.Text = ""
       '
       'lblCCStart
       '
@@ -629,7 +633,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(7) As Filter
+      Dim arr(9) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("ToolCodeStart", IIf(txtToolCodeStart.TextLength > 0, txtToolCodeStart.Text, DBNull.Value))
@@ -639,6 +643,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(6) = New Filter("CostCenter", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
       'arr(7) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
       arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(8) = New Filter("ChkTool", IIf(chkTool.Checked, 1, 0))
+      arr(9) = New Filter("ChkEquipment", IIf(chkEquipment.Checked, 1, 0))
 
       Return arr
     End Function
@@ -805,7 +811,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New CostCenter).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtcccodestart", "txtcccodeend"
+              Case "txtcccodestart"
                 Return True
             End Select
           End If

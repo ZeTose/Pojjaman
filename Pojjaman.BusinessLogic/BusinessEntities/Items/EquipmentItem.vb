@@ -228,6 +228,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shares"
+    Public Shared Function GetEquipmentItem(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldEntity As EquipmentItem) As Boolean
+      Dim entity As New EquipmentItem(txtCode.Text)
+      If txtCode.Text.Length <> 0 AndAlso Not entity.Originated Then
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+        entity = oldEntity
+      End If
+      txtCode.Text = entity.Code
+      txtName.Text = entity.Name
+      If oldEntity.Id <> entity.Id Then
+        oldEntity = entity
+        Return True
+      End If
+      Return False
+    End Function
     Public Shared Function GetListDatatable(ByVal ParamArray filters() As Filter) As TreeTable
 
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
@@ -283,16 +297,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("m_eqi_id") = tableRow("eqi_id")
         row("RentalRate") = tableRow("eqi_rentalrate")
         row("Name") = tableRow("eq_name")
-        
+
         row("Entity") = eqi.Name
         row("Qty") = 1
-        
+
         If Not tableRow.IsNull("ccinfo") Then
           row("CostCenter") = tableRow("ccinfo")
         End If
         row.State = RowExpandState.None
 
-        
+
         row.Tag = eqi
       Next
       Return myDatatable

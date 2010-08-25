@@ -147,6 +147,8 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptAssetProfitLoss.vb" />
+    <Compile Include="BLL\RptToolMovement.vb" />
     <Compile Include="BLL\RptEquipmentMovement.vb" />
     <Compile Include="BLL\RptEQTIncome.vb" />
     <Compile Include="BLL\RptEQTMaintenance.vb" />
@@ -197,6 +199,12 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RptAssetProfitLossFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\RptToolMovementFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptEquipmentMovementFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -253,6 +261,12 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptAssetProfitLossFilterSubPanel.resx">
+      <DependentUpon>RptAssetProfitLossFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptToolMovementFilterSubPanel.resx">
+      <DependentUpon>RptToolMovementFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptEquipmentMovementFilterSubPanel.resx">
       <DependentUpon>RptEquipmentMovementFilterSubPanel.vb</DependentUpon>

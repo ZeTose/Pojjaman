@@ -16,7 +16,8 @@
 				 <MenuItem id="rpt272" icon="Icons.16x16.Rpt272" label="${res:MainMenu.PurchaseMenu.Rpt272.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt272"/>
 				 <MenuItem id="rpt273" icon="Icons.16x16.Rpt273" label="${res:MainMenu.PurchaseMenu.Rpt273.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt273"/>
 				<MenuItem id="rptdepreciationbyasset" icon="Icons.16x16.RptDepreciationByAsset" label="${res:MainMenu.PurchaseMenu.RptDepreciationByAsset.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByAsset"/>
-				<MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
+        <MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
+        <MenuItem id="rptassetprofitloss" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetProfitLoss.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss"/>
 			</MenuItem>
       
       <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">
@@ -25,6 +26,7 @@
         <MenuItem id="rpteqtmaintenance" icon="Icons.16x16.RptEQTMaintenance" label="${res:MainMenu.PurchaseMenu.RptEQTMaintenance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance"/>
         <MenuItem id="rpteqtincome" icon="Icons.16x16.RptEQTIncome" label="${res:MainMenu.PurchaseMenu.RptEQTIncome.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTIncome"/>
         <MenuItem id="rptequipmentmovement" icon="Icons.16x16.RptEquipmentMovement" label="${res:MainMenu.PurchaseMenu.RptEquipmentMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement"/>
+        <MenuItem id="rpttoolmovement" icon="Icons.16x16.RpttoolMovement" label="${res:MainMenu.PurchaseMenu.RptToolMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolMovement"/>
       </MenuItem>
 		</Conditional>
 	</Extension>
@@ -42,11 +44,13 @@
 		<EntityFilter id="rpt273" entity="Rpt273" filter="Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel"/>
 		<EntityFilter id="rptdepreciationbyasset" entity="RptDepreciationByAsset" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByAssetFilterSubPanel"/>
     <EntityFilter id="rptdepreciationbycc" entity="RptDepreciationByCC" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByCCFilterSubPanel"/>
+    <EntityFilter id="rptassetprofitloss" entity="RptAssetProfitLoss" filter="Longkong.Pojjaman.Gui.Panels.RptAssetProfitLossFilterSubPanel"/>
     <EntityFilter id="rptequipmentstatus" entity="RptEquipmentStatus" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel"/>
     <EntityFilter id="rpttoolstatus" entity="RptToolStatus" filter="Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel"/>
     <EntityFilter id="rpteqtmaintenance" entity="RptEQTMaintenance" filter="Longkong.Pojjaman.Gui.Panels.RptEQTMaintenanceFilterSubPanel"/>
     <EntityFilter id="rpteqtincome" entity="RptEQTIncome" filter="Longkong.Pojjaman.Gui.Panels.RptEQTIncomeFilterSubPanel"/>
     <EntityFilter id="rptequipmentmovement" entity="RptEquipmentMovement" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentMovementFilterSubPanel"/>
+    <EntityFilter id="rpttoolmovement" entity="RptToolMovement" filter="Longkong.Pojjaman.Gui.Panels.RptToolMovementFilterSubPanel"/>
 	</Extension>
 	
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -84,6 +88,9 @@
 		<EntityTab id="rptdepreciationbycc">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
+    <EntityTab id="rptassetprofitloss">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
     <EntityTab id="rptequipmentstatus">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
@@ -97,6 +104,9 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rptequipmentmovement">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rpttoolmovement">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
 	</Extension>

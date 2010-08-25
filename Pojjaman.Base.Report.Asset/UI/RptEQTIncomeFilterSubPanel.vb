@@ -501,14 +501,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblEQEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtEQCodeEnd, lblEQEnd.Text)
 
-      'Me.lblAssetTypeEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtAssetTypeCodeEnd, lblAssetTypeEnd.Text)
-
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-
-      'Me.lblCCEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtCCCodeEnd, lblCCEnd.Text)
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")

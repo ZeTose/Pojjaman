@@ -14,7 +14,7 @@ Imports System.Collections.Generic
 Imports Telerik.WinControls
 
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class RptEquipmentMovement
+  Public Class RptToolMovement
     Inherits Report
     Implements IUseTelerikGridReport
 
@@ -101,20 +101,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim headerTextList As New List(Of String)
       Dim FieldNameList As New List(Of String)
       headerTextList.Add("")
-      FieldNameList.Add("eqi_id")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
-      FieldNameList.Add("eqi_code")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
-      FieldNameList.Add("eqi_name")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
-      FieldNameList.Add("eqi_buydate")
+      FieldNameList.Add("tool_id")
+      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
+      'FieldNameList.Add("toolg_code")
+      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
+      'FieldNameList.Add("toolg_name")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolCode}")) '"รหัส"
+      FieldNameList.Add("tool_code")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolName}")) '"ชื่อ"
+      FieldNameList.Add("tool_name")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
-      FieldNameList.Add("eqi_cc")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
-      FieldNameList.Add("code_description")
+      FieldNameList.Add("CC")
 
       m_grid.Columns.Clear()
-      For i As Integer = 0 To 5
+      For i As Integer = 0 To 3
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
         If i = 0 Then
           gridColumn.Width = 0
@@ -135,8 +135,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim headerTextList As New List(Of String)
       Dim FieldNameList As New List(Of String)
       headerTextList.Add("")
-      FieldNameList.Add("eqi_id")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัส"
+      FieldNameList.Add("tool_id")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}")) '"รหัสเอกสาร"
       FieldNameList.Add("eqtstock_code")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
       FieldNameList.Add("eqtstock_docdate")
@@ -144,20 +144,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       FieldNameList.Add("Doctype")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"CCรับ"
       FieldNameList.Add("tocc")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
-      FieldNameList.Add("tostatus")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.Qty}")) '"จำนวน"
+      FieldNameList.Add("eqtstocki_qty")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}")) '"หน่วย"
+      FieldNameList.Add("unit_name")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}")) '"ค่าเช่า/ค่าใช้จ่าย"
       FieldNameList.Add("eqtstocki_Amount")
 
       template.Columns.Clear()
-      For i As Integer = 0 To 6
+      For i As Integer = 0 To 7
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
         If i = 0 Then
           gridColumn.Width = 0
         Else
           gridColumn.Width = 100
         End If
-        If i = 6 Then
+        If i = 5 OrElse i = 7 Then
           gridColumn.TextAlignment = ContentAlignment.MiddleRight
         Else
           gridColumn.TextAlignment = ContentAlignment.MiddleLeft
@@ -189,11 +191,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim deh As New DataRowHelper(row)
         Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
         currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_code")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eqi_name")
-        currentGridRow.Cells(3).Value = deh.GetValue(Of DateTime)("eqi_buydate").ToShortDateString
-        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqi_cc")
-        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("code_description")
+        'currentGridRow.Cells(1).Value = deh.GetValue(Of String)("toolg_code")
+        'currentGridRow.Cells(2).Value = deh.GetValue(Of String)("toolg_name")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("tool_code")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("tool_name")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("CC")
       Next
 
     End Sub
@@ -208,8 +210,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         currentGridRow.Cells(2).Value = deh.GetValue(Of DateTime)("eqtstock_docdate").ToShortDateString
         currentGridRow.Cells(3).Value = deh.GetValue(Of String)("Doctype")
         currentGridRow.Cells(4).Value = deh.GetValue(Of String)("tocc")
-        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("tostatus")
-        currentGridRow.Cells(6).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
+        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("eqtstocki_qty")
+        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("unit_name")
+        currentGridRow.Cells(7).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
       Next
 
       m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
@@ -218,9 +221,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub SetRelation()
       Dim relation As GridViewRelation = New GridViewRelation(m_grid.MasterGridViewTemplate)
       relation.ChildTemplate = template
-      relation.RelationName = "Eqi"
-      relation.ParentColumnNames.Add("eqi_id")
-      relation.ChildColumnNames.Add("eqi_id")
+      relation.RelationName = "Toolid"
+      relation.ParentColumnNames.Add("tool_id")
+      relation.ChildColumnNames.Add("tool_id")
       m_grid.Relations.Add(relation)
     End Sub
     Private Sub ExpandAllRows(ByVal grid As RadGridView, ByVal expand As Boolean)
@@ -234,27 +237,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "RptEquipmentMovement"
+        Return "RptToolMovement"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.RptEquipmentMovement"
+        Return "Icons.16x16.RptToolMovement"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.RptEquipmentMovement"
+        Return "Icons.16x16.RptToolMovement"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -268,10 +271,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
-      Return "RptEquipmentMovement"
+      Return "RptToolMovement"
     End Function
     Public Overrides Function GetDefaultForm() As String
-      Return "RptEquipmentMovement"
+      Return "RptToolMovement"
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
@@ -280,49 +283,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each fixDpi As DocPrintingItem In Me.FixValueCollection
         dpiColl.Add(fixDpi)
       Next
-      
+
       Dim n As Integer = 0
       Dim cRow As Integer = 0
       For rowIndex As Integer = 0 To m_grid.RowCount - 1
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col0"
-          dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col1"
-          dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col2"
-          dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col3"
-          dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
         dpi = New DocPrintingItem
-        dpi.Mapping = "col4"
-        dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
+        dpi.Mapping = "col0"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col1"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col2"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col3"
+        'dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
+
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col4"
+        'dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
+
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "col5"
+        'dpi.Value = m_grid.Rows(rowIndex).Cells(6).Value
+        'dpi.DataType = "System.String"
+        'dpi.Row = n + 1
+        'dpi.Table = "Item"
+        'dpiColl.Add(dpi)
 
         Dim childRowInfo As GridViewRowInfo = m_grid.Rows(rowIndex)
         Dim childRows As GridViewRowInfo() = childRowInfo.ViewTemplate.ChildGridViewTemplates(0).GetChildRows(childRowInfo)
@@ -377,6 +388,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col6"
+          dpi.Value = childRows(i).Cells(7).Value
+          dpi.DataType = "System.String"
+          dpi.Row = cRow + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           n += 1
           cRow += 1
         Next
@@ -388,7 +407,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Throw New NotImplementedException
     End Function
 
-    
+
 
   End Class
 End Namespace

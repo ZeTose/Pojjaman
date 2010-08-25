@@ -175,12 +175,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCCCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
       Me.txtCCCodeStart.Location = New System.Drawing.Point(112, 63)
+      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
       Me.txtCCCodeStart.Name = "txtCCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
       Me.Validator.SetRequired(Me.txtCCCodeStart, False)
       Me.txtCCCodeStart.Size = New System.Drawing.Size(96, 21)
       Me.txtCCCodeStart.TabIndex = 6
+      Me.txtCCCodeStart.Text = ""
       '
       'lblCCStart
       '
@@ -398,21 +400,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblDocDateStart}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblCCStart}")
+      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel.lblCCStart}")
       Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
       ' Global {ถึง}
       Me.lblEQEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtEQCodeEnd, lblEQEnd.Text)
 
-      'Me.lblAssetTypeEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtAssetTypeCodeEnd, lblAssetTypeEnd.Text)
-
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-
-      'Me.lblCCEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      'Me.Validator.SetDisplayName(txtCCCodeEnd, lblCCEnd.Text)
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
@@ -425,11 +421,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Member"
-    Private m_equipmentstart As Equipment
-    Private m_equipmentend As Equipment
-
-    'Private m_assettypestart As AssetType
-    'Private m_assettypeend As AssetType
+    Private m_equipmentstart As EquipmentItem
+    Private m_equipmentend As EquipmentItem
 
     Private m_DocDateEnd As Date
     Private m_DocDateStart As Date
@@ -451,19 +444,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-    Public Property equipmentstart() As Equipment
+    Public Property equipmentstart() As EquipmentItem
       Get
         Return m_equipmentstart
       End Get
-      Set(ByVal Value As Equipment)
+      Set(ByVal Value As EquipmentItem)
         m_equipmentstart = Value
       End Set
     End Property
-    Public Property EquipmentEnd() As Equipment
+    Public Property EquipmentEnd() As EquipmentItem
       Get
         Return m_equipmentend
       End Get
-      Set(ByVal Value As Equipment)
+      Set(ByVal Value As EquipmentItem)
         m_equipmentend = Value
       End Set
     End Property
@@ -499,8 +492,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.CostCenter = New CostCenter
 
-      Me.equipmentstart = New Equipment
-      Me.EquipmentEnd = New Equipment
+      Me.equipmentstart = New EquipmentItem
+      Me.EquipmentEnd = New EquipmentItem
 
 
       Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
@@ -603,7 +596,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtCCCodeStart.Validated, AddressOf Me.ChangeProperty
-      'AddHandler txtCCCodeEnd.Validated, AddressOf Me.ChangeProperty
 
       AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
@@ -617,7 +609,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case "txtcccodestart"
           'If Not m_ccSetting Then
-          Me.txtCCCodeStart.Text = CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+          CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           'Else
           'm_ccSetting = False
           'End If
@@ -686,7 +678,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If data.GetDataPresent((New CostCenter).FullClassName) Then
           If Not Me.ActiveControl Is Nothing Then
             Select Case Me.ActiveControl.Name.ToLower
-              Case "txtcccodestart", "txtcccodeend"
+              Case "txtcccodestart"
                 Return True
             End Select
           End If
@@ -731,10 +723,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Select Case CType(sender, Control).Name.ToLower
         Case "btneqstartfind"
-          myEntityPanelService.OpenListDialog(New Equipment, AddressOf SetEQStartDialog)
+          myEntityPanelService.OpenListDialog(New EquipmentItem, AddressOf SetEQStartDialog)
 
         Case "btneqendfind"
-          myEntityPanelService.OpenListDialog(New Equipment, AddressOf SetEQEndDialog)
+          myEntityPanelService.OpenListDialog(New EquipmentItem, AddressOf SetEQEndDialog)
       End Select
     End Sub
     Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -744,34 +736,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeStartDialog)
 
-          'Case "btnccendfind"
-          '  myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCCCodeEndDialog)
       End Select
     End Sub
     Private Sub SetEQStartDialog(ByVal e As ISimpleEntity)
       Me.txtEQCodeStart.Text = e.Code
-      Equipment.GetEquipment(txtEQCodeStart, txttmp, Me.equipmentstart)
+      EquipmentItem.GetEquipmentItem(txtEQCodeStart, txttmp, Me.equipmentstart)
     End Sub
     Private Sub SetEQEndDialog(ByVal e As ISimpleEntity)
       Me.txtEQCodeEnd.Text = e.Code
-      Equipment.GetEquipment(txtEQCodeEnd, txttmp, Me.EquipmentEnd)
-    End Sub
-    Private Sub SetAssetTypeStartDialog(ByVal e As ISimpleEntity)
-      'Me.txtAssetTypeCodeStart.Text = e.Code
-      'AssetType.GetAssetType(txtAssetTypeCodeStart, txtTemp, Me.AssetTypeStart)
-    End Sub
-    Private Sub SetAssetTypeEndDialog(ByVal e As ISimpleEntity)
-      'Me.txtAssetTypeCodeEnd.Text = e.Code
-      'AssetType.GetAssetType(txtAssetTypeCodeEnd, txtTemp, Me.AssetTypeEnd)
+      EquipmentItem.GetEquipmentItem(txtEQCodeEnd, txttmp, Me.EquipmentEnd)
     End Sub
     Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
       'm_ccSetting = True
       Me.txtCCCodeStart.Text = e.Code
       CostCenter.GetCostCenter(txtCCCodeStart, txttmp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-    End Sub
-    Private Sub SetCCCodeEndDialog(ByVal e As ISimpleEntity)
-      'Me.txtCCCodeEnd.Text = e.Code
-      'CostCenter.GetCostCenter(txtCCCodeEnd, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
     End Sub
 #End Region
 

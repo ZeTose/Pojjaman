@@ -161,61 +161,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For rowIndex As Integer = 0 To m_grid.RowCount - 1
         dpi = New DocPrintingItem
         dpi.Mapping = "col0"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(0).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col1"
         dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col1"
-        'dpi.Value = m_grid(rowIndex, 2).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col2"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col2"
-        'dpi.Value = m_grid(rowIndex, 3).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col3"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col3"
-        'dpi.Value = m_grid(rowIndex, 4).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col4"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col4"
-        'dpi.Value = m_grid(rowIndex, 5).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col5"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col5"
-        'dpi.Value = m_grid(rowIndex, 6).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col6"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(6).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col6"
-        'dpi.Value = m_grid(rowIndex, 7).CellValue
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col7"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(7).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col8"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(8).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col9"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(9).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col10"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(10).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col11"
+        dpi.Value = m_grid.Rows(rowIndex).Cells(11).Value
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         n += 1
       Next
