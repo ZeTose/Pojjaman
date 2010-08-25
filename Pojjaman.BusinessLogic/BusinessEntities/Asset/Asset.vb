@@ -456,6 +456,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_account As Account
     Private m_depreopeningacct As Account
     Private m_depreaccount As Account
+    Private m_placcount As Account
 
     Private m_type As AssetType
 
@@ -708,7 +709,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 				.m_account = New Account
 				.m_depreopeningacct = New Account
-				.m_depreaccount = New Account
+        .m_depreaccount = New Account
+        .PLAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.AssetProfitLoss).Account
 
 				.m_unit = New Unit
 				.m_lci = New LCIItem
@@ -1224,6 +1226,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Account)
         m_depreaccount = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Property PLAccount() As Account
+      Get
+        Return m_placcount
+      End Get
+      Set(ByVal Value As Account)
+        m_placcount = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property

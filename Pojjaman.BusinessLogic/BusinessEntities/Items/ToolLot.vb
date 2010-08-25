@@ -110,11 +110,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct(dr, "")
       Dim drh As New DataRowHelper(dr)
       With Me
-        .Id = drh.GetValue(Of Integer)("eqtid")
+        .Id = drh.GetValue(Of Integer)("toollot_id")
         .Code = drh.GetValue(Of String)("eqtcode")
         .Name = drh.GetValue(Of String)("eqtname")
         .m_cc = Costcenter.GetCCMinDataById(drh.GetValue(Of Integer)("eqtcc"))
         .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)("eqtunit"))
+        .m_tool = New Tool
+        .m_tool.Id = drh.GetValue(Of Integer)("eqtid")
       End With
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)

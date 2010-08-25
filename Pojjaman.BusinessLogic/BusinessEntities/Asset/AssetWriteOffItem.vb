@@ -16,13 +16,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_lineNumber As Integer
 
     Private m_unitPrice As Decimal
-    Private m_note As String
+    'Private m_note As String
     'Private m_CostAmount As Decimal
     Private m_unvatable As Boolean = False
     Private m_discount As New Discount("")
 
     Private m_assetacct As Account
     Private m_accdepreacct As Account
+    Private m_assetplacct As Account
 
     Private m_conversion As Decimal = 1
 
@@ -71,35 +72,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         .Level = drh.GetValue(Of Integer)("eqtstocki_level")
         .m_itemtype = New EqtItemType(drh.GetValue(Of Integer)("eqtstocki_entityType"))
-        '.m_itemtype.Value = drh.GetValue(Of Integer)("eqtstocki_entityType")
 
         Dim newItem As IEqtItem
         Select Case Level
           Case 0
             newItem = New Asset(dr, Me.AssetWriteoff)
           Case 1
-            If .m_itemtype.Value = 348 Then
+            If .m_itemtype.Value = 19 Then
               newItem = New ToolLot(dr, Me.AssetWriteoff)
             ElseIf .m_itemtype.Value = 346 Then
               newItem = New EquipmentItem(dr, Me.AssetWriteoff)
             End If
         End Select
         .Entity = newItem
+        .Name = newItem.Name
 
         Trace.WriteLine(newItem.Id.ToString & ":" & newItem.Code & ":" & newItem.Name)
 
-        .m_unitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice")
-        '.m_remainbuyqty = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_remainbuyqty")
         .m_unit = Unit.GetUnitById(drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_unit"))
-        .m_buyUnitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitassetamount")
-        '.m_assetamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_assetamount")
-        '.m_writeoffamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffamount")
+        .m_refSequence = drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_refsequence")
+        .m_RealRemainQty = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_remainbuyqty") 'ปริมาณคงเหลือ 1
+        .m_buyUnitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_buyunitprice") 'ราคาซื้อ/หน่วย 2
+        .m_assetamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_AssetAmount") 'มูลค่าสินทรัพย์ 3
+        .m_accdepre = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_accdepre") 'ค่าเสื่อมสะสม 4
+        .m_qty = drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_qty") 'ปริมาณ 6
+        .m_unitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice") 'ราคาขาย/หน่วย 7
+        .m_amount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount") 'มูลค่าขาย 8
+        .m_writeoffamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffAmt") 'มูลค่า Write Off 9
+        .m_writeOffDepreAmount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffaccdepre") 'ค่าเสื่อมสะสม Write Off 10
 
-        .m_accdepre = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_accdepre")
-        .m_assetacct = Account.GetAccountById(drh.GetValue(Of Integer)("asset_acct"))
-        .m_accdepreacct = Account.GetAccountById(drh.GetValue(Of Integer)("asset_depreopeningacct"))
+        'dr("eqtstocki_assetremainamount") = Me.AssetRemainAmount 'มูลค่าคงเหลือ 5
+        'dr("eqtstocki_costamount") = Me.CostAmount 'ต้นทุนขาย 11
+        'dr("eqtstocki_profitloss") = Me.ProfitLoss 'กำไร/ขาดทุน 12
 
+        .m_assetacct = Account.GetAccountById(drh.GetValue(Of Integer)("eqtstocki_acct"))
+        .m_accdepreacct = Account.GetAccountById(drh.GetValue(Of Integer)("eqtstocki_depreacct"))
+        .m_assetplacct = Account.GetAccountById(drh.GetValue(Of Integer)("eqtstocki_placct"))
 
+        .Note = drh.GetValue(Of String)(aliasPrefix & "eqtstocki_note")
+        .m_parent = drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_parent")
+        .m_fromstatus = New EqtStatus(drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_parent"))
+        .m_tostatus = New EqtStatus(drh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_parent"))
         'If dr.Table.Columns.Contains(aliasPrefix & "stocki_unvatable") AndAlso Not dr.IsNull(aliasPrefix & "stocki_unvatable") Then
         '  .m_unvatable = CBool(dr(aliasPrefix & "stocki_unvatable"))
         'End If
@@ -108,8 +121,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  .m_deprecalc = CDbl(dr(aliasPrefix & "stocki_tag"))
         'End If
 
-
-        .RemainingQty = Me.Qty
+        .HasChild = drh.GetValue(Of Integer)("haschilds") > 0
+        .Asset = New Asset(dr, Me.AssetWriteoff)
 
       End With
     End Sub
@@ -205,6 +218,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Account)
         m_accdepreacct = Value
       End Set
+    End Property    Public Property PLAccount As Account      Get
+        Return m_assetplacct
+      End Get
+      Set(ByVal value As Account)
+        m_assetplacct = value
+      End Set
     End Property    Public Property DepreCalculation() As Double      Get
         Return m_deprecalc
       End Get
@@ -214,7 +233,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    'Public Property Discount() As Discount 'ไม่มีส่วนลดต่อ item    '  Get    '    Return m_discount    '  End Get    '  Set(ByVal Value As Discount)    '    m_discount = Value    '  End Set    'End Property
     Public Overrides Property Amount() As Decimal 'ในที่นี้คือ มูลค่าที่ขาย
       Get
-        'Me.Discount.AmountBeforeDiscount = (Me.UnitPrice * Me.Qty)
         Return m_amount '(Me.UnitPrice * Me.Qty) 
       End Get
       Set(ByVal value As Decimal)
@@ -297,7 +315,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.AssetWriteoff.IsInitialized = False
 
-      row("LineNumber") = Me.LineNumber
+      If Me.LineNumber = 0 Then
+        'row("LineNumber") = ""
+      Else
+        row("LineNumber") = Me.LineNumber
+      End If
+
       row("Type") = Me.ItemType.Description
 
       If Not Me.Entity Is Nothing Then
@@ -391,12 +414,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'row("AccountCode") = Me.AccDepreAccount.Code
         'row("Account") = Me.AccDepreAccount.Name
       End If
-
       If Not Me.AccDepreAccount Is Nothing Then
         row("DepreAccount") = Me.AccDepreAccount.Id
         'row("AccountCode") = Me.AccDepreAccount.Code
         'row("Account") = Me.AccDepreAccount.Name
       End If
+      'If Not Me.PLAccount Is Nothing Then
+      '  row("PLAccount") = Me.PLAccount.Id
+      '  'row("AccountCode") = Me.AccDepreAccount.Code
+      '  'row("Account") = Me.AccDepreAccount.Name
+      'End If
 
       row("Note") = Me.Note
       
@@ -528,6 +555,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         .RefSequence = drh.GetValue(Of Integer)("createseq")
         .Asset = New Asset(dr, Me.AssetWriteoff)
+        .Parent = .Asset.Id
+        .PLAccount = .Asset.PLAccount
+
         'ElseIf level = 1 Then
         'm_parent = drh.GetValue(Of Integer)("asset")
         'End If
@@ -683,9 +713,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim key As Integer = 0
       Dim parrow As TreeRow = Nothing
       For Each gri As AssetWriteOffItem In Me
-        i += 1
-
         If gri.Level = 0 Then
+          i += 1
+          gri.LineNumber = i
           'key = gri.Entity.Id
           'If Not hashAsset.Contains(key) Then
           parrow = dt.Childs.Add
@@ -694,6 +724,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           parrow.Tag = gri
           'End If
         Else
+          gri.LineNumber = 0
           If Not parrow Is Nothing Then
             Dim childrow As TreeRow = parrow.Childs.Add
             'childrow.State = RowExpandState.Expanded

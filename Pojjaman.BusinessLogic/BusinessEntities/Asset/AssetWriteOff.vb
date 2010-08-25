@@ -136,9 +136,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_customer = New Customer(CInt(dr(aliasPrefix & "eqtstock_entity")))
           End If
         End If
-        If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
-          .m_creditPeriod = CInt(dr(aliasPrefix & "eqtstock_creditPeriod"))
-        End If
+        'If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
+        '  .m_creditPeriod = CInt(dr(aliasPrefix & "eqtstock_creditPeriod"))
+        'End If
         If Not dr.IsNull(aliasPrefix & "eqtstock_discrate") Then
           .m_discount = New Discount(CStr(dr(aliasPrefix & "eqtstock_discrate")))
         End If
@@ -152,8 +152,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         ''==============
         '======ไม่มี จำเป็นต้องมีหรือป่าว
-        If dr.Table.Columns.Contains(aliasPrefix & "stock_creditperiod") AndAlso Not dr.IsNull(aliasPrefix & "stock_creditperiod") Then
-          .m_creditPeriod = CInt(dr(aliasPrefix & "stock_creditperiod"))
+        If dr.Table.Columns.Contains(aliasPrefix & "eqtstock_creditperiod") AndAlso Not dr.IsNull(aliasPrefix & "eqtstock_creditperiod") Then
+          .m_creditPeriod = CInt(dr(aliasPrefix & "eqtstock_creditperiod"))
         End If
         '======ไม่มี จำเป็นต้องมีหรือป่าว
 
@@ -219,7 +219,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As WitholdingTaxCollection)
         m_whtcol = Value
       End Set
-    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    'Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Dim ret As Decimal = 0        For Each wri As AssetWriteOffItem In Me.Itemcollection          ret += wri.Amount
+    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    'Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Dim ret As Decimal = 0        For Each wri As AssetWriteOffItem In Me.Itemcollection          If TypeOf wri.Entity Is Asset Then            ret += wri.Amount
+          End If
         Next        Return ret 'm_gross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         Select Case Me.TaxType.Value
@@ -260,7 +261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.BeforeTax + Me.TaxAmount
           Case 2 '"รวม"
             Return Me.Gross - Me.DiscountAmount
-        End Select      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
+        End Select      End Get    End Property    Public Property AssetRemain As Decimal    Public Property AssetWriteOff As Decimal    Public Property AssetWriteOffDepre As Decimal    Public Property AssetCost As Decimal    Public Property AssetProfitLoss As Decimal    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "AssetWriteoff"
       End Get
@@ -347,6 +348,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'myDatatable.Columns.Add(New DataColumn("AccountButton", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("stocki_unvatable", GetType(Boolean)))
       myDatatable.Columns.Add(New DataColumn("Note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Parent", GetType(Integer)))
 
       Return myDatatable
     End Function
@@ -422,6 +424,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
     End Sub
+    Public Sub RefreshAssetSummary()
+      AssetRemain = 0      AssetWriteOff = 0      AssetWriteOffDepre = 0      AssetCost = 0      AssetProfitLoss = 0
+      For Each wri As AssetWriteOffItem In Me.Itemcollection
+        If TypeOf wri.Entity Is Asset Then
+          AssetRemain += wri.AssetRemainAmount          AssetWriteOff += wri.WriteOffAmount          AssetWriteOffDepre += wri.WriteOffDepreAmount          AssetCost += wri.CostAmount          AssetProfitLoss += wri.ProfitLoss
+        End If
+      Next
+    End Sub
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldreceive As Integer, ByVal oldvat As Integer, ByVal oldje As Integer)
       Me.Id = oldid
       Me.m_receive.Id = oldreceive
@@ -455,7 +465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         paramArrayList.Add(returnVal)
         If Me.Originated Then
-          paramArrayList.Add(New SqlParameter("@stock_id", Me.Id))
+          paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
         End If
 
         Dim theTime As Date = Now
@@ -725,7 +735,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim rowsToDelete As New ArrayList
         For Each dr As DataRow In dt.Rows
           Dim found As Boolean = False
-          For Each testItem As EquipmentToolWithdrawItem In Me.Itemcollection
+          For Each testItem As AssetWriteOffItem In Me.Itemcollection
             If testItem.Sequence = CInt(dr("eqtstocki_sequence")) Then
               found = True
               Exit For
@@ -763,18 +773,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '------------End Checking--------------------
 
-            'dr("eqtstocki_eqtstock") = Me.Id
-            'dr("eqtstocki_linenumber") = i
-
-            'dr("eqtstocki_entity") = item.Entity.Id
-            'dr("eqtstocki_entityType") = item.ItemType.Value
-            'dr("eqtstocki_Name") = item.Entity.Name
-            'dr("eqtstocki_qty") = item.Qty
-            'dr("eqtstocki_unit") = item.Unit.Id
-            'dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
-            'dr("eqtstocki_note") = item.Note
-            'dr("eqtstocki_type") = Me.EntityId
-
             dr("eqtstocki_eqtstock") = Me.Id
             dr("eqtstocki_linenumber") = i
             If TypeOf item.Entity Is ToolLot Then
@@ -788,19 +786,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             dr("eqtstocki_name") = item.Entity.Name
             dr("eqtstocki_unit") = item.Unit.Id
-            dr("eqtstocki_qty") = item.Qty
-            dr("eqtstocki_refsequence") = item.RefSequence
+
+            dr("eqtstocki_refsequence") = item.RefSequence 'Sequence ของการซืัอ
             dr("eqtstocki_rentalrate") = DBNull.Value 'item.RentalPerDay  'คิดจากจำนวนแล้ว
             dr("eqtstocki_rentalunit") = DBNull.Value
             dr("eqtstocki_rentalqty") = DBNull.Value
-            dr("eqtstocki_unitprice") = DBNull.Value 'item.RentalPerDay
-            dr("eqtstocki_Amount") = item.Amount 'มูลค่าขาย
-            dr("eqtstocki_remainbuyqty") = item.RemainBuyQty 'ปริมาณคงเหลือ
-            dr("eqtstocki_unitAssetAmount") = item.UnitPrice 'ราคาขาย/หน่วย
-            dr("eqtstocki_AssetAmount") = item.AssetAmount 'มูลค่า Write off
-            dr("eqtstocki_writeoffAmt") = item.WriteOffAmount 'มูลค่า Write off
-            dr("eqtstocki_unitaccdepre") = DBNull.Value
-            dr("eqtstocki_accdepre") = DBNull.Value
+
+            dr("eqtstocki_remainbuyqty") = item.RemainBuyQty 'ปริมาณคงเหลือ 1
+            dr("eqtstocki_buyunitprice") = item.BuyUnitPrice 'ราคาซื้อ/หน่วย 2
+            dr("eqtstocki_AssetAmount") = item.AssetAmount 'มูลค่าสินทรัพย์ 3
+            dr("eqtstocki_accdepre") = item.AccDepre 'ค่าเสื่อมสะสม 4
+            dr("eqtstocki_assetremainamount") = item.AssetRemainAmount 'มูลค่าคงเหลือ 5
+
+            dr("eqtstocki_qty") = item.Qty 'ปริมาณ 6
+            dr("eqtstocki_unitprice") = item.UnitPrice 'ราคาขาย/หน่วย 7
+            dr("eqtstocki_Amount") = item.Amount 'มูลค่าขาย 8
+            dr("eqtstocki_writeoffAmt") = item.WriteOffAmount  'มูลค่า Write Off 9
+
+            dr("eqtstocki_writeoffaccdepre") = item.WriteOffDepreAmount 'ค่าเสื่อมสะสม Write Off 10
+            dr("eqtstocki_costamount") = item.CostAmount 'ต้นทุนขาย 11
+            dr("eqtstocki_profitloss") = item.ProfitLoss 'กำไร/ขาดทุน 12
+
             dr("eqtstocki_note") = item.Note
             dr("eqtstocki_type") = Me.EntityId
             dr("eqtstocki_refdoc") = DBNull.Value
@@ -810,9 +816,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_level") = item.Level
             dr("eqtstocki_fromstatus") = 9
             dr("eqtstocki_tostatus") = 9
+
+            dr("eqtstocki_acct") = item.AssetAccount.Id
+            dr("eqtstocki_depreacct") = item.AccDepreAccount.Id
+            dr("eqtstocki_placct") = item.PLAccount.Id
+            'dr("eqtstocki_asset") = item.Asset.Id
+
             If drs.Length = 0 Then
               .Rows.Add(dr)
             End If
+
+
 
             'Dim rootWBS As New WBS(Me.WithdrawCostcenter.RootWBSId)
             'If item.ItemType.Value <> 160 _
@@ -1179,8 +1193,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim myDiscount As Decimal = Me.DiscountAmount
           Dim sumInItems As Decimal = 0
           For Each item As AssetWriteOffItem In Me.Itemcollection
-            If Not item.UnVatable Then
-              sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount))
+            If TypeOf item.Entity Is Asset Then
+              If Not item.UnVatable Then
+                sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount))
+              End If
             End If
           Next
           Me.TaxBase = sumInItems
@@ -1189,8 +1205,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim myDiscount As Decimal = Me.DiscountAmount
           Dim sumInItems As Decimal = 0
           For Each item As AssetWriteOffItem In Me.Itemcollection
-            If Not item.UnVatable Then
-              sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
+            If TypeOf item.Entity Is Asset Then
+              If Not item.UnVatable Then
+                sumInItems += (item.Amount - ((item.Amount / myGross) * myDiscount)) * (100 / (Me.TaxRate + 100))
+              End If
             End If
           Next
           Me.TaxBase = sumInItems
@@ -1709,14 +1727,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.ItemType.Value = 28 Then
           ji = New JournalEntryItem
           ji.Mapping = "I8.1"
-          ji.Amount = item.AccDepre
+          ji.Amount = item.WriteOffDepreAmount
           ji.Account = item.AccDepreAccount
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
 
           ji = New JournalEntryItem
           ji.Mapping = "I8.1D"
-          ji.Amount = item.AccDepre
+          ji.Amount = item.WriteOffDepreAmount
           ji.Account = item.AccDepreAccount
           ji.CostCenter = Me.FromCostCenter
           ji.EntityItem = item.Entity.Id
@@ -1808,13 +1826,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'cr.กำไรจากการขายสินทรัพย์
     Private Sub SetGLI7_6(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
+      'Dim acct As New Account
       'Dim ht As New Hashtable
+      'For Each item As AssetWriteOffItem In Me.Itemcollection
       'For Each trow As TreeRow In Me.ItemTable.Childs
       '  If ValidateRow(trow) Then
-      '    Dim acctItem As New Account(CInt(trow("stocki_acct")))
-      '    If Not acctItem Is Nothing Then
-      '      ht(acctItem.Id) = acctItem
-      '    End If
+      'Dim acctItem As New Account(CInt(trow("stocki_acct")))
+      'If Not acctItem Is Nothing Then
+      '  ht(acctItem.Id) = acctItem
+      'End If
       '  End If
       'Next
       'For Each acct As Account In ht.Values
@@ -1854,14 +1874,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "I7.6"
           ji.Amount = item.ProfitLoss
-          ji.Account = item.AssetAccount
+          ji.Account = item.PLAccount
           ji.CostCenter = Me.FromCostCenter
           jiColl.Add(ji)
 
           ji = New JournalEntryItem
           ji.Mapping = "I7.6D"
           ji.Amount = item.ProfitLoss
-          ji.Account = item.AssetAccount
+          ji.Account = item.PLAccount
           ji.CostCenter = Me.FromCostCenter
           ji.EntityItem = item.Entity.Id
           ji.EntityItemType = item.Entity.EntityId
