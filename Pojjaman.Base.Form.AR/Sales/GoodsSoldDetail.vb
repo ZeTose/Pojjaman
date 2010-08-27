@@ -1851,18 +1851,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myVat As Vat = Me.m_entity.Vat
       If Not myVat Is Nothing Then
         Dim myVatitem As VatItem
-        If myVat.ItemCollection.Count <= 0 Then
-          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-        End If
+        'If myVat.ItemCollection.Count <= 0 Then
+        '  Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+        'End If
         VatInputEnabled(True)
-        myVatitem = myVat.ItemCollection(0)
-        If myVat.AutoGen Then
-          Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
-        Else
-          Me.txtInvoiceCode.Text = myVatitem.Code
+        If myVat.ItemCollection.Count > 0 Then
+          myVatitem = myVat.ItemCollection(0)
+          If myVat.AutoGen Then
+            Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+          Else
+            Me.txtInvoiceCode.Text = myVatitem.Code
+          End If
+          Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, "")
+          Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
         End If
-        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, "")
-        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)  
       End If
       m_oldInvoiceCode = Me.txtInvoiceCode.Text
       Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
@@ -1895,6 +1897,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
 
       RefreshDocs()
+
+      'If Me.m_entity.NoVat Then
+      '  Me.m_entity.Vat.ItemCollection.Clear()
+      'End If
 
       SetStatus()
       SetLabelText()
@@ -2044,6 +2050,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
             Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            Dim novat As Boolean = Me.txtInvoiceCode.Text.Length = 0
+            Me.m_entity.SetNoVat(novat)
             dirtyFlag = True
           End If
         Case "txtinvoicedate"
@@ -2308,6 +2316,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
         'Hack: set Code เป็น "" เอง
         vi.Code = ""
+        vi.AutoGen = True
         Me.m_entity.Vat.AutoGen = True
       Else
         'Me.Validator.SetRequired(Me.txtInvoiceCode, True)
@@ -2315,6 +2324,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtInvoiceCode.Text = m_oldInvoiceCode
         Me.txtInvoiceCode.ReadOnly = False
         Me.m_entity.Vat.AutoGen = False
+        vi.AutoGen = False
       End If
     End Sub
     Public Sub AcctButtonClick(ByVal e As ButtonColumnEventArgs)

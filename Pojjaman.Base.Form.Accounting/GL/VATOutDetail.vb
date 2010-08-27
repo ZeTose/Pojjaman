@@ -194,6 +194,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxBase.TabIndex = 189
       Me.txtTaxBase.TabStop = False
       Me.txtTaxBase.Text = ""
+      Me.txtTaxBase.TextAlign = HorizontalAlignment.Right
       '
       'lblPrintAddress
       '
@@ -584,6 +585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAmount.TabIndex = 189
       Me.txtAmount.TabStop = False
       Me.txtAmount.Text = ""
+      Me.txtAmount.TextAlign = HorizontalAlignment.Right
       '
       'lblBaht
       '
@@ -985,13 +987,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
           vi.PrintAddress = Me.txtPrintAddress.Text
           dirtyFlag = True
         Case "txttaxbase"
-          vi.TaxBase = CDec(Me.txtTaxBase.Text)
+          Dim val As Decimal = 0
+          If IsNumeric(Me.txtTaxBase.Text) Then
+            val = CDec(Me.txtTaxBase.Text)
+          End If
+          vi.TaxBase = val
           vi.UseCustomTaxAmount = True
           vi.Amount = Configuration.Format(vi.TaxBase * vi.TaxRate / 100, DigitConfig.Price)
           dirtyFlag = True
           UpdateAmount()
         Case "txtamount"
-          vi.Amount = CDec(Me.txtAmount.Text)
+          Dim val As Decimal = 0
+          If IsNumeric(Me.txtAmount.Text) Then
+            val = CDec(Me.txtAmount.Text)
+          End If
+          vi.Amount = val
           dirtyFlag = True
           UpdateAmount()
         Case "dtpdocdate"
@@ -1072,28 +1082,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.m_entity
       End Get
       Set(ByVal Value As ISimpleEntity)
-        'If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-        Me.m_entity = Nothing
-        Me.m_entity = Value
-        If Not m_vat Is Nothing Then
-          RemoveHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
-          Me.m_vat = Nothing
-        End If
-        If TypeOf m_entity Is IVatable Then
-          Dim vatRefDoc As IVatable = CType(m_entity, IVatable)
-          m_vat = vatRefDoc.Vat
-          If m_vat Is Nothing Then
-            m_vat = New Vat
-            m_vat.RefDoc.Vat = m_vat
+        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+          Me.m_entity = Nothing
+          Me.m_entity = Value
+          If Not m_vat Is Nothing Then
+            RemoveHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+            Me.m_vat = Nothing
           End If
-          m_vat.RefDoc = vatRefDoc
-          m_vat.Entity = vatRefDoc.Person
+          If TypeOf m_entity Is IVatable Then
+            Dim vatRefDoc As IVatable = CType(m_entity, IVatable)
+            m_vat = vatRefDoc.Vat
+            If m_vat Is Nothing Then
+              m_vat = New Vat
+              m_vat.RefDoc.Vat = m_vat
+            End If
+            m_vat.RefDoc = vatRefDoc
+            m_vat.Entity = vatRefDoc.Person
+          End If
         End If
-        'End If
         If Not Me.m_vat Is Nothing Then
           Me.m_vat.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
         UpdateEntityProperties()
+        If m_vat.RefDoc.NoVat Then
+          Me.m_vat.ItemCollection.Clear()
+        End If
       End Set
     End Property
 

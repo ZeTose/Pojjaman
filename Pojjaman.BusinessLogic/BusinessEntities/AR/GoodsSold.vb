@@ -1310,7 +1310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีขาย
-      If Me.Vat.ItemCollection(0).Code.Length > 0 AndAlso Me.Vat.Amount > 0 Then
+      If Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
@@ -1321,9 +1321,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         jiColl.Add(ji)
       End If
-
       'ภาษีขาย-ไม่ถึงกำหนด
-      If Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Me.RealTaxAmount - Me.Vat.Amount > 0 Then
+      If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5.1"
         If Me.Vat.Code.Length = 0 Then
@@ -1338,6 +1337,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         jiColl.Add(ji)
       End If
+
+      ''ภาษีขาย-ไม่ถึงกำหนด
+      'If Me.Vat.ItemCollection.Count = 0 AndAlso Me.RealTaxAmount - Me.Vat.Amount > 0 Then
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "C10.5.1"
+      '  If Me.Vat.Code.Length = 0 Then
+      '    ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
+      '  Else
+      '    ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+      '  End If
+      '  If Me.FromCostCenter.Originated Then
+      '    ji.CostCenter = Me.FromCostCenter
+      '  Else
+      '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      '  End If
+      '  jiColl.Add(ji)
+      'End If
 
 
       'ภาษีถูกหัก ณ ที่จ่าย
@@ -1836,11 +1852,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
+    Private m_novat As Boolean = False
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return Me.TaxType.Value = 0
+        Return Me.TaxType.Value = 0 OrElse m_novat
       End Get
     End Property
+    Public Sub SetNoVat(ByVal novat As Boolean)
+      m_novat = novat
+    End Sub
 #End Region
 
 #Region "IWitholdingTaxable"
