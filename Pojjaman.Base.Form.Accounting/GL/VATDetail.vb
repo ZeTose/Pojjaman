@@ -1461,6 +1461,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IAuxTab"
     Public ReadOnly Property AuxEntity() As IDirtyAble Implements IAuxTab.AuxEntity
       Get
+        If Me.m_vat Is Nothing OrElse Me.m_vat.ItemCollection Is Nothing Then
+          Return Nothing
+        End If
         For i As Integer = 0 To Me.m_vat.ItemCollection.Count - 1
           If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
             If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
