@@ -100,14 +100,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblStatus = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.txtSCCode = New System.Windows.Forms.TextBox()
       Me.txtTaxBase = New System.Windows.Forms.TextBox()
       Me.txtRealGross = New System.Windows.Forms.TextBox()
       Me.txtRealTaxAmount = New System.Windows.Forms.TextBox()
       Me.txtRealTaxBase = New System.Windows.Forms.TextBox()
-      Me.txtSCCode = New System.Windows.Forms.TextBox()
       Me.txtFromCostCenterCode = New System.Windows.Forms.TextBox()
       Me.txtFromCCPersonCode = New System.Windows.Forms.TextBox()
       Me.txtFromCCPersonName = New System.Windows.Forms.TextBox()
@@ -116,6 +116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCostCenterCode = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkClosed = New System.Windows.Forms.CheckBox()
       Me.lblSCCode = New System.Windows.Forms.Label()
       Me.ibtnShowSCDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -136,8 +137,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblFromCCPerson = New System.Windows.Forms.Label()
       Me.ibtnShowFromCCPersonDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowFromCCPerson = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -480,6 +482,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDate.Size = New System.Drawing.Size(136, 21)
       Me.txtDocDate.TabIndex = 1
       '
+      'txtSCCode
+      '
+      Me.Validator.SetDataType(Me.txtSCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtSCCode, "")
+      Me.txtSCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtSCCode, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
+      Me.txtSCCode.Location = New System.Drawing.Point(96, 40)
+      Me.Validator.SetMinValue(Me.txtSCCode, "")
+      Me.txtSCCode.Name = "txtSCCode"
+      Me.Validator.SetRegularExpression(Me.txtSCCode, "")
+      Me.Validator.SetRequired(Me.txtSCCode, True)
+      Me.txtSCCode.Size = New System.Drawing.Size(160, 21)
+      Me.txtSCCode.TabIndex = 334
+      Me.txtSCCode.TabStop = False
+      '
       'txtTaxBase
       '
       Me.txtTaxBase.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -545,23 +564,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRealTaxBase.Size = New System.Drawing.Size(72, 21)
       Me.txtRealTaxBase.TabIndex = 62
       Me.txtRealTaxBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'txtSCCode
-      '
-      Me.Validator.SetDataType(Me.txtSCCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtSCCode, "")
-      Me.txtSCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtSCCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
-      Me.txtSCCode.Location = New System.Drawing.Point(96, 40)
-      Me.Validator.SetMinValue(Me.txtSCCode, "")
-      Me.txtSCCode.Name = "txtSCCode"
-      Me.Validator.SetRegularExpression(Me.txtSCCode, "")
-      Me.Validator.SetRequired(Me.txtSCCode, True)
-      Me.txtSCCode.Size = New System.Drawing.Size(160, 21)
-      Me.txtSCCode.TabIndex = 334
-      Me.txtSCCode.TabStop = False
       '
       'txtFromCostCenterCode
       '
@@ -734,6 +736,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
       '
+      'btnApprove
+      '
+      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnApprove.ForeColor = System.Drawing.Color.Black
+      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnApprove.Location = New System.Drawing.Point(728, 114)
+      Me.btnApprove.Name = "btnApprove"
+      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
+      Me.btnApprove.TabIndex = 335
+      Me.btnApprove.Text = "อนุมัติเอกสาร"
+      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
+      '
       'chkClosed
       '
       Me.chkClosed.Appearance = System.Windows.Forms.Appearance.Button
@@ -856,7 +872,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCopyMe.Location = New System.Drawing.Point(280, 16)
+      Me.ibtnCopyMe.Location = New System.Drawing.Point(278, 16)
       Me.ibtnCopyMe.Name = "ibtnCopyMe"
       Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
       Me.ibtnCopyMe.TabIndex = 13
@@ -952,26 +968,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowFromCCPerson.TabStop = False
       Me.ibtnShowFromCCPerson.ThemedImage = CType(resources.GetObject("ibtnShowFromCCPerson.ThemedImage"), System.Drawing.Bitmap)
       '
-      'btnApprove
-      '
-      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(728, 114)
-      Me.btnApprove.Name = "btnApprove"
-      Me.btnApprove.Size = New System.Drawing.Size(104, 23)
-      Me.btnApprove.TabIndex = 335
-      Me.btnApprove.Text = "อนุมัติเอกสาร"
-      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
-      '
       'DRPanelView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "DRPanelView"
       Me.Size = New System.Drawing.Size(848, 512)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.ResumeLayout(False)

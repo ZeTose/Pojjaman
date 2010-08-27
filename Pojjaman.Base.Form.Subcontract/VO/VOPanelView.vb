@@ -112,8 +112,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDiscountAmount = New System.Windows.Forms.TextBox()
       Me.txtDiscountRate = New System.Windows.Forms.TextBox()
       Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.txtRetention = New System.Windows.Forms.TextBox()
+      Me.txtAdvancePay = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblRetention = New System.Windows.Forms.Label()
+      Me.lblAdvancePay = New System.Windows.Forms.Label()
       Me.ibtnShowWR = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkClosed = New System.Windows.Forms.CheckBox()
@@ -136,10 +140,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label1 = New System.Windows.Forms.Label()
       Me.ImageButton1 = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.txtRetention = New System.Windows.Forms.TextBox()
-      Me.txtAdvancePay = New System.Windows.Forms.TextBox()
-      Me.lblRetention = New System.Windows.Forms.Label()
-      Me.lblAdvancePay = New System.Windows.Forms.Label()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
@@ -626,6 +626,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.TabIndex = 343
       Me.txtNote.WordWrap = False
       '
+      'txtRetention
+      '
+      Me.Validator.SetDataType(Me.txtRetention, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRetention, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRetention, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRetention, System.Drawing.Color.Empty)
+      Me.txtRetention.Location = New System.Drawing.Point(385, 64)
+      Me.Validator.SetMinValue(Me.txtRetention, "")
+      Me.txtRetention.Name = "txtRetention"
+      Me.Validator.SetRegularExpression(Me.txtRetention, "")
+      Me.Validator.SetRequired(Me.txtRetention, False)
+      Me.txtRetention.Size = New System.Drawing.Size(103, 21)
+      Me.txtRetention.TabIndex = 348
+      Me.txtRetention.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'txtAdvancePay
+      '
+      Me.Validator.SetDataType(Me.txtAdvancePay, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAdvancePay, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
+      Me.txtAdvancePay.Location = New System.Drawing.Point(385, 88)
+      Me.Validator.SetMinValue(Me.txtAdvancePay, "")
+      Me.txtAdvancePay.Name = "txtAdvancePay"
+      Me.Validator.SetRegularExpression(Me.txtAdvancePay, "")
+      Me.Validator.SetRequired(Me.txtAdvancePay, False)
+      Me.txtAdvancePay.Size = New System.Drawing.Size(103, 21)
+      Me.txtAdvancePay.TabIndex = 349
+      Me.txtAdvancePay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
       'lblItem
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -705,6 +735,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
+      '
+      'lblRetention
+      '
+      Me.lblRetention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRetention.Location = New System.Drawing.Point(322, 64)
+      Me.lblRetention.Name = "lblRetention"
+      Me.lblRetention.Size = New System.Drawing.Size(56, 18)
+      Me.lblRetention.TabIndex = 350
+      Me.lblRetention.Text = "Retention:"
+      Me.lblRetention.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblAdvancePay
+      '
+      Me.lblAdvancePay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAdvancePay.Location = New System.Drawing.Point(322, 88)
+      Me.lblAdvancePay.Name = "lblAdvancePay"
+      Me.lblAdvancePay.Size = New System.Drawing.Size(56, 18)
+      Me.lblAdvancePay.TabIndex = 351
+      Me.lblAdvancePay.Text = "มัดจำ:"
+      Me.lblAdvancePay.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'ibtnShowWR
       '
@@ -906,7 +956,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCopyMe.Location = New System.Drawing.Point(248, 16)
+      Me.ibtnCopyMe.Location = New System.Drawing.Point(246, 16)
       Me.ibtnCopyMe.Name = "ibtnCopyMe"
       Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
       Me.ibtnCopyMe.TabIndex = 13
@@ -951,56 +1001,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ImageButton1.TabStop = False
       Me.ImageButton1.ThemedImage = CType(resources.GetObject("ImageButton1.ThemedImage"), System.Drawing.Bitmap)
       Me.ImageButton1.Visible = False
-      '
-      'txtRetention
-      '
-      Me.Validator.SetDataType(Me.txtRetention, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRetention, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRetention, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRetention, System.Drawing.Color.Empty)
-      Me.txtRetention.Location = New System.Drawing.Point(385, 64)
-      Me.Validator.SetMinValue(Me.txtRetention, "")
-      Me.txtRetention.Name = "txtRetention"
-      Me.Validator.SetRegularExpression(Me.txtRetention, "")
-      Me.Validator.SetRequired(Me.txtRetention, False)
-      Me.txtRetention.Size = New System.Drawing.Size(103, 21)
-      Me.txtRetention.TabIndex = 348
-      Me.txtRetention.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'txtAdvancePay
-      '
-      Me.Validator.SetDataType(Me.txtAdvancePay, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtAdvancePay, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtAdvancePay, System.Drawing.Color.Empty)
-      Me.txtAdvancePay.Location = New System.Drawing.Point(385, 88)
-      Me.Validator.SetMinValue(Me.txtAdvancePay, "")
-      Me.txtAdvancePay.Name = "txtAdvancePay"
-      Me.Validator.SetRegularExpression(Me.txtAdvancePay, "")
-      Me.Validator.SetRequired(Me.txtAdvancePay, False)
-      Me.txtAdvancePay.Size = New System.Drawing.Size(103, 21)
-      Me.txtAdvancePay.TabIndex = 349
-      Me.txtAdvancePay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'lblRetention
-      '
-      Me.lblRetention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRetention.Location = New System.Drawing.Point(322, 64)
-      Me.lblRetention.Name = "lblRetention"
-      Me.lblRetention.Size = New System.Drawing.Size(56, 18)
-      Me.lblRetention.TabIndex = 350
-      Me.lblRetention.Text = "Retention:"
-      Me.lblRetention.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblAdvancePay
-      '
-      Me.lblAdvancePay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAdvancePay.Location = New System.Drawing.Point(322, 88)
-      Me.lblAdvancePay.Name = "lblAdvancePay"
-      Me.lblAdvancePay.Size = New System.Drawing.Size(56, 18)
-      Me.lblAdvancePay.TabIndex = 351
-      Me.lblAdvancePay.Text = "มัดจำ:"
-      Me.lblAdvancePay.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'VOPanelView
       '

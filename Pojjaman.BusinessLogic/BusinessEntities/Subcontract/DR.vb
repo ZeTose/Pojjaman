@@ -2130,23 +2130,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IDuplicable"
     Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
-      ''เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
-      'Me.m_customNoteColl = New CustomNoteCollection(Me)
+      'เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
+      Me.m_customNoteColl = New CustomNoteCollection(Me)
 
-      'Me.Status.Value = -1
-      'If Not Me.Originated Then
-      '    Return Me
-      'End If
-      'Me.Id = 0
-      'Me.Code = "Copy of " & Me.Code
-      'Me.ApproveDate = Date.MinValue
-      'Me.ApprovePerson = New User
-      ''For Each item As POItem In Me.ItemCollection
-      ''    If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
-      ''        item.ReceivedQty = 0
-      ''    End If
-      ''Next
-      'Return Me
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.ApproveDate = Date.MinValue
+      Me.ApprovePerson = New User
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      Me.Closing = False
+      Me.Closed = False
+      Me.ClearReference()
+      Dim wbsdummy As WBS
+      For Each item As DRItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsdummy = wbsd.WBS
+            wbsd.WBS = wbsdummy
+          Next
+        End If
+      Next
+      Return Me
     End Function
 #End Region
 

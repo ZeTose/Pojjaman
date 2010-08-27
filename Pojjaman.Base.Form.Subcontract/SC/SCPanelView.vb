@@ -127,8 +127,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.lblNote = New System.Windows.Forms.Label()
       Me.lblStatus = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtStartDate = New System.Windows.Forms.TextBox()
       Me.txtEndDate = New System.Windows.Forms.TextBox()
@@ -185,7 +185,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAdvancePay = New System.Windows.Forms.Label()
       Me.lblEndDate = New System.Windows.Forms.Label()
       Me.lblStartDate = New System.Windows.Forms.Label()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.grbSubContractor.SuspendLayout()
       Me.grbCostCenter.SuspendLayout()
@@ -899,7 +901,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnCopyMe
       '
-      Me.ibtnCopyMe.Enabled = False
       Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
@@ -909,7 +910,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.TabIndex = 13
       Me.ibtnCopyMe.TabStop = False
       Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
-      Me.ibtnCopyMe.Visible = False
       '
       'btnApprove
       '
@@ -1322,6 +1322,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "SCPanelView"
       Me.Size = New System.Drawing.Size(784, 552)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbSubContractor.ResumeLayout(False)

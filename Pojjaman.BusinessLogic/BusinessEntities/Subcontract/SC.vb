@@ -926,6 +926,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
+    Public Function GetWROrderedQtyBySC() As Hashtable
+      If Me.WR Is Nothing AndAlso Me.WR.Originated Then
+        Dim hashwr As New Hashtable
+        Dim key As Integer
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetWROrderedQtyBySC" _
+        , New SqlParameter("@wr_id", Me.WR.Id) _
+        )
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim wri As New WRItem(row, "")
+          key = wri.Sequence
+          hashwr.Add(key, wri)
+        Next
+        Return hashwr
+      End If
+      Return Nothing
+    End Function
     Public Function GetCurrentAmountForMarkup(ByVal mk As Markup) As Decimal
       Dim ret As Decimal = 0
       For Each item As SCItem In Me.ItemCollection
@@ -3013,24 +3031,64 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IDuplicable"
     Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
-      ''เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
-      'Me.m_customNoteColl = New CustomNoteCollection(Me)
+      'เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
+      Me.m_customNoteColl = New CustomNoteCollection(Me)
 
-      'Me.Status.Value = -1
-      'If Not Me.Originated Then
-      '    Return Me
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.ApproveDate = Date.MinValue
+      Me.ApprovePerson = New User
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      Me.Closing = False
+      Me.Closed = False
+      Me.ClearReference()
+
+      'Not Reference WR ========================
+      Me.m_wr = New WR
+
+      'Reference WR ========================
+      'Dim hashWR As Hashtable
+      'Dim key As Integer
+      'Dim qty As Decimal
+      'If Not Me.WR Is Nothing AndAlso Me.WR.Originated Then
+      '  hashWR = Me.GetWROrderedQtyBySC
       'End If
-      'Me.Id = 0
-      'Me.Code = "Copy of " & Me.Code
-      'Me.ApproveDate = Date.MinValue
-      'Me.ApprovePerson = New User
-      ''For Each item As SCItem In Me.ItemCollection
-      ''    If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
-      ''        item.OrderedQty = 0
-      ''        item.WithdrawnQty = 0
-      ''    End If
-      ''Next
-      'Return Me
+
+      Dim wbsdummy As WBS
+      For Each item As SCItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsdummy = wbsd.WBS
+            wbsd.WBS = wbsdummy
+          Next
+
+          'Not Reference WR ========================
+          item.WR = New WR
+          item.WRISequence = 0
+          item.SetWRIQty(0)
+          item.SetWRIOrigingQty(0)
+          item.WRIUnit = New Unit
+
+          'Reference WR ========================
+          'If Not item.WR Is Nothing AndAlso item.WR.Originated Then
+          '  key = CInt(item.WRISequence)
+          '  qty = CType(hashWR(key), WRItem).OrderedQty
+          '  item.SetQty(qty)
+          'End If
+
+          item.ReceiptMat = 0
+          item.ReceiptLab = 0
+          item.ReceiptEq = 0
+          item.ReceiptQty = 0
+          item.ReceiptAmount = 0
+        End If
+      Next
+      Return Me
     End Function
 #End Region
 

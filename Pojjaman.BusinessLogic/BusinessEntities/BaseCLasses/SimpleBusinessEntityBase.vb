@@ -324,7 +324,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Overridable Sub ClearReference()
-
+      m_IsReferenced = False
+      m_IsReferedFrom = False
+      m_IsCancelable = False
     End Sub
     Public Overridable Sub SetSaveParameters(ByVal currentUserId As Integer)
 
