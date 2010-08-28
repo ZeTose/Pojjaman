@@ -1023,11 +1023,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(2, CType(lvLevel1.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel2.Items.Clear()
       Me.lvLevel3.Items.Clear()
-      If coll.Count = 0 Then
-        Me.m_treeManager.Treetable.Rows.Clear()
-        Me.m_entity.CurrentParentLciitem = New LCIItem
-        RefreshDocs()
-      End If
+      'If coll.Count = 0 Then
+      Me.m_treeManager.Treetable.Rows.Clear()
+      Me.m_entity.CurrentParentLciitem = New LCIItem
+      RefreshDocs()
+      'End If
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel2.BeginUpdate()
@@ -1056,11 +1056,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim t As Date = Now
       Dim coll As TreeBaseEntityCollection = Me.m_entity.GetLCICollection(3, CType(lvLevel2.SelectedItems(0).Tag, LCIItem).Id, False, m_filters)
       Me.lvLevel3.Items.Clear()
-      If coll.Count = 0 Then
-        Me.m_treeManager.Treetable.Rows.Clear()
-        Me.m_entity.CurrentParentLciitem = New LCIItem
-        RefreshDocs()
-      End If
+      'If coll.Count = 0 Then
+      Me.m_treeManager.Treetable.Rows.Clear()
+      Me.m_entity.CurrentParentLciitem = New LCIItem
+      RefreshDocs()
+      'End If
       'Me.m_treeManager.Treetable.Rows.Clear()
       Me.Cursor = Cursors.WaitCursor
       Me.lvLevel3.BeginUpdate()
@@ -1091,6 +1091,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Cursor = Cursors.WaitCursor
       Me.m_gridsetting = True
       Try
+        Me.m_treeManager.Treetable.Rows.Clear()
         Me.m_entity.CurrentParentLciitem = CType(lvLevel3.SelectedItems(0).Tag, LCIItem)
       Catch ex As Exception
         'Erorr 

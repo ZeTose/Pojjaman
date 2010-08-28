@@ -12,7 +12,7 @@ Imports System.Drawing.Drawing2D
 Namespace Longkong.Pojjaman.Gui.Panels
     Public Class UnitListView
         Inherits AbstractEntityPanelViewContent
-        Implements IValidatable, ISimpleListPanel
+    Implements IValidatable, ISimpleListPanel
 
 #Region " Windows Form Designer generated code "
         'UserControl overrides dispose to clean up the component list.
@@ -256,9 +256,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "ISimpleListPanel"
-        Public Sub ChangeTitle(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleListPanel.ChangeTitle
+    Public Sub ChangeTitle(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleListPanel.ChangeTitle
 
-        End Sub
+    End Sub
         Public Sub CheckFormEnable() Implements ISimplePanel.CheckFormEnable
 
         End Sub

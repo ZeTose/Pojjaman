@@ -149,7 +149,8 @@
 
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityListViews">
-		<EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>	
+    <EntityListView id="unit" entity="unit" view="Longkong.Pojjaman.Gui.Panels.UnitListView"/>
+    <EntityListView id="poplaceofdelivery" entity="poplaceofdelivery" view="Longkong.Pojjaman.Gui.Panels.POPlaceOfDeliveryListView"/>	
 		<EntityListView id="lciitem" entity="lciitem" view="Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView"/>
 		<EntityListView id="lciforselection" entity="lciforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterMatListDetail"/>
     <!--<EntityListView id="toolforselection" entity="toolforselection" view="Longkong.Pojjaman.Gui.Panels.CostCenterToolListDetail"/>

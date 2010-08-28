@@ -84,7 +84,8 @@
 		</MenuItem>-->
 
 		<MenuItem id="GeneralSetting" insertafter="Reports" insertbefore="Window" label="${res:MainMenu.GeneralSettingMenu}">
-			<MenuItem id="Unit" label="${res:MainMenu.MaterialMenu.UnitList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Unit"/>
+      <MenuItem id="Unit" label="${res:MainMenu.MaterialMenu.UnitList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Unit"/>
+      <MenuItem id="POPlaceOfDelivery" label="${res:MainMenu.MaterialMenu.POPlaceOfDeliveryList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery"/>
 			<MenuItem id="EmployeeSeparator" label="-"/>
 			<MenuItem id="Employee" label="${res:MainMenu.AdminMenu.EmployeeList}" icon="Icons.16x16.Employee" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Employee"/>
 			<MenuItem id="User" label="${res:MainMenu.AdminMenu.User}" icon="Icons.16x16.User" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.User"/>

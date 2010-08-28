@@ -16,7 +16,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Implements IHasName
 
 #Region "Members"
-        Private m_name As String
+    Private m_name As String
+    Private m_isDefault As Boolean
 #End Region
 
 #Region "Constructors"
@@ -52,60 +53,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-        Public Property Name() As String Implements IHasName.Name            Get
-                Return m_name
-            End Get
-            Set(ByVal Value As String)
-                m_name = Value
-                OnPropertyChanged(Me, New PropertyChangedEventArgs)
-            End Set
-        End Property
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "POPlaceOfDelivery"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.POPlaceOfDelivery"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.POPlaceOfDelivery"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property Prefix() As String
-            Get
-                Return "poplaceofdelivery"
-            End Get
-        End Property
+    Public Property IsDefault() As Boolean      Get        Return m_isDefault      End Get      Set(ByVal Value As Boolean)        m_isDefault = Value      End Set    End Property
+    Public Property Name() As String Implements IHasName.Name      Get
+        Return m_name
+      End Get
+      Set(ByVal Value As String)
+        m_name = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "POPlaceOfDelivery"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.POPlaceOfDelivery"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.POPlaceOfDelivery"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "poplaceofdelivery"
+      End Get
+    End Property
 
-        Public Overrides ReadOnly Property TabPageText() As String
-            Get
-                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-                Dim blankSuffix As String = "()"
-                If tpt.EndsWith(blankSuffix) Then
-                    tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
-                End If
-                Return tpt
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery.ListLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property UseSiteConnString() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property UseSiteConnString() As Boolean
+      Get
+        Return True
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
@@ -210,9 +212,201 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 conn.Close()
             End Try
         End Function
-
 #End Region
 
-    End Class
+  End Class
+  <Serializable(), DefaultMember("Item")> _
+  Public Class POPlaceOfDeliveryCollection
+    Inherits CollectionBase
+
+#Region "Members"
+    Private m_filters As Filter()
+#End Region
+
+#Region "Constructors"
+    Public Sub New(ByVal filters As Filter())
+
+      Dim sqlConString As String = SimpleBusinessEntityBase.SiteConnectionString
+      m_filters = filters
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetPOPlaceOfDeliveryList" _
+      , params _
+      )
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New POPlaceOfDelivery(row, "")
+        Me.Add(item)
+      Next
+    End Sub
+#End Region
+
+#Region "Properties"
+    Default Public Property Item(ByVal index As Integer) As POPlaceOfDelivery
+      Get
+        Return CType(MyBase.List.Item(index), POPlaceOfDelivery)
+      End Get
+      Set(ByVal value As POPlaceOfDelivery)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
+#End Region
+
+#Region "Class Methods"
+    Public Function GetItemWithId(ByVal id As Integer) As POPlaceOfDelivery
+      For Each item As POPlaceOfDelivery In Me
+        If item.Id = id Then
+          Return item
+        End If
+      Next
+    End Function
+    Protected Function GetParamsString(ByVal filters() As Filter) As String
+      Dim ret As String = ""
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        For i As Integer = 0 To filters.Length - 1
+          ret &= "@" & filters(i).Name & ","
+        Next
+      End If
+      ret = ret.TrimEnd(","c)
+      Return ret
+    End Function
+    Public Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      Try
+
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim conn As New SqlConnection(sqlConString)
+        Dim cmd As SqlCommand = conn.CreateCommand
+        cmd.CommandText = "Execute GetPOPlaceOfDeliveryList " & GetParamsString(m_filters)
+        If Not m_filters Is Nothing AndAlso m_filters.Length > 0 Then
+          For i As Integer = 0 To m_filters.Length - 1
+            cmd.Parameters.Add(New SqlParameter("@" & m_filters(i).Name, m_filters(i).Value))
+          Next
+        End If
+
+        Dim m_dataset As New DataSet
+        Dim m_da As New SqlDataAdapter
+        m_da.SelectCommand = cmd
+
+        m_da.Fill(m_dataset, "POPlaceOfDelivery")
+
+        Dim cmdBuilder As New SqlCommandBuilder(m_da)
+
+        Dim dt As DataTable = m_dataset.Tables("POPlaceOfDelivery")
+        For Each row As DataRow In dt.Rows
+          ' If row.IsNull("unit_default") OrElse CInt(row("unit_default")) = 0 Then
+          'ไม่ใช่ default
+          If GetItemWithId(CInt(row("poplaceofdelivery_id"))) Is Nothing Then
+            'หาไม่เจอ
+            'If POPlaceOfDelivery.CanDeleteThisId(CInt(row("poplaceofdelivery_id"))) Then
+            'ลบได้
+            row.Delete()
+            ' Else
+            'MessageBox.Show("สถานที่ส่งของ '" & CStr(row("poplaceofdelivery_name")) & "' ถูกอ้างอิงแล้ว ไม่สามารถลบได้")
+            'End If
+          End If
+            ' End If
+        Next
+        For Each item As POPlaceOfDelivery In Me
+          If Not item.Originated Then
+            Dim dr As DataRow = dt.NewRow
+            dr("poplaceofdelivery_code") = item.Code
+            dr("poplaceofdelivery_name") = item.Name
+            'dr("unit_default") = 0 'add เพิ่มเอง
+            'dr("unit_pjmid") = DBNull.Value
+            dt.Rows.Add(dr)
+          Else
+            Dim theRows As DataRow() = dt.Select("poplaceofdelivery_id=" & item.Id)
+            If theRows.Length = 1 Then
+              Dim dr As DataRow = theRows(0)
+              dr("poplaceofdelivery_code") = item.Code
+              dr("poplaceofdelivery_name") = item.Name
+              'dr("unit_default") = dr("unit_default")
+              'dr("unit_pjmid") = dr("unit_pjmid")
+            End If
+          End If
+        Next
+        ' First process deletes.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException("Error Saving:" & ex.ToString)
+      End Try
+    End Function
+    Public Sub PopulateTable(ByVal dt As TreeTable)
+      Dim i As Integer = 0
+      dt.Clear()
+      Dim stServ As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      For Each item As POPlaceOfDelivery In Me
+        i += 1
+        Dim newRow As TreeRow = dt.Childs.Add
+        newRow("Linenumber") = i
+        newRow("code") = item.Code
+        newRow("Name") = item.Name
+        'If item.IsDefault Then
+        '  newRow("Default") = stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.cmbUnitType.Default}")
+        'Else
+        '  newRow("Default") = stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.cmbUnitType.UserDefined}")
+        'End If
+        newRow.Tag = item
+      Next
+    End Sub
+#End Region
+
+#Region "Collection Methods"
+    Public Function Add(ByVal value As POPlaceOfDelivery) As Integer
+      If Not Me.Contains(value) Then
+        Return MyBase.List.Add(value)
+      End If
+    End Function
+    Public Sub AddRange(ByVal value As POPlaceOfDeliveryCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As POPlaceOfDelivery())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As POPlaceOfDelivery) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As POPlaceOfDelivery(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    'Public Shadows Function GetEnumerator() As UnitEnumerator
+    '  Return New UnitEnumerator(Me)
+    'End Function
+    Public Function IndexOf(ByVal value As POPlaceOfDelivery) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As POPlaceOfDelivery)
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As POPlaceOfDelivery)
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As PoplaceOfDeliveryCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
+#End Region
+  End Class
 End Namespace
 

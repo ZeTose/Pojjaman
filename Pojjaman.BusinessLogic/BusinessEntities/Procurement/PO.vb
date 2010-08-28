@@ -66,6 +66,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public MatActualHash As Hashtable
     Public LabActualHash As Hashtable
     Public EQActualHash As Hashtable
+    Private m_deliveryAddressColl As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -121,12 +122,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New POItemCollection(Me)
+      m_deliveryAddressColl = GetPOPlaceDelivery()
       'm_itemCollection.RefreshBudget()
       'Me.AutoCodeFormat = New AutoCodeFormat(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
+
         ' DocDate
         If Not dr.IsNull(aliasPrefix & "po_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "po_docDate"))
@@ -175,15 +178,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_supplier = New Supplier(CInt(dr(aliasPrefix & "po_supplier")))
           End If
         End If
+        'Delivery Address
+        m_deliveryAddressColl = GetPOPlaceDelivery()
         'Cost Center
         If dr.Table.Columns.Contains("cc_id") Then
           If Not dr.IsNull("cc_id") Then
             .m_cc = New CostCenter(dr, "")
+
+            m_deliveryAddressColl(0) = m_cc.Address
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "po_cc") Then
             .m_cc = CostCenter.GetCCMinDataById(CInt(dr(aliasPrefix & "po_cc")))
-            '.m_cc = New CostCenter(CInt(dr(aliasPrefix & "po_cc")))
+
+            m_deliveryAddressColl(0) = m_cc.Address
           End If
         End If
 
@@ -464,8 +472,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As CostCenter)
         m_cc = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
+        If Not m_cc Is Nothing AndAlso m_cc.Originated Then
+          Dim key As String = m_cc.Address
+          m_deliveryAddressColl(0) = key
+        End If
       End Set
     End Property
+    Public ReadOnly Property DeliveryAddressCollection() As Hashtable
+      Get
+        Return m_deliveryAddressColl
+      End Get
+    End Property
+
     Public Function GetCCFromPR() As CostCenter
       Dim dummyCC As CostCenter = Nothing
       For Each myPr As PR In Me.ItemCollection.PRHASH.Values
@@ -791,6 +809,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return CDec(ds.Tables(0).Rows(0)(0))
         End If
       End If
+    End Function
+    Public Function GetPOPlaceDelivery() As Hashtable
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.Text _
+      , "select * from POPlaceOFDelivery" _
+      )
+      Dim POPlaceDeliveryArrList As New Hashtable
+      ' Dim ccAddress As String = ""
+      'If Not Me.CostCenter Is Nothing AndAlso Me.CostCenter.Originated Then
+      '  If Me.CostCenter.Address.Length > 0 Then
+      '    ccAddress = Me.CostCenter.Address
+      '  End If
+      'End If
+      'If ccAddress.Length > 0 Then
+      '  POPlaceDeliveryArrList.Add(ccAddress)
+      'End If
+      Dim i As Integer = 1
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim key As String = drh.GetValue(Of String)("poplaceofdelivery_name")
+        POPlaceDeliveryArrList(i) = key
+        i += 1
+      Next
+      Return POPlaceDeliveryArrList
     End Function
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal type As Integer)
       myWbs = New WBS(myWbs.Id)
@@ -3881,24 +3923,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
-	Public Class POStatus
-		Inherits CodeDescription
+  Public Class POStatus
+    Inherits CodeDescription
 
 #Region "Constructors"
-		Public Sub New(ByVal value As Integer)
-			MyBase.New(value)
-		End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Overrides ReadOnly Property CodeName() As String
-			Get
-				Return "po_status"
-			End Get
-		End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "POStatus"
+      End Get
+    End Property
 #End Region
 
-	End Class
+  End Class
 
 	Public Class TaxType
 		Inherits CodeDescription

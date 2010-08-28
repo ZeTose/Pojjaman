@@ -453,11 +453,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim remain As Decimal = Me.Advance - Me.ItemCollection.GetHandedAdvrAmount
       Dim unhandedValue As Decimal = 0
       For Each item As Milestone In coll
+        Dim itemAmount As Decimal = item.MileStoneAmount
+        If roundBeforeSum Then
+          itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+        End If
         If item.Status.Value < 3 Then
-          Dim itemAmount As Decimal = item.MileStoneAmount
-          If roundBeforeSum Then
-            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-          End If
           unhandedValue += itemAmount
         End If
       Next

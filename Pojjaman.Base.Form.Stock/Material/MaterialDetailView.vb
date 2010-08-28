@@ -1483,6 +1483,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
+      txtlv1.Enabled = True
+      txtlv2.Enabled = True
+      txtlv3.Enabled = True
+      txtlv4.Enabled = True
+      txtlv5.Enabled = True
+
       m_entity.LoadImage()
 
       txtCode.Text = m_entity.Code
@@ -1708,7 +1714,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+      If Me.m_entity Is Nothing OrElse Not m_isInitialized Then
         Return
       End If
       'If Me.m_entity.Parent.Level < 4 Then

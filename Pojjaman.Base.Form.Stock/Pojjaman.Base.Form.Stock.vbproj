@@ -186,6 +186,9 @@
     <Compile Include="Labor\LaborDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Material\POPlaceOfDeliveryListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Material\MatOperationReturnDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -350,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Labor\LaborDetailView.resx">
       <DependentUpon>LaborDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\POPlaceOfDeliveryListView.resx">
+      <DependentUpon>POPlaceOfDeliveryListView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Material\MatOperationReturnDetailView.resx">
       <DependentUpon>MatOperationReturnDetailView.vb</DependentUpon>
