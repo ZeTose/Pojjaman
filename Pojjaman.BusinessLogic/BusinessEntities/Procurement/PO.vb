@@ -3771,9 +3771,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Code = "Copy of " & Me.Code
       Me.ApproveDate = Date.MinValue
       Me.ApprovePerson = New User
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      'Me.Closing = False
+      Me.Closed = False
+      Me.ClearReference()
       Me.ItemCollection.checkPritemsRemain()
+      Dim wbsdummy As WBS
       For Each item As POItem In Me.ItemCollection
         If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsdummy = wbsd.WBS
+            wbsd.WBS = wbsdummy
+          Next
           item.ReceivedQty = 0
         End If
       Next
