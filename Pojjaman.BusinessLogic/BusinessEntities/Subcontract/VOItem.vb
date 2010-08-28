@@ -26,6 +26,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
   '#End Region
 
   '    End Class
+  'Public Class VOParentItem
+  '  Inherits VOItem
+  '  Public Property SummaryUnitPrice As Decimal
+  '  Public Property SummaryUnitCost As Decimal
+  '  Public Property SummaryAmount As Decimal
+  '  Public Property SummaryMat As Decimal
+  '  Public Property SummaryLab As Decimal
+  '  Public Property SummaryEq As Decimal
+  '  Public Property SummaryReceipt As Decimal
+  'End Class
   Public Class VOItem
     Implements IWBSAllocatableItem
 
@@ -280,6 +290,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property SummaryUnitPrice As Decimal
+    Public Property SummaryUnitCost As Decimal
+    Public Property SummaryAmount As Decimal
+    Public Property SummaryMat As Decimal
+    Public Property SummaryLab As Decimal
+    Public Property SummaryEq As Decimal
+    Public Property SummaryReceipt As Decimal
     Public Property VO() As VO      Get        Return m_vo      End Get      Set(ByVal Value As VO)        m_vo = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Sequence() As Decimal      Get
         Return m_sequence
       End Get
@@ -292,7 +309,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_refSequence = Value
       End Set
-    End Property    Public Property scitem() As scitem      Get        Return m_scitem      End Get      Set(ByVal Value As scitem)        m_scitem = Value      End Set    End Property    Public Property ItemType() As SCIItemType      Get        Return m_itemType      End Get      Set(ByVal Value As SCIItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Property    Public Property scitem() As SCItem      Get        Return m_scitem      End Get      Set(ByVal Value As SCItem)        m_scitem = Value      End Set    End Property    Public Property ItemType() As SCIItemType      Get        Return m_itemType      End Get      Set(ByVal Value As SCIItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemType Is Nothing Then
           m_itemType = Value
           Me.Clear()
@@ -312,7 +329,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         'If msgServ.AskQuestion("${res:Global.Question.ChangePREntityType}") Then
         '  Dim oldType As Integer = m_itemType.Value
-          m_itemType = Value
+        m_itemType = Value
         'For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
         '  Dim transferAmt As Decimal = Me.Amount
         '  wbsd.BaseCost = transferAmt
@@ -328,7 +345,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  'Me.m_sc.SetActual(wbsd.WBS, wbsd.TransferAmount, 0, oldType)
         '  'Me.m_sc.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, m_itemType.Value)
         'Next
-          Me.Clear()
+        Me.Clear()
         'If Value.Value = 289 Then
         '  Me.Level = 0
         'Else
@@ -399,7 +416,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_unit = Value
         Else
           msgServ.ShowMessage(err)
-        End If      End Set    End Property     Public Sub UpdateWBSQty()
+        End If      End Set    End Property    Public Sub UpdateWBSQty()
       Select Case Me.ItemType.Value
         Case 88, 89, 160, 162
           For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
@@ -1303,6 +1320,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_discount = New Discount("")
       Me.m_unvatable = False
     End Sub
+    Public Sub Clone(ByVal vi As VOItem)
+      If Not Me.VO Is Nothing Then
+        vi.m_vo = New VO
+        vi.m_vo.Id = Me.VO.Id
+        vi.m_vo.Code = Me.VO.Code
+      End If
+
+      vi.m_lineNumber = Me.LineNumber
+      If Not Me.scitem Is Nothing Then
+        vi.m_scitem = New SCItem
+        vi.m_scitem.SC = New SC
+        If Not Me.m_scitem.SC Is Nothing Then
+          vi.m_scitem.SC.Id = Me.m_scitem.SC.Id
+          vi.m_scitem.SC.Code = Me.m_scitem.SC.Code
+          vi.m_scitem.Linenumber = Me.m_scitem.Linenumber
+        End If
+      End If
+
+      vi.m_itemType = New SCIItemType(Me.ItemType.Value)
+
+      vi.m_entity = New BlankItem("")
+      If Not Me.Entity Is Nothing Then
+        vi.m_entity.Id = Me.Entity.Id
+        vi.m_entity.Code = Me.Entity.Code
+        vi.m_entity.Name = Me.Entity.Name
+      End If
+
+      vi.m_entityName = Me.EntityName
+      vi.m_unit = Unit.GetUnitById(Me.Unit.Id)
+      vi.m_originQty = Me.OriginQty
+      vi.m_originAmt = Me.OriginAmt
+      vi.m_qty = Me.Qty
+      vi.m_unitPrice = Me.UnitPrice
+      vi.m_mat = Me.Mat
+      vi.m_lab = Me.Lab
+      vi.m_eq = Me.Eq
+      vi.m_amount = Me.Amount
+      vi.m_note = Me.Note
+      'Private m_receivedQty As Decimal
+      vi.m_unvatable = Me.UnVatable
+      vi.m_discount = New Discount(Me.m_discount.Rate)
+      vi.m_conversion = Me.Conversion
+      vi.m_level = Me.Level
+      vi.m_sequence = Me.Sequence
+      vi.m_refSequence = Me.RefSequence
+      vi.m_parent = Me.Parent
+      vi.m_isNotVoItem = Me.IsNotVoItem
+      vi.m_unitCost = Me.UnitCost
+      'Private m_receivedAmount As Decimal
+
+      'Private m_sumChildMat As Decimal
+      'Private m_sumChildLab As Decimal
+      'Private m_sumChildEq As Decimal
+
+      vi.m_receivedAmount = Me.ReceivedAmount
+      vi.m_receivedMat = Me.m_receivedMat
+      vi.m_receivedLab = Me.m_receivedLab
+      vi.m_receivedEq = Me.m_receivedEq
+      vi.m_receivedQty = Me.m_receivedQty
+
+      vi.m_oldQty = Me.OldQty
+      vi.m_oldMat = Me.OldMat
+      vi.m_oldLab = Me.OldLab
+      vi.m_oldEq = Me.OldEq
+      vi.m_oldAmount = Me.OldAmount
+
+      vi.m_isNotRefSc = Me.IsNotRefSC
+    End Sub
     Public Sub CopyToDataRow(ByVal row As TreeRow)
       If row Is Nothing Then
         Return
@@ -1493,6 +1578,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetQty(ByVal value As Decimal)
       m_qty = value
     End Sub
+    Public Function IsMyChild(ByVal vi As VOItem) As Boolean
+      If Me.RefSequence = vi.RefSequence AndAlso Me.scitem.SC.Id = vi.scitem.SC.Id Then
+        Return True
+      End If
+    End Function
 #End Region
     
     Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
@@ -2277,6 +2367,32 @@ Public Class VOItemCollection
         'End If
 
         'newRow.Tag = voi
+      Next
+
+      For Each vi As VOItem In Me
+        If vi.Level = 0 Then
+          For Each vic As VOItem In Me
+            If vic.Level = 1 Then
+              If vi.IsMyChild(vic) Then
+                vi.SummaryUnitPrice += vic.UnitPrice
+                vi.SummaryUnitCost += vic.UnitCost
+                vi.SummaryAmount += vic.Amount
+                vi.SummaryMat += vic.Mat
+                vi.SummaryLab += vic.Lab
+                vi.SummaryEq += vic.Eq
+                vi.SummaryReceipt += vic.ReceivedAmount
+              End If
+            End If
+          Next
+        Else 'Level 1
+          vi.SummaryUnitPrice = vi.UnitPrice
+          vi.SummaryUnitCost = vi.UnitCost
+          vi.SummaryAmount = vi.Amount
+          vi.SummaryMat = vi.Mat
+          vi.SummaryLab = vi.Lab
+          vi.SummaryEq = vi.Eq
+          vi.SummaryReceipt = vi.ReceivedAmount
+        End If
       Next
 
       dt.AcceptChanges()

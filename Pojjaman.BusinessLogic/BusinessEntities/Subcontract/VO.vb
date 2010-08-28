@@ -47,8 +47,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
-    
-
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -1843,6 +1841,27 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Value = Me.SubContractor.BillingAddress
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'SubContractorPhone
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorPhone"
+        dpi.Value = Me.SubContractor.Phone
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractorFax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractorFax"
+        dpi.Value = Me.SubContractor.Fax
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SubContractoreMail
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SubContractoreMail"
+        dpi.Value = Me.SubContractor.EmailAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
       End If
 
       If Not Me.CostCenter Is Nothing AndAlso Me.CostCenter.Originated Then
@@ -1864,6 +1883,13 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi = New DocPrintingItem
         dpi.Mapping = "CostCenterName"
         dpi.Value = Me.CostCenter.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CostCenterAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterAddress"
+        dpi.Value = Me.CostCenter.Address
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -2034,29 +2060,31 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'Item.Unit
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.Unit"
-        dpi.Value = item.Unit.Name
-        dpi.Font = fn
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+        If item.Level = 1 Then
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
 
-        'Item.Qty
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.Qty"
-        If item.Qty = 0 Then
-          dpi.Value = ""
-        Else
-          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          'Item.Qty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Qty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
         End If
-        dpi.Font = fn
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
 
         'Item.UnitPrice
         dpi = New DocPrintingItem
@@ -2152,10 +2180,389 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.ParentSummaryUnitPrice
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryUnitPrice"
+        dpi.Value = Configuration.FormatToString(item.SummaryUnitPrice, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryUnitCost
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryUnitCost"
+        dpi.Value = Configuration.FormatToString(item.SummaryUnitCost, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryAmount"
+        dpi.Value = Configuration.FormatToString(item.SummaryAmount, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryMat
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryMat"
+        dpi.Value = Configuration.FormatToString(item.SummaryMat, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryLab
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryLab"
+        dpi.Value = Configuration.FormatToString(item.SummaryLab, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryEq
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryEq"
+        dpi.Value = Configuration.FormatToString(item.SummaryEq, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryReceipt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ParentSummaryReceipt"
+        dpi.Value = Configuration.FormatToString(item.SummaryReceipt, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         i += 1
+      Next
+      dpiColl.AddRange(GetParentCollDocPrintingEntries)
+      dpiColl.AddRange(GetChildCollDocPrintingEntries)
+      Return dpiColl
+    End Function
+    Public Function GetParentCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '------------------ท้ายเอกสาร------------------------------
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
+      For Each item As VOItem In Me.ItemCollection
+        If item.Level = 0 Then
+
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.LineNumber"
+          dpi.Value = i + 1
+          dpi.Font = fn
+          dpi.DataType = "System.string"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.Code"
+          dpi.Value = item.Entity.Code
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Name
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.Name"
+          If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+            dpi.Value = indent & item.EntityName.Trim
+          Else
+            dpi.Value = indent & item.Entity.Name.Trim
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.Note"
+          dpi.Value = item.Note
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryUnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryUnitPrice"
+          dpi.Value = Configuration.FormatToString(item.SummaryUnitPrice, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryUnitCost
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryUnitCost"
+          dpi.Value = Configuration.FormatToString(item.SummaryUnitCost, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryAmount"
+          dpi.Value = Configuration.FormatToString(item.SummaryAmount, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryMat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryMat"
+          dpi.Value = Configuration.FormatToString(item.SummaryMat, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryLab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryLab"
+          dpi.Value = Configuration.FormatToString(item.SummaryLab, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryEq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryEq"
+          dpi.Value = Configuration.FormatToString(item.SummaryEq, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryReceipt
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ParentItem.ParentSummaryReceipt"
+          dpi.Value = Configuration.FormatToString(item.SummaryReceipt, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ParentItem"
+          dpiColl.Add(dpi)
+
+          i += 1
+        End If
       Next
       Return dpiColl
     End Function
+    Public Function GetChildCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '------------------ท้ายเอกสาร------------------------------
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
+      For Each item As VOItem In Me.ItemCollection
+        If item.Level = 1 Then
+
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.LineNumber"
+          dpi.Value = i + 1
+          dpi.Font = fn
+          dpi.DataType = "System.string"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Code"
+          dpi.Value = item.Entity.Code
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Name
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Name"
+          If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+            dpi.Value = indent & item.EntityName.Trim
+          Else
+            dpi.Value = indent & item.Entity.Name.Trim
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Qty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Qty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.UnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Amount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.ReceivedAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.ReceivedAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Mat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Mat"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Lab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Lab"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Eq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Eq"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ChildItem.Note"
+          dpi.Value = item.Note
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "ChildItem"
+          dpiColl.Add(dpi)
+
+          i += 1
+        End If
+      Next
+      Return dpiColl
+    End Function
+
 #End Region
 
 #Region " IApprovAble "
