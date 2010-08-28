@@ -12,7 +12,7 @@ Imports System.Text.RegularExpressions
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class WHTDetail
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab, ICanRefreshAutoComplete
+    Implements IValidatable, IAuxTab, ICanRefreshAutoComplete, ISetNothingEntity
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -1721,9 +1721,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         If m_whtcol.Count > 0 Then
-        If Not m_whtcol Is Nothing AndAlso m_whtcol.Contains(m_whtcol(0)) Then
-          m_wht = m_whtcol(0)
-        End If
+          If Not m_whtcol Is Nothing AndAlso m_whtcol.Contains(m_whtcol(0)) Then
+            m_wht = m_whtcol(0)
+          End If
         Else
           If TypeOf m_entity Is IWitholdingTaxable Then
             Dim whtRefDoc As IWitholdingTaxable = CType(m_entity, IWitholdingTaxable)
@@ -2035,5 +2035,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End Try
     End Sub
+
+    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
+      Me.m_entity = Nothing
+    End Sub
+
   End Class
 End Namespace

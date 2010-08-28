@@ -10,7 +10,7 @@ Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class VATOutDetail
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab
+    Implements IValidatable, IAuxTab, ISetNothingEntity
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -1168,7 +1168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1249,6 +1249,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
+      Me.m_entity = Nothing
+    End Sub
 
   End Class
 End Namespace

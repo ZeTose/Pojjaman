@@ -16,7 +16,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class PaymentOutDetail
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab
+    Implements IValidatable, IAuxTab, ISetNothingEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -1307,7 +1307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_payment Is Nothing Then
         Return
       End If
-      If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) OrElse (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value = 0)  Then
+      If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) OrElse (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value = 0) Then
 
         'grbDetail.Enabled = False
         For Each ctrl As Control In grbDetail.Controls
@@ -1753,16 +1753,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
           myEntityPanelService.OpenListDialog(New AdvancePay, AddressOf SetItems, filters, entities)
         Case 174 '∑¥√Õß®Ë“¬
-            Dim filters(0) As Filter
-            filters(0) = New Filter("IDList", GenIDListFromDataTable(174))
-            'filters(1) = New Filter("advm_closed", False)
-            Dim entities As New ArrayList
-            Dim advm As New AdvanceMoney
-            advm.Closed = False
-            entities.Add(advm)
-            myEntityPanelService.OpenListDialog(New AdvanceMoney, AddressOf SetItems, filters, entities)
+          Dim filters(0) As Filter
+          filters(0) = New Filter("IDList", GenIDListFromDataTable(174))
+          'filters(1) = New Filter("advm_closed", False)
+          Dim entities As New ArrayList
+          Dim advm As New AdvanceMoney
+          advm.Closed = False
+          entities.Add(advm)
+          myEntityPanelService.OpenListDialog(New AdvanceMoney, AddressOf SetItems, filters, entities)
         Case 65 '‚Õπ
-            Return
+          Return
         Case Else
       End Select
     End Sub
@@ -1891,7 +1891,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -2019,6 +2019,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
 #End Region
+
+    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
+      Me.m_entity = Nothing
+    End Sub
 
   End Class
 

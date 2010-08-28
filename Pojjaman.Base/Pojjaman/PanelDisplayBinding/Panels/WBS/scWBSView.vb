@@ -16,7 +16,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class scWBSView
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+    Implements IValidatable, ISetNothingEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -1749,6 +1749,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
     End Sub
 #End Region
+
+    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
+      Me.m_entity = Nothing
+    End Sub
 
   End Class
 

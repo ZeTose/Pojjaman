@@ -10,7 +10,7 @@ Imports Longkong.AdobeForm
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class GLView
 		Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab
+    Implements IValidatable, IAuxTab, ISetNothingEntity
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -1775,6 +1775,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_je.RefreshGLFormat()
       Me.UpdateEntityProperties()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+
+    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
+      Me.m_entity = Nothing
     End Sub
   End Class
 End Namespace

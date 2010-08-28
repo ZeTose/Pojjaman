@@ -14,5 +14,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Interface IAuxTabItem
     ReadOnly Property AuxEntityItem() As Object
   End Interface
+  Public Interface ISetNothingEntity
+    Sub SetNothing()
+  End Interface
 End Namespace
 

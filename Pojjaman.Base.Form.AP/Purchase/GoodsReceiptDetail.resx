@@ -144,6 +144,18 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>42</value>
   </metadata>
+  <data name="ibtnCopyMe.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAARdJREFUOE+Nk9tOwzAMhsv7PxHTJpGbII0KtSCOGuIeJhKSpoekzMRGSbfJW6n039j1
+        Z39SWwBAsXl7h1Mpy+pivb4t8D0uVMRhpb5BawPGNGCtg6ZpM7Sq7ucBOKiUzdG6Objq7AUvrxvarLXN
+        mdNKQDrt4fGJAMa4nDmtA0Bd3xHAuY7ck/9/tOiCm7IkQNcN0LY9hdNCxc+PL9huFfVxlgBSyrjVwTAE
+        6HtP4bRQ0doWvB9j/3kCCCFg8B5CGGMzUDitpPfXryfAcrWkod0OYBx/KJxW0kv9rLBYXMbtAYn54bSS
+        Hi6S13K6AAHH4bSSHk4KcTUBuK+M00p6OLmK2lmBA3Ba+4rYnwVwavu1s4BTP89x/RcVMXgTIhLxfQAA
+        AABJRU5ErkJggg==
+</value>
+  </data>
   <data name="ibtnShowSupplier.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

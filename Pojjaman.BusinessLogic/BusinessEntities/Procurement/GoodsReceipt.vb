@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
-   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable
+   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -858,6 +858,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Boolean)
         m_Unlock = Value
       End Set
+    End Property
+    Public Overrides ReadOnly Property Columns() As ColumnCollection
+      Get
+        If m_columns Is Nothing OrElse m_columns.Count <= 0 Then
+          m_columns = New ColumnCollection(Me.ClassName, 0)
+        End If
+        Return m_columns
+      End Get
     End Property
 #End Region
 
@@ -1768,7 +1776,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
               End If
             End If
-            
+
           Case 2 'Do Nothing
         End Select
 
@@ -2534,7 +2542,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ds.Tables(0)
 
     End Function
-    
+    Private Function haveAdvancePay() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+               Me.ConnectionString _
+               , CommandType.StoredProcedure _
+               , "GethaveAdvancepayFromSupandEntity" _
+               , New SqlParameter("@supplier_id", Me.Supplier.Id) _
+               , New SqlParameter("@entity_type", Me.EntityId) _
+               )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
 #End Region
 
 #Region "RefreshTaxBase"
@@ -4909,15 +4929,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-    Public Overrides ReadOnly Property Columns() As ColumnCollection
-      Get
-        If m_columns Is Nothing OrElse m_columns.Count <= 0 Then
-          m_columns = New ColumnCollection(Me.ClassName, 0)
-        End If
-        Return m_columns
-      End Get
-    End Property
-
 #Region "Delete"
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
@@ -5067,19 +5078,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-    Private Function haveAdvancePay() As Boolean
-      Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-               Me.ConnectionString _
-               , CommandType.StoredProcedure _
-               , "GethaveAdvancepayFromSupandEntity" _
-               , New SqlParameter("@supplier_id", Me.Supplier.Id) _
-               , New SqlParameter("@entity_type", Me.EntityId) _
-               )
-      If ds.Tables(0).Rows.Count > 0 Then
-        Return True
+#Region "IDuplicable"
+    Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
+      'เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
+      'Me.m_customNoteColl = New CustomNoteCollection(Me)
+
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
       End If
-      Return False
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.ApproveDate = Date.MinValue
+      Me.ApprovePerson = New User
+      Me.Canceled = False
+      Me.CancelPerson = New User
+
+      'Not Reference PO ============================================
+      Me.m_po = New PO
+
+      'Me.Closing = False
+      'Me.Closed = False
+      MyBase.ClearReference()
+      'Me.ClearReference()
+
+      Me.m_whtcol = New WitholdingTaxCollection(Me)
+      Me.m_whtcol.Direction = New WitholdingTaxDirection(1)
+
+      Me.m_advancePayItemColl = New AdvancePayItemCollection(Me)
+
+      Me.m_vat = New Vat(Me)
+      Me.m_vat.Direction.Value = 1
+
+      Me.m_je = New JournalEntry(Me)
+      Me.m_je.DocDate = Me.m_docDate
+
+      Me.m_payment = New Payment(Me)
+      Me.m_payment.DocDate = Me.m_je.DocDate
+      '----------------------------End Tab Entities-----------------------------------------
+      Me.m_asset = New Asset
+
+      Dim wbsdummy As WBS
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            wbsdummy = wbsd.WBS
+            wbsd.WBS = wbsdummy
+          Next
+
+          'Not Reference PO =============================================
+          item.POitem = New POItem
+          item.POitem = Nothing
+        End If
+      Next
+      Return Me
     End Function
+#End Region
 
   End Class
 

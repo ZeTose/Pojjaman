@@ -1268,11 +1268,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If POitem.Conversion <> 0 Then
             If Me.Conversion <> 0 Then
               row("poi_receivedqty") = POitem.ReceivedQty '+ receiveQty
-              Select Case Me.POitem.ItemType.Value
-                Case 160, 162
-                Case Else
-                  row("POItemRemainingQty") = Configuration.FormatToString((((Me.POitem.Qty - POitem.ReceivedQty) - receiveQty) * POitem.Conversion) / Me.Conversion, DigitConfig.Qty)
-              End Select
+              If Not Me.POitem.ItemType Is Nothing Then
+                Select Case Me.POitem.ItemType.Value
+                  Case 160, 162
+                  Case Else
+                    row("POItemRemainingQty") = Configuration.FormatToString((((Me.POitem.Qty - POitem.ReceivedQty) - receiveQty) * POitem.Conversion) / Me.Conversion, DigitConfig.Qty)
+                End Select
+              End If
             End If
           End If
           'MessageBox.Show(String.Format("{0}-{1},{2}", Me.POitem.Qty, receiveQty / POitem.Conversion, POitem.Conversion))
