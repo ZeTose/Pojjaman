@@ -167,7 +167,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
 
-      'm_contactCollection = New SupplierContactCollection(Me)
+      'If m_contactCollection Is Nothing Then
+      m_contactCollection = New SupplierContactCollection(Me)
+      'End If
 
       'm_SupplierLCICostLink = New SupplierLCICostLink(Me)
       'Hack เอาออก
@@ -205,9 +207,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property ContactCollection() As SupplierContactCollection
       Get
-        If m_contactCollection Is Nothing Then
-          m_contactCollection = New SupplierContactCollection(Me)
-        End If
+        'If m_contactCollection Is Nothing Then
+        '  m_contactCollection = New SupplierContactCollection(Me)
+        'End If
         Return m_contactCollection
       End Get
       Set(ByVal Value As SupplierContactCollection)
