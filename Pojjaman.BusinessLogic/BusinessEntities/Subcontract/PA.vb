@@ -2398,6 +2398,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'CostCenterAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterAddress"
+        dpi.Value = Me.CostCenter.Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
       End If
 
       If Not Me.Receiver Is Nothing Then

@@ -66,6 +66,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpUpdateDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpUpdateDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblUpdateDateStart As System.Windows.Forms.Label
+    Friend WithEvents chkIncludeCheckCode As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -112,6 +113,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.chkIncludeCheckCode = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbBankAcctBook.SuspendLayout()
       Me.grbDetail.SuspendLayout()
@@ -135,7 +137,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 8)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(815, 191)
+      Me.grbMaster.Size = New System.Drawing.Size(815, 214)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
@@ -152,7 +154,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
-      Me.txtDocDateStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(87, 21)
       Me.txtDocDateStart.TabIndex = 24
       '
       'txtDocDateEnd
@@ -167,7 +169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(86, 21)
       Me.txtDocDateEnd.TabIndex = 25
       '
       'dtpDocDateStart
@@ -199,9 +201,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbBankAcctBook.Controls.Add(Me.txtBankAcctCodeStart)
       Me.grbBankAcctBook.Controls.Add(Me.lblBankAcctStart)
       Me.grbBankAcctBook.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbBankAcctBook.Location = New System.Drawing.Point(496, 16)
+      Me.grbBankAcctBook.Location = New System.Drawing.Point(504, 16)
       Me.grbBankAcctBook.Name = "grbBankAcctBook"
-      Me.grbBankAcctBook.Size = New System.Drawing.Size(312, 96)
+      Me.grbBankAcctBook.Size = New System.Drawing.Size(304, 96)
       Me.grbBankAcctBook.TabIndex = 3
       Me.grbBankAcctBook.TabStop = False
       Me.grbBankAcctBook.Text = "ข้อมูลสมุดบัญชี"
@@ -320,6 +322,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.chkIncludeCheckCode)
       Me.grbDetail.Controls.Add(Me.lblUpdateDateStart)
       Me.grbDetail.Controls.Add(Me.lblUpdateDateEnd)
       Me.grbDetail.Controls.Add(Me.txtUpdateDateStart)
@@ -346,7 +349,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 16)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(480, 168)
+      Me.grbDetail.Size = New System.Drawing.Size(490, 189)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
@@ -385,7 +388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUpdateDateStart.Name = "txtUpdateDateStart"
       Me.Validator.SetRegularExpression(Me.txtUpdateDateStart, "")
       Me.Validator.SetRequired(Me.txtUpdateDateStart, False)
-      Me.txtUpdateDateStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtUpdateDateStart.Size = New System.Drawing.Size(87, 21)
       Me.txtUpdateDateStart.TabIndex = 35
       '
       'txtUpdateDateEnd
@@ -400,7 +403,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUpdateDateEnd.Name = "txtUpdateDateEnd"
       Me.Validator.SetRegularExpression(Me.txtUpdateDateEnd, "")
       Me.Validator.SetRequired(Me.txtUpdateDateEnd, False)
-      Me.txtUpdateDateEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtUpdateDateEnd.Size = New System.Drawing.Size(86, 21)
       Me.txtUpdateDateEnd.TabIndex = 36
       '
       'dtpUpdateDateStart
@@ -573,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCheckDueDateStart.Name = "txtCheckDueDateStart"
       Me.Validator.SetRegularExpression(Me.txtCheckDueDateStart, "")
       Me.Validator.SetRequired(Me.txtCheckDueDateStart, False)
-      Me.txtCheckDueDateStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtCheckDueDateStart.Size = New System.Drawing.Size(87, 21)
       Me.txtCheckDueDateStart.TabIndex = 28
       '
       'txtCheckDueDateEnd
@@ -588,7 +591,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCheckDueDateEnd.Name = "txtCheckDueDateEnd"
       Me.Validator.SetRegularExpression(Me.txtCheckDueDateEnd, "")
       Me.Validator.SetRequired(Me.txtCheckDueDateEnd, False)
-      Me.txtCheckDueDateEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtCheckDueDateEnd.Size = New System.Drawing.Size(86, 21)
       Me.txtCheckDueDateEnd.TabIndex = 29
       '
       'dtpCheckDueDateStart
@@ -613,7 +616,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(733, 159)
+      Me.btnSearch.Location = New System.Drawing.Point(733, 182)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -623,7 +626,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(653, 159)
+      Me.btnReset.Location = New System.Drawing.Point(653, 182)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
@@ -643,12 +646,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'chkIncludeCheckCode
+      '
+      Me.chkIncludeCheckCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkIncludeCheckCode.Location = New System.Drawing.Point(320, 160)
+      Me.chkIncludeCheckCode.Name = "chkIncludeCheckCode"
+      Me.chkIncludeCheckCode.Size = New System.Drawing.Size(164, 24)
+      Me.chkIncludeCheckCode.TabIndex = 37
+      Me.chkIncludeCheckCode.Text = "รวมเอกสารที่ไม่มีหมายเลขเช็ค"
+      '
       'RptOutgoingCheckFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptOutgoingCheckFilterSubPanel"
-      Me.Size = New System.Drawing.Size(831, 206)
+      Me.Size = New System.Drawing.Size(831, 229)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
       Me.grbBankAcctBook.ResumeLayout(False)
@@ -711,6 +723,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Checkbox
       Me.chkIncludeCheckDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckDocDate}") '"รวมเช็คไม่ระบุวันที่"
       Me.chkRemainChecksShow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
+      Me.chkIncludeCheckCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckCode}") '"รวมเอกสารที่ไม่มีหมายเลขเช็ค"
 
     End Sub
 #End Region
@@ -886,6 +899,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(9) = New Filter("UpdateDateEnd", IIf(Me.UpdateDateEnd.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateEnd))
       arr(10) = New Filter("SortBy", cmbSort.SelectedIndex)
       arr(11) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
+      arr(11) = New Filter("IncludeCheckCode", IIf(Me.chkIncludeCheckCode.Checked, 1, 0))
       arr(12) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
       'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
 

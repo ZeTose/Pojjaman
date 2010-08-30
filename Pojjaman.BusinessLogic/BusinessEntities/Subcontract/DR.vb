@@ -1653,6 +1653,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.ToCostCenter.Name
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'ToCostCenterAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterAddress"
+        dpi.Value = Me.ToCostCenter.Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
       End If
 
       If Not Me.FromEmployee Is Nothing AndAlso Me.FromEmployee.Originated Then
@@ -1674,6 +1681,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "FromEmployeeName"
         dpi.Value = Me.FromEmployee.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'FromCostCenterAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CostCenterAddress"
+        dpi.Value = Me.FromCostCenter.Address
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
