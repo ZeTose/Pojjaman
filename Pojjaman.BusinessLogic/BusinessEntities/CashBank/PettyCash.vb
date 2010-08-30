@@ -70,13 +70,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
     End Sub
+
+    Property DCBank As String
+
+    Property DCAccount As String
+
+    Property MCBank As String
+
+    Property MCAccount As String
+
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
         .m_docdate = Now.Date
         .m_account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.PettyCash).Account
         .m_employee = New Employee
-        .m_costcenter = New Costcenter
+        .m_costcenter = New CostCenter
         .m_docdate = Date.Now
 
         .m_isforemployee = True
@@ -201,6 +210,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_status = New PettyCashStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
         End If
 
+        Dim deh As New DataRowHelper(dr)
+        Me.MCAccount = deh.GetValue(Of String)("pc_kbankmcaccount")
+        Me.MCBank = deh.GetValue(Of String)("pc_kbankmcbank")
+        Me.DCAccount = deh.GetValue(Of String)("pc_kbankdcaccount")
+        Me.DCBank = deh.GetValue(Of String)("pc_kbankdcbank")
         'GenPettyCashPayment()
 
       End With
@@ -474,7 +488,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-      ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
+      ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
       Dim trans As SqlTransaction
@@ -813,7 +827,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetPettyCash(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldPtc As PettyCash) As Boolean
       Dim ptc As New PettyCash(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not ptc.Originated Then
-        MessageBox.Show(txtCode.Text & " äÁèÁÕã¹ÃÐºº")
+        MessageBox.Show(txtCode.Text & " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½")
         ptc = oldPtc
       End If
       txtCode.Text = ptc.Code

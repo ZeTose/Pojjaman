@@ -12,11 +12,13 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.IO
 Imports Longkong.Core.Properties
 Imports Longkong.AdobeForm
+Imports Longkong.Core.AddIns
+
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class PaymentOutDetail
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, IAuxTab, ISetNothingEntity
+    Implements IValidatable, IAuxTab
 
 #Region " Windows Form Designer generated code "
 
@@ -1342,6 +1344,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
 
+      '==Checking for addin
+      Dim hasExport As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("textexport") Then
+          hasExport = True
+        End If
+      Next
+      Me.chkOnHold.Visible = hasExport
     End Sub
 
     Public Overrides Sub ClearDetail()
@@ -2019,10 +2029,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
 #End Region
-
-    Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
-      Me.m_entity = Nothing
-    End Sub
 
   End Class
 

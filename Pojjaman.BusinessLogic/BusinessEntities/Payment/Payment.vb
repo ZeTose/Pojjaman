@@ -763,7 +763,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
-          ''============ Update Old Payment item ================= 
+          ''============ Update Old Payment item 
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPaymentItemEntityStatus" _
                                     , New SqlParameter("@payment_id", Me.Id))
@@ -885,7 +885,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not item.Entity Is Nothing Then
               i += 1
               Dim dr As DataRow = .NewRow
-              If TypeOf item.Entity Is OutgoingCheck Then
+              If TypeOf item.Entity Is OutgoingCheck AndAlso Not OnHold Then
                 Dim check As OutgoingCheck = CType(item.Entity, OutgoingCheck)
                 If Not check.Originated Then
                   check.IssueDate = Me.DocDate
@@ -926,7 +926,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   End If
                   lastCheckCode = check.Code
                 End If
-                If Not check.Originated Then
+                If Not check.Originated AndAlso Not OnHold Then
                   Return New SaveErrorException("Check Saving Error")
                 End If
               End If
@@ -979,7 +979,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr("paymenti_payment") = Me.Id
               dr("paymenti_linenumber") = i
               dr("paymenti_duedate") = Me.ValidDateOrDBNull(item.DueDate)
-              dr("paymenti_entity") = item.Entity.Id
+              If OnHold Then
+                dr("paymenti_entity") = 0
+              Else
+                dr("paymenti_entity") = item.Entity.Id
+              End If
               dr("paymenti_entitycode") = item.Entity.Code
               If TypeOf item.Entity Is IHasBankAccount Then
                 dr("paymenti_bankacct") = Me.ValidIdOrDBNull(CType(item.Entity, IHasBankAccount).BankAccount)
@@ -1203,11 +1207,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 22       'Check
             sumCheck += item.Amount
             If pm15note = "" Then
-              pm15note = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
-              pm15Dnote = "จ่าย " & Me.RefDoc.Recipient.Code & " ด้วยเช็ค " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              Dim theNote As String = ""
+              theNote &= "จ่าย " & Me.RefDoc.Recipient.Code
+              theNote &= CType(item.Entity, OutgoingCheck).CqCode
+              theNote &= "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              pm15note = theNote
+              pm15Dnote = theNote
             Else
-              pm15note = pm15note & " " & CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
-              pm15Dnote = CType(item.Entity, OutgoingCheck).CqCode & "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              Dim theNote As String = ""
+              theNote &= CType(item.Entity, OutgoingCheck).CqCode
+              theNote &= "/" & CType(item.Entity, OutgoingCheck).Bankacct.BankBranch.Bank.Code
+              pm15note = pm15note & " " & theNote
+              pm15Dnote = theNote
             End If
             'If item.Amount > 0 Then
             '  ji = New JournalEntryItem
@@ -4064,6 +4075,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
             If TypeOf myEntity Is IPaymentItem Then
               .m_entity = CType(myEntity, IPaymentItem)
+              If TypeOf m_entity Is IHasBankAccount Then
+                If m_entity.Id = 0 Then
+                  If dr.Table.Columns.Contains(aliasPrefix & "paymenti_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_bankacct") Then
+                    CType(m_entity, IHasBankAccount).BankAccount = New BankAccount(CInt(dr(aliasPrefix & "paymenti_bankacct")))
+                  End If
+                End If
+              End If
+              If TypeOf m_entity Is IPaymentItem Then
+                Dim pi As IPaymentItem = CType(m_entity, IPaymentItem)
+                If m_entity.Id = 0 Then
+                  If dr.Table.Columns.Contains(aliasPrefix & "paymenti_refamt") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_refamt") Then
+                    pi.Amount = CDec(dr(aliasPrefix & "paymenti_refamt"))
+                  End If
+                  If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
+                    pi.DueDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
+                  End If
+                  If dr.Table.Columns.Contains(aliasPrefix & "paymenti_entitycode") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_entitycode") Then
+                    pi.Code = CStr(dr(aliasPrefix & "paymenti_entitycode"))
+                  End If
+                End If
+                If TypeOf pi Is BankTransferOut Then
+                  If dr.Table.Columns.Contains(aliasPrefix & "paymenti_duedate") AndAlso Not dr.IsNull(aliasPrefix & "paymenti_duedate") Then
+                    pi.DueDate = CDate(dr(aliasPrefix & "paymenti_duedate"))
+                  End If
+                End If
+              End If
             End If
 
             If TypeOf myEntity Is PettyCash Then
@@ -5310,13 +5347,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.New(dr, aliasPrefix)
     End Sub
-    Public Property ExportType As String = "mcl" Implements IExportable.ExportType
+    Private m_exportType As String
+    Public Property ExportType As String Implements IExportable.ExportType
+      Get
+        Return m_exportType
+      End Get
+      Set(ByVal value As String)
+        m_exportType = value
+      End Set
+    End Property
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
 
       Me.m_bankacct = New BankAccount
       Me.m_supplier = New Supplier
       Me.m_docDate = Now.Date
+      m_exportType = "mcl"
       Me.Status = New CheckStatus(-1)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -5720,7 +5766,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               '====================WHT=========================
 
               '======================GL=======================
-              theEntity.GLIsChanged = True
+              'theEntity.GLIsChanged = True
               '======================GL=======================
               theEntity.Save(currentUserId)
             End If
@@ -5741,7 +5787,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
       Try
-        Dim da As New SqlDataAdapter("Select * from paymentitem where paymenti_entitytype = 65 and paymenti_entity=" & Me.Id, conn)
+        Dim da As New SqlDataAdapter("Select * from paymentitem where (paymenti_entitytype = 65 and paymenti_entity=" & Me.Id & ") or paymenti_payment in (" & GetPaymentIdToSave() & ")", conn)
         Dim da2 As New SqlDataAdapter("select * from payment where payment_id in (" & GetPaymentIdToSave() & ")", conn)
         Dim cmdBuilder As New SqlCommandBuilder(da)
 
@@ -5789,18 +5835,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim i As Integer = 0
           For Each item As PaymentForList In Me.PaymentList
             If item.JustAdded Then
-              Dim dr As DataRow = .NewRow
-              dr("paymenti_entity") = Me.Id
-              dr("paymenti_entitycode") = Me.Code
-              dr("paymenti_payment") = item.Id
-              dr("paymenti_linenumber") = i + 1
-              dr("paymenti_entityType") = Me.EntityId
-              dr("paymenti_refamt") = Me.Amount
-              dr("paymenti_amt") = item.Amount
-              dr("paymenti_note") = item.Note
-              dr("paymenti_status") = Me.Status.Value
-              .Rows.Add(dr)
-
+              Dim drs1 As DataRow() = ds.Tables("paymentitem").Select("paymenti_payment = " & item.Id.ToString)
+              If Not drs1 Is Nothing AndAlso drs1.Length > 0 Then
+                Dim dr As DataRow = drs1(0)
+                dr("paymenti_entity") = Me.Id
+                dr("paymenti_entitycode") = Me.Code
+                dr("paymenti_payment") = item.Id
+                dr("paymenti_linenumber") = i + 1
+                dr("paymenti_entityType") = Me.EntityId
+                dr("paymenti_refamt") = Me.Amount
+                dr("paymenti_amt") = item.Amount
+                dr("paymenti_note") = item.Note
+                dr("paymenti_status") = Me.Status.Value
+              Else
+                Dim dr As DataRow = ds.Tables("paymentitem").NewRow
+                dr("paymenti_entity") = Me.Id
+                dr("paymenti_entitycode") = Me.Code
+                dr("paymenti_payment") = item.Id
+                dr("paymenti_linenumber") = i + 1
+                dr("paymenti_entityType") = Me.EntityId
+                dr("paymenti_refamt") = Me.Amount
+                dr("paymenti_amt") = item.Amount
+                dr("paymenti_note") = item.Note
+                dr("paymenti_status") = Me.Status.Value
+                ds.Tables("paymentitem").Rows.Add(dr)
+              End If
+              i += 1
               Dim drs As DataRow() = ds.Tables("payment").Select("payment_id = " & item.Id.ToString)
               If Not drs Is Nothing AndAlso drs.Length > 0 Then
                 Dim paymentDR As DataRow = drs(0)
@@ -5840,6 +5900,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetRemain() As Decimal
       Return Me.Amount - GetSum()
     End Function
+
+
+#Region "Delete"
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        If Me.Originated Then
+          Return Me.Status.Value = 2
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteBankTransferOut}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteBankTransferOut", New SqlParameter() {New SqlParameter("@bto_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              Return New SaveErrorException("${res:Global.DeleteBankTransferOutIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+#End Region
 
   End Class
 

@@ -108,6 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je.DocDate = Me.m_docDate
 
         .m_payment = New Payment(Me)
+        .m_payment.OnHold = True
         .m_payment.DocDate = Me.m_docDate
         '----------------------------End Tab Entities-----------------------------------------
         .AutoCodeFormat = New AutoCodeFormat(Me)
