@@ -12,6 +12,8 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.IO
 Imports Longkong.Core.Properties
 Imports Longkong.AdobeForm
+Imports Longkong.Core.AddIns
+
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class PaymentOutDetail
@@ -201,7 +203,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Size = New System.Drawing.Size(728, 584)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "บันทึกจ่ายเงิน"
+      Me.grbDetail.Text = "๏ฟฝัน๏ฟฝึก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝิน"
       '
       'cmbCode
       '
@@ -249,7 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(72, 18)
       Me.lblCode.TabIndex = 7
-      Me.lblCode.Text = "เลขที่เอกสาร:"
+      Me.lblCode.Text = "๏ฟฝลข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblDocDate
@@ -260,7 +262,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate.Name = "lblDocDate"
       Me.lblDocDate.Size = New System.Drawing.Size(80, 18)
       Me.lblDocDate.TabIndex = 8
-      Me.lblDocDate.Text = "วันที่เอกสาร:"
+      Me.lblDocDate.Text = "๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDocDate
@@ -306,7 +308,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRefDoc.Size = New System.Drawing.Size(384, 72)
       Me.grbRefDoc.TabIndex = 0
       Me.grbRefDoc.TabStop = False
-      Me.grbRefDoc.Text = "เอกสารอ้างอิง"
+      Me.grbRefDoc.Text = "๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาง๏ฟฝิง"
       '
       'txtRefAmount
       '
@@ -353,7 +355,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefAmount.Name = "lblRefAmount"
       Me.lblRefAmount.Size = New System.Drawing.Size(104, 18)
       Me.lblRefAmount.TabIndex = 5
-      Me.lblRefAmount.Text = "ยอดเงิน:"
+      Me.lblRefAmount.Text = "๏ฟฝอด๏ฟฝิน:"
       Me.lblRefAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblRefDocDate
@@ -364,7 +366,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefDocDate.Name = "lblRefDocDate"
       Me.lblRefDocDate.Size = New System.Drawing.Size(40, 18)
       Me.lblRefDocDate.TabIndex = 2
-      Me.lblRefDocDate.Text = "วันที่:"
+      Me.lblRefDocDate.Text = "๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblRefDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'dtpRefDocDate
@@ -403,7 +405,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefDoc.Name = "lblRefDoc"
       Me.lblRefDoc.Size = New System.Drawing.Size(104, 18)
       Me.lblRefDoc.TabIndex = 0
-      Me.lblRefDoc.Text = "เลขที่เอกสารอ้างอิง:"
+      Me.lblRefDoc.Text = "๏ฟฝลข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาง๏ฟฝิง:"
       Me.lblRefDoc.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblRefAmountUnit
@@ -414,7 +416,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefAmountUnit.Name = "lblRefAmountUnit"
       Me.lblRefAmountUnit.Size = New System.Drawing.Size(32, 18)
       Me.lblRefAmountUnit.TabIndex = 7
-      Me.lblRefAmountUnit.Text = "บาท"
+      Me.lblRefAmountUnit.Text = "๏ฟฝาท"
       Me.lblRefAmountUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'txtTotalCreditAmount
@@ -478,7 +480,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDebit.Size = New System.Drawing.Size(336, 112)
       Me.grbDebit.TabIndex = 5
       Me.grbDebit.TabStop = False
-      Me.grbDebit.Text = "ยอดหักจำนวนจ่าย"
+      Me.grbDebit.Text = "๏ฟฝอด๏ฟฝัก๏ฟฝำนวน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ"
       '
       'ibtnOtherDebit
       '
@@ -517,7 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDiscountAmount.Name = "lblDiscountAmount"
       Me.lblDiscountAmount.Size = New System.Drawing.Size(88, 18)
       Me.lblDiscountAmount.TabIndex = 2
-      Me.lblDiscountAmount.Text = "ส่วนลดรับ:"
+      Me.lblDiscountAmount.Text = "๏ฟฝ๏ฟฝวนลด๏ฟฝับ:"
       Me.lblDiscountAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDiscountAmount
@@ -560,7 +562,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblOtherRev.Name = "lblOtherRev"
       Me.lblOtherRev.Size = New System.Drawing.Size(88, 18)
       Me.lblOtherRev.TabIndex = 3
-      Me.lblOtherRev.Text = "รายได้อื่น:"
+      Me.lblOtherRev.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblOtherRev.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtWHT
@@ -590,7 +592,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWHT.Name = "lblWHT"
       Me.lblWHT.Size = New System.Drawing.Size(112, 18)
       Me.lblWHT.TabIndex = 4
-      Me.lblWHT.Text = "ภาษีหัก ณ ที่จ่าย:"
+      Me.lblWHT.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัก ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblWHT.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDiscountUnit
@@ -601,7 +603,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDiscountUnit.Name = "txtDiscountUnit"
       Me.txtDiscountUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtDiscountUnit.TabIndex = 8
-      Me.txtDiscountUnit.Text = "บาท"
+      Me.txtDiscountUnit.Text = "๏ฟฝาท"
       Me.txtDiscountUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'txtOtherRevUnit
@@ -612,7 +614,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtOtherRevUnit.Name = "txtOtherRevUnit"
       Me.txtOtherRevUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtOtherRevUnit.TabIndex = 9
-      Me.txtOtherRevUnit.Text = "บาท"
+      Me.txtOtherRevUnit.Text = "๏ฟฝาท"
       Me.txtOtherRevUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'txtWHTUnit
@@ -623,7 +625,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWHTUnit.Name = "txtWHTUnit"
       Me.txtWHTUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtWHTUnit.TabIndex = 10
-      Me.txtWHTUnit.Text = "บาท"
+      Me.txtWHTUnit.Text = "๏ฟฝาท"
       Me.txtWHTUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblDebitAmount
@@ -634,7 +636,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDebitAmount.Name = "lblDebitAmount"
       Me.lblDebitAmount.Size = New System.Drawing.Size(136, 18)
       Me.lblDebitAmount.TabIndex = 6
-      Me.lblDebitAmount.Text = "ยอดหักจำนวนจ่ายอื่น:"
+      Me.lblDebitAmount.Text = "๏ฟฝอด๏ฟฝัก๏ฟฝำนวน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblDebitAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'tgItem
@@ -685,7 +687,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(72, 18)
       Me.lblNote.TabIndex = 10
-      Me.lblNote.Text = "หมายเหตุ:"
+      Me.lblNote.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝหต๏ฟฝ:"
       Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblAmount
@@ -697,7 +699,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAmount.Name = "lblAmount"
       Me.lblAmount.Size = New System.Drawing.Size(104, 18)
       Me.lblAmount.TabIndex = 17
-      Me.lblAmount.Text = "จำนวนเงินที่ต้องจ่าย:"
+      Me.lblAmount.Text = "๏ฟฝำนวน๏ฟฝิน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtAmount
@@ -729,7 +731,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGross.Name = "lblGross"
       Me.lblGross.Size = New System.Drawing.Size(120, 18)
       Me.lblGross.TabIndex = 12
-      Me.lblGross.Text = "รวมยอดเงินจ่ายทั้งสิ้น:"
+      Me.lblGross.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอด๏ฟฝิน๏ฟฝ๏ฟฝ๏ฟฝยท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblGross.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtGross
@@ -772,7 +774,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbCredit.Size = New System.Drawing.Size(336, 112)
       Me.grbCredit.TabIndex = 6
       Me.grbCredit.TabStop = False
-      Me.grbCredit.Text = "ยอดเพิ่มจำนวนจ่าย"
+      Me.grbCredit.Text = "๏ฟฝอด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝำนวน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ"
       '
       'ibtnTotalCredit
       '
@@ -809,7 +811,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblOtherExpense.Name = "lblOtherExpense"
       Me.lblOtherExpense.Size = New System.Drawing.Size(128, 18)
       Me.lblOtherExpense.TabIndex = 7
-      Me.lblOtherExpense.Text = "ค่าใช้จ่ายอื่นๆ:"
+      Me.lblOtherExpense.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblOtherExpense.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblBankCharge
@@ -820,7 +822,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBankCharge.Name = "lblBankCharge"
       Me.lblBankCharge.Size = New System.Drawing.Size(128, 18)
       Me.lblBankCharge.TabIndex = 5
-      Me.lblBankCharge.Text = "ค่าธรรมเนียมธนาคาร:"
+      Me.lblBankCharge.Text = "๏ฟฝ๏ฟฝาธ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาค๏ฟฝ๏ฟฝ:"
       Me.lblBankCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtBankCharge
@@ -863,7 +865,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblInterest.Name = "lblInterest"
       Me.lblInterest.Size = New System.Drawing.Size(128, 18)
       Me.lblInterest.TabIndex = 3
-      Me.lblInterest.Text = "ดอกเบี้ยจ่าย:"
+      Me.lblInterest.Text = "๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝยจ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblInterest.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtBankChargeUnit
@@ -874,7 +876,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBankChargeUnit.Name = "txtBankChargeUnit"
       Me.txtBankChargeUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtBankChargeUnit.TabIndex = 6
-      Me.txtBankChargeUnit.Text = "บาท"
+      Me.txtBankChargeUnit.Text = "๏ฟฝาท"
       Me.txtBankChargeUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'txtOtherExpenseUnit
@@ -885,7 +887,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtOtherExpenseUnit.Name = "txtOtherExpenseUnit"
       Me.txtOtherExpenseUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtOtherExpenseUnit.TabIndex = 8
-      Me.txtOtherExpenseUnit.Text = "บาท"
+      Me.txtOtherExpenseUnit.Text = "๏ฟฝาท"
       Me.txtOtherExpenseUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'txtInterestUnit
@@ -896,7 +898,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtInterestUnit.Name = "txtInterestUnit"
       Me.txtInterestUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtInterestUnit.TabIndex = 4
-      Me.txtInterestUnit.Text = "บาท"
+      Me.txtInterestUnit.Text = "๏ฟฝาท"
       Me.txtInterestUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblCreditAmount
@@ -907,7 +909,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCreditAmount.Name = "lblCreditAmount"
       Me.lblCreditAmount.Size = New System.Drawing.Size(136, 18)
       Me.lblCreditAmount.TabIndex = 9
-      Me.lblCreditAmount.Text = "ยอดเพิ่มจำนวนจ่ายอื่น:"
+      Me.lblCreditAmount.Text = "๏ฟฝอด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝำนวน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblCreditAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtCreditAmount
@@ -936,7 +938,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(64, 18)
       Me.lblItem.TabIndex = 11
-      Me.lblItem.Text = "จ่ายโดย:"
+      Me.lblItem.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ:"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtGrossUnit
@@ -948,7 +950,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGrossUnit.Name = "txtGrossUnit"
       Me.txtGrossUnit.Size = New System.Drawing.Size(32, 18)
       Me.txtGrossUnit.TabIndex = 14
-      Me.txtGrossUnit.Text = "บาท"
+      Me.txtGrossUnit.Text = "๏ฟฝาท"
       Me.txtGrossUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblAmountUnit
@@ -960,7 +962,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAmountUnit.Name = "lblAmountUnit"
       Me.lblAmountUnit.Size = New System.Drawing.Size(32, 18)
       Me.lblAmountUnit.TabIndex = 19
-      Me.lblAmountUnit.Text = "บาท"
+      Me.lblAmountUnit.Text = "๏ฟฝาท"
       Me.lblAmountUnit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'ErrorProvider1
@@ -1342,6 +1344,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
 
+      '==Checking for addin
+      Dim hasExport As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("textexport") Then
+          hasExport = True
+        End If
+      Next
+      Me.chkOnHold.Visible = hasExport
     End Sub
 
     Public Overrides Sub ClearDetail()
@@ -1405,7 +1415,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
 
     End Sub
-    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+    ' ๏ฟฝสด๏ฟฝ๏ฟฝ๏ฟฝาข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝลของ๏ฟฝูก๏ฟฝ๏ฟฝ๏ฟฝลง๏ฟฝ control ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ่บน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
     Public Overrides Sub UpdateEntityProperties()
       m_isInitialized = False
       ClearDetail()
@@ -1489,7 +1499,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAmount.Text = Configuration.FormatToString(Me.m_payment.Amount, DigitConfig.Price)
       m_isInitialized = oldFlag
 
-      'ถ้ามีรายการจ่ายเงิน ให้ตรวจสอบเลขที่ PV ด้วย
+      '๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝยก๏ฟฝรจ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝิน ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝวจ๏ฟฝอบ๏ฟฝลข๏ฟฝ๏ฟฝ๏ฟฝ PV ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
       If myGross > 0 Then
         Me.Validator.SetRequired(Me.cmbCode, True)
       Else
@@ -1578,17 +1588,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetStatus()
       'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-      '    lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '    lblStatus.Text = "ยก๏ฟฝ๏ฟฝิก: " & m_entity.CancelDate.ToShortDateString & _
       '    " " & m_entity.CancelDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.CancelPerson.Name
+      '    "  ๏ฟฝ๏ฟฝ:" & m_entity.CancelPerson.Name
       'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-      '    lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '    lblStatus.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุด: " & m_entity.LastEditDate.ToShortDateString & _
       '    " " & m_entity.LastEditDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.LastEditor.Name
+      '    "  ๏ฟฝ๏ฟฝ:" & m_entity.LastEditor.Name
       'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-      '    lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '    lblStatus.Text = "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝะบ๏ฟฝ: " & m_entity.OriginDate.ToShortDateString & _
       '    " " & m_entity.OriginDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.Originator.Name
+      '    "  ๏ฟฝ๏ฟฝ:" & m_entity.Originator.Name
       'Else
       '    lblStatus.Text = ""
       'End If
@@ -1700,7 +1710,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case Me.CurrentItem.EntityType.Value
         Case 0 'สด
           Return
-        Case 22 'เช็ค
+        Case 22 '๏ฟฝ๏ฟฝ
           Dim entities As New ArrayList
           If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
             If Not Me.m_payment.RefDoc.Recipient Is Nothing Then
@@ -1713,7 +1723,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(0) = New Filter("IDList", GenIDListFromDataTable(22))
           filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
           myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetItems, filters, entities)
-        Case 336 'ตั๋วอาวัล
+        Case 336 '๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
           Dim entities As New ArrayList
           If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
             If Not Me.m_payment.RefDoc.Recipient Is Nothing Then
@@ -1726,7 +1736,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(0) = New Filter("IDList", GenIDListFromDataTable(336))
           filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
           myEntityPanelService.OpenListDialog(New OutgoingAval, AddressOf SetItems, filters, entities)
-        Case 36 'เงินสดย่อย
+        Case 36 '๏ฟฝินสด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
           Dim entities As New ArrayList
           If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
             If Not Me.m_payment.RefDoc.Recipient Is Nothing Then
@@ -1739,7 +1749,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(0) = New Filter("IDList", GenIDListFromDataTable(36))
           filters(1) = New Filter("pc_closed", 0)
           myEntityPanelService.OpenListDialog(New PettyCash, AddressOf SetItems, filters, entities)
-        Case 59 'มัดจำ
+        Case 59 '๏ฟฝัด๏ฟฝ๏ฟฝ
           Dim entities As New ArrayList
           If Not TypeOf Me.m_payment.RefDoc Is PettyCashClaim Then
             If Not Me.m_payment.RefDoc.Recipient Is Nothing Then
@@ -1752,7 +1762,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filters(0) = New Filter("IDList", GenIDListFromDataTable(59))
           filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
           myEntityPanelService.OpenListDialog(New AdvancePay, AddressOf SetItems, filters, entities)
-        Case 174 'ทดรองจ่าย
+        Case 174 '๏ฟฝ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
           Dim filters(0) As Filter
           filters(0) = New Filter("IDList", GenIDListFromDataTable(174))
           'filters(1) = New Filter("advm_closed", False)
@@ -1761,7 +1771,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           advm.Closed = False
           entities.Add(advm)
           myEntityPanelService.OpenListDialog(New AdvanceMoney, AddressOf SetItems, filters, entities)
-        Case 65 'โอน
+        Case 65 '๏ฟฝอน
           Return
         Case Else
       End Select
@@ -1934,7 +1944,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not Me.m_payment Is Nothing Then
           If TypeOf Me.m_payment Is IPrintableEntity Then
-            'thePath = Microsoft.VisualBasic.InputBox("เลือกฟอร์ม", "เลือกฟอร์ม", thePath)
+            'thePath = Microsoft.VisualBasic.InputBox("๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ", "๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ", thePath)
             Dim fileName As String = CType(Me.m_payment, IPrintableEntity).GetDefaultForm
             If fileName Is Nothing OrElse fileName.Length = 0 Then
               fileName = m_payment.ClassName
@@ -1983,12 +1993,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Dim index As Integer = tgItem.CurrentRowIndex
       Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-        'เพิ่มแถวจนเต็ม
+        '๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝวจ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
         Me.m_treeManager.Treetable.Childs.Add()
       Loop
 
       If Me.m_payment.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        '๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีก 1 ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝลจ๏ฟฝ๏ฟฝึง๏ฟฝ๏ฟฝ๏ฟฝุด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
         Me.m_treeManager.Treetable.Childs.Add()
       End If
 

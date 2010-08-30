@@ -1,4 +1,4 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Core.AddIns
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AdvancePayDetail
     Inherits AbstractEntityDetailPanelView
@@ -905,6 +907,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
         End If
       End If
+
+      '==Checking for addin
+      Dim hasExport As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("textexport") Then
+          hasExport = True
+        End If
+      Next
+      Me.chkOnHold.Visible = hasExport
     End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
@@ -1089,7 +1100,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
 
       If Me.m_entity.Type = 0 Then
-        rdoForAP.Checked = True 
+        rdoForAP.Checked = True
       Else
         rdoForSC.Checked = True
       End If
@@ -1436,7 +1447,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get

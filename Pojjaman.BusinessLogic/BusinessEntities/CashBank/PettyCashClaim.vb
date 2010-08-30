@@ -372,7 +372,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
 
-        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
+        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -420,19 +420,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.Code = ""
               Me.m_je.DocDate = Me.DocDate
             Case 1
-              'µÒÁ entity
+              'ï¿½ï¿½ï¿½ entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.Code = Me.Code
             Case 2
-              'µÒÁ gl
+              'ï¿½ï¿½ï¿½ gl
               If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
               Me.Code = Me.m_je.Code
             Case Else
-              'áÂ¡
+              'ï¿½Â¡
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
               End If
@@ -469,7 +469,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
+        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
@@ -549,7 +549,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
-                'Post ä»áÅéÇ
+                'Post ï¿½ï¿½ï¿½ï¿½ï¿½
                 Return saveJeError
               Case Else
             End Select
@@ -632,7 +632,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       da.SelectCommand.Transaction = trans
 
-      'µéÍ§ÍÂÙèµèÍ¨Ò¡ da.SelectCommand.Transaction = trans
+      'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da.SelectCommand.Transaction = trans
       cmdBuilder.GetDeleteCommand.Transaction = trans
       cmdBuilder.GetInsertCommand.Transaction = trans
       cmdBuilder.GetUpdateCommand.Transaction = trans
@@ -779,14 +779,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.m_itemTable Is Nothing Then
         Return -1
       End If
-      'ãËé¤èÒ index ¢Í§á¶ÇÊØ´·éÒÂ·ÕèÁÕ¢éÍÁÙÅ
+      'ï¿½ï¿½ï¿½ï¿½ï¿½ index ï¿½Í§ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½
       For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
         Dim row As TreeRow = Me.m_itemTable.Childs(i)
         If ValidateRow(row) Then
           Return i
         End If
       Next
-      Return -1 'äÁèÁÕ¢éÍÁÙÅàÅÂ
+      Return -1 'ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     End Function
 #End Region
 
@@ -989,7 +989,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim pcCC As CostCenter = Nothing
       'If Not Me.Payment Is Nothing Then
       'Dim pmGross As Decimal = Me.Payment.Gross
-      'à§Ô¹Ê´ÂèÍÂ
+      'ï¿½Ô¹Ê´ï¿½ï¿½ï¿½ï¿½
       ji = New JournalEntryItem
       ji.Mapping = "G10.1"
       ji.Amount = Me.AmountToPay
@@ -1388,7 +1388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       MyBase.New(dr, aliasPrefix)
     End Sub
-    Public Property ExportType As String = "mcl" Implements IExportable.ExportType
+    Public Property ExportType As String = "dct" Implements IExportable.ExportType
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
 
@@ -1606,14 +1606,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'If Me.Amount <= 0 AndAlso (Me.DocStatus.Value <> 5 OrElse Me.Originated) Then
       '  Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", "${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblAmount}")
       'End If
-      ' ¡ÓË¹´ SqlParameter à¾×èÍ return ¤èÒ¡ÒÃ Execute procedure ...
+      ' ï¿½ï¿½Ë¹ï¿½ SqlParameter ï¿½ï¿½ï¿½ï¿½ return ï¿½ï¿½Ò¡ï¿½ï¿½ Execute procedure ...
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
       returnVal.ParameterName = "RETURN_VALUE"
       returnVal.DbType = DbType.Int32
       returnVal.Direction = ParameterDirection.ReturnValue
       returnVal.SourceVersion = DataRowVersion.Current
 
-      ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
+      ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
       Dim paramArrayList As New ArrayList
 
       If Me.Originated Then
@@ -1643,7 +1643,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-      ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
+      ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
@@ -1711,27 +1711,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim list As New List(Of String)
       list.Add("'0'")
       For Each item As PaymentForList In Me.PaymentList
-        If item.JustAdded Then
           list.Add(item.Id.ToString)
-        End If
       Next
       Return String.Join(",", list.ToArray)
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from exportpcitem where exportpci_exportpc=" & Me.Id, conn)
+        Dim da2 As New SqlDataAdapter("Select * from paymentitem where paymenti_payment in (select payment_id from payment where payment_refdoctype = 66 and payment_refdoc in (" & GetPaymentIdToSave() & "))", conn)
         Dim cmdBuilder As New SqlCommandBuilder(da)
 
         Dim ds As New DataSet
 
         da.SelectCommand.Transaction = trans
 
-        'µéÍ§ÍÂÙèµèÍ¨Ò¡ da.SelectCommand.Transaction = trans
+        'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
         cmdBuilder.GetInsertCommand.Transaction = trans
         cmdBuilder.GetUpdateCommand.Transaction = trans
 
         da.Fill(ds, "exportpcitem")
+
+        '=================================================
+        cmdBuilder = New SqlCommandBuilder(da2)
+
+        da2.SelectCommand.Transaction = trans
+
+        'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da2.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+
+        da2.Fill(ds, "paymentitem")
+        '=================================================
 
         With ds.Tables("exportpcitem")
           Dim rowsToDelete As New List(Of DataRow)
@@ -1751,9 +1763,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr("exportpci_pcc") = item.Id
               .Rows.Add(dr)
               added.Add(item.Id)
+              i += 1
             End If
           Next
         End With
+
+        For Each dr As DataRow In ds.Tables("paymentitem").Rows
+          dr("paymenti_entitycode") = Me.Code
+        Next
+
         Dim dt As DataTable = ds.Tables("exportpcitem")
         ' First process deletes.
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -1762,10 +1780,68 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' Finally process inserts.
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
 
+        Dim dt2 As DataTable = ds.Tables("paymentitem")
+        da2.Update(dt2.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       End Try
       Return New SaveErrorException("0")
+    End Function
+#End Region
+
+#Region "Delete"
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        If Me.Originated Then
+          Return Me.Status.Value <= 2
+        Else
+          Return False
+        End If
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteExportPC}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteExportPC", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              Return New SaveErrorException("${res:Global.ExportPCIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
     End Function
 #End Region
 

@@ -108,6 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je.DocDate = Me.m_docDate
 
         .m_payment = New Payment(Me)
+        .m_payment.OnHold = True
         .m_payment.DocDate = Me.m_docDate
         '----------------------------End Tab Entities-----------------------------------------
         .AutoCodeFormat = New AutoCodeFormat(Me)
@@ -259,7 +260,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property Note() As String Implements IPayable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, AdvancePayStatus)      End Set    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         Select Case Me.TaxType.Value
-          Case 0 '"äÁèÁÕ"
+          Case 0 '"ï¿½ï¿½ï¿½ï¿½ï¿½"
             Return 0
           Case 1, 2
             Return Configuration.Format(Vat.GetExcludedVatAmount(Me.AfterTax, Me.TaxRate), DigitConfig.Price)
@@ -269,17 +270,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
-          Case 0 '"äÁèÁÕ"
+          Case 0 '"ï¿½ï¿½ï¿½ï¿½ï¿½"
             Return 0
-          Case 2 'ÃÇÁ VAT
+          Case 2 'ï¿½ï¿½ï¿½ VAT
             Return Me.AfterTax - Me.RealTaxBase
-          Case Else '1 áÂ¡
+          Case Else '1 ï¿½Â¡
             Return Configuration.Format((Me.TaxRate * Me.RealTaxBase) / 100, DigitConfig.Price)        End Select      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get        Select Case Me.TaxType.Value
-          Case 0 '"äÁèÁÕ"
+          Case 0 '"ï¿½ï¿½ï¿½ï¿½ï¿½"
             Return Me.AfterTax
-          Case 1 '"áÂ¡"
+          Case 1 '"ï¿½Â¡"
             Return Me.AfterTax
-          Case 2 '"ÃÇÁ"
+          Case 2 '"ï¿½ï¿½ï¿½"
             Return Configuration.Format(Vat.GetExcludedVatAmount(Me.AfterTax, Me.TaxRate), DigitConfig.Price)
         End Select      End Get    End Property    Private m_afterTax As Decimal    Public Property AfterTax() As Decimal Implements IHasAmount.Amount      Get        Return m_afterTax      End Get      Set(ByVal Value As Decimal)        m_afterTax = Value
       End Set    End Property    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
@@ -433,7 +434,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetAdvancePayRemain(ByVal txtCode As TextBox, ByVal txtAmount As TextBox, ByRef oldADVP As AdvancePay) As Boolean
       Dim advp As New AdvancePay(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not advp.Valid Then
-        MessageBox.Show(txtCode.Text & " äÁèÁÕã¹ÃÐºº")
+        MessageBox.Show(txtCode.Text & " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½")
         advp = oldADVP
       End If
       'If advp.Valid Then
@@ -521,7 +522,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetRemainExcludeVatAmount(Optional ByVal myValue As Decimal = 0) As Decimal
       Dim myTemp As Decimal
       If myValue > 0 Then
-        If Not Me.m_taxType Is Nothing And Me.m_taxType.Value = 2 Then  '¶éÒÃÇÁ Vat ãËéáÂ¡ Vat
+        If Not Me.m_taxType Is Nothing And Me.m_taxType.Value = 2 Then  'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Vat ï¿½ï¿½ï¿½ï¿½Â¡ Vat
           myTemp = Vat.GetExcludedVatAmount(myValue)
         Else
           myTemp = myValue
@@ -538,7 +539,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetRemainVatAmount(Optional ByVal myValue As Decimal = 0) As Decimal
       Dim myTemp As Decimal
       If myValue > 0 Then
-        If Not Me.m_taxType Is Nothing And Me.m_taxType.Value = 2 Then  '¶éÒÃÇÁ Vat
+        If Not Me.m_taxType Is Nothing And Me.m_taxType.Value = 2 Then  'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Vat
           myTemp = myValue - GetRemainExcludeVatAmount(myValue)
         Else
           myTemp = 0
@@ -594,7 +595,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
 
-        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
+        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -639,19 +640,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.m_je.Code = ""
               Me.m_je.DocDate = Me.DocDate
             Case 1
-              'µÒÁ entity
+              'ï¿½ï¿½ï¿½ entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.Code = Me.Code
             Case 2
-              'µÒÁ gl
+              'ï¿½ï¿½ï¿½ gl
               If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
               Me.Code = Me.m_je.Code
             Case Else
-              'áÂ¡
+              'ï¿½Â¡
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
                 Me.Code = Me.GetNextCode
               End If
@@ -697,7 +698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
+        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
@@ -816,7 +817,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
-                'Post ä»áÅéÇ
+                'Post ï¿½ï¿½ï¿½ï¿½ï¿½
                 Return saveJeError
               Case Else
             End Select
@@ -918,7 +919,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       If Me.BeforeTax > 0 Then
-        'ÁÑ´¨Ó¨èÒÂÅèÇ§Ë¹éÒ
+        'ï¿½Ñ´ï¿½Ó¨ï¿½ï¿½ï¿½ï¿½ï¿½Ç§Ë¹ï¿½ï¿½
         ji = New JournalEntryItem
         ji.Mapping = "B4.1"
         ji.Amount = Configuration.Format(Me.BeforeTax, DigitConfig.Price)
@@ -931,7 +932,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
 
-      'ÀÒÉÕ«×éÍ
+      'ï¿½ï¿½ï¿½Õ«ï¿½ï¿½ï¿½
       If Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B4.2"
@@ -959,7 +960,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
-      'ÀÒÉÕ«×éÍäÁè¶Ö§¡ÓË¹´
+      'ï¿½ï¿½ï¿½Õ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½Ë¹ï¿½
       If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B4.2.1"
@@ -969,13 +970,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
-        ji.Note = Me.Code & ":ÁÑ´¨Ó¨èÒÂ:" & Me.Supplier.Name
+        ji.Note = Me.Code & ":ï¿½Ñ´ï¿½Ó¨ï¿½ï¿½ï¿½:" & Me.Supplier.Name
         ji.EntityItem = Me.Id
         ji.EntityItemType = Me.EntityId
         jiColl.Add(ji)
       End If
 
-      'ÀÒÉÕËÑ¡ ³ ·Õè¨èÒÂ
+      'ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
       If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B4.10"
@@ -1125,25 +1126,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
-      '            àÅ¢·ÕèàÍ¡ÊÒÃ(Code)
-      '            ÇÑ¹·ÕèàÍ¡ÊÒÃ(DocDate)
-      '            àÅ¢·Õèãº¡Ó¡ÑºÀÒÉÕ(RefDoc)
-      '            ÇÑ¹·Õè(RefDate)
-      '            ¼Ùé¢ÒÂ(SupplierInfo)
-      '            ÃËÑÊ¼Ùé¢ÒÂ(SupplierCode)
-      '            ª×èÍ¼Ùé¢ÒÂ(SupplierName)
+      '            ï¿½Å¢ï¿½ï¿½ï¿½ï¿½Í¡ï¿½ï¿½ï¿½(Code)
+      '            ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Í¡ï¿½ï¿½ï¿½(DocDate)
+      '            ï¿½Å¢ï¿½ï¿½ï¿½ãº¡Ó¡Ñºï¿½ï¿½ï¿½ï¿½(RefDoc)
+      '            ï¿½Ñ¹ï¿½ï¿½ï¿½(RefDate)
+      '            ï¿½ï¿½ï¿½ï¿½ï¿½(SupplierInfo)
+      '            ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½(SupplierCode)
+      '            ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½(SupplierName)
       '            CostCenter(CostCenterInfo)
-      'ÃËÑÊ CostCenter	CostCenterCode
-      'ª×èÍ CostCenter	CostCenterName
-      '            à¤Ã´Ôµ(CreditPeriod)
-      '            »ÃÐàÀ·(TaxType)
-      '            ÍÑµÃÒÀÒÉÕ(TaxRate)
-      '            ¤Ãº¡ÓË¹´(DueDate)
-      '            ¨Ó¹Ç¹à§Ô¹¡èÍ¹ÀÒÉÕ(BeforeTax)
-      '            ÀÒÉÕÁÙÅ¤èÒà¾ÔèÁ(TaxAmount)
-      '            ÁÙÅ¤èÒÃÇÁÀÒÉÕ(AfterTax)
-      '            ÂÍ´à§Ô¹ÁÑ´¨Ó¤§àËÅ×Í(Amount)
-      '            ËÁÒÂàËµØ(Note)
+      'ï¿½ï¿½ï¿½ï¿½ CostCenter	CostCenterCode
+      'ï¿½ï¿½ï¿½ï¿½ CostCenter	CostCenterName
+      '            ï¿½Ã´Ôµ(CreditPeriod)
+      '            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(TaxType)
+      '            ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(TaxRate)
+      '            ï¿½Ãºï¿½ï¿½Ë¹ï¿½(DueDate)
+      '            ï¿½Ó¹Ç¹ï¿½Ô¹ï¿½ï¿½Í¹ï¿½ï¿½ï¿½ï¿½(BeforeTax)
+      '            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(TaxAmount)
+      '            ï¿½ï¿½Å¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(AfterTax)
+      '            ï¿½Í´ï¿½Ô¹ï¿½Ñ´ï¿½Ó¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Amount)
+      '            ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½(Note)
 
       'Code
       dpi = New DocPrintingItem
@@ -1688,7 +1689,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_da.SelectCommand.Transaction = trans
 
-        'µéÍ§ÍÂÙèµèÍ¨Ò¡ da.SelectCommand.Transaction = trans
+        'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
         cmdBuilder.GetInsertCommand.Transaction = trans
         cmdBuilder.GetUpdateCommand.Transaction = trans

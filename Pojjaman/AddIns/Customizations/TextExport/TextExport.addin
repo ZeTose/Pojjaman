@@ -1,0 +1,10 @@
+<AddIn name="TextExport" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="../../Forms/Check/Pojjaman.Base.Form.Check.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Check">
+		<MenuItem id="BankTransferOut" insertbefore="ExportPC" label="${res:MainMenu.CashBankMenu.BankTransferOut}" icon="Icons.16x16.BankTransferOut" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransferOut"/>
+		<MenuItem id="ExportPC" insertbefore="Separator0" label="${res:MainMenu.CashBankMenu.ExportPC}" icon="Icons.16x16.ExportPC" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportPC"/>
+		<MenuItem id="Separator0" label="-" insertbefore="OutgoingCheck"/>
+  </Extension>
+</AddIn>
