@@ -25,6 +25,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ret = ret.TrimStart(","c)
       Return ret
     End Function
+    Public Shared Function GetListDatatableForEquipmenttoolChangestatus(ByVal ParamArray filters() As Filter) As DataTable
+
+      Dim sqlConString As String = SimpleBusinessEntityBase.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetStockItemsForECList", params)
+
+      Return ds.Tables(0)
+
+    End Function
   End Class
 
   Public Class PaySelectionStatus
@@ -102,7 +117,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_docDate = Date.Now.Date
         .m_status = New PaySelectionStatus(-1)
         .m_payment = New Payment(Me)
-        .m_payment.OnHold = True
         .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docDate
         .m_whtcol = New WitholdingTaxCollection
@@ -119,8 +133,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("supplier_id") Then
           If Not dr.IsNull("supplier_id") Then
             '.m_supplier = New Supplier(dr, "supplier.")
-            '.m_supplier = Supplier.GetSupplierbyDataRow(dr)
-            .m_supplier = New Supplier(CInt(dr("supplier_id")))
+            .m_supplier = New Supplier(CInt(dr("supplier_id"))) ' Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "pays_supplier") Then

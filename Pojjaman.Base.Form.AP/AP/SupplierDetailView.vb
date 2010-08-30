@@ -84,30 +84,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnDelContact As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblContactItem As System.Windows.Forms.Label
     Friend WithEvents btnLock As System.Windows.Forms.Button
-    Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents txtMCAccount As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents txtDCBank As System.Windows.Forms.TextBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents txtDCACcount As System.Windows.Forms.TextBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents txtMCBank As System.Windows.Forms.TextBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SupplierDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtMCAccount = New System.Windows.Forms.TextBox()
-      Me.Label1 = New System.Windows.Forms.Label()
-      Me.txtDCBank = New System.Windows.Forms.TextBox()
-      Me.Label2 = New System.Windows.Forms.Label()
-      Me.txtDCACcount = New System.Windows.Forms.TextBox()
-      Me.Label3 = New System.Windows.Forms.Label()
-      Me.Label7 = New System.Windows.Forms.Label()
-      Me.txtMCBank = New System.Windows.Forms.TextBox()
-      Me.btnLock = New System.Windows.Forms.Button()
       Me.tgContact = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.ibtnAddContact = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelContact = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -163,8 +144,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.btnLock = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
-      Me.FixedGroupBox1.SuspendLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.primaryDetailGroupBox.SuspendLayout()
       Me.otherDetailGroupBox.SuspendLayout()
@@ -176,7 +157,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.btnLock)
       Me.grbDetail.Controls.Add(Me.tgContact)
       Me.grbDetail.Controls.Add(Me.ibtnAddContact)
@@ -191,149 +171,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(974, 480)
+      Me.grbDetail.Size = New System.Drawing.Size(752, 480)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด Supplier : "
-      '
-      'FixedGroupBox1
-      '
-      Me.FixedGroupBox1.Controls.Add(Me.txtMCAccount)
-      Me.FixedGroupBox1.Controls.Add(Me.Label1)
-      Me.FixedGroupBox1.Controls.Add(Me.txtDCBank)
-      Me.FixedGroupBox1.Controls.Add(Me.Label2)
-      Me.FixedGroupBox1.Controls.Add(Me.txtDCACcount)
-      Me.FixedGroupBox1.Controls.Add(Me.Label3)
-      Me.FixedGroupBox1.Controls.Add(Me.Label7)
-      Me.FixedGroupBox1.Controls.Add(Me.txtMCBank)
-      Me.FixedGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.FixedGroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.FixedGroupBox1.Location = New System.Drawing.Point(750, 24)
-      Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(206, 124)
-      Me.FixedGroupBox1.TabIndex = 329
-      Me.FixedGroupBox1.TabStop = False
-      Me.FixedGroupBox1.Text = "Export : "
-      '
-      'txtMCAccount
-      '
-      Me.Validator.SetDataType(Me.txtMCAccount, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMCAccount, "")
-      Me.txtMCAccount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtMCAccount, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtMCAccount, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtMCAccount, System.Drawing.Color.Empty)
-      Me.txtMCAccount.Location = New System.Drawing.Point(80, 92)
-      Me.txtMCAccount.MaxLength = 100
-      Me.Validator.SetMinValue(Me.txtMCAccount, "")
-      Me.txtMCAccount.Name = "txtMCAccount"
-      Me.Validator.SetRegularExpression(Me.txtMCAccount, "")
-      Me.Validator.SetRequired(Me.txtMCAccount, False)
-      Me.txtMCAccount.Size = New System.Drawing.Size(120, 21)
-      Me.txtMCAccount.TabIndex = 7
-      '
-      'Label1
-      '
-      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.ForeColor = System.Drawing.Color.Black
-      Me.Label1.Location = New System.Drawing.Point(5, 92)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(78, 18)
-      Me.Label1.TabIndex = 15
-      Me.Label1.Text = "MCL Account:"
-      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtDCBank
-      '
-      Me.Validator.SetDataType(Me.txtDCBank, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtDCBank, "")
-      Me.txtDCBank.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtDCBank, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDCBank, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDCBank, System.Drawing.Color.Empty)
-      Me.txtDCBank.Location = New System.Drawing.Point(80, 20)
-      Me.Validator.SetMinValue(Me.txtDCBank, "")
-      Me.txtDCBank.Name = "txtDCBank"
-      Me.Validator.SetRegularExpression(Me.txtDCBank, "")
-      Me.Validator.SetRequired(Me.txtDCBank, False)
-      Me.txtDCBank.Size = New System.Drawing.Size(120, 21)
-      Me.txtDCBank.TabIndex = 4
-      '
-      'Label2
-      '
-      Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label2.ForeColor = System.Drawing.Color.Black
-      Me.Label2.Location = New System.Drawing.Point(5, 20)
-      Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(78, 18)
-      Me.Label2.TabIndex = 12
-      Me.Label2.Text = "DCT Bank :"
-      Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtDCACcount
-      '
-      Me.Validator.SetDataType(Me.txtDCACcount, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtDCACcount, "")
-      Me.txtDCACcount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtDCACcount, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDCACcount, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDCACcount, System.Drawing.Color.Empty)
-      Me.txtDCACcount.Location = New System.Drawing.Point(80, 44)
-      Me.txtDCACcount.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtDCACcount, "")
-      Me.txtDCACcount.Name = "txtDCACcount"
-      Me.Validator.SetRegularExpression(Me.txtDCACcount, "")
-      Me.Validator.SetRequired(Me.txtDCACcount, False)
-      Me.txtDCACcount.Size = New System.Drawing.Size(120, 21)
-      Me.txtDCACcount.TabIndex = 5
-      '
-      'Label3
-      '
-      Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label3.ForeColor = System.Drawing.Color.Black
-      Me.Label3.Location = New System.Drawing.Point(5, 44)
-      Me.Label3.Name = "Label3"
-      Me.Label3.Size = New System.Drawing.Size(78, 18)
-      Me.Label3.TabIndex = 13
-      Me.Label3.Text = "DCT Account"
-      Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'Label7
-      '
-      Me.Label7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label7.ForeColor = System.Drawing.Color.Black
-      Me.Label7.Location = New System.Drawing.Point(5, 68)
-      Me.Label7.Name = "Label7"
-      Me.Label7.Size = New System.Drawing.Size(78, 18)
-      Me.Label7.TabIndex = 14
-      Me.Label7.Text = "MCL Bank:"
-      Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtMCBank
-      '
-      Me.Validator.SetDataType(Me.txtMCBank, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMCBank, "")
-      Me.txtMCBank.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtMCBank, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtMCBank, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtMCBank, System.Drawing.Color.Empty)
-      Me.txtMCBank.Location = New System.Drawing.Point(80, 68)
-      Me.txtMCBank.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtMCBank, "")
-      Me.txtMCBank.Name = "txtMCBank"
-      Me.Validator.SetRegularExpression(Me.txtMCBank, "")
-      Me.Validator.SetRequired(Me.txtMCBank, False)
-      Me.txtMCBank.Size = New System.Drawing.Size(120, 21)
-      Me.txtMCBank.TabIndex = 6
-      '
-      'btnLock
-      '
-      Me.btnLock.Image = Global.My.Resources.Resources.padlock_unlocked
-      Me.btnLock.Location = New System.Drawing.Point(8, 350)
-      Me.btnLock.Name = "btnLock"
-      Me.btnLock.Size = New System.Drawing.Size(39, 44)
-      Me.btnLock.TabIndex = 18
-      Me.btnLock.UseVisualStyleBackColor = True
       '
       'tgContact
       '
@@ -350,7 +191,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgContact.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgContact.Location = New System.Drawing.Point(360, 288)
       Me.tgContact.Name = "tgContact"
-      Me.tgContact.Size = New System.Drawing.Size(606, 184)
+      Me.tgContact.Size = New System.Drawing.Size(384, 184)
       Me.tgContact.SortingArrowColor = System.Drawing.Color.Red
       Me.tgContact.TabIndex = 325
       Me.tgContact.TreeManager = Nothing
@@ -1089,16 +930,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
+      'btnLockBoq
+      '
+      Me.btnLock.Image = Global.My.Resources.Resources.padlock_unlocked
+      Me.btnLock.Location = New System.Drawing.Point(8, 350)
+      Me.btnLock.Name = "btnLockBoq"
+      Me.btnLock.Size = New System.Drawing.Size(39, 44)
+      Me.btnLock.TabIndex = 18
+      Me.btnLock.UseVisualStyleBackColor = True
+      '
       'SupplierDetailView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "SupplierDetailView"
-      Me.Size = New System.Drawing.Size(990, 496)
+      Me.Size = New System.Drawing.Size(768, 496)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      Me.FixedGroupBox1.ResumeLayout(False)
-      Me.FixedGroupBox1.PerformLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).EndInit()
       Me.primaryDetailGroupBox.ResumeLayout(False)
       Me.primaryDetailGroupBox.PerformLayout()
@@ -1515,31 +1363,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           btnLock.Visible = True
         End If
       End If
-      Me.FixedGroupBox1.Enabled = True
-      Me.txtDCACcount.Enabled = True
-      Me.txtDCBank.Enabled = True
-      Me.txtMCBank.Enabled = True
-      Me.txtMCAccount.Enabled = True
-
-      Try
-        Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-        Dim currentUser As User = mySService.CurrentUser
-        If Not currentUser Is Nothing AndAlso currentUser.Originated Then
-          Dim value As Integer = currentUser.GetAccess(New Access(354))
-          Select Case value
-            Case 0
-              Me.FixedGroupBox1.Visible = False
-            Case 1
-              Me.FixedGroupBox1.Visible = True
-              Me.FixedGroupBox1.Enabled = False
-            Case 3
-              Me.FixedGroupBox1.Visible = True
-              Me.FixedGroupBox1.Enabled = True
-          End Select
-        End If
-      Catch ex As Exception
-        'MessageBox.Show(ex.ToString)
-      End Try
     End Sub
 
     ' เคลียร์ข้อมูลลูกค้าใน control
@@ -1588,11 +1411,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtMobile.TextChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtDCBank.TextChanged, AddressOf ChangeProperty
-      AddHandler txtDCACcount.TextChanged, AddressOf ChangeProperty
-      AddHandler txtMCBank.TextChanged, AddressOf ChangeProperty
-      AddHandler txtMCAccount.TextChanged, AddressOf ChangeProperty
 
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
@@ -1677,12 +1495,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End If
 
-      Me.txtDCBank.Text = m_entity.DCBank
-      txtDCACcount.Text = m_entity.DCAccount
-
-      txtMCBank.Text = m_entity.MCBank
-      txtMCAccount.Text = m_entity.MCAccount
-
       Me.RefreshContact()
 
       SetStatus()
@@ -1716,18 +1528,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_oldCode = Me.cmbCode.Text
           dirtyFlag = True
 
-        Case txtDCBank.Name.ToLower
-          m_entity.DCBank = txtDCBank.Text
-          dirtyFlag = True
-        Case txtDCACcount.Name.ToLower
-          m_entity.DCAccount = txtDCACcount.Text
-          dirtyFlag = True
-        Case txtMCBank.Name.ToLower
-          m_entity.MCBank = txtMCBank.Text
-          dirtyFlag = True
-        Case txtMCAccount.Name.ToLower
-          m_entity.MCAccount = txtMCAccount.Text
-          dirtyFlag = True
         Case "chkcancel"
           Me.m_entity.Canceled = chkcancel.Checked
           dirtyFlag = True

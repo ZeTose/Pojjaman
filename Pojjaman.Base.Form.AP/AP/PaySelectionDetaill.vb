@@ -8,8 +8,6 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
-Imports Longkong.Core.AddIns
-
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PaySelectionDetail
     Inherits AbstractEntityDetailPanelView
@@ -1435,15 +1433,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Me.Enabled = True
       End If
-
-      '==Checking for addin
-      Dim hasExport As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains("textexport") Then
-          hasExport = True
-        End If
-      Next
-      Me.chkOnHold.Visible = hasExport
     End Sub
     Public Overrides Sub ClearDetail()
       For Each crlt As Control In Me.Controls
@@ -1560,7 +1549,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.GenVatItems()
     End Sub
     Private Sub RefreshDocs(Optional ByVal refresh As Boolean = False)
-      Me.m_isInitialized = False
+      Me.m_isInitialized = False  
       Me.m_entity.ItemCollection.PopulatePaySelectionItem(m_treeManager.Treetable, refresh)
       RefreshBlankGrid()
       ReIndex()
@@ -1786,7 +1775,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       New Filter("Id", Me.m_entity.Id)} 'Hack: filter อันสุดท้ายไม่เอาไป Query
 
       filters(2) = New Filter() {New Filter("IDList", GetItemIDList(15))}
-
+      
       filters(3) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
       New Filter("remainMustValid", True), _
       New Filter("pays_id", Me.m_entity.Id)}
@@ -2025,7 +2014,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get

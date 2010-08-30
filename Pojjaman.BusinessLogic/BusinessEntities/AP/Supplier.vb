@@ -23,7 +23,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_birthDate As Date
     Private m_creditType As CreditType
     Private m_receiveDays As String
-    Private m_receiveDates As String         ' ï¿½ï¿½ï¿½ç¹ªØ´ String
+    Private m_receiveDates As String         ' à¡çºà»ç¹ªØ´ String
     Private m_receiveWeeks As String
     Private m_billrecDays As String
     Private m_billRecDates As String
@@ -35,7 +35,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_contactCollection As SupplierContactCollection
     Private m_notGetItems As Boolean = False
-    Public Shared m_SupplierCollection As Hashtable 'ï¿½ï¿½ï¿½ï¿½ Datarow
+    Public Shared m_SupplierCollection As Hashtable 'à¡çºà»ç¹ Datarow
 #End Region
 
 #Region "Constructors"
@@ -69,15 +69,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Construct(dr, aliasPrefix)
     End Sub
-
-    Property DCBank As String
-
-    Property DCAccount As String
-
-    Property MCBank As String
-
-    Property MCAccount As String
-
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       Me.m_group = New SupplierGroup
@@ -176,18 +167,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
 
-      Dim deh As New DataRowHelper(dr)
-      Me.MCAccount = deh.GetValue(Of String)("supplier_kbankmcaccount")
-      Me.MCBank = deh.GetValue(Of String)("supplier_kbankmcbank")
-      Me.DCAccount = deh.GetValue(Of String)("supplier_kbankdcaccount")
-      Me.DCBank = deh.GetValue(Of String)("supplier_kbankdcbank")
-
       'If m_contactCollection Is Nothing Then
       m_contactCollection = New SupplierContactCollection(Me)
       'End If
 
       'm_SupplierLCICostLink = New SupplierLCICostLink(Me)
-      'Hack ï¿½ï¿½ï¿½ï¿½Í¡
+      'Hack àÍÒÍÍ¡
       'LoadImage()
 
     End Sub
@@ -433,14 +418,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.AutoGen = oldautogen
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      ' ï¿½ï¿½Ë¹ï¿½ SqlParameter ï¿½ï¿½ï¿½ï¿½ return ï¿½ï¿½Ò¡ï¿½ï¿½ Execute procedure ...
+      ' ¡ÓË¹´ SqlParameter à¾×èÍ return ¤èÒ¡ÒÃ Execute procedure ...
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
       returnVal.ParameterName = "RETURN_VALUE"
       returnVal.DbType = DbType.Int32
       returnVal.Direction = ParameterDirection.ReturnValue
       returnVal.SourceVersion = DataRowVersion.Current
 
-      ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+      ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
       Dim paramArrayList As New ArrayList
 
       paramArrayList.Add(returnVal)
@@ -510,14 +495,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       paramArrayList.Add(New SqlParameter("@supplier_pjmid", Me.PJMID))
 
-      paramArrayList.Add(New SqlParameter("@supplier_kbankdcaccount", Me.DCAccount))
-      paramArrayList.Add(New SqlParameter("@supplier_kbankdcbank", Me.DCBank))
-      paramArrayList.Add(New SqlParameter("@supplier_kbankmcaccount", Me.MCAccount))
-      paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
-
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-      ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+      ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
@@ -625,7 +605,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         da.SelectCommand.Transaction = trans
 
-        'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da.SelectCommand.Transaction = trans
+        'µéÍ§ÍÂÙèµèÍ¨Ò¡ da.SelectCommand.Transaction = trans
         cmdBuilder.GetDeleteCommand.Transaction = trans
         cmdBuilder.GetInsertCommand.Transaction = trans
         cmdBuilder.GetUpdateCommand.Transaction = trans
@@ -689,7 +669,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newsupplier As New Supplier(txtCode.Text, New Filter("includeInvisible", True))
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If txtCode.Text.Length <> 0 AndAlso Not newsupplier.Valid Then
-        'MessageBox.Show(txtCode.Text & " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½")
+        'MessageBox.Show(txtCode.Text & " äÁèÁÕã¹ÃÐºº")
         msgServ.ShowMessageFormatted("${res:Global.Error.NoSupplier}", New String() {txtCode.Text})
         newsupplier = oldsupplier
       End If
@@ -705,7 +685,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newsupplier As New Supplier(txtCode.Text)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If txtCode.Text.Length <> 0 AndAlso Not newsupplier.Valid Then
-        'MessageBox.Show(txtCode.Text & " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½")
+        'MessageBox.Show(txtCode.Text & " äÁèÁÕã¹ÃÐºº")
         msgServ.ShowMessageFormatted("${res:Global.Error.NoSupplier}", New String() {txtCode.Text})
         newsupplier = oldsupplier
       End If
@@ -756,7 +736,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-      Return "ï¿½ï¿½ï¿½ï¿½ï¿½"
+      Return "¼Ùé¢ÒÂ"
     End Function
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
       Return "Supplier"
@@ -1121,7 +1101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -1147,13 +1127,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
         Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
 
-        ' ï¿½ï¿½Ç¨ï¿½Ñº Error ï¿½Í§ï¿½ï¿½ï¿½ Save ...
+        ' µÃÇ¨¨Ñº Error ¢Í§¡ÒÃ Save ...
 
         Return New SaveErrorException(returnVal.Value.ToString)
 
@@ -1165,10 +1145,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Function GetSupplierGroup(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldGroup As SupplierGroup, Optional ByVal allowParent As Boolean = False) As Boolean
       Dim group As New SupplierGroup(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not group.Valid Then
-        MessageBox.Show(txtCode.Text & " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½")
+        MessageBox.Show(txtCode.Text & " äÁèÁÕã¹ÃÐºº")
         group = oldGroup
       ElseIf (Not allowParent) And group.IsControlGroup Then
-        MessageBox.Show(group.Code & "-" & group.Name & " ï¿½Õ¡ï¿½Ã¤ï¿½ï¿½ ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")
+        MessageBox.Show(group.Code & "-" & group.Name & " ÁÕ¡ÒÃ¤ØÁ ¨Ö§äÁèÊÒÁÒÃ¶¹ÓÁÒãªéä´é")
         group = oldGroup
       End If
       txtCode.Text = group.Code

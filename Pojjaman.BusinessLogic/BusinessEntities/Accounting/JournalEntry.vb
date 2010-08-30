@@ -11,8 +11,8 @@ Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
   ''' <summary>
-  ''' Interface ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GL ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¹ Refresh
-  ''' ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½Çµï¿½Í§ï¿½ï¿½ï¿½ OnGlChanged ï¿½Ø¡ Property ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ GL ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ Class ï¿½ï¿½ï¿½
+  ''' Interface à»ÅèÒ àÍÒäÇéá»Ðà¾×èÍãËéàªç¤ÇèÒ GL à»ÅÕèÂ¹äËÁ¡èÍ¹ Refresh
+  ''' ¶éÒá»Ð·ÕèäË¹áÅéÇµéÍ§ãÊè OnGlChanged ·Ø¡ Property ·Õè¨Ð·ÓãËé GL à»ÅÕèÂ¹ã¹ Class ¹Ñé¹
   ''' </summary>
   ''' <remarks></remarks>
   Public Interface IGLCheckingBeforeRefresh
@@ -242,7 +242,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         gl_refDoc.Date = refDocDate
         gl_refDoc.Note = Me.Note
 
-        'Comment ï¿½ï¿½ï¿½ï¿½Í¹ ã¹¢ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½Ù»
+        'Comment äÇé¡èÍ¹ ã¹¢éÍËÒ·ÓãËéÇ¹ÅÙ»
         'gl_refjvdoc = New JournalEntry(refDocId)
       Else
         RefDoc = CType(SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(refDocType), refDocId), IGLAble)
@@ -540,25 +540,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return ds.Tables(0)
     End Function
     Public Sub SetGLFormat(ByVal glf As GLFormat)
+      If PMOnHold Then
+        Me.ItemCollection.Clear()
+        Return
+      End If
       If Me.RefDoc Is Nothing Then
         Return
       End If
-      'ï¿½ï¿½ï¿½ï¿½ï¿½é¹·Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½ Ë¹ï¿½Ò¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
+      '·ÓãËéµé¹·Ø¹äÁèÁÒ Ë¹éÒ¢ÒÂ áÅÐÂÑ§äÁèÃÙé·Ó·ÓäÁ
       'If Me.RefDoc.Id <> 0 AndAlso Me.Id = 0 Then
       '  Return
       'End If
 
-      '===================Check ï¿½ï¿½ï¿½ GL ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½ ================================
+      '===================Check ÇèÒ GL à»ÅÕèÂ¹äËÁ ================================
       If TypeOf Me.RefDoc Is IGLCheckingBeforeRefresh AndAlso TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
         If Not CType(Me.RefDoc, SimpleBusinessEntityBase).GLIsChanged Then
-          'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ ==> ï¿½Í¡ï¿½ï¿½ï¿½
+          'äÁèà»ÅÕèÂ¹ ==> ÍÍ¡àÅÂ
           Return
         Else
-          'ï¿½ï¿½ï¿½ï¿½Â¹ ==> ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½Ñº ï¿½ï¿½ï¿½ï¿½ä»µï¿½ï¿½
+          'à»ÅÕèÂ¹ ==> à»ÅÕèÂ¹¡ÅÑº áÅéÇä»µèÍ
           CType(Me.RefDoc, SimpleBusinessEntityBase).GLIsChanged = False
         End If
       End If
-      '===================Check ï¿½ï¿½ï¿½ GL ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½ ================================
+      '===================Check ÇèÒ GL à»ÅÕèÂ¹äËÁ ================================
 
       Me.RefDoctype = CType(Me.RefDoc, IObjectReflectable).EntityId
       Dim entriesFromDoc As JournalEntryItemCollection = Me.RefDoc.GetJournalEntries
@@ -581,7 +585,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       '-------------------------------Basic--------------------------------
 
-      '-------------------------------Bypass ï¿½Ã§ï¿½ï¿½Ò¨Ò¡ Entity--------------------------------
+      '-------------------------------Bypass µÃ§æÁÒ¨Ò¡ Entity--------------------------------
       Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc.GetExactMappingItems("Through")
       For Each matchItem As JournalEntryItem In throughMatchItems
         If Not matchItem Is Nothing Then
@@ -603,10 +607,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Todo: Error
         End If
       Next
-      '-------------------------------Bypass ï¿½Ã§ï¿½ï¿½Ò¨Ò¡ Entity--------------------------------
+      '-------------------------------Bypass µÃ§æÁÒ¨Ò¡ Entity--------------------------------
 
-      '-------------------------------ï¿½Ñ´ï¿½ï¿½ï¿½--------------------------------
-      'ï¿½ï¿½Ã»Ñ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¹ 1 ï¿½ï¿½ï¿½Ò¡ï¿½ï¿½ï¿½ï¿½ï¿½Ô¹ ï¿½Ö§ï¿½ï¿½ 1*ï¿½Ó¹Ç¹ï¿½ï¿½Ò¹ debit (ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä§µï¿½ï¿½ï¿½)
+      '-------------------------------»Ñ´àÈÉ--------------------------------
+      '¡ÒÃ»Ñ´àÈÉ à´ÔÁãªéäÁèà¡Ô¹ 1 áµè»ÃÒ¡¯ÇèÒà¡Ô¹ ¨Ö§ãªé 1*¨Ó¹Ç¹´éÒ¹ debit (ÂÑ§äÁèÃÙé·Óä§µèÍä»)
       Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
       If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < entriesFromDoc.Count Then
         Dim ji As New JournalEntryItem
@@ -619,10 +623,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.DiffFromDecimalPlace).Account
         Me.ItemCollection.Add(ji)
       End If
-      '-------------------------------ï¿½Ñ´ï¿½ï¿½ï¿½--------------------------------
+      '-------------------------------»Ñ´àÈÉ--------------------------------
 
       '-------------------------------Sumdebit/Sumcredit--------------------------------
-      'Loop ï¿½Õ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Sum
+      'Loop ÍÕ¡·Õà¾×èÍàÍÒ Sum
       For Each glfi As GLFormatItem In glf.ItemCollection
         If glfi.Mapping.ToLower.IndexOf("sumdebit") >= 0 OrElse glfi.Mapping.ToLower.IndexOf("sumcredit") >= 0 Then
           Dim ji As New JournalEntryItem
@@ -676,7 +680,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
 
-        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -711,9 +715,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim refCredit As Decimal
             Dim jv As New JournalEntry(RefJVdoc.Id)
             If Me.DebitAmount <> jv.DebitAmount Then
-              ' TODO : ï¿½ï¿½ï¿½ï¿½Í¹
+              ' TODO : á¨é§àµ×Í¹
               'Dim msgServics As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              'Dim b As Boolean = msgServics.AskQuestion("ï¿½Í´ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½Í§")
+              'Dim b As Boolean = msgServics.AskQuestion("ÂÍ´äÁè¶Ù¡µéÍ§")
               'MessageBox.Show(b.ToString)
             End If
           End If
@@ -756,7 +760,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Try
@@ -805,7 +809,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException("0")
       End If
       With Me
-        If Me.ItemCollection.Count <= 0 Then
+        If Me.ItemCollection.Count <= 0 AndAlso Not PMOnHold Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
         Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
@@ -819,7 +823,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
 
-        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -854,9 +858,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim refCredit As Decimal
             Dim jv As New JournalEntry(RefJVdoc.Id)
             If Me.DebitAmount <> jv.DebitAmount Then
-              ' TODO : ï¿½ï¿½ï¿½ï¿½Í¹
+              ' TODO : á¨é§àµ×Í¹
               'Dim msgServics As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              'Dim b As Boolean = msgServics.AskQuestion("ï¿½Í´ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½Í§")
+              'Dim b As Boolean = msgServics.AskQuestion("ÂÍ´äÁè¶Ù¡µéÍ§")
               'MessageBox.Show(b.ToString)
             End If
           End If
@@ -895,7 +899,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim trans As SqlTransaction
@@ -955,7 +959,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       da.SelectCommand.Transaction = trans
 
-      'ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Ò¡ da.SelectCommand.Transaction = trans
+      'µéÍ§ÍÂÙèµèÍ¨Ò¡ da.SelectCommand.Transaction = trans
       cmdBuilder.GetDeleteCommand.Transaction = trans
       cmdBuilder.GetInsertCommand.Transaction = trans
       cmdBuilder.GetUpdateCommand.Transaction = trans
@@ -1028,7 +1032,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -1036,11 +1040,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@gl_postperson", currentUserId))
         paramArrayList.Add(New SqlParameter("@gl_postdate", theTime))
 
-        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-        ' ï¿½ï¿½ï¿½ Transaction ï¿½Çºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½Í§ Client ï¿½ï¿½ï¿½ï¿½ï¿½Ò¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ loop ï¿½ï¿½
+        ' ãËé Transaction ¤Çº¤ØÁ·ÕèÊèÇ¹¢Í§ Client à¾ÃÒÐÍÒ¨ÁÕËÅÒÂ loop ä´é
         Try
           SqlHelper.ExecuteNonQuery(JournalEntry.ConnectionString, CommandType.StoredProcedure, "PostJournalEntry", sqlparams)
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -1302,7 +1306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.DbType = DbType.Int32
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
-        ' ï¿½ï¿½ï¿½Ò§ ArrayList ï¿½Ò¡ Item ï¿½Í§  SqlParameter ...
+        ' ÊÃéÒ§ ArrayList ¨Ò¡ Item ¢Í§  SqlParameter ...
         Dim paramArrayList As New ArrayList
 
         paramArrayList.Add(returnVal)
@@ -1310,11 +1314,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_postperson", currentUserId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_postdate", theTime))
 
-        ' ï¿½ï¿½ï¿½Ò§ SqlParameter ï¿½Ò¡ ArrayList ...
+        ' ÊÃéÒ§ SqlParameter ¨Ò¡ ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-        ' ï¿½ï¿½ï¿½ Transaction ï¿½Çºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½Í§ Client ï¿½ï¿½ï¿½ï¿½ï¿½Ò¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ loop ï¿½ï¿½
+        ' ãËé Transaction ¤Çº¤ØÁ·ÕèÊèÇ¹¢Í§ Client à¾ÃÒÐÍÒ¨ÁÕËÅÒÂ loop ä´é
         Try
           SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "Post" & Me.TableName, sqlparams)
           Return New SaveErrorException(returnVal.Value.ToString)

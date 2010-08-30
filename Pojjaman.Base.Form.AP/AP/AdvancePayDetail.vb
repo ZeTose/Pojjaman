@@ -9,8 +9,6 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
-Imports Longkong.Core.AddIns
-
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AdvancePayDetail
     Inherits AbstractEntityDetailPanelView
@@ -169,7 +167,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(72, 18)
       Me.lblNote.TabIndex = 178
-      Me.lblNote.Text = "ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½:"
+      Me.lblNote.Text = "ËÁÒÂàËµØ:"
       Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblItem
@@ -180,7 +178,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(96, 18)
       Me.lblItem.TabIndex = 179
-      Me.lblItem.Text = "ï¿½Ñ¹ï¿½Õ¡ï¿½Ñ´ï¿½Ñ´ï¿½ï¿½"
+      Me.lblItem.Text = "ºÑ¹·Õ¡µÑ´ÁÑ´¨Ó"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblSupplier
@@ -190,7 +188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSupplier.Name = "lblSupplier"
       Me.lblSupplier.Size = New System.Drawing.Size(56, 18)
       Me.lblSupplier.TabIndex = 184
-      Me.lblSupplier.Text = "ï¿½ï¿½ï¿½ï¿½ï¿½:"
+      Me.lblSupplier.Text = "¼Ùé¢ÒÂ:"
       Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtSupplierCode
@@ -260,7 +258,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Size = New System.Drawing.Size(624, 256)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "ï¿½Í¡ï¿½ï¿½Ã¨ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½"
+      Me.grbDetail.Text = "àÍ¡ÊÒÃ¨èÒÂÁÑ´¨Ó"
       '
       'rdoForSC
       '
@@ -268,7 +266,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdoForSC.Name = "rdoForSC"
       Me.rdoForSC.Size = New System.Drawing.Size(104, 24)
       Me.rdoForSC.TabIndex = 370
-      Me.rdoForSC.Text = "ï¿½ï¿½ï¿½ï¿½Ñº SC"
+      Me.rdoForSC.Text = "ÊÓËÃÑº SC"
       '
       'rdoForAP
       '
@@ -278,7 +276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdoForAP.Size = New System.Drawing.Size(104, 24)
       Me.rdoForAP.TabIndex = 369
       Me.rdoForAP.TabStop = True
-      Me.rdoForAP.Text = "ï¿½ï¿½ï¿½ï¿½Ñº AP"
+      Me.rdoForAP.Text = "ÊÓËÃÑº AP"
       '
       'txtTaxBase
       '
@@ -447,7 +445,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxType.Name = "lblTaxType"
       Me.lblTaxType.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxType.TabIndex = 343
-      Me.lblTaxType.Text = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:"
+      Me.lblTaxType.Text = "»ÃÐàÀ·ÀÒÉÕ:"
       Me.lblTaxType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtTaxRate
@@ -475,7 +473,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxRate.Name = "lblTaxRate"
       Me.lblTaxRate.Size = New System.Drawing.Size(61, 18)
       Me.lblTaxRate.TabIndex = 345
-      Me.lblTaxRate.Text = "ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ :"
+      Me.lblTaxRate.Text = "ÍÑµÃÒÀÒÉÕ :"
       Me.lblTaxRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblAfterTax
@@ -532,7 +530,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(80, 18)
       Me.lblCode.TabIndex = 325
-      Me.lblCode.Text = "ï¿½Å¢ï¿½ï¿½ï¿½ï¿½Í¡ï¿½ï¿½ï¿½:"
+      Me.lblCode.Text = "àÅ¢·ÕèàÍ¡ÊÒÃ:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblDocDate
@@ -554,7 +552,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblInvoiceCode.Name = "lblInvoiceCode"
       Me.lblInvoiceCode.Size = New System.Drawing.Size(96, 18)
       Me.lblInvoiceCode.TabIndex = 326
-      Me.lblInvoiceCode.Text = "ï¿½Å¢ï¿½ï¿½ï¿½ãº¡Ó¡Ñºï¿½ï¿½ï¿½ï¿½:"
+      Me.lblInvoiceCode.Text = "àÅ¢·Õèãº¡Ó¡ÑºÀÒÉÕ:"
       Me.lblInvoiceCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtInvoiceCode
@@ -580,7 +578,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblInvoiceDate.Name = "lblInvoiceDate"
       Me.lblInvoiceDate.Size = New System.Drawing.Size(88, 18)
       Me.lblInvoiceDate.TabIndex = 323
-      Me.lblInvoiceDate.Text = "ï¿½Ñ¹ï¿½ï¿½ï¿½:"
+      Me.lblInvoiceDate.Text = "ÇÑ¹·Õè:"
       Me.lblInvoiceDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtInvoiceDate
@@ -767,7 +765,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht3.Name = "lblBaht3"
       Me.lblBaht3.Size = New System.Drawing.Size(32, 16)
       Me.lblBaht3.TabIndex = 178
-      Me.lblBaht3.Text = "ï¿½Ò·"
+      Me.lblBaht3.Text = "ºÒ·"
       Me.lblBaht3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblTotal
@@ -907,15 +905,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
         End If
       End If
-
-      '==Checking for addin
-      Dim hasExport As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains("textexport") Then
-          hasExport = True
-        End If
-      Next
-      Me.chkOnHold.Visible = hasExport
     End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
@@ -1056,7 +1045,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ''txtCode.Text = m_entity.Code
       m_oldCode = m_entity.Code
-      ''UpdateAutogen ï¿½ï¿½á·¹ï¿½ï¿½ï¿½ï¿½
+      ''UpdateAutogen ·Óá·¹áÅéÇ
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
@@ -1158,7 +1147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  dirtyFlag = True
         Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
-          'ï¿½ï¿½ï¿½ï¿½ AutoCode
+          'à¾ÔèÁ AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
             Me.m_entity.OnGlChanged()
@@ -1276,7 +1265,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub UpdateAmount()
       m_isInitialized = False
 
-      'HACK: forceUpdateGross ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½Ã¡ï¿½Ð¨ï¿½ï¿½
+      'HACK: forceUpdateGross µéÍ§ÍÂÙèÍÑ¹áÃ¡¹Ð¨êÐ
       If forceUpdateTaxBase OrElse (Not Me.m_entity.Originated AndAlso Me.m_entity.RealTaxBase <> Me.m_entity.TaxBase) Then
         Me.m_entity.RealTaxBase = Me.m_entity.TaxBase
         forceUpdateTaxBase = False
@@ -1300,7 +1289,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetVatInputAfterAmountChange()
       If Me.m_entity.TaxType.Value = 0 Then
-        'ï¿½ï¿½ï¿½ï¿½ï¿½ Vat
+        'äÁèÁÕ Vat
         SetVatToNoDoc()
         Me.VatInputEnabled(False)
         Me.ibtnEnableVatInput.Enabled = False
@@ -1311,7 +1300,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.dtpInvoiceDate.Value = Now
         Me.m_isInitialized = flag
       ElseIf Me.m_entity.Vat.ItemCollection.Count > 1 Then
-        'ï¿½ï¿½ Vatitem ï¿½Ò¡ï¿½ï¿½ï¿½ï¿½ 1 ï¿½
+        'ÁÕ Vatitem ÁÒ¡¡ÇèÒ 1 ãº
         Me.VatInputEnabled(False)
         Me.ibtnEnableVatInput.Enabled = True
         Dim flag As Boolean = m_isInitialized
@@ -1321,7 +1310,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.dtpInvoiceDate.Value = Now
         Me.m_isInitialized = flag
       ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-        'ï¿½ï¿½ï¿½ï¿½ï¿½ Vatitem
+        'äÁèÁÕ Vatitem
         Dim flag As Boolean = m_isInitialized
         Me.m_isInitialized = False
         Me.txtInvoiceCode.Text = ""
@@ -1332,7 +1321,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_isInitialized = flag
         Me.ibtnEnableVatInput.Enabled = True
       Else
-        'ï¿½ï¿½ Vatitem ï¿½ï¿½ï¿½ï¿½ï¿½
+        'ÁÕ Vatitem ãºà´ÕÂÇ
         Dim flag As Boolean = m_isInitialized
         Me.m_isInitialized = True
         Me.VatInputEnabled(True)
@@ -1342,17 +1331,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Sub SetStatus()
       If m_entity.Canceled Then
-        Me.StatusBarService.SetMessage("Â¡ï¿½ï¿½Ô¡: " & m_entity.CancelDate.ToShortDateString & _
+        Me.StatusBarService.SetMessage("Â¡àÅÔ¡: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
-        "  ï¿½ï¿½:" & m_entity.CancelPerson.Name)
+        "  â´Â:" & m_entity.CancelPerson.Name)
       ElseIf m_entity.Edited Then
-        Me.StatusBarService.SetMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´: " & m_entity.LastEditDate.ToShortDateString & _
+        Me.StatusBarService.SetMessage("á¡éä¢ÅèÒÊØ´: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  ï¿½ï¿½:" & m_entity.LastEditor.Name)
+        "  â´Â:" & m_entity.LastEditor.Name)
       ElseIf Me.m_entity.Originated Then
-        Me.StatusBarService.SetMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½: " & m_entity.OriginDate.ToShortDateString & _
+        Me.StatusBarService.SetMessage("à¾ÔèÁà¢éÒÊÙèÃÐºº: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
-        "  ï¿½ï¿½:" & m_entity.Originator.Name)
+        "  â´Â:" & m_entity.Originator.Name)
       Else
         Me.StatusBarService.SetMessage("")
       End If
@@ -1407,7 +1396,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Me.txtCode.ReadOnly = True
       '  m_oldCode = Me.txtCode.Text
       '  Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-      '  'Hack: set Code ï¿½ï¿½ "" ï¿½Í§
+      '  'Hack: set Code à»ç¹ "" àÍ§
       '  Me.m_entity.Code = ""
       '  Me.m_entity.AutoGen = True
       'Else
@@ -1447,7 +1436,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get

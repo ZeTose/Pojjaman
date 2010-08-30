@@ -177,9 +177,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If
-      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        If m_bankacct Is Nothing Then
-          m_bankacct = New BankAccount
-        End If        Return m_bankacct      End Get      Set(ByVal Value As BankAccount)        m_bankacct = Value      End Set    End Property    Public Property ACPayeeOnly() As Boolean      Get        Return m_ACPayeeOnly      End Get      Set(ByVal Value As Boolean)        m_ACPayeeOnly = Value      End Set    End Property    Public Property Unbearer() As Boolean      Get        Return m_unbearer      End Get      Set(ByVal Value As Boolean)        m_unbearer = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
+      End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        Return m_bankacct      End Get      Set(ByVal Value As BankAccount)        m_bankacct = Value      End Set    End Property    Public Property ACPayeeOnly() As Boolean      Get        Return m_ACPayeeOnly      End Get      Set(ByVal Value As Boolean)        m_ACPayeeOnly = Value      End Set    End Property    Public Property Unbearer() As Boolean      Get        Return m_unbearer      End Get      Set(ByVal Value As Boolean)        m_unbearer = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get
         Return m_bankcharge
       End Get
       Set(ByVal Value As Decimal)
@@ -810,7 +808,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               '====================WHT=========================
 
               '======================GL=======================
-              'theEntity.GLIsChanged = True
+              theEntity.GLIsChanged = True
               '======================GL=======================
               theEntity.Save(currentUserId)
             End If
@@ -925,7 +923,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
       Try
-        Dim da As New SqlDataAdapter("Select * from paymentitem where (paymenti_entitytype = 22 and paymenti_entity=" & Me.Id & ") or paymenti_payment in (" & GetPaymentIdToSave() & ")", conn)
+        Dim da As New SqlDataAdapter("Select * from paymentitem where paymenti_entitytype = 22 and paymenti_entity=" & Me.Id, conn)
         Dim da2 As New SqlDataAdapter("select * from payment where payment_id in (" & GetPaymentIdToSave() & ")", conn)
         Dim cmdBuilder As New SqlCommandBuilder(da)
 
@@ -973,20 +971,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim i As Integer = 0
           For Each item As PaymentForList In Me.PaymentList
             If item.JustAdded Then
-              Dim drs1 As DataRow() = ds.Tables("paymentitem").Select("paymenti_payment = " & item.Id.ToString)
-              If Not drs1 Is Nothing AndAlso drs1.Length > 0 Then
-                Dim dr As DataRow = drs1(0)
-                dr("paymenti_entity") = Me.Id
-                dr("paymenti_entitycode") = Me.CqCode
-                dr("paymenti_payment") = item.Id
-                dr("paymenti_linenumber") = i + 1
-                dr("paymenti_entityType") = Me.EntityId
-                dr("paymenti_refamt") = Me.Amount
-                dr("paymenti_amt") = item.Amount
-                dr("paymenti_note") = item.Note
-                dr("paymenti_status") = Me.Status.Value
-              End If
-              i += 1
+              Dim dr As DataRow = .NewRow
+              dr("paymenti_entity") = Me.Id
+              dr("paymenti_entitycode") = Me.CqCode
+              dr("paymenti_payment") = item.Id
+              dr("paymenti_linenumber") = i + 1
+              dr("paymenti_entityType") = Me.EntityId
+              dr("paymenti_refamt") = Me.Amount
+              dr("paymenti_amt") = item.Amount
+              dr("paymenti_note") = item.Note
+              dr("paymenti_status") = Me.Status.Value
+              .Rows.Add(dr)
+
               Dim drs As DataRow() = ds.Tables("payment").Select("payment_id = " & item.Id.ToString)
               If Not drs Is Nothing AndAlso drs.Length > 0 Then
                 Dim paymentDR As DataRow = drs(0)
@@ -1321,9 +1317,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim culture As New CultureInfo("en-US", True)
 
       Dim effectiveDate As Date = c.DueDate
-      If theItemList IsNot Nothing AndAlso theItemList.Count > 0 Then
-        effectiveDate = theItemList(0).RefDueDate
-      End If
+
       Dim exportTime As Date = Date.Now
       Dim header As String = ""
       header &= "H" 'Part Identifier
@@ -1361,7 +1355,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= Space(30) 'Payee Address 2
         creditText &= Space(30) 'Payee Address 3
         creditText &= Space(30) 'Payee Address 4
-        creditText &= String.Format("{0:00000000000000000000}", CDbl(itemAccount)) 'A/C #
+        creditText &= String.Format("{0:00000000000000000000}", CInt(itemAccount)) 'A/C #
         creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
         creditText &= String.Format("{0,-13}", item.PersonalID).Substring(0, 13) 'Personal Id
         creditText &= String.Format("{0:0000}", CInt(itemBankBranchCode)) 'Branch Code
@@ -1413,9 +1407,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim culture As New CultureInfo("en-US", True)
 
       Dim effectiveDate As Date = c.DueDate
-      If theItemList IsNot Nothing AndAlso theItemList.Count > 0 Then
-        effectiveDate = theItemList(0).RefDueDate
-      End If
+
       Dim exportTime As Date = Date.Now
       Dim header As String = ""
       header &= "H" 'Part Identifier
@@ -1431,7 +1423,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= Space(1) 'FILLER
       header &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(amtString, ",", ""), ".", ""))) 'AMOUNT
       header &= Space(1) 'FILLER
-      header &= exportTime.ToString("yyMMdd", culture) 'TRANS-DATE
+      header &= effectiveDate.ToString("yyMMdd", culture) 'TRANS-DATE
       header &= Space(1) 'FILLER
       header &= Space(23) 'TITLE
       header &= Space(1) 'FILLER
@@ -1466,19 +1458,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= Space(7) 'COMPANY-CODE 7
         creditText &= Space(1) 'FILLER 1
         If IsNumeric(itemAccount.Replace("-", "")) Then
-          creditText &= String.Format("{0:0000000000}", CDbl(itemAccount.Replace("-", ""))) 'ACCT-NO
+          creditText &= String.Format("{0:0000000000}", CInt(itemAccount.Replace("-", ""))) 'ACCT-NO
         Else
           creditText &= String.Format("{0,-10}", itemAccount.Replace("-", "")) 'ACCT-NO
         End If
         creditText &= Space(1) 'FILLER
         creditText &= String.Format("{0:000000000000000}", CDbl(Replace(Replace(itemAmountString, ",", ""), ".", ""))) 'AMOUNT
         creditText &= Space(1) 'FILLER
-        creditText &= exportTime.ToString("yyMMdd", culture) 'TRANS-DATE
+        creditText &= effectiveDate.ToString("yyMMdd", culture) 'TRANS-DATE
         creditText &= Space(1) 'FILLER
         creditText &= Space(23) 'TITLE
-        creditText &= Space(1) 'FILLER        
+        creditText &= Space(1) 'FILLER
         creditText &= String.Format("{0,-50}", item.PayeeName).Substring(0, 50) 'NAME
-        creditText &= item.RefDueDate.ToString("yyMMdd", culture) 'EFFECTIVE-DATE
+        creditText &= effectiveDate.ToString("yyMMdd", culture) 'EFFECTIVE-DATE
         creditText &= String.Format("{0:000}", item.TaxInfos.Count) 'Tax Info Count
         creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
         creditText &= Space(50) 'Attachment Sub-file
@@ -1531,9 +1523,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim culture As New CultureInfo("en-US", True)
 
       Dim effectiveDate As Date = c.DueDate
-      If theItemList IsNot Nothing AndAlso theItemList.Count > 0 Then
-        effectiveDate = theItemList(0).RefDueDate
-      End If
       Dim pickupDate As Date = c.DueDate
 
       Dim exportTime As Date = Date.Now
@@ -1542,7 +1531,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= "COC" 'Payment Type
       header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'Debit A/C No.
       header &= Space(16) 'Batch Ref.#
-      header &= exportTime.ToString("dd-MM-yyyy", culture) 'Effective Date
+      header &= effectiveDate.ToString("dd-MM-yyyy", culture) 'Effective Date
       header &= pickupDate.ToString("dd-MM-yyyy", culture) 'Pickup Date
       header &= Space(5) 'Customer Branch #
       header &= String.Format("{0:000000000000000000}", theItemList.Count)  'Total Credit Items
