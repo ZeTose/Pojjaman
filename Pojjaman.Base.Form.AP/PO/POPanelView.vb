@@ -11,10 +11,12 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.Collections.Generic
 Imports System.Text.RegularExpressions
+Imports Longkong.Pojjaman.Commands
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class POPanelView
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable, ICanRefreshAutoComplete
+    Implements IValidatable, ICanRefreshAutoComplete, IPreviewable
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -2461,7 +2463,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetcmbPOPlace()
       cmbPOPlaceDeli.Items.Clear()
       For Each address As String In Me.m_entity.DeliveryAddressCollection.Values
-        cmbPOPlaceDeli.Items.Add(address)
+        If Not address Is Nothing Then
+          cmbPOPlaceDeli.Items.Add(address)
+        End If
       Next
       If cmbPOPlaceDeli.Items.Count > 0 Then
         cmbPOPlaceDeli.SelectedIndex = 0
@@ -3046,12 +3050,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides ReadOnly Property CanPrint() As Boolean
       Get
         Try
-        If m_checkedCanPrint Is Nothing Then
+          If m_checkedCanPrint Is Nothing Then
             m_checkedCanPrint = New Hashtable
           End If
 
           If m_checkedCanPrint.Contains(m_entity.Id) Then
-            
+
             Dim approveDocColl As ApproveDocCollection = CType(m_checkedCanPrint(m_entity.Id), ApproveDocCollection)
             Dim poNeedsApproval As Boolean = CBool(Configuration.GetConfig("POApproveBeforePrint"))
             If poNeedsApproval Then
@@ -3113,6 +3117,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub txtSupplierName_TextAlignChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSupplierName.TextAlignChanged
 
     End Sub
+
+#Region "IPreviewable"
+    Public ReadOnly Property CanPreview As Boolean Implements Commands.IPreviewable.CanPreview
+      Get
+        Return True
+      End Get
+    End Property
+#End Region
   End Class
 End Namespace
 

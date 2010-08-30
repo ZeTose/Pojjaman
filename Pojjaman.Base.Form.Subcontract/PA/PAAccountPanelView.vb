@@ -12,7 +12,7 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PAAccountPanelView
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+    Implements IValidatable, Commands.IPreviewable
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -2285,6 +2285,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Catch ex As Exception
         End Try
         Return MyBase.CanPrint
+      End Get
+    End Property
+#End Region
+
+#Region "IPreviewable"
+    Public ReadOnly Property CanPreview As Boolean Implements Commands.IPreviewable.CanPreview
+      Get
+        Return True
       End Get
     End Property
 #End Region

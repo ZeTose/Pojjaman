@@ -8,10 +8,12 @@ Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
+Imports Longkong.Pojjaman.Commands
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PAPanelView
     Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+    Implements IValidatable, IPreviewable
     'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
@@ -3525,7 +3527,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -3974,6 +3976,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+#Region "IPreviewable"
+    Public ReadOnly Property CanPreview As Boolean Implements Commands.IPreviewable.CanPreview
+      Get
+        Return True
+      End Get
+    End Property
+#End Region
 
   End Class
 End Namespace
