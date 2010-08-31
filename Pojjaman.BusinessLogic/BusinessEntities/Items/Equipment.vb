@@ -359,23 +359,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           ''-------------------------------------------------------
 
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
-
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByEquipmentItem", New SqlParameter("@EqtId", Me.Id))
-
           Dim saveDetailError2 As SaveErrorException = DeleteEqtStockNonRefEquipmentItem(conn, trans)
           If Not IsNumeric(saveDetailError2.Message) Then
             trans.Rollback()
@@ -391,20 +374,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          Dim saveEqtDetailError As SaveErrorException = SaveEqtStockDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveEqtDetailError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            Return saveEqtDetailError
-          Else
-            Select Case CInt(saveEqtDetailError.Message)
-              Case -1, -2, -5
+          For Each eqi As EquipmentItem In Me.ItemCollection
+            If eqi.IsDirty Then
+              Dim saveDetailError As SaveErrorException = eqi.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveDetailError.Message) Then
                 trans.Rollback()
                 ResetID(oldid)
-                Return saveEqtDetailError
-              Case Else
-            End Select
-          End If
+                Return saveDetailError
+              Else
+                Select Case CInt(saveDetailError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    ResetID(oldid)
+                    Return saveDetailError
+                  Case Else
+                End Select
+              End If
+            End If
+          Next
+
+
+          'Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+          'If Not IsNumeric(saveDetailError.Message) Then
+          '  trans.Rollback()
+          '  ResetID(oldid)
+          '  Return saveDetailError
+          'Else
+          '  Select Case CInt(saveDetailError.Message)
+          '    Case -1, -2, -5
+          '      trans.Rollback()
+          '      ResetID(oldid)
+          '      Return saveDetailError
+          '    Case Else
+          '  End Select
+          'End If
+
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByEquipmentItem", New SqlParameter("@EqtId", Me.Id))
+
+          'Dim saveEqtDetailError As SaveErrorException = SaveEqtStockDetail(Me.Id, conn, trans)
+          'If Not IsNumeric(saveEqtDetailError.Message) Then
+          '  trans.Rollback()
+          '  ResetID(oldid)
+          '  Return saveEqtDetailError
+          'Else
+          '  Select Case CInt(saveEqtDetailError.Message)
+          '    Case -1, -2, -5
+          '      trans.Rollback()
+          '      ResetID(oldid)
+          '      Return saveEqtDetailError
+          '    Case Else
+          '  End Select
+          'End If
 
           ''Save CustomNote จากการ Copy เอกสาร
           'If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then

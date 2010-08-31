@@ -426,7 +426,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
-
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Dim unitError As String = CheckUnitBeforeSaving()
       'If Not unitError Is Nothing AndAlso unitError.Length > 0 Then
@@ -497,23 +496,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
 
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByToolLot", New SqlParameter("@toolId", Me.Id))
-
-        Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-        If Not IsNumeric(saveDetailError.Message) Then
-          trans.Rollback()
-          ResetID(oldid)
-          Return saveDetailError
-        Else
-          Select Case CInt(saveDetailError.Message)
-            Case -1, -2, -5
-              trans.Rollback()
-              ResetID(oldid)
-              Return saveDetailError
-            Case Else
-          End Select
-        End If
-
         Dim saveDetailError2 As SaveErrorException = DeleteEqtStockNonRefToolLot(conn, trans)
         If Not IsNumeric(saveDetailError2.Message) Then
           trans.Rollback()
@@ -529,30 +511,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Select
         End If
 
-        Dim saveEqtDetailError As SaveErrorException = SaveEqtStockDetail(Me.Id, conn, trans)
-        If Not IsNumeric(saveEqtDetailError.Message) Then
-          trans.Rollback()
-          ResetID(oldid)
-          Return saveEqtDetailError
-        Else
-          Select Case CInt(saveEqtDetailError.Message)
-            Case -1, -2, -5
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByToolLot", New SqlParameter("@toolId", Me.Id))
+        For Each lot As ToolLot In Me.ItemCollection
+          If lot.IsDirty Then
+            Dim saveDetailError As SaveErrorException = lot.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
               ResetID(oldid)
-              Return saveEqtDetailError
-            Case Else
-          End Select
-        End If
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+          End If
+        Next
+
+        'Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+        'If Not IsNumeric(saveDetailError.Message) Then
+        '  trans.Rollback()
+        '  ResetID(oldid)
+        '  Return saveDetailError
+        'Else
+        '  Select Case CInt(saveDetailError.Message)
+        '    Case -1, -2, -5
+        '      trans.Rollback()
+        '      ResetID(oldid)
+        '      Return saveDetailError
+        '    Case Else
+        '  End Select
+        'End If
+
+        'Dim saveEqtDetailError As SaveErrorException = SaveEqtStockDetail(Me.Id, conn, trans)
+        'If Not IsNumeric(saveEqtDetailError.Message) Then
+        '  trans.Rollback()
+        '  ResetID(oldid)
+        '  Return saveEqtDetailError
+        'Else
+        '  Select Case CInt(saveEqtDetailError.Message)
+        '    Case -1, -2, -5
+        '      trans.Rollback()
+        '      ResetID(oldid)
+        '      Return saveEqtDetailError
+        '    Case Else
+        '  End Select
+        'End If
 
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByToolLot", New SqlParameter("@toolId", Me.Id))
 
         'Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         ' Save Image process 
-        If Not Me.Image Is Nothing Then
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
-          , New SqlParameter("@tool_id", Me.Id) _
-          , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
-        End If
+        'If Not Me.Image Is Nothing Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
+        , New SqlParameter("@tool_id", Me.Id) _
+        , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+        'End If
 
 
         trans.Commit()
@@ -609,14 +626,70 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
 #End Region
-    'Private Function GetEqtStockId(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
-    '  Dim ds As DataSet = (SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure,
-    '                                                "GetEqtStockId",
-    '                                                New SqlParameter("@docId", Me.Id),
-    '                                                New SqlParameter("@docType", Me.EntityId)))
-    '  If ds.Tables(0).Rows.Count > 0 Then
-    '    Return CInt(ds.Tables(0).Rows(0)(0))
-    '  End If
+    'Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
+    '  Try
+    '    For Each item As ToolLot In Me.ItemCollection
+    '      If item.Dirty Then
+
+    '        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+    '        returnVal.ParameterName = "RETURN_VALUE"
+    '        returnVal.DbType = DbType.Int32
+    '        returnVal.Direction = ParameterDirection.ReturnValue
+    '        returnVal.SourceVersion = DataRowVersion.Current
+
+    '        Dim paramArrayList As New ArrayList
+
+    '        If item.Originated Then
+    '          paramArrayList.Add(New SqlParameter("@toollot_id", item.Id))
+    '        End If
+
+    '        Dim theTime As Date = Now
+    '        Dim theUser As New User(currentUserId)
+
+    '        If item.Autogen Then
+    '          item.Code = item.GetNextCode
+    '        End If
+    '        item.Autogen = False
+
+    '        paramArrayList.Add(returnVal)
+    '        paramArrayList.Add(New SqlParameter("@toollot_code", item.Code))
+    '        paramArrayList.Add(New SqlParameter("@toollot_name", item.Name))
+
+    '        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+    '        ' สร้าง SqlParameter จาก ArrayList ...
+    '        Dim sqlparams() As SqlParameter
+    '        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+    '        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+    '        Select Case CInt(returnVal.Value)
+    '          Case -1, -5
+    '            trans.Rollback()
+    '            ResetID(oldid)
+    '            Return New SaveErrorException(returnVal.Value.ToString)
+    '        End Select
+
+    '        If IsNumeric(returnVal.Value) Then
+    '          Select Case CInt(returnVal.Value)
+    '            Case -1, -2, -5
+    '              trans.Rollback()
+    '              Me.ResetID(oldid)
+    '              Return New SaveErrorException(returnVal.Value.ToString)
+    '            Case Else
+    '          End Select
+    '        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+    '          trans.Rollback()
+    '          Me.ResetID(oldid)
+    '          Return New SaveErrorException(returnVal.Value.ToString)
+    '        End If
+
+    '      End If
+    '    Next
+
+    '    Return New SaveErrorException("1")
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.ToString)
+    '  End Try
     'End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       'Dim currWBS As String

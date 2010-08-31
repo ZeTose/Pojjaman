@@ -1425,6 +1425,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoollotbrand"
           doc.Brand = TxtToollotbrand.Text
+          doc.IsDirty = True
           dirtyFlag = True
 
           'Case "txtlastdateedit"
@@ -1489,6 +1490,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  End If
         Case "txtdescription"
           doc.Description = txtDescription.Text
+          doc.IsDirty = True
           dirtyFlag = True
 
         Case "txttoollotbuycost"
@@ -1503,6 +1505,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_TxtToollotBuycostchanged = False
             RefreshCost(doc)
             dirtyFlag = True
+            doc.IsDirty = True
           End If
 
         Case "txttoollotunitcost"
@@ -1514,6 +1517,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             m_txtToollotUnitCostchanged = False
             dirtyFlag = True
+            doc.IsDirty = True
             RefreshCost(doc)
           End If
 
@@ -1527,6 +1531,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_txtToollotBuyQTYchanged = False
             RefreshCost(doc)
             dirtyFlag = True
+            doc.IsDirty = True
           End If
 
 
@@ -1540,6 +1545,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_txtToollotWriteOffchanged = False
             RefreshCost(doc)
             dirtyFlag = True
+            doc.IsDirty = True
           End If
 
         Case "txttoollotremainqty"
@@ -1552,6 +1558,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_txtToollotRemainQTYchanged = False
             RefreshCost(doc)
             dirtyFlag = True
+            doc.IsDirty = True
           End If
 
         Case "txttoollotremaincost"
@@ -1564,6 +1571,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_txtToollotRemainCostchanged = False
             RefreshCost(doc)
             dirtyFlag = True
+            doc.IsDirty = True
           End If
 
       End Select

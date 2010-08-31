@@ -504,7 +504,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnLoadImage.TabIndex = 204
       Me.btnLoadImage.TabStop = False
       Me.btnLoadImage.ThemedImage = CType(resources.GetObject("btnLoadImage.ThemedImage"), System.Drawing.Bitmap)
-      Me.btnLoadImage.Visible = False
       '
       'TextEQIserailnumber
       '
@@ -552,7 +551,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnClearImage.TabIndex = 205
       Me.btnClearImage.TabStop = False
       Me.btnClearImage.ThemedImage = CType(resources.GetObject("btnClearImage.ThemedImage"), System.Drawing.Bitmap)
-      Me.btnClearImage.Visible = False
       '
       'TextEQIbrand
       '
@@ -602,7 +600,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPicSize.TabIndex = 206
       Me.lblPicSize.Text = "120 X 120 pixel"
       Me.lblPicSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      Me.lblPicSize.Visible = False
       '
       'lblRefDocDate
       '
@@ -699,7 +696,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
       Me.picImage.TabIndex = 203
       Me.picImage.TabStop = False
-      Me.picImage.Visible = False
       '
       'lblRefDoc
       '
@@ -1519,8 +1515,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.txtRentalUnitCode.Text = eqitem.Rentalunit.Code
         'Me.txtRentalunit.Text = eqitem.Rentalunit.Name
 
-        Me.txtEQIbuydoccode.Text = eqitem.License
-
         'TxtBuyDocDate.Text = MinDateToNull(eqitem.Buydate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
         'dtpBuyDocDate.Value = MinDateToNow(eqitem.Buydate)
         If eqitem.Rentalrate <> 0 Then
@@ -1530,8 +1524,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         Me.txtDescription.Text = eqitem.Description
-        'picImage.Image = eqitem.Image
-        'CheckLabelImgSize()
+        picImage.Image = eqitem.Image
+        CheckLabelImgSize()
         'Dim lastEdited As String = ""
         'If Not eqitem.LastEditor Is Nothing Then
         '  lastEdited = "รหัสผู้แก้ไขล่าสุด : " & eqitem.LastEditor.Name
@@ -1809,28 +1803,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.Code = cmbCode.Text
           'End If
           dirtyFlag = True
+          doc.IsDirty = True
    
         Case "txteqiname"
           doc.Name = txtEQIName.Text
           dirtyFlag = True
+          doc.IsDirty = True
         Case "texteqibuycost"
           dirtyFlag = True
-          If TextEQIBuycost.TextLength > 0 Then
-            doc.Buycost = CDec(TextEQIBuycost.Text)
-          Else
-            doc.Buycost = Nothing
+          doc.IsDirty = True
+          Dim val As Decimal = 0
+          If IsNumeric(TextEQIBuycost.TextLength) Then
+            val = CDec(TextEQIBuycost.Text)
           End If
-          'doc.Buycost = CDec(TextEQIBuycost.Text)
+          doc.Buycost = val
           'dirtyFlag = True
         Case "texteqiserailnumber"
           doc.Serailnumber = TextEQIserailnumber.Text
           dirtyFlag = True
+          doc.IsDirty = True
         Case "texteqibrand"
           doc.Brand = TextEQIbrand.Text
           dirtyFlag = True
+          doc.IsDirty = True
         Case "txtleqilicense"
           doc.License = txtlEQIlicense.Text
           dirtyFlag = True
+          doc.IsDirty = True
 
           'Case "textstatus"
           '  dirtyFlag = True
@@ -1878,7 +1877,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtcostcentercode"
           If m_txtCostcenterCodeChanged Then
             dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.CurrentTagItem.Costcenter) 'doc.Costcenter
-
+            doc.IsDirty = dirtyFlag
             doc.SetCurrentCostCenter(doc.Costcenter)
             Me.TxtCostcenterAddress.Text = doc.CurrentCostCenter.Code & " : " & doc.CurrentCostCenter.Name
 
@@ -1888,7 +1887,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtassetcode"
           If m_txtAssetCodeChanged Then
             dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, Me.CurrentTagItem.Asset) 'doc.Costcenter
-
+            doc.IsDirty = dirtyFlag
             m_txtAssetCodeChanged = False
             'Me.RefreshDocs()
           End If
@@ -1920,13 +1919,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  End If
         Case "txtunitcode"
           dirtyFlag = Unit.GetUnit(txtUnitCode, txtUnit, Me.CurrentTagItem.Unit)
+          doc.IsDirty = dirtyFlag
           'Case "txtrentalunitcode"
           '  dirtyFlag = Unit.GetUnit(txtRentalUnitCode, txtRentalunit, Me.CurrentTagItem.Rentalunit)
         Case "txtrentalrate"
-          If txtRentalRate.Text.Length > 0 Then
-            doc.Rentalrate = txtRentalRate.Text
-            dirtyFlag = True
+          'If txtRentalRate.Text.Length > 0 Then
+          '  doc.Rentalrate = txtRentalRate.Text
+          'End If
+
+          Dim val As Decimal = 0
+          If IsNumeric(txtRentalRate.Text) Then
+            val = CDec(txtRentalRate.Text)
           End If
+          doc.Rentalrate = val
+          dirtyFlag = True
+          doc.IsDirty = True
+
           'm_txtRentalRateChanged = True
           'dirtyFlag = True
 
@@ -1940,6 +1948,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           doc.Description = txtDescription.Text
           'Me.CurrentTagItem.Description = txtDescription.Text
           dirtyFlag = True
+          doc.IsDirty = True
 
       End Select
 
@@ -2224,7 +2233,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
 #Region "Image button"
-    Private Sub btnLoadImage_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
+    Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
       'Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim dlg As New OpenFileDialog
 
@@ -2240,15 +2249,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_entity.EquipmentItem.Image = img
         Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
         myContent.IsDirty = True
+        Dim doc As EquipmentItem = Me.CurrentTagItem
+        If Not Me.m_entity.EquipmentItem Is Nothing Then
+          doc.IsImageDirty = True
+          doc.IsDirty = True
+        End If
         CheckLabelImgSize()
       End If
     End Sub
-    Private Sub btnClearImage_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
+    Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
       'Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       m_entity.EquipmentItem.Image = Nothing
       Me.picImage.Image = Nothing
       Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
       myContent.IsDirty = True
+      Dim doc As EquipmentItem = Me.CurrentTagItem
+      If Not Me.m_entity.EquipmentItem Is Nothing Then
+        doc.IsImageDirty = True
+        doc.IsDirty = True
+      End If
       CheckLabelImgSize()
     End Sub
     Private Sub CheckLabelImgSize()

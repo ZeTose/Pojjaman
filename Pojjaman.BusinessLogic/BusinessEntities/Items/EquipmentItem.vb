@@ -57,7 +57,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_buysupplier As Supplier
     Private m_asset As Asset
     Private m_acctstatus As Integer
-    Private m_serailnumber As String
+    Private m_serialnumber As String
     Private m_brand As String
     Private m_license As String
     Private m_description As String
@@ -101,6 +101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_cc = New CostCenter
       Me.m_buydate = Date.MinValue
       ' Me.m_buydoc = New ISimpleEntity
+      Me.m_buydoc = New SimpleRefdocItem 'SimpleBusinessEntityBase
       Me.m_buysupplier = New Supplier
       Me.m_asset = New Asset
       Me.m_unit = New Unit
@@ -195,7 +196,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_acctstatus = drh.GetValue(Of Integer)("eqi_acctstatus")
 
-        m_serailnumber = drh.GetValue(Of String)("eqi_serailnumber")
+        m_serialnumber = drh.GetValue(Of String)("eqi_serialnumber")
 
         m_brand = drh.GetValue(Of String)("eqi_brand")
 
@@ -218,7 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_currentcc = New CostCenter(currCCId)
 
         Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
-
+        LoadImage()
       End With
     End Sub
     Protected Overloads Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -341,9 +342,108 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return realArr
     End Function
+
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      returnVal.ParameterName = "RETURN_VALUE"
+      returnVal.DbType = DbType.Int32
+      returnVal.Direction = ParameterDirection.ReturnValue
+      returnVal.SourceVersion = DataRowVersion.Current
+
+      Dim paramArrayList As New ArrayList
+
+      If Me.Originated Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      End If
+
+      Dim theTime As Date = Now
+      Dim theUser As New User(currentUserId)
+
+      If Me.Autogen Then
+        Me.Code = Me.GetNextCode
+      End If
+      Me.Autogen = False
+
+      paramArrayList.Add(returnVal)
+
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_eq", Me.ValidIdOrDBNull(Me.equipment)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", Me.ValidIdOrDBNull(Me.Costcenter)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydate", Me.ValidDateOrDBNull(Me.Buydate.Date)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydoc", Me.ValidIdOrDBNull(Me.Buydoc)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydoccode", Me.Buydoc.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buycost", Me.Buycost))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buysupplier", Me.ValidIdOrDBNull(Me.Buydoc.Supplier)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_asset", Me.ValidIdOrDBNull(Me.Asset)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acctstatus", Me.Acctstatus))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_serialnumber", Me.Serailnumber))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_brand", Me.Brand))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_license", Me.License))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_description", Me.Description))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.ValidIdOrDBNull(Me.Unit)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalrate", Me.Rentalrate))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentalunit", Me.ValidIdOrDBNull(Me.Rentalunit)))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditDate", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditor", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_currentstatus", Me.CurrentStatus.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_currentcc", Me.ValidIdOrDBNull(Me.CurrentCostCenter)))
+
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+      Dim oldid As Integer = Me.Id
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        Select Case CInt(returnVal.Value)
+          Case -1, -5
+            ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+        End Select
+
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1, -2, -5
+              Me.ResetID(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Me.ResetID(oldid)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+
+        ' Save Image process 
+        'If Not Me.Image Is Nothing Then
+        If Me.IsImageDirty Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEquipmentItemimage" _
+                   , New SqlParameter("@eqi_id", Me.Id) _
+                   , New SqlParameter("@eqi_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+        End If
+        'End If
+
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As Exception
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      End Try
+    End Function
 #End Region
 
 #Region "Properties"
+    Public Property IsImageDirty As Boolean
+    Public Property IsDirty As Boolean
     Public Property IsReferenced As Boolean
     Public Property oldcode As String
     Public Overrides ReadOnly Property ClassName() As String
@@ -477,10 +577,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property Serailnumber As String
       Get
-        Return m_serailnumber
+        Return m_serialnumber
       End Get
       Set(ByVal value As String)
-        m_serailnumber = value
+        m_serialnumber = value
       End Set
     End Property
     Public Property Brand As String
@@ -537,7 +637,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Image)
         m_image = Value
-        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+        'OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
     Public Property CurrentStatus As EqtStatus

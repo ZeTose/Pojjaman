@@ -231,9 +231,108 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return realArr
     End Function
+
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      returnVal.ParameterName = "RETURN_VALUE"
+      returnVal.DbType = DbType.Int32
+      returnVal.Direction = ParameterDirection.ReturnValue
+      returnVal.SourceVersion = DataRowVersion.Current
+
+      Dim paramArrayList As New ArrayList
+
+      If Me.Originated Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      End If
+
+      Dim theTime As Date = Now
+      Dim theUser As New User(currentUserId)
+
+      If Me.Autogen Then
+        Me.Code = Me.GetNextCode
+      End If
+      Me.Autogen = False
+
+      paramArrayList.Add(returnVal)
+
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tool", Me.ValidIdOrDBNull(Me.Tool)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_no", DBNull.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_decription", Me.Description))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_model", DBNull.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", Me.ValidIdOrDBNull(Me.Costcenter)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydate", Me.ValidDateOrDBNull(Me.Buydate.Date)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydoc", Me.ValidIdOrDBNull(Me.Buydoc)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buydoccode", Me.Buydoc.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unitcost", Me.UnitCost))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_unit", Me.ValidIdOrDBNull(Me.Unit)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buyqty", Me.Buyqty))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buycost", Me.Buycost))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_buysupplier", Me.ValidIdOrDBNull(Me.Buydoc.Supplier)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_asset", Me.ValidIdOrDBNull(Me.Asset)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_brand", Me.Brand))
+
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentrate", Me.Rentalrate))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_remainqty", Me.RemainQTY))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditDate", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditor", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelDate", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_canceled", Me.Code))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cancelPerson", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_stockisequence", Me.Buydoc.Sequence))
+
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+      Dim oldid As Integer = Me.Id
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        Select Case CInt(returnVal.Value)
+          Case -1, -5
+            ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+        End Select
+
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1, -2, -5
+              Me.ResetID(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Me.ResetID(oldid)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+
+        '' Save Image process 
+        'If Not Me.Image Is Nothing Then
+        '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertToolimage" _
+        '  , New SqlParameter("@tool_id", Me.Id) _
+        '  , New SqlParameter("@tool_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Image)))
+        'End If
+
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As Exception
+        Me.ResetID(oldid)
+        Return New SaveErrorException(returnVal.Value.ToString)
+      End Try
+    End Function
 #End Region
 
 #Region "Properties"
+    Public Property IsDirty As Boolean
     Public Property IsReferenced As Boolean
 
     Public Overrides ReadOnly Property ClassName() As String
