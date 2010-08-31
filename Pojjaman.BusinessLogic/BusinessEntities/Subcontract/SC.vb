@@ -2437,7 +2437,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
         End If
         dpi.Font = fn
-        dpi.DataType = "System.Decimal"
+        dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
@@ -2451,7 +2451,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
         End If
         dpi.Font = fn
-        dpi.DataType = "System.Decimal"
+        dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
@@ -2465,7 +2465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
         End If
         dpi.Font = fn
-        dpi.DataType = "System.Decimal"
+        dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
@@ -2483,7 +2483,111 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
-        'End If
+
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
+        If item.Level = 1 Then
+
+          'Item.ChildQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildQty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+          'End If
+
+          'Item.ChildMat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildMat"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildLab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildLab"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildEq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildEq"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildReceivedAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildReceivedAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.ReceiptAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+        End If
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
 
         'Item.Note
         dpi = New DocPrintingItem
@@ -2509,12 +2613,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
         'End If
       Next
-      dpiColl.AddRange(GetcurrPrintingEntries)
-      dpiColl.AddRange(GetcurrChilPrintingEntries)
+      dpiColl.AddRange(GetParentPrintingEntries)
+      dpiColl.AddRange(GetChilPrintingEntries)
       Return dpiColl
     End Function
 
-    Public Function GetcurrPrintingEntries() As DocPrintingItemCollection
+    Public Function GetParentPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
       Dim line As Integer = 0
@@ -2527,27 +2631,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.Level = 0 Then
           line += 1
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.LineNumber"
+          dpi.Mapping = "ParentItem.LineNumber"
           dpi.Value = line
           dpi.Font = fn
           dpi.DataType = "System.string"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Code
+          'ParentItem.Code
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Code"
+          dpi.Mapping = "ParentItem.Code"
           dpi.Value = item.Entity.Code
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Name
+          'ParentItem.Name
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Name"
+          dpi.Mapping = "ParentItem.Name"
           If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
             dpi.Value = indent & item.EntityName.Trim
           Else
@@ -2556,22 +2660,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Unit
+          'ParentItem.Unit
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Unit"
+          dpi.Mapping = "ParentItem.Unit"
           dpi.Value = item.Unit.Name
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Qty
+          'ParentItem.Qty
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Qty"
+          dpi.Mapping = "ParentItem.Qty"
           If item.Qty = 0 Then
             dpi.Value = ""
           Else
@@ -2580,12 +2684,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.UnitPrice
+          'ParentItem.UnitPrice
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.UnitPrice"
+          dpi.Mapping = "ParentItem.UnitPrice"
           If item.UnitPrice = 0 Then
             dpi.Value = ""
           Else
@@ -2594,12 +2698,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Amount
+          'ParentItem.Amount
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Amount"
+          dpi.Mapping = "ParentItem.Amount"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2608,13 +2712,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
           'End If
 
-          'parenti.Mat
+          'ParentItem.Mat
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Mat"
+          dpi.Mapping = "ParentItem.Mat"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2623,12 +2727,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Lab
+          'ParentItem.Lab
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Lab"
+          dpi.Mapping = "ParentItem.Lab"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2637,12 +2741,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.Eq
+          'ParentItem.Eq
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Eq"
+          dpi.Mapping = "ParentItem.Eq"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2651,12 +2755,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
-          'parenti.ReceivedAmount
+          'ParentItem.ReceivedAmount
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.ReceivedAmount"
+          dpi.Mapping = "ParentItem.ReceivedAmount"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2665,18 +2769,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
           'End If
 
-          'parenti.Note
+          'ParentItem.Note
           dpi = New DocPrintingItem
-          dpi.Mapping = "parenti.Note"
+          dpi.Mapping = "ParentItem.Note"
           dpi.Value = item.Note
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "parenti"
+          dpi.Table = "ParentItem"
           dpiColl.Add(dpi)
 
           i += 1
@@ -2684,7 +2788,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return dpiColl
     End Function
-    Public Function GetcurrChilPrintingEntries() As DocPrintingItemCollection
+    Public Function GetChilPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
       Dim line As Integer = 0
@@ -2697,27 +2801,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.Level = 1 Then
           line += 1
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.LineNumber"
+          dpi.Mapping = "ChildItem.LineNumber"
           dpi.Value = line
           dpi.Font = fn
           dpi.DataType = "System.string"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Code
+          'ChildItem.Code
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Code"
+          dpi.Mapping = "ChildItem.Code"
           dpi.Value = item.Entity.Code
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Name
+          'ChildItem.Name
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Name"
+          dpi.Mapping = "ChildItem.Name"
           If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
             dpi.Value = indent & item.EntityName.Trim
           Else
@@ -2726,22 +2830,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Unit
+          'ChildItem.Unit
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Unit"
+          dpi.Mapping = "ChildItem.Unit"
           dpi.Value = item.Unit.Name
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Qty
+          'ChildItem.Qty
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Qty"
+          dpi.Mapping = "ChildItem.Qty"
           If item.Qty = 0 Then
             dpi.Value = ""
           Else
@@ -2750,12 +2854,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.UnitPrice
+          'ChildItem.UnitPrice
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.UnitPrice"
+          dpi.Mapping = "ChildItem.UnitPrice"
           If item.UnitPrice = 0 Then
             dpi.Value = ""
           Else
@@ -2764,12 +2868,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Amount
+          'ChildItem.Amount
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Amount"
+          dpi.Mapping = "ChildItem.Amount"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2778,13 +2882,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
           'End If
 
-          'childi.Mat
+          'ChildItem.Mat
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Mat"
+          dpi.Mapping = "ChildItem.Mat"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2793,12 +2897,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Lab
+          'ChildItem.Lab
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Lab"
+          dpi.Mapping = "ChildItem.Lab"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2807,12 +2911,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.Eq
+          'ChildItem.Eq
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Eq"
+          dpi.Mapping = "ChildItem.Eq"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2821,12 +2925,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.Decimal"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
-          'childi.ReceivedAmount
+          'ChildItem.ReceivedAmount
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.ReceivedAmount"
+          dpi.Mapping = "ChildItem.ReceivedAmount"
           If item.Amount = 0 Then
             dpi.Value = ""
           Else
@@ -2835,18 +2939,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
           'End If
 
-          'childi.Note
+          'ChildItem.Note
           dpi = New DocPrintingItem
-          dpi.Mapping = "childi.Note"
+          dpi.Mapping = "ChildItem.Note"
           dpi.Value = item.Note
           dpi.Font = fn
           dpi.DataType = "System.String"
           dpi.Row = i + 1
-          dpi.Table = "childi"
+          dpi.Table = "ChildItem"
           dpiColl.Add(dpi)
 
           i += 1
