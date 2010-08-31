@@ -2761,6 +2761,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtPADocDate.Text = MinDateToNull(Me.m_entity.OtherDocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpPADocDate.Value = MinDateToNow(Me.m_entity.OtherDocDate)
 
+      txtPACode.Text = m_entity.OtherDocCode
+
       txtSCCode.Text = Me.m_entity.Sc.Code
 
       txtSubContractorCode.Text = m_entity.Sc.SubContractor.Code

@@ -4435,6 +4435,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+    Public Function GetCCFromBOQ() As CostCenter
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SiteConnectionString _
+   , CommandType.StoredProcedure _
+   , "GetCCFromBOQ" _
+   , New SqlParameter("@boq_id", Me.Id) _
+   )
+
+      If ds.Tables(0).Rows.Count = 1 Then
+        Return CostCenter.GetCCMinDataById(CInt(ds.Tables(0).Rows(0)(0)))
+      End If
+      Return Nothing
+    End Function
+
   End Class
 
   Public Class BOQForSelection

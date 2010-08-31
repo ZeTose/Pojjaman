@@ -18,6 +18,7 @@
 				<MenuItem id="rptdepreciationbyasset" icon="Icons.16x16.RptDepreciationByAsset" label="${res:MainMenu.PurchaseMenu.RptDepreciationByAsset.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByAsset"/>
         <MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
         <MenuItem id="rptassetprofitloss" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetProfitLoss.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss"/>
+        <MenuItem id="rptassetwriteoff" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetWriteOff.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetWriteOff"/>
 			</MenuItem>
       
       <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">
@@ -45,6 +46,7 @@
 		<EntityFilter id="rptdepreciationbyasset" entity="RptDepreciationByAsset" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByAssetFilterSubPanel"/>
     <EntityFilter id="rptdepreciationbycc" entity="RptDepreciationByCC" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByCCFilterSubPanel"/>
     <EntityFilter id="rptassetprofitloss" entity="RptAssetProfitLoss" filter="Longkong.Pojjaman.Gui.Panels.RptAssetProfitLossFilterSubPanel"/>
+    <EntityFilter id="rptassetwriteoff" entity="RptAssetProfitLoss" filter="Longkong.Pojjaman.Gui.Panels.RptAssetWriteOffFilterSubPanel"/>
     <EntityFilter id="rptequipmentstatus" entity="RptEquipmentStatus" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentStatusFilterSubPanel"/>
     <EntityFilter id="rpttoolstatus" entity="RptToolStatus" filter="Longkong.Pojjaman.Gui.Panels.RptToolStatusFilterSubPanel"/>
     <EntityFilter id="rpteqtmaintenance" entity="RptEQTMaintenance" filter="Longkong.Pojjaman.Gui.Panels.RptEQTMaintenanceFilterSubPanel"/>
@@ -89,6 +91,9 @@
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
     <EntityTab id="rptassetprofitloss">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptassetwriteoff">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rptequipmentstatus">

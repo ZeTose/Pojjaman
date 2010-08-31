@@ -147,6 +147,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptAssetWriteOff.vb" />
     <Compile Include="BLL\RptAssetProfitLoss.vb" />
     <Compile Include="BLL\RptToolMovement.vb" />
     <Compile Include="BLL\RptEquipmentMovement.vb" />
@@ -199,6 +200,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RptAssetWriteOffFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptAssetProfitLossFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -261,6 +265,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptAssetWriteOffFilterSubPanel.resx">
+      <DependentUpon>RptAssetWriteOffFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptAssetProfitLossFilterSubPanel.resx">
       <DependentUpon>RptAssetProfitLossFilterSubPanel.vb</DependentUpon>

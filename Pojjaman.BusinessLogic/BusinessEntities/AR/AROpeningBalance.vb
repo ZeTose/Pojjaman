@@ -320,6 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Status = New OpeningBalanceStatus(2)
       End If
       If Me.Status.Value = 0 Then
+        Me.m_receive.Status.Value = 0
         Me.m_vat.Status.Value = 0
         Me.m_je.Status.Value = 0
       End If
