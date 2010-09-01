@@ -166,7 +166,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not dr.IsNull(aliasPrefix & "po_approveDate") Then
           .m_approveDate = CDate(dr(aliasPrefix & "po_approveDate"))
         End If
-        ' Supplier
+        'Supplier
         If dr.Table.Columns.Contains("supplier.supplier_id") Then
           If Not dr.IsNull("supplier.supplier_id") Then
             .m_supplier = New Supplier(CInt(dr("supplier.supplier_id")))
