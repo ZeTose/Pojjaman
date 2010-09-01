@@ -221,7 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.UpdateEntityProperties()
       Me.TitleName = m_entity.TabPageText
 
-      ' btnSearch_Click(Nothing, Nothing)
+      btnSearch_Click(Nothing, Nothing)
       LoopControl(Me)
     End Sub
 #End Region
@@ -593,6 +593,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Event Handlers"
     Private Sub ibtnBlank_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim newItem As New POPlaceOfDelivery
+      If newItem Is Nothing OrElse Me.m_poplaceofDeliCollection Is Nothing Then
+        Return
+      End If
       Me.m_poplaceofDeliCollection.Add(newItem)
       Dim newRow As TreeRow = Me.m_treeManager.Treetable.Childs.Add
       newRow.Tag = newItem
