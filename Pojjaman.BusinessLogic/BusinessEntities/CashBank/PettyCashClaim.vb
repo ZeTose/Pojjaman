@@ -1019,10 +1019,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim note As String = ""
         If Not Me.ItemTable.Childs(i).IsNull("Code") Then
-          note = CStr(Me.ItemTable.Childs(i).IsNull("Code"))
+          note = CStr(Me.ItemTable.Childs(i)("Code"))
         End If
         If Not Me.ItemTable.Childs(i).IsNull("DocType") Then
-          note &= CStr(Me.ItemTable.Childs(i).IsNull("DocType"))
+          note &= CStr(Me.ItemTable.Childs(i)("DocType"))
         End If
 
         ji.Note = note 'CStr(Me.ItemTable.Childs(i)("Code")) + ":" + CStr(Me.ItemTable.Childs(i)("DocType"))

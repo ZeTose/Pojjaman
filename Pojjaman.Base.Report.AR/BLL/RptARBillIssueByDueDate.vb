@@ -156,21 +156,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     If Not row.IsNull("CCName") Then
                         m_grid(currentBilliIndex, 4).CellValue = indent & (row("CCName")).ToString
                     End If
-                    If IsNumeric(row("SaleBillAmount")) Then
-                        m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")), DigitConfig.Price)
-                        tmpTotalBilledAmount += CDec(row("SaleBillAmount"))
-                        SummaryBaseBilledAmt += CDec(row("SaleBillAmount"))
-                    End If
-                    If IsNumeric(row("SaleBillUnpaid")) Then
-                        m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")), DigitConfig.Price)
-                        tmpTotalUnpaid += CDec(row("SaleBillUnpaid"))
-                        SummaryBaseRemainAmt += CDec(row("SaleBillUnpaid"))
-                    End If
-                    m_grid(currentBilliIndex, 7).CellValue = row("Type").ToString
+          If IsNumeric(row("SaleBillAmount")) Then
+            If CInt(row("stock_type")) <> 79 Then
+              m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")), DigitConfig.Price)
+              tmpTotalBilledAmount += CDec(row("SaleBillAmount"))
+              SummaryBaseBilledAmt += CDec(row("SaleBillAmount"))
+            Else
+              m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")) * -1, DigitConfig.Price)
+              tmpTotalBilledAmount -= CDec(row("SaleBillAmount"))
+              SummaryBaseBilledAmt -= CDec(row("SaleBillAmount"))
+            End If
+          End If
+          If IsNumeric(row("SaleBillUnpaid")) Then
+            If CInt(row("stock_type")) <> 79 Then
+              m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")), DigitConfig.Price)
+              tmpTotalUnpaid += CDec(row("SaleBillUnpaid"))
+              SummaryBaseRemainAmt += CDec(row("SaleBillUnpaid"))
+            Else
+              m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")) * -1, DigitConfig.Price)
+              tmpTotalUnpaid -= CDec(row("SaleBillUnpaid"))
+              SummaryBaseRemainAmt -= CDec(row("SaleBillUnpaid"))
+            End If
 
-                    currentBillCode = indent & row("SaleBillCode").ToString
-                End If
-            Next
+          End If
+          m_grid(currentBilliIndex, 7).CellValue = row("Type").ToString
+
+          currentBillCode = indent & row("SaleBillCode").ToString
+        End If
+      Next
             m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
 
             m_grid.RowCount += 1

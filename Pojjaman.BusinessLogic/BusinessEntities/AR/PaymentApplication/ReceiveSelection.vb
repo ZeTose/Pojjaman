@@ -1088,7 +1088,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18"
           ji.Amount = CDec(WHTTypeSum(obj))
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = cc
+          ji.CostCenter = cc
           jiColl.Add(ji)
         End If
       Next
@@ -1102,7 +1102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18D"
           ji.Amount = wht.Amount
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = cc
+          ji.CostCenter = cc
           jiColl.Add(ji)
         End If
       Next
@@ -1116,7 +1116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18W"
           ji.Amount = wht.Amount
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = cc
+          ji.CostCenter = cc
           jiColl.Add(ji)
         End If
       Next
@@ -1253,58 +1253,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IVatable"
     Public Sub GenVatItems()
       '--- Pui 20080418 ASCON ต้องการปรับยอดใบกำกับภาษีได้ ตามการแบ่งรับชำระ ---
-			RefreshTaxBase()
-			Me.Vat.ItemCollection.Clear()
-			'If Me.TaxType.Value = 0 Then
-			'    Return
-			'End If
-			Dim i As Integer = 0
+      RefreshTaxBase()
+      Me.Vat.ItemCollection.Clear()
+      'If Me.TaxType.Value = 0 Then
+      '    Return
+      'End If
+      Dim i As Integer = 0
       Dim vi As New VatItem
-			'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
-			'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-			'pattern = CodeGenerator.GetPattern(pattern)
-			'Dim lastCode As String = vi.GetLastCode(pattern)
-			For Each item As SaleBillIssueItem In Me.ItemCollection
-				If item.ParentType = 81 Then
-					Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
-					For Each mi As Milestone In bi.ItemCollection
-						If mi.Id = item.Id AndAlso Not mi.TaxType.Value = 0 Then
-							i += 1
-							Dim vitem As New VatItem
-							vitem.AutoGen = True
-							vitem.LineNumber = i
-							'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
-							vitem.Code = ""					 'newCode
-							'lastCode = newCode
-							vitem.DocDate = Me.DocDate
-							vitem.PrintName = Me.Customer.Name
+      'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
+      'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      'pattern = CodeGenerator.GetPattern(pattern)
+      'Dim lastCode As String = vi.GetLastCode(pattern)
+      For Each item As SaleBillIssueItem In Me.ItemCollection
+        If item.ParentType = 81 Then
+          Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
+          For Each mi As Milestone In bi.ItemCollection
+            If mi.Id = item.Id AndAlso Not mi.TaxType.Value = 0 Then
+              i += 1
+              Dim vitem As New VatItem
+              vitem.AutoGen = True
+              vitem.LineNumber = i
+              'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
+              vitem.Code = ""          'newCode
+              'lastCode = newCode
+              vitem.DocDate = Me.DocDate
+              vitem.PrintName = Me.Customer.Name
               vitem.PrintAddress = Me.Customer.BillingAddress
               Dim mtb As Decimal = mi.TaxBase
               'ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
               If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
                 mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
               End If
-							Dim amt As Decimal = item.Amount
-							Dim uamt As Decimal = item.UnreceivedAmount
-							'---------------------------------------------
-							Dim tb As Decimal = (amt / uamt) * mtb
-							'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
-							'---------------------------------------------
-							If item.EntityId = 79 Then
-								vitem.TaxBase = -Math.Abs(tb)
-							Else
-								vitem.TaxBase = tb
-							End If
-							vitem.TaxRate = bi.TaxRate
-							'If mi.CostCenter.Originated Then
-							'    vitem.CcId = mi.CostCenter.Id
-							'Else
-							'    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
-							'End If
-							vitem.CcId = GetAllCC.Id
-							vitem.Milestone = mi
-							Me.Vat.ItemCollection.Add(vitem)
-						End If
+              Dim amt As Decimal = item.Amount
+              Dim uamt As Decimal = item.UnreceivedAmount
+              '---------------------------------------------
+              Dim tb As Decimal = (amt / uamt) * mtb
+              'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
+              '---------------------------------------------
+              If item.EntityId = 79 Then
+                vitem.TaxBase = -Math.Abs(tb)
+              Else
+                vitem.TaxBase = tb
+              End If
+              vitem.TaxRate = bi.TaxRate
+              'If mi.CostCenter.Originated Then
+              '    vitem.CcId = mi.CostCenter.Id
+              'Else
+              '    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
+              'End If
+              vitem.CcId = GetAllCC.Id
+              vitem.Milestone = mi
+              Me.Vat.ItemCollection.Add(vitem)
+            End If
           Next
         ElseIf item.EntityId = 83 Then
           If Not item.TaxType.Value = 0 Then
@@ -1340,60 +1340,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.Vat.ItemCollection.Add(vitem)
           End If
         End If
-			Next
-			'   If Me.Vat.ItemCollection.Amount = 0 Then
-			'	RefreshTaxBase()
-			'	Me.Vat.ItemCollection.Clear()
-			'	'If Me.TaxType.Value = 0 Then
-			'	'    Return
-			'	'End If
-			'	Dim i As Integer = 0
-			'	Dim vi As New VatItem
-			'	'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
-			'	'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-			'	'pattern = CodeGenerator.GetPattern(pattern)
-			'	'Dim lastCode As String = vi.GetLastCode(pattern)
-			'	For Each item As SaleBillIssueItem In Me.ItemCollection
-			'		If item.ParentType = 81 Then
-			'			Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
-			'			For Each mi As Milestone In bi.ItemCollection
-			'				If mi.Id = item.Id AndAlso Not mi.TaxType.Value = 0 Then
-			'					i += 1
-			'					Dim vitem As New VatItem
-			'					vitem.AutoGen = True
-			'					vitem.LineNumber = i
-			'					'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
-			'					vitem.Code = ""						'newCode
-			'					'lastCode = newCode
-			'					vitem.DocDate = Me.DocDate
-			'					vitem.PrintName = Me.Customer.Name
-			'					vitem.PrintAddress = Me.Customer.BillingAddress
-			'					Dim mtb As Decimal = mi.TaxBase
-			'					Dim amt As Decimal = item.Amount
-			'					Dim uamt As Decimal = item.UnreceivedAmount
-			'					'---------------------------------------------
-			'					Dim tb As Decimal = (amt / uamt) * mtb
-			'					MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
-			'					'---------------------------------------------
-			'					If item.EntityId = 79 Then
-			'						vitem.TaxBase = -Math.Abs(tb)
-			'					Else
-			'						vitem.TaxBase = tb
-			'					End If
-			'					vitem.TaxRate = bi.TaxRate
-			'					'If mi.CostCenter.Originated Then
-			'					'    vitem.CcId = mi.CostCenter.Id
-			'					'Else
-			'					'    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
-			'					'End If
-			'					vitem.CcId = GetAllCC.Id
-			'					vitem.Milestone = mi
-			'					Me.Vat.ItemCollection.Add(vitem)
-			'				End If
-			'			Next
-			'		End If
-			'	Next
-			'End If
+      Next
+      '   If Me.Vat.ItemCollection.Amount = 0 Then
+      '	RefreshTaxBase()
+      '	Me.Vat.ItemCollection.Clear()
+      '	'If Me.TaxType.Value = 0 Then
+      '	'    Return
+      '	'End If
+      '	Dim i As Integer = 0
+      '	Dim vi As New VatItem
+      '	'Dim ptn As String = Entity.GetAutoCodeFormat(vi.EntityId)
+      '	'Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      '	'pattern = CodeGenerator.GetPattern(pattern)
+      '	'Dim lastCode As String = vi.GetLastCode(pattern)
+      '	For Each item As SaleBillIssueItem In Me.ItemCollection
+      '		If item.ParentType = 81 Then
+      '			Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
+      '			For Each mi As Milestone In bi.ItemCollection
+      '				If mi.Id = item.Id AndAlso Not mi.TaxType.Value = 0 Then
+      '					i += 1
+      '					Dim vitem As New VatItem
+      '					vitem.AutoGen = True
+      '					vitem.LineNumber = i
+      '					'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
+      '					vitem.Code = ""						'newCode
+      '					'lastCode = newCode
+      '					vitem.DocDate = Me.DocDate
+      '					vitem.PrintName = Me.Customer.Name
+      '					vitem.PrintAddress = Me.Customer.BillingAddress
+      '					Dim mtb As Decimal = mi.TaxBase
+      '					Dim amt As Decimal = item.Amount
+      '					Dim uamt As Decimal = item.UnreceivedAmount
+      '					'---------------------------------------------
+      '					Dim tb As Decimal = (amt / uamt) * mtb
+      '					MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
+      '					'---------------------------------------------
+      '					If item.EntityId = 79 Then
+      '						vitem.TaxBase = -Math.Abs(tb)
+      '					Else
+      '						vitem.TaxBase = tb
+      '					End If
+      '					vitem.TaxRate = bi.TaxRate
+      '					'If mi.CostCenter.Originated Then
+      '					'    vitem.CcId = mi.CostCenter.Id
+      '					'Else
+      '					'    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
+      '					'End If
+      '					vitem.CcId = GetAllCC.Id
+      '					vitem.Milestone = mi
+      '					Me.Vat.ItemCollection.Add(vitem)
+      '				End If
+      '			Next
+      '		End If
+      '	Next
+      'End If
     End Sub
     Public Sub GenSingleVatItem()
       Me.Vat.ItemCollection.Clear()
@@ -2193,7 +2193,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.RefDocToCCCode
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDocToCCCode"
-              dpi.Value = o.toCC.Code
+              dpi.Value = o.ToCC.Code
               dpi.DataType = "System.String"
               dpi.Row = n2
               dpi.Table = "Item.RefDoc"
@@ -2202,7 +2202,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.RefDocToCCName
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDocToCCName"
-              dpi.Value = o.toCC.Name
+              dpi.Value = o.ToCC.Name
               dpi.DataType = "System.String"
               dpi.Row = n2
               dpi.Table = "Item.RefDoc"
@@ -2211,7 +2211,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Item.RefDocToCCInfo
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDocToCCInfo"
-              dpi.Value = o.toCC.Code & " : " & o.toCC.Name
+              dpi.Value = o.ToCC.Code & " : " & o.ToCC.Name
               dpi.DataType = "System.String"
               dpi.Row = n2
               dpi.Table = "Item.RefDoc"
@@ -3316,7 +3316,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.Code
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.Code"
-            dpi.Value = mi.code
+            dpi.Value = mi.Code
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
@@ -3325,7 +3325,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.CodeAndName
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.CodeAndName"
-            dpi.Value = mi.code & " : " & mi.Name
+            dpi.Value = mi.Code & " : " & mi.Name
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
@@ -3724,8 +3724,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If TypeOf item.Entity Is IHasBankAccount Then
                 Dim hasBankAccount As IHasBankAccount = CType(item.Entity, IHasBankAccount)
                 Dim bankAcct As BankAccount = hasBankAccount.BankAccount
-                Dim bankBranch As bankBranch
-                Dim bank As bank
+                Dim bankBranch As BankBranch
+                Dim bank As Bank
                 If Not bankAcct Is Nothing Then
                   'ReceiveItem.BankAccount
                   dpi = New DocPrintingItem

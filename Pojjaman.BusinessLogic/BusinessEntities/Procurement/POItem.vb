@@ -1471,8 +1471,9 @@ Public Class POItemCollection
 									matDoc.UnitPrice = bitem.UMC
 
 									If Not bitem.WBS Is Nothing Then
-										matWbsd.IsMarkup = False
-										matWbsd.CostCenter = Me.m_po.CostCenter
+                    matWbsd.IsMarkup = False
+                    matWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                    'matWbsd.CostCenter = Me.m_po.CostCenter
 										matWbsd.WBS = bitem.WBS
 										matWbsd.Percent = 100
 										matWbsd.BaseCost = bitem.TotalMaterialCost
@@ -1504,7 +1505,7 @@ Public Class POItemCollection
 									labDoc.UnitPrice = bitem.ULC
 									If Not bitem.WBS Is Nothing Then
 										labWbsd.IsMarkup = False
-										labWbsd.CostCenter = Me.m_po.CostCenter
+                    labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
 										labWbsd.WBS = bitem.WBS
 										labWbsd.Percent = 100
 										labWbsd.BaseCost = bitem.TotalLaborCost
@@ -1536,7 +1537,7 @@ Public Class POItemCollection
 									eqDoc.UnitPrice = bitem.UEC
 									If Not bitem.WBS Is Nothing Then
 										eqWbsd.IsMarkup = False
-										eqWbsd.CostCenter = Me.m_po.CostCenter
+                    eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
 										eqWbsd.WBS = bitem.WBS
 										eqWbsd.Percent = 100
 										eqWbsd.BaseCost = bitem.TotalEquipmentCost
@@ -1592,7 +1593,7 @@ Public Class POItemCollection
 							If bitem.ItemType.Value = 88 Then
 								If Not bitem.WBS Is Nothing Then
 									labWbsd.IsMarkup = False
-									labWbsd.CostCenter = Me.m_po.CostCenter
+                  labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
 									labWbsd.WBS = bitem.WBS
 									labWbsd.Percent = 100
 									labWbsd.BaseCost = bitem.TotalLaborCost
@@ -1604,7 +1605,7 @@ Public Class POItemCollection
 							If bitem.ItemType.Value = 89 Then
 								If Not bitem.WBS Is Nothing Then
 									eqWbsd.IsMarkup = False
-									eqWbsd.CostCenter = Me.m_po.CostCenter
+                  eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
 									eqWbsd.WBS = bitem.WBS
 									eqWbsd.Percent = 100
 									eqWbsd.BaseCost = bitem.TotalEquipmentCost

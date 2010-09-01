@@ -1383,7 +1383,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           crlt.Text = ""
         End If
       Next
+
       Me.dtpDocDate.Value = Now
+
     End Sub
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
@@ -1413,7 +1415,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
+      AddHandler txtDocDate.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+
+      AddHandler dtpDocDate.TextChanged, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
       AddHandler chkSingleVat.CheckedChanged, AddressOf Me.ChangeProperty
@@ -1460,6 +1465,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+
       RefreshDocs()
 			UpdateVat(False)
 
@@ -1568,8 +1574,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
 						If Not m_dateSetting Then
 							Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-							Me.m_entity.DocDate = dtpDocDate.Value
-						End If
+              Me.m_entity.DocDate = dtpDocDate.Value
+            End If
 						dirtyFlag = True
 					End If
 				Case "txtdocdate"
@@ -1578,8 +1584,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						Dim theDate As Date = CDate(Me.txtDocDate.Text)
 						If Not Me.m_entity.DocDate.Equals(theDate) Then
 							dtpDocDate.Value = theDate
-							Me.m_entity.DocDate = dtpDocDate.Value
-							dirtyFlag = True
+              Me.m_entity.DocDate = dtpDocDate.Value
+              dirtyFlag = True
 						End If
 					Else
 						dtpDocDate.Value = Date.Now

@@ -204,7 +204,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
-      Me.Validator.SetRequired(Me.txtSupplierCode, False)
+      Me.Validator.SetRequired(Me.txtSupplierCode, True)
       Me.txtSupplierCode.Size = New System.Drawing.Size(125, 20)
       Me.txtSupplierCode.TabIndex = 4
       '
@@ -937,7 +937,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayDetail.lblCode}")
       Me.Validator.SetDisplayName(Me.cmbCode, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayDetail.txtCodeAlert}"))
+
       Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayDetail.lblSupplier}")
+      Me.Validator.SetDisplayName(Me.txtSupplierCode, StringHelper.GetRidOfAtEnd(Me.lblSupplier.Text, ":"))
+      Me.Validator.ErrorProvider.SetIconPadding(Me.txtSupplierCode, -20)
+
       Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
       Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayDetail.lblItem}")
@@ -966,6 +970,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtSupplierName.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
@@ -977,6 +983,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
+
 
       AddHandler txtAfterTax.TextChanged, AddressOf ChangeProperty
       AddHandler txtAfterTax.Validated, AddressOf TextHandler
@@ -992,11 +999,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
+
+    Private supplierCodeChanged As Boolean = False
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
         Return
       End If
       Select Case CType(sender, Control).Name.ToLower
+        Case "txtsuppliercode"
+          supplierCodeChanged = True
         Case "txtaftertax"
           Dim txt As String = Me.txtAfterTax.Text
           txt = txt.Replace(",", "")
@@ -1182,6 +1193,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If oldSupId <> Me.m_entity.Supplier.Id Then
             ChangeSupplier()
           End If
+
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
             If Not m_dateSetting Then
