@@ -1303,6 +1303,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'End If
               vitem.CcId = GetAllCC.Id
               vitem.Milestone = mi
+              vitem.Refdoc = Me.Id
+              vitem.RefdocType = Me.EntityId
               Me.Vat.ItemCollection.Add(vitem)
             End If
           Next
@@ -1337,6 +1339,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
             'End If
             vitem.CcId = GetAllCC.Id
+            vitem.Refdoc = Me.Id
+            vitem.RefdocType = Me.EntityId
             Me.Vat.ItemCollection.Add(vitem)
           End If
         End If
@@ -1411,6 +1415,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       vitem.TaxBase = Me.GetMaximumTaxBase
       vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
       vitem.CcId = GetAllCC.Id  'GetVatCC.Id
+      vitem.Refdoc = Me.Id
+      vitem.RefdocType = Me.EntityId
       Me.Vat.ItemCollection.Add(vitem)
     End Sub
     Public Function GetAfterTax() As Decimal Implements IVatable.GetAfterTax

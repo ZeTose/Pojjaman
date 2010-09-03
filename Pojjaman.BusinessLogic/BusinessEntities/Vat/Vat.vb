@@ -804,7 +804,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					dr("vati_cc") = item.CcId
 					dr("vati_submitaldate") = ValidDateOrDBNull(item.SubmitalDate)
 					dr("vati_group") = ValidIdOrDBNull(item.VatGroup)
-					dr("vati_refdoc") = item.Refdoc
+          dr("vati_refdoc") = item.Refdoc
 					dr("vati_refdoctype") = item.RefdocType
 					dr("vati_customTaxAmount") = item.UseCustomTaxAmount
 					.Rows.Add(dr)

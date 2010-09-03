@@ -1011,7 +1011,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = ""
         Else
           Select Case item.Type.Value
-            Case 75, 78
+            Case 75, 78, 77
               'ผ่าน
               dpi.Value = Configuration.FormatToString(item.MileStoneAmount, DigitConfig.Price)
               sumMilestoneAmount += item.MileStoneAmount
