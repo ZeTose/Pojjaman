@@ -978,6 +978,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cc.StoreAccount.Id = drh.GetValue(Of Integer)("cc_storeAcct")
       cc.StoreAccount.Code = drh.GetValue(Of String)("storeAcctCode")
       cc.StoreAccount.Name = drh.GetValue(Of String)("storeAcctName")
+      cc.Address = drh.GetValue(Of String)("cc_address")
     End Sub
     Public Shared Sub DestroyCachCC()
       m_AllCCMinData = Nothing
