@@ -979,82 +979,88 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveDetailError
+          If Not m_approvalCollection.IsApproved Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DisApproveMatReceipt", New SqlParameter("@stock_id", Me.Id))
           Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                'trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveDetailError
-              Case Else
-            End Select
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  'trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+
+            '==============================STOCKCOSTFIFO=========================================
+            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                          New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+            End If
+            '==============================STOCKCOSTFIFO=========================================
+
+            '==============================Journal Entries=======================================
+            Me.ItemCollection = New MatReceiptItemCollection(Me, True, conn, trans)
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            '********************************************
+            If Not Me.m_je.ManualFormat Then
+              m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            End If
+            '********************************************
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+            '==============================Journal Entries=======================================
+
+            '==============================UPDATE PRITEM=========================================
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+            '==============================UPDATE PRITEM=========================================
+
+            'Me.DeleteRef(conn, trans)
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
+            , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+            , New SqlParameter("@refto_id", Me.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+            , New SqlParameter("@refto_id", Me.Id))
+            'If Me.Status.Value = 0 Then
+            '  Me.CancelRef(conn, trans)
+            'End If
+            'trans.Commit()
+
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+
           End If
 
-          '==============================STOCKCOSTFIFO=========================================
-          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-                                                                                                        New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
-          End If
-          '==============================STOCKCOSTFIFO=========================================
-
-          '==============================Journal Entries=======================================
-          Me.ItemCollection = New MatReceiptItemCollection(Me, True, conn, trans)
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          '********************************************
-          If Not Me.m_je.ManualFormat Then
-            m_je.SetGLFormat(Me.GetDefaultGLFormat)
-          End If
-          '********************************************
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-          '==============================Journal Entries=======================================
-
-          '==============================UPDATE PRITEM=========================================
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-          '==============================UPDATE PRITEM=========================================
-
-          'Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
-          , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          'If Me.Status.Value = 0 Then
-          '  Me.CancelRef(conn, trans)
-          'End If
-          'trans.Commit()
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           trans.Commit()
 
