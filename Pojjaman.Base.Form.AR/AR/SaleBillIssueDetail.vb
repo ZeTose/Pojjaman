@@ -1806,20 +1806,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return
             End If
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Dim filterEntities(3) As ArrayList
-            For i As Integer = 0 To 3
-                If i <> 2 Then
-                    filterEntities(i) = New ArrayList
-                    filterEntities(i).Add(Me.m_entity.Customer)
-                Else
-                    Dim eqr As New AssetReturn
-                    eqr.IsExternal = True
-                    eqr.ReturnPerson = Me.m_entity.Customer
-                    filterEntities(i) = New ArrayList
-                    filterEntities(i).Add(eqr)
-                End If
-            Next
-            Dim filters(3)() As Filter
+      Dim filterEntities(4) As ArrayList
+      For i As Integer = 0 To 4
+        If i <> 2 Then
+          filterEntities(i) = New ArrayList
+          filterEntities(i).Add(Me.m_entity.Customer)
+        Else
+          Dim eqr As New AssetReturn
+          eqr.IsExternal = True
+          eqr.ReturnPerson = Me.m_entity.Customer
+          filterEntities(i) = New ArrayList
+          filterEntities(i).Add(eqr)
+        End If
+      Next
+      Dim filters(4)() As Filter
             filters(0) = New Filter() {New Filter("IDList", GetItemIDList(83)), _
             New Filter("remainMustValid", True), New Filter("GSCannotBeRefedByBillaTwice", config)}
             filters(1) = New Filter() {New Filter("IDList", GetItemIDList(24)), _
@@ -1830,13 +1830,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
             New Filter("remainMustValid", True)}
             'filters(4) = New Filter() {New Filter("IDList", GetItemIDList(48))}
             'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(49))}
-            Dim entities(3) As ISimpleEntity
+      Dim entities(4) As ISimpleEntity
             entities(0) = New GoodsSold
             entities(1) = New AROpeningBalance
             entities(2) = New AssetReturn
             entities(3) = New AssetSold
             'entities(4) = New SaleCN
-            'entities(5) = New SaleDN
+      'entities(5) = New SaleDN
+
+      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(48)), _
+      New Filter("remainMustValid", True), _
+      New Filter("nocancel", True)}
+      entities(4) = New SaleCN
+
             myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
         End Sub
         Private Function GetItemIDList(ByVal type As Integer) As String
