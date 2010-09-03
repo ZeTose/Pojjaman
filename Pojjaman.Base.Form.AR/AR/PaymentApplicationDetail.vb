@@ -135,6 +135,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents txtAdvrPercent As System.Windows.Forms.TextBox
     Friend WithEvents txtRetentionPercent As System.Windows.Forms.TextBox
+    Friend WithEvents txtItemReceiveDate As System.Windows.Forms.TextBox
+    Friend WithEvents lblItemReceiveDate As System.Windows.Forms.Label
+    Friend WithEvents dtpItemReceiveDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -204,6 +207,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBOQCode = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbPaymentApplication = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtItemReceiveDate = New System.Windows.Forms.TextBox()
+      Me.lblItemReceiveDate = New System.Windows.Forms.Label()
+      Me.dtpItemReceiveDate = New System.Windows.Forms.DateTimePicker()
       Me.txtItemDiscount = New System.Windows.Forms.TextBox()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.txtItemBillIssueDate = New System.Windows.Forms.TextBox()
@@ -241,14 +247,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemDiscount = New System.Windows.Forms.Label()
       Me.ibtnHand = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnCancelHand = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbDetail.SuspendLayout()
       Me.grbContract.SuspendLayout()
       Me.grbAdvrRetention.SuspendLayout()
       Me.grbTax.SuspendLayout()
       Me.grbPaymentApplication.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -1090,6 +1098,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbPaymentApplication.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbPaymentApplication.Controls.Add(Me.txtItemReceiveDate)
+      Me.grbPaymentApplication.Controls.Add(Me.lblItemReceiveDate)
+      Me.grbPaymentApplication.Controls.Add(Me.dtpItemReceiveDate)
       Me.grbPaymentApplication.Controls.Add(Me.txtItemDiscount)
       Me.grbPaymentApplication.Controls.Add(Me.tgItem)
       Me.grbPaymentApplication.Controls.Add(Me.txtItemBillIssueDate)
@@ -1137,6 +1148,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbPaymentApplication.TabStop = False
       Me.grbPaymentApplication.Text = "รายการเงินงวด"
       '
+      'txtItemReceiveDate
+      '
+      Me.txtItemReceiveDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.txtItemReceiveDate.BackColor = System.Drawing.SystemColors.Control
+      Me.Validator.SetDataType(Me.txtItemReceiveDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtItemReceiveDate, "")
+      Me.txtItemReceiveDate.Enabled = False
+      Me.txtItemReceiveDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtItemReceiveDate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtItemReceiveDate, System.Drawing.Color.Empty)
+      Me.txtItemReceiveDate.Location = New System.Drawing.Point(248, 271)
+      Me.Validator.SetMinValue(Me.txtItemReceiveDate, "")
+      Me.txtItemReceiveDate.Name = "txtItemReceiveDate"
+      Me.txtItemReceiveDate.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtItemReceiveDate, "")
+      Me.Validator.SetRequired(Me.txtItemReceiveDate, False)
+      Me.txtItemReceiveDate.Size = New System.Drawing.Size(93, 21)
+      Me.txtItemReceiveDate.TabIndex = 37
+      Me.txtItemReceiveDate.TabStop = False
+      '
+      'lblItemReceiveDate
+      '
+      Me.lblItemReceiveDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.lblItemReceiveDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblItemReceiveDate.Location = New System.Drawing.Point(184, 272)
+      Me.lblItemReceiveDate.Name = "lblItemReceiveDate"
+      Me.lblItemReceiveDate.Size = New System.Drawing.Size(64, 18)
+      Me.lblItemReceiveDate.TabIndex = 36
+      Me.lblItemReceiveDate.Text = "วันที่รับ:"
+      Me.lblItemReceiveDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'dtpItemReceiveDate
+      '
+      Me.dtpItemReceiveDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.dtpItemReceiveDate.Enabled = False
+      Me.dtpItemReceiveDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpItemReceiveDate.Location = New System.Drawing.Point(248, 271)
+      Me.dtpItemReceiveDate.Name = "dtpItemReceiveDate"
+      Me.dtpItemReceiveDate.Size = New System.Drawing.Size(112, 21)
+      Me.dtpItemReceiveDate.TabIndex = 38
+      '
       'txtItemDiscount
       '
       Me.txtItemDiscount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1157,7 +1209,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(217, 222, 236)  'System.Drawing.SystemColors.InactiveCaptionText
+      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1552,19 +1604,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtItemNote, "")
       Me.Validator.SetGotFocusBackColor(Me.txtItemNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemNote, System.Drawing.Color.Empty)
-      Me.txtItemNote.Location = New System.Drawing.Point(248, 272)
+      Me.txtItemNote.Location = New System.Drawing.Point(432, 272)
       Me.Validator.SetMinValue(Me.txtItemNote, "")
       Me.txtItemNote.Name = "txtItemNote"
       Me.Validator.SetRegularExpression(Me.txtItemNote, "")
       Me.Validator.SetRequired(Me.txtItemNote, False)
-      Me.txtItemNote.Size = New System.Drawing.Size(472, 21)
+      Me.txtItemNote.Size = New System.Drawing.Size(288, 21)
       Me.txtItemNote.TabIndex = 10
       '
       'lblItemNote
       '
       Me.lblItemNote.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.lblItemNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItemNote.Location = New System.Drawing.Point(192, 274)
+      Me.lblItemNote.Location = New System.Drawing.Point(376, 273)
       Me.lblItemNote.Name = "lblItemNote"
       Me.lblItemNote.Size = New System.Drawing.Size(56, 16)
       Me.lblItemNote.TabIndex = 20
@@ -1641,10 +1693,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbAdvrRetention.ResumeLayout(False)
       Me.grbAdvrRetention.PerformLayout()
       Me.grbTax.ResumeLayout(False)
-      Me.grbTax.Enabled = True
       Me.grbTax.PerformLayout()
       Me.grbPaymentApplication.ResumeLayout(False)
       Me.grbPaymentApplication.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -2880,6 +2933,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemDocDate}")
       Me.lblItemHandedDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemHandedDate}")
       Me.lblItemBillIssueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemBillIssueDate}")
+      Me.lblItemReceiveDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemReceiveDate}")
       Me.lblItemAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemAmount}")
       Me.lblItemPenalty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemPenalty}")
       Me.lblItemNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemNote}")
@@ -3715,6 +3769,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dtpItemHandedDate.Value = MinDateToNow(m_milestone.HandedDate)
       txtItemBillIssueDate.Text = MinDateToNull(m_milestone.BillIssueDate, "")
       dtpItemBillIssueDate.Value = MinDateToNow(m_milestone.BillIssueDate)
+      txtItemReceiveDate.Text = MinDateToNull(m_milestone.ReceiveDate, "")
+      dtpItemReceiveDate.Value = MinDateToNow(m_milestone.ReceiveDate)
       txtItemNote.Text = m_milestone.Note
       Me.m_isInitialized = flag
     End Sub

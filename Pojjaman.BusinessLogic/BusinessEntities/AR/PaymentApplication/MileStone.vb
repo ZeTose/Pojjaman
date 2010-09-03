@@ -320,6 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_docDate As Date
     Private m_handedDate As Date
     Private m_billIssueDate As Date
+    Private m_ReceiveDate As Date
 
     Private m_itemTable As TreeTable
     Private m_type As MilestoneType
@@ -401,6 +402,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_handedDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_handedDate") Then
           .m_handedDate = CDate(dr(aliasPrefix & Me.Prefix & "_handedDate"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receivedate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receivedate") Then
+          .m_ReceiveDate = CDate(dr(aliasPrefix & Me.Prefix & "_receivedate"))
         End If
 
         ' Name
@@ -541,6 +546,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property
     Public Property HandedDate() As Date      Get        Return m_handedDate      End Get      Set(ByVal Value As Date)        m_handedDate = Value      End Set    End Property    Public Property BillIssueDate() As Date      Get        Return m_billIssueDate      End Get      Set(ByVal Value As Date)        m_billIssueDate = Value      End Set    End Property
+    Public Property ReceiveDate() As Date      Get        Return m_ReceiveDate      End Get      Set(ByVal Value As Date)        m_ReceiveDate = Value      End Set    End Property
     Public Property Name() As String Implements IHasName.Name
       Get
         Return m_name
