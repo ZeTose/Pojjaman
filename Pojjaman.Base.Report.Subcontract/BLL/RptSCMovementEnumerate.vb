@@ -63,11 +63,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SubcontractorInfo}") '("รหัส : ชื่อผู้รับเหมา") '       
-      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SCbudget}")   '("SC Budget")    
-      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DRdebit}") '("ยอดหัก DR")      
-      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Advancepay}")  '("มัดจำ")
-      tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Retention}")    '("Retention")         
+      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SubcontractorInfo}") '("รหัส : ชื่อผู้รับเหมา") ' 
       tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.docType}")  '     "ประเภทเอกสาร")     
       tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.codeNumber}")  '     ("เลขที่เอกสาร") 
       tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.ccinfo}")          '"Cost Center "
@@ -78,9 +74,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Lab}")       '"LAB"
       tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Eq}")      '"EQ"
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Amount}")    '"Amount+
-      tr("col23") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Debt}")      '"ยอดหนี้"
-      tr("col24") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DebtRetention}")    '"ยอดหนี้ Retention"
-      tr("col25") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Total}")      '"รวมทั้งสิ้น"
+      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SCbudget}")   '("SC Budget")    
+      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DRdebit}") '("ยอดหัก DR")      
+      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Advancepay}")  '("มัดจำ")
+      tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Retention}")    '("Retention") 
+      tr("col23") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Note}")
+      'tr("col23") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Debt}")      '"ยอดหนี้"
+      'tr("col24") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DebtRetention}")    '"ยอดหนี้ Retention"
+      'tr("col25") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Total}")      '"รวมทั้งสิ้น"
+      'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Note}")
 
       tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DocNumber}")  '     ("วันที่เอกสาร")
@@ -90,16 +92,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DocAmount}") '"ยอดเอกสาร"
       tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
       tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.remain}")       '"เบิก"
+      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
       tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
       tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.remain}")       '"เบิก"
+      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
       tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
       tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.remain}")       '"เบิก"
+      tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
       tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
       tr("col21") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col22") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.remain}")       '"เบิก"
+      tr("col22") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")
+
       'tr("col11") = Me.StringParserService.Parse("${res:SC}")             '"ตั้ง"
       'tr("col12") = Me.StringParserService.Parse("${res:ADV}")             '"ตั้ง"
       'tr("col13") = Me.StringParserService.Parse("${res:Ret}")             '"ตั้ง"
@@ -248,6 +251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trSC("col16") = Configuration.FormatToString(advRemain, DigitConfig.Price)
               trSC("col19") = Configuration.FormatToString(retRemain, DigitConfig.Price)
               trSC("col22") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+              trSC("col23") = newSCRow.GetValue(Of String)("sc_note")
 
               trSC.Tag = "Font.Bold"
               trSC.CustomFontStyle = FontStyle.Bold
@@ -358,6 +362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
                     trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
                     trItem("col10") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
+                    trItem("col23") = newItem.GetValue(Of String)("Note")
                   End If
 
                 Next
@@ -371,13 +376,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               summarryAdvDebt = summarrySCDebt + summarryRetDebt
 
               If summarrySCDebt > 0 Then
-                trSC("col23") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+                trSC("col20") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
               End If
               If summarryRetDebt > 0 Then
-                trSC("col24") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+                trSC("col21") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
               End If
               If summarryDebt > 0 Then
-                trSC("col25") = Configuration.FormatToString(summarryDebt, DigitConfig.Price)
+                trSC("col22") = Configuration.FormatToString(summarryDebt, DigitConfig.Price)
               End If
 
             End If
@@ -444,8 +449,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col21", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col22", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col23", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col24", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col25", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col24", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col25", GetType(String)))
 
       Return myDatatable
     End Function
@@ -477,7 +482,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100) '21
       widths.Add(100) '22
       widths.Add(100)
-      widths.Add(0)
+      widths.Add(100)
       widths.Add(0)
       widths.Add(0)
 

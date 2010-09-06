@@ -453,7 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         rval = rval * Me.Conversion
 
-        remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatTransfer.CostCenter.Id) - Me.MatTransfer.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+        remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatTransfer.FromCC.Id) - Me.MatTransfer.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
         remainning = Math.Min(remainning, currentPriRemainning)
         remainning = Math.Min(remainning, rval)
         If remainning < 0 Then
