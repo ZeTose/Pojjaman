@@ -732,12 +732,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      
+
       'Gross
       dpi = New DocPrintingItem
       dpi.Mapping = "Gross"
       dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.Price)
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
+
+      If ItemCollection IsNot Nothing Then
+        'Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Amount"
+        dpi.Value = Configuration.FormatToString(Me.ItemCollection.RealAmount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+
+        'TaxAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxAmount"
+        dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetAfterTax - Me.ItemCollection.GetBeforeTax, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'AfterTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AfterTax"
+        dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetAfterTax, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+      End If
 
       Dim n As Integer = 0
       For Each item As BillAcceptanceItem In Me.ItemCollection
