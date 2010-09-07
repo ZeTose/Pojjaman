@@ -5093,6 +5093,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.ApprovePerson = New User
       Me.Canceled = False
       Me.CancelPerson = New User
+      Me.DocType = Me.DocType
 
       'Not Reference PO ============================================
       Me.m_po = New PO
