@@ -1480,6 +1480,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         jiColl.AddRange(Me.Receive.GetJournalEntries)
       End If
+      'ส่วนลดการค้า
+      ji = New JournalEntryItem
+      ji.Mapping = "C10.7"
+      ji.Amount = Me.DiscountAmount
+      If Me.FromCostCenter.Originated Then
+        ji.CostCenter = Me.FromCostCenter
+      Else
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
+      jiColl.Add(ji)
+
       jiColl.AddRange(Me.GetItemJournalEntries)
       Return jiColl
     End Function
@@ -1523,7 +1534,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
         End If
 
-        Dim itemAmount As Decimal = item.Amount
+        Dim itemAmount As Decimal = item.Amount - item.DiscountFromParent
 
         For Each addedJi As JournalEntryItem In jiColl
           If Not item.ItemType Is Nothing Then
@@ -1663,6 +1674,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
                   End If
                   jiColl.Add(ji)
+
+                  ji = New JournalEntryItem
+                  ji.Mapping = "C10.4.1"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount + item.DiscountFromParent
+                  Else
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
+                  End If
+                  ji.Account = realAccount
+                  If Me.FromCostCenter.Originated Then
+                    ji.CostCenter = Me.FromCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
                 End If
               ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
                 If Not blankNoAcctMatched Then
@@ -1672,6 +1698,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     ji.Amount += itemAmount
                   Else
                     ji.Amount += itemRemainAmount
+                  End If
+                  If Me.FromCostCenter.Originated Then
+                    ji.CostCenter = Me.FromCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
+
+                  ji = New JournalEntryItem
+                  ji.Mapping = "C10.4.1"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount + item.DiscountFromParent
+                  Else
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
                   End If
                   If Me.FromCostCenter.Originated Then
                     ji.CostCenter = Me.FromCostCenter
@@ -1737,6 +1777,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
                   End If
                   jiColl.Add(ji)
+
+                  ji = New JournalEntryItem
+                  ji.Mapping = "C10.3.1"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount + item.DiscountFromParent
+                  Else
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
+                  End If
+                  ji.Account = realAccount
+                  If Me.FromCostCenter.Originated Then
+                    ji.CostCenter = Me.FromCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
                 End If
               ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
                 If Not lciToolNoAcctMatched Then
@@ -1746,6 +1801,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     ji.Amount += itemAmount
                   Else
                     ji.Amount += itemRemainAmount
+                  End If
+                  If Me.FromCostCenter.Originated Then
+                    ji.CostCenter = Me.FromCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
+
+                  ji = New JournalEntryItem
+                  ji.Mapping = "C10.3.1"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount + item.DiscountFromParent
+                  Else
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
                   End If
                   If Me.FromCostCenter.Originated Then
                     ji.CostCenter = Me.FromCostCenter
