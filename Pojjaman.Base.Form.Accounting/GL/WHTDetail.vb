@@ -1840,11 +1840,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateWitholdingList()
     End Sub
     Private Sub ibtnDelWht_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelWht.Click
-      If m_whtcol.Count > 1 Then
+      If m_whtcol.Count >= 1 Then
         Dim index As Integer = m_whtcol.IndexOf(m_wht)
         m_whtcol.Remove(m_wht)
         If m_whtcol.Count <= 0 Then
-          Return
+          m_wht = New WitholdingTax
+          m_wht.RefDoc = m_whtcol.RefDoc
+          m_wht.Entity = m_whtcol.RefDoc.Person
+
+          If Not Me.m_whtcol.IsBeforePay Then
+            m_wht.Code = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_wht.EntityId)
+            m_wht.AutoGen = True
+          Else
+            m_wht.Code = WitholdingTaxCollection.fixCodeWHT
+            m_wht.AutoGen = False
+          End If
+
+          m_wht.LastestCode = m_wht.Code
+          m_whtcol.Add(m_wht)
         End If
         If m_whtcol.Count > index Then
           m_wht = m_whtcol(index)
