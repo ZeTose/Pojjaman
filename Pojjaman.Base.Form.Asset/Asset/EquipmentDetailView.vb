@@ -680,6 +680,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRentalRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRentalRate, System.Drawing.Color.Empty)
       Me.txtRentalRate.Location = New System.Drawing.Point(136, 90)
+      Me.txtRentalRate.TextAlign = HorizontalAlignment.Right
       Me.Validator.SetMinValue(Me.txtRentalRate, "0")
       Me.txtRentalRate.Name = "txtRentalRate"
       Me.Validator.SetRegularExpression(Me.txtRentalRate, "")
@@ -743,6 +744,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.TextEQIBuycost, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.TextEQIBuycost, System.Drawing.Color.Empty)
       Me.TextEQIBuycost.Location = New System.Drawing.Point(136, 205)
+      Me.TextEQIBuycost.TextAlign = HorizontalAlignment.Right
       Me.Validator.SetMinValue(Me.TextEQIBuycost, "")
       Me.TextEQIBuycost.Name = "TextEQIBuycost"
       Me.TextEQIBuycost.ReadOnly = True
@@ -2483,6 +2485,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostCenterName, eqi.Costcenter)
+      eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
 
       RefreshDocs()
 
@@ -2503,6 +2506,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Asset.GetAsset(txtAssetCode, txtAssetName, eqi.Asset)
+
+      eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
 
       RefreshDocs()
 
@@ -2708,6 +2713,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUnitCode.Text = e.Code
       Dim flag As Boolean = Unit.GetUnit(txtUnitCode, txtUnit, Me.CurrentTagItem.Unit)
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or flag
+      Dim eqi As EquipmentItem = Me.CurrentTagItem
+      If eqi Is Nothing Then
+        Return
+      End If
+      eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     'Private Sub SetUnit2(ByVal e As ISimpleEntity)
     '  Me.txtRentalUnitCode.Text = e.Code

@@ -1449,6 +1449,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtassetcode"
           If m_txtAssetCodeChanged Then
             dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, Me.CurrentTagItem.Asset) 'doc.Costcenter
+            doc.IsDirty = dirtyFlag
             m_txtAssetCodeChanged = False
             'Me.RefreshDocs()
           End If
@@ -2072,6 +2073,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Asset.GetAsset(txtAssetCode, txtAssetName, eqi.Asset)
+      eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
       Me.RefreshDocs()
     End Sub
     ' More detail
