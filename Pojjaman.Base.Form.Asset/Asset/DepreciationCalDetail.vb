@@ -1536,10 +1536,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myTransferCCPanel As New Longkong.Pojjaman.Gui.Panels.DepreTransferDetail
       myTransferCCPanel.Entity = Me.m_entity
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myTransferCCPanel)
-      If myDialog.ShowDialog() = DialogResult.Cancel Then
+      Dim myDialogResult As DialogResult = myDialog.ShowDialog()
+      If myDialogResult = DialogResult.Cancel Then
         Me.WorkbenchWindow.ViewContent.IsDirty = False
-      End If
-      If myDialog.ShowDialog = DialogResult.OK Then
+      ElseIf myDialogResult = DialogResult.OK Then
         If Len(myTransferCCPanel.DepreciationCal.ToCostcenter.Code) > 0 AndAlso Len(myTransferCCPanel.DepreciationCal.FromCostcenter.Code) > 0 Then
           Me.WorkbenchWindow.ViewContent.IsDirty = True
           Me.m_entity.IsTransfer = True
