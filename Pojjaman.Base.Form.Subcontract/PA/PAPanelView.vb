@@ -3111,6 +3111,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        'AdvancePay เมื่อ save
+        AddHandler m_entity.AdvanceClick, AddressOf ibtnShowAdvancePay_Click
         UpdateEntityProperties()
       End Set
     End Property

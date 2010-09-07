@@ -442,7 +442,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptGL.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptGLPayReceivebyAcct.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String

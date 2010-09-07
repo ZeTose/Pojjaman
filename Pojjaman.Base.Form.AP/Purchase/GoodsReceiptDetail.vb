@@ -2410,6 +2410,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtRealGross.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtRealGross.Validated, AddressOf Me.TextHandler
+
+
+      
     End Sub
     Private toCCPersonCodeChanged As Boolean = False
     Private toCCCodeChanged As Boolean = False
@@ -3221,6 +3224,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         Else
         End If
+
+        'AdvancePay เมื่อ save
+        AddHandler m_entity.AdvanceClick, AddressOf ibtnShowAdvancePay_Click
         UpdateEntityProperties()
       End Set
     End Property

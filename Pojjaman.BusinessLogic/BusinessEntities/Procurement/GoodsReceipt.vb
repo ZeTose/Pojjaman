@@ -1785,7 +1785,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If haveAdvancePay() Then
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              RaiseEvent AdvanceClick(Me, Nothing)
+              'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
             End If
           End If
         End If
@@ -5135,6 +5136,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Me
     End Function
 #End Region
+
+#Region "Event"
+    Public Event AdvanceClick(ByVal sender As Object, ByVal e As System.EventArgs)
+#End Region
+
 
   End Class
 
