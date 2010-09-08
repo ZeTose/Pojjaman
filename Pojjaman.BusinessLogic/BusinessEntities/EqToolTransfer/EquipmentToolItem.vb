@@ -99,8 +99,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected m_tostatus As EqtStatus
 
     Protected m_unit As Unit
-    Protected m_qty As Integer = 1
-    Protected m_rentalqty As Integer
+    Protected m_qty As Decimal = 1
+    Protected m_rentalqty As Decimal
     Protected m_rentalperday As Decimal
     Protected m_ownercc As CostCenter
 
@@ -282,10 +282,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.m_qty = 1
-    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overridable Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 346 OrElse Me.m_itemtype.Value = 28 Then
+    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overridable Property Qty() As Decimal      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 346 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
-        End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -295,7 +295,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
-        End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))      End Set    End Property    Public Property Unit As Unit
+        End If        m_qty = Configuration.Format(Value, DigitConfig.Int)      End Set    End Property    Public Property Unit As Unit
       Get
         Return m_unit
       End Get

@@ -437,6 +437,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             childRow("parent") = drh.GetValue(Of Integer)("asset")
 
             childRow.Tag = row
+
+          Else
+            parRow("Qty") = Configuration.FormatToString(1, DigitConfig.Price)
           End If
 
         Else
@@ -1083,7 +1086,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     Dim centityName As String = CStr(childRow("Name"))
                     'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
 
-                    Dim cqty As Decimal = 0
+                    Dim cqty As Decimal = CDec(childRow("Qty"))
 
                     'Dim ctextInBasket As String = "(" & EwCode & ")" & centityName & ":" & cqty.ToString
                     If TypeOf row.Tag Is DataRow Then
@@ -1114,7 +1117,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim entityName As String = CStr(row("Name"))
                 'Dim lineNumber As Integer = CInt(childRow("LineNumber"))
 
-                Dim qty As Decimal = 0
+                Dim qty As Decimal = CDec(row("Qty"))
 
                 'Dim textInBasket As String = "(" & EwCode & ")" & entityName & ":" & qty.ToString
                 If TypeOf row.Tag Is DataRow Then

@@ -979,8 +979,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
 
-      Me.RefreshData()
-      Me.RefreshDocs()
+      Me.RefreshTextData()
+      Me.RefreshListViewData()
       TxtToollotName.Text = m_entity.Name
       txtToollotCode.Text = m_entity.Code
 
@@ -988,7 +988,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
       Me.m_isInitialized = True
     End Sub
-    Private Sub RefreshData()
+    Private Sub RefreshTextData()
       Me.m_isInitialized = False
       Dim toollotitem As ToolLot = Me.CurrentTagItem
       Me.ClearItemOnly()
@@ -1070,44 +1070,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtToollotUnitCost.Text = toollotitem.UnitCost
         Me.txtToollotBuyQTY.Text = toollotitem.Buyqty
         Me.txtToollotWriteOff.Text = toollotitem.WriteOff
-        Me.txtToollotRemainQTY.Text = toollotitem.RemainQTY
+        'Me.txtToollotRemainQTY.Text = toollotitem.RemainQTY
         Me.txtToollotRemainCost.Text = toollotitem.RemainCost
         Me.TxtToollotBuycost.Text = toollotitem.Buycost
 
-        If toollotitem.Buyqty <> 0 Then
-          Me.txtToollotBuyQTY.Text = Configuration.FormatToString(toollotitem.Buyqty, DigitConfig.Price)
-        Else
-          Me.txtToollotBuyQTY.Text = ""
-        End If
+        'If toollotitem.Buyqty <> 0 Then
+        Me.txtToollotBuyQTY.Text = Configuration.FormatToString(toollotitem.Buyqty, DigitConfig.Price)
+        'Else
+        '  Me.txtToollotBuyQTY.Text = ""
+        'End If
 
         Me.txtToollotUnitCost.Text = Configuration.FormatToString(toollotitem.UnitCost, DigitConfig.Price)
 
-        If toollotitem.Buycost <> 0 Then
-          Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Price)
-        Else
-          Me.TxtToollotBuycost.Text = ""
-        End If
+        'If toollotitem.Buycost <> 0 Then
+        Me.TxtToollotBuycost.Text = Configuration.FormatToString(toollotitem.Buycost, DigitConfig.Price)
+        'Else
+        '  Me.TxtToollotBuycost.Text = ""
+        'End If
 
         Me.txtToollotRemainQTY.Text = Configuration.FormatToString(toollotitem.Buyqty - toollotitem.WriteOff, DigitConfig.Price)
 
-        If toollotitem.WriteOff <> 0 Then
-          Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.WriteOff, DigitConfig.Price)
-        Else
-          Me.txtToollotWriteOff.Text = ""
-        End If
+        'If toollotitem.WriteOff <> 0 Then
+        Me.txtToollotWriteOff.Text = Configuration.FormatToString(toollotitem.WriteOff, DigitConfig.Price)
+        'Else
+        '  Me.txtToollotWriteOff.Text = ""
+        'End If
 
-        If toollotitem.RemainCost <> 0 Then
-          Me.txtToollotRemainCost.Text = Configuration.FormatToString(toollotitem.RemainCost, DigitConfig.Price)
-        ElseIf toollotitem.RemainQTY <> 0 Then
-          Me.txtToollotRemainCost.Text = Configuration.FormatToString(toollotitem.RemainQTY * toollotitem.UnitCost, DigitConfig.Price) '(txtToollotRemainQTY.Text * txtToollotUnitCost.Text, DigitConfig.Price)
-        Else
-          Me.txtToollotRemainCost.Text = ""
-        End If
+        'If (toollotitem.Buyqty - toollotitem.WriteOff) = 0 AndAlso toollotitem.UnitCost = 0 Then
+        '  Me.txtToollotRemainCost.Text = ""
+        'ElseIf (toollotitem.Buyqty - toollotitem.WriteOff) = 0 AndAlso toollotitem.UnitCost > 0 Then
+        '  Me.txtToollotRemainCost.Text = Configuration.FormatToString(toollotitem.UnitCost, DigitConfig.Price)
+        'Else
+        Me.txtToollotRemainCost.Text = Configuration.FormatToString((toollotitem.Buyqty - toollotitem.WriteOff) * toollotitem.UnitCost, DigitConfig.Price)
+        'End If
       End If
 
       'Me.m_isInitialized = True
     End Sub
-    Private Sub RefreshDocs()
+    Private Sub RefreshListViewData()
       If Me.m_entity Is Nothing Then
         Return
       End If
@@ -1443,7 +1443,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '    Me.TxtlastDateEdit.Text = MinDateToNull(dtpLastEditDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
           '    doc.LastEditDate = dtpLastEditDate.Value
           '    dirtyFlag = True
-          '    'Me.RefreshDocs()
+          '    'Me.RefreshListViewData()
           '  End If
 
         Case "txtassetcode"
@@ -1451,7 +1451,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, Me.CurrentTagItem.Asset) 'doc.Costcenter
             doc.IsDirty = dirtyFlag
             m_txtAssetCodeChanged = False
-            'Me.RefreshDocs()
+            'Me.RefreshListViewData()
           End If
 
         Case "txttoollotbuydoccode"
@@ -1580,7 +1580,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = tmpFlag
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-      Me.RefreshDocs()
+      Me.RefreshListViewData()
       CheckFormEnable()
     End Sub
     'Private Sub CalcDepreEndCalcDate()
@@ -1787,9 +1787,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Hack:
         'Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         'Me.m_isInitialized = False
-        'RefreshDocs()
+        'RefreshListViewData()
         'Me.m_entity.EquipmentItem = Me.m_entity.ItemCollection(0)
-        'Me.RefreshData(Me.m_entity.EquipmentItem)
+        'Me.RefreshTextData(Me.m_entity.EquipmentItem)
         'Me.m_isInitialized = True
 
         UpdateEntityProperties()
@@ -2054,7 +2054,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '      Me.WorkbenchWindow.ViewContent.IsDirty _
     '      Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostCenterName, eqi.Costcenter)
 
-    '  RefreshDocs()
+    '  RefreshListViewData()
 
     '  'eqi.SetCurrentCostCenter(eqi.Costcenter)
     '  'Me.TxtCostcenterAddress.Text = eqi.CurrentCostCenter.Code & " : " & eqi.CurrentCostCenter.Name
@@ -2074,7 +2074,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Asset.GetAsset(txtAssetCode, txtAssetName, eqi.Asset)
       eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
-      Me.RefreshDocs()
+      Me.RefreshListViewData()
     End Sub
     ' More detail
     'Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2186,7 +2186,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'If Me.m_entity.ToolLot.Id <> CType(lv.SelectedItems(0).Tag, ToolLot).Id Then
         Me.m_entity.ToolLot = CType(lv.SelectedItems(0).Tag, ToolLot)
         'Dim eqi As ToolLot = Me.CurrentTagItem
-        Me.RefreshData()
+        Me.RefreshTextData()
         Me.CheckToolLotEnable()
         'End If
       End If
@@ -2211,7 +2211,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'Else
     '  Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(eqi) + 1, neweqi)
     'End If
-    'Me.RefreshData()
+    'Me.RefreshTextData()
 
 
 
@@ -2224,7 +2224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'prItem.ItemType = New ItemType(0)
     'prItem.Qty = 0
     'Me.m_entity.ItemCollection.Insert(index, eqitem)
-    'RefreshDocs()
+    'RefreshListViewData()
     'eqitem.CurrentRowIndex = index
 
 
@@ -2293,7 +2293,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.m_entity.ToolLot = eqi
       Me.ClearItemOnly()
-      Me.RefreshDocs()
+      Me.RefreshListViewData()
       'Me.ClearDetail()
       Me.chkAutorun.Checked = True
       Me.UpdateAutogenStatus()
@@ -2311,7 +2311,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  If Not Me.m_entity.ItemCollection.Contains(eqi) Then
     '    Me.m_entity.ItemCollection.Add(eqi)
     '  End If
-    '  Me.RefreshDocs()
+    '  Me.RefreshListViewData()
     'End Sub
 
     Private Sub btnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2324,8 +2324,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       If Me.m_entity.ItemCollection.Count > 0 Then
         Me.m_entity.ToolLot = Me.m_entity.ItemCollection(0)
-        Me.RefreshDocs()
-        Me.RefreshData()
+        Me.RefreshListViewData()
+        Me.RefreshTextData()
       End If
     End Sub
 
@@ -2372,8 +2372,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
 
-      Me.RefreshDocs()
-      Me.RefreshData()
+      Me.RefreshListViewData()
+      Me.RefreshTextData()
 
       Me.UpdateAutogenStatus()
 
@@ -2409,8 +2409,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity.ToolLot = New ToolLot
       End If
 
-      Me.RefreshDocs()
-      Me.RefreshData()
+      Me.RefreshListViewData()
+      Me.RefreshTextData()
       '  Me.ClearDetail()
       'End If
 
@@ -2430,8 +2430,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.ToolLot = doc
       'End If
 
-      Me.RefreshData()
-      Me.RefreshDocs()
+      Me.RefreshTextData()
+      Me.RefreshListViewData()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub btnAddNew_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
@@ -2447,8 +2447,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
-      Me.RefreshDocs()
-      Me.RefreshData()
+      Me.RefreshListViewData()
+      Me.RefreshTextData()
       Me.UpdateAutogenStatus()
     End Sub
   End Class

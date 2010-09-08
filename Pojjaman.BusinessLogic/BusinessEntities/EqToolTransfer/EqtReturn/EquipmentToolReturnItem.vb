@@ -76,10 +76,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
 
-    Public Overrides Property Qty() As Integer      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
+    Public Overrides Property Qty() As Decimal      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 342 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
-        End If        Return m_qty      End Get      Set(ByVal Value As Integer)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        End If        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.RefItem Is Nothing Then
           'รายการไม่ได้อ้างอิงเอกสารเบิก
           msgServ.ShowMessage("${res:Longkong.Pojjaman.BusinessLogic.EquipmentToolReturnItem.NotRefEqWR}")
@@ -104,9 +104,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_rentalperday = value
         m_rentalAmt = m_rentalperday * m_rentalqty
       End Set    End Property
-    Public Property RentalQty() As Integer
+    Public Property RentalQty() As Decimal
       Get        Return m_rentalqty
-      End Get      Set(ByVal value As Integer)
+      End Get      Set(ByVal value As Decimal)
         m_rentalqty = value
         m_rentalAmt = m_rentalperday * m_rentalqty
       End Set

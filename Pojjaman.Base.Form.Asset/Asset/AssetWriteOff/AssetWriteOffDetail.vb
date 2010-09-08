@@ -1668,7 +1668,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Dim value As Decimal = 0
             If IsNumeric(e.ProposedValue) Then
-              value = CDec(TextParser.Evaluate(e.ProposedValue))
+              value = Math.Ceiling(CDec(TextParser.Evaluate(e.ProposedValue)))
             End If
             doc.Qty = value
             Me.m_entity.RefreshSummaryParent()

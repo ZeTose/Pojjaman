@@ -372,12 +372,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim arrAssParentItm As New ArrayList
       Dim arrAssChildItm As New ArrayList
       For Each itm As AssetWriteOffItem In Me.Itemcollection
-        If TypeOf itm.Entity Is Asset Then
+        If TypeOf itm.Entity Is Asset AndAlso itm.HasChild Then
           itm.AssetAmount = 0
           itm.Amount = 0
           itm.WriteOffAmount = 0
           itm.WriteOffDepreAmount = 0
           arrAssParentItm.Add(itm)
+        ElseIf TypeOf itm.Entity Is Asset AndAlso Not itm.HasChild Then
+          arrAssChildItm.Add(itm)
         Else
           itm.AccDepre = 0
           arrAssChildItm.Add(itm)
@@ -785,7 +787,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr("eqtstocki_toollot") = DBNull.Value
             End If
             dr("eqtstocki_name") = item.Entity.Name
-            dr("eqtstocki_unit") = item.Unit.Id
+            If Not item.Unit Is Nothing Then
+              dr("eqtstocki_unit") = item.Unit.Id
+            End If
 
             dr("eqtstocki_refsequence") = item.RefSequence 'Sequence ของการซืัอ
             dr("eqtstocki_rentalrate") = DBNull.Value 'item.RentalPerDay  'คิดจากจำนวนแล้ว
@@ -2533,6 +2537,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
   End Class
 
+  Public Class AssetWriteOffSelectionForSaleBillIssue
+    Inherits AssetWriteOff
+    Public Overrides ReadOnly Property Prefix As String
+      Get
+        Return "stock"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "AssetWriteOffSelectionForSaleBillIssue"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AssetWriteOffSelectionForSaleBillIssue"
+      End Get
+    End Property
+  End Class
   '  Public Class AssetSoldItem
   '    Inherits EqtItem
   '#Region "Members"

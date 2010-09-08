@@ -276,7 +276,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_brand", Me.Brand))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_rentrate", Me.Rentalrate))
-      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_remainqty", Me.RemainQTY))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_remainqty", Me.Buyqty - Me.WriteOff))
       'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originator", Me.Code))
       'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_originDate", Me.Code))
       'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_lastEditDate", Me.Code))
