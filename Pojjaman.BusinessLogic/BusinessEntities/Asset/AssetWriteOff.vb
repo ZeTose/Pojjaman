@@ -2555,6 +2555,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
   End Class
+
+  Public Class AssetWriteOffSelectionForReceiveSelection
+    Inherits AssetWriteOff
+    Public Overrides ReadOnly Property Prefix As String
+      Get
+        Return "stock"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "AssetWriteOffSelectionForReceiveSelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AssetWriteOffSelectionForReceiveSelection"
+      End Get
+    End Property
+  End Class
   '  Public Class AssetSoldItem
   '    Inherits EqtItem
   '#Region "Members"

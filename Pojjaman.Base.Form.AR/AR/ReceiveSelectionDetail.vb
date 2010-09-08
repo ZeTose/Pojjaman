@@ -1706,8 +1706,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(6) As ArrayList
-      For i As Integer = 0 To 6
+      Dim filterEntities(7) As ArrayList
+      For i As Integer = 0 To 7
         If i <> 2 Then
           filterEntities(i) = New ArrayList
           filterEntities(i).Add(Me.m_entity.Customer)
@@ -1719,8 +1719,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           filterEntities(i).Add(eqr)
         End If
       Next
-      Dim filters(6)() As Filter
-      Dim entities(6) As ISimpleEntity
+      Dim filters(7)() As Filter
+      Dim entities(7) As ISimpleEntity
 
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(83)), _
       New Filter("remainMustValid", True), _
@@ -1758,6 +1758,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       New Filter("remainMustValid", True), _
       New Filter("nocancel", True)}
       entities(6) = New SaleCN
+
+      filters(7) = New Filter() {New Filter("IDList", GetItemIDList(366)), _
+      New Filter("receives_id", Me.m_entity.Id)}
+      entities(7) = New AssetWriteOffSelectionForReceiveSelection
 
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
     End Sub
@@ -1824,7 +1828,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         If Not newItem Is Nothing Then
           newItem.Amount = Math.Min(newItem.UnreceivedAmount, newItem.BilledAmount)
-          newItem.ARretention = newItem.getARretention()
+          If newItem.EntityId = 366 OrElse newItem.EntityId = 83 Then
+            newItem.ARretention = 0
+          Else
+            newItem.ARretention = newItem.getARretention()
+          End If
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item                       
             If Me.m_entity.ItemCollection.Count = 0 Then

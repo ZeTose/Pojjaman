@@ -296,6 +296,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , New SqlParameter("@salebilli_id", Me.Id))
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQR_SBIRef" _
           , New SqlParameter("@salebilli_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWO_SBIRef" _
+          , New SqlParameter("@salebilli_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
@@ -793,7 +795,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "stock_type") AndAlso Not dr.IsNull(aliasPrefix & "stock_type") Then
         Me.m_typeId = CInt(dr(aliasPrefix & "stock_type"))
-        If m_typeId <> 83 Then
+        If m_typeId <> 83 AndAlso m_typeId <> 366 Then
           ARretention = getARretention()
         End If
       End If
