@@ -9,6 +9,7 @@ Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Reflection
 Imports Longkong.Pojjaman.Services
+Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SaleBillIssueStatus
     Inherits CodeDescription
@@ -611,8 +612,360 @@ Namespace Longkong.Pojjaman.BusinessLogic
         n += 1
       Next
 
+      ''Check สำหรับ Customize ของวีสถาปัตต์ วีคอนกรึต ===========================================>>>
+      Dim hasVArch As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("pojjaman.base.form.varch") Then
+          hasVArch = True
+        End If
+      Next
+      If hasVArch Then
+        dpiColl.AddRange(GetDocVPCustomizePrintingEntries)
+      End If
+      ''Check สำหรับ Customize ของวีสถาปัตต์ วีคอนกรึต ===========================================<<<
+
       Return dpiColl
     End Function
+
+    Public Function GetDocVPCustomizePrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      'วันที่ใบวางบิล
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillDocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'รหัสใบวางบิล
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillDocCode"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'รหัสลูกค้า
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillCustomerCode"
+      If Me.Customer IsNot Nothing Then
+        dpi.Value = Me.Customer.Code
+      Else
+        dpi.Value = ""
+      End If
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'ชื่อลูกค้า
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillCustomerName"
+      If Me.Customer IsNot Nothing Then
+        dpi.Value = Me.Customer.Name
+      Else
+        dpi.Value = ""
+      End If
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'ที่อยู่ลูกค้า
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillCustomerBillingAddress"
+      If Me.Customer IsNot Nothing Then
+        dpi.Value = Me.Customer.BillingAddress
+      Else
+        dpi.Value = ""
+      End If
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'เครดิต(วัน)
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillCreditPeriod"
+      dpi.Value = Configuration.FormatToString(Me.CreditPeriod, DigitConfig.Int)
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'กำหนดชำระ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillDueDate"
+      dpi.Value = Me.DueDate.ToShortDateString
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'ยอดวางบิล
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillGross"
+      dpi.Value = Configuration.FormatToString(Me.Gross, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'หมายเหตุ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillNote"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      'dpi.Row = 1
+      'dpi.Table = "BillItem"
+      dpiColl.Add(dpi)
+
+      'ผู้วางบิล
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillEmployee"
+      dpi.Value = Me.Employee.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim sumCol9 As Decimal = 0
+      Dim sumCol10 As Decimal = 0
+      Dim sumCol11 As Decimal = 0
+
+      Dim sumDiscount As Decimal = 0
+      Dim sumTaxAmount As Decimal = 0
+      Dim sumAmount As Decimal = 0
+
+      Dim n As Integer = 1
+
+      Dim LineNumber As Integer = 0
+      For Each item As SaleBillIssueItem In Me.ItemCollection
+        'ขายสินค้า/บริการ
+        If item.EntityId = 83 Then
+
+          Dim doc As New GoodsSold(item.Id)
+          LineNumber += 1
+
+          'ลำดับรายการวางบิล
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col0"
+          dpi.Value = LineNumber
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          'วันที่เอกสาร
+          dpi = New DocPrintingItem
+          'dpi.Mapping = "BillDocDate"
+          dpi.Mapping = "col1"
+          dpi.Value = item.Date.ToShortDateString
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          'เลขที่ใบส่งสินค้า
+          dpi = New DocPrintingItem
+          'dpi.Mapping = "BillDocCode"
+          dpi.Mapping = "col2"
+          dpi.Value = item.Code
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          'เลขที่ใบกำกับ
+          dpi = New DocPrintingItem
+          'dpi.Mapping = "BillPVCode"
+          dpi.Mapping = "col3"
+          dpi.Value = doc.PVRVCode
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          Dim ItemlineNumber As Integer = 0
+          For Each docitem As GoodsSoldItem In doc.ItemCollection
+
+            ItemlineNumber += 1
+            'LineNumber
+            dpi = New DocPrintingItem
+            dpi.Mapping = "col4"
+            dpi.Value = ItemlineNumber
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'รายการ
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillDescription"
+            dpi.Mapping = "col5"
+            dpi.Value = docitem.EntityName
+            If docitem.Entity IsNot Nothing Then
+              Dim name As String = ""
+              If docitem.EntityName.Length > 0 Then
+                name = " <" & docitem.EntityName & ">"
+              End If
+              If docitem.Entity.Name.Length > 0 Then
+                dpi.Value = docitem.Entity.Name & name
+              End If
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'จำนวน
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillQty"
+            dpi.Mapping = "col6"
+            dpi.Value = Configuration.FormatToString(docitem.Qty, DigitConfig.Qty)
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'หน่วย
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillUnitName"
+            dpi.Mapping = "col7"
+            dpi.Value = ""
+            If docitem.Unit IsNot Nothing Then
+              dpi.Value = docitem.Unit.Name
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'ราคา/หน่วย
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillUnitPrice"
+            dpi.Mapping = "col8"
+            dpi.Value = Configuration.FormatToString(docitem.UnitPrice, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'จำนวนเงิน
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillAmount"
+            dpi.Mapping = "col9"
+            dpi.Value = Configuration.FormatToString(docitem.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'ภาษีมูลค่าเพิ่ม
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillDisCount"
+            dpi.Mapping = "col10"
+            dpi.Value = Configuration.FormatToString(docitem.TaxAmount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'รวมเงิน
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillDisCount"
+            dpi.Mapping = "col11"
+            dpi.Value = Configuration.FormatToString(docitem.Amount + docitem.TaxAmount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            'หมายเหตุ
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "BillDisCount"
+            dpi.Mapping = "col12"
+            dpi.Value = docitem.Note
+            dpi.DataType = "System.String"
+            dpi.Row = n
+            dpi.Table = "BillItem"
+            dpiColl.Add(dpi)
+
+            sumCol9 += docitem.Amount
+            sumCol10 += docitem.TaxAmount
+            sumCol11 += (docitem.Amount + docitem.TaxAmount)
+
+            n += 1
+          Next
+
+          ' เพิ่มแถว ของท้ายรายการ =================== 
+          n += 1
+          'sumCol9
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col9"
+          dpi.Value = Configuration.FormatToString(sumCol9, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          'sumCol10
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col10"
+          dpi.Value = Configuration.FormatToString(sumCol10, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          'sumCol11
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col11"
+          dpi.Value = Configuration.FormatToString(sumCol11, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
+          sumDiscount += doc.DiscountAmount
+          'If doc.TaxType.Value = 0 OrElse doc.TaxType.Value = 1 Then
+          '  sumDiscount += doc.AdvancePayItemCollection.GetExcludeVATAmount
+          'Else
+          '  sumDiscount += doc.AdvancePayItemCollection.GetAmount
+          'End If
+          sumTaxAmount += doc.TaxAmount
+          sumAmount += doc.AfterTax
+
+        End If
+
+      Next
+
+      'SumDiscount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillSumDiscount"
+      dpi.Value = Configuration.FormatToString(sumDiscount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'SumTaxAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillSumTaxAmount"
+      dpi.Value = Configuration.FormatToString(sumTaxAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'SumAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillSumAmount"
+      dpi.Value = Configuration.FormatToString(sumAmount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Return dpiColl
+    End Function
+
 #End Region
 
 #Region "Delete"
@@ -697,7 +1050,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-  
+
   End Class
   Public Class SaleBillIssueItem
     Inherits SimpleBusinessEntityBase
@@ -881,9 +1234,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         Me.m_billedAmount = Value
       End Set
-    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Property BeforeTax() As Decimal      Get        Return m_beforeTax      End Get      Set(ByVal Value As Decimal)        m_beforeTax = Value      End Set    End Property    Public Property AfterTax() As Decimal      Get        Return m_afterTax      End Get      Set(ByVal Value As Decimal)        m_afterTax = Value      End Set    End Property    Public Property TaxBase() As Decimal      Get        Return m_taxBase      End Get      Set(ByVal Value As Decimal)        m_taxBase = Value      End Set		End Property
-		Public Property RealAmount() As Decimal			Get				Return m_realAmount			End Get			Set(ByVal Value As Decimal)				m_realAmount = Value			End Set		End Property		Public Property Amount() As Decimal			Get				Return m_amount			End Get			Set(ByVal Value As Decimal)				m_amount = Value			End Set		End Property
-		Public Property UnreceivedAmount() As Decimal			Get				Return m_unReceivedAmount			End Get			Set(ByVal Value As Decimal)				m_unReceivedAmount = Value			End Set    End Property
+    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Property BeforeTax() As Decimal      Get        Return m_beforeTax      End Get      Set(ByVal Value As Decimal)        m_beforeTax = Value      End Set    End Property    Public Property AfterTax() As Decimal      Get        Return m_afterTax      End Get      Set(ByVal Value As Decimal)        m_afterTax = Value      End Set    End Property    Public Property TaxBase() As Decimal      Get        Return m_taxBase      End Get      Set(ByVal Value As Decimal)        m_taxBase = Value      End Set    End Property
+    Public Property RealAmount() As Decimal      Get        Return m_realAmount      End Get      Set(ByVal Value As Decimal)        m_realAmount = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property
+    Public Property UnreceivedAmount() As Decimal      Get        Return m_unReceivedAmount      End Get      Set(ByVal Value As Decimal)        m_unReceivedAmount = Value      End Set    End Property
     Public Property ARretention() As Decimal
       Get
         Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
@@ -925,29 +1278,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_taxtype
       End Get
     End Property
-		Public Overrides ReadOnly Property ClassName() As String
-			Get
-				Return "SaleBillIssueItem"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property Prefix() As String
-			Get
-				Return "stock"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property EntityId() As Integer
-			Get
-				Return m_typeId
-			End Get
-		End Property
-		Public Property StockId() As Integer
-			Get
-				Return m_stockid
-			End Get
-			Set(ByVal Value As Integer)
-				m_stockid = Value
-			End Set
-		End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "SaleBillIssueItem"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "stock"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property EntityId() As Integer
+      Get
+        Return m_typeId
+      End Get
+    End Property
+    Public Property StockId() As Integer
+      Get
+        Return m_stockid
+      End Get
+      Set(ByVal Value As Integer)
+        m_stockid = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
@@ -1253,7 +1606,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class SaleBillIssueItemCollection
+  Public Class SaleBillIssueItemCollection
     Inherits CollectionBase
 
 #Region "Members"

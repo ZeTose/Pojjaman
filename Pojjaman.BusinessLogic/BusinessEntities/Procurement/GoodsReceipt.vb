@@ -204,6 +204,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        If dr.Table.Columns.Contains("stock_pvrv") AndAlso Not dr.IsNull(aliasPrefix & "stock_pvrv") Then
+          .PVRVCODE = CStr(dr(aliasPrefix & "stock_pvrv"))
+        End If
+
         If dr.Table.Columns.Contains("stock_entityPerson") AndAlso Not dr.IsNull(aliasPrefix & "stock_entityPerson") Then
           .m_deliveryPerson = CStr(dr(aliasPrefix & "stock_entityPerson"))
         End If
@@ -346,6 +350,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property DocType As String = ""
+    Public Property PVRVCODE As String
     '--------------------REAL-------------------------
     Public Property RealGross() As Decimal
       Get

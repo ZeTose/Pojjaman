@@ -227,6 +227,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property PVRVCode As String
     '--------------------REAL-------------------------
     Public Property RealGross() As Decimal
       Get
