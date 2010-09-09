@@ -712,6 +712,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           If Not Me.m_advanceReceiveItemColl Is Nothing AndAlso Me.m_advanceReceiveItemColl.Count >= 0 Then
+            For Each advri As AdvanceReceiveItem In m_advanceReceiveItemColl
+              advri.Status = Me.Status.Value
+            Next
             Dim saveAdrError As SaveErrorException = Me.m_advanceReceiveItemColl.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveAdrError.Message) Then
               trans.Rollback()

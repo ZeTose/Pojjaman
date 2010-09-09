@@ -53,20 +53,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_grid.MasterGridViewTemplate.AllowColumnReorder = False
       template = New GridViewTemplate
       CreateHeader()
-      'CreateDocHeader()
-      'setdatasource()
+      CreateDocHeader()
+      setdatasource()
       ''PopulateData()
-      ''PopulateMasterData()
-      ''PopulateDocData()
-      'SetRelation()
-      'ExpandAllRows(m_grid, True)
+      'PopulateMasterData()
+      'PopulateDocData()
+      SetRelation()
+      ExpandAllRows(m_grid, True)
       'SetColumnProperties()
       m_grid.GridElement.EndUpdate()
     End Sub
     Private Sub SetTheme()
-      'Me.radRadioHierarchyFromDataSet.ThemeName = Theme
-      'Me.radRadioButton2.ThemeName = Theme
-      'Me.radRadioManuallyUnbound.ThemeName = Theme
       m_grid.ThemeName = CStr(Theme)
       'Me.radGroupHierarchyOptions.ThemeName = Theme
 
@@ -101,21 +98,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim headerTextList As New List(Of String)
       Dim FieldNameList As New List(Of String)
-      'headerTextList.Add("")
-      'FieldNameList.Add("eqi_id")
+      headerTextList.Add("")
+      FieldNameList.Add("eqi_id")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
-      FieldNameList.Add("asset_code")
+      FieldNameList.Add("eq_code")
       headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
-      FieldNameList.Add("asset_name")
-      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
-      'FieldNameList.Add("eqi_buydate")
-      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
-      'FieldNameList.Add("eqi_cc")
-      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
-      'FieldNameList.Add("code_description")
+      FieldNameList.Add("eq_name")
 
       m_grid.Columns.Clear()
-      For i As Integer = 0 To 1
+      For i As Integer = 0 To 2
         Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
         'If i = 0 Then
         '  gridColumn.Width = 0
@@ -130,46 +121,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
     End Sub
-    'Private Sub CreateDocHeader()
-    '  viewDef = New ColumnGroupsViewDefinition
+    Private Sub CreateDocHeader()
+      viewDef = New ColumnGroupsViewDefinition
 
-    '  Dim headerTextList As New List(Of String)
-    '  Dim FieldNameList As New List(Of String)
-    '  headerTextList.Add("")
-    '  FieldNameList.Add("eqi_id")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัส"
-    '  FieldNameList.Add("eqtstock_code")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
-    '  FieldNameList.Add("eqtstock_docdate")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}")) '"ประเภทเอกสาร"
-    '  FieldNameList.Add("Doctype")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"CCรับ"
-    '  FieldNameList.Add("tocc")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
-    '  FieldNameList.Add("tostatus")
-    '  headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}")) '"ค่าเช่า/ค่าใช้จ่าย"
-    '  FieldNameList.Add("eqtstocki_Amount")
+      Dim headerTextList As New List(Of String)
+      Dim FieldNameList As New List(Of String)
+      headerTextList.Add("")
+      FieldNameList.Add("eqi_id")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentCode}")) '"รหัส"
+      FieldNameList.Add("eqi_code")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
+      FieldNameList.Add("eqi_name")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss.CC}")) '"CCเจ้าของ"
+      FieldNameList.Add("Costcenter")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss.Buycost}")) '"ราคาซื้อ"
+      FieldNameList.Add("eqi_buycost")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss.ReturnAmount}")) '"ค่าเช่าภายใน"
+      FieldNameList.Add("ReturnAmount")
+      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
+      'FieldNameList.Add(" ")
+      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss.MaintenanceAmount}")) '"ซ่อมบำรุง"
+      FieldNameList.Add("MaintenanceAmount")
+      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Status}")) '"สถานะ"
+      'FieldNameList.Add(" ")
 
-    '  template.Columns.Clear()
-    '  For i As Integer = 0 To 6
-    '    Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-    '    If i = 0 Then
-    '      gridColumn.Width = 0
-    '    Else
-    '      gridColumn.Width = 100
-    '    End If
-    '    If i = 6 Then
-    '      gridColumn.TextAlignment = ContentAlignment.MiddleRight
-    '    Else
-    '      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-    '    End If
-    '    gridColumn.HeaderText = headerTextList(i)
-    '    gridColumn.FieldName = FieldNameList(i)
-    '    gridColumn.ReadOnly = True
-    '    template.Columns.Add(gridColumn)
-    '  Next
+      template.Columns.Clear()
+      For i As Integer = 0 To 6
+        Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
+        If i = 0 Then
+          gridColumn.Width = 0
+        Else
+          gridColumn.Width = 100
+        End If
+        If i = 6 Then
+          gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        Else
+          gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+        End If
+        gridColumn.HeaderText = headerTextList(i)
+        gridColumn.FieldName = FieldNameList(i)
+        gridColumn.ReadOnly = True
+        template.Columns.Add(gridColumn)
+      Next
 
-    'End Sub
+    End Sub
 
     Private Sub setdatasource()
       Dim dt As DataTable = DataSet.Tables(0)
@@ -189,48 +184,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In dt.Rows
         Dim deh As New DataRowHelper(row)
         Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
-        'currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
-        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("asset_code")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("asset_name")
-        'currentGridRow.Cells(3).Value = deh.GetValue(Of DateTime)("eqi_buydate").ToShortDateString
-        'currentGridRow.Cells(4).Value = deh.GetValue(Of String)("eqi_cc")
-        'currentGridRow.Cells(5).Value = deh.GetValue(Of String)("code_description")
+        currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eq_code")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eq_name")
       Next
 
     End Sub
-    'Private Sub PopulateDocData()
-    '  Dim dt As DataTable = DataSet.Tables(1)
+    Private Sub PopulateDocData()
+      Dim dt As DataTable = DataSet.Tables(1)
 
-    '  For Each row As DataRow In dt.Rows
-    '    Dim deh As New DataRowHelper(row)
-    '    Dim currentGridRow As GridViewDataRowInfo = template.Rows.AddNew()
-    '    currentGridRow.Cells(0).Value = deh.GetValue(Of String)("")
-    '    currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqtstock_code")
-    '    currentGridRow.Cells(2).Value = deh.GetValue(Of DateTime)("eqtstock_docdate").ToShortDateString
-    '    currentGridRow.Cells(3).Value = deh.GetValue(Of String)("Doctype")
-    '    currentGridRow.Cells(4).Value = deh.GetValue(Of String)("tocc")
-    '    currentGridRow.Cells(5).Value = deh.GetValue(Of String)("tostatus")
-    '    currentGridRow.Cells(6).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
-    '  Next
+      For Each row As DataRow In dt.Rows
+        Dim deh As New DataRowHelper(row)
+        Dim currentGridRow As GridViewDataRowInfo = template.Rows.AddNew()
+        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("")
+        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqi_code")
+        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eqi_name")
+        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("Costcenter")
+        currentGridRow.Cells(4).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
+        currentGridRow.Cells(5).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("ReturnAmount"), DigitConfig.Price)
+        'currentGridRow.colls(6).value = Configuration.FormatToString(deh.GetValue(Of Decimal)(" "), DigitConfig.Price)
+        currentGridRow.Cells(6).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("MaintenanceAmount"), DigitConfig.Price)
+        'currentGridRow.colls(8).value = Configuration.FormatToString(deh.GetValue(Of Decimal)(" "), DigitConfig.Price)
+      Next
 
-    '  m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
+      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
 
-    'End Sub
-    'Private Sub SetRelation()
-    '  Dim relation As GridViewRelation = New GridViewRelation(m_grid.MasterGridViewTemplate)
-    '  relation.ChildTemplate = template
-    '  relation.RelationName = "Eqi"
-    '  relation.ParentColumnNames.Add("eqi_id")
-    '  relation.ChildColumnNames.Add("eqi_id")
-    '  m_grid.Relations.Add(relation)
-    'End Sub
-    'Private Sub ExpandAllRows(ByVal grid As RadGridView, ByVal expand As Boolean)
-    '  grid.GridElement.BeginUpdate()
-    '  For Each row As GridViewRowInfo In grid.Rows
-    '    row.IsExpanded = expand
-    '  Next
-    '  grid.GridElement.EndUpdate()
-    'End Sub
+    End Sub
+    Private Sub SetRelation()
+      Dim relation As GridViewRelation = New GridViewRelation(m_grid.MasterGridViewTemplate)
+      relation.ChildTemplate = template
+      relation.RelationName = "Eqi"
+      relation.ParentColumnNames.Add("eqi_id")
+      relation.ChildColumnNames.Add("eqi_id")
+      m_grid.Relations.Add(relation)
+    End Sub
+    Private Sub ExpandAllRows(ByVal grid As RadGridView, ByVal expand As Boolean)
+      grid.GridElement.BeginUpdate()
+      For Each row As GridViewRowInfo In grid.Rows
+        row.IsExpanded = expand
+      Next
+      grid.GridElement.EndUpdate()
+    End Sub
 
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String

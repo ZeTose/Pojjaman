@@ -22,6 +22,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Private m_rentalqty As Integer
     'Private m_rentalperday As Decimal
     Private m_Amt As Decimal
+    Private m_Note As String
     'Private m_WBSDistributeCollection As WBSDistributeCollection
     'Private m_internalChargeCollection As InternalChargeCollection
 #End Region
@@ -45,7 +46,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '.m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
         '.m_rentalqty = deh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_rentalqty")
         .m_Amt = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount")
-
         '' Sequence Refed to ...
         'If dr.Table.Columns.Contains(aliasPrefix & "refto") AndAlso Not dr.IsNull(aliasPrefix & "refto") Then
         '  .m_sequenceRefedto = CInt(dr(aliasPrefix & "refto"))
@@ -77,8 +77,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As StockItemCollection)
         m_itemcollection = value
       End Set
-    End Property
-  
+    End Property  
     Public Overrides Property Amount() As Decimal      Get        If ExpItemCollection IsNot Nothing Then          Return ExpItemCollection.amount        End If      End Get      Set(ByVal value As Decimal)
         m_Amt = value
       End Set    End Property

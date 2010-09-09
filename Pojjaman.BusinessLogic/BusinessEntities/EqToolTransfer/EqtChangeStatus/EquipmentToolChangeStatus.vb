@@ -534,27 +534,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             i += 1
             dr("eqtstocki_eqtstock") = Me.Id
             dr("eqtstocki_linenumber") = i
-
             dr("eqtstocki_fromstatus") = Me.FromStatus.Value
             dr("eqtstocki_tostatus") = Me.ToStatus.Value
             dr("eqtstocki_type") = Me.EntityId
-
             dr("eqtstocki_entity") = item.Entity.Id
             dr("eqtstocki_entityType") = item.ItemType.Value
             dr("eqtstocki_Name") = item.Entity.Name
-
             dr("eqtstocki_qty") = item.Qty
             dr("eqtstocki_unit") = item.Unit.Id
-
+            dr("eqtstocki_amount") = item.Amount
+            dr("eqtstocki_note") = item.Note
             'dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
             'dr("eqtstocki_rentalqty") = item.
-
             'If row.Length > 0 Then
             '  dr("eqtstocki_refsequence") = row(0)("id")
-
             'End If
-            dr("eqtstocki_note") = item.Note
-
             '------------Checking if we have to add a new row or just update existing--------------------
             If drs.Length = 0 Then
               dt.Rows.Add(dr)

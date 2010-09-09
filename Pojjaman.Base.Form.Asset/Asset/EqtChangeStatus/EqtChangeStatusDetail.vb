@@ -1259,7 +1259,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.Amount = value
-          Case "Note"
+          Case "note"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If

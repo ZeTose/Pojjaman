@@ -1570,14 +1570,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 							End Try
 						End If
 					End If
-				Case "dtpdocdate"
-					If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-						If Not m_dateSetting Then
-							Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.m_entity.DocDate = dtpDocDate.Value
+              Me.m_entity.Receive.DocDate = dtpDocDate.Value
+              Me.m_entity.JournalEntry.DocDate = dtpDocDate.Value
             End If
-						dirtyFlag = True
-					End If
+            dirtyFlag = True
+          End If
 				Case "txtdocdate"
 					m_dateSetting = True
 					If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
@@ -1585,6 +1588,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 						If Not Me.m_entity.DocDate.Equals(theDate) Then
 							dtpDocDate.Value = theDate
               Me.m_entity.DocDate = dtpDocDate.Value
+              For Each wht As WitholdingTax In Me.m_entity.WitholdingTaxCollection
+                wht.DocDate = Me.m_entity.DocDate
+              Next
+              Me.m_entity.Receive.DocDate = dtpDocDate.Value
+              Me.m_entity.JournalEntry.DocDate = dtpDocDate.Value
               dirtyFlag = True
 						End If
 					Else
