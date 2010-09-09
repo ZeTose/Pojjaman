@@ -1101,7 +1101,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End If
 
 			RefreshDocs()
-      
+
+      If Not Me.m_vat.Originated Then
+        Dim Config As Object = Configuration.GetConfig("PANoteToOtherTab")
+        If CBool(Config) Then
+          If Me.m_vat.Note Is Nothing OrElse Me.m_vat.Note.Length = 0 Then
+            If TypeOf Me.m_entity Is PA Then
+              Me.m_vat.Note = CType(m_entity, PA).Note
+            End If
+          End If
+        End If
+      End If
+
       Me.txtNote.Text = Me.m_vat.Note
 
       'Me.m_vat.RefDoc.Date

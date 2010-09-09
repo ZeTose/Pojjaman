@@ -40,7 +40,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.EndUpdate()
     End Sub
     Private Sub CreateHeader()
-      m_grid.RowCount = 3
+      m_grid.RowCount = 2
       m_grid.ColCount = 7
 
       m_grid.ColWidths(1) = 100
@@ -59,41 +59,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
-      m_grid.Rows.HeaderCount = 3
-      m_grid.Rows.FrozenCount = 3
+      m_grid.Rows.HeaderCount = 2
+      m_grid.Rows.FrozenCount = 2
 
-      m_grid(0, 1).Text = Me.StringParserService.Parse(" ")
-      m_grid(0, 1).Text = Me.StringParserService.Parse(" ")
+      'm_grid(0, 1).Text = Me.StringParserService.Parse(" ")
+      'm_grid(0, 1).Text = Me.StringParserService.Parse(" ")
 
-      m_grid(1, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolCode}") '"รหัสเครื่องมือ"
-      m_grid(1, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolName}") '"ชื่อเครื่องมือ"
-      m_grid(1, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}") '"CC เจ้าของ"
+      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolCode}") '"รหัสเครื่องมือ"
+      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolName}") '"ชื่อเครื่องมือ"
+      m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}") '"CC เจ้าของ"
 
       Dim indent As String = Space(3)
 
-      m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtiCode}")  '"รหัสเอกสารแปลงสถานะ"
-      m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblDocDate}")  '"วันที่"
+      m_grid(1, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtiCode}")  '"รหัสเอกสารแปลงสถานะ"
+      m_grid(1, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblDocDate}")  '"วันที่"
 
-      m_grid(3, 2).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockCode}")  '"รหัสเอกสารซ่อม"
-      m_grid(3, 3).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockList}")   '"รายการซ่อม"
-      m_grid(3, 4).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockTotal}")  '"จำนวน"
-      m_grid(3, 5).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRDeclareDetail.UnitHeaderText}")  '"Unit"
-      m_grid(3, 6).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.PerUnit}")  '"ต่อหน่วย"
-      m_grid(3, 7).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.RepairCost}")  '"มูลค่าซ่อม"
+      m_grid(2, 2).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockCode}")  '"รหัสเอกสารซ่อม"
+      m_grid(2, 3).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockList}")   '"รายการซ่อม"
+      m_grid(2, 4).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.eqtStockTotal}")  '"จำนวน"
+      m_grid(2, 5).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRDeclareDetail.UnitHeaderText}")  '"Unit"
+      m_grid(2, 6).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.PerUnit}")  '"ต่อหน่วย"
+      m_grid(2, 7).Text = indent & indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance.RepairCost}")  '"มูลค่าซ่อม"
+
+      m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
-      m_grid(2, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-
-      m_grid(3, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(3, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(3, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(3, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(3, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(3, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(2, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(2, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(2, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(2, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
