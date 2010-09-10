@@ -780,9 +780,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'เลขที่ใบกำกับ
           dpi = New DocPrintingItem
-          'dpi.Mapping = "BillPVCode"
           dpi.Mapping = "col3"
-          dpi.Value = doc.PVRVCode
+          dpi.Value = doc.Vat.Code
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
