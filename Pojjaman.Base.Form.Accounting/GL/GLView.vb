@@ -1274,7 +1274,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.UpdateAutogenStatus()
 
       If Not Me.m_je.Originated Then
-        Dim Config As Object = Configuration.GetConfig("PANoteToOtherTab")
+        Dim Config As Object = Configuration.GetConfig("TabDetailNoteToOtherTab")
         If CBool(Config) Then
           If Me.m_je.Note Is Nothing OrElse Me.m_je.Note.Length = 0 Then
             Me.m_je.Note = m_je.RefDoc.Note

@@ -1465,7 +1465,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateRefDoc()
 
       If Not Me.m_payment.Originated Then
-        Dim Config As Object = Configuration.GetConfig("PANoteToOtherTab")
+        Dim Config As Object = Configuration.GetConfig("TabDetailNoteToOtherTab")
         If CBool(Config) Then
           If Me.m_payment.Note Is Nothing OrElse Me.m_payment.Note.Length = 0 Then
             Me.m_payment.Note = m_payment.RefDoc.Note

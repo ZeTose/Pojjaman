@@ -1299,6 +1299,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_oldCode = m_receive.Code
       Me.chkAutorun.Checked = Me.m_receive.AutoGen
       Me.UpdateAutogenStatus()
+
+      If Not Me.m_receive.Originated Then
+        Dim Config As Object = Configuration.GetConfig("TabDetailNoteToOtherTab")
+        If CBool(Config) Then
+          If Me.m_receive.Note Is Nothing OrElse Me.m_receive.Note.Length = 0 Then
+            Me.m_receive.Note = m_receive.RefDoc.Note
+          End If
+        End If
+      End If
+
       txtNote.Text = Me.m_receive.Note
       txtDocDate.Text = MinDateToNull(Me.m_receive.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_receive.DocDate)

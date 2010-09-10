@@ -1103,11 +1103,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			RefreshDocs()
 
       If Not Me.m_vat.Originated Then
-        Dim Config As Object = Configuration.GetConfig("PANoteToOtherTab")
+        Dim Config As Object = Configuration.GetConfig("TabDetailNoteToOtherTab")
         If CBool(Config) Then
           If Me.m_vat.Note Is Nothing OrElse Me.m_vat.Note.Length = 0 Then
-            If TypeOf Me.m_entity Is PA Then
-              Me.m_vat.Note = CType(m_entity, PA).Note
+            If TypeOf Me.m_vat.RefDoc Is IPayable Then
+              Me.m_vat.Note = CType(m_vat.RefDoc, IPayable).Note
+            End If
+            If TypeOf Me.m_vat.RefDoc Is IReceivable Then
+              Me.m_vat.Note = CType(m_vat.RefDoc, IReceivable).Note
             End If
           End If
         End If

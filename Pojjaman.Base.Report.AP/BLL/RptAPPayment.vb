@@ -69,7 +69,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' Level 1.
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")      '"วันที่ชำระ"
+      'tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")      '"วันที่ชำระ"
+      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.PVDate}")      '"วันที่PV"
       tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocCode}")        '"เลขที่เอกสารใบสำคัญชำระ"
       tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.APName}")      '"ชื่อเจ้าหนี้"
       tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")  '"เอกสารทำรายการ"
@@ -89,10 +90,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         ' Level 3.
         tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GlCode}")  '"ประเภทการจ่ายชำระ/เลขที่ใบสำคัญ"
+        tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GLCode}")  '"ประเภทการจ่ายชำระ/เลขที่ใบสำคัญ"
         tr("col2") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocType}")       '"ประเภทเอกสาร"
         tr("col3") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocCode}")  '"เอกสารอ้างอิง"
-        tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocDate}")   '"วันที่ครบกำหนด/วันที่เอกสาร"
+        ' tr("col4") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocDate}")   '"วันที่ครบกำหนด/วันที่เอกสาร"
 
         'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocGross}")       '"ยอดเงิน"
         tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.PayAmount}")      '"จ่ายชำระ"
@@ -213,16 +214,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not row.IsNull("Note") Then
           trPay("col11") = row("Note")
         End If
-
+        '================================================================================================================================================
         If CInt(Me.Filters(10).Value) <> 0 Then
           trPay.State = RowExpandState.Expanded
 
           trPayType = trPay.Childs.Add
           trPayType("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.PaymentType}")     '"ปรเภทการจ่ายชำระ"
+          trPayType("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveDate}")     '"วันที่ชำระ"
 
           trDoc = trPay.Childs.Add
           trDoc("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.RefDocPayment}") '"เอกสารอ้างอิงการชำระ" 
-
+          trDoc("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocDate}") '"วันที่ครบกำหนด" 
+          '==============================================================================================================================================
           For Each prow As DataRow In dt2.Select("paymenti_payment =" & row("payment_id").ToString)
             trPayitem = trPayType.Childs.Add
             If Not prow.IsNull("code_description") Then
@@ -294,7 +297,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               If Not row.IsNull("payment_refdocdate") Then
                 If IsDate(row("payment_refdocdate")) Then
-                  trRefDocitem("col4") = indent & indent & CDate(row("payment_refdocdate")).ToShortDateString
+                  trRefDocitem("col4") = indent & indent & CDate(row("payment_duedate")).ToShortDateString
                 End If
               End If
               If IsNumeric(row("payment_gross")) Then
