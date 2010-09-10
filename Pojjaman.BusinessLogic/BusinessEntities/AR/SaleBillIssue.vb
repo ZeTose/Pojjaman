@@ -887,17 +887,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             'dpi.Mapping = "BillDisCount"
             dpi.Mapping = "col11"
-            dpi.Value = Configuration.FormatToString(docitem.Amount + docitem.TaxAmount, DigitConfig.Price)
-            dpi.DataType = "System.String"
-            dpi.Row = n
-            dpi.Table = "BillItem"
-            dpiColl.Add(dpi)
-
-            'หมายเหตุ
-            dpi = New DocPrintingItem
-            'dpi.Mapping = "BillDisCount"
-            dpi.Mapping = "col12"
-            dpi.Value = docitem.Note
+            If doc.TaxType.Value = 2 Then 'รวม VAT
+              dpi.Value = Configuration.FormatToString(docitem.Amount, DigitConfig.Price)
+            Else
+              dpi.Value = Configuration.FormatToString(docitem.Amount + docitem.TaxAmount, DigitConfig.Price)
+            End If
             dpi.DataType = "System.String"
             dpi.Row = n
             dpi.Table = "BillItem"
