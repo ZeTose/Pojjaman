@@ -117,6 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_docDate = Date.Now.Date
         .m_status = New PaySelectionStatus(-1)
         .m_payment = New Payment(Me)
+        .m_payment.OnHold = True
         .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docDate
         .m_whtcol = New WitholdingTaxCollection

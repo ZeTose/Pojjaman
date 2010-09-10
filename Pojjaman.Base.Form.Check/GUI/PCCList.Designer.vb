@@ -25,6 +25,17 @@ Partial Class PCCList
     Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PCCList))
     Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
     Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+    Me.lblPCCode = New System.Windows.Forms.Label()
+    Me.Label3 = New System.Windows.Forms.Label()
+    Me.txtPCCode = New System.Windows.Forms.TextBox()
+    Me.txtCode = New System.Windows.Forms.TextBox()
+    Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+    Me.txtPaymentStart = New System.Windows.Forms.TextBox()
+    Me.txtPaymentEnd = New System.Windows.Forms.TextBox()
+    Me.Label1 = New System.Windows.Forms.Label()
+    Me.Label2 = New System.Windows.Forms.Label()
+    Me.dtpPaymentStart = New System.Windows.Forms.DateTimePicker()
+    Me.dtpPaymentEnd = New System.Windows.Forms.DateTimePicker()
     Me.btnSearch = New System.Windows.Forms.Button()
     Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
     Me.txtDocDateStart = New System.Windows.Forms.TextBox()
@@ -40,10 +51,13 @@ Partial Class PCCList
     Me.ibtnAdd = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnClear = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
+    Me.Label4 = New System.Windows.Forms.Label()
+    Me.txtPaymentcode = New System.Windows.Forms.TextBox()
     CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.RadSplitContainer1.SuspendLayout()
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel1.SuspendLayout()
+    Me.FixedGroupBox1.SuspendLayout()
     Me.grbDocDate.SuspendLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel2.SuspendLayout()
@@ -73,6 +87,13 @@ Partial Class PCCList
     '
     'SplitPanel1
     '
+    Me.SplitPanel1.Controls.Add(Me.Label4)
+    Me.SplitPanel1.Controls.Add(Me.txtPaymentcode)
+    Me.SplitPanel1.Controls.Add(Me.lblPCCode)
+    Me.SplitPanel1.Controls.Add(Me.Label3)
+    Me.SplitPanel1.Controls.Add(Me.txtPCCode)
+    Me.SplitPanel1.Controls.Add(Me.txtCode)
+    Me.SplitPanel1.Controls.Add(Me.FixedGroupBox1)
     Me.SplitPanel1.Controls.Add(Me.btnSearch)
     Me.SplitPanel1.Controls.Add(Me.grbDocDate)
     Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
@@ -88,10 +109,116 @@ Partial Class PCCList
     Me.SplitPanel1.TabStop = False
     Me.SplitPanel1.Text = "SplitPanel1"
     '
+    'lblPCCode
+    '
+    Me.lblPCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblPCCode.ForeColor = System.Drawing.Color.Black
+    Me.lblPCCode.Location = New System.Drawing.Point(22, 34)
+    Me.lblPCCode.Name = "lblPCCode"
+    Me.lblPCCode.Size = New System.Drawing.Size(83, 18)
+    Me.lblPCCode.TabIndex = 26
+    Me.lblPCCode.Text = "วงเงิน"
+    Me.lblPCCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'Label3
+    '
+    Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.Label3.ForeColor = System.Drawing.Color.Black
+    Me.Label3.Location = New System.Drawing.Point(19, 11)
+    Me.Label3.Name = "Label3"
+    Me.Label3.Size = New System.Drawing.Size(83, 18)
+    Me.Label3.TabIndex = 25
+    Me.Label3.Text = "เลขที่เคลม"
+    Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtPCCode
+    '
+    Me.txtPCCode.Location = New System.Drawing.Point(111, 34)
+    Me.txtPCCode.Name = "txtPCCode"
+    Me.txtPCCode.Size = New System.Drawing.Size(294, 20)
+    Me.txtPCCode.TabIndex = 24
+    '
+    'txtCode
+    '
+    Me.txtCode.Location = New System.Drawing.Point(111, 8)
+    Me.txtCode.Name = "txtCode"
+    Me.txtCode.Size = New System.Drawing.Size(294, 20)
+    Me.txtCode.TabIndex = 23
+    '
+    'FixedGroupBox1
+    '
+    Me.FixedGroupBox1.Controls.Add(Me.txtPaymentStart)
+    Me.FixedGroupBox1.Controls.Add(Me.txtPaymentEnd)
+    Me.FixedGroupBox1.Controls.Add(Me.Label1)
+    Me.FixedGroupBox1.Controls.Add(Me.Label2)
+    Me.FixedGroupBox1.Controls.Add(Me.dtpPaymentStart)
+    Me.FixedGroupBox1.Controls.Add(Me.dtpPaymentEnd)
+    Me.FixedGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
+    Me.FixedGroupBox1.Location = New System.Drawing.Point(667, 21)
+    Me.FixedGroupBox1.Name = "FixedGroupBox1"
+    Me.FixedGroupBox1.Size = New System.Drawing.Size(228, 68)
+    Me.FixedGroupBox1.TabIndex = 22
+    Me.FixedGroupBox1.TabStop = False
+    Me.FixedGroupBox1.Text = "วันที่จ่าย"
+    '
+    'txtPaymentStart
+    '
+    Me.txtPaymentStart.BackColor = System.Drawing.SystemColors.Window
+    Me.txtPaymentStart.Location = New System.Drawing.Point(74, 17)
+    Me.txtPaymentStart.Name = "txtPaymentStart"
+    Me.txtPaymentStart.Size = New System.Drawing.Size(116, 20)
+    Me.txtPaymentStart.TabIndex = 20
+    '
+    'txtPaymentEnd
+    '
+    Me.txtPaymentEnd.BackColor = System.Drawing.SystemColors.Window
+    Me.txtPaymentEnd.Location = New System.Drawing.Point(74, 41)
+    Me.txtPaymentEnd.Name = "txtPaymentEnd"
+    Me.txtPaymentEnd.Size = New System.Drawing.Size(116, 20)
+    Me.txtPaymentEnd.TabIndex = 21
+    '
+    'Label1
+    '
+    Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.Label1.ForeColor = System.Drawing.Color.Black
+    Me.Label1.Location = New System.Drawing.Point(12, 17)
+    Me.Label1.Name = "Label1"
+    Me.Label1.Size = New System.Drawing.Size(56, 18)
+    Me.Label1.TabIndex = 0
+    Me.Label1.Text = "ตั้งแต่"
+    Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'Label2
+    '
+    Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.Label2.ForeColor = System.Drawing.Color.Black
+    Me.Label2.Location = New System.Drawing.Point(12, 41)
+    Me.Label2.Name = "Label2"
+    Me.Label2.Size = New System.Drawing.Size(56, 18)
+    Me.Label2.TabIndex = 2
+    Me.Label2.Text = "ถึง"
+    Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'dtpPaymentStart
+    '
+    Me.dtpPaymentStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+    Me.dtpPaymentStart.Location = New System.Drawing.Point(74, 17)
+    Me.dtpPaymentStart.Name = "dtpPaymentStart"
+    Me.dtpPaymentStart.Size = New System.Drawing.Size(144, 20)
+    Me.dtpPaymentStart.TabIndex = 1
+    '
+    'dtpPaymentEnd
+    '
+    Me.dtpPaymentEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+    Me.dtpPaymentEnd.Location = New System.Drawing.Point(74, 41)
+    Me.dtpPaymentEnd.Name = "dtpPaymentEnd"
+    Me.dtpPaymentEnd.Size = New System.Drawing.Size(144, 20)
+    Me.dtpPaymentEnd.TabIndex = 3
+    '
     'btnSearch
     '
     Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-    Me.btnSearch.Location = New System.Drawing.Point(21, 86)
+    Me.btnSearch.Location = New System.Drawing.Point(44, 100)
     Me.btnSearch.Name = "btnSearch"
     Me.btnSearch.Size = New System.Drawing.Size(75, 23)
     Me.btnSearch.TabIndex = 21
@@ -106,7 +233,7 @@ Partial Class PCCList
     Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
     Me.grbDocDate.Controls.Add(Me.dtpDocDateEnd)
     Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-    Me.grbDocDate.Location = New System.Drawing.Point(21, 12)
+    Me.grbDocDate.Location = New System.Drawing.Point(433, 21)
     Me.grbDocDate.Name = "grbDocDate"
     Me.grbDocDate.Size = New System.Drawing.Size(228, 68)
     Me.grbDocDate.TabIndex = 19
@@ -254,6 +381,24 @@ Partial Class PCCList
     Me.RadGridView2.Size = New System.Drawing.Size(926, 199)
     Me.RadGridView2.TabIndex = 1
     '
+    'Label4
+    '
+    Me.Label4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.Label4.ForeColor = System.Drawing.Color.Black
+    Me.Label4.Location = New System.Drawing.Point(19, 63)
+    Me.Label4.Name = "Label4"
+    Me.Label4.Size = New System.Drawing.Size(83, 18)
+    Me.Label4.TabIndex = 28
+    Me.Label4.Text = "เลขที่จ่าย"
+    Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtPaymentcode
+    '
+    Me.txtPaymentcode.Location = New System.Drawing.Point(111, 60)
+    Me.txtPaymentcode.Name = "txtPaymentcode"
+    Me.txtPaymentcode.Size = New System.Drawing.Size(294, 20)
+    Me.txtPaymentcode.TabIndex = 27
+    '
     'PCCList
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -266,6 +411,9 @@ Partial Class PCCList
     Me.RadSplitContainer1.ResumeLayout(False)
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel1.ResumeLayout(False)
+    Me.SplitPanel1.PerformLayout()
+    Me.FixedGroupBox1.ResumeLayout(False)
+    Me.FixedGroupBox1.PerformLayout()
     Me.grbDocDate.ResumeLayout(False)
     Me.grbDocDate.PerformLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -294,4 +442,17 @@ Partial Class PCCList
   Friend WithEvents ibtnDelete As Longkong.Pojjaman.Gui.Components.ImageButton
   Friend WithEvents ibtnAdd As Longkong.Pojjaman.Gui.Components.ImageButton
   Friend WithEvents ibtnClear As Longkong.Pojjaman.Gui.Components.ImageButton
+  Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+  Friend WithEvents txtPaymentStart As System.Windows.Forms.TextBox
+  Friend WithEvents txtPaymentEnd As System.Windows.Forms.TextBox
+  Friend WithEvents Label1 As System.Windows.Forms.Label
+  Friend WithEvents Label2 As System.Windows.Forms.Label
+  Friend WithEvents dtpPaymentStart As System.Windows.Forms.DateTimePicker
+  Friend WithEvents dtpPaymentEnd As System.Windows.Forms.DateTimePicker
+  Friend WithEvents lblPCCode As System.Windows.Forms.Label
+  Friend WithEvents Label3 As System.Windows.Forms.Label
+  Friend WithEvents txtPCCode As System.Windows.Forms.TextBox
+  Friend WithEvents txtCode As System.Windows.Forms.TextBox
+  Friend WithEvents Label4 As System.Windows.Forms.Label
+  Friend WithEvents txtPaymentcode As System.Windows.Forms.TextBox
 End Class

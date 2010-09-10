@@ -132,7 +132,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbExportType
       '
       Me.cmbExportType.FormattingEnabled = True
-      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
+      Me.cmbExportType.Items.AddRange(New Object() {"DCT"})
       Me.cmbExportType.Location = New System.Drawing.Point(300, 134)
       Me.cmbExportType.Name = "cmbExportType"
       Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
@@ -1026,9 +1026,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
       Dim myOpb As New SaveFileDialog
-      myOpb.Filter = "All Files|*.*"
+      myOpb.Filter = "Text file|*.txt|All Files|*.*"
       myOpb.FilterIndex = 1
-      myOpb.FileName = m_entity.ExportType.ToUpper & ".txt"
+
+      Dim culture As New Globalization.CultureInfo("en-US", True)
+      Dim exportTime As Date = Date.Now
+      Dim timeString As String = exportTime.ToString("yyyyMMddHHmm", culture)
+      myOpb.FileName = timeString & "-" & m_entity.ExportType.ToUpper & ".txt"
       If myOpb.ShowDialog() = DialogResult.OK Then
         Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
         Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))

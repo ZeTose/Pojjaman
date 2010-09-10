@@ -7,6 +7,7 @@ Imports System.Collections.Generic
 Imports Telerik.WinControls.UI
 Imports System.Linq
 Imports System.IO
+Imports Longkong.Core.AddIns
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class OutgoingCheckDetailView
@@ -82,6 +83,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(OutgoingCheckDetailView))
       Me.grbOutgoingCheck = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbExportType = New System.Windows.Forms.ComboBox()
       Me.btnExport = New System.Windows.Forms.Button()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
@@ -127,7 +129,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.cmbExportType = New System.Windows.Forms.ComboBox()
       Me.grbOutgoingCheck.SuspendLayout()
       CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,6 +193,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbOutgoingCheck.TabStop = False
       Me.grbOutgoingCheck.Text = "ข้อมูลเช็คจ่าย : "
       '
+      'cmbExportType
+      '
+      Me.cmbExportType.FormattingEnabled = True
+      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
+      Me.cmbExportType.Location = New System.Drawing.Point(297, 250)
+      Me.cmbExportType.Name = "cmbExportType"
+      Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
+      Me.cmbExportType.TabIndex = 209
+      Me.cmbExportType.TabStop = False
+      Me.cmbExportType.Visible = False
+      '
       'btnExport
       '
       Me.btnExport.Location = New System.Drawing.Point(216, 248)
@@ -201,6 +213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnExport.TabStop = False
       Me.btnExport.Text = "Export"
       Me.btnExport.UseVisualStyleBackColor = True
+      Me.btnExport.Visible = False
       '
       'ibtnDelRow
       '
@@ -745,16 +758,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'cmbExportType
-      '
-      Me.cmbExportType.FormattingEnabled = True
-      Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
-      Me.cmbExportType.Location = New System.Drawing.Point(297, 250)
-      Me.cmbExportType.Name = "cmbExportType"
-      Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
-      Me.cmbExportType.TabIndex = 209
-      Me.cmbExportType.TabStop = False
-      '
       'OutgoingCheckDetailView
       '
       Me.Controls.Add(Me.grbOutgoingCheck)
@@ -1130,6 +1133,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank.Enabled = True
       Me.ibtnDelRow.Enabled = True
       Me.btnExport.Enabled = True
+
+      '==Checking for addin
+      Dim hasExport As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("textexport") Then
+          hasExport = True
+        End If
+      Next
+      Me.btnExport.Visible = hasExport
+      Me.cmbExportType.Visible = hasExport
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -1572,9 +1585,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
       Dim myOpb As New SaveFileDialog
-      myOpb.Filter = "All Files|*.*"
+      myOpb.Filter = "Text file|*.txt|All Files|*.*"
       myOpb.FilterIndex = 1
-      myOpb.FileName = m_entity.ExportType.ToUpper & ".txt"
+
+      Dim culture As New Globalization.CultureInfo("en-US", True)
+      Dim exportTime As Date = Date.Now
+      Dim timeString As String = exportTime.ToString("yyyyMMddHHmm", culture)
+      myOpb.FileName = timeString & "-" & m_entity.ExportType.ToUpper & ".txt"
       If myOpb.ShowDialog() = DialogResult.OK Then
         Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
         Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))

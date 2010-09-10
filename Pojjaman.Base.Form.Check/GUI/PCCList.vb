@@ -8,6 +8,8 @@ Public Class PCCList
 
   Private Property docDateStart As Date
   Private Property docDateEnd As Date
+  Private Property payment_datestart As Date
+  Private Property payment_dateend As Date
 
   Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
     RefreshItems()
@@ -30,6 +32,10 @@ Public Class PCCList
     AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
     AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
+    AddHandler txtPaymentStart.Validated, AddressOf Me.ChangeProperty
+    AddHandler dtpPaymentStart.ValueChanged, AddressOf Me.ChangeProperty
+    AddHandler txtPaymentEnd.Validated, AddressOf Me.ChangeProperty
+    AddHandler dtpPaymentEnd.ValueChanged, AddressOf Me.ChangeProperty
   End Sub
   Private m_dateSetting As Boolean
   Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
@@ -81,6 +87,56 @@ Public Class PCCList
           dirtyFlag = True
         End If
         m_dateSetting = False
+
+
+      Case "dtppaymentstart"
+        If Not Me.payment_datestart.Equals(dtpPaymentStart.Value) Then
+          If Not m_dateSetting Then
+            Me.txtPaymentStart.Text = MinDateToNull(dtpPaymentStart.Value, "")
+            Me.payment_datestart = dtpPaymentStart.Value
+          End If
+          dirtyFlag = True
+        End If
+      Case "txtpaymentstart"
+        m_dateSetting = True
+        If Me.txtPaymentStart.Text.Length <> 0 AndAlso IsDate(Me.txtPaymentStart.Text) = "" Then
+          Dim theDate As Date = CDate(Me.txtPaymentStart.Text)
+          If Not Me.payment_datestart.Equals(theDate) Then
+            dtpPaymentStart.Value = theDate
+            Me.payment_datestart = dtpPaymentStart.Value
+            dirtyFlag = True
+          End If
+        Else
+          Me.dtpPaymentStart.Value = Date.Now
+          Me.payment_datestart = Date.MinValue
+          dirtyFlag = True
+        End If
+        m_dateSetting = False
+
+      Case "dtppaymentend"
+        If Not Me.payment_dateend.Equals(dtpPaymentEnd.Value) Then
+          If Not m_dateSetting Then
+            Me.txtPaymentEnd.Text = MinDateToNull(dtpPaymentEnd.Value, "")
+            Me.payment_dateend = dtpPaymentEnd.Value
+          End If
+          dirtyFlag = True
+        End If
+      Case "txtpaymentend"
+        m_dateSetting = True
+        If Me.txtPaymentEnd.Text.Length <> 0 AndAlso IsDate(Me.txtPaymentEnd.Text) = "" Then
+          Dim theDate As Date = CDate(Me.txtPaymentEnd.Text)
+          If Not Me.payment_dateend.Equals(theDate) Then
+            dtpPaymentEnd.Value = theDate
+            Me.payment_dateend = dtpPaymentEnd.Value
+            dirtyFlag = True
+          End If
+        Else
+          Me.dtpPaymentEnd.Value = Date.Now
+          Me.payment_dateend = Date.MinValue
+          dirtyFlag = True
+        End If
+        m_dateSetting = False
+
     End Select
   End Sub
   Private Sub ClearCriterias()
@@ -92,6 +148,15 @@ Public Class PCCList
 
     Me.docDateStart = DateAdd(DateInterval.Day, -7, Now.Date)
     Me.docDateEnd = DateAdd(DateInterval.Day, 0, Now.Date)
+
+    Me.dtpPaymentStart.Value = DateAdd(DateInterval.Day, 0, Now.Date)
+    Me.dtpPaymentEnd.Value = DateAdd(DateInterval.Day, 0, Now.Date)
+
+    Me.txtPaymentStart.Text = ""
+    Me.txtPaymentEnd.Text = ""
+
+    Me.payment_datestart = Date.MinValue
+    Me.payment_dateend = Date.MinValue
 
   End Sub
 
@@ -108,10 +173,8 @@ Public Class PCCList
     End If
     tr.Cells("PaymentCode").Value = p.Code
     tr.Cells("RefCode").Value = p.RefCode
-    tr.Cells("RefType").Value = p.RefType
     tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
     tr.Cells("Amount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
-    tr.Cells("Remain").Value = Configuration.FormatToString(p.RefRemain, DigitConfig.Price)
 
     tr.Tag = p
 
@@ -199,9 +262,14 @@ Public Class PCCList
     m_updating2 = False
   End Sub
   Private Function GetFilterArray() As Filter()
-    Dim arr(1) As Filter
+    Dim arr(6) As Filter
     arr(0) = New Filter("startdate", ValidDateOrDBNull(docDateStart))
     arr(1) = New Filter("enddate", ValidDateOrDBNull(docDateEnd))
+    arr(2) = New Filter("payment_datestart", ValidDateOrDBNull(payment_datestart))
+    arr(3) = New Filter("payment_dateend", ValidDateOrDBNull(payment_dateend))
+    arr(4) = New Filter("code", IIf(Me.txtCode.TextLength > 0, txtCode.Text, DBNull.Value))
+    arr(5) = New Filter("pc_code", IIf(Me.txtPCCode.TextLength > 0, txtPCCode.Text, DBNull.Value))
+    arr(6) = New Filter("payment_code", IIf(Me.txtPaymentCode.TextLength > 0, txtPaymentCode.Text, DBNull.Value))
     Return arr
   End Function
   Private Function ValidDateOrDBNull(ByVal myDate As Date) As Object
@@ -230,14 +298,6 @@ Public Class PCCList
     For Each row As GridViewDataRowInfo In Me.RadGridView1.Rows
       row.Cells("Linenumber").Value = i
       i += 1
-    Next
-    Me.RadGridView1.MasterGridViewTemplate.GroupByExpressions.Clear()
-    Dim expression As New GridGroupByExpression()
-    expression.Expression = "PaymentCode as เอกสารเคลม format ""{0}: {1}"" Group By PaymentCode"
-    Me.RadGridView1.MasterGridViewTemplate.GroupByExpressions.Add(expression)
-
-    For Each g As DataGroup In Me.RadGridView1.Groups
-      g.Expand()
     Next
     Me.RadGridView1.GridElement.EndUpdate(True)
     m_tableInitialized = True
@@ -291,24 +351,13 @@ Public Class PCCList
     colNum += 1
 
     Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
-    gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+    gcRefCode.HeaderText = "เงินสดย่อย" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
     gcRefCode.Width = 100
     gcRefCode.ReadOnly = True
     grid.Columns.Add(gcRefCode)
     viewDef.ColumnGroups.Add(New GridViewColumnGroup)
     viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
     viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefCode)
-    viewDef.ColumnGroups(colNum).IsPinned = True
-    colNum += 1
-
-    Dim gcRefType As New GridViewTextBoxColumn("RefType")
-    gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-    gcRefType.Width = 100
-    gcRefType.ReadOnly = True
-    grid.Columns.Add(gcRefType)
-    viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-    viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-    viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefType)
     viewDef.ColumnGroups(colNum).IsPinned = True
     colNum += 1
 
@@ -335,18 +384,6 @@ Public Class PCCList
     viewDef.ColumnGroups(colNum).IsPinned = True
     colNum += 1
 
-    Dim csRemain As New GridViewTextBoxColumn("Remain")
-    csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-    csRemain.ReadOnly = True
-    csRemain.Width = 150
-    csRemain.TextAlignment = ContentAlignment.MiddleRight
-    csRemain.ReadOnly = True
-    grid.Columns.Add(csRemain)
-    viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-    viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-    viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRemain)
-    viewDef.ColumnGroups(colNum).IsPinned = True
-
   End Sub
   Private Sub RefreshSelectedItems()
     m_tableInitialized2 = False
@@ -360,13 +397,6 @@ Public Class PCCList
     For Each row As GridViewDataRowInfo In Me.RadGridView2.Rows
       row.Cells("Linenumber").Value = i
       i += 1
-    Next
-    Me.RadGridView2.MasterGridViewTemplate.GroupByExpressions.Clear()
-    Dim expression As New GridGroupByExpression()
-    expression.Expression = "PaymentCode as เอกสารเคลม format ""{0}: {1}"" Group By PaymentCode"
-    Me.RadGridView2.MasterGridViewTemplate.GroupByExpressions.Add(expression)
-    For Each g As DataGroup In Me.RadGridView2.Groups
-      g.Expand()
     Next
     Me.RadGridView2.GridElement.EndUpdate(True)
     m_tableInitialized2 = True
