@@ -1113,6 +1113,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'dpi.Table = "BillItem"
           'dpiColl.Add(dpi)
 
+          'หมายเหตุ
+          dpi = New DocPrintingItem
+          'dpi.Mapping = "BillAmount"
+          dpi.Mapping = "col12"
+          dpi.Value = item.Note
+          dpi.DataType = "System.String"
+          dpi.Row = n
+          dpi.Table = "BillItem"
+          dpiColl.Add(dpi)
+
           Dim ItemlineNumber As Integer = 0
           For Each docitem As GoodsReceiptItem In doc.ItemCollection
 
@@ -1133,12 +1143,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Mapping = "col5"
             dpi.Value = docitem.EntityName
             If docitem.Entity IsNot Nothing Then
-              Dim name As String = ""
-              If docitem.EntityName.Length > 0 Then
-                name = " <" & docitem.EntityName & ">"
-              End If
+              'Dim name As String = ""
+              'If docitem.EntityName.Length > 0 Then
+              '  name = " <" & docitem.EntityName & ">"
+              'End If
               If docitem.Entity.Name.Length > 0 Then
-                dpi.Value = docitem.Entity.Name & name
+                dpi.Value = docitem.Entity.Name '& name
               End If
             End If
             dpi.DataType = "System.String"
@@ -1225,16 +1235,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             n += 1
           Next
-
-          'หมายเหตุ
-          dpi = New DocPrintingItem
-          'dpi.Mapping = "BillAmount"
-          dpi.Mapping = "col12"
-          dpi.Value = item.Note
-          dpi.DataType = "System.String"
-          dpi.Row = n
-          dpi.Table = "BillItem"
-          dpiColl.Add(dpi)
 
           '' เพิ่มแถว ของท้ายรายการ =================== 
           'n += 1
