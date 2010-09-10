@@ -1047,9 +1047,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'dpi.Table = "BillItem"
       dpiColl.Add(dpi)
 
-      Dim sumCol9 As Decimal = 0
-      Dim sumCol10 As Decimal = 0
-      Dim sumCol11 As Decimal = 0
+      'Dim sumCol9 As Decimal = 0
+      'Dim sumCol10 As Decimal = 0
+      'Dim sumCol11 As Decimal = 0
 
       Dim sumDiscount As Decimal = 0
       Dim sumTaxAmount As Decimal = 0
@@ -1219,51 +1219,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = "BillItem"
             dpiColl.Add(dpi)
 
-            'หมายเหตุ
-            dpi = New DocPrintingItem
-            'dpi.Mapping = "BillAmount"
-            dpi.Mapping = "col12"
-            dpi.Value = docitem.Note
-            dpi.DataType = "System.String"
-            dpi.Row = n
-            dpi.Table = "BillItem"
-            dpiColl.Add(dpi)
-
-            sumCol9 += docitem.Amount
-            sumCol10 += docitem.TaxAmount
-            sumCol11 += (docitem.Amount + docitem.TaxAmount)
+            'sumCol9 += docitem.Amount
+            'sumCol10 += docitem.TaxAmount
+            'sumCol11 += (docitem.Amount + docitem.TaxAmount)
 
             n += 1
           Next
 
-          ' เพิ่มแถว ของท้ายรายการ =================== 
-          n += 1
-          'sumCol9
+          'หมายเหตุ
           dpi = New DocPrintingItem
-          dpi.Mapping = "col9"
-          dpi.Value = Configuration.FormatToString(sumCol9, DigitConfig.Price)
+          'dpi.Mapping = "BillAmount"
+          dpi.Mapping = "col12"
+          dpi.Value = item.Note
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
           dpiColl.Add(dpi)
 
-          'sumCol10
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col10"
-          dpi.Value = Configuration.FormatToString(sumCol10, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpi.Row = n
-          dpi.Table = "BillItem"
-          dpiColl.Add(dpi)
+          '' เพิ่มแถว ของท้ายรายการ =================== 
+          'n += 1
+          ''sumCol9
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "col9"
+          'dpi.Value = Configuration.FormatToString(sumCol9, DigitConfig.Price)
+          'dpi.DataType = "System.String"
+          'dpi.Row = n
+          'dpi.Table = "BillItem"
+          'dpiColl.Add(dpi)
 
-          'sumCol11
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col11"
-          dpi.Value = Configuration.FormatToString(sumCol11, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpi.Row = n
-          dpi.Table = "BillItem"
-          dpiColl.Add(dpi)
+          ''sumCol10
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "col10"
+          'dpi.Value = Configuration.FormatToString(sumCol10, DigitConfig.Price)
+          'dpi.DataType = "System.String"
+          'dpi.Row = n
+          'dpi.Table = "BillItem"
+          'dpiColl.Add(dpi)
+
+          ''sumCol11
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "col11"
+          'dpi.Value = Configuration.FormatToString(sumCol11, DigitConfig.Price)
+          'dpi.DataType = "System.String"
+          'dpi.Row = n
+          'dpi.Table = "BillItem"
+          'dpiColl.Add(dpi)
 
           sumDiscount += doc.DiscountAmount
           If doc.TaxType.Value = 0 OrElse doc.TaxType.Value = 1 Then
