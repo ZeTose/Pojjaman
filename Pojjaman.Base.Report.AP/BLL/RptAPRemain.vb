@@ -82,6 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.PayRetention}") '"ยอดจ่ายชำระ Retention"
         tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RetentionEndingBalance}") '"ยอด Retention ยกไป"
         tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}") '"หมายเหตุ"
+        tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DebtDebit}") '"ยอดซื้"
       Else
         ' Level 1.
         Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
@@ -103,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAging.DNDocNo}") '"เลขที่เอกสาร"
         tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DocDate}") '"วันที่เอกสาร"
         tr("col3") = indent & Me.StringParserService.Parse("เลขที่ใบสำคัญ") '"เลขที่ใบสำคัญ"
+        tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DebtDebit}") '"ยอดซื้"
       End If
     End Sub
     Private Sub PopulateData()
@@ -242,6 +244,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               trDetail("col12") = Configuration.FormatToString(deh.GetValue(Of Decimal)("EndingBalanceRetention"), DigitConfig.Price)
               trDetail("col13") = indent & deh.GetValue(Of String)("glNote", "-")
+              trDetail("col14") = Configuration.FormatToString(deh.GetValue(Of Decimal)("PaysGross"), DigitConfig.Price)
             End If
           Next
         End If
@@ -299,6 +302,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
 
       Return myDatatable
     End Function
@@ -306,7 +310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 13 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 14 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
       widths.Add(90)
       widths.Add(180)
@@ -322,6 +326,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(95)
       widths.Add(95)
       widths.Add(180 * CInt(Me.Filters(7).Value))
+      widths.Add(95 * CInt(Me.Filters(7).Value))
 
 For i As Integer = 0 To iCol
         If i = 1 Then
