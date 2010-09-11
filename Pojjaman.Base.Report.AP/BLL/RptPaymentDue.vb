@@ -167,7 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			Dim sumSupplierAmount(10) As Decimal
 			Dim sumStockAmount(10) As Decimal
 			Dim sumCol(10) As Decimal
-			Dim sumTotalAmount As Decimal = 0
+
 			For i As Integer = 0 To 10
 				sumSupplierAmount(i) = 0
 				sumStockAmount(i) = 0
@@ -175,408 +175,425 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			Next
 			Dim lastStockDate As String
 
-			For Each row As DataRow In dt.Rows
-				If m_showPeriod = 0 Then
-					If Not currSupplierCode.Equals(row("SupplierCode").ToString) Then
-						If Not trSupplier Is Nothing Then
-							trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
-							trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
-							trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
-							trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
-							trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
-							trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
-							trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
-							For i As Integer = 0 To 10
-								sumSupplierAmount(i) = 0
-								sumStockAmount(i) = 0
-							Next
-						End If
+      For Each row As DataRow In dt.Rows
+        If m_showPeriod = 0 Then
+          If CDec(row("SumDay")) <> 0 Then
+            If Not currSupplierCode.Equals(row("SupplierCode").ToString) Then
+              If Not trSupplier Is Nothing Then
+                trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
+                trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
+                trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
+                trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
+                trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
+                trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
+                trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
+              End If
 
-						trSupplier = Me.m_treemanager.Treetable.Childs.Add
-						trSupplier("col0") = row("SupplierCode").ToString
-						trSupplier("col1") = row("SupplierName").ToString
-						trSupplier.State = RowExpandState.Expanded
-						currSupplierCode = row("SupplierCode").ToString
-					End If
+              For i As Integer = 0 To 10
+                sumSupplierAmount(i) = 0
+                sumStockAmount(i) = 0
+              Next
+              trSupplier = Me.m_treemanager.Treetable.Childs.Add
+              trSupplier("col0") = row("SupplierCode").ToString
+              trSupplier("col1") = row("SupplierName").ToString
+              trSupplier.State = RowExpandState.Expanded
+              currSupplierCode = row("SupplierCode").ToString
+            End If
+          End If
 
-					If currStockCodeForSupplier <> row("StockCode").ToString Then
-						If IsNumeric(row("DayOutBound")) Then
-							sumSupplierAmount(0) += CDec(row("DayOutBound"))
-							sumCol(0) += CDec(row("DayOutBound"))
-						End If
-						If IsNumeric(row("Day1to7")) Then
-							sumSupplierAmount(1) += CDec(row("Day1to7"))
-							sumCol(1) += CDec(row("Day1to7"))
-						End If
-						If IsNumeric(row("Day8to14")) Then
-							sumSupplierAmount(2) += CDec(row("Day8to14"))
-							sumCol(2) += CDec(row("Day8to14"))
-						End If
-						If IsNumeric(row("Day15to21")) Then
-							sumSupplierAmount(3) += CDec(row("Day15to21"))
-							sumCol(3) += CDec(row("Day15to21"))
-						End If
-						If IsNumeric(row("Day22to28")) Then
-							sumSupplierAmount(4) += CDec(row("Day22to28"))
-							sumCol(4) += CDec(row("Day22to28"))
-						End If
-						If IsNumeric(row("DayOver28")) Then
-							sumSupplierAmount(5) += CDec(row("DayOver28"))
-							sumCol(5) += CDec(row("DayOver28"))
-						End If
-						If IsNumeric(row("SumDay")) Then
-							sumSupplierAmount(6) += CDec(row("SumDay"))
-							sumCol(6) += CDec(row("SumDay"))
-						End If
-						currStockCodeForSupplier = row("StockCode").ToString
-					End If
+          If currStockCodeForSupplier <> row("StockCode").ToString Then
+            If IsNumeric(row("DayOutBound")) Then
+              sumSupplierAmount(0) += CDec(row("DayOutBound"))
+              sumCol(0) += CDec(row("DayOutBound"))
+            End If
+            If IsNumeric(row("Day1to7")) Then
+              sumSupplierAmount(1) += CDec(row("Day1to7"))
+              sumCol(1) += CDec(row("Day1to7"))
+            End If
+            If IsNumeric(row("Day8to14")) Then
+              sumSupplierAmount(2) += CDec(row("Day8to14"))
+              sumCol(2) += CDec(row("Day8to14"))
+            End If
+            If IsNumeric(row("Day15to21")) Then
+              sumSupplierAmount(3) += CDec(row("Day15to21"))
+              sumCol(3) += CDec(row("Day15to21"))
+            End If
+            If IsNumeric(row("Day22to28")) Then
+              sumSupplierAmount(4) += CDec(row("Day22to28"))
+              sumCol(4) += CDec(row("Day22to28"))
+            End If
+            If IsNumeric(row("DayOver28")) Then
+              sumSupplierAmount(5) += CDec(row("DayOver28"))
+              sumCol(5) += CDec(row("DayOver28"))
+            End If
+            If IsNumeric(row("SumDay")) Then
+              sumSupplierAmount(6) += CDec(row("SumDay"))
+              sumCol(6) += CDec(row("SumDay"))
+            End If
+            currStockCodeForSupplier = row("StockCode").ToString
+          End If
 
-					If m_showDetailInGrid <> 0 Then
-						If currStockCode <> row("StockCode").ToString Then
-							If Not trSupplieritem Is Nothing Then
-								trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
-								trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
-								trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
-								trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
-								trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
-								trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
-								trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
-								If Not row.IsNull("StockDueDate") Then
-									If IsDate(row("StockDueDate")) Then
-										trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
-										lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
-									End If
-								End If
+          If m_showDetailInGrid <> 0 Then
+            If CDec(row("SumDay")) <> 0 Then
+              If currStockCode <> row("StockCode").ToString Then
+                If Not trSupplieritem Is Nothing Then
+                  trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
+                  trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
+                  trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
+                  trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
+                  trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
+                  trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
+                  trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
+                  If Not row.IsNull("StockDueDate") Then
+                    If IsDate(row("StockDueDate")) Then
+                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
+                    End If
+                  End If
 
-								For i As Integer = 0 To 10
-									sumStockAmount(i) = 0
-								Next
-							End If
+                  For i As Integer = 0 To 10
+                    sumStockAmount(i) = 0
+                  Next
+                End If
 
-							trSupplieritem = trSupplier.Childs.Add
-							trSupplieritem("col1") = indent & row("StockCode").ToString
-							currStockCode = row("StockCode").ToString
-							trSupplieritem.State = RowExpandState.Expanded
-
-							If IsNumeric(row("DayOutBound")) Then
-								sumStockAmount(0) += CDec(row("DayOutBound"))
-							End If
-							If IsNumeric(row("Day1to7")) Then
-								sumStockAmount(1) += CDec(row("Day1to7"))
-							End If
-							If IsNumeric(row("Day8to14")) Then
-								sumStockAmount(2) += CDec(row("Day8to14"))
-							End If
-							If IsNumeric(row("Day15to21")) Then
-								sumStockAmount(3) += CDec(row("Day15to21"))
-							End If
-							If IsNumeric(row("Day22to28")) Then
-								sumStockAmount(4) += CDec(row("Day22to28"))
-							End If
-							If IsNumeric(row("DayOver28")) Then
-								sumStockAmount(5) += CDec(row("DayOver28"))
-							End If
-							If IsNumeric(row("SumDay")) Then
-								sumStockAmount(6) += CDec(row("SumDay"))
-							End If
-						End If
-
-						If Not trSupplieritem Is Nothing Then
-							If row("BillaCode").ToString <> "" Then
-								trBill = trSupplieritem.Childs.Add
-								trBill("col1") = indent & indent & row("BillaCode").ToString
-								trBill("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
-								trBill("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
-								trBill("col4") = Configuration.FormatToString(CDec(row("Day8to14")), DigitConfig.Price)
-								trBill("col5") = Configuration.FormatToString(CDec(row("Day15to21")), DigitConfig.Price)
-								trBill("col6") = Configuration.FormatToString(CDec(row("Day22to28")), DigitConfig.Price)
-								trBill("col7") = Configuration.FormatToString(CDec(row("DayOver28")), DigitConfig.Price)
-								trBill("col8") = Configuration.FormatToString(CDec(row("SumDay")), DigitConfig.Price)
-								If Not row.IsNull("BillaDueDate") Then
-									If IsDate(row("BillaDueDate")) Then
-										trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
-									End If
-								End If
-							End If
-						End If
+                trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col1") = indent & row("StockCode").ToString
+                currStockCode = row("StockCode").ToString
+                trSupplieritem.State = RowExpandState.Expanded
+              End If
 
 
-					End If
+              If IsNumeric(row("DayOutBound")) Then
+                sumStockAmount(0) += CDec(row("DayOutBound"))
+              End If
+              If IsNumeric(row("Day1to7")) Then
+                sumStockAmount(1) += CDec(row("Day1to7"))
+              End If
+              If IsNumeric(row("Day8to14")) Then
+                sumStockAmount(2) += CDec(row("Day8to14"))
+              End If
+              If IsNumeric(row("Day15to21")) Then
+                sumStockAmount(3) += CDec(row("Day15to21"))
+              End If
+              If IsNumeric(row("Day22to28")) Then
+                sumStockAmount(4) += CDec(row("Day22to28"))
+              End If
+              If IsNumeric(row("DayOver28")) Then
+                sumStockAmount(5) += CDec(row("DayOver28"))
+              End If
+              If IsNumeric(row("SumDay")) Then
+                sumStockAmount(6) += CDec(row("SumDay"))
+              End If
+            End If
+
+            If Not trSupplieritem Is Nothing Then
+              If row("BillaCode").ToString <> "" Then
+                trBill = trSupplieritem.Childs.Add
+                trBill("col1") = indent & indent & row("BillaCode").ToString
+                trBill("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
+                trBill("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
+                trBill("col4") = Configuration.FormatToString(CDec(row("Day8to14")), DigitConfig.Price)
+                trBill("col5") = Configuration.FormatToString(CDec(row("Day15to21")), DigitConfig.Price)
+                trBill("col6") = Configuration.FormatToString(CDec(row("Day22to28")), DigitConfig.Price)
+                trBill("col7") = Configuration.FormatToString(CDec(row("DayOver28")), DigitConfig.Price)
+                trBill("col8") = Configuration.FormatToString(CDec(row("SumDay")), DigitConfig.Price)
+                If Not row.IsNull("BillaDueDate") Then
+                  If IsDate(row("BillaDueDate")) Then
+                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                  End If
+                End If
+              End If
+            End If
 
 
-				ElseIf m_showPeriod = 1 Then
-					If Not currSupplierCode.Equals(row("SupplierCode")) Then
-						If Not trSupplier Is Nothing Then
-							trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
-							trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
-							trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
-							trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
-							trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
-							trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
-							trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
-							trSupplier("col9") = Configuration.FormatToString(sumSupplierAmount(7), DigitConfig.Price)
-							trSupplier("col10") = Configuration.FormatToString(sumSupplierAmount(8), DigitConfig.Price)
-							For i As Integer = 0 To 10
-								sumSupplierAmount(i) = 0
-								sumStockAmount(i) = 0
-							Next
-						End If
-
-						trSupplier = Me.m_treemanager.Treetable.Childs.Add
-						trSupplier("col0") = row("SupplierCode")
-						trSupplier("col1") = row("SupplierName")
-						trSupplier.State = RowExpandState.Expanded
-						currSupplierCode = row("SupplierCode").ToString
-					End If
-
-					If currStockCodeForSupplier <> row("StockCode").ToString Then
-						If IsNumeric(row("MonthOutBound")) Then
-							sumSupplierAmount(0) += CDec(row("MonthOutBound"))
-							sumCol(0) += CDec(row("MonthOutBound"))
-						End If
-						If IsNumeric(row("Month1")) Then
-							sumSupplierAmount(1) += CDec(row("Month1"))
-							sumCol(1) += CDec(row("Month1"))
-						End If
-						If IsNumeric(row("Month2")) Then
-							sumSupplierAmount(2) += CDec(row("Month2"))
-							sumCol(2) += CDec(row("Month2"))
-						End If
-						If IsNumeric(row("Month3")) Then
-							sumSupplierAmount(3) += CDec(row("Month3"))
-							sumCol(3) += CDec(row("Month3"))
-						End If
-						If IsNumeric(row("Month4")) Then
-							sumSupplierAmount(4) += CDec(row("Month4"))
-							sumCol(4) += CDec(row("Month4"))
-						End If
-						If IsNumeric(row("Month5")) Then
-							sumSupplierAmount(5) += CDec(row("Month5"))
-							sumCol(5) += CDec(row("Month5"))
-						End If
-						If IsNumeric(row("Month6")) Then
-							sumSupplierAmount(6) += CDec(row("Month6"))
-							sumCol(6) += CDec(row("Month6"))
-						End If
-						If IsNumeric(row("MonthOver6")) Then
-							sumSupplierAmount(7) += CDec(row("MonthOver6"))
-							sumCol(7) += CDec(row("MonthOver6"))
-						End If
-						If IsNumeric(row("SumMonth")) Then
-							sumSupplierAmount(8) += CDec(row("SumMonth"))
-							sumCol(8) += CDec(row("SumMonth"))
-						End If
-						currStockCodeForSupplier = row("StockCode").ToString
-					End If
-
-					If m_showDetailInGrid <> 0 Then
-						If Not currStockCode = row("StockCode").ToString Then
-							If Not trSupplieritem Is Nothing Then
-								trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
-								trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
-								trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
-								trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
-								trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
-								trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
-								trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
-								trSupplieritem("col9") = Configuration.FormatToString(sumStockAmount(7), DigitConfig.Price)
-								trSupplieritem("col10") = Configuration.FormatToString(sumStockAmount(8), DigitConfig.Price)
-								If Not row.IsNull("StockDueDate") Then
-									If IsDate(row("StockDueDate")) Then
-										trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
-										lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
-									End If
-								End If
-
-								For i As Integer = 0 To 10
-									sumStockAmount(i) = 0
-								Next
-							End If
-
-							trSupplieritem = trSupplier.Childs.Add
-							trSupplieritem("col1") = indent & row("StockCode").ToString
-							currStockCode = row("StockCode").ToString
-							trSupplieritem.State = RowExpandState.Expanded
-
-							If IsNumeric(row("MonthOutBound")) Then
-								sumStockAmount(0) += CDec(row("MonthOutBound"))
-							End If
-							If IsNumeric(row("Month1")) Then
-								sumStockAmount(1) += CDec(row("Month1"))
-							End If
-							If IsNumeric(row("Month2")) Then
-								sumStockAmount(2) += CDec(row("Month2"))
-							End If
-							If IsNumeric(row("Month3")) Then
-								sumStockAmount(3) += CDec(row("Month3"))
-							End If
-							If IsNumeric(row("Month4")) Then
-								sumStockAmount(4) += CDec(row("Month4"))
-							End If
-							If IsNumeric(row("Month5")) Then
-								sumStockAmount(5) += CDec(row("Month5"))
-							End If
-							If IsNumeric(row("Month6")) Then
-								sumStockAmount(6) += CDec(row("Month6"))
-							End If
-							If IsNumeric(row("MonthOver6")) Then
-								sumStockAmount(7) += CDec(row("MonthOver6"))
-							End If
-							If IsNumeric(row("SumMonth")) Then
-								sumStockAmount(8) += CDec(row("SumMonth"))
-							End If
-						End If
-
-						If Not trSupplieritem Is Nothing Then
-							If row("BillaCode").ToString <> "" Then
-								trBill = trSupplieritem.Childs.Add
-								trBill("col1") = indent & indent & row("BillaCode").ToString
-								trBill("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
-								trBill("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
-								trBill("col4") = Configuration.FormatToString(CDec(row("Month2")), DigitConfig.Price)
-								trBill("col5") = Configuration.FormatToString(CDec(row("Month3")), DigitConfig.Price)
-								trBill("col6") = Configuration.FormatToString(CDec(row("Month4")), DigitConfig.Price)
-								trBill("col7") = Configuration.FormatToString(CDec(row("Month5")), DigitConfig.Price)
-								trBill("col8") = Configuration.FormatToString(CDec(row("Month6")), DigitConfig.Price)
-								trBill("col9") = Configuration.FormatToString(CDec(row("MonthOver6")), DigitConfig.Price)
-								trBill("col10") = Configuration.FormatToString(CDec(row("SumMonth")), DigitConfig.Price)
-								If Not row.IsNull("BillaDueDate") Then
-									If IsDate(row("BillaDueDate")) Then
-										trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
-									End If
-								End If
-							End If
-						End If
-					End If
+          End If
 
 
-				ElseIf m_showPeriod = 2 Then
-					If Not currSupplierCode.Equals(row("SupplierCode")) Then
-						If Not trSupplier Is Nothing Then
-							trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
-							trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
-							trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
-							trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
-							trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
-							trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
-							trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
-							For i As Integer = 0 To 10
-								sumSupplierAmount(i) = 0
-							Next
+        ElseIf m_showPeriod = 1 Then
+          If CDec(row("SumMonth")) <> 0 Then
+            If Not currSupplierCode.Equals(row("SupplierCode")) Then
+              If Not trSupplier Is Nothing Then
+                trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
+                trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
+                trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
+                trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
+                trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
+                trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
+                trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
+                trSupplier("col9") = Configuration.FormatToString(sumSupplierAmount(7), DigitConfig.Price)
+                trSupplier("col10") = Configuration.FormatToString(sumSupplierAmount(8), DigitConfig.Price)
+                For i As Integer = 0 To 10
+                  sumSupplierAmount(i) = 0
+                  sumStockAmount(i) = 0
+                Next
+              End If
 
-						End If
-
-						trSupplier = Me.m_treemanager.Treetable.Childs.Add
-						trSupplier("col0") = row("SupplierCode")
-						trSupplier("col1") = row("SupplierName")
-						trSupplier.State = RowExpandState.Expanded
-						currSupplierCode = row("SupplierCode").ToString
-					End If
-
-					If currStockCodeForSupplier <> row("StockCode").ToString Then
-						If IsNumeric(row("QuarterYearOutBound")) Then
-							sumSupplierAmount(0) += CDec(row("QuarterYearOutBound"))
-							sumCol(0) += CDec(row("QuarterYearOutBound"))
-						End If
-						If IsNumeric(row("QuarterYear1")) Then
-							sumSupplierAmount(1) += CDec(row("QuarterYear1"))
-							sumCol(1) += CDec(row("QuarterYear1"))
-						End If
-						If IsNumeric(row("QuarterYear2")) Then
-							sumSupplierAmount(2) += CDec(row("QuarterYear2"))
-							sumCol(2) += CDec(row("QuarterYear2"))
-						End If
-						If IsNumeric(row("QuarterYear3")) Then
-							sumSupplierAmount(3) += CDec(row("QuarterYear3"))
-							sumCol(3) += CDec(row("QuarterYear3"))
-						End If
-						If IsNumeric(row("QuarterYear4")) Then
-							sumSupplierAmount(4) += CDec(row("QuarterYear4"))
-							sumCol(4) += CDec(row("QuarterYear4"))
-						End If
-						If IsNumeric(row("QuarterYearOver4")) Then
-							sumSupplierAmount(5) += CDec(row("QuarterYearOver4"))
-							sumCol(5) += CDec(row("QuarterYearOver4"))
-						End If
-						If IsNumeric(row("QuarterYearOver4")) Then
-							sumSupplierAmount(6) += CDec(row("SumYear"))
-							sumCol(6) += CDec(row("SumYear"))
-						End If
-						currStockCodeForSupplier = row("StockCode").ToString
-					End If
-
-					If m_showDetailInGrid <> 0 Then
-						If Not currStockCode = row("StockCode").ToString Then
-							If Not trSupplieritem Is Nothing Then
-								trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
-								trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
-								trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
-								trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
-								trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
-								trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
-								trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
-								If Not row.IsNull("StockDueDate") Then
-									If IsDate(row("StockDueDate")) Then
-										trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
-										lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
-									End If
-								End If
-
-								For i As Integer = 0 To 10
-									sumStockAmount(i) = 0
-								Next
-							End If
-
-							trSupplieritem = trSupplier.Childs.Add
-							trSupplieritem("col1") = indent & row("StockCode").ToString
-							currStockCode = row("StockCode").ToString
-							trSupplieritem.State = RowExpandState.Expanded
-
-							If IsNumeric(row("QuarterYearOutBound")) Then
-								sumStockAmount(0) += CDec(row("QuarterYearOutBound"))
-							End If
-							If IsNumeric(row("QuarterYear1")) Then
-								sumStockAmount(1) += CDec(row("QuarterYear1"))
-							End If
-							If IsNumeric(row("QuarterYear2")) Then
-								sumStockAmount(2) += CDec(row("QuarterYear2"))
-							End If
-							If IsNumeric(row("QuarterYear3")) Then
-								sumStockAmount(3) += CDec(row("QuarterYear3"))
-							End If
-							If IsNumeric(row("QuarterYear4")) Then
-								sumStockAmount(4) += CDec(row("QuarterYear4"))
-							End If
-							If IsNumeric(row("QuarterYearOver4")) Then
-								sumStockAmount(5) += CDec(row("QuarterYearOver4"))
-							End If
-							If IsNumeric(row("QuarterYearOver4")) Then
-								sumStockAmount(6) += CDec(row("SumYear"))
-							End If
-						End If
+              trSupplier = Me.m_treemanager.Treetable.Childs.Add
+              trSupplier("col0") = row("SupplierCode")
+              trSupplier("col1") = row("SupplierName")
+              trSupplier.State = RowExpandState.Expanded
+              currSupplierCode = row("SupplierCode").ToString
+            End If
+          End If
 
 
-						If Not trSupplieritem Is Nothing Then
-							If row("BillaCode").ToString <> "" Then
-								trBill = trSupplieritem.Childs.Add
-								trBill("col1") = indent & indent & row("BillaCode").ToString
-								trBill("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
-								trBill("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
-								trBill("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")), DigitConfig.Price)
-								trBill("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")), DigitConfig.Price)
-								trBill("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")), DigitConfig.Price)
-								trBill("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")), DigitConfig.Price)
-								trBill("col8") = Configuration.FormatToString(CDec(row("SumYear")), DigitConfig.Price)
-								If Not row.IsNull("BillaDueDate") Then
-									If IsDate(row("BillaDueDate")) Then
-										trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
-									End If
-								End If
-							End If
-						End If
-					End If
-				End If
-			Next
+          If currStockCodeForSupplier <> row("StockCode").ToString Then
+            If IsNumeric(row("MonthOutBound")) Then
+              sumSupplierAmount(0) += CDec(row("MonthOutBound"))
+              sumCol(0) += CDec(row("MonthOutBound"))
+            End If
+            If IsNumeric(row("Month1")) Then
+              sumSupplierAmount(1) += CDec(row("Month1"))
+              sumCol(1) += CDec(row("Month1"))
+            End If
+            If IsNumeric(row("Month2")) Then
+              sumSupplierAmount(2) += CDec(row("Month2"))
+              sumCol(2) += CDec(row("Month2"))
+            End If
+            If IsNumeric(row("Month3")) Then
+              sumSupplierAmount(3) += CDec(row("Month3"))
+              sumCol(3) += CDec(row("Month3"))
+            End If
+            If IsNumeric(row("Month4")) Then
+              sumSupplierAmount(4) += CDec(row("Month4"))
+              sumCol(4) += CDec(row("Month4"))
+            End If
+            If IsNumeric(row("Month5")) Then
+              sumSupplierAmount(5) += CDec(row("Month5"))
+              sumCol(5) += CDec(row("Month5"))
+            End If
+            If IsNumeric(row("Month6")) Then
+              sumSupplierAmount(6) += CDec(row("Month6"))
+              sumCol(6) += CDec(row("Month6"))
+            End If
+            If IsNumeric(row("MonthOver6")) Then
+              sumSupplierAmount(7) += CDec(row("MonthOver6"))
+              sumCol(7) += CDec(row("MonthOver6"))
+            End If
+            If IsNumeric(row("SumMonth")) Then
+              sumSupplierAmount(8) += CDec(row("SumMonth"))
+              sumCol(8) += CDec(row("SumMonth"))
+            End If
+            currStockCodeForSupplier = row("StockCode").ToString
+          End If
+
+          If m_showDetailInGrid <> 0 Then
+            If CDec(row("SumMonth")) <> 0 Then
+              If Not currStockCode = row("StockCode").ToString Then
+                If Not trSupplieritem Is Nothing Then
+                  trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
+                  trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
+                  trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
+                  trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
+                  trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
+                  trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
+                  trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
+                  trSupplieritem("col9") = Configuration.FormatToString(sumStockAmount(7), DigitConfig.Price)
+                  trSupplieritem("col10") = Configuration.FormatToString(sumStockAmount(8), DigitConfig.Price)
+                  If Not row.IsNull("StockDueDate") Then
+                    If IsDate(row("StockDueDate")) Then
+                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
+                    End If
+                  End If
+
+                  For i As Integer = 0 To 10
+                    sumStockAmount(i) = 0
+                  Next
+                End If
+
+                trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col1") = indent & row("StockCode").ToString
+                currStockCode = row("StockCode").ToString
+                trSupplieritem.State = RowExpandState.Expanded
+              End If
+
+
+              If IsNumeric(row("MonthOutBound")) Then
+                sumStockAmount(0) += CDec(row("MonthOutBound"))
+              End If
+              If IsNumeric(row("Month1")) Then
+                sumStockAmount(1) += CDec(row("Month1"))
+              End If
+              If IsNumeric(row("Month2")) Then
+                sumStockAmount(2) += CDec(row("Month2"))
+              End If
+              If IsNumeric(row("Month3")) Then
+                sumStockAmount(3) += CDec(row("Month3"))
+              End If
+              If IsNumeric(row("Month4")) Then
+                sumStockAmount(4) += CDec(row("Month4"))
+              End If
+              If IsNumeric(row("Month5")) Then
+                sumStockAmount(5) += CDec(row("Month5"))
+              End If
+              If IsNumeric(row("Month6")) Then
+                sumStockAmount(6) += CDec(row("Month6"))
+              End If
+              If IsNumeric(row("MonthOver6")) Then
+                sumStockAmount(7) += CDec(row("MonthOver6"))
+              End If
+              If IsNumeric(row("SumMonth")) Then
+                sumStockAmount(8) += CDec(row("SumMonth"))
+              End If
+            End If
+
+            If Not trSupplieritem Is Nothing Then
+              If row("BillaCode").ToString <> "" Then
+                trBill = trSupplieritem.Childs.Add
+                trBill("col1") = indent & indent & row("BillaCode").ToString
+                trBill("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
+                trBill("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
+                trBill("col4") = Configuration.FormatToString(CDec(row("Month2")), DigitConfig.Price)
+                trBill("col5") = Configuration.FormatToString(CDec(row("Month3")), DigitConfig.Price)
+                trBill("col6") = Configuration.FormatToString(CDec(row("Month4")), DigitConfig.Price)
+                trBill("col7") = Configuration.FormatToString(CDec(row("Month5")), DigitConfig.Price)
+                trBill("col8") = Configuration.FormatToString(CDec(row("Month6")), DigitConfig.Price)
+                trBill("col9") = Configuration.FormatToString(CDec(row("MonthOver6")), DigitConfig.Price)
+                trBill("col10") = Configuration.FormatToString(CDec(row("SumMonth")), DigitConfig.Price)
+                If Not row.IsNull("BillaDueDate") Then
+                  If IsDate(row("BillaDueDate")) Then
+                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                  End If
+                End If
+              End If
+            End If
+          End If
+
+
+        ElseIf m_showPeriod = 2 Then
+          If CDec(row("SumYear")) <> 0 Then
+            If Not currSupplierCode.Equals(row("SupplierCode")) Then
+              If Not trSupplier Is Nothing Then
+                trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
+                trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
+                trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
+                trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
+                trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
+                trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
+                trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
+                For i As Integer = 0 To 10
+                  sumSupplierAmount(i) = 0
+                Next
+
+              End If
+
+              trSupplier = Me.m_treemanager.Treetable.Childs.Add
+              trSupplier("col0") = row("SupplierCode")
+              trSupplier("col1") = row("SupplierName")
+              trSupplier.State = RowExpandState.Expanded
+              currSupplierCode = row("SupplierCode").ToString
+            End If
+          End If
+
+
+          If currStockCodeForSupplier <> row("StockCode").ToString Then
+            If IsNumeric(row("QuarterYearOutBound")) Then
+              sumSupplierAmount(0) += CDec(row("QuarterYearOutBound"))
+              sumCol(0) += CDec(row("QuarterYearOutBound"))
+            End If
+            If IsNumeric(row("QuarterYear1")) Then
+              sumSupplierAmount(1) += CDec(row("QuarterYear1"))
+              sumCol(1) += CDec(row("QuarterYear1"))
+            End If
+            If IsNumeric(row("QuarterYear2")) Then
+              sumSupplierAmount(2) += CDec(row("QuarterYear2"))
+              sumCol(2) += CDec(row("QuarterYear2"))
+            End If
+            If IsNumeric(row("QuarterYear3")) Then
+              sumSupplierAmount(3) += CDec(row("QuarterYear3"))
+              sumCol(3) += CDec(row("QuarterYear3"))
+            End If
+            If IsNumeric(row("QuarterYear4")) Then
+              sumSupplierAmount(4) += CDec(row("QuarterYear4"))
+              sumCol(4) += CDec(row("QuarterYear4"))
+            End If
+            If IsNumeric(row("QuarterYearOver4")) Then
+              sumSupplierAmount(5) += CDec(row("QuarterYearOver4"))
+              sumCol(5) += CDec(row("QuarterYearOver4"))
+            End If
+            If IsNumeric(row("QuarterYearOver4")) Then
+              sumSupplierAmount(6) += CDec(row("SumYear"))
+              sumCol(6) += CDec(row("SumYear"))
+            End If
+            currStockCodeForSupplier = row("StockCode").ToString
+          End If
+
+          If m_showDetailInGrid <> 0 Then
+            If CDec(row("SumYear")) <> 0 Then
+              If Not currStockCode = row("StockCode").ToString Then
+                If Not trSupplieritem Is Nothing Then
+                  trSupplieritem("col2") = Configuration.FormatToString(sumStockAmount(0), DigitConfig.Price)
+                  trSupplieritem("col3") = Configuration.FormatToString(sumStockAmount(1), DigitConfig.Price)
+                  trSupplieritem("col4") = Configuration.FormatToString(sumStockAmount(2), DigitConfig.Price)
+                  trSupplieritem("col5") = Configuration.FormatToString(sumStockAmount(3), DigitConfig.Price)
+                  trSupplieritem("col6") = Configuration.FormatToString(sumStockAmount(4), DigitConfig.Price)
+                  trSupplieritem("col7") = Configuration.FormatToString(sumStockAmount(5), DigitConfig.Price)
+                  trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
+                  If Not row.IsNull("StockDueDate") Then
+                    If IsDate(row("StockDueDate")) Then
+                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
+                    End If
+                  End If
+
+                  For i As Integer = 0 To 10
+                    sumStockAmount(i) = 0
+                  Next
+                End If
+
+                trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col1") = indent & row("StockCode").ToString
+                currStockCode = row("StockCode").ToString
+                trSupplieritem.State = RowExpandState.Expanded
+              End If
+
+
+              If IsNumeric(row("QuarterYearOutBound")) Then
+                sumStockAmount(0) += CDec(row("QuarterYearOutBound"))
+              End If
+              If IsNumeric(row("QuarterYear1")) Then
+                sumStockAmount(1) += CDec(row("QuarterYear1"))
+              End If
+              If IsNumeric(row("QuarterYear2")) Then
+                sumStockAmount(2) += CDec(row("QuarterYear2"))
+              End If
+              If IsNumeric(row("QuarterYear3")) Then
+                sumStockAmount(3) += CDec(row("QuarterYear3"))
+              End If
+              If IsNumeric(row("QuarterYear4")) Then
+                sumStockAmount(4) += CDec(row("QuarterYear4"))
+              End If
+              If IsNumeric(row("QuarterYearOver4")) Then
+                sumStockAmount(5) += CDec(row("QuarterYearOver4"))
+              End If
+              If IsNumeric(row("QuarterYearOver4")) Then
+                sumStockAmount(6) += CDec(row("SumYear"))
+              End If
+            End If
+
+
+            If Not trSupplieritem Is Nothing Then
+              If row("BillaCode").ToString <> "" Then
+                trBill = trSupplieritem.Childs.Add
+                trBill("col1") = indent & indent & row("BillaCode").ToString
+                trBill("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
+                trBill("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
+                trBill("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")), DigitConfig.Price)
+                trBill("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")), DigitConfig.Price)
+                trBill("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")), DigitConfig.Price)
+                trBill("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")), DigitConfig.Price)
+                trBill("col8") = Configuration.FormatToString(CDec(row("SumYear")), DigitConfig.Price)
+                If Not row.IsNull("BillaDueDate") Then
+                  If IsDate(row("BillaDueDate")) Then
+                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                  End If
+                End If
+              End If
+            End If
+          End If
+        End If
+      Next
 
 			If m_showDetailInGrid <> 0 Then
 				'สำหรับ Stock สุดท้าย

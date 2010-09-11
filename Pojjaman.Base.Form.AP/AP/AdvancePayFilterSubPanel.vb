@@ -893,6 +893,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnSupplierFind.Enabled = False
           End If
         End If
+
+        If TypeOf entity Is IAdvancePayItemAble Then
+          Dim objt As IAdvancePayItemAble = CType(entity, IAdvancePayItemAble)
+          If Not objt Is Nothing Then
+            Me.txtDocDateEnd.Text = MinDateToNull(objt.DocDate, "")
+            Me.txtDocDateEnd.Enabled = True
+          End If
+        End If
+
         If TypeOf entity Is Supplier Then
           Me.SetSupplier(CType(entity, Supplier))
           Me.txtSupplierCode.Enabled = False
@@ -907,6 +916,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.btnCCEdit.Enabled = False
           Me.btnCCFind.Enabled = False
         End If
+
+
+
       Next
     End Sub
 

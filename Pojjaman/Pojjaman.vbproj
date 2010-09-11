@@ -494,7 +494,9 @@
     <None Include="AddIns\Reports\AP\Pojjaman.Base.Report.AP.addin">
       <SubType>Designer</SubType>
     </None>
-    <None Include="AddIns\Reports\AR\Pojjaman.Base.Report.AR.addin" />
+    <None Include="AddIns\Reports\AR\Pojjaman.Base.Report.AR.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Reports\CashBank\Pojjaman.Base.Report.CashBank.addin" />
     <None Include="AddIns\Reports\Check\Pojjaman.Base.Report.Check.addin" />
     <None Include="AddIns\Reports\CostControl\Pojjaman.Base.Report.CostControl.addin" />

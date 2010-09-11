@@ -112,7 +112,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each row As DataRow In dt.Rows
                 If row("DocCode").ToString <> currentDocCode Then
                     If Not currentDocCode = "" Then
-                        m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
+            m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
+            m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
                         m_grid.RowCount += 1
                         currentBilliIndex = m_grid.RowCount
                         m_grid.RowStyles(currentBilliIndex).ReadOnly = True
@@ -184,7 +185,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           currentBillCode = indent & row("SaleBillCode").ToString
         End If
       Next
-            m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
+      m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
+      m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
 
             m_grid.RowCount += 1
             currentBilliIndex = m_grid.RowCount

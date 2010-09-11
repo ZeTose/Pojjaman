@@ -584,13 +584,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Event Handlers"
 		Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim entity As New ArrayList
-			entity.Add(m_entity.Supplier)
-
-      Dim filters(3) As Filter
+      entity.Add(m_entity.Supplier)
+      entity.Add(m_entity)
+      Dim filters(4) As Filter
 			filters(0) = New Filter("IDList", GenIDList())
 			filters(1) = New Filter("showOnlyAmountMoreThanZero", True)
       filters(2) = New Filter("TaxType", m_entity.TaxType.Value)
       filters(3) = New Filter("RefAdvancePayType", RefAdvancePayType)
+      filters(4) = New Filter("Docdate", m_entity.DocDate)
 			Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 			myEntityPanelService.OpenListDialog(New AdvancePay, AddressOf SetAdvancePay, filters, entity)
 		End Sub
