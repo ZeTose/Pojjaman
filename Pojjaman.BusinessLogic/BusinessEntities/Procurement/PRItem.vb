@@ -992,7 +992,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim inValidIds As ArrayList = GetPRIdWithOnlyNoteItem(dt)
       For Each tableRow As DataRow In dt.Rows
         If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
+
+          Dim newId As Integer = CInt(tableRow("pri_pr"))
+          Dim newLine As Integer = CInt(tableRow("pri_linenumber"))
+          'Dim pri As New PRItem(newId, newLine)
           Dim pri As New PRItem(tableRow, "")
+
           Dim row As TreeRow = myDatatable.Childs.Add
           row("Selected") = False
           row("Code") = tableRow("pr_code")

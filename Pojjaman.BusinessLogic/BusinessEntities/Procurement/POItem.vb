@@ -827,6 +827,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Sub CopyFromPRItem(ByVal prItem As PRItem)
+
+      Dim newPritem As New PRItem(prItem.Pr.Id, prItem.LineNumber)
       Me.m_pritem = prItem
       Me.m_itemType = prItem.ItemType
       Me.m_entity = prItem.Entity
@@ -835,8 +837,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0)
       Me.m_unitPrice = prItem.UnitPrice
       Me.m_note = prItem.Note
-      If Not prItem.WBSDistributeCollection Is Nothing Then
-        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
+
+      If Not newPritem.WBSDistributeCollection Is Nothing Then
+        Me.WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
 
         'เพิ่มตรงนี้มา --> เพราะของเดิมแก้ % , wbs แล้วค่าคงเหลือไม่เปลี่ยน
         AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler

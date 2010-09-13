@@ -540,6 +540,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return Nothing
     End Function
+    Public Function CheckIsStoreApproved() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "CheckIsStoreApproved" _
+    , New SqlParameter("@pr_id", Me.Id) _
+    )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return CBool(ds.Tables(0).Rows(0)(0))
+      End If
+
+      Return False
+    End Function
     Public Shared Function GetRemainingQtyForOperationWithdraw(ByVal stockId As Integer, ByVal storeCC As Integer, ByVal prId As Integer, ByVal prLinenumber As Integer) As Decimal
       Dim key As String = prId.ToString & ":" & prLinenumber.ToString
       Dim arrPritem As New ArrayList
