@@ -1722,7 +1722,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtdeliverydocdate"
           m_dateSetting = True
           'If Not Me.txtDeliveryDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
-          If Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" Then
+          If Me.Validator.GetErrorMessage(Me.txtDeliveryDocDate) = "" AndAlso Me.txtDeliveryDocDate.Text.Length > 0 Then
             Dim theDate As Date = CDate(Me.txtDeliveryDocDate.Text)
             If Not Me.m_entity.DeliveryDocDate.Equals(theDate) Then
               dtpDeliveryDocDate.Value = theDate
