@@ -491,10 +491,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                   New SqlParameter("@userId", UserId))
         trans.Commit()
 
-        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.ApprovePR}", prCodeList)
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.ApprovePR}", New String() {prCodeList})
       Catch ex As Exception
         trans.Rollback()
-        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CannotApprove}", prCodeList)
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.BusinessLogic.MatWithdraw.CannotApprove}", New String() {prCodeList})
       End Try
     End Sub
     Public Function GetPrCodeListFromCollection() As String
@@ -756,6 +756,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException("${res:Global.Error.WBSMissing}")
           End If
         Next
+
+        If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
+          If Not item.Pritem.Pr.CheckIsStoreApproved Then
+            Return New SaveErrorException("${res:Global.Error.ApproveStorePersonMissing}", New String() {item.Pritem.Pr.Code})
+          End If
+        End If
       Next
 
       Return New SaveErrorException("0")

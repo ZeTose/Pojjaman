@@ -891,6 +891,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       RaiseEvent StoreApprove(Me.m_matTransfer, New StoreApproveEventArgs(approveHash))
     End Sub
+    Public Function IsPritemApproved() As Boolean
+      If Not Me.MatTransfer.Originated Then
+        Return False
+      End If
+      Dim isApprove As Boolean = True
+      For Each Item As MatTransferItem In Me
+        If Not Item.Pritem Is Nothing And Not Item.Pritem.Pr Is Nothing Then
+          If Not Item.Pritem.Pr.CheckIsStoreApproved Then
+            isApprove = False
+            Exit For
+          End If
+          'If Item.Pritem.Pr.ApproveStorePerson Is Nothing OrElse Item.Pritem.Pr.ApproveStorePerson.Id = 0 Then
+          '  isApprove = False
+          '  Exit For
+          'End If
+        End If
+      Next
+      Return isApprove
+    End Function
     Dim key As String = ""
     Dim itemQty As Decimal = 0
     Public Sub SetItems(ByVal items As BasketItemCollection)

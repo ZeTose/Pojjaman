@@ -93,6 +93,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
+    Friend WithEvents lblStoreApprove As Label
 
     Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -159,6 +160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkShowCost = New System.Windows.Forms.CheckBox()
       Me.lblReceiptStatus = New System.Windows.Forms.Label()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblStoreApprove = New Label
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -972,9 +974,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnApprove.ThemedImage = Nothing
       '
+      'lblStoreApprove
+      Me.lblStoreApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblStoreApprove.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblStoreApprove.Location = New System.Drawing.Point(669, 6)
+      Me.lblStoreApprove.Name = "lblFromCCPerson"
+      Me.lblStoreApprove.Size = New System.Drawing.Size(88, 18)
+      Me.lblStoreApprove.TabIndex = 6000
+      Me.lblStoreApprove.Text = "คลังตรวจสอบแล้ว"
+      Me.lblStoreApprove.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
       'MatTransferDetailView
       '
       Me.Controls.Add(Me.btnApprove)
+      Me.Controls.Add(Me.lblStoreApprove)
       Me.Controls.Add(Me.ibtnApprove)
       Me.Controls.Add(Me.ibtnShowPR)
       Me.Controls.Add(Me.chkShowCost)
@@ -2537,29 +2550,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
       'If Me.m_entity.Originated Then
-      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
-      Me.CheckFormEnable()
+      'Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      'Me.m_entity.ApproveStore(secSrv.CurrentUser.Id)
+      'Me.CheckFormEnable()
       'End If
-      'Me.m_entity.ItemCollection.CheckPRForStoreApprove()
+      Me.m_entity.ItemCollection.CheckPRForStoreApprove()
     End Sub
 
     Private Sub CheckApproveStore()
       If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
-        Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-        Dim level As Integer = secSrv.GetAccess(290)
-        Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-        checkString = BinaryHelper.RevertString(checkString)
-        If Not CBool(checkString.Substring(0, 1)) Then
+        If Me.m_entity.ItemCollection.IsPritemApproved Then
           'ห้ามเห็น
           Me.btnApprove.Visible = False
+          'Me.lblStoreApprove.Visible = False
         Else
-          Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
-          Me.btnApprove.Visible = True
+          Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          Dim level As Integer = secSrv.GetAccess(290)
+          Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+          checkString = BinaryHelper.RevertString(checkString)
+          If Not CBool(checkString.Substring(0, 1)) Then
+            'ห้ามเห็น
+            Me.btnApprove.Visible = False
+          Else
+            Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
+            Me.btnApprove.Visible = True
+          End If
         End If
       Else
+        'ห้ามเห็น
         Me.btnApprove.Visible = False
+        Me.lblStoreApprove.Visible = False
       End If
+
     End Sub
 
   End Class

@@ -2165,8 +2165,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim x As New AdvanceStoreApprovalCommentForm(Me.Entity)
         x.ShowDialog()
         If Not x.ApproveDoc Is Nothing Then
-          'Dim aprvType As ApproveType = x.ApproveDoc.Type
-          Dim aprvType As ApproveType = m_entity.ApprovalCollection.Approved
+          Dim aprvType As ApproveType = x.ApproveDoc.Type
+          'Dim aprvType As ApproveType = m_entity.ApprovalCollection.Approved
           Select Case aprvType
             Case ApproveType.approved
               'Me.m_entity.Save(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
@@ -2174,7 +2174,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               ' Me.NotifyAfterSave(True)
               m_dateSetting2 = True
               UpdateEntityProperties()
-            Case ApproveType.reject
+            Case ApproveType.reject, -1
               'Me.m_entity.Delete()
               'Me.m_entity.RefreshApproveCommentList()
               '  Me.NotifyAfterSave(True)
