@@ -275,25 +275,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Private Sub DisableButton()
 			txtComment.Text = ""
 
+      Dim config As Integer = 0
+      Select Case Me.m_entity.EntityId
+        Case 6 'PO
+          config = Configuration.GetConfig("MaxLevelApprovePO")
+        Case 7 'PR
+          config = Configuration.GetConfig("MaxLevelApprovePR")
+        Case 45 'GR
+          config = Configuration.GetConfig("MaxLevelApproveDO")
+      End Select
+
+      If ApprovalDocLevel.GetItem(m_entity.EntityId).Level > config Then
+        ApprovalDocLevel.GetItem(m_entity.EntityId).Level = config
+      End If
+
 			Me.btnApprove.Enabled = True
       'ถ้าเอกสารอนุมัติระดับสูงสุดแล้ว หรือเอกสารนี้มีระดับสูงสุดเป็น 0 หรือระดับของผู้ใช้ปัจจุบันน้อยกว่าหรือเท่ากับระดับที่สูงสุดในตอนนี้ หรือเอกสารถูกยกเลิก
       If m_refDocIsApproved _
        OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level = 0 _
+       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level < config _
        OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level <= ApproveDocColl.MaxLevel _
        OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).MaxAmount < CType(m_entity, IApprovAble).AmountToApprove _
        OrElse Not CType(m_entity, IApprovAble).ShowUnApproveButton Then
         Me.btnApprove.Enabled = False
       End If
 
-			Me.btnReject.Enabled = False
-			If ApproveDocColl.MaxLevel > 0 _
-			 AndAlso _
-			 ((ApproveDocColl.MaxLevelPersonId = mySService.CurrentUser.Id _
-			 And _
-			 ApprovalDocLevel.GetItem(m_entity.EntityId).Level = ApproveDocColl.MaxLevel) _
-			 OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level > ApproveDocColl.MaxLevel) Then
-				Me.btnReject.Enabled = True
-			End If
+      Me.btnReject.Enabled = False
+      If ApproveDocColl.MaxLevel > 0 _
+       AndAlso _
+       ((ApproveDocColl.MaxLevelPersonId = mySService.CurrentUser.Id _
+       And _
+       ApprovalDocLevel.GetItem(m_entity.EntityId).Level = ApproveDocColl.MaxLevel) _
+       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level > ApproveDocColl.MaxLevel) Then
+        Me.btnReject.Enabled = True
+      End If
 
 		End Sub
 #End Region
