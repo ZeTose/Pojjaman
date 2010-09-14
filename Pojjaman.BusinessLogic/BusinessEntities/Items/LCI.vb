@@ -985,6 +985,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return False
     End Function
     Public Shared Function GetLciItemById(ByVal id As Integer) As LCIItem
+      If id = 0 Then
+        Return New LCIItem
+      End If
       Dim key As String = id.ToString
       Dim row As DataRow = CType(LCIItem.AllLciitems(key), DataRow)
       Try
