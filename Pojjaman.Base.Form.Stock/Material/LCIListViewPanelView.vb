@@ -1215,7 +1215,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.lvLevel1.Items.Clear()
           Me.lvLevel2.Items.Clear()
           Me.lvLevel3.Items.Clear()
-          Me.m_treeManager.Treetable.Clear()
+          Try
+            Me.m_treeManager.Treetable.Rows.Clear()
+          Catch ex As Exception
+
+          End Try
+
       End Select
     End Sub
 
