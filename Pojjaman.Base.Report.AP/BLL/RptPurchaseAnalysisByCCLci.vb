@@ -39,7 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
-      m_grid.ColCount = 14
+      m_grid.ColCount = 15
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 200
@@ -55,6 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(12) = 150
       m_grid.ColWidths(13) = 150
       m_grid.ColWidths(14) = 150
+      m_grid.ColWidths(15) = 100
 
       'm_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       'm_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -93,6 +94,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 12).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.ToCCPerson}")  '"พนักงานผู้รับผิดชอบ"
       m_grid(1, 13).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.PVCode}")  '"รหัสใบสำคัญจ่าย"
       m_grid(1, 14).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.DocRef}")  '"เอกสารอ้างอิง"
+      m_grid(1, 15).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci.POCODE}")  '"เอกสารอ้างอิง"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -113,6 +115,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
@@ -292,6 +295,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             If Not rowitem.IsNull("stock_code") Then
               m_grid(currItemIndex, 14).CellValue = indent & rowitem("stock_code").ToString
+            End If
+            If Not rowitem.IsNull("po_code") Then
+              m_grid(currItemIndex, 15).CellValue = indent & rowitem("po_code").ToString
             End If
             currentItemId = rowitem("ItemId").ToString & rowitem("ItemCode").ToString & rowitem("ItemName").ToString & rowitem("UnitName").ToString
             SumItem += 1
@@ -506,10 +512,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-
         dpi = New DocPrintingItem
         dpi.Mapping = "col12"
         dpi.Value = m_grid(rowIndex, 13).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col13"
+        dpi.Value = m_grid(rowIndex, 14).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col14"
+        dpi.Value = m_grid(rowIndex, 15).CellValue
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
