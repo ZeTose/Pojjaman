@@ -485,6 +485,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", Me.Closed))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankDCBank", Me.DCBank))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankDCAccount", Me.DCAccount))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankMCBank", Me.MCBank))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankMCAccount", Me.MCAccount))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 

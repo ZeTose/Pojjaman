@@ -1360,16 +1360,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case txtDCBank.Name.ToLower
           m_entity.DCBank = txtDCBank.Text
-          dirtyFlag = True
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
+          Return
         Case txtDCACcount.Name.ToLower
           m_entity.DCAccount = txtDCACcount.Text
-          dirtyFlag = True
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
+          Return
         Case txtMCBank.Name.ToLower
           m_entity.MCBank = txtMCBank.Text
-          dirtyFlag = True
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
+          Return
         Case txtMCAccount.Name.ToLower
           m_entity.MCAccount = txtMCAccount.Text
-          dirtyFlag = True
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
+          Return
         Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
           ComboCodeIndex = cmbCode.SelectedIndex
