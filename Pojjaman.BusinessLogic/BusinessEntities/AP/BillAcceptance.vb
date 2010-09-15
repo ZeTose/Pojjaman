@@ -1780,7 +1780,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
           'If DeductTaxBase = 0 Then
           'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
-          Return (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          Return (AfterTax - BeforeTax) * Amount / AfterTax
           'Else
           '  Dim x As Decimal = ((TaxBase - DeductTaxBase) / TaxBase)
           '  Dim vated As Decimal = DeductTaxBase / TaxBase

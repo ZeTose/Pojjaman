@@ -1478,7 +1478,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
             'ptb += (item.Amount / item.BilledAmount) * (item.TaxBase - item.DeductTaxBase)
             'ถ้าจ่ายไม่เต็ม ค่า taxbase ต้องเท่ากับค่าจ่ายเท่านั้น
-            ptb += (item.Amount / item.BilledAmount) * (item.TaxBase) ' - item.DeductTaxBase)
+            ptb += (item.Amount / item.AfterTax) * (item.TaxBase)  ' - item.DeductTaxBase)
           End If
         Next
         Return ptb
