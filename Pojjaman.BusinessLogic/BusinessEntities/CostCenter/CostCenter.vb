@@ -61,6 +61,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_rootWBSId As Integer
     Private cc_isactive As Boolean
+    Private Shared m_costcenterSet As DataTable
 
 #End Region
 
@@ -83,6 +84,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     , "GetCostcenterMinDataCollection" _
     , Nothing)
       If ds.Tables(0).Rows.Count >= 1 Then
+        m_costcenterSet = New DataTable
+        m_costcenterSet = SetAccountSet(ds.Tables(0))
         For Each row As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(row)
           key = CStr(drh.GetValue(Of Integer)("cc_id"))
@@ -98,6 +101,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SetMinimumCC(cc, row)
       Return cc
     End Function
+    Public Shared Function GetCostCenterSet() As DataTable
+      If m_costcenterSet Is Nothing Then
+        CostCenter.RefreshAllMinData()
+      End If
+      Return m_costcenterSet
+    End Function
 
     Private Shared m_AllCCUsedData As Hashtable
     Public Shared ReadOnly Property AllCCUsedData(ByVal key As Integer) As Hashtable
@@ -111,7 +120,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_AllCCUsedData
       End Get
     End Property
-    
+    Private Shared Function SetAccountSet(ByVal dsSource As DataTable) As DataTable
+      Dim dt As New DataTable
+      dt.Columns.Add("cc_id")
+      dt.Columns.Add("cc_code")
+      dt.Columns.Add("cc_name")
+
+      For Each row As DataRow In dsSource.Rows
+        Dim drh As New DataRowHelper(row)
+        If drh.GetValue(Of Integer)("cc_id") > 0 Then
+          Dim dr As DataRow = dt.NewRow()
+          dr("cc_id") = drh.GetValue(Of String)("cc_id")
+          dr("cc_code") = drh.GetValue(Of String)("cc_code")
+          dr("cc_name") = drh.GetValue(Of String)("cc_name")
+          dt.Rows.Add(dr)
+        End If
+      Next
+
+      Return dt
+    End Function
 #End Region
 
 #Region "Constructors"

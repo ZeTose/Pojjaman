@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private Shared m_idHash As Hashtable
     Private Shared m_codeHash As Hashtable
+    Private Shared m_accountSet As DataTable
 #End Region
 
 #Region "Constructors"
@@ -29,7 +30,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       )
       m_idHash = New Hashtable
       m_codeHash = New Hashtable
+      m_accountSet = New DataTable
       Dim myTable As DataTable = ds.Tables(0)
+      m_accountSet = SetAccountSet(ds.Tables(0))
       For Each row As DataRow In myTable.Rows
         Dim acct As New Account
         acct.Construct(row, "")
@@ -37,6 +40,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_codeHash(acct.Code) = acct
       Next
     End Sub
+    Public Shared Function GetAccountSet() As DataTable
+      If m_accountSet Is Nothing Then
+        Account.RefreshEntityTable()
+      End If
+      Return m_accountSet
+    End Function
     Public Sub New()
       MyBase.New()
     End Sub
@@ -172,6 +181,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private Shared Function SetAccountSet(ByVal dsSource As DataTable) As DataTable
+      Dim dt As New DataTable
+      dt.Columns.Add("acct_id")
+      dt.Columns.Add("acct_code")
+      dt.Columns.Add("acct_name")
+
+      For Each row As DataRow In dsSource.Rows
+        Dim drh As New DataRowHelper(row)
+        If drh.GetValue(Of Integer)("acct_id") > 0 Then
+          Dim dr As DataRow = dt.NewRow()
+          dr("acct_id") = drh.GetValue(Of String)("acct_id")
+          dr("acct_code") = drh.GetValue(Of String)("acct_code")
+          dr("acct_name") = drh.GetValue(Of String)("acct_name")
+          dt.Rows.Add(dr)
+        End If
+      Next
+
+      Return dt
+    End Function
     Public Function GetProfitToDate(ByVal endDate As Date) As Decimal
       Try
         If Not Me.Originated Then
