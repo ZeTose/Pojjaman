@@ -53,6 +53,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
+    Public Property StatusDescription As String
     <Browsable(False)> _
     Public ReadOnly Property StatusBarService() As IStatusBarService
       Get
@@ -199,6 +200,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cevent.Value = Decimal.Parse(cevent.Value.ToString, Globalization.NumberStyles.Currency, Nothing)
 
+    End Sub
+#End Region
+
+#Region "Event Handler"
+    Private Sub PanelView_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
 #End Region
 

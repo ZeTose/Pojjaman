@@ -2059,49 +2059,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.VatInputEnabled(True)
       End If
     End Sub
-    Public Sub SetStatus()
-      Dim docDate As Date
-      Dim docPerson As New User
-      Dim lblDocStatus As String = ""
-      If Not Me.m_entity.LastEditDate = Nothing AndAlso Not Me.m_entity.LastEditDate.Equals(Date.MinValue) Then
-        docDate = Me.m_entity.LastEditDate
-        docPerson = Me.m_entity.LastEditor
-      ElseIf Not Me.m_entity.OriginDate = Nothing AndAlso Not Me.m_entity.OriginDate.Equals(Date.MinValue) Then
-        docDate = Me.m_entity.OriginDate
-        docPerson = Me.m_entity.Originator
+     Public Sub SetStatus()
+      Me.StatusDescription = ""
+      If m_entity.Canceled Then
+        Me.StatusDescription = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf m_entity.Edited Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+        Me.StatusDescription &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        Me.StatusDescription = ""
       End If
-
-      Select Case m_entity.Status.Value
-        Case -1
-          lblDocStatus = "ยังไม่บันทึก"
-        Case 0
-          lblDocStatus = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & " " & m_entity.CancelDate.ToShortTimeString & _
-                          " โดย:" & docPerson.Name
-        Case 1
-          lblDocStatus = ""
-        Case 2
-          lblDocStatus = "แก้ไขล่าสุด: " & docDate.ToShortDateString & " " & docDate.ToShortTimeString & " โดย:" & docPerson.Name
-        Case 3
-          lblDocStatus = "ถูกอ้างอิง"
-        Case 4
-          lblDocStatus = "ผ่านรายการ: " & docDate.ToShortDateString & " " & docDate.ToShortTimeString & " โดย:" & docPerson.Name
-      End Select
-      'If m_entity.Canceled Then
-      '    Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-      '    " " & m_entity.CancelDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.CancelPerson.Name)
-      'ElseIf m_entity.Edited Then
-      '    Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-      '    " " & m_entity.LastEditDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.LastEditor.Name)
-      'ElseIf Me.m_entity.Originated Then
-      '    Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-      '    " " & m_entity.OriginDate.ToShortTimeString & _
-      '    "  โดย:" & m_entity.Originator.Name)
-      'Else
-      '    Me.StatusBarService.SetMessage("")
-      'End If
-      Me.StatusBarService.SetMessage(lblDocStatus)
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As BusinessLogic.ISimpleEntity

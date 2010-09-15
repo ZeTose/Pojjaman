@@ -2274,7 +2274,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
         Case "txtadvancepay"
-            If IsNumeric(txtAdvancePay.Text) Then
+          If IsNumeric(txtAdvancePay.Text) Then
             If CDec(txtAdvancePay.Text) <> m_entity.AdvancePay Then
               dirtyFlag = True
               m_entity.AdvancePay = txtAdvancePay.Text
@@ -2700,26 +2700,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Public Sub SetStatus()
-      Dim msg As String = ""
+      Me.StatusDescription = ""
       If m_entity.Canceled Then
-        msg = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        Me.StatusDescription = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        msg = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
-        msg &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        Me.StatusDescription &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
       ElseIf Me.m_entity.Originated Then
-        msg = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        msg = ""
+        Me.StatusDescription = ""
       End If
-      Me.StatusBarService.SetMessage(msg)
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
     Private m_entityRefed As Integer = -1
     Private m_entityRefedByPA As Integer = -1

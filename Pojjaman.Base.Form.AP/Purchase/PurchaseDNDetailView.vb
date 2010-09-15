@@ -3294,23 +3294,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.ibtnEnableVatInput.Enabled = True
             End If
         End Sub
-        Public Sub SetStatus()
-            If m_entity.Canceled Then
-                Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name)
-            ElseIf m_entity.Edited Then
-                Me.StatusBarService.SetMessage("แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name)
-            ElseIf Me.m_entity.Originated Then
-                Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name)
-            Else
-                Me.StatusBarService.SetMessage("")
-            End If
-        End Sub
+    Public Sub SetStatus()
+      Me.StatusDescription = ""
+      If m_entity.Canceled Then
+        Me.StatusDescription = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf m_entity.Edited Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+        Me.StatusDescription &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        Me.StatusDescription = ""
+      End If
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
+    End Sub
         Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
             Get
                 Return Me.m_entity

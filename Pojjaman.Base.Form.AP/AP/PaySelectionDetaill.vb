@@ -1672,23 +1672,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = True
     End Sub
     Public Sub SetStatus()
+      Me.StatusDescription = ""
       If m_entity.Canceled Then
-        Me.StatusBarService.SetMessage("ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        Me.StatusDescription = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name)
+        "  โดย:" & m_entity.CancelPerson.Name
       ElseIf m_entity.Edited Then
-        Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name & ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        "  โดย:" & m_entity.Originator.Name
+        Me.StatusDescription &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name)
-      ElseIf m_entity.Originated Then
-        Me.StatusBarService.SetMessage("เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name)
+        "  โดย:" & m_entity.Originator.Name
       Else
-        Me.StatusBarService.SetMessage("")
+        Me.StatusDescription = ""
       End If
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
     Private m_entityChanged As Boolean = False
     Public Overrides Property Entity() As ISimpleEntity

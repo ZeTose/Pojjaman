@@ -857,23 +857,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub SetStatus()
-      Dim lblStatus As String = ""
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      Me.StatusDescription = ""
+      If m_entity.Canceled Then
+        Me.StatusDescription = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
         " " & m_entity.CancelDate.ToShortTimeString & _
         "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      ElseIf m_entity.Edited Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+        Me.StatusDescription &= ",แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
         " " & m_entity.LastEditDate.ToShortTimeString & _
         "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      ElseIf Me.m_entity.Originated Then
+        Me.StatusDescription = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
         " " & m_entity.OriginDate.ToShortTimeString & _
         "  โดย:" & m_entity.Originator.Name
       Else
-        lblStatus = "ยังไม่ได้บันทึก"
+        Me.StatusDescription = ""
       End If
-      Me.StatusBarService.SetMessage(lblStatus)
+      Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
 
     Private Sub PopulateToolUnit()
