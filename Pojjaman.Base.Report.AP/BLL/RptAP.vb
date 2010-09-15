@@ -1,5 +1,5 @@
 Option Strict On
-Option Explicit On 
+Option Explicit On
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
@@ -10,6 +10,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Syncfusion.Windows.Forms.Grid
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAP
     Inherits Report
@@ -17,6 +19,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -32,6 +35,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       m_grid.BeginUpdate()
       m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       m_grid.Model.Options.NumberedColHeaders = False
@@ -41,6 +46,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreateHeader()
       PopulateData()
       m_grid.EndUpdate()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+
+      'Dim tr As Object = m_hashData(e.RowIndex)
+      'If tr Is Nothing Then
+      '  Return
+      'End If
+      'If TypeOf tr Is DataRow Then
+      Dim dr As DataRow = CType(m_grid(e.RowIndex, 0).Tag, DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+
+      Dim drh As New DataRowHelper(dr)
+
+      Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+      'End If
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
@@ -147,23 +176,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currDocIndex As Integer = -1
 
       For Each row As DataRow In dt.Rows
-        Dim supRows As DataRow() = Me.DataSet.Tables(1).Select("SupplierCode ='" & row("SupplierCode").Tostring & "'")
-        If suprows.Length = 0 Then
+        Dim supRows As DataRow() = Me.DataSet.Tables(1).Select("SupplierCode ='" & row("SupplierCode").ToString & "'")
+        If supRows.Length = 0 Then
           Dim dr As DataRow = Me.DataSet.Tables(1).NewRow()
           dr(0) = row(0)
           dr(1) = row(1)
           dr(2) = row(2)
           dr(3) = row(3)
           dr(4) = ""
-          dr(5) = Now
-          dr(6) = 0
-          dr(7) = ""
+          dr(5) = 0
+          dr(6) = Now
+          dr(7) = 0
           dr(8) = ""
           dr(9) = ""
           dr(10) = ""
-          dr(11) = 0
+          dr(11) = ""
           dr(12) = 0
           dr(13) = 0
+          dr(14) = 0
           dt2.Rows.Add(dr)
         End If
       Next
@@ -214,8 +244,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(supRows(0)("OpenningBalance")), DigitConfig.Price)
             sumOpnBalance += CDec(supRows(0)("OpenningBalance"))
             tmpRemain = CDec(supRows(0)("OpenningBalance"))
-            m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(CDec(suprows(0)("RetentionOpenningBalance")), DigitConfig.Price)
-            sumRetentionEndingBalance += CDec(suprows(0)("RetentionOpenningBalance"))
+            m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(CDec(supRows(0)("RetentionOpenningBalance")), DigitConfig.Price)
+            sumRetentionEndingBalance += CDec(supRows(0)("RetentionOpenningBalance"))
           End If
           currentDocCode = ""
 
@@ -225,6 +255,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
           m_grid.RowStyles(currDocIndex).ReadOnly = True
+          m_grid(currDocIndex, 0).Tag = row
 
           If IsDate(row("DocDate")) Then
             m_grid(currDocIndex, 1).CellValue = indent & CDate(row("DocDate")).ToShortDateString

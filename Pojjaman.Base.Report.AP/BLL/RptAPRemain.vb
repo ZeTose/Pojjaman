@@ -10,6 +10,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAPRemain
     Inherits Report
@@ -18,6 +20,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
     Private m_showDetailInGrid As Integer
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -33,13 +36,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
@@ -53,7 +57,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       lkg.Refresh()
     End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim dr As DataRow = CType(m_hashData(e.RowIndex), DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+
+      Dim drh As New DataRowHelper(dr)
+
+      Dim docId As Integer = drh.GetValue(Of Integer)("DocID")
+      Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+      Trace.WriteLine(docId.ToString & ":" & docType.ToString)
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       m_showDetailInGrid = CInt(Me.Filters(7).Value)
@@ -110,6 +133,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(1)
       'Dim dt2 As DataTable = Me.DataSet.Tables(2)
+
+      m_hashData = New Hashtable
 
       If dt.Rows.Count = 0 Then
         Return
@@ -194,6 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim deh As New DataRowHelper(detailRow)
             If Not trSupplier Is Nothing Then
               trDetail = trSupplier.Childs.Add
+              trDetail.Tag = detailRow
               If Not detailRow.IsNull("entity_description") Then
                 trDetail("col0") = indent & detailRow("entity_description").ToString
               End If
@@ -274,6 +300,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       trSupplier("col12") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
 
+      Dim lineNumber As Integer = 1
+      For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+        If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+          m_hashData(lineNumber) = CType(tr.Tag, DataRow)
+        End If
+
+        lineNumber += 1
+      Next
+
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
@@ -328,7 +363,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(180 * CInt(Me.Filters(7).Value))
       widths.Add(95 * CInt(Me.Filters(7).Value))
 
-For i As Integer = 0 To iCol
+      For i As Integer = 0 To iCol
         If i = 1 Then
           If CInt(Me.Filters(7).Value) <> 0 Then
             Dim cs As New PlusMinusTreeTextColumn
