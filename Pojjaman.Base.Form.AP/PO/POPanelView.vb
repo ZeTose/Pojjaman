@@ -2140,6 +2140,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
             End If
             InitialCombo()
+            If Me.cmbContact.Items.Count > 0 Then
+              Me.m_entity.Contact = Me.cmbContact.Text
+            End If
             Try
               If oldSupId <> Me.m_entity.Supplier.Id Then
                 If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeSupplier}") Then
@@ -2970,6 +2973,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
       Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
       InitialCombo()
+      If Me.cmbContact.Items.Count > 0 Then
+        Me.m_entity.Contact = Me.cmbContact.Text
+      End If
       m_isInitialized = True
     End Sub
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
