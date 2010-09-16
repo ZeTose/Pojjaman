@@ -2188,6 +2188,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
           Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
           Me.txtCreditPrd.Text = Me.m_entity.Supplier.CreditPeriod
+          InitialCombo()
+          If Me.cmbContact.Items.Count > 0 Then
+            Me.m_entity.Contact = Me.cmbContact.Text
+          End If
           m_isInitialized = True
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
