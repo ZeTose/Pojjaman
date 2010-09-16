@@ -2723,6 +2723,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
                 Me.m_entity.DocDate = dtpDocDate.Value
                 Me.m_entity.Payment.DocDate = dtpDocDate.Value
+                Me.m_entity.JournalEntry.DocDate = m_entity.DocDate
+                Me.m_entity.Vat.SubmitalDate = m_entity.DocDate
+                Me.m_entity.WitholdingTaxCollection.RefDocDate = m_entity.DocDate
                 Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
                 Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
                 If Not Me.m_entity.Originated Then
@@ -2747,6 +2750,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
               dtpDocDate.Value = theDate
               Me.m_entity.DocDate = dtpDocDate.Value
               Me.m_entity.Payment.DocDate = dtpDocDate.Value
+              Me.m_entity.JournalEntry.DocDate = m_entity.DocDate
+              Me.m_entity.Vat.SubmitalDate = m_entity.DocDate
+              Me.m_entity.WitholdingTaxCollection.RefDocDate = m_entity.DocDate
               Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
               Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
               If Not Me.m_entity.Originated Then

@@ -408,7 +408,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Return wht_refDoc
 			End Get
 			Set(ByVal Value As IWitholdingTaxable)
-				wht_refDoc = Value
+        wht_refDoc = Value
+        DocDate = Value.Date
 			End Set
 		End Property
 		Public Property Direction() As WitholdingTaxDirection
@@ -2199,6 +2200,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As WitholdingTax)
         MyBase.List.Item(index) = value
+      End Set
+    End Property
+    Public Property RefDocDate As Date
+      Get
+
+      End Get
+      Set(ByVal value As Date)
+        For Each wht As WitholdingTax In Me
+          wht.DocDate = value
+        Next
       End Set
     End Property
     Public Property RefDoc() As IWitholdingTaxable

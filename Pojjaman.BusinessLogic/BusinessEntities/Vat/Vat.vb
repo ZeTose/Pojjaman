@@ -47,6 +47,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemCollection As VatItemCollection
 
     Private vat_taxbase As Decimal
+    Private m_refdocdate As Date
 
 #End Region
 
@@ -229,7 +230,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					item.VatGroup = Value
 				Next
 			End Set
-		End Property
+    End Property
+    'Public Property RefDocDate As Date
+    '  Get
+    '    Return m_refdocdate
+    '  End Get
+    '  Set(ByVal value As Date)
+    '    m_refdocdate = value
+    '  End Set
+    'End Property
 		''' -----------------------------------------------------------------------------
 		''' <summary>
 		''' ระบุว่าเป็นภาษีซื้อหรือขาย
