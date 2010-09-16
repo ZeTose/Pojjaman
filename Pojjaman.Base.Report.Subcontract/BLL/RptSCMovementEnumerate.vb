@@ -40,10 +40,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
+      lkg.HideHead = True
       lkg.TreeTable = tm.Treetable
-
-      lkg.Rows.HeaderCount = 2
-      lkg.Rows.FrozenCount = 2
+      lkg.Cols.FrozenCount = 3
+      lkg.Rows.HeaderCount = 4
+      lkg.Rows.FrozenCount = 4
 
       'Catch ex As Exception
       '  Throw ex
@@ -62,46 +63,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.m_treemanager Is Nothing Then
         Return
       End If
+      Dim indent As String = Space(4)
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+      tr.Tag = "Header0"
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SubcontractorInfo}") '("รหัส : ชื่อผู้รับเหมา") ' 
-      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.docType}")  '     "ประเภทเอกสาร")     
-      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.codeNumber}")  '     ("เลขที่เอกสาร") 
-      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.ccinfo}")          '"Cost Center "
-      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Unit}")             '"หน่วย"
-      tr("col5") = Me.StringParserService.Parse("ปริมาณ")             '"ปริมาณ"
-      tr("col6") = Me.StringParserService.Parse("ราคาต่อหน่วย")       '"ราคาต่อหน่วย"
-      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Mat}")             '"MAT"
-      tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Lab}")       '"LAB"
-      tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Eq}")      '"EQ"
-      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Amount}")    '"Amount+
-      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SCbudget}")   '("SC Budget")    
-      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DRdebit}") '("ยอดหัก DR")      
-      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Advancepay}")  '("มัดจำ")
-      tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Retention}")    '("Retention") 
-      tr("col23") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Note}")
+
+      tr = Me.m_treemanager.Treetable.Childs.Add
+      tr.Tag = "Header1"
+      tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.ccinfo}")          '"Cost Center"
+
+      tr = Me.m_treemanager.Treetable.Childs.Add
+      tr.Tag = "Header2"
+      tr("col0") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DocNumber}")  '     ("วันที่เอกสาร")
+      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.codeNumber}")  '     ("เลขที่เอกสาร") 
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.docType}")  '     "ประเภทเอกสาร")
+
+      'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Code}")  '     ("รหัส")
+      'tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Item}")  '     ("รายการ")
+      ''tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DocAmount}") '"ยอดเอกสาร"
+      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
+      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
+      tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
+      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
+      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
+      tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
+      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
+      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
+      tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
+      tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
+      tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
+      tr("col21") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")
+
+      tr = Me.m_treemanager.Treetable.Childs.Add
+      tr.Tag = "Header3"
+      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.ItemType}")  '     ("ประเภทรายการ")
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Item}")  '     ("รายการ")
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Unit}")             '"หน่วย"
+      tr("col4") = Me.StringParserService.Parse("ปริมาณ")             '"ปริมาณ"
+      tr("col5") = Me.StringParserService.Parse("ราคาต่อหน่วย")       '"ราคาต่อหน่วย"
+      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Mat}")             '"MAT"
+      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Lab}")       '"LAB"
+      tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Eq}")      '"EQ"
+      tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Amount}")    '"Amount+
+      tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.SCbudget}")   '("SC Budget")    
+      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DRdebit}") '("ยอดหัก DR")      
+      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Advancepay}")  '("มัดจำ")
+      tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Retention}")    '("Retention") 
+      tr("col22") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Note}")
+
       'tr("col23") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Debt}")      '"ยอดหนี้"
       'tr("col24") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DebtRetention}")    '"ยอดหนี้ Retention"
       'tr("col25") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Total}")      '"รวมทั้งสิ้น"
       'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Note}")
 
-      tr = Me.m_treemanager.Treetable.Childs.Add
-      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.DocNumber}")  '     ("วันที่เอกสาร")
-      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.ItemType}")  '     ("ประเภทรายการ")
-      'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Code}")  '     ("รหัส")
-      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Item}")  '     ("รายการ")
-      'tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DocAmount}") '"ยอดเอกสาร"
-      tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
-      tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
-      tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
-      tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
-      tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
-      tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")       '"เบิก"
-      tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.put}")             '"ตั้ง"
-      tr("col21") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      tr("col22") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.Remain}")
+
 
       'tr("col11") = Me.StringParserService.Parse("${res:SC}")             '"ตั้ง"
       'tr("col12") = Me.StringParserService.Parse("${res:ADV}")             '"ตั้ง"
@@ -112,21 +127,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'tr("col17") = Me.StringParserService.Parse("${res:Ret}")      '"คงเหลือ"
       'tr("col18") = Me.StringParserService.Parse("${res:DR}")    '"คงเหลือ"
       'tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate.withdraw}")       '"เบิก"
-      m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-                                    {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 2, 5), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 6, 2, 6), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 7, 2, 7), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 8, 2, 8), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 9, 2, 9), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 10, 2, 10), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 11, 2, 11), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, 1, 14), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 15, 1, 17), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 1, 20), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 21, 1, 23), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 24, 2, 24), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 25, 2, 25), _
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 26, 2, 26)})
+      'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+      '                        {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 1, 1, 4), _
+      '                         Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 1, 2, 4)})
+
+      'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+      '                              {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 2, 5), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 6, 2, 6), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 7, 2, 7), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 8, 2, 8), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 9, 2, 9), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 10, 2, 10), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 11, 2, 11), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, 1, 14), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 15, 1, 17), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 1, 20), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 21, 1, 23), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 24, 2, 24), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 25, 2, 25), _
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 26, 2, 26)})
     End Sub
 
     Private Sub PopulateData()
@@ -164,21 +183,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim isFirstAdvance As Boolean = False
 
       Dim DocAmount As Decimal = 0
-      Dim index As Integer = 2
+      'Dim index As Integer = 2
       For Each subcontractRow As DataRow In dtSup.Rows
         Dim newSubContRow As New DataRowHelper(subcontractRow)
-        'If currSubContract <> newSubContRow.GetValue(Of String)("SubcontractorInfo").ToString Then
-        '  currSubContract = newSubContRow.GetValue(Of String)("SubcontractorInfo").ToString
 
         trSubContranctor = Me.Treemanager.Treetable.Childs.Add
-        index += 1
-        trSubContranctor.Tag = "Font.Bold"
+        'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+        '                                     {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(trSubContranctor.Index, 1, trSubContranctor.Index, 4)})
+        trSubContranctor.Tag = "SubContractor"
         trSubContranctor.CustomFontStyle = FontStyle.Bold
         trSubContranctor("col0") = newSubContRow.GetValue(Of String)("SubcontractorInfo").ToString
-
         trSubContranctor.State = RowExpandState.Expanded
-        m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-                                   {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(index, 1, index, 2)})
+
         summarrySCDebt = 0
         summarryRetDebt = 0
         summarryDebt = 0
@@ -195,17 +211,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         For Each ccrow As DataRow In dtCC.Select("supplier_id = " & subcontractRow("supplier_id").ToString)
           Dim newCC As New DataRowHelper(ccrow)
-          'If currCC <> newCC.GetValue(Of Integer)("cc_id") Then
-          'currCC = newCC.GetValue(Of Integer)("cc_id")
+    
           trCC = trSubContranctor.Childs.Add
-          index += 1
-          trCC.Tag = "Font.Bold"
+          'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+          '                                  {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(trSubContranctor.Index, 1, trSubContranctor.Index, 4)})
+          trCC.Tag = "SubContractor"
           trCC.CustomFontStyle = FontStyle.Bold
           trCC("col0") = newCC.GetValue(Of String)("ccinfo").ToString
           trCC.State = RowExpandState.Expanded
-
-          m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-                                   {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(index, 1, index, 2)})
 
           For Each ScRow As DataRow In dtDoc.Select("supplier_id = " & subcontractRow("supplier_id").ToString & " and entityId = 289" _
                                                & " and cc_id =" & ccrow("cc_id").ToString) 'ขึ้น SC ใบใหม่ใน SubContractor เดียวกัน 'dt.Select("supplier_id=" & subcontractRow("Supplier_ID").ToString)
@@ -216,7 +229,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 isFirstAdvance = True
                 If Not ScRow.IsNull("ADVBalance") AndAlso CDec(ScRow("ADVBalance")) > 0 Then
                   trCC = trSubContranctor.Childs.Add
-                  index += 1
+                  trCC.Tag = "CostCenter"
+                  'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                  '                       {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(trCC.Index, 1, trCC.Index, 4)})
                   trCC("col2") = "ยอดมัดจำจ่ายยกมา"
                   trCC("col12") = Configuration.FormatToString(CDec(ScRow("ADVBalance")), DigitConfig.Price)
                   trCC("col16") = Configuration.FormatToString((CDec(ScRow("ADVBalance")) - CDec(ScRow("advance_debit"))), DigitConfig.Price)
@@ -235,23 +250,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
               retRemain += newSCRow.GetValue(Of Decimal)("retention")
               retRemain -= newSCRow.GetValue(Of Decimal)("retention_debit")
 
-
               trSC = trCC.Childs.Add
-              index += 1
               trSC("col0") = newSCRow.GetValue(Of Date)("sc_Date").ToShortDateString
               trSC("col1") = newSCRow.GetValue(Of String)("Code").ToString
               trSC("col2") = newSCRow.GetValue(Of String)("sc_Type").ToString
-              trSC("col3") = newSCRow.GetValue(Of String)("ccinfo").ToString
-              trSC("col10") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
-              trSC("col11") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
-              trSC("col14") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
-              trSC("col17") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
-              trSC("col20") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("dr"), DigitConfig.Price)
-              trSC("col13") = Configuration.FormatToString(scRemain, DigitConfig.Price)
-              trSC("col16") = Configuration.FormatToString(advRemain, DigitConfig.Price)
-              trSC("col19") = Configuration.FormatToString(retRemain, DigitConfig.Price)
-              trSC("col22") = Configuration.FormatToString(drRemain, DigitConfig.Price)
-              trSC("col23") = newSCRow.GetValue(Of String)("sc_note")
+              'trSC("col3") = newSCRow.GetValue(Of String)("ccinfo").ToString
+              trSC("col9") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
+              trSC("col10") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
+              trSC("col13") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
+              trSC("col16") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
+              trSC("col19") = Configuration.FormatToString(newSCRow.GetValue(Of Decimal)("dr"), DigitConfig.Price)
+              trSC("col12") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+              trSC("col15") = Configuration.FormatToString(advRemain, DigitConfig.Price)
+              trSC("col18") = Configuration.FormatToString(retRemain, DigitConfig.Price)
+              trSC("col21") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+              trSC("col22") = newSCRow.GetValue(Of String)("sc_note")
 
               trSC.Tag = "Font.Bold"
               trSC.CustomFontStyle = FontStyle.Bold
@@ -266,7 +279,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not trSC Is Nothing Then
 
                   trItem = trSC.Childs.Add
-                  index += 1
                   If newItem.GetValue(Of Integer)("sci_entityType") = 289 Then
                     trItem("col1") = newItem.GetValue(Of String)("itemType").ToString
                     trItem.Tag = "Font.Bold"
@@ -281,13 +293,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Else
                     trItem("col2") = condindent & newItem.GetValue(Of String)("itemName").ToString
                   End If
-                  trItem("col4") = newItem.GetValue(Of String)("Unit").ToString
-                  trItem("col5") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Qty"), DigitConfig.Price)
-                  trItem("col6") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("UnitPrice"), DigitConfig.Price)
-                  trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("MAT"), DigitConfig.Price)
-                  trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
-                  trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
-                  trItem("col10") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
+                  trItem("col3") = newItem.GetValue(Of String)("Unit").ToString
+                  trItem("col4") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Qty"), DigitConfig.Price)
+                  trItem("col5") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("UnitPrice"), DigitConfig.Price)
+                  trItem("col6") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("MAT"), DigitConfig.Price)
+                  trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
+                  trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
+                  trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
                 End If
 
                 'trItem.State = RowExpandState.Expanded
@@ -298,7 +310,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 DocAmount = newChild.GetValue(Of Decimal)("sc") - newChild.GetValue(Of Decimal)("advance") - newChild.GetValue(Of Decimal)("retention") + newChild.GetValue(Of Decimal)("dr")
 
-
                 scRemain += newChild.GetValue(Of Decimal)("sc")
                 scRemain -= newChild.GetValue(Of Decimal)("sc_debit")
                 drRemain += newChild.GetValue(Of Decimal)("dr")
@@ -308,29 +319,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 retRemain += newChild.GetValue(Of Decimal)("retention")
                 retRemain -= newChild.GetValue(Of Decimal)("retention_debit")
 
-
                 trChild = trSC.Childs.Add
-                index += 1
                 trChild("col0") = newChild.GetValue(Of Date)("sc_Date").ToShortDateString
                 trChild("col1") = newChild.GetValue(Of String)("Code").ToString
                 trChild("col2") = newChild.GetValue(Of String)("sc_Type").ToString
-                trChild("col3") = newChild.GetValue(Of String)("ccinfo").ToString
-                trChild("col10") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
-                trChild("col11") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("sc"), DigitConfig.Price)
-                trChild("col14") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance"), DigitConfig.Price)
-                trChild("col17") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("retention"), DigitConfig.Price)
-                trChild("col20") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("dr"), DigitConfig.Price)
-                trChild("col13") = Configuration.FormatToString(scRemain, DigitConfig.Price)
-                trChild("col16") = Configuration.FormatToString(advRemain, DigitConfig.Price)
-                trChild("col19") = Configuration.FormatToString(retRemain, DigitConfig.Price)
-                trChild("col22") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+                'trChild("col3") = newChild.GetValue(Of String)("ccinfo").ToString
+                trChild("col9") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
+                trChild("col10") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("sc"), DigitConfig.Price)
+                trChild("col13") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance"), DigitConfig.Price)
+                trChild("col16") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("retention"), DigitConfig.Price)
+                trChild("col19") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("dr"), DigitConfig.Price)
+                trChild("col12") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+                trChild("col15") = Configuration.FormatToString(advRemain, DigitConfig.Price)
+                trChild("col18") = Configuration.FormatToString(retRemain, DigitConfig.Price)
+                trChild("col21") = Configuration.FormatToString(drRemain, DigitConfig.Price)
                 If newChild.GetValue(Of Integer)("entityId") = 292 Then
                   DocAmount = newChild.GetValue(Of Decimal)("sc_debit") - newChild.GetValue(Of Decimal)("advance_debit") - newChild.GetValue(Of Decimal)("retention_debit") + newChild.GetValue(Of Decimal)("dr_debit")
                   trChild("col10") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
                   trChild("col12") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
-                  trChild("col15") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
-                  trChild("col18") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
-                  trChild("col21") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+                  trChild("col14") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+                  trChild("col17") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+                  trChild("col20") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
                 End If
 
                 trChild.State = RowExpandState.Expanded
@@ -341,7 +350,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   If Not trChild Is Nothing Then
 
                     trItem = trChild.Childs.Add
-                    index += 1
                     If newItem.GetValue(Of Integer)("sci_entityType") = 289 Then
                       trItem("col1") = newItem.GetValue(Of String)("itemType").ToString
                       trItem.CustomFontStyle = FontStyle.Bold
@@ -355,20 +363,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Else
                       trItem("col2") = condindent & newItem.GetValue(Of String)("itemName").ToString
                     End If
-                    trItem("col4") = newItem.GetValue(Of String)("Unit").ToString
-                    trItem("col5") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Qty"), DigitConfig.Price)
-                    trItem("col6") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("UnitPrice"), DigitConfig.Price)
-                    trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("MAT"), DigitConfig.Price)
-                    trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
-                    trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
-                    trItem("col10") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
-                    trItem("col23") = newItem.GetValue(Of String)("Note")
+                    trItem("col3") = newItem.GetValue(Of String)("Unit").ToString
+                    trItem("col4") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Qty"), DigitConfig.Price)
+                    trItem("col5") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("UnitPrice"), DigitConfig.Price)
+                    trItem("col6") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("MAT"), DigitConfig.Price)
+                    trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
+                    trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
+                    trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
+                    trItem("col22") = newItem.GetValue(Of String)("Note")
                   End If
 
                 Next
 
               Next
-
 
               summarrySCDebt = scRemain - drRemain - advRemain
               summarryRetDebt = retRemain
@@ -376,40 +383,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
               summarryAdvDebt = summarrySCDebt + summarryRetDebt
 
               If summarrySCDebt > 0 Then
-                trSC("col20") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
+                trSC("col19") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
               End If
               If summarryRetDebt > 0 Then
-                trSC("col21") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
+                trSC("col20") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
               End If
               If summarryDebt > 0 Then
-                trSC("col22") = Configuration.FormatToString(summarryDebt, DigitConfig.Price)
+                trSC("col21") = Configuration.FormatToString(summarryDebt, DigitConfig.Price)
               End If
 
             End If
 
 
           Next
-          'End If
-
 
         Next
 
-
-
-        'End If
       Next
 
-      m_grid.RowCount += 1
-      'currItemIndex = m_grid.RowCount
-      'm_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
-      'm_grid.RowStyles(currItemIndex).Font.Bold = True
-      'm_grid.RowStyles(currItemIndex).ReadOnly = True
-      ''m_grid(currTrIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.SumAll}") 'รวม
-      '''m_grid(currTrIndex, 6).CellValue = Configuration.FormatToString(SumAmount, DigitConfig.Price) 'ยอดเงิน
-      '''m_grid(currTrIndex, 7).CellValue = Configuration.FormatToString(SumTaxAmt, DigitConfig.Price) 'ยอดภาษี
-      '''m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(SumAfterTax, DigitConfig.Price) 'ยอดรวมภาษี 
+      m_grid.CoveredRanges.Clear()
 
-      Return
+      Dim rowIndex As Integer = 1
+      For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+        If Not tr.Tag Is Nothing Then
+          If (CType(tr.Tag, String).ToLower = "subcontractor" OrElse
+              CType(tr.Tag, String).ToLower = "costcenter" OrElse
+              CType(tr.Tag, String).ToLower = "header0" OrElse
+              CType(tr.Tag, String).ToLower = "header1") Then
+            m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                                   {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(rowIndex, 1, rowIndex, 3)})
+          ElseIf CType(tr.Tag, String).ToLower = "header3" Then
+            m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                                {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(rowIndex, 11, rowIndex, 13), _
+                                 Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(rowIndex, 14, rowIndex, 16), _
+                                 Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(rowIndex, 17, rowIndex, 19), _
+                                 Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(rowIndex, 20, rowIndex, 22)})
+          End If
+        End If
+        rowIndex += 1
+      Next
+
+      Me.m_treemanager.Treetable.AcceptChanges()
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
@@ -448,7 +462,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col20", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col21", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col22", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col23", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col23", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("col24", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("col25", GetType(String)))
 
@@ -462,7 +476,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100)
       widths.Add(120)
       widths.Add(200)
-      widths.Add(0)
+      'widths.Add(60) 'xxx
       widths.Add(50)
       widths.Add(50)
       widths.Add(100) '6
@@ -483,10 +497,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100) '22
       widths.Add(100)
       widths.Add(100)
-      widths.Add(0)
-      widths.Add(0)
+      'widths.Add(60) 'xxx
+      'widths.Add(60) 'xxx
 
-      For i As Integer = 0 To 25
+      For i As Integer = 0 To 22
         If i = 0 Then
 
           Dim cs As New PlusMinusTreeTextColumn
@@ -581,17 +595,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return "RptSCMovementEnumerate"
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
-      'Dim dpiColl As New DocPrintingItemCollection
-      'Dim dpi As DocPrintingItem
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-      'For Each fixDpi As DocPrintingItem In Me.FixValueCollection
-      '    dpiColl.Add(fixDpi)
-      'Next
+      For Each fixDpi As DocPrintingItem In Me.FixValueCollection
+        dpiColl.Add(fixDpi)
+      Next
 
-      'Dim LineNumber As Integer = 0
+      Dim LineNumber As Integer = 0
 
-      'Dim n As Integer = 0
-      'Dim i As Integer = 0
+      Dim n As Integer = 0
+      Dim i As Integer = 0
+      For rowIndex As Integer = 5 To m_grid.RowCount
+        i += 1
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LineNumber"
+        dpi.Value = i
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        For colIndex As Integer = 1 To m_grid.ColCount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col" & colIndex.ToString
+          dpi.Value = m_grid(rowIndex, colIndex).CellValue
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        Next
+
+        n += 1
+      Next
+
       'For rowIndex As Integer = 1 To m_grid.RowCount
       '    i += 1
       '    dpi = New DocPrintingItem
@@ -734,7 +772,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '    n += 1
       'Next
 
-      'Return dpiColl
+      Return dpiColl
     End Function
 #End Region
   End Class
