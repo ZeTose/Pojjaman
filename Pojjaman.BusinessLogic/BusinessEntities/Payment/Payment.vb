@@ -1010,7 +1010,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each item As PaymentItem In Me.ItemCollection
             If item.EntityType.Value = 22 Then
               SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheckFromPettyCashClaim" _
-              , New SqlParameter("@bto_id", item.Entity.Id))
+              , New SqlParameter("@check_id", item.Entity.Id))
             End If
           Next
         End If
@@ -4072,7 +4072,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '    .m_entity = bto
             '  End If
           Case Else
-            Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
+            Dim entityTypeId As Integer = .m_entityType.Value
+            Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(entityTypeId), itemId)
             If TypeOf myEntity Is IPaymentItem Then
               .m_entity = CType(myEntity, IPaymentItem)
               If TypeOf m_entity Is IHasBankAccount Then

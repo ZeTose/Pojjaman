@@ -42,11 +42,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New()
       MyBase.New()
     End Sub
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As Integer, Optional ByVal includeInvisible As Boolean = False)
       If id = 0 Then
         Return
       End If
-      RefreshSupplierCollection(id)
+      RefreshSupplierCollection(id, includeInvisible)
       Dim drow As DataRow = CType(m_SupplierCollection(id), DataRow)
       Me.Construct(drow, "")
       'MyBase.New(id)
@@ -57,11 +57,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal id As Integer, ByVal ParamArray filters() As Filter)
       MyBase.New(id, filters)
     End Sub
-    Public Sub New(ByVal code As String)
+    Public Sub New(ByVal code As String, Optional ByVal includeInvisible As Boolean = False)
       If code.Length = 0 Then
         Return
       End If
-      RefreshSupplierCollection(code.ToLower)
+      RefreshSupplierCollection(code.ToLower, includeInvisible)
       Dim drow As DataRow = CType(m_SupplierCollection(code.ToLower), DataRow)
       Me.Construct(drow, "")
       'MyBase.New(id)
@@ -333,7 +333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Cach Memo"
-    Public Shared Sub RefreshSupplierCollection(ByVal Key As Object)
+    Public Shared Sub RefreshSupplierCollection(ByVal Key As Object, ByVal includeInvisible As Boolean)
       If IsNumeric(Key) Then
         If CInt(Key) = 0 Then
           Return
@@ -343,7 +343,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If m_SupplierCollection Is Nothing Then
         m_SupplierCollection = New Hashtable
 
-        Dim dt As DataTable = RefreshSupplier(Key)
+        Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
         For Each row As DataRow In dt.Rows
           Dim drh As New DataRowHelper(row)
           m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
@@ -351,7 +351,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Else
         If Not m_SupplierCollection.Contains(Key) Then
-          Dim dt As DataTable = RefreshSupplier(Key)
+          Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
           For Each row As DataRow In dt.Rows
             Dim drh As New DataRowHelper(row)
             m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
@@ -360,7 +360,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           Dim drow As DataRow = CType(m_SupplierCollection(Key), DataRow)
           If Not Sync(drow) Then
-            Dim dt As DataTable = RefreshSupplier(Key)
+            Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
             For Each row As DataRow In dt.Rows
               Dim drh As New DataRowHelper(row)
               m_SupplierCollection(drh.GetValue(Of Integer)("supplier_id")) = row
@@ -370,7 +370,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
     End Sub
-    Public Shared Function RefreshSupplier(ByVal Key As Object) As DataTable
+    Public Shared Function RefreshSupplier(ByVal Key As Object, ByVal includeInvisible As Boolean) As DataTable
       Dim id As Object
       Dim code As Object
       If TypeOf Key Is Integer Then
@@ -387,6 +387,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , "GetSupplier" _
       , New SqlParameter("@supplier_id", id) _
       , New SqlParameter("@supplier_code", code) _
+      , New SqlParameter("@includeInvisible", includeInvisible) _
       )
       Return ds.Tables(0)
     End Function
