@@ -1129,6 +1129,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         chkACPayeeOnly.Enabled = True
         chkCheckHandler.Enabled = True
       End If
+      If txtSupplierCode.Text.Length = 0 Then
+        txtSupplierCode.Enabled = True
+        btnSupplierFind.Enabled = True
+      End If
       Me.cmbStatus.Enabled = False
       Me.ibtnBlank.Enabled = True
       Me.ibtnDelRow.Enabled = True
