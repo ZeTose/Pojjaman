@@ -798,7 +798,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If      If Me.ItemType Is Nothing Then
         Return False
       End If
-      If Me.ItemType.Value = 42 Then
+      If Me.ItemType.Value = 42 OrElse Me.ItemType.Value = 88 OrElse Me.ItemType.Value = 89 Then
         'Material ใส่ Code เดียวกันได้
         Return False
       End If
