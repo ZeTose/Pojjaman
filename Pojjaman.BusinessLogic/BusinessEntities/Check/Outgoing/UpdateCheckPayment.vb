@@ -1405,25 +1405,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("cqupdatei_beforestatus") = Entity.DocStatus.Value
       Else
         row("cqupdatei_entity") = DBNull.Value
-        row("code") = DBNull.Value
-        row("cqcode") = DBNull.Value
+        row("code") = "" 'DBNull.Value
+        row("cqcode") = "" 'DBNull.Value
         row("docdate") = DBNull.Value
         row("check_id") = DBNull.Value
-        row("check_code") = DBNull.Value
-        row("check_cqcode") = DBNull.Value
+        row("check_code") = "" 'DBNull.Value
+        row("check_cqcode") = "" 'DBNull.Value
         row("check_issuedate") = DBNull.Value
 
-        row("recipient") = DBNull.Value
+        row("recipient") = "" 'DBNull.Value
         row("check_recipient") = DBNull.Value
         row("check_supplier") = DBNull.Value
 
         row("bankacct_id") = DBNull.Value
-        row("bankacct_code") = DBNull.Value
-        row("bankacct_name") = DBNull.Value
+        row("bankacct_code") = "" 'DBNull.Value
+        row("bankacct_name") = "" 'DBNull.Value
 
         row("bank_id") = DBNull.Value
-        row("bank_code") = DBNull.Value
-        row("bank_name") = DBNull.Value
+        row("bank_code") = "" 'DBNull.Value
+        row("bank_name") = "" 'DBNull.Value
 
         row("check_bankcharge") = DBNull.Value
         row("check_wht") = DBNull.Value

@@ -74,6 +74,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
+
+        .m_cqcode = ""
+        .m_note = ""
+
         If dr.Table.Columns.Contains(aliasPrefix & "check_cqcode") AndAlso Not dr.IsNull(aliasPrefix & "check_cqcode") Then
           .m_cqcode = CStr(dr(aliasPrefix & "check_cqcode"))
         End If
