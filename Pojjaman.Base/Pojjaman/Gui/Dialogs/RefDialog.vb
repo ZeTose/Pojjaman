@@ -16,7 +16,7 @@ Public Class RefDialog
     Me.RadGridView1.MasterGridViewTemplate.AllowAddNewRow = False
     RefreshItems()
   End Sub
-  Public Sub PopulateRow(ByVal row As DataRow, ByVal tr As GridViewDataRowInfo)
+  Public Sub PopulateRow(ByVal row As DataRow, ByVal tr As GridViewDataRowInfo, ByVal t As Integer)
     If tr Is Nothing Then
       Return
     End If
@@ -25,10 +25,20 @@ Public Class RefDialog
     Dim prefix As String = deh.GetValue(Of String)("entity_prefix")
     Dim theDescription As String = deh.GetValue(Of String)("entity_description")
     Dim fullClassName As String = deh.GetValue(Of String)("entity_fullClassName")
+    Dim isCanceled As Boolean = deh.GetValue(Of Boolean)("refto_iscanceled")
+    Dim CancledTxt As String = ""
 
     Dim thisMessage As String
+    Dim dr As DataRow
+    If t = Reftable.reffrom Then
+      dr = Longkong.Pojjaman.BusinessLogic.SimpleBusinessEntityBase.GetEntityRow(CInt(row("entity_id")), CInt(row("entity_type")))
+    ElseIf t = Reftable.refto Then
+      dr = Longkong.Pojjaman.BusinessLogic.SimpleBusinessEntityBase.GetEntityRow(CInt(row("refto_id")), CInt(row("refto_type")))
+      If isCanceled Then
+        CancledTxt = "(ยกเลิก)"
+      End If
+    End If
 
-    Dim dr As DataRow = Longkong.Pojjaman.BusinessLogic.SimpleBusinessEntityBase.GetEntityRow(CInt(row("refto_id")), CInt(row("refto_type")))
 
     deh = New DataRowHelper(dr)
 
@@ -39,13 +49,17 @@ Public Class RefDialog
 
     tr.Cells("Description").Value = thisMessage
 
-    tr.Cells("Code").Value = theCode
+    tr.Cells("Code").Value = CancledTxt & theCode
 
     tr.Tag = New KeyValuePair(Of Integer, String)(theId, fullClassName)
 
   End Sub
-  Public dt1 As DataTable
-  Public dt2 As DataTable
+  Public dt1 As DataTable 'Ref to
+  Public dt2 As DataTable 'Ref from
+  Private Enum Reftable
+    refto
+    reffrom
+  End Enum
   Private Sub RefreshItems()
     Me.RadGridView1.Rows.Clear()
     Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -54,7 +68,7 @@ Public Class RefDialog
     Dim i As Integer = 1
     For Each row As DataRow In dt1.Rows
       Dim gridRow As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
-      PopulateRow(row, gridRow)
+      PopulateRow(row, gridRow, reftable.refto)
       gridRow.Cells("Linenumber").Value = i
       i += 1
     Next
@@ -64,7 +78,7 @@ Public Class RefDialog
     Dim i2 As Integer = 1
     For Each row As DataRow In dt2.Rows
       Dim gridRow As GridViewDataRowInfo = Me.RadGridView1.Rows.AddNew()
-      PopulateRow(row, gridRow)
+      PopulateRow(row, gridRow, Reftable.reffrom)
       gridRow.Cells("Linenumber").Value = i2
       i2 += 1
     Next
