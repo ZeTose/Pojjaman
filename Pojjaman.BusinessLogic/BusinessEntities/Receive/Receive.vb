@@ -2410,7 +2410,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 							dpi.Table = "Item"
 							dpiColl.Add(dpi)
 
-							space = "           "
+              space = "  "
 						End If
 
 						'Item.AccountName

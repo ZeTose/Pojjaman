@@ -1744,10 +1744,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_deducttaxBase.HasValue Then
           Return m_deducttaxBase.Value
         End If
-        If Me.EntityId = 46 Then
-          m_deducttaxBase = 0
-          Return 0
-        End If
+        'If Me.EntityId = 46 Then
+        '  m_deducttaxBase = 0
+        '  Return 0
+        'End If
         If Not Me.PaySelection Is Nothing Then
           m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
           Return m_deducttaxBase.Value
@@ -1807,6 +1807,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return "มัดจำจ่าย"
           Case 46
             Return "ลดหนี้"
+          Case 292
+            Return "รับงาน"
           Case Else
             Return Nothing
 

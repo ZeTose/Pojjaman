@@ -1548,7 +1548,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '«“ß∫‘≈ß«¥                   
           Dim bi As BillIssue = CType(Me.m_billissues(item.ParentId), BillIssue)
           For Each mi As Milestone In bi.ItemCollection
-            If mi.Id = item.Id AndAlso Not mi.TaxType.Value = 0 Then
+            If mi.Id = item.Id Then 'AndAlso Not mi.TaxType.Value = 0
               If Not cc Is Nothing AndAlso cc.Id <> mi.CostCenter.Id Then
                 Return CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
               Else

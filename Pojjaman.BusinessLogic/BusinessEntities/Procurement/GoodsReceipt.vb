@@ -2640,6 +2640,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
       Dim tmp As Object = Configuration.GetConfig("APRetentionPoint")
+     
       Dim apRetentionPoint As Integer = 0
       If IsNumeric(tmp) Then
         apRetentionPoint = CInt(tmp)
@@ -3055,6 +3056,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim map As String = ""
       Dim withdrawAccount As Account
 
+      Dim tmp2 As Object = Configuration.GetConfig("GRGLByPOCC")
+      Dim pocc As Integer = -1
+      If IsNumeric(tmp2) Then
+        pocc = CInt(tmp2)
+      End If
+      Dim PO_CC As CostCenter
+      If Me.Po IsNot Nothing Then
+        PO_CC = Po.ToCC
+      ElseIf Me.ToCostCenter.Originated Then
+        PO_CC = Me.ToCostCenter
+      Else
+        PO_CC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
       Dim e31 As Integer = 0
       Dim e32 As Integer = 0
       Dim e33 As Integer = 0
@@ -3398,7 +3412,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     ji.Amount += itemRemainAmount
                   End If
                   ji.Account = realAccount
-                  If Me.ToCostCenter.Originated Then
+                  If pocc = 1 Then
+                    ji.CostCenter = PO_CC
+                  ElseIf Me.ToCostCenter.Originated Then
                     ji.CostCenter = Me.ToCostCenter
                   Else
                     ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -3415,7 +3431,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Else
                     ji.Amount += itemRemainAmount
                   End If
-                  If Me.ToCostCenter.Originated Then
+                  If pocc = 1 Then
+                    ji.CostCenter = PO_CC
+                  ElseIf Me.ToCostCenter.Originated Then
                     ji.CostCenter = Me.ToCostCenter
                   Else
                     ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
@@ -3542,6 +3560,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim map As String = ""
       Dim withdrawAccount As Account
 
+      Dim tmp2 As Object = Configuration.GetConfig("GRGLByPOCC")
+      Dim pocc As Integer = -1
+      If IsNumeric(tmp2) Then
+        pocc = CInt(tmp2)
+      End If
+      Dim PO_CC As CostCenter
+      If Me.Po IsNot Nothing Then
+        PO_CC = Po.ToCC
+      ElseIf Me.ToCostCenter.Originated Then
+        PO_CC = Me.ToCostCenter
+      Else
+        PO_CC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
+
       Select Case Me.ToAccountType.Value
         Case 1    'WIP
           map = "F1.3"
@@ -3642,6 +3674,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim realAccount As Account
               Dim entityAcct As Account
               Dim lci As LCIItem = CType(item.Entity, LCIItem)
+              Dim tmpCC As CostCenter
+              If pocc = 1 Then
+                tmpCC = PO_CC
+              Else
+                tmpCC = ToCostCenter
+              End If
               If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
                 entityAcct = lci.Account
               End If
@@ -3654,11 +3692,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               If Not realAccount Is Nothing AndAlso realAccount.Originated Then
                 If Not lciToolMatched Then
-                  SetJournalEntryItem(item, jiColl, "E3.1", realAccount, itemAmount, ToCostCenter)
+                  SetJournalEntryItem(item, jiColl, "E3.1", realAccount, itemAmount, tmpCC)
                 End If
               ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
                 If Not lciToolNoAcctMatched Then
-                  SetJournalEntryItem(item, jiColl, "E3.1", itemAmount, ToCostCenter)
+                  SetJournalEntryItem(item, jiColl, "E3.1", itemAmount, tmpCC)
                 End If
               End If
 
@@ -3666,15 +3704,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If Me.ToAccountType.Value = 1 Or Me.ToAccountType.Value = 2 Then
                 If Not originMatched Then
                   'ฝั่งต้นทาง
-                  SetJournalEntryItem(item, jiColl, "F1.4", realAccount, itemAmount, ToCostCenter)
+                  SetJournalEntryItem(item, jiColl, "F1.4", realAccount, itemAmount, tmpCC)
                 End If
                 If Not withdrawAccount Is Nothing AndAlso withdrawAccount.Originated Then
                   If Not withdrawMatched Then
-                    SetJournalEntryItem(item, jiColl, map, withdrawAccount, itemAmount, ToCostCenter)
+                    SetJournalEntryItem(item, jiColl, map, withdrawAccount, itemAmount, tmpCC)
                   End If
                 ElseIf withdrawAccount Is Nothing OrElse Not withdrawAccount.Originated Then
                   If Not withdrawNoAcctMatched Then
-                    SetJournalEntryItem(item, jiColl, map, itemAmount, ToCostCenter)
+                    SetJournalEntryItem(item, jiColl, map, itemAmount, tmpCC)
                   End If
                 End If
               End If

@@ -1495,6 +1495,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
           amt += item.TaxBase - item.DeductTaxBase
+        ElseIf item.EntityId = 46 Then
+          amt -= (item.TaxBase - item.DeductTaxBase)
         End If
       Next
       Return amt
