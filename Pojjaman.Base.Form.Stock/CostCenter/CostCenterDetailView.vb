@@ -1822,7 +1822,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibnShowBOQDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibnShowBOQDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New BOQ, AddressOf SetBoq, New Filter() {New Filter("checkright", False)})
+      myEntityPanelService.OpenListDialog(New BOQ, AddressOf SetBoq, New Filter() {New Filter("checkright", False), New Filter("ExcludedBOQRefCC", True)})
     End Sub
     Private Sub SetBoq(ByVal e As ISimpleEntity)
       Me.txtBOQCode.Text = e.Code
