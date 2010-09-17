@@ -361,32 +361,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unitPrice = Value
       End Set
     End Property
+    Public ReadOnly Property AmountWithDefaultUnit() As Decimal
+      Get
+        If StockQty > 0 Then
+          Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount) ' (Me.Discount.Amount / Me.Conversion)
+        Else
+          Return 0
+        End If
+      End Get
+    End Property
     Public ReadOnly Property UnitCost() As Decimal
       Get
-        Return Me.ItemCollectionPrePareCost.CostAmount
+        'Return Me.ItemCollectionPrePareCost.CostAmount
 
-        'Dim tmpCost As Decimal = 0
-        'Dim tmpRealGrossNoVat As Decimal = 0
-        'tmpRealGrossNoVat = Me.PurchaseCN.RealGross
+        Dim tmpCost As Decimal = 0
+        Dim tmpRealGrossNoVat As Decimal = 0
+        tmpRealGrossNoVat = Me.PurchaseCN.RealGross 'sum(มูลค่ารวม (ปริมาณ * ราคา) - ส่วนลดรายการ)
 
-        'If Me.StockQty = 0 OrElse tmpRealGrossNoVat = 0 Then
-        '  Return 0
-        'Else
-        '  tmpCost = Me.Amount 'Me.AmountWithDefaultUnit
+        If Me.StockQty = 0 OrElse tmpRealGrossNoVat = 0 Then
+          Return 0
+        Else
+          tmpCost = Me.AmountWithDefaultUnit '(ปริมาณมาตรฐาน * ราคาหน่วย) - หักส่วนลดท้ายรายการด้วย
 
-        '  tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.PurchaseCN.Discount.Amount)
+          tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.PurchaseCN.Discount.Amount)
 
-        '  If Me.PurchaseCN.TaxType.Value = 2 Then
-        '    If Not Me.UnVatable Then
-        '      tmpCost = tmpCost * (100 / (100 + Me.PurchaseCN.TaxRate))
-        '    End If
-        '  End If
+          If Me.PurchaseCN.TaxType.Value = 2 Then
+            If Not Me.UnVatable Then
+              tmpCost = tmpCost * (100 / (100 + Me.PurchaseCN.TaxRate))
+            End If
+          End If
 
-        '  tmpCost = tmpCost / Me.StockQty
+          tmpCost = tmpCost / Me.StockQty
 
-        '  Return tmpCost
-        'End If
-        'Return 0
+          Return tmpCost
+        End If
+        Return 0
       End Get
     End Property
     Public Property Note() As String

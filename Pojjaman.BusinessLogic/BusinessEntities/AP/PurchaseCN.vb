@@ -900,6 +900,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============================AUTOGEN==========================================
 
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+
             trans.Commit()
           Catch ex As Exception
             trans.Rollback()
