@@ -1156,7 +1156,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				dpiColl.Add(dpi)
 			End If
 
+      If TypeOf Me.Entity Is IHasIBillablePerson Then
+        Dim bP As IBillablePerson = CType(Me.Entity, IHasIBillablePerson).BillablePerson
+        'CustomerCode 'รหัส
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerCode"
+        dpi.Value = bP.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
+        'CustomerName 'ชื่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerName"
+        dpi.Value = bP.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerInfo 'รหัส:ชื่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerInfo"
+        dpi.Value = bP.Code & ":" & bP.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerBillingAddress  ที่อยู่ออกบิล *****
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerBillingAddress"
+        dpi.Value = bP.BillingAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerAddress 'ที่อยู่ปัจจุบัน
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerAddress"
+        dpi.Value = bP.Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerMobile 'มือถือ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerMobile"
+        dpi.Value = bP.Mobile
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerPhone 'โทรศัพท์
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerPhone"
+        dpi.Value = bP.Phone
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerFax 'Fax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerFax"
+        dpi.Value = bP.Fax
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'CustomerContact 'ผู้ติดต่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerContact"
+        dpi.Value = bP.Contact
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
 
 			Dim tt As TreeTable
