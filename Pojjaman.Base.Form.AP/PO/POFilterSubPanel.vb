@@ -1033,11 +1033,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpReceivingDateStart.Value = DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date)
       Me.dtpReceivingDateEnd.Value = DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
 
-      Me.txtReceivingDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date), "")
-      Me.txtReceivingdateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date), "")
+      Me.txtReceivingDateStart.Text = "" 'Me.MinDateToNull(DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date), "")
+      Me.txtReceivingdateEnd.Text = "" 'Me.MinDateToNull(DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date), "")
 
-      Me.receivingDateStart = DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date)
-      Me.receivingDateEnd = DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
+      Me.receivingDateStart = DateAdd(DateInterval.Year, -10, Now.Date) 'DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date)
+      Me.receivingDateEnd = DateAdd(DateInterval.Year, 10, Now.Date) 'DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
 
       cmbStatus.SelectedIndex = 0
       Me.cmbApproveLevel.SelectedIndex = 0

@@ -1019,11 +1019,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.docDateStart = DateAdd(DateInterval.Month, -1, Now.Date)
       Me.docDateEnd = Now.Date
 
-      Me.dtpReceivingDateStart.Value = DateAdd(DateInterval.Day, -14, Now.Date)
-      Me.dtpReceivingDateEnd.Value = Now.Date
+      Me.dtpReceivingDateStart.Value = DateAdd(DateInterval.Year, -10, Now.Date) 'DateAdd(DateInterval.Day, -14, Now.Date)
+      Me.dtpReceivingDateEnd.Value = DateAdd(DateInterval.Year, 10, Now.Date) 'Now.Date
 
-      Me.txtReceivingDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, -14, Now.Date), "")
-      Me.txtReceivingdateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, 14, Now.Date), "")
+      Me.txtReceivingDateStart.Text = "" ' Me.MinDateToNull(DateAdd(DateInterval.Day, -14, Now.Date), "")
+      Me.txtReceivingdateEnd.Text = "" 'Me.MinDateToNull(DateAdd(DateInterval.Day, 14, Now.Date), "")
 
       Me.receivingDateStart = DateAdd(DateInterval.Day, -14, Now.Date)
       Me.receivingDateEnd = DateAdd(DateInterval.Day, 14, Now.Date)
