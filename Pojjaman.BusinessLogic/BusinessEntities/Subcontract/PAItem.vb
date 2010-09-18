@@ -146,6 +146,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case .m_itemType.Value
             Case 42     '"lci"
               .m_entity = LCIItem.GetLciItemById(itemId)
+              If CType(.m_entity, LCIItem).Account IsNot Nothing Then
+                .m_account = CType(.m_entity, LCIItem).Account
+              End If
               'If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
               '  If Not dr.IsNull("lci_id") Then
               '    .m_entity = New LCIItem(dr, "")

@@ -806,6 +806,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 doc.MatAccount = acct
             End Select
         End Select
+        m_entity.OnGlChanged()
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
       End Try
