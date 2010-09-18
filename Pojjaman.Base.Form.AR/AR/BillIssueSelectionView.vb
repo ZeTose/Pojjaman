@@ -249,7 +249,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             csDescription.HeaderText = "Entity"
             csDescription.NullText = ""
             csDescription.Width = 180
-            csDescription.ReadOnly = True
+      csDescription.ReadOnly = True
+
+      Dim csMilestoneDate As New TreeTextColumn
+      csMilestoneDate.MappingName = "MilestoneDate"
+      csMilestoneDate.HeaderText = "MilestoneDate"
+      csMilestoneDate.NullText = ""
+      csMilestoneDate.DataAlignment = HorizontalAlignment.Center
+      csMilestoneDate.Width = 100
+      csMilestoneDate.Format = "d"
+      csMilestoneDate.ReadOnly = True
 
             Dim csAmount As New TreeTextColumn
             csAmount.MappingName = "Amount"
@@ -284,7 +293,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             csCC.ReadOnly = True
 
             dst.GridColumnStyles.Add(csSelected)
-            dst.GridColumnStyles.Add(csDescription)
+      dst.GridColumnStyles.Add(csDescription)
+      dst.GridColumnStyles.Add(csMilestoneDate)
             dst.GridColumnStyles.Add(csAmount)
             dst.GridColumnStyles.Add(csDate)
             dst.GridColumnStyles.Add(csDueDate)

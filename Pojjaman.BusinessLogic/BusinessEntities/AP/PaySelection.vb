@@ -1250,7 +1250,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Amount = wht.Amount
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
           ji.CostCenter = myCC
-          ji.Note = Me.Recipient.Name
+          ji.Note = wht.Code & ":" & Me.Recipient.Name
           jiColl.Add(ji)
         End If
       Next

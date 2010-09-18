@@ -189,7 +189,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
                 For i As Integer = 0 To 10
                   sumSupplierAmount(i) = 0
-                  sumStockAmount(i) = 0
+                  'sumStockAmount(i) = 0
                 Next
               End If
 
@@ -247,7 +247,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
                   If Not row.IsNull("StockDueDate") Then
                     If IsDate(row("StockDueDate")) Then
-                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      'trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                       lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
                     End If
                   End If
@@ -258,6 +258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
                 trSupplieritem.State = RowExpandState.Expanded
@@ -288,27 +289,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             If Not trSupplieritem Is Nothing Then
-              If row("BillaCode").ToString <> "" Then
-                trBill = trSupplieritem.Childs.Add
-                trBill("col1") = indent & indent & row("BillaCode").ToString
-                trBill("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
-                trBill("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
-                trBill("col4") = Configuration.FormatToString(CDec(row("Day8to14")), DigitConfig.Price)
-                trBill("col5") = Configuration.FormatToString(CDec(row("Day15to21")), DigitConfig.Price)
-                trBill("col6") = Configuration.FormatToString(CDec(row("Day22to28")), DigitConfig.Price)
-                trBill("col7") = Configuration.FormatToString(CDec(row("DayOver28")), DigitConfig.Price)
-                trBill("col8") = Configuration.FormatToString(CDec(row("SumDay")), DigitConfig.Price)
-                If Not row.IsNull("BillaDueDate") Then
-                  If IsDate(row("BillaDueDate")) Then
-                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+              If CDec(row("SumDay")) <> 0 Then
+                If row("BillaCode").ToString <> "" Then
+                  trBill = trSupplieritem.Childs.Add
+                  trBill("col1") = indent & indent & row("BillaCode").ToString
+                  trBill("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
+                  trBill("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
+                  trBill("col4") = Configuration.FormatToString(CDec(row("Day8to14")), DigitConfig.Price)
+                  trBill("col5") = Configuration.FormatToString(CDec(row("Day15to21")), DigitConfig.Price)
+                  trBill("col6") = Configuration.FormatToString(CDec(row("Day22to28")), DigitConfig.Price)
+                  trBill("col7") = Configuration.FormatToString(CDec(row("DayOver28")), DigitConfig.Price)
+                  trBill("col8") = Configuration.FormatToString(CDec(row("SumDay")), DigitConfig.Price)
+                  If Not row.IsNull("BillaDueDate") Then
+                    If IsDate(row("BillaDueDate")) Then
+                      trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                    End If
                   End If
                 End If
               End If
             End If
-
-
           End If
-
 
         ElseIf m_showPeriod = 1 Then
           If CDec(row("SumMonth")) <> 0 Then
@@ -325,7 +325,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trSupplier("col10") = Configuration.FormatToString(sumSupplierAmount(8), DigitConfig.Price)
                 For i As Integer = 0 To 10
                   sumSupplierAmount(i) = 0
-                  sumStockAmount(i) = 0
+                  'sumStockAmount(i) = 0
                 Next
               End If
 
@@ -393,7 +393,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trSupplieritem("col10") = Configuration.FormatToString(sumStockAmount(8), DigitConfig.Price)
                   If Not row.IsNull("StockDueDate") Then
                     If IsDate(row("StockDueDate")) Then
-                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      'trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                       lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
                     End If
                   End If
@@ -404,6 +404,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
                 trSupplieritem.State = RowExpandState.Expanded
@@ -440,21 +441,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             If Not trSupplieritem Is Nothing Then
-              If row("BillaCode").ToString <> "" Then
-                trBill = trSupplieritem.Childs.Add
-                trBill("col1") = indent & indent & row("BillaCode").ToString
-                trBill("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
-                trBill("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
-                trBill("col4") = Configuration.FormatToString(CDec(row("Month2")), DigitConfig.Price)
-                trBill("col5") = Configuration.FormatToString(CDec(row("Month3")), DigitConfig.Price)
-                trBill("col6") = Configuration.FormatToString(CDec(row("Month4")), DigitConfig.Price)
-                trBill("col7") = Configuration.FormatToString(CDec(row("Month5")), DigitConfig.Price)
-                trBill("col8") = Configuration.FormatToString(CDec(row("Month6")), DigitConfig.Price)
-                trBill("col9") = Configuration.FormatToString(CDec(row("MonthOver6")), DigitConfig.Price)
-                trBill("col10") = Configuration.FormatToString(CDec(row("SumMonth")), DigitConfig.Price)
-                If Not row.IsNull("BillaDueDate") Then
-                  If IsDate(row("BillaDueDate")) Then
-                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+              If CDec(row("SumMonth")) <> 0 Then
+                If row("BillaCode").ToString <> "" Then
+                  trBill = trSupplieritem.Childs.Add
+                  trBill("col1") = indent & indent & row("BillaCode").ToString
+                  trBill("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
+                  trBill("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
+                  trBill("col4") = Configuration.FormatToString(CDec(row("Month2")), DigitConfig.Price)
+                  trBill("col5") = Configuration.FormatToString(CDec(row("Month3")), DigitConfig.Price)
+                  trBill("col6") = Configuration.FormatToString(CDec(row("Month4")), DigitConfig.Price)
+                  trBill("col7") = Configuration.FormatToString(CDec(row("Month5")), DigitConfig.Price)
+                  trBill("col8") = Configuration.FormatToString(CDec(row("Month6")), DigitConfig.Price)
+                  trBill("col9") = Configuration.FormatToString(CDec(row("MonthOver6")), DigitConfig.Price)
+                  trBill("col10") = Configuration.FormatToString(CDec(row("SumMonth")), DigitConfig.Price)
+                  If Not row.IsNull("BillaDueDate") Then
+                    If IsDate(row("BillaDueDate")) Then
+                      trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                    End If
                   End If
                 End If
               End If
@@ -533,7 +536,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   trSupplieritem("col8") = Configuration.FormatToString(sumStockAmount(6), DigitConfig.Price)
                   If Not row.IsNull("StockDueDate") Then
                     If IsDate(row("StockDueDate")) Then
-                      trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
+                      'trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                       lastStockDate = indent & CDate(row("StockDueDate")).ToShortDateString
                     End If
                   End If
@@ -544,6 +547,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+                trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
                 trSupplieritem.State = RowExpandState.Expanded
@@ -575,19 +579,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
             If Not trSupplieritem Is Nothing Then
-              If row("BillaCode").ToString <> "" Then
-                trBill = trSupplieritem.Childs.Add
-                trBill("col1") = indent & indent & row("BillaCode").ToString
-                trBill("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
-                trBill("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
-                trBill("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")), DigitConfig.Price)
-                trBill("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")), DigitConfig.Price)
-                trBill("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")), DigitConfig.Price)
-                trBill("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")), DigitConfig.Price)
-                trBill("col8") = Configuration.FormatToString(CDec(row("SumYear")), DigitConfig.Price)
-                If Not row.IsNull("BillaDueDate") Then
-                  If IsDate(row("BillaDueDate")) Then
-                    trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+              If CDec(row("SumYear")) <> 0 Then
+                If row("BillaCode").ToString <> "" Then
+                  trBill = trSupplieritem.Childs.Add
+                  trBill("col1") = indent & indent & row("BillaCode").ToString
+                  trBill("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
+                  trBill("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
+                  trBill("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")), DigitConfig.Price)
+                  trBill("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")), DigitConfig.Price)
+                  trBill("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")), DigitConfig.Price)
+                  trBill("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")), DigitConfig.Price)
+                  trBill("col8") = Configuration.FormatToString(CDec(row("SumYear")), DigitConfig.Price)
+                  If Not row.IsNull("BillaDueDate") Then
+                    If IsDate(row("BillaDueDate")) Then
+                      trBill("col0") = indent & indent & CDate(row("BillaDueDate")).ToShortDateString
+                    End If
+
                   End If
                 End If
               End If
@@ -635,13 +642,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'สำหรับ Supplier คนสุดท้าย
       If Not trSupplier Is Nothing Then
         If m_showPeriod = 0 Then
-          trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
-          trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
-          trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
-          trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
-          trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
-          trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
-          trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
+            trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
+            trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
+            trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
+            trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
+            trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
+            trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
+            trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
         ElseIf m_showPeriod = 1 Then
           trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
           trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)

@@ -440,7 +440,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'If advp.Valid Then
       txtCode.Text = advp.Code
       txtAmount.Text = Configuration.FormatToString(advp.GetRemainingAmount, DigitConfig.Price)
-      If oldADVP.Id <> advp.Id Then
+      If oldADVP Is Nothing OrElse oldADVP.Id <> advp.Id Then
         oldADVP = advp
         Return True
       End If
