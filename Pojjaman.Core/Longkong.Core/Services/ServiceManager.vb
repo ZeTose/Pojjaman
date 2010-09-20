@@ -17,10 +17,15 @@ Namespace Longkong.Core.Services
     Private Sub New()
       Me.m_serviceList = New ArrayList
       Me.m_servicesHashtable = New Hashtable
-      Me.AddService(New PropertyService)
-      Me.AddService(New StringParserService)
-      Me.AddService(New FileUtilityService)
-      Me.AddService(New ConfigurationService)
+      Try
+        Me.AddService(New PropertyService)
+        Me.AddService(New StringParserService)
+        Me.AddService(New FileUtilityService)
+        Me.AddService(New ConfigurationService)
+      Catch ex As Exception
+
+      End Try
+
     End Sub
 #End Region
 

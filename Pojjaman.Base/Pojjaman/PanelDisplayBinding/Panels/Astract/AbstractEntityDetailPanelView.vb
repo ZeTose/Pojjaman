@@ -205,7 +205,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Event Handler"
     Private Sub PanelView_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-      Me.StatusBarService.SetMessage(Me.StatusDescription)
+      If Not Me.DesignMode Then
+        Me.StatusBarService.SetMessage(Me.StatusDescription)
+      End If
     End Sub
 #End Region
 
