@@ -161,14 +161,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Select Case .m_itemType.Value
             Case 42    '"lci"
-              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-                .m_entity = LCIItem.GetLciItemById(itemId)
-                '  If Not dr.IsNull("lci_id") Then
-                '    .m_entity = New LCIItem(dr, "")
-                '  End If
-                'Else
-                '  .m_entity = New LCIItem(itemId)
-              End If
+              ' If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+              .m_entity = LCIItem.GetLciItemById(itemId)
+              '  If Not dr.IsNull("lci_id") Then
+              '    .m_entity = New LCIItem(dr, "")
+              '  End If
+              'Else
+              '  .m_entity = New LCIItem(itemId)
+              'End If
             Case 19    '"tool"
               If dr.Table.Columns.Contains("tool_id") AndAlso Not dr.IsNull("tool_id") Then
                 If Not dr.IsNull("tool_id") Then
