@@ -1215,7 +1215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           docValidate = False
         End If
 
-        If Not docValidate Then
+        If docValidate Then
 
           If Me.Originated Then
             If Not Me.Supplier Is Nothing Then

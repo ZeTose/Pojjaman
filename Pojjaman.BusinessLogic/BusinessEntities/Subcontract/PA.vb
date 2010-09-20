@@ -1187,7 +1187,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Me.RefreshTaxBase()
 
-        If Not docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
+        If docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
 
           If Me.Originated Then
             If Not Me.SubContractor Is Nothing Then

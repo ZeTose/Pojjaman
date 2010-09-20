@@ -1755,7 +1755,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           docValidate = False
         End If
 
-        If Not docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
+        If docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
 
           If Originated Then
             If Not Supplier Is Nothing Then
