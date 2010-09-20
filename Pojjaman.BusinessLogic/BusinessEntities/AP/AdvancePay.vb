@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Core.AddIns
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class AdvancePayStatus
     Inherits StockStatus
@@ -108,7 +110,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je.DocDate = Me.m_docDate
 
         .m_payment = New Payment(Me)
-        .m_payment.OnHold = True
+        '==Checking for addin for วิศวพัฒน์
+        Dim hasExport As Boolean = False
+        For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+          If a.FileName.ToLower.Contains("textexport") Then
+            hasExport = True
+          End If
+        Next
+        .m_payment.OnHold = hasExport
+
         .m_payment.DocDate = Me.m_docDate
         '----------------------------End Tab Entities-----------------------------------------
         .AutoCodeFormat = New AutoCodeFormat(Me)
@@ -562,18 +572,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.WitholdingTaxCollection.ResetId()
       End If
     End Sub
-        Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
-            Me.Code = oldCode
-            Me.AutoGen = oldautogen
-            Me.m_payment.Code = oldJecode
-            Me.m_payment.AutoGen = oldjeautogen
-            Me.m_je.Code = oldJecode
-            Me.m_je.AutoGen = oldjeautogen
-        End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_payment.Code = oldJecode
+      Me.m_payment.AutoGen = oldjeautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
-                'Dim oldcode As String
-                'Dim oldjecode As String
+        'Dim oldcode As String
+        'Dim oldjecode As String
         If Originated Then
           If Not Supplier Is Nothing Then
             If Supplier.Canceled Then
@@ -619,15 +629,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '---- AutoCode Format --------
         Me.m_je.RefreshGLFormat()
 
-                Dim oldcode As String
-                Dim oldautogen As Boolean
-                Dim oldjecode As String
-                Dim oldjeautogen As Boolean
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        Dim oldjecode As String
+        Dim oldjeautogen As Boolean
 
-                oldcode = Me.Code
-                oldautogen = Me.AutoGen
-                oldjecode = Me.m_je.Code
-                oldjeautogen = Me.m_je.AutoGen
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+        oldjecode = Me.m_je.Code
+        oldjeautogen = Me.m_je.AutoGen
         If Not AutoCodeFormat Is Nothing Then
 
 

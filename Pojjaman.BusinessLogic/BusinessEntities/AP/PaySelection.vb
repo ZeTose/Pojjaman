@@ -7,6 +7,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports Longkong.Core.AddIns
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Stock
@@ -117,7 +118,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_docDate = Date.Now.Date
         .m_status = New PaySelectionStatus(-1)
         .m_payment = New Payment(Me)
-        .m_payment.OnHold = True
+
+        '==Checking for addin for วิศวพัฒน์
+        Dim hasExport As Boolean = False
+        For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+          If a.FileName.ToLower.Contains("textexport") Then
+            hasExport = True
+          End If
+        Next
+        .m_payment.OnHold = hasExport
+
         .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docDate
         .m_whtcol = New WitholdingTaxCollection
@@ -305,8 +315,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         'Return Me.ItemCollection.GetBeforeTax
         Dim ret As Decimal = 0
-        For Each doc As BillAcceptanceItem In Me.ItemCollection         
-            ret += doc.BeforeTax
+        For Each doc As BillAcceptanceItem In Me.ItemCollection
+          ret += doc.BeforeTax
         Next
         Return ret
       End Get
