@@ -1179,86 +1179,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
-        If Me.Originated Then
-          If Not Me.SubContractor Is Nothing Then
-            If Me.SubContractor.Canceled Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Me.SubContractor.Code})
-            End If
-          End If
+
+        Dim docValidate As Boolean = True
+        If Me.Originated AndAlso Me.Status.Value = 0 Then
+          docValidate = False
         End If
+
         Me.RefreshTaxBase()
-        If Me.ItemCollection.Count = 0 Then   '.ItemTable.Childs.Count = 0 Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        End If
-        Dim ValidateError As SaveErrorException
-        'ValidateError = Validate()
-        'If Not IsNumeric(ValidateError.Message) Then
-        '  Return ValidateError
-        'End If
-        ValidateError = ValidateItem()
-        If Not IsNumeric(ValidateError.Message) Then
-          Return ValidateError
-        Else
-          If CInt(ValidateError.Message) = 2 Then
-            For Each sitem As PAItem In hashAutoChild.Values
-              Dim nsitem As New PAItem
-              nsitem.ItemType = New PAIItemType(88)
-              nsitem.Entity = New BlankItem("")
-              nsitem.Level = 1
-              nsitem.EntityName = sitem.EntityName
-              nsitem.SetUnit(sitem.Unit)
-              nsitem.SetQty(sitem.Qty)
-              nsitem.SetUnitPrice(sitem.UnitPrice)
-              'nsitem.SetMat(sitem.Mat)
-              nsitem.SetReceiveLab(sitem.Lab)
-              nsitem.RefEntity = New RefEntity
-              'nsitem.SetEq(sitem.Eq)
-              nsitem.WBSDistributeCollection = sitem.WBSDistributeCollection
-              AddHandler nsitem.WBSDistributeCollection.PropertyChanged, AddressOf nsitem.WBSChangedHandler
 
-              Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(sitem) + 1, nsitem)
-            Next
-          End If
-        End If
+        If Not docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
 
-        ''=============== Validate Over Budget ==================>>
-        Dim ValidateOverBudgetError As SaveErrorException
-        Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
-        Select Case config
-          Case 0   'Not allow
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              Return New SaveErrorException(msgString & vbCrLf & msgString2)
-            End If
-          Case 1   'Warn
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+          If Me.Originated Then
+            If Not Me.SubContractor Is Nothing Then
+              If Me.SubContractor.Canceled Then
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Me.SubContractor.Code})
               End If
             End If
-          Case 2   'Do Nothing
-        End Select
-        ''=============== Validate Over Budget ==================<<
+          End If
 
-        ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
-        If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
-          If haveAdvancePay Then
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
-              RaiseEvent AdvanceClick(Me, Nothing)
-              'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+          If Me.ItemCollection.Count = 0 Then   '.ItemTable.Childs.Count = 0 Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+          End If
+          Dim ValidateError As SaveErrorException
+          'ValidateError = Validate()
+          'If Not IsNumeric(ValidateError.Message) Then
+          '  Return ValidateError
+          'End If
+          ValidateError = ValidateItem()
+          If Not IsNumeric(ValidateError.Message) Then
+            Return ValidateError
+          Else
+            If CInt(ValidateError.Message) = 2 Then
+              For Each sitem As PAItem In hashAutoChild.Values
+                Dim nsitem As New PAItem
+                nsitem.ItemType = New PAIItemType(88)
+                nsitem.Entity = New BlankItem("")
+                nsitem.Level = 1
+                nsitem.EntityName = sitem.EntityName
+                nsitem.SetUnit(sitem.Unit)
+                nsitem.SetQty(sitem.Qty)
+                nsitem.SetUnitPrice(sitem.UnitPrice)
+                'nsitem.SetMat(sitem.Mat)
+                nsitem.SetReceiveLab(sitem.Lab)
+                nsitem.RefEntity = New RefEntity
+                'nsitem.SetEq(sitem.Eq)
+                nsitem.WBSDistributeCollection = sitem.WBSDistributeCollection
+                AddHandler nsitem.WBSDistributeCollection.PropertyChanged, AddressOf nsitem.WBSChangedHandler
+
+                Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(sitem) + 1, nsitem)
+              Next
             End If
           End If
+
+          ''=============== Validate Over Budget ==================>>
+          Dim ValidateOverBudgetError As SaveErrorException
+          Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
+          Select Case config
+            Case 0   'Not allow
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                Return New SaveErrorException(msgString & vbCrLf & msgString2)
+              End If
+            Case 1   'Warn
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+                End If
+              End If
+            Case 2   'Do Nothing
+          End Select
+          ''=============== Validate Over Budget ==================<<
+
+          ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
+          If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
+            If haveAdvancePay() Then
+              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
+                RaiseEvent AdvanceClick(Me, Nothing)
+                'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              End If
+            End If
+          End If
+          '------------------
+
         End If
-        '------------------
+
+
 
         '--------------คำสั่ง Insert
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter

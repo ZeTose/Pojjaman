@@ -1748,64 +1748,75 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       With Me
 
-        If Originated Then
-          If Not Supplier Is Nothing Then
-            If Supplier.Canceled Then
-              Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Supplier.Code})
-            End If
-          End If
+        Me.RefreshTaxBase()
+
+        Dim docValidate As Boolean = True
+        If Me.Originated AndAlso Me.Status.Value = 0 Then
+          docValidate = False
         End If
-        Dim ValidateError As SaveErrorException = ValidateItem()
-        If Not IsNumeric(ValidateError.Message) Then
-          Return ValidateError
-        End If
-        Dim ValidateOverBudgetError As SaveErrorException
-        Dim config As Integer = CInt(Configuration.GetConfig("GROverBudget"))
-        Select Case config
-          Case 0 'Not allow
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              Return New SaveErrorException(msgString & vbCrLf & msgString2)
-            End If
-          Case 1 'Warn
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+
+        If Not docValidate Then 'ถ้ายกเลิกเอกสารแล้ว ไม่ต้อง Validate
+
+          If Originated Then
+            If Not Supplier Is Nothing Then
+              If Supplier.Canceled Then
+                Return New SaveErrorException(StringParserService.Parse("${res:Global.Error.CanceledSupplier}"), New String() {Supplier.Code})
               End If
             End If
+          End If
+          Dim ValidateError As SaveErrorException = ValidateItem()
+          If Not IsNumeric(ValidateError.Message) Then
+            Return ValidateError
+          End If
+          Dim ValidateOverBudgetError As SaveErrorException
+          Dim config As Integer = CInt(Configuration.GetConfig("GROverBudget"))
+          Select Case config
+            Case 0 'Not allow
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                Return New SaveErrorException(msgString & vbCrLf & msgString2)
+              End If
+            Case 1 'Warn
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+                End If
+              End If
 
-          Case 2 'Do Nothing
-        End Select
+            Case 2 'Do Nothing
+          End Select
 
-        ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
-        If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
-          If haveAdvancePay() Then
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
-              RaiseEvent AdvanceClick(Me, Nothing)
-              'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+          ''---------------------- เช็คว่ามีมัดจำเหลือหรือป่าว 
+          If Me.AdvancePayItemCollection Is Nothing OrElse Me.AdvancePayItemCollection.Count = 0 Then
+            If haveAdvancePay() Then
+              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              If msgServ.AskQuestion("${res:Global.Question.WantAddAdvancePay}") Then
+                RaiseEvent AdvanceClick(Me, Nothing)
+                'Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              End If
             End If
           End If
+          '------------------
+
+          If Me.ItemCollection.Count <= 0 Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+          End If
+
         End If
-        '------------------
 
         'If NoItem Then
         '    Return Me.SaveNoItem(currentUserId)
         'ElseIf OnlyPayment Then
         '    Return Me.SaveOnlyPayment(currentUserId)
         'End If
-        Me.RefreshTaxBase()
-        If Me.ItemCollection.Count <= 0 Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        End If
 
         'Dim tmpBoq As BOQ = Me.ToCostCenter.Boq
 
