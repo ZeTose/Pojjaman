@@ -653,7 +653,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                   'แสดงเอกสารแต่ละตัว
                   DocMarkuptr = markuptr.Childs.Add
-                  DocMarkuptr = markupdocrow
+                  DocMarkuptr.Tag = markupdocrow
                   DocMarkuptr("boqi_itemname") = markupdocrow("DocCode")
                   'tr("Actual") = Configuration.FormatToString(SumValueInDataTable(dt3.Select(myQuery), "Amt"), dgt)
                   DocMarkuptr.State = RowExpandState.Expanded
