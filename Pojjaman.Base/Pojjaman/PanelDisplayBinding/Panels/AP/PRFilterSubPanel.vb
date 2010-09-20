@@ -1022,11 +1022,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpReceivingDateStart.Value = DateAdd(DateInterval.Year, -10, Now.Date) 'DateAdd(DateInterval.Day, -14, Now.Date)
       Me.dtpReceivingDateEnd.Value = DateAdd(DateInterval.Year, 10, Now.Date) 'Now.Date
 
+      Me.receivingDateStart = DateAdd(DateInterval.Year, -10, Now.Date) 'DateAdd(DateInterval.Day, -14, Now.Date)
+      Me.receivingDateEnd = DateAdd(DateInterval.Year, 10, Now.Date)
       Me.txtReceivingDateStart.Text = "" ' Me.MinDateToNull(DateAdd(DateInterval.Day, -14, Now.Date), "")
       Me.txtReceivingdateEnd.Text = "" 'Me.MinDateToNull(DateAdd(DateInterval.Day, 14, Now.Date), "")
-
-      Me.receivingDateStart = DateAdd(DateInterval.Day, -14, Now.Date)
-      Me.receivingDateEnd = DateAdd(DateInterval.Day, 14, Now.Date)
+      Me.receivingDateStart = Date.MinValue
+      Me.receivingDateEnd = Date.MinValue
 
       Me.cmbStatus.SelectedIndex = 0
       Me.cmbApproveLevel.SelectedIndex = 0

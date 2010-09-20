@@ -1038,6 +1038,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.receivingDateStart = DateAdd(DateInterval.Year, -10, Now.Date) 'DateAdd(DateInterval.Day, poReceiveDateStartBeforeToday, Now.Date)
       Me.receivingDateEnd = DateAdd(DateInterval.Year, 10, Now.Date) 'DateAdd(DateInterval.Day, poReceiveDateEndAfterToday, Now.Date)
+      Me.receivingDateStart = Date.MinValue
+      Me.receivingDateEnd = Date.MinValue
 
       cmbStatus.SelectedIndex = 0
       Me.cmbApproveLevel.SelectedIndex = 0
