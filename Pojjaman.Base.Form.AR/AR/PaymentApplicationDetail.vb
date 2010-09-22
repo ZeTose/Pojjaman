@@ -1888,7 +1888,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       totalRow.Tag = Nothing
       Dim i As Integer
       For Each item As Milestone In Me.m_entity.ItemCollection
-        item.ResetReal()
+        If item.Status.Value = 2 Then
+          item.ResetReal()
+        End If
         i += 1
         Dim row As TreeRow = Me.m_treeManager.Treetable.Childs.Add()
         row("Linenumber") = i

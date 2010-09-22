@@ -1415,7 +1415,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtDocDate.TextChanged, AddressOf Me.ChangeProperty
+      'AddHandler txtDocDate.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
 
       AddHandler dtpDocDate.TextChanged, AddressOf Me.ChangeProperty
