@@ -409,8 +409,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			End Get
 			Set(ByVal Value As IWitholdingTaxable)
         wht_refDoc = Value
-        DocDate = Value.Date
-			End Set
+        If Not Me.Originated Then
+          DocDate = Value.Date
+        End If
+      End Set
 		End Property
 		Public Property Direction() As WitholdingTaxDirection
 			Get
