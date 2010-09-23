@@ -1767,7 +1767,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi.Table = "Item.RefDoc"
                 dpiColl.Add(dpi)
 
-                If oitem.ItemType.Value <> 160 And oitem.ItemType.Value <> 162 Then
+                If oitem.ItemType.Value <> 160 OrElse oitem.ItemType.Value <> 162 Then
                   line += 1
                   'Item.LineNumber
                   dpi = New DocPrintingItem

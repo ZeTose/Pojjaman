@@ -1314,7 +1314,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีขาย
-      If Me.Vat.Amount > 0 Then
+      If Me.Vat.Amount > 0 AndAlso Me.Vat.Code.Length > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5"
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
@@ -1326,7 +1326,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.Add(ji)
       End If
       'ภาษีขาย-ไม่ถึงกำหนด
-      If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
+      If Me.RealTaxAmount - Me.Vat.Amount > 0 OrElse Me.Vat.Code.Length = 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "C10.5.1"
         If Me.Vat.Code.Length = 0 Then
