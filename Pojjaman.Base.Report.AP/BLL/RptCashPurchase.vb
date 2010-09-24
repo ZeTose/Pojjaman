@@ -11,6 +11,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptCashPurchase
     Inherits Report
@@ -33,6 +35,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       m_grid.BeginUpdate()
       m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       m_grid.Model.Options.NumberedColHeaders = False
@@ -40,6 +44,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreateHeader()
       PopulateData()
       m_grid.EndUpdate()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim dr As DataRow = CType(Me.m_grid(e.RowIndex, 0).Tag, DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+      Dim drh As New DataRowHelper(dr)
+      Dim docId As Integer = drh.GetValue(Of Integer)("stock_id")
+      Dim docType As Integer = drh.GetValue(Of Integer)("stock_type")
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
@@ -176,6 +195,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In dt.Rows
         m_grid.RowCount += 1
         currTrIndex = m_grid.RowCount
+        m_grid(currTrIndex, 0).Tag = row
         If ((currTrIndex Mod 2) = 0) Then
           m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(202, 220, 200)
         Else

@@ -1,5 +1,5 @@
 Option Strict On
-Option Explicit On 
+Option Explicit On
 
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
@@ -10,6 +10,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAPAdvancePay
     Inherits Report
@@ -18,6 +20,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
     Private m_showDetailInGrid As Integer
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -33,13 +36,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
@@ -52,6 +56,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       lkg.Refresh()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
+
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = drh.GetValue(Of Integer)("refID")
+        Dim docType As Integer = drh.GetValue(Of Integer)("refType")
+
+        Debug.Print(docId.ToString)
+        Debug.Print(docType.ToString)
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
@@ -126,11 +157,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim totalBalance As Decimal = 0
 
       Dim currentSupplier As String = ""
+
+      Dim rowIndex As Integer = 0
+      m_hashData = New Hashtable
+
       For Each supplierRow As DataRow In dt.Rows
+
         If currentSupplier <> supplierRow("suppliercode").ToString Then
           currentSupplier = supplierRow("suppliercode").ToString
 
           trSupplier = Me.Treemanager.Treetable.Childs.Add
+
           trSupplier.Tag = "Font.Bold"
           If Not supplierRow.IsNull("suppliercode") Then
             trSupplier("col0") = supplierRow("suppliercode").ToString
@@ -141,6 +178,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           For Each advanceRow As DataRow In dt.Select("supplier_Id=" & supplierRow("supplier_Id").ToString)
             trDoc = trSupplier.Childs.Add
+
+            rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trDoc) + 1
+            m_hashData(rowIndex) = advanceRow
+
             If Not advanceRow.IsNull("doccode") Then
               trDoc("col0") = indent & advanceRow("doccode").ToString
             End If
@@ -201,6 +242,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 If m_showDetailInGrid <> 0 Then
                   trDetail = trDoc.Childs.Add
+
+                  rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trDetail) + 1
+                  m_hashData(rowIndex) = detailRow
+
                   If Not detailRow.IsNull("refcode") Then
                     trDetail("col0") = indent & indent & detailRow("refcode").ToString
                   End If
@@ -259,7 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return
 
     End Sub
-     Private Function SearchTag(ByVal id As Integer) As TreeRow
+    Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
         Return Nothing
       End If
@@ -363,99 +408,99 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "RptAPAdvancePay"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.RptAPAdvancePay"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.RptAPAdvancePay"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.ListLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property TabPageText() As String
-            Get
-                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-                If tpt.EndsWith("()") Then
-                    tpt.TrimEnd("()".ToCharArray)
-                End If
-                Return tpt
-            End Get
-        End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "RptAPAdvancePay"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.RptAPAdvancePay"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.RptAPAdvancePay"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        If tpt.EndsWith("()") Then
+          tpt.TrimEnd("()".ToCharArray)
+        End If
+        Return tpt
+      End Get
+    End Property
 #End Region
 
 #Region "IPrintableEntity"
-        Public Overrides Function GetDefaultFormPath() As String
-            Return "RptAPAdvancePay"
-        End Function
-        Public Overrides Function GetDefaultForm() As String
-            Return "RptAPAdvancePay"
-        End Function
-        Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim dpi As DocPrintingItem
-            'Dim fn1 As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            'Dim fn2 As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Public Overrides Function GetDefaultFormPath() As String
+      Return "RptAPAdvancePay"
+    End Function
+    Public Overrides Function GetDefaultForm() As String
+      Return "RptAPAdvancePay"
+    End Function
+    Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      'Dim fn1 As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      'Dim fn2 As Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
 
-            'docdate start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "docdatestart"
-            If Not IsDBNull(Filters(0).Value) Then
-                dpi.Value = CDate((Filters(0).Value)).ToShortDateString
-            End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'docdate start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "docdatestart"
+      If Not IsDBNull(Filters(0).Value) Then
+        dpi.Value = CDate((Filters(0).Value)).ToShortDateString
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'docdate end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "docdateend"
-            If Not IsDBNull(Filters(1).Value) Then
-                dpi.Value = CDate((Filters(1).Value)).ToShortDateString
-            End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'docdate end
+      dpi = New DocPrintingItem
+      dpi.Mapping = "docdateend"
+      If Not IsDBNull(Filters(1).Value) Then
+        dpi.Value = CDate((Filters(1).Value)).ToShortDateString
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'supplier start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "supplierstart"
-            If Not IsDBNull(Filters(2).Value) Then
-                dpi.Value = CStr((Filters(2).Value)).ToString
-            End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'supplier start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "supplierstart"
+      If Not IsDBNull(Filters(2).Value) Then
+        dpi.Value = CStr((Filters(2).Value)).ToString
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'supplier end
-            dpi = New DocPrintingItem
-            dpi.Mapping = "supplierend"
-            If Not IsDBNull(Filters(3).Value) Then
-                dpi.Value = CStr((Filters(3).Value)).ToString
-            End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'supplier end
+      dpi = New DocPrintingItem
+      dpi.Mapping = "supplierend"
+      If Not IsDBNull(Filters(3).Value) Then
+        dpi.Value = CStr((Filters(3).Value)).ToString
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'costcenter start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "costcenterstart"
+      'costcenter start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "costcenterstart"
       If Not IsDBNull(Filters(12).Value) Then
         dpi.Value = CStr((Filters(12).Value)).ToString
       End If
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
       'ยกเลิก
       ''costcenter end
       'dpi = New DocPrintingItem
@@ -466,93 +511,93 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'dpi.DataType = "System.String"
       'dpiColl.Add(dpi)
 
-            Dim n As Integer = 0
-            Dim SumTaxBase As Decimal = 0
-            Dim SumTaxAmt As Decimal = 0
-            Dim SumTotal As Decimal = 0
-            Dim StartRow As Integer = 0
-            Dim fn As Font
-            If Me.m_showDetailInGrid = 0 Then
-                StartRow = 3
-            Else
-                StartRow = 4
-            End If
+      Dim n As Integer = 0
+      Dim SumTaxBase As Decimal = 0
+      Dim SumTaxAmt As Decimal = 0
+      Dim SumTotal As Decimal = 0
+      Dim StartRow As Integer = 0
+      Dim fn As Font
+      If Me.m_showDetailInGrid = 0 Then
+        StartRow = 3
+      Else
+        StartRow = 4
+      End If
 
-            For rowIndex As Integer = StartRow To m_grid.RowCount
-                fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      For rowIndex As Integer = StartRow To m_grid.RowCount
+        fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
 
-                If Me.m_showDetailInGrid <> 0 Then
-                    If Not CType(Me.Treemanager.Treetable.Rows(rowIndex - 1), TreeRow).Tag Is Nothing Then
-                        fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-                    End If
-                End If
+        If Me.m_showDetailInGrid <> 0 Then
+          If Not CType(Me.Treemanager.Treetable.Rows(rowIndex - 1), TreeRow).Tag Is Nothing Then
+            fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          End If
+        End If
 
-                For colIndex As Integer = 1 To Me.m_grid.ColCount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "col" & colIndex.ToString
-                    dpi.Value = m_grid(rowIndex, colIndex).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.Row = n + 1
-                    dpi.Table = "Item"
-                    dpi.Font = fn
-                    dpiColl.Add(dpi)
-                Next
+        For colIndex As Integer = 1 To Me.m_grid.ColCount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col" & colIndex.ToString
+          dpi.Value = m_grid(rowIndex, colIndex).CellValue
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpi.Font = fn
+          dpiColl.Add(dpi)
+        Next
 
-                If rowIndex = m_grid.RowCount Then
-                    'SumText
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumText"
-                    dpi.Value = m_grid(rowIndex, 3).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
+        If rowIndex = m_grid.RowCount Then
+          'SumText
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumText"
+          dpi.Value = m_grid(rowIndex, 3).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
 
-                    'SumBeforeTax
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumBeforeTax"
-                    dpi.Value = m_grid(rowIndex, 4).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
+          'SumBeforeTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumBeforeTax"
+          dpi.Value = m_grid(rowIndex, 4).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
 
-                    'SumTaxAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumTaxAmount"
-                    dpi.Value = m_grid(rowIndex, 5).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
+          'SumTaxAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumTaxAmount"
+          dpi.Value = m_grid(rowIndex, 5).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
 
-                    'SumAfterTax
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumAfterTax"
-                    dpi.Value = m_grid(rowIndex, 6).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
+          'SumAfterTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumAfterTax"
+          dpi.Value = m_grid(rowIndex, 6).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
 
-                    'SumAdvanceAmount
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumAdvanceAmount"
-                    dpi.Value = m_grid(rowIndex, 8).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
+          'SumAdvanceAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumAdvanceAmount"
+          dpi.Value = m_grid(rowIndex, 8).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
 
-                    'SumBalance
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "SumBalance"
-                    dpi.Value = m_grid(rowIndex, 9).CellValue
-                    dpi.DataType = "System.String"
-                    dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
-                    dpiColl.Add(dpi)
-                End If
+          'SumBalance
+          dpi = New DocPrintingItem
+          dpi.Mapping = "SumBalance"
+          dpi.Value = m_grid(rowIndex, 9).CellValue
+          dpi.DataType = "System.String"
+          dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+          dpiColl.Add(dpi)
+        End If
 
-                n += 1
-            Next
+        n += 1
+      Next
 
-            Return dpiColl
-        End Function
+      Return dpiColl
+    End Function
 #End Region
 
   End Class

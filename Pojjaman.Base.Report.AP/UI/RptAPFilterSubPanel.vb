@@ -102,10 +102,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSuppliCodeStart = New System.Windows.Forms.TextBox()
       Me.lblSuppliStart = New System.Windows.Forms.Label()
       Me.chkIncludeRetention = New System.Windows.Forms.CheckBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -214,6 +215,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdbBillissue.TabIndex = 59
       Me.rdbBillissue.TabStop = True
       Me.rdbBillissue.Text = "แสดง Retention ตอนวางบิล"
+      Me.rdbBillissue.Visible = False
       '
       'rdbPaySelection
       '
@@ -222,6 +224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rdbPaySelection.Size = New System.Drawing.Size(176, 24)
       Me.rdbPaySelection.TabIndex = 58
       Me.rdbPaySelection.Text = "แสดง Retention ตอนรับาชำระ"
+      Me.rdbPaySelection.Visible = False
       '
       'btnAccountEndFind
       '
@@ -381,7 +384,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(84, 21)
       Me.txtDocDateEnd.TabIndex = 2
       '
       'txtDocDateStart
@@ -397,7 +400,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
       Me.Validator.SetRequired(Me.txtDocDateStart, False)
-      Me.txtDocDateStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(88, 21)
       Me.txtDocDateStart.TabIndex = 1
       '
       'dtpDocDateStart
@@ -618,6 +621,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub

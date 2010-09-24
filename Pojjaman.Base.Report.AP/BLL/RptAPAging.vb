@@ -1,4 +1,4 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 
 Imports Longkong.Pojjaman.DataAccessLayer
@@ -10,6 +10,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAPAging
     Inherits Report
@@ -20,6 +22,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_showPeriod As Integer
     Private m_showByBillDate As Integer
     Private m_showDetailInGrid As Integer
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -35,13 +38,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
@@ -55,7 +59,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       lkg.Refresh()
     End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
+
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = 0
+        Dim docType As Integer = 0
+
+        Dim selectionType As Integer = 0
+        If IsNumeric(Me.m_grid(e.RowIndex, 13).CellValue) Then
+          selectionType = CInt(Me.m_grid(e.RowIndex, 13).CellValue)
+        End If
+
+        If selectionType = 0 Then
+          docId = drh.GetValue(Of Integer)("stock_id")
+          docType = drh.GetValue(Of Integer)("stock_type")
+        Else
+          docId = drh.GetValue(Of Integer)("billa_id")
+          docType = 60
+        End If
+
+        'Debug.Print(docId.ToString)
+        'Debug.Print(docType.ToString)
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       m_showPeriod = CInt(Me.DataSet.Tables(0).Rows(0).Item("ShowPeriod"))
@@ -173,7 +217,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         sumStockAmount(i) = 0
         sumCol(i) = 0
       Next
+
       Dim lastStockDate As String
+      Dim rowIndex As Integer = 0
+      m_hashData = New Hashtable
 
       For Each row As DataRow In dt.Rows
         If m_showPeriod = 0 Then
@@ -258,6 +305,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+
+                rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trSupplieritem) + 1
+                trSupplieritem("SelectionType") = 0
+                m_hashData(rowIndex) = row
+
                 trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
@@ -292,6 +344,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If CDec(row("SumDay")) <> 0 Then
                 If row("BillaCode").ToString <> "" Then
                   trBill = trSupplieritem.Childs.Add
+
+                  rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trBill) + 1
+                  trBill("SelectionType") = 1
+                  m_hashData(rowIndex) = row
+
                   trBill("col1") = indent & indent & row("BillaCode").ToString
                   trBill("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
                   trBill("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
@@ -404,6 +461,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+
+                rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trSupplieritem) + 1
+                trSupplieritem("SelectionType") = 0
+                m_hashData(rowIndex) = row
+
                 trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
@@ -444,6 +506,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If CDec(row("SumMonth")) <> 0 Then
                 If row("BillaCode").ToString <> "" Then
                   trBill = trSupplieritem.Childs.Add
+
+                  rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trBill) + 1
+                  trBill("SelectionType") = 1
+                  m_hashData(rowIndex) = row
+
                   trBill("col1") = indent & indent & row("BillaCode").ToString
                   trBill("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
                   trBill("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
@@ -547,6 +614,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
 
                 trSupplieritem = trSupplier.Childs.Add
+
+                rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trSupplieritem) + 1
+                trSupplieritem("SelectionType") = 0
+                m_hashData(rowIndex) = row
+
                 trSupplieritem("col0") = indent & CDate(row("StockDueDate")).ToShortDateString
                 trSupplieritem("col1") = indent & row("StockCode").ToString
                 currStockCode = row("StockCode").ToString
@@ -582,6 +654,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If CDec(row("SumYear")) <> 0 Then
                 If row("BillaCode").ToString <> "" Then
                   trBill = trSupplieritem.Childs.Add
+
+                  rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trBill) + 1
+                  trBill("SelectionType") = 1
+                  m_hashData(rowIndex) = row
+
                   trBill("col1") = indent & indent & row("BillaCode").ToString
                   trBill("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
                   trBill("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
@@ -642,13 +719,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'สำหรับ Supplier คนสุดท้าย
       If Not trSupplier Is Nothing Then
         If m_showPeriod = 0 Then
-            trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
-            trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
-            trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
-            trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
-            trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
-            trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
-            trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
+          trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
+          trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
+          trSupplier("col4") = Configuration.FormatToString(sumSupplierAmount(2), DigitConfig.Price)
+          trSupplier("col5") = Configuration.FormatToString(sumSupplierAmount(3), DigitConfig.Price)
+          trSupplier("col6") = Configuration.FormatToString(sumSupplierAmount(4), DigitConfig.Price)
+          trSupplier("col7") = Configuration.FormatToString(sumSupplierAmount(5), DigitConfig.Price)
+          trSupplier("col8") = Configuration.FormatToString(sumSupplierAmount(6), DigitConfig.Price)
         ElseIf m_showPeriod = 1 Then
           trSupplier("col2") = Configuration.FormatToString(sumSupplierAmount(0), DigitConfig.Price)
           trSupplier("col3") = Configuration.FormatToString(sumSupplierAmount(1), DigitConfig.Price)
@@ -724,6 +801,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("SelectionType", GetType(String)))
 
       Return myDatatable
     End Function
@@ -733,9 +811,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim widths As New ArrayList
       Dim colCount As Integer = 0
       If m_showPeriod = 0 Or m_showPeriod = 2 Then
-        colCount = 8
+        colCount = 9
       ElseIf m_showPeriod = 1 Then
-        colCount = 10
+        colCount = 11
       End If
       If m_showDetailInGrid = 0 Then
         colCount = colCount - 1
@@ -752,7 +830,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100)
       widths.Add(100)
       widths.Add(100)
-      'widths.Add(100)
+      widths.Add(0)
 
       For i As Integer = 0 To colCount
         If i = 1 Then

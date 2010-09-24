@@ -1,4 +1,4 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
@@ -9,6 +9,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAPPayment
     Inherits Report
@@ -16,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_hashData As Hashtable
     'Private ShowDetailInGrid As Integer
 #End Region
 
@@ -32,13 +35,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
@@ -52,7 +56,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       lkg.Refresh()
     End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
+
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+        Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+        Debug.Print(docId.ToString)
+        Debug.Print(docType.ToString)
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       'ShowDetailInGrid = CInt(Me.DataSet.Tables(0).Rows(0)("ShowDetail"))
@@ -112,7 +143,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim indent As String = Space(3)
-      Dim currDocIndex As Integer = -1
+      'Dim currDocIndex As Integer = -1
       Dim currDocId As String = ""
 
       Dim currRefDocIndex As Integer = -1
@@ -131,9 +162,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumInCreaseAmt As Decimal = 0
       Dim sumPaymentAmt As Decimal = 0
 
+      Dim rowIndex As Integer = 0
+      m_hashData = New Hashtable
       For Each row As DataRow In dt.Rows
 
         trPay = Me.m_treemanager.Treetable.Childs.Add
+        rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trPay) + 1
+        m_hashData(rowIndex) = row
+
         If CInt(Me.Filters(10).Value) <> 0 Then
           trPay.Tag = "Font.Bold"
         End If
@@ -259,6 +295,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If CInt(row("payment_refDocType")).Equals(73) Then
               For Each drow As DataRow In dt3.Select("paysi_pays = " & row("payment_refDoc").ToString)
                 trRefDocitem = trDoc.Childs.Add
+
+                rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trRefDocitem) + 1
+                m_hashData(rowIndex) = drow
+
                 If Not drow.IsNull("IglCode") Then
                   trRefDocitem("col1") = drow("IglCode")
                 End If
@@ -286,6 +326,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Next
             Else
               trRefDocitem = trDoc.Childs.Add
+
+              rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trRefDocitem) + 1
+              m_hashData(rowIndex) = row
+
               If Not row.IsNull("payment_code") Then
                 trRefDocitem("col1") = row("payment_code")
               End If
@@ -314,11 +358,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trPay = Me.m_treemanager.Treetable.Childs.Add
       trPay.Tag = "Font.Bold"
       trPay("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Total}") '"รวม"
-            'trPay("col5") = Configuration.FormatToString(sumStockAmt, DigitConfig.Price)
-            'trPay("col6") = Configuration.FormatToString(sumBilledAmt, DigitConfig.Price)
-            'trPay("col7") = Configuration.FormatToString(sumWHTAmt, DigitConfig.Price)
-            'trPay("col8") = Configuration.FormatToString(sumDeCreaseAmt, DigitConfig.Price)
-            'trPay("col9") = Configuration.FormatToString(sumInCreaseAmt, DigitConfig.Price)
+      'trPay("col5") = Configuration.FormatToString(sumStockAmt, DigitConfig.Price)
+      'trPay("col6") = Configuration.FormatToString(sumBilledAmt, DigitConfig.Price)
+      'trPay("col7") = Configuration.FormatToString(sumWHTAmt, DigitConfig.Price)
+      'trPay("col8") = Configuration.FormatToString(sumDeCreaseAmt, DigitConfig.Price)
+      'trPay("col9") = Configuration.FormatToString(sumInCreaseAmt, DigitConfig.Price)
       trPay("col10") = Configuration.FormatToString(sumPaymentAmt, DigitConfig.Price)
 
     End Sub

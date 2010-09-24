@@ -8,6 +8,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Syncfusion.Windows.Forms.Grid
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptCCPOSummary
@@ -17,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
     Private MasterTotal As Decimal = 0
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -32,6 +34,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       m_grid.BeginUpdate()
       m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       m_grid.Model.Options.NumberedColHeaders = False
@@ -39,6 +43,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreateHeader()
       PopulateData()
       m_grid.EndUpdate()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is KeyValuePair Then
+        Dim IDandType As KeyValuePair = CType(tr, KeyValuePair)
+        If IDandType Is Nothing Then
+          Return
+        End If
+
+        Dim docId As Integer = 0
+        Dim docType As Integer = 0
+
+        docId = IDandType.Value
+        docType = IDandType.Key
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 2
@@ -138,6 +167,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim SumTaxBase As Decimal = 0
       Dim SumNoTax As Decimal = 0
       Dim GridRangeStyle1 As GridRangeStyle  '= New GridRangeStyle
+
+      m_hashData = New Hashtable
+      Dim dc0 As New DataColumn("id")
+      dt.Columns.Add(dc0)
+      Dim dc1 As New DataColumn("docType")
+      dt.Columns.Add(dc1)
 
       For Each row As DataRow In dt.Rows
         If row("CCId").ToString <> currentCCId Then
@@ -249,6 +284,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
+          Dim IDandType As New KeyValuePair(6, CInt(row("DocId")))
+          m_hashData(currDocIndex) = IDandType
+
           m_grid.RowStyles(currDocIndex).BackColor = Color.AntiqueWhite
           m_grid.RowStyles(currDocIndex).Font.Bold = True
           m_grid.RowStyles(currDocIndex).ReadOnly = True
@@ -282,7 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tmpTaxType = row("TaxType")
             tmpTaxAmount = CDec(row("TaxAmount"))
             tmpTaxBase = CDec(row("TaxBase"))
-                        SumVatAmount += CDec(row("TaxAmount"))
+            SumVatAmount += CDec(row("TaxAmount"))
             SumTaxBase += CDec(row("TaxBase"))
           Else
             tmpTaxType = 0
@@ -302,6 +340,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
           m_grid.RowStyles(currItemIndex).ReadOnly = True
+          Dim refId As Integer = 0
+          If Not row.IsNull("RefId") Then
+            refId = CInt(row("RefId"))
+          End If
+          Dim IDandType As New KeyValuePair(7, refId)
+          m_hashData(currItemIndex) = IDandType
           If Not row.IsNull("RefCode") Then
             m_grid(currItemIndex, 1).CellValue = indent & indent & row("RefCode").ToString
           End If
@@ -369,7 +413,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         GridRangeStyle1 = New GridRangeStyle
         m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(currItemIndex, 4, currItemIndex, 6)})
         GridRangeStyle1.Range = GridRangeInfo.Cell(currItemIndex, 4)
-                GridRangeStyle1.StyleInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.TaxAmount}")     '"ค่าภาษีมูลค่าเพิ่ม"
+        GridRangeStyle1.StyleInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.TaxAmount}")     '"ค่าภาษีมูลค่าเพิ่ม"
         GridRangeStyle1.StyleInfo.HorizontalAlignment = GridHorizontalAlignment.Left
         m_grid.RangeStyles.AddRange(New GridRangeStyle() {GridRangeStyle1})
         'm_grid(currItemIndex, 6).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.TaxAmount}")			 '"ค่าภาษีมูลค่าเพิ่ม"
@@ -413,7 +457,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       GridRangeStyle1 = New GridRangeStyle
       m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(currItemIndex, 4, currItemIndex, 6)})
       GridRangeStyle1.Range = GridRangeInfo.Cell(currItemIndex, 4)
-            GridRangeStyle1.StyleInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCExpenseSummary.SumVatAmount}")    '"ยอดรวมภาษี"
+      GridRangeStyle1.StyleInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCExpenseSummary.SumVatAmount}")    '"ยอดรวมภาษี"
       GridRangeStyle1.StyleInfo.HorizontalAlignment = GridHorizontalAlignment.Left
       m_grid.RangeStyles.AddRange(New GridRangeStyle() {GridRangeStyle1})
       m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(SumVatAmount, DigitConfig.Price)
