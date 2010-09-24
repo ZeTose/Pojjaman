@@ -1500,19 +1500,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ElseIf TypeOf Me.RefDoc Is GoodsSold Then
         Dim n As Integer = 0
         For Each item As GoodsSoldItem In CType(Me.RefDoc, GoodsSold).ItemCollection
-          'Item.LineNumber
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.LineNumber"
-          dpi.Value = n + 1
-          dpi.DataType = "System.Int32"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
 
-          'Item.Code
+          'Item.TypeName
           dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Code"
-          dpi.Value = item.Entity.Code
+          dpi.Mapping = "Item.TypeName"
+          dpi.Value = item.ItemType.Description
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
@@ -1531,92 +1523,114 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          If item.ItemType.Value <> 160 OrElse item.ItemType.Value = 162 Then
+            'Item.LineNumber
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.LineNumber"
+            dpi.Value = n + 1
+            dpi.DataType = "System.Int32"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-          'Item.Unit
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Unit"
-          dpi.Value = item.Unit.Name
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+            'Item.Code
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Code"
+            dpi.Value = item.Entity.Code
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-          'Item.Qty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty"
-          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
 
-          'Item.UnitPrice
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.UnitPrice"
-          If item.UnitPrice = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+
+            'Item.Unit
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Unit"
+            dpi.Value = item.Unit.Name
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Qty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Qty"
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.UnitPrice
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.UnitPrice"
+            If item.UnitPrice = 0 Then
+              dpi.Value = ""
+            Else
+              dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.DiscountRate
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.DiscountRate"
+            dpi.Value = item.Discount.Rate
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.DiscountAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.DiscountAmount"
+            If item.Discount.Amount = 0 Then
+              dpi.Value = ""
+            Else
+              dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Amount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Amount"
+            If item.Amount = 0 Then
+              dpi.Value = ""
+            Else
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Note
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Note"
+            dpi.Value = item.Note
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.ZeroVat
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.ZeroVat"
+            dpi.Value = item.UnVatable
+            dpi.DataType = "System.Boolean"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            n += 1
+
           End If
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          'Item.DiscountRate
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.DiscountRate"
-          dpi.Value = item.Discount.Rate
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          'Item.DiscountAmount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.DiscountAmount"
-          If item.Discount.Amount = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Discount.Amount, DigitConfig.Price)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          'Item.Amount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Amount"
-          If item.Amount = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          'Item.Note
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Note"
-          dpi.Value = item.Note
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          'Item.ZeroVat
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.ZeroVat"
-          dpi.Value = item.UnVatable
-          dpi.DataType = "System.Boolean"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
-
-          n += 1
         Next   'i
       ElseIf TypeOf Me.RefDoc Is AdvanceReceive Then
         'Item.LineNumber
@@ -3262,7 +3276,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
           j += 1
           If Not showSpecificLineOnly OrElse (j = Me.LineNumber OrElse ls.Count <> myCount) Then
             Dim lineTexts As String() = lineText.Split("|"c)
+            Dim typeValue As Integer = 0
             If lineTexts.Length > 1 Then
+
+              If lineTexts.Length = 15 Then
+                typeValue = CInt(lineTexts(13))
+              Else
+                typeValue = -1
+              End If
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = lineTexts(0)
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              If Not (typeValue = 160 OrElse typeValue = 162) Then
+
               'Item.LineNumber
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.LineNumber"
@@ -3276,14 +3309,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item"
               dpiColl.Add(dpi)
 
-              'Item.Name
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.Name"
-              dpi.Value = lineTexts(0)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+             
 
               'Item.Unit
               dpi = New DocPrintingItem
@@ -3407,6 +3433,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               If IsNumeric(lineTexts(11)) Then
                 sumAftertax += CDec(lineTexts(11))
+              End If
               End If
 
               y += 1
@@ -3641,6 +3668,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       "|" & gsItem.Discount.Rate & _
                       "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
                       "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+                      "|" & gsItem.ItemType.Value.ToString & _
               "|"
                       Me.m_lines.Add(itemText)
                     Next
@@ -3710,6 +3738,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     "|" & gsItem.Discount.Rate & _
                     "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
                     "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+                    "|" & gsItem.ItemType.Value.ToString & _
               "|"
                     Me.m_lines.Add(itemText)
                   Next

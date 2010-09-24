@@ -25,6 +25,7 @@ Namespace Longkong.AdobeForm
     Public Shared Letter As New PaperSize("Letter", 850, 1100)
     Public Shared A4Extra As New PaperSize("A4Extra", 826, 1169)
     Public Shared NineByEleven As New PaperSize("9by11inch", 882, 1078)
+    Public Shared L855 As New PaperSize("855", 784, 539)
   End Class
   Public Class DesignerForm
 
@@ -1324,8 +1325,10 @@ Namespace Longkong.AdobeForm
                             thePaper = PJMPaper.A4Extra
                           Case "9by11inch"
                             thePaper = PJMPaper.NineByEleven
+                          Case "855"
+                            thePaper = PJMPaper.L855
                           Case Else
-                            thePaper = GetPaperSize(mediumNode.Attributes("stock").Value, mediumNode.Attributes("stock").Value)
+                            thePaper = GetPaperSize(mediumNode.Attributes("stock").Value, mediumNode.Attributes("short").Value & mediumNode.Attributes("long").Value)
                         End Select
                       End If
                     End If
