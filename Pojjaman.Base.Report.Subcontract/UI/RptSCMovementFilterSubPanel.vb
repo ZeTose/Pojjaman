@@ -1052,6 +1052,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.DocDateStart = Date.MinValue
           End If
           m_dateSetting = False
+        Case "dtpdocdatestart"
+          If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          End If
         Case "dtpdocdateend"
           If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
             If Not m_dateSetting Then

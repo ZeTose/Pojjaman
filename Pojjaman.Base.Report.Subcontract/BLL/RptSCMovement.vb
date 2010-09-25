@@ -166,8 +166,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         index += 1
         trSubContractor.Tag = "Font.Bold"
         trSubContractor("col0") = newSubContRow.GetValue(Of String)("SubContractorInfo")
-        trSubContractor("col10") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advopeningbalance"), DigitConfig.Price)
-        trSubContractor("col12") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advbalance"), DigitConfig.Price)
+        trSubContractor("col8") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advopeningbalance"), DigitConfig.Price)
+        trSubContractor("col10") = Configuration.FormatToString(newSubContRow.GetValue(Of Decimal)("advbalance"), DigitConfig.Price)
         trSubContractor.State = RowExpandState.Expanded
 
         m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
