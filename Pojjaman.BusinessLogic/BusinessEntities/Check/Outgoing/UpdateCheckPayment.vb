@@ -918,15 +918,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If bankacct.Account.Id = acct.Id Then
               sumvalue += CDec(row("check_amount"))
             End If
-            ji = New JournalEntryItem
-            ji.Mapping = "H2.2D"
-            ji.Amount = CDec(row("check_amount"))
-            If acct.Originated Then
-              ji.Account = acct
-            End If
-            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
-            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-            jiColl.Add(ji)
           End If
         Next
         If sumvalue > 0 Then
@@ -936,6 +927,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If acct.Originated Then
             ji.Account = acct
           End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
+        End If
+      Next
+
+      For i As Integer = Me.MaxRowIndex To 0 Step -1
+        Dim row As TreeRow = Me.ItemTable.Childs(i)
+        If ValidateRow(row) Then
+          Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.2D"
+          ji.Amount = CDec(row("check_amount"))
+          ji.Account = bankacct.Account
+          ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           jiColl.Add(ji)
         End If
@@ -1027,20 +1032,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sumvalue As Decimal = 0
         For i As Integer = Me.MaxRowIndex To 0 Step -1
           Dim row As TreeRow = Me.ItemTable.Childs(i)
-          'Dim drh As New DataRowHelper(row)
+          Dim drh As New DataRowHelper(row)
           If ValidateRow(row) Then
             Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
             If ga.Account.Id = acct.Id Then
-              sumvalue += CDec(row("check_amount"))
+              sumvalue += drh.GetValue(Of Decimal)("check_amount", 0)
             End If
             ji = New JournalEntryItem
             ji.Mapping = "H2.3D"
-            ji.Amount = CDec(row("check_amount"))
+            ji.Amount = drh.GetValue(Of Decimal)("check_amount", 0)
             ji.IsDebit = True
             If acct.Originated Then
               ji.Account = acct
             End If
-            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            ji.Note = drh.GetValue(Of String)("check_cqcode") & ":" & drh.GetValue(Of String)("bankacct_name") & "/" & drh.GetValue(Of String)("check_recipient")
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jiColl.Add(ji)
           End If
@@ -1105,18 +1110,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sumvalue As Decimal = 0
         For i As Integer = Me.MaxRowIndex To 0 Step -1
           Dim row As TreeRow = Me.ItemTable.Childs(i)
+          Dim drh As New DataRowHelper(row)
           If ValidateRow(row) Then
             Dim supplieracct As New Supplier(CInt(row("check_supplier")))
             If supplieracct.Account.Id = acct.Id Then
-              sumvalue += CDec(row("check_amount"))
+              sumvalue += drh.GetValue(Of Decimal)("check_amount", 0)
             End If
             ji = New JournalEntryItem
             ji.Mapping = "H2.4D"
-            ji.Amount = CDec(row("check_amount"))
+            ji.Amount = drh.GetValue(Of Decimal)("check_amount", 0)
             If acct.Originated Then
               ji.Account = acct
             End If
-            ji.Note = "Â¡àÅÔ¡àªç¤ " & CStr(row("check_cqcode")) & "/" & supplieracct.Name
+            ji.Note = "Â¡àÅÔ¡àªç¤ " & drh.GetValue(Of String)("check_cqcode") & "/" & supplieracct.Name
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jiColl.Add(ji)
           End If
