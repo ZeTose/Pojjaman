@@ -2464,7 +2464,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.cmbContact.Items.Add(Me.m_entity.Supplier.Contact)
         End If
         For Each citem As SupplierContact In Me.m_entity.Supplier.ContactCollection
-          Me.cmbContact.Items.Add(citem.Name)
+          If Not citem Is Nothing Then
+            If Not citem.Name Is Nothing AndAlso citem.Name.Length > 0 Then
+              Me.cmbContact.Items.Add(citem.Name)
+            End If
+          End If
         Next
       End If
       If Me.cmbContact.Items.Count > 0 Then
