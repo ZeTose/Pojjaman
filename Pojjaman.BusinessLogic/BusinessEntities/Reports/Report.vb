@@ -16,6 +16,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IUseTelerikGridReport
 
   End Interface
+  Public Interface IUseTelerikGridReportStyle
+
+  End Interface
   Public Class Report
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity

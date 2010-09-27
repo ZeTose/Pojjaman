@@ -13,6 +13,8 @@
 					<MenuItem id="rptjvautomatic" icon="Icons.16x16.RptJVAutomatic" label="${res:MainMenu.PurchaseMenu.RptJVAutomatic.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJVAutomatic"/>
 					<MenuItem id="rptglbalancesheet" icon="Icons.16x16.RptGLBalanceSheet" label="${res:MainMenu.PurchaseMenu.RptGLBalanceSheet.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLBalanceSheet"/>
           <MenuItem id="rptspecialjournalentry" icon="Icons.16x16.RptSpecialJournalEntry" label="${res:MainMenu.PurchaseMenu.RptSpecialJournalEntry.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry"/>
+          <MenuItem id="rptjournalentrybycc" icon="Icons.16x16.RptJournalEntryByCC" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCC"/>
+          <MenuItem id="rptjournalentrybycclist" icon="Icons.16x16.RptJournalEntryByCCList" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCCList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList"/>
 				</MenuItem>
 				<!--<MenuItem id="rptlogfile" icon="Icons.16x16.RptLogFile" label="${res:MainMenu.PurchaseMenu.RptLogFile.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptLogFile"/>-->
 			</MenuItem>
@@ -30,6 +32,8 @@
 		<EntityFilter id="rptfinancialstatement" entity="rptfinancialstatement" filter="Longkong.Pojjaman.Gui.Panels.RptFinancialStatementFilterSubPanel"/>
 		<EntityFilter id="rptglpaper" entity="rptglpaper" filter="Longkong.Pojjaman.Gui.Panels.RptGLPaperFilterSubPanel"/>
     <EntityFilter id="rptspecialjournalentry" entity="rptspecialjournalentry" filter="Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel"/>
+    <EntityFilter id="rptjournalentrybycc" entity="rptjournalentrybycc" filter="Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCFilterSubPanel"/>
+    <EntityFilter id="rptjournalentrybycclist" entity="rptjournalentrybycclist" filter="Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCListFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="rptfinancialstatement">
@@ -70,5 +74,11 @@
     <EntityTab id="rptglpayreceivebyacct">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
-	</Extension>
+    <!--<EntityTab id="rptjournalentrybycc">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>-->
+    <EntityTab id="rptjournalentrybycclist">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+  </Extension>
 </AddIn>

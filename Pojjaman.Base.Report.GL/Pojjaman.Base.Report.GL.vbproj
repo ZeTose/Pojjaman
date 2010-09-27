@@ -117,6 +117,22 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -131,6 +147,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptJournalEntryByCC.vb" />
     <Compile Include="BLL\RptGLPayReceivebyAcct.vb" />
     <Compile Include="BLL\RptGLfromPayReceivebyEntity.vb" />
     <Compile Include="BLL\RptGL.vb">
@@ -144,6 +161,13 @@
     </Compile>
     <Compile Include="BLL\RptSpecialJournalEntry.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BLL\RptJournalEntryByCCList.vb" />
+    <Compile Include="GL\RptJournalEntryByCCListFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\RptJournalEntryByCCFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\RptGLPayReceivebyAcctFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -181,6 +205,12 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="GL\RptJournalEntryByCCListFilterSubPanel.resx">
+      <DependentUpon>RptJournalEntryByCCListFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\RptJournalEntryByCCFilterSubPanel.resx">
+      <DependentUpon>RptJournalEntryByCCFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\RptGLPayReceivebyAcctFilterSubPanel.resx">
       <DependentUpon>RptGLPayReceivebyAcctFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
