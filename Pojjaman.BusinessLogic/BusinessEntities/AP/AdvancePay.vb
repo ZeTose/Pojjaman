@@ -110,14 +110,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je.DocDate = Me.m_docDate
 
         .m_payment = New Payment(Me)
-        '==Checking for addin for วิศวพัฒน์
-        Dim hasExport As Boolean = False
-        For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-          If a.FileName.ToLower.Contains("textexport") Then
-            hasExport = True
-          End If
-        Next
-        .m_payment.OnHold = hasExport
+        ''==Checking for addin for วิศวพัฒน์
+        'Dim hasExport As Boolean = False
+        'For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        '  If a.FileName.ToLower.Contains("textexport") Then
+        '    hasExport = True
+        '  End If
+        'Next
+        '.m_payment.OnHold = hasExport
+
+        .m_payment.OnHold = False
 
         .m_payment.DocDate = Me.m_docDate
         '----------------------------End Tab Entities-----------------------------------------
