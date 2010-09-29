@@ -336,7 +336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
+    Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter, IHasToCostCenter.ToCC
       Get
         Return Me.Sc.CostCenter
       End Get
@@ -1996,15 +1996,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
-    Dim m As CostCenter
-    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
-      Get
-        Return m 'Me.CostCenter
-      End Get
-      Set(ByVal Value As CostCenter)
-        Me.m = Value
-      End Set
-    End Property
+    'Dim m As CostCenter
+    'Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
+    '  Get
+    '    Return m 'Me.CostCenter
+    '  End Get
+    '  Set(ByVal Value As CostCenter)
+    '    Me.m = Value
+    '  End Set
+    'End Property
     Public ReadOnly Property IsApproved() As Boolean Implements IApprovAble.IsApproved
       Get
         If Not (Me.ApprovePerson Is Nothing) AndAlso Me.ApprovePerson.Originated Then
