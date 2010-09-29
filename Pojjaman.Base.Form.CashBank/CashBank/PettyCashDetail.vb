@@ -88,6 +88,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents txtMCBank As System.Windows.Forms.TextBox
+    Friend WithEvents txtFax As System.Windows.Forms.TextBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -155,6 +157,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.txtFax = New System.Windows.Forms.TextBox()
+      Me.Label4 = New System.Windows.Forms.Label()
       Me.grbPettyCash.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -301,6 +305,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'FixedGroupBox1
       '
+      Me.FixedGroupBox1.Controls.Add(Me.txtFax)
+      Me.FixedGroupBox1.Controls.Add(Me.Label4)
       Me.FixedGroupBox1.Controls.Add(Me.txtMCAccount)
       Me.FixedGroupBox1.Controls.Add(Me.Label1)
       Me.FixedGroupBox1.Controls.Add(Me.txtDCBank)
@@ -313,7 +319,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.FixedGroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.FixedGroupBox1.Location = New System.Drawing.Point(558, 24)
       Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(206, 124)
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(206, 149)
       Me.FixedGroupBox1.TabIndex = 330
       Me.FixedGroupBox1.TabStop = False
       Me.FixedGroupBox1.Text = "Export : "
@@ -1020,6 +1026,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
+      'txtFax
+      '
+      Me.Validator.SetDataType(Me.txtFax, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtFax, "")
+      Me.txtFax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtFax, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtFax, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtFax, System.Drawing.Color.Empty)
+      Me.txtFax.Location = New System.Drawing.Point(80, 119)
+      Me.txtFax.MaxLength = 100
+      Me.Validator.SetMinValue(Me.txtFax, "")
+      Me.txtFax.Name = "txtFax"
+      Me.Validator.SetRegularExpression(Me.txtFax, "")
+      Me.Validator.SetRequired(Me.txtFax, False)
+      Me.txtFax.Size = New System.Drawing.Size(120, 21)
+      Me.txtFax.TabIndex = 16
+      '
+      'Label4
+      '
+      Me.Label4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label4.ForeColor = System.Drawing.Color.Black
+      Me.Label4.Location = New System.Drawing.Point(5, 119)
+      Me.Label4.Name = "Label4"
+      Me.Label4.Size = New System.Drawing.Size(78, 18)
+      Me.Label4.TabIndex = 17
+      Me.Label4.Text = "Fax:"
+      Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'PettyCashDetail
       '
       Me.Controls.Add(Me.grbPettyCash)
@@ -1339,6 +1373,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDCACcount.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCBank.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCAccount.TextChanged, AddressOf ChangeProperty
+      AddHandler txtFax.TextChanged, AddressOf ChangeProperty
     End Sub
     Public Sub NumericChanged(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
@@ -1372,6 +1407,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Return
         Case txtMCAccount.Name.ToLower
           m_entity.MCAccount = txtMCAccount.Text
+          Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
+          Return
+        Case txtFax.Name.ToLower
+          m_entity.Fax = txtFax.Text
           Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or True
           Return
         Case "cmbcode"
@@ -1541,6 +1580,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtMCBank.Text = m_entity.MCBank
       txtMCAccount.Text = m_entity.MCAccount
+
+      txtFax.Text = m_entity.Fax
 
       Me.m_entity.ReLoadItems()
 

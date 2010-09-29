@@ -78,6 +78,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property MCBank As String
 
     Property MCAccount As String
+    Property Fax As String
 
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
@@ -215,6 +216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.MCBank = deh.GetValue(Of String)("pc_kbankmcbank")
         Me.DCAccount = deh.GetValue(Of String)("pc_kbankdcaccount")
         Me.DCBank = deh.GetValue(Of String)("pc_kbankdcbank")
+        Me.Fax = deh.GetValue(Of String)("pc_fax")
         'GenPettyCashPayment()
 
       End With
@@ -489,6 +491,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankDCAccount", Me.DCAccount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankMCBank", Me.MCBank))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_KbankMCAccount", Me.MCAccount))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fax", Me.Fax))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
