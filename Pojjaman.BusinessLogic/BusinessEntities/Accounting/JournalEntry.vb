@@ -1694,6 +1694,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
         End If
 
+
         n += 1
       Next
 
@@ -1768,6 +1769,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         n += 1
       Next
+
+      dpiColl.AddRange(GetWBSDocPrintingEntries)
+
+      Return dpiColl
+    End Function
+    Public Function GetWBSDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      Dim n As Integer
+
+      If TypeOf Me.RefDoc Is IWBSAllocatable Then
+        For Each itm As IWBSAllocatableItem In CType(Me.RefDoc, IWBSAllocatable).GetWBSAllocatableItemCollection
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "WBSItem.ItemDescription"
+          dpi.Value = itm.Type & "; " & itm.Description & "; " & Configuration.FormatToString(itm.ItemAmount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "WBSItem"
+          dpiColl.Add(dpi)
+
+          Dim wbsList As New ArrayList
+          Dim wbsDescription As String = ""
+          For Each wbsd As WBSDistribute In itm.WBSDistributeCollection
+            wbsDescription = wbsd.CostCenter.Code & "/" & wbsd.WBS.Code & "/" & Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
+            wbsList.Add(wbsDescription)
+          Next
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "WBSItem.WBSDescription"
+          dpi.Value = ""
+          If wbsList.Count > 0 Then
+            dpi.Value = String.Join("; ", wbsList.ToArray)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "WBSItem"
+          dpiColl.Add(dpi)
+
+          n += 1
+        Next
+      End If
 
       Return dpiColl
     End Function
