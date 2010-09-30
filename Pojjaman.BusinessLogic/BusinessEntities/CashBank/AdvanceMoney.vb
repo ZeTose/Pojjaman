@@ -990,7 +990,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "G9.1"
         ji.Account = Me.Account
         ji.Amount = Me.Amount
-        ji.CostCenter = Costcenter.GetDefaultCostCenter(Costcenter.DefaultCostCenterType.HQ)
+        If Me.Costcenter IsNot Nothing Then
+          ji.CostCenter = Me.Costcenter
+        Else
+          ji.CostCenter = Costcenter.GetDefaultCostCenter(Costcenter.DefaultCostCenterType.HQ)
+        End If
         jiColl.Add(ji)
       End If
 

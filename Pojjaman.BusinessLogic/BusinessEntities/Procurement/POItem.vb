@@ -677,7 +677,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_amount As Decimal
     Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
-        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
+        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitCost * Me.StockQty), DigitConfig.Price)
         Return amtFormatted - Me.DiscountAmount
       End Get
     End Property
