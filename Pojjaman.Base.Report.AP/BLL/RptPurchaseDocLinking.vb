@@ -94,7 +94,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csPayDate.MappingName = "paydate"
       csPayDate.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitHeaderText}")
       csPayDate.NullText = ""
-      csPayDate.Width = 100
+      csPayDate.Width = 0
       csPayDate.DataAlignment = HorizontalAlignment.Left
       csPayDate.Alignment = HorizontalAlignment.Left
       csPayDate.TextBox.Name = "paydate"
@@ -254,6 +254,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim grid As Integer = drh.GetValue(Of Integer)("stock_id")
       Dim pyid As Integer = drh.GetValue(Of Integer)("pays_id")
       Dim biid As Integer = drh.GetValue(Of Integer)("billa_id")
+      Dim paid As Integer = drh.GetValue(Of Integer)("payment_id")
 
       Select Case prefix.ToLower
         Case "pr"
@@ -266,10 +267,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           key = prefix & ":" & parId.ToString & ":" & pyid.ToString
         Case "billa"
           key = prefix & ":" & parId.ToString & ":" & biid.ToString
-        Case "paymenti45"
-          key = prefix & ":" & prid.ToString
-        Case "paymenti73"
-          key = prefix & prid.ToString
+        Case "payment"
+          key = prefix & ":" & parId.ToString & ":" & paid.ToString
       End Select
 
       Trace.WriteLine(key.ToString)
@@ -289,15 +288,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("date") = drh.GetValue(Of Date)(prefix & "_docdate").ToShortDateString
         End If
-        row("paydescription") = drh.GetValue(Of String)(prefix & "description")
-        row("paycode") = drh.GetValue(Of String)(prefix & "entitycode")
-        If Date.MinValue = drh.GetValue(Of Date)(prefix & "duedate") Then
+        row("paydescription") = drh.GetValue(Of String)(prefix & "_description")
+        row("paycode") = drh.GetValue(Of String)(prefix & "_paycode")
+        If Date.MinValue = drh.GetValue(Of Date)(prefix & "_paydate") Then
           row("paydate") = ""
         Else
-          row("paydate") = drh.GetValue(Of Date)(prefix & "duedate").ToShortDateString
+          row("paydate") = drh.GetValue(Of Date)(prefix & "_paydate").ToShortDateString
         End If
 
-        If prefix = "paymenti45_" OrElse prefix = "paymenti73_" Then
+        If prefix = "payment" Then
         Else
           row.State = RowExpandState.Expanded
         End If
@@ -314,10 +313,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_hashData(rowIndex) = New IdType(pyid, 73)
           Case "billa"
             m_hashData(rowIndex) = New IdType(biid, 60)
-          Case "paymenti45"
-            m_hashData(rowIndex) = New IdType(prid, 6)
-          Case "paymenti73"
-            m_hashData(rowIndex) = New IdType(prid, 6)
+          Case "payment"
+            If pyid > 0 Then
+              m_hashData(rowIndex) = New IdType(pyid, 73)
+            Else
+              m_hashData(rowIndex) = New IdType(grid, 45)
+            End If
         End Select
 
         hash(key) = row
@@ -423,13 +424,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If grid > 0 Then
             grRow = FindRow(dt, drh, "stock", rowHash, poRow)
 
-            'For Each pydRow As DataRow In dt3.Select("stock_Id=" & grid.ToString)
-            '  Dim pydrh As New DataRowHelper(pydRow)
-            '  If pydrh.GetValue(Of Integer)("paymenti45_entity", -1) >= 0 Then
-            '    FindRow(dt, pydrh, "paymenti45_", rowHash, grRow)
-            '  End If
-            'Next
-
             For Each pydRow As DataRow In dt1.Select("stock_Id=" & grid.ToString)
 
               Dim pydrh As New DataRowHelper(pydRow)
@@ -439,13 +433,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If pydrh.GetValue(Of Integer)("pays_id") > 0 Then
                 pyRow = FindRow(dt, pydrh, "pays", rowHash, grRow)
 
-                For Each pay73 As DataRow In dt1.Select("pays_id=" & pydrh.GetValue(Of Integer)("pays_id").ToString)
-                  Dim pay73dhp As New DataRowHelper(pay73)
-                  If pay73dhp.GetValue(Of Integer)("paymenti73_entity", -1) > -1 Then
-                    FindRow(dt, pay73dhp, "paymenti73_", rowHash, pyRow)
-                  End If
-                Next
+                FindRow(dt, pydrh, "payment", rowHash, pyRow)
 
+              End If
+              If pydrh.GetValue(Of Integer)("pays_id") = 0 And pydrh.GetValue(Of Integer)("payment_id") > 0 Then
+                FindRow(dt, pydrh, "payment", rowHash, grRow)
               End If
             Next
           End If
