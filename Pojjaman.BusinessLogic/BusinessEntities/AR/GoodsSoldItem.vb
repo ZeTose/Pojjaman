@@ -679,7 +679,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.GoodsSold Is Nothing Then
           Return 0
         End If
-        Dim myGross As Decimal = Me.GoodsSold.Gross
+        Dim myGross As Decimal = Me.GoodsSold.RealGross
         Dim myDiscount As Decimal = Me.GoodsSold.DiscountAmount
         If myGross = 0 Then
           Return 0

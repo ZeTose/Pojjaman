@@ -781,7 +781,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เลขที่ใบกำกับ
           dpi = New DocPrintingItem
           dpi.Mapping = "col3"
-          dpi.Value = doc.Vat.Code
+          If doc.Vat.ItemCollection.Count > 0 Then
+            dpi.Value = doc.Vat.ItemCollection(0).Code
+          End If
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
