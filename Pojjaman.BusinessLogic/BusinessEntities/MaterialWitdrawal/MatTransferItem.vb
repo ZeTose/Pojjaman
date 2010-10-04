@@ -897,10 +897,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Dim isApprove As Boolean = True
       For Each Item As MatTransferItem In Me
-        If Not Item.Pritem Is Nothing And Not Item.Pritem.Pr Is Nothing Then
-          If Not Item.Pritem.Pr.CheckIsStoreApproved Then
-            isApprove = False
-            Exit For
+        If Not Item.Pritem Is Nothing Then
+          If Not Item.Pritem.Pr Is Nothing Then
+            If Not Item.Pritem.Pr.CheckIsStoreApproved Then
+              isApprove = False
+              Exit For
+            End If
           End If
           'If Item.Pritem.Pr.ApproveStorePerson Is Nothing OrElse Item.Pritem.Pr.ApproveStorePerson.Id = 0 Then
           '  isApprove = False

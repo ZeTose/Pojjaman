@@ -2157,6 +2157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
       RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
       tgItem.CurrentRowIndex = index
     End Sub
     Public Sub UnitClicked(ByVal e As ButtonColumnEventArgs)
@@ -2190,7 +2191,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Private Sub SetUnit(ByVal unit As ISimpleEntity)
+      Dim oldUnit As String = Me.m_treeManager.SelectedRow("Unit")
       Me.m_treeManager.SelectedRow("Unit") = unit.Code
+      If Not oldUnit.Equals(unit.Code) Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
