@@ -12,6 +12,7 @@ Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class OutgoingCheckDetailView
     Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
     Implements IValidatable, IReversibleEntityProperty
 
 #Region " Windows Form Designer generated code "
@@ -78,6 +79,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnExport As System.Windows.Forms.Button
     Friend WithEvents cmbExportType As System.Windows.Forms.ComboBox
+    Friend WithEvents chkExportCheck As System.Windows.Forms.CheckBox
     Friend WithEvents lblItem As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -129,6 +131,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.chkExportCheck = New System.Windows.Forms.CheckBox()
       Me.grbOutgoingCheck.SuspendLayout()
       CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -144,6 +147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbOutgoingCheck.Controls.Add(Me.ibtnDelRow)
       Me.grbOutgoingCheck.Controls.Add(Me.RadGridView2)
       Me.grbOutgoingCheck.Controls.Add(Me.ibtnBlank)
+      Me.grbOutgoingCheck.Controls.Add(Me.chkExportCheck)
       Me.grbOutgoingCheck.Controls.Add(Me.chkACPayeeOnly)
       Me.grbOutgoingCheck.Controls.Add(Me.chkCheckHandler)
       Me.grbOutgoingCheck.Controls.Add(Me.txtTotal)
@@ -758,6 +762,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'chkExportCheck
+      '
+      Me.chkExportCheck.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkExportCheck.Location = New System.Drawing.Point(550, 24)
+      Me.chkExportCheck.Name = "chkExportCheck"
+      Me.chkExportCheck.Size = New System.Drawing.Size(136, 24)
+      Me.chkExportCheck.TabIndex = 203
+      Me.chkExportCheck.Text = "รับเช็คที่ธนาคาร"
+      '
       'OutgoingCheckDetailView
       '
       Me.Controls.Add(Me.grbOutgoingCheck)
@@ -778,6 +791,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblCode}")
       Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+
+      Me.chkExportCheck.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.chkExportCheck}")
 
       Me.lblCqCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblCqCode}")
       Me.Validator.SetDisplayName(txtCqCode, lblCqCode.Text)
@@ -1041,6 +1056,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler chkACPayeeOnly.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkCheckHandler.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkExportCheck.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
@@ -1147,6 +1163,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Me.btnExport.Visible = hasExport
       Me.cmbExportType.Visible = hasExport
+      Me.chkExportCheck.Visible = hasExport
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -1164,10 +1181,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dtpDueDate.Value = Date.Now
 
       cmbStatus.SelectedIndex = 0
-      cmbStatus.SelectedIndex = 0
+      'cmbStatus.SelectedIndex = 0
+      cmbExportType.SelectedIndex = 0
+      'cmbExportType.SelectedIndex = 0
+      chkExportCheck.Checked = False
 
-      cmbExportType.SelectedIndex = 0
-      cmbExportType.SelectedIndex = 0
     End Sub
 
     ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
@@ -1199,6 +1217,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         cmbExportType.Text = m_entity.ExportType.ToUpper
+        chkExportCheck.Checked = m_entity.ReceiptAtBank
         txtrecipient.Text = .m_entity.Recipient
 
         txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
@@ -1217,7 +1236,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
 
         If Not .m_entity.DocStatus Is Nothing Then
-          Dim desc As String = Me.m_entity.DocStatus.GetDescription("outgoingcheck_docstatus", Me.m_entity.DocStatus.Value)
+          Dim desc As String = CodeDescription.GetDescription("outgoingcheck_docstatus", Me.m_entity.DocStatus.Value)
           cmbStatus.FindStringExact(desc)
           cmbStatus.SelectedIndex = cmbStatus.FindStringExact(desc)
         End If
@@ -1275,6 +1294,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean
       Select Case CType(sender, Control).Name.ToLower
+        Case "chkexportcheck"
+          Me.m_entity.ReceiptAtBank = Me.chkExportCheck.Checked
+          dirtyFlag = True
         Case "cmbexporttype"
           Me.m_entity.ExportType = Me.cmbExportType.Text.ToUpper
           dirtyFlag = True

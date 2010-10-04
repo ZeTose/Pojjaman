@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports Longkong.Core.AddIns
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class OutgoingCheck
@@ -37,6 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_ACPayeeOnly As Boolean
     Private m_unbearer As Boolean
+    Private m_receiptAtBank As Boolean
 #End Region
 
 #Region "Constructors"
@@ -67,6 +69,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.m_docStatus = New OutgoingCheckDocStatus(-1)
       Me.Status = New CheckStatus(-1)
+
+      '==Checking for addin วิศวพัฒน์
+      Dim hasExport As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains("textexport") Then
+          hasExport = True
+        End If
+      Next
+      If hasExport Then
+        Me.m_receiptAtBank = True
+      End If
+
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       MyBase.Construct(ds, aliasPrefix)
@@ -152,12 +166,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "check_ExportType") AndAlso Not dr.IsNull(aliasPrefix & "check_ExportType") Then
           .ExportType = CStr(dr(aliasPrefix & "check_ExportType"))
         End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "check_receiptAtBank") AndAlso Not dr.IsNull(aliasPrefix & "check_receiptAtBank") Then
+          .m_receiptAtBank = CBool(dr(aliasPrefix & "check_receiptAtBank"))
+        End If
       End With
       RefreshPVList()
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ReceiptAtBank As Boolean
+      Get
+        Return m_receiptAtBank
+      End Get
+      Set(ByVal value As Boolean)
+        m_receiptAtBank = value
+      End Set
+    End Property
     Public Property ItemTable() As TreeTable
       Get
         Return m_itemTable
@@ -685,6 +711,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ACPayeeOnly", Me.ACPayeeOnly))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Unbearer", Me.Unbearer))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_exporttype", Me.ExportType))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiptAtbank", Me.ReceiptAtBank))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -883,6 +910,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_ACPayeeOnly", Me.ACPayeeOnly))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_Unbearer", Me.Unbearer))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_exporttype", Me.ExportType))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_receiptAtbank", Me.ReceiptAtBank))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -1178,6 +1206,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property ExportType As String
 
   End Interface
+  Public Interface ICOCExportable
+    Inherits IExportable
+
+    Property EffectiveDate As Date
+    Property PickUpDate As Date
+    Property Chargee As String
+    Function ChequeReceiverList() As List(Of ChequeReceiver)
+
+    'ReadOnly Property ChequePaymentList As List(Of ChequePayment)
+    'ReadOnly Property ChequePaymentVatList As List(Of ChequePaymentVat)
+
+  End Interface
   Public Class Exporter
     Public Shared Function GetBankInfo(ByVal bankName As String, ByVal bankAccountCode As String) As BankInfo
       If bankName Is Nothing Then
@@ -1315,7 +1355,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Case "dct", "pct"
           ExportDCP(c, t, writer)
         Case "coc"
-          ExportCOC(c, t, writer)
+          If TypeOf c Is ICOCExportable Then
+            ExportCOC(CType(c, ICOCExportable), t, writer)
+          Else
+            ExportCOC(c, t, writer)
+          End If
       End Select
     End Sub
     Private Shared Sub ExportMCP(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
@@ -1622,6 +1666,112 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
       Next
     End Sub
+    Private Shared Sub ExportCOC(ByVal c As ICOCExportable, ByVal t As String, ByVal writer As TextWriter)
+
+      Dim CqReceiveList As List(Of ChequeReceiver) = c.ChequeReceiverList
+
+      Dim DebitAmount As Decimal = 0
+      For Each cqritem As ChequeReceiver In CqReceiveList
+        DebitAmount += cqritem.Amount
+      Next
+
+      Dim culture As New CultureInfo("en-US", True)
+
+
+      Dim header As String = ""
+      header &= "H" 'Part Identifier
+      header &= "COC" 'Payment Type
+      header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'Debit A/C No.
+      header &= Space(16) 'Batch Ref.#
+      header &= c.EffectiveDate.ToString("dd-MM-yyyy", culture) 'Effective Date
+      header &= c.PickUpDate.ToString("dd-MM-yyyy", culture) 'Pickup Date
+      header &= Space(5) 'Customer Branch #
+      header &= String.Format("{0:000000000000000000}", CqReceiveList.Count)  'Total Credit Items
+      header &= String.Format("{0:000000000000000.00}", DebitAmount) 'Total Debit Amount
+      header &= c.Chargee 'Charges for A/C Of.
+
+      writer.WriteLine(header)
+
+      For Each cqritem As ChequeReceiver In CqReceiveList
+        Dim creditText As String = ""
+        creditText &= "D" 'Part Identifier
+        creditText &= String.Format("{0,-10}", cqritem.TnxReferenceNo) 'Txn. Reference No.poj
+        creditText &= String.Format("{0:0000000000.00}", cqritem.Amount) 'Amount
+        creditText &= String.Format("{0,-120}", cqritem.Payee).Substring(0, 120) 'Payee
+        creditText &= String.Format("{0,-30}", cqritem.PayeeAddress1).Substring(0, 30) 'Payee Address 1
+        creditText &= String.Format("{0,-30}", cqritem.PayeeAddress2).Substring(0, 30) 'Payee Address 2
+        creditText &= String.Format("{0,-30}", cqritem.PayeeAddress3).Substring(0, 30) 'Payee Address 3
+        creditText &= String.Format("{0,-30}", cqritem.PayeeAddress4).Substring(0, 30) 'Payee Address 4
+        creditText &= String.Format("{0,-10}", cqritem.TaxID) 'Tax Id
+        creditText &= String.Format("{0,-13}", cqritem.PersonalID).Substring(0, 13) 'Personal Id
+        creditText &= String.Format("{0,-16}", cqritem.BeneRef).Substring(0, 16) 'Bene. Ref #
+        creditText &= String.Format("{0,-255}", cqritem.Detail).Substring(0, 255) 'Details
+        creditText &= cqritem.DeliveryMethod 'Delivery Method
+        creditText &= String.Format("{0,-4}", cqritem.PickupLocationCode).Substring(0, 4) 'Pickup Location Code
+        creditText &= String.Format("{0,-24}", cqritem.DocumentForPickup).Substring(0, 24) 'Document for Pickup
+        creditText &= String.Format("{0,-50}", cqritem.AttachmentSubfile).Substring(0, 50) 'Attachment Sub-file
+        creditText &= cqritem.AdviceMode 'Advice Mode (F = fax)
+        creditText &= String.Format("{0,-50}", cqritem.FaxNo) 'Fax No.
+        creditText &= String.Format("{0,-50}", cqritem.EmailID).Substring(0, 50) 'Email ID
+        creditText &= String.Format("{0:0000000000.00}", cqritem.TotalInvAmtBefVAT) 'Total Inv Amt bef VAT (10.2)
+        creditText &= String.Format("{0:0000000000.00}", cqritem.TotalTaxDeductedAmt) 'Total Tax deducted Amt (10.2)
+        creditText &= String.Format("{0:0000000000.00}", cqritem.TotalInvAmtAfterVAT) 'Total Inv Amt after VAT (10.2)
+        creditText &= String.Format("{0:000}", cqritem.ChequePaymentVatList.Count) 'Tax Info Count
+
+        writer.WriteLine(creditText)
+
+        Dim taxIndex As Integer = 1
+        For Each cqrVatitem As ChequePaymentVat In cqritem.ChequePaymentVatList
+          Dim taxDetail As String = ""
+          taxDetail &= "T" 'Part Identifier
+          taxDetail &= cqrVatitem.TaxForm 'Tax Form
+          taxDetail &= String.Format("{0,-10}", taxIndex) 'Tax Seq.#
+          taxDetail &= String.Format("{0:000.00}", cqrVatitem.TaxRate) 'Tax rate (3.2)
+          taxDetail &= String.Format("{0,-40}", cqrVatitem.TypeofTaxDeducted.Substring(0, 40))   'Type of tax deducted
+          taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.InvAmtBefVAT) 'Inv Amt bef VAT (10.2)
+          taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.TaxDeductedAmt) 'Tax deducted Amt (10.2)
+          taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.InvAmtAfterVAT) 'Inv Amt after VAT (10.2)
+          taxDetail &= cqrVatitem.TaxCondition 'Tax Condition
+
+          writer.WriteLine(taxDetail)
+
+          taxIndex += 1
+        Next
+
+        For Each cqpayitem As ChequePayment In cqritem.ChequePaymentList
+          Dim invoiceText As String = ""
+          invoiceText &= "I" 'Part Identifier
+          invoiceText &= String.Format("{0,-30}", cqpayitem.PaymentNo.Substring(0, 30)) 'Payment No.
+          invoiceText &= String.Format("{0,-15}", cqpayitem.BankReference.Substring(0, 15)) 'Bank Reference
+          invoiceText &= String.Format("{0,-15}", cqpayitem.CustomerReference.Substring(0, 15)) 'Customer Reference
+          invoiceText &= String.Format("{0,-20}", cqpayitem.InvoiceNumber.Substring(0, 20)) 'Invoice Number
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.InvoiceAmount).Replace(".", "") 'Invoice Amount
+          invoiceText &= cqpayitem.InvoiceDate.ToString("ddMMyyyy", culture) 'Invoice Date
+          invoiceText &= String.Format("{0,-15}", cqpayitem.CreditNoteNo.Substring(0, 15)) 'Credit Note No.
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.CreditNoteAmount).Replace(".", "") 'Credit Note Amount
+          invoiceText &= String.Format("{0,-15}", cqpayitem.DebitNoteNo.Substring(0, 15)) 'Debit Note No.
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.DebitNoteAmount).Replace(".", "") 'Debit Note Amount
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.GrossAmount).Replace(".", "") 'Gross Amount
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.VATAmount).Replace(".", "") 'VAT Amount
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.WHTAmount).Replace(".", "") 'WHT Amount
+          invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.NetAmount).Replace(".", "") 'Net Amount
+          invoiceText &= String.Format("{0,-15}", cqpayitem.StatementNo.Substring(0, 15)) 'Statement No.
+          invoiceText &= String.Format("{0,-2}", cqpayitem.StatusInv) 'Status(Inv).
+          invoiceText &= String.Format("{0,-2}", cqpayitem.StatusInv) 'Status(Inv).
+          invoiceText &= String.Format("{0,-2}", cqpayitem.TransactionType) 'Transaction Type
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo1.Substring(0, 40)) 'Reference No. 1
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo2.Substring(0, 40)) 'Reference No. 2
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo3.Substring(0, 40)) 'Reference No. 3
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo4.Substring(0, 40)) 'Reference No. 4
+          invoiceText &= String.Format("{0,-100}", cqpayitem.Filler.Substring(0, 100)) 'Filler
+
+          writer.WriteLine(invoiceText)
+
+        Next
+
+      Next
+
+    End Sub
     Private Shared Function ItemEqualKbankMCL(ByVal i1 As PaymentForList, ByVal i2 As PaymentForList) As Boolean
       If i1.KbankMCBank <> i2.KbankMCBank Then
         Return False
@@ -1749,5 +1899,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return exportList
     End Function
   End Class
+  Public Class ChequeReceiver
+#Region "Construct"
+    Public Sub New()
+      ChequePaymentVatList = New List(Of ChequePaymentVat)
+      ChequePaymentList = New List(Of ChequePayment)
+    End Sub
+#End Region
 
+#Region "Properties"
+    Public Property PartIdentifier As String
+    Public Property TnxReferenceNo As String
+    Public Property Amount As Decimal
+    Public Property Payee As String
+    Public Property PayeeAddress1 As String
+    Public Property PayeeAddress2 As String
+    Public Property PayeeAddress3 As String
+    Public Property PayeeAddress4 As String
+    Public Property TaxID As String
+    Public Property PersonalID As String
+    Public Property BeneRef As String
+    Public Property Detail As String
+    Public Property DeliveryMethod As String
+    Public Property PickupLocationCode As String
+    Public Property DocumentForPickup As String
+    Public Property AttachmentSubfile As String
+    Public Property AdviceMode As String
+    Public Property FaxNo As String
+    Public Property EmailID As String
+    Public Property TotalInvAmtBefVAT As Decimal
+    Public Property TotalTaxDeductedAmt As Decimal
+    Public Property TotalInvAmtAfterVAT As Decimal
+    Public Property TaxInfoCount As Integer
+    Public Property ChequePaymentVatList As List(Of ChequePaymentVat)
+    Public Property ChequePaymentList As List(Of ChequePayment)
+#End Region
+  End Class
+  Public Class ChequePayment
+#Region "Properties"
+    Public Property PartIdentifier As String
+    Public Property PaymentNo As String
+    Public Property BankReference As String
+    Public Property CustomerReference As String
+    Public Property InvoiceNumber As String
+    Public Property InvoiceAmount As Decimal
+    Public Property InvoiceDate As Date
+    Public Property CreditNoteNo As String
+    Public Property CreditNoteAmount As Decimal
+    Public Property DebitNoteNo As String
+    Public Property DebitNoteAmount As Decimal
+    Public Property GrossAmount As Decimal
+    Public Property VATAmount As Decimal
+    Public Property WHTAmount As Decimal
+    Public Property NetAmount As Decimal
+    Public Property StatementNo As String
+    Public Property StatusInv As String
+    Public Property TransactionType As String
+    Public Property ReferenceNo1 As String
+    Public Property ReferenceNo2 As String
+    Public Property ReferenceNo3 As String
+    Public Property ReferenceNo4 As String
+    Public Property Filler As String
+#End Region
+  End Class
+  Public Class ChequePaymentVat
+#Region "Properties"
+    Public Property PartIdentifier As String
+    Public Property TaxForm As String
+    Public Property TaxSeq As String
+    Public Property TaxRate As Decimal
+    Public Property TypeofTaxDeducted As String
+    Public Property InvAmtBefVAT As Decimal
+    Public Property TaxDeductedAmt As Decimal
+    Public Property InvAmtAfterVAT As Decimal
+    Public Property TaxCondition As String
+#End Region
+  End Class
 End Namespace

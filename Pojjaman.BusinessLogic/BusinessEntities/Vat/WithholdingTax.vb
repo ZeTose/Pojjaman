@@ -205,6 +205,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .wht_docDate = CDate(dr(aliasPrefix & "wht_docDate"))
         End If
 
+        If Not dr.IsNull(aliasPrefix & "wht_sequenceNo") Then
+          .SequenceNo = CStr(dr(aliasPrefix & "wht_sequenceNo"))
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "wht_bookNo") AndAlso Not dr.IsNull(aliasPrefix & "wht_bookNo") Then
           .wht_bookNo = CStr(dr(aliasPrefix & "wht_bookNo"))
         End If
@@ -329,45 +333,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-		Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
-			Get
-				Return CType(wht_refDoc, ISimpleEntity)
-			End Get
-		End Property
+    Public Property SequenceNo As String
+    Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
+      Get
+        Return CType(wht_refDoc, ISimpleEntity)
+      End Get
+    End Property
 
-		Public Property BookNo() As String
-			Get
-				Return wht_bookNo
-			End Get
-			Set(ByVal Value As String)
-				wht_bookNo = Value
-			End Set
-		End Property
-		Public Property LastestCode() As String
-			Get
-				Return m_latestCode
-			End Get
-			Set(ByVal Value As String)
-				m_latestCode = Value
-			End Set
-		End Property
-		Public Property ItemTable() As TreeTable
-			Get
-				Return m_itemTable
-			End Get
-			Set(ByVal Value As TreeTable)
-				m_itemTable = Value
-			End Set
-		End Property
-		Public Property ItemTable2() As TreeTable
-			Get
-				Return m_itemTable2
-			End Get
-			Set(ByVal Value As TreeTable)
-				m_itemTable2 = Value
-			End Set
-		End Property
-		Public Property Type() As WitholdingTaxType
+    Public Property BookNo() As String
+      Get
+        Return wht_bookNo
+      End Get
+      Set(ByVal Value As String)
+        wht_bookNo = Value
+      End Set
+    End Property
+    Public Property LastestCode() As String
+      Get
+        Return m_latestCode
+      End Get
+      Set(ByVal Value As String)
+        m_latestCode = Value
+      End Set
+    End Property
+    Public Property ItemTable() As TreeTable
+      Get
+        Return m_itemTable
+      End Get
+      Set(ByVal Value As TreeTable)
+        m_itemTable = Value
+      End Set
+    End Property
+    Public Property ItemTable2() As TreeTable
+      Get
+        Return m_itemTable2
+      End Get
+      Set(ByVal Value As TreeTable)
+        m_itemTable2 = Value
+      End Set
+    End Property
+    Public Property Type() As WitholdingTaxType
       Get
         If wht_type.Value = -1 Then
           If Not Me.Entity Is Nothing Then
@@ -383,260 +388,260 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return wht_type
       End Get
-			Set(ByVal Value As WitholdingTaxType)
-				wht_type = Value
-			End Set
-		End Property
-		Public Property DocDate() As Date
-			Get
-				Return wht_docDate
-			End Get
-			Set(ByVal Value As Date)
-				wht_docDate = Value
-			End Set
-		End Property
-		Public Property Note() As String
-			Get
-				Return wht_note
-			End Get
-			Set(ByVal Value As String)
-				wht_note = Value
-			End Set
-		End Property
-		Public Property RefDoc() As IWitholdingTaxable
-			Get
-				Return wht_refDoc
-			End Get
-			Set(ByVal Value As IWitholdingTaxable)
+      Set(ByVal Value As WitholdingTaxType)
+        wht_type = Value
+      End Set
+    End Property
+    Public Property DocDate() As Date
+      Get
+        Return wht_docDate
+      End Get
+      Set(ByVal Value As Date)
+        wht_docDate = Value
+      End Set
+    End Property
+    Public Property Note() As String
+      Get
+        Return wht_note
+      End Get
+      Set(ByVal Value As String)
+        wht_note = Value
+      End Set
+    End Property
+    Public Property RefDoc() As IWitholdingTaxable
+      Get
+        Return wht_refDoc
+      End Get
+      Set(ByVal Value As IWitholdingTaxable)
         wht_refDoc = Value
         If Not Me.Originated Then
           DocDate = Value.Date
         End If
       End Set
-		End Property
-		Public Property Direction() As WitholdingTaxDirection
-			Get
-				Return wht_direction
-			End Get
-			Set(ByVal Value As WitholdingTaxDirection)
-				wht_direction = Value
-			End Set
-		End Property
-		Public Property Entity() As IBillablePerson
-			Get
-				Return wht_entity
-			End Get
-			Set(ByVal Value As IBillablePerson)
-				wht_entity = Value
-			End Set
-		End Property
-		Public Property PrintName() As String
-			Get
-				Return wht_printName
-			End Get
-			Set(ByVal Value As String)
-				wht_printName = Value
-			End Set
-		End Property
-		Public Property EntityAddress() As String
-			Get
-				If wht_entityAddress Is Nothing OrElse wht_entityAddress.Length = 0 Then
-					Return Me.Entity.BillingAddress
-				End If
-				Return wht_entityAddress
-			End Get
-			Set(ByVal Value As String)
-				wht_entityAddress = Value
-			End Set
-		End Property
-		Public Property EntityTaxId() As String
-			Get
-				If wht_entityTaxId Is Nothing OrElse wht_entityTaxId.Length = 0 Then
-					If Not Me.Entity.TaxId Is Nothing Then
-						Return Me.Entity.TaxId
-					Else
-						Return ""
-					End If
-				End If
-				Return wht_entityTaxId
-			End Get
-			Set(ByVal Value As String)
-				wht_entityTaxId = Value
-			End Set
-		End Property
-		Public Property EntityIdNo() As String
-			Get
-				If wht_entityIdNo Is Nothing OrElse wht_entityIdNo.Length = 0 Then
-					If Not Me.Entity.IdNo Is Nothing Then
-						Return Me.Entity.IdNo
-					Else
-						Return ""
-					End If
-				End If
-				Return wht_entityIdNo
-			End Get
-			Set(ByVal Value As String)
-				wht_entityIdNo = Value
-			End Set
-		End Property
-		Public Property RepresentName() As String
-			Get
-				Return wht_representName
-			End Get
-			Set(ByVal Value As String)
-				wht_representName = Value
-			End Set
-		End Property
-		Public Property RepresentTaxId() As String
-			Get
-				Return wht_representTaxId
-			End Get
-			Set(ByVal Value As String)
-				wht_representTaxId = Value
-			End Set
-		End Property
-		Public Property RepresentAddress() As String
-			Get
-				Return wht_representAddress
-			End Get
-			Set(ByVal Value As String)
-				wht_representAddress = Value
-			End Set
-		End Property
-		Public Property RepresentIdNo() As String
-			Get
-				Return wht_representIdNo
-			End Get
-			Set(ByVal Value As String)
-				wht_representIdNo = Value
-			End Set
-		End Property
-		Public Property EmployerAcct() As String
-			Get
-				Return wht_employerAcct
-			End Get
-			Set(ByVal Value As String)
-				wht_employerAcct = Value
-			End Set
-		End Property
-		Public Property EmployeeSSN() As String
-			Get
-				Return wht_employeeSSN
-			End Get
-			Set(ByVal Value As String)
-				wht_employeeSSN = Value
-			End Set
-		End Property
-		Public Property CompanySupport() As String
-			Get
-				Return wht_CompanySupport
-			End Get
-			Set(ByVal Value As String)
-				wht_CompanySupport = Value
-			End Set
-		End Property
-		Public Property License() As String
-			Get
-				Return wht_license
-			End Get
-			Set(ByVal Value As String)
-				wht_license = Value
-			End Set
-		End Property
-		Public Property Cumulative() As String
-			Get
-				Return wht_cumulative
-			End Get
-			Set(ByVal Value As String)
-				wht_cumulative = Value
-			End Set
-		End Property
-		Public Property PaymentType() As WitholdingTaxPaymentType
-			Get
-				Return wht_paymentType
-			End Get
-			Set(ByVal Value As WitholdingTaxPaymentType)
-				wht_paymentType = Value
-			End Set
-		End Property
-		Public ReadOnly Property TaxBase() As Decimal
-			Get
-				Dim sumTaxBase As Decimal = 0
-				For Each row As TreeRow In Me.ItemTable.Childs
-					If Not IsDBNull(row("whti_taxbase")) AndAlso IsNumeric(row("whti_taxbase")) Then
-						sumTaxBase += CDec(row("whti_taxbase"))
-					End If
-				Next
-				Return sumTaxBase
-			End Get
-		End Property
-		Public ReadOnly Property Amount() As Decimal
-			Get
-				Dim sumAmount As Decimal = 0
-				For Each row As TreeRow In Me.ItemTable.Childs
-					If Not IsDBNull(row("Amount")) AndAlso IsNumeric(row("Amount")) Then
-						sumAmount += CDec(row("Amount"))
-					End If
-				Next
-				Return sumAmount
-			End Get
-		End Property
+    End Property
+    Public Property Direction() As WitholdingTaxDirection
+      Get
+        Return wht_direction
+      End Get
+      Set(ByVal Value As WitholdingTaxDirection)
+        wht_direction = Value
+      End Set
+    End Property
+    Public Property Entity() As IBillablePerson
+      Get
+        Return wht_entity
+      End Get
+      Set(ByVal Value As IBillablePerson)
+        wht_entity = Value
+      End Set
+    End Property
+    Public Property PrintName() As String
+      Get
+        Return wht_printName
+      End Get
+      Set(ByVal Value As String)
+        wht_printName = Value
+      End Set
+    End Property
+    Public Property EntityAddress() As String
+      Get
+        If wht_entityAddress Is Nothing OrElse wht_entityAddress.Length = 0 Then
+          Return Me.Entity.BillingAddress
+        End If
+        Return wht_entityAddress
+      End Get
+      Set(ByVal Value As String)
+        wht_entityAddress = Value
+      End Set
+    End Property
+    Public Property EntityTaxId() As String
+      Get
+        If wht_entityTaxId Is Nothing OrElse wht_entityTaxId.Length = 0 Then
+          If Not Me.Entity.TaxId Is Nothing Then
+            Return Me.Entity.TaxId
+          Else
+            Return ""
+          End If
+        End If
+        Return wht_entityTaxId
+      End Get
+      Set(ByVal Value As String)
+        wht_entityTaxId = Value
+      End Set
+    End Property
+    Public Property EntityIdNo() As String
+      Get
+        If wht_entityIdNo Is Nothing OrElse wht_entityIdNo.Length = 0 Then
+          If Not Me.Entity.IdNo Is Nothing Then
+            Return Me.Entity.IdNo
+          Else
+            Return ""
+          End If
+        End If
+        Return wht_entityIdNo
+      End Get
+      Set(ByVal Value As String)
+        wht_entityIdNo = Value
+      End Set
+    End Property
+    Public Property RepresentName() As String
+      Get
+        Return wht_representName
+      End Get
+      Set(ByVal Value As String)
+        wht_representName = Value
+      End Set
+    End Property
+    Public Property RepresentTaxId() As String
+      Get
+        Return wht_representTaxId
+      End Get
+      Set(ByVal Value As String)
+        wht_representTaxId = Value
+      End Set
+    End Property
+    Public Property RepresentAddress() As String
+      Get
+        Return wht_representAddress
+      End Get
+      Set(ByVal Value As String)
+        wht_representAddress = Value
+      End Set
+    End Property
+    Public Property RepresentIdNo() As String
+      Get
+        Return wht_representIdNo
+      End Get
+      Set(ByVal Value As String)
+        wht_representIdNo = Value
+      End Set
+    End Property
+    Public Property EmployerAcct() As String
+      Get
+        Return wht_employerAcct
+      End Get
+      Set(ByVal Value As String)
+        wht_employerAcct = Value
+      End Set
+    End Property
+    Public Property EmployeeSSN() As String
+      Get
+        Return wht_employeeSSN
+      End Get
+      Set(ByVal Value As String)
+        wht_employeeSSN = Value
+      End Set
+    End Property
+    Public Property CompanySupport() As String
+      Get
+        Return wht_CompanySupport
+      End Get
+      Set(ByVal Value As String)
+        wht_CompanySupport = Value
+      End Set
+    End Property
+    Public Property License() As String
+      Get
+        Return wht_license
+      End Get
+      Set(ByVal Value As String)
+        wht_license = Value
+      End Set
+    End Property
+    Public Property Cumulative() As String
+      Get
+        Return wht_cumulative
+      End Get
+      Set(ByVal Value As String)
+        wht_cumulative = Value
+      End Set
+    End Property
+    Public Property PaymentType() As WitholdingTaxPaymentType
+      Get
+        Return wht_paymentType
+      End Get
+      Set(ByVal Value As WitholdingTaxPaymentType)
+        wht_paymentType = Value
+      End Set
+    End Property
+    Public ReadOnly Property TaxBase() As Decimal
+      Get
+        Dim sumTaxBase As Decimal = 0
+        For Each row As TreeRow In Me.ItemTable.Childs
+          If Not IsDBNull(row("whti_taxbase")) AndAlso IsNumeric(row("whti_taxbase")) Then
+            sumTaxBase += CDec(row("whti_taxbase"))
+          End If
+        Next
+        Return sumTaxBase
+      End Get
+    End Property
+    Public ReadOnly Property Amount() As Decimal
+      Get
+        Dim sumAmount As Decimal = 0
+        For Each row As TreeRow In Me.ItemTable.Childs
+          If Not IsDBNull(row("Amount")) AndAlso IsNumeric(row("Amount")) Then
+            sumAmount += CDec(row("Amount"))
+          End If
+        Next
+        Return sumAmount
+      End Get
+    End Property
     Public Property CCId As Integer
-		Public Overrides ReadOnly Property GetListSprocName() As String
-			Get
-				Return "GetWitholdingTaxList"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property GetSprocName() As String
-			Get
-				Return "GetWitholdingTax"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ClassName() As String
-			Get
-				Return "WitholdingTax"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property TableName() As String
-			Get
-				Return "WitholdingTax"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property Prefix() As String
-			Get
-				Return "wht"
-			End Get
-		End Property
+    Public Overrides ReadOnly Property GetListSprocName() As String
+      Get
+        Return "GetWitholdingTaxList"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property GetSprocName() As String
+      Get
+        Return "GetWitholdingTax"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "WitholdingTax"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TableName() As String
+      Get
+        Return "WitholdingTax"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "wht"
+      End Get
+    End Property
 
-		Public Overrides ReadOnly Property DetailPanelTitle() As String
-			Get
-				Return "${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.DetailLabel}"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property DetailPanelIcon() As String
-			Get
-				Return "Icons.16x16.WitholdingTax"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ListPanelIcon() As String
-			Get
-				Return "Icons.16x16.WitholdingTax"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ListPanelTitle() As String
-			Get
-				Return "${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ListLabel}"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property TabPageText() As String
-			Get
-				Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-				If tpt.EndsWith("()") Then
-					tpt = tpt.TrimEnd("()".ToCharArray)
-				End If
-				Return tpt
-			End Get
-		End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.WitholdingTax"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.WitholdingTax"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        If tpt.EndsWith("()") Then
+          tpt = tpt.TrimEnd("()".ToCharArray)
+        End If
+        Return tpt
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
@@ -992,6 +997,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@wht_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@wht_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@wht_bookNo", Me.BookNo))
+        paramArrayList.Add(New SqlParameter("@wht_SequenceNo", Me.SequenceNo))
 
         Dim refDocType As Integer
         If TypeOf Me.RefDoc Is ISimpleEntity Then
@@ -1494,7 +1500,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			dpi.Mapping = "DocDateRef"
 			dpi.Value = Me.RefDoc.Date.ToShortDateString
 			dpi.DataType = "System.DateTime"
-			dpiColl.Add(dpi)
+      dpiColl.Add(dpi)
+
+      'SequenceNO
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SequenceNO"
+      dpi.Value = Me.SequenceNo
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
 			'Note
 			dpi = New DocPrintingItem
@@ -2510,7 +2523,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drWHT("wht_code") = wht.Code
           drWHT("wht_bookNo") = wht.BookNo
           drWHT("wht_docDate") = wht.ValidDateOrDBNull(wht.DocDate)
-
+          drWHT("wht_SequenceNo") = wht.SequenceNo
 
           drWHT("wht_refDocType") = refDocType
           drWHT("wht_refdoc") = IIf(wht_refDoc.Id <> 0, wht_refDoc.Id, DBNull.Value)
