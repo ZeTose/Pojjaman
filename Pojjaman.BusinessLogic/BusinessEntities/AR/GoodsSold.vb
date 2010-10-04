@@ -1313,33 +1313,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
 
-      'ภาษีขาย
-      If Me.Vat.Amount > 0 AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen) Then
-        ji = New JournalEntryItem
-        ji.Mapping = "C10.5"
-        ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
-        If Me.FromCostCenter.Originated Then
-          ji.CostCenter = Me.FromCostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'ไม่มีภาษี
+      If Me.TaxType.Value <> 0 Then
+        'ภาษีขาย
+        If Me.Vat.Amount > 0 AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C10.5"
+          ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
+          If Me.FromCostCenter.Originated Then
+            ji.CostCenter = Me.FromCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          jiColl.Add(ji)
         End If
-        jiColl.Add(ji)
-      End If
-      'ภาษีขาย-ไม่ถึงกำหนด
-      If Me.RealTaxAmount - Me.Vat.Amount > 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
-        ji = New JournalEntryItem
-        ji.Mapping = "C10.5.1"
-        If Me.Vat.Code.Length = 0 Then
-          ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
-        Else
-          ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+        'ภาษีขาย-ไม่ถึงกำหนด
+        If Me.RealTaxAmount - Me.Vat.Amount > 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C10.5.1"
+          If Me.Vat.Code.Length = 0 Then
+            ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
+          Else
+            ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+          End If
+          If Me.FromCostCenter.Originated Then
+            ji.CostCenter = Me.FromCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          jiColl.Add(ji)
         End If
-        If Me.FromCostCenter.Originated Then
-          ji.CostCenter = Me.FromCostCenter
-        Else
-          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        End If
-        jiColl.Add(ji)
       End If
 
       ''ภาษีขาย-ไม่ถึงกำหนด
