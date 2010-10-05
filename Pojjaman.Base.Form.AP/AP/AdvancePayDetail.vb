@@ -877,6 +877,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OrElse Me.m_entity.Status.Value >= 3 _
       OrElse Me.m_entity.Payment.Status.Value = 0 _
       OrElse Me.m_entity.Payment.Status.Value >= 3 _
+      OrElse Me.m_entity.IsReferenced _
       Then
         For Each ctl As Control In Me.grbDetail.Controls
           ctl.Enabled = False
@@ -998,6 +999,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler rdoForSC.CheckedChanged, AddressOf Me.ChangeProperty
 
       AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
 
     Private supplierCodeChanged As Boolean = False
@@ -1404,6 +1408,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handler"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+
+      If tr Is Nothing Then
+        Return
+      End If
+
+
+      Dim docId As Integer = CInt(tr("refdoc")) 'drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = CInt(tr("reftype")) 'doc.drh.GetValue(Of Integer)("DocType")
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub ibtnEnableVatInput_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnEnableVatInput.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity.Vat.ItemCollection.Count > 1 Then

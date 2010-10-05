@@ -1505,6 +1505,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
 
       AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private supplierCodeChanged As Boolean = False
     Private txtCreditPeriodChanged As Boolean = False
@@ -1726,6 +1729,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer = doc.Id 'drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = doc.EntityId 'doc.drh.GetValue(Of Integer)("DocType")
+
+      If docType = 199 Then 'รับวางบิล Retention
+        docType = doc.RetentionType
+      End If
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub

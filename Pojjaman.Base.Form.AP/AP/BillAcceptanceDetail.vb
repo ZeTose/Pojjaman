@@ -1665,9 +1665,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.Status.Value = 0 _
       OrElse Me.m_entity.IsReferenced _
       Then
-        Me.Enabled = False
+        'Me.Enabled = False
+        For Each ctrl As Control In Me.Controls
+          Trace.WriteLine(ctrl.Name & ":" & ctrl.GetType.ToString)
+          ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
       Else
-        Me.Enabled = True
+        'Me.Enabled = True
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
+        Next
       End If
     End Sub
     Public Overrides Sub ClearDetail()
@@ -1742,6 +1757,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private supplierCodeChanged As Boolean = False
     Private txtCreditPeriodChanged As Boolean = False
@@ -2016,6 +2034,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer = doc.Id 'drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = doc.EntityId 'doc.drh.GetValue(Of Integer)("DocType")
+
+      If docType = 199 Then 'รับวางบิล Retention
+        docType = doc.RetentionType
+      End If
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
@@ -2114,8 +2154,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
           '  'newItem = New BillAcceptanceItem(New PA(item.Id), Me.m_entity)
           'Else
-            newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
-            'End If
+          newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
+          'End If
         Else
           Select Case item.FullClassName.ToLower
             Case "longkong.pojjaman.businesslogic.goodsreceipt"
