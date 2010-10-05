@@ -10,6 +10,8 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports System.Text.RegularExpressions
+Imports Longkong.Core.AddIns
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class BinaryHelper
     Public Shared Function RevertString(ByVal st As String) As String
@@ -356,13 +358,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       "from syslogins where name = '50e6d914-044f-45f8-b209-545a6260bb42'" & _
       ")[syslogins]"
 
-        cmd.CommandType = CommandType.Text
-        cmd.Connection = con
-        Dim da As New SqlDataAdapter(cmd)
-        Dim ds As New DataSet
-        da.Fill(ds)
+      cmd.CommandType = CommandType.Text
+      cmd.Connection = con
+      Dim da As New SqlDataAdapter(cmd)
+      Dim ds As New DataSet
+      da.Fill(ds)
 
-        Return ds
+      Return ds
     End Function
     Public Shared Function GetMD5Hash(ByVal s As String) As String
       Dim md5Object As New MD5CryptoServiceProvider
@@ -504,6 +506,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+        Dim AllDocType0 As Boolean
+        Dim AllDocType1 As Boolean
+        Dim AllDocType2 As Boolean
+
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
@@ -522,9 +528,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@user_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@user_password", Me.Password))
         paramArrayList.Add(New SqlParameter("@user_name", Me.Name))
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", Me.CanSeeAllDocType1))
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", Me.CanSeeAllDocType2))
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", Me.CanSeeAllDocType0))
+
+        'ถ้าไม่ใช่ Customize ทุกคนต้องสามารถเห็นเอกสารได้หมด (ตามสิทธิ์ CostCenter) ==============
+        AllDocType1 = False
+        AllDocType2 = False
+        AllDocType0 = True
+        If Customizations.ValidCustomize("Pojjaman.Base.Form.VArch") Then
+          AllDocType1 = Me.CanSeeAllDocType1
+          AllDocType2 = Me.CanSeeAllDocType2
+          AllDocType0 = Me.CanSeeAllDocType0
+        End If
+        '===========================================================================
+
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", AllDocType1))
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", AllDocType2))
+        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", AllDocType0))
+
+
         'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise
 
         ' สร้าง SqlParameter จาก ArrayList ...
@@ -957,4 +977,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class Customizations
+    Public Shared Function ValidCustomize(ByVal CompanyAddInsName As String) As Boolean
+      '==Checking for addin วิศวพัฒน์
+      Dim hasAddIns As Boolean = False
+      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+        If a.FileName.ToLower.Contains(CompanyAddInsName.ToLower) Then
+          hasAddIns = True
+        End If
+        'Trace.WriteLine(a.FileName)
+      Next
+      Return hasAddIns
+    End Function
+  End Class
 End Namespace
