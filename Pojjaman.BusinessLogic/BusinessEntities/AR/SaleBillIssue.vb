@@ -1608,6 +1608,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       End If
     End Function
+
+    Function GetRemainingRetention(ByVal recsId As Integer) As Decimal
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetMilestoneRetention" _
+      , New SqlParameter("@milestone_id", Me.Id) _
+      , New SqlParameter("@receives_id", recsId) _
+      )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return CDec(ds.Tables(0).Rows(0)(0))
+      End If
+    End Function
+
   End Class
 
   <Serializable(), DefaultMember("Item")> _
