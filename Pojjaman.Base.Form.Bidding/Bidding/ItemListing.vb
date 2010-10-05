@@ -3475,6 +3475,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibnShowLCIDialog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibnShowLCIDialog.Click
       ItemBtnClick()
     End Sub
+    Private m_targetType As Integer
     Private Sub ItemBtnClick()
       If m_item Is Nothing Then
         Return
@@ -3483,9 +3484,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      m_targetType = -1
       If m_item.ItemType Is Nothing Then
         Dim entities(2) As ISimpleEntity
         entities(0) = New LCIItem
+        entities(2) = New LCIForList
         entities(1) = New Labor
         entities(3) = New EqCost
         myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
@@ -3497,10 +3500,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
             myEntityPanelService.OpenListDialog(New Labor, AddressOf SetItems)
           Case 20 'EqCost
             myEntityPanelService.OpenListDialog(New EqCost, AddressOf SetItems)
-          Case 42 'LCI
-            myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
+            'Case 42 'LCI
+            '  myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
           Case Else
-
+        If m_item.ItemType.Value = 0 Or m_item.ItemType.Value = 18 Or m_item.ItemType.Value = 20 Or m_item.ItemType.Value = 42 Then
+          m_targetType = m_item.ItemType.Value
+              Dim entities(1) As ISimpleEntity
+          entities(0) = New LCIItem
+          entities(1) = New LCIForList
+          Dim activeIndex As Integer = -1
+          If Not m_item.ItemType Is Nothing Then
+                If m_item.ItemType.Value = 42 Then
+                  activeIndex = 0
+                End If
+              End If
+              myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
+            End If
         End Select
       End If
     End Sub
@@ -3514,7 +3529,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim newItem As IHasName
         Dim itemType As Integer
         Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.lciitem"
+          Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
             newItem = New LCIItem(item.Id)
             itemType = 42
           Case "longkong.pojjaman.businesslogic.labor"

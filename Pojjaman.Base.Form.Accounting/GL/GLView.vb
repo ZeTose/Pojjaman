@@ -1370,10 +1370,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtdocdate"
           m_dateSetting = True
           If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-            Dim theDate As Date = CDate(Me.txtDocDate.Text)
-            If Not Me.m_je.DocDate.Equals(theDate) Then
-              dtpDocDate.Value = theDate
-              Me.m_je.DocDate = dtpDocDate.Value
+              Dim theDate As Date = CDate(Me.txtDocDate.Text)
+              If Not Me.m_je.DocDate.Equals(theDate) Then
+                dtpDocDate.Value = theDate
+                Me.m_je.DocDate = dtpDocDate.Value
               dirtyFlag = True
             End If
           Else
@@ -1383,27 +1383,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           m_dateSetting = False
         Case "txtformatcode"
-          If txtFormatCodeChanged Then
-            dirtyFlag = GLFormat.GetGLFormat(Me.txtFormatCode, Me.txtFormatName, Me.m_je.GLFormat)
-            Me.txtAccountBookCode.Text = Me.m_je.GLFormat.AccountBook.Code
-            Me.txtAccountBookName.Text = Me.m_je.GLFormat.AccountBook.Name
-            Me.m_je.SetGLFormat(Me.m_je.GLFormat)
-            Me.chkPost.Checked = False
-            txtFormatCodeChanged = False
-            'RefreshBlankGrid()
-          End If
+            If txtFormatCodeChanged Then
+              dirtyFlag = GLFormat.GetGLFormat(Me.txtFormatCode, Me.txtFormatName, Me.m_je.GLFormat)
+              Me.txtAccountBookCode.Text = Me.m_je.GLFormat.AccountBook.Code
+              Me.txtAccountBookName.Text = Me.m_je.GLFormat.AccountBook.Name
+              Me.m_je.SetGLFormat(Me.m_je.GLFormat)
+              Me.chkPost.Checked = False
+              txtFormatCodeChanged = False
+              'RefreshBlankGrid()
+            End If
         Case "txtaccountbookcode"
-          If txtAccountBookCodeChanged Then
-            dirtyFlag = AccountBook.GetAccountBook(txtAccountBookCode, txtAccountBookName, Me.m_je.AccountBook)
-            txtAccountBookCodeChanged = False
-          End If
+            If txtAccountBookCodeChanged Then
+              dirtyFlag = AccountBook.GetAccountBook(txtAccountBookCode, txtAccountBookName, Me.m_je.AccountBook)
+              txtAccountBookCodeChanged = False
+            End If
         Case "chkpost"
-          If Me.chkPost.Checked Then
-            Me.m_je.ManualFormat = True
-          Else
-            Me.m_je.ManualFormat = False
-          End If
-          RefreshDocs()
+            If Me.chkPost.Checked Then
+              Me.m_je.ManualFormat = True
+            Else
+              Me.m_je.ManualFormat = False
+            End If
+            RefreshDocs()
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()

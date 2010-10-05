@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptPurchaseAnalysisByCCLci
     Inherits Report
@@ -29,6 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       m_grid.BeginUpdate()
       m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       m_grid.Model.Options.NumberedColHeaders = False
@@ -37,10 +41,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       PopulateData()
       m_grid.EndUpdate()
     End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+
+      Dim dr As DataRow = CType(m_grid(e.RowIndex, 0).Tag, DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+
+      Dim drh As New DataRowHelper(dr)
+
+      Dim docId As Integer = drh.GetValue(Of Integer)("stock_id")
+      Dim docType As Integer = 45
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+    End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
       m_grid.ColCount = 15
-
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 200
       m_grid.ColWidths(3) = 150
@@ -203,7 +224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SumItem = 0
 
 
-        'If Not row.IsNull("ccid") Then
+          'If Not row.IsNull("ccid") Then
           Dim rowitem As DataRow
           For Each rowitem In dt.Select("ccid=" & row("ccid").ToString)
             If SumItem > 0 Then
@@ -233,6 +254,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
+            m_grid(currItemIndex, 0).Tag = rowitem
             m_grid.RowStyles(currItemIndex).ReadOnly = True
             If IsDate(rowitem("DocDate")) Then
               m_grid(currItemIndex, 1).CellValue = indent & CDate(rowitem("DocDate")).ToShortDateString

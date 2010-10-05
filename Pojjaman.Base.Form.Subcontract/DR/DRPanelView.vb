@@ -74,6 +74,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnShowSCDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtToCostCenterCode As System.Windows.Forms.TextBox
     Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnSubcontractDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnCostCenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -116,6 +118,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCostCenterCode = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnSubcontractDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkClosed = New System.Windows.Forms.CheckBox()
       Me.lblSCCode = New System.Windows.Forms.Label()
@@ -169,7 +173,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblCode
       '
       Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCode.Location = New System.Drawing.Point(8, 16)
+      Me.lblCode.Location = New System.Drawing.Point(33, 16)
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(88, 18)
       Me.lblCode.TabIndex = 11
@@ -179,7 +183,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpDocDate
       '
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDocDate.Location = New System.Drawing.Point(464, 16)
+      Me.dtpDocDate.Location = New System.Drawing.Point(496, 16)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(160, 21)
       Me.dtpDocDate.TabIndex = 59
@@ -187,7 +191,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblDocDate
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocDate.Location = New System.Drawing.Point(400, 16)
+      Me.lblDocDate.Location = New System.Drawing.Point(432, 16)
       Me.lblDocDate.Name = "lblDocDate"
       Me.lblDocDate.Size = New System.Drawing.Size(64, 18)
       Me.lblDocDate.TabIndex = 14
@@ -370,7 +374,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblSupplier.BackColor = System.Drawing.Color.Transparent
       Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblSupplier.Location = New System.Drawing.Point(24, 64)
+      Me.lblSupplier.Location = New System.Drawing.Point(49, 64)
       Me.lblSupplier.Name = "lblSupplier"
       Me.lblSupplier.Size = New System.Drawing.Size(72, 18)
       Me.lblSupplier.TabIndex = 20
@@ -383,13 +387,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtSubContractorCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSubContractorCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSubContractorCode, System.Drawing.Color.Empty)
-      Me.txtSubContractorCode.Location = New System.Drawing.Point(96, 64)
+      Me.txtSubContractorCode.Location = New System.Drawing.Point(121, 64)
       Me.txtSubContractorCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtSubContractorCode, "")
       Me.txtSubContractorCode.Name = "txtSubContractorCode"
-      Me.txtSubContractorCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtSubContractorCode, "")
-      Me.Validator.SetRequired(Me.txtSubContractorCode, False)
+      Me.Validator.SetRequired(Me.txtSubContractorCode, True)
       Me.txtSubContractorCode.Size = New System.Drawing.Size(72, 21)
       Me.txtSubContractorCode.TabIndex = 4
       '
@@ -400,7 +403,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtSubContractorName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtSubContractorName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSubContractorName, System.Drawing.Color.Empty)
-      Me.txtSubContractorName.Location = New System.Drawing.Point(168, 64)
+      Me.txtSubContractorName.Location = New System.Drawing.Point(193, 64)
       Me.Validator.SetMinValue(Me.txtSubContractorName, "")
       Me.txtSubContractorName.Name = "txtSubContractorName"
       Me.txtSubContractorName.ReadOnly = True
@@ -474,7 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -13)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(464, 16)
+      Me.txtDocDate.Location = New System.Drawing.Point(496, 16)
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -490,11 +493,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtSCCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSCCode, System.Drawing.Color.Empty)
-      Me.txtSCCode.Location = New System.Drawing.Point(96, 40)
+      Me.txtSCCode.Location = New System.Drawing.Point(121, 40)
       Me.Validator.SetMinValue(Me.txtSCCode, "")
       Me.txtSCCode.Name = "txtSCCode"
       Me.Validator.SetRegularExpression(Me.txtSCCode, "")
-      Me.Validator.SetRequired(Me.txtSCCode, True)
+      Me.Validator.SetRequired(Me.txtSCCode, False)
       Me.txtSCCode.Size = New System.Drawing.Size(160, 21)
       Me.txtSCCode.TabIndex = 334
       Me.txtSCCode.TabStop = False
@@ -571,7 +574,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCostCenterCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCostCenterCode, System.Drawing.Color.Empty)
-      Me.txtFromCostCenterCode.Location = New System.Drawing.Point(464, 40)
+      Me.txtFromCostCenterCode.Location = New System.Drawing.Point(496, 40)
       Me.Validator.SetMinValue(Me.txtFromCostCenterCode, "")
       Me.txtFromCostCenterCode.Name = "txtFromCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtFromCostCenterCode, "")
@@ -585,7 +588,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCCPersonCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCCPersonCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCCPersonCode, System.Drawing.Color.Empty)
-      Me.txtFromCCPersonCode.Location = New System.Drawing.Point(464, 64)
+      Me.txtFromCCPersonCode.Location = New System.Drawing.Point(496, 64)
       Me.Validator.SetMinValue(Me.txtFromCCPersonCode, "")
       Me.txtFromCCPersonCode.Name = "txtFromCCPersonCode"
       Me.Validator.SetRegularExpression(Me.txtFromCCPersonCode, "")
@@ -599,7 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCCPersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCCPersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCCPersonName, System.Drawing.Color.Empty)
-      Me.txtFromCCPersonName.Location = New System.Drawing.Point(528, 64)
+      Me.txtFromCCPersonName.Location = New System.Drawing.Point(560, 64)
       Me.Validator.SetMinValue(Me.txtFromCCPersonName, "")
       Me.txtFromCCPersonName.Name = "txtFromCCPersonName"
       Me.txtFromCCPersonName.ReadOnly = True
@@ -615,7 +618,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtFromCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtFromCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtFromCostCenterName, System.Drawing.Color.Empty)
-      Me.txtFromCostCenterName.Location = New System.Drawing.Point(528, 40)
+      Me.txtFromCostCenterName.Location = New System.Drawing.Point(560, 40)
       Me.Validator.SetMinValue(Me.txtFromCostCenterName, "")
       Me.txtFromCostCenterName.Name = "txtFromCostCenterName"
       Me.txtFromCostCenterName.ReadOnly = True
@@ -631,7 +634,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCostCenterName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCostCenterName, System.Drawing.Color.Empty)
-      Me.txtToCostCenterName.Location = New System.Drawing.Point(168, 88)
+      Me.txtToCostCenterName.Location = New System.Drawing.Point(193, 88)
       Me.Validator.SetMinValue(Me.txtToCostCenterName, "")
       Me.txtToCostCenterName.Name = "txtToCostCenterName"
       Me.txtToCostCenterName.ReadOnly = True
@@ -647,11 +650,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCostCenterCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtToCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtToCostCenterCode, System.Drawing.Color.Empty)
-      Me.txtToCostCenterCode.Location = New System.Drawing.Point(96, 88)
+      Me.txtToCostCenterCode.Location = New System.Drawing.Point(121, 88)
       Me.txtToCostCenterCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtToCostCenterCode, "")
       Me.txtToCostCenterCode.Name = "txtToCostCenterCode"
-      Me.txtToCostCenterCode.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtToCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtToCostCenterCode, False)
       Me.txtToCostCenterCode.Size = New System.Drawing.Size(72, 21)
@@ -672,6 +674,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnCostCenterDialog)
+      Me.grbDetail.Controls.Add(Me.btnSubcontractDialog)
       Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.chkClosed)
       Me.grbDetail.Controls.Add(Me.lblSCCode)
@@ -736,6 +740,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
       '
+      'btnCostCenterDialog
+      '
+      Me.btnCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCostCenterDialog.Location = New System.Drawing.Point(358, 86)
+      Me.btnCostCenterDialog.Name = "btnCostCenterDialog"
+      Me.btnCostCenterDialog.Size = New System.Drawing.Size(24, 23)
+      Me.btnCostCenterDialog.TabIndex = 349
+      Me.btnCostCenterDialog.TabStop = False
+      Me.btnCostCenterDialog.ThemedImage = CType(resources.GetObject("btnCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'btnSubcontractDialog
+      '
+      Me.btnSubcontractDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSubcontractDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnSubcontractDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnSubcontractDialog.Location = New System.Drawing.Point(358, 63)
+      Me.btnSubcontractDialog.Name = "btnSubcontractDialog"
+      Me.btnSubcontractDialog.Size = New System.Drawing.Size(24, 23)
+      Me.btnSubcontractDialog.TabIndex = 348
+      Me.btnSubcontractDialog.TabStop = False
+      Me.btnSubcontractDialog.ThemedImage = CType(resources.GetObject("btnSubcontractDialog.ThemedImage"), System.Drawing.Bitmap)
+      '
       'btnApprove
       '
       Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -753,7 +781,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkClosed
       '
       Me.chkClosed.Appearance = System.Windows.Forms.Appearance.Button
-      Me.chkClosed.Location = New System.Drawing.Point(632, 16)
+      Me.chkClosed.Location = New System.Drawing.Point(664, 16)
       Me.chkClosed.Name = "chkClosed"
       Me.chkClosed.Size = New System.Drawing.Size(80, 21)
       Me.chkClosed.TabIndex = 347
@@ -764,7 +792,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblSCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSCCode.ForeColor = System.Drawing.Color.Black
-      Me.lblSCCode.Location = New System.Drawing.Point(16, 40)
+      Me.lblSCCode.Location = New System.Drawing.Point(41, 40)
       Me.lblSCCode.Name = "lblSCCode"
       Me.lblSCCode.Size = New System.Drawing.Size(80, 18)
       Me.lblSCCode.TabIndex = 335
@@ -776,7 +804,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowSCDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSCDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSCDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSCDialog.Location = New System.Drawing.Point(256, 40)
+      Me.ibtnShowSCDialog.Location = New System.Drawing.Point(281, 40)
       Me.ibtnShowSCDialog.Name = "ibtnShowSCDialog"
       Me.ibtnShowSCDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowSCDialog.TabIndex = 336
@@ -785,7 +813,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'cmbCode
       '
-      Me.cmbCode.Location = New System.Drawing.Point(96, 16)
+      Me.cmbCode.Location = New System.Drawing.Point(121, 16)
       Me.cmbCode.Name = "cmbCode"
       Me.cmbCode.Size = New System.Drawing.Size(160, 21)
       Me.cmbCode.TabIndex = 333
@@ -827,7 +855,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(256, 16)
+      Me.chkAutorun.Location = New System.Drawing.Point(281, 16)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 12
@@ -872,7 +900,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCopyMe.Location = New System.Drawing.Point(278, 16)
+      Me.ibtnCopyMe.Location = New System.Drawing.Point(303, 16)
       Me.ibtnCopyMe.Name = "ibtnCopyMe"
       Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
       Me.ibtnCopyMe.TabIndex = 13
@@ -895,9 +923,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lbltoCC
       '
       Me.lbltoCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lbltoCC.Location = New System.Drawing.Point(16, 88)
+      Me.lbltoCC.Location = New System.Drawing.Point(8, 88)
       Me.lbltoCC.Name = "lbltoCC"
-      Me.lbltoCC.Size = New System.Drawing.Size(80, 18)
+      Me.lbltoCC.Size = New System.Drawing.Size(113, 18)
       Me.lbltoCC.TabIndex = 4
       Me.lbltoCC.Text = "Cost Center:"
       Me.lbltoCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -907,7 +935,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowFromCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowFromCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(696, 40)
+      Me.ibtnShowFromCostCenterDialog.Location = New System.Drawing.Point(728, 40)
       Me.ibtnShowFromCostCenterDialog.Name = "ibtnShowFromCostCenterDialog"
       Me.ibtnShowFromCostCenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCostCenterDialog.TabIndex = 4
@@ -918,7 +946,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowFromCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(720, 40)
+      Me.ibtnShowFromCostCenter.Location = New System.Drawing.Point(752, 40)
       Me.ibtnShowFromCostCenter.Name = "ibtnShowFromCostCenter"
       Me.ibtnShowFromCostCenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCostCenter.TabIndex = 7
@@ -928,7 +956,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblFromCostCenter
       '
       Me.lblFromCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblFromCostCenter.Location = New System.Drawing.Point(352, 40)
+      Me.lblFromCostCenter.Location = New System.Drawing.Point(384, 40)
       Me.lblFromCostCenter.Name = "lblFromCostCenter"
       Me.lblFromCostCenter.Size = New System.Drawing.Size(112, 18)
       Me.lblFromCostCenter.TabIndex = 8
@@ -938,7 +966,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblFromCCPerson
       '
       Me.lblFromCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblFromCCPerson.Location = New System.Drawing.Point(400, 64)
+      Me.lblFromCCPerson.Location = New System.Drawing.Point(432, 64)
       Me.lblFromCCPerson.Name = "lblFromCCPerson"
       Me.lblFromCCPerson.Size = New System.Drawing.Size(64, 18)
       Me.lblFromCCPerson.TabIndex = 9
@@ -950,7 +978,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowFromCCPersonDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCCPersonDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowFromCCPersonDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowFromCCPersonDialog.Location = New System.Drawing.Point(696, 64)
+      Me.ibtnShowFromCCPersonDialog.Location = New System.Drawing.Point(728, 64)
       Me.ibtnShowFromCCPersonDialog.Name = "ibtnShowFromCCPersonDialog"
       Me.ibtnShowFromCCPersonDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCCPersonDialog.TabIndex = 5
@@ -961,7 +989,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowFromCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowFromCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowFromCCPerson.Location = New System.Drawing.Point(720, 64)
+      Me.ibtnShowFromCCPerson.Location = New System.Drawing.Point(752, 64)
       Me.ibtnShowFromCCPerson.Name = "ibtnShowFromCCPerson"
       Me.ibtnShowFromCCPerson.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowFromCCPerson.TabIndex = 6
@@ -1009,6 +1037,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_enableState As Hashtable
     Private m_readOnlyState As Hashtable
     Private m_tableStyleEnable As Hashtable
+    Private m_supcontractor As Supplier
+    'Private m_toCC As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -1837,7 +1867,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDocDate, StringHelper.GetRidOfAtEnd(Me.lblDocDate.Text, ":"))
 
       Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblSupplier}") '"ผู้รับเหมา"
-
+      Me.Validator.SetDisplayName(Me.txtSubContractorCode, StringHelper.GetRidOfAtEnd(Me.lblSupplier.Text, ":"))
       Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblFromCostCenter}") '"Cost Center เบิก"
       Me.Validator.SetDisplayName(Me.txtFromCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblFromCostCenter.Text, ":"))
       Me.lblFromCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblFromCCPerson}") '"ผู้จ่าย"
@@ -1867,8 +1897,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtDocDate.TextChanged, AddressOf Me.ChangeProperty
 
-      'AddHandler txtSubContractorCode.Validated, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSubContractorCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSubContractorCode.TextChanged, AddressOf Me.TextHandler
+      ' AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtFromCostCenterCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtFromCostCenterCode.TextChanged, AddressOf Me.TextHandler
@@ -1903,9 +1934,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private CCCodeBlankFlag As Boolean = False
     Private scCodeChanged As Boolean = False
 
-    Private subContractorChanged As Boolean = False
+    Private txtsubcontractorChanged As Boolean = False
     Private directorCodeChanged As Boolean = False
     Private txtfromcostcentercodeChanged As Boolean = False
+    Private txttocostcentercodeChanged As Boolean = False
     Private txtfromccpersoncodeChanged As Boolean = False
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
@@ -1918,10 +1950,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  CCCodeChanged = True
         Case "txtsccode"
           scChanged = True
+
+
         Case "txtfromcostcentercode"
           txtfromcostcentercodeChanged = True
+        Case "txttocostcentercode"
+          txttocostcentercodeChanged = True
         Case "txtfromccpersoncode"
           txtfromccpersoncodeChanged = True
+        Case "txtsubcontractorcode"
+          txtsubcontractorChanged = True
           '                Case "txtretention"
           '                    Dim txt As String = Me.txtRetention.Text
           '                    txt = txt.Replace(",", "")
@@ -2005,19 +2043,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
       txtSCCode.Text = Me.m_entity.Sc.Code
-      txtSubContractorCode.Text = m_entity.Sc.SubContractor.Code
-      txtSubContractorName.Text = m_entity.Sc.SubContractor.Name
-      txtToCostCenterCode.Text = m_entity.Sc.CostCenter.Code
-      txtToCostCenterName.Text = m_entity.Sc.CostCenter.Name
+
+
 
       txtFromCostCenterCode.Text = m_entity.FromCostCenter.Code
       txtFromCostCenterName.Text = m_entity.FromCostCenter.Name
+
+      txtSubContractorCode.Text = m_entity.Sc.SubContractor.Code
+      txtSubContractorName.Text = m_entity.Sc.SubContractor.Name
+
+      txtToCostCenterCode.Text = m_entity.Sc.CostCenter.Code
+      txtToCostCenterName.Text = m_entity.Sc.CostCenter.Name
 
       txtFromCCPersonCode.Text = m_entity.FromEmployee.Code
       txtFromCCPersonName.Text = m_entity.FromEmployee.Name
 
       txtNote.Text = Me.m_entity.Note
-
 
       For Each item As IdValuePair In Me.cmbTaxType.Items
         If Me.m_entity.TaxType.Value = item.Id Then
@@ -2152,7 +2193,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.Note = txtNote.Text
           dirtyFlag = True
         Case "txtsubcontractorcode"
-          dirtyFlag = Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor, True)
+          If txtsubcontractorChanged Then
+            dirtyFlag = Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor)
+            txttocostcentercodeChanged = False
+          End If
+          'dirtyFlag = Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.SubContractor, True)
           'm_isInitialized = False
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
@@ -2192,6 +2237,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If txtfromcostcentercodeChanged Then
               dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
               txtfromcostcentercodeChanged = False
+            End If
+          End If
+        Case "txttocostcentercode"
+          If txttocostcentercodeChanged Then
+            If txttocostcentercodeChanged Then
+              dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.Sc.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+              txttocostcentercodeChanged = False
             End If
           End If
         Case "txtfromccpersoncode"
@@ -2615,14 +2667,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myEntityPanelService As IEntityPanelService = _
         CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         Dim entities As New ArrayList
+
         entities.Add(New SC)
-        entities.Add(New CostCenter)
-        'If Me.m_entity.Sc.SubContractor.Originated Then
-        '    entities.Add(Me.m_entity.Sc.SubContractor)
-        'End If
-        'If Me.m_entity.Sc.CostCenter.Originated Then
-        '    entities.Add(Me.m_entity.Sc.CostCenter)
-        'End If
+
+        If Me.m_entity.Sc.SubContractor.Originated Then
+          entities.Add(Me.m_entity.Sc.SubContractor)
+        End If
+        If Me.m_entity.Sc.CostCenter.Originated Then
+          entities.Add(Me.m_entity.Sc.CostCenter)
+        Else
+          entities.Add(New CostCenter)
+        End If
         'Dim poNeedsApproval As Boolean = False
         'poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
         'Dim filters(3) As Filter
@@ -2678,7 +2733,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       scCodeChanged = False
     End Sub
-
+    Private Sub btnSubcontractDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSubcontractDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplier)
+    End Sub
+    Private Sub SetSupplier(ByVal e As ISimpleEntity)
+      Me.txtSubContractorCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Supplier.GetSupplier(txtSubContractorCode, txtSubContractorName, Me.m_entity.Sc.SubContractor)
+    End Sub
+    Private Sub btnCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostCenterDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SettoCostcenter)
+    End Sub
+    Private Sub SettoCostcenter(ByVal e As ISimpleEntity)
+      Me.txtToCostCenterCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.Sc.CostCenter)
+    End Sub
+    'If Me.txtToCostCenterCode.Text <> e.Code AndAlso Me.txtToCostCenterCode.Text.Length > 0 Then
+    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '  If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
+    '    If Me.txtToCostCenterCode.TextLength = 0 Then
+    '      Me.m_entity.ToCostCenter = New CostCenter
+    '    End If
+    '    Me.txtToCostCenterCode.Text = e.Code
+    '    dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+    '    If dirtyFlag Then
+    '      UpdateDestAdmin()
+    '    End If
+    '    Try
+    '      If oldCCId <> Me.m_entity.ToCostCenter.Id Then
+    '        Me.WorkbenchWindow.ViewContent.IsDirty = True
+    '        oldCCId = Me.m_entity.ToCostCenter.Id
+    '        ChangeCC()
+    '      End If
+    '    Catch ex As Exception
+    '    End Try
+    '    ccCodeChanged = False
+    '  Else
+    '    Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+    '    ccCodeChanged = False
+    '  End If
+    'ElseIf Me.txtToCostCenterCode.Text.Length = 0 Then
+    '  Me.txtToCostCenterCode.Text = e.Code
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+    '  dirtyFlag = CostCenter.GetCostCenter(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+    '  If dirtyFlag Then
+    '    UpdateDestAdmin()
+    '  End If
+    'End If
+    'SetCCCodeBlankFlag()
+    'End Sub
     Private Sub ibtnShowFromCostCenter_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenter.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenPanel(New CostCenter)

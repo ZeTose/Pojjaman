@@ -145,6 +145,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("dr_sc") Then
           If Not dr.IsNull("dr_sc") Then
             .m_sc = New SC(CInt(dr("dr_sc")))
+          Else
+            .m_sc = New SC
+            Dim drh As New DataRowHelper(dr)
+            .m_sc.SubContractor = New Supplier(drh.GetValue(Of Integer)("dr_subcontractor"))
+            .m_sc.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("dr_tocc"))
           End If
         End If
         If dr.Table.Columns.Contains("dr_docdate") AndAlso Not dr.IsNull("dr_docdate") Then

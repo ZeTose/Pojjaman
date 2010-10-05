@@ -9,6 +9,8 @@ Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class LCIForList
     Inherits SimpleBusinessEntityBase
+    Implements IHasName
+
 
 #Region "Constructors"
     Public Sub New()
@@ -86,6 +88,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+    Public Property Name As String Implements IHasName.Name
+      Get
+
+      End Get
+      Set(ByVal value As String)
+
+      End Set
+    End Property
   End Class
   Public Class LCIItem
     Inherits TreeBaseEntity
