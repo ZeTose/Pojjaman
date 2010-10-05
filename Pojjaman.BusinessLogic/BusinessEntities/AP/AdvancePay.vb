@@ -441,6 +441,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("advpp_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("refdoc", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("reftype", GetType(String)))
       Return myDatatable
     End Function
     Public Shared Function GetAdvancePayRemain(ByVal txtCode As TextBox, ByVal txtAmount As TextBox, ByRef oldADVP As AdvancePay) As Boolean
@@ -910,6 +912,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           amt -= rowAmt
         End If
         dr("RemainingAmount") = Configuration.FormatToString(amt, DigitConfig.Price)
+        dr("refdoc") = row("refdoc")
+        dr("reftype") = row("reftype")
       Next
     End Sub
 #End Region

@@ -507,15 +507,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_APVIRef" _
-          , New SqlParameter("@pays_id", Me.Id))
+          , New SqlParameter("@pays_id", Me.Id)) 'ซื้อสินค้า
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_APVIRef" _
+          , New SqlParameter("@pays_id", Me.Id)) 'มัดจำจ่าย
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_APVIRef" _
+          , New SqlParameter("@pays_id", Me.Id)) 'ซ่อมบำรุงสินทรัพย์
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateADVP_APVIRef" _
+           , New SqlParameter("@pays_id", Me.Id)) 'มัดจำจ่าย
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_APVIRef" _
+           , New SqlParameter("@pays_id", Me.Id)) 'รับงาน
+
+
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_APVIRef" _
           ', New SqlParameter("@pays_id", Me.Id))
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBillA_APVIRef" _
           ', New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_APVIRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_APVIRef" _
-          , New SqlParameter("@pays_id", Me.Id))
+
+
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
