@@ -3570,6 +3570,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         Me.m_treeManager.Treetable.AcceptChanges()
       Next
+      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+      If TypeOf tr.Tag Is BoqItem Then
+        m_item = CType(tr.Tag, BoqItem)
+      End If
       Me.tgItem.RefreshHeights()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
