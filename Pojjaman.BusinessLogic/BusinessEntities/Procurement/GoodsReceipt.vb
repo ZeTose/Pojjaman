@@ -4536,6 +4536,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          'Item.UnitNet
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitNet"
+          If item.UnitNet = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitNet, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.DiscountRate
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.DiscountRate"

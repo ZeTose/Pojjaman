@@ -1826,8 +1826,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim po1 As New PO
       po1.Id = Me.Id
       po1.Group = True
-      po1.ItemCollection = New POItemCollection(po1)
 
+      po1.ItemCollection = New POItemCollection(po1)
+      po1.RefreshTaxBase()
       Return po1
     End Function
 #End Region
@@ -2397,6 +2398,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Item"
           dpiColl.Add(dpi)
 
+          'Item.UnitNet
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitNet"
+          If item.UnitNet = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitNet, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.DiscountRate
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.DiscountRate"
@@ -2661,6 +2675,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Value = ""
           Else
             dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "UngroupItem"
+          dpiColl.Add(dpi)
+
+          'Item.UngroupUnitNet
+          dpi = New DocPrintingItem
+          dpi.Mapping = "UngroupItem.UnitNet"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitNet, DigitConfig.UnitPrice)
           End If
           dpi.DataType = "System.String"
           dpi.Row = n + 1
@@ -2985,6 +3012,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Table = "Ungroup2Item"
           dpiColl.Add(dpi)
 
+          'Item.Ungroup2UnitNet
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Ungroup2Item.UnitNet"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitNet, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Ungroup2Item"
+          dpiColl.Add(dpi)
+
           'Item.Ungroup2DiscountRate
           dpi = New DocPrintingItem
           dpi.Mapping = "Ungroup2Item.DiscountRate"
@@ -3281,6 +3321,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Value = ""
           Else
             dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitNet
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitNet"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitNet, DigitConfig.UnitPrice)
           End If
           dpi.DataType = "System.String"
           dpi.Row = i + 1

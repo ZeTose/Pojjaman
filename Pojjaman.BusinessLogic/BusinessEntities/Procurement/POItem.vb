@@ -187,6 +187,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property UnitNet As Decimal
+      Get
+        Dim m_unitNet As Decimal = 0
+        If Me.m_qty <> 0 Then
+          m_unitNet = Me.Amount / Me.Qty
+        End If
+        Return m_unitNet
+      End Get
+    End Property
     Public Property WBSDistributeCollection() As WBSDistributeCollection Implements IWBSAllocatableItem.WBSDistributeCollection
       Get
         Return m_WBSDistributeCollection
