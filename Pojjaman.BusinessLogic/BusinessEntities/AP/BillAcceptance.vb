@@ -823,6 +823,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.Retention
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Retention"
+        dpi.Value = Configuration.FormatToString(item.Retention, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.PlusRetention
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.PlusRetention"
+        dpi.Value = Configuration.FormatToString(item.AfterTax + item.Retention, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.DueDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.DueDate"
+        dpi.Value = item.DueDate
+        dpi.DataType = "System.DateTime"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+
         'Item.DocAmount
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.DocAmount"
