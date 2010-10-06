@@ -674,7 +674,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CalcTaxBase(Me.Cost)
       End Get
     End Property
-    Public ReadOnly Property Cost() As Decimal
+    Public ReadOnly Property Cost() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
         If tmpCost = 0 Then
@@ -684,9 +684,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Private m_amount As Decimal
-    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
+    Public ReadOnly Property Amount() As Decimal
       Get
-        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitCost * Me.StockQty), DigitConfig.Price)
+        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
         Return amtFormatted - Me.DiscountAmount
       End Get
     End Property
@@ -846,6 +846,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0)
       Me.m_unitPrice = prItem.UnitPrice
       Me.m_note = prItem.Note
+      Me.Po.RefreshTaxBase()
 
       If Not newPritem.WBSDistributeCollection Is Nothing Then
         Me.WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
@@ -1648,7 +1649,8 @@ Public Class POItemCollection
 				ElseIf TypeOf items(i).Tag Is PRItem Then
 					'-----------------PR Items--------------------
 					Dim pri As PRItem = CType(items(i).Tag, PRItem)
-					Dim poi As New POItem
+          Dim poi As New POItem
+          poi.Po = Me.m_po
 					poi.CopyFromPRItem(pri)
 					Me.Add(poi)
 					arr.Add(poi)
