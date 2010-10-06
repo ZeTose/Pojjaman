@@ -634,43 +634,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim depreOPBAcctMatched As Boolean = False
         Dim noDepreOPBAcctMatched As Boolean = False
 
-        For Each addedJi As JournalEntryItem In jiColl
-          If Not item.Entity Is Nothing Then
-            'I6.2  ค่าเสื่อมสะสม
-            Dim depreAccount As Account
-            If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
-              depreAccount = item.Entity.DepreOpeningAccount
-            End If
-            If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
-              If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreAccount.Id) And addedJi.Mapping = "I6.2" Then
-                addedJi.Amount += item.Depreamnt
-                depreAcctMatched = True
-              End If
-            ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
-              If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.2" Then
-                addedJi.Amount += item.Depreamnt
-                noDepreAcctMatched = True
-              End If
-            End If
+        'For Each addedJi As JournalEntryItem In jiColl
+        '  If Not item.Entity Is Nothing Then
+        '    'I6.2  ค่าเสื่อมสะสม
+        '    Dim depreAccount As Account
+        '    If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
+        '      depreAccount = item.Entity.DepreOpeningAccount
+        '    End If
+        '    If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
+        '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreAccount.Id) And addedJi.Mapping = "I6.2" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        depreAcctMatched = True
+        '      End If
+        '    ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
+        '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.2" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        noDepreAcctMatched = True
+        '      End If
+        '    End If
 
-            'I6.1 ค่าเสื่อมราคา
-            Dim depreOPBAccount As Account
-            If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
-              depreOPBAccount = item.Entity.DepreAccount
-            End If
-            If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
-              If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreOPBAccount.Id) And addedJi.Mapping = "I6.1" Then
-                addedJi.Amount += item.Depreamnt
-                depreAcctMatched = True
-              End If
-            ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
-              If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.1" Then
-                addedJi.Amount += item.Depreamnt
-                noDepreAcctMatched = True
-              End If
-            End If
-          End If
-        Next
+        '    'I6.1 ค่าเสื่อมราคา
+        '    Dim depreOPBAccount As Account
+        '    If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
+        '      depreOPBAccount = item.Entity.DepreAccount
+        '    End If
+        '    If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
+        '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreOPBAccount.Id) And addedJi.Mapping = "I6.1" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        depreAcctMatched = True
+        '      End If
+        '    ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
+        '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.1" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        noDepreAcctMatched = True
+        '      End If
+        '    End If
+        '  End If
+        'Next
         If Not item.Entity Is Nothing Then
           'I6.2  ค่าเสื่อมสะสม
           Dim depreAccount As Account
@@ -679,22 +679,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
             depreAccount = item.Entity.DepreOpeningAccount
           End If
           If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
-            If Not depreAcctMatched Then
-              ji = New JournalEntryItem
-              ji.Mapping = "I6.2"
-              ji.Amount += item.Depreamnt
-              ji.Account = depreAccount
-              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                ji.CostCenter = Me.FromCostcenter
-              ElseIf item.Entity.Costcenter IsNot Nothing Then
-                ji.CostCenter = item.Entity.Costcenter
-              Else
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-              End If
-              'ji.EntityItem = item.Entity.Id
-              'ji.EntityItemType = item.Entity.EntityId
-              jiColl.Add(ji)
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             End If
+            'ji.EntityItem = item.Entity.Id
+            'ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
           ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
             If Not noDepreAcctMatched Then
               ji = New JournalEntryItem
@@ -757,22 +757,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
             depreOPBAccount = item.Entity.DepreAccount
           End If
           If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
-            If Not depreAcctMatched Then
-              ji = New JournalEntryItem
-              ji.Mapping = "I6.1"
-              ji.Amount += item.Depreamnt
-              ji.Account = depreOPBAccount
-              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                ji.CostCenter = Me.FromCostcenter
-              ElseIf item.Entity.Costcenter IsNot Nothing Then
-                ji.CostCenter = item.Entity.Costcenter
-              Else
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-              End If
-              'ji.EntityItem = item.Entity.Id
-              'ji.EntityItemType = item.Entity.EntityId
-              jiColl.Add(ji)
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreOPBAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.Entity.Costcenter IsNot Nothing Then
+              ji.CostCenter = item.Entity.Costcenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             End If
+            'ji.EntityItem = item.Entity.Id
+            'ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
           ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
             If Not noDepreAcctMatched Then
               ji = New JournalEntryItem
