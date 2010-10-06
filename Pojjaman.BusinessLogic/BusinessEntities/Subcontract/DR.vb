@@ -1100,13 +1100,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Status.Value = 0 Then
             isCanceled = 1
           End If
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
-          , New SqlParameter("@entity_id", Me.Sc.Id) _
-          , New SqlParameter("@entity_type", Me.Sc.EntityId) _
-          , New SqlParameter("@refto_id", Me.Id) _
-          , New SqlParameter("@refto_type", Me.EntityId) _
-          , New SqlParameter("@refto_iscanceled", isCanceled) _
-          )
+          If Me.Sc.Id <> 0 Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
+                 , New SqlParameter("@entity_id", Me.Sc.Id) _
+                 , New SqlParameter("@entity_type", Me.Sc.EntityId) _
+                 , New SqlParameter("@refto_id", Me.Id) _
+                 , New SqlParameter("@refto_type", Me.EntityId) _
+                 , New SqlParameter("@refto_iscanceled", isCanceled) _
+                 )
+          End If
 
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
 
