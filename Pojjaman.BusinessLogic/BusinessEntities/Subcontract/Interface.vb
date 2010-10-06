@@ -8,6 +8,17 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Interface IAbleConvertibleUnit
+    Property Qty As Decimal
+    Property Entity As IHasName
+    Property Unit As Unit
+    ReadOnly Property ItemType As Integer
+  End Interface
+  Public Interface IDocStatusAble
+    Function IsReferenced() As Boolean
+    Function IsReferedFrom() As Boolean
+    Function IsCancelable() As Boolean
+  End Interface
   Public Interface IControlItem
     ReadOnly Property ControlMessage As String
   End Interface

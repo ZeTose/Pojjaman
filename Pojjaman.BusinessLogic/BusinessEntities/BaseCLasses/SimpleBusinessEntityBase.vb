@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SimpleBusinessEntityBase
     Implements IPropertyChangeable, ISimpleEntity, ICodeGeneratable, IHasCustomNote, IDirtyAble _
       , IDeletableWithLog, IGlChangable _
-      , IHasStatusString, IApprovableByFlow
+      , IHasStatusString, IApprovableByFlow, IDocStatusAble
 
 #Region "Members"
     Private m_htChangedProperties As New Hashtable ' เก็บค่าของ columns ที่มีการเปลี่ยนแปลง
@@ -180,146 +180,146 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Construct(dr, aliasPrefix)
     End Sub
-		Public Shared AutogenStatusHash As New Hashtable
-		Public Shared EntityIdHash As New Hashtable
-		Protected Overridable Sub Construct()
-			m_id = 0
-			m_code = ""
+    Public Shared AutogenStatusHash As New Hashtable
+    Public Shared EntityIdHash As New Hashtable
+    Protected Overridable Sub Construct()
+      m_id = 0
+      m_code = ""
 
-			m_canceled = False
-			m_cancelDate = Date.MinValue
+      m_canceled = False
+      m_cancelDate = Date.MinValue
 
-			'ป้องกัน Cyclic
-			'm_cancelPerson = New User
-			'm_originator = New User
-			'm_lastEditor = New User
+      'ป้องกัน Cyclic
+      'm_cancelPerson = New User
+      'm_originator = New User
+      'm_lastEditor = New User
 
-			m_originated = False
-			m_originDate = Date.MinValue
-			m_edited = False
-			m_lastEditDate = Date.MinValue
+      m_originated = False
+      m_originDate = Date.MinValue
+      m_edited = False
+      m_lastEditDate = Date.MinValue
 
-			If Me.EntityIdHash.Count > 20 Then
-				Me.EntityIdHash = New Hashtable
-			End If
-			If Not (Me.ClassName Is Nothing) Then
-				If Me.EntityIdHash.Contains(Me.ClassName) Then
-					m_entityId = CInt(Me.EntityIdHash(Me.ClassName))
-				Else
-					m_entityId = Entity.GetIdFromClassName(Me.ClassName)
-					Me.EntityIdHash(Me.ClassName) = m_entityId
-				End If
-			End If
-			'Me.m_autogen = True
-			If Me.AutogenStatusHash.Count > 20 Then
-				Me.AutogenStatusHash = New Hashtable
-			End If
-			If Not (Me.ClassName Is Nothing) Then
-				If Me.AutogenStatusHash.Contains(Me.EntityId) Then
-					Me.AutoGen = CBool(Me.AutogenStatusHash(Me.EntityId))
-				Else
-					Me.AutoGen = Entity.GetAutoGenStatus(Me.EntityId)
-					Me.AutogenStatusHash(Me.EntityId) = Me.AutoGen
-				End If
-			End If
+      If Me.EntityIdHash.Count > 20 Then
+        Me.EntityIdHash = New Hashtable
+      End If
+      If Not (Me.ClassName Is Nothing) Then
+        If Me.EntityIdHash.Contains(Me.ClassName) Then
+          m_entityId = CInt(Me.EntityIdHash(Me.ClassName))
+        Else
+          m_entityId = Entity.GetIdFromClassName(Me.ClassName)
+          Me.EntityIdHash(Me.ClassName) = m_entityId
+        End If
+      End If
+      'Me.m_autogen = True
+      If Me.AutogenStatusHash.Count > 20 Then
+        Me.AutogenStatusHash = New Hashtable
+      End If
+      If Not (Me.ClassName Is Nothing) Then
+        If Me.AutogenStatusHash.Contains(Me.EntityId) Then
+          Me.AutoGen = CBool(Me.AutogenStatusHash(Me.EntityId))
+        Else
+          Me.AutoGen = Entity.GetAutoGenStatus(Me.EntityId)
+          Me.AutogenStatusHash(Me.EntityId) = Me.AutoGen
+        End If
+      End If
 
-		End Sub
-		Protected Overridable Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-			Construct()
-			With Me
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_code") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_code") Then
-					.m_code = CStr(dr(aliasPrefix & Me.Prefix & "_code"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_id") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_id") Then
-					.m_id = CInt(dr(aliasPrefix & Me.Prefix & "_id"))
-				End If
+    End Sub
+    Protected Overridable Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      Construct()
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_code") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_code") Then
+          .m_code = CStr(dr(aliasPrefix & Me.Prefix & "_code"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_id") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_id") Then
+          .m_id = CInt(dr(aliasPrefix & Me.Prefix & "_id"))
+        End If
 
-				If Me.Originated Then
-					Me.AutoGen = False
-				End If
+        If Me.Originated Then
+          Me.AutoGen = False
+        End If
 
-				'status properties.....
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cancelDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cancelDate") Then
-					.m_cancelDate = CDate(dr(aliasPrefix & Me.Prefix & "_cancelDate"))
-					.m_canceled = True
-				Else
-					.m_canceled = False
-				End If
-
-
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_originDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_originDate") Then
-					.m_originDate = CDate(dr(aliasPrefix & Me.Prefix & "_originDate"))
-				End If
+        'status properties.....
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cancelDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cancelDate") Then
+          .m_cancelDate = CDate(dr(aliasPrefix & Me.Prefix & "_cancelDate"))
+          .m_canceled = True
+        Else
+          .m_canceled = False
+        End If
 
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastEditDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastEditDate") Then
-					.m_lastEditDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastEditDate"))
-					.m_edited = True
-				Else
-					.m_edited = False
-				End If
-
-				'status
-				If Not m_status Is Nothing Then
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "status.code_value") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "status.code_value") Then
-						.m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "status.code_value"))
-					Else
-						If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
-							.m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
-						End If
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_originDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_originDate") Then
+          .m_originDate = CDate(dr(aliasPrefix & Me.Prefix & "_originDate"))
+        End If
 
 
-				If TypeOf Me Is User Then
-					'ป้องกัน Cyclic
-					Return
-				End If
-				If dr.Table.Columns.Contains("cancelPerson.user_id") Then
-					If Not dr.IsNull("cancelPerson.user_id") Then
-						.m_cancelPerson = New User(dr, "cancelPerson.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cancelPerson") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cancelPerson") Then
-						.m_cancelPerson = New User(CInt(dr(aliasPrefix & Me.Prefix & "_cancelPerson")))
-					End If
-				End If
-				If dr.Table.Columns.Contains("originator.user_id") Then
-					If Not dr.IsNull("originator.user_id") Then
-						.m_originator = New User(dr, "originator.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_originator") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_originator") Then
-						.m_originator = New User(CInt(dr(aliasPrefix & Me.Prefix & "_originator")))
-					End If
-				End If
-				If dr.Table.Columns.Contains("lasteditor.user_id") Then
-					If Not dr.IsNull("lasteditor.user_id") Then
-						.m_lastEditor = New User(dr, "lasteditor.")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lasteditor") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lasteditor") Then
-						.m_lastEditor = New User(CInt(dr(aliasPrefix & Me.Prefix & "_lasteditor")))
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastEditDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastEditDate") Then
+          .m_lastEditDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastEditDate"))
+          .m_edited = True
+        Else
+          .m_edited = False
+        End If
+
+        'status
+        If Not m_status Is Nothing Then
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "status.code_value") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "status.code_value") Then
+            .m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "status.code_value"))
+          Else
+            If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+              .m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
+            End If
+          End If
+        End If
 
 
-			End With
-		End Sub
-		Protected Overridable Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			If ds.Tables(0).Rows.Count <= 0 Then
-				Construct()
-				Return
-			End If
-			Dim dr As DataRow = ds.Tables(0).Rows(0)
-			Construct(dr, aliasPrefix)
-		End Sub
-		Protected Sub LoadEntity(ByVal sql As String)
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.Text, sql)
-			If ds.Tables(0).Rows.Count > 0 Then
-				Construct(ds, "")
-			End If
-		End Sub
+        If TypeOf Me Is User Then
+          'ป้องกัน Cyclic
+          Return
+        End If
+        If dr.Table.Columns.Contains("cancelPerson.user_id") Then
+          If Not dr.IsNull("cancelPerson.user_id") Then
+            .m_cancelPerson = New User(dr, "cancelPerson.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cancelPerson") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cancelPerson") Then
+            .m_cancelPerson = New User(CInt(dr(aliasPrefix & Me.Prefix & "_cancelPerson")))
+          End If
+        End If
+        If dr.Table.Columns.Contains("originator.user_id") Then
+          If Not dr.IsNull("originator.user_id") Then
+            .m_originator = New User(dr, "originator.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_originator") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_originator") Then
+            .m_originator = New User(CInt(dr(aliasPrefix & Me.Prefix & "_originator")))
+          End If
+        End If
+        If dr.Table.Columns.Contains("lasteditor.user_id") Then
+          If Not dr.IsNull("lasteditor.user_id") Then
+            .m_lastEditor = New User(dr, "lasteditor.")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lasteditor") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lasteditor") Then
+            .m_lastEditor = New User(CInt(dr(aliasPrefix & Me.Prefix & "_lasteditor")))
+          End If
+        End If
+
+
+      End With
+    End Sub
+    Protected Overridable Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      If ds.Tables(0).Rows.Count <= 0 Then
+        Construct()
+        Return
+      End If
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub LoadEntity(ByVal sql As String)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.RealConnectionString, CommandType.Text, sql)
+      If ds.Tables(0).Rows.Count > 0 Then
+        Construct(ds, "")
+      End If
+    End Sub
 #End Region
 
 #Region "Methods"
@@ -565,7 +565,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_IsReferenced As Nullable(Of Boolean)
     Private m_IsReferedFrom As Nullable(Of Boolean)
     Private m_IsCancelable As Nullable(Of Boolean)
-    Public Overridable Function IsReferenced() As Boolean
+    Public Overridable Function IsReferenced() As Boolean Implements IDocStatusAble.IsReferenced
       If Not m_IsReferenced.HasValue Then
         RefreshRefCancelDelete()
       End If
@@ -574,7 +574,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
-    Public Overridable Function IsReferedFrom() As Boolean
+    Public Overridable Function IsReferedFrom() As Boolean Implements IDocStatusAble.IsReferedFrom
       If Not m_IsReferedFrom.HasValue Then
         RefreshRefCancelDelete()
       End If
@@ -583,7 +583,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
-    Public Overridable Function IsCancelable() As Boolean
+    Public Overridable Function IsCancelable() As Boolean Implements IDocStatusAble.IsCancelable
       If Not m_IsCancelable.HasValue Then
         RefreshRefCancelDelete()
       End If
@@ -1195,17 +1195,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
       End If
 
-        Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
 
-        pattern = CodeGenerator.GetPattern(pattern)
+      pattern = CodeGenerator.GetPattern(pattern)
 
-        Dim lastCode As String = Me.GetLastCode(pattern)
-        Dim newCode As String = _
-        CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
-        While DuplicateCode(newCode)
-          newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
-        End While
-        Return newCode
+      Dim lastCode As String = Me.GetLastCode(pattern)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
     End Function
     Public Property AutoGen() As Boolean Implements ICodeGeneratable.AutoGen
       Get
@@ -1550,6 +1550,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
-   
+
   End Class
 End Namespace

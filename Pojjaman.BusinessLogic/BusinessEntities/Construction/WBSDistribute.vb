@@ -1214,7 +1214,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim newColl As New WBSDistributeCollection
       For Each oldItem As WBSDistribute In Me
         Dim newItem As WBSDistribute = oldItem.Clone
-        newItem.BaseCost = item.BeforeTax
+        newItem.BaseCost = item.Amount
         'newItem.TransferBaseCost = item.BeforeTax
         newColl.Add(newItem)
       Next

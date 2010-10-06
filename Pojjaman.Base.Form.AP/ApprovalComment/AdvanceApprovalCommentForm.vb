@@ -275,8 +275,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.grdApproval.Refresh()
 			Me.grdApproval.EndUpdate()
 		End Sub
-		Private Sub DisableButton()
-			txtComment.Text = ""
+    Private Sub DisableButton()
+      Dim doca As IDocStatusAble
+      Dim docaReferenced As Boolean = False
+      If TypeOf m_entity Is IDocStatusAble Then
+        doca = CType(m_entity, IDocStatusAble)
+        docaReferenced = doca.IsReferenced
+      End If
+      txtComment.Text = ""
 
       Dim config As Integer = 0
       Select Case Me.m_entity.EntityId
@@ -292,7 +298,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         ApprovalDocLevel.GetItem(m_entity.EntityId).Level = config
       End If
 
-			Me.btnApprove.Enabled = True
+      Me.btnApprove.Enabled = True
       'ถ้าเอกสารอนุมัติระดับสูงสุดแล้ว หรือเอกสารนี้มีระดับสูงสุดเป็น 0 หรือระดับของผู้ใช้ปัจจุบันน้อยกว่าหรือเท่ากับระดับที่สูงสุดในตอนนี้ หรือเอกสารถูกยกเลิก
       If m_refDocIsApproved _
        OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level = 0 _
@@ -308,11 +314,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
        ((ApproveDocColl.MaxLevelPersonId = mySService.CurrentUser.Id _
        And _
        ApprovalDocLevel.GetItem(m_entity.EntityId).Level = ApproveDocColl.MaxLevel) _
-       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level > ApproveDocColl.MaxLevel) Then
+       OrElse ApprovalDocLevel.GetItem(m_entity.EntityId).Level > ApproveDocColl.MaxLevel) _
+       AndAlso Not docaReferenced Then
         Me.btnReject.Enabled = True
       End If
 
-		End Sub
+    End Sub
 #End Region
 
 #Region "Event Handlers"
