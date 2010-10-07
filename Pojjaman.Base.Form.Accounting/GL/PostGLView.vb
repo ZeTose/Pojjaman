@@ -45,23 +45,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnShowRefDoc As System.Windows.Forms.Button
     Friend WithEvents pgPosting As System.Windows.Forms.ProgressBar
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(PostGLView))
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PostGLView))
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.lvItem = New Longkong.Pojjaman.Gui.Components.PJMListView
-      Me.lblStartDate = New System.Windows.Forms.Label
-      Me.dtpStartDate = New System.Windows.Forms.DateTimePicker
-      Me.lblEndDate = New System.Windows.Forms.Label
-      Me.dtpEndDate = New System.Windows.Forms.DateTimePicker
-      Me.btnRefresh = New System.Windows.Forms.Button
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.ibtnPost = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.grbSearch = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnCheckAll = New System.Windows.Forms.Button
-      Me.btnShowRefDoc = New System.Windows.Forms.Button
-      Me.pgPosting = New System.Windows.Forms.ProgressBar
+      Me.lvItem = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.lblStartDate = New System.Windows.Forms.Label()
+      Me.dtpStartDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblEndDate = New System.Windows.Forms.Label()
+      Me.dtpEndDate = New System.Windows.Forms.DateTimePicker()
+      Me.btnRefresh = New System.Windows.Forms.Button()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.ibtnPost = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.grbSearch = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnCheckAll = New System.Windows.Forms.Button()
+      Me.btnShowRefDoc = New System.Windows.Forms.Button()
+      Me.pgPosting = New System.Windows.Forms.ProgressBar()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbSearch.SuspendLayout()
       Me.SuspendLayout()
       '
@@ -70,9 +71,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
@@ -96,6 +97,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvItem.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvItem.TabIndex = 1
       Me.lvItem.TabStop = False
+      Me.lvItem.UseCompatibleStateImageBehavior = False
       Me.lvItem.View = System.Windows.Forms.View.Details
       '
       'lblStartDate
@@ -112,7 +114,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpStartDate
       '
       Me.dtpStartDate.CustomFormat = "dd/MM/yyyy"
-      Me.dtpStartDate.Enabled = False
       Me.dtpStartDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
       Me.dtpStartDate.Location = New System.Drawing.Point(88, 16)
@@ -135,7 +136,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpEndDate
       '
       Me.dtpEndDate.CustomFormat = "dd/MM/yyyy"
-      Me.dtpEndDate.Enabled = False
       Me.dtpEndDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
       Me.dtpEndDate.Location = New System.Drawing.Point(280, 16)
@@ -149,6 +149,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnRefresh.Location = New System.Drawing.Point(384, 16)
       Me.btnRefresh.Name = "btnRefresh"
+      Me.btnRefresh.Size = New System.Drawing.Size(75, 23)
       Me.btnRefresh.TabIndex = 4
       Me.btnRefresh.TabStop = False
       Me.btnRefresh.Text = "Refresh"
@@ -166,7 +167,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnPost
       '
-      Me.ibtnPost.Image = CType(resources.GetObject("ibtnPost.Image"), System.Drawing.Image)
+      Me.ibtnPost.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnPost.Location = New System.Drawing.Point(512, 8)
       Me.ibtnPost.Name = "ibtnPost"
       Me.ibtnPost.Size = New System.Drawing.Size(72, 64)
@@ -231,6 +232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.btnCheckAll)
       Me.Name = "PostGLView"
       Me.Size = New System.Drawing.Size(744, 432)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSearch.ResumeLayout(False)
       Me.ResumeLayout(False)
 
@@ -254,6 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myParser = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       m_gl = New JournalEntry
       m_selectedItems = New ArrayList
+      EventWiring()
     End Sub
     Public Sub New(ByVal startDate As Date, ByVal endDate As Date)
       MyBase.New()
@@ -270,6 +273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.Columns.Add(col.Alias, col.Width, col.Alignment)
       Next
       Me.lvItem.CheckBoxes = True
+      EventWiring()
     End Sub
     Public Sub SetLabelText()
       Me.lblStartDate.Text = myParser.Parse("${res:Longkong.Pojjaman.Gui.Panels.PostGLView.lblStartDate}")
@@ -330,6 +334,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Protected Sub EventWiring()
+      
+      AddHandler dtpStartDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpStartDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      
+    End Sub
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "dtpstartdate"
+          If Not m_startDate.Equals(dtpStartDate.Value) Then
+            m_startDate = dtpStartDate.Value
+          End If
+        Case "dtpenddate"
+          If Not m_endDate.Equals(dtpEndDate.Value) Then
+            m_endDate = dtpEndDate.Value
+          End If
+      End Select
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
       RefreshList()
     End Sub

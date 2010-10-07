@@ -550,9 +550,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.StockQty <> 0 Then
           Dim tmpCost As Decimal = 0
           Dim tmpRealGrossNoVat As Decimal = 0
-
-          tmpRealGrossNoVat = Me.Po.RealGross
-
+          If Me.Po IsNot Nothing Then
+            tmpRealGrossNoVat = Me.Po.RealGross
+          Else
+            tmpRealGrossNoVat = 0
+          End If
           If tmpRealGrossNoVat = 0 Then
             Return 0
           End If

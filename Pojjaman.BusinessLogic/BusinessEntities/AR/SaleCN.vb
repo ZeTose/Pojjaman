@@ -1871,18 +1871,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim ji As JournalEntryItem
 
             'ภาษีขาย
-            If Me.TaxAmount > 0 Then
-                ji = New JournalEntryItem
-                ji.Mapping = "C6.2"
-                ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
-                If Me.ToCostCenter.Originated Then
-                    ji.CostCenter = Me.ToCostCenter
-                Else
-                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                End If
-                jiColl.Add(ji)
-            End If
+      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.Code.Length > 0) Then
+        ji = New JournalEntryItem
+        ji.Mapping = "C6.2"
+        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
 
+      'ภาษีขายยังไม่ถึงกำหนด
+      If Me.TaxAmount > 0 AndAlso (Me.Vat Is Nothing OrElse Me.Vat.Code.Length = 0) Then
+        ji = New JournalEntryItem
+        ji.Mapping = "C6.2.1"
+        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
 
             'ภาษีถูกหัก ณ ที่จ่าย
             If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
