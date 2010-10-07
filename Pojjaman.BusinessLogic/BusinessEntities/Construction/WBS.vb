@@ -38,7 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
   <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)> _
-Public Class LevelPropertyAttribute
+  Public Class LevelPropertyAttribute
     Inherits Attribute
 
 #Region "Members"
@@ -888,27 +888,27 @@ Public Class LevelPropertyAttribute
       Return 0
     End Function
 
-        Public Function GetTotalMarkUpFromDB() As Decimal
-            Try
-                Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                        ConnectionString _
-                        , CommandType.Text _
-                        , "select isnull(markup_totalamt,0) [budget] " & _
-                        " from markup where markup_id = " & Me.Id.ToString & "" _
-                        )
-                Dim tableIndex As Integer = 0
-                If ds.Tables.Count > tableIndex Then
-                    If ds.Tables(tableIndex).Rows.Count > 0 Then
-                        If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
-                            Return 0
-                        End If
-                        Return CDec(ds.Tables(tableIndex).Rows(0)(0))
-                    End If
-                End If
-            Catch ex As Exception
-            End Try
-            Return 0
-        End Function
+    Public Function GetTotalMarkUpFromDB() As Decimal
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                ConnectionString _
+                , CommandType.Text _
+                , "select isnull(markup_totalamt,0) [budget] " & _
+                " from markup where markup_id = " & Me.Id.ToString & "" _
+                )
+        Dim tableIndex As Integer = 0
+        If ds.Tables.Count > tableIndex Then
+          If ds.Tables(tableIndex).Rows.Count > 0 Then
+            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+              Return 0
+            End If
+            Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+          End If
+        End If
+      Catch ex As Exception
+      End Try
+      Return 0
+    End Function
 
     Public Function GetTotalParentBudget() As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -978,6 +978,37 @@ Public Class LevelPropertyAttribute
       Catch ex As Exception
       End Try
       Return 0
+    End Function
+    Public Function GetThisDocActualFromDB(ByVal docType As Integer, ByVal docId As Integer, ByVal ccId As Integer) As Decimal      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetThisDocActualFromDB" _
+                , New SqlParameter("@docType", docType) _
+                , New SqlParameter("@docId", docId) _
+                , New SqlParameter("@ccId", ccId) _
+                )
+
+        Return CDec(ds.Tables(0).Rows(0)(0))
+
+      Catch ex As Exception
+      End Try
+      Return 0
+    End Function
+    Public Function GetWBSRootId() As Integer
+      ''เพื่อความเร็ว
+      If Me.Path.Length = 0 Then
+        Return 0
+      End If
+      Dim pathx As String = Me.Path
+      Dim rep0x As String = pathx.Replace("||", ",")
+      Dim rep1x As String = rep0x.Replace("|", "")
+      Dim splitx() As String = rep1x.Split(","c)
+      If splitx(0).Length > 0 Then
+        Return CInt(splitx(0))
+      Else
+        Return 0
+      End If
     End Function
 #End Region    Public Function GetTotalMat() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
@@ -1158,12 +1189,18 @@ Public Class LevelPropertyAttribute
             'Return GetAmountFromSproc("GetMatAmountForWbsWithoutThisStock", Me.Id, False, view, stock.Id, requestor)
             tb = "mat"
         End Select
+        'Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+        '        ConnectionString _
+        '        , CommandType.Text _
+        '        , "select isnull(wbs_matactual,0) + isnull(wbs_childmatactual,0)  from" & _
+        '        " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
+        '        )
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_matactual,0) + isnull(wbs_childmatactual,0)  from" & _
-                " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
-                )
+        ConnectionString _
+        , CommandType.Text _
+        , "select isnull(matactual,0)  from" & _
+        " swang_" & tb & "_wbsrealactual where wbs_id = '" & Me.Id.ToString & "'" _
+        )
         Dim tableIndex As Integer = 0
         If ds.Tables.Count > tableIndex Then
           If ds.Tables(tableIndex).Rows.Count > 0 Then
@@ -1221,12 +1258,18 @@ Public Class LevelPropertyAttribute
           Case 31
             Return GetAmountFromSproc("GetLabAmountForWbsWithoutThisStock", Me.Id, False, view, stock.Id, requestor)
         End Select
+        'Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+        '        ConnectionString _
+        '        , CommandType.Text _
+        '        , "select isnull(wbs_labactual,0) + isnull(wbs_childlabactual,0)  from" & _
+        '        " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
+        '        )
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_labactual,0) + isnull(wbs_childlabactual,0)  from" & _
-                " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
-                )
+        ConnectionString _
+        , CommandType.Text _
+        , "select isnull(labactual,0)  from" & _
+        " swang_" & tb & "_wbsrealactual where wbs_id = '" & Me.Id.ToString & "'" _
+        )
         Dim tableIndex As Integer = 0
         If ds.Tables.Count > tableIndex Then
           If ds.Tables(tableIndex).Rows.Count > 0 Then
@@ -1280,12 +1323,18 @@ Public Class LevelPropertyAttribute
           Case 31
             Return GetAmountFromSproc("GetEqAmountForWbsWithoutThisStock", Me.Id, False, view, stock.Id, requestor)
         End Select
+        'Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+        '        ConnectionString _
+        '        , CommandType.Text _
+        '        , "select isnull(wbs_eqactual,0) + isnull(wbs_childeqactual,0)  from" & _
+        '        " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
+        '        )
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_eqactual,0) + isnull(wbs_childeqactual,0)  from" & _
-                " swang_" & tb & "_wbsactual where wbs_id = '" & Me.Id.ToString & "'" _
-                )
+        ConnectionString _
+        , CommandType.Text _
+        , "select isnull(eqactual,0)  from" & _
+        " swang_" & tb & "_wbsrealactual where wbs_id = '" & Me.Id.ToString & "'" _
+        )
         Dim tableIndex As Integer = 0
         If ds.Tables.Count > tableIndex Then
           If ds.Tables(tableIndex).Rows.Count > 0 Then
@@ -1716,7 +1765,7 @@ Public Class LevelPropertyAttribute
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class WBSCollection
+  Public Class WBSCollection
     Inherits CollectionBase
     Implements IDisposable
 
@@ -1734,7 +1783,7 @@ Public Class WBSCollection
       End If
 
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-      Dim ds As DataSet  = SqlHelper.ExecuteDataset(sqlConString _
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
       , CommandType.StoredProcedure _
       , "GetWBSs" _
       , New SqlParameter("@boq_id", Me.m_boq.Id) _

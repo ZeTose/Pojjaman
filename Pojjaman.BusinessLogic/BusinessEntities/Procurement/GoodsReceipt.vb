@@ -1218,6 +1218,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         onlyCC = CBool(config)
       End If
 
+      'GROverBudgetOnlyWBSAllocate
+      config = Configuration.GetConfig("GROverBudgetOnlyWBSAllocate")
+      Dim onlyWBSAllocate As Boolean = False
+      If Not config Is Nothing Then
+        onlyWBSAllocate = CBool(config)
+      End If
+
       Dim idList As String = Me.ListWbsId
       Dim dsParentBudget As New DataSet
       dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
@@ -1239,43 +1246,69 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               'สำหรับ WBS ตัวมันเอง =====<<
 
-              currwbsId = wbsd.WBS.Id
-              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
-                Dim drh As New DataRowHelper(drow)
+              If Not onlyWBSAllocate Then
+                currwbsId = wbsd.WBS.Id
+                For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                  Dim drh As New DataRowHelper(drow)
 
-                totalBudget = 0
-                totalActual = 0
-                Select Case item.ItemType.Value
-                  Case 88
-                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
-                    totalActual = drh.GetValue(Of Decimal)("labactual")
-                  Case 89
-                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
-                    totalActual = drh.GetValue(Of Decimal)("eqactual")
-                  Case Else
-                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
-                    totalActual = drh.GetValue(Of Decimal)("matactual")
-                End Select
-                If totalBudget < (totalActual + wbsd.Amount) Then
-                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
-                  Dim myWBS As New WBS(myId)
-                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
-                End If
-              Next
+                  totalBudget = 0
+                  totalActual = 0
+                  Select Case item.ItemType.Value
+                    Case 88
+                      totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                      totalActual = drh.GetValue(Of Decimal)("labactual")
+                    Case 89
+                      totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                      totalActual = drh.GetValue(Of Decimal)("eqactual")
+                    Case Else
+                      totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                      totalActual = drh.GetValue(Of Decimal)("matactual")
+                  End Select
+                  If totalBudget < (totalActual + wbsd.Amount) Then
+                    Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
+                    Dim myWBS As New WBS(myId)
+                    Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                  End If
+                Next
+              End If
+
 
             Next
           End If
         Next
       Else
-        Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
-        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
-        Dim totalCurrentDiff As Decimal = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0)) + _
-        Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88)) + _
-        Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
-        If totalBudget < (totalActual + totalCurrentDiff) Then
-          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
-        End If
+        Dim hCC As New Hashtable
+        For Each item As GoodsReceiptItem In Me.ItemCollection
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            If Not hCC.ContainsKey(wbsd.CostCenter.Id) Then
+              hCC(wbsd.CostCenter.Id) = wbsd
+            End If
+          Next
+        Next
+        For Each wbsd As WBSDistribute In hCC.Values
+          Dim rootWBS As New WBS(wbsd.WBS.GetWBSRootId)
+          Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+          Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, Me.EntityId) + rootWBS.GetActualLab(Me, Me.EntityId) + rootWBS.GetActualEq(Me, Me.EntityId))
+          Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
+          Dim currentActual As Decimal = wbsd.Amount
+
+          'Trace.WriteLine(Configuration.FormatToString(totalBudget, DigitConfig.Price) & "/" & Configuration.FormatToString(totalActual, DigitConfig.Price) & _
+          '                       "/" & Configuration.FormatToString(thisActual, DigitConfig.Price) & "/" & Configuration.FormatToString(currentActual, DigitConfig.Price))
+
+          If totalBudget < ((totalActual - thisActual) + currentActual) Then
+            Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+          End If
+        Next
+
+        'Dim rootWBS As New WBS(Me.ToCostCenter.RootWBSId)
+        'Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+        'Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+        'Dim totalCurrentDiff As Decimal = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0)) + _
+        'Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88)) + _
+        'Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
+        'If totalBudget < (totalActual + totalCurrentDiff) Then
+        '  Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+        'End If
       End If
 
       Return New SaveErrorException("0")

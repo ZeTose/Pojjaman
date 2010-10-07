@@ -90,6 +90,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If dr.Table.Columns.Contains(aliasPrefix & "wbs_name") AndAlso Not dr.IsNull(aliasPrefix & "wbs_name") Then
             m_wbs.Name = CStr(dr(aliasPrefix & "wbs_name"))
           End If
+          If dr.Table.Columns.Contains(aliasPrefix & "wbs_path") AndAlso Not dr.IsNull(aliasPrefix & "wbs_path") Then
+            m_wbs.Path = CStr(dr(aliasPrefix & "wbs_path"))
+          End If
           If dr.Table.Columns.Contains(aliasPrefix & "wbs_noqtycontrol") AndAlso Not dr.IsNull(aliasPrefix & "wbs_noqtycontrol") Then
             m_wbs.NoQtyControl = CBool(dr(aliasPrefix & "wbs_noqtycontrol"))
           End If
