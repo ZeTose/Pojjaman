@@ -873,15 +873,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim flag As Boolean = Me.m_isInitialized
                 Me.m_treeManager.Treetable.Clear()
                 Me.m_treemanager2.Treetable.Clear()
-                If Me.m_entity.Originated Then
-                    Me.m_isInitialized = False
-                    Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-                    RefreshBlankGrid()
-                    ReIndex()
-                    Me.m_treeManager.Treetable.AcceptChanges()
-                    Dim glf As New GLFormat(Me.m_entity.LinkGL)
-                    glf.ItemCollection.Populate(m_treemanager2.Treetable)
-                End If
+        If Me.m_entity.Originated OrElse IsNewEntity Then
+          IsNewEntity = False
+          Me.m_isInitialized = False
+          Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+          RefreshBlankGrid()
+          ReIndex()
+          Me.m_treeManager.Treetable.AcceptChanges()
+          Dim glf As New GLFormat(Me.m_entity.LinkGL)
+          glf.ItemCollection.Populate(m_treemanager2.Treetable)
+        End If
                 Me.m_isInitialized = flag
             Catch ex As Exception
                 MessageBox.Show(ex.ToString)
@@ -918,34 +919,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Property
 
         Public Event EntityPropertyChanged(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleEntityPanel.EntityPropertyChanged
-
-        Public Sub AddNew() Implements ISimpleListPanel.AddNew
-            Dim node As TreeNode = Me.tvLinkGL.SelectedNode
-            If node Is Nothing Then
-                Return
-            End If
-            If TypeOf node.Tag Is IdValuePair Then
-                Dim item As IdValuePair = CType(node.Tag, IdValuePair)
-                Select Case item.Value.ToLower
-                    Case "linkgl"
-                        Dim glf As New GLFormat(New LinkGL(item.Id))
-                        Dim newNode As TreeNode = node.Nodes.Add("<NEW>")
-                        newNode.Tag = New IdValuePair(glf.Id, "glformat")
-                        Me.SelectedEntity = glf
-                        Me.tvLinkGL.SelectedNode = newNode
-                        Return
-                    Case "glformat"
-                        Dim parentItem As IdValuePair = CType(node.Parent.Tag, IdValuePair)
-                        Dim glf As New GLFormat(New LinkGL(parentItem.Id))
-                        Dim newNode As TreeNode = node.Parent.Nodes.Add("<NEW>")
-                        newNode.Tag = New IdValuePair(glf.Id, "glformat")
-                        Me.SelectedEntity = glf
-                        Me.tvLinkGL.SelectedNode = newNode
-                        Return
-                End Select
-            End If
-            ToggleVisibility(False)
-        End Sub
+    Dim IsNewEntity As Boolean = False
+    Public Sub AddNew() Implements ISimpleListPanel.AddNew
+      Dim node As TreeNode = Me.tvLinkGL.SelectedNode
+      If node Is Nothing Then
+        Return
+      End If
+      If TypeOf node.Tag Is IdValuePair Then
+        Dim item As IdValuePair = CType(node.Tag, IdValuePair)
+        Select Case item.Value.ToLower
+          Case "linkgl"
+            Dim glf As New GLFormat(New LinkGL(item.Id))
+            Dim newNode As TreeNode = node.Nodes.Add("<NEW>")
+            newNode.Tag = New IdValuePair(glf.Id, "glformat")
+            IsNewEntity = True
+            Me.SelectedEntity = glf
+            Me.tvLinkGL.SelectedNode = newNode
+            Return
+          Case "glformat"
+            Dim parentItem As IdValuePair = CType(node.Parent.Tag, IdValuePair)
+            Dim glf As New GLFormat(New LinkGL(parentItem.Id))
+            Dim newNode As TreeNode = node.Parent.Nodes.Add("<NEW>")
+            newNode.Tag = New IdValuePair(glf.Id, "glformat")
+            IsNewEntity = True
+            Me.SelectedEntity = glf
+            Me.tvLinkGL.SelectedNode = newNode
+            Return
+        End Select
+      End If
+      ToggleVisibility(False)
+    End Sub
 
         Private Sub OnEntitySelected(ByVal entity As ISimpleEntity)
             RaiseEvent EntitySelected(entity)

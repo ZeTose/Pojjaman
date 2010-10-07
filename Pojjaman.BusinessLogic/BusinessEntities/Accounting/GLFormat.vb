@@ -153,7 +153,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("AcctName", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("CCCode", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("CCButton", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("CCName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CCName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("AdditionCondition", GetType(String)))
             Return myDatatable
         End Function
 
