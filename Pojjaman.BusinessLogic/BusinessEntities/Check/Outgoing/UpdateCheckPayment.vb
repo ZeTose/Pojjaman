@@ -1099,38 +1099,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ' เจ้าหนี้การค้า
     Private Sub SetCancelCreditor(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
-      Dim ht As New Hashtable
-      For Each trow As TreeRow In Me.ItemTable.Childs
-        If ValidateRow(trow) Then
-          Dim supplieracct As New Supplier(CInt(trow("check_supplier")))
-          ht(supplieracct.Account.Id) = supplieracct.Account
-        End If
-      Next
-      For Each acct As Account In ht.Values
-        Dim sumvalue As Decimal = 0
-        For i As Integer = Me.MaxRowIndex To 0 Step -1
-          Dim row As TreeRow = Me.ItemTable.Childs(i)
-          Dim drh As New DataRowHelper(row)
-          If ValidateRow(row) Then
-            Dim supplieracct As New Supplier(CInt(row("check_supplier")))
-            If supplieracct.Account.Id = acct.Id Then
-              sumvalue += drh.GetValue(Of Decimal)("check_amount", 0)
-            End If
-            ji = New JournalEntryItem
-            ji.Mapping = "H2.4D"
-            ji.Amount = drh.GetValue(Of Decimal)("check_amount", 0)
-            If acct.Originated Then
-              ji.Account = acct
-            End If
-            ji.Note = "ยกเลิกเช็ค " & drh.GetValue(Of String)("check_cqcode") & "/" & supplieracct.Name
-            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-            jiColl.Add(ji)
+      'Dim ht As New Hashtable
+      'For Each trow As TreeRow In Me.ItemTable.Childs
+      '  If ValidateRow(trow) Then
+      '    Dim supplieracct As New Supplier(CInt(trow("check_supplier")))
+      '    ht(supplieracct.Account.Id) = supplieracct.Account
+      '  End If
+      'Next
+      'For Each acct As Account In ht.Values
+      '  Dim sumvalue As Decimal = 0
+      For i As Integer = Me.MaxRowIndex To 0 Step -1
+        Dim row As TreeRow = Me.ItemTable.Childs(i)
+        Dim drh As New DataRowHelper(row)
+        If ValidateRow(row) Then
+          Dim supplieracct As New Supplier(CInt(row("check_supplier")))
+          Dim acct As Account = supplieracct.Account
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.4D"
+          ji.Amount = drh.GetValue(Of Decimal)("check_amount", 0)
+          If acct.Originated Then
+            ji.Account = acct
           End If
-        Next
-        If sumvalue > 0 Then
+          ji.Note = "ยกเลิกเช็ค " & drh.GetValue(Of String)("check_cqcode") & "/" & supplieracct.Name
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          jiColl.Add(ji)
+
+
           ji = New JournalEntryItem
           ji.Mapping = "H2.4"
-          ji.Amount = sumvalue
+          ji.Amount = drh.GetValue(Of Decimal)("check_amount", 0)
           If acct.Originated Then
             ji.Account = acct
           End If
@@ -1138,6 +1135,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
+      'If sumvalue > 0 Then
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "H2.4"
+      '  ji.Amount = sumvalue
+      '  If acct.Originated Then
+      '    ji.Account = acct
+      '  End If
+      '  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      '  jiColl.Add(ji)
+      'End If
+      'Next
     End Sub
     ' เช็คจ่ายล่วงหน้า กรณียกเลิก สลับกับ เงินฝากธนาคาร
     Private Sub SetCancelCheckOutgoingAndBankAcct(ByVal jiColl As JournalEntryItemCollection)
