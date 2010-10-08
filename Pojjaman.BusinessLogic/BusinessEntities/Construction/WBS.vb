@@ -997,7 +997,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Function GetWBSRootId() As Integer
       ''เพื่อความเร็ว
-      If Me.Path.Length = 0 Then
+      If Me.Path Is Nothing OrElse Me.Path.Length = 0 Then
         Return 0
       End If
       Dim pathx As String = Me.Path
@@ -1756,6 +1756,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If ds.Tables(0).Rows.Count > 0 Then
           Dim myWBS As New WBS(ds.Tables(0).Rows(0), "")
           Return myWBS
+        End If
+      Catch ex As Exception
+      End Try
+    End Function
+    Public Shared Function GetWBS(ByVal code As String, ByVal ccId As Integer) As WBS
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetWbsFromCodeAndCC2" _
+                , New SqlParameter("@cc_id", ccId) _
+                , New SqlParameter("@wbs_code", code) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Dim myWBS As New WBS(ds.Tables(0).Rows(0), "")
+          Return myWBS
+        Else
+          Return Nothing
         End If
       Catch ex As Exception
       End Try

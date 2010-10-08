@@ -939,6 +939,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+    Public Shared Function GetCostCenter(ByVal code As String) As CostCenter
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetCostCenterFromCode" _
+                , New SqlParameter("@cc_code", code) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Dim cc As New CostCenter(ds.Tables(0).Rows(0), "")
+          Return cc
+        Else
+          Return Nothing
+        End If
+      Catch ex As Exception
+      End Try
+    End Function
     Public Shared Sub RefreshDefaultCC()
       Dim HQId As Integer = CInt(Configuration.GetConfig("HQCostCenter"))
       hqCC = New CostCenter(HQId)

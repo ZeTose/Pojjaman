@@ -362,7 +362,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDescription.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.DescriptionHeaderText}") '"รายการ/Cost Center"
       csDescription.NullText = ""
       csDescription.Width = 175
-      csDescription.ReadOnly = True
+      'csDescription.ReadOnly = True
       csDescription.TextBox.Name = "Description"
 
       Dim csCCButton As New DataGridButtonColumn
@@ -388,7 +388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.WBSHeaderText}") 'WBS
       csWBS.NullText = ""
       csWBS.Width = 175
-      csWBS.ReadOnly = True
+      'csWBS.ReadOnly = True
       csWBS.TextBox.Name = "WBS"
 
       Dim csButton As New DataGridButtonColumn
@@ -1204,6 +1204,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '    End If
     'End Sub
 #End Region
+
 #Region "Event Handlers"
     Private Sub ibtnAddWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddWBS.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -1379,6 +1380,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Try
         Select Case e.Column.ColumnName.ToLower
+          Case "description"
+            SetCostCenterCode(e)
           Case "cbs"
             SetCBSCode(e)
           Case "wbs"
@@ -1394,11 +1397,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Try
     End Sub
     Public Sub WBSValidateRow(ByVal e As DataColumnChangeEventArgs)
+      Dim cc As Object = e.Row("description")
       Dim wbs As Object = e.Row("wbs")
       Dim percent As Object = e.Row("percent")
       Dim amount As Object = e.Row("amount")
 
       Select Case e.Column.ColumnName.ToLower
+        Case "description"
+          cc = e.ProposedValue
         Case "wbs"
           wbs = e.ProposedValue
         Case "percent"
@@ -1415,6 +1421,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       If Not isBlankRow Then
+        If IsDBNull(cc) OrElse cc.ToString.Length <= 0 Then
+          e.Row.SetColumnError("description", Me.StringParserService.Parse("${res:Global.Error.CostCenterMissing}"))
+        Else
+          e.Row.SetColumnError("description", "")
+        End If
         If IsDBNull(percent) OrElse CDec(percent) <= 0 Then
           e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
         Else
@@ -1440,6 +1451,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return True
     End Function
     Private m_wbsUpdating As Boolean = False
+    Public Sub SetCostCenterCode(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If m_wbsUpdating Then
+        Return
+      End If
+      'm_wbsUpdating = True
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim wbsd As WBSDistribute = Me.CurrentWsbsd
+      If wbsd Is Nothing Then
+        Return
+      End If
+
+      If Not IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length > 0 Then
+        Dim cccodename As String = e.ProposedValue.ToString
+        Dim cccode As String() = cccodename.Split(":"c)
+
+        Dim cc As CostCenter = CostCenter.GetCostCenter(cccode(0).Trim)
+        If cc Is Nothing Then
+          msgServ.ShowMessageFormatted("${res:Global.Error.CostCenterCodeNameMissMatch}", New String() {cccode(0).Trim})
+          Return
+        End If
+        wbsd.WBS = New WBS
+        wbsd.CostCenter = cc
+      End If
+    End Sub
     Public Sub SetWBSPercent(ByVal e As DataColumnChangeEventArgs)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If m_wbsUpdating Then
@@ -1533,15 +1568,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '    Return False
     'End Function
     Public Sub SetWBSCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      'If m_wbsUpdating Then
-      '    Return
-      'End If
+      If m_wbsUpdating Then
+        Return
+      End If
       'm_wbsUpdating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      'Dim currItem As PurchaseDNItem = Me.CurrentItem
-      'If currItem Is Nothing Then
-      '    Return
-      'End If
+      Dim wbsd As WBSDistribute = Me.CurrentWsbsd
+      If wbsd Is Nothing Then
+        Return
+      End If
+
+      If Not IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length > 0 Then
+        Dim wbscodename As String = e.ProposedValue.ToString
+        Dim wbscode As String() = wbscodename.Split(":"c)
+
+        Dim wbs As WBS = wbs.GetWBS(wbscode(0).Trim, wbsd.CostCenter.Id)
+        If wbs Is Nothing Then
+          msgServ.ShowMessageFormatted("${res:Global.Error.WBSCodeNameMissMatch}", New String() {wbscode(0).Trim})
+          Return
+        End If
+        wbsd.WBS = wbs
+      End If
       'If currItem.GoodsReceiptLine <> 0 Then
       '    msgServ.ShowMessage("${res:Global.Error.DNItemWithRefCannotEditWBS}")
       '    e.ProposedValue = e.Row(e.Column)

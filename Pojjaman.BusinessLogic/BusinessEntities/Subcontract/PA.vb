@@ -32,8 +32,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
         , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh, IHasToCostCenter
 
-
-
 #Region "Members"
     '**************
     Private m_docDate As Date
@@ -1007,16 +1005,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.CostCenter.Boq Is Nothing OrElse Me.CostCenter.Boq.Id = 0 Then
         Return New SaveErrorException("-1")
       End If
+
       'PROverBudgetOnlyCC
       Dim config As Object = Configuration.GetConfig("GROverBudgetOnlyCC")
       Dim onlyCC As Boolean = False
       If Not config Is Nothing Then
         onlyCC = CBool(config)
       End If
+
+      'PROverBudgetOnlyWBSAllocate
+      config = Configuration.GetConfig("GROverBudgetOnlyWBSAllocate")
+      Dim onlyWBSAllocate As Boolean = False
+      If Not config Is Nothing Then
+        onlyWBSAllocate = CBool(config)
+      End If
+
       '====================
       WBS.ParentBudgetHash = New Hashtable 'ห้ามลืมเด็ดขาด
       '====================
-
       Dim idList As String = Me.ListWbsId
       Dim dsParentBudget As New DataSet
       dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
@@ -1038,43 +1044,90 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               'สำหรับ WBS ตัวมันเอง =====<<
 
-              currwbsId = wbsd.WBS.Id
-              Trace.WriteLine(dsParentBudget.Tables(0) Is Nothing)
-              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
-                Dim drh As New DataRowHelper(drow)
+              If Not onlyWBSAllocate Then
+                currwbsId = wbsd.WBS.Id
+                Trace.WriteLine(dsParentBudget.Tables(0) Is Nothing)
+                For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                  Dim drh As New DataRowHelper(drow)
 
-                totalBudget = 0
-                totalActual = 0
-                Select Case item.ItemType.Value
-                  Case 88
-                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
-                    totalActual = drh.GetValue(Of Decimal)("labactual")
-                  Case 89
-                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
-                    totalActual = drh.GetValue(Of Decimal)("eqactual")
-                  Case Else
-                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
-                    totalActual = drh.GetValue(Of Decimal)("matactual")
-                End Select
-                If totalBudget < (totalActual + wbsd.Amount) Then
-                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
-                  Dim myWBS As New WBS(myId)
-                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
-                End If
-              Next
+                  totalBudget = 0
+                  totalActual = 0
+                  Select Case item.ItemType.Value
+                    Case 88
+                      totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                      totalActual = drh.GetValue(Of Decimal)("labactual")
+                    Case 89
+                      totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                      totalActual = drh.GetValue(Of Decimal)("eqactual")
+                    Case Else
+                      totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                      totalActual = drh.GetValue(Of Decimal)("matactual")
+                  End Select
+                  If totalBudget < (totalActual + wbsd.Amount) Then
+                    Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
+                    Dim myWBS As New WBS(myId)
+                    Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                  End If
+                Next
+              End If
 
             Next
+            If item.WBSDistributeCollection.GetSumPercent = 0 Then
+              'สำหรับ Auto จัดสรร
+              Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
+              Dim tBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+              Dim tActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+              Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, Me.CostCenter.Id)
+              Dim cActual As Decimal = item.Amount
+              If tBudget < ((tActual - thisActual) + cActual) Then
+                Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+              End If
+            End If
           End If
         Next
       Else
-        Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
-        Dim totalCurrent As Decimal = Me.ItemCollection.Amount
+        Dim hCC As New Hashtable
+        For Each item As PAItem In Me.ItemCollection
+          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+            If Not hCC.ContainsKey(wbsd.CostCenter.Id) Then
+              hCC(wbsd.CostCenter.Id) = wbsd
+            End If
+          Next
+          If item.WBSDistributeCollection.GetSumPercent = 0 Then
+            'สำหรับ Auto จัดสรร
+            Dim rootWBS As New WBS(Me.FromCostCenter.RootWBSId)
+            Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+            Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+            Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, Me.FromCostCenter.Id)
+            Dim currentActual As Decimal = item.Amount
+            If totalBudget < ((totalActual - thisActual) + currentActual) Then
+              Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+            End If
+          End If
+        Next
+        For Each wbsd As WBSDistribute In hCC.Values
+          Dim rootWBS As New WBS(wbsd.WBS.GetWBSRootId)
+          Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+          Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+          Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
+          Dim currentActual As Decimal = wbsd.Amount
 
-        If totalBudget < (totalActual + totalCurrent) Then
-          Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
-        End If
+          'Trace.WriteLine(Configuration.FormatToString(totalBudget, DigitConfig.Price) & "/" & Configuration.FormatToString(totalActual, DigitConfig.Price) & _
+          '                       "/" & Configuration.FormatToString(thisActual, DigitConfig.Price) & "/" & Configuration.FormatToString(currentActual, DigitConfig.Price))
+
+          If totalBudget < ((totalActual - thisActual) + currentActual) Then
+            Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+          End If
+        Next
+
+        'Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
+        'Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
+        'Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
+        'Dim totalCurrent As Decimal = Me.ItemCollection.Amount
+
+        'If totalBudget < (totalActual + totalCurrent) Then
+        '  Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+        'End If
       End If
 
       Return New SaveErrorException("0")
