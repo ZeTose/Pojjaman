@@ -1871,7 +1871,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim ji As JournalEntryItem
 
             'ภาษีขาย
-      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.Code.Length > 0) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen)) Then
         ji = New JournalEntryItem
         ji.Mapping = "C6.2"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
@@ -1884,7 +1884,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีขายยังไม่ถึงกำหนด
-      If Me.TaxAmount > 0 AndAlso (Me.Vat Is Nothing OrElse Me.Vat.Code.Length = 0) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
         ji = New JournalEntryItem
         ji.Mapping = "C6.2.1"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
@@ -2914,7 +2914,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IWitholdingTaxable"
         Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
       Return Me.TaxBase
-        End Function
+    End Function
+    Public Shared Function GetTaxBase(ByVal id As Integer) As Decimal
+      Dim ret As Decimal = 0
+      If id <= 0 Then
+        Return ret
+      End If
+
+      Dim RealConnectionString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(RealConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetSaleCN" _
+      , New SqlParameter("@" & "stock_id", id) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        Dim dr As DataRow = ds.Tables(0).Rows(0)
+        If dr.Table.Columns.Contains("stock_taxbase") _
+        AndAlso Not dr.IsNull("stock_taxbase") Then
+          ret = CDec(dr("stock_taxbase"))
+        End If
+      End If
+      Return ret
+    End Function
 #End Region
 
 #Region "IHasIBillablePerson"

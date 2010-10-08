@@ -1344,6 +1344,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.RefdocType = Me.EntityId
             Me.Vat.ItemCollection.Add(vitem)
           End If
+        ElseIf item.EntityId = 48 Then
+          If Not item.TaxType.Value = 0 Then
+            i += 1
+            Dim vitem As New VatItem
+            vitem.AutoGen = True
+            vitem.LineNumber = i
+            'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
+            vitem.Code = ""          'newCode
+            'lastCode = newCode
+            vitem.DocDate = Me.DocDate
+            vitem.PrintName = Me.Customer.Name
+            vitem.PrintAddress = Me.Customer.BillingAddress
+            Dim mtb As Decimal = -item.TaxBase
+            ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
+            'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
+            '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
+            'End If
+            Dim amt As Decimal = item.Amount
+            Dim uamt As Decimal = item.UnreceivedAmount
+            '---------------------------------------------
+            Dim tb As Decimal = (amt / uamt) * mtb
+            '---------------------------------------------
+
+            vitem.TaxBase = tb
+            vitem.TaxRate = item.TaxRate
+            'If mi.CostCenter.Originated Then
+            '    vitem.CcId = mi.CostCenter.Id
+            'Else
+            '    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
+            'End If
+            vitem.CcId = GetAllCC.Id
+            vitem.Refdoc = Me.Id
+            vitem.RefdocType = Me.EntityId
+            Me.Vat.ItemCollection.Add(vitem)
+          End If
         End If
       Next
       '   If Me.Vat.ItemCollection.Amount = 0 Then
@@ -1507,9 +1542,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ถ้าเป็นใบวางบิลขาย และเป็นรายการขายสินค้า
           If item.ParentType = 125 And item.EntityId = 83 Then
             item.TaxBase = GoodsSold.GetTaxBase(item.Id)
+          ElseIf item.EntityId = 48 Then
+            item.TaxBase = SaleCN.GetTaxbase(item.Id)
           End If
           d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-          ret += item.TaxBase - d
+          If item.EntityId <> 48 Then
+            ret += item.TaxBase - d
+          Else
+            ret -= (item.TaxBase - d)
+          End If
         End If
       Next
 

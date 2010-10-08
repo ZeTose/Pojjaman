@@ -734,7 +734,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "salebillii_linenumber"
 
       Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("salebillii_entityType", CodeDescription.GetCodeList("ReceivableItemType", "code_value not in (48,49)"), "code_description", "code_value")
+      csType = New DataGridComboColumn("salebillii_entityType", CodeDescription.GetCodeList("ReceivableItemType", "code_value not in (49)"), "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueDetail.TypeHeaderText}")
       csType.Width = 70
       csType.ReadOnly = True

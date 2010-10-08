@@ -2932,91 +2932,94 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
 
       'txtCode.Text = m_entity.Code
-            txtCreditPrd.Text = m_entity.CreditPeriod.ToString
+      txtCreditPrd.Text = m_entity.CreditPeriod.ToString
       m_oldCode = m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
 
-            txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+      txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
 
-            Dim myVat As Vat = Me.m_entity.Vat
-            If Not myVat Is Nothing Then
-                Dim myVatitem As VatItem
-                If myVat.ItemCollection.Count <= 0 Then
-                    Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-                End If
-                VatInputEnabled(True)
-                myVatitem = myVat.ItemCollection(0)
-                If myVat.AutoGen Then
-                    Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
-                Else
-                    Me.txtInvoiceCode.Text = myVatitem.Code
-                End If
-                Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
-            End If
-            'ของเก่า
-            'If Not myVat Is Nothing Then
-            '    If myVat.MaxRowIndex = -1 Then
-            '        VatInputEnabled(True)
-            '        Me.txtInvoiceCode.Text = ""
-            '        Me.txtInvoiceDate.Text = ""
-            '        Me.dtpInvoiceDate.Value = Now
-            '    ElseIf myVat.MaxRowIndex = 0 Then
-            '        VatInputEnabled(True)
-            '        Dim myVatitem As New VatItem
-            '        myVatitem.CopyFromDataRow(myVat.ItemTable.Childs(0))
-            '        Me.txtInvoiceCode.Text = myVatitem.Code
-            '        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            '        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
-            '    Else
-            '        VatInputEnabled(False)
-            '        Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-            '        Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-            '        Me.dtpInvoiceDate.Value = Now
-            '    End If
-            'End If
-            m_oldInvoiceCode = Me.txtInvoiceCode.Text
-            Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-            Me.UpdateVatAutogenStatus()
+      Dim myVat As Vat = Me.m_entity.Vat
+      If Not myVat Is Nothing Then
+        Dim myVatitem As VatItem
+        If myVat.ItemCollection.Count <= 0 Then
+          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+        End If
+        VatInputEnabled(True)
+        myVatitem = myVat.ItemCollection(0)
+        If myVat.AutoGen Then
+          Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+        Else
+          Me.txtInvoiceCode.Text = myVatitem.Code
+        End If
+        If Me.txtInvoiceCode.Text.Length = 0 Then
+          VatInputEnabled(False)
+        End If
+        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      End If
+      'ของเก่า
+      'If Not myVat Is Nothing Then
+      '    If myVat.MaxRowIndex = -1 Then
+      '        VatInputEnabled(True)
+      '        Me.txtInvoiceCode.Text = ""
+      '        Me.txtInvoiceDate.Text = ""
+      '        Me.dtpInvoiceDate.Value = Now
+      '    ElseIf myVat.MaxRowIndex = 0 Then
+      '        VatInputEnabled(True)
+      '        Dim myVatitem As New VatItem
+      '        myVatitem.CopyFromDataRow(myVat.ItemTable.Childs(0))
+      '        Me.txtInvoiceCode.Text = myVatitem.Code
+      '        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      '        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      '    Else
+      '        VatInputEnabled(False)
+      '        Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+      '        Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+      '        Me.dtpInvoiceDate.Value = Now
+      '    End If
+      'End If
+      m_oldInvoiceCode = Me.txtInvoiceCode.Text
+      Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
+      Me.UpdateVatAutogenStatus()
 
-            txtCustomerCode.Text = m_entity.Customer.Code
-            txtCustomerName.Text = m_entity.Customer.Name
+      txtCustomerCode.Text = m_entity.Customer.Code
+      txtCustomerName.Text = m_entity.Customer.Name
 
-            txtNote.Text = m_entity.Note
+      txtNote.Text = m_entity.Note
       txtToCostCenterCode.Text = m_entity.ToCostCenter.Code
       txtToCostCenterName.Text = m_entity.ToCostCenter.Name
-            UpdateCC()
+      UpdateCC()
 
-            For Each item As IdValuePair In Me.cmbTaxType.Items
-                If Me.m_entity.TaxType.Value = item.Id Then
-                    Me.cmbTaxType.SelectedItem = item
-                End If
-            Next
+      For Each item As IdValuePair In Me.cmbTaxType.Items
+        If Me.m_entity.TaxType.Value = item.Id Then
+          Me.cmbTaxType.SelectedItem = item
+        End If
+      Next
 
-            'Load Items**********************************************************
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
+      'Load Items**********************************************************
+      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      Me.Validator.DataTable = m_treeManager.Treetable
+      '********************************************************************
 
-            m_docCollInitialized = False
-            RefreshDocs()
-            m_docCollInitialized = True
+      m_docCollInitialized = False
+      RefreshDocs()
+      m_docCollInitialized = True
 
-            UpdateAmount()
+      UpdateAmount()
 
-            RefreshBlankGrid()
-            RefreshBlankDocGrid()
+      RefreshBlankGrid()
+      RefreshBlankDocGrid()
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
         End Sub
         Private Sub UpdateCC()
             Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
@@ -3028,7 +3031,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpInvoiceDate.Enabled = enable
             If enable Then
                 Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
-                Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
                 If Me.m_isInitialized Then
                     SetVatToOneDoc()
                 End If
@@ -3198,6 +3201,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
             dirtyFlag = True
+          End If
+          If Me.txtInvoiceCode.Text.Length = 0 Then
+            VatInputEnabled(False)
           End If
         Case "txtinvoicedate"
           m_dateSetting = True
@@ -3459,7 +3465,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 vi.Code = ""
                 Me.m_entity.Vat.AutoGen = True
             Else
-                Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
                 Me.txtInvoiceCode.Text = m_oldInvoiceCode
                 Me.txtInvoiceCode.ReadOnly = False
                 Me.m_entity.Vat.AutoGen = False

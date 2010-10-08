@@ -813,7 +813,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If (TypeOf Me.m_entity Is GoodsSold) Then
+      If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) Then
         allowBlankInvoice = True
         Me.Validator.SetRequired(Me.txtCode, False)
         Me.Validator.SetRequired(Me.txtDocDate, False)
