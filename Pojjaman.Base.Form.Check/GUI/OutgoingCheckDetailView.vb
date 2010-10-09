@@ -975,12 +975,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
       viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csAmount)
       viewDef.ColumnGroups(colNum).IsPinned = True
+
+      Dim csCheckRemain As New GridViewTextBoxColumn("CheckRemain")
+      csCheckRemain.HeaderText = "มูลค่าเช็คคงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+      csCheckRemain.ReadOnly = True
+      csCheckRemain.Width = 150
+      csCheckRemain.TextAlignment = ContentAlignment.MiddleRight
+      csCheckRemain.ReadOnly = True
+      grid.Columns.Add(csCheckRemain)
+      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csCheckRemain)
+      viewDef.ColumnGroups(colNum).IsPinned = True
+
       colNum += 1
     End Sub
     Private Sub RefreshSelectedItems()
       m_tableInitialized2 = False
       Me.RadGridView2.GridElement.BeginUpdate()
       Me.RadGridView2.Rows.Clear()
+      CheckRemain = m_entity.Amount
       For Each p As PaymentForList In m_entity.PaymentList
         Dim row As GridViewDataRowInfo = Me.RadGridView2.Rows.AddNew()
         PopulateRow(p, row)
@@ -993,7 +1007,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.RadGridView2.GridElement.EndUpdate(True)
       m_tableInitialized2 = True
     End Sub
-
+    Dim CheckRemain As Decimal = 0
     Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
       If tr Is Nothing Then
         Return
@@ -1014,8 +1028,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not p.JustAdded Then
         remain += p.Amount
       End If
+      CheckRemain -= p.Amount
       tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
       tr.Cells("Amount").Value = Configuration.FormatToString(p.Amount, DigitConfig.Price)
+      tr.Cells("CheckRemain").Value = Configuration.FormatToString(CheckRemain, DigitConfig.Price)
 
       tr.Tag = p
 
