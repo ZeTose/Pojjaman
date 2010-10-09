@@ -614,9 +614,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-    Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC, Optional ByVal GetMiniSC As Boolean = False) As Boolean
+    Public Shared Function GetSC(ByVal txtCode As TextBox, ByRef oldSC As SC, Optional ByVal GetMiniSC As Boolean = False, Optional ByVal pa As PA = Nothing) As Boolean
       If txtCode.Text.Length > 0 Then
         Dim scNew As SC
+        If pa IsNot Nothing AndAlso CBool(Configuration.GetConfig("ApproveSC")) Then
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+          , CommandType.StoredProcedure _
+          , "SCisApprove" _
+             , New SqlParameter("@sc_code", txtCode.Text) _
+          )
+          If ds.Tables(0).Rows.Count = 0 Then
+            MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+            scNew = oldSC
+            txtCode.Text = oldSC.Code
+            Return False
+          End If
+          Dim isApprove As Boolean = CBool(ds.Tables(0).Rows(0)(0))
+          If Not isApprove Then
+            MessageBox.Show(txtCode.Text & " ยังไม่อนุมัติ")
+            scNew = oldSC
+            txtCode.Text = oldSC.Code
+            Return False
+          End If
+        End If
         If GetMiniSC Then
           Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
            , CommandType.StoredProcedure _

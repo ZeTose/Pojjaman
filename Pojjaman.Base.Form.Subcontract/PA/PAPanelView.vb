@@ -2852,7 +2852,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtsccode"
           If scCodeChanged Then
             If txtSCCode.Text.Length > 0 Then
-              dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.Sc)
+              dirtyFlag = SC.GetSC(txtSCCode, Me.m_entity.Sc, False, m_entity)
               SetSC(Me.m_entity.Sc)
             Else
               Me.m_entity.Sc = New SC
