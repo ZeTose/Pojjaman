@@ -1097,7 +1097,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           Next
-          dtpIssueDate.Enabled = False
+          dtpIssueDate.Enabled = True
+          txtIssueDate.Enabled = True
           txtBankAccountCode.Enabled = False
           btnBankAccountFind.Enabled = False
           btnBankAccountEdit.Enabled = False
@@ -1122,6 +1123,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               btnBankAccountFind.Enabled = True
               btnBankAccountEdit.Enabled = True
             End If
+            txtNote.Enabled = True
             'txtBankAccountCode.Enabled = True
             'btnBankAccountFind.Enabled = True
             'btnBankAccountEdit.Enabled = True
