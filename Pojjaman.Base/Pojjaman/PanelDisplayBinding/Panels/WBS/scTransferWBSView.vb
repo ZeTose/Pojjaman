@@ -1241,7 +1241,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim transferAmt As Decimal = ali.ItemAmount
               wbsd.BaseCost = transferAmt
               'wbsd.TransferBaseCost = transferAmt
-              Dim wbsRow As TreeRow = dt.Childs.Add()
+              Dim wbsRow As TreeRow = newRow.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
               If Not configToCC Is Nothing AndAlso Not CBool(configToCC) Then
@@ -1301,7 +1301,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim transferAmt As Decimal = ali.ItemAmount
               wbsd.BaseCost = transferAmt
               'wbsd.TransferBaseCost = transferAmt
-              Dim wbsRow As TreeRow = dt2.Childs.Add()
+              Dim wbsRow As TreeRow = newRow2.Childs.Add()
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
               If Not configFromCC Is Nothing AndAlso Not CBool(configFromCC) Then
