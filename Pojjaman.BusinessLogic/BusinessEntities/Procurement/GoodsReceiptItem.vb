@@ -558,10 +558,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If gaType <> GeneralAccount.DefaultGAType.None Then
               ga = GeneralAccount.GetDefaultGA(gaType)
             End If
-            If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
+            If (Me.Account Is Nothing OrElse Not Me.Account.Originated) AndAlso ga.Account Is Nothing AndAlso ga.Account.Originated Then
               Me.m_account = ga.Account
               Me.m_account.Name = ga.Account.Name & "<" & myStringParserService.Parse("${res:Global.Default}") & ">"
-            Else
+            ElseIf Me.Account Is Nothing OrElse Not Me.Account.Originated Then
               Me.m_account = New Account
             End If
           Case Else '160, 162

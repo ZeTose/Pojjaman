@@ -1570,7 +1570,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Dim dirtyFlag As Boolean = False
 			Select Case CType(sender, Control).Name.ToLower
         Case "chksinglevat"
-          If Not isfirstset Then
+          If Not isfirstset AndAlso m_entity.Originated Then
             If Not Me.m_entity.NoVat Then
               If chkSingleVat.Checked Then
                 Me.m_entity.GenSingleVatItem()
