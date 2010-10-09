@@ -1334,7 +1334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim newHash As New Hashtable
         For Each wbitem As WBSDistribute In sitem.WBSDistributeCollection
-          key = wbitem.WBS.Id.ToString
+          key = wbitem.CostCenter.Code & ":" & wbitem.WBS.Id.ToString
           If Not newHash.Contains(key) Then
             newHash(key) = wbitem
           Else

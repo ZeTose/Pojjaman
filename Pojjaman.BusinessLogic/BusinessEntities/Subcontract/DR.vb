@@ -907,7 +907,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim newHash As New Hashtable
         For Each wbitem As WBSDistribute In ditem.WBSDistributeCollection
-          key = wbitem.WBS.Id.ToString
+          key = wbitem.CostCenter.Code & ":" & wbitem.WBS.Id.ToString
           If Not newHash.Contains(key) Then
             newHash(key) = wbitem
           Else
