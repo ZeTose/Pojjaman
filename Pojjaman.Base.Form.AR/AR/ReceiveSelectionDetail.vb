@@ -1569,17 +1569,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			End If
 			Dim dirtyFlag As Boolean = False
 			Select Case CType(sender, Control).Name.ToLower
-				Case "chksinglevat"
-					If Not Me.m_entity.NoVat Then
-						If chkSingleVat.Checked Then
-							Me.m_entity.GenSingleVatItem()
-						Else
-							Me.m_entity.GenVatItems()
-						End If
-						Me.m_entity.SingleVat = Me.chkSingleVat.Checked
-					End If
-					dirtyFlag = True
-				Case "cmbcode"
+        Case "chksinglevat"
+          If Not isfirstset Then
+            If Not Me.m_entity.NoVat Then
+              If chkSingleVat.Checked Then
+                Me.m_entity.GenSingleVatItem()
+              Else
+                Me.m_entity.GenVatItems()
+              End If
+              Me.m_entity.SingleVat = Me.chkSingleVat.Checked
+            End If
+            dirtyFlag = True
+          End If
+        Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
@@ -1587,35 +1589,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True
-				Case "txtnote"
-					Me.m_entity.Note = txtNote.Text
-					dirtyFlag = True
-				Case "txtcustomercode"
-					If customerCodeChanged Then
-						customerCodeChanged = False
-						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If Me.txtCustomerCode.TextLength <> 0 Then
-							Dim oldCustomer As Customer = Me.m_entity.Customer
-							Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
-							Try
-								If oldCustId <> Me.m_entity.Customer.Id Then
-									If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Message.ChangeCustomer}", "${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Caption.ChangeCustomer}") Then
-										oldCustId = Me.m_entity.Customer.Id
-										dirtyFlag = True
-										ChangeCustomer()
-									Else
-										dirtyFlag = False
-										Me.m_entity.Customer = oldCustomer
-										Me.txtCustomerCode.Text = oldCustomer.Code
-										Me.txtCustomerName.Text = oldCustomer.Name
-										customerCodeChanged = False
-									End If
-								End If
-							Catch ex As Exception
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
+        Case "txtcustomercode"
+          If customerCodeChanged Then
+            customerCodeChanged = False
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.txtCustomerCode.TextLength <> 0 Then
+              Dim oldCustomer As Customer = Me.m_entity.Customer
+              Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+              Try
+                If oldCustId <> Me.m_entity.Customer.Id Then
+                  If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Message.ChangeCustomer}", "${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Caption.ChangeCustomer}") Then
+                    oldCustId = Me.m_entity.Customer.Id
+                    dirtyFlag = True
+                    ChangeCustomer()
+                  Else
+                    dirtyFlag = False
+                    Me.m_entity.Customer = oldCustomer
+                    Me.txtCustomerCode.Text = oldCustomer.Code
+                    Me.txtCustomerName.Text = oldCustomer.Name
+                    customerCodeChanged = False
+                  End If
+                End If
+              Catch ex As Exception
 
-							End Try
-						End If
-					End If
+              End Try
+            End If
+          End If
 
         Case "dtpdocdate"
           If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
@@ -1627,12 +1629,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             dirtyFlag = True
           End If
-				Case "txtdocdate"
-					m_dateSetting = True
-					If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-						Dim theDate As Date = CDate(Me.txtDocDate.Text)
-						If Not Me.m_entity.DocDate.Equals(theDate) Then
-							dtpDocDate.Value = theDate
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
               Me.m_entity.DocDate = dtpDocDate.Value
               For Each wht As WitholdingTax In Me.m_entity.WitholdingTaxCollection
                 wht.DocDate = Me.m_entity.DocDate
@@ -1640,14 +1642,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.m_entity.Receive.DocDate = dtpDocDate.Value
               Me.m_entity.JournalEntry.DocDate = dtpDocDate.Value
               dirtyFlag = True
-						End If
-					Else
-						dtpDocDate.Value = Date.Now
-						Me.m_entity.DocDate = Date.MinValue
-						dirtyFlag = True
-					End If
-					m_dateSetting = False
-			End Select
+            End If
+          Else
+            dtpDocDate.Value = Date.Now
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+      End Select
 			Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 			CheckFormEnable()
 		End Sub
@@ -1690,6 +1692,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.StatusBarService.SetMessage(Me.StatusDescription)
     End Sub
+    Dim isfirstset As Boolean = False
 		Public Overrides Property Entity() As ISimpleEntity
 			Get
 				Return Me.m_entity
@@ -1701,7 +1704,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				End If
 				Me.m_entity = CType(Value, ReceiveSelection)
 				'Hack:
-				Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        isfirstset = True
 				UpdateEntityProperties()
 			End Set
 		End Property

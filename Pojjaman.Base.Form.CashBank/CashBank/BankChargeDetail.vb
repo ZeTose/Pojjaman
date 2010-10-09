@@ -704,9 +704,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtDocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
       dtpDocDate.Value = Date.Now
-
-      chkBankCharge.Checked = True
-
+      If Not m_entity.Originated Then
+        chkBankCharge.Checked = True
+      End If
     End Sub
 
     Public Overrides Property Entity() As ISimpleEntity
