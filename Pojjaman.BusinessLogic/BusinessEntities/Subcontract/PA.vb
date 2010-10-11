@@ -1031,7 +1031,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       If Not onlyCC Then
         For Each item As PAItem In Me.ItemCollection
-          If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 289 Then
             Dim totalBudget As Decimal = 0
             Dim totalActual As Decimal = 0
             Dim totalCurrent As Decimal = 0
@@ -1105,7 +1105,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
           If item.WBSDistributeCollection.GetSumPercent = 0 Then
             'สำหรับ Auto จัดสรร
-            Dim rootWBS As New WBS(Me.FromCostCenter.RootWBSId)
+            Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
             Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
             Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 45) + rootWBS.GetActualLab(Me, 45) + rootWBS.GetActualEq(Me, 45))
             Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, Me.FromCostCenter.Id)
