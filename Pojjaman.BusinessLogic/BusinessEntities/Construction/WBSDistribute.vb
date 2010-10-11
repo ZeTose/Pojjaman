@@ -43,6 +43,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_childIdList As ArrayList
     Private m_childAmount As Decimal
     Private m_cbs As CBS
+
+    Private m_ownerBudgetAmount As Decimal
 #End Region
 
 #Region "Constructors"
@@ -304,7 +306,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_amountOverBudget = Value
       End Set
     End Property
-    Public Property BudgetQty() As Decimal      Get        Return m_budgetQty      End Get      Set(ByVal Value As Decimal)        m_budgetQty = Value      End Set    End Property    Public Property BfQty() As Decimal      Get        Return m_bfQty      End Get      Set(ByVal Value As Decimal)        m_bfQty = Value      End Set    End Property    Public Property ThisperiodQty() As Decimal      Get        Return m_thisperiodQty      End Get      Set(ByVal Value As Decimal)        m_thisperiodQty = Value      End Set    End Property    Public Property DeclareQty() As Decimal      Get        Return m_declareQty      End Get      Set(ByVal Value As Decimal)        m_declareQty = Value      End Set    End Property    Public Property BudgetAmount() As Decimal      Get        Return m_budgetAmount      End Get      Set(ByVal Value As Decimal)        m_budgetAmount = Value      End Set    End Property    Public Property BudgetRemain() As Decimal      Get        Return m_budgetRemain      End Get      Set(ByVal Value As Decimal)        m_budgetRemain = Value      End Set    End Property    Public Property QtyRemain() As Decimal      Get        Return m_qtyRemain      End Get      Set(ByVal Value As Decimal)        m_qtyRemain = Value      End Set    End Property    Public Property RemainSummary() As Decimal      Get        Return m_remainSummary      End Get      Set(ByVal Value As Decimal)        m_remainSummary = Value      End Set    End Property    Public Property QtyRemainSummary() As Decimal      Get        Return m_qtyremainSummary      End Get      Set(ByVal Value As Decimal)        m_qtyremainSummary = Value      End Set    End Property    Public ReadOnly Property Qty() As Decimal      Get        Return m_baseQty * (m_percent / 100)      End Get    End Property    Public Property BaseQty() As Decimal      Get
+    Public Property BudgetQty() As Decimal      Get        Return m_budgetQty      End Get      Set(ByVal Value As Decimal)        m_budgetQty = Value      End Set    End Property    Public Property BfQty() As Decimal      Get        Return m_bfQty      End Get      Set(ByVal Value As Decimal)        m_bfQty = Value      End Set    End Property    Public Property ThisperiodQty() As Decimal      Get        Return m_thisperiodQty      End Get      Set(ByVal Value As Decimal)        m_thisperiodQty = Value      End Set    End Property    Public Property DeclareQty() As Decimal      Get        Return m_declareQty      End Get      Set(ByVal Value As Decimal)        m_declareQty = Value      End Set    End Property    Public Property BudgetAmount() As Decimal      Get        Return m_budgetAmount      End Get      Set(ByVal Value As Decimal)        m_budgetAmount = Value      End Set    End Property    Public Property OwnerBudgetAmount As Decimal      Get
+        Return m_ownerBudgetAmount
+      End Get
+      Set(ByVal value As Decimal)
+        m_ownerBudgetAmount = value
+      End Set
+    End Property    Public Property BudgetRemain() As Decimal      Get        Return m_budgetRemain      End Get      Set(ByVal Value As Decimal)        m_budgetRemain = Value      End Set    End Property    Public Property QtyRemain() As Decimal      Get        Return m_qtyRemain      End Get      Set(ByVal Value As Decimal)        m_qtyRemain = Value      End Set    End Property    Public Property RemainSummary() As Decimal      Get        Return m_remainSummary      End Get      Set(ByVal Value As Decimal)        m_remainSummary = Value      End Set    End Property    Public Property QtyRemainSummary() As Decimal      Get        Return m_qtyremainSummary      End Get      Set(ByVal Value As Decimal)        m_qtyremainSummary = Value      End Set    End Property    Public ReadOnly Property Qty() As Decimal      Get        Return m_baseQty * (m_percent / 100)      End Get    End Property    Public Property BaseQty() As Decimal      Get
         Return m_baseQty
       End Get
       Set(ByVal Value As Decimal)

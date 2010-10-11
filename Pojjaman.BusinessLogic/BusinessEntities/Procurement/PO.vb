@@ -1108,37 +1108,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each wbsd As WBSDistribute In item.WBSDistributeCollection
               totalCurrent = (wbsd.Percent / 100) * item.Amount
 
+              If onlyWBSAllocate Then
+                If wbsd.OwnerBudgetAmount - totalCurrent < 0 Then
+                  Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+                End If
+              End If
+
               'สำหรับ WBS ตัวมันเอง =====>>
               If wbsd.BudgetRemain - totalCurrent < 0 Then
                 Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
               End If
               'สำหรับ WBS ตัวมันเอง =====<<
 
-              If Not onlyWBSAllocate Then
-                currwbsId = wbsd.WBS.Id
-                For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
-                  Dim drh As New DataRowHelper(drow)
+              currwbsId = wbsd.WBS.Id
+              For Each drow As DataRow In dsParentBudget.Tables(0).Select("depend_wbs=" & currwbsId)
+                Dim drh As New DataRowHelper(drow)
 
-                  totalBudget = 0
-                  totalActual = 0
-                  Select Case item.ItemType.Value
-                    Case 88
-                      totalBudget = drh.GetValue(Of Decimal)("labbudget")
-                      totalActual = drh.GetValue(Of Decimal)("labactual")
-                    Case 89
-                      totalBudget = drh.GetValue(Of Decimal)("eqbudget")
-                      totalActual = drh.GetValue(Of Decimal)("eqactual")
-                    Case Else
-                      totalBudget = drh.GetValue(Of Decimal)("matbudget")
-                      totalActual = drh.GetValue(Of Decimal)("matactual")
-                  End Select
-                  If totalBudget < (totalActual + wbsd.Amount) Then
-                    Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
-                    Dim myWBS As New WBS(myId)
-                    Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
-                  End If
-                Next
-              End If
+                totalBudget = 0
+                totalActual = 0
+                Select Case item.ItemType.Value
+                  Case 88
+                    totalBudget = drh.GetValue(Of Decimal)("labbudget")
+                    totalActual = drh.GetValue(Of Decimal)("labactual")
+                  Case 89
+                    totalBudget = drh.GetValue(Of Decimal)("eqbudget")
+                    totalActual = drh.GetValue(Of Decimal)("eqactual")
+                  Case Else
+                    totalBudget = drh.GetValue(Of Decimal)("matbudget")
+                    totalActual = drh.GetValue(Of Decimal)("matactual")
+                End Select
+                If totalBudget < (totalActual + wbsd.Amount) Then
+                  Dim myId As Integer = drh.GetValue(Of Integer)("depend_parent")
+                  Dim myWBS As New WBS(myId)
+                  Return New SaveErrorException(myWBS.Code & ":" & myWBS.Name)
+                End If
+              Next
 
             Next
             If item.WBSDistributeCollection.GetSumPercent = 0 Then
@@ -1148,6 +1152,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim tActual As Decimal = (rootWBS.GetActualMat(Me, Me.EntityId) + rootWBS.GetActualLab(Me, Me.EntityId) + rootWBS.GetActualEq(Me, Me.EntityId))
               Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, Me.CostCenter.Id)
               Dim cActual As Decimal = item.Cost
+              Dim oBudget As Decimal = (rootWBS.OwnerMatBudgetAmount + rootWBS.OwnerLabBudgetAmount + rootWBS.OwnerEqBudgetAmount)
+              If onlyWBSAllocate Then
+                If oBudget < ((tActual - thisActual) + cActual) Then
+                  Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+                End If
+              End If
               If tBudget < ((tActual - thisActual) + cActual) Then
                 Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
               End If
@@ -1169,6 +1179,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, Me.EntityId) + rootWBS.GetActualLab(Me, Me.EntityId) + rootWBS.GetActualEq(Me, Me.EntityId))
             Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, Me.CostCenter.Id)
             Dim currentActual As Decimal = item.Cost
+            Dim oBudget As Decimal = (rootWBS.OwnerMatBudgetAmount + rootWBS.OwnerLabBudgetAmount + rootWBS.OwnerEqBudgetAmount)
+            If onlyWBSAllocate Then
+              If oBudget < ((totalActual - thisActual) + currentActual) Then
+                Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
+              End If
+            End If
             If totalBudget < ((totalActual - thisActual) + currentActual) Then
               Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
             End If
@@ -1181,9 +1197,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
           Dim currentActual As Decimal = wbsd.Amount
        
-          'Trace.WriteLine(Configuration.FormatToString(totalBudget, DigitConfig.Price) & "/" & Configuration.FormatToString(totalActual, DigitConfig.Price) & _
-          '                       "/" & Configuration.FormatToString(thisActual, DigitConfig.Price) & "/" & Configuration.FormatToString(currentActual, DigitConfig.Price))
-
+          Dim tActual As Decimal = (wbsd.WBS.GetActualMat(Me, Me.EntityId) + wbsd.WBS.GetActualLab(Me, Me.EntityId) + wbsd.WBS.GetActualEq(Me, Me.EntityId))
+          Dim tcActual As Decimal = wbsd.WBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
+          If onlyWBSAllocate Then
+            If wbsd.OwnerBudgetAmount < ((tActual - tcActual) + currentActual) Then
+              Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+            End If
+          End If
           If totalBudget < ((totalActual - thisActual) + currentActual) Then
             Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
           End If

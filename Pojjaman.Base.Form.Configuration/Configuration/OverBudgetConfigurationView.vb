@@ -61,6 +61,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.pnl1 = New System.Windows.Forms.Panel()
+      Me.chkPRWBSOnly = New System.Windows.Forms.CheckBox()
       Me.chkPR = New System.Windows.Forms.CheckBox()
       Me.rd3 = New System.Windows.Forms.RadioButton()
       Me.lbl1 = New System.Windows.Forms.Label()
@@ -71,17 +72,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lbl2 = New System.Windows.Forms.Label()
       Me.rd5 = New System.Windows.Forms.RadioButton()
       Me.rd4 = New System.Windows.Forms.RadioButton()
+      Me.chkPOWBSOnly = New System.Windows.Forms.CheckBox()
       Me.chkPO = New System.Windows.Forms.CheckBox()
       Me.pnl3 = New System.Windows.Forms.Panel()
       Me.rd9 = New System.Windows.Forms.RadioButton()
       Me.lbl3 = New System.Windows.Forms.Label()
       Me.rd8 = New System.Windows.Forms.RadioButton()
       Me.rd7 = New System.Windows.Forms.RadioButton()
+      Me.chkGRWBSOnly = New System.Windows.Forms.CheckBox()
       Me.chkPUR = New System.Windows.Forms.CheckBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.chkPRWBSOnly = New System.Windows.Forms.CheckBox()
-      Me.chkPOWBSOnly = New System.Windows.Forms.CheckBox()
-      Me.chkGRWBSOnly = New System.Windows.Forms.CheckBox()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.pnl1.SuspendLayout()
       Me.pnl2.SuspendLayout()
@@ -105,6 +105,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnl1.Name = "pnl1"
       Me.pnl1.Size = New System.Drawing.Size(408, 81)
       Me.pnl1.TabIndex = 0
+      '
+      'chkPRWBSOnly
+      '
+      Me.chkPRWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkPRWBSOnly.Location = New System.Drawing.Point(156, 57)
+      Me.chkPRWBSOnly.Name = "chkPRWBSOnly"
+      Me.chkPRWBSOnly.Size = New System.Drawing.Size(237, 24)
+      Me.chkPRWBSOnly.TabIndex = 1
+      Me.chkPRWBSOnly.Text = "Lock ตาม WBS(ไม่รวม Budget ลูก) ด้วย"
       '
       'chkPR
       '
@@ -202,6 +211,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rd4.TabIndex = 2
       Me.rd4.Text = "ไม่อนุญาต"
       '
+      'chkPOWBSOnly
+      '
+      Me.chkPOWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkPOWBSOnly.Location = New System.Drawing.Point(156, 57)
+      Me.chkPOWBSOnly.Name = "chkPOWBSOnly"
+      Me.chkPOWBSOnly.Size = New System.Drawing.Size(236, 24)
+      Me.chkPOWBSOnly.TabIndex = 1
+      Me.chkPOWBSOnly.Text = "Lock ตาม WBS(ไม่รวม Budget ลูก) ด้วย"
+      '
       'chkPO
       '
       Me.chkPO.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -261,6 +279,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rd7.TabIndex = 2
       Me.rd7.Text = "ไม่อนุญาต"
       '
+      'chkGRWBSOnly
+      '
+      Me.chkGRWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkGRWBSOnly.Location = New System.Drawing.Point(156, 57)
+      Me.chkGRWBSOnly.Name = "chkGRWBSOnly"
+      Me.chkGRWBSOnly.Size = New System.Drawing.Size(237, 24)
+      Me.chkGRWBSOnly.TabIndex = 1
+      Me.chkGRWBSOnly.Text = "Lock ตาม WBS(ไม่รวม Budget ลูก) ด้วย"
+      '
       'chkPUR
       '
       Me.chkPUR.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -281,33 +308,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Size = New System.Drawing.Size(424, 312)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
-      '
-      'chkPRWBSOnly
-      '
-      Me.chkPRWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkPRWBSOnly.Location = New System.Drawing.Point(136, 57)
-      Me.chkPRWBSOnly.Name = "chkPRWBSOnly"
-      Me.chkPRWBSOnly.Size = New System.Drawing.Size(160, 24)
-      Me.chkPRWBSOnly.TabIndex = 1
-      Me.chkPRWBSOnly.Text = "Lock ตาม WBS ที่จัดสรร เท่านั้น"
-      '
-      'chkPOWBSOnly
-      '
-      Me.chkPOWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkPOWBSOnly.Location = New System.Drawing.Point(136, 57)
-      Me.chkPOWBSOnly.Name = "chkPOWBSOnly"
-      Me.chkPOWBSOnly.Size = New System.Drawing.Size(160, 24)
-      Me.chkPOWBSOnly.TabIndex = 1
-      Me.chkPOWBSOnly.Text = "Lock ตาม WBS ที่จัดสรร เท่านั้น"
-      '
-      'chkGRWBSOnly
-      '
-      Me.chkGRWBSOnly.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkGRWBSOnly.Location = New System.Drawing.Point(136, 57)
-      Me.chkGRWBSOnly.Name = "chkGRWBSOnly"
-      Me.chkGRWBSOnly.Size = New System.Drawing.Size(160, 24)
-      Me.chkGRWBSOnly.TabIndex = 1
-      Me.chkGRWBSOnly.Text = "Lock ตาม WBS ที่จัดสรร เท่านั้น"
       '
       'OverBudgetConfigurationView
       '
@@ -428,42 +428,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
             SetFilterValue("GROverBudget", 2)
           End If
           dirtyFlag = True
+
         Case "chkpr"
           SetFilterValue("PROverBudgetOnlyCC", chkPR.Checked)
-          If chkPR.Checked Then
-            chkPRWBSOnly.Checked = False
-          End If
+          'If chkPR.Checked Then
+          '  chkPRWBSOnly.Checked = False
+          'End If
           dirtyFlag = True
         Case "chkpo"
           SetFilterValue("POOverBudgetOnlyCC", chkPO.Checked)
-          If chkPO.Checked Then
-            chkPOWBSOnly.Checked = False
-          End If
+          'If chkPO.Checked Then
+          '  chkPOWBSOnly.Checked = False
+          'End If
           dirtyFlag = True
         Case "chkpur"
           SetFilterValue("GROverBudgetOnlyCC", chkPUR.Checked)
-          If chkPUR.Checked Then
-            chkGRWBSOnly.Checked = False
-          End If
+          'If chkPUR.Checked Then
+          '  chkGRWBSOnly.Checked = False
+          'End If
           dirtyFlag = True
 
         Case "chkprwbsonly"
           SetFilterValue("PROverBudgetOnlyWBSAllocate", chkPRWBSOnly.Checked)
-          If chkPRWBSOnly.Checked Then
-            chkPR.Checked = False
-          End If
+          'If chkPRWBSOnly.Checked Then
+          '  chkPR.Checked = False
+          'End If
           dirtyFlag = True
         Case "chkpowbsonly"
           SetFilterValue("POOverBudgetOnlyWBSAllocate", chkPOWBSOnly.Checked)
-          If chkPOWBSOnly.Checked Then
-            chkPO.Checked = False
-          End If
+          'If chkPOWBSOnly.Checked Then
+          '  chkPO.Checked = False
+          'End If
           dirtyFlag = True
         Case "chkgrwbsonly"
           SetFilterValue("GROverBudgetOnlyWBSAllocate", chkGRWBSOnly.Checked)
-          If chkGRWBSOnly.Checked Then
-            chkPUR.Checked = False
-          End If
+          'If chkGRWBSOnly.Checked Then
+          '  chkPUR.Checked = False
+          'End If
           dirtyFlag = True
       End Select
       Dirty = Dirty Or dirtyFlag

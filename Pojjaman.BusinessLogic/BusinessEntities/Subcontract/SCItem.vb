@@ -1838,22 +1838,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case 289
                 wbsd.BudgetAmount = newWBS.GetTotalLabFromDB 'GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+                wbsd.OwnerBudgetAmount = newWBS.OwnerMatBudgetAmount
               Case 0
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetBudgetQtyForType0FromDB(theName)
+                wbsd.OwnerBudgetAmount = newWBS.OwnerMatBudgetAmount
                 'wbsd.BudgetQty = wbsd.BudgetQty - (newWBS.GetActualType0Qty(Me.SC, 6) - Me.SC.GetCurrentTypeQtyForWBS(newWBS, theName, 0))
               Case 19
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
                 wbsd.BudgetQty = 0        'ไม่มี budget ให้เครื่องมือแน่ๆ
+                wbsd.OwnerBudgetAmount = newWBS.OwnerMatBudgetAmount
               Case 42
                 wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
                 wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
+                wbsd.OwnerBudgetAmount = newWBS.OwnerMatBudgetAmount
               Case 88
                 wbsd.BudgetAmount = newWBS.GetTotalLabFromDB
                 wbsd.BudgetQty = newWBS.GetTotalLabQtyFromDB(theName)
+                wbsd.OwnerBudgetAmount = newWBS.OwnerLabBudgetAmount
               Case 89
                 wbsd.BudgetAmount = newWBS.GetTotalEQFromDB
                 wbsd.BudgetQty = newWBS.GetTotalEQQtyFromDB(theName)
+                wbsd.OwnerBudgetAmount = newWBS.OwnerEqBudgetAmount
             End Select
             wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.SC.Id, Me.SC.EntityId, Me.ItemType.Value)
             wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.SC.Id, Me.SC.EntityId, Me.Entity.Id, _

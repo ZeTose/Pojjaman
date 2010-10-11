@@ -560,7 +560,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Boolean)
         m_referenced = value
       End Set
-    End Property#Region "Cost Control"    Public Shared WBSReportType As Boq.WBSReportType = WBSReportType.GoodsReceipt    Public Shared Function GetAmountFromSproc(ByVal sproc As String, ByVal toDate As Date, ByVal id As Integer, ByVal isMarkup As Boolean, ByVal view As Integer, ByVal requestor As Integer) As Decimal      Try
+    End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal#Region "Cost Control"    Public Shared WBSReportType As Boq.WBSReportType = WBSReportType.GoodsReceipt    Public Shared Function GetAmountFromSproc(ByVal sproc As String, ByVal toDate As Date, ByVal id As Integer, ByVal isMarkup As Boolean, ByVal view As Integer, ByVal requestor As Integer) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
                 , CommandType.StoredProcedure _
@@ -738,25 +738,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
       End Try
       Return 0
-    End Function    Public Function GetTotalMatFromDB() As Decimal      Try
+    End Function    Public Function GetTotalMatFromDB() As Decimal      Dim dt As DataTable = GetBudgetFromDB("mat")      For Each row As DataRow In dt.Rows        Dim drh As New DataRowHelper(row)
+        Me.OwnerMatBudgetAmount = drh.GetValue(Of Decimal)("mat")
+        Return drh.GetValue(Of Decimal)("mat") + drh.GetValue(Of Decimal)("childmat")
+      Next      'Try
+      '  Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+      '          ConnectionString _
+      '          , CommandType.Text _
+      '          , "select isnull(wbs_umcbudget,0) + isnull(wbs_childumcbudget,0) from" & _
+      '          " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
+      '          )
+      '  Dim tableIndex As Integer = 0
+      '  If ds.Tables.Count > tableIndex Then
+      '    If ds.Tables(tableIndex).Rows.Count > 0 Then
+      '      If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+      '        Return 0
+      '      End If
+      '      Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+      '    End If
+      '  End If
+      'Catch ex As Exception
+      'End Try
+      Return 0
+    End Function    Public Function GetBudgetFromDB(ByVal budgetType As String) As DataTable      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_umcbudget,0) + isnull(wbs_childumcbudget,0) from" & _
-                " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
+                , CommandType.StoredProcedure _
+                , "GetBudgetFromDB" _
+                , New SqlParameter("@budgetType", budgetType.ToLower) _
+                , New SqlParameter("@wbs_id", Me.Id.ToString) _
                 )
-        Dim tableIndex As Integer = 0
-        If ds.Tables.Count > tableIndex Then
-          If ds.Tables(tableIndex).Rows.Count > 0 Then
-            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
-              Return 0
-            End If
-            Return CDec(ds.Tables(tableIndex).Rows(0)(0))
-          End If
+        If ds.Tables.Count > 0 Then
+          Return ds.Tables(0)
         End If
       Catch ex As Exception
       End Try
-      Return 0
+      Return New DataTable
     End Function    Public Function GetTotalMatQtyFromDB(ByVal matId As Integer) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
@@ -780,25 +797,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return 0
     End Function
 
-    Public Function GetTotalLabFromDB() As Decimal      Try
-        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_ulcbudget,0) + isnull(wbs_childulcbudget,0) from" & _
-                " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
-                )
-        Dim tableIndex As Integer = 0
-        If ds.Tables.Count > tableIndex Then
-          If ds.Tables(tableIndex).Rows.Count > 0 Then
-            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
-              Return 0
-            End If
-            Return CDec(ds.Tables(tableIndex).Rows(0)(0))
-          End If
-        End If
-      Catch ex As Exception
-      End Try
-      Return 0
+    Public Function GetTotalLabFromDB() As Decimal      Dim dt As DataTable = GetBudgetFromDB("lab")      For Each row As DataRow In dt.Rows        Dim drh As New DataRowHelper(row)
+        Me.OwnerLabBudgetAmount = drh.GetValue(Of Decimal)("lab")
+        Return drh.GetValue(Of Decimal)("lab") + drh.GetValue(Of Decimal)("childlab")
+      Next      'Try
+      '  Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+      '          ConnectionString _
+      '          , CommandType.Text _
+      '          , "select isnull(wbs_ulcbudget,0) + isnull(wbs_childulcbudget,0) from" & _
+      '          " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
+      '          )
+      '  Dim tableIndex As Integer = 0
+      '  If ds.Tables.Count > tableIndex Then
+      '    If ds.Tables(tableIndex).Rows.Count > 0 Then
+      '      If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+      '        Return 0
+      '      End If
+      '      Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+      '    End If
+      '  End If
+      'Catch ex As Exception
+      'End Try
+      'Return 0
     End Function    Public Function GetTotalLabQtyFromDB(ByVal name As String) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
@@ -822,25 +842,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return 0
     End Function
 
-    Public Function GetTotalEQFromDB() As Decimal      Try
-        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                ConnectionString _
-                , CommandType.Text _
-                , "select isnull(wbs_uecbudget,0) + isnull(wbs_childuecbudget,0) from" & _
-                " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
-                )
-        Dim tableIndex As Integer = 0
-        If ds.Tables.Count > tableIndex Then
-          If ds.Tables(tableIndex).Rows.Count > 0 Then
-            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
-              Return 0
-            End If
-            Return CDec(ds.Tables(tableIndex).Rows(0)(0))
-          End If
-        End If
-      Catch ex As Exception
-      End Try
-      Return 0
+    Public Function GetTotalEQFromDB() As Decimal      Dim dt As DataTable = GetBudgetFromDB("eq")      For Each row As DataRow In dt.Rows        Dim drh As New DataRowHelper(row)
+        Me.OwnerEqBudgetAmount = drh.GetValue(Of Decimal)("eq")
+        Return drh.GetValue(Of Decimal)("eq") + drh.GetValue(Of Decimal)("childeq")
+      Next      'Try
+      '  Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+      '          ConnectionString _
+      '          , CommandType.Text _
+      '          , "select isnull(wbs_uecbudget,0) + isnull(wbs_childuecbudget,0) from" & _
+      '          " swang_wbsbudget where wbs_id = '" & Me.Id.ToString & "'" _
+      '          )
+      '  Dim tableIndex As Integer = 0
+      '  If ds.Tables.Count > tableIndex Then
+      '    If ds.Tables(tableIndex).Rows.Count > 0 Then
+      '      If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+      '        Return 0
+      '      End If
+      '      Return CDec(ds.Tables(tableIndex).Rows(0)(0))
+      '    End If
+      '  End If
+      'Catch ex As Exception
+      'End Try
+      'Return 0
     End Function    Public Function GetTotalEQQtyFromDB(ByVal name As String) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
