@@ -1411,7 +1411,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Item.Name (Show MileStone Detail)
 
 
-      If Me.Direction.Value = 1 Then  'ภาษีซื้อ
+      If Me.Direction.Value = 1 OrElse TypeOf Me.RefDoc Is ReceiveSelection Then  'ภาษีซื้อ
         Dim n As Integer = 0
         For Each item As VatItem In Me.ItemCollection
           'Item.LineNumber

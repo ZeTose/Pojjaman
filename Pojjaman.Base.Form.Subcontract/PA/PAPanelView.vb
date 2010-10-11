@@ -2698,6 +2698,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             Try
               Me.m_entity.RealTaxBase = CDec(TextParser.Evaluate(txt))
+              forceUpdateTaxAmount = True
             Catch ex As Exception
               Me.m_entity.RealTaxBase = 0
             End Try
