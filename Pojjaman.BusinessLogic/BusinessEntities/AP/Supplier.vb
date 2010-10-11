@@ -63,7 +63,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       RefreshSupplierCollection(code.ToLower, includeInvisible)
       Dim drow As DataRow = CType(m_SupplierCollection(code.ToLower), DataRow)
-      Me.Construct(drow, "")
+      If Not drow Is Nothing Then
+        Me.Construct(drow, "")
+      End If
       'MyBase.New(id)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
