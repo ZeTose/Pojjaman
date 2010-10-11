@@ -922,6 +922,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtRealTaxAmount.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtRealTaxAmount.Validated, AddressOf Me.TextHandler
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
       If Me.m_entity Is Nothing Or Not m_isInitialized Then
@@ -1262,6 +1265,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handler"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+
+      If tr Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer = CInt(tr("refdoc")) 'drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = CInt(tr("reftype")) 'doc.drh.GetValue(Of Integer)("DocType")
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub

@@ -398,6 +398,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainingAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("advrp_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("refdoc", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("reftype", GetType(String)))
+
       Return myDatatable
     End Function
 #End Region
@@ -772,7 +775,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Originated Then
         Return
       End If
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
       , "GetAdvanceReceiveSelectionReceive" _
       , New SqlParameter("@advr_id", Me.Id) _
@@ -789,6 +792,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         dr("Code") = row("refdocCode")
         dr("advrp_note") = row("refdocNote")
+        dr("refdoc") = row("refdoc")
+        dr("reftype") = row("reftype")
         If IsNumeric(row("amount")) Then
           Dim rowAmt As Decimal = CDec(row("amount"))
           dr("Amount") = Configuration.FormatToString(rowAmt, DigitConfig.Price)
