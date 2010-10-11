@@ -2921,7 +2921,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Select Case CType(sender, Control).Name.ToLower
-        Case "txtsuppliercode"
+        Case "txtcustomercode"
           supplierCodeChanged = True
         Case "txtcreditprd"
           txtcreditprdChanged = True
@@ -3077,7 +3077,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
           dirtyFlag = True
-        Case "txtsuppliercode"
+        Case "txtcustomercode"
           If supplierCodeChanged Then
             supplierCodeChanged = False
             dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)

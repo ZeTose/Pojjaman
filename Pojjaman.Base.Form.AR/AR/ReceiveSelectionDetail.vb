@@ -913,6 +913,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       doc.Amount = value
+      If doc.ParentType = 81 Then
+        If doc.BilledAmount <> 0 Then
+          e.ProposedValue = value / doc.BilledAmount * doc.GetMilestoneRetention
+        Else
+          e.ProposedValue = 0
+        End If
+        m_updating = False
+        SetRetentionAmount(e)
+      End If
       m_updating = False
     End Sub
     Public Sub SetRetentionAmount(ByVal e As DataColumnChangeEventArgs)
@@ -927,7 +936,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim value As Decimal = CDec(e.ProposedValue)
       If doc.ParentType = 81 Then
         Dim remain As Decimal = doc.GetRemainingRetention(Me.m_entity.Id)
-        remain = Math.Min(doc.Retention, remain)
+        'remain = Math.Min(doc.Retention, remain)
 
 
         m_updating = True
@@ -1756,7 +1765,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim index As Integer = tgItem.CurrentRowIndex
       Dim row As DataRow = Me.m_treeManager.Treetable.Rows(index)
-      If row.IsNull("receivesi_entityType") And Not row.IsNull("Code") Then
+      If row.IsNull("receivesi_entityType") And row.IsNull("Code") Then
         Return
       End If
 
@@ -1933,7 +1942,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
-      If index > Me.m_entity.ItemCollection.Count - 1 Then
+      If index > Me.m_entity.ItemCollection.Count Then
         Return
       End If
       Me.m_entity.ItemCollection.Insert(index, New SaleBillIssueItem)
@@ -1958,8 +1967,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.WorkbenchWindow.ViewContent.IsDirty = True
       Me.m_entity.ItemCollection.Remove(doc)
-			RefreshDocs()
-			UpdateVat(True)
+      RefreshDocs()
+      If doc.Originated Then
+        UpdateVat(True)
+      End If
 			Me.tgItem.CurrentRowIndex = index
     End Sub
     Private Sub ReIndex()
@@ -2073,6 +2084,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'เพิ่มแถวจนเต็ม
         parRow.Childs.Add()
       Loop
+      parRow.Childs.Add() 'add เพิ่มอันนึงเผื่อไว้แก้ปัญหา
       'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
       '    If Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1 Then
       '        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
