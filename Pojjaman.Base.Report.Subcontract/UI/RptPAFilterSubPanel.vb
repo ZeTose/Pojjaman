@@ -46,36 +46,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents lblStatus As System.Windows.Forms.Label
         Friend WithEvents btntoCCCodeStart As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents btnSubcontractStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtSuContractCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtSubcontractName As System.Windows.Forms.TextBox
+        Friend WithEvents txtSuContractCodeStart As System.Windows.Forms.TextBox
+        Friend WithEvents Label1 As System.Windows.Forms.Label
+        Friend WithEvents btnSubcontractEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtSuContractCodeEnd As System.Windows.Forms.TextBox
+        Friend WithEvents KeepKeyCombo1 As Longkong.Pojjaman.Gui.Components.KeepKeyCombo
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(RptPAFilterSubPanel))
-            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.btnSearch = New System.Windows.Forms.Button
-            Me.btnReset = New System.Windows.Forms.Button
-            Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.txttoCCCodeStart = New System.Windows.Forms.TextBox
-            Me.cmbStatus = New System.Windows.Forms.ComboBox
-            Me.lblStatus = New System.Windows.Forms.Label
-            Me.lbltoCCStart = New System.Windows.Forms.Label
-            Me.txtCostCenterName = New System.Windows.Forms.TextBox
-            Me.txtDocDateEnd = New System.Windows.Forms.TextBox
-            Me.lblDocDateStart = New System.Windows.Forms.Label
-            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker
-            Me.lblDocDateEnd = New System.Windows.Forms.Label
-            Me.txtDocDateStart = New System.Windows.Forms.TextBox
-            Me.chkIncludeChildren = New System.Windows.Forms.CheckBox
-            Me.btntoCCCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker
-            Me.btnSubcontractStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.txtSuContractCode = New System.Windows.Forms.TextBox
-            Me.lblSubcontractorStart = New System.Windows.Forms.Label
-            Me.txtSubcontractName = New System.Windows.Forms.TextBox
+            Me.components = New System.ComponentModel.Container()
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptPAFilterSubPanel))
+            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.btnSearch = New System.Windows.Forms.Button()
+            Me.btnReset = New System.Windows.Forms.Button()
+            Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.txttoCCCodeStart = New System.Windows.Forms.TextBox()
+            Me.cmbStatus = New System.Windows.Forms.ComboBox()
+            Me.lblStatus = New System.Windows.Forms.Label()
+            Me.lbltoCCStart = New System.Windows.Forms.Label()
+            Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+            Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+            Me.lblDocDateStart = New System.Windows.Forms.Label()
+            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+            Me.lblDocDateEnd = New System.Windows.Forms.Label()
+            Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+            Me.chkIncludeChildren = New System.Windows.Forms.CheckBox()
+            Me.btntoCCCodeStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+            Me.btnSubcontractStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtSuContractCodeStart = New System.Windows.Forms.TextBox()
+            Me.lblSubcontractorStart = New System.Windows.Forms.Label()
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+            Me.KeepKeyCombo1 = New Longkong.Pojjaman.Gui.Components.KeepKeyCombo()
+            Me.btnSubcontractEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtSuContractCodeEnd = New System.Windows.Forms.TextBox()
+            Me.Label1 = New System.Windows.Forms.Label()
             Me.grbMaster.SuspendLayout()
             Me.grbMainDetail.SuspendLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'grbMaster
@@ -83,6 +90,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                         Or System.Windows.Forms.AnchorStyles.Left) _
                         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.grbMaster.Controls.Add(Me.KeepKeyCombo1)
             Me.grbMaster.Controls.Add(Me.btnSearch)
             Me.grbMaster.Controls.Add(Me.btnReset)
             Me.grbMaster.Controls.Add(Me.grbMainDetail)
@@ -90,7 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.grbMaster.Location = New System.Drawing.Point(8, 8)
             Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(520, 224)
+            Me.grbMaster.Size = New System.Drawing.Size(452, 224)
             Me.grbMaster.TabIndex = 0
             Me.grbMaster.TabStop = False
             Me.grbMaster.Text = "ใบรับงาน"
@@ -99,8 +107,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(432, 192)
+            Me.btnSearch.Location = New System.Drawing.Point(364, 192)
             Me.btnSearch.Name = "btnSearch"
+            Me.btnSearch.Size = New System.Drawing.Size(75, 23)
             Me.btnSearch.TabIndex = 3
             Me.btnSearch.Text = "ค้นหา"
             '
@@ -109,14 +118,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnReset.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.btnReset.Location = New System.Drawing.Point(352, 192)
+            Me.btnReset.Location = New System.Drawing.Point(284, 192)
             Me.btnReset.Name = "btnReset"
+            Me.btnReset.Size = New System.Drawing.Size(75, 23)
             Me.btnReset.TabIndex = 2
             Me.btnReset.TabStop = False
             Me.btnReset.Text = "เคลียร์"
             '
             'grbMainDetail
             '
+            Me.grbMainDetail.Controls.Add(Me.Label1)
+            Me.grbMainDetail.Controls.Add(Me.btnSubcontractEndFind)
+            Me.grbMainDetail.Controls.Add(Me.txtSuContractCodeEnd)
             Me.grbMainDetail.Controls.Add(Me.txttoCCCodeStart)
             Me.grbMainDetail.Controls.Add(Me.cmbStatus)
             Me.grbMainDetail.Controls.Add(Me.lblStatus)
@@ -131,13 +144,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMainDetail.Controls.Add(Me.btntoCCCodeStart)
             Me.grbMainDetail.Controls.Add(Me.dtpDocDateStart)
             Me.grbMainDetail.Controls.Add(Me.btnSubcontractStartFind)
-            Me.grbMainDetail.Controls.Add(Me.txtSuContractCode)
+            Me.grbMainDetail.Controls.Add(Me.txtSuContractCodeStart)
             Me.grbMainDetail.Controls.Add(Me.lblSubcontractorStart)
-            Me.grbMainDetail.Controls.Add(Me.txtSubcontractName)
             Me.grbMainDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbMainDetail.Location = New System.Drawing.Point(8, 24)
             Me.grbMainDetail.Name = "grbMainDetail"
-            Me.grbMainDetail.Size = New System.Drawing.Size(496, 160)
+            Me.grbMainDetail.Size = New System.Drawing.Size(431, 160)
             Me.grbMainDetail.TabIndex = 0
             Me.grbMainDetail.TabStop = False
             Me.grbMainDetail.Text = "รายละเอียดทั่วไป"
@@ -152,14 +164,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txttoCCCodeStart, System.Drawing.Color.Empty)
             Me.txttoCCCodeStart.Location = New System.Drawing.Point(128, 80)
             Me.txttoCCCodeStart.MaxLength = 50
-            Me.Validator.SetMaxValue(Me.txttoCCCodeStart, "")
             Me.Validator.SetMinValue(Me.txttoCCCodeStart, "")
             Me.txttoCCCodeStart.Name = "txttoCCCodeStart"
             Me.Validator.SetRegularExpression(Me.txttoCCCodeStart, "")
             Me.Validator.SetRequired(Me.txttoCCCodeStart, False)
             Me.txttoCCCodeStart.Size = New System.Drawing.Size(96, 21)
             Me.txttoCCCodeStart.TabIndex = 7
-            Me.txttoCCCodeStart.Text = ""
             '
             'cmbStatus
             '
@@ -202,15 +212,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
             Me.txtCostCenterName.Location = New System.Drawing.Point(224, 80)
             Me.txtCostCenterName.MaxLength = 50
-            Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
             Me.Validator.SetMinValue(Me.txtCostCenterName, "")
             Me.txtCostCenterName.Name = "txtCostCenterName"
             Me.txtCostCenterName.ReadOnly = True
             Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
             Me.Validator.SetRequired(Me.txtCostCenterName, False)
-            Me.txtCostCenterName.Size = New System.Drawing.Size(160, 21)
+            Me.txtCostCenterName.Size = New System.Drawing.Size(151, 21)
             Me.txtCostCenterName.TabIndex = 15
-            Me.txtCostCenterName.Text = ""
             '
             'txtDocDateEnd
             '
@@ -219,16 +227,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
             Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
             Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-            Me.txtDocDateEnd.Location = New System.Drawing.Point(288, 32)
+            Me.txtDocDateEnd.Location = New System.Drawing.Point(280, 32)
             Me.txtDocDateEnd.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
             Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
             Me.txtDocDateEnd.Name = "txtDocDateEnd"
             Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
             Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-            Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
+            Me.txtDocDateEnd.Size = New System.Drawing.Size(95, 21)
             Me.txtDocDateEnd.TabIndex = 2
-            Me.txtDocDateEnd.Text = ""
             '
             'lblDocDateStart
             '
@@ -243,10 +249,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'dtpDocDateEnd
             '
-            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short
-            Me.dtpDocDateEnd.Location = New System.Drawing.Point(288, 32)
+            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+            Me.dtpDocDateEnd.Location = New System.Drawing.Point(281, 32)
             Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-            Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+            Me.dtpDocDateEnd.Size = New System.Drawing.Size(124, 21)
             Me.dtpDocDateEnd.TabIndex = 5
             Me.dtpDocDateEnd.TabStop = False
             '
@@ -270,14 +276,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
             Me.txtDocDateStart.Location = New System.Drawing.Point(128, 32)
             Me.txtDocDateStart.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
             Me.Validator.SetMinValue(Me.txtDocDateStart, "")
             Me.txtDocDateStart.Name = "txtDocDateStart"
             Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
             Me.Validator.SetRequired(Me.txtDocDateStart, False)
-            Me.txtDocDateStart.Size = New System.Drawing.Size(99, 21)
+            Me.txtDocDateStart.Size = New System.Drawing.Size(96, 21)
             Me.txtDocDateStart.TabIndex = 1
-            Me.txtDocDateStart.Text = ""
             '
             'chkIncludeChildren
             '
@@ -290,10 +294,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'btntoCCCodeStart
             '
+            Me.btntoCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btntoCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btntoCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-            Me.btntoCCCodeStart.Image = CType(resources.GetObject("btntoCCCodeStart.Image"), System.Drawing.Image)
-            Me.btntoCCCodeStart.Location = New System.Drawing.Point(384, 80)
+            Me.btntoCCCodeStart.Location = New System.Drawing.Point(376, 78)
             Me.btntoCCCodeStart.Name = "btntoCCCodeStart"
             Me.btntoCCCodeStart.Size = New System.Drawing.Size(24, 22)
             Me.btntoCCCodeStart.TabIndex = 22
@@ -302,42 +306,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'dtpDocDateStart
             '
-            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Short
+            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
             Me.dtpDocDateStart.Location = New System.Drawing.Point(128, 32)
             Me.dtpDocDateStart.Name = "dtpDocDateStart"
-            Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
+            Me.dtpDocDateStart.Size = New System.Drawing.Size(125, 21)
             Me.dtpDocDateStart.TabIndex = 2
             Me.dtpDocDateStart.TabStop = False
             '
             'btnSubcontractStartFind
             '
+            Me.btnSubcontractStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnSubcontractStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnSubcontractStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnSubcontractStartFind.Image = CType(resources.GetObject("btnSubcontractStartFind.Image"), System.Drawing.Image)
-            Me.btnSubcontractStartFind.Location = New System.Drawing.Point(384, 56)
+            Me.btnSubcontractStartFind.Location = New System.Drawing.Point(225, 56)
             Me.btnSubcontractStartFind.Name = "btnSubcontractStartFind"
             Me.btnSubcontractStartFind.Size = New System.Drawing.Size(24, 22)
             Me.btnSubcontractStartFind.TabIndex = 9
             Me.btnSubcontractStartFind.TabStop = False
             Me.btnSubcontractStartFind.ThemedImage = CType(resources.GetObject("btnSubcontractStartFind.ThemedImage"), System.Drawing.Bitmap)
             '
-            'txtSuContractCode
+            'txtSuContractCodeStart
             '
-            Me.Validator.SetDataType(Me.txtSuContractCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtSuContractCode, "")
-            Me.txtSuContractCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtSuContractCode, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtSuContractCode, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtSuContractCode, System.Drawing.Color.Empty)
-            Me.txtSuContractCode.Location = New System.Drawing.Point(128, 56)
-            Me.Validator.SetMaxValue(Me.txtSuContractCode, "")
-            Me.Validator.SetMinValue(Me.txtSuContractCode, "")
-            Me.txtSuContractCode.Name = "txtSuContractCode"
-            Me.Validator.SetRegularExpression(Me.txtSuContractCode, "")
-            Me.Validator.SetRequired(Me.txtSuContractCode, False)
-            Me.txtSuContractCode.Size = New System.Drawing.Size(96, 21)
-            Me.txtSuContractCode.TabIndex = 4
-            Me.txtSuContractCode.Text = ""
+            Me.Validator.SetDataType(Me.txtSuContractCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtSuContractCodeStart, "")
+            Me.txtSuContractCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtSuContractCodeStart, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtSuContractCodeStart, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtSuContractCodeStart, System.Drawing.Color.Empty)
+            Me.txtSuContractCodeStart.Location = New System.Drawing.Point(128, 56)
+            Me.Validator.SetMinValue(Me.txtSuContractCodeStart, "")
+            Me.txtSuContractCodeStart.Name = "txtSuContractCodeStart"
+            Me.Validator.SetRegularExpression(Me.txtSuContractCodeStart, "")
+            Me.Validator.SetRequired(Me.txtSuContractCodeStart, False)
+            Me.txtSuContractCodeStart.Size = New System.Drawing.Size(96, 21)
+            Me.txtSuContractCodeStart.TabIndex = 4
             '
             'lblSubcontractorStart
             '
@@ -350,45 +352,76 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblSubcontractorStart.Text = "ผู้รับเหมา"
             Me.lblSubcontractorStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
-            'txtSubcontractName
-            '
-            Me.Validator.SetDataType(Me.txtSubcontractName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtSubcontractName, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtSubcontractName, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtSubcontractName, System.Drawing.Color.Empty)
-            Me.txtSubcontractName.Location = New System.Drawing.Point(224, 56)
-            Me.Validator.SetMaxValue(Me.txtSubcontractName, "")
-            Me.Validator.SetMinValue(Me.txtSubcontractName, "")
-            Me.txtSubcontractName.Name = "txtSubcontractName"
-            Me.txtSubcontractName.ReadOnly = True
-            Me.Validator.SetRegularExpression(Me.txtSubcontractName, "")
-            Me.Validator.SetRequired(Me.txtSubcontractName, False)
-            Me.txtSubcontractName.Size = New System.Drawing.Size(160, 21)
-            Me.txtSubcontractName.TabIndex = 20
-            Me.txtSubcontractName.TabStop = False
-            Me.txtSubcontractName.Text = ""
-            '
             'Validator
             '
             Me.Validator.BackcolorChanging = False
             Me.Validator.DataTable = Nothing
             Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
             '
             'ErrorProvider1
             '
             Me.ErrorProvider1.ContainerControl = Me
+            '
+            'KeepKeyCombo1
+            '
+            Me.KeepKeyCombo1.FormattingEnabled = True
+            Me.KeepKeyCombo1.Location = New System.Drawing.Point(610, 150)
+            Me.KeepKeyCombo1.Name = "KeepKeyCombo1"
+            Me.KeepKeyCombo1.Size = New System.Drawing.Size(121, 21)
+            Me.KeepKeyCombo1.TabIndex = 4
+            '
+            'btnSubcontractEndFind
+            '
+            Me.btnSubcontractEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSubcontractEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnSubcontractEndFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnSubcontractEndFind.Location = New System.Drawing.Point(376, 56)
+            Me.btnSubcontractEndFind.Name = "btnSubcontractEndFind"
+            Me.btnSubcontractEndFind.Size = New System.Drawing.Size(24, 22)
+            Me.btnSubcontractEndFind.TabIndex = 40
+            Me.btnSubcontractEndFind.TabStop = False
+            Me.btnSubcontractEndFind.ThemedImage = CType(resources.GetObject("btnSubcontractEndFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'txtSuContractCodeEnd
+            '
+            Me.Validator.SetDataType(Me.txtSuContractCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtSuContractCodeEnd, "")
+            Me.txtSuContractCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtSuContractCodeEnd, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtSuContractCodeEnd, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtSuContractCodeEnd, System.Drawing.Color.Empty)
+            Me.txtSuContractCodeEnd.Location = New System.Drawing.Point(279, 56)
+            Me.Validator.SetMinValue(Me.txtSuContractCodeEnd, "")
+            Me.txtSuContractCodeEnd.Name = "txtSuContractCodeEnd"
+            Me.Validator.SetRegularExpression(Me.txtSuContractCodeEnd, "")
+            Me.Validator.SetRequired(Me.txtSuContractCodeEnd, False)
+            Me.txtSuContractCodeEnd.Size = New System.Drawing.Size(96, 21)
+            Me.txtSuContractCodeEnd.TabIndex = 39
+            '
+            'Label1
+            '
+            Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label1.ForeColor = System.Drawing.Color.Black
+            Me.Label1.Location = New System.Drawing.Point(255, 56)
+            Me.Label1.Name = "Label1"
+            Me.Label1.Size = New System.Drawing.Size(24, 18)
+            Me.Label1.TabIndex = 42
+            Me.Label1.Text = "ถึง"
+            Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
             '
             'RptPAFilterSubPanel
             '
             Me.Controls.Add(Me.grbMaster)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Name = "RptPAFilterSubPanel"
-            Me.Size = New System.Drawing.Size(544, 248)
+            Me.Size = New System.Drawing.Size(476, 248)
             Me.grbMaster.ResumeLayout(False)
             Me.grbMainDetail.ResumeLayout(False)
+            Me.grbMainDetail.PerformLayout()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -413,7 +446,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lbltoCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPAFilterSubPanel.lbltoCCStart}")
             Me.Validator.SetDisplayName(txttoCCCodeStart, lbltoCCStart.Text)
 
-            Me.Validator.SetDisplayName(txtSuContractCode, lblSubcontractorStart.Text)
+            Me.Validator.SetDisplayName(txtSuContractCodeStart, lblSubcontractorStart.Text)
 
             Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
@@ -430,7 +463,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Member"
-        Private m_cc As Costcenter
+        Private m_cc As CostCenter
         'Private m_fromcc As CostCenter
         Private m_subcontractor As Supplier
         Private m_DocDateEnd As Date
@@ -520,7 +553,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Next
 
             Me.Subcontractor = New Supplier
-            Me.Costcenter = New Costcenter
+            Me.Costcenter = New CostCenter
             'Me.fromCostcenter = New CostCenter
 
             Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
@@ -544,14 +577,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(6) As Filter
+            Dim arr(7) As Filter
             arr(0) = New Filter("docdatestart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("docdateend", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
-            arr(2) = New Filter("SubcontractorCodeStart", IIf(txtSuContractCode.TextLength > 0, txtSuContractCode.Text, DBNull.Value))
-            arr(3) = New Filter("CC", Me.ValidIdOrDBNull(m_cc))
-            arr(4) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
-            arr(5) = New Filter("status", cmbStatus.SelectedIndex) ' IIf(cmbDocStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbDocStatus.SelectedItem, IdValuePair).Id))
-            arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            arr(2) = New Filter("SubcontractorCodeStart", IIf(txtSuContractCodeStart.TextLength > 0, txtSuContractCodeStart.Text, DBNull.Value))
+            arr(3) = New Filter("SubcontractorCodeEnd", IIf(txtSuContractCodeEnd.TextLength > 0, txtSuContractCodeEnd.Text, DBNull.Value))
+            arr(4) = New Filter("CC", Me.ValidIdOrDBNull(m_cc))
+            arr(5) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
+            arr(6) = New Filter("status", cmbStatus.SelectedIndex) ' IIf(cmbDocStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbDocStatus.SelectedItem, IdValuePair).Id))
+            arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+
             'arr(8) = New Filter("SubcontractorGroupID", Me.ValidIdOrDBNull(m_subcontractorgroup))
             'arr(9) = New Filter("IncludeChildSubcontractorGroup", Me.chkIncludeChildSupplierGroup.Checked)
             Return arr
@@ -604,16 +639,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Subcontractor Code
             dpi = New DocPrintingItem
             dpi.Mapping = "SubcontractorCode"
-            dpi.Value = Me.txtSuContractCode.Text
+            dpi.Value = Me.txtSuContractCodeStart.Text
             dpi.DataType = "System.String"
             dpiColl.Add(dpi)
 
             'Subcontractor Name
-            dpi = New DocPrintingItem
-            dpi.Mapping = "SubcontractorName"
-            dpi.Value = Me.txtSubcontractName.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+            'dpi = New DocPrintingItem
+            'dpi.Mapping = "SubcontractorName"
+            'dpi.Value = Me.txtSubcontractName.Text
+            'dpi.DataType = "System.String"
+            'dpiColl.Add(dpi)
 
             'CostCenterCode
             dpi = New DocPrintingItem
@@ -660,7 +695,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " ChangeProperty "
         Private Sub EventWiring()
             AddHandler btnSubcontractStartFind.Click, AddressOf Me.btnSubcontractStartFind_Click
-            AddHandler txttoCCCodeStart.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtSuContractCodeStart.Validated, AddressOf Me.ChangeProperty
+
+            AddHandler btnSubcontractEndFind.Click, AddressOf Me.btnSubcontractEndFind_Click
+            AddHandler txtSuContractCodeEnd.Validated, AddressOf Me.ChangeProperty
 
             AddHandler btntoCCCodeStart.Click, AddressOf Me.btntoCCCodeStart_Click
             AddHandler txttoCCCodeStart.Validated, AddressOf Me.ChangeProperty
@@ -798,13 +836,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
             Select Case CType(sender, Control).Name.ToLower
                 Case "btnsubcontractstartfind"
-                    myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSubcontractDialog)
+                    myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSubcontractStartDialog)
 
             End Select
         End Sub
-        Private Sub SetSubcontractDialog(ByVal e As ISimpleEntity)
-            Me.txtSuContractCode.Text = e.Code
-            Supplier.GetSupplier(txtSuContractCode, txtSubcontractName, Me.Subcontractor)
+        Private Sub btnSubcontractEndFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            Select Case CType(sender, Control).Name.ToLower
+                Case "btnsubcontractendfind"
+                    myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSubcontractEndDialog)
+
+            End Select
+        End Sub
+        Private Sub SetSubcontractStartDialog(ByVal e As ISimpleEntity)
+            Me.txtSuContractCodeStart.Text = e.Code
+            'Supplier.GetSupplier(txtSuContractCodeStart, txtSubcontractName, Me.Subcontractor)
+        End Sub
+        Private Sub SetSubcontractEndDialog(ByVal e As ISimpleEntity)
+            Me.txtSuContractCodeEnd.Text = e.Code
+            'Supplier.GetSupplier(txtSuContractCodeStart, txtSubcontractName, Me.Subcontractor)
         End Sub
         'Private Sub btnSubcontractEndFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -862,6 +912,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
+        Private Sub grbMainDetail_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grbMainDetail.Enter
+
+        End Sub
     End Class
 End Namespace
 
