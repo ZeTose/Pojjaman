@@ -1231,6 +1231,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return False
     End Function
+
+    Public Overridable Function GetLastCode(ByVal prefixPattern As String, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As String
+      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " order by " & Me.Prefix & "_id desc"
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.Text, sql)
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return ds.Tables(0).Rows(0)(0).ToString
+      End If
+      Return ""
+    End Function
+    Public Overridable Function GetNextCode(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As String
+      Dim autoCodeFormat As String
+      If Not Me.AutoCodeFormat Is Nothing Then
+        If Me.AutoCodeFormat.Format.Length > 0 Then
+          autoCodeFormat = Me.AutoCodeFormat.Format
+        Else
+          autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+        End If
+      Else
+        autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+      End If
+
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+
+      pattern = CodeGenerator.GetPattern(pattern)
+
+      Dim lastCode As String = Me.GetLastCode(pattern, conn, trans)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode, conn, trans)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
+    End Function
+    Public Overridable Function DuplicateCode(ByVal newCode As String, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Boolean
+      Dim sql As String = "select count(*) from [" & Me.TableName & "] where " & Me.Prefix & "_code='" & newCode & "' and " & Me.Prefix & "_id <> " & Me.Id
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.Text, sql)
+      If ds.Tables(0).Rows.Count > 0 Then
+        If CInt(ds.Tables(0).Rows(0)(0)) > 0 Then
+          Return True
+        End If
+      End If
+      Return False
+    End Function
 #End Region
 
 #Region "IHasCustomNote"

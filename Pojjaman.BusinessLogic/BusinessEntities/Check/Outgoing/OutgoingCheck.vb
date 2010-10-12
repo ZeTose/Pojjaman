@@ -39,6 +39,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_ACPayeeOnly As Boolean
     Private m_unbearer As Boolean
     Private m_receiptAtBank As Boolean
+
+    Private m_oldcqcode As String
 #End Region
 
 #Region "Constructors"
@@ -94,6 +96,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "check_cqcode") AndAlso Not dr.IsNull(aliasPrefix & "check_cqcode") Then
           .m_cqcode = CStr(dr(aliasPrefix & "check_cqcode"))
+          .m_oldcqcode = CStr(dr(aliasPrefix & "check_cqcode"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "check_issueDate") AndAlso Not dr.IsNull(aliasPrefix & "check_issueDate") Then
@@ -182,6 +185,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Boolean)
         m_receiptAtBank = value
+        If m_receiptAtBank Then
+          m_cqcode = ""
+        Else
+          m_cqcode = m_oldcqcode
+        End If
       End Set
     End Property
     Public Property ItemTable() As TreeTable
@@ -1695,7 +1703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each cqritem As ChequeReceiver In CqReceiveList
         Dim creditText As String = ""
         creditText &= "D" 'Part Identifier
-        creditText &= String.Format("{0,-10}", cqritem.TnxReferenceNo) 'Txn. Reference No.poj
+        creditText &= String.Format("{0,-10}", cqritem.TnxReferenceNo).Substring(cqritem.TnxReferenceNo.Length - 10, 10) 'Txn. Reference No.poj
         creditText &= String.Format("{0:0000000000.00}", cqritem.Amount) 'Amount
         creditText &= String.Format("{0,-120}", cqritem.Payee).Substring(0, 120) 'Payee
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress1).Substring(0, 30) 'Payee Address 1
@@ -1727,7 +1735,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           taxDetail &= cqrVatitem.TaxForm 'Tax Form
           taxDetail &= String.Format("{0,-10}", taxIndex) 'Tax Seq.#
           taxDetail &= String.Format("{0:000.00}", cqrVatitem.TaxRate) 'Tax rate (3.2)
-          taxDetail &= String.Format("{0,-40}", cqrVatitem.TypeofTaxDeducted.Substring(0, 40))   'Type of tax deducted
+          taxDetail &= String.Format("{0,-40}", cqrVatitem.TypeofTaxDeducted).Substring(0, 40) 'Type of tax deducted
           taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.InvAmtBefVAT) 'Inv Amt bef VAT (10.2)
           taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.TaxDeductedAmt) 'Tax deducted Amt (10.2)
           taxDetail &= String.Format("{0:0000000000.00}", cqrVatitem.InvAmtAfterVAT) 'Inv Amt after VAT (10.2)
@@ -1741,29 +1749,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each cqpayitem As ChequePayment In cqritem.ChequePaymentList
           Dim invoiceText As String = ""
           invoiceText &= "I" 'Part Identifier
-          invoiceText &= String.Format("{0,-30}", cqpayitem.PaymentNo.Substring(0, 30)) 'Payment No.
-          invoiceText &= String.Format("{0,-15}", cqpayitem.BankReference.Substring(0, 15)) 'Bank Reference
-          invoiceText &= String.Format("{0,-15}", cqpayitem.CustomerReference.Substring(0, 15)) 'Customer Reference
-          invoiceText &= String.Format("{0,-20}", cqpayitem.InvoiceNumber.Substring(0, 20)) 'Invoice Number
+          invoiceText &= String.Format("{0,-30}", cqpayitem.PaymentNo).Substring(0, 30) 'Payment No.
+          invoiceText &= String.Format("{0,-15}", cqpayitem.BankReference).Substring(0, 15) 'Bank Reference
+          invoiceText &= String.Format("{0,-15}", cqpayitem.CustomerReference).Substring(0, 15) 'Customer Reference
+          invoiceText &= String.Format("{0,-20}", cqpayitem.InvoiceNumber).Substring(0, 20) 'Invoice Number
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.InvoiceAmount).Replace(".", "") 'Invoice Amount
           invoiceText &= cqpayitem.InvoiceDate.ToString("ddMMyyyy", culture) 'Invoice Date
-          invoiceText &= String.Format("{0,-15}", cqpayitem.CreditNoteNo.Substring(0, 15)) 'Credit Note No.
+          invoiceText &= String.Format("{0,-15}", cqpayitem.CreditNoteNo).Substring(0, 15) 'Credit Note No.
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.CreditNoteAmount).Replace(".", "") 'Credit Note Amount
-          invoiceText &= String.Format("{0,-15}", cqpayitem.DebitNoteNo.Substring(0, 15)) 'Debit Note No.
+          invoiceText &= String.Format("{0,-15}", cqpayitem.DebitNoteNo).Substring(0, 15) 'Debit Note No.
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.DebitNoteAmount).Replace(".", "") 'Debit Note Amount
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.GrossAmount).Replace(".", "") 'Gross Amount
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.VATAmount).Replace(".", "") 'VAT Amount
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.WHTAmount).Replace(".", "") 'WHT Amount
           invoiceText &= String.Format("{0:0000000000000.00}", cqpayitem.NetAmount).Replace(".", "") 'Net Amount
-          invoiceText &= String.Format("{0,-15}", cqpayitem.StatementNo.Substring(0, 15)) 'Statement No.
+          invoiceText &= String.Format("{0,-15}", cqpayitem.StatementNo).Substring(0, 15) 'Statement No.
           invoiceText &= String.Format("{0,-2}", cqpayitem.StatusInv) 'Status(Inv).
           invoiceText &= String.Format("{0,-2}", cqpayitem.StatusInv) 'Status(Inv).
           invoiceText &= String.Format("{0,-2}", cqpayitem.TransactionType) 'Transaction Type
-          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo1.Substring(0, 40)) 'Reference No. 1
-          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo2.Substring(0, 40)) 'Reference No. 2
-          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo3.Substring(0, 40)) 'Reference No. 3
-          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo4.Substring(0, 40)) 'Reference No. 4
-          invoiceText &= String.Format("{0,-100}", cqpayitem.Filler.Substring(0, 100)) 'Filler
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo1).Substring(0, 40) 'Reference No. 1
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo2).Substring(0, 40) 'Reference No. 2
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo3).Substring(0, 40) 'Reference No. 3
+          invoiceText &= String.Format("{0,-40}", cqpayitem.ReferenceNo4).Substring(0, 40) 'Reference No. 4
+          invoiceText &= String.Format("{0,-100}", cqpayitem.Filler).Substring(0, 100) 'Filler
 
           writer.WriteLine(invoiceText)
 
